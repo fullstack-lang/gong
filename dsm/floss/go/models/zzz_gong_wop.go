@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type CompareAnalysis_WOP struct {
@@ -23,7 +21,7 @@ type CompareAnalysis_WOP struct {
 	IsExpanded bool
 }
 
-func (from *CompareAnalysis) CopyBasicFields(to *CompareAnalysis) {
+func (from *CompareAnalysis) GongCopyBasicFields(to *CompareAnalysis) {
 	// insertion point
 	to.Name = from.Name
 	to.Mu = from.Mu
@@ -46,7 +44,7 @@ type Complexity_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Complexity) CopyBasicFields(to *Complexity) {
+func (from *Complexity) GongCopyBasicFields(to *Complexity) {
 	// insertion point
 	to.Name = from.Name
 	to.Strength = from.Strength
@@ -103,7 +101,7 @@ type DiagramFlossEquation_WOP struct {
 	IsEffortsNodeExpanded bool
 }
 
-func (from *DiagramFlossEquation) CopyBasicFields(to *DiagramFlossEquation) {
+func (from *DiagramFlossEquation) GongCopyBasicFields(to *DiagramFlossEquation) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -143,7 +141,7 @@ type Effort_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Effort) CopyBasicFields(to *Effort) {
+func (from *Effort) GongCopyBasicFields(to *Effort) {
 	// insertion point
 	to.Name = from.Name
 	to.Strength = from.Strength
@@ -186,7 +184,7 @@ type Library_WOP struct {
 	IsExpandedTmp bool
 }
 
-func (from *Library) CopyBasicFields(to *Library) {
+func (from *Library) GongCopyBasicFields(to *Library) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -223,7 +221,7 @@ type Note_WOP struct {
 	IsEffortsNodeExpanded bool
 }
 
-func (from *Note) CopyBasicFields(to *Note) {
+func (from *Note) GongCopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -252,7 +250,7 @@ type NoteComplexityShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteComplexityShape) CopyBasicFields(to *NoteComplexityShape) {
+func (from *NoteComplexityShape) GongCopyBasicFields(to *NoteComplexityShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -281,7 +279,7 @@ type NoteEffortShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteEffortShape) CopyBasicFields(to *NoteEffortShape) {
+func (from *NoteEffortShape) GongCopyBasicFields(to *NoteEffortShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -310,7 +308,7 @@ type NotePerformanceShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NotePerformanceShape) CopyBasicFields(to *NotePerformanceShape) {
+func (from *NotePerformanceShape) GongCopyBasicFields(to *NotePerformanceShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -337,7 +335,7 @@ type NoteShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteShape) CopyBasicFields(to *NoteShape) {
+func (from *NoteShape) GongCopyBasicFields(to *NoteShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -361,7 +359,7 @@ type Performance_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Performance) CopyBasicFields(to *Performance) {
+func (from *Performance) GongCopyBasicFields(to *Performance) {
 	// insertion point
 	to.Name = from.Name
 	to.Strength = from.Strength
@@ -396,7 +394,7 @@ type System_WOP struct {
 	IsEffortsNodeExpanded bool
 }
 
-func (from *System) CopyBasicFields(to *System) {
+func (from *System) GongCopyBasicFields(to *System) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description

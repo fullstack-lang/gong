@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -42,11 +37,6 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 	return
 }
 
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
-}
-
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Animate
 func (animate *Animate) GongClean(stage *Stage) (modified bool) {
@@ -58,7 +48,7 @@ func (animate *Animate) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Circle
 func (circle *Circle) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &circle.Animations) || modified
+	modified = stage.CleanSlice(&circle.Animations) || modified
 	// insertion point per field
 	return
 }
@@ -74,14 +64,14 @@ func (condition *Condition) GongClean(stage *Stage) (modified bool) {
 func (controlpoint *ControlPoint) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &controlpoint.ClosestRect) || modified
+	modified = stage.CleanPointer(&controlpoint.ClosestRect) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Ellipse
 func (ellipse *Ellipse) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &ellipse.Animates) || modified
+	modified = stage.CleanSlice(&ellipse.Animates) || modified
 	// insertion point per field
 	return
 }
@@ -96,16 +86,16 @@ func (filetodownload *FileToDownload) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Layer
 func (layer *Layer) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &layer.Rects) || modified
-	modified = GongCleanSlice(stage, &layer.Texts) || modified
-	modified = GongCleanSlice(stage, &layer.Circles) || modified
-	modified = GongCleanSlice(stage, &layer.Lines) || modified
-	modified = GongCleanSlice(stage, &layer.Ellipses) || modified
-	modified = GongCleanSlice(stage, &layer.Polylines) || modified
-	modified = GongCleanSlice(stage, &layer.Polygones) || modified
-	modified = GongCleanSlice(stage, &layer.Paths) || modified
-	modified = GongCleanSlice(stage, &layer.Links) || modified
-	modified = GongCleanSlice(stage, &layer.RectLinkLinks) || modified
+	modified = stage.CleanSlice(&layer.Rects) || modified
+	modified = stage.CleanSlice(&layer.Texts) || modified
+	modified = stage.CleanSlice(&layer.Circles) || modified
+	modified = stage.CleanSlice(&layer.Lines) || modified
+	modified = stage.CleanSlice(&layer.Ellipses) || modified
+	modified = stage.CleanSlice(&layer.Polylines) || modified
+	modified = stage.CleanSlice(&layer.Polygones) || modified
+	modified = stage.CleanSlice(&layer.Paths) || modified
+	modified = stage.CleanSlice(&layer.Links) || modified
+	modified = stage.CleanSlice(&layer.RectLinkLinks) || modified
 	// insertion point per field
 	return
 }
@@ -113,7 +103,7 @@ func (layer *Layer) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Line
 func (line *Line) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &line.Animates) || modified
+	modified = stage.CleanSlice(&line.Animates) || modified
 	// insertion point per field
 	return
 }
@@ -121,16 +111,16 @@ func (line *Line) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Link
 func (link *Link) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &link.TextAtArrowStart) || modified
-	modified = GongCleanSlice(stage, &link.TextAtArrowEnd) || modified
-	modified = GongCleanSlice(stage, &link.TextAtCorner) || modified
-	modified = GongCleanSlice(stage, &link.PathAtArrowStart) || modified
-	modified = GongCleanSlice(stage, &link.PathAtArrowEnd) || modified
-	modified = GongCleanSlice(stage, &link.PathAtCorner) || modified
-	modified = GongCleanSlice(stage, &link.ControlPoints) || modified
+	modified = stage.CleanSlice(&link.TextAtArrowStart) || modified
+	modified = stage.CleanSlice(&link.TextAtArrowEnd) || modified
+	modified = stage.CleanSlice(&link.TextAtCorner) || modified
+	modified = stage.CleanSlice(&link.PathAtArrowStart) || modified
+	modified = stage.CleanSlice(&link.PathAtArrowEnd) || modified
+	modified = stage.CleanSlice(&link.PathAtCorner) || modified
+	modified = stage.CleanSlice(&link.ControlPoints) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &link.Start) || modified
-	modified = GongCleanPointer(stage, &link.End) || modified
+	modified = stage.CleanPointer(&link.Start) || modified
+	modified = stage.CleanPointer(&link.End) || modified
 	return
 }
 
@@ -144,7 +134,7 @@ func (linkanchoredpath *LinkAnchoredPath) GongClean(stage *Stage) (modified bool
 // Clean garbage collect unstaged instances that are referenced by LinkAnchoredText
 func (linkanchoredtext *LinkAnchoredText) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &linkanchoredtext.Animates) || modified
+	modified = stage.CleanSlice(&linkanchoredtext.Animates) || modified
 	// insertion point per field
 	return
 }
@@ -152,7 +142,7 @@ func (linkanchoredtext *LinkAnchoredText) GongClean(stage *Stage) (modified bool
 // Clean garbage collect unstaged instances that are referenced by Path
 func (path *Path) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &path.Animates) || modified
+	modified = stage.CleanSlice(&path.Animates) || modified
 	// insertion point per field
 	return
 }
@@ -167,7 +157,7 @@ func (point *Point) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Polygone
 func (polygone *Polygone) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &polygone.Animates) || modified
+	modified = stage.CleanSlice(&polygone.Animates) || modified
 	// insertion point per field
 	return
 }
@@ -175,7 +165,7 @@ func (polygone *Polygone) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Polyline
 func (polyline *Polyline) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &polyline.Animates) || modified
+	modified = stage.CleanSlice(&polyline.Animates) || modified
 	// insertion point per field
 	return
 }
@@ -183,18 +173,18 @@ func (polyline *Polyline) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Rect
 func (rect *Rect) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &rect.Peers) || modified
-	modified = GongCleanSlice(stage, &rect.Obstacles) || modified
-	modified = GongCleanSlice(stage, &rect.HoveringTrigger) || modified
-	modified = GongCleanSlice(stage, &rect.DisplayConditions) || modified
-	modified = GongCleanSlice(stage, &rect.Animations) || modified
-	modified = GongCleanSlice(stage, &rect.RectAnchoredTexts) || modified
-	modified = GongCleanSlice(stage, &rect.RectAnchoredRects) || modified
-	modified = GongCleanSlice(stage, &rect.RectAnchoredPaths) || modified
-	modified = GongCleanSlice(stage, &rect.RectAnchoredPngImages) || modified
+	modified = stage.CleanSlice(&rect.Peers) || modified
+	modified = stage.CleanSlice(&rect.Obstacles) || modified
+	modified = stage.CleanSlice(&rect.HoveringTrigger) || modified
+	modified = stage.CleanSlice(&rect.DisplayConditions) || modified
+	modified = stage.CleanSlice(&rect.Animations) || modified
+	modified = stage.CleanSlice(&rect.RectAnchoredTexts) || modified
+	modified = stage.CleanSlice(&rect.RectAnchoredRects) || modified
+	modified = stage.CleanSlice(&rect.RectAnchoredPaths) || modified
+	modified = stage.CleanSlice(&rect.RectAnchoredPngImages) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &rect.EnclosingRect) || modified
-	modified = GongCleanPointer(stage, &rect.AnchoredTo) || modified
+	modified = stage.CleanPointer(&rect.EnclosingRect) || modified
+	modified = stage.CleanPointer(&rect.AnchoredTo) || modified
 	return
 }
 
@@ -222,7 +212,7 @@ func (rectanchoredrect *RectAnchoredRect) GongClean(stage *Stage) (modified bool
 // Clean garbage collect unstaged instances that are referenced by RectAnchoredText
 func (rectanchoredtext *RectAnchoredText) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &rectanchoredtext.Animates) || modified
+	modified = stage.CleanSlice(&rectanchoredtext.Animates) || modified
 	// insertion point per field
 	return
 }
@@ -231,18 +221,18 @@ func (rectanchoredtext *RectAnchoredText) GongClean(stage *Stage) (modified bool
 func (rectlinklink *RectLinkLink) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &rectlinklink.Start) || modified
-	modified = GongCleanPointer(stage, &rectlinklink.End) || modified
+	modified = stage.CleanPointer(&rectlinklink.Start) || modified
+	modified = stage.CleanPointer(&rectlinklink.End) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by SVG
 func (svg *SVG) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &svg.Layers) || modified
+	modified = stage.CleanSlice(&svg.Layers) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &svg.StartRect) || modified
-	modified = GongCleanPointer(stage, &svg.EndRect) || modified
+	modified = stage.CleanPointer(&svg.StartRect) || modified
+	modified = stage.CleanPointer(&svg.EndRect) || modified
 	return
 }
 
@@ -256,7 +246,7 @@ func (svgtext *SvgText) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Text
 func (text *Text) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &text.Animates) || modified
+	modified = stage.CleanSlice(&text.Animates) || modified
 	// insertion point per field
 	return
 }

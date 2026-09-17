@@ -17,23 +17,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Cursor:
-		ok = stage.IsStagedCursor(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedCursor(cursor *Cursor) (ok bool) {
 
@@ -64,7 +47,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchCursor(cursor *Cursor) {
 
 	// check if instance is already staged
-	if IsStaged(stage, cursor) {
+	if stage.IsStaged(cursor) {
 		return
 	}
 
@@ -76,11 +59,11 @@ func (stage *Stage) StageBranchCursor(cursor *Cursor) {
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -88,7 +71,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *Cursor:
-		toT := CopyBranchCursor(mapOrigCopy, fromT)
+		toT := GongCopyBranchCursor(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -98,7 +81,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchCursor(mapOrigCopy map[any]any, cursorFrom *Cursor) (cursorTo *Cursor) {
+func GongCopyBranchCursor(mapOrigCopy map[any]any, cursorFrom *Cursor) (cursorTo *Cursor) {
 
 	// cursorFrom has already been copied
 	if _cursorTo, ok := mapOrigCopy[cursorFrom]; ok {
@@ -108,7 +91,7 @@ func CopyBranchCursor(mapOrigCopy map[any]any, cursorFrom *Cursor) (cursorTo *Cu
 
 	cursorTo = new(Cursor)
 	mapOrigCopy[cursorFrom] = cursorTo
-	cursorFrom.CopyBasicFields(cursorTo)
+	cursorFrom.GongCopyBasicFields(cursorTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -134,16 +117,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchCursor(cursor *Cursor) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, cursor) {
+	if !stage.IsStaged(cursor) {
 		return
 	}
 
@@ -295,9 +273,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

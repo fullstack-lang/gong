@@ -99,7 +99,7 @@ func NewLevel1StackDelta(
 	}
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -124,19 +124,19 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.ArtefactType](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ArtefactTypeShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Artist](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ArtistShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ControlPointShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Desk](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Diagram](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Influence](stage)
-	models.SetOrchestratorOnAfterUpdate[models.InfluenceShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Movement](stage)
-	models.SetOrchestratorOnAfterUpdate[models.MovementShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Place](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.ArtefactType]()
+	stage.SetOrchestratorOnAfterUpdate[models.ArtefactTypeShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Artist]()
+	stage.SetOrchestratorOnAfterUpdate[models.ArtistShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.ControlPointShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Desk]()
+	stage.SetOrchestratorOnAfterUpdate[models.Diagram]()
+	stage.SetOrchestratorOnAfterUpdate[models.Influence]()
+	stage.SetOrchestratorOnAfterUpdate[models.InfluenceShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Library]()
+	stage.SetOrchestratorOnAfterUpdate[models.Movement]()
+	stage.SetOrchestratorOnAfterUpdate[models.MovementShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Place]()
 
 	return
 }

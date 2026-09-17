@@ -1123,877 +1123,877 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 // insertion point per named struct
 func (angle0shape *Angle0Shape) GongCopy() GongstructIF {
 	newInstance := new(Angle0Shape)
-	angle0shape.CopyBasicFields(newInstance)
+	angle0shape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (arcnormalvectorshape *ArcNormalVectorShape) GongCopy() GongstructIF {
 	newInstance := new(ArcNormalVectorShape)
-	arcnormalvectorshape.CopyBasicFields(newInstance)
+	arcnormalvectorshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(ArcNormalVectorShapeGrid)
-	arcnormalvectorshapegrid.CopyBasicFields(newInstance)
+	arcnormalvectorshapegrid.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (axesshape *AxesShape) GongCopy() GongstructIF {
 	newInstance := new(AxesShape)
-	axesshape.CopyBasicFields(newInstance)
+	axesshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (basevectorshape *BaseVectorShape) GongCopy() GongstructIF {
 	newInstance := new(BaseVectorShape)
-	basevectorshape.CopyBasicFields(newInstance)
+	basevectorshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (basevectorshapegrid *BaseVectorShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(BaseVectorShapeGrid)
-	basevectorshapegrid.CopyBasicFields(newInstance)
+	basevectorshapegrid.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (chosenp1p2pairshape *ChosenP1P2PairShape) GongCopy() GongstructIF {
 	newInstance := new(ChosenP1P2PairShape)
-	chosenp1p2pairshape.CopyBasicFields(newInstance)
+	chosenp1p2pairshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (circlegridshape *CircleGridShape) GongCopy() GongstructIF {
 	newInstance := new(CircleGridShape)
-	circlegridshape.CopyBasicFields(newInstance)
+	circlegridshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (circumference3dshape *Circumference3DShape) GongCopy() GongstructIF {
 	newInstance := new(Circumference3DShape)
-	circumference3dshape.CopyBasicFields(newInstance)
+	circumference3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (clock2ddiagram *Clock2DDiagram) GongCopy() GongstructIF {
 	newInstance := new(Clock2DDiagram)
-	clock2ddiagram.CopyBasicFields(newInstance)
+	clock2ddiagram.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (clock3ddiagram *Clock3DDiagram) GongCopy() GongstructIF {
 	newInstance := new(Clock3DDiagram)
-	clock3ddiagram.CopyBasicFields(newInstance)
+	clock3ddiagram.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (clockabstract *ClockAbstract) GongCopy() GongstructIF {
 	newInstance := new(ClockAbstract)
-	clockabstract.CopyBasicFields(newInstance)
+	clockabstract.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (clocktopcurveshape *ClockTopCurveShape) GongCopy() GongstructIF {
 	newInstance := new(ClockTopCurveShape)
-	clocktopcurveshape.CopyBasicFields(newInstance)
+	clocktopcurveshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (cutline3dshape *CutLine3DShape) GongCopy() GongstructIF {
 	newInstance := new(CutLine3DShape)
-	cutline3dshape.CopyBasicFields(newInstance)
+	cutline3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (endarcshape *EndArcShape) GongCopy() GongstructIF {
 	newInstance := new(EndArcShape)
-	endarcshape.CopyBasicFields(newInstance)
+	endarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (endarcshapegrid *EndArcShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(EndArcShapeGrid)
-	endarcshapegrid.CopyBasicFields(newInstance)
+	endarcshapegrid.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (endhalfwayarcshape *EndHalfwayArcShape) GongCopy() GongstructIF {
 	newInstance := new(EndHalfwayArcShape)
-	endhalfwayarcshape.CopyBasicFields(newInstance)
+	endhalfwayarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(EndHalfwayArcShapeGrid)
-	endhalfwayarcshapegrid.CopyBasicFields(newInstance)
+	endhalfwayarcshapegrid.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (explanationtextshape *ExplanationTextShape) GongCopy() GongstructIF {
 	newInstance := new(ExplanationTextShape)
-	explanationtextshape.CopyBasicFields(newInstance)
+	explanationtextshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (eye3dshape *Eye3DShape) GongCopy() GongstructIF {
 	newInstance := new(Eye3DShape)
-	eye3dshape.CopyBasicFields(newInstance)
+	eye3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongCopy() GongstructIF {
 	newInstance := new(EyeCornersSampledPoints3DShape)
-	eyecornerssampledpoints3dshape.CopyBasicFields(newInstance)
+	eyecornerssampledpoints3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongCopy() GongstructIF {
 	newInstance := new(EyeSampledPoints3DShape)
-	eyesampledpoints3dshape.CopyBasicFields(newInstance)
+	eyesampledpoints3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongCopy() GongstructIF {
 	newInstance := new(EyeSeatBottomCurveShape)
-	eyeseatbottomcurveshape.CopyBasicFields(newInstance)
+	eyeseatbottomcurveshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongCopy() GongstructIF {
 	newInstance := new(EyeStoolBottomCurveShape)
-	eyestoolbottomcurveshape.CopyBasicFields(newInstance)
+	eyestoolbottomcurveshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (eyevolume3dshape *EyeVolume3DShape) GongCopy() GongstructIF {
 	newInstance := new(EyeVolume3DShape)
-	eyevolume3dshape.CopyBasicFields(newInstance)
+	eyevolume3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (gridpathshape *GridPathShape) GongCopy() GongstructIF {
 	newInstance := new(GridPathShape)
-	gridpathshape.CopyBasicFields(newInstance)
+	gridpathshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (growthcurve2d *GrowthCurve2D) GongCopy() GongstructIF {
 	newInstance := new(GrowthCurve2D)
-	growthcurve2d.CopyBasicFields(newInstance)
+	growthcurve2d.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (growthcurve2dribbon *GrowthCurve2DRibbon) GongCopy() GongstructIF {
 	newInstance := new(GrowthCurve2DRibbon)
-	growthcurve2dribbon.CopyBasicFields(newInstance)
+	growthcurve2dribbon.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongCopy() GongstructIF {
 	newInstance := new(GrowthCurve2DRibbonEndShape)
-	growthcurve2dribbonendshape.CopyBasicFields(newInstance)
+	growthcurve2dribbonendshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongCopy() GongstructIF {
 	newInstance := new(GrowthCurve2DRibbonStartShape)
-	growthcurve2dribbonstartshape.CopyBasicFields(newInstance)
+	growthcurve2dribbonstartshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongCopy() GongstructIF {
 	newInstance := new(GrowthCurveRhombusGridShape)
-	growthcurverhombusgridshape.CopyBasicFields(newInstance)
+	growthcurverhombusgridshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (growthcurverhombusshape *GrowthCurveRhombusShape) GongCopy() GongstructIF {
 	newInstance := new(GrowthCurveRhombusShape)
-	growthcurverhombusshape.CopyBasicFields(newInstance)
+	growthcurverhombusshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (growthvectorshape *GrowthVectorShape) GongCopy() GongstructIF {
 	newInstance := new(GrowthVectorShape)
-	growthvectorshape.CopyBasicFields(newInstance)
+	growthvectorshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (initialrhombusgridshape *InitialRhombusGridShape) GongCopy() GongstructIF {
 	newInstance := new(InitialRhombusGridShape)
-	initialrhombusgridshape.CopyBasicFields(newInstance)
+	initialrhombusgridshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (initialrhombusshape *InitialRhombusShape) GongCopy() GongstructIF {
 	newInstance := new(InitialRhombusShape)
-	initialrhombusshape.CopyBasicFields(newInstance)
+	initialrhombusshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (key3dshape *Key3DShape) GongCopy() GongstructIF {
 	newInstance := new(Key3DShape)
-	key3dshape.CopyBasicFields(newInstance)
+	key3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (keyhole3dshape *KeyHole3DShape) GongCopy() GongstructIF {
 	newInstance := new(KeyHole3DShape)
-	keyhole3dshape.CopyBasicFields(newInstance)
+	keyhole3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (keyholeshape *KeyHoleShape) GongCopy() GongstructIF {
 	newInstance := new(KeyHoleShape)
-	keyholeshape.CopyBasicFields(newInstance)
+	keyholeshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (leaves3dshape *Leaves3DShape) GongCopy() GongstructIF {
 	newInstance := new(Leaves3DShape)
-	leaves3dshape.CopyBasicFields(newInstance)
+	leaves3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (library *Library) GongCopy() GongstructIF {
 	newInstance := new(Library)
-	library.CopyBasicFields(newInstance)
+	library.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (midarcvectorshape *MidArcVectorShape) GongCopy() GongstructIF {
 	newInstance := new(MidArcVectorShape)
-	midarcvectorshape.CopyBasicFields(newInstance)
+	midarcvectorshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(MidArcVectorShapeGrid)
-	midarcvectorshapegrid.CopyBasicFields(newInstance)
+	midarcvectorshapegrid.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (musicabstract *MusicAbstract) GongCopy() GongstructIF {
 	newInstance := new(MusicAbstract)
-	musicabstract.CopyBasicFields(newInstance)
+	musicabstract.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (originalpoints3dshape *OriginalPoints3DShape) GongCopy() GongstructIF {
 	newInstance := new(OriginalPoints3DShape)
-	originalpoints3dshape.CopyBasicFields(newInstance)
+	originalpoints3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongCopy() GongstructIF {
 	newInstance := new(ParastichyMCurves3DShape)
-	parastichymcurves3dshape.CopyBasicFields(newInstance)
+	parastichymcurves3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongCopy() GongstructIF {
 	newInstance := new(ParastichyNCurves3DShape)
-	parastichyncurves3dshape.CopyBasicFields(newInstance)
+	parastichyncurves3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongCopy() GongstructIF {
 	newInstance := new(PartiallyGrowthCurve2DRibbon)
-	partiallygrowthcurve2dribbon.CopyBasicFields(newInstance)
+	partiallygrowthcurve2dribbon.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) GongCopy() GongstructIF {
 	newInstance := new(PartiallyGrowthCurve2DRibbonEndShape)
-	partiallygrowthcurve2dribbonendshape.CopyBasicFields(newInstance)
+	partiallygrowthcurve2dribbonendshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) GongCopy() GongstructIF {
 	newInstance := new(PartiallyGrowthCurve2DRibbonStartShape)
-	partiallygrowthcurve2dribbonstartshape.CopyBasicFields(newInstance)
+	partiallygrowthcurve2dribbonstartshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongCopy() GongstructIF {
 	newInstance := new(PartiallyGrowthCurve2DTrajectory)
-	partiallygrowthcurve2dtrajectory.CopyBasicFields(newInstance)
+	partiallygrowthcurve2dtrajectory.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongCopy() GongstructIF {
 	newInstance := new(PartiallyGrowthCurve2DTrajectoryP1CurveShape)
-	partiallygrowthcurve2dtrajectoryp1curveshape.CopyBasicFields(newInstance)
+	partiallygrowthcurve2dtrajectoryp1curveshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) GongCopy() GongstructIF {
 	newInstance := new(PartiallyGrowthCurve2DTrajectoryP1P2)
-	partiallygrowthcurve2dtrajectoryp1p2.CopyBasicFields(newInstance)
+	partiallygrowthcurve2dtrajectoryp1p2.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongCopy() GongstructIF {
 	newInstance := new(PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
-	partiallygrowthcurve2dtrajectoryp1p2pairlineshape.CopyBasicFields(newInstance)
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) GongCopy() GongstructIF {
 	newInstance := new(PartiallyGrowthCurve2DTrajectoryP1PointShape)
-	partiallygrowthcurve2dtrajectoryp1pointshape.CopyBasicFields(newInstance)
+	partiallygrowthcurve2dtrajectoryp1pointshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongCopy() GongstructIF {
 	newInstance := new(PartiallyGrowthCurve2DTrajectoryP2CurveShape)
-	partiallygrowthcurve2dtrajectoryp2curveshape.CopyBasicFields(newInstance)
+	partiallygrowthcurve2dtrajectoryp2curveshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) GongCopy() GongstructIF {
 	newInstance := new(PartiallyGrowthCurve2DTrajectoryP2PointShape)
-	partiallygrowthcurve2dtrajectoryp2pointshape.CopyBasicFields(newInstance)
+	partiallygrowthcurve2dtrajectoryp2pointshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongCopy() GongstructIF {
 	newInstance := new(PartiallyGrowthCurve2DTrajectoryShape)
-	partiallygrowthcurve2dtrajectoryshape.CopyBasicFields(newInstance)
+	partiallygrowthcurve2dtrajectoryshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongCopy() GongstructIF {
 	newInstance := new(PartiallyRotatedSeatBottomCurveShape)
-	partiallyrotatedseatbottomcurveshape.CopyBasicFields(newInstance)
+	partiallyrotatedseatbottomcurveshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongCopy() GongstructIF {
 	newInstance := new(PartiallyRotatedSeatTopCurveShape)
-	partiallyrotatedseattopcurveshape.CopyBasicFields(newInstance)
+	partiallyrotatedseattopcurveshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongCopy() GongstructIF {
 	newInstance := new(PartiallyRotatedTorusShape)
-	partiallyrotatedtorusshape.CopyBasicFields(newInstance)
+	partiallyrotatedtorusshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (perpendicularvector *PerpendicularVector) GongCopy() GongstructIF {
 	newInstance := new(PerpendicularVector)
-	perpendicularvector.CopyBasicFields(newInstance)
+	perpendicularvector.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (perpendicularvectorgrid *PerpendicularVectorGrid) GongCopy() GongstructIF {
 	newInstance := new(PerpendicularVectorGrid)
-	perpendicularvectorgrid.CopyBasicFields(newInstance)
+	perpendicularvectorgrid.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) GongCopy() GongstructIF {
 	newInstance := new(PerpendicularVectorGridHalfway)
-	perpendicularvectorgridhalfway.CopyBasicFields(newInstance)
+	perpendicularvectorgridhalfway.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongCopy() GongstructIF {
 	newInstance := new(PerpendicularVectorHalfway)
-	perpendicularvectorhalfway.CopyBasicFields(newInstance)
+	perpendicularvectorhalfway.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (plant2ddiagram *Plant2DDiagram) GongCopy() GongstructIF {
 	newInstance := new(Plant2DDiagram)
-	plant2ddiagram.CopyBasicFields(newInstance)
+	plant2ddiagram.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (plant3ddiagram *Plant3DDiagram) GongCopy() GongstructIF {
 	newInstance := new(Plant3DDiagram)
-	plant3ddiagram.CopyBasicFields(newInstance)
+	plant3ddiagram.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (plantabstract *PlantAbstract) GongCopy() GongstructIF {
 	newInstance := new(PlantAbstract)
-	plantabstract.CopyBasicFields(newInstance)
+	plantabstract.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (plantcircumferenceshape *PlantCircumferenceShape) GongCopy() GongstructIF {
 	newInstance := new(PlantCircumferenceShape)
-	plantcircumferenceshape.CopyBasicFields(newInstance)
+	plantcircumferenceshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (pointsandlines3dshape *PointsAndLines3DShape) GongCopy() GongstructIF {
 	newInstance := new(PointsAndLines3DShape)
-	pointsandlines3dshape.CopyBasicFields(newInstance)
+	pointsandlines3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (pxshape *PxShape) GongCopy() GongstructIF {
 	newInstance := new(PxShape)
-	pxshape.CopyBasicFields(newInstance)
+	pxshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (rendered3dshape *Rendered3DShape) GongCopy() GongstructIF {
 	newInstance := new(Rendered3DShape)
-	rendered3dshape.CopyBasicFields(newInstance)
+	rendered3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (rhombusshape *RhombusShape) GongCopy() GongstructIF {
 	newInstance := new(RhombusShape)
-	rhombusshape.CopyBasicFields(newInstance)
+	rhombusshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (rhombusstuff *RhombusStuff) GongCopy() GongstructIF {
 	newInstance := new(RhombusStuff)
-	rhombusstuff.CopyBasicFields(newInstance)
+	rhombusstuff.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongCopy() GongstructIF {
 	newInstance := new(RotatedRhombusGridShape)
-	rotatedrhombusgridshape.CopyBasicFields(newInstance)
+	rotatedrhombusgridshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (rotatedrhombusshape *RotatedRhombusShape) GongCopy() GongstructIF {
 	newInstance := new(RotatedRhombusShape)
-	rotatedrhombusshape.CopyBasicFields(newInstance)
+	rotatedrhombusshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongCopy() GongstructIF {
 	newInstance := new(RotatedSampledPoints3DShape)
-	rotatedsampledpoints3dshape.CopyBasicFields(newInstance)
+	rotatedsampledpoints3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GongCopy() GongstructIF {
 	newInstance := new(RotatedSeatAndLegs3DShape)
-	rotatedseatandlegs3dshape.CopyBasicFields(newInstance)
+	rotatedseatandlegs3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (sampledpoints3dshape *SampledPoints3DShape) GongCopy() GongstructIF {
 	newInstance := new(SampledPoints3DShape)
-	sampledpoints3dshape.CopyBasicFields(newInstance)
+	sampledpoints3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (seat3dshape *Seat3DShape) GongCopy() GongstructIF {
 	newInstance := new(Seat3DShape)
-	seat3dshape.CopyBasicFields(newInstance)
+	seat3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (seatandlegs3dshape *SeatAndLegs3DShape) GongCopy() GongstructIF {
 	newInstance := new(SeatAndLegs3DShape)
-	seatandlegs3dshape.CopyBasicFields(newInstance)
+	seatandlegs3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (seatbottomcurveshape *SeatBottomCurveShape) GongCopy() GongstructIF {
 	newInstance := new(SeatBottomCurveShape)
-	seatbottomcurveshape.CopyBasicFields(newInstance)
+	seatbottomcurveshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (seattopcurveshape *SeatTopCurveShape) GongCopy() GongstructIF {
 	newInstance := new(SeatTopCurveShape)
-	seattopcurveshape.CopyBasicFields(newInstance)
+	seattopcurveshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongCopy() GongstructIF {
 	newInstance := new(ShiftedBottomTopStartArcShape)
-	shiftedbottomtopstartarcshape.CopyBasicFields(newInstance)
+	shiftedbottomtopstartarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(ShiftedBottomTopStartArcShapeGrid)
-	shiftedbottomtopstartarcshapegrid.CopyBasicFields(newInstance)
+	shiftedbottomtopstartarcshapegrid.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) GongCopy() GongstructIF {
 	newInstance := new(ShiftedLeftGrowthCurve2DRibbon)
-	shiftedleftgrowthcurve2dribbon.CopyBasicFields(newInstance)
+	shiftedleftgrowthcurve2dribbon.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndShape) GongCopy() GongstructIF {
 	newInstance := new(ShiftedLeftGrowthCurve2DRibbonEndShape)
-	shiftedleftgrowthcurve2dribbonendshape.CopyBasicFields(newInstance)
+	shiftedleftgrowthcurve2dribbonendshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonStartShape) GongCopy() GongstructIF {
 	newInstance := new(ShiftedLeftGrowthCurve2DRibbonStartShape)
-	shiftedleftgrowthcurve2dribbonstartshape.CopyBasicFields(newInstance)
+	shiftedleftgrowthcurve2dribbonstartshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2DRibbon) GongCopy() GongstructIF {
 	newInstance := new(ShiftedLeftPartiallyGrowthCurve2DRibbon)
-	shiftedleftpartiallygrowthcurve2dribbon.CopyBasicFields(newInstance)
+	shiftedleftpartiallygrowthcurve2dribbon.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) GongCopy() GongstructIF {
 	newInstance := new(ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape)
-	shiftedleftpartiallygrowthcurve2dribbonendshape.CopyBasicFields(newInstance)
+	shiftedleftpartiallygrowthcurve2dribbonendshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) GongCopy() GongstructIF {
 	newInstance := new(ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape)
-	shiftedleftpartiallygrowthcurve2dribbonstartshape.CopyBasicFields(newInstance)
+	shiftedleftpartiallygrowthcurve2dribbonstartshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) GongCopy() GongstructIF {
 	newInstance := new(ShiftedLeftStackGrowthCurveEndArcShape)
-	shiftedleftstackgrowthcurveendarcshape.CopyBasicFields(newInstance)
+	shiftedleftstackgrowthcurveendarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape) GongCopy() GongstructIF {
 	newInstance := new(ShiftedLeftStackGrowthCurveStartArcShape)
-	shiftedleftstackgrowthcurvestartarcshape.CopyBasicFields(newInstance)
+	shiftedleftstackgrowthcurvestartarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongCopy() GongstructIF {
 	newInstance := new(ShiftedLeftStackNormalVector)
-	shiftedleftstacknormalvector.CopyBasicFields(newInstance)
+	shiftedleftstacknormalvector.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongCopy() GongstructIF {
 	newInstance := new(ShiftedLeftStackOfGrowthCurve)
-	shiftedleftstackofgrowthcurve.CopyBasicFields(newInstance)
+	shiftedleftstackofgrowthcurve.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongCopy() GongstructIF {
 	newInstance := new(ShiftedLeftStackOfNormalVector)
-	shiftedleftstackofnormalvector.CopyBasicFields(newInstance)
+	shiftedleftstackofnormalvector.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) GongCopy() GongstructIF {
 	newInstance := new(ShiftedRightGrowthCurve2DRibbon)
-	shiftedrightgrowthcurve2dribbon.CopyBasicFields(newInstance)
+	shiftedrightgrowthcurve2dribbon.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) GongCopy() GongstructIF {
 	newInstance := new(ShiftedRightGrowthCurve2DRibbonEndShape)
-	shiftedrightgrowthcurve2dribbonendshape.CopyBasicFields(newInstance)
+	shiftedrightgrowthcurve2dribbonendshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) GongCopy() GongstructIF {
 	newInstance := new(ShiftedRightGrowthCurve2DRibbonStartShape)
-	shiftedrightgrowthcurve2dribbonstartshape.CopyBasicFields(newInstance)
+	shiftedrightgrowthcurve2dribbonstartshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) GongCopy() GongstructIF {
 	newInstance := new(StackGrowthCurve2DEndHalfwayArcShape)
-	stackgrowthcurve2dendhalfwayarcshape.CopyBasicFields(newInstance)
+	stackgrowthcurve2dendhalfwayarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) GongCopy() GongstructIF {
 	newInstance := new(StackGrowthCurve2DRibbonEndShape)
-	stackgrowthcurve2dribbonendshape.CopyBasicFields(newInstance)
+	stackgrowthcurve2dribbonendshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) GongCopy() GongstructIF {
 	newInstance := new(StackGrowthCurve2DRibbonStartShape)
-	stackgrowthcurve2dribbonstartshape.CopyBasicFields(newInstance)
+	stackgrowthcurve2dribbonstartshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongCopy() GongstructIF {
 	newInstance := new(StackGrowthCurve2DStartHalfwayArcShape)
-	stackgrowthcurve2dstarthalfwayarcshape.CopyBasicFields(newInstance)
+	stackgrowthcurve2dstarthalfwayarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongCopy() GongstructIF {
 	newInstance := new(StackOfGrowthCurve2D)
-	stackofgrowthcurve2d.CopyBasicFields(newInstance)
+	stackofgrowthcurve2d.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongCopy() GongstructIF {
 	newInstance := new(StackOfGrowthCurve2DByGrowthVector)
-	stackofgrowthcurve2dbygrowthvector.CopyBasicFields(newInstance)
+	stackofgrowthcurve2dbygrowthvector.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongCopy() GongstructIF {
 	newInstance := new(StackOfGrowthCurve2DRibbon)
-	stackofgrowthcurve2dribbon.CopyBasicFields(newInstance)
+	stackofgrowthcurve2dribbon.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) GongCopy() GongstructIF {
 	newInstance := new(StackOfPartiallyRotatedTorusShape)
-	stackofpartiallyrotatedtorusshape.CopyBasicFields(newInstance)
+	stackofpartiallyrotatedtorusshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongCopy() GongstructIF {
 	newInstance := new(StackOfRotatedGrowthCurve2D)
-	stackofrotatedgrowthcurve2d.CopyBasicFields(newInstance)
+	stackofrotatedgrowthcurve2d.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) GongCopy() GongstructIF {
 	newInstance := new(StackOfRotatedGrowthCurve2DRibbon)
-	stackofrotatedgrowthcurve2dribbon.CopyBasicFields(newInstance)
+	stackofrotatedgrowthcurve2dribbon.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongCopy() GongstructIF {
 	newInstance := new(StackRotatedGrowthCurve2DEndArcShape)
-	stackrotatedgrowthcurve2dendarcshape.CopyBasicFields(newInstance)
+	stackrotatedgrowthcurve2dendarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEndShape) GongCopy() GongstructIF {
 	newInstance := new(StackRotatedGrowthCurve2DRibbonEndShape)
-	stackrotatedgrowthcurve2dribbonendshape.CopyBasicFields(newInstance)
+	stackrotatedgrowthcurve2dribbonendshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbonStartShape) GongCopy() GongstructIF {
 	newInstance := new(StackRotatedGrowthCurve2DRibbonStartShape)
-	stackrotatedgrowthcurve2dribbonstartshape.CopyBasicFields(newInstance)
+	stackrotatedgrowthcurve2dribbonstartshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcShape) GongCopy() GongstructIF {
 	newInstance := new(StackRotatedGrowthCurve2DStartArcShape)
-	stackrotatedgrowthcurve2dstartarcshape.CopyBasicFields(newInstance)
+	stackrotatedgrowthcurve2dstartarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (startarcshape *StartArcShape) GongCopy() GongstructIF {
 	newInstance := new(StartArcShape)
-	startarcshape.CopyBasicFields(newInstance)
+	startarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (startarcshapegrid *StartArcShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(StartArcShapeGrid)
-	startarcshapegrid.CopyBasicFields(newInstance)
+	startarcshapegrid.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (starthalfwayarcshape *StartHalfwayArcShape) GongCopy() GongstructIF {
 	newInstance := new(StartHalfwayArcShape)
-	starthalfwayarcshape.CopyBasicFields(newInstance)
+	starthalfwayarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(StartHalfwayArcShapeGrid)
-	starthalfwayarcshapegrid.CopyBasicFields(newInstance)
+	starthalfwayarcshapegrid.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stemcylinder3dshape *StemCylinder3DShape) GongCopy() GongstructIF {
 	newInstance := new(StemCylinder3DShape)
-	stemcylinder3dshape.CopyBasicFields(newInstance)
+	stemcylinder3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stool2ddiagram *Stool2DDiagram) GongCopy() GongstructIF {
 	newInstance := new(Stool2DDiagram)
-	stool2ddiagram.CopyBasicFields(newInstance)
+	stool2ddiagram.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stool3ddiagram *Stool3DDiagram) GongCopy() GongstructIF {
 	newInstance := new(Stool3DDiagram)
-	stool3ddiagram.CopyBasicFields(newInstance)
+	stool3ddiagram.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (stoolabstract *StoolAbstract) GongCopy() GongstructIF {
 	newInstance := new(StoolAbstract)
-	stoolabstract.CopyBasicFields(newInstance)
+	stoolabstract.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (tiledfloor3dshape *TiledFloor3DShape) GongCopy() GongstructIF {
 	newInstance := new(TiledFloor3DShape)
-	tiledfloor3dshape.CopyBasicFields(newInstance)
+	tiledfloor3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topendarcshape *TopEndArcShape) GongCopy() GongstructIF {
 	newInstance := new(TopEndArcShape)
-	topendarcshape.CopyBasicFields(newInstance)
+	topendarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topendarcshapegrid *TopEndArcShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(TopEndArcShapeGrid)
-	topendarcshapegrid.CopyBasicFields(newInstance)
+	topendarcshapegrid.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topendhalfwayarcshape *TopEndHalfwayArcShape) GongCopy() GongstructIF {
 	newInstance := new(TopEndHalfwayArcShape)
-	topendhalfwayarcshape.CopyBasicFields(newInstance)
+	topendhalfwayarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(TopEndHalfwayArcShapeGrid)
-	topendhalfwayarcshapegrid.CopyBasicFields(newInstance)
+	topendhalfwayarcshapegrid.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topgrowthcurve2d *TopGrowthCurve2D) GongCopy() GongstructIF {
 	newInstance := new(TopGrowthCurve2D)
-	topgrowthcurve2d.CopyBasicFields(newInstance)
+	topgrowthcurve2d.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topmidarcvectorshape *TopMidArcVectorShape) GongCopy() GongstructIF {
 	newInstance := new(TopMidArcVectorShape)
-	topmidarcvectorshape.CopyBasicFields(newInstance)
+	topmidarcvectorshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(TopMidArcVectorShapeGrid)
-	topmidarcvectorshapegrid.CopyBasicFields(newInstance)
+	topmidarcvectorshapegrid.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) GongCopy() GongstructIF {
 	newInstance := new(TopStackGrowthCurve2DEndHalfwayArcShape)
-	topstackgrowthcurve2dendhalfwayarcshape.CopyBasicFields(newInstance)
+	topstackgrowthcurve2dendhalfwayarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) GongCopy() GongstructIF {
 	newInstance := new(TopStackGrowthCurve2DStartHalfwayArcShape)
-	topstackgrowthcurve2dstarthalfwayarcshape.CopyBasicFields(newInstance)
+	topstackgrowthcurve2dstarthalfwayarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongCopy() GongstructIF {
 	newInstance := new(TopStackOfGrowthCurve2D)
-	topstackofgrowthcurve2d.CopyBasicFields(newInstance)
+	topstackofgrowthcurve2d.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) GongCopy() GongstructIF {
 	newInstance := new(TopStackOfRotatedGrowthCurve2D)
-	topstackofrotatedgrowthcurve2d.CopyBasicFields(newInstance)
+	topstackofrotatedgrowthcurve2d.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DEndArcShape) GongCopy() GongstructIF {
 	newInstance := new(TopStackOfRotatedGrowthCurve2DEndArcShape)
-	topstackofrotatedgrowthcurve2dendarcshape.CopyBasicFields(newInstance)
+	topstackofrotatedgrowthcurve2dendarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2DStartArcShape) GongCopy() GongstructIF {
 	newInstance := new(TopStackOfRotatedGrowthCurve2DStartArcShape)
-	topstackofrotatedgrowthcurve2dstartarcshape.CopyBasicFields(newInstance)
+	topstackofrotatedgrowthcurve2dstartarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topstartarcshape *TopStartArcShape) GongCopy() GongstructIF {
 	newInstance := new(TopStartArcShape)
-	topstartarcshape.CopyBasicFields(newInstance)
+	topstartarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topstartarcshapegrid *TopStartArcShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(TopStartArcShapeGrid)
-	topstartarcshapegrid.CopyBasicFields(newInstance)
+	topstartarcshapegrid.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongCopy() GongstructIF {
 	newInstance := new(TopStartHalfwayArcShape)
-	topstarthalfwayarcshape.CopyBasicFields(newInstance)
+	topstarthalfwayarcshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(TopStartHalfwayArcShapeGrid)
-	topstarthalfwayarcshapegrid.CopyBasicFields(newInstance)
+	topstarthalfwayarcshapegrid.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (torus3dshape *Torus3DShape) GongCopy() GongstructIF {
 	newInstance := new(Torus3DShape)
-	torus3dshape.CopyBasicFields(newInstance)
+	torus3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (torusedge3dshape *TorusEdge3DShape) GongCopy() GongstructIF {
 	newInstance := new(TorusEdge3DShape)
-	torusedge3dshape.CopyBasicFields(newInstance)
+	torusedge3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (torusstackshape *TorusStackShape) GongCopy() GongstructIF {
 	newInstance := new(TorusStackShape)
-	torusstackshape.CopyBasicFields(newInstance)
+	torusstackshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (tubevase3ddiagram *TubeVase3DDiagram) GongCopy() GongstructIF {
 	newInstance := new(TubeVase3DDiagram)
-	tubevase3ddiagram.CopyBasicFields(newInstance)
+	tubevase3ddiagram.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (tubevaseabstract *TubeVaseAbstract) GongCopy() GongstructIF {
 	newInstance := new(TubeVaseAbstract)
-	tubevaseabstract.CopyBasicFields(newInstance)
+	tubevaseabstract.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (vase2ddiagram *Vase2DDiagram) GongCopy() GongstructIF {
 	newInstance := new(Vase2DDiagram)
-	vase2ddiagram.CopyBasicFields(newInstance)
+	vase2ddiagram.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (verticaltorusstackshape *VerticalTorusStackShape) GongCopy() GongstructIF {
 	newInstance := new(VerticalTorusStackShape)
-	verticaltorusstackshape.CopyBasicFields(newInstance)
+	verticaltorusstackshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (volumekey3dshape *VolumeKey3DShape) GongCopy() GongstructIF {
 	newInstance := new(VolumeKey3DShape)
-	volumekey3dshape.CopyBasicFields(newInstance)
+	volumekey3dshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -2004,7 +2004,7 @@ func (angle0shape *Angle0Shape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(angle0shape), uint64(stage.GetOrder(angle0shape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(angle0shape), uint64(stage.GetOrder(angle0shape)))
 	return
 }
 
@@ -2014,7 +2014,7 @@ func (arcnormalvectorshape *ArcNormalVectorShape) GongGetUUID(stage *Stage) (uui
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(arcnormalvectorshape), uint64(stage.GetOrder(arcnormalvectorshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(arcnormalvectorshape), uint64(stage.GetOrder(arcnormalvectorshape)))
 	return
 }
 
@@ -2024,7 +2024,7 @@ func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongGetUUID(stage *Sta
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(arcnormalvectorshapegrid), uint64(stage.GetOrder(arcnormalvectorshapegrid)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(arcnormalvectorshapegrid), uint64(stage.GetOrder(arcnormalvectorshapegrid)))
 	return
 }
 
@@ -2034,7 +2034,7 @@ func (axesshape *AxesShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(axesshape), uint64(stage.GetOrder(axesshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(axesshape), uint64(stage.GetOrder(axesshape)))
 	return
 }
 
@@ -2044,7 +2044,7 @@ func (basevectorshape *BaseVectorShape) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(basevectorshape), uint64(stage.GetOrder(basevectorshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(basevectorshape), uint64(stage.GetOrder(basevectorshape)))
 	return
 }
 
@@ -2054,7 +2054,7 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongGetUUID(stage *Stage) (uuid 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(basevectorshapegrid), uint64(stage.GetOrder(basevectorshapegrid)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(basevectorshapegrid), uint64(stage.GetOrder(basevectorshapegrid)))
 	return
 }
 
@@ -2064,7 +2064,7 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongGetUUID(stage *Stage) (uuid 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(chosenp1p2pairshape), uint64(stage.GetOrder(chosenp1p2pairshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(chosenp1p2pairshape), uint64(stage.GetOrder(chosenp1p2pairshape)))
 	return
 }
 
@@ -2074,7 +2074,7 @@ func (circlegridshape *CircleGridShape) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(circlegridshape), uint64(stage.GetOrder(circlegridshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(circlegridshape), uint64(stage.GetOrder(circlegridshape)))
 	return
 }
 
@@ -2084,7 +2084,7 @@ func (circumference3dshape *Circumference3DShape) GongGetUUID(stage *Stage) (uui
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(circumference3dshape), uint64(stage.GetOrder(circumference3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(circumference3dshape), uint64(stage.GetOrder(circumference3dshape)))
 	return
 }
 
@@ -2094,7 +2094,7 @@ func (clock2ddiagram *Clock2DDiagram) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(clock2ddiagram), uint64(stage.GetOrder(clock2ddiagram)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(clock2ddiagram), uint64(stage.GetOrder(clock2ddiagram)))
 	return
 }
 
@@ -2104,7 +2104,7 @@ func (clock3ddiagram *Clock3DDiagram) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(clock3ddiagram), uint64(stage.GetOrder(clock3ddiagram)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(clock3ddiagram), uint64(stage.GetOrder(clock3ddiagram)))
 	return
 }
 
@@ -2114,7 +2114,7 @@ func (clockabstract *ClockAbstract) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(clockabstract), uint64(stage.GetOrder(clockabstract)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(clockabstract), uint64(stage.GetOrder(clockabstract)))
 	return
 }
 
@@ -2124,7 +2124,7 @@ func (clocktopcurveshape *ClockTopCurveShape) GongGetUUID(stage *Stage) (uuid st
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(clocktopcurveshape), uint64(stage.GetOrder(clocktopcurveshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(clocktopcurveshape), uint64(stage.GetOrder(clocktopcurveshape)))
 	return
 }
 
@@ -2134,7 +2134,7 @@ func (cutline3dshape *CutLine3DShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cutline3dshape), uint64(stage.GetOrder(cutline3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(cutline3dshape), uint64(stage.GetOrder(cutline3dshape)))
 	return
 }
 
@@ -2144,7 +2144,7 @@ func (endarcshape *EndArcShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(endarcshape), uint64(stage.GetOrder(endarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(endarcshape), uint64(stage.GetOrder(endarcshape)))
 	return
 }
 
@@ -2154,7 +2154,7 @@ func (endarcshapegrid *EndArcShapeGrid) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(endarcshapegrid), uint64(stage.GetOrder(endarcshapegrid)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(endarcshapegrid), uint64(stage.GetOrder(endarcshapegrid)))
 	return
 }
 
@@ -2164,7 +2164,7 @@ func (endhalfwayarcshape *EndHalfwayArcShape) GongGetUUID(stage *Stage) (uuid st
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(endhalfwayarcshape), uint64(stage.GetOrder(endhalfwayarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(endhalfwayarcshape), uint64(stage.GetOrder(endhalfwayarcshape)))
 	return
 }
 
@@ -2174,7 +2174,7 @@ func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) GongGetUUID(stage *Stage) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(endhalfwayarcshapegrid), uint64(stage.GetOrder(endhalfwayarcshapegrid)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(endhalfwayarcshapegrid), uint64(stage.GetOrder(endhalfwayarcshapegrid)))
 	return
 }
 
@@ -2184,7 +2184,7 @@ func (explanationtextshape *ExplanationTextShape) GongGetUUID(stage *Stage) (uui
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(explanationtextshape), uint64(stage.GetOrder(explanationtextshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(explanationtextshape), uint64(stage.GetOrder(explanationtextshape)))
 	return
 }
 
@@ -2194,7 +2194,7 @@ func (eye3dshape *Eye3DShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(eye3dshape), uint64(stage.GetOrder(eye3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(eye3dshape), uint64(stage.GetOrder(eye3dshape)))
 	return
 }
 
@@ -2204,7 +2204,7 @@ func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongGetUUI
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(eyecornerssampledpoints3dshape), uint64(stage.GetOrder(eyecornerssampledpoints3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(eyecornerssampledpoints3dshape), uint64(stage.GetOrder(eyecornerssampledpoints3dshape)))
 	return
 }
 
@@ -2214,7 +2214,7 @@ func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongGetUUID(stage *Stage
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(eyesampledpoints3dshape), uint64(stage.GetOrder(eyesampledpoints3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(eyesampledpoints3dshape), uint64(stage.GetOrder(eyesampledpoints3dshape)))
 	return
 }
 
@@ -2224,7 +2224,7 @@ func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongGetUUID(stage *Stage
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(eyeseatbottomcurveshape), uint64(stage.GetOrder(eyeseatbottomcurveshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(eyeseatbottomcurveshape), uint64(stage.GetOrder(eyeseatbottomcurveshape)))
 	return
 }
 
@@ -2234,7 +2234,7 @@ func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongGetUUID(stage *Sta
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(eyestoolbottomcurveshape), uint64(stage.GetOrder(eyestoolbottomcurveshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(eyestoolbottomcurveshape), uint64(stage.GetOrder(eyestoolbottomcurveshape)))
 	return
 }
 
@@ -2244,7 +2244,7 @@ func (eyevolume3dshape *EyeVolume3DShape) GongGetUUID(stage *Stage) (uuid string
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(eyevolume3dshape), uint64(stage.GetOrder(eyevolume3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(eyevolume3dshape), uint64(stage.GetOrder(eyevolume3dshape)))
 	return
 }
 
@@ -2254,7 +2254,7 @@ func (gridpathshape *GridPathShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gridpathshape), uint64(stage.GetOrder(gridpathshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(gridpathshape), uint64(stage.GetOrder(gridpathshape)))
 	return
 }
 
@@ -2264,7 +2264,7 @@ func (growthcurve2d *GrowthCurve2D) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthcurve2d), uint64(stage.GetOrder(growthcurve2d)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(growthcurve2d), uint64(stage.GetOrder(growthcurve2d)))
 	return
 }
 
@@ -2274,7 +2274,7 @@ func (growthcurve2dribbon *GrowthCurve2DRibbon) GongGetUUID(stage *Stage) (uuid 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthcurve2dribbon), uint64(stage.GetOrder(growthcurve2dribbon)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(growthcurve2dribbon), uint64(stage.GetOrder(growthcurve2dribbon)))
 	return
 }
 
@@ -2284,7 +2284,7 @@ func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongGetUUID(stag
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthcurve2dribbonendshape), uint64(stage.GetOrder(growthcurve2dribbonendshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(growthcurve2dribbonendshape), uint64(stage.GetOrder(growthcurve2dribbonendshape)))
 	return
 }
 
@@ -2294,7 +2294,7 @@ func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongGetUUID(
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthcurve2dribbonstartshape), uint64(stage.GetOrder(growthcurve2dribbonstartshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(growthcurve2dribbonstartshape), uint64(stage.GetOrder(growthcurve2dribbonstartshape)))
 	return
 }
 
@@ -2304,7 +2304,7 @@ func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongGetUUID(stag
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthcurverhombusgridshape), uint64(stage.GetOrder(growthcurverhombusgridshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(growthcurverhombusgridshape), uint64(stage.GetOrder(growthcurverhombusgridshape)))
 	return
 }
 
@@ -2314,7 +2314,7 @@ func (growthcurverhombusshape *GrowthCurveRhombusShape) GongGetUUID(stage *Stage
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthcurverhombusshape), uint64(stage.GetOrder(growthcurverhombusshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(growthcurverhombusshape), uint64(stage.GetOrder(growthcurverhombusshape)))
 	return
 }
 
@@ -2324,7 +2324,7 @@ func (growthvectorshape *GrowthVectorShape) GongGetUUID(stage *Stage) (uuid stri
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthvectorshape), uint64(stage.GetOrder(growthvectorshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(growthvectorshape), uint64(stage.GetOrder(growthvectorshape)))
 	return
 }
 
@@ -2334,7 +2334,7 @@ func (initialrhombusgridshape *InitialRhombusGridShape) GongGetUUID(stage *Stage
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(initialrhombusgridshape), uint64(stage.GetOrder(initialrhombusgridshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(initialrhombusgridshape), uint64(stage.GetOrder(initialrhombusgridshape)))
 	return
 }
 
@@ -2344,7 +2344,7 @@ func (initialrhombusshape *InitialRhombusShape) GongGetUUID(stage *Stage) (uuid 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(initialrhombusshape), uint64(stage.GetOrder(initialrhombusshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(initialrhombusshape), uint64(stage.GetOrder(initialrhombusshape)))
 	return
 }
 
@@ -2354,7 +2354,7 @@ func (key3dshape *Key3DShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(key3dshape), uint64(stage.GetOrder(key3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(key3dshape), uint64(stage.GetOrder(key3dshape)))
 	return
 }
 
@@ -2364,7 +2364,7 @@ func (keyhole3dshape *KeyHole3DShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(keyhole3dshape), uint64(stage.GetOrder(keyhole3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(keyhole3dshape), uint64(stage.GetOrder(keyhole3dshape)))
 	return
 }
 
@@ -2374,7 +2374,7 @@ func (keyholeshape *KeyHoleShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(keyholeshape), uint64(stage.GetOrder(keyholeshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(keyholeshape), uint64(stage.GetOrder(keyholeshape)))
 	return
 }
 
@@ -2384,7 +2384,7 @@ func (leaves3dshape *Leaves3DShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(leaves3dshape), uint64(stage.GetOrder(leaves3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(leaves3dshape), uint64(stage.GetOrder(leaves3dshape)))
 	return
 }
 
@@ -2394,7 +2394,7 @@ func (library *Library) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(library), uint64(stage.GetOrder(library)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(library), uint64(stage.GetOrder(library)))
 	return
 }
 
@@ -2404,7 +2404,7 @@ func (midarcvectorshape *MidArcVectorShape) GongGetUUID(stage *Stage) (uuid stri
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(midarcvectorshape), uint64(stage.GetOrder(midarcvectorshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(midarcvectorshape), uint64(stage.GetOrder(midarcvectorshape)))
 	return
 }
 
@@ -2414,7 +2414,7 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetUUID(stage *Stage) (u
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(midarcvectorshapegrid), uint64(stage.GetOrder(midarcvectorshapegrid)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(midarcvectorshapegrid), uint64(stage.GetOrder(midarcvectorshapegrid)))
 	return
 }
 
@@ -2424,7 +2424,7 @@ func (musicabstract *MusicAbstract) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(musicabstract), uint64(stage.GetOrder(musicabstract)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(musicabstract), uint64(stage.GetOrder(musicabstract)))
 	return
 }
 
@@ -2434,7 +2434,7 @@ func (originalpoints3dshape *OriginalPoints3DShape) GongGetUUID(stage *Stage) (u
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(originalpoints3dshape), uint64(stage.GetOrder(originalpoints3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(originalpoints3dshape), uint64(stage.GetOrder(originalpoints3dshape)))
 	return
 }
 
@@ -2444,7 +2444,7 @@ func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongGetUUID(stage *Sta
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(parastichymcurves3dshape), uint64(stage.GetOrder(parastichymcurves3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(parastichymcurves3dshape), uint64(stage.GetOrder(parastichymcurves3dshape)))
 	return
 }
 
@@ -2454,7 +2454,7 @@ func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongGetUUID(stage *Sta
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(parastichyncurves3dshape), uint64(stage.GetOrder(parastichyncurves3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(parastichyncurves3dshape), uint64(stage.GetOrder(parastichyncurves3dshape)))
 	return
 }
 
@@ -2464,7 +2464,7 @@ func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongGetUUID(st
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallygrowthcurve2dribbon), uint64(stage.GetOrder(partiallygrowthcurve2dribbon)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(partiallygrowthcurve2dribbon), uint64(stage.GetOrder(partiallygrowthcurve2dribbon)))
 	return
 }
 
@@ -2474,7 +2474,7 @@ func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallygrowthcurve2dribbonendshape), uint64(stage.GetOrder(partiallygrowthcurve2dribbonendshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(partiallygrowthcurve2dribbonendshape), uint64(stage.GetOrder(partiallygrowthcurve2dribbonendshape)))
 	return
 }
 
@@ -2484,7 +2484,7 @@ func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartS
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallygrowthcurve2dribbonstartshape), uint64(stage.GetOrder(partiallygrowthcurve2dribbonstartshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(partiallygrowthcurve2dribbonstartshape), uint64(stage.GetOrder(partiallygrowthcurve2dribbonstartshape)))
 	return
 }
 
@@ -2494,7 +2494,7 @@ func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongGe
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallygrowthcurve2dtrajectory), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectory)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(partiallygrowthcurve2dtrajectory), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectory)))
 	return
 }
 
@@ -2504,7 +2504,7 @@ func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajec
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryp1curveshape), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectoryp1curveshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryp1curveshape), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectoryp1curveshape)))
 	return
 }
 
@@ -2514,7 +2514,7 @@ func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryp1p2), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectoryp1p2)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryp1p2), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectoryp1p2)))
 	return
 }
 
@@ -2524,7 +2524,7 @@ func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DT
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryp1p2pairlineshape), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectoryp1p2pairlineshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryp1p2pairlineshape), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectoryp1p2pairlineshape)))
 	return
 }
 
@@ -2534,7 +2534,7 @@ func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajec
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryp1pointshape), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectoryp1pointshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryp1pointshape), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectoryp1pointshape)))
 	return
 }
 
@@ -2544,7 +2544,7 @@ func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajec
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryp2curveshape), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectoryp2curveshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryp2curveshape), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectoryp2curveshape)))
 	return
 }
 
@@ -2554,7 +2554,7 @@ func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajec
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryp2pointshape), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectoryp2pointshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryp2pointshape), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectoryp2pointshape)))
 	return
 }
 
@@ -2564,7 +2564,7 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryshape), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectoryshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryshape), uint64(stage.GetOrder(partiallygrowthcurve2dtrajectoryshape)))
 	return
 }
 
@@ -2574,7 +2574,7 @@ func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallyrotatedseatbottomcurveshape), uint64(stage.GetOrder(partiallyrotatedseatbottomcurveshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(partiallyrotatedseatbottomcurveshape), uint64(stage.GetOrder(partiallyrotatedseatbottomcurveshape)))
 	return
 }
 
@@ -2584,7 +2584,7 @@ func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) Gong
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallyrotatedseattopcurveshape), uint64(stage.GetOrder(partiallyrotatedseattopcurveshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(partiallyrotatedseattopcurveshape), uint64(stage.GetOrder(partiallyrotatedseattopcurveshape)))
 	return
 }
 
@@ -2594,7 +2594,7 @@ func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongGetUUID(stage 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallyrotatedtorusshape), uint64(stage.GetOrder(partiallyrotatedtorusshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(partiallyrotatedtorusshape), uint64(stage.GetOrder(partiallyrotatedtorusshape)))
 	return
 }
 
@@ -2604,7 +2604,7 @@ func (perpendicularvector *PerpendicularVector) GongGetUUID(stage *Stage) (uuid 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(perpendicularvector), uint64(stage.GetOrder(perpendicularvector)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(perpendicularvector), uint64(stage.GetOrder(perpendicularvector)))
 	return
 }
 
@@ -2614,7 +2614,7 @@ func (perpendicularvectorgrid *PerpendicularVectorGrid) GongGetUUID(stage *Stage
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(perpendicularvectorgrid), uint64(stage.GetOrder(perpendicularvectorgrid)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(perpendicularvectorgrid), uint64(stage.GetOrder(perpendicularvectorgrid)))
 	return
 }
 
@@ -2624,7 +2624,7 @@ func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) GongGetUUI
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(perpendicularvectorgridhalfway), uint64(stage.GetOrder(perpendicularvectorgridhalfway)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(perpendicularvectorgridhalfway), uint64(stage.GetOrder(perpendicularvectorgridhalfway)))
 	return
 }
 
@@ -2634,7 +2634,7 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongGetUUID(stage 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(perpendicularvectorhalfway), uint64(stage.GetOrder(perpendicularvectorhalfway)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(perpendicularvectorhalfway), uint64(stage.GetOrder(perpendicularvectorhalfway)))
 	return
 }
 
@@ -2644,7 +2644,7 @@ func (plant2ddiagram *Plant2DDiagram) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(plant2ddiagram), uint64(stage.GetOrder(plant2ddiagram)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(plant2ddiagram), uint64(stage.GetOrder(plant2ddiagram)))
 	return
 }
 
@@ -2654,7 +2654,7 @@ func (plant3ddiagram *Plant3DDiagram) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(plant3ddiagram), uint64(stage.GetOrder(plant3ddiagram)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(plant3ddiagram), uint64(stage.GetOrder(plant3ddiagram)))
 	return
 }
 
@@ -2664,7 +2664,7 @@ func (plantabstract *PlantAbstract) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(plantabstract), uint64(stage.GetOrder(plantabstract)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(plantabstract), uint64(stage.GetOrder(plantabstract)))
 	return
 }
 
@@ -2674,7 +2674,7 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongGetUUID(stage *Stage
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(plantcircumferenceshape), uint64(stage.GetOrder(plantcircumferenceshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(plantcircumferenceshape), uint64(stage.GetOrder(plantcircumferenceshape)))
 	return
 }
 
@@ -2684,7 +2684,7 @@ func (pointsandlines3dshape *PointsAndLines3DShape) GongGetUUID(stage *Stage) (u
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pointsandlines3dshape), uint64(stage.GetOrder(pointsandlines3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(pointsandlines3dshape), uint64(stage.GetOrder(pointsandlines3dshape)))
 	return
 }
 
@@ -2694,7 +2694,7 @@ func (pxshape *PxShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pxshape), uint64(stage.GetOrder(pxshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(pxshape), uint64(stage.GetOrder(pxshape)))
 	return
 }
 
@@ -2704,7 +2704,7 @@ func (rendered3dshape *Rendered3DShape) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rendered3dshape), uint64(stage.GetOrder(rendered3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(rendered3dshape), uint64(stage.GetOrder(rendered3dshape)))
 	return
 }
 
@@ -2714,7 +2714,7 @@ func (rhombusshape *RhombusShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rhombusshape), uint64(stage.GetOrder(rhombusshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(rhombusshape), uint64(stage.GetOrder(rhombusshape)))
 	return
 }
 
@@ -2724,7 +2724,7 @@ func (rhombusstuff *RhombusStuff) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rhombusstuff), uint64(stage.GetOrder(rhombusstuff)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(rhombusstuff), uint64(stage.GetOrder(rhombusstuff)))
 	return
 }
 
@@ -2734,7 +2734,7 @@ func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongGetUUID(stage *Stage
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rotatedrhombusgridshape), uint64(stage.GetOrder(rotatedrhombusgridshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(rotatedrhombusgridshape), uint64(stage.GetOrder(rotatedrhombusgridshape)))
 	return
 }
 
@@ -2744,7 +2744,7 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetUUID(stage *Stage) (uuid 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rotatedrhombusshape), uint64(stage.GetOrder(rotatedrhombusshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(rotatedrhombusshape), uint64(stage.GetOrder(rotatedrhombusshape)))
 	return
 }
 
@@ -2754,7 +2754,7 @@ func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongGetUUID(stag
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rotatedsampledpoints3dshape), uint64(stage.GetOrder(rotatedsampledpoints3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(rotatedsampledpoints3dshape), uint64(stage.GetOrder(rotatedsampledpoints3dshape)))
 	return
 }
 
@@ -2764,7 +2764,7 @@ func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GongGetUUID(stage *S
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rotatedseatandlegs3dshape), uint64(stage.GetOrder(rotatedseatandlegs3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(rotatedseatandlegs3dshape), uint64(stage.GetOrder(rotatedseatandlegs3dshape)))
 	return
 }
 
@@ -2774,7 +2774,7 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongGetUUID(stage *Stage) (uui
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(sampledpoints3dshape), uint64(stage.GetOrder(sampledpoints3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(sampledpoints3dshape), uint64(stage.GetOrder(sampledpoints3dshape)))
 	return
 }
 
@@ -2784,7 +2784,7 @@ func (seat3dshape *Seat3DShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(seat3dshape), uint64(stage.GetOrder(seat3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(seat3dshape), uint64(stage.GetOrder(seat3dshape)))
 	return
 }
 
@@ -2794,7 +2794,7 @@ func (seatandlegs3dshape *SeatAndLegs3DShape) GongGetUUID(stage *Stage) (uuid st
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(seatandlegs3dshape), uint64(stage.GetOrder(seatandlegs3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(seatandlegs3dshape), uint64(stage.GetOrder(seatandlegs3dshape)))
 	return
 }
 
@@ -2804,7 +2804,7 @@ func (seatbottomcurveshape *SeatBottomCurveShape) GongGetUUID(stage *Stage) (uui
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(seatbottomcurveshape), uint64(stage.GetOrder(seatbottomcurveshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(seatbottomcurveshape), uint64(stage.GetOrder(seatbottomcurveshape)))
 	return
 }
 
@@ -2814,7 +2814,7 @@ func (seattopcurveshape *SeatTopCurveShape) GongGetUUID(stage *Stage) (uuid stri
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(seattopcurveshape), uint64(stage.GetOrder(seattopcurveshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(seattopcurveshape), uint64(stage.GetOrder(seattopcurveshape)))
 	return
 }
 
@@ -2824,7 +2824,7 @@ func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongGetUUID(
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedbottomtopstartarcshape), uint64(stage.GetOrder(shiftedbottomtopstartarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedbottomtopstartarcshape), uint64(stage.GetOrder(shiftedbottomtopstartarcshape)))
 	return
 }
 
@@ -2834,7 +2834,7 @@ func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) Gong
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedbottomtopstartarcshapegrid), uint64(stage.GetOrder(shiftedbottomtopstartarcshapegrid)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedbottomtopstartarcshapegrid), uint64(stage.GetOrder(shiftedbottomtopstartarcshapegrid)))
 	return
 }
 
@@ -2844,7 +2844,7 @@ func (shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) GongGetUUI
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedleftgrowthcurve2dribbon), uint64(stage.GetOrder(shiftedleftgrowthcurve2dribbon)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedleftgrowthcurve2dribbon), uint64(stage.GetOrder(shiftedleftgrowthcurve2dribbon)))
 	return
 }
 
@@ -2854,7 +2854,7 @@ func (shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndS
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedleftgrowthcurve2dribbonendshape), uint64(stage.GetOrder(shiftedleftgrowthcurve2dribbonendshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedleftgrowthcurve2dribbonendshape), uint64(stage.GetOrder(shiftedleftgrowthcurve2dribbonendshape)))
 	return
 }
 
@@ -2864,7 +2864,7 @@ func (shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonSt
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedleftgrowthcurve2dribbonstartshape), uint64(stage.GetOrder(shiftedleftgrowthcurve2dribbonstartshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedleftgrowthcurve2dribbonstartshape), uint64(stage.GetOrder(shiftedleftgrowthcurve2dribbonstartshape)))
 	return
 }
 
@@ -2874,7 +2874,7 @@ func (shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2D
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedleftpartiallygrowthcurve2dribbon), uint64(stage.GetOrder(shiftedleftpartiallygrowthcurve2dribbon)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedleftpartiallygrowthcurve2dribbon), uint64(stage.GetOrder(shiftedleftpartiallygrowthcurve2dribbon)))
 	return
 }
 
@@ -2884,7 +2884,7 @@ func (shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowt
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedleftpartiallygrowthcurve2dribbonendshape), uint64(stage.GetOrder(shiftedleftpartiallygrowthcurve2dribbonendshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedleftpartiallygrowthcurve2dribbonendshape), uint64(stage.GetOrder(shiftedleftpartiallygrowthcurve2dribbonendshape)))
 	return
 }
 
@@ -2894,7 +2894,7 @@ func (shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGro
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedleftpartiallygrowthcurve2dribbonstartshape), uint64(stage.GetOrder(shiftedleftpartiallygrowthcurve2dribbonstartshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedleftpartiallygrowthcurve2dribbonstartshape), uint64(stage.GetOrder(shiftedleftpartiallygrowthcurve2dribbonstartshape)))
 	return
 }
 
@@ -2904,7 +2904,7 @@ func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcS
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedleftstackgrowthcurveendarcshape), uint64(stage.GetOrder(shiftedleftstackgrowthcurveendarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedleftstackgrowthcurveendarcshape), uint64(stage.GetOrder(shiftedleftstackgrowthcurveendarcshape)))
 	return
 }
 
@@ -2914,7 +2914,7 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedleftstackgrowthcurvestartarcshape), uint64(stage.GetOrder(shiftedleftstackgrowthcurvestartarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedleftstackgrowthcurvestartarcshape), uint64(stage.GetOrder(shiftedleftstackgrowthcurvestartarcshape)))
 	return
 }
 
@@ -2924,7 +2924,7 @@ func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongGetUUID(st
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedleftstacknormalvector), uint64(stage.GetOrder(shiftedleftstacknormalvector)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedleftstacknormalvector), uint64(stage.GetOrder(shiftedleftstacknormalvector)))
 	return
 }
 
@@ -2934,7 +2934,7 @@ func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongGetUUID(
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedleftstackofgrowthcurve), uint64(stage.GetOrder(shiftedleftstackofgrowthcurve)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedleftstackofgrowthcurve), uint64(stage.GetOrder(shiftedleftstackofgrowthcurve)))
 	return
 }
 
@@ -2944,7 +2944,7 @@ func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongGetUUI
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedleftstackofnormalvector), uint64(stage.GetOrder(shiftedleftstackofnormalvector)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedleftstackofnormalvector), uint64(stage.GetOrder(shiftedleftstackofnormalvector)))
 	return
 }
 
@@ -2954,7 +2954,7 @@ func (shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) GongGetU
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedrightgrowthcurve2dribbon), uint64(stage.GetOrder(shiftedrightgrowthcurve2dribbon)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedrightgrowthcurve2dribbon), uint64(stage.GetOrder(shiftedrightgrowthcurve2dribbon)))
 	return
 }
 
@@ -2964,7 +2964,7 @@ func (shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEn
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedrightgrowthcurve2dribbonendshape), uint64(stage.GetOrder(shiftedrightgrowthcurve2dribbonendshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedrightgrowthcurve2dribbonendshape), uint64(stage.GetOrder(shiftedrightgrowthcurve2dribbonendshape)))
 	return
 }
 
@@ -2974,7 +2974,7 @@ func (shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbon
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedrightgrowthcurve2dribbonstartshape), uint64(stage.GetOrder(shiftedrightgrowthcurve2dribbonstartshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shiftedrightgrowthcurve2dribbonstartshape), uint64(stage.GetOrder(shiftedrightgrowthcurve2dribbonstartshape)))
 	return
 }
 
@@ -2984,7 +2984,7 @@ func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackgrowthcurve2dendhalfwayarcshape), uint64(stage.GetOrder(stackgrowthcurve2dendhalfwayarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackgrowthcurve2dendhalfwayarcshape), uint64(stage.GetOrder(stackgrowthcurve2dendhalfwayarcshape)))
 	return
 }
 
@@ -2994,7 +2994,7 @@ func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) GongGe
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackgrowthcurve2dribbonendshape), uint64(stage.GetOrder(stackgrowthcurve2dribbonendshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackgrowthcurve2dribbonendshape), uint64(stage.GetOrder(stackgrowthcurve2dribbonendshape)))
 	return
 }
 
@@ -3004,7 +3004,7 @@ func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) Go
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackgrowthcurve2dribbonstartshape), uint64(stage.GetOrder(stackgrowthcurve2dribbonstartshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackgrowthcurve2dribbonstartshape), uint64(stage.GetOrder(stackgrowthcurve2dribbonstartshape)))
 	return
 }
 
@@ -3014,7 +3014,7 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackgrowthcurve2dstarthalfwayarcshape), uint64(stage.GetOrder(stackgrowthcurve2dstarthalfwayarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackgrowthcurve2dstarthalfwayarcshape), uint64(stage.GetOrder(stackgrowthcurve2dstarthalfwayarcshape)))
 	return
 }
 
@@ -3024,7 +3024,7 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetUUID(stage *Stage) (uui
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackofgrowthcurve2d), uint64(stage.GetOrder(stackofgrowthcurve2d)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackofgrowthcurve2d), uint64(stage.GetOrder(stackofgrowthcurve2d)))
 	return
 }
 
@@ -3034,7 +3034,7 @@ func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) Go
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackofgrowthcurve2dbygrowthvector), uint64(stage.GetOrder(stackofgrowthcurve2dbygrowthvector)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackofgrowthcurve2dbygrowthvector), uint64(stage.GetOrder(stackofgrowthcurve2dbygrowthvector)))
 	return
 }
 
@@ -3044,7 +3044,7 @@ func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongGetUUID(stage 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackofgrowthcurve2dribbon), uint64(stage.GetOrder(stackofgrowthcurve2dribbon)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackofgrowthcurve2dribbon), uint64(stage.GetOrder(stackofgrowthcurve2dribbon)))
 	return
 }
 
@@ -3054,7 +3054,7 @@ func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) Gong
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackofpartiallyrotatedtorusshape), uint64(stage.GetOrder(stackofpartiallyrotatedtorusshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackofpartiallyrotatedtorusshape), uint64(stage.GetOrder(stackofpartiallyrotatedtorusshape)))
 	return
 }
 
@@ -3064,7 +3064,7 @@ func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongGetUUID(stag
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackofrotatedgrowthcurve2d), uint64(stage.GetOrder(stackofrotatedgrowthcurve2d)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackofrotatedgrowthcurve2d), uint64(stage.GetOrder(stackofrotatedgrowthcurve2d)))
 	return
 }
 
@@ -3074,7 +3074,7 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackofrotatedgrowthcurve2dribbon), uint64(stage.GetOrder(stackofrotatedgrowthcurve2dribbon)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackofrotatedgrowthcurve2dribbon), uint64(stage.GetOrder(stackofrotatedgrowthcurve2dribbon)))
 	return
 }
 
@@ -3084,7 +3084,7 @@ func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackrotatedgrowthcurve2dendarcshape), uint64(stage.GetOrder(stackrotatedgrowthcurve2dendarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackrotatedgrowthcurve2dendarcshape), uint64(stage.GetOrder(stackrotatedgrowthcurve2dendarcshape)))
 	return
 }
 
@@ -3094,7 +3094,7 @@ func (stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEn
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackrotatedgrowthcurve2dribbonendshape), uint64(stage.GetOrder(stackrotatedgrowthcurve2dribbonendshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackrotatedgrowthcurve2dribbonendshape), uint64(stage.GetOrder(stackrotatedgrowthcurve2dribbonendshape)))
 	return
 }
 
@@ -3104,7 +3104,7 @@ func (stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbon
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackrotatedgrowthcurve2dribbonstartshape), uint64(stage.GetOrder(stackrotatedgrowthcurve2dribbonstartshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackrotatedgrowthcurve2dribbonstartshape), uint64(stage.GetOrder(stackrotatedgrowthcurve2dribbonstartshape)))
 	return
 }
 
@@ -3114,7 +3114,7 @@ func (stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcS
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackrotatedgrowthcurve2dstartarcshape), uint64(stage.GetOrder(stackrotatedgrowthcurve2dstartarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackrotatedgrowthcurve2dstartarcshape), uint64(stage.GetOrder(stackrotatedgrowthcurve2dstartarcshape)))
 	return
 }
 
@@ -3124,7 +3124,7 @@ func (startarcshape *StartArcShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(startarcshape), uint64(stage.GetOrder(startarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(startarcshape), uint64(stage.GetOrder(startarcshape)))
 	return
 }
 
@@ -3134,7 +3134,7 @@ func (startarcshapegrid *StartArcShapeGrid) GongGetUUID(stage *Stage) (uuid stri
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(startarcshapegrid), uint64(stage.GetOrder(startarcshapegrid)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(startarcshapegrid), uint64(stage.GetOrder(startarcshapegrid)))
 	return
 }
 
@@ -3144,7 +3144,7 @@ func (starthalfwayarcshape *StartHalfwayArcShape) GongGetUUID(stage *Stage) (uui
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(starthalfwayarcshape), uint64(stage.GetOrder(starthalfwayarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(starthalfwayarcshape), uint64(stage.GetOrder(starthalfwayarcshape)))
 	return
 }
 
@@ -3154,7 +3154,7 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetUUID(stage *Sta
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(starthalfwayarcshapegrid), uint64(stage.GetOrder(starthalfwayarcshapegrid)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(starthalfwayarcshapegrid), uint64(stage.GetOrder(starthalfwayarcshapegrid)))
 	return
 }
 
@@ -3164,7 +3164,7 @@ func (stemcylinder3dshape *StemCylinder3DShape) GongGetUUID(stage *Stage) (uuid 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stemcylinder3dshape), uint64(stage.GetOrder(stemcylinder3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stemcylinder3dshape), uint64(stage.GetOrder(stemcylinder3dshape)))
 	return
 }
 
@@ -3174,7 +3174,7 @@ func (stool2ddiagram *Stool2DDiagram) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stool2ddiagram), uint64(stage.GetOrder(stool2ddiagram)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stool2ddiagram), uint64(stage.GetOrder(stool2ddiagram)))
 	return
 }
 
@@ -3184,7 +3184,7 @@ func (stool3ddiagram *Stool3DDiagram) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stool3ddiagram), uint64(stage.GetOrder(stool3ddiagram)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stool3ddiagram), uint64(stage.GetOrder(stool3ddiagram)))
 	return
 }
 
@@ -3194,7 +3194,7 @@ func (stoolabstract *StoolAbstract) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stoolabstract), uint64(stage.GetOrder(stoolabstract)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stoolabstract), uint64(stage.GetOrder(stoolabstract)))
 	return
 }
 
@@ -3204,7 +3204,7 @@ func (tiledfloor3dshape *TiledFloor3DShape) GongGetUUID(stage *Stage) (uuid stri
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tiledfloor3dshape), uint64(stage.GetOrder(tiledfloor3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(tiledfloor3dshape), uint64(stage.GetOrder(tiledfloor3dshape)))
 	return
 }
 
@@ -3214,7 +3214,7 @@ func (topendarcshape *TopEndArcShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topendarcshape), uint64(stage.GetOrder(topendarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topendarcshape), uint64(stage.GetOrder(topendarcshape)))
 	return
 }
 
@@ -3224,7 +3224,7 @@ func (topendarcshapegrid *TopEndArcShapeGrid) GongGetUUID(stage *Stage) (uuid st
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topendarcshapegrid), uint64(stage.GetOrder(topendarcshapegrid)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topendarcshapegrid), uint64(stage.GetOrder(topendarcshapegrid)))
 	return
 }
 
@@ -3234,7 +3234,7 @@ func (topendhalfwayarcshape *TopEndHalfwayArcShape) GongGetUUID(stage *Stage) (u
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topendhalfwayarcshape), uint64(stage.GetOrder(topendhalfwayarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topendhalfwayarcshape), uint64(stage.GetOrder(topendhalfwayarcshape)))
 	return
 }
 
@@ -3244,7 +3244,7 @@ func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) GongGetUUID(stage *S
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topendhalfwayarcshapegrid), uint64(stage.GetOrder(topendhalfwayarcshapegrid)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topendhalfwayarcshapegrid), uint64(stage.GetOrder(topendhalfwayarcshapegrid)))
 	return
 }
 
@@ -3254,7 +3254,7 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongGetUUID(stage *Stage) (uuid string
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topgrowthcurve2d), uint64(stage.GetOrder(topgrowthcurve2d)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topgrowthcurve2d), uint64(stage.GetOrder(topgrowthcurve2d)))
 	return
 }
 
@@ -3264,7 +3264,7 @@ func (topmidarcvectorshape *TopMidArcVectorShape) GongGetUUID(stage *Stage) (uui
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topmidarcvectorshape), uint64(stage.GetOrder(topmidarcvectorshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topmidarcvectorshape), uint64(stage.GetOrder(topmidarcvectorshape)))
 	return
 }
 
@@ -3274,7 +3274,7 @@ func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongGetUUID(stage *Sta
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topmidarcvectorshapegrid), uint64(stage.GetOrder(topmidarcvectorshapegrid)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topmidarcvectorshapegrid), uint64(stage.GetOrder(topmidarcvectorshapegrid)))
 	return
 }
 
@@ -3284,7 +3284,7 @@ func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayAr
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstackgrowthcurve2dendhalfwayarcshape), uint64(stage.GetOrder(topstackgrowthcurve2dendhalfwayarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topstackgrowthcurve2dendhalfwayarcshape), uint64(stage.GetOrder(topstackgrowthcurve2dendhalfwayarcshape)))
 	return
 }
 
@@ -3294,7 +3294,7 @@ func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfw
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstackgrowthcurve2dstarthalfwayarcshape), uint64(stage.GetOrder(topstackgrowthcurve2dstarthalfwayarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topstackgrowthcurve2dstarthalfwayarcshape), uint64(stage.GetOrder(topstackgrowthcurve2dstarthalfwayarcshape)))
 	return
 }
 
@@ -3304,7 +3304,7 @@ func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongGetUUID(stage *Stage
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstackofgrowthcurve2d), uint64(stage.GetOrder(topstackofgrowthcurve2d)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topstackofgrowthcurve2d), uint64(stage.GetOrder(topstackofgrowthcurve2d)))
 	return
 }
 
@@ -3314,7 +3314,7 @@ func (topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) GongGetUUI
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstackofrotatedgrowthcurve2d), uint64(stage.GetOrder(topstackofrotatedgrowthcurve2d)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topstackofrotatedgrowthcurve2d), uint64(stage.GetOrder(topstackofrotatedgrowthcurve2d)))
 	return
 }
 
@@ -3324,7 +3324,7 @@ func (topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DE
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstackofrotatedgrowthcurve2dendarcshape), uint64(stage.GetOrder(topstackofrotatedgrowthcurve2dendarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topstackofrotatedgrowthcurve2dendarcshape), uint64(stage.GetOrder(topstackofrotatedgrowthcurve2dendarcshape)))
 	return
 }
 
@@ -3334,7 +3334,7 @@ func (topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstackofrotatedgrowthcurve2dstartarcshape), uint64(stage.GetOrder(topstackofrotatedgrowthcurve2dstartarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topstackofrotatedgrowthcurve2dstartarcshape), uint64(stage.GetOrder(topstackofrotatedgrowthcurve2dstartarcshape)))
 	return
 }
 
@@ -3344,7 +3344,7 @@ func (topstartarcshape *TopStartArcShape) GongGetUUID(stage *Stage) (uuid string
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstartarcshape), uint64(stage.GetOrder(topstartarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topstartarcshape), uint64(stage.GetOrder(topstartarcshape)))
 	return
 }
 
@@ -3354,7 +3354,7 @@ func (topstartarcshapegrid *TopStartArcShapeGrid) GongGetUUID(stage *Stage) (uui
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstartarcshapegrid), uint64(stage.GetOrder(topstartarcshapegrid)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topstartarcshapegrid), uint64(stage.GetOrder(topstartarcshapegrid)))
 	return
 }
 
@@ -3364,7 +3364,7 @@ func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongGetUUID(stage *Stage
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstarthalfwayarcshape), uint64(stage.GetOrder(topstarthalfwayarcshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topstarthalfwayarcshape), uint64(stage.GetOrder(topstarthalfwayarcshape)))
 	return
 }
 
@@ -3374,7 +3374,7 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetUUID(stag
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstarthalfwayarcshapegrid), uint64(stage.GetOrder(topstarthalfwayarcshapegrid)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(topstarthalfwayarcshapegrid), uint64(stage.GetOrder(topstarthalfwayarcshapegrid)))
 	return
 }
 
@@ -3384,7 +3384,7 @@ func (torus3dshape *Torus3DShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(torus3dshape), uint64(stage.GetOrder(torus3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(torus3dshape), uint64(stage.GetOrder(torus3dshape)))
 	return
 }
 
@@ -3394,7 +3394,7 @@ func (torusedge3dshape *TorusEdge3DShape) GongGetUUID(stage *Stage) (uuid string
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(torusedge3dshape), uint64(stage.GetOrder(torusedge3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(torusedge3dshape), uint64(stage.GetOrder(torusedge3dshape)))
 	return
 }
 
@@ -3404,7 +3404,7 @@ func (torusstackshape *TorusStackShape) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(torusstackshape), uint64(stage.GetOrder(torusstackshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(torusstackshape), uint64(stage.GetOrder(torusstackshape)))
 	return
 }
 
@@ -3414,7 +3414,7 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetUUID(stage *Stage) (uuid stri
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tubevase3ddiagram), uint64(stage.GetOrder(tubevase3ddiagram)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(tubevase3ddiagram), uint64(stage.GetOrder(tubevase3ddiagram)))
 	return
 }
 
@@ -3424,7 +3424,7 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetUUID(stage *Stage) (uuid string
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tubevaseabstract), uint64(stage.GetOrder(tubevaseabstract)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(tubevaseabstract), uint64(stage.GetOrder(tubevaseabstract)))
 	return
 }
 
@@ -3434,7 +3434,7 @@ func (vase2ddiagram *Vase2DDiagram) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(vase2ddiagram), uint64(stage.GetOrder(vase2ddiagram)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(vase2ddiagram), uint64(stage.GetOrder(vase2ddiagram)))
 	return
 }
 
@@ -3444,7 +3444,7 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongGetUUID(stage *Stage
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(verticaltorusstackshape), uint64(stage.GetOrder(verticaltorusstackshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(verticaltorusstackshape), uint64(stage.GetOrder(verticaltorusstackshape)))
 	return
 }
 
@@ -3454,7 +3454,7 @@ func (volumekey3dshape *VolumeKey3DShape) GongGetUUID(stage *Stage) (uuid string
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(volumekey3dshape), uint64(stage.GetOrder(volumekey3dshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(volumekey3dshape), uint64(stage.GetOrder(volumekey3dshape)))
 	return
 }
 
@@ -10110,7 +10110,7 @@ func (angle0shape *Angle0Shape) GongMarshallIdentifier(stage *Stage) (decl strin
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", angle0shape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Angle0Shape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(angle0shape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(angle0shape.Name))
 	return
 }
 
@@ -10118,7 +10118,7 @@ func (arcnormalvectorshape *ArcNormalVectorShape) GongMarshallIdentifier(stage *
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", arcnormalvectorshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ArcNormalVectorShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arcnormalvectorshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arcnormalvectorshape.Name))
 	return
 }
 
@@ -10126,7 +10126,7 @@ func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongMarshallIdentifier
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", arcnormalvectorshapegrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ArcNormalVectorShapeGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arcnormalvectorshapegrid.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arcnormalvectorshapegrid.Name))
 	return
 }
 
@@ -10134,7 +10134,7 @@ func (axesshape *AxesShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", axesshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AxesShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(axesshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(axesshape.Name))
 	return
 }
 
@@ -10142,7 +10142,7 @@ func (basevectorshape *BaseVectorShape) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", basevectorshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "BaseVectorShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(basevectorshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(basevectorshape.Name))
 	return
 }
 
@@ -10150,7 +10150,7 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongMarshallIdentifier(stage *St
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", basevectorshapegrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "BaseVectorShapeGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(basevectorshapegrid.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(basevectorshapegrid.Name))
 	return
 }
 
@@ -10158,7 +10158,7 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongMarshallIdentifier(stage *St
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ChosenP1P2PairShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(chosenp1p2pairshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(chosenp1p2pairshape.Name))
 	return
 }
 
@@ -10166,7 +10166,7 @@ func (circlegridshape *CircleGridShape) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", circlegridshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CircleGridShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(circlegridshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(circlegridshape.Name))
 	return
 }
 
@@ -10174,7 +10174,7 @@ func (circumference3dshape *Circumference3DShape) GongMarshallIdentifier(stage *
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", circumference3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Circumference3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(circumference3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(circumference3dshape.Name))
 	return
 }
 
@@ -10182,7 +10182,7 @@ func (clock2ddiagram *Clock2DDiagram) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", clock2ddiagram.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Clock2DDiagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clock2ddiagram.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clock2ddiagram.Name))
 	return
 }
 
@@ -10190,7 +10190,7 @@ func (clock3ddiagram *Clock3DDiagram) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", clock3ddiagram.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Clock3DDiagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clock3ddiagram.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clock3ddiagram.Name))
 	return
 }
 
@@ -10198,7 +10198,7 @@ func (clockabstract *ClockAbstract) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ClockAbstract")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clockabstract.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clockabstract.Name))
 	return
 }
 
@@ -10206,7 +10206,7 @@ func (clocktopcurveshape *ClockTopCurveShape) GongMarshallIdentifier(stage *Stag
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", clocktopcurveshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ClockTopCurveShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clocktopcurveshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clocktopcurveshape.Name))
 	return
 }
 
@@ -10214,7 +10214,7 @@ func (cutline3dshape *CutLine3DShape) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cutline3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CutLine3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cutline3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cutline3dshape.Name))
 	return
 }
 
@@ -10222,7 +10222,7 @@ func (endarcshape *EndArcShape) GongMarshallIdentifier(stage *Stage) (decl strin
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", endarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "EndArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(endarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(endarcshape.Name))
 	return
 }
 
@@ -10230,7 +10230,7 @@ func (endarcshapegrid *EndArcShapeGrid) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", endarcshapegrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "EndArcShapeGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(endarcshapegrid.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(endarcshapegrid.Name))
 	return
 }
 
@@ -10238,7 +10238,7 @@ func (endhalfwayarcshape *EndHalfwayArcShape) GongMarshallIdentifier(stage *Stag
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", endhalfwayarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "EndHalfwayArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(endhalfwayarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(endhalfwayarcshape.Name))
 	return
 }
 
@@ -10246,7 +10246,7 @@ func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) GongMarshallIdentifier(sta
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", endhalfwayarcshapegrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "EndHalfwayArcShapeGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(endhalfwayarcshapegrid.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(endhalfwayarcshapegrid.Name))
 	return
 }
 
@@ -10254,7 +10254,7 @@ func (explanationtextshape *ExplanationTextShape) GongMarshallIdentifier(stage *
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", explanationtextshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ExplanationTextShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(explanationtextshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(explanationtextshape.Name))
 	return
 }
 
@@ -10262,7 +10262,7 @@ func (eye3dshape *Eye3DShape) GongMarshallIdentifier(stage *Stage) (decl string)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", eye3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Eye3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(eye3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(eye3dshape.Name))
 	return
 }
 
@@ -10270,7 +10270,7 @@ func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongMarsha
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", eyecornerssampledpoints3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "EyeCornersSampledPoints3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(eyecornerssampledpoints3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(eyecornerssampledpoints3dshape.Name))
 	return
 }
 
@@ -10278,7 +10278,7 @@ func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongMarshallIdentifier(s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", eyesampledpoints3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "EyeSampledPoints3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(eyesampledpoints3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(eyesampledpoints3dshape.Name))
 	return
 }
 
@@ -10286,7 +10286,7 @@ func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongMarshallIdentifier(s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", eyeseatbottomcurveshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "EyeSeatBottomCurveShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(eyeseatbottomcurveshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(eyeseatbottomcurveshape.Name))
 	return
 }
 
@@ -10294,7 +10294,7 @@ func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongMarshallIdentifier
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", eyestoolbottomcurveshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "EyeStoolBottomCurveShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(eyestoolbottomcurveshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(eyestoolbottomcurveshape.Name))
 	return
 }
 
@@ -10302,7 +10302,7 @@ func (eyevolume3dshape *EyeVolume3DShape) GongMarshallIdentifier(stage *Stage) (
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", eyevolume3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "EyeVolume3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(eyevolume3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(eyevolume3dshape.Name))
 	return
 }
 
@@ -10310,7 +10310,7 @@ func (gridpathshape *GridPathShape) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gridpathshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GridPathShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gridpathshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gridpathshape.Name))
 	return
 }
 
@@ -10318,7 +10318,7 @@ func (growthcurve2d *GrowthCurve2D) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurve2d.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthCurve2D")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurve2d.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(growthcurve2d.Name))
 	return
 }
 
@@ -10326,7 +10326,7 @@ func (growthcurve2dribbon *GrowthCurve2DRibbon) GongMarshallIdentifier(stage *St
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurve2dribbon.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthCurve2DRibbon")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurve2dribbon.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(growthcurve2dribbon.Name))
 	return
 }
 
@@ -10334,7 +10334,7 @@ func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongMarshallIden
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurve2dribbonendshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthCurve2DRibbonEndShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurve2dribbonendshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(growthcurve2dribbonendshape.Name))
 	return
 }
 
@@ -10342,7 +10342,7 @@ func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongMarshall
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurve2dribbonstartshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthCurve2DRibbonStartShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurve2dribbonstartshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(growthcurve2dribbonstartshape.Name))
 	return
 }
 
@@ -10350,7 +10350,7 @@ func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongMarshallIden
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurverhombusgridshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthCurveRhombusGridShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurverhombusgridshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(growthcurverhombusgridshape.Name))
 	return
 }
 
@@ -10358,7 +10358,7 @@ func (growthcurverhombusshape *GrowthCurveRhombusShape) GongMarshallIdentifier(s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurverhombusshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthCurveRhombusShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurverhombusshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(growthcurverhombusshape.Name))
 	return
 }
 
@@ -10366,7 +10366,7 @@ func (growthvectorshape *GrowthVectorShape) GongMarshallIdentifier(stage *Stage)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthvectorshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthVectorShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthvectorshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(growthvectorshape.Name))
 	return
 }
 
@@ -10374,7 +10374,7 @@ func (initialrhombusgridshape *InitialRhombusGridShape) GongMarshallIdentifier(s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", initialrhombusgridshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "InitialRhombusGridShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(initialrhombusgridshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(initialrhombusgridshape.Name))
 	return
 }
 
@@ -10382,7 +10382,7 @@ func (initialrhombusshape *InitialRhombusShape) GongMarshallIdentifier(stage *St
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", initialrhombusshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "InitialRhombusShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(initialrhombusshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(initialrhombusshape.Name))
 	return
 }
 
@@ -10390,7 +10390,7 @@ func (key3dshape *Key3DShape) GongMarshallIdentifier(stage *Stage) (decl string)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", key3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Key3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key3dshape.Name))
 	return
 }
 
@@ -10398,7 +10398,7 @@ func (keyhole3dshape *KeyHole3DShape) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", keyhole3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "KeyHole3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(keyhole3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(keyhole3dshape.Name))
 	return
 }
 
@@ -10406,7 +10406,7 @@ func (keyholeshape *KeyHoleShape) GongMarshallIdentifier(stage *Stage) (decl str
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", keyholeshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "KeyHoleShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(keyholeshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(keyholeshape.Name))
 	return
 }
 
@@ -10414,7 +10414,7 @@ func (leaves3dshape *Leaves3DShape) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", leaves3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Leaves3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(leaves3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(leaves3dshape.Name))
 	return
 }
 
@@ -10422,7 +10422,7 @@ func (library *Library) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Library")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(library.Name))
 	return
 }
 
@@ -10430,7 +10430,7 @@ func (midarcvectorshape *MidArcVectorShape) GongMarshallIdentifier(stage *Stage)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", midarcvectorshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MidArcVectorShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midarcvectorshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(midarcvectorshape.Name))
 	return
 }
 
@@ -10438,7 +10438,7 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallIdentifier(stage
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", midarcvectorshapegrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MidArcVectorShapeGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midarcvectorshapegrid.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(midarcvectorshapegrid.Name))
 	return
 }
 
@@ -10446,7 +10446,7 @@ func (musicabstract *MusicAbstract) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MusicAbstract")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(musicabstract.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(musicabstract.Name))
 	return
 }
 
@@ -10454,7 +10454,7 @@ func (originalpoints3dshape *OriginalPoints3DShape) GongMarshallIdentifier(stage
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", originalpoints3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "OriginalPoints3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(originalpoints3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(originalpoints3dshape.Name))
 	return
 }
 
@@ -10462,7 +10462,7 @@ func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongMarshallIdentifier
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", parastichymcurves3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ParastichyMCurves3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parastichymcurves3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(parastichymcurves3dshape.Name))
 	return
 }
 
@@ -10470,7 +10470,7 @@ func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongMarshallIdentifier
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", parastichyncurves3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ParastichyNCurves3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parastichyncurves3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(parastichyncurves3dshape.Name))
 	return
 }
 
@@ -10478,7 +10478,7 @@ func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongMarshallId
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dribbon.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyGrowthCurve2DRibbon")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dribbon.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dribbon.Name))
 	return
 }
 
@@ -10486,7 +10486,7 @@ func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dribbonendshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyGrowthCurve2DRibbonEndShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dribbonendshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dribbonendshape.Name))
 	return
 }
 
@@ -10494,7 +10494,7 @@ func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartS
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyGrowthCurve2DRibbonStartShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dribbonstartshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dribbonstartshape.Name))
 	return
 }
 
@@ -10502,7 +10502,7 @@ func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongMa
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dtrajectory.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyGrowthCurve2DTrajectory")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectory.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectory.Name))
 	return
 }
 
@@ -10510,7 +10510,7 @@ func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajec
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp1curveshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyGrowthCurve2DTrajectoryP1CurveShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryp1curveshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectoryp1curveshape.Name))
 	return
 }
 
@@ -10518,7 +10518,7 @@ func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp1p2.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyGrowthCurve2DTrajectoryP1P2")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryp1p2.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectoryp1p2.Name))
 	return
 }
 
@@ -10526,7 +10526,7 @@ func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DT
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp1p2pairlineshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name))
 	return
 }
 
@@ -10534,7 +10534,7 @@ func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajec
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp1pointshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyGrowthCurve2DTrajectoryP1PointShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryp1pointshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectoryp1pointshape.Name))
 	return
 }
 
@@ -10542,7 +10542,7 @@ func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajec
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp2curveshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyGrowthCurve2DTrajectoryP2CurveShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryp2curveshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectoryp2curveshape.Name))
 	return
 }
 
@@ -10550,7 +10550,7 @@ func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajec
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp2pointshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyGrowthCurve2DTrajectoryP2PointShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryp2pointshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectoryp2pointshape.Name))
 	return
 }
 
@@ -10558,7 +10558,7 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dtrajectoryshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyGrowthCurve2DTrajectoryShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectoryshape.Name))
 	return
 }
 
@@ -10566,7 +10566,7 @@ func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallyrotatedseatbottomcurveshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyRotatedSeatBottomCurveShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallyrotatedseatbottomcurveshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallyrotatedseatbottomcurveshape.Name))
 	return
 }
 
@@ -10574,7 +10574,7 @@ func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) Gong
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallyrotatedseattopcurveshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyRotatedSeatTopCurveShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallyrotatedseattopcurveshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallyrotatedseattopcurveshape.Name))
 	return
 }
 
@@ -10582,7 +10582,7 @@ func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongMarshallIdenti
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallyrotatedtorusshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyRotatedTorusShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallyrotatedtorusshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallyrotatedtorusshape.Name))
 	return
 }
 
@@ -10590,7 +10590,7 @@ func (perpendicularvector *PerpendicularVector) GongMarshallIdentifier(stage *St
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", perpendicularvector.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PerpendicularVector")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(perpendicularvector.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(perpendicularvector.Name))
 	return
 }
 
@@ -10598,7 +10598,7 @@ func (perpendicularvectorgrid *PerpendicularVectorGrid) GongMarshallIdentifier(s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", perpendicularvectorgrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PerpendicularVectorGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(perpendicularvectorgrid.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(perpendicularvectorgrid.Name))
 	return
 }
 
@@ -10606,7 +10606,7 @@ func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) GongMarsha
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", perpendicularvectorgridhalfway.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PerpendicularVectorGridHalfway")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(perpendicularvectorgridhalfway.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(perpendicularvectorgridhalfway.Name))
 	return
 }
 
@@ -10614,7 +10614,7 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongMarshallIdenti
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", perpendicularvectorhalfway.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PerpendicularVectorHalfway")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(perpendicularvectorhalfway.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(perpendicularvectorhalfway.Name))
 	return
 }
 
@@ -10622,7 +10622,7 @@ func (plant2ddiagram *Plant2DDiagram) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", plant2ddiagram.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Plant2DDiagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plant2ddiagram.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(plant2ddiagram.Name))
 	return
 }
 
@@ -10630,7 +10630,7 @@ func (plant3ddiagram *Plant3DDiagram) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Plant3DDiagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plant3ddiagram.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(plant3ddiagram.Name))
 	return
 }
 
@@ -10638,7 +10638,7 @@ func (plantabstract *PlantAbstract) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PlantAbstract")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plantabstract.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(plantabstract.Name))
 	return
 }
 
@@ -10646,7 +10646,7 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongMarshallIdentifier(s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", plantcircumferenceshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PlantCircumferenceShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plantcircumferenceshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(plantcircumferenceshape.Name))
 	return
 }
 
@@ -10654,7 +10654,7 @@ func (pointsandlines3dshape *PointsAndLines3DShape) GongMarshallIdentifier(stage
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", pointsandlines3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PointsAndLines3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pointsandlines3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pointsandlines3dshape.Name))
 	return
 }
 
@@ -10662,7 +10662,7 @@ func (pxshape *PxShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", pxshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PxShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pxshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pxshape.Name))
 	return
 }
 
@@ -10670,7 +10670,7 @@ func (rendered3dshape *Rendered3DShape) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rendered3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Rendered3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rendered3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rendered3dshape.Name))
 	return
 }
 
@@ -10678,7 +10678,7 @@ func (rhombusshape *RhombusShape) GongMarshallIdentifier(stage *Stage) (decl str
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rhombusshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RhombusShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rhombusshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rhombusshape.Name))
 	return
 }
 
@@ -10686,7 +10686,7 @@ func (rhombusstuff *RhombusStuff) GongMarshallIdentifier(stage *Stage) (decl str
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rhombusstuff.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RhombusStuff")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rhombusstuff.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rhombusstuff.Name))
 	return
 }
 
@@ -10694,7 +10694,7 @@ func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongMarshallIdentifier(s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rotatedrhombusgridshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RotatedRhombusGridShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rotatedrhombusgridshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rotatedrhombusgridshape.Name))
 	return
 }
 
@@ -10702,7 +10702,7 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongMarshallIdentifier(stage *St
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rotatedrhombusshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RotatedRhombusShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rotatedrhombusshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rotatedrhombusshape.Name))
 	return
 }
 
@@ -10710,7 +10710,7 @@ func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongMarshallIden
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rotatedsampledpoints3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RotatedSampledPoints3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rotatedsampledpoints3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rotatedsampledpoints3dshape.Name))
 	return
 }
 
@@ -10718,7 +10718,7 @@ func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GongMarshallIdentifi
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rotatedseatandlegs3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RotatedSeatAndLegs3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rotatedseatandlegs3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rotatedseatandlegs3dshape.Name))
 	return
 }
 
@@ -10726,7 +10726,7 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongMarshallIdentifier(stage *
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", sampledpoints3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SampledPoints3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sampledpoints3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sampledpoints3dshape.Name))
 	return
 }
 
@@ -10734,7 +10734,7 @@ func (seat3dshape *Seat3DShape) GongMarshallIdentifier(stage *Stage) (decl strin
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", seat3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Seat3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(seat3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(seat3dshape.Name))
 	return
 }
 
@@ -10742,7 +10742,7 @@ func (seatandlegs3dshape *SeatAndLegs3DShape) GongMarshallIdentifier(stage *Stag
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", seatandlegs3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SeatAndLegs3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(seatandlegs3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(seatandlegs3dshape.Name))
 	return
 }
 
@@ -10750,7 +10750,7 @@ func (seatbottomcurveshape *SeatBottomCurveShape) GongMarshallIdentifier(stage *
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", seatbottomcurveshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SeatBottomCurveShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(seatbottomcurveshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(seatbottomcurveshape.Name))
 	return
 }
 
@@ -10758,7 +10758,7 @@ func (seattopcurveshape *SeatTopCurveShape) GongMarshallIdentifier(stage *Stage)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", seattopcurveshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SeatTopCurveShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(seattopcurveshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(seattopcurveshape.Name))
 	return
 }
 
@@ -10766,7 +10766,7 @@ func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongMarshall
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedbottomtopstartarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedBottomTopStartArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedbottomtopstartarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedbottomtopstartarcshape.Name))
 	return
 }
 
@@ -10774,7 +10774,7 @@ func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) Gong
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedbottomtopstartarcshapegrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedBottomTopStartArcShapeGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedbottomtopstartarcshapegrid.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedbottomtopstartarcshapegrid.Name))
 	return
 }
 
@@ -10782,7 +10782,7 @@ func (shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) GongMarsha
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftgrowthcurve2dribbon.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedLeftGrowthCurve2DRibbon")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftgrowthcurve2dribbon.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftgrowthcurve2dribbon.Name))
 	return
 }
 
@@ -10790,7 +10790,7 @@ func (shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndS
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftgrowthcurve2dribbonendshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedLeftGrowthCurve2DRibbonEndShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftgrowthcurve2dribbonendshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftgrowthcurve2dribbonendshape.Name))
 	return
 }
 
@@ -10798,7 +10798,7 @@ func (shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonSt
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftgrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedLeftGrowthCurve2DRibbonStartShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftgrowthcurve2dribbonstartshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftgrowthcurve2dribbonstartshape.Name))
 	return
 }
 
@@ -10806,7 +10806,7 @@ func (shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2D
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftpartiallygrowthcurve2dribbon.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedLeftPartiallyGrowthCurve2DRibbon")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftpartiallygrowthcurve2dribbon.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftpartiallygrowthcurve2dribbon.Name))
 	return
 }
 
@@ -10814,7 +10814,7 @@ func (shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowt
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftpartiallygrowthcurve2dribbonendshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftpartiallygrowthcurve2dribbonendshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftpartiallygrowthcurve2dribbonendshape.Name))
 	return
 }
 
@@ -10822,7 +10822,7 @@ func (shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGro
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftpartiallygrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftpartiallygrowthcurve2dribbonstartshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftpartiallygrowthcurve2dribbonstartshape.Name))
 	return
 }
 
@@ -10830,7 +10830,7 @@ func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcS
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftstackgrowthcurveendarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedLeftStackGrowthCurveEndArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstackgrowthcurveendarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftstackgrowthcurveendarcshape.Name))
 	return
 }
 
@@ -10838,7 +10838,7 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftstackgrowthcurvestartarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedLeftStackGrowthCurveStartArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstackgrowthcurvestartarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftstackgrowthcurvestartarcshape.Name))
 	return
 }
 
@@ -10846,7 +10846,7 @@ func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongMarshallId
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftstacknormalvector.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedLeftStackNormalVector")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstacknormalvector.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftstacknormalvector.Name))
 	return
 }
 
@@ -10854,7 +10854,7 @@ func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongMarshall
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftstackofgrowthcurve.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedLeftStackOfGrowthCurve")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstackofgrowthcurve.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftstackofgrowthcurve.Name))
 	return
 }
 
@@ -10862,7 +10862,7 @@ func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongMarsha
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftstackofnormalvector.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedLeftStackOfNormalVector")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstackofnormalvector.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftstackofnormalvector.Name))
 	return
 }
 
@@ -10870,7 +10870,7 @@ func (shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) GongMars
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedrightgrowthcurve2dribbon.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedRightGrowthCurve2DRibbon")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedrightgrowthcurve2dribbon.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedrightgrowthcurve2dribbon.Name))
 	return
 }
 
@@ -10878,7 +10878,7 @@ func (shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEn
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedrightgrowthcurve2dribbonendshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedRightGrowthCurve2DRibbonEndShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedrightgrowthcurve2dribbonendshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedrightgrowthcurve2dribbonendshape.Name))
 	return
 }
 
@@ -10886,7 +10886,7 @@ func (shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbon
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedrightgrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedRightGrowthCurve2DRibbonStartShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedrightgrowthcurve2dribbonstartshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedrightgrowthcurve2dribbonstartshape.Name))
 	return
 }
 
@@ -10894,7 +10894,7 @@ func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackgrowthcurve2dendhalfwayarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackGrowthCurve2DEndHalfwayArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackgrowthcurve2dendhalfwayarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackgrowthcurve2dendhalfwayarcshape.Name))
 	return
 }
 
@@ -10902,7 +10902,7 @@ func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) GongMa
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackgrowthcurve2dribbonendshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackGrowthCurve2DRibbonEndShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackgrowthcurve2dribbonendshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackgrowthcurve2dribbonendshape.Name))
 	return
 }
 
@@ -10910,7 +10910,7 @@ func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) Go
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackgrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackGrowthCurve2DRibbonStartShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackgrowthcurve2dribbonstartshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackgrowthcurve2dribbonstartshape.Name))
 	return
 }
 
@@ -10918,7 +10918,7 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackgrowthcurve2dstarthalfwayarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackGrowthCurve2DStartHalfwayArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackgrowthcurve2dstarthalfwayarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackgrowthcurve2dstarthalfwayarcshape.Name))
 	return
 }
 
@@ -10926,7 +10926,7 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongMarshallIdentifier(stage *
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofgrowthcurve2d.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackOfGrowthCurve2D")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofgrowthcurve2d.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackofgrowthcurve2d.Name))
 	return
 }
 
@@ -10934,7 +10934,7 @@ func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) Go
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofgrowthcurve2dbygrowthvector.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackOfGrowthCurve2DByGrowthVector")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofgrowthcurve2dbygrowthvector.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackofgrowthcurve2dbygrowthvector.Name))
 	return
 }
 
@@ -10942,7 +10942,7 @@ func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongMarshallIdenti
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofgrowthcurve2dribbon.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackOfGrowthCurve2DRibbon")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofgrowthcurve2dribbon.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackofgrowthcurve2dribbon.Name))
 	return
 }
 
@@ -10950,7 +10950,7 @@ func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) Gong
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofpartiallyrotatedtorusshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackOfPartiallyRotatedTorusShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofpartiallyrotatedtorusshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackofpartiallyrotatedtorusshape.Name))
 	return
 }
 
@@ -10958,7 +10958,7 @@ func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongMarshallIden
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofrotatedgrowthcurve2d.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackOfRotatedGrowthCurve2D")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofrotatedgrowthcurve2d.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackofrotatedgrowthcurve2d.Name))
 	return
 }
 
@@ -10966,7 +10966,7 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofrotatedgrowthcurve2dribbon.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackOfRotatedGrowthCurve2DRibbon")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofrotatedgrowthcurve2dribbon.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackofrotatedgrowthcurve2dribbon.Name))
 	return
 }
 
@@ -10974,7 +10974,7 @@ func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackrotatedgrowthcurve2dendarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackRotatedGrowthCurve2DEndArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackrotatedgrowthcurve2dendarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackrotatedgrowthcurve2dendarcshape.Name))
 	return
 }
 
@@ -10982,7 +10982,7 @@ func (stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEn
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackrotatedgrowthcurve2dribbonendshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackRotatedGrowthCurve2DRibbonEndShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackrotatedgrowthcurve2dribbonendshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackrotatedgrowthcurve2dribbonendshape.Name))
 	return
 }
 
@@ -10990,7 +10990,7 @@ func (stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbon
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackrotatedgrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackRotatedGrowthCurve2DRibbonStartShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackrotatedgrowthcurve2dribbonstartshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackrotatedgrowthcurve2dribbonstartshape.Name))
 	return
 }
 
@@ -10998,7 +10998,7 @@ func (stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcS
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackrotatedgrowthcurve2dstartarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackRotatedGrowthCurve2DStartArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackrotatedgrowthcurve2dstartarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackrotatedgrowthcurve2dstartarcshape.Name))
 	return
 }
 
@@ -11006,7 +11006,7 @@ func (startarcshape *StartArcShape) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", startarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StartArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(startarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(startarcshape.Name))
 	return
 }
 
@@ -11014,7 +11014,7 @@ func (startarcshapegrid *StartArcShapeGrid) GongMarshallIdentifier(stage *Stage)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", startarcshapegrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StartArcShapeGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(startarcshapegrid.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(startarcshapegrid.Name))
 	return
 }
 
@@ -11022,7 +11022,7 @@ func (starthalfwayarcshape *StartHalfwayArcShape) GongMarshallIdentifier(stage *
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", starthalfwayarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StartHalfwayArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(starthalfwayarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(starthalfwayarcshape.Name))
 	return
 }
 
@@ -11030,7 +11030,7 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongMarshallIdentifier
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", starthalfwayarcshapegrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StartHalfwayArcShapeGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(starthalfwayarcshapegrid.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(starthalfwayarcshapegrid.Name))
 	return
 }
 
@@ -11038,7 +11038,7 @@ func (stemcylinder3dshape *StemCylinder3DShape) GongMarshallIdentifier(stage *St
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stemcylinder3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StemCylinder3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stemcylinder3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stemcylinder3dshape.Name))
 	return
 }
 
@@ -11046,7 +11046,7 @@ func (stool2ddiagram *Stool2DDiagram) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stool2ddiagram.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Stool2DDiagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stool2ddiagram.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stool2ddiagram.Name))
 	return
 }
 
@@ -11054,7 +11054,7 @@ func (stool3ddiagram *Stool3DDiagram) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stool3ddiagram.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Stool3DDiagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stool3ddiagram.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stool3ddiagram.Name))
 	return
 }
 
@@ -11062,7 +11062,7 @@ func (stoolabstract *StoolAbstract) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StoolAbstract")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stoolabstract.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stoolabstract.Name))
 	return
 }
 
@@ -11070,7 +11070,7 @@ func (tiledfloor3dshape *TiledFloor3DShape) GongMarshallIdentifier(stage *Stage)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tiledfloor3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TiledFloor3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tiledfloor3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tiledfloor3dshape.Name))
 	return
 }
 
@@ -11078,7 +11078,7 @@ func (topendarcshape *TopEndArcShape) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topendarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopEndArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topendarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topendarcshape.Name))
 	return
 }
 
@@ -11086,7 +11086,7 @@ func (topendarcshapegrid *TopEndArcShapeGrid) GongMarshallIdentifier(stage *Stag
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topendarcshapegrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopEndArcShapeGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topendarcshapegrid.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topendarcshapegrid.Name))
 	return
 }
 
@@ -11094,7 +11094,7 @@ func (topendhalfwayarcshape *TopEndHalfwayArcShape) GongMarshallIdentifier(stage
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topendhalfwayarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopEndHalfwayArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topendhalfwayarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topendhalfwayarcshape.Name))
 	return
 }
 
@@ -11102,7 +11102,7 @@ func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) GongMarshallIdentifi
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topendhalfwayarcshapegrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopEndHalfwayArcShapeGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topendhalfwayarcshapegrid.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topendhalfwayarcshapegrid.Name))
 	return
 }
 
@@ -11110,7 +11110,7 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongMarshallIdentifier(stage *Stage) (
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topgrowthcurve2d.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopGrowthCurve2D")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topgrowthcurve2d.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topgrowthcurve2d.Name))
 	return
 }
 
@@ -11118,7 +11118,7 @@ func (topmidarcvectorshape *TopMidArcVectorShape) GongMarshallIdentifier(stage *
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topmidarcvectorshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopMidArcVectorShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topmidarcvectorshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topmidarcvectorshape.Name))
 	return
 }
 
@@ -11126,7 +11126,7 @@ func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongMarshallIdentifier
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topmidarcvectorshapegrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopMidArcVectorShapeGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topmidarcvectorshapegrid.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topmidarcvectorshapegrid.Name))
 	return
 }
 
@@ -11134,7 +11134,7 @@ func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayAr
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackgrowthcurve2dendhalfwayarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopStackGrowthCurve2DEndHalfwayArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackgrowthcurve2dendhalfwayarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstackgrowthcurve2dendhalfwayarcshape.Name))
 	return
 }
 
@@ -11142,7 +11142,7 @@ func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfw
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackgrowthcurve2dstarthalfwayarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopStackGrowthCurve2DStartHalfwayArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackgrowthcurve2dstarthalfwayarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstackgrowthcurve2dstarthalfwayarcshape.Name))
 	return
 }
 
@@ -11150,7 +11150,7 @@ func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongMarshallIdentifier(s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackofgrowthcurve2d.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopStackOfGrowthCurve2D")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackofgrowthcurve2d.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstackofgrowthcurve2d.Name))
 	return
 }
 
@@ -11158,7 +11158,7 @@ func (topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) GongMarsha
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackofrotatedgrowthcurve2d.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopStackOfRotatedGrowthCurve2D")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackofrotatedgrowthcurve2d.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstackofrotatedgrowthcurve2d.Name))
 	return
 }
 
@@ -11166,7 +11166,7 @@ func (topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DE
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackofrotatedgrowthcurve2dendarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopStackOfRotatedGrowthCurve2DEndArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackofrotatedgrowthcurve2dendarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstackofrotatedgrowthcurve2dendarcshape.Name))
 	return
 }
 
@@ -11174,7 +11174,7 @@ func (topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackofrotatedgrowthcurve2dstartarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopStackOfRotatedGrowthCurve2DStartArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackofrotatedgrowthcurve2dstartarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstackofrotatedgrowthcurve2dstartarcshape.Name))
 	return
 }
 
@@ -11182,7 +11182,7 @@ func (topstartarcshape *TopStartArcShape) GongMarshallIdentifier(stage *Stage) (
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstartarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopStartArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstartarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstartarcshape.Name))
 	return
 }
 
@@ -11190,7 +11190,7 @@ func (topstartarcshapegrid *TopStartArcShapeGrid) GongMarshallIdentifier(stage *
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstartarcshapegrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopStartArcShapeGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstartarcshapegrid.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstartarcshapegrid.Name))
 	return
 }
 
@@ -11198,7 +11198,7 @@ func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongMarshallIdentifier(s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstarthalfwayarcshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopStartHalfwayArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstarthalfwayarcshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstarthalfwayarcshape.Name))
 	return
 }
 
@@ -11206,7 +11206,7 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongMarshallIden
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstarthalfwayarcshapegrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopStartHalfwayArcShapeGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstarthalfwayarcshapegrid.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstarthalfwayarcshapegrid.Name))
 	return
 }
 
@@ -11214,7 +11214,7 @@ func (torus3dshape *Torus3DShape) GongMarshallIdentifier(stage *Stage) (decl str
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", torus3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Torus3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(torus3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(torus3dshape.Name))
 	return
 }
 
@@ -11222,7 +11222,7 @@ func (torusedge3dshape *TorusEdge3DShape) GongMarshallIdentifier(stage *Stage) (
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", torusedge3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TorusEdge3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(torusedge3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(torusedge3dshape.Name))
 	return
 }
 
@@ -11230,7 +11230,7 @@ func (torusstackshape *TorusStackShape) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", torusstackshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TorusStackShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(torusstackshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(torusstackshape.Name))
 	return
 }
 
@@ -11238,7 +11238,7 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallIdentifier(stage *Stage)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TubeVase3DDiagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tubevase3ddiagram.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tubevase3ddiagram.Name))
 	return
 }
 
@@ -11246,7 +11246,7 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallIdentifier(stage *Stage) (
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TubeVaseAbstract")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tubevaseabstract.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tubevaseabstract.Name))
 	return
 }
 
@@ -11254,7 +11254,7 @@ func (vase2ddiagram *Vase2DDiagram) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", vase2ddiagram.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Vase2DDiagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(vase2ddiagram.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(vase2ddiagram.Name))
 	return
 }
 
@@ -11262,7 +11262,7 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongMarshallIdentifier(s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", verticaltorusstackshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "VerticalTorusStackShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(verticaltorusstackshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(verticaltorusstackshape.Name))
 	return
 }
 
@@ -11270,7 +11270,7 @@ func (volumekey3dshape *VolumeKey3DShape) GongMarshallIdentifier(stage *Stage) (
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", volumekey3dshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "VolumeKey3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(volumekey3dshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(volumekey3dshape.Name))
 	return
 }
 
@@ -12151,10 +12151,10 @@ func (volumekey3dshape *VolumeKey3DShape) GongMarshallUnstaging(stage *Stage) (d
 	return
 }
 
-func IntToLetters(number int32) (letters string) {
+func GongIntToLetters(number int32) (letters string) {
 	number--
 	if firstLetter := number / 26; firstLetter > 0 {
-		letters += IntToLetters(firstLetter)
+		letters += GongIntToLetters(firstLetter)
 		letters += string('A' + number%26)
 	} else {
 		letters += string('A' + number)
@@ -12163,8 +12163,8 @@ func IntToLetters(number int32) (letters string) {
 	return
 }
 
-// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
-func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+// GongGenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 1. Create a deterministic hash from the inputs using SHA-256
 	h := sha256.New()
 

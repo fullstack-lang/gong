@@ -107,113 +107,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *ActorState:
-		ok = stage.IsStagedActorState(target)
-
-	case *ActorStateShape:
-		ok = stage.IsStagedActorStateShape(target)
-
-	case *ActorStateTransition:
-		ok = stage.IsStagedActorStateTransition(target)
-
-	case *ActorStateTransitionShape:
-		ok = stage.IsStagedActorStateTransitionShape(target)
-
-	case *Analysis:
-		ok = stage.IsStagedAnalysis(target)
-
-	case *ControlPointShape:
-		ok = stage.IsStagedControlPointShape(target)
-
-	case *Diagram:
-		ok = stage.IsStagedDiagram(target)
-
-	case *Document:
-		ok = stage.IsStagedDocument(target)
-
-	case *DocumentUse:
-		ok = stage.IsStagedDocumentUse(target)
-
-	case *EvolutionDirection:
-		ok = stage.IsStagedEvolutionDirection(target)
-
-	case *EvolutionDirectionShape:
-		ok = stage.IsStagedEvolutionDirectionShape(target)
-
-	case *Foo:
-		ok = stage.IsStagedFoo(target)
-
-	case *GeoObject:
-		ok = stage.IsStagedGeoObject(target)
-
-	case *GeoObjectUse:
-		ok = stage.IsStagedGeoObjectUse(target)
-
-	case *Group:
-		ok = stage.IsStagedGroup(target)
-
-	case *GroupUse:
-		ok = stage.IsStagedGroupUse(target)
-
-	case *Library:
-		ok = stage.IsStagedLibrary(target)
-
-	case *MapObject:
-		ok = stage.IsStagedMapObject(target)
-
-	case *MapObjectUse:
-		ok = stage.IsStagedMapObjectUse(target)
-
-	case *Parameter:
-		ok = stage.IsStagedParameter(target)
-
-	case *ParameterCategory:
-		ok = stage.IsStagedParameterCategory(target)
-
-	case *ParameterCategoryUse:
-		ok = stage.IsStagedParameterCategoryUse(target)
-
-	case *ParameterShape:
-		ok = stage.IsStagedParameterShape(target)
-
-	case *ParametersAggregate:
-		ok = stage.IsStagedParametersAggregate(target)
-
-	case *ParametersAggregateShape:
-		ok = stage.IsStagedParametersAggregateShape(target)
-
-	case *Position:
-		ok = stage.IsStagedPosition(target)
-
-	case *Repository:
-		ok = stage.IsStagedRepository(target)
-
-	case *Scenario:
-		ok = stage.IsStagedScenario(target)
-
-	case *User:
-		ok = stage.IsStagedUser(target)
-
-	case *UserUse:
-		ok = stage.IsStagedUserUse(target)
-
-	case *Workspace:
-		ok = stage.IsStagedWorkspace(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedActorState(actorstate *ActorState) (ok bool) {
 
@@ -544,7 +437,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchActorState(actorstate *ActorState) {
 
 	// check if instance is already staged
-	if IsStaged(stage, actorstate) {
+	if stage.IsStaged(actorstate) {
 		return
 	}
 
@@ -559,7 +452,7 @@ func (stage *Stage) StageBranchActorState(actorstate *ActorState) {
 func (stage *Stage) StageBranchActorStateShape(actorstateshape *ActorStateShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, actorstateshape) {
+	if stage.IsStaged(actorstateshape) {
 		return
 	}
 
@@ -567,7 +460,7 @@ func (stage *Stage) StageBranchActorStateShape(actorstateshape *ActorStateShape)
 
 	//insertion point for the staging of instances referenced by pointers
 	if actorstateshape.ActorState != nil {
-		StageBranch(stage, actorstateshape.ActorState)
+		stage.StageBranch(actorstateshape.ActorState)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -577,7 +470,7 @@ func (stage *Stage) StageBranchActorStateShape(actorstateshape *ActorStateShape)
 func (stage *Stage) StageBranchActorStateTransition(actorstatetransition *ActorStateTransition) {
 
 	// check if instance is already staged
-	if IsStaged(stage, actorstatetransition) {
+	if stage.IsStaged(actorstatetransition) {
 		return
 	}
 
@@ -585,15 +478,15 @@ func (stage *Stage) StageBranchActorStateTransition(actorstatetransition *ActorS
 
 	//insertion point for the staging of instances referenced by pointers
 	if actorstatetransition.StartState != nil {
-		StageBranch(stage, actorstatetransition.StartState)
+		stage.StageBranch(actorstatetransition.StartState)
 	}
 	if actorstatetransition.EndState != nil {
-		StageBranch(stage, actorstatetransition.EndState)
+		stage.StageBranch(actorstatetransition.EndState)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _parameter := range actorstatetransition.Justifications {
-		StageBranch(stage, _parameter)
+		stage.StageBranch(_parameter)
 	}
 
 }
@@ -601,7 +494,7 @@ func (stage *Stage) StageBranchActorStateTransition(actorstatetransition *ActorS
 func (stage *Stage) StageBranchActorStateTransitionShape(actorstatetransitionshape *ActorStateTransitionShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, actorstatetransitionshape) {
+	if stage.IsStaged(actorstatetransitionshape) {
 		return
 	}
 
@@ -609,18 +502,18 @@ func (stage *Stage) StageBranchActorStateTransitionShape(actorstatetransitionsha
 
 	//insertion point for the staging of instances referenced by pointers
 	if actorstatetransitionshape.ActorStateTransition != nil {
-		StageBranch(stage, actorstatetransitionshape.ActorStateTransition)
+		stage.StageBranch(actorstatetransitionshape.ActorStateTransition)
 	}
 	if actorstatetransitionshape.Start != nil {
-		StageBranch(stage, actorstatetransitionshape.Start)
+		stage.StageBranch(actorstatetransitionshape.Start)
 	}
 	if actorstatetransitionshape.End != nil {
-		StageBranch(stage, actorstatetransitionshape.End)
+		stage.StageBranch(actorstatetransitionshape.End)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range actorstatetransitionshape.ControlPointShapes {
-		StageBranch(stage, _controlpointshape)
+		stage.StageBranch(_controlpointshape)
 	}
 
 }
@@ -628,7 +521,7 @@ func (stage *Stage) StageBranchActorStateTransitionShape(actorstatetransitionsha
 func (stage *Stage) StageBranchAnalysis(analysis *Analysis) {
 
 	// check if instance is already staged
-	if IsStaged(stage, analysis) {
+	if stage.IsStaged(analysis) {
 		return
 	}
 
@@ -638,16 +531,16 @@ func (stage *Stage) StageBranchAnalysis(analysis *Analysis) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _scenario := range analysis.Scenarios {
-		StageBranch(stage, _scenario)
+		stage.StageBranch(_scenario)
 	}
 	for _, _groupuse := range analysis.GroupUse {
-		StageBranch(stage, _groupuse)
+		stage.StageBranch(_groupuse)
 	}
 	for _, _geoobjectuse := range analysis.GeoObjectUse {
-		StageBranch(stage, _geoobjectuse)
+		stage.StageBranch(_geoobjectuse)
 	}
 	for _, _mapobjectuse := range analysis.MapUse {
-		StageBranch(stage, _mapobjectuse)
+		stage.StageBranch(_mapobjectuse)
 	}
 
 }
@@ -655,7 +548,7 @@ func (stage *Stage) StageBranchAnalysis(analysis *Analysis) {
 func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPointShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, controlpointshape) {
+	if stage.IsStaged(controlpointshape) {
 		return
 	}
 
@@ -670,7 +563,7 @@ func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPoint
 func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
-	if IsStaged(stage, diagram) {
+	if stage.IsStaged(diagram) {
 		return
 	}
 
@@ -680,34 +573,34 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _evolutiondirectionshape := range diagram.EvolutionDirectionShapes {
-		StageBranch(stage, _evolutiondirectionshape)
+		stage.StageBranch(_evolutiondirectionshape)
 	}
 	for _, _evolutiondirection := range diagram.EvolutionDirectionsWhoseNodeIsExpanded {
-		StageBranch(stage, _evolutiondirection)
+		stage.StageBranch(_evolutiondirection)
 	}
 	for _, _actorstateshape := range diagram.ActorStateShapes {
-		StageBranch(stage, _actorstateshape)
+		stage.StageBranch(_actorstateshape)
 	}
 	for _, _actorstate := range diagram.ActorStatesWhoseNodeIsExpanded {
-		StageBranch(stage, _actorstate)
+		stage.StageBranch(_actorstate)
 	}
 	for _, _parametershape := range diagram.ParameterShapes {
-		StageBranch(stage, _parametershape)
+		stage.StageBranch(_parametershape)
 	}
 	for _, _parameter := range diagram.ParametersWhoseNodeIsExpanded {
-		StageBranch(stage, _parameter)
+		stage.StageBranch(_parameter)
 	}
 	for _, _parametersaggregateshape := range diagram.ScenarioParameterShapes {
-		StageBranch(stage, _parametersaggregateshape)
+		stage.StageBranch(_parametersaggregateshape)
 	}
 	for _, _parametersaggregate := range diagram.ParametersAggregatesWhoseNodeIsExpanded {
-		StageBranch(stage, _parametersaggregate)
+		stage.StageBranch(_parametersaggregate)
 	}
 	for _, _actorstatetransitionshape := range diagram.ActorStateTransitionShapes {
-		StageBranch(stage, _actorstatetransitionshape)
+		stage.StageBranch(_actorstatetransitionshape)
 	}
 	for _, _actorstatetransition := range diagram.ActorStateTransitionsWhoseNodeIsExpanded {
-		StageBranch(stage, _actorstatetransition)
+		stage.StageBranch(_actorstatetransition)
 	}
 
 }
@@ -715,7 +608,7 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 func (stage *Stage) StageBranchDocument(document *Document) {
 
 	// check if instance is already staged
-	if IsStaged(stage, document) {
+	if stage.IsStaged(document) {
 		return
 	}
 
@@ -725,7 +618,7 @@ func (stage *Stage) StageBranchDocument(document *Document) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _geoobjectuse := range document.GeoObjectUse {
-		StageBranch(stage, _geoobjectuse)
+		stage.StageBranch(_geoobjectuse)
 	}
 
 }
@@ -733,7 +626,7 @@ func (stage *Stage) StageBranchDocument(document *Document) {
 func (stage *Stage) StageBranchDocumentUse(documentuse *DocumentUse) {
 
 	// check if instance is already staged
-	if IsStaged(stage, documentuse) {
+	if stage.IsStaged(documentuse) {
 		return
 	}
 
@@ -741,7 +634,7 @@ func (stage *Stage) StageBranchDocumentUse(documentuse *DocumentUse) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if documentuse.Document != nil {
-		StageBranch(stage, documentuse.Document)
+		stage.StageBranch(documentuse.Document)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -751,7 +644,7 @@ func (stage *Stage) StageBranchDocumentUse(documentuse *DocumentUse) {
 func (stage *Stage) StageBranchEvolutionDirection(evolutiondirection *EvolutionDirection) {
 
 	// check if instance is already staged
-	if IsStaged(stage, evolutiondirection) {
+	if stage.IsStaged(evolutiondirection) {
 		return
 	}
 
@@ -766,7 +659,7 @@ func (stage *Stage) StageBranchEvolutionDirection(evolutiondirection *EvolutionD
 func (stage *Stage) StageBranchEvolutionDirectionShape(evolutiondirectionshape *EvolutionDirectionShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, evolutiondirectionshape) {
+	if stage.IsStaged(evolutiondirectionshape) {
 		return
 	}
 
@@ -774,7 +667,7 @@ func (stage *Stage) StageBranchEvolutionDirectionShape(evolutiondirectionshape *
 
 	//insertion point for the staging of instances referenced by pointers
 	if evolutiondirectionshape.EvolutionDirection != nil {
-		StageBranch(stage, evolutiondirectionshape.EvolutionDirection)
+		stage.StageBranch(evolutiondirectionshape.EvolutionDirection)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -784,7 +677,7 @@ func (stage *Stage) StageBranchEvolutionDirectionShape(evolutiondirectionshape *
 func (stage *Stage) StageBranchFoo(foo *Foo) {
 
 	// check if instance is already staged
-	if IsStaged(stage, foo) {
+	if stage.IsStaged(foo) {
 		return
 	}
 
@@ -799,7 +692,7 @@ func (stage *Stage) StageBranchFoo(foo *Foo) {
 func (stage *Stage) StageBranchGeoObject(geoobject *GeoObject) {
 
 	// check if instance is already staged
-	if IsStaged(stage, geoobject) {
+	if stage.IsStaged(geoobject) {
 		return
 	}
 
@@ -814,7 +707,7 @@ func (stage *Stage) StageBranchGeoObject(geoobject *GeoObject) {
 func (stage *Stage) StageBranchGeoObjectUse(geoobjectuse *GeoObjectUse) {
 
 	// check if instance is already staged
-	if IsStaged(stage, geoobjectuse) {
+	if stage.IsStaged(geoobjectuse) {
 		return
 	}
 
@@ -822,7 +715,7 @@ func (stage *Stage) StageBranchGeoObjectUse(geoobjectuse *GeoObjectUse) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if geoobjectuse.GeoObject != nil {
-		StageBranch(stage, geoobjectuse.GeoObject)
+		stage.StageBranch(geoobjectuse.GeoObject)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -832,7 +725,7 @@ func (stage *Stage) StageBranchGeoObjectUse(geoobjectuse *GeoObjectUse) {
 func (stage *Stage) StageBranchGroup(group *Group) {
 
 	// check if instance is already staged
-	if IsStaged(stage, group) {
+	if stage.IsStaged(group) {
 		return
 	}
 
@@ -842,7 +735,7 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _useruse := range group.UserUse {
-		StageBranch(stage, _useruse)
+		stage.StageBranch(_useruse)
 	}
 
 }
@@ -850,7 +743,7 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 func (stage *Stage) StageBranchGroupUse(groupuse *GroupUse) {
 
 	// check if instance is already staged
-	if IsStaged(stage, groupuse) {
+	if stage.IsStaged(groupuse) {
 		return
 	}
 
@@ -858,7 +751,7 @@ func (stage *Stage) StageBranchGroupUse(groupuse *GroupUse) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if groupuse.Group != nil {
-		StageBranch(stage, groupuse.Group)
+		stage.StageBranch(groupuse.Group)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -868,7 +761,7 @@ func (stage *Stage) StageBranchGroupUse(groupuse *GroupUse) {
 func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
-	if IsStaged(stage, library) {
+	if stage.IsStaged(library) {
 		return
 	}
 
@@ -878,13 +771,13 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _analysis := range library.Analyses {
-		StageBranch(stage, _analysis)
+		stage.StageBranch(_analysis)
 	}
 	for _, _library := range library.SubLibraries {
-		StageBranch(stage, _library)
+		stage.StageBranch(_library)
 	}
 	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
-		StageBranch(stage, _library)
+		stage.StageBranch(_library)
 	}
 
 }
@@ -892,7 +785,7 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 func (stage *Stage) StageBranchMapObject(mapobject *MapObject) {
 
 	// check if instance is already staged
-	if IsStaged(stage, mapobject) {
+	if stage.IsStaged(mapobject) {
 		return
 	}
 
@@ -907,7 +800,7 @@ func (stage *Stage) StageBranchMapObject(mapobject *MapObject) {
 func (stage *Stage) StageBranchMapObjectUse(mapobjectuse *MapObjectUse) {
 
 	// check if instance is already staged
-	if IsStaged(stage, mapobjectuse) {
+	if stage.IsStaged(mapobjectuse) {
 		return
 	}
 
@@ -915,7 +808,7 @@ func (stage *Stage) StageBranchMapObjectUse(mapobjectuse *MapObjectUse) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if mapobjectuse.Map != nil {
-		StageBranch(stage, mapobjectuse.Map)
+		stage.StageBranch(mapobjectuse.Map)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -925,7 +818,7 @@ func (stage *Stage) StageBranchMapObjectUse(mapobjectuse *MapObjectUse) {
 func (stage *Stage) StageBranchParameter(parameter *Parameter) {
 
 	// check if instance is already staged
-	if IsStaged(stage, parameter) {
+	if stage.IsStaged(parameter) {
 		return
 	}
 
@@ -935,13 +828,13 @@ func (stage *Stage) StageBranchParameter(parameter *Parameter) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _groupuse := range parameter.GroupUse {
-		StageBranch(stage, _groupuse)
+		stage.StageBranch(_groupuse)
 	}
 	for _, _documentuse := range parameter.DocumentUse {
-		StageBranch(stage, _documentuse)
+		stage.StageBranch(_documentuse)
 	}
 	for _, _geoobjectuse := range parameter.GeoObjectUse {
-		StageBranch(stage, _geoobjectuse)
+		stage.StageBranch(_geoobjectuse)
 	}
 
 }
@@ -949,7 +842,7 @@ func (stage *Stage) StageBranchParameter(parameter *Parameter) {
 func (stage *Stage) StageBranchParameterCategory(parametercategory *ParameterCategory) {
 
 	// check if instance is already staged
-	if IsStaged(stage, parametercategory) {
+	if stage.IsStaged(parametercategory) {
 		return
 	}
 
@@ -959,7 +852,7 @@ func (stage *Stage) StageBranchParameterCategory(parametercategory *ParameterCat
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _parametershape := range parametercategory.ParameterUse {
-		StageBranch(stage, _parametershape)
+		stage.StageBranch(_parametershape)
 	}
 
 }
@@ -967,7 +860,7 @@ func (stage *Stage) StageBranchParameterCategory(parametercategory *ParameterCat
 func (stage *Stage) StageBranchParameterCategoryUse(parametercategoryuse *ParameterCategoryUse) {
 
 	// check if instance is already staged
-	if IsStaged(stage, parametercategoryuse) {
+	if stage.IsStaged(parametercategoryuse) {
 		return
 	}
 
@@ -975,7 +868,7 @@ func (stage *Stage) StageBranchParameterCategoryUse(parametercategoryuse *Parame
 
 	//insertion point for the staging of instances referenced by pointers
 	if parametercategoryuse.ParameterCategory != nil {
-		StageBranch(stage, parametercategoryuse.ParameterCategory)
+		stage.StageBranch(parametercategoryuse.ParameterCategory)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -985,7 +878,7 @@ func (stage *Stage) StageBranchParameterCategoryUse(parametercategoryuse *Parame
 func (stage *Stage) StageBranchParameterShape(parametershape *ParameterShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, parametershape) {
+	if stage.IsStaged(parametershape) {
 		return
 	}
 
@@ -993,7 +886,7 @@ func (stage *Stage) StageBranchParameterShape(parametershape *ParameterShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if parametershape.Parameter != nil {
-		StageBranch(stage, parametershape.Parameter)
+		stage.StageBranch(parametershape.Parameter)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1003,7 +896,7 @@ func (stage *Stage) StageBranchParameterShape(parametershape *ParameterShape) {
 func (stage *Stage) StageBranchParametersAggregate(parametersaggregate *ParametersAggregate) {
 
 	// check if instance is already staged
-	if IsStaged(stage, parametersaggregate) {
+	if stage.IsStaged(parametersaggregate) {
 		return
 	}
 
@@ -1013,7 +906,7 @@ func (stage *Stage) StageBranchParametersAggregate(parametersaggregate *Paramete
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _parameter := range parametersaggregate.Parameters {
-		StageBranch(stage, _parameter)
+		stage.StageBranch(_parameter)
 	}
 
 }
@@ -1021,7 +914,7 @@ func (stage *Stage) StageBranchParametersAggregate(parametersaggregate *Paramete
 func (stage *Stage) StageBranchParametersAggregateShape(parametersaggregateshape *ParametersAggregateShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, parametersaggregateshape) {
+	if stage.IsStaged(parametersaggregateshape) {
 		return
 	}
 
@@ -1029,7 +922,7 @@ func (stage *Stage) StageBranchParametersAggregateShape(parametersaggregateshape
 
 	//insertion point for the staging of instances referenced by pointers
 	if parametersaggregateshape.ScenarioParameter != nil {
-		StageBranch(stage, parametersaggregateshape.ScenarioParameter)
+		stage.StageBranch(parametersaggregateshape.ScenarioParameter)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1039,7 +932,7 @@ func (stage *Stage) StageBranchParametersAggregateShape(parametersaggregateshape
 func (stage *Stage) StageBranchPosition(position *Position) {
 
 	// check if instance is already staged
-	if IsStaged(stage, position) {
+	if stage.IsStaged(position) {
 		return
 	}
 
@@ -1054,7 +947,7 @@ func (stage *Stage) StageBranchPosition(position *Position) {
 func (stage *Stage) StageBranchRepository(repository *Repository) {
 
 	// check if instance is already staged
-	if IsStaged(stage, repository) {
+	if stage.IsStaged(repository) {
 		return
 	}
 
@@ -1064,10 +957,10 @@ func (stage *Stage) StageBranchRepository(repository *Repository) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _parametershape := range repository.ParameterUse {
-		StageBranch(stage, _parametershape)
+		stage.StageBranch(_parametershape)
 	}
 	for _, _groupuse := range repository.GroupUse {
-		StageBranch(stage, _groupuse)
+		stage.StageBranch(_groupuse)
 	}
 
 }
@@ -1075,7 +968,7 @@ func (stage *Stage) StageBranchRepository(repository *Repository) {
 func (stage *Stage) StageBranchScenario(scenario *Scenario) {
 
 	// check if instance is already staged
-	if IsStaged(stage, scenario) {
+	if stage.IsStaged(scenario) {
 		return
 	}
 
@@ -1085,22 +978,22 @@ func (stage *Stage) StageBranchScenario(scenario *Scenario) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _diagram := range scenario.Diagrams {
-		StageBranch(stage, _diagram)
+		stage.StageBranch(_diagram)
 	}
 	for _, _actorstate := range scenario.ActorStates {
-		StageBranch(stage, _actorstate)
+		stage.StageBranch(_actorstate)
 	}
 	for _, _actorstatetransition := range scenario.ActorStateTransitions {
-		StageBranch(stage, _actorstatetransition)
+		stage.StageBranch(_actorstatetransition)
 	}
 	for _, _evolutiondirection := range scenario.EvolutionDirections {
-		StageBranch(stage, _evolutiondirection)
+		stage.StageBranch(_evolutiondirection)
 	}
 	for _, _parameter := range scenario.Parameters {
-		StageBranch(stage, _parameter)
+		stage.StageBranch(_parameter)
 	}
 	for _, _parametersaggregate := range scenario.ParametersAggretates {
-		StageBranch(stage, _parametersaggregate)
+		stage.StageBranch(_parametersaggregate)
 	}
 
 }
@@ -1108,7 +1001,7 @@ func (stage *Stage) StageBranchScenario(scenario *Scenario) {
 func (stage *Stage) StageBranchUser(user *User) {
 
 	// check if instance is already staged
-	if IsStaged(stage, user) {
+	if stage.IsStaged(user) {
 		return
 	}
 
@@ -1123,7 +1016,7 @@ func (stage *Stage) StageBranchUser(user *User) {
 func (stage *Stage) StageBranchUserUse(useruse *UserUse) {
 
 	// check if instance is already staged
-	if IsStaged(stage, useruse) {
+	if stage.IsStaged(useruse) {
 		return
 	}
 
@@ -1131,7 +1024,7 @@ func (stage *Stage) StageBranchUserUse(useruse *UserUse) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if useruse.User != nil {
-		StageBranch(stage, useruse.User)
+		stage.StageBranch(useruse.User)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1141,7 +1034,7 @@ func (stage *Stage) StageBranchUserUse(useruse *UserUse) {
 func (stage *Stage) StageBranchWorkspace(workspace *Workspace) {
 
 	// check if instance is already staged
-	if IsStaged(stage, workspace) {
+	if stage.IsStaged(workspace) {
 		return
 	}
 
@@ -1149,33 +1042,33 @@ func (stage *Stage) StageBranchWorkspace(workspace *Workspace) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if workspace.SelectedDiagram != nil {
-		StageBranch(stage, workspace.SelectedDiagram)
+		stage.StageBranch(workspace.SelectedDiagram)
 	}
 	if workspace.Default_EvolutionDirectionShape != nil {
-		StageBranch(stage, workspace.Default_EvolutionDirectionShape)
+		stage.StageBranch(workspace.Default_EvolutionDirectionShape)
 	}
 	if workspace.Default_ParameterShape != nil {
-		StageBranch(stage, workspace.Default_ParameterShape)
+		stage.StageBranch(workspace.Default_ParameterShape)
 	}
 	if workspace.Default_ScenarioParameterShape != nil {
-		StageBranch(stage, workspace.Default_ScenarioParameterShape)
+		stage.StageBranch(workspace.Default_ScenarioParameterShape)
 	}
 	if workspace.Default_ActorStateShape != nil {
-		StageBranch(stage, workspace.Default_ActorStateShape)
+		stage.StageBranch(workspace.Default_ActorStateShape)
 	}
 	if workspace.Default_ActorStateTransitionShape != nil {
-		StageBranch(stage, workspace.Default_ActorStateTransitionShape)
+		stage.StageBranch(workspace.Default_ActorStateTransitionShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -1183,127 +1076,127 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *ActorState:
-		toT := CopyBranchActorState(mapOrigCopy, fromT)
+		toT := GongCopyBranchActorState(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ActorStateShape:
-		toT := CopyBranchActorStateShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchActorStateShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ActorStateTransition:
-		toT := CopyBranchActorStateTransition(mapOrigCopy, fromT)
+		toT := GongCopyBranchActorStateTransition(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ActorStateTransitionShape:
-		toT := CopyBranchActorStateTransitionShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchActorStateTransitionShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Analysis:
-		toT := CopyBranchAnalysis(mapOrigCopy, fromT)
+		toT := GongCopyBranchAnalysis(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ControlPointShape:
-		toT := CopyBranchControlPointShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchControlPointShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Diagram:
-		toT := CopyBranchDiagram(mapOrigCopy, fromT)
+		toT := GongCopyBranchDiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Document:
-		toT := CopyBranchDocument(mapOrigCopy, fromT)
+		toT := GongCopyBranchDocument(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *DocumentUse:
-		toT := CopyBranchDocumentUse(mapOrigCopy, fromT)
+		toT := GongCopyBranchDocumentUse(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *EvolutionDirection:
-		toT := CopyBranchEvolutionDirection(mapOrigCopy, fromT)
+		toT := GongCopyBranchEvolutionDirection(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *EvolutionDirectionShape:
-		toT := CopyBranchEvolutionDirectionShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchEvolutionDirectionShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Foo:
-		toT := CopyBranchFoo(mapOrigCopy, fromT)
+		toT := GongCopyBranchFoo(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *GeoObject:
-		toT := CopyBranchGeoObject(mapOrigCopy, fromT)
+		toT := GongCopyBranchGeoObject(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *GeoObjectUse:
-		toT := CopyBranchGeoObjectUse(mapOrigCopy, fromT)
+		toT := GongCopyBranchGeoObjectUse(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Group:
-		toT := CopyBranchGroup(mapOrigCopy, fromT)
+		toT := GongCopyBranchGroup(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *GroupUse:
-		toT := CopyBranchGroupUse(mapOrigCopy, fromT)
+		toT := GongCopyBranchGroupUse(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Library:
-		toT := CopyBranchLibrary(mapOrigCopy, fromT)
+		toT := GongCopyBranchLibrary(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *MapObject:
-		toT := CopyBranchMapObject(mapOrigCopy, fromT)
+		toT := GongCopyBranchMapObject(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *MapObjectUse:
-		toT := CopyBranchMapObjectUse(mapOrigCopy, fromT)
+		toT := GongCopyBranchMapObjectUse(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Parameter:
-		toT := CopyBranchParameter(mapOrigCopy, fromT)
+		toT := GongCopyBranchParameter(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ParameterCategory:
-		toT := CopyBranchParameterCategory(mapOrigCopy, fromT)
+		toT := GongCopyBranchParameterCategory(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ParameterCategoryUse:
-		toT := CopyBranchParameterCategoryUse(mapOrigCopy, fromT)
+		toT := GongCopyBranchParameterCategoryUse(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ParameterShape:
-		toT := CopyBranchParameterShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchParameterShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ParametersAggregate:
-		toT := CopyBranchParametersAggregate(mapOrigCopy, fromT)
+		toT := GongCopyBranchParametersAggregate(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ParametersAggregateShape:
-		toT := CopyBranchParametersAggregateShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchParametersAggregateShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Position:
-		toT := CopyBranchPosition(mapOrigCopy, fromT)
+		toT := GongCopyBranchPosition(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Repository:
-		toT := CopyBranchRepository(mapOrigCopy, fromT)
+		toT := GongCopyBranchRepository(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Scenario:
-		toT := CopyBranchScenario(mapOrigCopy, fromT)
+		toT := GongCopyBranchScenario(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *User:
-		toT := CopyBranchUser(mapOrigCopy, fromT)
+		toT := GongCopyBranchUser(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *UserUse:
-		toT := CopyBranchUserUse(mapOrigCopy, fromT)
+		toT := GongCopyBranchUserUse(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Workspace:
-		toT := CopyBranchWorkspace(mapOrigCopy, fromT)
+		toT := GongCopyBranchWorkspace(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -1313,7 +1206,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchActorState(mapOrigCopy map[any]any, actorstateFrom *ActorState) (actorstateTo *ActorState) {
+func GongCopyBranchActorState(mapOrigCopy map[any]any, actorstateFrom *ActorState) (actorstateTo *ActorState) {
 
 	// actorstateFrom has already been copied
 	if _actorstateTo, ok := mapOrigCopy[actorstateFrom]; ok {
@@ -1323,7 +1216,7 @@ func CopyBranchActorState(mapOrigCopy map[any]any, actorstateFrom *ActorState) (
 
 	actorstateTo = new(ActorState)
 	mapOrigCopy[actorstateFrom] = actorstateTo
-	actorstateFrom.CopyBasicFields(actorstateTo)
+	actorstateFrom.GongCopyBasicFields(actorstateTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1332,7 +1225,7 @@ func CopyBranchActorState(mapOrigCopy map[any]any, actorstateFrom *ActorState) (
 	return
 }
 
-func CopyBranchActorStateShape(mapOrigCopy map[any]any, actorstateshapeFrom *ActorStateShape) (actorstateshapeTo *ActorStateShape) {
+func GongCopyBranchActorStateShape(mapOrigCopy map[any]any, actorstateshapeFrom *ActorStateShape) (actorstateshapeTo *ActorStateShape) {
 
 	// actorstateshapeFrom has already been copied
 	if _actorstateshapeTo, ok := mapOrigCopy[actorstateshapeFrom]; ok {
@@ -1342,7 +1235,7 @@ func CopyBranchActorStateShape(mapOrigCopy map[any]any, actorstateshapeFrom *Act
 
 	actorstateshapeTo = new(ActorStateShape)
 	mapOrigCopy[actorstateshapeFrom] = actorstateshapeTo
-	actorstateshapeFrom.CopyBasicFields(actorstateshapeTo)
+	actorstateshapeFrom.GongCopyBasicFields(actorstateshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if actorstateshapeFrom.ActorState != nil {
@@ -1354,7 +1247,7 @@ func CopyBranchActorStateShape(mapOrigCopy map[any]any, actorstateshapeFrom *Act
 	return
 }
 
-func CopyBranchActorStateTransition(mapOrigCopy map[any]any, actorstatetransitionFrom *ActorStateTransition) (actorstatetransitionTo *ActorStateTransition) {
+func GongCopyBranchActorStateTransition(mapOrigCopy map[any]any, actorstatetransitionFrom *ActorStateTransition) (actorstatetransitionTo *ActorStateTransition) {
 
 	// actorstatetransitionFrom has already been copied
 	if _actorstatetransitionTo, ok := mapOrigCopy[actorstatetransitionFrom]; ok {
@@ -1364,25 +1257,25 @@ func CopyBranchActorStateTransition(mapOrigCopy map[any]any, actorstatetransitio
 
 	actorstatetransitionTo = new(ActorStateTransition)
 	mapOrigCopy[actorstatetransitionFrom] = actorstatetransitionTo
-	actorstatetransitionFrom.CopyBasicFields(actorstatetransitionTo)
+	actorstatetransitionFrom.GongCopyBasicFields(actorstatetransitionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if actorstatetransitionFrom.StartState != nil {
-		actorstatetransitionTo.StartState = CopyBranchActorState(mapOrigCopy, actorstatetransitionFrom.StartState)
+		actorstatetransitionTo.StartState = GongCopyBranchActorState(mapOrigCopy, actorstatetransitionFrom.StartState)
 	}
 	if actorstatetransitionFrom.EndState != nil {
-		actorstatetransitionTo.EndState = CopyBranchActorState(mapOrigCopy, actorstatetransitionFrom.EndState)
+		actorstatetransitionTo.EndState = GongCopyBranchActorState(mapOrigCopy, actorstatetransitionFrom.EndState)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _parameter := range actorstatetransitionFrom.Justifications {
-		actorstatetransitionTo.Justifications = append(actorstatetransitionTo.Justifications, CopyBranchParameter(mapOrigCopy, _parameter))
+		actorstatetransitionTo.Justifications = append(actorstatetransitionTo.Justifications, GongCopyBranchParameter(mapOrigCopy, _parameter))
 	}
 
 	return
 }
 
-func CopyBranchActorStateTransitionShape(mapOrigCopy map[any]any, actorstatetransitionshapeFrom *ActorStateTransitionShape) (actorstatetransitionshapeTo *ActorStateTransitionShape) {
+func GongCopyBranchActorStateTransitionShape(mapOrigCopy map[any]any, actorstatetransitionshapeFrom *ActorStateTransitionShape) (actorstatetransitionshapeTo *ActorStateTransitionShape) {
 
 	// actorstatetransitionshapeFrom has already been copied
 	if _actorstatetransitionshapeTo, ok := mapOrigCopy[actorstatetransitionshapeFrom]; ok {
@@ -1392,28 +1285,28 @@ func CopyBranchActorStateTransitionShape(mapOrigCopy map[any]any, actorstatetran
 
 	actorstatetransitionshapeTo = new(ActorStateTransitionShape)
 	mapOrigCopy[actorstatetransitionshapeFrom] = actorstatetransitionshapeTo
-	actorstatetransitionshapeFrom.CopyBasicFields(actorstatetransitionshapeTo)
+	actorstatetransitionshapeFrom.GongCopyBasicFields(actorstatetransitionshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if actorstatetransitionshapeFrom.ActorStateTransition != nil {
 		actorstatetransitionshapeTo.ActorStateTransition = actorstatetransitionshapeFrom.ActorStateTransition
 	}
 	if actorstatetransitionshapeFrom.Start != nil {
-		actorstatetransitionshapeTo.Start = CopyBranchActorStateShape(mapOrigCopy, actorstatetransitionshapeFrom.Start)
+		actorstatetransitionshapeTo.Start = GongCopyBranchActorStateShape(mapOrigCopy, actorstatetransitionshapeFrom.Start)
 	}
 	if actorstatetransitionshapeFrom.End != nil {
-		actorstatetransitionshapeTo.End = CopyBranchActorStateShape(mapOrigCopy, actorstatetransitionshapeFrom.End)
+		actorstatetransitionshapeTo.End = GongCopyBranchActorStateShape(mapOrigCopy, actorstatetransitionshapeFrom.End)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range actorstatetransitionshapeFrom.ControlPointShapes {
-		actorstatetransitionshapeTo.ControlPointShapes = append(actorstatetransitionshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+		actorstatetransitionshapeTo.ControlPointShapes = append(actorstatetransitionshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
 	}
 
 	return
 }
 
-func CopyBranchAnalysis(mapOrigCopy map[any]any, analysisFrom *Analysis) (analysisTo *Analysis) {
+func GongCopyBranchAnalysis(mapOrigCopy map[any]any, analysisFrom *Analysis) (analysisTo *Analysis) {
 
 	// analysisFrom has already been copied
 	if _analysisTo, ok := mapOrigCopy[analysisFrom]; ok {
@@ -1423,28 +1316,28 @@ func CopyBranchAnalysis(mapOrigCopy map[any]any, analysisFrom *Analysis) (analys
 
 	analysisTo = new(Analysis)
 	mapOrigCopy[analysisFrom] = analysisTo
-	analysisFrom.CopyBasicFields(analysisTo)
+	analysisFrom.GongCopyBasicFields(analysisTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _scenario := range analysisFrom.Scenarios {
-		analysisTo.Scenarios = append(analysisTo.Scenarios, CopyBranchScenario(mapOrigCopy, _scenario))
+		analysisTo.Scenarios = append(analysisTo.Scenarios, GongCopyBranchScenario(mapOrigCopy, _scenario))
 	}
 	for _, _groupuse := range analysisFrom.GroupUse {
-		analysisTo.GroupUse = append(analysisTo.GroupUse, CopyBranchGroupUse(mapOrigCopy, _groupuse))
+		analysisTo.GroupUse = append(analysisTo.GroupUse, GongCopyBranchGroupUse(mapOrigCopy, _groupuse))
 	}
 	for _, _geoobjectuse := range analysisFrom.GeoObjectUse {
-		analysisTo.GeoObjectUse = append(analysisTo.GeoObjectUse, CopyBranchGeoObjectUse(mapOrigCopy, _geoobjectuse))
+		analysisTo.GeoObjectUse = append(analysisTo.GeoObjectUse, GongCopyBranchGeoObjectUse(mapOrigCopy, _geoobjectuse))
 	}
 	for _, _mapobjectuse := range analysisFrom.MapUse {
-		analysisTo.MapUse = append(analysisTo.MapUse, CopyBranchMapObjectUse(mapOrigCopy, _mapobjectuse))
+		analysisTo.MapUse = append(analysisTo.MapUse, GongCopyBranchMapObjectUse(mapOrigCopy, _mapobjectuse))
 	}
 
 	return
 }
 
-func CopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeFrom *ControlPointShape) (controlpointshapeTo *ControlPointShape) {
+func GongCopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeFrom *ControlPointShape) (controlpointshapeTo *ControlPointShape) {
 
 	// controlpointshapeFrom has already been copied
 	if _controlpointshapeTo, ok := mapOrigCopy[controlpointshapeFrom]; ok {
@@ -1454,7 +1347,7 @@ func CopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeFrom 
 
 	controlpointshapeTo = new(ControlPointShape)
 	mapOrigCopy[controlpointshapeFrom] = controlpointshapeTo
-	controlpointshapeFrom.CopyBasicFields(controlpointshapeTo)
+	controlpointshapeFrom.GongCopyBasicFields(controlpointshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1463,7 +1356,7 @@ func CopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeFrom 
 	return
 }
 
-func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
+func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
 
 	// diagramFrom has already been copied
 	if _diagramTo, ok := mapOrigCopy[diagramFrom]; ok {
@@ -1473,46 +1366,46 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 
 	diagramTo = new(Diagram)
 	mapOrigCopy[diagramFrom] = diagramTo
-	diagramFrom.CopyBasicFields(diagramTo)
+	diagramFrom.GongCopyBasicFields(diagramTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _evolutiondirectionshape := range diagramFrom.EvolutionDirectionShapes {
-		diagramTo.EvolutionDirectionShapes = append(diagramTo.EvolutionDirectionShapes, CopyBranchEvolutionDirectionShape(mapOrigCopy, _evolutiondirectionshape))
+		diagramTo.EvolutionDirectionShapes = append(diagramTo.EvolutionDirectionShapes, GongCopyBranchEvolutionDirectionShape(mapOrigCopy, _evolutiondirectionshape))
 	}
 	for _, _evolutiondirection := range diagramFrom.EvolutionDirectionsWhoseNodeIsExpanded {
-		diagramTo.EvolutionDirectionsWhoseNodeIsExpanded = append(diagramTo.EvolutionDirectionsWhoseNodeIsExpanded, CopyBranchEvolutionDirection(mapOrigCopy, _evolutiondirection))
+		diagramTo.EvolutionDirectionsWhoseNodeIsExpanded = append(diagramTo.EvolutionDirectionsWhoseNodeIsExpanded, GongCopyBranchEvolutionDirection(mapOrigCopy, _evolutiondirection))
 	}
 	for _, _actorstateshape := range diagramFrom.ActorStateShapes {
-		diagramTo.ActorStateShapes = append(diagramTo.ActorStateShapes, CopyBranchActorStateShape(mapOrigCopy, _actorstateshape))
+		diagramTo.ActorStateShapes = append(diagramTo.ActorStateShapes, GongCopyBranchActorStateShape(mapOrigCopy, _actorstateshape))
 	}
 	for _, _actorstate := range diagramFrom.ActorStatesWhoseNodeIsExpanded {
-		diagramTo.ActorStatesWhoseNodeIsExpanded = append(diagramTo.ActorStatesWhoseNodeIsExpanded, CopyBranchActorState(mapOrigCopy, _actorstate))
+		diagramTo.ActorStatesWhoseNodeIsExpanded = append(diagramTo.ActorStatesWhoseNodeIsExpanded, GongCopyBranchActorState(mapOrigCopy, _actorstate))
 	}
 	for _, _parametershape := range diagramFrom.ParameterShapes {
-		diagramTo.ParameterShapes = append(diagramTo.ParameterShapes, CopyBranchParameterShape(mapOrigCopy, _parametershape))
+		diagramTo.ParameterShapes = append(diagramTo.ParameterShapes, GongCopyBranchParameterShape(mapOrigCopy, _parametershape))
 	}
 	for _, _parameter := range diagramFrom.ParametersWhoseNodeIsExpanded {
-		diagramTo.ParametersWhoseNodeIsExpanded = append(diagramTo.ParametersWhoseNodeIsExpanded, CopyBranchParameter(mapOrigCopy, _parameter))
+		diagramTo.ParametersWhoseNodeIsExpanded = append(diagramTo.ParametersWhoseNodeIsExpanded, GongCopyBranchParameter(mapOrigCopy, _parameter))
 	}
 	for _, _parametersaggregateshape := range diagramFrom.ScenarioParameterShapes {
-		diagramTo.ScenarioParameterShapes = append(diagramTo.ScenarioParameterShapes, CopyBranchParametersAggregateShape(mapOrigCopy, _parametersaggregateshape))
+		diagramTo.ScenarioParameterShapes = append(diagramTo.ScenarioParameterShapes, GongCopyBranchParametersAggregateShape(mapOrigCopy, _parametersaggregateshape))
 	}
 	for _, _parametersaggregate := range diagramFrom.ParametersAggregatesWhoseNodeIsExpanded {
-		diagramTo.ParametersAggregatesWhoseNodeIsExpanded = append(diagramTo.ParametersAggregatesWhoseNodeIsExpanded, CopyBranchParametersAggregate(mapOrigCopy, _parametersaggregate))
+		diagramTo.ParametersAggregatesWhoseNodeIsExpanded = append(diagramTo.ParametersAggregatesWhoseNodeIsExpanded, GongCopyBranchParametersAggregate(mapOrigCopy, _parametersaggregate))
 	}
 	for _, _actorstatetransitionshape := range diagramFrom.ActorStateTransitionShapes {
-		diagramTo.ActorStateTransitionShapes = append(diagramTo.ActorStateTransitionShapes, CopyBranchActorStateTransitionShape(mapOrigCopy, _actorstatetransitionshape))
+		diagramTo.ActorStateTransitionShapes = append(diagramTo.ActorStateTransitionShapes, GongCopyBranchActorStateTransitionShape(mapOrigCopy, _actorstatetransitionshape))
 	}
 	for _, _actorstatetransition := range diagramFrom.ActorStateTransitionsWhoseNodeIsExpanded {
-		diagramTo.ActorStateTransitionsWhoseNodeIsExpanded = append(diagramTo.ActorStateTransitionsWhoseNodeIsExpanded, CopyBranchActorStateTransition(mapOrigCopy, _actorstatetransition))
+		diagramTo.ActorStateTransitionsWhoseNodeIsExpanded = append(diagramTo.ActorStateTransitionsWhoseNodeIsExpanded, GongCopyBranchActorStateTransition(mapOrigCopy, _actorstatetransition))
 	}
 
 	return
 }
 
-func CopyBranchDocument(mapOrigCopy map[any]any, documentFrom *Document) (documentTo *Document) {
+func GongCopyBranchDocument(mapOrigCopy map[any]any, documentFrom *Document) (documentTo *Document) {
 
 	// documentFrom has already been copied
 	if _documentTo, ok := mapOrigCopy[documentFrom]; ok {
@@ -1522,19 +1415,19 @@ func CopyBranchDocument(mapOrigCopy map[any]any, documentFrom *Document) (docume
 
 	documentTo = new(Document)
 	mapOrigCopy[documentFrom] = documentTo
-	documentFrom.CopyBasicFields(documentTo)
+	documentFrom.GongCopyBasicFields(documentTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _geoobjectuse := range documentFrom.GeoObjectUse {
-		documentTo.GeoObjectUse = append(documentTo.GeoObjectUse, CopyBranchGeoObjectUse(mapOrigCopy, _geoobjectuse))
+		documentTo.GeoObjectUse = append(documentTo.GeoObjectUse, GongCopyBranchGeoObjectUse(mapOrigCopy, _geoobjectuse))
 	}
 
 	return
 }
 
-func CopyBranchDocumentUse(mapOrigCopy map[any]any, documentuseFrom *DocumentUse) (documentuseTo *DocumentUse) {
+func GongCopyBranchDocumentUse(mapOrigCopy map[any]any, documentuseFrom *DocumentUse) (documentuseTo *DocumentUse) {
 
 	// documentuseFrom has already been copied
 	if _documentuseTo, ok := mapOrigCopy[documentuseFrom]; ok {
@@ -1544,11 +1437,11 @@ func CopyBranchDocumentUse(mapOrigCopy map[any]any, documentuseFrom *DocumentUse
 
 	documentuseTo = new(DocumentUse)
 	mapOrigCopy[documentuseFrom] = documentuseTo
-	documentuseFrom.CopyBasicFields(documentuseTo)
+	documentuseFrom.GongCopyBasicFields(documentuseTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if documentuseFrom.Document != nil {
-		documentuseTo.Document = CopyBranchDocument(mapOrigCopy, documentuseFrom.Document)
+		documentuseTo.Document = GongCopyBranchDocument(mapOrigCopy, documentuseFrom.Document)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1556,7 +1449,7 @@ func CopyBranchDocumentUse(mapOrigCopy map[any]any, documentuseFrom *DocumentUse
 	return
 }
 
-func CopyBranchEvolutionDirection(mapOrigCopy map[any]any, evolutiondirectionFrom *EvolutionDirection) (evolutiondirectionTo *EvolutionDirection) {
+func GongCopyBranchEvolutionDirection(mapOrigCopy map[any]any, evolutiondirectionFrom *EvolutionDirection) (evolutiondirectionTo *EvolutionDirection) {
 
 	// evolutiondirectionFrom has already been copied
 	if _evolutiondirectionTo, ok := mapOrigCopy[evolutiondirectionFrom]; ok {
@@ -1566,7 +1459,7 @@ func CopyBranchEvolutionDirection(mapOrigCopy map[any]any, evolutiondirectionFro
 
 	evolutiondirectionTo = new(EvolutionDirection)
 	mapOrigCopy[evolutiondirectionFrom] = evolutiondirectionTo
-	evolutiondirectionFrom.CopyBasicFields(evolutiondirectionTo)
+	evolutiondirectionFrom.GongCopyBasicFields(evolutiondirectionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1575,7 +1468,7 @@ func CopyBranchEvolutionDirection(mapOrigCopy map[any]any, evolutiondirectionFro
 	return
 }
 
-func CopyBranchEvolutionDirectionShape(mapOrigCopy map[any]any, evolutiondirectionshapeFrom *EvolutionDirectionShape) (evolutiondirectionshapeTo *EvolutionDirectionShape) {
+func GongCopyBranchEvolutionDirectionShape(mapOrigCopy map[any]any, evolutiondirectionshapeFrom *EvolutionDirectionShape) (evolutiondirectionshapeTo *EvolutionDirectionShape) {
 
 	// evolutiondirectionshapeFrom has already been copied
 	if _evolutiondirectionshapeTo, ok := mapOrigCopy[evolutiondirectionshapeFrom]; ok {
@@ -1585,7 +1478,7 @@ func CopyBranchEvolutionDirectionShape(mapOrigCopy map[any]any, evolutiondirecti
 
 	evolutiondirectionshapeTo = new(EvolutionDirectionShape)
 	mapOrigCopy[evolutiondirectionshapeFrom] = evolutiondirectionshapeTo
-	evolutiondirectionshapeFrom.CopyBasicFields(evolutiondirectionshapeTo)
+	evolutiondirectionshapeFrom.GongCopyBasicFields(evolutiondirectionshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if evolutiondirectionshapeFrom.EvolutionDirection != nil {
@@ -1597,7 +1490,7 @@ func CopyBranchEvolutionDirectionShape(mapOrigCopy map[any]any, evolutiondirecti
 	return
 }
 
-func CopyBranchFoo(mapOrigCopy map[any]any, fooFrom *Foo) (fooTo *Foo) {
+func GongCopyBranchFoo(mapOrigCopy map[any]any, fooFrom *Foo) (fooTo *Foo) {
 
 	// fooFrom has already been copied
 	if _fooTo, ok := mapOrigCopy[fooFrom]; ok {
@@ -1607,7 +1500,7 @@ func CopyBranchFoo(mapOrigCopy map[any]any, fooFrom *Foo) (fooTo *Foo) {
 
 	fooTo = new(Foo)
 	mapOrigCopy[fooFrom] = fooTo
-	fooFrom.CopyBasicFields(fooTo)
+	fooFrom.GongCopyBasicFields(fooTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1616,7 +1509,7 @@ func CopyBranchFoo(mapOrigCopy map[any]any, fooFrom *Foo) (fooTo *Foo) {
 	return
 }
 
-func CopyBranchGeoObject(mapOrigCopy map[any]any, geoobjectFrom *GeoObject) (geoobjectTo *GeoObject) {
+func GongCopyBranchGeoObject(mapOrigCopy map[any]any, geoobjectFrom *GeoObject) (geoobjectTo *GeoObject) {
 
 	// geoobjectFrom has already been copied
 	if _geoobjectTo, ok := mapOrigCopy[geoobjectFrom]; ok {
@@ -1626,7 +1519,7 @@ func CopyBranchGeoObject(mapOrigCopy map[any]any, geoobjectFrom *GeoObject) (geo
 
 	geoobjectTo = new(GeoObject)
 	mapOrigCopy[geoobjectFrom] = geoobjectTo
-	geoobjectFrom.CopyBasicFields(geoobjectTo)
+	geoobjectFrom.GongCopyBasicFields(geoobjectTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1635,7 +1528,7 @@ func CopyBranchGeoObject(mapOrigCopy map[any]any, geoobjectFrom *GeoObject) (geo
 	return
 }
 
-func CopyBranchGeoObjectUse(mapOrigCopy map[any]any, geoobjectuseFrom *GeoObjectUse) (geoobjectuseTo *GeoObjectUse) {
+func GongCopyBranchGeoObjectUse(mapOrigCopy map[any]any, geoobjectuseFrom *GeoObjectUse) (geoobjectuseTo *GeoObjectUse) {
 
 	// geoobjectuseFrom has already been copied
 	if _geoobjectuseTo, ok := mapOrigCopy[geoobjectuseFrom]; ok {
@@ -1645,11 +1538,11 @@ func CopyBranchGeoObjectUse(mapOrigCopy map[any]any, geoobjectuseFrom *GeoObject
 
 	geoobjectuseTo = new(GeoObjectUse)
 	mapOrigCopy[geoobjectuseFrom] = geoobjectuseTo
-	geoobjectuseFrom.CopyBasicFields(geoobjectuseTo)
+	geoobjectuseFrom.GongCopyBasicFields(geoobjectuseTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if geoobjectuseFrom.GeoObject != nil {
-		geoobjectuseTo.GeoObject = CopyBranchGeoObject(mapOrigCopy, geoobjectuseFrom.GeoObject)
+		geoobjectuseTo.GeoObject = GongCopyBranchGeoObject(mapOrigCopy, geoobjectuseFrom.GeoObject)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1657,7 +1550,7 @@ func CopyBranchGeoObjectUse(mapOrigCopy map[any]any, geoobjectuseFrom *GeoObject
 	return
 }
 
-func CopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group) {
+func GongCopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group) {
 
 	// groupFrom has already been copied
 	if _groupTo, ok := mapOrigCopy[groupFrom]; ok {
@@ -1667,19 +1560,19 @@ func CopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group)
 
 	groupTo = new(Group)
 	mapOrigCopy[groupFrom] = groupTo
-	groupFrom.CopyBasicFields(groupTo)
+	groupFrom.GongCopyBasicFields(groupTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _useruse := range groupFrom.UserUse {
-		groupTo.UserUse = append(groupTo.UserUse, CopyBranchUserUse(mapOrigCopy, _useruse))
+		groupTo.UserUse = append(groupTo.UserUse, GongCopyBranchUserUse(mapOrigCopy, _useruse))
 	}
 
 	return
 }
 
-func CopyBranchGroupUse(mapOrigCopy map[any]any, groupuseFrom *GroupUse) (groupuseTo *GroupUse) {
+func GongCopyBranchGroupUse(mapOrigCopy map[any]any, groupuseFrom *GroupUse) (groupuseTo *GroupUse) {
 
 	// groupuseFrom has already been copied
 	if _groupuseTo, ok := mapOrigCopy[groupuseFrom]; ok {
@@ -1689,11 +1582,11 @@ func CopyBranchGroupUse(mapOrigCopy map[any]any, groupuseFrom *GroupUse) (groupu
 
 	groupuseTo = new(GroupUse)
 	mapOrigCopy[groupuseFrom] = groupuseTo
-	groupuseFrom.CopyBasicFields(groupuseTo)
+	groupuseFrom.GongCopyBasicFields(groupuseTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if groupuseFrom.Group != nil {
-		groupuseTo.Group = CopyBranchGroup(mapOrigCopy, groupuseFrom.Group)
+		groupuseTo.Group = GongCopyBranchGroup(mapOrigCopy, groupuseFrom.Group)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1701,7 +1594,7 @@ func CopyBranchGroupUse(mapOrigCopy map[any]any, groupuseFrom *GroupUse) (groupu
 	return
 }
 
-func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
+func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
 
 	// libraryFrom has already been copied
 	if _libraryTo, ok := mapOrigCopy[libraryFrom]; ok {
@@ -1711,25 +1604,25 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 
 	libraryTo = new(Library)
 	mapOrigCopy[libraryFrom] = libraryTo
-	libraryFrom.CopyBasicFields(libraryTo)
+	libraryFrom.GongCopyBasicFields(libraryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _analysis := range libraryFrom.Analyses {
-		libraryTo.Analyses = append(libraryTo.Analyses, CopyBranchAnalysis(mapOrigCopy, _analysis))
+		libraryTo.Analyses = append(libraryTo.Analyses, GongCopyBranchAnalysis(mapOrigCopy, _analysis))
 	}
 	for _, _library := range libraryFrom.SubLibraries {
-		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
+		libraryTo.SubLibraries = append(libraryTo.SubLibraries, GongCopyBranchLibrary(mapOrigCopy, _library))
 	}
 	for _, _library := range libraryFrom.SubLibrariesWhoseNodeIsExpanded {
-		libraryTo.SubLibrariesWhoseNodeIsExpanded = append(libraryTo.SubLibrariesWhoseNodeIsExpanded, CopyBranchLibrary(mapOrigCopy, _library))
+		libraryTo.SubLibrariesWhoseNodeIsExpanded = append(libraryTo.SubLibrariesWhoseNodeIsExpanded, GongCopyBranchLibrary(mapOrigCopy, _library))
 	}
 
 	return
 }
 
-func CopyBranchMapObject(mapOrigCopy map[any]any, mapobjectFrom *MapObject) (mapobjectTo *MapObject) {
+func GongCopyBranchMapObject(mapOrigCopy map[any]any, mapobjectFrom *MapObject) (mapobjectTo *MapObject) {
 
 	// mapobjectFrom has already been copied
 	if _mapobjectTo, ok := mapOrigCopy[mapobjectFrom]; ok {
@@ -1739,7 +1632,7 @@ func CopyBranchMapObject(mapOrigCopy map[any]any, mapobjectFrom *MapObject) (map
 
 	mapobjectTo = new(MapObject)
 	mapOrigCopy[mapobjectFrom] = mapobjectTo
-	mapobjectFrom.CopyBasicFields(mapobjectTo)
+	mapobjectFrom.GongCopyBasicFields(mapobjectTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1748,7 +1641,7 @@ func CopyBranchMapObject(mapOrigCopy map[any]any, mapobjectFrom *MapObject) (map
 	return
 }
 
-func CopyBranchMapObjectUse(mapOrigCopy map[any]any, mapobjectuseFrom *MapObjectUse) (mapobjectuseTo *MapObjectUse) {
+func GongCopyBranchMapObjectUse(mapOrigCopy map[any]any, mapobjectuseFrom *MapObjectUse) (mapobjectuseTo *MapObjectUse) {
 
 	// mapobjectuseFrom has already been copied
 	if _mapobjectuseTo, ok := mapOrigCopy[mapobjectuseFrom]; ok {
@@ -1758,11 +1651,11 @@ func CopyBranchMapObjectUse(mapOrigCopy map[any]any, mapobjectuseFrom *MapObject
 
 	mapobjectuseTo = new(MapObjectUse)
 	mapOrigCopy[mapobjectuseFrom] = mapobjectuseTo
-	mapobjectuseFrom.CopyBasicFields(mapobjectuseTo)
+	mapobjectuseFrom.GongCopyBasicFields(mapobjectuseTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if mapobjectuseFrom.Map != nil {
-		mapobjectuseTo.Map = CopyBranchMapObject(mapOrigCopy, mapobjectuseFrom.Map)
+		mapobjectuseTo.Map = GongCopyBranchMapObject(mapOrigCopy, mapobjectuseFrom.Map)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1770,7 +1663,7 @@ func CopyBranchMapObjectUse(mapOrigCopy map[any]any, mapobjectuseFrom *MapObject
 	return
 }
 
-func CopyBranchParameter(mapOrigCopy map[any]any, parameterFrom *Parameter) (parameterTo *Parameter) {
+func GongCopyBranchParameter(mapOrigCopy map[any]any, parameterFrom *Parameter) (parameterTo *Parameter) {
 
 	// parameterFrom has already been copied
 	if _parameterTo, ok := mapOrigCopy[parameterFrom]; ok {
@@ -1780,25 +1673,25 @@ func CopyBranchParameter(mapOrigCopy map[any]any, parameterFrom *Parameter) (par
 
 	parameterTo = new(Parameter)
 	mapOrigCopy[parameterFrom] = parameterTo
-	parameterFrom.CopyBasicFields(parameterTo)
+	parameterFrom.GongCopyBasicFields(parameterTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _groupuse := range parameterFrom.GroupUse {
-		parameterTo.GroupUse = append(parameterTo.GroupUse, CopyBranchGroupUse(mapOrigCopy, _groupuse))
+		parameterTo.GroupUse = append(parameterTo.GroupUse, GongCopyBranchGroupUse(mapOrigCopy, _groupuse))
 	}
 	for _, _documentuse := range parameterFrom.DocumentUse {
-		parameterTo.DocumentUse = append(parameterTo.DocumentUse, CopyBranchDocumentUse(mapOrigCopy, _documentuse))
+		parameterTo.DocumentUse = append(parameterTo.DocumentUse, GongCopyBranchDocumentUse(mapOrigCopy, _documentuse))
 	}
 	for _, _geoobjectuse := range parameterFrom.GeoObjectUse {
-		parameterTo.GeoObjectUse = append(parameterTo.GeoObjectUse, CopyBranchGeoObjectUse(mapOrigCopy, _geoobjectuse))
+		parameterTo.GeoObjectUse = append(parameterTo.GeoObjectUse, GongCopyBranchGeoObjectUse(mapOrigCopy, _geoobjectuse))
 	}
 
 	return
 }
 
-func CopyBranchParameterCategory(mapOrigCopy map[any]any, parametercategoryFrom *ParameterCategory) (parametercategoryTo *ParameterCategory) {
+func GongCopyBranchParameterCategory(mapOrigCopy map[any]any, parametercategoryFrom *ParameterCategory) (parametercategoryTo *ParameterCategory) {
 
 	// parametercategoryFrom has already been copied
 	if _parametercategoryTo, ok := mapOrigCopy[parametercategoryFrom]; ok {
@@ -1808,19 +1701,19 @@ func CopyBranchParameterCategory(mapOrigCopy map[any]any, parametercategoryFrom 
 
 	parametercategoryTo = new(ParameterCategory)
 	mapOrigCopy[parametercategoryFrom] = parametercategoryTo
-	parametercategoryFrom.CopyBasicFields(parametercategoryTo)
+	parametercategoryFrom.GongCopyBasicFields(parametercategoryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _parametershape := range parametercategoryFrom.ParameterUse {
-		parametercategoryTo.ParameterUse = append(parametercategoryTo.ParameterUse, CopyBranchParameterShape(mapOrigCopy, _parametershape))
+		parametercategoryTo.ParameterUse = append(parametercategoryTo.ParameterUse, GongCopyBranchParameterShape(mapOrigCopy, _parametershape))
 	}
 
 	return
 }
 
-func CopyBranchParameterCategoryUse(mapOrigCopy map[any]any, parametercategoryuseFrom *ParameterCategoryUse) (parametercategoryuseTo *ParameterCategoryUse) {
+func GongCopyBranchParameterCategoryUse(mapOrigCopy map[any]any, parametercategoryuseFrom *ParameterCategoryUse) (parametercategoryuseTo *ParameterCategoryUse) {
 
 	// parametercategoryuseFrom has already been copied
 	if _parametercategoryuseTo, ok := mapOrigCopy[parametercategoryuseFrom]; ok {
@@ -1830,11 +1723,11 @@ func CopyBranchParameterCategoryUse(mapOrigCopy map[any]any, parametercategoryus
 
 	parametercategoryuseTo = new(ParameterCategoryUse)
 	mapOrigCopy[parametercategoryuseFrom] = parametercategoryuseTo
-	parametercategoryuseFrom.CopyBasicFields(parametercategoryuseTo)
+	parametercategoryuseFrom.GongCopyBasicFields(parametercategoryuseTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if parametercategoryuseFrom.ParameterCategory != nil {
-		parametercategoryuseTo.ParameterCategory = CopyBranchParameterCategory(mapOrigCopy, parametercategoryuseFrom.ParameterCategory)
+		parametercategoryuseTo.ParameterCategory = GongCopyBranchParameterCategory(mapOrigCopy, parametercategoryuseFrom.ParameterCategory)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1842,7 +1735,7 @@ func CopyBranchParameterCategoryUse(mapOrigCopy map[any]any, parametercategoryus
 	return
 }
 
-func CopyBranchParameterShape(mapOrigCopy map[any]any, parametershapeFrom *ParameterShape) (parametershapeTo *ParameterShape) {
+func GongCopyBranchParameterShape(mapOrigCopy map[any]any, parametershapeFrom *ParameterShape) (parametershapeTo *ParameterShape) {
 
 	// parametershapeFrom has already been copied
 	if _parametershapeTo, ok := mapOrigCopy[parametershapeFrom]; ok {
@@ -1852,7 +1745,7 @@ func CopyBranchParameterShape(mapOrigCopy map[any]any, parametershapeFrom *Param
 
 	parametershapeTo = new(ParameterShape)
 	mapOrigCopy[parametershapeFrom] = parametershapeTo
-	parametershapeFrom.CopyBasicFields(parametershapeTo)
+	parametershapeFrom.GongCopyBasicFields(parametershapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if parametershapeFrom.Parameter != nil {
@@ -1864,7 +1757,7 @@ func CopyBranchParameterShape(mapOrigCopy map[any]any, parametershapeFrom *Param
 	return
 }
 
-func CopyBranchParametersAggregate(mapOrigCopy map[any]any, parametersaggregateFrom *ParametersAggregate) (parametersaggregateTo *ParametersAggregate) {
+func GongCopyBranchParametersAggregate(mapOrigCopy map[any]any, parametersaggregateFrom *ParametersAggregate) (parametersaggregateTo *ParametersAggregate) {
 
 	// parametersaggregateFrom has already been copied
 	if _parametersaggregateTo, ok := mapOrigCopy[parametersaggregateFrom]; ok {
@@ -1874,19 +1767,19 @@ func CopyBranchParametersAggregate(mapOrigCopy map[any]any, parametersaggregateF
 
 	parametersaggregateTo = new(ParametersAggregate)
 	mapOrigCopy[parametersaggregateFrom] = parametersaggregateTo
-	parametersaggregateFrom.CopyBasicFields(parametersaggregateTo)
+	parametersaggregateFrom.GongCopyBasicFields(parametersaggregateTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _parameter := range parametersaggregateFrom.Parameters {
-		parametersaggregateTo.Parameters = append(parametersaggregateTo.Parameters, CopyBranchParameter(mapOrigCopy, _parameter))
+		parametersaggregateTo.Parameters = append(parametersaggregateTo.Parameters, GongCopyBranchParameter(mapOrigCopy, _parameter))
 	}
 
 	return
 }
 
-func CopyBranchParametersAggregateShape(mapOrigCopy map[any]any, parametersaggregateshapeFrom *ParametersAggregateShape) (parametersaggregateshapeTo *ParametersAggregateShape) {
+func GongCopyBranchParametersAggregateShape(mapOrigCopy map[any]any, parametersaggregateshapeFrom *ParametersAggregateShape) (parametersaggregateshapeTo *ParametersAggregateShape) {
 
 	// parametersaggregateshapeFrom has already been copied
 	if _parametersaggregateshapeTo, ok := mapOrigCopy[parametersaggregateshapeFrom]; ok {
@@ -1896,7 +1789,7 @@ func CopyBranchParametersAggregateShape(mapOrigCopy map[any]any, parametersaggre
 
 	parametersaggregateshapeTo = new(ParametersAggregateShape)
 	mapOrigCopy[parametersaggregateshapeFrom] = parametersaggregateshapeTo
-	parametersaggregateshapeFrom.CopyBasicFields(parametersaggregateshapeTo)
+	parametersaggregateshapeFrom.GongCopyBasicFields(parametersaggregateshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if parametersaggregateshapeFrom.ScenarioParameter != nil {
@@ -1908,7 +1801,7 @@ func CopyBranchParametersAggregateShape(mapOrigCopy map[any]any, parametersaggre
 	return
 }
 
-func CopyBranchPosition(mapOrigCopy map[any]any, positionFrom *Position) (positionTo *Position) {
+func GongCopyBranchPosition(mapOrigCopy map[any]any, positionFrom *Position) (positionTo *Position) {
 
 	// positionFrom has already been copied
 	if _positionTo, ok := mapOrigCopy[positionFrom]; ok {
@@ -1918,7 +1811,7 @@ func CopyBranchPosition(mapOrigCopy map[any]any, positionFrom *Position) (positi
 
 	positionTo = new(Position)
 	mapOrigCopy[positionFrom] = positionTo
-	positionFrom.CopyBasicFields(positionTo)
+	positionFrom.GongCopyBasicFields(positionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1927,7 +1820,7 @@ func CopyBranchPosition(mapOrigCopy map[any]any, positionFrom *Position) (positi
 	return
 }
 
-func CopyBranchRepository(mapOrigCopy map[any]any, repositoryFrom *Repository) (repositoryTo *Repository) {
+func GongCopyBranchRepository(mapOrigCopy map[any]any, repositoryFrom *Repository) (repositoryTo *Repository) {
 
 	// repositoryFrom has already been copied
 	if _repositoryTo, ok := mapOrigCopy[repositoryFrom]; ok {
@@ -1937,22 +1830,22 @@ func CopyBranchRepository(mapOrigCopy map[any]any, repositoryFrom *Repository) (
 
 	repositoryTo = new(Repository)
 	mapOrigCopy[repositoryFrom] = repositoryTo
-	repositoryFrom.CopyBasicFields(repositoryTo)
+	repositoryFrom.GongCopyBasicFields(repositoryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _parametershape := range repositoryFrom.ParameterUse {
-		repositoryTo.ParameterUse = append(repositoryTo.ParameterUse, CopyBranchParameterShape(mapOrigCopy, _parametershape))
+		repositoryTo.ParameterUse = append(repositoryTo.ParameterUse, GongCopyBranchParameterShape(mapOrigCopy, _parametershape))
 	}
 	for _, _groupuse := range repositoryFrom.GroupUse {
-		repositoryTo.GroupUse = append(repositoryTo.GroupUse, CopyBranchGroupUse(mapOrigCopy, _groupuse))
+		repositoryTo.GroupUse = append(repositoryTo.GroupUse, GongCopyBranchGroupUse(mapOrigCopy, _groupuse))
 	}
 
 	return
 }
 
-func CopyBranchScenario(mapOrigCopy map[any]any, scenarioFrom *Scenario) (scenarioTo *Scenario) {
+func GongCopyBranchScenario(mapOrigCopy map[any]any, scenarioFrom *Scenario) (scenarioTo *Scenario) {
 
 	// scenarioFrom has already been copied
 	if _scenarioTo, ok := mapOrigCopy[scenarioFrom]; ok {
@@ -1962,34 +1855,34 @@ func CopyBranchScenario(mapOrigCopy map[any]any, scenarioFrom *Scenario) (scenar
 
 	scenarioTo = new(Scenario)
 	mapOrigCopy[scenarioFrom] = scenarioTo
-	scenarioFrom.CopyBasicFields(scenarioTo)
+	scenarioFrom.GongCopyBasicFields(scenarioTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _diagram := range scenarioFrom.Diagrams {
-		scenarioTo.Diagrams = append(scenarioTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
+		scenarioTo.Diagrams = append(scenarioTo.Diagrams, GongCopyBranchDiagram(mapOrigCopy, _diagram))
 	}
 	for _, _actorstate := range scenarioFrom.ActorStates {
-		scenarioTo.ActorStates = append(scenarioTo.ActorStates, CopyBranchActorState(mapOrigCopy, _actorstate))
+		scenarioTo.ActorStates = append(scenarioTo.ActorStates, GongCopyBranchActorState(mapOrigCopy, _actorstate))
 	}
 	for _, _actorstatetransition := range scenarioFrom.ActorStateTransitions {
-		scenarioTo.ActorStateTransitions = append(scenarioTo.ActorStateTransitions, CopyBranchActorStateTransition(mapOrigCopy, _actorstatetransition))
+		scenarioTo.ActorStateTransitions = append(scenarioTo.ActorStateTransitions, GongCopyBranchActorStateTransition(mapOrigCopy, _actorstatetransition))
 	}
 	for _, _evolutiondirection := range scenarioFrom.EvolutionDirections {
-		scenarioTo.EvolutionDirections = append(scenarioTo.EvolutionDirections, CopyBranchEvolutionDirection(mapOrigCopy, _evolutiondirection))
+		scenarioTo.EvolutionDirections = append(scenarioTo.EvolutionDirections, GongCopyBranchEvolutionDirection(mapOrigCopy, _evolutiondirection))
 	}
 	for _, _parameter := range scenarioFrom.Parameters {
-		scenarioTo.Parameters = append(scenarioTo.Parameters, CopyBranchParameter(mapOrigCopy, _parameter))
+		scenarioTo.Parameters = append(scenarioTo.Parameters, GongCopyBranchParameter(mapOrigCopy, _parameter))
 	}
 	for _, _parametersaggregate := range scenarioFrom.ParametersAggretates {
-		scenarioTo.ParametersAggretates = append(scenarioTo.ParametersAggretates, CopyBranchParametersAggregate(mapOrigCopy, _parametersaggregate))
+		scenarioTo.ParametersAggretates = append(scenarioTo.ParametersAggretates, GongCopyBranchParametersAggregate(mapOrigCopy, _parametersaggregate))
 	}
 
 	return
 }
 
-func CopyBranchUser(mapOrigCopy map[any]any, userFrom *User) (userTo *User) {
+func GongCopyBranchUser(mapOrigCopy map[any]any, userFrom *User) (userTo *User) {
 
 	// userFrom has already been copied
 	if _userTo, ok := mapOrigCopy[userFrom]; ok {
@@ -1999,7 +1892,7 @@ func CopyBranchUser(mapOrigCopy map[any]any, userFrom *User) (userTo *User) {
 
 	userTo = new(User)
 	mapOrigCopy[userFrom] = userTo
-	userFrom.CopyBasicFields(userTo)
+	userFrom.GongCopyBasicFields(userTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -2008,7 +1901,7 @@ func CopyBranchUser(mapOrigCopy map[any]any, userFrom *User) (userTo *User) {
 	return
 }
 
-func CopyBranchUserUse(mapOrigCopy map[any]any, useruseFrom *UserUse) (useruseTo *UserUse) {
+func GongCopyBranchUserUse(mapOrigCopy map[any]any, useruseFrom *UserUse) (useruseTo *UserUse) {
 
 	// useruseFrom has already been copied
 	if _useruseTo, ok := mapOrigCopy[useruseFrom]; ok {
@@ -2018,11 +1911,11 @@ func CopyBranchUserUse(mapOrigCopy map[any]any, useruseFrom *UserUse) (useruseTo
 
 	useruseTo = new(UserUse)
 	mapOrigCopy[useruseFrom] = useruseTo
-	useruseFrom.CopyBasicFields(useruseTo)
+	useruseFrom.GongCopyBasicFields(useruseTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if useruseFrom.User != nil {
-		useruseTo.User = CopyBranchUser(mapOrigCopy, useruseFrom.User)
+		useruseTo.User = GongCopyBranchUser(mapOrigCopy, useruseFrom.User)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2030,7 +1923,7 @@ func CopyBranchUserUse(mapOrigCopy map[any]any, useruseFrom *UserUse) (useruseTo
 	return
 }
 
-func CopyBranchWorkspace(mapOrigCopy map[any]any, workspaceFrom *Workspace) (workspaceTo *Workspace) {
+func GongCopyBranchWorkspace(mapOrigCopy map[any]any, workspaceFrom *Workspace) (workspaceTo *Workspace) {
 
 	// workspaceFrom has already been copied
 	if _workspaceTo, ok := mapOrigCopy[workspaceFrom]; ok {
@@ -2040,26 +1933,26 @@ func CopyBranchWorkspace(mapOrigCopy map[any]any, workspaceFrom *Workspace) (wor
 
 	workspaceTo = new(Workspace)
 	mapOrigCopy[workspaceFrom] = workspaceTo
-	workspaceFrom.CopyBasicFields(workspaceTo)
+	workspaceFrom.GongCopyBasicFields(workspaceTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if workspaceFrom.SelectedDiagram != nil {
-		workspaceTo.SelectedDiagram = CopyBranchDiagram(mapOrigCopy, workspaceFrom.SelectedDiagram)
+		workspaceTo.SelectedDiagram = GongCopyBranchDiagram(mapOrigCopy, workspaceFrom.SelectedDiagram)
 	}
 	if workspaceFrom.Default_EvolutionDirectionShape != nil {
-		workspaceTo.Default_EvolutionDirectionShape = CopyBranchEvolutionDirectionShape(mapOrigCopy, workspaceFrom.Default_EvolutionDirectionShape)
+		workspaceTo.Default_EvolutionDirectionShape = GongCopyBranchEvolutionDirectionShape(mapOrigCopy, workspaceFrom.Default_EvolutionDirectionShape)
 	}
 	if workspaceFrom.Default_ParameterShape != nil {
-		workspaceTo.Default_ParameterShape = CopyBranchParameterShape(mapOrigCopy, workspaceFrom.Default_ParameterShape)
+		workspaceTo.Default_ParameterShape = GongCopyBranchParameterShape(mapOrigCopy, workspaceFrom.Default_ParameterShape)
 	}
 	if workspaceFrom.Default_ScenarioParameterShape != nil {
-		workspaceTo.Default_ScenarioParameterShape = CopyBranchParametersAggregateShape(mapOrigCopy, workspaceFrom.Default_ScenarioParameterShape)
+		workspaceTo.Default_ScenarioParameterShape = GongCopyBranchParametersAggregateShape(mapOrigCopy, workspaceFrom.Default_ScenarioParameterShape)
 	}
 	if workspaceFrom.Default_ActorStateShape != nil {
-		workspaceTo.Default_ActorStateShape = CopyBranchActorStateShape(mapOrigCopy, workspaceFrom.Default_ActorStateShape)
+		workspaceTo.Default_ActorStateShape = GongCopyBranchActorStateShape(mapOrigCopy, workspaceFrom.Default_ActorStateShape)
 	}
 	if workspaceFrom.Default_ActorStateTransitionShape != nil {
-		workspaceTo.Default_ActorStateTransitionShape = CopyBranchActorStateTransitionShape(mapOrigCopy, workspaceFrom.Default_ActorStateTransitionShape)
+		workspaceTo.Default_ActorStateTransitionShape = GongCopyBranchActorStateTransitionShape(mapOrigCopy, workspaceFrom.Default_ActorStateTransitionShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2174,16 +2067,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchActorState(actorstate *ActorState) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, actorstate) {
+	if !stage.IsStaged(actorstate) {
 		return
 	}
 
@@ -2198,7 +2086,7 @@ func (stage *Stage) UnstageBranchActorState(actorstate *ActorState) {
 func (stage *Stage) UnstageBranchActorStateShape(actorstateshape *ActorStateShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, actorstateshape) {
+	if !stage.IsStaged(actorstateshape) {
 		return
 	}
 
@@ -2206,7 +2094,7 @@ func (stage *Stage) UnstageBranchActorStateShape(actorstateshape *ActorStateShap
 
 	//insertion point for the staging of instances referenced by pointers
 	if actorstateshape.ActorState != nil {
-		UnstageBranch(stage, actorstateshape.ActorState)
+		stage.UnstageBranch(actorstateshape.ActorState)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2216,7 +2104,7 @@ func (stage *Stage) UnstageBranchActorStateShape(actorstateshape *ActorStateShap
 func (stage *Stage) UnstageBranchActorStateTransition(actorstatetransition *ActorStateTransition) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, actorstatetransition) {
+	if !stage.IsStaged(actorstatetransition) {
 		return
 	}
 
@@ -2224,15 +2112,15 @@ func (stage *Stage) UnstageBranchActorStateTransition(actorstatetransition *Acto
 
 	//insertion point for the staging of instances referenced by pointers
 	if actorstatetransition.StartState != nil {
-		UnstageBranch(stage, actorstatetransition.StartState)
+		stage.UnstageBranch(actorstatetransition.StartState)
 	}
 	if actorstatetransition.EndState != nil {
-		UnstageBranch(stage, actorstatetransition.EndState)
+		stage.UnstageBranch(actorstatetransition.EndState)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _parameter := range actorstatetransition.Justifications {
-		UnstageBranch(stage, _parameter)
+		stage.UnstageBranch(_parameter)
 	}
 
 }
@@ -2240,7 +2128,7 @@ func (stage *Stage) UnstageBranchActorStateTransition(actorstatetransition *Acto
 func (stage *Stage) UnstageBranchActorStateTransitionShape(actorstatetransitionshape *ActorStateTransitionShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, actorstatetransitionshape) {
+	if !stage.IsStaged(actorstatetransitionshape) {
 		return
 	}
 
@@ -2248,18 +2136,18 @@ func (stage *Stage) UnstageBranchActorStateTransitionShape(actorstatetransitions
 
 	//insertion point for the staging of instances referenced by pointers
 	if actorstatetransitionshape.ActorStateTransition != nil {
-		UnstageBranch(stage, actorstatetransitionshape.ActorStateTransition)
+		stage.UnstageBranch(actorstatetransitionshape.ActorStateTransition)
 	}
 	if actorstatetransitionshape.Start != nil {
-		UnstageBranch(stage, actorstatetransitionshape.Start)
+		stage.UnstageBranch(actorstatetransitionshape.Start)
 	}
 	if actorstatetransitionshape.End != nil {
-		UnstageBranch(stage, actorstatetransitionshape.End)
+		stage.UnstageBranch(actorstatetransitionshape.End)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range actorstatetransitionshape.ControlPointShapes {
-		UnstageBranch(stage, _controlpointshape)
+		stage.UnstageBranch(_controlpointshape)
 	}
 
 }
@@ -2267,7 +2155,7 @@ func (stage *Stage) UnstageBranchActorStateTransitionShape(actorstatetransitions
 func (stage *Stage) UnstageBranchAnalysis(analysis *Analysis) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, analysis) {
+	if !stage.IsStaged(analysis) {
 		return
 	}
 
@@ -2277,16 +2165,16 @@ func (stage *Stage) UnstageBranchAnalysis(analysis *Analysis) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _scenario := range analysis.Scenarios {
-		UnstageBranch(stage, _scenario)
+		stage.UnstageBranch(_scenario)
 	}
 	for _, _groupuse := range analysis.GroupUse {
-		UnstageBranch(stage, _groupuse)
+		stage.UnstageBranch(_groupuse)
 	}
 	for _, _geoobjectuse := range analysis.GeoObjectUse {
-		UnstageBranch(stage, _geoobjectuse)
+		stage.UnstageBranch(_geoobjectuse)
 	}
 	for _, _mapobjectuse := range analysis.MapUse {
-		UnstageBranch(stage, _mapobjectuse)
+		stage.UnstageBranch(_mapobjectuse)
 	}
 
 }
@@ -2294,7 +2182,7 @@ func (stage *Stage) UnstageBranchAnalysis(analysis *Analysis) {
 func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPointShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, controlpointshape) {
+	if !stage.IsStaged(controlpointshape) {
 		return
 	}
 
@@ -2309,7 +2197,7 @@ func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPoi
 func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, diagram) {
+	if !stage.IsStaged(diagram) {
 		return
 	}
 
@@ -2319,34 +2207,34 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _evolutiondirectionshape := range diagram.EvolutionDirectionShapes {
-		UnstageBranch(stage, _evolutiondirectionshape)
+		stage.UnstageBranch(_evolutiondirectionshape)
 	}
 	for _, _evolutiondirection := range diagram.EvolutionDirectionsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _evolutiondirection)
+		stage.UnstageBranch(_evolutiondirection)
 	}
 	for _, _actorstateshape := range diagram.ActorStateShapes {
-		UnstageBranch(stage, _actorstateshape)
+		stage.UnstageBranch(_actorstateshape)
 	}
 	for _, _actorstate := range diagram.ActorStatesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _actorstate)
+		stage.UnstageBranch(_actorstate)
 	}
 	for _, _parametershape := range diagram.ParameterShapes {
-		UnstageBranch(stage, _parametershape)
+		stage.UnstageBranch(_parametershape)
 	}
 	for _, _parameter := range diagram.ParametersWhoseNodeIsExpanded {
-		UnstageBranch(stage, _parameter)
+		stage.UnstageBranch(_parameter)
 	}
 	for _, _parametersaggregateshape := range diagram.ScenarioParameterShapes {
-		UnstageBranch(stage, _parametersaggregateshape)
+		stage.UnstageBranch(_parametersaggregateshape)
 	}
 	for _, _parametersaggregate := range diagram.ParametersAggregatesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _parametersaggregate)
+		stage.UnstageBranch(_parametersaggregate)
 	}
 	for _, _actorstatetransitionshape := range diagram.ActorStateTransitionShapes {
-		UnstageBranch(stage, _actorstatetransitionshape)
+		stage.UnstageBranch(_actorstatetransitionshape)
 	}
 	for _, _actorstatetransition := range diagram.ActorStateTransitionsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _actorstatetransition)
+		stage.UnstageBranch(_actorstatetransition)
 	}
 
 }
@@ -2354,7 +2242,7 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 func (stage *Stage) UnstageBranchDocument(document *Document) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, document) {
+	if !stage.IsStaged(document) {
 		return
 	}
 
@@ -2364,7 +2252,7 @@ func (stage *Stage) UnstageBranchDocument(document *Document) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _geoobjectuse := range document.GeoObjectUse {
-		UnstageBranch(stage, _geoobjectuse)
+		stage.UnstageBranch(_geoobjectuse)
 	}
 
 }
@@ -2372,7 +2260,7 @@ func (stage *Stage) UnstageBranchDocument(document *Document) {
 func (stage *Stage) UnstageBranchDocumentUse(documentuse *DocumentUse) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, documentuse) {
+	if !stage.IsStaged(documentuse) {
 		return
 	}
 
@@ -2380,7 +2268,7 @@ func (stage *Stage) UnstageBranchDocumentUse(documentuse *DocumentUse) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if documentuse.Document != nil {
-		UnstageBranch(stage, documentuse.Document)
+		stage.UnstageBranch(documentuse.Document)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2390,7 +2278,7 @@ func (stage *Stage) UnstageBranchDocumentUse(documentuse *DocumentUse) {
 func (stage *Stage) UnstageBranchEvolutionDirection(evolutiondirection *EvolutionDirection) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, evolutiondirection) {
+	if !stage.IsStaged(evolutiondirection) {
 		return
 	}
 
@@ -2405,7 +2293,7 @@ func (stage *Stage) UnstageBranchEvolutionDirection(evolutiondirection *Evolutio
 func (stage *Stage) UnstageBranchEvolutionDirectionShape(evolutiondirectionshape *EvolutionDirectionShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, evolutiondirectionshape) {
+	if !stage.IsStaged(evolutiondirectionshape) {
 		return
 	}
 
@@ -2413,7 +2301,7 @@ func (stage *Stage) UnstageBranchEvolutionDirectionShape(evolutiondirectionshape
 
 	//insertion point for the staging of instances referenced by pointers
 	if evolutiondirectionshape.EvolutionDirection != nil {
-		UnstageBranch(stage, evolutiondirectionshape.EvolutionDirection)
+		stage.UnstageBranch(evolutiondirectionshape.EvolutionDirection)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2423,7 +2311,7 @@ func (stage *Stage) UnstageBranchEvolutionDirectionShape(evolutiondirectionshape
 func (stage *Stage) UnstageBranchFoo(foo *Foo) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, foo) {
+	if !stage.IsStaged(foo) {
 		return
 	}
 
@@ -2438,7 +2326,7 @@ func (stage *Stage) UnstageBranchFoo(foo *Foo) {
 func (stage *Stage) UnstageBranchGeoObject(geoobject *GeoObject) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, geoobject) {
+	if !stage.IsStaged(geoobject) {
 		return
 	}
 
@@ -2453,7 +2341,7 @@ func (stage *Stage) UnstageBranchGeoObject(geoobject *GeoObject) {
 func (stage *Stage) UnstageBranchGeoObjectUse(geoobjectuse *GeoObjectUse) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, geoobjectuse) {
+	if !stage.IsStaged(geoobjectuse) {
 		return
 	}
 
@@ -2461,7 +2349,7 @@ func (stage *Stage) UnstageBranchGeoObjectUse(geoobjectuse *GeoObjectUse) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if geoobjectuse.GeoObject != nil {
-		UnstageBranch(stage, geoobjectuse.GeoObject)
+		stage.UnstageBranch(geoobjectuse.GeoObject)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2471,7 +2359,7 @@ func (stage *Stage) UnstageBranchGeoObjectUse(geoobjectuse *GeoObjectUse) {
 func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, group) {
+	if !stage.IsStaged(group) {
 		return
 	}
 
@@ -2481,7 +2369,7 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _useruse := range group.UserUse {
-		UnstageBranch(stage, _useruse)
+		stage.UnstageBranch(_useruse)
 	}
 
 }
@@ -2489,7 +2377,7 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 func (stage *Stage) UnstageBranchGroupUse(groupuse *GroupUse) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, groupuse) {
+	if !stage.IsStaged(groupuse) {
 		return
 	}
 
@@ -2497,7 +2385,7 @@ func (stage *Stage) UnstageBranchGroupUse(groupuse *GroupUse) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if groupuse.Group != nil {
-		UnstageBranch(stage, groupuse.Group)
+		stage.UnstageBranch(groupuse.Group)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2507,7 +2395,7 @@ func (stage *Stage) UnstageBranchGroupUse(groupuse *GroupUse) {
 func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, library) {
+	if !stage.IsStaged(library) {
 		return
 	}
 
@@ -2517,13 +2405,13 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _analysis := range library.Analyses {
-		UnstageBranch(stage, _analysis)
+		stage.UnstageBranch(_analysis)
 	}
 	for _, _library := range library.SubLibraries {
-		UnstageBranch(stage, _library)
+		stage.UnstageBranch(_library)
 	}
 	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _library)
+		stage.UnstageBranch(_library)
 	}
 
 }
@@ -2531,7 +2419,7 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 func (stage *Stage) UnstageBranchMapObject(mapobject *MapObject) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, mapobject) {
+	if !stage.IsStaged(mapobject) {
 		return
 	}
 
@@ -2546,7 +2434,7 @@ func (stage *Stage) UnstageBranchMapObject(mapobject *MapObject) {
 func (stage *Stage) UnstageBranchMapObjectUse(mapobjectuse *MapObjectUse) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, mapobjectuse) {
+	if !stage.IsStaged(mapobjectuse) {
 		return
 	}
 
@@ -2554,7 +2442,7 @@ func (stage *Stage) UnstageBranchMapObjectUse(mapobjectuse *MapObjectUse) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if mapobjectuse.Map != nil {
-		UnstageBranch(stage, mapobjectuse.Map)
+		stage.UnstageBranch(mapobjectuse.Map)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2564,7 +2452,7 @@ func (stage *Stage) UnstageBranchMapObjectUse(mapobjectuse *MapObjectUse) {
 func (stage *Stage) UnstageBranchParameter(parameter *Parameter) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, parameter) {
+	if !stage.IsStaged(parameter) {
 		return
 	}
 
@@ -2574,13 +2462,13 @@ func (stage *Stage) UnstageBranchParameter(parameter *Parameter) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _groupuse := range parameter.GroupUse {
-		UnstageBranch(stage, _groupuse)
+		stage.UnstageBranch(_groupuse)
 	}
 	for _, _documentuse := range parameter.DocumentUse {
-		UnstageBranch(stage, _documentuse)
+		stage.UnstageBranch(_documentuse)
 	}
 	for _, _geoobjectuse := range parameter.GeoObjectUse {
-		UnstageBranch(stage, _geoobjectuse)
+		stage.UnstageBranch(_geoobjectuse)
 	}
 
 }
@@ -2588,7 +2476,7 @@ func (stage *Stage) UnstageBranchParameter(parameter *Parameter) {
 func (stage *Stage) UnstageBranchParameterCategory(parametercategory *ParameterCategory) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, parametercategory) {
+	if !stage.IsStaged(parametercategory) {
 		return
 	}
 
@@ -2598,7 +2486,7 @@ func (stage *Stage) UnstageBranchParameterCategory(parametercategory *ParameterC
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _parametershape := range parametercategory.ParameterUse {
-		UnstageBranch(stage, _parametershape)
+		stage.UnstageBranch(_parametershape)
 	}
 
 }
@@ -2606,7 +2494,7 @@ func (stage *Stage) UnstageBranchParameterCategory(parametercategory *ParameterC
 func (stage *Stage) UnstageBranchParameterCategoryUse(parametercategoryuse *ParameterCategoryUse) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, parametercategoryuse) {
+	if !stage.IsStaged(parametercategoryuse) {
 		return
 	}
 
@@ -2614,7 +2502,7 @@ func (stage *Stage) UnstageBranchParameterCategoryUse(parametercategoryuse *Para
 
 	//insertion point for the staging of instances referenced by pointers
 	if parametercategoryuse.ParameterCategory != nil {
-		UnstageBranch(stage, parametercategoryuse.ParameterCategory)
+		stage.UnstageBranch(parametercategoryuse.ParameterCategory)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2624,7 +2512,7 @@ func (stage *Stage) UnstageBranchParameterCategoryUse(parametercategoryuse *Para
 func (stage *Stage) UnstageBranchParameterShape(parametershape *ParameterShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, parametershape) {
+	if !stage.IsStaged(parametershape) {
 		return
 	}
 
@@ -2632,7 +2520,7 @@ func (stage *Stage) UnstageBranchParameterShape(parametershape *ParameterShape) 
 
 	//insertion point for the staging of instances referenced by pointers
 	if parametershape.Parameter != nil {
-		UnstageBranch(stage, parametershape.Parameter)
+		stage.UnstageBranch(parametershape.Parameter)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2642,7 +2530,7 @@ func (stage *Stage) UnstageBranchParameterShape(parametershape *ParameterShape) 
 func (stage *Stage) UnstageBranchParametersAggregate(parametersaggregate *ParametersAggregate) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, parametersaggregate) {
+	if !stage.IsStaged(parametersaggregate) {
 		return
 	}
 
@@ -2652,7 +2540,7 @@ func (stage *Stage) UnstageBranchParametersAggregate(parametersaggregate *Parame
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _parameter := range parametersaggregate.Parameters {
-		UnstageBranch(stage, _parameter)
+		stage.UnstageBranch(_parameter)
 	}
 
 }
@@ -2660,7 +2548,7 @@ func (stage *Stage) UnstageBranchParametersAggregate(parametersaggregate *Parame
 func (stage *Stage) UnstageBranchParametersAggregateShape(parametersaggregateshape *ParametersAggregateShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, parametersaggregateshape) {
+	if !stage.IsStaged(parametersaggregateshape) {
 		return
 	}
 
@@ -2668,7 +2556,7 @@ func (stage *Stage) UnstageBranchParametersAggregateShape(parametersaggregatesha
 
 	//insertion point for the staging of instances referenced by pointers
 	if parametersaggregateshape.ScenarioParameter != nil {
-		UnstageBranch(stage, parametersaggregateshape.ScenarioParameter)
+		stage.UnstageBranch(parametersaggregateshape.ScenarioParameter)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2678,7 +2566,7 @@ func (stage *Stage) UnstageBranchParametersAggregateShape(parametersaggregatesha
 func (stage *Stage) UnstageBranchPosition(position *Position) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, position) {
+	if !stage.IsStaged(position) {
 		return
 	}
 
@@ -2693,7 +2581,7 @@ func (stage *Stage) UnstageBranchPosition(position *Position) {
 func (stage *Stage) UnstageBranchRepository(repository *Repository) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, repository) {
+	if !stage.IsStaged(repository) {
 		return
 	}
 
@@ -2703,10 +2591,10 @@ func (stage *Stage) UnstageBranchRepository(repository *Repository) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _parametershape := range repository.ParameterUse {
-		UnstageBranch(stage, _parametershape)
+		stage.UnstageBranch(_parametershape)
 	}
 	for _, _groupuse := range repository.GroupUse {
-		UnstageBranch(stage, _groupuse)
+		stage.UnstageBranch(_groupuse)
 	}
 
 }
@@ -2714,7 +2602,7 @@ func (stage *Stage) UnstageBranchRepository(repository *Repository) {
 func (stage *Stage) UnstageBranchScenario(scenario *Scenario) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, scenario) {
+	if !stage.IsStaged(scenario) {
 		return
 	}
 
@@ -2724,22 +2612,22 @@ func (stage *Stage) UnstageBranchScenario(scenario *Scenario) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _diagram := range scenario.Diagrams {
-		UnstageBranch(stage, _diagram)
+		stage.UnstageBranch(_diagram)
 	}
 	for _, _actorstate := range scenario.ActorStates {
-		UnstageBranch(stage, _actorstate)
+		stage.UnstageBranch(_actorstate)
 	}
 	for _, _actorstatetransition := range scenario.ActorStateTransitions {
-		UnstageBranch(stage, _actorstatetransition)
+		stage.UnstageBranch(_actorstatetransition)
 	}
 	for _, _evolutiondirection := range scenario.EvolutionDirections {
-		UnstageBranch(stage, _evolutiondirection)
+		stage.UnstageBranch(_evolutiondirection)
 	}
 	for _, _parameter := range scenario.Parameters {
-		UnstageBranch(stage, _parameter)
+		stage.UnstageBranch(_parameter)
 	}
 	for _, _parametersaggregate := range scenario.ParametersAggretates {
-		UnstageBranch(stage, _parametersaggregate)
+		stage.UnstageBranch(_parametersaggregate)
 	}
 
 }
@@ -2747,7 +2635,7 @@ func (stage *Stage) UnstageBranchScenario(scenario *Scenario) {
 func (stage *Stage) UnstageBranchUser(user *User) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, user) {
+	if !stage.IsStaged(user) {
 		return
 	}
 
@@ -2762,7 +2650,7 @@ func (stage *Stage) UnstageBranchUser(user *User) {
 func (stage *Stage) UnstageBranchUserUse(useruse *UserUse) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, useruse) {
+	if !stage.IsStaged(useruse) {
 		return
 	}
 
@@ -2770,7 +2658,7 @@ func (stage *Stage) UnstageBranchUserUse(useruse *UserUse) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if useruse.User != nil {
-		UnstageBranch(stage, useruse.User)
+		stage.UnstageBranch(useruse.User)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2780,7 +2668,7 @@ func (stage *Stage) UnstageBranchUserUse(useruse *UserUse) {
 func (stage *Stage) UnstageBranchWorkspace(workspace *Workspace) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, workspace) {
+	if !stage.IsStaged(workspace) {
 		return
 	}
 
@@ -2788,22 +2676,22 @@ func (stage *Stage) UnstageBranchWorkspace(workspace *Workspace) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if workspace.SelectedDiagram != nil {
-		UnstageBranch(stage, workspace.SelectedDiagram)
+		stage.UnstageBranch(workspace.SelectedDiagram)
 	}
 	if workspace.Default_EvolutionDirectionShape != nil {
-		UnstageBranch(stage, workspace.Default_EvolutionDirectionShape)
+		stage.UnstageBranch(workspace.Default_EvolutionDirectionShape)
 	}
 	if workspace.Default_ParameterShape != nil {
-		UnstageBranch(stage, workspace.Default_ParameterShape)
+		stage.UnstageBranch(workspace.Default_ParameterShape)
 	}
 	if workspace.Default_ScenarioParameterShape != nil {
-		UnstageBranch(stage, workspace.Default_ScenarioParameterShape)
+		stage.UnstageBranch(workspace.Default_ScenarioParameterShape)
 	}
 	if workspace.Default_ActorStateShape != nil {
-		UnstageBranch(stage, workspace.Default_ActorStateShape)
+		stage.UnstageBranch(workspace.Default_ActorStateShape)
 	}
 	if workspace.Default_ActorStateTransitionShape != nil {
-		UnstageBranch(stage, workspace.Default_ActorStateTransitionShape)
+		stage.UnstageBranch(workspace.Default_ActorStateTransitionShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -3784,7 +3672,7 @@ func (actorstatetransition *ActorStateTransition) GongDiff(stage *Stage, actorst
 		}
 	}
 	if JustificationsDifferent {
-		ops := Diff(stage, actorstatetransition, actorstatetransitionOther, "Justifications", actorstatetransitionOther.Justifications, actorstatetransition.Justifications)
+		ops := stage.Diff(actorstatetransition, actorstatetransitionOther, "Justifications", actorstatetransitionOther.Justifications, actorstatetransition.Justifications)
 		diffs = append(diffs, ops)
 	}
 	if actorstatetransition.ComputedPrefix != actorstatetransitionOther.ComputedPrefix {
@@ -3858,7 +3746,7 @@ func (actorstatetransitionshape *ActorStateTransitionShape) GongDiff(stage *Stag
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := Diff(stage, actorstatetransitionshape, actorstatetransitionshapeOther, "ControlPointShapes", actorstatetransitionshapeOther.ControlPointShapes, actorstatetransitionshape.ControlPointShapes)
+		ops := stage.Diff(actorstatetransitionshape, actorstatetransitionshapeOther, "ControlPointShapes", actorstatetransitionshapeOther.ControlPointShapes, actorstatetransitionshape.ControlPointShapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -3893,7 +3781,7 @@ func (analysis *Analysis) GongDiff(stage *Stage, analysisOther *Analysis) (diffs
 		}
 	}
 	if ScenariosDifferent {
-		ops := Diff(stage, analysis, analysisOther, "Scenarios", analysisOther.Scenarios, analysis.Scenarios)
+		ops := stage.Diff(analysis, analysisOther, "Scenarios", analysisOther.Scenarios, analysis.Scenarios)
 		diffs = append(diffs, ops)
 	}
 	if analysis.IsScenariosNodeExpanded != analysisOther.IsScenariosNodeExpanded {
@@ -3917,7 +3805,7 @@ func (analysis *Analysis) GongDiff(stage *Stage, analysisOther *Analysis) (diffs
 		}
 	}
 	if GroupUseDifferent {
-		ops := Diff(stage, analysis, analysisOther, "GroupUse", analysisOther.GroupUse, analysis.GroupUse)
+		ops := stage.Diff(analysis, analysisOther, "GroupUse", analysisOther.GroupUse, analysis.GroupUse)
 		diffs = append(diffs, ops)
 	}
 	if analysis.IsGroupUseNodeExpanded != analysisOther.IsGroupUseNodeExpanded {
@@ -3941,7 +3829,7 @@ func (analysis *Analysis) GongDiff(stage *Stage, analysisOther *Analysis) (diffs
 		}
 	}
 	if GeoObjectUseDifferent {
-		ops := Diff(stage, analysis, analysisOther, "GeoObjectUse", analysisOther.GeoObjectUse, analysis.GeoObjectUse)
+		ops := stage.Diff(analysis, analysisOther, "GeoObjectUse", analysisOther.GeoObjectUse, analysis.GeoObjectUse)
 		diffs = append(diffs, ops)
 	}
 	if analysis.IsGeoObjectUseNodeExpanded != analysisOther.IsGeoObjectUseNodeExpanded {
@@ -3965,7 +3853,7 @@ func (analysis *Analysis) GongDiff(stage *Stage, analysisOther *Analysis) (diffs
 		}
 	}
 	if MapUseDifferent {
-		ops := Diff(stage, analysis, analysisOther, "MapUse", analysisOther.MapUse, analysis.MapUse)
+		ops := stage.Diff(analysis, analysisOther, "MapUse", analysisOther.MapUse, analysis.MapUse)
 		diffs = append(diffs, ops)
 	}
 	if analysis.IsMapUseNodeExpanded != analysisOther.IsMapUseNodeExpanded {
@@ -4041,7 +3929,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if EvolutionDirectionShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "EvolutionDirectionShapes", diagramOther.EvolutionDirectionShapes, diagram.EvolutionDirectionShapes)
+		ops := stage.Diff(diagram, diagramOther, "EvolutionDirectionShapes", diagramOther.EvolutionDirectionShapes, diagram.EvolutionDirectionShapes)
 		diffs = append(diffs, ops)
 	}
 	EvolutionDirectionsWhoseNodeIsExpandedDifferent := false
@@ -4062,7 +3950,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if EvolutionDirectionsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "EvolutionDirectionsWhoseNodeIsExpanded", diagramOther.EvolutionDirectionsWhoseNodeIsExpanded, diagram.EvolutionDirectionsWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "EvolutionDirectionsWhoseNodeIsExpanded", diagramOther.EvolutionDirectionsWhoseNodeIsExpanded, diagram.EvolutionDirectionsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsEvolutionDirectionsNodeExpanded != diagramOther.IsEvolutionDirectionsNodeExpanded {
@@ -4086,7 +3974,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ActorStateShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ActorStateShapes", diagramOther.ActorStateShapes, diagram.ActorStateShapes)
+		ops := stage.Diff(diagram, diagramOther, "ActorStateShapes", diagramOther.ActorStateShapes, diagram.ActorStateShapes)
 		diffs = append(diffs, ops)
 	}
 	ActorStatesWhoseNodeIsExpandedDifferent := false
@@ -4107,7 +3995,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ActorStatesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ActorStatesWhoseNodeIsExpanded", diagramOther.ActorStatesWhoseNodeIsExpanded, diagram.ActorStatesWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "ActorStatesWhoseNodeIsExpanded", diagramOther.ActorStatesWhoseNodeIsExpanded, diagram.ActorStatesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsActorStatesNodeExpanded != diagramOther.IsActorStatesNodeExpanded {
@@ -4131,7 +4019,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ParameterShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ParameterShapes", diagramOther.ParameterShapes, diagram.ParameterShapes)
+		ops := stage.Diff(diagram, diagramOther, "ParameterShapes", diagramOther.ParameterShapes, diagram.ParameterShapes)
 		diffs = append(diffs, ops)
 	}
 	ParametersWhoseNodeIsExpandedDifferent := false
@@ -4152,7 +4040,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ParametersWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ParametersWhoseNodeIsExpanded", diagramOther.ParametersWhoseNodeIsExpanded, diagram.ParametersWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "ParametersWhoseNodeIsExpanded", diagramOther.ParametersWhoseNodeIsExpanded, diagram.ParametersWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsParametersNodeExpanded != diagramOther.IsParametersNodeExpanded {
@@ -4176,7 +4064,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ScenarioParameterShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ScenarioParameterShapes", diagramOther.ScenarioParameterShapes, diagram.ScenarioParameterShapes)
+		ops := stage.Diff(diagram, diagramOther, "ScenarioParameterShapes", diagramOther.ScenarioParameterShapes, diagram.ScenarioParameterShapes)
 		diffs = append(diffs, ops)
 	}
 	ParametersAggregatesWhoseNodeIsExpandedDifferent := false
@@ -4197,7 +4085,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ParametersAggregatesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ParametersAggregatesWhoseNodeIsExpanded", diagramOther.ParametersAggregatesWhoseNodeIsExpanded, diagram.ParametersAggregatesWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "ParametersAggregatesWhoseNodeIsExpanded", diagramOther.ParametersAggregatesWhoseNodeIsExpanded, diagram.ParametersAggregatesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsParametersAggregatesNodeExpanded != diagramOther.IsParametersAggregatesNodeExpanded {
@@ -4221,7 +4109,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ActorStateTransitionShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ActorStateTransitionShapes", diagramOther.ActorStateTransitionShapes, diagram.ActorStateTransitionShapes)
+		ops := stage.Diff(diagram, diagramOther, "ActorStateTransitionShapes", diagramOther.ActorStateTransitionShapes, diagram.ActorStateTransitionShapes)
 		diffs = append(diffs, ops)
 	}
 	ActorStateTransitionsWhoseNodeIsExpandedDifferent := false
@@ -4242,7 +4130,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ActorStateTransitionsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ActorStateTransitionsWhoseNodeIsExpanded", diagramOther.ActorStateTransitionsWhoseNodeIsExpanded, diagram.ActorStateTransitionsWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "ActorStateTransitionsWhoseNodeIsExpanded", diagramOther.ActorStateTransitionsWhoseNodeIsExpanded, diagram.ActorStateTransitionsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsActorStateTransitionsNodeExpanded != diagramOther.IsActorStateTransitionsNodeExpanded {
@@ -4304,7 +4192,7 @@ func (document *Document) GongDiff(stage *Stage, documentOther *Document) (diffs
 		}
 	}
 	if GeoObjectUseDifferent {
-		ops := Diff(stage, document, documentOther, "GeoObjectUse", documentOther.GeoObjectUse, document.GeoObjectUse)
+		ops := stage.Diff(document, documentOther, "GeoObjectUse", documentOther.GeoObjectUse, document.GeoObjectUse)
 		diffs = append(diffs, ops)
 	}
 	if document.ComputedPrefix != documentOther.ComputedPrefix {
@@ -4459,7 +4347,7 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if UserUseDifferent {
-		ops := Diff(stage, group, groupOther, "UserUse", groupOther.UserUse, group.UserUse)
+		ops := stage.Diff(group, groupOther, "UserUse", groupOther.UserUse, group.UserUse)
 		diffs = append(diffs, ops)
 	}
 	if group.ComputedPrefix != groupOther.ComputedPrefix {
@@ -4527,7 +4415,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if AnalysesDifferent {
-		ops := Diff(stage, library, libraryOther, "Analyses", libraryOther.Analyses, library.Analyses)
+		ops := stage.Diff(library, libraryOther, "Analyses", libraryOther.Analyses, library.Analyses)
 		diffs = append(diffs, ops)
 	}
 	if library.IsAnalysesNodeExpanded != libraryOther.IsAnalysesNodeExpanded {
@@ -4551,7 +4439,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if SubLibrariesDifferent {
-		ops := Diff(stage, library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
+		ops := stage.Diff(library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
 		diffs = append(diffs, ops)
 	}
 	if library.IsSubLibrariesNodeExpanded != libraryOther.IsSubLibrariesNodeExpanded {
@@ -4575,7 +4463,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if SubLibrariesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "SubLibrariesWhoseNodeIsExpanded", libraryOther.SubLibrariesWhoseNodeIsExpanded, library.SubLibrariesWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "SubLibrariesWhoseNodeIsExpanded", libraryOther.SubLibrariesWhoseNodeIsExpanded, library.SubLibrariesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
@@ -4666,7 +4554,7 @@ func (parameter *Parameter) GongDiff(stage *Stage, parameterOther *Parameter) (d
 		}
 	}
 	if GroupUseDifferent {
-		ops := Diff(stage, parameter, parameterOther, "GroupUse", parameterOther.GroupUse, parameter.GroupUse)
+		ops := stage.Diff(parameter, parameterOther, "GroupUse", parameterOther.GroupUse, parameter.GroupUse)
 		diffs = append(diffs, ops)
 	}
 	DocumentUseDifferent := false
@@ -4687,7 +4575,7 @@ func (parameter *Parameter) GongDiff(stage *Stage, parameterOther *Parameter) (d
 		}
 	}
 	if DocumentUseDifferent {
-		ops := Diff(stage, parameter, parameterOther, "DocumentUse", parameterOther.DocumentUse, parameter.DocumentUse)
+		ops := stage.Diff(parameter, parameterOther, "DocumentUse", parameterOther.DocumentUse, parameter.DocumentUse)
 		diffs = append(diffs, ops)
 	}
 	GeoObjectUseDifferent := false
@@ -4708,7 +4596,7 @@ func (parameter *Parameter) GongDiff(stage *Stage, parameterOther *Parameter) (d
 		}
 	}
 	if GeoObjectUseDifferent {
-		ops := Diff(stage, parameter, parameterOther, "GeoObjectUse", parameterOther.GeoObjectUse, parameter.GeoObjectUse)
+		ops := stage.Diff(parameter, parameterOther, "GeoObjectUse", parameterOther.GeoObjectUse, parameter.GeoObjectUse)
 		diffs = append(diffs, ops)
 	}
 	if parameter.Tag != parameterOther.Tag {
@@ -4749,7 +4637,7 @@ func (parametercategory *ParameterCategory) GongDiff(stage *Stage, parametercate
 		}
 	}
 	if ParameterUseDifferent {
-		ops := Diff(stage, parametercategory, parametercategoryOther, "ParameterUse", parametercategoryOther.ParameterUse, parametercategory.ParameterUse)
+		ops := stage.Diff(parametercategory, parametercategoryOther, "ParameterUse", parametercategoryOther.ParameterUse, parametercategory.ParameterUse)
 		diffs = append(diffs, ops)
 	}
 	if parametercategory.ComputedPrefix != parametercategoryOther.ComputedPrefix {
@@ -4850,7 +4738,7 @@ func (parametersaggregate *ParametersAggregate) GongDiff(stage *Stage, parameter
 		}
 	}
 	if ParametersDifferent {
-		ops := Diff(stage, parametersaggregate, parametersaggregateOther, "Parameters", parametersaggregateOther.Parameters, parametersaggregate.Parameters)
+		ops := stage.Diff(parametersaggregate, parametersaggregateOther, "Parameters", parametersaggregateOther.Parameters, parametersaggregate.Parameters)
 		diffs = append(diffs, ops)
 	}
 	if parametersaggregate.ComputedPrefix != parametersaggregateOther.ComputedPrefix {
@@ -4947,7 +4835,7 @@ func (repository *Repository) GongDiff(stage *Stage, repositoryOther *Repository
 		}
 	}
 	if ParameterUseDifferent {
-		ops := Diff(stage, repository, repositoryOther, "ParameterUse", repositoryOther.ParameterUse, repository.ParameterUse)
+		ops := stage.Diff(repository, repositoryOther, "ParameterUse", repositoryOther.ParameterUse, repository.ParameterUse)
 		diffs = append(diffs, ops)
 	}
 	GroupUseDifferent := false
@@ -4968,7 +4856,7 @@ func (repository *Repository) GongDiff(stage *Stage, repositoryOther *Repository
 		}
 	}
 	if GroupUseDifferent {
-		ops := Diff(stage, repository, repositoryOther, "GroupUse", repositoryOther.GroupUse, repository.GroupUse)
+		ops := stage.Diff(repository, repositoryOther, "GroupUse", repositoryOther.GroupUse, repository.GroupUse)
 		diffs = append(diffs, ops)
 	}
 	if repository.ComputedPrefix != repositoryOther.ComputedPrefix {
@@ -5009,7 +4897,7 @@ func (scenario *Scenario) GongDiff(stage *Stage, scenarioOther *Scenario) (diffs
 		}
 	}
 	if DiagramsDifferent {
-		ops := Diff(stage, scenario, scenarioOther, "Diagrams", scenarioOther.Diagrams, scenario.Diagrams)
+		ops := stage.Diff(scenario, scenarioOther, "Diagrams", scenarioOther.Diagrams, scenario.Diagrams)
 		diffs = append(diffs, ops)
 	}
 	if scenario.IsDiagramsNodeExpanded != scenarioOther.IsDiagramsNodeExpanded {
@@ -5033,7 +4921,7 @@ func (scenario *Scenario) GongDiff(stage *Stage, scenarioOther *Scenario) (diffs
 		}
 	}
 	if ActorStatesDifferent {
-		ops := Diff(stage, scenario, scenarioOther, "ActorStates", scenarioOther.ActorStates, scenario.ActorStates)
+		ops := stage.Diff(scenario, scenarioOther, "ActorStates", scenarioOther.ActorStates, scenario.ActorStates)
 		diffs = append(diffs, ops)
 	}
 	if scenario.IsActorStatesNodeExpanded != scenarioOther.IsActorStatesNodeExpanded {
@@ -5057,7 +4945,7 @@ func (scenario *Scenario) GongDiff(stage *Stage, scenarioOther *Scenario) (diffs
 		}
 	}
 	if ActorStateTransitionsDifferent {
-		ops := Diff(stage, scenario, scenarioOther, "ActorStateTransitions", scenarioOther.ActorStateTransitions, scenario.ActorStateTransitions)
+		ops := stage.Diff(scenario, scenarioOther, "ActorStateTransitions", scenarioOther.ActorStateTransitions, scenario.ActorStateTransitions)
 		diffs = append(diffs, ops)
 	}
 	if scenario.IsActorStateTransitionsNodeExpanded != scenarioOther.IsActorStateTransitionsNodeExpanded {
@@ -5081,7 +4969,7 @@ func (scenario *Scenario) GongDiff(stage *Stage, scenarioOther *Scenario) (diffs
 		}
 	}
 	if EvolutionDirectionsDifferent {
-		ops := Diff(stage, scenario, scenarioOther, "EvolutionDirections", scenarioOther.EvolutionDirections, scenario.EvolutionDirections)
+		ops := stage.Diff(scenario, scenarioOther, "EvolutionDirections", scenarioOther.EvolutionDirections, scenario.EvolutionDirections)
 		diffs = append(diffs, ops)
 	}
 	if scenario.IsEvolutionDirectionsNodeExpanded != scenarioOther.IsEvolutionDirectionsNodeExpanded {
@@ -5105,7 +4993,7 @@ func (scenario *Scenario) GongDiff(stage *Stage, scenarioOther *Scenario) (diffs
 		}
 	}
 	if ParametersDifferent {
-		ops := Diff(stage, scenario, scenarioOther, "Parameters", scenarioOther.Parameters, scenario.Parameters)
+		ops := stage.Diff(scenario, scenarioOther, "Parameters", scenarioOther.Parameters, scenario.Parameters)
 		diffs = append(diffs, ops)
 	}
 	if scenario.IsParametersNodeExpanded != scenarioOther.IsParametersNodeExpanded {
@@ -5129,7 +5017,7 @@ func (scenario *Scenario) GongDiff(stage *Stage, scenarioOther *Scenario) (diffs
 		}
 	}
 	if ParametersAggretatesDifferent {
-		ops := Diff(stage, scenario, scenarioOther, "ParametersAggretates", scenarioOther.ParametersAggretates, scenario.ParametersAggretates)
+		ops := stage.Diff(scenario, scenarioOther, "ParametersAggretates", scenarioOther.ParametersAggretates, scenario.ParametersAggretates)
 		diffs = append(diffs, ops)
 	}
 	if scenario.IsParametersAggretatesNodeExpanded != scenarioOther.IsParametersAggretatesNodeExpanded {
@@ -5313,9 +5201,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

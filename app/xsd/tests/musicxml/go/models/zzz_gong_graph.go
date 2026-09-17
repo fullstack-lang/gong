@@ -707,713 +707,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *A_directive:
-		ok = stage.IsStagedA_directive(target)
-
-	case *A_measure:
-		ok = stage.IsStagedA_measure(target)
-
-	case *A_measure_1:
-		ok = stage.IsStagedA_measure_1(target)
-
-	case *A_part:
-		ok = stage.IsStagedA_part(target)
-
-	case *A_part_1:
-		ok = stage.IsStagedA_part_1(target)
-
-	case *Accidental:
-		ok = stage.IsStagedAccidental(target)
-
-	case *Accidental_mark:
-		ok = stage.IsStagedAccidental_mark(target)
-
-	case *Accidental_text:
-		ok = stage.IsStagedAccidental_text(target)
-
-	case *Accord:
-		ok = stage.IsStagedAccord(target)
-
-	case *Accordion_registration:
-		ok = stage.IsStagedAccordion_registration(target)
-
-	case *Appearance:
-		ok = stage.IsStagedAppearance(target)
-
-	case *Arpeggiate:
-		ok = stage.IsStagedArpeggiate(target)
-
-	case *Arrow:
-		ok = stage.IsStagedArrow(target)
-
-	case *Articulations:
-		ok = stage.IsStagedArticulations(target)
-
-	case *Assess:
-		ok = stage.IsStagedAssess(target)
-
-	case *Attributes:
-		ok = stage.IsStagedAttributes(target)
-
-	case *Backup:
-		ok = stage.IsStagedBackup(target)
-
-	case *Bar_style_color:
-		ok = stage.IsStagedBar_style_color(target)
-
-	case *Barline:
-		ok = stage.IsStagedBarline(target)
-
-	case *Barre:
-		ok = stage.IsStagedBarre(target)
-
-	case *Bass:
-		ok = stage.IsStagedBass(target)
-
-	case *Bass_step:
-		ok = stage.IsStagedBass_step(target)
-
-	case *Beam:
-		ok = stage.IsStagedBeam(target)
-
-	case *Beat_repeat:
-		ok = stage.IsStagedBeat_repeat(target)
-
-	case *Beat_unit_tied:
-		ok = stage.IsStagedBeat_unit_tied(target)
-
-	case *Beater:
-		ok = stage.IsStagedBeater(target)
-
-	case *Bend:
-		ok = stage.IsStagedBend(target)
-
-	case *Bookmark:
-		ok = stage.IsStagedBookmark(target)
-
-	case *Bracket:
-		ok = stage.IsStagedBracket(target)
-
-	case *Breath_mark:
-		ok = stage.IsStagedBreath_mark(target)
-
-	case *Caesura:
-		ok = stage.IsStagedCaesura(target)
-
-	case *Cancel:
-		ok = stage.IsStagedCancel(target)
-
-	case *Clef:
-		ok = stage.IsStagedClef(target)
-
-	case *Coda:
-		ok = stage.IsStagedCoda(target)
-
-	case *Credit:
-		ok = stage.IsStagedCredit(target)
-
-	case *Dashes:
-		ok = stage.IsStagedDashes(target)
-
-	case *Defaults:
-		ok = stage.IsStagedDefaults(target)
-
-	case *Degree:
-		ok = stage.IsStagedDegree(target)
-
-	case *Degree_alter:
-		ok = stage.IsStagedDegree_alter(target)
-
-	case *Degree_type:
-		ok = stage.IsStagedDegree_type(target)
-
-	case *Degree_value:
-		ok = stage.IsStagedDegree_value(target)
-
-	case *Direction:
-		ok = stage.IsStagedDirection(target)
-
-	case *Direction_type:
-		ok = stage.IsStagedDirection_type(target)
-
-	case *Distance:
-		ok = stage.IsStagedDistance(target)
-
-	case *Double:
-		ok = stage.IsStagedDouble(target)
-
-	case *Dynamics:
-		ok = stage.IsStagedDynamics(target)
-
-	case *Effect:
-		ok = stage.IsStagedEffect(target)
-
-	case *Elision:
-		ok = stage.IsStagedElision(target)
-
-	case *Empty:
-		ok = stage.IsStagedEmpty(target)
-
-	case *Empty_font:
-		ok = stage.IsStagedEmpty_font(target)
-
-	case *Empty_line:
-		ok = stage.IsStagedEmpty_line(target)
-
-	case *Empty_placement:
-		ok = stage.IsStagedEmpty_placement(target)
-
-	case *Empty_placement_smufl:
-		ok = stage.IsStagedEmpty_placement_smufl(target)
-
-	case *Empty_print_object_style_align:
-		ok = stage.IsStagedEmpty_print_object_style_align(target)
-
-	case *Empty_print_style:
-		ok = stage.IsStagedEmpty_print_style(target)
-
-	case *Empty_print_style_align:
-		ok = stage.IsStagedEmpty_print_style_align(target)
-
-	case *Empty_print_style_align_id:
-		ok = stage.IsStagedEmpty_print_style_align_id(target)
-
-	case *Empty_trill_sound:
-		ok = stage.IsStagedEmpty_trill_sound(target)
-
-	case *Encoding:
-		ok = stage.IsStagedEncoding(target)
-
-	case *Ending:
-		ok = stage.IsStagedEnding(target)
-
-	case *Extend:
-		ok = stage.IsStagedExtend(target)
-
-	case *Feature:
-		ok = stage.IsStagedFeature(target)
-
-	case *Fermata:
-		ok = stage.IsStagedFermata(target)
-
-	case *Figure:
-		ok = stage.IsStagedFigure(target)
-
-	case *Figured_bass:
-		ok = stage.IsStagedFigured_bass(target)
-
-	case *Fingering:
-		ok = stage.IsStagedFingering(target)
-
-	case *First_fret:
-		ok = stage.IsStagedFirst_fret(target)
-
-	case *For_part:
-		ok = stage.IsStagedFor_part(target)
-
-	case *Formatted_symbol:
-		ok = stage.IsStagedFormatted_symbol(target)
-
-	case *Formatted_symbol_id:
-		ok = stage.IsStagedFormatted_symbol_id(target)
-
-	case *Formatted_text:
-		ok = stage.IsStagedFormatted_text(target)
-
-	case *Formatted_text_id:
-		ok = stage.IsStagedFormatted_text_id(target)
-
-	case *Forward:
-		ok = stage.IsStagedForward(target)
-
-	case *Frame:
-		ok = stage.IsStagedFrame(target)
-
-	case *Frame_note:
-		ok = stage.IsStagedFrame_note(target)
-
-	case *Fret:
-		ok = stage.IsStagedFret(target)
-
-	case *Glass:
-		ok = stage.IsStagedGlass(target)
-
-	case *Glissando:
-		ok = stage.IsStagedGlissando(target)
-
-	case *Glyph:
-		ok = stage.IsStagedGlyph(target)
-
-	case *Grace:
-		ok = stage.IsStagedGrace(target)
-
-	case *Group_barline:
-		ok = stage.IsStagedGroup_barline(target)
-
-	case *Group_name:
-		ok = stage.IsStagedGroup_name(target)
-
-	case *Group_symbol:
-		ok = stage.IsStagedGroup_symbol(target)
-
-	case *Grouping:
-		ok = stage.IsStagedGrouping(target)
-
-	case *Hammer_on_pull_off:
-		ok = stage.IsStagedHammer_on_pull_off(target)
-
-	case *Handbell:
-		ok = stage.IsStagedHandbell(target)
-
-	case *Harmon_closed:
-		ok = stage.IsStagedHarmon_closed(target)
-
-	case *Harmon_mute:
-		ok = stage.IsStagedHarmon_mute(target)
-
-	case *Harmonic:
-		ok = stage.IsStagedHarmonic(target)
-
-	case *Harmony:
-		ok = stage.IsStagedHarmony(target)
-
-	case *Harmony_alter:
-		ok = stage.IsStagedHarmony_alter(target)
-
-	case *Harp_pedals:
-		ok = stage.IsStagedHarp_pedals(target)
-
-	case *Heel_toe:
-		ok = stage.IsStagedHeel_toe(target)
-
-	case *Hole:
-		ok = stage.IsStagedHole(target)
-
-	case *Hole_closed:
-		ok = stage.IsStagedHole_closed(target)
-
-	case *Horizontal_turn:
-		ok = stage.IsStagedHorizontal_turn(target)
-
-	case *Identification:
-		ok = stage.IsStagedIdentification(target)
-
-	case *Image:
-		ok = stage.IsStagedImage(target)
-
-	case *Instrument:
-		ok = stage.IsStagedInstrument(target)
-
-	case *Instrument_change:
-		ok = stage.IsStagedInstrument_change(target)
-
-	case *Instrument_link:
-		ok = stage.IsStagedInstrument_link(target)
-
-	case *Interchangeable:
-		ok = stage.IsStagedInterchangeable(target)
-
-	case *Inversion:
-		ok = stage.IsStagedInversion(target)
-
-	case *Key:
-		ok = stage.IsStagedKey(target)
-
-	case *Key_accidental:
-		ok = stage.IsStagedKey_accidental(target)
-
-	case *Key_octave:
-		ok = stage.IsStagedKey_octave(target)
-
-	case *Kind:
-		ok = stage.IsStagedKind(target)
-
-	case *Level:
-		ok = stage.IsStagedLevel(target)
-
-	case *Line_detail:
-		ok = stage.IsStagedLine_detail(target)
-
-	case *Line_width:
-		ok = stage.IsStagedLine_width(target)
-
-	case *Link:
-		ok = stage.IsStagedLink(target)
-
-	case *Listen:
-		ok = stage.IsStagedListen(target)
-
-	case *Listening:
-		ok = stage.IsStagedListening(target)
-
-	case *Lyric:
-		ok = stage.IsStagedLyric(target)
-
-	case *Lyric_font:
-		ok = stage.IsStagedLyric_font(target)
-
-	case *Lyric_language:
-		ok = stage.IsStagedLyric_language(target)
-
-	case *Measure_layout:
-		ok = stage.IsStagedMeasure_layout(target)
-
-	case *Measure_numbering:
-		ok = stage.IsStagedMeasure_numbering(target)
-
-	case *Measure_repeat:
-		ok = stage.IsStagedMeasure_repeat(target)
-
-	case *Measure_style:
-		ok = stage.IsStagedMeasure_style(target)
-
-	case *Membrane:
-		ok = stage.IsStagedMembrane(target)
-
-	case *Metal:
-		ok = stage.IsStagedMetal(target)
-
-	case *Metronome:
-		ok = stage.IsStagedMetronome(target)
-
-	case *Metronome_beam:
-		ok = stage.IsStagedMetronome_beam(target)
-
-	case *Metronome_note:
-		ok = stage.IsStagedMetronome_note(target)
-
-	case *Metronome_tied:
-		ok = stage.IsStagedMetronome_tied(target)
-
-	case *Metronome_tuplet:
-		ok = stage.IsStagedMetronome_tuplet(target)
-
-	case *Midi_device:
-		ok = stage.IsStagedMidi_device(target)
-
-	case *Midi_instrument:
-		ok = stage.IsStagedMidi_instrument(target)
-
-	case *Miscellaneous:
-		ok = stage.IsStagedMiscellaneous(target)
-
-	case *Miscellaneous_field:
-		ok = stage.IsStagedMiscellaneous_field(target)
-
-	case *Mordent:
-		ok = stage.IsStagedMordent(target)
-
-	case *Multiple_rest:
-		ok = stage.IsStagedMultiple_rest(target)
-
-	case *Name_display:
-		ok = stage.IsStagedName_display(target)
-
-	case *Non_arpeggiate:
-		ok = stage.IsStagedNon_arpeggiate(target)
-
-	case *Notations:
-		ok = stage.IsStagedNotations(target)
-
-	case *Note:
-		ok = stage.IsStagedNote(target)
-
-	case *Note_size:
-		ok = stage.IsStagedNote_size(target)
-
-	case *Note_type:
-		ok = stage.IsStagedNote_type(target)
-
-	case *Notehead:
-		ok = stage.IsStagedNotehead(target)
-
-	case *Notehead_text:
-		ok = stage.IsStagedNotehead_text(target)
-
-	case *Numeral:
-		ok = stage.IsStagedNumeral(target)
-
-	case *Numeral_key:
-		ok = stage.IsStagedNumeral_key(target)
-
-	case *Numeral_root:
-		ok = stage.IsStagedNumeral_root(target)
-
-	case *Octave_shift:
-		ok = stage.IsStagedOctave_shift(target)
-
-	case *Offset:
-		ok = stage.IsStagedOffset(target)
-
-	case *Opus:
-		ok = stage.IsStagedOpus(target)
-
-	case *Ornaments:
-		ok = stage.IsStagedOrnaments(target)
-
-	case *Other_appearance:
-		ok = stage.IsStagedOther_appearance(target)
-
-	case *Other_direction:
-		ok = stage.IsStagedOther_direction(target)
-
-	case *Other_listening:
-		ok = stage.IsStagedOther_listening(target)
-
-	case *Other_notation:
-		ok = stage.IsStagedOther_notation(target)
-
-	case *Other_placement_text:
-		ok = stage.IsStagedOther_placement_text(target)
-
-	case *Other_play:
-		ok = stage.IsStagedOther_play(target)
-
-	case *Other_text:
-		ok = stage.IsStagedOther_text(target)
-
-	case *Page_layout:
-		ok = stage.IsStagedPage_layout(target)
-
-	case *Page_margins:
-		ok = stage.IsStagedPage_margins(target)
-
-	case *Part_clef:
-		ok = stage.IsStagedPart_clef(target)
-
-	case *Part_group:
-		ok = stage.IsStagedPart_group(target)
-
-	case *Part_link:
-		ok = stage.IsStagedPart_link(target)
-
-	case *Part_list:
-		ok = stage.IsStagedPart_list(target)
-
-	case *Part_name:
-		ok = stage.IsStagedPart_name(target)
-
-	case *Part_symbol:
-		ok = stage.IsStagedPart_symbol(target)
-
-	case *Part_transpose:
-		ok = stage.IsStagedPart_transpose(target)
-
-	case *Pedal:
-		ok = stage.IsStagedPedal(target)
-
-	case *Pedal_tuning:
-		ok = stage.IsStagedPedal_tuning(target)
-
-	case *Per_minute:
-		ok = stage.IsStagedPer_minute(target)
-
-	case *Percussion:
-		ok = stage.IsStagedPercussion(target)
-
-	case *Pitch:
-		ok = stage.IsStagedPitch(target)
-
-	case *Pitched:
-		ok = stage.IsStagedPitched(target)
-
-	case *Placement_text:
-		ok = stage.IsStagedPlacement_text(target)
-
-	case *Play:
-		ok = stage.IsStagedPlay(target)
-
-	case *Player:
-		ok = stage.IsStagedPlayer(target)
-
-	case *Principal_voice:
-		ok = stage.IsStagedPrincipal_voice(target)
-
-	case *Print:
-		ok = stage.IsStagedPrint(target)
-
-	case *Release:
-		ok = stage.IsStagedRelease(target)
-
-	case *Repeat:
-		ok = stage.IsStagedRepeat(target)
-
-	case *Rest:
-		ok = stage.IsStagedRest(target)
-
-	case *Root:
-		ok = stage.IsStagedRoot(target)
-
-	case *Root_step:
-		ok = stage.IsStagedRoot_step(target)
-
-	case *Scaling:
-		ok = stage.IsStagedScaling(target)
-
-	case *Scordatura:
-		ok = stage.IsStagedScordatura(target)
-
-	case *Score_instrument:
-		ok = stage.IsStagedScore_instrument(target)
-
-	case *Score_part:
-		ok = stage.IsStagedScore_part(target)
-
-	case *Score_partwise:
-		ok = stage.IsStagedScore_partwise(target)
-
-	case *Score_timewise:
-		ok = stage.IsStagedScore_timewise(target)
-
-	case *Segno:
-		ok = stage.IsStagedSegno(target)
-
-	case *Slash:
-		ok = stage.IsStagedSlash(target)
-
-	case *Slide:
-		ok = stage.IsStagedSlide(target)
-
-	case *Slur:
-		ok = stage.IsStagedSlur(target)
-
-	case *Sound:
-		ok = stage.IsStagedSound(target)
-
-	case *Staff_details:
-		ok = stage.IsStagedStaff_details(target)
-
-	case *Staff_divide:
-		ok = stage.IsStagedStaff_divide(target)
-
-	case *Staff_layout:
-		ok = stage.IsStagedStaff_layout(target)
-
-	case *Staff_size:
-		ok = stage.IsStagedStaff_size(target)
-
-	case *Staff_tuning:
-		ok = stage.IsStagedStaff_tuning(target)
-
-	case *Stem:
-		ok = stage.IsStagedStem(target)
-
-	case *Stick:
-		ok = stage.IsStagedStick(target)
-
-	case *String_mute:
-		ok = stage.IsStagedString_mute(target)
-
-	case *String_type:
-		ok = stage.IsStagedString_type(target)
-
-	case *Strong_accent:
-		ok = stage.IsStagedStrong_accent(target)
-
-	case *Style_text:
-		ok = stage.IsStagedStyle_text(target)
-
-	case *Supports:
-		ok = stage.IsStagedSupports(target)
-
-	case *Swing:
-		ok = stage.IsStagedSwing(target)
-
-	case *Sync:
-		ok = stage.IsStagedSync(target)
-
-	case *System_dividers:
-		ok = stage.IsStagedSystem_dividers(target)
-
-	case *System_layout:
-		ok = stage.IsStagedSystem_layout(target)
-
-	case *System_margins:
-		ok = stage.IsStagedSystem_margins(target)
-
-	case *Tap:
-		ok = stage.IsStagedTap(target)
-
-	case *Technical:
-		ok = stage.IsStagedTechnical(target)
-
-	case *Text_element_data:
-		ok = stage.IsStagedText_element_data(target)
-
-	case *Tie:
-		ok = stage.IsStagedTie(target)
-
-	case *Tied:
-		ok = stage.IsStagedTied(target)
-
-	case *Time:
-		ok = stage.IsStagedTime(target)
-
-	case *Time_modification:
-		ok = stage.IsStagedTime_modification(target)
-
-	case *Timpani:
-		ok = stage.IsStagedTimpani(target)
-
-	case *Transpose:
-		ok = stage.IsStagedTranspose(target)
-
-	case *Tremolo:
-		ok = stage.IsStagedTremolo(target)
-
-	case *Tuplet:
-		ok = stage.IsStagedTuplet(target)
-
-	case *Tuplet_dot:
-		ok = stage.IsStagedTuplet_dot(target)
-
-	case *Tuplet_number:
-		ok = stage.IsStagedTuplet_number(target)
-
-	case *Tuplet_portion:
-		ok = stage.IsStagedTuplet_portion(target)
-
-	case *Tuplet_type:
-		ok = stage.IsStagedTuplet_type(target)
-
-	case *Typed_text:
-		ok = stage.IsStagedTyped_text(target)
-
-	case *Unpitched:
-		ok = stage.IsStagedUnpitched(target)
-
-	case *Virtual_instrument:
-		ok = stage.IsStagedVirtual_instrument(target)
-
-	case *Wait:
-		ok = stage.IsStagedWait(target)
-
-	case *Wavy_line:
-		ok = stage.IsStagedWavy_line(target)
-
-	case *Wedge:
-		ok = stage.IsStagedWedge(target)
-
-	case *Wood:
-		ok = stage.IsStagedWood(target)
-
-	case *Work:
-		ok = stage.IsStagedWork(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedA_directive(a_directive *A_directive) (ok bool) {
 
@@ -3744,7 +3037,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchA_directive(a_directive *A_directive) {
 
 	// check if instance is already staged
-	if IsStaged(stage, a_directive) {
+	if stage.IsStaged(a_directive) {
 		return
 	}
 
@@ -3759,7 +3052,7 @@ func (stage *Stage) StageBranchA_directive(a_directive *A_directive) {
 func (stage *Stage) StageBranchA_measure(a_measure *A_measure) {
 
 	// check if instance is already staged
-	if IsStaged(stage, a_measure) {
+	if stage.IsStaged(a_measure) {
 		return
 	}
 
@@ -3769,46 +3062,46 @@ func (stage *Stage) StageBranchA_measure(a_measure *A_measure) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _note := range a_measure.Note {
-		StageBranch(stage, _note)
+		stage.StageBranch(_note)
 	}
 	for _, _backup := range a_measure.Backup {
-		StageBranch(stage, _backup)
+		stage.StageBranch(_backup)
 	}
 	for _, _forward := range a_measure.Forward {
-		StageBranch(stage, _forward)
+		stage.StageBranch(_forward)
 	}
 	for _, _direction := range a_measure.Direction {
-		StageBranch(stage, _direction)
+		stage.StageBranch(_direction)
 	}
 	for _, _attributes := range a_measure.Attributes {
-		StageBranch(stage, _attributes)
+		stage.StageBranch(_attributes)
 	}
 	for _, _harmony := range a_measure.Harmony {
-		StageBranch(stage, _harmony)
+		stage.StageBranch(_harmony)
 	}
 	for _, _figured_bass := range a_measure.Figured_bass {
-		StageBranch(stage, _figured_bass)
+		stage.StageBranch(_figured_bass)
 	}
 	for _, _print := range a_measure.Print {
-		StageBranch(stage, _print)
+		stage.StageBranch(_print)
 	}
 	for _, _sound := range a_measure.Sound {
-		StageBranch(stage, _sound)
+		stage.StageBranch(_sound)
 	}
 	for _, _listening := range a_measure.Listening {
-		StageBranch(stage, _listening)
+		stage.StageBranch(_listening)
 	}
 	for _, _barline := range a_measure.Barline {
-		StageBranch(stage, _barline)
+		stage.StageBranch(_barline)
 	}
 	for _, _grouping := range a_measure.Grouping {
-		StageBranch(stage, _grouping)
+		stage.StageBranch(_grouping)
 	}
 	for _, _link := range a_measure.Link {
-		StageBranch(stage, _link)
+		stage.StageBranch(_link)
 	}
 	for _, _bookmark := range a_measure.Bookmark {
-		StageBranch(stage, _bookmark)
+		stage.StageBranch(_bookmark)
 	}
 
 }
@@ -3816,7 +3109,7 @@ func (stage *Stage) StageBranchA_measure(a_measure *A_measure) {
 func (stage *Stage) StageBranchA_measure_1(a_measure_1 *A_measure_1) {
 
 	// check if instance is already staged
-	if IsStaged(stage, a_measure_1) {
+	if stage.IsStaged(a_measure_1) {
 		return
 	}
 
@@ -3826,7 +3119,7 @@ func (stage *Stage) StageBranchA_measure_1(a_measure_1 *A_measure_1) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _a_part_1 := range a_measure_1.Part {
-		StageBranch(stage, _a_part_1)
+		stage.StageBranch(_a_part_1)
 	}
 
 }
@@ -3834,7 +3127,7 @@ func (stage *Stage) StageBranchA_measure_1(a_measure_1 *A_measure_1) {
 func (stage *Stage) StageBranchA_part(a_part *A_part) {
 
 	// check if instance is already staged
-	if IsStaged(stage, a_part) {
+	if stage.IsStaged(a_part) {
 		return
 	}
 
@@ -3844,7 +3137,7 @@ func (stage *Stage) StageBranchA_part(a_part *A_part) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _a_measure := range a_part.Measure {
-		StageBranch(stage, _a_measure)
+		stage.StageBranch(_a_measure)
 	}
 
 }
@@ -3852,7 +3145,7 @@ func (stage *Stage) StageBranchA_part(a_part *A_part) {
 func (stage *Stage) StageBranchA_part_1(a_part_1 *A_part_1) {
 
 	// check if instance is already staged
-	if IsStaged(stage, a_part_1) {
+	if stage.IsStaged(a_part_1) {
 		return
 	}
 
@@ -3862,46 +3155,46 @@ func (stage *Stage) StageBranchA_part_1(a_part_1 *A_part_1) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _note := range a_part_1.Note {
-		StageBranch(stage, _note)
+		stage.StageBranch(_note)
 	}
 	for _, _backup := range a_part_1.Backup {
-		StageBranch(stage, _backup)
+		stage.StageBranch(_backup)
 	}
 	for _, _forward := range a_part_1.Forward {
-		StageBranch(stage, _forward)
+		stage.StageBranch(_forward)
 	}
 	for _, _direction := range a_part_1.Direction {
-		StageBranch(stage, _direction)
+		stage.StageBranch(_direction)
 	}
 	for _, _attributes := range a_part_1.Attributes {
-		StageBranch(stage, _attributes)
+		stage.StageBranch(_attributes)
 	}
 	for _, _harmony := range a_part_1.Harmony {
-		StageBranch(stage, _harmony)
+		stage.StageBranch(_harmony)
 	}
 	for _, _figured_bass := range a_part_1.Figured_bass {
-		StageBranch(stage, _figured_bass)
+		stage.StageBranch(_figured_bass)
 	}
 	for _, _print := range a_part_1.Print {
-		StageBranch(stage, _print)
+		stage.StageBranch(_print)
 	}
 	for _, _sound := range a_part_1.Sound {
-		StageBranch(stage, _sound)
+		stage.StageBranch(_sound)
 	}
 	for _, _listening := range a_part_1.Listening {
-		StageBranch(stage, _listening)
+		stage.StageBranch(_listening)
 	}
 	for _, _barline := range a_part_1.Barline {
-		StageBranch(stage, _barline)
+		stage.StageBranch(_barline)
 	}
 	for _, _grouping := range a_part_1.Grouping {
-		StageBranch(stage, _grouping)
+		stage.StageBranch(_grouping)
 	}
 	for _, _link := range a_part_1.Link {
-		StageBranch(stage, _link)
+		stage.StageBranch(_link)
 	}
 	for _, _bookmark := range a_part_1.Bookmark {
-		StageBranch(stage, _bookmark)
+		stage.StageBranch(_bookmark)
 	}
 
 }
@@ -3909,7 +3202,7 @@ func (stage *Stage) StageBranchA_part_1(a_part_1 *A_part_1) {
 func (stage *Stage) StageBranchAccidental(accidental *Accidental) {
 
 	// check if instance is already staged
-	if IsStaged(stage, accidental) {
+	if stage.IsStaged(accidental) {
 		return
 	}
 
@@ -3924,7 +3217,7 @@ func (stage *Stage) StageBranchAccidental(accidental *Accidental) {
 func (stage *Stage) StageBranchAccidental_mark(accidental_mark *Accidental_mark) {
 
 	// check if instance is already staged
-	if IsStaged(stage, accidental_mark) {
+	if stage.IsStaged(accidental_mark) {
 		return
 	}
 
@@ -3939,7 +3232,7 @@ func (stage *Stage) StageBranchAccidental_mark(accidental_mark *Accidental_mark)
 func (stage *Stage) StageBranchAccidental_text(accidental_text *Accidental_text) {
 
 	// check if instance is already staged
-	if IsStaged(stage, accidental_text) {
+	if stage.IsStaged(accidental_text) {
 		return
 	}
 
@@ -3954,7 +3247,7 @@ func (stage *Stage) StageBranchAccidental_text(accidental_text *Accidental_text)
 func (stage *Stage) StageBranchAccord(accord *Accord) {
 
 	// check if instance is already staged
-	if IsStaged(stage, accord) {
+	if stage.IsStaged(accord) {
 		return
 	}
 
@@ -3969,7 +3262,7 @@ func (stage *Stage) StageBranchAccord(accord *Accord) {
 func (stage *Stage) StageBranchAccordion_registration(accordion_registration *Accordion_registration) {
 
 	// check if instance is already staged
-	if IsStaged(stage, accordion_registration) {
+	if stage.IsStaged(accordion_registration) {
 		return
 	}
 
@@ -3984,7 +3277,7 @@ func (stage *Stage) StageBranchAccordion_registration(accordion_registration *Ac
 func (stage *Stage) StageBranchAppearance(appearance *Appearance) {
 
 	// check if instance is already staged
-	if IsStaged(stage, appearance) {
+	if stage.IsStaged(appearance) {
 		return
 	}
 
@@ -3994,19 +3287,19 @@ func (stage *Stage) StageBranchAppearance(appearance *Appearance) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _line_width := range appearance.Line_width {
-		StageBranch(stage, _line_width)
+		stage.StageBranch(_line_width)
 	}
 	for _, _note_size := range appearance.Note_size {
-		StageBranch(stage, _note_size)
+		stage.StageBranch(_note_size)
 	}
 	for _, _distance := range appearance.Distance {
-		StageBranch(stage, _distance)
+		stage.StageBranch(_distance)
 	}
 	for _, _glyph := range appearance.Glyph {
-		StageBranch(stage, _glyph)
+		stage.StageBranch(_glyph)
 	}
 	for _, _other_appearance := range appearance.Other_appearance {
-		StageBranch(stage, _other_appearance)
+		stage.StageBranch(_other_appearance)
 	}
 
 }
@@ -4014,7 +3307,7 @@ func (stage *Stage) StageBranchAppearance(appearance *Appearance) {
 func (stage *Stage) StageBranchArpeggiate(arpeggiate *Arpeggiate) {
 
 	// check if instance is already staged
-	if IsStaged(stage, arpeggiate) {
+	if stage.IsStaged(arpeggiate) {
 		return
 	}
 
@@ -4029,7 +3322,7 @@ func (stage *Stage) StageBranchArpeggiate(arpeggiate *Arpeggiate) {
 func (stage *Stage) StageBranchArrow(arrow *Arrow) {
 
 	// check if instance is already staged
-	if IsStaged(stage, arrow) {
+	if stage.IsStaged(arrow) {
 		return
 	}
 
@@ -4044,7 +3337,7 @@ func (stage *Stage) StageBranchArrow(arrow *Arrow) {
 func (stage *Stage) StageBranchArticulations(articulations *Articulations) {
 
 	// check if instance is already staged
-	if IsStaged(stage, articulations) {
+	if stage.IsStaged(articulations) {
 		return
 	}
 
@@ -4054,55 +3347,55 @@ func (stage *Stage) StageBranchArticulations(articulations *Articulations) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _empty_placement := range articulations.Accent {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _strong_accent := range articulations.Strong_accent {
-		StageBranch(stage, _strong_accent)
+		stage.StageBranch(_strong_accent)
 	}
 	for _, _empty_placement := range articulations.Staccato {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range articulations.Tenuto {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range articulations.Detached_legato {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range articulations.Staccatissimo {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range articulations.Spiccato {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _empty_line := range articulations.Scoop {
-		StageBranch(stage, _empty_line)
+		stage.StageBranch(_empty_line)
 	}
 	for _, _empty_line := range articulations.Plop {
-		StageBranch(stage, _empty_line)
+		stage.StageBranch(_empty_line)
 	}
 	for _, _empty_line := range articulations.Doit {
-		StageBranch(stage, _empty_line)
+		stage.StageBranch(_empty_line)
 	}
 	for _, _empty_line := range articulations.Falloff {
-		StageBranch(stage, _empty_line)
+		stage.StageBranch(_empty_line)
 	}
 	for _, _breath_mark := range articulations.Breath_mark {
-		StageBranch(stage, _breath_mark)
+		stage.StageBranch(_breath_mark)
 	}
 	for _, _caesura := range articulations.Caesura {
-		StageBranch(stage, _caesura)
+		stage.StageBranch(_caesura)
 	}
 	for _, _empty_placement := range articulations.Stress {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range articulations.Unstress {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range articulations.Soft_accent {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _other_placement_text := range articulations.Other_articulation {
-		StageBranch(stage, _other_placement_text)
+		stage.StageBranch(_other_placement_text)
 	}
 
 }
@@ -4110,7 +3403,7 @@ func (stage *Stage) StageBranchArticulations(articulations *Articulations) {
 func (stage *Stage) StageBranchAssess(assess *Assess) {
 
 	// check if instance is already staged
-	if IsStaged(stage, assess) {
+	if stage.IsStaged(assess) {
 		return
 	}
 
@@ -4125,7 +3418,7 @@ func (stage *Stage) StageBranchAssess(assess *Assess) {
 func (stage *Stage) StageBranchAttributes(attributes *Attributes) {
 
 	// check if instance is already staged
-	if IsStaged(stage, attributes) {
+	if stage.IsStaged(attributes) {
 		return
 	}
 
@@ -4133,39 +3426,39 @@ func (stage *Stage) StageBranchAttributes(attributes *Attributes) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if attributes.Footnote != nil {
-		StageBranch(stage, attributes.Footnote)
+		stage.StageBranch(attributes.Footnote)
 	}
 	if attributes.Level != nil {
-		StageBranch(stage, attributes.Level)
+		stage.StageBranch(attributes.Level)
 	}
 	if attributes.Part_symbol != nil {
-		StageBranch(stage, attributes.Part_symbol)
+		stage.StageBranch(attributes.Part_symbol)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _key := range attributes.Key {
-		StageBranch(stage, _key)
+		stage.StageBranch(_key)
 	}
 	for _, _time := range attributes.Time {
-		StageBranch(stage, _time)
+		stage.StageBranch(_time)
 	}
 	for _, _clef := range attributes.Clef {
-		StageBranch(stage, _clef)
+		stage.StageBranch(_clef)
 	}
 	for _, _staff_details := range attributes.Staff_details {
-		StageBranch(stage, _staff_details)
+		stage.StageBranch(_staff_details)
 	}
 	for _, _transpose := range attributes.Transpose {
-		StageBranch(stage, _transpose)
+		stage.StageBranch(_transpose)
 	}
 	for _, _for_part := range attributes.For_part {
-		StageBranch(stage, _for_part)
+		stage.StageBranch(_for_part)
 	}
 	for _, _a_directive := range attributes.Directive {
-		StageBranch(stage, _a_directive)
+		stage.StageBranch(_a_directive)
 	}
 	for _, _measure_style := range attributes.Measure_style {
-		StageBranch(stage, _measure_style)
+		stage.StageBranch(_measure_style)
 	}
 
 }
@@ -4173,7 +3466,7 @@ func (stage *Stage) StageBranchAttributes(attributes *Attributes) {
 func (stage *Stage) StageBranchBackup(backup *Backup) {
 
 	// check if instance is already staged
-	if IsStaged(stage, backup) {
+	if stage.IsStaged(backup) {
 		return
 	}
 
@@ -4181,10 +3474,10 @@ func (stage *Stage) StageBranchBackup(backup *Backup) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if backup.Footnote != nil {
-		StageBranch(stage, backup.Footnote)
+		stage.StageBranch(backup.Footnote)
 	}
 	if backup.Level != nil {
-		StageBranch(stage, backup.Level)
+		stage.StageBranch(backup.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4194,7 +3487,7 @@ func (stage *Stage) StageBranchBackup(backup *Backup) {
 func (stage *Stage) StageBranchBar_style_color(bar_style_color *Bar_style_color) {
 
 	// check if instance is already staged
-	if IsStaged(stage, bar_style_color) {
+	if stage.IsStaged(bar_style_color) {
 		return
 	}
 
@@ -4209,7 +3502,7 @@ func (stage *Stage) StageBranchBar_style_color(bar_style_color *Bar_style_color)
 func (stage *Stage) StageBranchBarline(barline *Barline) {
 
 	// check if instance is already staged
-	if IsStaged(stage, barline) {
+	if stage.IsStaged(barline) {
 		return
 	}
 
@@ -4217,31 +3510,31 @@ func (stage *Stage) StageBranchBarline(barline *Barline) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if barline.Bar_style != nil {
-		StageBranch(stage, barline.Bar_style)
+		stage.StageBranch(barline.Bar_style)
 	}
 	if barline.Footnote != nil {
-		StageBranch(stage, barline.Footnote)
+		stage.StageBranch(barline.Footnote)
 	}
 	if barline.Level != nil {
-		StageBranch(stage, barline.Level)
+		stage.StageBranch(barline.Level)
 	}
 	if barline.Wavy_line != nil {
-		StageBranch(stage, barline.Wavy_line)
+		stage.StageBranch(barline.Wavy_line)
 	}
 	if barline.Segno_1 != nil {
-		StageBranch(stage, barline.Segno_1)
+		stage.StageBranch(barline.Segno_1)
 	}
 	if barline.Coda_1 != nil {
-		StageBranch(stage, barline.Coda_1)
+		stage.StageBranch(barline.Coda_1)
 	}
 	if barline.Fermata != nil {
-		StageBranch(stage, barline.Fermata)
+		stage.StageBranch(barline.Fermata)
 	}
 	if barline.Ending != nil {
-		StageBranch(stage, barline.Ending)
+		stage.StageBranch(barline.Ending)
 	}
 	if barline.Repeat != nil {
-		StageBranch(stage, barline.Repeat)
+		stage.StageBranch(barline.Repeat)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4251,7 +3544,7 @@ func (stage *Stage) StageBranchBarline(barline *Barline) {
 func (stage *Stage) StageBranchBarre(barre *Barre) {
 
 	// check if instance is already staged
-	if IsStaged(stage, barre) {
+	if stage.IsStaged(barre) {
 		return
 	}
 
@@ -4266,7 +3559,7 @@ func (stage *Stage) StageBranchBarre(barre *Barre) {
 func (stage *Stage) StageBranchBass(bass *Bass) {
 
 	// check if instance is already staged
-	if IsStaged(stage, bass) {
+	if stage.IsStaged(bass) {
 		return
 	}
 
@@ -4274,13 +3567,13 @@ func (stage *Stage) StageBranchBass(bass *Bass) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if bass.Bass_separator != nil {
-		StageBranch(stage, bass.Bass_separator)
+		stage.StageBranch(bass.Bass_separator)
 	}
 	if bass.Bass_step != nil {
-		StageBranch(stage, bass.Bass_step)
+		stage.StageBranch(bass.Bass_step)
 	}
 	if bass.Bass_alter != nil {
-		StageBranch(stage, bass.Bass_alter)
+		stage.StageBranch(bass.Bass_alter)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4290,7 +3583,7 @@ func (stage *Stage) StageBranchBass(bass *Bass) {
 func (stage *Stage) StageBranchBass_step(bass_step *Bass_step) {
 
 	// check if instance is already staged
-	if IsStaged(stage, bass_step) {
+	if stage.IsStaged(bass_step) {
 		return
 	}
 
@@ -4305,7 +3598,7 @@ func (stage *Stage) StageBranchBass_step(bass_step *Bass_step) {
 func (stage *Stage) StageBranchBeam(beam *Beam) {
 
 	// check if instance is already staged
-	if IsStaged(stage, beam) {
+	if stage.IsStaged(beam) {
 		return
 	}
 
@@ -4320,7 +3613,7 @@ func (stage *Stage) StageBranchBeam(beam *Beam) {
 func (stage *Stage) StageBranchBeat_repeat(beat_repeat *Beat_repeat) {
 
 	// check if instance is already staged
-	if IsStaged(stage, beat_repeat) {
+	if stage.IsStaged(beat_repeat) {
 		return
 	}
 
@@ -4335,7 +3628,7 @@ func (stage *Stage) StageBranchBeat_repeat(beat_repeat *Beat_repeat) {
 func (stage *Stage) StageBranchBeat_unit_tied(beat_unit_tied *Beat_unit_tied) {
 
 	// check if instance is already staged
-	if IsStaged(stage, beat_unit_tied) {
+	if stage.IsStaged(beat_unit_tied) {
 		return
 	}
 
@@ -4350,7 +3643,7 @@ func (stage *Stage) StageBranchBeat_unit_tied(beat_unit_tied *Beat_unit_tied) {
 func (stage *Stage) StageBranchBeater(beater *Beater) {
 
 	// check if instance is already staged
-	if IsStaged(stage, beater) {
+	if stage.IsStaged(beater) {
 		return
 	}
 
@@ -4365,7 +3658,7 @@ func (stage *Stage) StageBranchBeater(beater *Beater) {
 func (stage *Stage) StageBranchBend(bend *Bend) {
 
 	// check if instance is already staged
-	if IsStaged(stage, bend) {
+	if stage.IsStaged(bend) {
 		return
 	}
 
@@ -4373,10 +3666,10 @@ func (stage *Stage) StageBranchBend(bend *Bend) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if bend.Release != nil {
-		StageBranch(stage, bend.Release)
+		stage.StageBranch(bend.Release)
 	}
 	if bend.With_bar != nil {
-		StageBranch(stage, bend.With_bar)
+		stage.StageBranch(bend.With_bar)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4386,7 +3679,7 @@ func (stage *Stage) StageBranchBend(bend *Bend) {
 func (stage *Stage) StageBranchBookmark(bookmark *Bookmark) {
 
 	// check if instance is already staged
-	if IsStaged(stage, bookmark) {
+	if stage.IsStaged(bookmark) {
 		return
 	}
 
@@ -4401,7 +3694,7 @@ func (stage *Stage) StageBranchBookmark(bookmark *Bookmark) {
 func (stage *Stage) StageBranchBracket(bracket *Bracket) {
 
 	// check if instance is already staged
-	if IsStaged(stage, bracket) {
+	if stage.IsStaged(bracket) {
 		return
 	}
 
@@ -4416,7 +3709,7 @@ func (stage *Stage) StageBranchBracket(bracket *Bracket) {
 func (stage *Stage) StageBranchBreath_mark(breath_mark *Breath_mark) {
 
 	// check if instance is already staged
-	if IsStaged(stage, breath_mark) {
+	if stage.IsStaged(breath_mark) {
 		return
 	}
 
@@ -4431,7 +3724,7 @@ func (stage *Stage) StageBranchBreath_mark(breath_mark *Breath_mark) {
 func (stage *Stage) StageBranchCaesura(caesura *Caesura) {
 
 	// check if instance is already staged
-	if IsStaged(stage, caesura) {
+	if stage.IsStaged(caesura) {
 		return
 	}
 
@@ -4446,7 +3739,7 @@ func (stage *Stage) StageBranchCaesura(caesura *Caesura) {
 func (stage *Stage) StageBranchCancel(cancel *Cancel) {
 
 	// check if instance is already staged
-	if IsStaged(stage, cancel) {
+	if stage.IsStaged(cancel) {
 		return
 	}
 
@@ -4461,7 +3754,7 @@ func (stage *Stage) StageBranchCancel(cancel *Cancel) {
 func (stage *Stage) StageBranchClef(clef *Clef) {
 
 	// check if instance is already staged
-	if IsStaged(stage, clef) {
+	if stage.IsStaged(clef) {
 		return
 	}
 
@@ -4476,7 +3769,7 @@ func (stage *Stage) StageBranchClef(clef *Clef) {
 func (stage *Stage) StageBranchCoda(coda *Coda) {
 
 	// check if instance is already staged
-	if IsStaged(stage, coda) {
+	if stage.IsStaged(coda) {
 		return
 	}
 
@@ -4491,7 +3784,7 @@ func (stage *Stage) StageBranchCoda(coda *Coda) {
 func (stage *Stage) StageBranchCredit(credit *Credit) {
 
 	// check if instance is already staged
-	if IsStaged(stage, credit) {
+	if stage.IsStaged(credit) {
 		return
 	}
 
@@ -4499,21 +3792,21 @@ func (stage *Stage) StageBranchCredit(credit *Credit) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if credit.Credit_image != nil {
-		StageBranch(stage, credit.Credit_image)
+		stage.StageBranch(credit.Credit_image)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _link := range credit.Link {
-		StageBranch(stage, _link)
+		stage.StageBranch(_link)
 	}
 	for _, _bookmark := range credit.Bookmark {
-		StageBranch(stage, _bookmark)
+		stage.StageBranch(_bookmark)
 	}
 	for _, _formatted_text_id := range credit.Credit_words {
-		StageBranch(stage, _formatted_text_id)
+		stage.StageBranch(_formatted_text_id)
 	}
 	for _, _formatted_symbol_id := range credit.Credit_symbol {
-		StageBranch(stage, _formatted_symbol_id)
+		stage.StageBranch(_formatted_symbol_id)
 	}
 
 }
@@ -4521,7 +3814,7 @@ func (stage *Stage) StageBranchCredit(credit *Credit) {
 func (stage *Stage) StageBranchDashes(dashes *Dashes) {
 
 	// check if instance is already staged
-	if IsStaged(stage, dashes) {
+	if stage.IsStaged(dashes) {
 		return
 	}
 
@@ -4536,7 +3829,7 @@ func (stage *Stage) StageBranchDashes(dashes *Dashes) {
 func (stage *Stage) StageBranchDefaults(defaults *Defaults) {
 
 	// check if instance is already staged
-	if IsStaged(stage, defaults) {
+	if stage.IsStaged(defaults) {
 		return
 	}
 
@@ -4544,33 +3837,33 @@ func (stage *Stage) StageBranchDefaults(defaults *Defaults) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if defaults.Scaling != nil {
-		StageBranch(stage, defaults.Scaling)
+		stage.StageBranch(defaults.Scaling)
 	}
 	if defaults.Page_layout != nil {
-		StageBranch(stage, defaults.Page_layout)
+		stage.StageBranch(defaults.Page_layout)
 	}
 	if defaults.System_layout != nil {
-		StageBranch(stage, defaults.System_layout)
+		stage.StageBranch(defaults.System_layout)
 	}
 	if defaults.Appearance != nil {
-		StageBranch(stage, defaults.Appearance)
+		stage.StageBranch(defaults.Appearance)
 	}
 	if defaults.Music_font != nil {
-		StageBranch(stage, defaults.Music_font)
+		stage.StageBranch(defaults.Music_font)
 	}
 	if defaults.Word_font != nil {
-		StageBranch(stage, defaults.Word_font)
+		stage.StageBranch(defaults.Word_font)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _staff_layout := range defaults.Staff_layout {
-		StageBranch(stage, _staff_layout)
+		stage.StageBranch(_staff_layout)
 	}
 	for _, _lyric_font := range defaults.Lyric_font {
-		StageBranch(stage, _lyric_font)
+		stage.StageBranch(_lyric_font)
 	}
 	for _, _lyric_language := range defaults.Lyric_language {
-		StageBranch(stage, _lyric_language)
+		stage.StageBranch(_lyric_language)
 	}
 
 }
@@ -4578,7 +3871,7 @@ func (stage *Stage) StageBranchDefaults(defaults *Defaults) {
 func (stage *Stage) StageBranchDegree(degree *Degree) {
 
 	// check if instance is already staged
-	if IsStaged(stage, degree) {
+	if stage.IsStaged(degree) {
 		return
 	}
 
@@ -4586,13 +3879,13 @@ func (stage *Stage) StageBranchDegree(degree *Degree) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if degree.Degree_value != nil {
-		StageBranch(stage, degree.Degree_value)
+		stage.StageBranch(degree.Degree_value)
 	}
 	if degree.Degree_alter != nil {
-		StageBranch(stage, degree.Degree_alter)
+		stage.StageBranch(degree.Degree_alter)
 	}
 	if degree.Degree_type != nil {
-		StageBranch(stage, degree.Degree_type)
+		stage.StageBranch(degree.Degree_type)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4602,7 +3895,7 @@ func (stage *Stage) StageBranchDegree(degree *Degree) {
 func (stage *Stage) StageBranchDegree_alter(degree_alter *Degree_alter) {
 
 	// check if instance is already staged
-	if IsStaged(stage, degree_alter) {
+	if stage.IsStaged(degree_alter) {
 		return
 	}
 
@@ -4617,7 +3910,7 @@ func (stage *Stage) StageBranchDegree_alter(degree_alter *Degree_alter) {
 func (stage *Stage) StageBranchDegree_type(degree_type *Degree_type) {
 
 	// check if instance is already staged
-	if IsStaged(stage, degree_type) {
+	if stage.IsStaged(degree_type) {
 		return
 	}
 
@@ -4632,7 +3925,7 @@ func (stage *Stage) StageBranchDegree_type(degree_type *Degree_type) {
 func (stage *Stage) StageBranchDegree_value(degree_value *Degree_value) {
 
 	// check if instance is already staged
-	if IsStaged(stage, degree_value) {
+	if stage.IsStaged(degree_value) {
 		return
 	}
 
@@ -4647,7 +3940,7 @@ func (stage *Stage) StageBranchDegree_value(degree_value *Degree_value) {
 func (stage *Stage) StageBranchDirection(direction *Direction) {
 
 	// check if instance is already staged
-	if IsStaged(stage, direction) {
+	if stage.IsStaged(direction) {
 		return
 	}
 
@@ -4655,24 +3948,24 @@ func (stage *Stage) StageBranchDirection(direction *Direction) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if direction.Offset != nil {
-		StageBranch(stage, direction.Offset)
+		stage.StageBranch(direction.Offset)
 	}
 	if direction.Footnote != nil {
-		StageBranch(stage, direction.Footnote)
+		stage.StageBranch(direction.Footnote)
 	}
 	if direction.Level != nil {
-		StageBranch(stage, direction.Level)
+		stage.StageBranch(direction.Level)
 	}
 	if direction.Sound != nil {
-		StageBranch(stage, direction.Sound)
+		stage.StageBranch(direction.Sound)
 	}
 	if direction.Listening != nil {
-		StageBranch(stage, direction.Listening)
+		stage.StageBranch(direction.Listening)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _direction_type := range direction.Direction_type {
-		StageBranch(stage, _direction_type)
+		stage.StageBranch(_direction_type)
 	}
 
 }
@@ -4680,7 +3973,7 @@ func (stage *Stage) StageBranchDirection(direction *Direction) {
 func (stage *Stage) StageBranchDirection_type(direction_type *Direction_type) {
 
 	// check if instance is already staged
-	if IsStaged(stage, direction_type) {
+	if stage.IsStaged(direction_type) {
 		return
 	}
 
@@ -4688,78 +3981,78 @@ func (stage *Stage) StageBranchDirection_type(direction_type *Direction_type) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if direction_type.Wedge != nil {
-		StageBranch(stage, direction_type.Wedge)
+		stage.StageBranch(direction_type.Wedge)
 	}
 	if direction_type.Dashes != nil {
-		StageBranch(stage, direction_type.Dashes)
+		stage.StageBranch(direction_type.Dashes)
 	}
 	if direction_type.Bracket != nil {
-		StageBranch(stage, direction_type.Bracket)
+		stage.StageBranch(direction_type.Bracket)
 	}
 	if direction_type.Pedal != nil {
-		StageBranch(stage, direction_type.Pedal)
+		stage.StageBranch(direction_type.Pedal)
 	}
 	if direction_type.Metronome != nil {
-		StageBranch(stage, direction_type.Metronome)
+		stage.StageBranch(direction_type.Metronome)
 	}
 	if direction_type.Octave_shift != nil {
-		StageBranch(stage, direction_type.Octave_shift)
+		stage.StageBranch(direction_type.Octave_shift)
 	}
 	if direction_type.Harp_pedals != nil {
-		StageBranch(stage, direction_type.Harp_pedals)
+		stage.StageBranch(direction_type.Harp_pedals)
 	}
 	if direction_type.Damp != nil {
-		StageBranch(stage, direction_type.Damp)
+		stage.StageBranch(direction_type.Damp)
 	}
 	if direction_type.Damp_all != nil {
-		StageBranch(stage, direction_type.Damp_all)
+		stage.StageBranch(direction_type.Damp_all)
 	}
 	if direction_type.Eyeglasses != nil {
-		StageBranch(stage, direction_type.Eyeglasses)
+		stage.StageBranch(direction_type.Eyeglasses)
 	}
 	if direction_type.String_mute != nil {
-		StageBranch(stage, direction_type.String_mute)
+		stage.StageBranch(direction_type.String_mute)
 	}
 	if direction_type.Scordatura != nil {
-		StageBranch(stage, direction_type.Scordatura)
+		stage.StageBranch(direction_type.Scordatura)
 	}
 	if direction_type.Image != nil {
-		StageBranch(stage, direction_type.Image)
+		stage.StageBranch(direction_type.Image)
 	}
 	if direction_type.Principal_voice != nil {
-		StageBranch(stage, direction_type.Principal_voice)
+		stage.StageBranch(direction_type.Principal_voice)
 	}
 	if direction_type.Accordion_registration != nil {
-		StageBranch(stage, direction_type.Accordion_registration)
+		stage.StageBranch(direction_type.Accordion_registration)
 	}
 	if direction_type.Staff_divide != nil {
-		StageBranch(stage, direction_type.Staff_divide)
+		stage.StageBranch(direction_type.Staff_divide)
 	}
 	if direction_type.Other_direction != nil {
-		StageBranch(stage, direction_type.Other_direction)
+		stage.StageBranch(direction_type.Other_direction)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formatted_text_id := range direction_type.Rehearsal {
-		StageBranch(stage, _formatted_text_id)
+		stage.StageBranch(_formatted_text_id)
 	}
 	for _, _segno := range direction_type.Segno {
-		StageBranch(stage, _segno)
+		stage.StageBranch(_segno)
 	}
 	for _, _coda := range direction_type.Coda {
-		StageBranch(stage, _coda)
+		stage.StageBranch(_coda)
 	}
 	for _, _formatted_text_id := range direction_type.Words {
-		StageBranch(stage, _formatted_text_id)
+		stage.StageBranch(_formatted_text_id)
 	}
 	for _, _formatted_symbol_id := range direction_type.Symbol {
-		StageBranch(stage, _formatted_symbol_id)
+		stage.StageBranch(_formatted_symbol_id)
 	}
 	for _, _dynamics := range direction_type.Dynamics {
-		StageBranch(stage, _dynamics)
+		stage.StageBranch(_dynamics)
 	}
 	for _, _percussion := range direction_type.Percussion {
-		StageBranch(stage, _percussion)
+		stage.StageBranch(_percussion)
 	}
 
 }
@@ -4767,7 +4060,7 @@ func (stage *Stage) StageBranchDirection_type(direction_type *Direction_type) {
 func (stage *Stage) StageBranchDistance(distance *Distance) {
 
 	// check if instance is already staged
-	if IsStaged(stage, distance) {
+	if stage.IsStaged(distance) {
 		return
 	}
 
@@ -4782,7 +4075,7 @@ func (stage *Stage) StageBranchDistance(distance *Distance) {
 func (stage *Stage) StageBranchDouble(double *Double) {
 
 	// check if instance is already staged
-	if IsStaged(stage, double) {
+	if stage.IsStaged(double) {
 		return
 	}
 
@@ -4797,7 +4090,7 @@ func (stage *Stage) StageBranchDouble(double *Double) {
 func (stage *Stage) StageBranchDynamics(dynamics *Dynamics) {
 
 	// check if instance is already staged
-	if IsStaged(stage, dynamics) {
+	if stage.IsStaged(dynamics) {
 		return
 	}
 
@@ -4807,7 +4100,7 @@ func (stage *Stage) StageBranchDynamics(dynamics *Dynamics) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _other_text := range dynamics.Other_dynamics {
-		StageBranch(stage, _other_text)
+		stage.StageBranch(_other_text)
 	}
 
 }
@@ -4815,7 +4108,7 @@ func (stage *Stage) StageBranchDynamics(dynamics *Dynamics) {
 func (stage *Stage) StageBranchEffect(effect *Effect) {
 
 	// check if instance is already staged
-	if IsStaged(stage, effect) {
+	if stage.IsStaged(effect) {
 		return
 	}
 
@@ -4830,7 +4123,7 @@ func (stage *Stage) StageBranchEffect(effect *Effect) {
 func (stage *Stage) StageBranchElision(elision *Elision) {
 
 	// check if instance is already staged
-	if IsStaged(stage, elision) {
+	if stage.IsStaged(elision) {
 		return
 	}
 
@@ -4845,7 +4138,7 @@ func (stage *Stage) StageBranchElision(elision *Elision) {
 func (stage *Stage) StageBranchEmpty(empty *Empty) {
 
 	// check if instance is already staged
-	if IsStaged(stage, empty) {
+	if stage.IsStaged(empty) {
 		return
 	}
 
@@ -4860,7 +4153,7 @@ func (stage *Stage) StageBranchEmpty(empty *Empty) {
 func (stage *Stage) StageBranchEmpty_font(empty_font *Empty_font) {
 
 	// check if instance is already staged
-	if IsStaged(stage, empty_font) {
+	if stage.IsStaged(empty_font) {
 		return
 	}
 
@@ -4875,7 +4168,7 @@ func (stage *Stage) StageBranchEmpty_font(empty_font *Empty_font) {
 func (stage *Stage) StageBranchEmpty_line(empty_line *Empty_line) {
 
 	// check if instance is already staged
-	if IsStaged(stage, empty_line) {
+	if stage.IsStaged(empty_line) {
 		return
 	}
 
@@ -4890,7 +4183,7 @@ func (stage *Stage) StageBranchEmpty_line(empty_line *Empty_line) {
 func (stage *Stage) StageBranchEmpty_placement(empty_placement *Empty_placement) {
 
 	// check if instance is already staged
-	if IsStaged(stage, empty_placement) {
+	if stage.IsStaged(empty_placement) {
 		return
 	}
 
@@ -4905,7 +4198,7 @@ func (stage *Stage) StageBranchEmpty_placement(empty_placement *Empty_placement)
 func (stage *Stage) StageBranchEmpty_placement_smufl(empty_placement_smufl *Empty_placement_smufl) {
 
 	// check if instance is already staged
-	if IsStaged(stage, empty_placement_smufl) {
+	if stage.IsStaged(empty_placement_smufl) {
 		return
 	}
 
@@ -4920,7 +4213,7 @@ func (stage *Stage) StageBranchEmpty_placement_smufl(empty_placement_smufl *Empt
 func (stage *Stage) StageBranchEmpty_print_object_style_align(empty_print_object_style_align *Empty_print_object_style_align) {
 
 	// check if instance is already staged
-	if IsStaged(stage, empty_print_object_style_align) {
+	if stage.IsStaged(empty_print_object_style_align) {
 		return
 	}
 
@@ -4935,7 +4228,7 @@ func (stage *Stage) StageBranchEmpty_print_object_style_align(empty_print_object
 func (stage *Stage) StageBranchEmpty_print_style(empty_print_style *Empty_print_style) {
 
 	// check if instance is already staged
-	if IsStaged(stage, empty_print_style) {
+	if stage.IsStaged(empty_print_style) {
 		return
 	}
 
@@ -4950,7 +4243,7 @@ func (stage *Stage) StageBranchEmpty_print_style(empty_print_style *Empty_print_
 func (stage *Stage) StageBranchEmpty_print_style_align(empty_print_style_align *Empty_print_style_align) {
 
 	// check if instance is already staged
-	if IsStaged(stage, empty_print_style_align) {
+	if stage.IsStaged(empty_print_style_align) {
 		return
 	}
 
@@ -4965,7 +4258,7 @@ func (stage *Stage) StageBranchEmpty_print_style_align(empty_print_style_align *
 func (stage *Stage) StageBranchEmpty_print_style_align_id(empty_print_style_align_id *Empty_print_style_align_id) {
 
 	// check if instance is already staged
-	if IsStaged(stage, empty_print_style_align_id) {
+	if stage.IsStaged(empty_print_style_align_id) {
 		return
 	}
 
@@ -4980,7 +4273,7 @@ func (stage *Stage) StageBranchEmpty_print_style_align_id(empty_print_style_alig
 func (stage *Stage) StageBranchEmpty_trill_sound(empty_trill_sound *Empty_trill_sound) {
 
 	// check if instance is already staged
-	if IsStaged(stage, empty_trill_sound) {
+	if stage.IsStaged(empty_trill_sound) {
 		return
 	}
 
@@ -4995,7 +4288,7 @@ func (stage *Stage) StageBranchEmpty_trill_sound(empty_trill_sound *Empty_trill_
 func (stage *Stage) StageBranchEncoding(encoding *Encoding) {
 
 	// check if instance is already staged
-	if IsStaged(stage, encoding) {
+	if stage.IsStaged(encoding) {
 		return
 	}
 
@@ -5005,10 +4298,10 @@ func (stage *Stage) StageBranchEncoding(encoding *Encoding) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _typed_text := range encoding.Encoder {
-		StageBranch(stage, _typed_text)
+		stage.StageBranch(_typed_text)
 	}
 	for _, _supports := range encoding.Supports {
-		StageBranch(stage, _supports)
+		stage.StageBranch(_supports)
 	}
 
 }
@@ -5016,7 +4309,7 @@ func (stage *Stage) StageBranchEncoding(encoding *Encoding) {
 func (stage *Stage) StageBranchEnding(ending *Ending) {
 
 	// check if instance is already staged
-	if IsStaged(stage, ending) {
+	if stage.IsStaged(ending) {
 		return
 	}
 
@@ -5031,7 +4324,7 @@ func (stage *Stage) StageBranchEnding(ending *Ending) {
 func (stage *Stage) StageBranchExtend(extend *Extend) {
 
 	// check if instance is already staged
-	if IsStaged(stage, extend) {
+	if stage.IsStaged(extend) {
 		return
 	}
 
@@ -5046,7 +4339,7 @@ func (stage *Stage) StageBranchExtend(extend *Extend) {
 func (stage *Stage) StageBranchFeature(feature *Feature) {
 
 	// check if instance is already staged
-	if IsStaged(stage, feature) {
+	if stage.IsStaged(feature) {
 		return
 	}
 
@@ -5061,7 +4354,7 @@ func (stage *Stage) StageBranchFeature(feature *Feature) {
 func (stage *Stage) StageBranchFermata(fermata *Fermata) {
 
 	// check if instance is already staged
-	if IsStaged(stage, fermata) {
+	if stage.IsStaged(fermata) {
 		return
 	}
 
@@ -5076,7 +4369,7 @@ func (stage *Stage) StageBranchFermata(fermata *Fermata) {
 func (stage *Stage) StageBranchFigure(figure *Figure) {
 
 	// check if instance is already staged
-	if IsStaged(stage, figure) {
+	if stage.IsStaged(figure) {
 		return
 	}
 
@@ -5084,22 +4377,22 @@ func (stage *Stage) StageBranchFigure(figure *Figure) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if figure.Prefix != nil {
-		StageBranch(stage, figure.Prefix)
+		stage.StageBranch(figure.Prefix)
 	}
 	if figure.Figure_number != nil {
-		StageBranch(stage, figure.Figure_number)
+		stage.StageBranch(figure.Figure_number)
 	}
 	if figure.Suffix != nil {
-		StageBranch(stage, figure.Suffix)
+		stage.StageBranch(figure.Suffix)
 	}
 	if figure.Extend != nil {
-		StageBranch(stage, figure.Extend)
+		stage.StageBranch(figure.Extend)
 	}
 	if figure.Footnote != nil {
-		StageBranch(stage, figure.Footnote)
+		stage.StageBranch(figure.Footnote)
 	}
 	if figure.Level != nil {
-		StageBranch(stage, figure.Level)
+		stage.StageBranch(figure.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5109,7 +4402,7 @@ func (stage *Stage) StageBranchFigure(figure *Figure) {
 func (stage *Stage) StageBranchFigured_bass(figured_bass *Figured_bass) {
 
 	// check if instance is already staged
-	if IsStaged(stage, figured_bass) {
+	if stage.IsStaged(figured_bass) {
 		return
 	}
 
@@ -5117,15 +4410,15 @@ func (stage *Stage) StageBranchFigured_bass(figured_bass *Figured_bass) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if figured_bass.Footnote != nil {
-		StageBranch(stage, figured_bass.Footnote)
+		stage.StageBranch(figured_bass.Footnote)
 	}
 	if figured_bass.Level != nil {
-		StageBranch(stage, figured_bass.Level)
+		stage.StageBranch(figured_bass.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _figure := range figured_bass.Figure {
-		StageBranch(stage, _figure)
+		stage.StageBranch(_figure)
 	}
 
 }
@@ -5133,7 +4426,7 @@ func (stage *Stage) StageBranchFigured_bass(figured_bass *Figured_bass) {
 func (stage *Stage) StageBranchFingering(fingering *Fingering) {
 
 	// check if instance is already staged
-	if IsStaged(stage, fingering) {
+	if stage.IsStaged(fingering) {
 		return
 	}
 
@@ -5148,7 +4441,7 @@ func (stage *Stage) StageBranchFingering(fingering *Fingering) {
 func (stage *Stage) StageBranchFirst_fret(first_fret *First_fret) {
 
 	// check if instance is already staged
-	if IsStaged(stage, first_fret) {
+	if stage.IsStaged(first_fret) {
 		return
 	}
 
@@ -5163,7 +4456,7 @@ func (stage *Stage) StageBranchFirst_fret(first_fret *First_fret) {
 func (stage *Stage) StageBranchFor_part(for_part *For_part) {
 
 	// check if instance is already staged
-	if IsStaged(stage, for_part) {
+	if stage.IsStaged(for_part) {
 		return
 	}
 
@@ -5171,10 +4464,10 @@ func (stage *Stage) StageBranchFor_part(for_part *For_part) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if for_part.Part_clef != nil {
-		StageBranch(stage, for_part.Part_clef)
+		stage.StageBranch(for_part.Part_clef)
 	}
 	if for_part.Part_transpose != nil {
-		StageBranch(stage, for_part.Part_transpose)
+		stage.StageBranch(for_part.Part_transpose)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5184,7 +4477,7 @@ func (stage *Stage) StageBranchFor_part(for_part *For_part) {
 func (stage *Stage) StageBranchFormatted_symbol(formatted_symbol *Formatted_symbol) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formatted_symbol) {
+	if stage.IsStaged(formatted_symbol) {
 		return
 	}
 
@@ -5199,7 +4492,7 @@ func (stage *Stage) StageBranchFormatted_symbol(formatted_symbol *Formatted_symb
 func (stage *Stage) StageBranchFormatted_symbol_id(formatted_symbol_id *Formatted_symbol_id) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formatted_symbol_id) {
+	if stage.IsStaged(formatted_symbol_id) {
 		return
 	}
 
@@ -5214,7 +4507,7 @@ func (stage *Stage) StageBranchFormatted_symbol_id(formatted_symbol_id *Formatte
 func (stage *Stage) StageBranchFormatted_text(formatted_text *Formatted_text) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formatted_text) {
+	if stage.IsStaged(formatted_text) {
 		return
 	}
 
@@ -5229,7 +4522,7 @@ func (stage *Stage) StageBranchFormatted_text(formatted_text *Formatted_text) {
 func (stage *Stage) StageBranchFormatted_text_id(formatted_text_id *Formatted_text_id) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formatted_text_id) {
+	if stage.IsStaged(formatted_text_id) {
 		return
 	}
 
@@ -5244,7 +4537,7 @@ func (stage *Stage) StageBranchFormatted_text_id(formatted_text_id *Formatted_te
 func (stage *Stage) StageBranchForward(forward *Forward) {
 
 	// check if instance is already staged
-	if IsStaged(stage, forward) {
+	if stage.IsStaged(forward) {
 		return
 	}
 
@@ -5252,10 +4545,10 @@ func (stage *Stage) StageBranchForward(forward *Forward) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if forward.Footnote != nil {
-		StageBranch(stage, forward.Footnote)
+		stage.StageBranch(forward.Footnote)
 	}
 	if forward.Level != nil {
-		StageBranch(stage, forward.Level)
+		stage.StageBranch(forward.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5265,7 +4558,7 @@ func (stage *Stage) StageBranchForward(forward *Forward) {
 func (stage *Stage) StageBranchFrame(frame *Frame) {
 
 	// check if instance is already staged
-	if IsStaged(stage, frame) {
+	if stage.IsStaged(frame) {
 		return
 	}
 
@@ -5273,12 +4566,12 @@ func (stage *Stage) StageBranchFrame(frame *Frame) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if frame.First_fret != nil {
-		StageBranch(stage, frame.First_fret)
+		stage.StageBranch(frame.First_fret)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _frame_note := range frame.Frame_note {
-		StageBranch(stage, _frame_note)
+		stage.StageBranch(_frame_note)
 	}
 
 }
@@ -5286,7 +4579,7 @@ func (stage *Stage) StageBranchFrame(frame *Frame) {
 func (stage *Stage) StageBranchFrame_note(frame_note *Frame_note) {
 
 	// check if instance is already staged
-	if IsStaged(stage, frame_note) {
+	if stage.IsStaged(frame_note) {
 		return
 	}
 
@@ -5294,16 +4587,16 @@ func (stage *Stage) StageBranchFrame_note(frame_note *Frame_note) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if frame_note.String != nil {
-		StageBranch(stage, frame_note.String)
+		stage.StageBranch(frame_note.String)
 	}
 	if frame_note.Fret != nil {
-		StageBranch(stage, frame_note.Fret)
+		stage.StageBranch(frame_note.Fret)
 	}
 	if frame_note.Fingering != nil {
-		StageBranch(stage, frame_note.Fingering)
+		stage.StageBranch(frame_note.Fingering)
 	}
 	if frame_note.Barre != nil {
-		StageBranch(stage, frame_note.Barre)
+		stage.StageBranch(frame_note.Barre)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5313,7 +4606,7 @@ func (stage *Stage) StageBranchFrame_note(frame_note *Frame_note) {
 func (stage *Stage) StageBranchFret(fret *Fret) {
 
 	// check if instance is already staged
-	if IsStaged(stage, fret) {
+	if stage.IsStaged(fret) {
 		return
 	}
 
@@ -5328,7 +4621,7 @@ func (stage *Stage) StageBranchFret(fret *Fret) {
 func (stage *Stage) StageBranchGlass(glass *Glass) {
 
 	// check if instance is already staged
-	if IsStaged(stage, glass) {
+	if stage.IsStaged(glass) {
 		return
 	}
 
@@ -5343,7 +4636,7 @@ func (stage *Stage) StageBranchGlass(glass *Glass) {
 func (stage *Stage) StageBranchGlissando(glissando *Glissando) {
 
 	// check if instance is already staged
-	if IsStaged(stage, glissando) {
+	if stage.IsStaged(glissando) {
 		return
 	}
 
@@ -5358,7 +4651,7 @@ func (stage *Stage) StageBranchGlissando(glissando *Glissando) {
 func (stage *Stage) StageBranchGlyph(glyph *Glyph) {
 
 	// check if instance is already staged
-	if IsStaged(stage, glyph) {
+	if stage.IsStaged(glyph) {
 		return
 	}
 
@@ -5373,7 +4666,7 @@ func (stage *Stage) StageBranchGlyph(glyph *Glyph) {
 func (stage *Stage) StageBranchGrace(grace *Grace) {
 
 	// check if instance is already staged
-	if IsStaged(stage, grace) {
+	if stage.IsStaged(grace) {
 		return
 	}
 
@@ -5388,7 +4681,7 @@ func (stage *Stage) StageBranchGrace(grace *Grace) {
 func (stage *Stage) StageBranchGroup_barline(group_barline *Group_barline) {
 
 	// check if instance is already staged
-	if IsStaged(stage, group_barline) {
+	if stage.IsStaged(group_barline) {
 		return
 	}
 
@@ -5403,7 +4696,7 @@ func (stage *Stage) StageBranchGroup_barline(group_barline *Group_barline) {
 func (stage *Stage) StageBranchGroup_name(group_name *Group_name) {
 
 	// check if instance is already staged
-	if IsStaged(stage, group_name) {
+	if stage.IsStaged(group_name) {
 		return
 	}
 
@@ -5418,7 +4711,7 @@ func (stage *Stage) StageBranchGroup_name(group_name *Group_name) {
 func (stage *Stage) StageBranchGroup_symbol(group_symbol *Group_symbol) {
 
 	// check if instance is already staged
-	if IsStaged(stage, group_symbol) {
+	if stage.IsStaged(group_symbol) {
 		return
 	}
 
@@ -5433,7 +4726,7 @@ func (stage *Stage) StageBranchGroup_symbol(group_symbol *Group_symbol) {
 func (stage *Stage) StageBranchGrouping(grouping *Grouping) {
 
 	// check if instance is already staged
-	if IsStaged(stage, grouping) {
+	if stage.IsStaged(grouping) {
 		return
 	}
 
@@ -5443,7 +4736,7 @@ func (stage *Stage) StageBranchGrouping(grouping *Grouping) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _feature := range grouping.Feature {
-		StageBranch(stage, _feature)
+		stage.StageBranch(_feature)
 	}
 
 }
@@ -5451,7 +4744,7 @@ func (stage *Stage) StageBranchGrouping(grouping *Grouping) {
 func (stage *Stage) StageBranchHammer_on_pull_off(hammer_on_pull_off *Hammer_on_pull_off) {
 
 	// check if instance is already staged
-	if IsStaged(stage, hammer_on_pull_off) {
+	if stage.IsStaged(hammer_on_pull_off) {
 		return
 	}
 
@@ -5466,7 +4759,7 @@ func (stage *Stage) StageBranchHammer_on_pull_off(hammer_on_pull_off *Hammer_on_
 func (stage *Stage) StageBranchHandbell(handbell *Handbell) {
 
 	// check if instance is already staged
-	if IsStaged(stage, handbell) {
+	if stage.IsStaged(handbell) {
 		return
 	}
 
@@ -5481,7 +4774,7 @@ func (stage *Stage) StageBranchHandbell(handbell *Handbell) {
 func (stage *Stage) StageBranchHarmon_closed(harmon_closed *Harmon_closed) {
 
 	// check if instance is already staged
-	if IsStaged(stage, harmon_closed) {
+	if stage.IsStaged(harmon_closed) {
 		return
 	}
 
@@ -5496,7 +4789,7 @@ func (stage *Stage) StageBranchHarmon_closed(harmon_closed *Harmon_closed) {
 func (stage *Stage) StageBranchHarmon_mute(harmon_mute *Harmon_mute) {
 
 	// check if instance is already staged
-	if IsStaged(stage, harmon_mute) {
+	if stage.IsStaged(harmon_mute) {
 		return
 	}
 
@@ -5504,7 +4797,7 @@ func (stage *Stage) StageBranchHarmon_mute(harmon_mute *Harmon_mute) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if harmon_mute.Harmon_closed != nil {
-		StageBranch(stage, harmon_mute.Harmon_closed)
+		stage.StageBranch(harmon_mute.Harmon_closed)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5514,7 +4807,7 @@ func (stage *Stage) StageBranchHarmon_mute(harmon_mute *Harmon_mute) {
 func (stage *Stage) StageBranchHarmonic(harmonic *Harmonic) {
 
 	// check if instance is already staged
-	if IsStaged(stage, harmonic) {
+	if stage.IsStaged(harmonic) {
 		return
 	}
 
@@ -5529,7 +4822,7 @@ func (stage *Stage) StageBranchHarmonic(harmonic *Harmonic) {
 func (stage *Stage) StageBranchHarmony(harmony *Harmony) {
 
 	// check if instance is already staged
-	if IsStaged(stage, harmony) {
+	if stage.IsStaged(harmony) {
 		return
 	}
 
@@ -5537,39 +4830,39 @@ func (stage *Stage) StageBranchHarmony(harmony *Harmony) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if harmony.Root != nil {
-		StageBranch(stage, harmony.Root)
+		stage.StageBranch(harmony.Root)
 	}
 	if harmony.Numeral != nil {
-		StageBranch(stage, harmony.Numeral)
+		stage.StageBranch(harmony.Numeral)
 	}
 	if harmony.Function != nil {
-		StageBranch(stage, harmony.Function)
+		stage.StageBranch(harmony.Function)
 	}
 	if harmony.Kind != nil {
-		StageBranch(stage, harmony.Kind)
+		stage.StageBranch(harmony.Kind)
 	}
 	if harmony.Inversion != nil {
-		StageBranch(stage, harmony.Inversion)
+		stage.StageBranch(harmony.Inversion)
 	}
 	if harmony.Bass != nil {
-		StageBranch(stage, harmony.Bass)
+		stage.StageBranch(harmony.Bass)
 	}
 	if harmony.Frame != nil {
-		StageBranch(stage, harmony.Frame)
+		stage.StageBranch(harmony.Frame)
 	}
 	if harmony.Offset != nil {
-		StageBranch(stage, harmony.Offset)
+		stage.StageBranch(harmony.Offset)
 	}
 	if harmony.Footnote != nil {
-		StageBranch(stage, harmony.Footnote)
+		stage.StageBranch(harmony.Footnote)
 	}
 	if harmony.Level != nil {
-		StageBranch(stage, harmony.Level)
+		stage.StageBranch(harmony.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _degree := range harmony.Degree {
-		StageBranch(stage, _degree)
+		stage.StageBranch(_degree)
 	}
 
 }
@@ -5577,7 +4870,7 @@ func (stage *Stage) StageBranchHarmony(harmony *Harmony) {
 func (stage *Stage) StageBranchHarmony_alter(harmony_alter *Harmony_alter) {
 
 	// check if instance is already staged
-	if IsStaged(stage, harmony_alter) {
+	if stage.IsStaged(harmony_alter) {
 		return
 	}
 
@@ -5592,7 +4885,7 @@ func (stage *Stage) StageBranchHarmony_alter(harmony_alter *Harmony_alter) {
 func (stage *Stage) StageBranchHarp_pedals(harp_pedals *Harp_pedals) {
 
 	// check if instance is already staged
-	if IsStaged(stage, harp_pedals) {
+	if stage.IsStaged(harp_pedals) {
 		return
 	}
 
@@ -5602,7 +4895,7 @@ func (stage *Stage) StageBranchHarp_pedals(harp_pedals *Harp_pedals) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _pedal_tuning := range harp_pedals.Pedal_tuning {
-		StageBranch(stage, _pedal_tuning)
+		stage.StageBranch(_pedal_tuning)
 	}
 
 }
@@ -5610,7 +4903,7 @@ func (stage *Stage) StageBranchHarp_pedals(harp_pedals *Harp_pedals) {
 func (stage *Stage) StageBranchHeel_toe(heel_toe *Heel_toe) {
 
 	// check if instance is already staged
-	if IsStaged(stage, heel_toe) {
+	if stage.IsStaged(heel_toe) {
 		return
 	}
 
@@ -5625,7 +4918,7 @@ func (stage *Stage) StageBranchHeel_toe(heel_toe *Heel_toe) {
 func (stage *Stage) StageBranchHole(hole *Hole) {
 
 	// check if instance is already staged
-	if IsStaged(stage, hole) {
+	if stage.IsStaged(hole) {
 		return
 	}
 
@@ -5633,7 +4926,7 @@ func (stage *Stage) StageBranchHole(hole *Hole) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if hole.Hole_closed != nil {
-		StageBranch(stage, hole.Hole_closed)
+		stage.StageBranch(hole.Hole_closed)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5643,7 +4936,7 @@ func (stage *Stage) StageBranchHole(hole *Hole) {
 func (stage *Stage) StageBranchHole_closed(hole_closed *Hole_closed) {
 
 	// check if instance is already staged
-	if IsStaged(stage, hole_closed) {
+	if stage.IsStaged(hole_closed) {
 		return
 	}
 
@@ -5658,7 +4951,7 @@ func (stage *Stage) StageBranchHole_closed(hole_closed *Hole_closed) {
 func (stage *Stage) StageBranchHorizontal_turn(horizontal_turn *Horizontal_turn) {
 
 	// check if instance is already staged
-	if IsStaged(stage, horizontal_turn) {
+	if stage.IsStaged(horizontal_turn) {
 		return
 	}
 
@@ -5673,7 +4966,7 @@ func (stage *Stage) StageBranchHorizontal_turn(horizontal_turn *Horizontal_turn)
 func (stage *Stage) StageBranchIdentification(identification *Identification) {
 
 	// check if instance is already staged
-	if IsStaged(stage, identification) {
+	if stage.IsStaged(identification) {
 		return
 	}
 
@@ -5681,21 +4974,21 @@ func (stage *Stage) StageBranchIdentification(identification *Identification) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if identification.Encoding != nil {
-		StageBranch(stage, identification.Encoding)
+		stage.StageBranch(identification.Encoding)
 	}
 	if identification.Miscellaneous != nil {
-		StageBranch(stage, identification.Miscellaneous)
+		stage.StageBranch(identification.Miscellaneous)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _typed_text := range identification.Creator {
-		StageBranch(stage, _typed_text)
+		stage.StageBranch(_typed_text)
 	}
 	for _, _typed_text := range identification.Rights {
-		StageBranch(stage, _typed_text)
+		stage.StageBranch(_typed_text)
 	}
 	for _, _typed_text := range identification.Relation {
-		StageBranch(stage, _typed_text)
+		stage.StageBranch(_typed_text)
 	}
 
 }
@@ -5703,7 +4996,7 @@ func (stage *Stage) StageBranchIdentification(identification *Identification) {
 func (stage *Stage) StageBranchImage(image *Image) {
 
 	// check if instance is already staged
-	if IsStaged(stage, image) {
+	if stage.IsStaged(image) {
 		return
 	}
 
@@ -5718,7 +5011,7 @@ func (stage *Stage) StageBranchImage(image *Image) {
 func (stage *Stage) StageBranchInstrument(instrument *Instrument) {
 
 	// check if instance is already staged
-	if IsStaged(stage, instrument) {
+	if stage.IsStaged(instrument) {
 		return
 	}
 
@@ -5733,7 +5026,7 @@ func (stage *Stage) StageBranchInstrument(instrument *Instrument) {
 func (stage *Stage) StageBranchInstrument_change(instrument_change *Instrument_change) {
 
 	// check if instance is already staged
-	if IsStaged(stage, instrument_change) {
+	if stage.IsStaged(instrument_change) {
 		return
 	}
 
@@ -5741,7 +5034,7 @@ func (stage *Stage) StageBranchInstrument_change(instrument_change *Instrument_c
 
 	//insertion point for the staging of instances referenced by pointers
 	if instrument_change.Virtual_instrument != nil {
-		StageBranch(stage, instrument_change.Virtual_instrument)
+		stage.StageBranch(instrument_change.Virtual_instrument)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5751,7 +5044,7 @@ func (stage *Stage) StageBranchInstrument_change(instrument_change *Instrument_c
 func (stage *Stage) StageBranchInstrument_link(instrument_link *Instrument_link) {
 
 	// check if instance is already staged
-	if IsStaged(stage, instrument_link) {
+	if stage.IsStaged(instrument_link) {
 		return
 	}
 
@@ -5766,7 +5059,7 @@ func (stage *Stage) StageBranchInstrument_link(instrument_link *Instrument_link)
 func (stage *Stage) StageBranchInterchangeable(interchangeable *Interchangeable) {
 
 	// check if instance is already staged
-	if IsStaged(stage, interchangeable) {
+	if stage.IsStaged(interchangeable) {
 		return
 	}
 
@@ -5781,7 +5074,7 @@ func (stage *Stage) StageBranchInterchangeable(interchangeable *Interchangeable)
 func (stage *Stage) StageBranchInversion(inversion *Inversion) {
 
 	// check if instance is already staged
-	if IsStaged(stage, inversion) {
+	if stage.IsStaged(inversion) {
 		return
 	}
 
@@ -5796,7 +5089,7 @@ func (stage *Stage) StageBranchInversion(inversion *Inversion) {
 func (stage *Stage) StageBranchKey(key *Key) {
 
 	// check if instance is already staged
-	if IsStaged(stage, key) {
+	if stage.IsStaged(key) {
 		return
 	}
 
@@ -5804,15 +5097,15 @@ func (stage *Stage) StageBranchKey(key *Key) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if key.Cancel != nil {
-		StageBranch(stage, key.Cancel)
+		stage.StageBranch(key.Cancel)
 	}
 	if key.Key_accidental != nil {
-		StageBranch(stage, key.Key_accidental)
+		stage.StageBranch(key.Key_accidental)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _key_octave := range key.Key_octave {
-		StageBranch(stage, _key_octave)
+		stage.StageBranch(_key_octave)
 	}
 
 }
@@ -5820,7 +5113,7 @@ func (stage *Stage) StageBranchKey(key *Key) {
 func (stage *Stage) StageBranchKey_accidental(key_accidental *Key_accidental) {
 
 	// check if instance is already staged
-	if IsStaged(stage, key_accidental) {
+	if stage.IsStaged(key_accidental) {
 		return
 	}
 
@@ -5835,7 +5128,7 @@ func (stage *Stage) StageBranchKey_accidental(key_accidental *Key_accidental) {
 func (stage *Stage) StageBranchKey_octave(key_octave *Key_octave) {
 
 	// check if instance is already staged
-	if IsStaged(stage, key_octave) {
+	if stage.IsStaged(key_octave) {
 		return
 	}
 
@@ -5850,7 +5143,7 @@ func (stage *Stage) StageBranchKey_octave(key_octave *Key_octave) {
 func (stage *Stage) StageBranchKind(kind *Kind) {
 
 	// check if instance is already staged
-	if IsStaged(stage, kind) {
+	if stage.IsStaged(kind) {
 		return
 	}
 
@@ -5865,7 +5158,7 @@ func (stage *Stage) StageBranchKind(kind *Kind) {
 func (stage *Stage) StageBranchLevel(level *Level) {
 
 	// check if instance is already staged
-	if IsStaged(stage, level) {
+	if stage.IsStaged(level) {
 		return
 	}
 
@@ -5880,7 +5173,7 @@ func (stage *Stage) StageBranchLevel(level *Level) {
 func (stage *Stage) StageBranchLine_detail(line_detail *Line_detail) {
 
 	// check if instance is already staged
-	if IsStaged(stage, line_detail) {
+	if stage.IsStaged(line_detail) {
 		return
 	}
 
@@ -5895,7 +5188,7 @@ func (stage *Stage) StageBranchLine_detail(line_detail *Line_detail) {
 func (stage *Stage) StageBranchLine_width(line_width *Line_width) {
 
 	// check if instance is already staged
-	if IsStaged(stage, line_width) {
+	if stage.IsStaged(line_width) {
 		return
 	}
 
@@ -5910,7 +5203,7 @@ func (stage *Stage) StageBranchLine_width(line_width *Line_width) {
 func (stage *Stage) StageBranchLink(link *Link) {
 
 	// check if instance is already staged
-	if IsStaged(stage, link) {
+	if stage.IsStaged(link) {
 		return
 	}
 
@@ -5925,7 +5218,7 @@ func (stage *Stage) StageBranchLink(link *Link) {
 func (stage *Stage) StageBranchListen(listen *Listen) {
 
 	// check if instance is already staged
-	if IsStaged(stage, listen) {
+	if stage.IsStaged(listen) {
 		return
 	}
 
@@ -5935,13 +5228,13 @@ func (stage *Stage) StageBranchListen(listen *Listen) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assess := range listen.Assess {
-		StageBranch(stage, _assess)
+		stage.StageBranch(_assess)
 	}
 	for _, _wait := range listen.Wait {
-		StageBranch(stage, _wait)
+		stage.StageBranch(_wait)
 	}
 	for _, _other_listening := range listen.Other_listen {
-		StageBranch(stage, _other_listening)
+		stage.StageBranch(_other_listening)
 	}
 
 }
@@ -5949,7 +5242,7 @@ func (stage *Stage) StageBranchListen(listen *Listen) {
 func (stage *Stage) StageBranchListening(listening *Listening) {
 
 	// check if instance is already staged
-	if IsStaged(stage, listening) {
+	if stage.IsStaged(listening) {
 		return
 	}
 
@@ -5957,15 +5250,15 @@ func (stage *Stage) StageBranchListening(listening *Listening) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if listening.Offset != nil {
-		StageBranch(stage, listening.Offset)
+		stage.StageBranch(listening.Offset)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sync := range listening.Sync {
-		StageBranch(stage, _sync)
+		stage.StageBranch(_sync)
 	}
 	for _, _other_listening := range listening.Other_listening {
-		StageBranch(stage, _other_listening)
+		stage.StageBranch(_other_listening)
 	}
 
 }
@@ -5973,7 +5266,7 @@ func (stage *Stage) StageBranchListening(listening *Listening) {
 func (stage *Stage) StageBranchLyric(lyric *Lyric) {
 
 	// check if instance is already staged
-	if IsStaged(stage, lyric) {
+	if stage.IsStaged(lyric) {
 		return
 	}
 
@@ -5981,21 +5274,21 @@ func (stage *Stage) StageBranchLyric(lyric *Lyric) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if lyric.Extend != nil {
-		StageBranch(stage, lyric.Extend)
+		stage.StageBranch(lyric.Extend)
 	}
 	if lyric.Footnote != nil {
-		StageBranch(stage, lyric.Footnote)
+		stage.StageBranch(lyric.Footnote)
 	}
 	if lyric.Level != nil {
-		StageBranch(stage, lyric.Level)
+		stage.StageBranch(lyric.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _elision := range lyric.Elision {
-		StageBranch(stage, _elision)
+		stage.StageBranch(_elision)
 	}
 	for _, _text_element_data := range lyric.Text {
-		StageBranch(stage, _text_element_data)
+		stage.StageBranch(_text_element_data)
 	}
 
 }
@@ -6003,7 +5296,7 @@ func (stage *Stage) StageBranchLyric(lyric *Lyric) {
 func (stage *Stage) StageBranchLyric_font(lyric_font *Lyric_font) {
 
 	// check if instance is already staged
-	if IsStaged(stage, lyric_font) {
+	if stage.IsStaged(lyric_font) {
 		return
 	}
 
@@ -6018,7 +5311,7 @@ func (stage *Stage) StageBranchLyric_font(lyric_font *Lyric_font) {
 func (stage *Stage) StageBranchLyric_language(lyric_language *Lyric_language) {
 
 	// check if instance is already staged
-	if IsStaged(stage, lyric_language) {
+	if stage.IsStaged(lyric_language) {
 		return
 	}
 
@@ -6033,7 +5326,7 @@ func (stage *Stage) StageBranchLyric_language(lyric_language *Lyric_language) {
 func (stage *Stage) StageBranchMeasure_layout(measure_layout *Measure_layout) {
 
 	// check if instance is already staged
-	if IsStaged(stage, measure_layout) {
+	if stage.IsStaged(measure_layout) {
 		return
 	}
 
@@ -6048,7 +5341,7 @@ func (stage *Stage) StageBranchMeasure_layout(measure_layout *Measure_layout) {
 func (stage *Stage) StageBranchMeasure_numbering(measure_numbering *Measure_numbering) {
 
 	// check if instance is already staged
-	if IsStaged(stage, measure_numbering) {
+	if stage.IsStaged(measure_numbering) {
 		return
 	}
 
@@ -6063,7 +5356,7 @@ func (stage *Stage) StageBranchMeasure_numbering(measure_numbering *Measure_numb
 func (stage *Stage) StageBranchMeasure_repeat(measure_repeat *Measure_repeat) {
 
 	// check if instance is already staged
-	if IsStaged(stage, measure_repeat) {
+	if stage.IsStaged(measure_repeat) {
 		return
 	}
 
@@ -6078,7 +5371,7 @@ func (stage *Stage) StageBranchMeasure_repeat(measure_repeat *Measure_repeat) {
 func (stage *Stage) StageBranchMeasure_style(measure_style *Measure_style) {
 
 	// check if instance is already staged
-	if IsStaged(stage, measure_style) {
+	if stage.IsStaged(measure_style) {
 		return
 	}
 
@@ -6086,16 +5379,16 @@ func (stage *Stage) StageBranchMeasure_style(measure_style *Measure_style) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if measure_style.Multiple_rest != nil {
-		StageBranch(stage, measure_style.Multiple_rest)
+		stage.StageBranch(measure_style.Multiple_rest)
 	}
 	if measure_style.Measure_repeat != nil {
-		StageBranch(stage, measure_style.Measure_repeat)
+		stage.StageBranch(measure_style.Measure_repeat)
 	}
 	if measure_style.Beat_repeat != nil {
-		StageBranch(stage, measure_style.Beat_repeat)
+		stage.StageBranch(measure_style.Beat_repeat)
 	}
 	if measure_style.Slash != nil {
-		StageBranch(stage, measure_style.Slash)
+		stage.StageBranch(measure_style.Slash)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -6105,7 +5398,7 @@ func (stage *Stage) StageBranchMeasure_style(measure_style *Measure_style) {
 func (stage *Stage) StageBranchMembrane(membrane *Membrane) {
 
 	// check if instance is already staged
-	if IsStaged(stage, membrane) {
+	if stage.IsStaged(membrane) {
 		return
 	}
 
@@ -6120,7 +5413,7 @@ func (stage *Stage) StageBranchMembrane(membrane *Membrane) {
 func (stage *Stage) StageBranchMetal(metal *Metal) {
 
 	// check if instance is already staged
-	if IsStaged(stage, metal) {
+	if stage.IsStaged(metal) {
 		return
 	}
 
@@ -6135,7 +5428,7 @@ func (stage *Stage) StageBranchMetal(metal *Metal) {
 func (stage *Stage) StageBranchMetronome(metronome *Metronome) {
 
 	// check if instance is already staged
-	if IsStaged(stage, metronome) {
+	if stage.IsStaged(metronome) {
 		return
 	}
 
@@ -6143,15 +5436,15 @@ func (stage *Stage) StageBranchMetronome(metronome *Metronome) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if metronome.Per_minute != nil {
-		StageBranch(stage, metronome.Per_minute)
+		stage.StageBranch(metronome.Per_minute)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _beat_unit_tied := range metronome.Beat_unit_tied {
-		StageBranch(stage, _beat_unit_tied)
+		stage.StageBranch(_beat_unit_tied)
 	}
 	for _, _metronome_note := range metronome.Metronome_note {
-		StageBranch(stage, _metronome_note)
+		stage.StageBranch(_metronome_note)
 	}
 
 }
@@ -6159,7 +5452,7 @@ func (stage *Stage) StageBranchMetronome(metronome *Metronome) {
 func (stage *Stage) StageBranchMetronome_beam(metronome_beam *Metronome_beam) {
 
 	// check if instance is already staged
-	if IsStaged(stage, metronome_beam) {
+	if stage.IsStaged(metronome_beam) {
 		return
 	}
 
@@ -6174,7 +5467,7 @@ func (stage *Stage) StageBranchMetronome_beam(metronome_beam *Metronome_beam) {
 func (stage *Stage) StageBranchMetronome_note(metronome_note *Metronome_note) {
 
 	// check if instance is already staged
-	if IsStaged(stage, metronome_note) {
+	if stage.IsStaged(metronome_note) {
 		return
 	}
 
@@ -6182,15 +5475,15 @@ func (stage *Stage) StageBranchMetronome_note(metronome_note *Metronome_note) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if metronome_note.Metronome_tied != nil {
-		StageBranch(stage, metronome_note.Metronome_tied)
+		stage.StageBranch(metronome_note.Metronome_tied)
 	}
 	if metronome_note.Metronome_tuplet != nil {
-		StageBranch(stage, metronome_note.Metronome_tuplet)
+		stage.StageBranch(metronome_note.Metronome_tuplet)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _metronome_beam := range metronome_note.Metronome_beam {
-		StageBranch(stage, _metronome_beam)
+		stage.StageBranch(_metronome_beam)
 	}
 
 }
@@ -6198,7 +5491,7 @@ func (stage *Stage) StageBranchMetronome_note(metronome_note *Metronome_note) {
 func (stage *Stage) StageBranchMetronome_tied(metronome_tied *Metronome_tied) {
 
 	// check if instance is already staged
-	if IsStaged(stage, metronome_tied) {
+	if stage.IsStaged(metronome_tied) {
 		return
 	}
 
@@ -6213,7 +5506,7 @@ func (stage *Stage) StageBranchMetronome_tied(metronome_tied *Metronome_tied) {
 func (stage *Stage) StageBranchMetronome_tuplet(metronome_tuplet *Metronome_tuplet) {
 
 	// check if instance is already staged
-	if IsStaged(stage, metronome_tuplet) {
+	if stage.IsStaged(metronome_tuplet) {
 		return
 	}
 
@@ -6228,7 +5521,7 @@ func (stage *Stage) StageBranchMetronome_tuplet(metronome_tuplet *Metronome_tupl
 func (stage *Stage) StageBranchMidi_device(midi_device *Midi_device) {
 
 	// check if instance is already staged
-	if IsStaged(stage, midi_device) {
+	if stage.IsStaged(midi_device) {
 		return
 	}
 
@@ -6243,7 +5536,7 @@ func (stage *Stage) StageBranchMidi_device(midi_device *Midi_device) {
 func (stage *Stage) StageBranchMidi_instrument(midi_instrument *Midi_instrument) {
 
 	// check if instance is already staged
-	if IsStaged(stage, midi_instrument) {
+	if stage.IsStaged(midi_instrument) {
 		return
 	}
 
@@ -6258,7 +5551,7 @@ func (stage *Stage) StageBranchMidi_instrument(midi_instrument *Midi_instrument)
 func (stage *Stage) StageBranchMiscellaneous(miscellaneous *Miscellaneous) {
 
 	// check if instance is already staged
-	if IsStaged(stage, miscellaneous) {
+	if stage.IsStaged(miscellaneous) {
 		return
 	}
 
@@ -6268,7 +5561,7 @@ func (stage *Stage) StageBranchMiscellaneous(miscellaneous *Miscellaneous) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _miscellaneous_field := range miscellaneous.Miscellaneous_field {
-		StageBranch(stage, _miscellaneous_field)
+		stage.StageBranch(_miscellaneous_field)
 	}
 
 }
@@ -6276,7 +5569,7 @@ func (stage *Stage) StageBranchMiscellaneous(miscellaneous *Miscellaneous) {
 func (stage *Stage) StageBranchMiscellaneous_field(miscellaneous_field *Miscellaneous_field) {
 
 	// check if instance is already staged
-	if IsStaged(stage, miscellaneous_field) {
+	if stage.IsStaged(miscellaneous_field) {
 		return
 	}
 
@@ -6291,7 +5584,7 @@ func (stage *Stage) StageBranchMiscellaneous_field(miscellaneous_field *Miscella
 func (stage *Stage) StageBranchMordent(mordent *Mordent) {
 
 	// check if instance is already staged
-	if IsStaged(stage, mordent) {
+	if stage.IsStaged(mordent) {
 		return
 	}
 
@@ -6306,7 +5599,7 @@ func (stage *Stage) StageBranchMordent(mordent *Mordent) {
 func (stage *Stage) StageBranchMultiple_rest(multiple_rest *Multiple_rest) {
 
 	// check if instance is already staged
-	if IsStaged(stage, multiple_rest) {
+	if stage.IsStaged(multiple_rest) {
 		return
 	}
 
@@ -6321,7 +5614,7 @@ func (stage *Stage) StageBranchMultiple_rest(multiple_rest *Multiple_rest) {
 func (stage *Stage) StageBranchName_display(name_display *Name_display) {
 
 	// check if instance is already staged
-	if IsStaged(stage, name_display) {
+	if stage.IsStaged(name_display) {
 		return
 	}
 
@@ -6331,10 +5624,10 @@ func (stage *Stage) StageBranchName_display(name_display *Name_display) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formatted_text := range name_display.Display_text {
-		StageBranch(stage, _formatted_text)
+		stage.StageBranch(_formatted_text)
 	}
 	for _, _accidental_text := range name_display.Accidental_text {
-		StageBranch(stage, _accidental_text)
+		stage.StageBranch(_accidental_text)
 	}
 
 }
@@ -6342,7 +5635,7 @@ func (stage *Stage) StageBranchName_display(name_display *Name_display) {
 func (stage *Stage) StageBranchNon_arpeggiate(non_arpeggiate *Non_arpeggiate) {
 
 	// check if instance is already staged
-	if IsStaged(stage, non_arpeggiate) {
+	if stage.IsStaged(non_arpeggiate) {
 		return
 	}
 
@@ -6357,7 +5650,7 @@ func (stage *Stage) StageBranchNon_arpeggiate(non_arpeggiate *Non_arpeggiate) {
 func (stage *Stage) StageBranchNotations(notations *Notations) {
 
 	// check if instance is already staged
-	if IsStaged(stage, notations) {
+	if stage.IsStaged(notations) {
 		return
 	}
 
@@ -6365,54 +5658,54 @@ func (stage *Stage) StageBranchNotations(notations *Notations) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if notations.Footnote != nil {
-		StageBranch(stage, notations.Footnote)
+		stage.StageBranch(notations.Footnote)
 	}
 	if notations.Level != nil {
-		StageBranch(stage, notations.Level)
+		stage.StageBranch(notations.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tied := range notations.Tied {
-		StageBranch(stage, _tied)
+		stage.StageBranch(_tied)
 	}
 	for _, _slur := range notations.Slur {
-		StageBranch(stage, _slur)
+		stage.StageBranch(_slur)
 	}
 	for _, _tuplet := range notations.Tuplet {
-		StageBranch(stage, _tuplet)
+		stage.StageBranch(_tuplet)
 	}
 	for _, _glissando := range notations.Glissando {
-		StageBranch(stage, _glissando)
+		stage.StageBranch(_glissando)
 	}
 	for _, _slide := range notations.Slide {
-		StageBranch(stage, _slide)
+		stage.StageBranch(_slide)
 	}
 	for _, _ornaments := range notations.Ornaments {
-		StageBranch(stage, _ornaments)
+		stage.StageBranch(_ornaments)
 	}
 	for _, _technical := range notations.Technical {
-		StageBranch(stage, _technical)
+		stage.StageBranch(_technical)
 	}
 	for _, _articulations := range notations.Articulations {
-		StageBranch(stage, _articulations)
+		stage.StageBranch(_articulations)
 	}
 	for _, _dynamics := range notations.Dynamics {
-		StageBranch(stage, _dynamics)
+		stage.StageBranch(_dynamics)
 	}
 	for _, _fermata := range notations.Fermata {
-		StageBranch(stage, _fermata)
+		stage.StageBranch(_fermata)
 	}
 	for _, _arpeggiate := range notations.Arpeggiate {
-		StageBranch(stage, _arpeggiate)
+		stage.StageBranch(_arpeggiate)
 	}
 	for _, _non_arpeggiate := range notations.Non_arpeggiate {
-		StageBranch(stage, _non_arpeggiate)
+		stage.StageBranch(_non_arpeggiate)
 	}
 	for _, _accidental_mark := range notations.Accidental_mark {
-		StageBranch(stage, _accidental_mark)
+		stage.StageBranch(_accidental_mark)
 	}
 	for _, _other_notation := range notations.Other_notation {
-		StageBranch(stage, _other_notation)
+		stage.StageBranch(_other_notation)
 	}
 
 }
@@ -6420,7 +5713,7 @@ func (stage *Stage) StageBranchNotations(notations *Notations) {
 func (stage *Stage) StageBranchNote(note *Note) {
 
 	// check if instance is already staged
-	if IsStaged(stage, note) {
+	if stage.IsStaged(note) {
 		return
 	}
 
@@ -6428,66 +5721,66 @@ func (stage *Stage) StageBranchNote(note *Note) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if note.Grace != nil {
-		StageBranch(stage, note.Grace)
+		stage.StageBranch(note.Grace)
 	}
 	if note.Pitch != nil {
-		StageBranch(stage, note.Pitch)
+		stage.StageBranch(note.Pitch)
 	}
 	if note.Unpitched != nil {
-		StageBranch(stage, note.Unpitched)
+		stage.StageBranch(note.Unpitched)
 	}
 	if note.Rest != nil {
-		StageBranch(stage, note.Rest)
+		stage.StageBranch(note.Rest)
 	}
 	if note.Tie != nil {
-		StageBranch(stage, note.Tie)
+		stage.StageBranch(note.Tie)
 	}
 	if note.Footnote != nil {
-		StageBranch(stage, note.Footnote)
+		stage.StageBranch(note.Footnote)
 	}
 	if note.Level != nil {
-		StageBranch(stage, note.Level)
+		stage.StageBranch(note.Level)
 	}
 	if note.Type != nil {
-		StageBranch(stage, note.Type)
+		stage.StageBranch(note.Type)
 	}
 	if note.Accidental != nil {
-		StageBranch(stage, note.Accidental)
+		stage.StageBranch(note.Accidental)
 	}
 	if note.Time_modification != nil {
-		StageBranch(stage, note.Time_modification)
+		stage.StageBranch(note.Time_modification)
 	}
 	if note.Stem != nil {
-		StageBranch(stage, note.Stem)
+		stage.StageBranch(note.Stem)
 	}
 	if note.Notehead != nil {
-		StageBranch(stage, note.Notehead)
+		stage.StageBranch(note.Notehead)
 	}
 	if note.Notehead_text != nil {
-		StageBranch(stage, note.Notehead_text)
+		stage.StageBranch(note.Notehead_text)
 	}
 	if note.Beam != nil {
-		StageBranch(stage, note.Beam)
+		stage.StageBranch(note.Beam)
 	}
 	if note.Play != nil {
-		StageBranch(stage, note.Play)
+		stage.StageBranch(note.Play)
 	}
 	if note.Listen != nil {
-		StageBranch(stage, note.Listen)
+		stage.StageBranch(note.Listen)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _instrument := range note.Instrument {
-		StageBranch(stage, _instrument)
+		stage.StageBranch(_instrument)
 	}
 	for _, _empty_placement := range note.Dot {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _notations := range note.Notations {
-		StageBranch(stage, _notations)
+		stage.StageBranch(_notations)
 	}
 	for _, _lyric := range note.Lyric {
-		StageBranch(stage, _lyric)
+		stage.StageBranch(_lyric)
 	}
 
 }
@@ -6495,7 +5788,7 @@ func (stage *Stage) StageBranchNote(note *Note) {
 func (stage *Stage) StageBranchNote_size(note_size *Note_size) {
 
 	// check if instance is already staged
-	if IsStaged(stage, note_size) {
+	if stage.IsStaged(note_size) {
 		return
 	}
 
@@ -6510,7 +5803,7 @@ func (stage *Stage) StageBranchNote_size(note_size *Note_size) {
 func (stage *Stage) StageBranchNote_type(note_type *Note_type) {
 
 	// check if instance is already staged
-	if IsStaged(stage, note_type) {
+	if stage.IsStaged(note_type) {
 		return
 	}
 
@@ -6525,7 +5818,7 @@ func (stage *Stage) StageBranchNote_type(note_type *Note_type) {
 func (stage *Stage) StageBranchNotehead(notehead *Notehead) {
 
 	// check if instance is already staged
-	if IsStaged(stage, notehead) {
+	if stage.IsStaged(notehead) {
 		return
 	}
 
@@ -6540,7 +5833,7 @@ func (stage *Stage) StageBranchNotehead(notehead *Notehead) {
 func (stage *Stage) StageBranchNotehead_text(notehead_text *Notehead_text) {
 
 	// check if instance is already staged
-	if IsStaged(stage, notehead_text) {
+	if stage.IsStaged(notehead_text) {
 		return
 	}
 
@@ -6550,10 +5843,10 @@ func (stage *Stage) StageBranchNotehead_text(notehead_text *Notehead_text) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formatted_text := range notehead_text.Display_text {
-		StageBranch(stage, _formatted_text)
+		stage.StageBranch(_formatted_text)
 	}
 	for _, _accidental_text := range notehead_text.Accidental_text {
-		StageBranch(stage, _accidental_text)
+		stage.StageBranch(_accidental_text)
 	}
 
 }
@@ -6561,7 +5854,7 @@ func (stage *Stage) StageBranchNotehead_text(notehead_text *Notehead_text) {
 func (stage *Stage) StageBranchNumeral(numeral *Numeral) {
 
 	// check if instance is already staged
-	if IsStaged(stage, numeral) {
+	if stage.IsStaged(numeral) {
 		return
 	}
 
@@ -6569,13 +5862,13 @@ func (stage *Stage) StageBranchNumeral(numeral *Numeral) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if numeral.Numeral_root != nil {
-		StageBranch(stage, numeral.Numeral_root)
+		stage.StageBranch(numeral.Numeral_root)
 	}
 	if numeral.Numeral_alter != nil {
-		StageBranch(stage, numeral.Numeral_alter)
+		stage.StageBranch(numeral.Numeral_alter)
 	}
 	if numeral.Numeral_key != nil {
-		StageBranch(stage, numeral.Numeral_key)
+		stage.StageBranch(numeral.Numeral_key)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -6585,7 +5878,7 @@ func (stage *Stage) StageBranchNumeral(numeral *Numeral) {
 func (stage *Stage) StageBranchNumeral_key(numeral_key *Numeral_key) {
 
 	// check if instance is already staged
-	if IsStaged(stage, numeral_key) {
+	if stage.IsStaged(numeral_key) {
 		return
 	}
 
@@ -6600,7 +5893,7 @@ func (stage *Stage) StageBranchNumeral_key(numeral_key *Numeral_key) {
 func (stage *Stage) StageBranchNumeral_root(numeral_root *Numeral_root) {
 
 	// check if instance is already staged
-	if IsStaged(stage, numeral_root) {
+	if stage.IsStaged(numeral_root) {
 		return
 	}
 
@@ -6615,7 +5908,7 @@ func (stage *Stage) StageBranchNumeral_root(numeral_root *Numeral_root) {
 func (stage *Stage) StageBranchOctave_shift(octave_shift *Octave_shift) {
 
 	// check if instance is already staged
-	if IsStaged(stage, octave_shift) {
+	if stage.IsStaged(octave_shift) {
 		return
 	}
 
@@ -6630,7 +5923,7 @@ func (stage *Stage) StageBranchOctave_shift(octave_shift *Octave_shift) {
 func (stage *Stage) StageBranchOffset(offset *Offset) {
 
 	// check if instance is already staged
-	if IsStaged(stage, offset) {
+	if stage.IsStaged(offset) {
 		return
 	}
 
@@ -6645,7 +5938,7 @@ func (stage *Stage) StageBranchOffset(offset *Offset) {
 func (stage *Stage) StageBranchOpus(opus *Opus) {
 
 	// check if instance is already staged
-	if IsStaged(stage, opus) {
+	if stage.IsStaged(opus) {
 		return
 	}
 
@@ -6660,7 +5953,7 @@ func (stage *Stage) StageBranchOpus(opus *Opus) {
 func (stage *Stage) StageBranchOrnaments(ornaments *Ornaments) {
 
 	// check if instance is already staged
-	if IsStaged(stage, ornaments) {
+	if stage.IsStaged(ornaments) {
 		return
 	}
 
@@ -6670,52 +5963,52 @@ func (stage *Stage) StageBranchOrnaments(ornaments *Ornaments) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _empty_trill_sound := range ornaments.Trill_mark {
-		StageBranch(stage, _empty_trill_sound)
+		stage.StageBranch(_empty_trill_sound)
 	}
 	for _, _horizontal_turn := range ornaments.Turn {
-		StageBranch(stage, _horizontal_turn)
+		stage.StageBranch(_horizontal_turn)
 	}
 	for _, _horizontal_turn := range ornaments.Delayed_turn {
-		StageBranch(stage, _horizontal_turn)
+		stage.StageBranch(_horizontal_turn)
 	}
 	for _, _horizontal_turn := range ornaments.Inverted_turn {
-		StageBranch(stage, _horizontal_turn)
+		stage.StageBranch(_horizontal_turn)
 	}
 	for _, _horizontal_turn := range ornaments.Delayed_inverted_turn {
-		StageBranch(stage, _horizontal_turn)
+		stage.StageBranch(_horizontal_turn)
 	}
 	for _, _empty_trill_sound := range ornaments.Vertical_turn {
-		StageBranch(stage, _empty_trill_sound)
+		stage.StageBranch(_empty_trill_sound)
 	}
 	for _, _empty_trill_sound := range ornaments.Inverted_vertical_turn {
-		StageBranch(stage, _empty_trill_sound)
+		stage.StageBranch(_empty_trill_sound)
 	}
 	for _, _empty_trill_sound := range ornaments.Shake {
-		StageBranch(stage, _empty_trill_sound)
+		stage.StageBranch(_empty_trill_sound)
 	}
 	for _, _wavy_line := range ornaments.Wavy_line {
-		StageBranch(stage, _wavy_line)
+		stage.StageBranch(_wavy_line)
 	}
 	for _, _mordent := range ornaments.Mordent {
-		StageBranch(stage, _mordent)
+		stage.StageBranch(_mordent)
 	}
 	for _, _mordent := range ornaments.Inverted_mordent {
-		StageBranch(stage, _mordent)
+		stage.StageBranch(_mordent)
 	}
 	for _, _empty_placement := range ornaments.Schleifer {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _tremolo := range ornaments.Tremolo {
-		StageBranch(stage, _tremolo)
+		stage.StageBranch(_tremolo)
 	}
 	for _, _empty_trill_sound := range ornaments.Haydn {
-		StageBranch(stage, _empty_trill_sound)
+		stage.StageBranch(_empty_trill_sound)
 	}
 	for _, _other_placement_text := range ornaments.Other_ornament {
-		StageBranch(stage, _other_placement_text)
+		stage.StageBranch(_other_placement_text)
 	}
 	for _, _accidental_mark := range ornaments.Accidental_mark {
-		StageBranch(stage, _accidental_mark)
+		stage.StageBranch(_accidental_mark)
 	}
 
 }
@@ -6723,7 +6016,7 @@ func (stage *Stage) StageBranchOrnaments(ornaments *Ornaments) {
 func (stage *Stage) StageBranchOther_appearance(other_appearance *Other_appearance) {
 
 	// check if instance is already staged
-	if IsStaged(stage, other_appearance) {
+	if stage.IsStaged(other_appearance) {
 		return
 	}
 
@@ -6738,7 +6031,7 @@ func (stage *Stage) StageBranchOther_appearance(other_appearance *Other_appearan
 func (stage *Stage) StageBranchOther_direction(other_direction *Other_direction) {
 
 	// check if instance is already staged
-	if IsStaged(stage, other_direction) {
+	if stage.IsStaged(other_direction) {
 		return
 	}
 
@@ -6753,7 +6046,7 @@ func (stage *Stage) StageBranchOther_direction(other_direction *Other_direction)
 func (stage *Stage) StageBranchOther_listening(other_listening *Other_listening) {
 
 	// check if instance is already staged
-	if IsStaged(stage, other_listening) {
+	if stage.IsStaged(other_listening) {
 		return
 	}
 
@@ -6768,7 +6061,7 @@ func (stage *Stage) StageBranchOther_listening(other_listening *Other_listening)
 func (stage *Stage) StageBranchOther_notation(other_notation *Other_notation) {
 
 	// check if instance is already staged
-	if IsStaged(stage, other_notation) {
+	if stage.IsStaged(other_notation) {
 		return
 	}
 
@@ -6783,7 +6076,7 @@ func (stage *Stage) StageBranchOther_notation(other_notation *Other_notation) {
 func (stage *Stage) StageBranchOther_placement_text(other_placement_text *Other_placement_text) {
 
 	// check if instance is already staged
-	if IsStaged(stage, other_placement_text) {
+	if stage.IsStaged(other_placement_text) {
 		return
 	}
 
@@ -6798,7 +6091,7 @@ func (stage *Stage) StageBranchOther_placement_text(other_placement_text *Other_
 func (stage *Stage) StageBranchOther_play(other_play *Other_play) {
 
 	// check if instance is already staged
-	if IsStaged(stage, other_play) {
+	if stage.IsStaged(other_play) {
 		return
 	}
 
@@ -6813,7 +6106,7 @@ func (stage *Stage) StageBranchOther_play(other_play *Other_play) {
 func (stage *Stage) StageBranchOther_text(other_text *Other_text) {
 
 	// check if instance is already staged
-	if IsStaged(stage, other_text) {
+	if stage.IsStaged(other_text) {
 		return
 	}
 
@@ -6828,7 +6121,7 @@ func (stage *Stage) StageBranchOther_text(other_text *Other_text) {
 func (stage *Stage) StageBranchPage_layout(page_layout *Page_layout) {
 
 	// check if instance is already staged
-	if IsStaged(stage, page_layout) {
+	if stage.IsStaged(page_layout) {
 		return
 	}
 
@@ -6836,7 +6129,7 @@ func (stage *Stage) StageBranchPage_layout(page_layout *Page_layout) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if page_layout.Page_margins != nil {
-		StageBranch(stage, page_layout.Page_margins)
+		stage.StageBranch(page_layout.Page_margins)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -6846,7 +6139,7 @@ func (stage *Stage) StageBranchPage_layout(page_layout *Page_layout) {
 func (stage *Stage) StageBranchPage_margins(page_margins *Page_margins) {
 
 	// check if instance is already staged
-	if IsStaged(stage, page_margins) {
+	if stage.IsStaged(page_margins) {
 		return
 	}
 
@@ -6861,7 +6154,7 @@ func (stage *Stage) StageBranchPage_margins(page_margins *Page_margins) {
 func (stage *Stage) StageBranchPart_clef(part_clef *Part_clef) {
 
 	// check if instance is already staged
-	if IsStaged(stage, part_clef) {
+	if stage.IsStaged(part_clef) {
 		return
 	}
 
@@ -6876,7 +6169,7 @@ func (stage *Stage) StageBranchPart_clef(part_clef *Part_clef) {
 func (stage *Stage) StageBranchPart_group(part_group *Part_group) {
 
 	// check if instance is already staged
-	if IsStaged(stage, part_group) {
+	if stage.IsStaged(part_group) {
 		return
 	}
 
@@ -6884,28 +6177,28 @@ func (stage *Stage) StageBranchPart_group(part_group *Part_group) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if part_group.Group_name != nil {
-		StageBranch(stage, part_group.Group_name)
+		stage.StageBranch(part_group.Group_name)
 	}
 	if part_group.Group_name_display != nil {
-		StageBranch(stage, part_group.Group_name_display)
+		stage.StageBranch(part_group.Group_name_display)
 	}
 	if part_group.Group_abbreviation != nil {
-		StageBranch(stage, part_group.Group_abbreviation)
+		stage.StageBranch(part_group.Group_abbreviation)
 	}
 	if part_group.Group_abbreviation_display != nil {
-		StageBranch(stage, part_group.Group_abbreviation_display)
+		stage.StageBranch(part_group.Group_abbreviation_display)
 	}
 	if part_group.Group_symbol != nil {
-		StageBranch(stage, part_group.Group_symbol)
+		stage.StageBranch(part_group.Group_symbol)
 	}
 	if part_group.Group_barline != nil {
-		StageBranch(stage, part_group.Group_barline)
+		stage.StageBranch(part_group.Group_barline)
 	}
 	if part_group.Footnote != nil {
-		StageBranch(stage, part_group.Footnote)
+		stage.StageBranch(part_group.Footnote)
 	}
 	if part_group.Level != nil {
-		StageBranch(stage, part_group.Level)
+		stage.StageBranch(part_group.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -6915,7 +6208,7 @@ func (stage *Stage) StageBranchPart_group(part_group *Part_group) {
 func (stage *Stage) StageBranchPart_link(part_link *Part_link) {
 
 	// check if instance is already staged
-	if IsStaged(stage, part_link) {
+	if stage.IsStaged(part_link) {
 		return
 	}
 
@@ -6925,7 +6218,7 @@ func (stage *Stage) StageBranchPart_link(part_link *Part_link) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _instrument_link := range part_link.Instrument_link {
-		StageBranch(stage, _instrument_link)
+		stage.StageBranch(_instrument_link)
 	}
 
 }
@@ -6933,7 +6226,7 @@ func (stage *Stage) StageBranchPart_link(part_link *Part_link) {
 func (stage *Stage) StageBranchPart_list(part_list *Part_list) {
 
 	// check if instance is already staged
-	if IsStaged(stage, part_list) {
+	if stage.IsStaged(part_list) {
 		return
 	}
 
@@ -6941,10 +6234,10 @@ func (stage *Stage) StageBranchPart_list(part_list *Part_list) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if part_list.Part_group != nil {
-		StageBranch(stage, part_list.Part_group)
+		stage.StageBranch(part_list.Part_group)
 	}
 	if part_list.Score_part != nil {
-		StageBranch(stage, part_list.Score_part)
+		stage.StageBranch(part_list.Score_part)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -6954,7 +6247,7 @@ func (stage *Stage) StageBranchPart_list(part_list *Part_list) {
 func (stage *Stage) StageBranchPart_name(part_name *Part_name) {
 
 	// check if instance is already staged
-	if IsStaged(stage, part_name) {
+	if stage.IsStaged(part_name) {
 		return
 	}
 
@@ -6969,7 +6262,7 @@ func (stage *Stage) StageBranchPart_name(part_name *Part_name) {
 func (stage *Stage) StageBranchPart_symbol(part_symbol *Part_symbol) {
 
 	// check if instance is already staged
-	if IsStaged(stage, part_symbol) {
+	if stage.IsStaged(part_symbol) {
 		return
 	}
 
@@ -6984,7 +6277,7 @@ func (stage *Stage) StageBranchPart_symbol(part_symbol *Part_symbol) {
 func (stage *Stage) StageBranchPart_transpose(part_transpose *Part_transpose) {
 
 	// check if instance is already staged
-	if IsStaged(stage, part_transpose) {
+	if stage.IsStaged(part_transpose) {
 		return
 	}
 
@@ -6999,7 +6292,7 @@ func (stage *Stage) StageBranchPart_transpose(part_transpose *Part_transpose) {
 func (stage *Stage) StageBranchPedal(pedal *Pedal) {
 
 	// check if instance is already staged
-	if IsStaged(stage, pedal) {
+	if stage.IsStaged(pedal) {
 		return
 	}
 
@@ -7014,7 +6307,7 @@ func (stage *Stage) StageBranchPedal(pedal *Pedal) {
 func (stage *Stage) StageBranchPedal_tuning(pedal_tuning *Pedal_tuning) {
 
 	// check if instance is already staged
-	if IsStaged(stage, pedal_tuning) {
+	if stage.IsStaged(pedal_tuning) {
 		return
 	}
 
@@ -7029,7 +6322,7 @@ func (stage *Stage) StageBranchPedal_tuning(pedal_tuning *Pedal_tuning) {
 func (stage *Stage) StageBranchPer_minute(per_minute *Per_minute) {
 
 	// check if instance is already staged
-	if IsStaged(stage, per_minute) {
+	if stage.IsStaged(per_minute) {
 		return
 	}
 
@@ -7044,7 +6337,7 @@ func (stage *Stage) StageBranchPer_minute(per_minute *Per_minute) {
 func (stage *Stage) StageBranchPercussion(percussion *Percussion) {
 
 	// check if instance is already staged
-	if IsStaged(stage, percussion) {
+	if stage.IsStaged(percussion) {
 		return
 	}
 
@@ -7052,34 +6345,34 @@ func (stage *Stage) StageBranchPercussion(percussion *Percussion) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if percussion.Glass != nil {
-		StageBranch(stage, percussion.Glass)
+		stage.StageBranch(percussion.Glass)
 	}
 	if percussion.Metal != nil {
-		StageBranch(stage, percussion.Metal)
+		stage.StageBranch(percussion.Metal)
 	}
 	if percussion.Wood != nil {
-		StageBranch(stage, percussion.Wood)
+		stage.StageBranch(percussion.Wood)
 	}
 	if percussion.Pitched != nil {
-		StageBranch(stage, percussion.Pitched)
+		stage.StageBranch(percussion.Pitched)
 	}
 	if percussion.Membrane != nil {
-		StageBranch(stage, percussion.Membrane)
+		stage.StageBranch(percussion.Membrane)
 	}
 	if percussion.Effect != nil {
-		StageBranch(stage, percussion.Effect)
+		stage.StageBranch(percussion.Effect)
 	}
 	if percussion.Timpani != nil {
-		StageBranch(stage, percussion.Timpani)
+		stage.StageBranch(percussion.Timpani)
 	}
 	if percussion.Beater != nil {
-		StageBranch(stage, percussion.Beater)
+		stage.StageBranch(percussion.Beater)
 	}
 	if percussion.Stick != nil {
-		StageBranch(stage, percussion.Stick)
+		stage.StageBranch(percussion.Stick)
 	}
 	if percussion.Other_percussion != nil {
-		StageBranch(stage, percussion.Other_percussion)
+		stage.StageBranch(percussion.Other_percussion)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -7089,7 +6382,7 @@ func (stage *Stage) StageBranchPercussion(percussion *Percussion) {
 func (stage *Stage) StageBranchPitch(pitch *Pitch) {
 
 	// check if instance is already staged
-	if IsStaged(stage, pitch) {
+	if stage.IsStaged(pitch) {
 		return
 	}
 
@@ -7104,7 +6397,7 @@ func (stage *Stage) StageBranchPitch(pitch *Pitch) {
 func (stage *Stage) StageBranchPitched(pitched *Pitched) {
 
 	// check if instance is already staged
-	if IsStaged(stage, pitched) {
+	if stage.IsStaged(pitched) {
 		return
 	}
 
@@ -7119,7 +6412,7 @@ func (stage *Stage) StageBranchPitched(pitched *Pitched) {
 func (stage *Stage) StageBranchPlacement_text(placement_text *Placement_text) {
 
 	// check if instance is already staged
-	if IsStaged(stage, placement_text) {
+	if stage.IsStaged(placement_text) {
 		return
 	}
 
@@ -7134,7 +6427,7 @@ func (stage *Stage) StageBranchPlacement_text(placement_text *Placement_text) {
 func (stage *Stage) StageBranchPlay(play *Play) {
 
 	// check if instance is already staged
-	if IsStaged(stage, play) {
+	if stage.IsStaged(play) {
 		return
 	}
 
@@ -7144,7 +6437,7 @@ func (stage *Stage) StageBranchPlay(play *Play) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _other_play := range play.Other_play {
-		StageBranch(stage, _other_play)
+		stage.StageBranch(_other_play)
 	}
 
 }
@@ -7152,7 +6445,7 @@ func (stage *Stage) StageBranchPlay(play *Play) {
 func (stage *Stage) StageBranchPlayer(player *Player) {
 
 	// check if instance is already staged
-	if IsStaged(stage, player) {
+	if stage.IsStaged(player) {
 		return
 	}
 
@@ -7167,7 +6460,7 @@ func (stage *Stage) StageBranchPlayer(player *Player) {
 func (stage *Stage) StageBranchPrincipal_voice(principal_voice *Principal_voice) {
 
 	// check if instance is already staged
-	if IsStaged(stage, principal_voice) {
+	if stage.IsStaged(principal_voice) {
 		return
 	}
 
@@ -7182,7 +6475,7 @@ func (stage *Stage) StageBranchPrincipal_voice(principal_voice *Principal_voice)
 func (stage *Stage) StageBranchPrint(print *Print) {
 
 	// check if instance is already staged
-	if IsStaged(stage, print) {
+	if stage.IsStaged(print) {
 		return
 	}
 
@@ -7190,27 +6483,27 @@ func (stage *Stage) StageBranchPrint(print *Print) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if print.Page_layout != nil {
-		StageBranch(stage, print.Page_layout)
+		stage.StageBranch(print.Page_layout)
 	}
 	if print.System_layout != nil {
-		StageBranch(stage, print.System_layout)
+		stage.StageBranch(print.System_layout)
 	}
 	if print.Measure_layout != nil {
-		StageBranch(stage, print.Measure_layout)
+		stage.StageBranch(print.Measure_layout)
 	}
 	if print.Measure_numbering != nil {
-		StageBranch(stage, print.Measure_numbering)
+		stage.StageBranch(print.Measure_numbering)
 	}
 	if print.Part_name_display != nil {
-		StageBranch(stage, print.Part_name_display)
+		stage.StageBranch(print.Part_name_display)
 	}
 	if print.Part_abbreviation_display != nil {
-		StageBranch(stage, print.Part_abbreviation_display)
+		stage.StageBranch(print.Part_abbreviation_display)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _staff_layout := range print.Staff_layout {
-		StageBranch(stage, _staff_layout)
+		stage.StageBranch(_staff_layout)
 	}
 
 }
@@ -7218,7 +6511,7 @@ func (stage *Stage) StageBranchPrint(print *Print) {
 func (stage *Stage) StageBranchRelease(release *Release) {
 
 	// check if instance is already staged
-	if IsStaged(stage, release) {
+	if stage.IsStaged(release) {
 		return
 	}
 
@@ -7233,7 +6526,7 @@ func (stage *Stage) StageBranchRelease(release *Release) {
 func (stage *Stage) StageBranchRepeat(repeat *Repeat) {
 
 	// check if instance is already staged
-	if IsStaged(stage, repeat) {
+	if stage.IsStaged(repeat) {
 		return
 	}
 
@@ -7248,7 +6541,7 @@ func (stage *Stage) StageBranchRepeat(repeat *Repeat) {
 func (stage *Stage) StageBranchRest(rest *Rest) {
 
 	// check if instance is already staged
-	if IsStaged(stage, rest) {
+	if stage.IsStaged(rest) {
 		return
 	}
 
@@ -7263,7 +6556,7 @@ func (stage *Stage) StageBranchRest(rest *Rest) {
 func (stage *Stage) StageBranchRoot(root *Root) {
 
 	// check if instance is already staged
-	if IsStaged(stage, root) {
+	if stage.IsStaged(root) {
 		return
 	}
 
@@ -7271,10 +6564,10 @@ func (stage *Stage) StageBranchRoot(root *Root) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if root.Root_step != nil {
-		StageBranch(stage, root.Root_step)
+		stage.StageBranch(root.Root_step)
 	}
 	if root.Root_alter != nil {
-		StageBranch(stage, root.Root_alter)
+		stage.StageBranch(root.Root_alter)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -7284,7 +6577,7 @@ func (stage *Stage) StageBranchRoot(root *Root) {
 func (stage *Stage) StageBranchRoot_step(root_step *Root_step) {
 
 	// check if instance is already staged
-	if IsStaged(stage, root_step) {
+	if stage.IsStaged(root_step) {
 		return
 	}
 
@@ -7299,7 +6592,7 @@ func (stage *Stage) StageBranchRoot_step(root_step *Root_step) {
 func (stage *Stage) StageBranchScaling(scaling *Scaling) {
 
 	// check if instance is already staged
-	if IsStaged(stage, scaling) {
+	if stage.IsStaged(scaling) {
 		return
 	}
 
@@ -7314,7 +6607,7 @@ func (stage *Stage) StageBranchScaling(scaling *Scaling) {
 func (stage *Stage) StageBranchScordatura(scordatura *Scordatura) {
 
 	// check if instance is already staged
-	if IsStaged(stage, scordatura) {
+	if stage.IsStaged(scordatura) {
 		return
 	}
 
@@ -7324,7 +6617,7 @@ func (stage *Stage) StageBranchScordatura(scordatura *Scordatura) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _accord := range scordatura.Accord {
-		StageBranch(stage, _accord)
+		stage.StageBranch(_accord)
 	}
 
 }
@@ -7332,7 +6625,7 @@ func (stage *Stage) StageBranchScordatura(scordatura *Scordatura) {
 func (stage *Stage) StageBranchScore_instrument(score_instrument *Score_instrument) {
 
 	// check if instance is already staged
-	if IsStaged(stage, score_instrument) {
+	if stage.IsStaged(score_instrument) {
 		return
 	}
 
@@ -7340,7 +6633,7 @@ func (stage *Stage) StageBranchScore_instrument(score_instrument *Score_instrume
 
 	//insertion point for the staging of instances referenced by pointers
 	if score_instrument.Virtual_instrument != nil {
-		StageBranch(stage, score_instrument.Virtual_instrument)
+		stage.StageBranch(score_instrument.Virtual_instrument)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -7350,7 +6643,7 @@ func (stage *Stage) StageBranchScore_instrument(score_instrument *Score_instrume
 func (stage *Stage) StageBranchScore_part(score_part *Score_part) {
 
 	// check if instance is already staged
-	if IsStaged(stage, score_part) {
+	if stage.IsStaged(score_part) {
 		return
 	}
 
@@ -7358,36 +6651,36 @@ func (stage *Stage) StageBranchScore_part(score_part *Score_part) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if score_part.Identification != nil {
-		StageBranch(stage, score_part.Identification)
+		stage.StageBranch(score_part.Identification)
 	}
 	if score_part.Part_name != nil {
-		StageBranch(stage, score_part.Part_name)
+		stage.StageBranch(score_part.Part_name)
 	}
 	if score_part.Part_name_display != nil {
-		StageBranch(stage, score_part.Part_name_display)
+		stage.StageBranch(score_part.Part_name_display)
 	}
 	if score_part.Part_abbreviation != nil {
-		StageBranch(stage, score_part.Part_abbreviation)
+		stage.StageBranch(score_part.Part_abbreviation)
 	}
 	if score_part.Part_abbreviation_display != nil {
-		StageBranch(stage, score_part.Part_abbreviation_display)
+		stage.StageBranch(score_part.Part_abbreviation_display)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _part_link := range score_part.Part_link {
-		StageBranch(stage, _part_link)
+		stage.StageBranch(_part_link)
 	}
 	for _, _score_instrument := range score_part.Score_instrument {
-		StageBranch(stage, _score_instrument)
+		stage.StageBranch(_score_instrument)
 	}
 	for _, _player := range score_part.Player {
-		StageBranch(stage, _player)
+		stage.StageBranch(_player)
 	}
 	for _, _midi_device := range score_part.Midi_device {
-		StageBranch(stage, _midi_device)
+		stage.StageBranch(_midi_device)
 	}
 	for _, _midi_instrument := range score_part.Midi_instrument {
-		StageBranch(stage, _midi_instrument)
+		stage.StageBranch(_midi_instrument)
 	}
 
 }
@@ -7395,7 +6688,7 @@ func (stage *Stage) StageBranchScore_part(score_part *Score_part) {
 func (stage *Stage) StageBranchScore_partwise(score_partwise *Score_partwise) {
 
 	// check if instance is already staged
-	if IsStaged(stage, score_partwise) {
+	if stage.IsStaged(score_partwise) {
 		return
 	}
 
@@ -7403,24 +6696,24 @@ func (stage *Stage) StageBranchScore_partwise(score_partwise *Score_partwise) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if score_partwise.Work != nil {
-		StageBranch(stage, score_partwise.Work)
+		stage.StageBranch(score_partwise.Work)
 	}
 	if score_partwise.Identification != nil {
-		StageBranch(stage, score_partwise.Identification)
+		stage.StageBranch(score_partwise.Identification)
 	}
 	if score_partwise.Defaults != nil {
-		StageBranch(stage, score_partwise.Defaults)
+		stage.StageBranch(score_partwise.Defaults)
 	}
 	if score_partwise.Part_list != nil {
-		StageBranch(stage, score_partwise.Part_list)
+		stage.StageBranch(score_partwise.Part_list)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _credit := range score_partwise.Credit {
-		StageBranch(stage, _credit)
+		stage.StageBranch(_credit)
 	}
 	for _, _a_part := range score_partwise.Part {
-		StageBranch(stage, _a_part)
+		stage.StageBranch(_a_part)
 	}
 
 }
@@ -7428,7 +6721,7 @@ func (stage *Stage) StageBranchScore_partwise(score_partwise *Score_partwise) {
 func (stage *Stage) StageBranchScore_timewise(score_timewise *Score_timewise) {
 
 	// check if instance is already staged
-	if IsStaged(stage, score_timewise) {
+	if stage.IsStaged(score_timewise) {
 		return
 	}
 
@@ -7436,24 +6729,24 @@ func (stage *Stage) StageBranchScore_timewise(score_timewise *Score_timewise) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if score_timewise.Work != nil {
-		StageBranch(stage, score_timewise.Work)
+		stage.StageBranch(score_timewise.Work)
 	}
 	if score_timewise.Identification != nil {
-		StageBranch(stage, score_timewise.Identification)
+		stage.StageBranch(score_timewise.Identification)
 	}
 	if score_timewise.Defaults != nil {
-		StageBranch(stage, score_timewise.Defaults)
+		stage.StageBranch(score_timewise.Defaults)
 	}
 	if score_timewise.Part_list != nil {
-		StageBranch(stage, score_timewise.Part_list)
+		stage.StageBranch(score_timewise.Part_list)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _credit := range score_timewise.Credit {
-		StageBranch(stage, _credit)
+		stage.StageBranch(_credit)
 	}
 	for _, _a_measure_1 := range score_timewise.Measure {
-		StageBranch(stage, _a_measure_1)
+		stage.StageBranch(_a_measure_1)
 	}
 
 }
@@ -7461,7 +6754,7 @@ func (stage *Stage) StageBranchScore_timewise(score_timewise *Score_timewise) {
 func (stage *Stage) StageBranchSegno(segno *Segno) {
 
 	// check if instance is already staged
-	if IsStaged(stage, segno) {
+	if stage.IsStaged(segno) {
 		return
 	}
 
@@ -7476,7 +6769,7 @@ func (stage *Stage) StageBranchSegno(segno *Segno) {
 func (stage *Stage) StageBranchSlash(slash *Slash) {
 
 	// check if instance is already staged
-	if IsStaged(stage, slash) {
+	if stage.IsStaged(slash) {
 		return
 	}
 
@@ -7491,7 +6784,7 @@ func (stage *Stage) StageBranchSlash(slash *Slash) {
 func (stage *Stage) StageBranchSlide(slide *Slide) {
 
 	// check if instance is already staged
-	if IsStaged(stage, slide) {
+	if stage.IsStaged(slide) {
 		return
 	}
 
@@ -7506,7 +6799,7 @@ func (stage *Stage) StageBranchSlide(slide *Slide) {
 func (stage *Stage) StageBranchSlur(slur *Slur) {
 
 	// check if instance is already staged
-	if IsStaged(stage, slur) {
+	if stage.IsStaged(slur) {
 		return
 	}
 
@@ -7521,7 +6814,7 @@ func (stage *Stage) StageBranchSlur(slur *Slur) {
 func (stage *Stage) StageBranchSound(sound *Sound) {
 
 	// check if instance is already staged
-	if IsStaged(stage, sound) {
+	if stage.IsStaged(sound) {
 		return
 	}
 
@@ -7529,24 +6822,24 @@ func (stage *Stage) StageBranchSound(sound *Sound) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if sound.Swing != nil {
-		StageBranch(stage, sound.Swing)
+		stage.StageBranch(sound.Swing)
 	}
 	if sound.Offset != nil {
-		StageBranch(stage, sound.Offset)
+		stage.StageBranch(sound.Offset)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _instrument_change := range sound.Instrument_change {
-		StageBranch(stage, _instrument_change)
+		stage.StageBranch(_instrument_change)
 	}
 	for _, _midi_device := range sound.Midi_device {
-		StageBranch(stage, _midi_device)
+		stage.StageBranch(_midi_device)
 	}
 	for _, _midi_instrument := range sound.Midi_instrument {
-		StageBranch(stage, _midi_instrument)
+		stage.StageBranch(_midi_instrument)
 	}
 	for _, _play := range sound.Play {
-		StageBranch(stage, _play)
+		stage.StageBranch(_play)
 	}
 
 }
@@ -7554,7 +6847,7 @@ func (stage *Stage) StageBranchSound(sound *Sound) {
 func (stage *Stage) StageBranchStaff_details(staff_details *Staff_details) {
 
 	// check if instance is already staged
-	if IsStaged(stage, staff_details) {
+	if stage.IsStaged(staff_details) {
 		return
 	}
 
@@ -7562,15 +6855,15 @@ func (stage *Stage) StageBranchStaff_details(staff_details *Staff_details) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if staff_details.Staff_size != nil {
-		StageBranch(stage, staff_details.Staff_size)
+		stage.StageBranch(staff_details.Staff_size)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _line_detail := range staff_details.Line_detail {
-		StageBranch(stage, _line_detail)
+		stage.StageBranch(_line_detail)
 	}
 	for _, _staff_tuning := range staff_details.Staff_tuning {
-		StageBranch(stage, _staff_tuning)
+		stage.StageBranch(_staff_tuning)
 	}
 
 }
@@ -7578,7 +6871,7 @@ func (stage *Stage) StageBranchStaff_details(staff_details *Staff_details) {
 func (stage *Stage) StageBranchStaff_divide(staff_divide *Staff_divide) {
 
 	// check if instance is already staged
-	if IsStaged(stage, staff_divide) {
+	if stage.IsStaged(staff_divide) {
 		return
 	}
 
@@ -7593,7 +6886,7 @@ func (stage *Stage) StageBranchStaff_divide(staff_divide *Staff_divide) {
 func (stage *Stage) StageBranchStaff_layout(staff_layout *Staff_layout) {
 
 	// check if instance is already staged
-	if IsStaged(stage, staff_layout) {
+	if stage.IsStaged(staff_layout) {
 		return
 	}
 
@@ -7608,7 +6901,7 @@ func (stage *Stage) StageBranchStaff_layout(staff_layout *Staff_layout) {
 func (stage *Stage) StageBranchStaff_size(staff_size *Staff_size) {
 
 	// check if instance is already staged
-	if IsStaged(stage, staff_size) {
+	if stage.IsStaged(staff_size) {
 		return
 	}
 
@@ -7623,7 +6916,7 @@ func (stage *Stage) StageBranchStaff_size(staff_size *Staff_size) {
 func (stage *Stage) StageBranchStaff_tuning(staff_tuning *Staff_tuning) {
 
 	// check if instance is already staged
-	if IsStaged(stage, staff_tuning) {
+	if stage.IsStaged(staff_tuning) {
 		return
 	}
 
@@ -7638,7 +6931,7 @@ func (stage *Stage) StageBranchStaff_tuning(staff_tuning *Staff_tuning) {
 func (stage *Stage) StageBranchStem(stem *Stem) {
 
 	// check if instance is already staged
-	if IsStaged(stage, stem) {
+	if stage.IsStaged(stem) {
 		return
 	}
 
@@ -7653,7 +6946,7 @@ func (stage *Stage) StageBranchStem(stem *Stem) {
 func (stage *Stage) StageBranchStick(stick *Stick) {
 
 	// check if instance is already staged
-	if IsStaged(stage, stick) {
+	if stage.IsStaged(stick) {
 		return
 	}
 
@@ -7668,7 +6961,7 @@ func (stage *Stage) StageBranchStick(stick *Stick) {
 func (stage *Stage) StageBranchString_mute(string_mute *String_mute) {
 
 	// check if instance is already staged
-	if IsStaged(stage, string_mute) {
+	if stage.IsStaged(string_mute) {
 		return
 	}
 
@@ -7683,7 +6976,7 @@ func (stage *Stage) StageBranchString_mute(string_mute *String_mute) {
 func (stage *Stage) StageBranchString_type(string_type *String_type) {
 
 	// check if instance is already staged
-	if IsStaged(stage, string_type) {
+	if stage.IsStaged(string_type) {
 		return
 	}
 
@@ -7698,7 +6991,7 @@ func (stage *Stage) StageBranchString_type(string_type *String_type) {
 func (stage *Stage) StageBranchStrong_accent(strong_accent *Strong_accent) {
 
 	// check if instance is already staged
-	if IsStaged(stage, strong_accent) {
+	if stage.IsStaged(strong_accent) {
 		return
 	}
 
@@ -7713,7 +7006,7 @@ func (stage *Stage) StageBranchStrong_accent(strong_accent *Strong_accent) {
 func (stage *Stage) StageBranchStyle_text(style_text *Style_text) {
 
 	// check if instance is already staged
-	if IsStaged(stage, style_text) {
+	if stage.IsStaged(style_text) {
 		return
 	}
 
@@ -7728,7 +7021,7 @@ func (stage *Stage) StageBranchStyle_text(style_text *Style_text) {
 func (stage *Stage) StageBranchSupports(supports *Supports) {
 
 	// check if instance is already staged
-	if IsStaged(stage, supports) {
+	if stage.IsStaged(supports) {
 		return
 	}
 
@@ -7743,7 +7036,7 @@ func (stage *Stage) StageBranchSupports(supports *Supports) {
 func (stage *Stage) StageBranchSwing(swing *Swing) {
 
 	// check if instance is already staged
-	if IsStaged(stage, swing) {
+	if stage.IsStaged(swing) {
 		return
 	}
 
@@ -7758,7 +7051,7 @@ func (stage *Stage) StageBranchSwing(swing *Swing) {
 func (stage *Stage) StageBranchSync(sync *Sync) {
 
 	// check if instance is already staged
-	if IsStaged(stage, sync) {
+	if stage.IsStaged(sync) {
 		return
 	}
 
@@ -7773,7 +7066,7 @@ func (stage *Stage) StageBranchSync(sync *Sync) {
 func (stage *Stage) StageBranchSystem_dividers(system_dividers *System_dividers) {
 
 	// check if instance is already staged
-	if IsStaged(stage, system_dividers) {
+	if stage.IsStaged(system_dividers) {
 		return
 	}
 
@@ -7781,10 +7074,10 @@ func (stage *Stage) StageBranchSystem_dividers(system_dividers *System_dividers)
 
 	//insertion point for the staging of instances referenced by pointers
 	if system_dividers.Left_divider != nil {
-		StageBranch(stage, system_dividers.Left_divider)
+		stage.StageBranch(system_dividers.Left_divider)
 	}
 	if system_dividers.Right_divider != nil {
-		StageBranch(stage, system_dividers.Right_divider)
+		stage.StageBranch(system_dividers.Right_divider)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -7794,7 +7087,7 @@ func (stage *Stage) StageBranchSystem_dividers(system_dividers *System_dividers)
 func (stage *Stage) StageBranchSystem_layout(system_layout *System_layout) {
 
 	// check if instance is already staged
-	if IsStaged(stage, system_layout) {
+	if stage.IsStaged(system_layout) {
 		return
 	}
 
@@ -7802,10 +7095,10 @@ func (stage *Stage) StageBranchSystem_layout(system_layout *System_layout) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if system_layout.System_margins != nil {
-		StageBranch(stage, system_layout.System_margins)
+		stage.StageBranch(system_layout.System_margins)
 	}
 	if system_layout.System_dividers != nil {
-		StageBranch(stage, system_layout.System_dividers)
+		stage.StageBranch(system_layout.System_dividers)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -7815,7 +7108,7 @@ func (stage *Stage) StageBranchSystem_layout(system_layout *System_layout) {
 func (stage *Stage) StageBranchSystem_margins(system_margins *System_margins) {
 
 	// check if instance is already staged
-	if IsStaged(stage, system_margins) {
+	if stage.IsStaged(system_margins) {
 		return
 	}
 
@@ -7830,7 +7123,7 @@ func (stage *Stage) StageBranchSystem_margins(system_margins *System_margins) {
 func (stage *Stage) StageBranchTap(tap *Tap) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tap) {
+	if stage.IsStaged(tap) {
 		return
 	}
 
@@ -7845,7 +7138,7 @@ func (stage *Stage) StageBranchTap(tap *Tap) {
 func (stage *Stage) StageBranchTechnical(technical *Technical) {
 
 	// check if instance is already staged
-	if IsStaged(stage, technical) {
+	if stage.IsStaged(technical) {
 		return
 	}
 
@@ -7855,97 +7148,97 @@ func (stage *Stage) StageBranchTechnical(technical *Technical) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _empty_placement := range technical.Up_bow {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range technical.Down_bow {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _harmonic := range technical.Harmonic {
-		StageBranch(stage, _harmonic)
+		stage.StageBranch(_harmonic)
 	}
 	for _, _empty_placement := range technical.Open_string {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range technical.Thumb_position {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _fingering := range technical.Fingering {
-		StageBranch(stage, _fingering)
+		stage.StageBranch(_fingering)
 	}
 	for _, _placement_text := range technical.Pluck {
-		StageBranch(stage, _placement_text)
+		stage.StageBranch(_placement_text)
 	}
 	for _, _empty_placement := range technical.Double_tongue {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range technical.Triple_tongue {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _empty_placement_smufl := range technical.Stopped {
-		StageBranch(stage, _empty_placement_smufl)
+		stage.StageBranch(_empty_placement_smufl)
 	}
 	for _, _empty_placement := range technical.Snap_pizzicato {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _fret := range technical.Fret {
-		StageBranch(stage, _fret)
+		stage.StageBranch(_fret)
 	}
 	for _, _string_type := range technical.String {
-		StageBranch(stage, _string_type)
+		stage.StageBranch(_string_type)
 	}
 	for _, _hammer_on_pull_off := range technical.Hammer_on {
-		StageBranch(stage, _hammer_on_pull_off)
+		stage.StageBranch(_hammer_on_pull_off)
 	}
 	for _, _hammer_on_pull_off := range technical.Pull_off {
-		StageBranch(stage, _hammer_on_pull_off)
+		stage.StageBranch(_hammer_on_pull_off)
 	}
 	for _, _bend := range technical.Bend {
-		StageBranch(stage, _bend)
+		stage.StageBranch(_bend)
 	}
 	for _, _tap := range technical.Tap {
-		StageBranch(stage, _tap)
+		stage.StageBranch(_tap)
 	}
 	for _, _heel_toe := range technical.Heel {
-		StageBranch(stage, _heel_toe)
+		stage.StageBranch(_heel_toe)
 	}
 	for _, _heel_toe := range technical.Toe {
-		StageBranch(stage, _heel_toe)
+		stage.StageBranch(_heel_toe)
 	}
 	for _, _empty_placement := range technical.Fingernails {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _hole := range technical.Hole {
-		StageBranch(stage, _hole)
+		stage.StageBranch(_hole)
 	}
 	for _, _arrow := range technical.Arrow {
-		StageBranch(stage, _arrow)
+		stage.StageBranch(_arrow)
 	}
 	for _, _handbell := range technical.Handbell {
-		StageBranch(stage, _handbell)
+		stage.StageBranch(_handbell)
 	}
 	for _, _empty_placement := range technical.Brass_bend {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range technical.Flip {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range technical.Smear {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _empty_placement_smufl := range technical.Open {
-		StageBranch(stage, _empty_placement_smufl)
+		stage.StageBranch(_empty_placement_smufl)
 	}
 	for _, _empty_placement_smufl := range technical.Half_muted {
-		StageBranch(stage, _empty_placement_smufl)
+		stage.StageBranch(_empty_placement_smufl)
 	}
 	for _, _harmon_mute := range technical.Harmon_mute {
-		StageBranch(stage, _harmon_mute)
+		stage.StageBranch(_harmon_mute)
 	}
 	for _, _empty_placement := range technical.Golpe {
-		StageBranch(stage, _empty_placement)
+		stage.StageBranch(_empty_placement)
 	}
 	for _, _other_placement_text := range technical.Other_technical {
-		StageBranch(stage, _other_placement_text)
+		stage.StageBranch(_other_placement_text)
 	}
 
 }
@@ -7953,7 +7246,7 @@ func (stage *Stage) StageBranchTechnical(technical *Technical) {
 func (stage *Stage) StageBranchText_element_data(text_element_data *Text_element_data) {
 
 	// check if instance is already staged
-	if IsStaged(stage, text_element_data) {
+	if stage.IsStaged(text_element_data) {
 		return
 	}
 
@@ -7968,7 +7261,7 @@ func (stage *Stage) StageBranchText_element_data(text_element_data *Text_element
 func (stage *Stage) StageBranchTie(tie *Tie) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tie) {
+	if stage.IsStaged(tie) {
 		return
 	}
 
@@ -7983,7 +7276,7 @@ func (stage *Stage) StageBranchTie(tie *Tie) {
 func (stage *Stage) StageBranchTied(tied *Tied) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tied) {
+	if stage.IsStaged(tied) {
 		return
 	}
 
@@ -7998,7 +7291,7 @@ func (stage *Stage) StageBranchTied(tied *Tied) {
 func (stage *Stage) StageBranchTime(time *Time) {
 
 	// check if instance is already staged
-	if IsStaged(stage, time) {
+	if stage.IsStaged(time) {
 		return
 	}
 
@@ -8006,7 +7299,7 @@ func (stage *Stage) StageBranchTime(time *Time) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if time.Interchangeable != nil {
-		StageBranch(stage, time.Interchangeable)
+		stage.StageBranch(time.Interchangeable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -8016,7 +7309,7 @@ func (stage *Stage) StageBranchTime(time *Time) {
 func (stage *Stage) StageBranchTime_modification(time_modification *Time_modification) {
 
 	// check if instance is already staged
-	if IsStaged(stage, time_modification) {
+	if stage.IsStaged(time_modification) {
 		return
 	}
 
@@ -8031,7 +7324,7 @@ func (stage *Stage) StageBranchTime_modification(time_modification *Time_modific
 func (stage *Stage) StageBranchTimpani(timpani *Timpani) {
 
 	// check if instance is already staged
-	if IsStaged(stage, timpani) {
+	if stage.IsStaged(timpani) {
 		return
 	}
 
@@ -8046,7 +7339,7 @@ func (stage *Stage) StageBranchTimpani(timpani *Timpani) {
 func (stage *Stage) StageBranchTranspose(transpose *Transpose) {
 
 	// check if instance is already staged
-	if IsStaged(stage, transpose) {
+	if stage.IsStaged(transpose) {
 		return
 	}
 
@@ -8061,7 +7354,7 @@ func (stage *Stage) StageBranchTranspose(transpose *Transpose) {
 func (stage *Stage) StageBranchTremolo(tremolo *Tremolo) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tremolo) {
+	if stage.IsStaged(tremolo) {
 		return
 	}
 
@@ -8076,7 +7369,7 @@ func (stage *Stage) StageBranchTremolo(tremolo *Tremolo) {
 func (stage *Stage) StageBranchTuplet(tuplet *Tuplet) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tuplet) {
+	if stage.IsStaged(tuplet) {
 		return
 	}
 
@@ -8084,10 +7377,10 @@ func (stage *Stage) StageBranchTuplet(tuplet *Tuplet) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if tuplet.Tuplet_actual != nil {
-		StageBranch(stage, tuplet.Tuplet_actual)
+		stage.StageBranch(tuplet.Tuplet_actual)
 	}
 	if tuplet.Tuplet_normal != nil {
-		StageBranch(stage, tuplet.Tuplet_normal)
+		stage.StageBranch(tuplet.Tuplet_normal)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -8097,7 +7390,7 @@ func (stage *Stage) StageBranchTuplet(tuplet *Tuplet) {
 func (stage *Stage) StageBranchTuplet_dot(tuplet_dot *Tuplet_dot) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tuplet_dot) {
+	if stage.IsStaged(tuplet_dot) {
 		return
 	}
 
@@ -8112,7 +7405,7 @@ func (stage *Stage) StageBranchTuplet_dot(tuplet_dot *Tuplet_dot) {
 func (stage *Stage) StageBranchTuplet_number(tuplet_number *Tuplet_number) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tuplet_number) {
+	if stage.IsStaged(tuplet_number) {
 		return
 	}
 
@@ -8127,7 +7420,7 @@ func (stage *Stage) StageBranchTuplet_number(tuplet_number *Tuplet_number) {
 func (stage *Stage) StageBranchTuplet_portion(tuplet_portion *Tuplet_portion) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tuplet_portion) {
+	if stage.IsStaged(tuplet_portion) {
 		return
 	}
 
@@ -8135,15 +7428,15 @@ func (stage *Stage) StageBranchTuplet_portion(tuplet_portion *Tuplet_portion) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if tuplet_portion.Tuplet_number != nil {
-		StageBranch(stage, tuplet_portion.Tuplet_number)
+		stage.StageBranch(tuplet_portion.Tuplet_number)
 	}
 	if tuplet_portion.Tuplet_type != nil {
-		StageBranch(stage, tuplet_portion.Tuplet_type)
+		stage.StageBranch(tuplet_portion.Tuplet_type)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tuplet_dot := range tuplet_portion.Tuplet_dot {
-		StageBranch(stage, _tuplet_dot)
+		stage.StageBranch(_tuplet_dot)
 	}
 
 }
@@ -8151,7 +7444,7 @@ func (stage *Stage) StageBranchTuplet_portion(tuplet_portion *Tuplet_portion) {
 func (stage *Stage) StageBranchTuplet_type(tuplet_type *Tuplet_type) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tuplet_type) {
+	if stage.IsStaged(tuplet_type) {
 		return
 	}
 
@@ -8166,7 +7459,7 @@ func (stage *Stage) StageBranchTuplet_type(tuplet_type *Tuplet_type) {
 func (stage *Stage) StageBranchTyped_text(typed_text *Typed_text) {
 
 	// check if instance is already staged
-	if IsStaged(stage, typed_text) {
+	if stage.IsStaged(typed_text) {
 		return
 	}
 
@@ -8181,7 +7474,7 @@ func (stage *Stage) StageBranchTyped_text(typed_text *Typed_text) {
 func (stage *Stage) StageBranchUnpitched(unpitched *Unpitched) {
 
 	// check if instance is already staged
-	if IsStaged(stage, unpitched) {
+	if stage.IsStaged(unpitched) {
 		return
 	}
 
@@ -8196,7 +7489,7 @@ func (stage *Stage) StageBranchUnpitched(unpitched *Unpitched) {
 func (stage *Stage) StageBranchVirtual_instrument(virtual_instrument *Virtual_instrument) {
 
 	// check if instance is already staged
-	if IsStaged(stage, virtual_instrument) {
+	if stage.IsStaged(virtual_instrument) {
 		return
 	}
 
@@ -8211,7 +7504,7 @@ func (stage *Stage) StageBranchVirtual_instrument(virtual_instrument *Virtual_in
 func (stage *Stage) StageBranchWait(wait *Wait) {
 
 	// check if instance is already staged
-	if IsStaged(stage, wait) {
+	if stage.IsStaged(wait) {
 		return
 	}
 
@@ -8226,7 +7519,7 @@ func (stage *Stage) StageBranchWait(wait *Wait) {
 func (stage *Stage) StageBranchWavy_line(wavy_line *Wavy_line) {
 
 	// check if instance is already staged
-	if IsStaged(stage, wavy_line) {
+	if stage.IsStaged(wavy_line) {
 		return
 	}
 
@@ -8241,7 +7534,7 @@ func (stage *Stage) StageBranchWavy_line(wavy_line *Wavy_line) {
 func (stage *Stage) StageBranchWedge(wedge *Wedge) {
 
 	// check if instance is already staged
-	if IsStaged(stage, wedge) {
+	if stage.IsStaged(wedge) {
 		return
 	}
 
@@ -8256,7 +7549,7 @@ func (stage *Stage) StageBranchWedge(wedge *Wedge) {
 func (stage *Stage) StageBranchWood(wood *Wood) {
 
 	// check if instance is already staged
-	if IsStaged(stage, wood) {
+	if stage.IsStaged(wood) {
 		return
 	}
 
@@ -8271,7 +7564,7 @@ func (stage *Stage) StageBranchWood(wood *Wood) {
 func (stage *Stage) StageBranchWork(work *Work) {
 
 	// check if instance is already staged
-	if IsStaged(stage, work) {
+	if stage.IsStaged(work) {
 		return
 	}
 
@@ -8279,18 +7572,18 @@ func (stage *Stage) StageBranchWork(work *Work) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if work.Opus != nil {
-		StageBranch(stage, work.Opus)
+		stage.StageBranch(work.Opus)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -8298,927 +7591,927 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *A_directive:
-		toT := CopyBranchA_directive(mapOrigCopy, fromT)
+		toT := GongCopyBranchA_directive(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *A_measure:
-		toT := CopyBranchA_measure(mapOrigCopy, fromT)
+		toT := GongCopyBranchA_measure(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *A_measure_1:
-		toT := CopyBranchA_measure_1(mapOrigCopy, fromT)
+		toT := GongCopyBranchA_measure_1(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *A_part:
-		toT := CopyBranchA_part(mapOrigCopy, fromT)
+		toT := GongCopyBranchA_part(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *A_part_1:
-		toT := CopyBranchA_part_1(mapOrigCopy, fromT)
+		toT := GongCopyBranchA_part_1(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Accidental:
-		toT := CopyBranchAccidental(mapOrigCopy, fromT)
+		toT := GongCopyBranchAccidental(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Accidental_mark:
-		toT := CopyBranchAccidental_mark(mapOrigCopy, fromT)
+		toT := GongCopyBranchAccidental_mark(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Accidental_text:
-		toT := CopyBranchAccidental_text(mapOrigCopy, fromT)
+		toT := GongCopyBranchAccidental_text(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Accord:
-		toT := CopyBranchAccord(mapOrigCopy, fromT)
+		toT := GongCopyBranchAccord(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Accordion_registration:
-		toT := CopyBranchAccordion_registration(mapOrigCopy, fromT)
+		toT := GongCopyBranchAccordion_registration(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Appearance:
-		toT := CopyBranchAppearance(mapOrigCopy, fromT)
+		toT := GongCopyBranchAppearance(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Arpeggiate:
-		toT := CopyBranchArpeggiate(mapOrigCopy, fromT)
+		toT := GongCopyBranchArpeggiate(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Arrow:
-		toT := CopyBranchArrow(mapOrigCopy, fromT)
+		toT := GongCopyBranchArrow(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Articulations:
-		toT := CopyBranchArticulations(mapOrigCopy, fromT)
+		toT := GongCopyBranchArticulations(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Assess:
-		toT := CopyBranchAssess(mapOrigCopy, fromT)
+		toT := GongCopyBranchAssess(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Attributes:
-		toT := CopyBranchAttributes(mapOrigCopy, fromT)
+		toT := GongCopyBranchAttributes(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Backup:
-		toT := CopyBranchBackup(mapOrigCopy, fromT)
+		toT := GongCopyBranchBackup(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Bar_style_color:
-		toT := CopyBranchBar_style_color(mapOrigCopy, fromT)
+		toT := GongCopyBranchBar_style_color(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Barline:
-		toT := CopyBranchBarline(mapOrigCopy, fromT)
+		toT := GongCopyBranchBarline(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Barre:
-		toT := CopyBranchBarre(mapOrigCopy, fromT)
+		toT := GongCopyBranchBarre(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Bass:
-		toT := CopyBranchBass(mapOrigCopy, fromT)
+		toT := GongCopyBranchBass(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Bass_step:
-		toT := CopyBranchBass_step(mapOrigCopy, fromT)
+		toT := GongCopyBranchBass_step(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Beam:
-		toT := CopyBranchBeam(mapOrigCopy, fromT)
+		toT := GongCopyBranchBeam(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Beat_repeat:
-		toT := CopyBranchBeat_repeat(mapOrigCopy, fromT)
+		toT := GongCopyBranchBeat_repeat(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Beat_unit_tied:
-		toT := CopyBranchBeat_unit_tied(mapOrigCopy, fromT)
+		toT := GongCopyBranchBeat_unit_tied(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Beater:
-		toT := CopyBranchBeater(mapOrigCopy, fromT)
+		toT := GongCopyBranchBeater(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Bend:
-		toT := CopyBranchBend(mapOrigCopy, fromT)
+		toT := GongCopyBranchBend(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Bookmark:
-		toT := CopyBranchBookmark(mapOrigCopy, fromT)
+		toT := GongCopyBranchBookmark(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Bracket:
-		toT := CopyBranchBracket(mapOrigCopy, fromT)
+		toT := GongCopyBranchBracket(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Breath_mark:
-		toT := CopyBranchBreath_mark(mapOrigCopy, fromT)
+		toT := GongCopyBranchBreath_mark(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Caesura:
-		toT := CopyBranchCaesura(mapOrigCopy, fromT)
+		toT := GongCopyBranchCaesura(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Cancel:
-		toT := CopyBranchCancel(mapOrigCopy, fromT)
+		toT := GongCopyBranchCancel(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Clef:
-		toT := CopyBranchClef(mapOrigCopy, fromT)
+		toT := GongCopyBranchClef(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Coda:
-		toT := CopyBranchCoda(mapOrigCopy, fromT)
+		toT := GongCopyBranchCoda(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Credit:
-		toT := CopyBranchCredit(mapOrigCopy, fromT)
+		toT := GongCopyBranchCredit(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Dashes:
-		toT := CopyBranchDashes(mapOrigCopy, fromT)
+		toT := GongCopyBranchDashes(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Defaults:
-		toT := CopyBranchDefaults(mapOrigCopy, fromT)
+		toT := GongCopyBranchDefaults(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Degree:
-		toT := CopyBranchDegree(mapOrigCopy, fromT)
+		toT := GongCopyBranchDegree(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Degree_alter:
-		toT := CopyBranchDegree_alter(mapOrigCopy, fromT)
+		toT := GongCopyBranchDegree_alter(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Degree_type:
-		toT := CopyBranchDegree_type(mapOrigCopy, fromT)
+		toT := GongCopyBranchDegree_type(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Degree_value:
-		toT := CopyBranchDegree_value(mapOrigCopy, fromT)
+		toT := GongCopyBranchDegree_value(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Direction:
-		toT := CopyBranchDirection(mapOrigCopy, fromT)
+		toT := GongCopyBranchDirection(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Direction_type:
-		toT := CopyBranchDirection_type(mapOrigCopy, fromT)
+		toT := GongCopyBranchDirection_type(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Distance:
-		toT := CopyBranchDistance(mapOrigCopy, fromT)
+		toT := GongCopyBranchDistance(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Double:
-		toT := CopyBranchDouble(mapOrigCopy, fromT)
+		toT := GongCopyBranchDouble(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Dynamics:
-		toT := CopyBranchDynamics(mapOrigCopy, fromT)
+		toT := GongCopyBranchDynamics(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Effect:
-		toT := CopyBranchEffect(mapOrigCopy, fromT)
+		toT := GongCopyBranchEffect(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Elision:
-		toT := CopyBranchElision(mapOrigCopy, fromT)
+		toT := GongCopyBranchElision(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Empty:
-		toT := CopyBranchEmpty(mapOrigCopy, fromT)
+		toT := GongCopyBranchEmpty(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Empty_font:
-		toT := CopyBranchEmpty_font(mapOrigCopy, fromT)
+		toT := GongCopyBranchEmpty_font(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Empty_line:
-		toT := CopyBranchEmpty_line(mapOrigCopy, fromT)
+		toT := GongCopyBranchEmpty_line(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Empty_placement:
-		toT := CopyBranchEmpty_placement(mapOrigCopy, fromT)
+		toT := GongCopyBranchEmpty_placement(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Empty_placement_smufl:
-		toT := CopyBranchEmpty_placement_smufl(mapOrigCopy, fromT)
+		toT := GongCopyBranchEmpty_placement_smufl(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Empty_print_object_style_align:
-		toT := CopyBranchEmpty_print_object_style_align(mapOrigCopy, fromT)
+		toT := GongCopyBranchEmpty_print_object_style_align(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Empty_print_style:
-		toT := CopyBranchEmpty_print_style(mapOrigCopy, fromT)
+		toT := GongCopyBranchEmpty_print_style(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Empty_print_style_align:
-		toT := CopyBranchEmpty_print_style_align(mapOrigCopy, fromT)
+		toT := GongCopyBranchEmpty_print_style_align(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Empty_print_style_align_id:
-		toT := CopyBranchEmpty_print_style_align_id(mapOrigCopy, fromT)
+		toT := GongCopyBranchEmpty_print_style_align_id(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Empty_trill_sound:
-		toT := CopyBranchEmpty_trill_sound(mapOrigCopy, fromT)
+		toT := GongCopyBranchEmpty_trill_sound(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Encoding:
-		toT := CopyBranchEncoding(mapOrigCopy, fromT)
+		toT := GongCopyBranchEncoding(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Ending:
-		toT := CopyBranchEnding(mapOrigCopy, fromT)
+		toT := GongCopyBranchEnding(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Extend:
-		toT := CopyBranchExtend(mapOrigCopy, fromT)
+		toT := GongCopyBranchExtend(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Feature:
-		toT := CopyBranchFeature(mapOrigCopy, fromT)
+		toT := GongCopyBranchFeature(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Fermata:
-		toT := CopyBranchFermata(mapOrigCopy, fromT)
+		toT := GongCopyBranchFermata(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Figure:
-		toT := CopyBranchFigure(mapOrigCopy, fromT)
+		toT := GongCopyBranchFigure(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Figured_bass:
-		toT := CopyBranchFigured_bass(mapOrigCopy, fromT)
+		toT := GongCopyBranchFigured_bass(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Fingering:
-		toT := CopyBranchFingering(mapOrigCopy, fromT)
+		toT := GongCopyBranchFingering(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *First_fret:
-		toT := CopyBranchFirst_fret(mapOrigCopy, fromT)
+		toT := GongCopyBranchFirst_fret(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *For_part:
-		toT := CopyBranchFor_part(mapOrigCopy, fromT)
+		toT := GongCopyBranchFor_part(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Formatted_symbol:
-		toT := CopyBranchFormatted_symbol(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormatted_symbol(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Formatted_symbol_id:
-		toT := CopyBranchFormatted_symbol_id(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormatted_symbol_id(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Formatted_text:
-		toT := CopyBranchFormatted_text(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormatted_text(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Formatted_text_id:
-		toT := CopyBranchFormatted_text_id(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormatted_text_id(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Forward:
-		toT := CopyBranchForward(mapOrigCopy, fromT)
+		toT := GongCopyBranchForward(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Frame:
-		toT := CopyBranchFrame(mapOrigCopy, fromT)
+		toT := GongCopyBranchFrame(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Frame_note:
-		toT := CopyBranchFrame_note(mapOrigCopy, fromT)
+		toT := GongCopyBranchFrame_note(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Fret:
-		toT := CopyBranchFret(mapOrigCopy, fromT)
+		toT := GongCopyBranchFret(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Glass:
-		toT := CopyBranchGlass(mapOrigCopy, fromT)
+		toT := GongCopyBranchGlass(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Glissando:
-		toT := CopyBranchGlissando(mapOrigCopy, fromT)
+		toT := GongCopyBranchGlissando(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Glyph:
-		toT := CopyBranchGlyph(mapOrigCopy, fromT)
+		toT := GongCopyBranchGlyph(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Grace:
-		toT := CopyBranchGrace(mapOrigCopy, fromT)
+		toT := GongCopyBranchGrace(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Group_barline:
-		toT := CopyBranchGroup_barline(mapOrigCopy, fromT)
+		toT := GongCopyBranchGroup_barline(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Group_name:
-		toT := CopyBranchGroup_name(mapOrigCopy, fromT)
+		toT := GongCopyBranchGroup_name(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Group_symbol:
-		toT := CopyBranchGroup_symbol(mapOrigCopy, fromT)
+		toT := GongCopyBranchGroup_symbol(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Grouping:
-		toT := CopyBranchGrouping(mapOrigCopy, fromT)
+		toT := GongCopyBranchGrouping(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Hammer_on_pull_off:
-		toT := CopyBranchHammer_on_pull_off(mapOrigCopy, fromT)
+		toT := GongCopyBranchHammer_on_pull_off(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Handbell:
-		toT := CopyBranchHandbell(mapOrigCopy, fromT)
+		toT := GongCopyBranchHandbell(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Harmon_closed:
-		toT := CopyBranchHarmon_closed(mapOrigCopy, fromT)
+		toT := GongCopyBranchHarmon_closed(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Harmon_mute:
-		toT := CopyBranchHarmon_mute(mapOrigCopy, fromT)
+		toT := GongCopyBranchHarmon_mute(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Harmonic:
-		toT := CopyBranchHarmonic(mapOrigCopy, fromT)
+		toT := GongCopyBranchHarmonic(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Harmony:
-		toT := CopyBranchHarmony(mapOrigCopy, fromT)
+		toT := GongCopyBranchHarmony(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Harmony_alter:
-		toT := CopyBranchHarmony_alter(mapOrigCopy, fromT)
+		toT := GongCopyBranchHarmony_alter(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Harp_pedals:
-		toT := CopyBranchHarp_pedals(mapOrigCopy, fromT)
+		toT := GongCopyBranchHarp_pedals(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Heel_toe:
-		toT := CopyBranchHeel_toe(mapOrigCopy, fromT)
+		toT := GongCopyBranchHeel_toe(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Hole:
-		toT := CopyBranchHole(mapOrigCopy, fromT)
+		toT := GongCopyBranchHole(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Hole_closed:
-		toT := CopyBranchHole_closed(mapOrigCopy, fromT)
+		toT := GongCopyBranchHole_closed(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Horizontal_turn:
-		toT := CopyBranchHorizontal_turn(mapOrigCopy, fromT)
+		toT := GongCopyBranchHorizontal_turn(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Identification:
-		toT := CopyBranchIdentification(mapOrigCopy, fromT)
+		toT := GongCopyBranchIdentification(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Image:
-		toT := CopyBranchImage(mapOrigCopy, fromT)
+		toT := GongCopyBranchImage(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Instrument:
-		toT := CopyBranchInstrument(mapOrigCopy, fromT)
+		toT := GongCopyBranchInstrument(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Instrument_change:
-		toT := CopyBranchInstrument_change(mapOrigCopy, fromT)
+		toT := GongCopyBranchInstrument_change(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Instrument_link:
-		toT := CopyBranchInstrument_link(mapOrigCopy, fromT)
+		toT := GongCopyBranchInstrument_link(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Interchangeable:
-		toT := CopyBranchInterchangeable(mapOrigCopy, fromT)
+		toT := GongCopyBranchInterchangeable(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Inversion:
-		toT := CopyBranchInversion(mapOrigCopy, fromT)
+		toT := GongCopyBranchInversion(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Key:
-		toT := CopyBranchKey(mapOrigCopy, fromT)
+		toT := GongCopyBranchKey(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Key_accidental:
-		toT := CopyBranchKey_accidental(mapOrigCopy, fromT)
+		toT := GongCopyBranchKey_accidental(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Key_octave:
-		toT := CopyBranchKey_octave(mapOrigCopy, fromT)
+		toT := GongCopyBranchKey_octave(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Kind:
-		toT := CopyBranchKind(mapOrigCopy, fromT)
+		toT := GongCopyBranchKind(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Level:
-		toT := CopyBranchLevel(mapOrigCopy, fromT)
+		toT := GongCopyBranchLevel(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Line_detail:
-		toT := CopyBranchLine_detail(mapOrigCopy, fromT)
+		toT := GongCopyBranchLine_detail(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Line_width:
-		toT := CopyBranchLine_width(mapOrigCopy, fromT)
+		toT := GongCopyBranchLine_width(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Link:
-		toT := CopyBranchLink(mapOrigCopy, fromT)
+		toT := GongCopyBranchLink(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Listen:
-		toT := CopyBranchListen(mapOrigCopy, fromT)
+		toT := GongCopyBranchListen(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Listening:
-		toT := CopyBranchListening(mapOrigCopy, fromT)
+		toT := GongCopyBranchListening(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Lyric:
-		toT := CopyBranchLyric(mapOrigCopy, fromT)
+		toT := GongCopyBranchLyric(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Lyric_font:
-		toT := CopyBranchLyric_font(mapOrigCopy, fromT)
+		toT := GongCopyBranchLyric_font(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Lyric_language:
-		toT := CopyBranchLyric_language(mapOrigCopy, fromT)
+		toT := GongCopyBranchLyric_language(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Measure_layout:
-		toT := CopyBranchMeasure_layout(mapOrigCopy, fromT)
+		toT := GongCopyBranchMeasure_layout(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Measure_numbering:
-		toT := CopyBranchMeasure_numbering(mapOrigCopy, fromT)
+		toT := GongCopyBranchMeasure_numbering(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Measure_repeat:
-		toT := CopyBranchMeasure_repeat(mapOrigCopy, fromT)
+		toT := GongCopyBranchMeasure_repeat(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Measure_style:
-		toT := CopyBranchMeasure_style(mapOrigCopy, fromT)
+		toT := GongCopyBranchMeasure_style(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Membrane:
-		toT := CopyBranchMembrane(mapOrigCopy, fromT)
+		toT := GongCopyBranchMembrane(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Metal:
-		toT := CopyBranchMetal(mapOrigCopy, fromT)
+		toT := GongCopyBranchMetal(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Metronome:
-		toT := CopyBranchMetronome(mapOrigCopy, fromT)
+		toT := GongCopyBranchMetronome(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Metronome_beam:
-		toT := CopyBranchMetronome_beam(mapOrigCopy, fromT)
+		toT := GongCopyBranchMetronome_beam(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Metronome_note:
-		toT := CopyBranchMetronome_note(mapOrigCopy, fromT)
+		toT := GongCopyBranchMetronome_note(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Metronome_tied:
-		toT := CopyBranchMetronome_tied(mapOrigCopy, fromT)
+		toT := GongCopyBranchMetronome_tied(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Metronome_tuplet:
-		toT := CopyBranchMetronome_tuplet(mapOrigCopy, fromT)
+		toT := GongCopyBranchMetronome_tuplet(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Midi_device:
-		toT := CopyBranchMidi_device(mapOrigCopy, fromT)
+		toT := GongCopyBranchMidi_device(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Midi_instrument:
-		toT := CopyBranchMidi_instrument(mapOrigCopy, fromT)
+		toT := GongCopyBranchMidi_instrument(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Miscellaneous:
-		toT := CopyBranchMiscellaneous(mapOrigCopy, fromT)
+		toT := GongCopyBranchMiscellaneous(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Miscellaneous_field:
-		toT := CopyBranchMiscellaneous_field(mapOrigCopy, fromT)
+		toT := GongCopyBranchMiscellaneous_field(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Mordent:
-		toT := CopyBranchMordent(mapOrigCopy, fromT)
+		toT := GongCopyBranchMordent(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Multiple_rest:
-		toT := CopyBranchMultiple_rest(mapOrigCopy, fromT)
+		toT := GongCopyBranchMultiple_rest(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Name_display:
-		toT := CopyBranchName_display(mapOrigCopy, fromT)
+		toT := GongCopyBranchName_display(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Non_arpeggiate:
-		toT := CopyBranchNon_arpeggiate(mapOrigCopy, fromT)
+		toT := GongCopyBranchNon_arpeggiate(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Notations:
-		toT := CopyBranchNotations(mapOrigCopy, fromT)
+		toT := GongCopyBranchNotations(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Note:
-		toT := CopyBranchNote(mapOrigCopy, fromT)
+		toT := GongCopyBranchNote(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Note_size:
-		toT := CopyBranchNote_size(mapOrigCopy, fromT)
+		toT := GongCopyBranchNote_size(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Note_type:
-		toT := CopyBranchNote_type(mapOrigCopy, fromT)
+		toT := GongCopyBranchNote_type(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Notehead:
-		toT := CopyBranchNotehead(mapOrigCopy, fromT)
+		toT := GongCopyBranchNotehead(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Notehead_text:
-		toT := CopyBranchNotehead_text(mapOrigCopy, fromT)
+		toT := GongCopyBranchNotehead_text(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Numeral:
-		toT := CopyBranchNumeral(mapOrigCopy, fromT)
+		toT := GongCopyBranchNumeral(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Numeral_key:
-		toT := CopyBranchNumeral_key(mapOrigCopy, fromT)
+		toT := GongCopyBranchNumeral_key(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Numeral_root:
-		toT := CopyBranchNumeral_root(mapOrigCopy, fromT)
+		toT := GongCopyBranchNumeral_root(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Octave_shift:
-		toT := CopyBranchOctave_shift(mapOrigCopy, fromT)
+		toT := GongCopyBranchOctave_shift(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Offset:
-		toT := CopyBranchOffset(mapOrigCopy, fromT)
+		toT := GongCopyBranchOffset(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Opus:
-		toT := CopyBranchOpus(mapOrigCopy, fromT)
+		toT := GongCopyBranchOpus(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Ornaments:
-		toT := CopyBranchOrnaments(mapOrigCopy, fromT)
+		toT := GongCopyBranchOrnaments(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Other_appearance:
-		toT := CopyBranchOther_appearance(mapOrigCopy, fromT)
+		toT := GongCopyBranchOther_appearance(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Other_direction:
-		toT := CopyBranchOther_direction(mapOrigCopy, fromT)
+		toT := GongCopyBranchOther_direction(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Other_listening:
-		toT := CopyBranchOther_listening(mapOrigCopy, fromT)
+		toT := GongCopyBranchOther_listening(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Other_notation:
-		toT := CopyBranchOther_notation(mapOrigCopy, fromT)
+		toT := GongCopyBranchOther_notation(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Other_placement_text:
-		toT := CopyBranchOther_placement_text(mapOrigCopy, fromT)
+		toT := GongCopyBranchOther_placement_text(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Other_play:
-		toT := CopyBranchOther_play(mapOrigCopy, fromT)
+		toT := GongCopyBranchOther_play(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Other_text:
-		toT := CopyBranchOther_text(mapOrigCopy, fromT)
+		toT := GongCopyBranchOther_text(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Page_layout:
-		toT := CopyBranchPage_layout(mapOrigCopy, fromT)
+		toT := GongCopyBranchPage_layout(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Page_margins:
-		toT := CopyBranchPage_margins(mapOrigCopy, fromT)
+		toT := GongCopyBranchPage_margins(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Part_clef:
-		toT := CopyBranchPart_clef(mapOrigCopy, fromT)
+		toT := GongCopyBranchPart_clef(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Part_group:
-		toT := CopyBranchPart_group(mapOrigCopy, fromT)
+		toT := GongCopyBranchPart_group(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Part_link:
-		toT := CopyBranchPart_link(mapOrigCopy, fromT)
+		toT := GongCopyBranchPart_link(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Part_list:
-		toT := CopyBranchPart_list(mapOrigCopy, fromT)
+		toT := GongCopyBranchPart_list(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Part_name:
-		toT := CopyBranchPart_name(mapOrigCopy, fromT)
+		toT := GongCopyBranchPart_name(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Part_symbol:
-		toT := CopyBranchPart_symbol(mapOrigCopy, fromT)
+		toT := GongCopyBranchPart_symbol(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Part_transpose:
-		toT := CopyBranchPart_transpose(mapOrigCopy, fromT)
+		toT := GongCopyBranchPart_transpose(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Pedal:
-		toT := CopyBranchPedal(mapOrigCopy, fromT)
+		toT := GongCopyBranchPedal(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Pedal_tuning:
-		toT := CopyBranchPedal_tuning(mapOrigCopy, fromT)
+		toT := GongCopyBranchPedal_tuning(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Per_minute:
-		toT := CopyBranchPer_minute(mapOrigCopy, fromT)
+		toT := GongCopyBranchPer_minute(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Percussion:
-		toT := CopyBranchPercussion(mapOrigCopy, fromT)
+		toT := GongCopyBranchPercussion(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Pitch:
-		toT := CopyBranchPitch(mapOrigCopy, fromT)
+		toT := GongCopyBranchPitch(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Pitched:
-		toT := CopyBranchPitched(mapOrigCopy, fromT)
+		toT := GongCopyBranchPitched(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Placement_text:
-		toT := CopyBranchPlacement_text(mapOrigCopy, fromT)
+		toT := GongCopyBranchPlacement_text(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Play:
-		toT := CopyBranchPlay(mapOrigCopy, fromT)
+		toT := GongCopyBranchPlay(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Player:
-		toT := CopyBranchPlayer(mapOrigCopy, fromT)
+		toT := GongCopyBranchPlayer(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Principal_voice:
-		toT := CopyBranchPrincipal_voice(mapOrigCopy, fromT)
+		toT := GongCopyBranchPrincipal_voice(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Print:
-		toT := CopyBranchPrint(mapOrigCopy, fromT)
+		toT := GongCopyBranchPrint(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Release:
-		toT := CopyBranchRelease(mapOrigCopy, fromT)
+		toT := GongCopyBranchRelease(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Repeat:
-		toT := CopyBranchRepeat(mapOrigCopy, fromT)
+		toT := GongCopyBranchRepeat(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Rest:
-		toT := CopyBranchRest(mapOrigCopy, fromT)
+		toT := GongCopyBranchRest(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Root:
-		toT := CopyBranchRoot(mapOrigCopy, fromT)
+		toT := GongCopyBranchRoot(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Root_step:
-		toT := CopyBranchRoot_step(mapOrigCopy, fromT)
+		toT := GongCopyBranchRoot_step(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Scaling:
-		toT := CopyBranchScaling(mapOrigCopy, fromT)
+		toT := GongCopyBranchScaling(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Scordatura:
-		toT := CopyBranchScordatura(mapOrigCopy, fromT)
+		toT := GongCopyBranchScordatura(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Score_instrument:
-		toT := CopyBranchScore_instrument(mapOrigCopy, fromT)
+		toT := GongCopyBranchScore_instrument(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Score_part:
-		toT := CopyBranchScore_part(mapOrigCopy, fromT)
+		toT := GongCopyBranchScore_part(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Score_partwise:
-		toT := CopyBranchScore_partwise(mapOrigCopy, fromT)
+		toT := GongCopyBranchScore_partwise(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Score_timewise:
-		toT := CopyBranchScore_timewise(mapOrigCopy, fromT)
+		toT := GongCopyBranchScore_timewise(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Segno:
-		toT := CopyBranchSegno(mapOrigCopy, fromT)
+		toT := GongCopyBranchSegno(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Slash:
-		toT := CopyBranchSlash(mapOrigCopy, fromT)
+		toT := GongCopyBranchSlash(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Slide:
-		toT := CopyBranchSlide(mapOrigCopy, fromT)
+		toT := GongCopyBranchSlide(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Slur:
-		toT := CopyBranchSlur(mapOrigCopy, fromT)
+		toT := GongCopyBranchSlur(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Sound:
-		toT := CopyBranchSound(mapOrigCopy, fromT)
+		toT := GongCopyBranchSound(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Staff_details:
-		toT := CopyBranchStaff_details(mapOrigCopy, fromT)
+		toT := GongCopyBranchStaff_details(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Staff_divide:
-		toT := CopyBranchStaff_divide(mapOrigCopy, fromT)
+		toT := GongCopyBranchStaff_divide(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Staff_layout:
-		toT := CopyBranchStaff_layout(mapOrigCopy, fromT)
+		toT := GongCopyBranchStaff_layout(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Staff_size:
-		toT := CopyBranchStaff_size(mapOrigCopy, fromT)
+		toT := GongCopyBranchStaff_size(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Staff_tuning:
-		toT := CopyBranchStaff_tuning(mapOrigCopy, fromT)
+		toT := GongCopyBranchStaff_tuning(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Stem:
-		toT := CopyBranchStem(mapOrigCopy, fromT)
+		toT := GongCopyBranchStem(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Stick:
-		toT := CopyBranchStick(mapOrigCopy, fromT)
+		toT := GongCopyBranchStick(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *String_mute:
-		toT := CopyBranchString_mute(mapOrigCopy, fromT)
+		toT := GongCopyBranchString_mute(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *String_type:
-		toT := CopyBranchString_type(mapOrigCopy, fromT)
+		toT := GongCopyBranchString_type(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Strong_accent:
-		toT := CopyBranchStrong_accent(mapOrigCopy, fromT)
+		toT := GongCopyBranchStrong_accent(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Style_text:
-		toT := CopyBranchStyle_text(mapOrigCopy, fromT)
+		toT := GongCopyBranchStyle_text(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Supports:
-		toT := CopyBranchSupports(mapOrigCopy, fromT)
+		toT := GongCopyBranchSupports(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Swing:
-		toT := CopyBranchSwing(mapOrigCopy, fromT)
+		toT := GongCopyBranchSwing(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Sync:
-		toT := CopyBranchSync(mapOrigCopy, fromT)
+		toT := GongCopyBranchSync(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *System_dividers:
-		toT := CopyBranchSystem_dividers(mapOrigCopy, fromT)
+		toT := GongCopyBranchSystem_dividers(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *System_layout:
-		toT := CopyBranchSystem_layout(mapOrigCopy, fromT)
+		toT := GongCopyBranchSystem_layout(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *System_margins:
-		toT := CopyBranchSystem_margins(mapOrigCopy, fromT)
+		toT := GongCopyBranchSystem_margins(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tap:
-		toT := CopyBranchTap(mapOrigCopy, fromT)
+		toT := GongCopyBranchTap(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Technical:
-		toT := CopyBranchTechnical(mapOrigCopy, fromT)
+		toT := GongCopyBranchTechnical(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Text_element_data:
-		toT := CopyBranchText_element_data(mapOrigCopy, fromT)
+		toT := GongCopyBranchText_element_data(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tie:
-		toT := CopyBranchTie(mapOrigCopy, fromT)
+		toT := GongCopyBranchTie(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tied:
-		toT := CopyBranchTied(mapOrigCopy, fromT)
+		toT := GongCopyBranchTied(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Time:
-		toT := CopyBranchTime(mapOrigCopy, fromT)
+		toT := GongCopyBranchTime(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Time_modification:
-		toT := CopyBranchTime_modification(mapOrigCopy, fromT)
+		toT := GongCopyBranchTime_modification(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Timpani:
-		toT := CopyBranchTimpani(mapOrigCopy, fromT)
+		toT := GongCopyBranchTimpani(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Transpose:
-		toT := CopyBranchTranspose(mapOrigCopy, fromT)
+		toT := GongCopyBranchTranspose(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tremolo:
-		toT := CopyBranchTremolo(mapOrigCopy, fromT)
+		toT := GongCopyBranchTremolo(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tuplet:
-		toT := CopyBranchTuplet(mapOrigCopy, fromT)
+		toT := GongCopyBranchTuplet(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tuplet_dot:
-		toT := CopyBranchTuplet_dot(mapOrigCopy, fromT)
+		toT := GongCopyBranchTuplet_dot(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tuplet_number:
-		toT := CopyBranchTuplet_number(mapOrigCopy, fromT)
+		toT := GongCopyBranchTuplet_number(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tuplet_portion:
-		toT := CopyBranchTuplet_portion(mapOrigCopy, fromT)
+		toT := GongCopyBranchTuplet_portion(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tuplet_type:
-		toT := CopyBranchTuplet_type(mapOrigCopy, fromT)
+		toT := GongCopyBranchTuplet_type(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Typed_text:
-		toT := CopyBranchTyped_text(mapOrigCopy, fromT)
+		toT := GongCopyBranchTyped_text(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Unpitched:
-		toT := CopyBranchUnpitched(mapOrigCopy, fromT)
+		toT := GongCopyBranchUnpitched(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Virtual_instrument:
-		toT := CopyBranchVirtual_instrument(mapOrigCopy, fromT)
+		toT := GongCopyBranchVirtual_instrument(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Wait:
-		toT := CopyBranchWait(mapOrigCopy, fromT)
+		toT := GongCopyBranchWait(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Wavy_line:
-		toT := CopyBranchWavy_line(mapOrigCopy, fromT)
+		toT := GongCopyBranchWavy_line(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Wedge:
-		toT := CopyBranchWedge(mapOrigCopy, fromT)
+		toT := GongCopyBranchWedge(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Wood:
-		toT := CopyBranchWood(mapOrigCopy, fromT)
+		toT := GongCopyBranchWood(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Work:
-		toT := CopyBranchWork(mapOrigCopy, fromT)
+		toT := GongCopyBranchWork(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -9228,7 +8521,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchA_directive(mapOrigCopy map[any]any, a_directiveFrom *A_directive) (a_directiveTo *A_directive) {
+func GongCopyBranchA_directive(mapOrigCopy map[any]any, a_directiveFrom *A_directive) (a_directiveTo *A_directive) {
 
 	// a_directiveFrom has already been copied
 	if _a_directiveTo, ok := mapOrigCopy[a_directiveFrom]; ok {
@@ -9238,7 +8531,7 @@ func CopyBranchA_directive(mapOrigCopy map[any]any, a_directiveFrom *A_directive
 
 	a_directiveTo = new(A_directive)
 	mapOrigCopy[a_directiveFrom] = a_directiveTo
-	a_directiveFrom.CopyBasicFields(a_directiveTo)
+	a_directiveFrom.GongCopyBasicFields(a_directiveTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9247,7 +8540,7 @@ func CopyBranchA_directive(mapOrigCopy map[any]any, a_directiveFrom *A_directive
 	return
 }
 
-func CopyBranchA_measure(mapOrigCopy map[any]any, a_measureFrom *A_measure) (a_measureTo *A_measure) {
+func GongCopyBranchA_measure(mapOrigCopy map[any]any, a_measureFrom *A_measure) (a_measureTo *A_measure) {
 
 	// a_measureFrom has already been copied
 	if _a_measureTo, ok := mapOrigCopy[a_measureFrom]; ok {
@@ -9257,58 +8550,58 @@ func CopyBranchA_measure(mapOrigCopy map[any]any, a_measureFrom *A_measure) (a_m
 
 	a_measureTo = new(A_measure)
 	mapOrigCopy[a_measureFrom] = a_measureTo
-	a_measureFrom.CopyBasicFields(a_measureTo)
+	a_measureFrom.GongCopyBasicFields(a_measureTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _note := range a_measureFrom.Note {
-		a_measureTo.Note = append(a_measureTo.Note, CopyBranchNote(mapOrigCopy, _note))
+		a_measureTo.Note = append(a_measureTo.Note, GongCopyBranchNote(mapOrigCopy, _note))
 	}
 	for _, _backup := range a_measureFrom.Backup {
-		a_measureTo.Backup = append(a_measureTo.Backup, CopyBranchBackup(mapOrigCopy, _backup))
+		a_measureTo.Backup = append(a_measureTo.Backup, GongCopyBranchBackup(mapOrigCopy, _backup))
 	}
 	for _, _forward := range a_measureFrom.Forward {
-		a_measureTo.Forward = append(a_measureTo.Forward, CopyBranchForward(mapOrigCopy, _forward))
+		a_measureTo.Forward = append(a_measureTo.Forward, GongCopyBranchForward(mapOrigCopy, _forward))
 	}
 	for _, _direction := range a_measureFrom.Direction {
-		a_measureTo.Direction = append(a_measureTo.Direction, CopyBranchDirection(mapOrigCopy, _direction))
+		a_measureTo.Direction = append(a_measureTo.Direction, GongCopyBranchDirection(mapOrigCopy, _direction))
 	}
 	for _, _attributes := range a_measureFrom.Attributes {
-		a_measureTo.Attributes = append(a_measureTo.Attributes, CopyBranchAttributes(mapOrigCopy, _attributes))
+		a_measureTo.Attributes = append(a_measureTo.Attributes, GongCopyBranchAttributes(mapOrigCopy, _attributes))
 	}
 	for _, _harmony := range a_measureFrom.Harmony {
-		a_measureTo.Harmony = append(a_measureTo.Harmony, CopyBranchHarmony(mapOrigCopy, _harmony))
+		a_measureTo.Harmony = append(a_measureTo.Harmony, GongCopyBranchHarmony(mapOrigCopy, _harmony))
 	}
 	for _, _figured_bass := range a_measureFrom.Figured_bass {
-		a_measureTo.Figured_bass = append(a_measureTo.Figured_bass, CopyBranchFigured_bass(mapOrigCopy, _figured_bass))
+		a_measureTo.Figured_bass = append(a_measureTo.Figured_bass, GongCopyBranchFigured_bass(mapOrigCopy, _figured_bass))
 	}
 	for _, _print := range a_measureFrom.Print {
-		a_measureTo.Print = append(a_measureTo.Print, CopyBranchPrint(mapOrigCopy, _print))
+		a_measureTo.Print = append(a_measureTo.Print, GongCopyBranchPrint(mapOrigCopy, _print))
 	}
 	for _, _sound := range a_measureFrom.Sound {
-		a_measureTo.Sound = append(a_measureTo.Sound, CopyBranchSound(mapOrigCopy, _sound))
+		a_measureTo.Sound = append(a_measureTo.Sound, GongCopyBranchSound(mapOrigCopy, _sound))
 	}
 	for _, _listening := range a_measureFrom.Listening {
-		a_measureTo.Listening = append(a_measureTo.Listening, CopyBranchListening(mapOrigCopy, _listening))
+		a_measureTo.Listening = append(a_measureTo.Listening, GongCopyBranchListening(mapOrigCopy, _listening))
 	}
 	for _, _barline := range a_measureFrom.Barline {
-		a_measureTo.Barline = append(a_measureTo.Barline, CopyBranchBarline(mapOrigCopy, _barline))
+		a_measureTo.Barline = append(a_measureTo.Barline, GongCopyBranchBarline(mapOrigCopy, _barline))
 	}
 	for _, _grouping := range a_measureFrom.Grouping {
-		a_measureTo.Grouping = append(a_measureTo.Grouping, CopyBranchGrouping(mapOrigCopy, _grouping))
+		a_measureTo.Grouping = append(a_measureTo.Grouping, GongCopyBranchGrouping(mapOrigCopy, _grouping))
 	}
 	for _, _link := range a_measureFrom.Link {
-		a_measureTo.Link = append(a_measureTo.Link, CopyBranchLink(mapOrigCopy, _link))
+		a_measureTo.Link = append(a_measureTo.Link, GongCopyBranchLink(mapOrigCopy, _link))
 	}
 	for _, _bookmark := range a_measureFrom.Bookmark {
-		a_measureTo.Bookmark = append(a_measureTo.Bookmark, CopyBranchBookmark(mapOrigCopy, _bookmark))
+		a_measureTo.Bookmark = append(a_measureTo.Bookmark, GongCopyBranchBookmark(mapOrigCopy, _bookmark))
 	}
 
 	return
 }
 
-func CopyBranchA_measure_1(mapOrigCopy map[any]any, a_measure_1From *A_measure_1) (a_measure_1To *A_measure_1) {
+func GongCopyBranchA_measure_1(mapOrigCopy map[any]any, a_measure_1From *A_measure_1) (a_measure_1To *A_measure_1) {
 
 	// a_measure_1From has already been copied
 	if _a_measure_1To, ok := mapOrigCopy[a_measure_1From]; ok {
@@ -9318,19 +8611,19 @@ func CopyBranchA_measure_1(mapOrigCopy map[any]any, a_measure_1From *A_measure_1
 
 	a_measure_1To = new(A_measure_1)
 	mapOrigCopy[a_measure_1From] = a_measure_1To
-	a_measure_1From.CopyBasicFields(a_measure_1To)
+	a_measure_1From.GongCopyBasicFields(a_measure_1To)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _a_part_1 := range a_measure_1From.Part {
-		a_measure_1To.Part = append(a_measure_1To.Part, CopyBranchA_part_1(mapOrigCopy, _a_part_1))
+		a_measure_1To.Part = append(a_measure_1To.Part, GongCopyBranchA_part_1(mapOrigCopy, _a_part_1))
 	}
 
 	return
 }
 
-func CopyBranchA_part(mapOrigCopy map[any]any, a_partFrom *A_part) (a_partTo *A_part) {
+func GongCopyBranchA_part(mapOrigCopy map[any]any, a_partFrom *A_part) (a_partTo *A_part) {
 
 	// a_partFrom has already been copied
 	if _a_partTo, ok := mapOrigCopy[a_partFrom]; ok {
@@ -9340,19 +8633,19 @@ func CopyBranchA_part(mapOrigCopy map[any]any, a_partFrom *A_part) (a_partTo *A_
 
 	a_partTo = new(A_part)
 	mapOrigCopy[a_partFrom] = a_partTo
-	a_partFrom.CopyBasicFields(a_partTo)
+	a_partFrom.GongCopyBasicFields(a_partTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _a_measure := range a_partFrom.Measure {
-		a_partTo.Measure = append(a_partTo.Measure, CopyBranchA_measure(mapOrigCopy, _a_measure))
+		a_partTo.Measure = append(a_partTo.Measure, GongCopyBranchA_measure(mapOrigCopy, _a_measure))
 	}
 
 	return
 }
 
-func CopyBranchA_part_1(mapOrigCopy map[any]any, a_part_1From *A_part_1) (a_part_1To *A_part_1) {
+func GongCopyBranchA_part_1(mapOrigCopy map[any]any, a_part_1From *A_part_1) (a_part_1To *A_part_1) {
 
 	// a_part_1From has already been copied
 	if _a_part_1To, ok := mapOrigCopy[a_part_1From]; ok {
@@ -9362,58 +8655,58 @@ func CopyBranchA_part_1(mapOrigCopy map[any]any, a_part_1From *A_part_1) (a_part
 
 	a_part_1To = new(A_part_1)
 	mapOrigCopy[a_part_1From] = a_part_1To
-	a_part_1From.CopyBasicFields(a_part_1To)
+	a_part_1From.GongCopyBasicFields(a_part_1To)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _note := range a_part_1From.Note {
-		a_part_1To.Note = append(a_part_1To.Note, CopyBranchNote(mapOrigCopy, _note))
+		a_part_1To.Note = append(a_part_1To.Note, GongCopyBranchNote(mapOrigCopy, _note))
 	}
 	for _, _backup := range a_part_1From.Backup {
-		a_part_1To.Backup = append(a_part_1To.Backup, CopyBranchBackup(mapOrigCopy, _backup))
+		a_part_1To.Backup = append(a_part_1To.Backup, GongCopyBranchBackup(mapOrigCopy, _backup))
 	}
 	for _, _forward := range a_part_1From.Forward {
-		a_part_1To.Forward = append(a_part_1To.Forward, CopyBranchForward(mapOrigCopy, _forward))
+		a_part_1To.Forward = append(a_part_1To.Forward, GongCopyBranchForward(mapOrigCopy, _forward))
 	}
 	for _, _direction := range a_part_1From.Direction {
-		a_part_1To.Direction = append(a_part_1To.Direction, CopyBranchDirection(mapOrigCopy, _direction))
+		a_part_1To.Direction = append(a_part_1To.Direction, GongCopyBranchDirection(mapOrigCopy, _direction))
 	}
 	for _, _attributes := range a_part_1From.Attributes {
-		a_part_1To.Attributes = append(a_part_1To.Attributes, CopyBranchAttributes(mapOrigCopy, _attributes))
+		a_part_1To.Attributes = append(a_part_1To.Attributes, GongCopyBranchAttributes(mapOrigCopy, _attributes))
 	}
 	for _, _harmony := range a_part_1From.Harmony {
-		a_part_1To.Harmony = append(a_part_1To.Harmony, CopyBranchHarmony(mapOrigCopy, _harmony))
+		a_part_1To.Harmony = append(a_part_1To.Harmony, GongCopyBranchHarmony(mapOrigCopy, _harmony))
 	}
 	for _, _figured_bass := range a_part_1From.Figured_bass {
-		a_part_1To.Figured_bass = append(a_part_1To.Figured_bass, CopyBranchFigured_bass(mapOrigCopy, _figured_bass))
+		a_part_1To.Figured_bass = append(a_part_1To.Figured_bass, GongCopyBranchFigured_bass(mapOrigCopy, _figured_bass))
 	}
 	for _, _print := range a_part_1From.Print {
-		a_part_1To.Print = append(a_part_1To.Print, CopyBranchPrint(mapOrigCopy, _print))
+		a_part_1To.Print = append(a_part_1To.Print, GongCopyBranchPrint(mapOrigCopy, _print))
 	}
 	for _, _sound := range a_part_1From.Sound {
-		a_part_1To.Sound = append(a_part_1To.Sound, CopyBranchSound(mapOrigCopy, _sound))
+		a_part_1To.Sound = append(a_part_1To.Sound, GongCopyBranchSound(mapOrigCopy, _sound))
 	}
 	for _, _listening := range a_part_1From.Listening {
-		a_part_1To.Listening = append(a_part_1To.Listening, CopyBranchListening(mapOrigCopy, _listening))
+		a_part_1To.Listening = append(a_part_1To.Listening, GongCopyBranchListening(mapOrigCopy, _listening))
 	}
 	for _, _barline := range a_part_1From.Barline {
-		a_part_1To.Barline = append(a_part_1To.Barline, CopyBranchBarline(mapOrigCopy, _barline))
+		a_part_1To.Barline = append(a_part_1To.Barline, GongCopyBranchBarline(mapOrigCopy, _barline))
 	}
 	for _, _grouping := range a_part_1From.Grouping {
-		a_part_1To.Grouping = append(a_part_1To.Grouping, CopyBranchGrouping(mapOrigCopy, _grouping))
+		a_part_1To.Grouping = append(a_part_1To.Grouping, GongCopyBranchGrouping(mapOrigCopy, _grouping))
 	}
 	for _, _link := range a_part_1From.Link {
-		a_part_1To.Link = append(a_part_1To.Link, CopyBranchLink(mapOrigCopy, _link))
+		a_part_1To.Link = append(a_part_1To.Link, GongCopyBranchLink(mapOrigCopy, _link))
 	}
 	for _, _bookmark := range a_part_1From.Bookmark {
-		a_part_1To.Bookmark = append(a_part_1To.Bookmark, CopyBranchBookmark(mapOrigCopy, _bookmark))
+		a_part_1To.Bookmark = append(a_part_1To.Bookmark, GongCopyBranchBookmark(mapOrigCopy, _bookmark))
 	}
 
 	return
 }
 
-func CopyBranchAccidental(mapOrigCopy map[any]any, accidentalFrom *Accidental) (accidentalTo *Accidental) {
+func GongCopyBranchAccidental(mapOrigCopy map[any]any, accidentalFrom *Accidental) (accidentalTo *Accidental) {
 
 	// accidentalFrom has already been copied
 	if _accidentalTo, ok := mapOrigCopy[accidentalFrom]; ok {
@@ -9423,7 +8716,7 @@ func CopyBranchAccidental(mapOrigCopy map[any]any, accidentalFrom *Accidental) (
 
 	accidentalTo = new(Accidental)
 	mapOrigCopy[accidentalFrom] = accidentalTo
-	accidentalFrom.CopyBasicFields(accidentalTo)
+	accidentalFrom.GongCopyBasicFields(accidentalTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9432,7 +8725,7 @@ func CopyBranchAccidental(mapOrigCopy map[any]any, accidentalFrom *Accidental) (
 	return
 }
 
-func CopyBranchAccidental_mark(mapOrigCopy map[any]any, accidental_markFrom *Accidental_mark) (accidental_markTo *Accidental_mark) {
+func GongCopyBranchAccidental_mark(mapOrigCopy map[any]any, accidental_markFrom *Accidental_mark) (accidental_markTo *Accidental_mark) {
 
 	// accidental_markFrom has already been copied
 	if _accidental_markTo, ok := mapOrigCopy[accidental_markFrom]; ok {
@@ -9442,7 +8735,7 @@ func CopyBranchAccidental_mark(mapOrigCopy map[any]any, accidental_markFrom *Acc
 
 	accidental_markTo = new(Accidental_mark)
 	mapOrigCopy[accidental_markFrom] = accidental_markTo
-	accidental_markFrom.CopyBasicFields(accidental_markTo)
+	accidental_markFrom.GongCopyBasicFields(accidental_markTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9451,7 +8744,7 @@ func CopyBranchAccidental_mark(mapOrigCopy map[any]any, accidental_markFrom *Acc
 	return
 }
 
-func CopyBranchAccidental_text(mapOrigCopy map[any]any, accidental_textFrom *Accidental_text) (accidental_textTo *Accidental_text) {
+func GongCopyBranchAccidental_text(mapOrigCopy map[any]any, accidental_textFrom *Accidental_text) (accidental_textTo *Accidental_text) {
 
 	// accidental_textFrom has already been copied
 	if _accidental_textTo, ok := mapOrigCopy[accidental_textFrom]; ok {
@@ -9461,7 +8754,7 @@ func CopyBranchAccidental_text(mapOrigCopy map[any]any, accidental_textFrom *Acc
 
 	accidental_textTo = new(Accidental_text)
 	mapOrigCopy[accidental_textFrom] = accidental_textTo
-	accidental_textFrom.CopyBasicFields(accidental_textTo)
+	accidental_textFrom.GongCopyBasicFields(accidental_textTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9470,7 +8763,7 @@ func CopyBranchAccidental_text(mapOrigCopy map[any]any, accidental_textFrom *Acc
 	return
 }
 
-func CopyBranchAccord(mapOrigCopy map[any]any, accordFrom *Accord) (accordTo *Accord) {
+func GongCopyBranchAccord(mapOrigCopy map[any]any, accordFrom *Accord) (accordTo *Accord) {
 
 	// accordFrom has already been copied
 	if _accordTo, ok := mapOrigCopy[accordFrom]; ok {
@@ -9480,7 +8773,7 @@ func CopyBranchAccord(mapOrigCopy map[any]any, accordFrom *Accord) (accordTo *Ac
 
 	accordTo = new(Accord)
 	mapOrigCopy[accordFrom] = accordTo
-	accordFrom.CopyBasicFields(accordTo)
+	accordFrom.GongCopyBasicFields(accordTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9489,7 +8782,7 @@ func CopyBranchAccord(mapOrigCopy map[any]any, accordFrom *Accord) (accordTo *Ac
 	return
 }
 
-func CopyBranchAccordion_registration(mapOrigCopy map[any]any, accordion_registrationFrom *Accordion_registration) (accordion_registrationTo *Accordion_registration) {
+func GongCopyBranchAccordion_registration(mapOrigCopy map[any]any, accordion_registrationFrom *Accordion_registration) (accordion_registrationTo *Accordion_registration) {
 
 	// accordion_registrationFrom has already been copied
 	if _accordion_registrationTo, ok := mapOrigCopy[accordion_registrationFrom]; ok {
@@ -9499,7 +8792,7 @@ func CopyBranchAccordion_registration(mapOrigCopy map[any]any, accordion_registr
 
 	accordion_registrationTo = new(Accordion_registration)
 	mapOrigCopy[accordion_registrationFrom] = accordion_registrationTo
-	accordion_registrationFrom.CopyBasicFields(accordion_registrationTo)
+	accordion_registrationFrom.GongCopyBasicFields(accordion_registrationTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9508,7 +8801,7 @@ func CopyBranchAccordion_registration(mapOrigCopy map[any]any, accordion_registr
 	return
 }
 
-func CopyBranchAppearance(mapOrigCopy map[any]any, appearanceFrom *Appearance) (appearanceTo *Appearance) {
+func GongCopyBranchAppearance(mapOrigCopy map[any]any, appearanceFrom *Appearance) (appearanceTo *Appearance) {
 
 	// appearanceFrom has already been copied
 	if _appearanceTo, ok := mapOrigCopy[appearanceFrom]; ok {
@@ -9518,31 +8811,31 @@ func CopyBranchAppearance(mapOrigCopy map[any]any, appearanceFrom *Appearance) (
 
 	appearanceTo = new(Appearance)
 	mapOrigCopy[appearanceFrom] = appearanceTo
-	appearanceFrom.CopyBasicFields(appearanceTo)
+	appearanceFrom.GongCopyBasicFields(appearanceTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _line_width := range appearanceFrom.Line_width {
-		appearanceTo.Line_width = append(appearanceTo.Line_width, CopyBranchLine_width(mapOrigCopy, _line_width))
+		appearanceTo.Line_width = append(appearanceTo.Line_width, GongCopyBranchLine_width(mapOrigCopy, _line_width))
 	}
 	for _, _note_size := range appearanceFrom.Note_size {
-		appearanceTo.Note_size = append(appearanceTo.Note_size, CopyBranchNote_size(mapOrigCopy, _note_size))
+		appearanceTo.Note_size = append(appearanceTo.Note_size, GongCopyBranchNote_size(mapOrigCopy, _note_size))
 	}
 	for _, _distance := range appearanceFrom.Distance {
-		appearanceTo.Distance = append(appearanceTo.Distance, CopyBranchDistance(mapOrigCopy, _distance))
+		appearanceTo.Distance = append(appearanceTo.Distance, GongCopyBranchDistance(mapOrigCopy, _distance))
 	}
 	for _, _glyph := range appearanceFrom.Glyph {
-		appearanceTo.Glyph = append(appearanceTo.Glyph, CopyBranchGlyph(mapOrigCopy, _glyph))
+		appearanceTo.Glyph = append(appearanceTo.Glyph, GongCopyBranchGlyph(mapOrigCopy, _glyph))
 	}
 	for _, _other_appearance := range appearanceFrom.Other_appearance {
-		appearanceTo.Other_appearance = append(appearanceTo.Other_appearance, CopyBranchOther_appearance(mapOrigCopy, _other_appearance))
+		appearanceTo.Other_appearance = append(appearanceTo.Other_appearance, GongCopyBranchOther_appearance(mapOrigCopy, _other_appearance))
 	}
 
 	return
 }
 
-func CopyBranchArpeggiate(mapOrigCopy map[any]any, arpeggiateFrom *Arpeggiate) (arpeggiateTo *Arpeggiate) {
+func GongCopyBranchArpeggiate(mapOrigCopy map[any]any, arpeggiateFrom *Arpeggiate) (arpeggiateTo *Arpeggiate) {
 
 	// arpeggiateFrom has already been copied
 	if _arpeggiateTo, ok := mapOrigCopy[arpeggiateFrom]; ok {
@@ -9552,7 +8845,7 @@ func CopyBranchArpeggiate(mapOrigCopy map[any]any, arpeggiateFrom *Arpeggiate) (
 
 	arpeggiateTo = new(Arpeggiate)
 	mapOrigCopy[arpeggiateFrom] = arpeggiateTo
-	arpeggiateFrom.CopyBasicFields(arpeggiateTo)
+	arpeggiateFrom.GongCopyBasicFields(arpeggiateTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9561,7 +8854,7 @@ func CopyBranchArpeggiate(mapOrigCopy map[any]any, arpeggiateFrom *Arpeggiate) (
 	return
 }
 
-func CopyBranchArrow(mapOrigCopy map[any]any, arrowFrom *Arrow) (arrowTo *Arrow) {
+func GongCopyBranchArrow(mapOrigCopy map[any]any, arrowFrom *Arrow) (arrowTo *Arrow) {
 
 	// arrowFrom has already been copied
 	if _arrowTo, ok := mapOrigCopy[arrowFrom]; ok {
@@ -9571,7 +8864,7 @@ func CopyBranchArrow(mapOrigCopy map[any]any, arrowFrom *Arrow) (arrowTo *Arrow)
 
 	arrowTo = new(Arrow)
 	mapOrigCopy[arrowFrom] = arrowTo
-	arrowFrom.CopyBasicFields(arrowTo)
+	arrowFrom.GongCopyBasicFields(arrowTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9580,7 +8873,7 @@ func CopyBranchArrow(mapOrigCopy map[any]any, arrowFrom *Arrow) (arrowTo *Arrow)
 	return
 }
 
-func CopyBranchArticulations(mapOrigCopy map[any]any, articulationsFrom *Articulations) (articulationsTo *Articulations) {
+func GongCopyBranchArticulations(mapOrigCopy map[any]any, articulationsFrom *Articulations) (articulationsTo *Articulations) {
 
 	// articulationsFrom has already been copied
 	if _articulationsTo, ok := mapOrigCopy[articulationsFrom]; ok {
@@ -9590,67 +8883,67 @@ func CopyBranchArticulations(mapOrigCopy map[any]any, articulationsFrom *Articul
 
 	articulationsTo = new(Articulations)
 	mapOrigCopy[articulationsFrom] = articulationsTo
-	articulationsFrom.CopyBasicFields(articulationsTo)
+	articulationsFrom.GongCopyBasicFields(articulationsTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _empty_placement := range articulationsFrom.Accent {
-		articulationsTo.Accent = append(articulationsTo.Accent, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		articulationsTo.Accent = append(articulationsTo.Accent, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _strong_accent := range articulationsFrom.Strong_accent {
-		articulationsTo.Strong_accent = append(articulationsTo.Strong_accent, CopyBranchStrong_accent(mapOrigCopy, _strong_accent))
+		articulationsTo.Strong_accent = append(articulationsTo.Strong_accent, GongCopyBranchStrong_accent(mapOrigCopy, _strong_accent))
 	}
 	for _, _empty_placement := range articulationsFrom.Staccato {
-		articulationsTo.Staccato = append(articulationsTo.Staccato, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		articulationsTo.Staccato = append(articulationsTo.Staccato, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _empty_placement := range articulationsFrom.Tenuto {
-		articulationsTo.Tenuto = append(articulationsTo.Tenuto, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		articulationsTo.Tenuto = append(articulationsTo.Tenuto, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _empty_placement := range articulationsFrom.Detached_legato {
-		articulationsTo.Detached_legato = append(articulationsTo.Detached_legato, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		articulationsTo.Detached_legato = append(articulationsTo.Detached_legato, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _empty_placement := range articulationsFrom.Staccatissimo {
-		articulationsTo.Staccatissimo = append(articulationsTo.Staccatissimo, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		articulationsTo.Staccatissimo = append(articulationsTo.Staccatissimo, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _empty_placement := range articulationsFrom.Spiccato {
-		articulationsTo.Spiccato = append(articulationsTo.Spiccato, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		articulationsTo.Spiccato = append(articulationsTo.Spiccato, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _empty_line := range articulationsFrom.Scoop {
-		articulationsTo.Scoop = append(articulationsTo.Scoop, CopyBranchEmpty_line(mapOrigCopy, _empty_line))
+		articulationsTo.Scoop = append(articulationsTo.Scoop, GongCopyBranchEmpty_line(mapOrigCopy, _empty_line))
 	}
 	for _, _empty_line := range articulationsFrom.Plop {
-		articulationsTo.Plop = append(articulationsTo.Plop, CopyBranchEmpty_line(mapOrigCopy, _empty_line))
+		articulationsTo.Plop = append(articulationsTo.Plop, GongCopyBranchEmpty_line(mapOrigCopy, _empty_line))
 	}
 	for _, _empty_line := range articulationsFrom.Doit {
-		articulationsTo.Doit = append(articulationsTo.Doit, CopyBranchEmpty_line(mapOrigCopy, _empty_line))
+		articulationsTo.Doit = append(articulationsTo.Doit, GongCopyBranchEmpty_line(mapOrigCopy, _empty_line))
 	}
 	for _, _empty_line := range articulationsFrom.Falloff {
-		articulationsTo.Falloff = append(articulationsTo.Falloff, CopyBranchEmpty_line(mapOrigCopy, _empty_line))
+		articulationsTo.Falloff = append(articulationsTo.Falloff, GongCopyBranchEmpty_line(mapOrigCopy, _empty_line))
 	}
 	for _, _breath_mark := range articulationsFrom.Breath_mark {
-		articulationsTo.Breath_mark = append(articulationsTo.Breath_mark, CopyBranchBreath_mark(mapOrigCopy, _breath_mark))
+		articulationsTo.Breath_mark = append(articulationsTo.Breath_mark, GongCopyBranchBreath_mark(mapOrigCopy, _breath_mark))
 	}
 	for _, _caesura := range articulationsFrom.Caesura {
-		articulationsTo.Caesura = append(articulationsTo.Caesura, CopyBranchCaesura(mapOrigCopy, _caesura))
+		articulationsTo.Caesura = append(articulationsTo.Caesura, GongCopyBranchCaesura(mapOrigCopy, _caesura))
 	}
 	for _, _empty_placement := range articulationsFrom.Stress {
-		articulationsTo.Stress = append(articulationsTo.Stress, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		articulationsTo.Stress = append(articulationsTo.Stress, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _empty_placement := range articulationsFrom.Unstress {
-		articulationsTo.Unstress = append(articulationsTo.Unstress, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		articulationsTo.Unstress = append(articulationsTo.Unstress, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _empty_placement := range articulationsFrom.Soft_accent {
-		articulationsTo.Soft_accent = append(articulationsTo.Soft_accent, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		articulationsTo.Soft_accent = append(articulationsTo.Soft_accent, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _other_placement_text := range articulationsFrom.Other_articulation {
-		articulationsTo.Other_articulation = append(articulationsTo.Other_articulation, CopyBranchOther_placement_text(mapOrigCopy, _other_placement_text))
+		articulationsTo.Other_articulation = append(articulationsTo.Other_articulation, GongCopyBranchOther_placement_text(mapOrigCopy, _other_placement_text))
 	}
 
 	return
 }
 
-func CopyBranchAssess(mapOrigCopy map[any]any, assessFrom *Assess) (assessTo *Assess) {
+func GongCopyBranchAssess(mapOrigCopy map[any]any, assessFrom *Assess) (assessTo *Assess) {
 
 	// assessFrom has already been copied
 	if _assessTo, ok := mapOrigCopy[assessFrom]; ok {
@@ -9660,7 +8953,7 @@ func CopyBranchAssess(mapOrigCopy map[any]any, assessFrom *Assess) (assessTo *As
 
 	assessTo = new(Assess)
 	mapOrigCopy[assessFrom] = assessTo
-	assessFrom.CopyBasicFields(assessTo)
+	assessFrom.GongCopyBasicFields(assessTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9669,7 +8962,7 @@ func CopyBranchAssess(mapOrigCopy map[any]any, assessFrom *Assess) (assessTo *As
 	return
 }
 
-func CopyBranchAttributes(mapOrigCopy map[any]any, attributesFrom *Attributes) (attributesTo *Attributes) {
+func GongCopyBranchAttributes(mapOrigCopy map[any]any, attributesFrom *Attributes) (attributesTo *Attributes) {
 
 	// attributesFrom has already been copied
 	if _attributesTo, ok := mapOrigCopy[attributesFrom]; ok {
@@ -9679,49 +8972,49 @@ func CopyBranchAttributes(mapOrigCopy map[any]any, attributesFrom *Attributes) (
 
 	attributesTo = new(Attributes)
 	mapOrigCopy[attributesFrom] = attributesTo
-	attributesFrom.CopyBasicFields(attributesTo)
+	attributesFrom.GongCopyBasicFields(attributesTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if attributesFrom.Footnote != nil {
-		attributesTo.Footnote = CopyBranchFormatted_text(mapOrigCopy, attributesFrom.Footnote)
+		attributesTo.Footnote = GongCopyBranchFormatted_text(mapOrigCopy, attributesFrom.Footnote)
 	}
 	if attributesFrom.Level != nil {
-		attributesTo.Level = CopyBranchLevel(mapOrigCopy, attributesFrom.Level)
+		attributesTo.Level = GongCopyBranchLevel(mapOrigCopy, attributesFrom.Level)
 	}
 	if attributesFrom.Part_symbol != nil {
-		attributesTo.Part_symbol = CopyBranchPart_symbol(mapOrigCopy, attributesFrom.Part_symbol)
+		attributesTo.Part_symbol = GongCopyBranchPart_symbol(mapOrigCopy, attributesFrom.Part_symbol)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _key := range attributesFrom.Key {
-		attributesTo.Key = append(attributesTo.Key, CopyBranchKey(mapOrigCopy, _key))
+		attributesTo.Key = append(attributesTo.Key, GongCopyBranchKey(mapOrigCopy, _key))
 	}
 	for _, _time := range attributesFrom.Time {
-		attributesTo.Time = append(attributesTo.Time, CopyBranchTime(mapOrigCopy, _time))
+		attributesTo.Time = append(attributesTo.Time, GongCopyBranchTime(mapOrigCopy, _time))
 	}
 	for _, _clef := range attributesFrom.Clef {
-		attributesTo.Clef = append(attributesTo.Clef, CopyBranchClef(mapOrigCopy, _clef))
+		attributesTo.Clef = append(attributesTo.Clef, GongCopyBranchClef(mapOrigCopy, _clef))
 	}
 	for _, _staff_details := range attributesFrom.Staff_details {
-		attributesTo.Staff_details = append(attributesTo.Staff_details, CopyBranchStaff_details(mapOrigCopy, _staff_details))
+		attributesTo.Staff_details = append(attributesTo.Staff_details, GongCopyBranchStaff_details(mapOrigCopy, _staff_details))
 	}
 	for _, _transpose := range attributesFrom.Transpose {
-		attributesTo.Transpose = append(attributesTo.Transpose, CopyBranchTranspose(mapOrigCopy, _transpose))
+		attributesTo.Transpose = append(attributesTo.Transpose, GongCopyBranchTranspose(mapOrigCopy, _transpose))
 	}
 	for _, _for_part := range attributesFrom.For_part {
-		attributesTo.For_part = append(attributesTo.For_part, CopyBranchFor_part(mapOrigCopy, _for_part))
+		attributesTo.For_part = append(attributesTo.For_part, GongCopyBranchFor_part(mapOrigCopy, _for_part))
 	}
 	for _, _a_directive := range attributesFrom.Directive {
-		attributesTo.Directive = append(attributesTo.Directive, CopyBranchA_directive(mapOrigCopy, _a_directive))
+		attributesTo.Directive = append(attributesTo.Directive, GongCopyBranchA_directive(mapOrigCopy, _a_directive))
 	}
 	for _, _measure_style := range attributesFrom.Measure_style {
-		attributesTo.Measure_style = append(attributesTo.Measure_style, CopyBranchMeasure_style(mapOrigCopy, _measure_style))
+		attributesTo.Measure_style = append(attributesTo.Measure_style, GongCopyBranchMeasure_style(mapOrigCopy, _measure_style))
 	}
 
 	return
 }
 
-func CopyBranchBackup(mapOrigCopy map[any]any, backupFrom *Backup) (backupTo *Backup) {
+func GongCopyBranchBackup(mapOrigCopy map[any]any, backupFrom *Backup) (backupTo *Backup) {
 
 	// backupFrom has already been copied
 	if _backupTo, ok := mapOrigCopy[backupFrom]; ok {
@@ -9731,14 +9024,14 @@ func CopyBranchBackup(mapOrigCopy map[any]any, backupFrom *Backup) (backupTo *Ba
 
 	backupTo = new(Backup)
 	mapOrigCopy[backupFrom] = backupTo
-	backupFrom.CopyBasicFields(backupTo)
+	backupFrom.GongCopyBasicFields(backupTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if backupFrom.Footnote != nil {
-		backupTo.Footnote = CopyBranchFormatted_text(mapOrigCopy, backupFrom.Footnote)
+		backupTo.Footnote = GongCopyBranchFormatted_text(mapOrigCopy, backupFrom.Footnote)
 	}
 	if backupFrom.Level != nil {
-		backupTo.Level = CopyBranchLevel(mapOrigCopy, backupFrom.Level)
+		backupTo.Level = GongCopyBranchLevel(mapOrigCopy, backupFrom.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -9746,7 +9039,7 @@ func CopyBranchBackup(mapOrigCopy map[any]any, backupFrom *Backup) (backupTo *Ba
 	return
 }
 
-func CopyBranchBar_style_color(mapOrigCopy map[any]any, bar_style_colorFrom *Bar_style_color) (bar_style_colorTo *Bar_style_color) {
+func GongCopyBranchBar_style_color(mapOrigCopy map[any]any, bar_style_colorFrom *Bar_style_color) (bar_style_colorTo *Bar_style_color) {
 
 	// bar_style_colorFrom has already been copied
 	if _bar_style_colorTo, ok := mapOrigCopy[bar_style_colorFrom]; ok {
@@ -9756,7 +9049,7 @@ func CopyBranchBar_style_color(mapOrigCopy map[any]any, bar_style_colorFrom *Bar
 
 	bar_style_colorTo = new(Bar_style_color)
 	mapOrigCopy[bar_style_colorFrom] = bar_style_colorTo
-	bar_style_colorFrom.CopyBasicFields(bar_style_colorTo)
+	bar_style_colorFrom.GongCopyBasicFields(bar_style_colorTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9765,7 +9058,7 @@ func CopyBranchBar_style_color(mapOrigCopy map[any]any, bar_style_colorFrom *Bar
 	return
 }
 
-func CopyBranchBarline(mapOrigCopy map[any]any, barlineFrom *Barline) (barlineTo *Barline) {
+func GongCopyBranchBarline(mapOrigCopy map[any]any, barlineFrom *Barline) (barlineTo *Barline) {
 
 	// barlineFrom has already been copied
 	if _barlineTo, ok := mapOrigCopy[barlineFrom]; ok {
@@ -9775,35 +9068,35 @@ func CopyBranchBarline(mapOrigCopy map[any]any, barlineFrom *Barline) (barlineTo
 
 	barlineTo = new(Barline)
 	mapOrigCopy[barlineFrom] = barlineTo
-	barlineFrom.CopyBasicFields(barlineTo)
+	barlineFrom.GongCopyBasicFields(barlineTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if barlineFrom.Bar_style != nil {
-		barlineTo.Bar_style = CopyBranchBar_style_color(mapOrigCopy, barlineFrom.Bar_style)
+		barlineTo.Bar_style = GongCopyBranchBar_style_color(mapOrigCopy, barlineFrom.Bar_style)
 	}
 	if barlineFrom.Footnote != nil {
-		barlineTo.Footnote = CopyBranchFormatted_text(mapOrigCopy, barlineFrom.Footnote)
+		barlineTo.Footnote = GongCopyBranchFormatted_text(mapOrigCopy, barlineFrom.Footnote)
 	}
 	if barlineFrom.Level != nil {
-		barlineTo.Level = CopyBranchLevel(mapOrigCopy, barlineFrom.Level)
+		barlineTo.Level = GongCopyBranchLevel(mapOrigCopy, barlineFrom.Level)
 	}
 	if barlineFrom.Wavy_line != nil {
-		barlineTo.Wavy_line = CopyBranchWavy_line(mapOrigCopy, barlineFrom.Wavy_line)
+		barlineTo.Wavy_line = GongCopyBranchWavy_line(mapOrigCopy, barlineFrom.Wavy_line)
 	}
 	if barlineFrom.Segno_1 != nil {
-		barlineTo.Segno_1 = CopyBranchSegno(mapOrigCopy, barlineFrom.Segno_1)
+		barlineTo.Segno_1 = GongCopyBranchSegno(mapOrigCopy, barlineFrom.Segno_1)
 	}
 	if barlineFrom.Coda_1 != nil {
-		barlineTo.Coda_1 = CopyBranchCoda(mapOrigCopy, barlineFrom.Coda_1)
+		barlineTo.Coda_1 = GongCopyBranchCoda(mapOrigCopy, barlineFrom.Coda_1)
 	}
 	if barlineFrom.Fermata != nil {
-		barlineTo.Fermata = CopyBranchFermata(mapOrigCopy, barlineFrom.Fermata)
+		barlineTo.Fermata = GongCopyBranchFermata(mapOrigCopy, barlineFrom.Fermata)
 	}
 	if barlineFrom.Ending != nil {
-		barlineTo.Ending = CopyBranchEnding(mapOrigCopy, barlineFrom.Ending)
+		barlineTo.Ending = GongCopyBranchEnding(mapOrigCopy, barlineFrom.Ending)
 	}
 	if barlineFrom.Repeat != nil {
-		barlineTo.Repeat = CopyBranchRepeat(mapOrigCopy, barlineFrom.Repeat)
+		barlineTo.Repeat = GongCopyBranchRepeat(mapOrigCopy, barlineFrom.Repeat)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -9811,7 +9104,7 @@ func CopyBranchBarline(mapOrigCopy map[any]any, barlineFrom *Barline) (barlineTo
 	return
 }
 
-func CopyBranchBarre(mapOrigCopy map[any]any, barreFrom *Barre) (barreTo *Barre) {
+func GongCopyBranchBarre(mapOrigCopy map[any]any, barreFrom *Barre) (barreTo *Barre) {
 
 	// barreFrom has already been copied
 	if _barreTo, ok := mapOrigCopy[barreFrom]; ok {
@@ -9821,7 +9114,7 @@ func CopyBranchBarre(mapOrigCopy map[any]any, barreFrom *Barre) (barreTo *Barre)
 
 	barreTo = new(Barre)
 	mapOrigCopy[barreFrom] = barreTo
-	barreFrom.CopyBasicFields(barreTo)
+	barreFrom.GongCopyBasicFields(barreTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9830,7 +9123,7 @@ func CopyBranchBarre(mapOrigCopy map[any]any, barreFrom *Barre) (barreTo *Barre)
 	return
 }
 
-func CopyBranchBass(mapOrigCopy map[any]any, bassFrom *Bass) (bassTo *Bass) {
+func GongCopyBranchBass(mapOrigCopy map[any]any, bassFrom *Bass) (bassTo *Bass) {
 
 	// bassFrom has already been copied
 	if _bassTo, ok := mapOrigCopy[bassFrom]; ok {
@@ -9840,17 +9133,17 @@ func CopyBranchBass(mapOrigCopy map[any]any, bassFrom *Bass) (bassTo *Bass) {
 
 	bassTo = new(Bass)
 	mapOrigCopy[bassFrom] = bassTo
-	bassFrom.CopyBasicFields(bassTo)
+	bassFrom.GongCopyBasicFields(bassTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if bassFrom.Bass_separator != nil {
-		bassTo.Bass_separator = CopyBranchStyle_text(mapOrigCopy, bassFrom.Bass_separator)
+		bassTo.Bass_separator = GongCopyBranchStyle_text(mapOrigCopy, bassFrom.Bass_separator)
 	}
 	if bassFrom.Bass_step != nil {
-		bassTo.Bass_step = CopyBranchBass_step(mapOrigCopy, bassFrom.Bass_step)
+		bassTo.Bass_step = GongCopyBranchBass_step(mapOrigCopy, bassFrom.Bass_step)
 	}
 	if bassFrom.Bass_alter != nil {
-		bassTo.Bass_alter = CopyBranchHarmony_alter(mapOrigCopy, bassFrom.Bass_alter)
+		bassTo.Bass_alter = GongCopyBranchHarmony_alter(mapOrigCopy, bassFrom.Bass_alter)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -9858,7 +9151,7 @@ func CopyBranchBass(mapOrigCopy map[any]any, bassFrom *Bass) (bassTo *Bass) {
 	return
 }
 
-func CopyBranchBass_step(mapOrigCopy map[any]any, bass_stepFrom *Bass_step) (bass_stepTo *Bass_step) {
+func GongCopyBranchBass_step(mapOrigCopy map[any]any, bass_stepFrom *Bass_step) (bass_stepTo *Bass_step) {
 
 	// bass_stepFrom has already been copied
 	if _bass_stepTo, ok := mapOrigCopy[bass_stepFrom]; ok {
@@ -9868,7 +9161,7 @@ func CopyBranchBass_step(mapOrigCopy map[any]any, bass_stepFrom *Bass_step) (bas
 
 	bass_stepTo = new(Bass_step)
 	mapOrigCopy[bass_stepFrom] = bass_stepTo
-	bass_stepFrom.CopyBasicFields(bass_stepTo)
+	bass_stepFrom.GongCopyBasicFields(bass_stepTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9877,7 +9170,7 @@ func CopyBranchBass_step(mapOrigCopy map[any]any, bass_stepFrom *Bass_step) (bas
 	return
 }
 
-func CopyBranchBeam(mapOrigCopy map[any]any, beamFrom *Beam) (beamTo *Beam) {
+func GongCopyBranchBeam(mapOrigCopy map[any]any, beamFrom *Beam) (beamTo *Beam) {
 
 	// beamFrom has already been copied
 	if _beamTo, ok := mapOrigCopy[beamFrom]; ok {
@@ -9887,7 +9180,7 @@ func CopyBranchBeam(mapOrigCopy map[any]any, beamFrom *Beam) (beamTo *Beam) {
 
 	beamTo = new(Beam)
 	mapOrigCopy[beamFrom] = beamTo
-	beamFrom.CopyBasicFields(beamTo)
+	beamFrom.GongCopyBasicFields(beamTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9896,7 +9189,7 @@ func CopyBranchBeam(mapOrigCopy map[any]any, beamFrom *Beam) (beamTo *Beam) {
 	return
 }
 
-func CopyBranchBeat_repeat(mapOrigCopy map[any]any, beat_repeatFrom *Beat_repeat) (beat_repeatTo *Beat_repeat) {
+func GongCopyBranchBeat_repeat(mapOrigCopy map[any]any, beat_repeatFrom *Beat_repeat) (beat_repeatTo *Beat_repeat) {
 
 	// beat_repeatFrom has already been copied
 	if _beat_repeatTo, ok := mapOrigCopy[beat_repeatFrom]; ok {
@@ -9906,7 +9199,7 @@ func CopyBranchBeat_repeat(mapOrigCopy map[any]any, beat_repeatFrom *Beat_repeat
 
 	beat_repeatTo = new(Beat_repeat)
 	mapOrigCopy[beat_repeatFrom] = beat_repeatTo
-	beat_repeatFrom.CopyBasicFields(beat_repeatTo)
+	beat_repeatFrom.GongCopyBasicFields(beat_repeatTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9915,7 +9208,7 @@ func CopyBranchBeat_repeat(mapOrigCopy map[any]any, beat_repeatFrom *Beat_repeat
 	return
 }
 
-func CopyBranchBeat_unit_tied(mapOrigCopy map[any]any, beat_unit_tiedFrom *Beat_unit_tied) (beat_unit_tiedTo *Beat_unit_tied) {
+func GongCopyBranchBeat_unit_tied(mapOrigCopy map[any]any, beat_unit_tiedFrom *Beat_unit_tied) (beat_unit_tiedTo *Beat_unit_tied) {
 
 	// beat_unit_tiedFrom has already been copied
 	if _beat_unit_tiedTo, ok := mapOrigCopy[beat_unit_tiedFrom]; ok {
@@ -9925,7 +9218,7 @@ func CopyBranchBeat_unit_tied(mapOrigCopy map[any]any, beat_unit_tiedFrom *Beat_
 
 	beat_unit_tiedTo = new(Beat_unit_tied)
 	mapOrigCopy[beat_unit_tiedFrom] = beat_unit_tiedTo
-	beat_unit_tiedFrom.CopyBasicFields(beat_unit_tiedTo)
+	beat_unit_tiedFrom.GongCopyBasicFields(beat_unit_tiedTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9934,7 +9227,7 @@ func CopyBranchBeat_unit_tied(mapOrigCopy map[any]any, beat_unit_tiedFrom *Beat_
 	return
 }
 
-func CopyBranchBeater(mapOrigCopy map[any]any, beaterFrom *Beater) (beaterTo *Beater) {
+func GongCopyBranchBeater(mapOrigCopy map[any]any, beaterFrom *Beater) (beaterTo *Beater) {
 
 	// beaterFrom has already been copied
 	if _beaterTo, ok := mapOrigCopy[beaterFrom]; ok {
@@ -9944,7 +9237,7 @@ func CopyBranchBeater(mapOrigCopy map[any]any, beaterFrom *Beater) (beaterTo *Be
 
 	beaterTo = new(Beater)
 	mapOrigCopy[beaterFrom] = beaterTo
-	beaterFrom.CopyBasicFields(beaterTo)
+	beaterFrom.GongCopyBasicFields(beaterTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9953,7 +9246,7 @@ func CopyBranchBeater(mapOrigCopy map[any]any, beaterFrom *Beater) (beaterTo *Be
 	return
 }
 
-func CopyBranchBend(mapOrigCopy map[any]any, bendFrom *Bend) (bendTo *Bend) {
+func GongCopyBranchBend(mapOrigCopy map[any]any, bendFrom *Bend) (bendTo *Bend) {
 
 	// bendFrom has already been copied
 	if _bendTo, ok := mapOrigCopy[bendFrom]; ok {
@@ -9963,14 +9256,14 @@ func CopyBranchBend(mapOrigCopy map[any]any, bendFrom *Bend) (bendTo *Bend) {
 
 	bendTo = new(Bend)
 	mapOrigCopy[bendFrom] = bendTo
-	bendFrom.CopyBasicFields(bendTo)
+	bendFrom.GongCopyBasicFields(bendTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if bendFrom.Release != nil {
-		bendTo.Release = CopyBranchRelease(mapOrigCopy, bendFrom.Release)
+		bendTo.Release = GongCopyBranchRelease(mapOrigCopy, bendFrom.Release)
 	}
 	if bendFrom.With_bar != nil {
-		bendTo.With_bar = CopyBranchPlacement_text(mapOrigCopy, bendFrom.With_bar)
+		bendTo.With_bar = GongCopyBranchPlacement_text(mapOrigCopy, bendFrom.With_bar)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -9978,7 +9271,7 @@ func CopyBranchBend(mapOrigCopy map[any]any, bendFrom *Bend) (bendTo *Bend) {
 	return
 }
 
-func CopyBranchBookmark(mapOrigCopy map[any]any, bookmarkFrom *Bookmark) (bookmarkTo *Bookmark) {
+func GongCopyBranchBookmark(mapOrigCopy map[any]any, bookmarkFrom *Bookmark) (bookmarkTo *Bookmark) {
 
 	// bookmarkFrom has already been copied
 	if _bookmarkTo, ok := mapOrigCopy[bookmarkFrom]; ok {
@@ -9988,7 +9281,7 @@ func CopyBranchBookmark(mapOrigCopy map[any]any, bookmarkFrom *Bookmark) (bookma
 
 	bookmarkTo = new(Bookmark)
 	mapOrigCopy[bookmarkFrom] = bookmarkTo
-	bookmarkFrom.CopyBasicFields(bookmarkTo)
+	bookmarkFrom.GongCopyBasicFields(bookmarkTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9997,7 +9290,7 @@ func CopyBranchBookmark(mapOrigCopy map[any]any, bookmarkFrom *Bookmark) (bookma
 	return
 }
 
-func CopyBranchBracket(mapOrigCopy map[any]any, bracketFrom *Bracket) (bracketTo *Bracket) {
+func GongCopyBranchBracket(mapOrigCopy map[any]any, bracketFrom *Bracket) (bracketTo *Bracket) {
 
 	// bracketFrom has already been copied
 	if _bracketTo, ok := mapOrigCopy[bracketFrom]; ok {
@@ -10007,7 +9300,7 @@ func CopyBranchBracket(mapOrigCopy map[any]any, bracketFrom *Bracket) (bracketTo
 
 	bracketTo = new(Bracket)
 	mapOrigCopy[bracketFrom] = bracketTo
-	bracketFrom.CopyBasicFields(bracketTo)
+	bracketFrom.GongCopyBasicFields(bracketTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10016,7 +9309,7 @@ func CopyBranchBracket(mapOrigCopy map[any]any, bracketFrom *Bracket) (bracketTo
 	return
 }
 
-func CopyBranchBreath_mark(mapOrigCopy map[any]any, breath_markFrom *Breath_mark) (breath_markTo *Breath_mark) {
+func GongCopyBranchBreath_mark(mapOrigCopy map[any]any, breath_markFrom *Breath_mark) (breath_markTo *Breath_mark) {
 
 	// breath_markFrom has already been copied
 	if _breath_markTo, ok := mapOrigCopy[breath_markFrom]; ok {
@@ -10026,7 +9319,7 @@ func CopyBranchBreath_mark(mapOrigCopy map[any]any, breath_markFrom *Breath_mark
 
 	breath_markTo = new(Breath_mark)
 	mapOrigCopy[breath_markFrom] = breath_markTo
-	breath_markFrom.CopyBasicFields(breath_markTo)
+	breath_markFrom.GongCopyBasicFields(breath_markTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10035,7 +9328,7 @@ func CopyBranchBreath_mark(mapOrigCopy map[any]any, breath_markFrom *Breath_mark
 	return
 }
 
-func CopyBranchCaesura(mapOrigCopy map[any]any, caesuraFrom *Caesura) (caesuraTo *Caesura) {
+func GongCopyBranchCaesura(mapOrigCopy map[any]any, caesuraFrom *Caesura) (caesuraTo *Caesura) {
 
 	// caesuraFrom has already been copied
 	if _caesuraTo, ok := mapOrigCopy[caesuraFrom]; ok {
@@ -10045,7 +9338,7 @@ func CopyBranchCaesura(mapOrigCopy map[any]any, caesuraFrom *Caesura) (caesuraTo
 
 	caesuraTo = new(Caesura)
 	mapOrigCopy[caesuraFrom] = caesuraTo
-	caesuraFrom.CopyBasicFields(caesuraTo)
+	caesuraFrom.GongCopyBasicFields(caesuraTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10054,7 +9347,7 @@ func CopyBranchCaesura(mapOrigCopy map[any]any, caesuraFrom *Caesura) (caesuraTo
 	return
 }
 
-func CopyBranchCancel(mapOrigCopy map[any]any, cancelFrom *Cancel) (cancelTo *Cancel) {
+func GongCopyBranchCancel(mapOrigCopy map[any]any, cancelFrom *Cancel) (cancelTo *Cancel) {
 
 	// cancelFrom has already been copied
 	if _cancelTo, ok := mapOrigCopy[cancelFrom]; ok {
@@ -10064,7 +9357,7 @@ func CopyBranchCancel(mapOrigCopy map[any]any, cancelFrom *Cancel) (cancelTo *Ca
 
 	cancelTo = new(Cancel)
 	mapOrigCopy[cancelFrom] = cancelTo
-	cancelFrom.CopyBasicFields(cancelTo)
+	cancelFrom.GongCopyBasicFields(cancelTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10073,7 +9366,7 @@ func CopyBranchCancel(mapOrigCopy map[any]any, cancelFrom *Cancel) (cancelTo *Ca
 	return
 }
 
-func CopyBranchClef(mapOrigCopy map[any]any, clefFrom *Clef) (clefTo *Clef) {
+func GongCopyBranchClef(mapOrigCopy map[any]any, clefFrom *Clef) (clefTo *Clef) {
 
 	// clefFrom has already been copied
 	if _clefTo, ok := mapOrigCopy[clefFrom]; ok {
@@ -10083,7 +9376,7 @@ func CopyBranchClef(mapOrigCopy map[any]any, clefFrom *Clef) (clefTo *Clef) {
 
 	clefTo = new(Clef)
 	mapOrigCopy[clefFrom] = clefTo
-	clefFrom.CopyBasicFields(clefTo)
+	clefFrom.GongCopyBasicFields(clefTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10092,7 +9385,7 @@ func CopyBranchClef(mapOrigCopy map[any]any, clefFrom *Clef) (clefTo *Clef) {
 	return
 }
 
-func CopyBranchCoda(mapOrigCopy map[any]any, codaFrom *Coda) (codaTo *Coda) {
+func GongCopyBranchCoda(mapOrigCopy map[any]any, codaFrom *Coda) (codaTo *Coda) {
 
 	// codaFrom has already been copied
 	if _codaTo, ok := mapOrigCopy[codaFrom]; ok {
@@ -10102,7 +9395,7 @@ func CopyBranchCoda(mapOrigCopy map[any]any, codaFrom *Coda) (codaTo *Coda) {
 
 	codaTo = new(Coda)
 	mapOrigCopy[codaFrom] = codaTo
-	codaFrom.CopyBasicFields(codaTo)
+	codaFrom.GongCopyBasicFields(codaTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10111,7 +9404,7 @@ func CopyBranchCoda(mapOrigCopy map[any]any, codaFrom *Coda) (codaTo *Coda) {
 	return
 }
 
-func CopyBranchCredit(mapOrigCopy map[any]any, creditFrom *Credit) (creditTo *Credit) {
+func GongCopyBranchCredit(mapOrigCopy map[any]any, creditFrom *Credit) (creditTo *Credit) {
 
 	// creditFrom has already been copied
 	if _creditTo, ok := mapOrigCopy[creditFrom]; ok {
@@ -10121,31 +9414,31 @@ func CopyBranchCredit(mapOrigCopy map[any]any, creditFrom *Credit) (creditTo *Cr
 
 	creditTo = new(Credit)
 	mapOrigCopy[creditFrom] = creditTo
-	creditFrom.CopyBasicFields(creditTo)
+	creditFrom.GongCopyBasicFields(creditTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if creditFrom.Credit_image != nil {
-		creditTo.Credit_image = CopyBranchImage(mapOrigCopy, creditFrom.Credit_image)
+		creditTo.Credit_image = GongCopyBranchImage(mapOrigCopy, creditFrom.Credit_image)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _link := range creditFrom.Link {
-		creditTo.Link = append(creditTo.Link, CopyBranchLink(mapOrigCopy, _link))
+		creditTo.Link = append(creditTo.Link, GongCopyBranchLink(mapOrigCopy, _link))
 	}
 	for _, _bookmark := range creditFrom.Bookmark {
-		creditTo.Bookmark = append(creditTo.Bookmark, CopyBranchBookmark(mapOrigCopy, _bookmark))
+		creditTo.Bookmark = append(creditTo.Bookmark, GongCopyBranchBookmark(mapOrigCopy, _bookmark))
 	}
 	for _, _formatted_text_id := range creditFrom.Credit_words {
-		creditTo.Credit_words = append(creditTo.Credit_words, CopyBranchFormatted_text_id(mapOrigCopy, _formatted_text_id))
+		creditTo.Credit_words = append(creditTo.Credit_words, GongCopyBranchFormatted_text_id(mapOrigCopy, _formatted_text_id))
 	}
 	for _, _formatted_symbol_id := range creditFrom.Credit_symbol {
-		creditTo.Credit_symbol = append(creditTo.Credit_symbol, CopyBranchFormatted_symbol_id(mapOrigCopy, _formatted_symbol_id))
+		creditTo.Credit_symbol = append(creditTo.Credit_symbol, GongCopyBranchFormatted_symbol_id(mapOrigCopy, _formatted_symbol_id))
 	}
 
 	return
 }
 
-func CopyBranchDashes(mapOrigCopy map[any]any, dashesFrom *Dashes) (dashesTo *Dashes) {
+func GongCopyBranchDashes(mapOrigCopy map[any]any, dashesFrom *Dashes) (dashesTo *Dashes) {
 
 	// dashesFrom has already been copied
 	if _dashesTo, ok := mapOrigCopy[dashesFrom]; ok {
@@ -10155,7 +9448,7 @@ func CopyBranchDashes(mapOrigCopy map[any]any, dashesFrom *Dashes) (dashesTo *Da
 
 	dashesTo = new(Dashes)
 	mapOrigCopy[dashesFrom] = dashesTo
-	dashesFrom.CopyBasicFields(dashesTo)
+	dashesFrom.GongCopyBasicFields(dashesTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10164,7 +9457,7 @@ func CopyBranchDashes(mapOrigCopy map[any]any, dashesFrom *Dashes) (dashesTo *Da
 	return
 }
 
-func CopyBranchDefaults(mapOrigCopy map[any]any, defaultsFrom *Defaults) (defaultsTo *Defaults) {
+func GongCopyBranchDefaults(mapOrigCopy map[any]any, defaultsFrom *Defaults) (defaultsTo *Defaults) {
 
 	// defaultsFrom has already been copied
 	if _defaultsTo, ok := mapOrigCopy[defaultsFrom]; ok {
@@ -10174,43 +9467,43 @@ func CopyBranchDefaults(mapOrigCopy map[any]any, defaultsFrom *Defaults) (defaul
 
 	defaultsTo = new(Defaults)
 	mapOrigCopy[defaultsFrom] = defaultsTo
-	defaultsFrom.CopyBasicFields(defaultsTo)
+	defaultsFrom.GongCopyBasicFields(defaultsTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if defaultsFrom.Scaling != nil {
-		defaultsTo.Scaling = CopyBranchScaling(mapOrigCopy, defaultsFrom.Scaling)
+		defaultsTo.Scaling = GongCopyBranchScaling(mapOrigCopy, defaultsFrom.Scaling)
 	}
 	if defaultsFrom.Page_layout != nil {
-		defaultsTo.Page_layout = CopyBranchPage_layout(mapOrigCopy, defaultsFrom.Page_layout)
+		defaultsTo.Page_layout = GongCopyBranchPage_layout(mapOrigCopy, defaultsFrom.Page_layout)
 	}
 	if defaultsFrom.System_layout != nil {
-		defaultsTo.System_layout = CopyBranchSystem_layout(mapOrigCopy, defaultsFrom.System_layout)
+		defaultsTo.System_layout = GongCopyBranchSystem_layout(mapOrigCopy, defaultsFrom.System_layout)
 	}
 	if defaultsFrom.Appearance != nil {
-		defaultsTo.Appearance = CopyBranchAppearance(mapOrigCopy, defaultsFrom.Appearance)
+		defaultsTo.Appearance = GongCopyBranchAppearance(mapOrigCopy, defaultsFrom.Appearance)
 	}
 	if defaultsFrom.Music_font != nil {
-		defaultsTo.Music_font = CopyBranchEmpty_font(mapOrigCopy, defaultsFrom.Music_font)
+		defaultsTo.Music_font = GongCopyBranchEmpty_font(mapOrigCopy, defaultsFrom.Music_font)
 	}
 	if defaultsFrom.Word_font != nil {
-		defaultsTo.Word_font = CopyBranchEmpty_font(mapOrigCopy, defaultsFrom.Word_font)
+		defaultsTo.Word_font = GongCopyBranchEmpty_font(mapOrigCopy, defaultsFrom.Word_font)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _staff_layout := range defaultsFrom.Staff_layout {
-		defaultsTo.Staff_layout = append(defaultsTo.Staff_layout, CopyBranchStaff_layout(mapOrigCopy, _staff_layout))
+		defaultsTo.Staff_layout = append(defaultsTo.Staff_layout, GongCopyBranchStaff_layout(mapOrigCopy, _staff_layout))
 	}
 	for _, _lyric_font := range defaultsFrom.Lyric_font {
-		defaultsTo.Lyric_font = append(defaultsTo.Lyric_font, CopyBranchLyric_font(mapOrigCopy, _lyric_font))
+		defaultsTo.Lyric_font = append(defaultsTo.Lyric_font, GongCopyBranchLyric_font(mapOrigCopy, _lyric_font))
 	}
 	for _, _lyric_language := range defaultsFrom.Lyric_language {
-		defaultsTo.Lyric_language = append(defaultsTo.Lyric_language, CopyBranchLyric_language(mapOrigCopy, _lyric_language))
+		defaultsTo.Lyric_language = append(defaultsTo.Lyric_language, GongCopyBranchLyric_language(mapOrigCopy, _lyric_language))
 	}
 
 	return
 }
 
-func CopyBranchDegree(mapOrigCopy map[any]any, degreeFrom *Degree) (degreeTo *Degree) {
+func GongCopyBranchDegree(mapOrigCopy map[any]any, degreeFrom *Degree) (degreeTo *Degree) {
 
 	// degreeFrom has already been copied
 	if _degreeTo, ok := mapOrigCopy[degreeFrom]; ok {
@@ -10220,17 +9513,17 @@ func CopyBranchDegree(mapOrigCopy map[any]any, degreeFrom *Degree) (degreeTo *De
 
 	degreeTo = new(Degree)
 	mapOrigCopy[degreeFrom] = degreeTo
-	degreeFrom.CopyBasicFields(degreeTo)
+	degreeFrom.GongCopyBasicFields(degreeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if degreeFrom.Degree_value != nil {
-		degreeTo.Degree_value = CopyBranchDegree_value(mapOrigCopy, degreeFrom.Degree_value)
+		degreeTo.Degree_value = GongCopyBranchDegree_value(mapOrigCopy, degreeFrom.Degree_value)
 	}
 	if degreeFrom.Degree_alter != nil {
-		degreeTo.Degree_alter = CopyBranchDegree_alter(mapOrigCopy, degreeFrom.Degree_alter)
+		degreeTo.Degree_alter = GongCopyBranchDegree_alter(mapOrigCopy, degreeFrom.Degree_alter)
 	}
 	if degreeFrom.Degree_type != nil {
-		degreeTo.Degree_type = CopyBranchDegree_type(mapOrigCopy, degreeFrom.Degree_type)
+		degreeTo.Degree_type = GongCopyBranchDegree_type(mapOrigCopy, degreeFrom.Degree_type)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -10238,7 +9531,7 @@ func CopyBranchDegree(mapOrigCopy map[any]any, degreeFrom *Degree) (degreeTo *De
 	return
 }
 
-func CopyBranchDegree_alter(mapOrigCopy map[any]any, degree_alterFrom *Degree_alter) (degree_alterTo *Degree_alter) {
+func GongCopyBranchDegree_alter(mapOrigCopy map[any]any, degree_alterFrom *Degree_alter) (degree_alterTo *Degree_alter) {
 
 	// degree_alterFrom has already been copied
 	if _degree_alterTo, ok := mapOrigCopy[degree_alterFrom]; ok {
@@ -10248,7 +9541,7 @@ func CopyBranchDegree_alter(mapOrigCopy map[any]any, degree_alterFrom *Degree_al
 
 	degree_alterTo = new(Degree_alter)
 	mapOrigCopy[degree_alterFrom] = degree_alterTo
-	degree_alterFrom.CopyBasicFields(degree_alterTo)
+	degree_alterFrom.GongCopyBasicFields(degree_alterTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10257,7 +9550,7 @@ func CopyBranchDegree_alter(mapOrigCopy map[any]any, degree_alterFrom *Degree_al
 	return
 }
 
-func CopyBranchDegree_type(mapOrigCopy map[any]any, degree_typeFrom *Degree_type) (degree_typeTo *Degree_type) {
+func GongCopyBranchDegree_type(mapOrigCopy map[any]any, degree_typeFrom *Degree_type) (degree_typeTo *Degree_type) {
 
 	// degree_typeFrom has already been copied
 	if _degree_typeTo, ok := mapOrigCopy[degree_typeFrom]; ok {
@@ -10267,7 +9560,7 @@ func CopyBranchDegree_type(mapOrigCopy map[any]any, degree_typeFrom *Degree_type
 
 	degree_typeTo = new(Degree_type)
 	mapOrigCopy[degree_typeFrom] = degree_typeTo
-	degree_typeFrom.CopyBasicFields(degree_typeTo)
+	degree_typeFrom.GongCopyBasicFields(degree_typeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10276,7 +9569,7 @@ func CopyBranchDegree_type(mapOrigCopy map[any]any, degree_typeFrom *Degree_type
 	return
 }
 
-func CopyBranchDegree_value(mapOrigCopy map[any]any, degree_valueFrom *Degree_value) (degree_valueTo *Degree_value) {
+func GongCopyBranchDegree_value(mapOrigCopy map[any]any, degree_valueFrom *Degree_value) (degree_valueTo *Degree_value) {
 
 	// degree_valueFrom has already been copied
 	if _degree_valueTo, ok := mapOrigCopy[degree_valueFrom]; ok {
@@ -10286,7 +9579,7 @@ func CopyBranchDegree_value(mapOrigCopy map[any]any, degree_valueFrom *Degree_va
 
 	degree_valueTo = new(Degree_value)
 	mapOrigCopy[degree_valueFrom] = degree_valueTo
-	degree_valueFrom.CopyBasicFields(degree_valueTo)
+	degree_valueFrom.GongCopyBasicFields(degree_valueTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10295,7 +9588,7 @@ func CopyBranchDegree_value(mapOrigCopy map[any]any, degree_valueFrom *Degree_va
 	return
 }
 
-func CopyBranchDirection(mapOrigCopy map[any]any, directionFrom *Direction) (directionTo *Direction) {
+func GongCopyBranchDirection(mapOrigCopy map[any]any, directionFrom *Direction) (directionTo *Direction) {
 
 	// directionFrom has already been copied
 	if _directionTo, ok := mapOrigCopy[directionFrom]; ok {
@@ -10305,34 +9598,34 @@ func CopyBranchDirection(mapOrigCopy map[any]any, directionFrom *Direction) (dir
 
 	directionTo = new(Direction)
 	mapOrigCopy[directionFrom] = directionTo
-	directionFrom.CopyBasicFields(directionTo)
+	directionFrom.GongCopyBasicFields(directionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if directionFrom.Offset != nil {
-		directionTo.Offset = CopyBranchOffset(mapOrigCopy, directionFrom.Offset)
+		directionTo.Offset = GongCopyBranchOffset(mapOrigCopy, directionFrom.Offset)
 	}
 	if directionFrom.Footnote != nil {
-		directionTo.Footnote = CopyBranchFormatted_text(mapOrigCopy, directionFrom.Footnote)
+		directionTo.Footnote = GongCopyBranchFormatted_text(mapOrigCopy, directionFrom.Footnote)
 	}
 	if directionFrom.Level != nil {
-		directionTo.Level = CopyBranchLevel(mapOrigCopy, directionFrom.Level)
+		directionTo.Level = GongCopyBranchLevel(mapOrigCopy, directionFrom.Level)
 	}
 	if directionFrom.Sound != nil {
-		directionTo.Sound = CopyBranchSound(mapOrigCopy, directionFrom.Sound)
+		directionTo.Sound = GongCopyBranchSound(mapOrigCopy, directionFrom.Sound)
 	}
 	if directionFrom.Listening != nil {
-		directionTo.Listening = CopyBranchListening(mapOrigCopy, directionFrom.Listening)
+		directionTo.Listening = GongCopyBranchListening(mapOrigCopy, directionFrom.Listening)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _direction_type := range directionFrom.Direction_type {
-		directionTo.Direction_type = append(directionTo.Direction_type, CopyBranchDirection_type(mapOrigCopy, _direction_type))
+		directionTo.Direction_type = append(directionTo.Direction_type, GongCopyBranchDirection_type(mapOrigCopy, _direction_type))
 	}
 
 	return
 }
 
-func CopyBranchDirection_type(mapOrigCopy map[any]any, direction_typeFrom *Direction_type) (direction_typeTo *Direction_type) {
+func GongCopyBranchDirection_type(mapOrigCopy map[any]any, direction_typeFrom *Direction_type) (direction_typeTo *Direction_type) {
 
 	// direction_typeFrom has already been copied
 	if _direction_typeTo, ok := mapOrigCopy[direction_typeFrom]; ok {
@@ -10342,88 +9635,88 @@ func CopyBranchDirection_type(mapOrigCopy map[any]any, direction_typeFrom *Direc
 
 	direction_typeTo = new(Direction_type)
 	mapOrigCopy[direction_typeFrom] = direction_typeTo
-	direction_typeFrom.CopyBasicFields(direction_typeTo)
+	direction_typeFrom.GongCopyBasicFields(direction_typeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if direction_typeFrom.Wedge != nil {
-		direction_typeTo.Wedge = CopyBranchWedge(mapOrigCopy, direction_typeFrom.Wedge)
+		direction_typeTo.Wedge = GongCopyBranchWedge(mapOrigCopy, direction_typeFrom.Wedge)
 	}
 	if direction_typeFrom.Dashes != nil {
-		direction_typeTo.Dashes = CopyBranchDashes(mapOrigCopy, direction_typeFrom.Dashes)
+		direction_typeTo.Dashes = GongCopyBranchDashes(mapOrigCopy, direction_typeFrom.Dashes)
 	}
 	if direction_typeFrom.Bracket != nil {
-		direction_typeTo.Bracket = CopyBranchBracket(mapOrigCopy, direction_typeFrom.Bracket)
+		direction_typeTo.Bracket = GongCopyBranchBracket(mapOrigCopy, direction_typeFrom.Bracket)
 	}
 	if direction_typeFrom.Pedal != nil {
-		direction_typeTo.Pedal = CopyBranchPedal(mapOrigCopy, direction_typeFrom.Pedal)
+		direction_typeTo.Pedal = GongCopyBranchPedal(mapOrigCopy, direction_typeFrom.Pedal)
 	}
 	if direction_typeFrom.Metronome != nil {
-		direction_typeTo.Metronome = CopyBranchMetronome(mapOrigCopy, direction_typeFrom.Metronome)
+		direction_typeTo.Metronome = GongCopyBranchMetronome(mapOrigCopy, direction_typeFrom.Metronome)
 	}
 	if direction_typeFrom.Octave_shift != nil {
-		direction_typeTo.Octave_shift = CopyBranchOctave_shift(mapOrigCopy, direction_typeFrom.Octave_shift)
+		direction_typeTo.Octave_shift = GongCopyBranchOctave_shift(mapOrigCopy, direction_typeFrom.Octave_shift)
 	}
 	if direction_typeFrom.Harp_pedals != nil {
-		direction_typeTo.Harp_pedals = CopyBranchHarp_pedals(mapOrigCopy, direction_typeFrom.Harp_pedals)
+		direction_typeTo.Harp_pedals = GongCopyBranchHarp_pedals(mapOrigCopy, direction_typeFrom.Harp_pedals)
 	}
 	if direction_typeFrom.Damp != nil {
-		direction_typeTo.Damp = CopyBranchEmpty_print_style_align_id(mapOrigCopy, direction_typeFrom.Damp)
+		direction_typeTo.Damp = GongCopyBranchEmpty_print_style_align_id(mapOrigCopy, direction_typeFrom.Damp)
 	}
 	if direction_typeFrom.Damp_all != nil {
-		direction_typeTo.Damp_all = CopyBranchEmpty_print_style_align_id(mapOrigCopy, direction_typeFrom.Damp_all)
+		direction_typeTo.Damp_all = GongCopyBranchEmpty_print_style_align_id(mapOrigCopy, direction_typeFrom.Damp_all)
 	}
 	if direction_typeFrom.Eyeglasses != nil {
-		direction_typeTo.Eyeglasses = CopyBranchEmpty_print_style_align_id(mapOrigCopy, direction_typeFrom.Eyeglasses)
+		direction_typeTo.Eyeglasses = GongCopyBranchEmpty_print_style_align_id(mapOrigCopy, direction_typeFrom.Eyeglasses)
 	}
 	if direction_typeFrom.String_mute != nil {
-		direction_typeTo.String_mute = CopyBranchString_mute(mapOrigCopy, direction_typeFrom.String_mute)
+		direction_typeTo.String_mute = GongCopyBranchString_mute(mapOrigCopy, direction_typeFrom.String_mute)
 	}
 	if direction_typeFrom.Scordatura != nil {
-		direction_typeTo.Scordatura = CopyBranchScordatura(mapOrigCopy, direction_typeFrom.Scordatura)
+		direction_typeTo.Scordatura = GongCopyBranchScordatura(mapOrigCopy, direction_typeFrom.Scordatura)
 	}
 	if direction_typeFrom.Image != nil {
-		direction_typeTo.Image = CopyBranchImage(mapOrigCopy, direction_typeFrom.Image)
+		direction_typeTo.Image = GongCopyBranchImage(mapOrigCopy, direction_typeFrom.Image)
 	}
 	if direction_typeFrom.Principal_voice != nil {
-		direction_typeTo.Principal_voice = CopyBranchPrincipal_voice(mapOrigCopy, direction_typeFrom.Principal_voice)
+		direction_typeTo.Principal_voice = GongCopyBranchPrincipal_voice(mapOrigCopy, direction_typeFrom.Principal_voice)
 	}
 	if direction_typeFrom.Accordion_registration != nil {
-		direction_typeTo.Accordion_registration = CopyBranchAccordion_registration(mapOrigCopy, direction_typeFrom.Accordion_registration)
+		direction_typeTo.Accordion_registration = GongCopyBranchAccordion_registration(mapOrigCopy, direction_typeFrom.Accordion_registration)
 	}
 	if direction_typeFrom.Staff_divide != nil {
-		direction_typeTo.Staff_divide = CopyBranchStaff_divide(mapOrigCopy, direction_typeFrom.Staff_divide)
+		direction_typeTo.Staff_divide = GongCopyBranchStaff_divide(mapOrigCopy, direction_typeFrom.Staff_divide)
 	}
 	if direction_typeFrom.Other_direction != nil {
-		direction_typeTo.Other_direction = CopyBranchOther_direction(mapOrigCopy, direction_typeFrom.Other_direction)
+		direction_typeTo.Other_direction = GongCopyBranchOther_direction(mapOrigCopy, direction_typeFrom.Other_direction)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formatted_text_id := range direction_typeFrom.Rehearsal {
-		direction_typeTo.Rehearsal = append(direction_typeTo.Rehearsal, CopyBranchFormatted_text_id(mapOrigCopy, _formatted_text_id))
+		direction_typeTo.Rehearsal = append(direction_typeTo.Rehearsal, GongCopyBranchFormatted_text_id(mapOrigCopy, _formatted_text_id))
 	}
 	for _, _segno := range direction_typeFrom.Segno {
-		direction_typeTo.Segno = append(direction_typeTo.Segno, CopyBranchSegno(mapOrigCopy, _segno))
+		direction_typeTo.Segno = append(direction_typeTo.Segno, GongCopyBranchSegno(mapOrigCopy, _segno))
 	}
 	for _, _coda := range direction_typeFrom.Coda {
-		direction_typeTo.Coda = append(direction_typeTo.Coda, CopyBranchCoda(mapOrigCopy, _coda))
+		direction_typeTo.Coda = append(direction_typeTo.Coda, GongCopyBranchCoda(mapOrigCopy, _coda))
 	}
 	for _, _formatted_text_id := range direction_typeFrom.Words {
-		direction_typeTo.Words = append(direction_typeTo.Words, CopyBranchFormatted_text_id(mapOrigCopy, _formatted_text_id))
+		direction_typeTo.Words = append(direction_typeTo.Words, GongCopyBranchFormatted_text_id(mapOrigCopy, _formatted_text_id))
 	}
 	for _, _formatted_symbol_id := range direction_typeFrom.Symbol {
-		direction_typeTo.Symbol = append(direction_typeTo.Symbol, CopyBranchFormatted_symbol_id(mapOrigCopy, _formatted_symbol_id))
+		direction_typeTo.Symbol = append(direction_typeTo.Symbol, GongCopyBranchFormatted_symbol_id(mapOrigCopy, _formatted_symbol_id))
 	}
 	for _, _dynamics := range direction_typeFrom.Dynamics {
-		direction_typeTo.Dynamics = append(direction_typeTo.Dynamics, CopyBranchDynamics(mapOrigCopy, _dynamics))
+		direction_typeTo.Dynamics = append(direction_typeTo.Dynamics, GongCopyBranchDynamics(mapOrigCopy, _dynamics))
 	}
 	for _, _percussion := range direction_typeFrom.Percussion {
-		direction_typeTo.Percussion = append(direction_typeTo.Percussion, CopyBranchPercussion(mapOrigCopy, _percussion))
+		direction_typeTo.Percussion = append(direction_typeTo.Percussion, GongCopyBranchPercussion(mapOrigCopy, _percussion))
 	}
 
 	return
 }
 
-func CopyBranchDistance(mapOrigCopy map[any]any, distanceFrom *Distance) (distanceTo *Distance) {
+func GongCopyBranchDistance(mapOrigCopy map[any]any, distanceFrom *Distance) (distanceTo *Distance) {
 
 	// distanceFrom has already been copied
 	if _distanceTo, ok := mapOrigCopy[distanceFrom]; ok {
@@ -10433,7 +9726,7 @@ func CopyBranchDistance(mapOrigCopy map[any]any, distanceFrom *Distance) (distan
 
 	distanceTo = new(Distance)
 	mapOrigCopy[distanceFrom] = distanceTo
-	distanceFrom.CopyBasicFields(distanceTo)
+	distanceFrom.GongCopyBasicFields(distanceTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10442,7 +9735,7 @@ func CopyBranchDistance(mapOrigCopy map[any]any, distanceFrom *Distance) (distan
 	return
 }
 
-func CopyBranchDouble(mapOrigCopy map[any]any, doubleFrom *Double) (doubleTo *Double) {
+func GongCopyBranchDouble(mapOrigCopy map[any]any, doubleFrom *Double) (doubleTo *Double) {
 
 	// doubleFrom has already been copied
 	if _doubleTo, ok := mapOrigCopy[doubleFrom]; ok {
@@ -10452,7 +9745,7 @@ func CopyBranchDouble(mapOrigCopy map[any]any, doubleFrom *Double) (doubleTo *Do
 
 	doubleTo = new(Double)
 	mapOrigCopy[doubleFrom] = doubleTo
-	doubleFrom.CopyBasicFields(doubleTo)
+	doubleFrom.GongCopyBasicFields(doubleTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10461,7 +9754,7 @@ func CopyBranchDouble(mapOrigCopy map[any]any, doubleFrom *Double) (doubleTo *Do
 	return
 }
 
-func CopyBranchDynamics(mapOrigCopy map[any]any, dynamicsFrom *Dynamics) (dynamicsTo *Dynamics) {
+func GongCopyBranchDynamics(mapOrigCopy map[any]any, dynamicsFrom *Dynamics) (dynamicsTo *Dynamics) {
 
 	// dynamicsFrom has already been copied
 	if _dynamicsTo, ok := mapOrigCopy[dynamicsFrom]; ok {
@@ -10471,19 +9764,19 @@ func CopyBranchDynamics(mapOrigCopy map[any]any, dynamicsFrom *Dynamics) (dynami
 
 	dynamicsTo = new(Dynamics)
 	mapOrigCopy[dynamicsFrom] = dynamicsTo
-	dynamicsFrom.CopyBasicFields(dynamicsTo)
+	dynamicsFrom.GongCopyBasicFields(dynamicsTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _other_text := range dynamicsFrom.Other_dynamics {
-		dynamicsTo.Other_dynamics = append(dynamicsTo.Other_dynamics, CopyBranchOther_text(mapOrigCopy, _other_text))
+		dynamicsTo.Other_dynamics = append(dynamicsTo.Other_dynamics, GongCopyBranchOther_text(mapOrigCopy, _other_text))
 	}
 
 	return
 }
 
-func CopyBranchEffect(mapOrigCopy map[any]any, effectFrom *Effect) (effectTo *Effect) {
+func GongCopyBranchEffect(mapOrigCopy map[any]any, effectFrom *Effect) (effectTo *Effect) {
 
 	// effectFrom has already been copied
 	if _effectTo, ok := mapOrigCopy[effectFrom]; ok {
@@ -10493,7 +9786,7 @@ func CopyBranchEffect(mapOrigCopy map[any]any, effectFrom *Effect) (effectTo *Ef
 
 	effectTo = new(Effect)
 	mapOrigCopy[effectFrom] = effectTo
-	effectFrom.CopyBasicFields(effectTo)
+	effectFrom.GongCopyBasicFields(effectTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10502,7 +9795,7 @@ func CopyBranchEffect(mapOrigCopy map[any]any, effectFrom *Effect) (effectTo *Ef
 	return
 }
 
-func CopyBranchElision(mapOrigCopy map[any]any, elisionFrom *Elision) (elisionTo *Elision) {
+func GongCopyBranchElision(mapOrigCopy map[any]any, elisionFrom *Elision) (elisionTo *Elision) {
 
 	// elisionFrom has already been copied
 	if _elisionTo, ok := mapOrigCopy[elisionFrom]; ok {
@@ -10512,7 +9805,7 @@ func CopyBranchElision(mapOrigCopy map[any]any, elisionFrom *Elision) (elisionTo
 
 	elisionTo = new(Elision)
 	mapOrigCopy[elisionFrom] = elisionTo
-	elisionFrom.CopyBasicFields(elisionTo)
+	elisionFrom.GongCopyBasicFields(elisionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10521,7 +9814,7 @@ func CopyBranchElision(mapOrigCopy map[any]any, elisionFrom *Elision) (elisionTo
 	return
 }
 
-func CopyBranchEmpty(mapOrigCopy map[any]any, emptyFrom *Empty) (emptyTo *Empty) {
+func GongCopyBranchEmpty(mapOrigCopy map[any]any, emptyFrom *Empty) (emptyTo *Empty) {
 
 	// emptyFrom has already been copied
 	if _emptyTo, ok := mapOrigCopy[emptyFrom]; ok {
@@ -10531,7 +9824,7 @@ func CopyBranchEmpty(mapOrigCopy map[any]any, emptyFrom *Empty) (emptyTo *Empty)
 
 	emptyTo = new(Empty)
 	mapOrigCopy[emptyFrom] = emptyTo
-	emptyFrom.CopyBasicFields(emptyTo)
+	emptyFrom.GongCopyBasicFields(emptyTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10540,7 +9833,7 @@ func CopyBranchEmpty(mapOrigCopy map[any]any, emptyFrom *Empty) (emptyTo *Empty)
 	return
 }
 
-func CopyBranchEmpty_font(mapOrigCopy map[any]any, empty_fontFrom *Empty_font) (empty_fontTo *Empty_font) {
+func GongCopyBranchEmpty_font(mapOrigCopy map[any]any, empty_fontFrom *Empty_font) (empty_fontTo *Empty_font) {
 
 	// empty_fontFrom has already been copied
 	if _empty_fontTo, ok := mapOrigCopy[empty_fontFrom]; ok {
@@ -10550,7 +9843,7 @@ func CopyBranchEmpty_font(mapOrigCopy map[any]any, empty_fontFrom *Empty_font) (
 
 	empty_fontTo = new(Empty_font)
 	mapOrigCopy[empty_fontFrom] = empty_fontTo
-	empty_fontFrom.CopyBasicFields(empty_fontTo)
+	empty_fontFrom.GongCopyBasicFields(empty_fontTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10559,7 +9852,7 @@ func CopyBranchEmpty_font(mapOrigCopy map[any]any, empty_fontFrom *Empty_font) (
 	return
 }
 
-func CopyBranchEmpty_line(mapOrigCopy map[any]any, empty_lineFrom *Empty_line) (empty_lineTo *Empty_line) {
+func GongCopyBranchEmpty_line(mapOrigCopy map[any]any, empty_lineFrom *Empty_line) (empty_lineTo *Empty_line) {
 
 	// empty_lineFrom has already been copied
 	if _empty_lineTo, ok := mapOrigCopy[empty_lineFrom]; ok {
@@ -10569,7 +9862,7 @@ func CopyBranchEmpty_line(mapOrigCopy map[any]any, empty_lineFrom *Empty_line) (
 
 	empty_lineTo = new(Empty_line)
 	mapOrigCopy[empty_lineFrom] = empty_lineTo
-	empty_lineFrom.CopyBasicFields(empty_lineTo)
+	empty_lineFrom.GongCopyBasicFields(empty_lineTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10578,7 +9871,7 @@ func CopyBranchEmpty_line(mapOrigCopy map[any]any, empty_lineFrom *Empty_line) (
 	return
 }
 
-func CopyBranchEmpty_placement(mapOrigCopy map[any]any, empty_placementFrom *Empty_placement) (empty_placementTo *Empty_placement) {
+func GongCopyBranchEmpty_placement(mapOrigCopy map[any]any, empty_placementFrom *Empty_placement) (empty_placementTo *Empty_placement) {
 
 	// empty_placementFrom has already been copied
 	if _empty_placementTo, ok := mapOrigCopy[empty_placementFrom]; ok {
@@ -10588,7 +9881,7 @@ func CopyBranchEmpty_placement(mapOrigCopy map[any]any, empty_placementFrom *Emp
 
 	empty_placementTo = new(Empty_placement)
 	mapOrigCopy[empty_placementFrom] = empty_placementTo
-	empty_placementFrom.CopyBasicFields(empty_placementTo)
+	empty_placementFrom.GongCopyBasicFields(empty_placementTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10597,7 +9890,7 @@ func CopyBranchEmpty_placement(mapOrigCopy map[any]any, empty_placementFrom *Emp
 	return
 }
 
-func CopyBranchEmpty_placement_smufl(mapOrigCopy map[any]any, empty_placement_smuflFrom *Empty_placement_smufl) (empty_placement_smuflTo *Empty_placement_smufl) {
+func GongCopyBranchEmpty_placement_smufl(mapOrigCopy map[any]any, empty_placement_smuflFrom *Empty_placement_smufl) (empty_placement_smuflTo *Empty_placement_smufl) {
 
 	// empty_placement_smuflFrom has already been copied
 	if _empty_placement_smuflTo, ok := mapOrigCopy[empty_placement_smuflFrom]; ok {
@@ -10607,7 +9900,7 @@ func CopyBranchEmpty_placement_smufl(mapOrigCopy map[any]any, empty_placement_sm
 
 	empty_placement_smuflTo = new(Empty_placement_smufl)
 	mapOrigCopy[empty_placement_smuflFrom] = empty_placement_smuflTo
-	empty_placement_smuflFrom.CopyBasicFields(empty_placement_smuflTo)
+	empty_placement_smuflFrom.GongCopyBasicFields(empty_placement_smuflTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10616,7 +9909,7 @@ func CopyBranchEmpty_placement_smufl(mapOrigCopy map[any]any, empty_placement_sm
 	return
 }
 
-func CopyBranchEmpty_print_object_style_align(mapOrigCopy map[any]any, empty_print_object_style_alignFrom *Empty_print_object_style_align) (empty_print_object_style_alignTo *Empty_print_object_style_align) {
+func GongCopyBranchEmpty_print_object_style_align(mapOrigCopy map[any]any, empty_print_object_style_alignFrom *Empty_print_object_style_align) (empty_print_object_style_alignTo *Empty_print_object_style_align) {
 
 	// empty_print_object_style_alignFrom has already been copied
 	if _empty_print_object_style_alignTo, ok := mapOrigCopy[empty_print_object_style_alignFrom]; ok {
@@ -10626,7 +9919,7 @@ func CopyBranchEmpty_print_object_style_align(mapOrigCopy map[any]any, empty_pri
 
 	empty_print_object_style_alignTo = new(Empty_print_object_style_align)
 	mapOrigCopy[empty_print_object_style_alignFrom] = empty_print_object_style_alignTo
-	empty_print_object_style_alignFrom.CopyBasicFields(empty_print_object_style_alignTo)
+	empty_print_object_style_alignFrom.GongCopyBasicFields(empty_print_object_style_alignTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10635,7 +9928,7 @@ func CopyBranchEmpty_print_object_style_align(mapOrigCopy map[any]any, empty_pri
 	return
 }
 
-func CopyBranchEmpty_print_style(mapOrigCopy map[any]any, empty_print_styleFrom *Empty_print_style) (empty_print_styleTo *Empty_print_style) {
+func GongCopyBranchEmpty_print_style(mapOrigCopy map[any]any, empty_print_styleFrom *Empty_print_style) (empty_print_styleTo *Empty_print_style) {
 
 	// empty_print_styleFrom has already been copied
 	if _empty_print_styleTo, ok := mapOrigCopy[empty_print_styleFrom]; ok {
@@ -10645,7 +9938,7 @@ func CopyBranchEmpty_print_style(mapOrigCopy map[any]any, empty_print_styleFrom 
 
 	empty_print_styleTo = new(Empty_print_style)
 	mapOrigCopy[empty_print_styleFrom] = empty_print_styleTo
-	empty_print_styleFrom.CopyBasicFields(empty_print_styleTo)
+	empty_print_styleFrom.GongCopyBasicFields(empty_print_styleTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10654,7 +9947,7 @@ func CopyBranchEmpty_print_style(mapOrigCopy map[any]any, empty_print_styleFrom 
 	return
 }
 
-func CopyBranchEmpty_print_style_align(mapOrigCopy map[any]any, empty_print_style_alignFrom *Empty_print_style_align) (empty_print_style_alignTo *Empty_print_style_align) {
+func GongCopyBranchEmpty_print_style_align(mapOrigCopy map[any]any, empty_print_style_alignFrom *Empty_print_style_align) (empty_print_style_alignTo *Empty_print_style_align) {
 
 	// empty_print_style_alignFrom has already been copied
 	if _empty_print_style_alignTo, ok := mapOrigCopy[empty_print_style_alignFrom]; ok {
@@ -10664,7 +9957,7 @@ func CopyBranchEmpty_print_style_align(mapOrigCopy map[any]any, empty_print_styl
 
 	empty_print_style_alignTo = new(Empty_print_style_align)
 	mapOrigCopy[empty_print_style_alignFrom] = empty_print_style_alignTo
-	empty_print_style_alignFrom.CopyBasicFields(empty_print_style_alignTo)
+	empty_print_style_alignFrom.GongCopyBasicFields(empty_print_style_alignTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10673,7 +9966,7 @@ func CopyBranchEmpty_print_style_align(mapOrigCopy map[any]any, empty_print_styl
 	return
 }
 
-func CopyBranchEmpty_print_style_align_id(mapOrigCopy map[any]any, empty_print_style_align_idFrom *Empty_print_style_align_id) (empty_print_style_align_idTo *Empty_print_style_align_id) {
+func GongCopyBranchEmpty_print_style_align_id(mapOrigCopy map[any]any, empty_print_style_align_idFrom *Empty_print_style_align_id) (empty_print_style_align_idTo *Empty_print_style_align_id) {
 
 	// empty_print_style_align_idFrom has already been copied
 	if _empty_print_style_align_idTo, ok := mapOrigCopy[empty_print_style_align_idFrom]; ok {
@@ -10683,7 +9976,7 @@ func CopyBranchEmpty_print_style_align_id(mapOrigCopy map[any]any, empty_print_s
 
 	empty_print_style_align_idTo = new(Empty_print_style_align_id)
 	mapOrigCopy[empty_print_style_align_idFrom] = empty_print_style_align_idTo
-	empty_print_style_align_idFrom.CopyBasicFields(empty_print_style_align_idTo)
+	empty_print_style_align_idFrom.GongCopyBasicFields(empty_print_style_align_idTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10692,7 +9985,7 @@ func CopyBranchEmpty_print_style_align_id(mapOrigCopy map[any]any, empty_print_s
 	return
 }
 
-func CopyBranchEmpty_trill_sound(mapOrigCopy map[any]any, empty_trill_soundFrom *Empty_trill_sound) (empty_trill_soundTo *Empty_trill_sound) {
+func GongCopyBranchEmpty_trill_sound(mapOrigCopy map[any]any, empty_trill_soundFrom *Empty_trill_sound) (empty_trill_soundTo *Empty_trill_sound) {
 
 	// empty_trill_soundFrom has already been copied
 	if _empty_trill_soundTo, ok := mapOrigCopy[empty_trill_soundFrom]; ok {
@@ -10702,7 +9995,7 @@ func CopyBranchEmpty_trill_sound(mapOrigCopy map[any]any, empty_trill_soundFrom 
 
 	empty_trill_soundTo = new(Empty_trill_sound)
 	mapOrigCopy[empty_trill_soundFrom] = empty_trill_soundTo
-	empty_trill_soundFrom.CopyBasicFields(empty_trill_soundTo)
+	empty_trill_soundFrom.GongCopyBasicFields(empty_trill_soundTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10711,7 +10004,7 @@ func CopyBranchEmpty_trill_sound(mapOrigCopy map[any]any, empty_trill_soundFrom 
 	return
 }
 
-func CopyBranchEncoding(mapOrigCopy map[any]any, encodingFrom *Encoding) (encodingTo *Encoding) {
+func GongCopyBranchEncoding(mapOrigCopy map[any]any, encodingFrom *Encoding) (encodingTo *Encoding) {
 
 	// encodingFrom has already been copied
 	if _encodingTo, ok := mapOrigCopy[encodingFrom]; ok {
@@ -10721,22 +10014,22 @@ func CopyBranchEncoding(mapOrigCopy map[any]any, encodingFrom *Encoding) (encodi
 
 	encodingTo = new(Encoding)
 	mapOrigCopy[encodingFrom] = encodingTo
-	encodingFrom.CopyBasicFields(encodingTo)
+	encodingFrom.GongCopyBasicFields(encodingTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _typed_text := range encodingFrom.Encoder {
-		encodingTo.Encoder = append(encodingTo.Encoder, CopyBranchTyped_text(mapOrigCopy, _typed_text))
+		encodingTo.Encoder = append(encodingTo.Encoder, GongCopyBranchTyped_text(mapOrigCopy, _typed_text))
 	}
 	for _, _supports := range encodingFrom.Supports {
-		encodingTo.Supports = append(encodingTo.Supports, CopyBranchSupports(mapOrigCopy, _supports))
+		encodingTo.Supports = append(encodingTo.Supports, GongCopyBranchSupports(mapOrigCopy, _supports))
 	}
 
 	return
 }
 
-func CopyBranchEnding(mapOrigCopy map[any]any, endingFrom *Ending) (endingTo *Ending) {
+func GongCopyBranchEnding(mapOrigCopy map[any]any, endingFrom *Ending) (endingTo *Ending) {
 
 	// endingFrom has already been copied
 	if _endingTo, ok := mapOrigCopy[endingFrom]; ok {
@@ -10746,7 +10039,7 @@ func CopyBranchEnding(mapOrigCopy map[any]any, endingFrom *Ending) (endingTo *En
 
 	endingTo = new(Ending)
 	mapOrigCopy[endingFrom] = endingTo
-	endingFrom.CopyBasicFields(endingTo)
+	endingFrom.GongCopyBasicFields(endingTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10755,7 +10048,7 @@ func CopyBranchEnding(mapOrigCopy map[any]any, endingFrom *Ending) (endingTo *En
 	return
 }
 
-func CopyBranchExtend(mapOrigCopy map[any]any, extendFrom *Extend) (extendTo *Extend) {
+func GongCopyBranchExtend(mapOrigCopy map[any]any, extendFrom *Extend) (extendTo *Extend) {
 
 	// extendFrom has already been copied
 	if _extendTo, ok := mapOrigCopy[extendFrom]; ok {
@@ -10765,7 +10058,7 @@ func CopyBranchExtend(mapOrigCopy map[any]any, extendFrom *Extend) (extendTo *Ex
 
 	extendTo = new(Extend)
 	mapOrigCopy[extendFrom] = extendTo
-	extendFrom.CopyBasicFields(extendTo)
+	extendFrom.GongCopyBasicFields(extendTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10774,7 +10067,7 @@ func CopyBranchExtend(mapOrigCopy map[any]any, extendFrom *Extend) (extendTo *Ex
 	return
 }
 
-func CopyBranchFeature(mapOrigCopy map[any]any, featureFrom *Feature) (featureTo *Feature) {
+func GongCopyBranchFeature(mapOrigCopy map[any]any, featureFrom *Feature) (featureTo *Feature) {
 
 	// featureFrom has already been copied
 	if _featureTo, ok := mapOrigCopy[featureFrom]; ok {
@@ -10784,7 +10077,7 @@ func CopyBranchFeature(mapOrigCopy map[any]any, featureFrom *Feature) (featureTo
 
 	featureTo = new(Feature)
 	mapOrigCopy[featureFrom] = featureTo
-	featureFrom.CopyBasicFields(featureTo)
+	featureFrom.GongCopyBasicFields(featureTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10793,7 +10086,7 @@ func CopyBranchFeature(mapOrigCopy map[any]any, featureFrom *Feature) (featureTo
 	return
 }
 
-func CopyBranchFermata(mapOrigCopy map[any]any, fermataFrom *Fermata) (fermataTo *Fermata) {
+func GongCopyBranchFermata(mapOrigCopy map[any]any, fermataFrom *Fermata) (fermataTo *Fermata) {
 
 	// fermataFrom has already been copied
 	if _fermataTo, ok := mapOrigCopy[fermataFrom]; ok {
@@ -10803,7 +10096,7 @@ func CopyBranchFermata(mapOrigCopy map[any]any, fermataFrom *Fermata) (fermataTo
 
 	fermataTo = new(Fermata)
 	mapOrigCopy[fermataFrom] = fermataTo
-	fermataFrom.CopyBasicFields(fermataTo)
+	fermataFrom.GongCopyBasicFields(fermataTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10812,7 +10105,7 @@ func CopyBranchFermata(mapOrigCopy map[any]any, fermataFrom *Fermata) (fermataTo
 	return
 }
 
-func CopyBranchFigure(mapOrigCopy map[any]any, figureFrom *Figure) (figureTo *Figure) {
+func GongCopyBranchFigure(mapOrigCopy map[any]any, figureFrom *Figure) (figureTo *Figure) {
 
 	// figureFrom has already been copied
 	if _figureTo, ok := mapOrigCopy[figureFrom]; ok {
@@ -10822,26 +10115,26 @@ func CopyBranchFigure(mapOrigCopy map[any]any, figureFrom *Figure) (figureTo *Fi
 
 	figureTo = new(Figure)
 	mapOrigCopy[figureFrom] = figureTo
-	figureFrom.CopyBasicFields(figureTo)
+	figureFrom.GongCopyBasicFields(figureTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if figureFrom.Prefix != nil {
-		figureTo.Prefix = CopyBranchStyle_text(mapOrigCopy, figureFrom.Prefix)
+		figureTo.Prefix = GongCopyBranchStyle_text(mapOrigCopy, figureFrom.Prefix)
 	}
 	if figureFrom.Figure_number != nil {
-		figureTo.Figure_number = CopyBranchStyle_text(mapOrigCopy, figureFrom.Figure_number)
+		figureTo.Figure_number = GongCopyBranchStyle_text(mapOrigCopy, figureFrom.Figure_number)
 	}
 	if figureFrom.Suffix != nil {
-		figureTo.Suffix = CopyBranchStyle_text(mapOrigCopy, figureFrom.Suffix)
+		figureTo.Suffix = GongCopyBranchStyle_text(mapOrigCopy, figureFrom.Suffix)
 	}
 	if figureFrom.Extend != nil {
-		figureTo.Extend = CopyBranchExtend(mapOrigCopy, figureFrom.Extend)
+		figureTo.Extend = GongCopyBranchExtend(mapOrigCopy, figureFrom.Extend)
 	}
 	if figureFrom.Footnote != nil {
-		figureTo.Footnote = CopyBranchFormatted_text(mapOrigCopy, figureFrom.Footnote)
+		figureTo.Footnote = GongCopyBranchFormatted_text(mapOrigCopy, figureFrom.Footnote)
 	}
 	if figureFrom.Level != nil {
-		figureTo.Level = CopyBranchLevel(mapOrigCopy, figureFrom.Level)
+		figureTo.Level = GongCopyBranchLevel(mapOrigCopy, figureFrom.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -10849,7 +10142,7 @@ func CopyBranchFigure(mapOrigCopy map[any]any, figureFrom *Figure) (figureTo *Fi
 	return
 }
 
-func CopyBranchFigured_bass(mapOrigCopy map[any]any, figured_bassFrom *Figured_bass) (figured_bassTo *Figured_bass) {
+func GongCopyBranchFigured_bass(mapOrigCopy map[any]any, figured_bassFrom *Figured_bass) (figured_bassTo *Figured_bass) {
 
 	// figured_bassFrom has already been copied
 	if _figured_bassTo, ok := mapOrigCopy[figured_bassFrom]; ok {
@@ -10859,25 +10152,25 @@ func CopyBranchFigured_bass(mapOrigCopy map[any]any, figured_bassFrom *Figured_b
 
 	figured_bassTo = new(Figured_bass)
 	mapOrigCopy[figured_bassFrom] = figured_bassTo
-	figured_bassFrom.CopyBasicFields(figured_bassTo)
+	figured_bassFrom.GongCopyBasicFields(figured_bassTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if figured_bassFrom.Footnote != nil {
-		figured_bassTo.Footnote = CopyBranchFormatted_text(mapOrigCopy, figured_bassFrom.Footnote)
+		figured_bassTo.Footnote = GongCopyBranchFormatted_text(mapOrigCopy, figured_bassFrom.Footnote)
 	}
 	if figured_bassFrom.Level != nil {
-		figured_bassTo.Level = CopyBranchLevel(mapOrigCopy, figured_bassFrom.Level)
+		figured_bassTo.Level = GongCopyBranchLevel(mapOrigCopy, figured_bassFrom.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _figure := range figured_bassFrom.Figure {
-		figured_bassTo.Figure = append(figured_bassTo.Figure, CopyBranchFigure(mapOrigCopy, _figure))
+		figured_bassTo.Figure = append(figured_bassTo.Figure, GongCopyBranchFigure(mapOrigCopy, _figure))
 	}
 
 	return
 }
 
-func CopyBranchFingering(mapOrigCopy map[any]any, fingeringFrom *Fingering) (fingeringTo *Fingering) {
+func GongCopyBranchFingering(mapOrigCopy map[any]any, fingeringFrom *Fingering) (fingeringTo *Fingering) {
 
 	// fingeringFrom has already been copied
 	if _fingeringTo, ok := mapOrigCopy[fingeringFrom]; ok {
@@ -10887,7 +10180,7 @@ func CopyBranchFingering(mapOrigCopy map[any]any, fingeringFrom *Fingering) (fin
 
 	fingeringTo = new(Fingering)
 	mapOrigCopy[fingeringFrom] = fingeringTo
-	fingeringFrom.CopyBasicFields(fingeringTo)
+	fingeringFrom.GongCopyBasicFields(fingeringTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10896,7 +10189,7 @@ func CopyBranchFingering(mapOrigCopy map[any]any, fingeringFrom *Fingering) (fin
 	return
 }
 
-func CopyBranchFirst_fret(mapOrigCopy map[any]any, first_fretFrom *First_fret) (first_fretTo *First_fret) {
+func GongCopyBranchFirst_fret(mapOrigCopy map[any]any, first_fretFrom *First_fret) (first_fretTo *First_fret) {
 
 	// first_fretFrom has already been copied
 	if _first_fretTo, ok := mapOrigCopy[first_fretFrom]; ok {
@@ -10906,7 +10199,7 @@ func CopyBranchFirst_fret(mapOrigCopy map[any]any, first_fretFrom *First_fret) (
 
 	first_fretTo = new(First_fret)
 	mapOrigCopy[first_fretFrom] = first_fretTo
-	first_fretFrom.CopyBasicFields(first_fretTo)
+	first_fretFrom.GongCopyBasicFields(first_fretTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10915,7 +10208,7 @@ func CopyBranchFirst_fret(mapOrigCopy map[any]any, first_fretFrom *First_fret) (
 	return
 }
 
-func CopyBranchFor_part(mapOrigCopy map[any]any, for_partFrom *For_part) (for_partTo *For_part) {
+func GongCopyBranchFor_part(mapOrigCopy map[any]any, for_partFrom *For_part) (for_partTo *For_part) {
 
 	// for_partFrom has already been copied
 	if _for_partTo, ok := mapOrigCopy[for_partFrom]; ok {
@@ -10925,14 +10218,14 @@ func CopyBranchFor_part(mapOrigCopy map[any]any, for_partFrom *For_part) (for_pa
 
 	for_partTo = new(For_part)
 	mapOrigCopy[for_partFrom] = for_partTo
-	for_partFrom.CopyBasicFields(for_partTo)
+	for_partFrom.GongCopyBasicFields(for_partTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if for_partFrom.Part_clef != nil {
-		for_partTo.Part_clef = CopyBranchPart_clef(mapOrigCopy, for_partFrom.Part_clef)
+		for_partTo.Part_clef = GongCopyBranchPart_clef(mapOrigCopy, for_partFrom.Part_clef)
 	}
 	if for_partFrom.Part_transpose != nil {
-		for_partTo.Part_transpose = CopyBranchPart_transpose(mapOrigCopy, for_partFrom.Part_transpose)
+		for_partTo.Part_transpose = GongCopyBranchPart_transpose(mapOrigCopy, for_partFrom.Part_transpose)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -10940,7 +10233,7 @@ func CopyBranchFor_part(mapOrigCopy map[any]any, for_partFrom *For_part) (for_pa
 	return
 }
 
-func CopyBranchFormatted_symbol(mapOrigCopy map[any]any, formatted_symbolFrom *Formatted_symbol) (formatted_symbolTo *Formatted_symbol) {
+func GongCopyBranchFormatted_symbol(mapOrigCopy map[any]any, formatted_symbolFrom *Formatted_symbol) (formatted_symbolTo *Formatted_symbol) {
 
 	// formatted_symbolFrom has already been copied
 	if _formatted_symbolTo, ok := mapOrigCopy[formatted_symbolFrom]; ok {
@@ -10950,7 +10243,7 @@ func CopyBranchFormatted_symbol(mapOrigCopy map[any]any, formatted_symbolFrom *F
 
 	formatted_symbolTo = new(Formatted_symbol)
 	mapOrigCopy[formatted_symbolFrom] = formatted_symbolTo
-	formatted_symbolFrom.CopyBasicFields(formatted_symbolTo)
+	formatted_symbolFrom.GongCopyBasicFields(formatted_symbolTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10959,7 +10252,7 @@ func CopyBranchFormatted_symbol(mapOrigCopy map[any]any, formatted_symbolFrom *F
 	return
 }
 
-func CopyBranchFormatted_symbol_id(mapOrigCopy map[any]any, formatted_symbol_idFrom *Formatted_symbol_id) (formatted_symbol_idTo *Formatted_symbol_id) {
+func GongCopyBranchFormatted_symbol_id(mapOrigCopy map[any]any, formatted_symbol_idFrom *Formatted_symbol_id) (formatted_symbol_idTo *Formatted_symbol_id) {
 
 	// formatted_symbol_idFrom has already been copied
 	if _formatted_symbol_idTo, ok := mapOrigCopy[formatted_symbol_idFrom]; ok {
@@ -10969,7 +10262,7 @@ func CopyBranchFormatted_symbol_id(mapOrigCopy map[any]any, formatted_symbol_idF
 
 	formatted_symbol_idTo = new(Formatted_symbol_id)
 	mapOrigCopy[formatted_symbol_idFrom] = formatted_symbol_idTo
-	formatted_symbol_idFrom.CopyBasicFields(formatted_symbol_idTo)
+	formatted_symbol_idFrom.GongCopyBasicFields(formatted_symbol_idTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10978,7 +10271,7 @@ func CopyBranchFormatted_symbol_id(mapOrigCopy map[any]any, formatted_symbol_idF
 	return
 }
 
-func CopyBranchFormatted_text(mapOrigCopy map[any]any, formatted_textFrom *Formatted_text) (formatted_textTo *Formatted_text) {
+func GongCopyBranchFormatted_text(mapOrigCopy map[any]any, formatted_textFrom *Formatted_text) (formatted_textTo *Formatted_text) {
 
 	// formatted_textFrom has already been copied
 	if _formatted_textTo, ok := mapOrigCopy[formatted_textFrom]; ok {
@@ -10988,7 +10281,7 @@ func CopyBranchFormatted_text(mapOrigCopy map[any]any, formatted_textFrom *Forma
 
 	formatted_textTo = new(Formatted_text)
 	mapOrigCopy[formatted_textFrom] = formatted_textTo
-	formatted_textFrom.CopyBasicFields(formatted_textTo)
+	formatted_textFrom.GongCopyBasicFields(formatted_textTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10997,7 +10290,7 @@ func CopyBranchFormatted_text(mapOrigCopy map[any]any, formatted_textFrom *Forma
 	return
 }
 
-func CopyBranchFormatted_text_id(mapOrigCopy map[any]any, formatted_text_idFrom *Formatted_text_id) (formatted_text_idTo *Formatted_text_id) {
+func GongCopyBranchFormatted_text_id(mapOrigCopy map[any]any, formatted_text_idFrom *Formatted_text_id) (formatted_text_idTo *Formatted_text_id) {
 
 	// formatted_text_idFrom has already been copied
 	if _formatted_text_idTo, ok := mapOrigCopy[formatted_text_idFrom]; ok {
@@ -11007,7 +10300,7 @@ func CopyBranchFormatted_text_id(mapOrigCopy map[any]any, formatted_text_idFrom 
 
 	formatted_text_idTo = new(Formatted_text_id)
 	mapOrigCopy[formatted_text_idFrom] = formatted_text_idTo
-	formatted_text_idFrom.CopyBasicFields(formatted_text_idTo)
+	formatted_text_idFrom.GongCopyBasicFields(formatted_text_idTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11016,7 +10309,7 @@ func CopyBranchFormatted_text_id(mapOrigCopy map[any]any, formatted_text_idFrom 
 	return
 }
 
-func CopyBranchForward(mapOrigCopy map[any]any, forwardFrom *Forward) (forwardTo *Forward) {
+func GongCopyBranchForward(mapOrigCopy map[any]any, forwardFrom *Forward) (forwardTo *Forward) {
 
 	// forwardFrom has already been copied
 	if _forwardTo, ok := mapOrigCopy[forwardFrom]; ok {
@@ -11026,14 +10319,14 @@ func CopyBranchForward(mapOrigCopy map[any]any, forwardFrom *Forward) (forwardTo
 
 	forwardTo = new(Forward)
 	mapOrigCopy[forwardFrom] = forwardTo
-	forwardFrom.CopyBasicFields(forwardTo)
+	forwardFrom.GongCopyBasicFields(forwardTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if forwardFrom.Footnote != nil {
-		forwardTo.Footnote = CopyBranchFormatted_text(mapOrigCopy, forwardFrom.Footnote)
+		forwardTo.Footnote = GongCopyBranchFormatted_text(mapOrigCopy, forwardFrom.Footnote)
 	}
 	if forwardFrom.Level != nil {
-		forwardTo.Level = CopyBranchLevel(mapOrigCopy, forwardFrom.Level)
+		forwardTo.Level = GongCopyBranchLevel(mapOrigCopy, forwardFrom.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -11041,7 +10334,7 @@ func CopyBranchForward(mapOrigCopy map[any]any, forwardFrom *Forward) (forwardTo
 	return
 }
 
-func CopyBranchFrame(mapOrigCopy map[any]any, frameFrom *Frame) (frameTo *Frame) {
+func GongCopyBranchFrame(mapOrigCopy map[any]any, frameFrom *Frame) (frameTo *Frame) {
 
 	// frameFrom has already been copied
 	if _frameTo, ok := mapOrigCopy[frameFrom]; ok {
@@ -11051,22 +10344,22 @@ func CopyBranchFrame(mapOrigCopy map[any]any, frameFrom *Frame) (frameTo *Frame)
 
 	frameTo = new(Frame)
 	mapOrigCopy[frameFrom] = frameTo
-	frameFrom.CopyBasicFields(frameTo)
+	frameFrom.GongCopyBasicFields(frameTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if frameFrom.First_fret != nil {
-		frameTo.First_fret = CopyBranchFirst_fret(mapOrigCopy, frameFrom.First_fret)
+		frameTo.First_fret = GongCopyBranchFirst_fret(mapOrigCopy, frameFrom.First_fret)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _frame_note := range frameFrom.Frame_note {
-		frameTo.Frame_note = append(frameTo.Frame_note, CopyBranchFrame_note(mapOrigCopy, _frame_note))
+		frameTo.Frame_note = append(frameTo.Frame_note, GongCopyBranchFrame_note(mapOrigCopy, _frame_note))
 	}
 
 	return
 }
 
-func CopyBranchFrame_note(mapOrigCopy map[any]any, frame_noteFrom *Frame_note) (frame_noteTo *Frame_note) {
+func GongCopyBranchFrame_note(mapOrigCopy map[any]any, frame_noteFrom *Frame_note) (frame_noteTo *Frame_note) {
 
 	// frame_noteFrom has already been copied
 	if _frame_noteTo, ok := mapOrigCopy[frame_noteFrom]; ok {
@@ -11076,20 +10369,20 @@ func CopyBranchFrame_note(mapOrigCopy map[any]any, frame_noteFrom *Frame_note) (
 
 	frame_noteTo = new(Frame_note)
 	mapOrigCopy[frame_noteFrom] = frame_noteTo
-	frame_noteFrom.CopyBasicFields(frame_noteTo)
+	frame_noteFrom.GongCopyBasicFields(frame_noteTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if frame_noteFrom.String != nil {
-		frame_noteTo.String = CopyBranchString_type(mapOrigCopy, frame_noteFrom.String)
+		frame_noteTo.String = GongCopyBranchString_type(mapOrigCopy, frame_noteFrom.String)
 	}
 	if frame_noteFrom.Fret != nil {
-		frame_noteTo.Fret = CopyBranchFret(mapOrigCopy, frame_noteFrom.Fret)
+		frame_noteTo.Fret = GongCopyBranchFret(mapOrigCopy, frame_noteFrom.Fret)
 	}
 	if frame_noteFrom.Fingering != nil {
-		frame_noteTo.Fingering = CopyBranchFingering(mapOrigCopy, frame_noteFrom.Fingering)
+		frame_noteTo.Fingering = GongCopyBranchFingering(mapOrigCopy, frame_noteFrom.Fingering)
 	}
 	if frame_noteFrom.Barre != nil {
-		frame_noteTo.Barre = CopyBranchBarre(mapOrigCopy, frame_noteFrom.Barre)
+		frame_noteTo.Barre = GongCopyBranchBarre(mapOrigCopy, frame_noteFrom.Barre)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -11097,7 +10390,7 @@ func CopyBranchFrame_note(mapOrigCopy map[any]any, frame_noteFrom *Frame_note) (
 	return
 }
 
-func CopyBranchFret(mapOrigCopy map[any]any, fretFrom *Fret) (fretTo *Fret) {
+func GongCopyBranchFret(mapOrigCopy map[any]any, fretFrom *Fret) (fretTo *Fret) {
 
 	// fretFrom has already been copied
 	if _fretTo, ok := mapOrigCopy[fretFrom]; ok {
@@ -11107,7 +10400,7 @@ func CopyBranchFret(mapOrigCopy map[any]any, fretFrom *Fret) (fretTo *Fret) {
 
 	fretTo = new(Fret)
 	mapOrigCopy[fretFrom] = fretTo
-	fretFrom.CopyBasicFields(fretTo)
+	fretFrom.GongCopyBasicFields(fretTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11116,7 +10409,7 @@ func CopyBranchFret(mapOrigCopy map[any]any, fretFrom *Fret) (fretTo *Fret) {
 	return
 }
 
-func CopyBranchGlass(mapOrigCopy map[any]any, glassFrom *Glass) (glassTo *Glass) {
+func GongCopyBranchGlass(mapOrigCopy map[any]any, glassFrom *Glass) (glassTo *Glass) {
 
 	// glassFrom has already been copied
 	if _glassTo, ok := mapOrigCopy[glassFrom]; ok {
@@ -11126,7 +10419,7 @@ func CopyBranchGlass(mapOrigCopy map[any]any, glassFrom *Glass) (glassTo *Glass)
 
 	glassTo = new(Glass)
 	mapOrigCopy[glassFrom] = glassTo
-	glassFrom.CopyBasicFields(glassTo)
+	glassFrom.GongCopyBasicFields(glassTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11135,7 +10428,7 @@ func CopyBranchGlass(mapOrigCopy map[any]any, glassFrom *Glass) (glassTo *Glass)
 	return
 }
 
-func CopyBranchGlissando(mapOrigCopy map[any]any, glissandoFrom *Glissando) (glissandoTo *Glissando) {
+func GongCopyBranchGlissando(mapOrigCopy map[any]any, glissandoFrom *Glissando) (glissandoTo *Glissando) {
 
 	// glissandoFrom has already been copied
 	if _glissandoTo, ok := mapOrigCopy[glissandoFrom]; ok {
@@ -11145,7 +10438,7 @@ func CopyBranchGlissando(mapOrigCopy map[any]any, glissandoFrom *Glissando) (gli
 
 	glissandoTo = new(Glissando)
 	mapOrigCopy[glissandoFrom] = glissandoTo
-	glissandoFrom.CopyBasicFields(glissandoTo)
+	glissandoFrom.GongCopyBasicFields(glissandoTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11154,7 +10447,7 @@ func CopyBranchGlissando(mapOrigCopy map[any]any, glissandoFrom *Glissando) (gli
 	return
 }
 
-func CopyBranchGlyph(mapOrigCopy map[any]any, glyphFrom *Glyph) (glyphTo *Glyph) {
+func GongCopyBranchGlyph(mapOrigCopy map[any]any, glyphFrom *Glyph) (glyphTo *Glyph) {
 
 	// glyphFrom has already been copied
 	if _glyphTo, ok := mapOrigCopy[glyphFrom]; ok {
@@ -11164,7 +10457,7 @@ func CopyBranchGlyph(mapOrigCopy map[any]any, glyphFrom *Glyph) (glyphTo *Glyph)
 
 	glyphTo = new(Glyph)
 	mapOrigCopy[glyphFrom] = glyphTo
-	glyphFrom.CopyBasicFields(glyphTo)
+	glyphFrom.GongCopyBasicFields(glyphTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11173,7 +10466,7 @@ func CopyBranchGlyph(mapOrigCopy map[any]any, glyphFrom *Glyph) (glyphTo *Glyph)
 	return
 }
 
-func CopyBranchGrace(mapOrigCopy map[any]any, graceFrom *Grace) (graceTo *Grace) {
+func GongCopyBranchGrace(mapOrigCopy map[any]any, graceFrom *Grace) (graceTo *Grace) {
 
 	// graceFrom has already been copied
 	if _graceTo, ok := mapOrigCopy[graceFrom]; ok {
@@ -11183,7 +10476,7 @@ func CopyBranchGrace(mapOrigCopy map[any]any, graceFrom *Grace) (graceTo *Grace)
 
 	graceTo = new(Grace)
 	mapOrigCopy[graceFrom] = graceTo
-	graceFrom.CopyBasicFields(graceTo)
+	graceFrom.GongCopyBasicFields(graceTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11192,7 +10485,7 @@ func CopyBranchGrace(mapOrigCopy map[any]any, graceFrom *Grace) (graceTo *Grace)
 	return
 }
 
-func CopyBranchGroup_barline(mapOrigCopy map[any]any, group_barlineFrom *Group_barline) (group_barlineTo *Group_barline) {
+func GongCopyBranchGroup_barline(mapOrigCopy map[any]any, group_barlineFrom *Group_barline) (group_barlineTo *Group_barline) {
 
 	// group_barlineFrom has already been copied
 	if _group_barlineTo, ok := mapOrigCopy[group_barlineFrom]; ok {
@@ -11202,7 +10495,7 @@ func CopyBranchGroup_barline(mapOrigCopy map[any]any, group_barlineFrom *Group_b
 
 	group_barlineTo = new(Group_barline)
 	mapOrigCopy[group_barlineFrom] = group_barlineTo
-	group_barlineFrom.CopyBasicFields(group_barlineTo)
+	group_barlineFrom.GongCopyBasicFields(group_barlineTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11211,7 +10504,7 @@ func CopyBranchGroup_barline(mapOrigCopy map[any]any, group_barlineFrom *Group_b
 	return
 }
 
-func CopyBranchGroup_name(mapOrigCopy map[any]any, group_nameFrom *Group_name) (group_nameTo *Group_name) {
+func GongCopyBranchGroup_name(mapOrigCopy map[any]any, group_nameFrom *Group_name) (group_nameTo *Group_name) {
 
 	// group_nameFrom has already been copied
 	if _group_nameTo, ok := mapOrigCopy[group_nameFrom]; ok {
@@ -11221,7 +10514,7 @@ func CopyBranchGroup_name(mapOrigCopy map[any]any, group_nameFrom *Group_name) (
 
 	group_nameTo = new(Group_name)
 	mapOrigCopy[group_nameFrom] = group_nameTo
-	group_nameFrom.CopyBasicFields(group_nameTo)
+	group_nameFrom.GongCopyBasicFields(group_nameTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11230,7 +10523,7 @@ func CopyBranchGroup_name(mapOrigCopy map[any]any, group_nameFrom *Group_name) (
 	return
 }
 
-func CopyBranchGroup_symbol(mapOrigCopy map[any]any, group_symbolFrom *Group_symbol) (group_symbolTo *Group_symbol) {
+func GongCopyBranchGroup_symbol(mapOrigCopy map[any]any, group_symbolFrom *Group_symbol) (group_symbolTo *Group_symbol) {
 
 	// group_symbolFrom has already been copied
 	if _group_symbolTo, ok := mapOrigCopy[group_symbolFrom]; ok {
@@ -11240,7 +10533,7 @@ func CopyBranchGroup_symbol(mapOrigCopy map[any]any, group_symbolFrom *Group_sym
 
 	group_symbolTo = new(Group_symbol)
 	mapOrigCopy[group_symbolFrom] = group_symbolTo
-	group_symbolFrom.CopyBasicFields(group_symbolTo)
+	group_symbolFrom.GongCopyBasicFields(group_symbolTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11249,7 +10542,7 @@ func CopyBranchGroup_symbol(mapOrigCopy map[any]any, group_symbolFrom *Group_sym
 	return
 }
 
-func CopyBranchGrouping(mapOrigCopy map[any]any, groupingFrom *Grouping) (groupingTo *Grouping) {
+func GongCopyBranchGrouping(mapOrigCopy map[any]any, groupingFrom *Grouping) (groupingTo *Grouping) {
 
 	// groupingFrom has already been copied
 	if _groupingTo, ok := mapOrigCopy[groupingFrom]; ok {
@@ -11259,19 +10552,19 @@ func CopyBranchGrouping(mapOrigCopy map[any]any, groupingFrom *Grouping) (groupi
 
 	groupingTo = new(Grouping)
 	mapOrigCopy[groupingFrom] = groupingTo
-	groupingFrom.CopyBasicFields(groupingTo)
+	groupingFrom.GongCopyBasicFields(groupingTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _feature := range groupingFrom.Feature {
-		groupingTo.Feature = append(groupingTo.Feature, CopyBranchFeature(mapOrigCopy, _feature))
+		groupingTo.Feature = append(groupingTo.Feature, GongCopyBranchFeature(mapOrigCopy, _feature))
 	}
 
 	return
 }
 
-func CopyBranchHammer_on_pull_off(mapOrigCopy map[any]any, hammer_on_pull_offFrom *Hammer_on_pull_off) (hammer_on_pull_offTo *Hammer_on_pull_off) {
+func GongCopyBranchHammer_on_pull_off(mapOrigCopy map[any]any, hammer_on_pull_offFrom *Hammer_on_pull_off) (hammer_on_pull_offTo *Hammer_on_pull_off) {
 
 	// hammer_on_pull_offFrom has already been copied
 	if _hammer_on_pull_offTo, ok := mapOrigCopy[hammer_on_pull_offFrom]; ok {
@@ -11281,7 +10574,7 @@ func CopyBranchHammer_on_pull_off(mapOrigCopy map[any]any, hammer_on_pull_offFro
 
 	hammer_on_pull_offTo = new(Hammer_on_pull_off)
 	mapOrigCopy[hammer_on_pull_offFrom] = hammer_on_pull_offTo
-	hammer_on_pull_offFrom.CopyBasicFields(hammer_on_pull_offTo)
+	hammer_on_pull_offFrom.GongCopyBasicFields(hammer_on_pull_offTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11290,7 +10583,7 @@ func CopyBranchHammer_on_pull_off(mapOrigCopy map[any]any, hammer_on_pull_offFro
 	return
 }
 
-func CopyBranchHandbell(mapOrigCopy map[any]any, handbellFrom *Handbell) (handbellTo *Handbell) {
+func GongCopyBranchHandbell(mapOrigCopy map[any]any, handbellFrom *Handbell) (handbellTo *Handbell) {
 
 	// handbellFrom has already been copied
 	if _handbellTo, ok := mapOrigCopy[handbellFrom]; ok {
@@ -11300,7 +10593,7 @@ func CopyBranchHandbell(mapOrigCopy map[any]any, handbellFrom *Handbell) (handbe
 
 	handbellTo = new(Handbell)
 	mapOrigCopy[handbellFrom] = handbellTo
-	handbellFrom.CopyBasicFields(handbellTo)
+	handbellFrom.GongCopyBasicFields(handbellTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11309,7 +10602,7 @@ func CopyBranchHandbell(mapOrigCopy map[any]any, handbellFrom *Handbell) (handbe
 	return
 }
 
-func CopyBranchHarmon_closed(mapOrigCopy map[any]any, harmon_closedFrom *Harmon_closed) (harmon_closedTo *Harmon_closed) {
+func GongCopyBranchHarmon_closed(mapOrigCopy map[any]any, harmon_closedFrom *Harmon_closed) (harmon_closedTo *Harmon_closed) {
 
 	// harmon_closedFrom has already been copied
 	if _harmon_closedTo, ok := mapOrigCopy[harmon_closedFrom]; ok {
@@ -11319,7 +10612,7 @@ func CopyBranchHarmon_closed(mapOrigCopy map[any]any, harmon_closedFrom *Harmon_
 
 	harmon_closedTo = new(Harmon_closed)
 	mapOrigCopy[harmon_closedFrom] = harmon_closedTo
-	harmon_closedFrom.CopyBasicFields(harmon_closedTo)
+	harmon_closedFrom.GongCopyBasicFields(harmon_closedTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11328,7 +10621,7 @@ func CopyBranchHarmon_closed(mapOrigCopy map[any]any, harmon_closedFrom *Harmon_
 	return
 }
 
-func CopyBranchHarmon_mute(mapOrigCopy map[any]any, harmon_muteFrom *Harmon_mute) (harmon_muteTo *Harmon_mute) {
+func GongCopyBranchHarmon_mute(mapOrigCopy map[any]any, harmon_muteFrom *Harmon_mute) (harmon_muteTo *Harmon_mute) {
 
 	// harmon_muteFrom has already been copied
 	if _harmon_muteTo, ok := mapOrigCopy[harmon_muteFrom]; ok {
@@ -11338,11 +10631,11 @@ func CopyBranchHarmon_mute(mapOrigCopy map[any]any, harmon_muteFrom *Harmon_mute
 
 	harmon_muteTo = new(Harmon_mute)
 	mapOrigCopy[harmon_muteFrom] = harmon_muteTo
-	harmon_muteFrom.CopyBasicFields(harmon_muteTo)
+	harmon_muteFrom.GongCopyBasicFields(harmon_muteTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if harmon_muteFrom.Harmon_closed != nil {
-		harmon_muteTo.Harmon_closed = CopyBranchHarmon_closed(mapOrigCopy, harmon_muteFrom.Harmon_closed)
+		harmon_muteTo.Harmon_closed = GongCopyBranchHarmon_closed(mapOrigCopy, harmon_muteFrom.Harmon_closed)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -11350,7 +10643,7 @@ func CopyBranchHarmon_mute(mapOrigCopy map[any]any, harmon_muteFrom *Harmon_mute
 	return
 }
 
-func CopyBranchHarmonic(mapOrigCopy map[any]any, harmonicFrom *Harmonic) (harmonicTo *Harmonic) {
+func GongCopyBranchHarmonic(mapOrigCopy map[any]any, harmonicFrom *Harmonic) (harmonicTo *Harmonic) {
 
 	// harmonicFrom has already been copied
 	if _harmonicTo, ok := mapOrigCopy[harmonicFrom]; ok {
@@ -11360,7 +10653,7 @@ func CopyBranchHarmonic(mapOrigCopy map[any]any, harmonicFrom *Harmonic) (harmon
 
 	harmonicTo = new(Harmonic)
 	mapOrigCopy[harmonicFrom] = harmonicTo
-	harmonicFrom.CopyBasicFields(harmonicTo)
+	harmonicFrom.GongCopyBasicFields(harmonicTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11369,7 +10662,7 @@ func CopyBranchHarmonic(mapOrigCopy map[any]any, harmonicFrom *Harmonic) (harmon
 	return
 }
 
-func CopyBranchHarmony(mapOrigCopy map[any]any, harmonyFrom *Harmony) (harmonyTo *Harmony) {
+func GongCopyBranchHarmony(mapOrigCopy map[any]any, harmonyFrom *Harmony) (harmonyTo *Harmony) {
 
 	// harmonyFrom has already been copied
 	if _harmonyTo, ok := mapOrigCopy[harmonyFrom]; ok {
@@ -11379,49 +10672,49 @@ func CopyBranchHarmony(mapOrigCopy map[any]any, harmonyFrom *Harmony) (harmonyTo
 
 	harmonyTo = new(Harmony)
 	mapOrigCopy[harmonyFrom] = harmonyTo
-	harmonyFrom.CopyBasicFields(harmonyTo)
+	harmonyFrom.GongCopyBasicFields(harmonyTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if harmonyFrom.Root != nil {
-		harmonyTo.Root = CopyBranchRoot(mapOrigCopy, harmonyFrom.Root)
+		harmonyTo.Root = GongCopyBranchRoot(mapOrigCopy, harmonyFrom.Root)
 	}
 	if harmonyFrom.Numeral != nil {
-		harmonyTo.Numeral = CopyBranchNumeral(mapOrigCopy, harmonyFrom.Numeral)
+		harmonyTo.Numeral = GongCopyBranchNumeral(mapOrigCopy, harmonyFrom.Numeral)
 	}
 	if harmonyFrom.Function != nil {
-		harmonyTo.Function = CopyBranchStyle_text(mapOrigCopy, harmonyFrom.Function)
+		harmonyTo.Function = GongCopyBranchStyle_text(mapOrigCopy, harmonyFrom.Function)
 	}
 	if harmonyFrom.Kind != nil {
-		harmonyTo.Kind = CopyBranchKind(mapOrigCopy, harmonyFrom.Kind)
+		harmonyTo.Kind = GongCopyBranchKind(mapOrigCopy, harmonyFrom.Kind)
 	}
 	if harmonyFrom.Inversion != nil {
-		harmonyTo.Inversion = CopyBranchInversion(mapOrigCopy, harmonyFrom.Inversion)
+		harmonyTo.Inversion = GongCopyBranchInversion(mapOrigCopy, harmonyFrom.Inversion)
 	}
 	if harmonyFrom.Bass != nil {
-		harmonyTo.Bass = CopyBranchBass(mapOrigCopy, harmonyFrom.Bass)
+		harmonyTo.Bass = GongCopyBranchBass(mapOrigCopy, harmonyFrom.Bass)
 	}
 	if harmonyFrom.Frame != nil {
-		harmonyTo.Frame = CopyBranchFrame(mapOrigCopy, harmonyFrom.Frame)
+		harmonyTo.Frame = GongCopyBranchFrame(mapOrigCopy, harmonyFrom.Frame)
 	}
 	if harmonyFrom.Offset != nil {
-		harmonyTo.Offset = CopyBranchOffset(mapOrigCopy, harmonyFrom.Offset)
+		harmonyTo.Offset = GongCopyBranchOffset(mapOrigCopy, harmonyFrom.Offset)
 	}
 	if harmonyFrom.Footnote != nil {
-		harmonyTo.Footnote = CopyBranchFormatted_text(mapOrigCopy, harmonyFrom.Footnote)
+		harmonyTo.Footnote = GongCopyBranchFormatted_text(mapOrigCopy, harmonyFrom.Footnote)
 	}
 	if harmonyFrom.Level != nil {
-		harmonyTo.Level = CopyBranchLevel(mapOrigCopy, harmonyFrom.Level)
+		harmonyTo.Level = GongCopyBranchLevel(mapOrigCopy, harmonyFrom.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _degree := range harmonyFrom.Degree {
-		harmonyTo.Degree = append(harmonyTo.Degree, CopyBranchDegree(mapOrigCopy, _degree))
+		harmonyTo.Degree = append(harmonyTo.Degree, GongCopyBranchDegree(mapOrigCopy, _degree))
 	}
 
 	return
 }
 
-func CopyBranchHarmony_alter(mapOrigCopy map[any]any, harmony_alterFrom *Harmony_alter) (harmony_alterTo *Harmony_alter) {
+func GongCopyBranchHarmony_alter(mapOrigCopy map[any]any, harmony_alterFrom *Harmony_alter) (harmony_alterTo *Harmony_alter) {
 
 	// harmony_alterFrom has already been copied
 	if _harmony_alterTo, ok := mapOrigCopy[harmony_alterFrom]; ok {
@@ -11431,7 +10724,7 @@ func CopyBranchHarmony_alter(mapOrigCopy map[any]any, harmony_alterFrom *Harmony
 
 	harmony_alterTo = new(Harmony_alter)
 	mapOrigCopy[harmony_alterFrom] = harmony_alterTo
-	harmony_alterFrom.CopyBasicFields(harmony_alterTo)
+	harmony_alterFrom.GongCopyBasicFields(harmony_alterTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11440,7 +10733,7 @@ func CopyBranchHarmony_alter(mapOrigCopy map[any]any, harmony_alterFrom *Harmony
 	return
 }
 
-func CopyBranchHarp_pedals(mapOrigCopy map[any]any, harp_pedalsFrom *Harp_pedals) (harp_pedalsTo *Harp_pedals) {
+func GongCopyBranchHarp_pedals(mapOrigCopy map[any]any, harp_pedalsFrom *Harp_pedals) (harp_pedalsTo *Harp_pedals) {
 
 	// harp_pedalsFrom has already been copied
 	if _harp_pedalsTo, ok := mapOrigCopy[harp_pedalsFrom]; ok {
@@ -11450,19 +10743,19 @@ func CopyBranchHarp_pedals(mapOrigCopy map[any]any, harp_pedalsFrom *Harp_pedals
 
 	harp_pedalsTo = new(Harp_pedals)
 	mapOrigCopy[harp_pedalsFrom] = harp_pedalsTo
-	harp_pedalsFrom.CopyBasicFields(harp_pedalsTo)
+	harp_pedalsFrom.GongCopyBasicFields(harp_pedalsTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _pedal_tuning := range harp_pedalsFrom.Pedal_tuning {
-		harp_pedalsTo.Pedal_tuning = append(harp_pedalsTo.Pedal_tuning, CopyBranchPedal_tuning(mapOrigCopy, _pedal_tuning))
+		harp_pedalsTo.Pedal_tuning = append(harp_pedalsTo.Pedal_tuning, GongCopyBranchPedal_tuning(mapOrigCopy, _pedal_tuning))
 	}
 
 	return
 }
 
-func CopyBranchHeel_toe(mapOrigCopy map[any]any, heel_toeFrom *Heel_toe) (heel_toeTo *Heel_toe) {
+func GongCopyBranchHeel_toe(mapOrigCopy map[any]any, heel_toeFrom *Heel_toe) (heel_toeTo *Heel_toe) {
 
 	// heel_toeFrom has already been copied
 	if _heel_toeTo, ok := mapOrigCopy[heel_toeFrom]; ok {
@@ -11472,7 +10765,7 @@ func CopyBranchHeel_toe(mapOrigCopy map[any]any, heel_toeFrom *Heel_toe) (heel_t
 
 	heel_toeTo = new(Heel_toe)
 	mapOrigCopy[heel_toeFrom] = heel_toeTo
-	heel_toeFrom.CopyBasicFields(heel_toeTo)
+	heel_toeFrom.GongCopyBasicFields(heel_toeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11481,7 +10774,7 @@ func CopyBranchHeel_toe(mapOrigCopy map[any]any, heel_toeFrom *Heel_toe) (heel_t
 	return
 }
 
-func CopyBranchHole(mapOrigCopy map[any]any, holeFrom *Hole) (holeTo *Hole) {
+func GongCopyBranchHole(mapOrigCopy map[any]any, holeFrom *Hole) (holeTo *Hole) {
 
 	// holeFrom has already been copied
 	if _holeTo, ok := mapOrigCopy[holeFrom]; ok {
@@ -11491,11 +10784,11 @@ func CopyBranchHole(mapOrigCopy map[any]any, holeFrom *Hole) (holeTo *Hole) {
 
 	holeTo = new(Hole)
 	mapOrigCopy[holeFrom] = holeTo
-	holeFrom.CopyBasicFields(holeTo)
+	holeFrom.GongCopyBasicFields(holeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if holeFrom.Hole_closed != nil {
-		holeTo.Hole_closed = CopyBranchHole_closed(mapOrigCopy, holeFrom.Hole_closed)
+		holeTo.Hole_closed = GongCopyBranchHole_closed(mapOrigCopy, holeFrom.Hole_closed)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -11503,7 +10796,7 @@ func CopyBranchHole(mapOrigCopy map[any]any, holeFrom *Hole) (holeTo *Hole) {
 	return
 }
 
-func CopyBranchHole_closed(mapOrigCopy map[any]any, hole_closedFrom *Hole_closed) (hole_closedTo *Hole_closed) {
+func GongCopyBranchHole_closed(mapOrigCopy map[any]any, hole_closedFrom *Hole_closed) (hole_closedTo *Hole_closed) {
 
 	// hole_closedFrom has already been copied
 	if _hole_closedTo, ok := mapOrigCopy[hole_closedFrom]; ok {
@@ -11513,7 +10806,7 @@ func CopyBranchHole_closed(mapOrigCopy map[any]any, hole_closedFrom *Hole_closed
 
 	hole_closedTo = new(Hole_closed)
 	mapOrigCopy[hole_closedFrom] = hole_closedTo
-	hole_closedFrom.CopyBasicFields(hole_closedTo)
+	hole_closedFrom.GongCopyBasicFields(hole_closedTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11522,7 +10815,7 @@ func CopyBranchHole_closed(mapOrigCopy map[any]any, hole_closedFrom *Hole_closed
 	return
 }
 
-func CopyBranchHorizontal_turn(mapOrigCopy map[any]any, horizontal_turnFrom *Horizontal_turn) (horizontal_turnTo *Horizontal_turn) {
+func GongCopyBranchHorizontal_turn(mapOrigCopy map[any]any, horizontal_turnFrom *Horizontal_turn) (horizontal_turnTo *Horizontal_turn) {
 
 	// horizontal_turnFrom has already been copied
 	if _horizontal_turnTo, ok := mapOrigCopy[horizontal_turnFrom]; ok {
@@ -11532,7 +10825,7 @@ func CopyBranchHorizontal_turn(mapOrigCopy map[any]any, horizontal_turnFrom *Hor
 
 	horizontal_turnTo = new(Horizontal_turn)
 	mapOrigCopy[horizontal_turnFrom] = horizontal_turnTo
-	horizontal_turnFrom.CopyBasicFields(horizontal_turnTo)
+	horizontal_turnFrom.GongCopyBasicFields(horizontal_turnTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11541,7 +10834,7 @@ func CopyBranchHorizontal_turn(mapOrigCopy map[any]any, horizontal_turnFrom *Hor
 	return
 }
 
-func CopyBranchIdentification(mapOrigCopy map[any]any, identificationFrom *Identification) (identificationTo *Identification) {
+func GongCopyBranchIdentification(mapOrigCopy map[any]any, identificationFrom *Identification) (identificationTo *Identification) {
 
 	// identificationFrom has already been copied
 	if _identificationTo, ok := mapOrigCopy[identificationFrom]; ok {
@@ -11551,31 +10844,31 @@ func CopyBranchIdentification(mapOrigCopy map[any]any, identificationFrom *Ident
 
 	identificationTo = new(Identification)
 	mapOrigCopy[identificationFrom] = identificationTo
-	identificationFrom.CopyBasicFields(identificationTo)
+	identificationFrom.GongCopyBasicFields(identificationTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if identificationFrom.Encoding != nil {
-		identificationTo.Encoding = CopyBranchEncoding(mapOrigCopy, identificationFrom.Encoding)
+		identificationTo.Encoding = GongCopyBranchEncoding(mapOrigCopy, identificationFrom.Encoding)
 	}
 	if identificationFrom.Miscellaneous != nil {
-		identificationTo.Miscellaneous = CopyBranchMiscellaneous(mapOrigCopy, identificationFrom.Miscellaneous)
+		identificationTo.Miscellaneous = GongCopyBranchMiscellaneous(mapOrigCopy, identificationFrom.Miscellaneous)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _typed_text := range identificationFrom.Creator {
-		identificationTo.Creator = append(identificationTo.Creator, CopyBranchTyped_text(mapOrigCopy, _typed_text))
+		identificationTo.Creator = append(identificationTo.Creator, GongCopyBranchTyped_text(mapOrigCopy, _typed_text))
 	}
 	for _, _typed_text := range identificationFrom.Rights {
-		identificationTo.Rights = append(identificationTo.Rights, CopyBranchTyped_text(mapOrigCopy, _typed_text))
+		identificationTo.Rights = append(identificationTo.Rights, GongCopyBranchTyped_text(mapOrigCopy, _typed_text))
 	}
 	for _, _typed_text := range identificationFrom.Relation {
-		identificationTo.Relation = append(identificationTo.Relation, CopyBranchTyped_text(mapOrigCopy, _typed_text))
+		identificationTo.Relation = append(identificationTo.Relation, GongCopyBranchTyped_text(mapOrigCopy, _typed_text))
 	}
 
 	return
 }
 
-func CopyBranchImage(mapOrigCopy map[any]any, imageFrom *Image) (imageTo *Image) {
+func GongCopyBranchImage(mapOrigCopy map[any]any, imageFrom *Image) (imageTo *Image) {
 
 	// imageFrom has already been copied
 	if _imageTo, ok := mapOrigCopy[imageFrom]; ok {
@@ -11585,7 +10878,7 @@ func CopyBranchImage(mapOrigCopy map[any]any, imageFrom *Image) (imageTo *Image)
 
 	imageTo = new(Image)
 	mapOrigCopy[imageFrom] = imageTo
-	imageFrom.CopyBasicFields(imageTo)
+	imageFrom.GongCopyBasicFields(imageTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11594,7 +10887,7 @@ func CopyBranchImage(mapOrigCopy map[any]any, imageFrom *Image) (imageTo *Image)
 	return
 }
 
-func CopyBranchInstrument(mapOrigCopy map[any]any, instrumentFrom *Instrument) (instrumentTo *Instrument) {
+func GongCopyBranchInstrument(mapOrigCopy map[any]any, instrumentFrom *Instrument) (instrumentTo *Instrument) {
 
 	// instrumentFrom has already been copied
 	if _instrumentTo, ok := mapOrigCopy[instrumentFrom]; ok {
@@ -11604,7 +10897,7 @@ func CopyBranchInstrument(mapOrigCopy map[any]any, instrumentFrom *Instrument) (
 
 	instrumentTo = new(Instrument)
 	mapOrigCopy[instrumentFrom] = instrumentTo
-	instrumentFrom.CopyBasicFields(instrumentTo)
+	instrumentFrom.GongCopyBasicFields(instrumentTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11613,7 +10906,7 @@ func CopyBranchInstrument(mapOrigCopy map[any]any, instrumentFrom *Instrument) (
 	return
 }
 
-func CopyBranchInstrument_change(mapOrigCopy map[any]any, instrument_changeFrom *Instrument_change) (instrument_changeTo *Instrument_change) {
+func GongCopyBranchInstrument_change(mapOrigCopy map[any]any, instrument_changeFrom *Instrument_change) (instrument_changeTo *Instrument_change) {
 
 	// instrument_changeFrom has already been copied
 	if _instrument_changeTo, ok := mapOrigCopy[instrument_changeFrom]; ok {
@@ -11623,11 +10916,11 @@ func CopyBranchInstrument_change(mapOrigCopy map[any]any, instrument_changeFrom 
 
 	instrument_changeTo = new(Instrument_change)
 	mapOrigCopy[instrument_changeFrom] = instrument_changeTo
-	instrument_changeFrom.CopyBasicFields(instrument_changeTo)
+	instrument_changeFrom.GongCopyBasicFields(instrument_changeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if instrument_changeFrom.Virtual_instrument != nil {
-		instrument_changeTo.Virtual_instrument = CopyBranchVirtual_instrument(mapOrigCopy, instrument_changeFrom.Virtual_instrument)
+		instrument_changeTo.Virtual_instrument = GongCopyBranchVirtual_instrument(mapOrigCopy, instrument_changeFrom.Virtual_instrument)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -11635,7 +10928,7 @@ func CopyBranchInstrument_change(mapOrigCopy map[any]any, instrument_changeFrom 
 	return
 }
 
-func CopyBranchInstrument_link(mapOrigCopy map[any]any, instrument_linkFrom *Instrument_link) (instrument_linkTo *Instrument_link) {
+func GongCopyBranchInstrument_link(mapOrigCopy map[any]any, instrument_linkFrom *Instrument_link) (instrument_linkTo *Instrument_link) {
 
 	// instrument_linkFrom has already been copied
 	if _instrument_linkTo, ok := mapOrigCopy[instrument_linkFrom]; ok {
@@ -11645,7 +10938,7 @@ func CopyBranchInstrument_link(mapOrigCopy map[any]any, instrument_linkFrom *Ins
 
 	instrument_linkTo = new(Instrument_link)
 	mapOrigCopy[instrument_linkFrom] = instrument_linkTo
-	instrument_linkFrom.CopyBasicFields(instrument_linkTo)
+	instrument_linkFrom.GongCopyBasicFields(instrument_linkTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11654,7 +10947,7 @@ func CopyBranchInstrument_link(mapOrigCopy map[any]any, instrument_linkFrom *Ins
 	return
 }
 
-func CopyBranchInterchangeable(mapOrigCopy map[any]any, interchangeableFrom *Interchangeable) (interchangeableTo *Interchangeable) {
+func GongCopyBranchInterchangeable(mapOrigCopy map[any]any, interchangeableFrom *Interchangeable) (interchangeableTo *Interchangeable) {
 
 	// interchangeableFrom has already been copied
 	if _interchangeableTo, ok := mapOrigCopy[interchangeableFrom]; ok {
@@ -11664,7 +10957,7 @@ func CopyBranchInterchangeable(mapOrigCopy map[any]any, interchangeableFrom *Int
 
 	interchangeableTo = new(Interchangeable)
 	mapOrigCopy[interchangeableFrom] = interchangeableTo
-	interchangeableFrom.CopyBasicFields(interchangeableTo)
+	interchangeableFrom.GongCopyBasicFields(interchangeableTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11673,7 +10966,7 @@ func CopyBranchInterchangeable(mapOrigCopy map[any]any, interchangeableFrom *Int
 	return
 }
 
-func CopyBranchInversion(mapOrigCopy map[any]any, inversionFrom *Inversion) (inversionTo *Inversion) {
+func GongCopyBranchInversion(mapOrigCopy map[any]any, inversionFrom *Inversion) (inversionTo *Inversion) {
 
 	// inversionFrom has already been copied
 	if _inversionTo, ok := mapOrigCopy[inversionFrom]; ok {
@@ -11683,7 +10976,7 @@ func CopyBranchInversion(mapOrigCopy map[any]any, inversionFrom *Inversion) (inv
 
 	inversionTo = new(Inversion)
 	mapOrigCopy[inversionFrom] = inversionTo
-	inversionFrom.CopyBasicFields(inversionTo)
+	inversionFrom.GongCopyBasicFields(inversionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11692,7 +10985,7 @@ func CopyBranchInversion(mapOrigCopy map[any]any, inversionFrom *Inversion) (inv
 	return
 }
 
-func CopyBranchKey(mapOrigCopy map[any]any, keyFrom *Key) (keyTo *Key) {
+func GongCopyBranchKey(mapOrigCopy map[any]any, keyFrom *Key) (keyTo *Key) {
 
 	// keyFrom has already been copied
 	if _keyTo, ok := mapOrigCopy[keyFrom]; ok {
@@ -11702,25 +10995,25 @@ func CopyBranchKey(mapOrigCopy map[any]any, keyFrom *Key) (keyTo *Key) {
 
 	keyTo = new(Key)
 	mapOrigCopy[keyFrom] = keyTo
-	keyFrom.CopyBasicFields(keyTo)
+	keyFrom.GongCopyBasicFields(keyTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if keyFrom.Cancel != nil {
-		keyTo.Cancel = CopyBranchCancel(mapOrigCopy, keyFrom.Cancel)
+		keyTo.Cancel = GongCopyBranchCancel(mapOrigCopy, keyFrom.Cancel)
 	}
 	if keyFrom.Key_accidental != nil {
-		keyTo.Key_accidental = CopyBranchKey_accidental(mapOrigCopy, keyFrom.Key_accidental)
+		keyTo.Key_accidental = GongCopyBranchKey_accidental(mapOrigCopy, keyFrom.Key_accidental)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _key_octave := range keyFrom.Key_octave {
-		keyTo.Key_octave = append(keyTo.Key_octave, CopyBranchKey_octave(mapOrigCopy, _key_octave))
+		keyTo.Key_octave = append(keyTo.Key_octave, GongCopyBranchKey_octave(mapOrigCopy, _key_octave))
 	}
 
 	return
 }
 
-func CopyBranchKey_accidental(mapOrigCopy map[any]any, key_accidentalFrom *Key_accidental) (key_accidentalTo *Key_accidental) {
+func GongCopyBranchKey_accidental(mapOrigCopy map[any]any, key_accidentalFrom *Key_accidental) (key_accidentalTo *Key_accidental) {
 
 	// key_accidentalFrom has already been copied
 	if _key_accidentalTo, ok := mapOrigCopy[key_accidentalFrom]; ok {
@@ -11730,7 +11023,7 @@ func CopyBranchKey_accidental(mapOrigCopy map[any]any, key_accidentalFrom *Key_a
 
 	key_accidentalTo = new(Key_accidental)
 	mapOrigCopy[key_accidentalFrom] = key_accidentalTo
-	key_accidentalFrom.CopyBasicFields(key_accidentalTo)
+	key_accidentalFrom.GongCopyBasicFields(key_accidentalTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11739,7 +11032,7 @@ func CopyBranchKey_accidental(mapOrigCopy map[any]any, key_accidentalFrom *Key_a
 	return
 }
 
-func CopyBranchKey_octave(mapOrigCopy map[any]any, key_octaveFrom *Key_octave) (key_octaveTo *Key_octave) {
+func GongCopyBranchKey_octave(mapOrigCopy map[any]any, key_octaveFrom *Key_octave) (key_octaveTo *Key_octave) {
 
 	// key_octaveFrom has already been copied
 	if _key_octaveTo, ok := mapOrigCopy[key_octaveFrom]; ok {
@@ -11749,7 +11042,7 @@ func CopyBranchKey_octave(mapOrigCopy map[any]any, key_octaveFrom *Key_octave) (
 
 	key_octaveTo = new(Key_octave)
 	mapOrigCopy[key_octaveFrom] = key_octaveTo
-	key_octaveFrom.CopyBasicFields(key_octaveTo)
+	key_octaveFrom.GongCopyBasicFields(key_octaveTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11758,7 +11051,7 @@ func CopyBranchKey_octave(mapOrigCopy map[any]any, key_octaveFrom *Key_octave) (
 	return
 }
 
-func CopyBranchKind(mapOrigCopy map[any]any, kindFrom *Kind) (kindTo *Kind) {
+func GongCopyBranchKind(mapOrigCopy map[any]any, kindFrom *Kind) (kindTo *Kind) {
 
 	// kindFrom has already been copied
 	if _kindTo, ok := mapOrigCopy[kindFrom]; ok {
@@ -11768,7 +11061,7 @@ func CopyBranchKind(mapOrigCopy map[any]any, kindFrom *Kind) (kindTo *Kind) {
 
 	kindTo = new(Kind)
 	mapOrigCopy[kindFrom] = kindTo
-	kindFrom.CopyBasicFields(kindTo)
+	kindFrom.GongCopyBasicFields(kindTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11777,7 +11070,7 @@ func CopyBranchKind(mapOrigCopy map[any]any, kindFrom *Kind) (kindTo *Kind) {
 	return
 }
 
-func CopyBranchLevel(mapOrigCopy map[any]any, levelFrom *Level) (levelTo *Level) {
+func GongCopyBranchLevel(mapOrigCopy map[any]any, levelFrom *Level) (levelTo *Level) {
 
 	// levelFrom has already been copied
 	if _levelTo, ok := mapOrigCopy[levelFrom]; ok {
@@ -11787,7 +11080,7 @@ func CopyBranchLevel(mapOrigCopy map[any]any, levelFrom *Level) (levelTo *Level)
 
 	levelTo = new(Level)
 	mapOrigCopy[levelFrom] = levelTo
-	levelFrom.CopyBasicFields(levelTo)
+	levelFrom.GongCopyBasicFields(levelTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11796,7 +11089,7 @@ func CopyBranchLevel(mapOrigCopy map[any]any, levelFrom *Level) (levelTo *Level)
 	return
 }
 
-func CopyBranchLine_detail(mapOrigCopy map[any]any, line_detailFrom *Line_detail) (line_detailTo *Line_detail) {
+func GongCopyBranchLine_detail(mapOrigCopy map[any]any, line_detailFrom *Line_detail) (line_detailTo *Line_detail) {
 
 	// line_detailFrom has already been copied
 	if _line_detailTo, ok := mapOrigCopy[line_detailFrom]; ok {
@@ -11806,7 +11099,7 @@ func CopyBranchLine_detail(mapOrigCopy map[any]any, line_detailFrom *Line_detail
 
 	line_detailTo = new(Line_detail)
 	mapOrigCopy[line_detailFrom] = line_detailTo
-	line_detailFrom.CopyBasicFields(line_detailTo)
+	line_detailFrom.GongCopyBasicFields(line_detailTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11815,7 +11108,7 @@ func CopyBranchLine_detail(mapOrigCopy map[any]any, line_detailFrom *Line_detail
 	return
 }
 
-func CopyBranchLine_width(mapOrigCopy map[any]any, line_widthFrom *Line_width) (line_widthTo *Line_width) {
+func GongCopyBranchLine_width(mapOrigCopy map[any]any, line_widthFrom *Line_width) (line_widthTo *Line_width) {
 
 	// line_widthFrom has already been copied
 	if _line_widthTo, ok := mapOrigCopy[line_widthFrom]; ok {
@@ -11825,7 +11118,7 @@ func CopyBranchLine_width(mapOrigCopy map[any]any, line_widthFrom *Line_width) (
 
 	line_widthTo = new(Line_width)
 	mapOrigCopy[line_widthFrom] = line_widthTo
-	line_widthFrom.CopyBasicFields(line_widthTo)
+	line_widthFrom.GongCopyBasicFields(line_widthTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11834,7 +11127,7 @@ func CopyBranchLine_width(mapOrigCopy map[any]any, line_widthFrom *Line_width) (
 	return
 }
 
-func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
+func GongCopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
 
 	// linkFrom has already been copied
 	if _linkTo, ok := mapOrigCopy[linkFrom]; ok {
@@ -11844,7 +11137,7 @@ func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
 
 	linkTo = new(Link)
 	mapOrigCopy[linkFrom] = linkTo
-	linkFrom.CopyBasicFields(linkTo)
+	linkFrom.GongCopyBasicFields(linkTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11853,7 +11146,7 @@ func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
 	return
 }
 
-func CopyBranchListen(mapOrigCopy map[any]any, listenFrom *Listen) (listenTo *Listen) {
+func GongCopyBranchListen(mapOrigCopy map[any]any, listenFrom *Listen) (listenTo *Listen) {
 
 	// listenFrom has already been copied
 	if _listenTo, ok := mapOrigCopy[listenFrom]; ok {
@@ -11863,25 +11156,25 @@ func CopyBranchListen(mapOrigCopy map[any]any, listenFrom *Listen) (listenTo *Li
 
 	listenTo = new(Listen)
 	mapOrigCopy[listenFrom] = listenTo
-	listenFrom.CopyBasicFields(listenTo)
+	listenFrom.GongCopyBasicFields(listenTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assess := range listenFrom.Assess {
-		listenTo.Assess = append(listenTo.Assess, CopyBranchAssess(mapOrigCopy, _assess))
+		listenTo.Assess = append(listenTo.Assess, GongCopyBranchAssess(mapOrigCopy, _assess))
 	}
 	for _, _wait := range listenFrom.Wait {
-		listenTo.Wait = append(listenTo.Wait, CopyBranchWait(mapOrigCopy, _wait))
+		listenTo.Wait = append(listenTo.Wait, GongCopyBranchWait(mapOrigCopy, _wait))
 	}
 	for _, _other_listening := range listenFrom.Other_listen {
-		listenTo.Other_listen = append(listenTo.Other_listen, CopyBranchOther_listening(mapOrigCopy, _other_listening))
+		listenTo.Other_listen = append(listenTo.Other_listen, GongCopyBranchOther_listening(mapOrigCopy, _other_listening))
 	}
 
 	return
 }
 
-func CopyBranchListening(mapOrigCopy map[any]any, listeningFrom *Listening) (listeningTo *Listening) {
+func GongCopyBranchListening(mapOrigCopy map[any]any, listeningFrom *Listening) (listeningTo *Listening) {
 
 	// listeningFrom has already been copied
 	if _listeningTo, ok := mapOrigCopy[listeningFrom]; ok {
@@ -11891,25 +11184,25 @@ func CopyBranchListening(mapOrigCopy map[any]any, listeningFrom *Listening) (lis
 
 	listeningTo = new(Listening)
 	mapOrigCopy[listeningFrom] = listeningTo
-	listeningFrom.CopyBasicFields(listeningTo)
+	listeningFrom.GongCopyBasicFields(listeningTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if listeningFrom.Offset != nil {
-		listeningTo.Offset = CopyBranchOffset(mapOrigCopy, listeningFrom.Offset)
+		listeningTo.Offset = GongCopyBranchOffset(mapOrigCopy, listeningFrom.Offset)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sync := range listeningFrom.Sync {
-		listeningTo.Sync = append(listeningTo.Sync, CopyBranchSync(mapOrigCopy, _sync))
+		listeningTo.Sync = append(listeningTo.Sync, GongCopyBranchSync(mapOrigCopy, _sync))
 	}
 	for _, _other_listening := range listeningFrom.Other_listening {
-		listeningTo.Other_listening = append(listeningTo.Other_listening, CopyBranchOther_listening(mapOrigCopy, _other_listening))
+		listeningTo.Other_listening = append(listeningTo.Other_listening, GongCopyBranchOther_listening(mapOrigCopy, _other_listening))
 	}
 
 	return
 }
 
-func CopyBranchLyric(mapOrigCopy map[any]any, lyricFrom *Lyric) (lyricTo *Lyric) {
+func GongCopyBranchLyric(mapOrigCopy map[any]any, lyricFrom *Lyric) (lyricTo *Lyric) {
 
 	// lyricFrom has already been copied
 	if _lyricTo, ok := mapOrigCopy[lyricFrom]; ok {
@@ -11919,31 +11212,31 @@ func CopyBranchLyric(mapOrigCopy map[any]any, lyricFrom *Lyric) (lyricTo *Lyric)
 
 	lyricTo = new(Lyric)
 	mapOrigCopy[lyricFrom] = lyricTo
-	lyricFrom.CopyBasicFields(lyricTo)
+	lyricFrom.GongCopyBasicFields(lyricTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if lyricFrom.Extend != nil {
-		lyricTo.Extend = CopyBranchExtend(mapOrigCopy, lyricFrom.Extend)
+		lyricTo.Extend = GongCopyBranchExtend(mapOrigCopy, lyricFrom.Extend)
 	}
 	if lyricFrom.Footnote != nil {
-		lyricTo.Footnote = CopyBranchFormatted_text(mapOrigCopy, lyricFrom.Footnote)
+		lyricTo.Footnote = GongCopyBranchFormatted_text(mapOrigCopy, lyricFrom.Footnote)
 	}
 	if lyricFrom.Level != nil {
-		lyricTo.Level = CopyBranchLevel(mapOrigCopy, lyricFrom.Level)
+		lyricTo.Level = GongCopyBranchLevel(mapOrigCopy, lyricFrom.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _elision := range lyricFrom.Elision {
-		lyricTo.Elision = append(lyricTo.Elision, CopyBranchElision(mapOrigCopy, _elision))
+		lyricTo.Elision = append(lyricTo.Elision, GongCopyBranchElision(mapOrigCopy, _elision))
 	}
 	for _, _text_element_data := range lyricFrom.Text {
-		lyricTo.Text = append(lyricTo.Text, CopyBranchText_element_data(mapOrigCopy, _text_element_data))
+		lyricTo.Text = append(lyricTo.Text, GongCopyBranchText_element_data(mapOrigCopy, _text_element_data))
 	}
 
 	return
 }
 
-func CopyBranchLyric_font(mapOrigCopy map[any]any, lyric_fontFrom *Lyric_font) (lyric_fontTo *Lyric_font) {
+func GongCopyBranchLyric_font(mapOrigCopy map[any]any, lyric_fontFrom *Lyric_font) (lyric_fontTo *Lyric_font) {
 
 	// lyric_fontFrom has already been copied
 	if _lyric_fontTo, ok := mapOrigCopy[lyric_fontFrom]; ok {
@@ -11953,7 +11246,7 @@ func CopyBranchLyric_font(mapOrigCopy map[any]any, lyric_fontFrom *Lyric_font) (
 
 	lyric_fontTo = new(Lyric_font)
 	mapOrigCopy[lyric_fontFrom] = lyric_fontTo
-	lyric_fontFrom.CopyBasicFields(lyric_fontTo)
+	lyric_fontFrom.GongCopyBasicFields(lyric_fontTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11962,7 +11255,7 @@ func CopyBranchLyric_font(mapOrigCopy map[any]any, lyric_fontFrom *Lyric_font) (
 	return
 }
 
-func CopyBranchLyric_language(mapOrigCopy map[any]any, lyric_languageFrom *Lyric_language) (lyric_languageTo *Lyric_language) {
+func GongCopyBranchLyric_language(mapOrigCopy map[any]any, lyric_languageFrom *Lyric_language) (lyric_languageTo *Lyric_language) {
 
 	// lyric_languageFrom has already been copied
 	if _lyric_languageTo, ok := mapOrigCopy[lyric_languageFrom]; ok {
@@ -11972,7 +11265,7 @@ func CopyBranchLyric_language(mapOrigCopy map[any]any, lyric_languageFrom *Lyric
 
 	lyric_languageTo = new(Lyric_language)
 	mapOrigCopy[lyric_languageFrom] = lyric_languageTo
-	lyric_languageFrom.CopyBasicFields(lyric_languageTo)
+	lyric_languageFrom.GongCopyBasicFields(lyric_languageTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -11981,7 +11274,7 @@ func CopyBranchLyric_language(mapOrigCopy map[any]any, lyric_languageFrom *Lyric
 	return
 }
 
-func CopyBranchMeasure_layout(mapOrigCopy map[any]any, measure_layoutFrom *Measure_layout) (measure_layoutTo *Measure_layout) {
+func GongCopyBranchMeasure_layout(mapOrigCopy map[any]any, measure_layoutFrom *Measure_layout) (measure_layoutTo *Measure_layout) {
 
 	// measure_layoutFrom has already been copied
 	if _measure_layoutTo, ok := mapOrigCopy[measure_layoutFrom]; ok {
@@ -11991,7 +11284,7 @@ func CopyBranchMeasure_layout(mapOrigCopy map[any]any, measure_layoutFrom *Measu
 
 	measure_layoutTo = new(Measure_layout)
 	mapOrigCopy[measure_layoutFrom] = measure_layoutTo
-	measure_layoutFrom.CopyBasicFields(measure_layoutTo)
+	measure_layoutFrom.GongCopyBasicFields(measure_layoutTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12000,7 +11293,7 @@ func CopyBranchMeasure_layout(mapOrigCopy map[any]any, measure_layoutFrom *Measu
 	return
 }
 
-func CopyBranchMeasure_numbering(mapOrigCopy map[any]any, measure_numberingFrom *Measure_numbering) (measure_numberingTo *Measure_numbering) {
+func GongCopyBranchMeasure_numbering(mapOrigCopy map[any]any, measure_numberingFrom *Measure_numbering) (measure_numberingTo *Measure_numbering) {
 
 	// measure_numberingFrom has already been copied
 	if _measure_numberingTo, ok := mapOrigCopy[measure_numberingFrom]; ok {
@@ -12010,7 +11303,7 @@ func CopyBranchMeasure_numbering(mapOrigCopy map[any]any, measure_numberingFrom 
 
 	measure_numberingTo = new(Measure_numbering)
 	mapOrigCopy[measure_numberingFrom] = measure_numberingTo
-	measure_numberingFrom.CopyBasicFields(measure_numberingTo)
+	measure_numberingFrom.GongCopyBasicFields(measure_numberingTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12019,7 +11312,7 @@ func CopyBranchMeasure_numbering(mapOrigCopy map[any]any, measure_numberingFrom 
 	return
 }
 
-func CopyBranchMeasure_repeat(mapOrigCopy map[any]any, measure_repeatFrom *Measure_repeat) (measure_repeatTo *Measure_repeat) {
+func GongCopyBranchMeasure_repeat(mapOrigCopy map[any]any, measure_repeatFrom *Measure_repeat) (measure_repeatTo *Measure_repeat) {
 
 	// measure_repeatFrom has already been copied
 	if _measure_repeatTo, ok := mapOrigCopy[measure_repeatFrom]; ok {
@@ -12029,7 +11322,7 @@ func CopyBranchMeasure_repeat(mapOrigCopy map[any]any, measure_repeatFrom *Measu
 
 	measure_repeatTo = new(Measure_repeat)
 	mapOrigCopy[measure_repeatFrom] = measure_repeatTo
-	measure_repeatFrom.CopyBasicFields(measure_repeatTo)
+	measure_repeatFrom.GongCopyBasicFields(measure_repeatTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12038,7 +11331,7 @@ func CopyBranchMeasure_repeat(mapOrigCopy map[any]any, measure_repeatFrom *Measu
 	return
 }
 
-func CopyBranchMeasure_style(mapOrigCopy map[any]any, measure_styleFrom *Measure_style) (measure_styleTo *Measure_style) {
+func GongCopyBranchMeasure_style(mapOrigCopy map[any]any, measure_styleFrom *Measure_style) (measure_styleTo *Measure_style) {
 
 	// measure_styleFrom has already been copied
 	if _measure_styleTo, ok := mapOrigCopy[measure_styleFrom]; ok {
@@ -12048,20 +11341,20 @@ func CopyBranchMeasure_style(mapOrigCopy map[any]any, measure_styleFrom *Measure
 
 	measure_styleTo = new(Measure_style)
 	mapOrigCopy[measure_styleFrom] = measure_styleTo
-	measure_styleFrom.CopyBasicFields(measure_styleTo)
+	measure_styleFrom.GongCopyBasicFields(measure_styleTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if measure_styleFrom.Multiple_rest != nil {
-		measure_styleTo.Multiple_rest = CopyBranchMultiple_rest(mapOrigCopy, measure_styleFrom.Multiple_rest)
+		measure_styleTo.Multiple_rest = GongCopyBranchMultiple_rest(mapOrigCopy, measure_styleFrom.Multiple_rest)
 	}
 	if measure_styleFrom.Measure_repeat != nil {
-		measure_styleTo.Measure_repeat = CopyBranchMeasure_repeat(mapOrigCopy, measure_styleFrom.Measure_repeat)
+		measure_styleTo.Measure_repeat = GongCopyBranchMeasure_repeat(mapOrigCopy, measure_styleFrom.Measure_repeat)
 	}
 	if measure_styleFrom.Beat_repeat != nil {
-		measure_styleTo.Beat_repeat = CopyBranchBeat_repeat(mapOrigCopy, measure_styleFrom.Beat_repeat)
+		measure_styleTo.Beat_repeat = GongCopyBranchBeat_repeat(mapOrigCopy, measure_styleFrom.Beat_repeat)
 	}
 	if measure_styleFrom.Slash != nil {
-		measure_styleTo.Slash = CopyBranchSlash(mapOrigCopy, measure_styleFrom.Slash)
+		measure_styleTo.Slash = GongCopyBranchSlash(mapOrigCopy, measure_styleFrom.Slash)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -12069,7 +11362,7 @@ func CopyBranchMeasure_style(mapOrigCopy map[any]any, measure_styleFrom *Measure
 	return
 }
 
-func CopyBranchMembrane(mapOrigCopy map[any]any, membraneFrom *Membrane) (membraneTo *Membrane) {
+func GongCopyBranchMembrane(mapOrigCopy map[any]any, membraneFrom *Membrane) (membraneTo *Membrane) {
 
 	// membraneFrom has already been copied
 	if _membraneTo, ok := mapOrigCopy[membraneFrom]; ok {
@@ -12079,7 +11372,7 @@ func CopyBranchMembrane(mapOrigCopy map[any]any, membraneFrom *Membrane) (membra
 
 	membraneTo = new(Membrane)
 	mapOrigCopy[membraneFrom] = membraneTo
-	membraneFrom.CopyBasicFields(membraneTo)
+	membraneFrom.GongCopyBasicFields(membraneTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12088,7 +11381,7 @@ func CopyBranchMembrane(mapOrigCopy map[any]any, membraneFrom *Membrane) (membra
 	return
 }
 
-func CopyBranchMetal(mapOrigCopy map[any]any, metalFrom *Metal) (metalTo *Metal) {
+func GongCopyBranchMetal(mapOrigCopy map[any]any, metalFrom *Metal) (metalTo *Metal) {
 
 	// metalFrom has already been copied
 	if _metalTo, ok := mapOrigCopy[metalFrom]; ok {
@@ -12098,7 +11391,7 @@ func CopyBranchMetal(mapOrigCopy map[any]any, metalFrom *Metal) (metalTo *Metal)
 
 	metalTo = new(Metal)
 	mapOrigCopy[metalFrom] = metalTo
-	metalFrom.CopyBasicFields(metalTo)
+	metalFrom.GongCopyBasicFields(metalTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12107,7 +11400,7 @@ func CopyBranchMetal(mapOrigCopy map[any]any, metalFrom *Metal) (metalTo *Metal)
 	return
 }
 
-func CopyBranchMetronome(mapOrigCopy map[any]any, metronomeFrom *Metronome) (metronomeTo *Metronome) {
+func GongCopyBranchMetronome(mapOrigCopy map[any]any, metronomeFrom *Metronome) (metronomeTo *Metronome) {
 
 	// metronomeFrom has already been copied
 	if _metronomeTo, ok := mapOrigCopy[metronomeFrom]; ok {
@@ -12117,25 +11410,25 @@ func CopyBranchMetronome(mapOrigCopy map[any]any, metronomeFrom *Metronome) (met
 
 	metronomeTo = new(Metronome)
 	mapOrigCopy[metronomeFrom] = metronomeTo
-	metronomeFrom.CopyBasicFields(metronomeTo)
+	metronomeFrom.GongCopyBasicFields(metronomeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if metronomeFrom.Per_minute != nil {
-		metronomeTo.Per_minute = CopyBranchPer_minute(mapOrigCopy, metronomeFrom.Per_minute)
+		metronomeTo.Per_minute = GongCopyBranchPer_minute(mapOrigCopy, metronomeFrom.Per_minute)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _beat_unit_tied := range metronomeFrom.Beat_unit_tied {
-		metronomeTo.Beat_unit_tied = append(metronomeTo.Beat_unit_tied, CopyBranchBeat_unit_tied(mapOrigCopy, _beat_unit_tied))
+		metronomeTo.Beat_unit_tied = append(metronomeTo.Beat_unit_tied, GongCopyBranchBeat_unit_tied(mapOrigCopy, _beat_unit_tied))
 	}
 	for _, _metronome_note := range metronomeFrom.Metronome_note {
-		metronomeTo.Metronome_note = append(metronomeTo.Metronome_note, CopyBranchMetronome_note(mapOrigCopy, _metronome_note))
+		metronomeTo.Metronome_note = append(metronomeTo.Metronome_note, GongCopyBranchMetronome_note(mapOrigCopy, _metronome_note))
 	}
 
 	return
 }
 
-func CopyBranchMetronome_beam(mapOrigCopy map[any]any, metronome_beamFrom *Metronome_beam) (metronome_beamTo *Metronome_beam) {
+func GongCopyBranchMetronome_beam(mapOrigCopy map[any]any, metronome_beamFrom *Metronome_beam) (metronome_beamTo *Metronome_beam) {
 
 	// metronome_beamFrom has already been copied
 	if _metronome_beamTo, ok := mapOrigCopy[metronome_beamFrom]; ok {
@@ -12145,7 +11438,7 @@ func CopyBranchMetronome_beam(mapOrigCopy map[any]any, metronome_beamFrom *Metro
 
 	metronome_beamTo = new(Metronome_beam)
 	mapOrigCopy[metronome_beamFrom] = metronome_beamTo
-	metronome_beamFrom.CopyBasicFields(metronome_beamTo)
+	metronome_beamFrom.GongCopyBasicFields(metronome_beamTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12154,7 +11447,7 @@ func CopyBranchMetronome_beam(mapOrigCopy map[any]any, metronome_beamFrom *Metro
 	return
 }
 
-func CopyBranchMetronome_note(mapOrigCopy map[any]any, metronome_noteFrom *Metronome_note) (metronome_noteTo *Metronome_note) {
+func GongCopyBranchMetronome_note(mapOrigCopy map[any]any, metronome_noteFrom *Metronome_note) (metronome_noteTo *Metronome_note) {
 
 	// metronome_noteFrom has already been copied
 	if _metronome_noteTo, ok := mapOrigCopy[metronome_noteFrom]; ok {
@@ -12164,25 +11457,25 @@ func CopyBranchMetronome_note(mapOrigCopy map[any]any, metronome_noteFrom *Metro
 
 	metronome_noteTo = new(Metronome_note)
 	mapOrigCopy[metronome_noteFrom] = metronome_noteTo
-	metronome_noteFrom.CopyBasicFields(metronome_noteTo)
+	metronome_noteFrom.GongCopyBasicFields(metronome_noteTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if metronome_noteFrom.Metronome_tied != nil {
-		metronome_noteTo.Metronome_tied = CopyBranchMetronome_tied(mapOrigCopy, metronome_noteFrom.Metronome_tied)
+		metronome_noteTo.Metronome_tied = GongCopyBranchMetronome_tied(mapOrigCopy, metronome_noteFrom.Metronome_tied)
 	}
 	if metronome_noteFrom.Metronome_tuplet != nil {
-		metronome_noteTo.Metronome_tuplet = CopyBranchMetronome_tuplet(mapOrigCopy, metronome_noteFrom.Metronome_tuplet)
+		metronome_noteTo.Metronome_tuplet = GongCopyBranchMetronome_tuplet(mapOrigCopy, metronome_noteFrom.Metronome_tuplet)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _metronome_beam := range metronome_noteFrom.Metronome_beam {
-		metronome_noteTo.Metronome_beam = append(metronome_noteTo.Metronome_beam, CopyBranchMetronome_beam(mapOrigCopy, _metronome_beam))
+		metronome_noteTo.Metronome_beam = append(metronome_noteTo.Metronome_beam, GongCopyBranchMetronome_beam(mapOrigCopy, _metronome_beam))
 	}
 
 	return
 }
 
-func CopyBranchMetronome_tied(mapOrigCopy map[any]any, metronome_tiedFrom *Metronome_tied) (metronome_tiedTo *Metronome_tied) {
+func GongCopyBranchMetronome_tied(mapOrigCopy map[any]any, metronome_tiedFrom *Metronome_tied) (metronome_tiedTo *Metronome_tied) {
 
 	// metronome_tiedFrom has already been copied
 	if _metronome_tiedTo, ok := mapOrigCopy[metronome_tiedFrom]; ok {
@@ -12192,7 +11485,7 @@ func CopyBranchMetronome_tied(mapOrigCopy map[any]any, metronome_tiedFrom *Metro
 
 	metronome_tiedTo = new(Metronome_tied)
 	mapOrigCopy[metronome_tiedFrom] = metronome_tiedTo
-	metronome_tiedFrom.CopyBasicFields(metronome_tiedTo)
+	metronome_tiedFrom.GongCopyBasicFields(metronome_tiedTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12201,7 +11494,7 @@ func CopyBranchMetronome_tied(mapOrigCopy map[any]any, metronome_tiedFrom *Metro
 	return
 }
 
-func CopyBranchMetronome_tuplet(mapOrigCopy map[any]any, metronome_tupletFrom *Metronome_tuplet) (metronome_tupletTo *Metronome_tuplet) {
+func GongCopyBranchMetronome_tuplet(mapOrigCopy map[any]any, metronome_tupletFrom *Metronome_tuplet) (metronome_tupletTo *Metronome_tuplet) {
 
 	// metronome_tupletFrom has already been copied
 	if _metronome_tupletTo, ok := mapOrigCopy[metronome_tupletFrom]; ok {
@@ -12211,7 +11504,7 @@ func CopyBranchMetronome_tuplet(mapOrigCopy map[any]any, metronome_tupletFrom *M
 
 	metronome_tupletTo = new(Metronome_tuplet)
 	mapOrigCopy[metronome_tupletFrom] = metronome_tupletTo
-	metronome_tupletFrom.CopyBasicFields(metronome_tupletTo)
+	metronome_tupletFrom.GongCopyBasicFields(metronome_tupletTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12220,7 +11513,7 @@ func CopyBranchMetronome_tuplet(mapOrigCopy map[any]any, metronome_tupletFrom *M
 	return
 }
 
-func CopyBranchMidi_device(mapOrigCopy map[any]any, midi_deviceFrom *Midi_device) (midi_deviceTo *Midi_device) {
+func GongCopyBranchMidi_device(mapOrigCopy map[any]any, midi_deviceFrom *Midi_device) (midi_deviceTo *Midi_device) {
 
 	// midi_deviceFrom has already been copied
 	if _midi_deviceTo, ok := mapOrigCopy[midi_deviceFrom]; ok {
@@ -12230,7 +11523,7 @@ func CopyBranchMidi_device(mapOrigCopy map[any]any, midi_deviceFrom *Midi_device
 
 	midi_deviceTo = new(Midi_device)
 	mapOrigCopy[midi_deviceFrom] = midi_deviceTo
-	midi_deviceFrom.CopyBasicFields(midi_deviceTo)
+	midi_deviceFrom.GongCopyBasicFields(midi_deviceTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12239,7 +11532,7 @@ func CopyBranchMidi_device(mapOrigCopy map[any]any, midi_deviceFrom *Midi_device
 	return
 }
 
-func CopyBranchMidi_instrument(mapOrigCopy map[any]any, midi_instrumentFrom *Midi_instrument) (midi_instrumentTo *Midi_instrument) {
+func GongCopyBranchMidi_instrument(mapOrigCopy map[any]any, midi_instrumentFrom *Midi_instrument) (midi_instrumentTo *Midi_instrument) {
 
 	// midi_instrumentFrom has already been copied
 	if _midi_instrumentTo, ok := mapOrigCopy[midi_instrumentFrom]; ok {
@@ -12249,7 +11542,7 @@ func CopyBranchMidi_instrument(mapOrigCopy map[any]any, midi_instrumentFrom *Mid
 
 	midi_instrumentTo = new(Midi_instrument)
 	mapOrigCopy[midi_instrumentFrom] = midi_instrumentTo
-	midi_instrumentFrom.CopyBasicFields(midi_instrumentTo)
+	midi_instrumentFrom.GongCopyBasicFields(midi_instrumentTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12258,7 +11551,7 @@ func CopyBranchMidi_instrument(mapOrigCopy map[any]any, midi_instrumentFrom *Mid
 	return
 }
 
-func CopyBranchMiscellaneous(mapOrigCopy map[any]any, miscellaneousFrom *Miscellaneous) (miscellaneousTo *Miscellaneous) {
+func GongCopyBranchMiscellaneous(mapOrigCopy map[any]any, miscellaneousFrom *Miscellaneous) (miscellaneousTo *Miscellaneous) {
 
 	// miscellaneousFrom has already been copied
 	if _miscellaneousTo, ok := mapOrigCopy[miscellaneousFrom]; ok {
@@ -12268,19 +11561,19 @@ func CopyBranchMiscellaneous(mapOrigCopy map[any]any, miscellaneousFrom *Miscell
 
 	miscellaneousTo = new(Miscellaneous)
 	mapOrigCopy[miscellaneousFrom] = miscellaneousTo
-	miscellaneousFrom.CopyBasicFields(miscellaneousTo)
+	miscellaneousFrom.GongCopyBasicFields(miscellaneousTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _miscellaneous_field := range miscellaneousFrom.Miscellaneous_field {
-		miscellaneousTo.Miscellaneous_field = append(miscellaneousTo.Miscellaneous_field, CopyBranchMiscellaneous_field(mapOrigCopy, _miscellaneous_field))
+		miscellaneousTo.Miscellaneous_field = append(miscellaneousTo.Miscellaneous_field, GongCopyBranchMiscellaneous_field(mapOrigCopy, _miscellaneous_field))
 	}
 
 	return
 }
 
-func CopyBranchMiscellaneous_field(mapOrigCopy map[any]any, miscellaneous_fieldFrom *Miscellaneous_field) (miscellaneous_fieldTo *Miscellaneous_field) {
+func GongCopyBranchMiscellaneous_field(mapOrigCopy map[any]any, miscellaneous_fieldFrom *Miscellaneous_field) (miscellaneous_fieldTo *Miscellaneous_field) {
 
 	// miscellaneous_fieldFrom has already been copied
 	if _miscellaneous_fieldTo, ok := mapOrigCopy[miscellaneous_fieldFrom]; ok {
@@ -12290,7 +11583,7 @@ func CopyBranchMiscellaneous_field(mapOrigCopy map[any]any, miscellaneous_fieldF
 
 	miscellaneous_fieldTo = new(Miscellaneous_field)
 	mapOrigCopy[miscellaneous_fieldFrom] = miscellaneous_fieldTo
-	miscellaneous_fieldFrom.CopyBasicFields(miscellaneous_fieldTo)
+	miscellaneous_fieldFrom.GongCopyBasicFields(miscellaneous_fieldTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12299,7 +11592,7 @@ func CopyBranchMiscellaneous_field(mapOrigCopy map[any]any, miscellaneous_fieldF
 	return
 }
 
-func CopyBranchMordent(mapOrigCopy map[any]any, mordentFrom *Mordent) (mordentTo *Mordent) {
+func GongCopyBranchMordent(mapOrigCopy map[any]any, mordentFrom *Mordent) (mordentTo *Mordent) {
 
 	// mordentFrom has already been copied
 	if _mordentTo, ok := mapOrigCopy[mordentFrom]; ok {
@@ -12309,7 +11602,7 @@ func CopyBranchMordent(mapOrigCopy map[any]any, mordentFrom *Mordent) (mordentTo
 
 	mordentTo = new(Mordent)
 	mapOrigCopy[mordentFrom] = mordentTo
-	mordentFrom.CopyBasicFields(mordentTo)
+	mordentFrom.GongCopyBasicFields(mordentTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12318,7 +11611,7 @@ func CopyBranchMordent(mapOrigCopy map[any]any, mordentFrom *Mordent) (mordentTo
 	return
 }
 
-func CopyBranchMultiple_rest(mapOrigCopy map[any]any, multiple_restFrom *Multiple_rest) (multiple_restTo *Multiple_rest) {
+func GongCopyBranchMultiple_rest(mapOrigCopy map[any]any, multiple_restFrom *Multiple_rest) (multiple_restTo *Multiple_rest) {
 
 	// multiple_restFrom has already been copied
 	if _multiple_restTo, ok := mapOrigCopy[multiple_restFrom]; ok {
@@ -12328,7 +11621,7 @@ func CopyBranchMultiple_rest(mapOrigCopy map[any]any, multiple_restFrom *Multipl
 
 	multiple_restTo = new(Multiple_rest)
 	mapOrigCopy[multiple_restFrom] = multiple_restTo
-	multiple_restFrom.CopyBasicFields(multiple_restTo)
+	multiple_restFrom.GongCopyBasicFields(multiple_restTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12337,7 +11630,7 @@ func CopyBranchMultiple_rest(mapOrigCopy map[any]any, multiple_restFrom *Multipl
 	return
 }
 
-func CopyBranchName_display(mapOrigCopy map[any]any, name_displayFrom *Name_display) (name_displayTo *Name_display) {
+func GongCopyBranchName_display(mapOrigCopy map[any]any, name_displayFrom *Name_display) (name_displayTo *Name_display) {
 
 	// name_displayFrom has already been copied
 	if _name_displayTo, ok := mapOrigCopy[name_displayFrom]; ok {
@@ -12347,22 +11640,22 @@ func CopyBranchName_display(mapOrigCopy map[any]any, name_displayFrom *Name_disp
 
 	name_displayTo = new(Name_display)
 	mapOrigCopy[name_displayFrom] = name_displayTo
-	name_displayFrom.CopyBasicFields(name_displayTo)
+	name_displayFrom.GongCopyBasicFields(name_displayTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formatted_text := range name_displayFrom.Display_text {
-		name_displayTo.Display_text = append(name_displayTo.Display_text, CopyBranchFormatted_text(mapOrigCopy, _formatted_text))
+		name_displayTo.Display_text = append(name_displayTo.Display_text, GongCopyBranchFormatted_text(mapOrigCopy, _formatted_text))
 	}
 	for _, _accidental_text := range name_displayFrom.Accidental_text {
-		name_displayTo.Accidental_text = append(name_displayTo.Accidental_text, CopyBranchAccidental_text(mapOrigCopy, _accidental_text))
+		name_displayTo.Accidental_text = append(name_displayTo.Accidental_text, GongCopyBranchAccidental_text(mapOrigCopy, _accidental_text))
 	}
 
 	return
 }
 
-func CopyBranchNon_arpeggiate(mapOrigCopy map[any]any, non_arpeggiateFrom *Non_arpeggiate) (non_arpeggiateTo *Non_arpeggiate) {
+func GongCopyBranchNon_arpeggiate(mapOrigCopy map[any]any, non_arpeggiateFrom *Non_arpeggiate) (non_arpeggiateTo *Non_arpeggiate) {
 
 	// non_arpeggiateFrom has already been copied
 	if _non_arpeggiateTo, ok := mapOrigCopy[non_arpeggiateFrom]; ok {
@@ -12372,7 +11665,7 @@ func CopyBranchNon_arpeggiate(mapOrigCopy map[any]any, non_arpeggiateFrom *Non_a
 
 	non_arpeggiateTo = new(Non_arpeggiate)
 	mapOrigCopy[non_arpeggiateFrom] = non_arpeggiateTo
-	non_arpeggiateFrom.CopyBasicFields(non_arpeggiateTo)
+	non_arpeggiateFrom.GongCopyBasicFields(non_arpeggiateTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12381,7 +11674,7 @@ func CopyBranchNon_arpeggiate(mapOrigCopy map[any]any, non_arpeggiateFrom *Non_a
 	return
 }
 
-func CopyBranchNotations(mapOrigCopy map[any]any, notationsFrom *Notations) (notationsTo *Notations) {
+func GongCopyBranchNotations(mapOrigCopy map[any]any, notationsFrom *Notations) (notationsTo *Notations) {
 
 	// notationsFrom has already been copied
 	if _notationsTo, ok := mapOrigCopy[notationsFrom]; ok {
@@ -12391,64 +11684,64 @@ func CopyBranchNotations(mapOrigCopy map[any]any, notationsFrom *Notations) (not
 
 	notationsTo = new(Notations)
 	mapOrigCopy[notationsFrom] = notationsTo
-	notationsFrom.CopyBasicFields(notationsTo)
+	notationsFrom.GongCopyBasicFields(notationsTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if notationsFrom.Footnote != nil {
-		notationsTo.Footnote = CopyBranchFormatted_text(mapOrigCopy, notationsFrom.Footnote)
+		notationsTo.Footnote = GongCopyBranchFormatted_text(mapOrigCopy, notationsFrom.Footnote)
 	}
 	if notationsFrom.Level != nil {
-		notationsTo.Level = CopyBranchLevel(mapOrigCopy, notationsFrom.Level)
+		notationsTo.Level = GongCopyBranchLevel(mapOrigCopy, notationsFrom.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tied := range notationsFrom.Tied {
-		notationsTo.Tied = append(notationsTo.Tied, CopyBranchTied(mapOrigCopy, _tied))
+		notationsTo.Tied = append(notationsTo.Tied, GongCopyBranchTied(mapOrigCopy, _tied))
 	}
 	for _, _slur := range notationsFrom.Slur {
-		notationsTo.Slur = append(notationsTo.Slur, CopyBranchSlur(mapOrigCopy, _slur))
+		notationsTo.Slur = append(notationsTo.Slur, GongCopyBranchSlur(mapOrigCopy, _slur))
 	}
 	for _, _tuplet := range notationsFrom.Tuplet {
-		notationsTo.Tuplet = append(notationsTo.Tuplet, CopyBranchTuplet(mapOrigCopy, _tuplet))
+		notationsTo.Tuplet = append(notationsTo.Tuplet, GongCopyBranchTuplet(mapOrigCopy, _tuplet))
 	}
 	for _, _glissando := range notationsFrom.Glissando {
-		notationsTo.Glissando = append(notationsTo.Glissando, CopyBranchGlissando(mapOrigCopy, _glissando))
+		notationsTo.Glissando = append(notationsTo.Glissando, GongCopyBranchGlissando(mapOrigCopy, _glissando))
 	}
 	for _, _slide := range notationsFrom.Slide {
-		notationsTo.Slide = append(notationsTo.Slide, CopyBranchSlide(mapOrigCopy, _slide))
+		notationsTo.Slide = append(notationsTo.Slide, GongCopyBranchSlide(mapOrigCopy, _slide))
 	}
 	for _, _ornaments := range notationsFrom.Ornaments {
-		notationsTo.Ornaments = append(notationsTo.Ornaments, CopyBranchOrnaments(mapOrigCopy, _ornaments))
+		notationsTo.Ornaments = append(notationsTo.Ornaments, GongCopyBranchOrnaments(mapOrigCopy, _ornaments))
 	}
 	for _, _technical := range notationsFrom.Technical {
-		notationsTo.Technical = append(notationsTo.Technical, CopyBranchTechnical(mapOrigCopy, _technical))
+		notationsTo.Technical = append(notationsTo.Technical, GongCopyBranchTechnical(mapOrigCopy, _technical))
 	}
 	for _, _articulations := range notationsFrom.Articulations {
-		notationsTo.Articulations = append(notationsTo.Articulations, CopyBranchArticulations(mapOrigCopy, _articulations))
+		notationsTo.Articulations = append(notationsTo.Articulations, GongCopyBranchArticulations(mapOrigCopy, _articulations))
 	}
 	for _, _dynamics := range notationsFrom.Dynamics {
-		notationsTo.Dynamics = append(notationsTo.Dynamics, CopyBranchDynamics(mapOrigCopy, _dynamics))
+		notationsTo.Dynamics = append(notationsTo.Dynamics, GongCopyBranchDynamics(mapOrigCopy, _dynamics))
 	}
 	for _, _fermata := range notationsFrom.Fermata {
-		notationsTo.Fermata = append(notationsTo.Fermata, CopyBranchFermata(mapOrigCopy, _fermata))
+		notationsTo.Fermata = append(notationsTo.Fermata, GongCopyBranchFermata(mapOrigCopy, _fermata))
 	}
 	for _, _arpeggiate := range notationsFrom.Arpeggiate {
-		notationsTo.Arpeggiate = append(notationsTo.Arpeggiate, CopyBranchArpeggiate(mapOrigCopy, _arpeggiate))
+		notationsTo.Arpeggiate = append(notationsTo.Arpeggiate, GongCopyBranchArpeggiate(mapOrigCopy, _arpeggiate))
 	}
 	for _, _non_arpeggiate := range notationsFrom.Non_arpeggiate {
-		notationsTo.Non_arpeggiate = append(notationsTo.Non_arpeggiate, CopyBranchNon_arpeggiate(mapOrigCopy, _non_arpeggiate))
+		notationsTo.Non_arpeggiate = append(notationsTo.Non_arpeggiate, GongCopyBranchNon_arpeggiate(mapOrigCopy, _non_arpeggiate))
 	}
 	for _, _accidental_mark := range notationsFrom.Accidental_mark {
-		notationsTo.Accidental_mark = append(notationsTo.Accidental_mark, CopyBranchAccidental_mark(mapOrigCopy, _accidental_mark))
+		notationsTo.Accidental_mark = append(notationsTo.Accidental_mark, GongCopyBranchAccidental_mark(mapOrigCopy, _accidental_mark))
 	}
 	for _, _other_notation := range notationsFrom.Other_notation {
-		notationsTo.Other_notation = append(notationsTo.Other_notation, CopyBranchOther_notation(mapOrigCopy, _other_notation))
+		notationsTo.Other_notation = append(notationsTo.Other_notation, GongCopyBranchOther_notation(mapOrigCopy, _other_notation))
 	}
 
 	return
 }
 
-func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
+func GongCopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 
 	// noteFrom has already been copied
 	if _noteTo, ok := mapOrigCopy[noteFrom]; ok {
@@ -12458,76 +11751,76 @@ func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 
 	noteTo = new(Note)
 	mapOrigCopy[noteFrom] = noteTo
-	noteFrom.CopyBasicFields(noteTo)
+	noteFrom.GongCopyBasicFields(noteTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteFrom.Grace != nil {
-		noteTo.Grace = CopyBranchGrace(mapOrigCopy, noteFrom.Grace)
+		noteTo.Grace = GongCopyBranchGrace(mapOrigCopy, noteFrom.Grace)
 	}
 	if noteFrom.Pitch != nil {
-		noteTo.Pitch = CopyBranchPitch(mapOrigCopy, noteFrom.Pitch)
+		noteTo.Pitch = GongCopyBranchPitch(mapOrigCopy, noteFrom.Pitch)
 	}
 	if noteFrom.Unpitched != nil {
-		noteTo.Unpitched = CopyBranchUnpitched(mapOrigCopy, noteFrom.Unpitched)
+		noteTo.Unpitched = GongCopyBranchUnpitched(mapOrigCopy, noteFrom.Unpitched)
 	}
 	if noteFrom.Rest != nil {
-		noteTo.Rest = CopyBranchRest(mapOrigCopy, noteFrom.Rest)
+		noteTo.Rest = GongCopyBranchRest(mapOrigCopy, noteFrom.Rest)
 	}
 	if noteFrom.Tie != nil {
-		noteTo.Tie = CopyBranchTie(mapOrigCopy, noteFrom.Tie)
+		noteTo.Tie = GongCopyBranchTie(mapOrigCopy, noteFrom.Tie)
 	}
 	if noteFrom.Footnote != nil {
-		noteTo.Footnote = CopyBranchFormatted_text(mapOrigCopy, noteFrom.Footnote)
+		noteTo.Footnote = GongCopyBranchFormatted_text(mapOrigCopy, noteFrom.Footnote)
 	}
 	if noteFrom.Level != nil {
-		noteTo.Level = CopyBranchLevel(mapOrigCopy, noteFrom.Level)
+		noteTo.Level = GongCopyBranchLevel(mapOrigCopy, noteFrom.Level)
 	}
 	if noteFrom.Type != nil {
-		noteTo.Type = CopyBranchNote_type(mapOrigCopy, noteFrom.Type)
+		noteTo.Type = GongCopyBranchNote_type(mapOrigCopy, noteFrom.Type)
 	}
 	if noteFrom.Accidental != nil {
-		noteTo.Accidental = CopyBranchAccidental(mapOrigCopy, noteFrom.Accidental)
+		noteTo.Accidental = GongCopyBranchAccidental(mapOrigCopy, noteFrom.Accidental)
 	}
 	if noteFrom.Time_modification != nil {
-		noteTo.Time_modification = CopyBranchTime_modification(mapOrigCopy, noteFrom.Time_modification)
+		noteTo.Time_modification = GongCopyBranchTime_modification(mapOrigCopy, noteFrom.Time_modification)
 	}
 	if noteFrom.Stem != nil {
-		noteTo.Stem = CopyBranchStem(mapOrigCopy, noteFrom.Stem)
+		noteTo.Stem = GongCopyBranchStem(mapOrigCopy, noteFrom.Stem)
 	}
 	if noteFrom.Notehead != nil {
-		noteTo.Notehead = CopyBranchNotehead(mapOrigCopy, noteFrom.Notehead)
+		noteTo.Notehead = GongCopyBranchNotehead(mapOrigCopy, noteFrom.Notehead)
 	}
 	if noteFrom.Notehead_text != nil {
-		noteTo.Notehead_text = CopyBranchNotehead_text(mapOrigCopy, noteFrom.Notehead_text)
+		noteTo.Notehead_text = GongCopyBranchNotehead_text(mapOrigCopy, noteFrom.Notehead_text)
 	}
 	if noteFrom.Beam != nil {
-		noteTo.Beam = CopyBranchBeam(mapOrigCopy, noteFrom.Beam)
+		noteTo.Beam = GongCopyBranchBeam(mapOrigCopy, noteFrom.Beam)
 	}
 	if noteFrom.Play != nil {
-		noteTo.Play = CopyBranchPlay(mapOrigCopy, noteFrom.Play)
+		noteTo.Play = GongCopyBranchPlay(mapOrigCopy, noteFrom.Play)
 	}
 	if noteFrom.Listen != nil {
-		noteTo.Listen = CopyBranchListen(mapOrigCopy, noteFrom.Listen)
+		noteTo.Listen = GongCopyBranchListen(mapOrigCopy, noteFrom.Listen)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _instrument := range noteFrom.Instrument {
-		noteTo.Instrument = append(noteTo.Instrument, CopyBranchInstrument(mapOrigCopy, _instrument))
+		noteTo.Instrument = append(noteTo.Instrument, GongCopyBranchInstrument(mapOrigCopy, _instrument))
 	}
 	for _, _empty_placement := range noteFrom.Dot {
-		noteTo.Dot = append(noteTo.Dot, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		noteTo.Dot = append(noteTo.Dot, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _notations := range noteFrom.Notations {
-		noteTo.Notations = append(noteTo.Notations, CopyBranchNotations(mapOrigCopy, _notations))
+		noteTo.Notations = append(noteTo.Notations, GongCopyBranchNotations(mapOrigCopy, _notations))
 	}
 	for _, _lyric := range noteFrom.Lyric {
-		noteTo.Lyric = append(noteTo.Lyric, CopyBranchLyric(mapOrigCopy, _lyric))
+		noteTo.Lyric = append(noteTo.Lyric, GongCopyBranchLyric(mapOrigCopy, _lyric))
 	}
 
 	return
 }
 
-func CopyBranchNote_size(mapOrigCopy map[any]any, note_sizeFrom *Note_size) (note_sizeTo *Note_size) {
+func GongCopyBranchNote_size(mapOrigCopy map[any]any, note_sizeFrom *Note_size) (note_sizeTo *Note_size) {
 
 	// note_sizeFrom has already been copied
 	if _note_sizeTo, ok := mapOrigCopy[note_sizeFrom]; ok {
@@ -12537,7 +11830,7 @@ func CopyBranchNote_size(mapOrigCopy map[any]any, note_sizeFrom *Note_size) (not
 
 	note_sizeTo = new(Note_size)
 	mapOrigCopy[note_sizeFrom] = note_sizeTo
-	note_sizeFrom.CopyBasicFields(note_sizeTo)
+	note_sizeFrom.GongCopyBasicFields(note_sizeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12546,7 +11839,7 @@ func CopyBranchNote_size(mapOrigCopy map[any]any, note_sizeFrom *Note_size) (not
 	return
 }
 
-func CopyBranchNote_type(mapOrigCopy map[any]any, note_typeFrom *Note_type) (note_typeTo *Note_type) {
+func GongCopyBranchNote_type(mapOrigCopy map[any]any, note_typeFrom *Note_type) (note_typeTo *Note_type) {
 
 	// note_typeFrom has already been copied
 	if _note_typeTo, ok := mapOrigCopy[note_typeFrom]; ok {
@@ -12556,7 +11849,7 @@ func CopyBranchNote_type(mapOrigCopy map[any]any, note_typeFrom *Note_type) (not
 
 	note_typeTo = new(Note_type)
 	mapOrigCopy[note_typeFrom] = note_typeTo
-	note_typeFrom.CopyBasicFields(note_typeTo)
+	note_typeFrom.GongCopyBasicFields(note_typeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12565,7 +11858,7 @@ func CopyBranchNote_type(mapOrigCopy map[any]any, note_typeFrom *Note_type) (not
 	return
 }
 
-func CopyBranchNotehead(mapOrigCopy map[any]any, noteheadFrom *Notehead) (noteheadTo *Notehead) {
+func GongCopyBranchNotehead(mapOrigCopy map[any]any, noteheadFrom *Notehead) (noteheadTo *Notehead) {
 
 	// noteheadFrom has already been copied
 	if _noteheadTo, ok := mapOrigCopy[noteheadFrom]; ok {
@@ -12575,7 +11868,7 @@ func CopyBranchNotehead(mapOrigCopy map[any]any, noteheadFrom *Notehead) (notehe
 
 	noteheadTo = new(Notehead)
 	mapOrigCopy[noteheadFrom] = noteheadTo
-	noteheadFrom.CopyBasicFields(noteheadTo)
+	noteheadFrom.GongCopyBasicFields(noteheadTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12584,7 +11877,7 @@ func CopyBranchNotehead(mapOrigCopy map[any]any, noteheadFrom *Notehead) (notehe
 	return
 }
 
-func CopyBranchNotehead_text(mapOrigCopy map[any]any, notehead_textFrom *Notehead_text) (notehead_textTo *Notehead_text) {
+func GongCopyBranchNotehead_text(mapOrigCopy map[any]any, notehead_textFrom *Notehead_text) (notehead_textTo *Notehead_text) {
 
 	// notehead_textFrom has already been copied
 	if _notehead_textTo, ok := mapOrigCopy[notehead_textFrom]; ok {
@@ -12594,22 +11887,22 @@ func CopyBranchNotehead_text(mapOrigCopy map[any]any, notehead_textFrom *Notehea
 
 	notehead_textTo = new(Notehead_text)
 	mapOrigCopy[notehead_textFrom] = notehead_textTo
-	notehead_textFrom.CopyBasicFields(notehead_textTo)
+	notehead_textFrom.GongCopyBasicFields(notehead_textTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formatted_text := range notehead_textFrom.Display_text {
-		notehead_textTo.Display_text = append(notehead_textTo.Display_text, CopyBranchFormatted_text(mapOrigCopy, _formatted_text))
+		notehead_textTo.Display_text = append(notehead_textTo.Display_text, GongCopyBranchFormatted_text(mapOrigCopy, _formatted_text))
 	}
 	for _, _accidental_text := range notehead_textFrom.Accidental_text {
-		notehead_textTo.Accidental_text = append(notehead_textTo.Accidental_text, CopyBranchAccidental_text(mapOrigCopy, _accidental_text))
+		notehead_textTo.Accidental_text = append(notehead_textTo.Accidental_text, GongCopyBranchAccidental_text(mapOrigCopy, _accidental_text))
 	}
 
 	return
 }
 
-func CopyBranchNumeral(mapOrigCopy map[any]any, numeralFrom *Numeral) (numeralTo *Numeral) {
+func GongCopyBranchNumeral(mapOrigCopy map[any]any, numeralFrom *Numeral) (numeralTo *Numeral) {
 
 	// numeralFrom has already been copied
 	if _numeralTo, ok := mapOrigCopy[numeralFrom]; ok {
@@ -12619,17 +11912,17 @@ func CopyBranchNumeral(mapOrigCopy map[any]any, numeralFrom *Numeral) (numeralTo
 
 	numeralTo = new(Numeral)
 	mapOrigCopy[numeralFrom] = numeralTo
-	numeralFrom.CopyBasicFields(numeralTo)
+	numeralFrom.GongCopyBasicFields(numeralTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if numeralFrom.Numeral_root != nil {
-		numeralTo.Numeral_root = CopyBranchNumeral_root(mapOrigCopy, numeralFrom.Numeral_root)
+		numeralTo.Numeral_root = GongCopyBranchNumeral_root(mapOrigCopy, numeralFrom.Numeral_root)
 	}
 	if numeralFrom.Numeral_alter != nil {
-		numeralTo.Numeral_alter = CopyBranchHarmony_alter(mapOrigCopy, numeralFrom.Numeral_alter)
+		numeralTo.Numeral_alter = GongCopyBranchHarmony_alter(mapOrigCopy, numeralFrom.Numeral_alter)
 	}
 	if numeralFrom.Numeral_key != nil {
-		numeralTo.Numeral_key = CopyBranchNumeral_key(mapOrigCopy, numeralFrom.Numeral_key)
+		numeralTo.Numeral_key = GongCopyBranchNumeral_key(mapOrigCopy, numeralFrom.Numeral_key)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -12637,7 +11930,7 @@ func CopyBranchNumeral(mapOrigCopy map[any]any, numeralFrom *Numeral) (numeralTo
 	return
 }
 
-func CopyBranchNumeral_key(mapOrigCopy map[any]any, numeral_keyFrom *Numeral_key) (numeral_keyTo *Numeral_key) {
+func GongCopyBranchNumeral_key(mapOrigCopy map[any]any, numeral_keyFrom *Numeral_key) (numeral_keyTo *Numeral_key) {
 
 	// numeral_keyFrom has already been copied
 	if _numeral_keyTo, ok := mapOrigCopy[numeral_keyFrom]; ok {
@@ -12647,7 +11940,7 @@ func CopyBranchNumeral_key(mapOrigCopy map[any]any, numeral_keyFrom *Numeral_key
 
 	numeral_keyTo = new(Numeral_key)
 	mapOrigCopy[numeral_keyFrom] = numeral_keyTo
-	numeral_keyFrom.CopyBasicFields(numeral_keyTo)
+	numeral_keyFrom.GongCopyBasicFields(numeral_keyTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12656,7 +11949,7 @@ func CopyBranchNumeral_key(mapOrigCopy map[any]any, numeral_keyFrom *Numeral_key
 	return
 }
 
-func CopyBranchNumeral_root(mapOrigCopy map[any]any, numeral_rootFrom *Numeral_root) (numeral_rootTo *Numeral_root) {
+func GongCopyBranchNumeral_root(mapOrigCopy map[any]any, numeral_rootFrom *Numeral_root) (numeral_rootTo *Numeral_root) {
 
 	// numeral_rootFrom has already been copied
 	if _numeral_rootTo, ok := mapOrigCopy[numeral_rootFrom]; ok {
@@ -12666,7 +11959,7 @@ func CopyBranchNumeral_root(mapOrigCopy map[any]any, numeral_rootFrom *Numeral_r
 
 	numeral_rootTo = new(Numeral_root)
 	mapOrigCopy[numeral_rootFrom] = numeral_rootTo
-	numeral_rootFrom.CopyBasicFields(numeral_rootTo)
+	numeral_rootFrom.GongCopyBasicFields(numeral_rootTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12675,7 +11968,7 @@ func CopyBranchNumeral_root(mapOrigCopy map[any]any, numeral_rootFrom *Numeral_r
 	return
 }
 
-func CopyBranchOctave_shift(mapOrigCopy map[any]any, octave_shiftFrom *Octave_shift) (octave_shiftTo *Octave_shift) {
+func GongCopyBranchOctave_shift(mapOrigCopy map[any]any, octave_shiftFrom *Octave_shift) (octave_shiftTo *Octave_shift) {
 
 	// octave_shiftFrom has already been copied
 	if _octave_shiftTo, ok := mapOrigCopy[octave_shiftFrom]; ok {
@@ -12685,7 +11978,7 @@ func CopyBranchOctave_shift(mapOrigCopy map[any]any, octave_shiftFrom *Octave_sh
 
 	octave_shiftTo = new(Octave_shift)
 	mapOrigCopy[octave_shiftFrom] = octave_shiftTo
-	octave_shiftFrom.CopyBasicFields(octave_shiftTo)
+	octave_shiftFrom.GongCopyBasicFields(octave_shiftTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12694,7 +11987,7 @@ func CopyBranchOctave_shift(mapOrigCopy map[any]any, octave_shiftFrom *Octave_sh
 	return
 }
 
-func CopyBranchOffset(mapOrigCopy map[any]any, offsetFrom *Offset) (offsetTo *Offset) {
+func GongCopyBranchOffset(mapOrigCopy map[any]any, offsetFrom *Offset) (offsetTo *Offset) {
 
 	// offsetFrom has already been copied
 	if _offsetTo, ok := mapOrigCopy[offsetFrom]; ok {
@@ -12704,7 +11997,7 @@ func CopyBranchOffset(mapOrigCopy map[any]any, offsetFrom *Offset) (offsetTo *Of
 
 	offsetTo = new(Offset)
 	mapOrigCopy[offsetFrom] = offsetTo
-	offsetFrom.CopyBasicFields(offsetTo)
+	offsetFrom.GongCopyBasicFields(offsetTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12713,7 +12006,7 @@ func CopyBranchOffset(mapOrigCopy map[any]any, offsetFrom *Offset) (offsetTo *Of
 	return
 }
 
-func CopyBranchOpus(mapOrigCopy map[any]any, opusFrom *Opus) (opusTo *Opus) {
+func GongCopyBranchOpus(mapOrigCopy map[any]any, opusFrom *Opus) (opusTo *Opus) {
 
 	// opusFrom has already been copied
 	if _opusTo, ok := mapOrigCopy[opusFrom]; ok {
@@ -12723,7 +12016,7 @@ func CopyBranchOpus(mapOrigCopy map[any]any, opusFrom *Opus) (opusTo *Opus) {
 
 	opusTo = new(Opus)
 	mapOrigCopy[opusFrom] = opusTo
-	opusFrom.CopyBasicFields(opusTo)
+	opusFrom.GongCopyBasicFields(opusTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12732,7 +12025,7 @@ func CopyBranchOpus(mapOrigCopy map[any]any, opusFrom *Opus) (opusTo *Opus) {
 	return
 }
 
-func CopyBranchOrnaments(mapOrigCopy map[any]any, ornamentsFrom *Ornaments) (ornamentsTo *Ornaments) {
+func GongCopyBranchOrnaments(mapOrigCopy map[any]any, ornamentsFrom *Ornaments) (ornamentsTo *Ornaments) {
 
 	// ornamentsFrom has already been copied
 	if _ornamentsTo, ok := mapOrigCopy[ornamentsFrom]; ok {
@@ -12742,64 +12035,64 @@ func CopyBranchOrnaments(mapOrigCopy map[any]any, ornamentsFrom *Ornaments) (orn
 
 	ornamentsTo = new(Ornaments)
 	mapOrigCopy[ornamentsFrom] = ornamentsTo
-	ornamentsFrom.CopyBasicFields(ornamentsTo)
+	ornamentsFrom.GongCopyBasicFields(ornamentsTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _empty_trill_sound := range ornamentsFrom.Trill_mark {
-		ornamentsTo.Trill_mark = append(ornamentsTo.Trill_mark, CopyBranchEmpty_trill_sound(mapOrigCopy, _empty_trill_sound))
+		ornamentsTo.Trill_mark = append(ornamentsTo.Trill_mark, GongCopyBranchEmpty_trill_sound(mapOrigCopy, _empty_trill_sound))
 	}
 	for _, _horizontal_turn := range ornamentsFrom.Turn {
-		ornamentsTo.Turn = append(ornamentsTo.Turn, CopyBranchHorizontal_turn(mapOrigCopy, _horizontal_turn))
+		ornamentsTo.Turn = append(ornamentsTo.Turn, GongCopyBranchHorizontal_turn(mapOrigCopy, _horizontal_turn))
 	}
 	for _, _horizontal_turn := range ornamentsFrom.Delayed_turn {
-		ornamentsTo.Delayed_turn = append(ornamentsTo.Delayed_turn, CopyBranchHorizontal_turn(mapOrigCopy, _horizontal_turn))
+		ornamentsTo.Delayed_turn = append(ornamentsTo.Delayed_turn, GongCopyBranchHorizontal_turn(mapOrigCopy, _horizontal_turn))
 	}
 	for _, _horizontal_turn := range ornamentsFrom.Inverted_turn {
-		ornamentsTo.Inverted_turn = append(ornamentsTo.Inverted_turn, CopyBranchHorizontal_turn(mapOrigCopy, _horizontal_turn))
+		ornamentsTo.Inverted_turn = append(ornamentsTo.Inverted_turn, GongCopyBranchHorizontal_turn(mapOrigCopy, _horizontal_turn))
 	}
 	for _, _horizontal_turn := range ornamentsFrom.Delayed_inverted_turn {
-		ornamentsTo.Delayed_inverted_turn = append(ornamentsTo.Delayed_inverted_turn, CopyBranchHorizontal_turn(mapOrigCopy, _horizontal_turn))
+		ornamentsTo.Delayed_inverted_turn = append(ornamentsTo.Delayed_inverted_turn, GongCopyBranchHorizontal_turn(mapOrigCopy, _horizontal_turn))
 	}
 	for _, _empty_trill_sound := range ornamentsFrom.Vertical_turn {
-		ornamentsTo.Vertical_turn = append(ornamentsTo.Vertical_turn, CopyBranchEmpty_trill_sound(mapOrigCopy, _empty_trill_sound))
+		ornamentsTo.Vertical_turn = append(ornamentsTo.Vertical_turn, GongCopyBranchEmpty_trill_sound(mapOrigCopy, _empty_trill_sound))
 	}
 	for _, _empty_trill_sound := range ornamentsFrom.Inverted_vertical_turn {
-		ornamentsTo.Inverted_vertical_turn = append(ornamentsTo.Inverted_vertical_turn, CopyBranchEmpty_trill_sound(mapOrigCopy, _empty_trill_sound))
+		ornamentsTo.Inverted_vertical_turn = append(ornamentsTo.Inverted_vertical_turn, GongCopyBranchEmpty_trill_sound(mapOrigCopy, _empty_trill_sound))
 	}
 	for _, _empty_trill_sound := range ornamentsFrom.Shake {
-		ornamentsTo.Shake = append(ornamentsTo.Shake, CopyBranchEmpty_trill_sound(mapOrigCopy, _empty_trill_sound))
+		ornamentsTo.Shake = append(ornamentsTo.Shake, GongCopyBranchEmpty_trill_sound(mapOrigCopy, _empty_trill_sound))
 	}
 	for _, _wavy_line := range ornamentsFrom.Wavy_line {
-		ornamentsTo.Wavy_line = append(ornamentsTo.Wavy_line, CopyBranchWavy_line(mapOrigCopy, _wavy_line))
+		ornamentsTo.Wavy_line = append(ornamentsTo.Wavy_line, GongCopyBranchWavy_line(mapOrigCopy, _wavy_line))
 	}
 	for _, _mordent := range ornamentsFrom.Mordent {
-		ornamentsTo.Mordent = append(ornamentsTo.Mordent, CopyBranchMordent(mapOrigCopy, _mordent))
+		ornamentsTo.Mordent = append(ornamentsTo.Mordent, GongCopyBranchMordent(mapOrigCopy, _mordent))
 	}
 	for _, _mordent := range ornamentsFrom.Inverted_mordent {
-		ornamentsTo.Inverted_mordent = append(ornamentsTo.Inverted_mordent, CopyBranchMordent(mapOrigCopy, _mordent))
+		ornamentsTo.Inverted_mordent = append(ornamentsTo.Inverted_mordent, GongCopyBranchMordent(mapOrigCopy, _mordent))
 	}
 	for _, _empty_placement := range ornamentsFrom.Schleifer {
-		ornamentsTo.Schleifer = append(ornamentsTo.Schleifer, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		ornamentsTo.Schleifer = append(ornamentsTo.Schleifer, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _tremolo := range ornamentsFrom.Tremolo {
-		ornamentsTo.Tremolo = append(ornamentsTo.Tremolo, CopyBranchTremolo(mapOrigCopy, _tremolo))
+		ornamentsTo.Tremolo = append(ornamentsTo.Tremolo, GongCopyBranchTremolo(mapOrigCopy, _tremolo))
 	}
 	for _, _empty_trill_sound := range ornamentsFrom.Haydn {
-		ornamentsTo.Haydn = append(ornamentsTo.Haydn, CopyBranchEmpty_trill_sound(mapOrigCopy, _empty_trill_sound))
+		ornamentsTo.Haydn = append(ornamentsTo.Haydn, GongCopyBranchEmpty_trill_sound(mapOrigCopy, _empty_trill_sound))
 	}
 	for _, _other_placement_text := range ornamentsFrom.Other_ornament {
-		ornamentsTo.Other_ornament = append(ornamentsTo.Other_ornament, CopyBranchOther_placement_text(mapOrigCopy, _other_placement_text))
+		ornamentsTo.Other_ornament = append(ornamentsTo.Other_ornament, GongCopyBranchOther_placement_text(mapOrigCopy, _other_placement_text))
 	}
 	for _, _accidental_mark := range ornamentsFrom.Accidental_mark {
-		ornamentsTo.Accidental_mark = append(ornamentsTo.Accidental_mark, CopyBranchAccidental_mark(mapOrigCopy, _accidental_mark))
+		ornamentsTo.Accidental_mark = append(ornamentsTo.Accidental_mark, GongCopyBranchAccidental_mark(mapOrigCopy, _accidental_mark))
 	}
 
 	return
 }
 
-func CopyBranchOther_appearance(mapOrigCopy map[any]any, other_appearanceFrom *Other_appearance) (other_appearanceTo *Other_appearance) {
+func GongCopyBranchOther_appearance(mapOrigCopy map[any]any, other_appearanceFrom *Other_appearance) (other_appearanceTo *Other_appearance) {
 
 	// other_appearanceFrom has already been copied
 	if _other_appearanceTo, ok := mapOrigCopy[other_appearanceFrom]; ok {
@@ -12809,7 +12102,7 @@ func CopyBranchOther_appearance(mapOrigCopy map[any]any, other_appearanceFrom *O
 
 	other_appearanceTo = new(Other_appearance)
 	mapOrigCopy[other_appearanceFrom] = other_appearanceTo
-	other_appearanceFrom.CopyBasicFields(other_appearanceTo)
+	other_appearanceFrom.GongCopyBasicFields(other_appearanceTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12818,7 +12111,7 @@ func CopyBranchOther_appearance(mapOrigCopy map[any]any, other_appearanceFrom *O
 	return
 }
 
-func CopyBranchOther_direction(mapOrigCopy map[any]any, other_directionFrom *Other_direction) (other_directionTo *Other_direction) {
+func GongCopyBranchOther_direction(mapOrigCopy map[any]any, other_directionFrom *Other_direction) (other_directionTo *Other_direction) {
 
 	// other_directionFrom has already been copied
 	if _other_directionTo, ok := mapOrigCopy[other_directionFrom]; ok {
@@ -12828,7 +12121,7 @@ func CopyBranchOther_direction(mapOrigCopy map[any]any, other_directionFrom *Oth
 
 	other_directionTo = new(Other_direction)
 	mapOrigCopy[other_directionFrom] = other_directionTo
-	other_directionFrom.CopyBasicFields(other_directionTo)
+	other_directionFrom.GongCopyBasicFields(other_directionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12837,7 +12130,7 @@ func CopyBranchOther_direction(mapOrigCopy map[any]any, other_directionFrom *Oth
 	return
 }
 
-func CopyBranchOther_listening(mapOrigCopy map[any]any, other_listeningFrom *Other_listening) (other_listeningTo *Other_listening) {
+func GongCopyBranchOther_listening(mapOrigCopy map[any]any, other_listeningFrom *Other_listening) (other_listeningTo *Other_listening) {
 
 	// other_listeningFrom has already been copied
 	if _other_listeningTo, ok := mapOrigCopy[other_listeningFrom]; ok {
@@ -12847,7 +12140,7 @@ func CopyBranchOther_listening(mapOrigCopy map[any]any, other_listeningFrom *Oth
 
 	other_listeningTo = new(Other_listening)
 	mapOrigCopy[other_listeningFrom] = other_listeningTo
-	other_listeningFrom.CopyBasicFields(other_listeningTo)
+	other_listeningFrom.GongCopyBasicFields(other_listeningTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12856,7 +12149,7 @@ func CopyBranchOther_listening(mapOrigCopy map[any]any, other_listeningFrom *Oth
 	return
 }
 
-func CopyBranchOther_notation(mapOrigCopy map[any]any, other_notationFrom *Other_notation) (other_notationTo *Other_notation) {
+func GongCopyBranchOther_notation(mapOrigCopy map[any]any, other_notationFrom *Other_notation) (other_notationTo *Other_notation) {
 
 	// other_notationFrom has already been copied
 	if _other_notationTo, ok := mapOrigCopy[other_notationFrom]; ok {
@@ -12866,7 +12159,7 @@ func CopyBranchOther_notation(mapOrigCopy map[any]any, other_notationFrom *Other
 
 	other_notationTo = new(Other_notation)
 	mapOrigCopy[other_notationFrom] = other_notationTo
-	other_notationFrom.CopyBasicFields(other_notationTo)
+	other_notationFrom.GongCopyBasicFields(other_notationTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12875,7 +12168,7 @@ func CopyBranchOther_notation(mapOrigCopy map[any]any, other_notationFrom *Other
 	return
 }
 
-func CopyBranchOther_placement_text(mapOrigCopy map[any]any, other_placement_textFrom *Other_placement_text) (other_placement_textTo *Other_placement_text) {
+func GongCopyBranchOther_placement_text(mapOrigCopy map[any]any, other_placement_textFrom *Other_placement_text) (other_placement_textTo *Other_placement_text) {
 
 	// other_placement_textFrom has already been copied
 	if _other_placement_textTo, ok := mapOrigCopy[other_placement_textFrom]; ok {
@@ -12885,7 +12178,7 @@ func CopyBranchOther_placement_text(mapOrigCopy map[any]any, other_placement_tex
 
 	other_placement_textTo = new(Other_placement_text)
 	mapOrigCopy[other_placement_textFrom] = other_placement_textTo
-	other_placement_textFrom.CopyBasicFields(other_placement_textTo)
+	other_placement_textFrom.GongCopyBasicFields(other_placement_textTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12894,7 +12187,7 @@ func CopyBranchOther_placement_text(mapOrigCopy map[any]any, other_placement_tex
 	return
 }
 
-func CopyBranchOther_play(mapOrigCopy map[any]any, other_playFrom *Other_play) (other_playTo *Other_play) {
+func GongCopyBranchOther_play(mapOrigCopy map[any]any, other_playFrom *Other_play) (other_playTo *Other_play) {
 
 	// other_playFrom has already been copied
 	if _other_playTo, ok := mapOrigCopy[other_playFrom]; ok {
@@ -12904,7 +12197,7 @@ func CopyBranchOther_play(mapOrigCopy map[any]any, other_playFrom *Other_play) (
 
 	other_playTo = new(Other_play)
 	mapOrigCopy[other_playFrom] = other_playTo
-	other_playFrom.CopyBasicFields(other_playTo)
+	other_playFrom.GongCopyBasicFields(other_playTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12913,7 +12206,7 @@ func CopyBranchOther_play(mapOrigCopy map[any]any, other_playFrom *Other_play) (
 	return
 }
 
-func CopyBranchOther_text(mapOrigCopy map[any]any, other_textFrom *Other_text) (other_textTo *Other_text) {
+func GongCopyBranchOther_text(mapOrigCopy map[any]any, other_textFrom *Other_text) (other_textTo *Other_text) {
 
 	// other_textFrom has already been copied
 	if _other_textTo, ok := mapOrigCopy[other_textFrom]; ok {
@@ -12923,7 +12216,7 @@ func CopyBranchOther_text(mapOrigCopy map[any]any, other_textFrom *Other_text) (
 
 	other_textTo = new(Other_text)
 	mapOrigCopy[other_textFrom] = other_textTo
-	other_textFrom.CopyBasicFields(other_textTo)
+	other_textFrom.GongCopyBasicFields(other_textTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12932,7 +12225,7 @@ func CopyBranchOther_text(mapOrigCopy map[any]any, other_textFrom *Other_text) (
 	return
 }
 
-func CopyBranchPage_layout(mapOrigCopy map[any]any, page_layoutFrom *Page_layout) (page_layoutTo *Page_layout) {
+func GongCopyBranchPage_layout(mapOrigCopy map[any]any, page_layoutFrom *Page_layout) (page_layoutTo *Page_layout) {
 
 	// page_layoutFrom has already been copied
 	if _page_layoutTo, ok := mapOrigCopy[page_layoutFrom]; ok {
@@ -12942,11 +12235,11 @@ func CopyBranchPage_layout(mapOrigCopy map[any]any, page_layoutFrom *Page_layout
 
 	page_layoutTo = new(Page_layout)
 	mapOrigCopy[page_layoutFrom] = page_layoutTo
-	page_layoutFrom.CopyBasicFields(page_layoutTo)
+	page_layoutFrom.GongCopyBasicFields(page_layoutTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if page_layoutFrom.Page_margins != nil {
-		page_layoutTo.Page_margins = CopyBranchPage_margins(mapOrigCopy, page_layoutFrom.Page_margins)
+		page_layoutTo.Page_margins = GongCopyBranchPage_margins(mapOrigCopy, page_layoutFrom.Page_margins)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -12954,7 +12247,7 @@ func CopyBranchPage_layout(mapOrigCopy map[any]any, page_layoutFrom *Page_layout
 	return
 }
 
-func CopyBranchPage_margins(mapOrigCopy map[any]any, page_marginsFrom *Page_margins) (page_marginsTo *Page_margins) {
+func GongCopyBranchPage_margins(mapOrigCopy map[any]any, page_marginsFrom *Page_margins) (page_marginsTo *Page_margins) {
 
 	// page_marginsFrom has already been copied
 	if _page_marginsTo, ok := mapOrigCopy[page_marginsFrom]; ok {
@@ -12964,7 +12257,7 @@ func CopyBranchPage_margins(mapOrigCopy map[any]any, page_marginsFrom *Page_marg
 
 	page_marginsTo = new(Page_margins)
 	mapOrigCopy[page_marginsFrom] = page_marginsTo
-	page_marginsFrom.CopyBasicFields(page_marginsTo)
+	page_marginsFrom.GongCopyBasicFields(page_marginsTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12973,7 +12266,7 @@ func CopyBranchPage_margins(mapOrigCopy map[any]any, page_marginsFrom *Page_marg
 	return
 }
 
-func CopyBranchPart_clef(mapOrigCopy map[any]any, part_clefFrom *Part_clef) (part_clefTo *Part_clef) {
+func GongCopyBranchPart_clef(mapOrigCopy map[any]any, part_clefFrom *Part_clef) (part_clefTo *Part_clef) {
 
 	// part_clefFrom has already been copied
 	if _part_clefTo, ok := mapOrigCopy[part_clefFrom]; ok {
@@ -12983,7 +12276,7 @@ func CopyBranchPart_clef(mapOrigCopy map[any]any, part_clefFrom *Part_clef) (par
 
 	part_clefTo = new(Part_clef)
 	mapOrigCopy[part_clefFrom] = part_clefTo
-	part_clefFrom.CopyBasicFields(part_clefTo)
+	part_clefFrom.GongCopyBasicFields(part_clefTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -12992,7 +12285,7 @@ func CopyBranchPart_clef(mapOrigCopy map[any]any, part_clefFrom *Part_clef) (par
 	return
 }
 
-func CopyBranchPart_group(mapOrigCopy map[any]any, part_groupFrom *Part_group) (part_groupTo *Part_group) {
+func GongCopyBranchPart_group(mapOrigCopy map[any]any, part_groupFrom *Part_group) (part_groupTo *Part_group) {
 
 	// part_groupFrom has already been copied
 	if _part_groupTo, ok := mapOrigCopy[part_groupFrom]; ok {
@@ -13002,32 +12295,32 @@ func CopyBranchPart_group(mapOrigCopy map[any]any, part_groupFrom *Part_group) (
 
 	part_groupTo = new(Part_group)
 	mapOrigCopy[part_groupFrom] = part_groupTo
-	part_groupFrom.CopyBasicFields(part_groupTo)
+	part_groupFrom.GongCopyBasicFields(part_groupTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if part_groupFrom.Group_name != nil {
-		part_groupTo.Group_name = CopyBranchGroup_name(mapOrigCopy, part_groupFrom.Group_name)
+		part_groupTo.Group_name = GongCopyBranchGroup_name(mapOrigCopy, part_groupFrom.Group_name)
 	}
 	if part_groupFrom.Group_name_display != nil {
-		part_groupTo.Group_name_display = CopyBranchName_display(mapOrigCopy, part_groupFrom.Group_name_display)
+		part_groupTo.Group_name_display = GongCopyBranchName_display(mapOrigCopy, part_groupFrom.Group_name_display)
 	}
 	if part_groupFrom.Group_abbreviation != nil {
-		part_groupTo.Group_abbreviation = CopyBranchGroup_name(mapOrigCopy, part_groupFrom.Group_abbreviation)
+		part_groupTo.Group_abbreviation = GongCopyBranchGroup_name(mapOrigCopy, part_groupFrom.Group_abbreviation)
 	}
 	if part_groupFrom.Group_abbreviation_display != nil {
-		part_groupTo.Group_abbreviation_display = CopyBranchName_display(mapOrigCopy, part_groupFrom.Group_abbreviation_display)
+		part_groupTo.Group_abbreviation_display = GongCopyBranchName_display(mapOrigCopy, part_groupFrom.Group_abbreviation_display)
 	}
 	if part_groupFrom.Group_symbol != nil {
-		part_groupTo.Group_symbol = CopyBranchGroup_symbol(mapOrigCopy, part_groupFrom.Group_symbol)
+		part_groupTo.Group_symbol = GongCopyBranchGroup_symbol(mapOrigCopy, part_groupFrom.Group_symbol)
 	}
 	if part_groupFrom.Group_barline != nil {
-		part_groupTo.Group_barline = CopyBranchGroup_barline(mapOrigCopy, part_groupFrom.Group_barline)
+		part_groupTo.Group_barline = GongCopyBranchGroup_barline(mapOrigCopy, part_groupFrom.Group_barline)
 	}
 	if part_groupFrom.Footnote != nil {
-		part_groupTo.Footnote = CopyBranchFormatted_text(mapOrigCopy, part_groupFrom.Footnote)
+		part_groupTo.Footnote = GongCopyBranchFormatted_text(mapOrigCopy, part_groupFrom.Footnote)
 	}
 	if part_groupFrom.Level != nil {
-		part_groupTo.Level = CopyBranchLevel(mapOrigCopy, part_groupFrom.Level)
+		part_groupTo.Level = GongCopyBranchLevel(mapOrigCopy, part_groupFrom.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -13035,7 +12328,7 @@ func CopyBranchPart_group(mapOrigCopy map[any]any, part_groupFrom *Part_group) (
 	return
 }
 
-func CopyBranchPart_link(mapOrigCopy map[any]any, part_linkFrom *Part_link) (part_linkTo *Part_link) {
+func GongCopyBranchPart_link(mapOrigCopy map[any]any, part_linkFrom *Part_link) (part_linkTo *Part_link) {
 
 	// part_linkFrom has already been copied
 	if _part_linkTo, ok := mapOrigCopy[part_linkFrom]; ok {
@@ -13045,19 +12338,19 @@ func CopyBranchPart_link(mapOrigCopy map[any]any, part_linkFrom *Part_link) (par
 
 	part_linkTo = new(Part_link)
 	mapOrigCopy[part_linkFrom] = part_linkTo
-	part_linkFrom.CopyBasicFields(part_linkTo)
+	part_linkFrom.GongCopyBasicFields(part_linkTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _instrument_link := range part_linkFrom.Instrument_link {
-		part_linkTo.Instrument_link = append(part_linkTo.Instrument_link, CopyBranchInstrument_link(mapOrigCopy, _instrument_link))
+		part_linkTo.Instrument_link = append(part_linkTo.Instrument_link, GongCopyBranchInstrument_link(mapOrigCopy, _instrument_link))
 	}
 
 	return
 }
 
-func CopyBranchPart_list(mapOrigCopy map[any]any, part_listFrom *Part_list) (part_listTo *Part_list) {
+func GongCopyBranchPart_list(mapOrigCopy map[any]any, part_listFrom *Part_list) (part_listTo *Part_list) {
 
 	// part_listFrom has already been copied
 	if _part_listTo, ok := mapOrigCopy[part_listFrom]; ok {
@@ -13067,14 +12360,14 @@ func CopyBranchPart_list(mapOrigCopy map[any]any, part_listFrom *Part_list) (par
 
 	part_listTo = new(Part_list)
 	mapOrigCopy[part_listFrom] = part_listTo
-	part_listFrom.CopyBasicFields(part_listTo)
+	part_listFrom.GongCopyBasicFields(part_listTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if part_listFrom.Part_group != nil {
-		part_listTo.Part_group = CopyBranchPart_group(mapOrigCopy, part_listFrom.Part_group)
+		part_listTo.Part_group = GongCopyBranchPart_group(mapOrigCopy, part_listFrom.Part_group)
 	}
 	if part_listFrom.Score_part != nil {
-		part_listTo.Score_part = CopyBranchScore_part(mapOrigCopy, part_listFrom.Score_part)
+		part_listTo.Score_part = GongCopyBranchScore_part(mapOrigCopy, part_listFrom.Score_part)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -13082,7 +12375,7 @@ func CopyBranchPart_list(mapOrigCopy map[any]any, part_listFrom *Part_list) (par
 	return
 }
 
-func CopyBranchPart_name(mapOrigCopy map[any]any, part_nameFrom *Part_name) (part_nameTo *Part_name) {
+func GongCopyBranchPart_name(mapOrigCopy map[any]any, part_nameFrom *Part_name) (part_nameTo *Part_name) {
 
 	// part_nameFrom has already been copied
 	if _part_nameTo, ok := mapOrigCopy[part_nameFrom]; ok {
@@ -13092,7 +12385,7 @@ func CopyBranchPart_name(mapOrigCopy map[any]any, part_nameFrom *Part_name) (par
 
 	part_nameTo = new(Part_name)
 	mapOrigCopy[part_nameFrom] = part_nameTo
-	part_nameFrom.CopyBasicFields(part_nameTo)
+	part_nameFrom.GongCopyBasicFields(part_nameTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13101,7 +12394,7 @@ func CopyBranchPart_name(mapOrigCopy map[any]any, part_nameFrom *Part_name) (par
 	return
 }
 
-func CopyBranchPart_symbol(mapOrigCopy map[any]any, part_symbolFrom *Part_symbol) (part_symbolTo *Part_symbol) {
+func GongCopyBranchPart_symbol(mapOrigCopy map[any]any, part_symbolFrom *Part_symbol) (part_symbolTo *Part_symbol) {
 
 	// part_symbolFrom has already been copied
 	if _part_symbolTo, ok := mapOrigCopy[part_symbolFrom]; ok {
@@ -13111,7 +12404,7 @@ func CopyBranchPart_symbol(mapOrigCopy map[any]any, part_symbolFrom *Part_symbol
 
 	part_symbolTo = new(Part_symbol)
 	mapOrigCopy[part_symbolFrom] = part_symbolTo
-	part_symbolFrom.CopyBasicFields(part_symbolTo)
+	part_symbolFrom.GongCopyBasicFields(part_symbolTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13120,7 +12413,7 @@ func CopyBranchPart_symbol(mapOrigCopy map[any]any, part_symbolFrom *Part_symbol
 	return
 }
 
-func CopyBranchPart_transpose(mapOrigCopy map[any]any, part_transposeFrom *Part_transpose) (part_transposeTo *Part_transpose) {
+func GongCopyBranchPart_transpose(mapOrigCopy map[any]any, part_transposeFrom *Part_transpose) (part_transposeTo *Part_transpose) {
 
 	// part_transposeFrom has already been copied
 	if _part_transposeTo, ok := mapOrigCopy[part_transposeFrom]; ok {
@@ -13130,7 +12423,7 @@ func CopyBranchPart_transpose(mapOrigCopy map[any]any, part_transposeFrom *Part_
 
 	part_transposeTo = new(Part_transpose)
 	mapOrigCopy[part_transposeFrom] = part_transposeTo
-	part_transposeFrom.CopyBasicFields(part_transposeTo)
+	part_transposeFrom.GongCopyBasicFields(part_transposeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13139,7 +12432,7 @@ func CopyBranchPart_transpose(mapOrigCopy map[any]any, part_transposeFrom *Part_
 	return
 }
 
-func CopyBranchPedal(mapOrigCopy map[any]any, pedalFrom *Pedal) (pedalTo *Pedal) {
+func GongCopyBranchPedal(mapOrigCopy map[any]any, pedalFrom *Pedal) (pedalTo *Pedal) {
 
 	// pedalFrom has already been copied
 	if _pedalTo, ok := mapOrigCopy[pedalFrom]; ok {
@@ -13149,7 +12442,7 @@ func CopyBranchPedal(mapOrigCopy map[any]any, pedalFrom *Pedal) (pedalTo *Pedal)
 
 	pedalTo = new(Pedal)
 	mapOrigCopy[pedalFrom] = pedalTo
-	pedalFrom.CopyBasicFields(pedalTo)
+	pedalFrom.GongCopyBasicFields(pedalTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13158,7 +12451,7 @@ func CopyBranchPedal(mapOrigCopy map[any]any, pedalFrom *Pedal) (pedalTo *Pedal)
 	return
 }
 
-func CopyBranchPedal_tuning(mapOrigCopy map[any]any, pedal_tuningFrom *Pedal_tuning) (pedal_tuningTo *Pedal_tuning) {
+func GongCopyBranchPedal_tuning(mapOrigCopy map[any]any, pedal_tuningFrom *Pedal_tuning) (pedal_tuningTo *Pedal_tuning) {
 
 	// pedal_tuningFrom has already been copied
 	if _pedal_tuningTo, ok := mapOrigCopy[pedal_tuningFrom]; ok {
@@ -13168,7 +12461,7 @@ func CopyBranchPedal_tuning(mapOrigCopy map[any]any, pedal_tuningFrom *Pedal_tun
 
 	pedal_tuningTo = new(Pedal_tuning)
 	mapOrigCopy[pedal_tuningFrom] = pedal_tuningTo
-	pedal_tuningFrom.CopyBasicFields(pedal_tuningTo)
+	pedal_tuningFrom.GongCopyBasicFields(pedal_tuningTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13177,7 +12470,7 @@ func CopyBranchPedal_tuning(mapOrigCopy map[any]any, pedal_tuningFrom *Pedal_tun
 	return
 }
 
-func CopyBranchPer_minute(mapOrigCopy map[any]any, per_minuteFrom *Per_minute) (per_minuteTo *Per_minute) {
+func GongCopyBranchPer_minute(mapOrigCopy map[any]any, per_minuteFrom *Per_minute) (per_minuteTo *Per_minute) {
 
 	// per_minuteFrom has already been copied
 	if _per_minuteTo, ok := mapOrigCopy[per_minuteFrom]; ok {
@@ -13187,7 +12480,7 @@ func CopyBranchPer_minute(mapOrigCopy map[any]any, per_minuteFrom *Per_minute) (
 
 	per_minuteTo = new(Per_minute)
 	mapOrigCopy[per_minuteFrom] = per_minuteTo
-	per_minuteFrom.CopyBasicFields(per_minuteTo)
+	per_minuteFrom.GongCopyBasicFields(per_minuteTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13196,7 +12489,7 @@ func CopyBranchPer_minute(mapOrigCopy map[any]any, per_minuteFrom *Per_minute) (
 	return
 }
 
-func CopyBranchPercussion(mapOrigCopy map[any]any, percussionFrom *Percussion) (percussionTo *Percussion) {
+func GongCopyBranchPercussion(mapOrigCopy map[any]any, percussionFrom *Percussion) (percussionTo *Percussion) {
 
 	// percussionFrom has already been copied
 	if _percussionTo, ok := mapOrigCopy[percussionFrom]; ok {
@@ -13206,38 +12499,38 @@ func CopyBranchPercussion(mapOrigCopy map[any]any, percussionFrom *Percussion) (
 
 	percussionTo = new(Percussion)
 	mapOrigCopy[percussionFrom] = percussionTo
-	percussionFrom.CopyBasicFields(percussionTo)
+	percussionFrom.GongCopyBasicFields(percussionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if percussionFrom.Glass != nil {
-		percussionTo.Glass = CopyBranchGlass(mapOrigCopy, percussionFrom.Glass)
+		percussionTo.Glass = GongCopyBranchGlass(mapOrigCopy, percussionFrom.Glass)
 	}
 	if percussionFrom.Metal != nil {
-		percussionTo.Metal = CopyBranchMetal(mapOrigCopy, percussionFrom.Metal)
+		percussionTo.Metal = GongCopyBranchMetal(mapOrigCopy, percussionFrom.Metal)
 	}
 	if percussionFrom.Wood != nil {
-		percussionTo.Wood = CopyBranchWood(mapOrigCopy, percussionFrom.Wood)
+		percussionTo.Wood = GongCopyBranchWood(mapOrigCopy, percussionFrom.Wood)
 	}
 	if percussionFrom.Pitched != nil {
-		percussionTo.Pitched = CopyBranchPitched(mapOrigCopy, percussionFrom.Pitched)
+		percussionTo.Pitched = GongCopyBranchPitched(mapOrigCopy, percussionFrom.Pitched)
 	}
 	if percussionFrom.Membrane != nil {
-		percussionTo.Membrane = CopyBranchMembrane(mapOrigCopy, percussionFrom.Membrane)
+		percussionTo.Membrane = GongCopyBranchMembrane(mapOrigCopy, percussionFrom.Membrane)
 	}
 	if percussionFrom.Effect != nil {
-		percussionTo.Effect = CopyBranchEffect(mapOrigCopy, percussionFrom.Effect)
+		percussionTo.Effect = GongCopyBranchEffect(mapOrigCopy, percussionFrom.Effect)
 	}
 	if percussionFrom.Timpani != nil {
-		percussionTo.Timpani = CopyBranchTimpani(mapOrigCopy, percussionFrom.Timpani)
+		percussionTo.Timpani = GongCopyBranchTimpani(mapOrigCopy, percussionFrom.Timpani)
 	}
 	if percussionFrom.Beater != nil {
-		percussionTo.Beater = CopyBranchBeater(mapOrigCopy, percussionFrom.Beater)
+		percussionTo.Beater = GongCopyBranchBeater(mapOrigCopy, percussionFrom.Beater)
 	}
 	if percussionFrom.Stick != nil {
-		percussionTo.Stick = CopyBranchStick(mapOrigCopy, percussionFrom.Stick)
+		percussionTo.Stick = GongCopyBranchStick(mapOrigCopy, percussionFrom.Stick)
 	}
 	if percussionFrom.Other_percussion != nil {
-		percussionTo.Other_percussion = CopyBranchOther_text(mapOrigCopy, percussionFrom.Other_percussion)
+		percussionTo.Other_percussion = GongCopyBranchOther_text(mapOrigCopy, percussionFrom.Other_percussion)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -13245,7 +12538,7 @@ func CopyBranchPercussion(mapOrigCopy map[any]any, percussionFrom *Percussion) (
 	return
 }
 
-func CopyBranchPitch(mapOrigCopy map[any]any, pitchFrom *Pitch) (pitchTo *Pitch) {
+func GongCopyBranchPitch(mapOrigCopy map[any]any, pitchFrom *Pitch) (pitchTo *Pitch) {
 
 	// pitchFrom has already been copied
 	if _pitchTo, ok := mapOrigCopy[pitchFrom]; ok {
@@ -13255,7 +12548,7 @@ func CopyBranchPitch(mapOrigCopy map[any]any, pitchFrom *Pitch) (pitchTo *Pitch)
 
 	pitchTo = new(Pitch)
 	mapOrigCopy[pitchFrom] = pitchTo
-	pitchFrom.CopyBasicFields(pitchTo)
+	pitchFrom.GongCopyBasicFields(pitchTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13264,7 +12557,7 @@ func CopyBranchPitch(mapOrigCopy map[any]any, pitchFrom *Pitch) (pitchTo *Pitch)
 	return
 }
 
-func CopyBranchPitched(mapOrigCopy map[any]any, pitchedFrom *Pitched) (pitchedTo *Pitched) {
+func GongCopyBranchPitched(mapOrigCopy map[any]any, pitchedFrom *Pitched) (pitchedTo *Pitched) {
 
 	// pitchedFrom has already been copied
 	if _pitchedTo, ok := mapOrigCopy[pitchedFrom]; ok {
@@ -13274,7 +12567,7 @@ func CopyBranchPitched(mapOrigCopy map[any]any, pitchedFrom *Pitched) (pitchedTo
 
 	pitchedTo = new(Pitched)
 	mapOrigCopy[pitchedFrom] = pitchedTo
-	pitchedFrom.CopyBasicFields(pitchedTo)
+	pitchedFrom.GongCopyBasicFields(pitchedTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13283,7 +12576,7 @@ func CopyBranchPitched(mapOrigCopy map[any]any, pitchedFrom *Pitched) (pitchedTo
 	return
 }
 
-func CopyBranchPlacement_text(mapOrigCopy map[any]any, placement_textFrom *Placement_text) (placement_textTo *Placement_text) {
+func GongCopyBranchPlacement_text(mapOrigCopy map[any]any, placement_textFrom *Placement_text) (placement_textTo *Placement_text) {
 
 	// placement_textFrom has already been copied
 	if _placement_textTo, ok := mapOrigCopy[placement_textFrom]; ok {
@@ -13293,7 +12586,7 @@ func CopyBranchPlacement_text(mapOrigCopy map[any]any, placement_textFrom *Place
 
 	placement_textTo = new(Placement_text)
 	mapOrigCopy[placement_textFrom] = placement_textTo
-	placement_textFrom.CopyBasicFields(placement_textTo)
+	placement_textFrom.GongCopyBasicFields(placement_textTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13302,7 +12595,7 @@ func CopyBranchPlacement_text(mapOrigCopy map[any]any, placement_textFrom *Place
 	return
 }
 
-func CopyBranchPlay(mapOrigCopy map[any]any, playFrom *Play) (playTo *Play) {
+func GongCopyBranchPlay(mapOrigCopy map[any]any, playFrom *Play) (playTo *Play) {
 
 	// playFrom has already been copied
 	if _playTo, ok := mapOrigCopy[playFrom]; ok {
@@ -13312,19 +12605,19 @@ func CopyBranchPlay(mapOrigCopy map[any]any, playFrom *Play) (playTo *Play) {
 
 	playTo = new(Play)
 	mapOrigCopy[playFrom] = playTo
-	playFrom.CopyBasicFields(playTo)
+	playFrom.GongCopyBasicFields(playTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _other_play := range playFrom.Other_play {
-		playTo.Other_play = append(playTo.Other_play, CopyBranchOther_play(mapOrigCopy, _other_play))
+		playTo.Other_play = append(playTo.Other_play, GongCopyBranchOther_play(mapOrigCopy, _other_play))
 	}
 
 	return
 }
 
-func CopyBranchPlayer(mapOrigCopy map[any]any, playerFrom *Player) (playerTo *Player) {
+func GongCopyBranchPlayer(mapOrigCopy map[any]any, playerFrom *Player) (playerTo *Player) {
 
 	// playerFrom has already been copied
 	if _playerTo, ok := mapOrigCopy[playerFrom]; ok {
@@ -13334,7 +12627,7 @@ func CopyBranchPlayer(mapOrigCopy map[any]any, playerFrom *Player) (playerTo *Pl
 
 	playerTo = new(Player)
 	mapOrigCopy[playerFrom] = playerTo
-	playerFrom.CopyBasicFields(playerTo)
+	playerFrom.GongCopyBasicFields(playerTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13343,7 +12636,7 @@ func CopyBranchPlayer(mapOrigCopy map[any]any, playerFrom *Player) (playerTo *Pl
 	return
 }
 
-func CopyBranchPrincipal_voice(mapOrigCopy map[any]any, principal_voiceFrom *Principal_voice) (principal_voiceTo *Principal_voice) {
+func GongCopyBranchPrincipal_voice(mapOrigCopy map[any]any, principal_voiceFrom *Principal_voice) (principal_voiceTo *Principal_voice) {
 
 	// principal_voiceFrom has already been copied
 	if _principal_voiceTo, ok := mapOrigCopy[principal_voiceFrom]; ok {
@@ -13353,7 +12646,7 @@ func CopyBranchPrincipal_voice(mapOrigCopy map[any]any, principal_voiceFrom *Pri
 
 	principal_voiceTo = new(Principal_voice)
 	mapOrigCopy[principal_voiceFrom] = principal_voiceTo
-	principal_voiceFrom.CopyBasicFields(principal_voiceTo)
+	principal_voiceFrom.GongCopyBasicFields(principal_voiceTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13362,7 +12655,7 @@ func CopyBranchPrincipal_voice(mapOrigCopy map[any]any, principal_voiceFrom *Pri
 	return
 }
 
-func CopyBranchPrint(mapOrigCopy map[any]any, printFrom *Print) (printTo *Print) {
+func GongCopyBranchPrint(mapOrigCopy map[any]any, printFrom *Print) (printTo *Print) {
 
 	// printFrom has already been copied
 	if _printTo, ok := mapOrigCopy[printFrom]; ok {
@@ -13372,37 +12665,37 @@ func CopyBranchPrint(mapOrigCopy map[any]any, printFrom *Print) (printTo *Print)
 
 	printTo = new(Print)
 	mapOrigCopy[printFrom] = printTo
-	printFrom.CopyBasicFields(printTo)
+	printFrom.GongCopyBasicFields(printTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if printFrom.Page_layout != nil {
-		printTo.Page_layout = CopyBranchPage_layout(mapOrigCopy, printFrom.Page_layout)
+		printTo.Page_layout = GongCopyBranchPage_layout(mapOrigCopy, printFrom.Page_layout)
 	}
 	if printFrom.System_layout != nil {
-		printTo.System_layout = CopyBranchSystem_layout(mapOrigCopy, printFrom.System_layout)
+		printTo.System_layout = GongCopyBranchSystem_layout(mapOrigCopy, printFrom.System_layout)
 	}
 	if printFrom.Measure_layout != nil {
-		printTo.Measure_layout = CopyBranchMeasure_layout(mapOrigCopy, printFrom.Measure_layout)
+		printTo.Measure_layout = GongCopyBranchMeasure_layout(mapOrigCopy, printFrom.Measure_layout)
 	}
 	if printFrom.Measure_numbering != nil {
-		printTo.Measure_numbering = CopyBranchMeasure_numbering(mapOrigCopy, printFrom.Measure_numbering)
+		printTo.Measure_numbering = GongCopyBranchMeasure_numbering(mapOrigCopy, printFrom.Measure_numbering)
 	}
 	if printFrom.Part_name_display != nil {
-		printTo.Part_name_display = CopyBranchName_display(mapOrigCopy, printFrom.Part_name_display)
+		printTo.Part_name_display = GongCopyBranchName_display(mapOrigCopy, printFrom.Part_name_display)
 	}
 	if printFrom.Part_abbreviation_display != nil {
-		printTo.Part_abbreviation_display = CopyBranchName_display(mapOrigCopy, printFrom.Part_abbreviation_display)
+		printTo.Part_abbreviation_display = GongCopyBranchName_display(mapOrigCopy, printFrom.Part_abbreviation_display)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _staff_layout := range printFrom.Staff_layout {
-		printTo.Staff_layout = append(printTo.Staff_layout, CopyBranchStaff_layout(mapOrigCopy, _staff_layout))
+		printTo.Staff_layout = append(printTo.Staff_layout, GongCopyBranchStaff_layout(mapOrigCopy, _staff_layout))
 	}
 
 	return
 }
 
-func CopyBranchRelease(mapOrigCopy map[any]any, releaseFrom *Release) (releaseTo *Release) {
+func GongCopyBranchRelease(mapOrigCopy map[any]any, releaseFrom *Release) (releaseTo *Release) {
 
 	// releaseFrom has already been copied
 	if _releaseTo, ok := mapOrigCopy[releaseFrom]; ok {
@@ -13412,7 +12705,7 @@ func CopyBranchRelease(mapOrigCopy map[any]any, releaseFrom *Release) (releaseTo
 
 	releaseTo = new(Release)
 	mapOrigCopy[releaseFrom] = releaseTo
-	releaseFrom.CopyBasicFields(releaseTo)
+	releaseFrom.GongCopyBasicFields(releaseTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13421,7 +12714,7 @@ func CopyBranchRelease(mapOrigCopy map[any]any, releaseFrom *Release) (releaseTo
 	return
 }
 
-func CopyBranchRepeat(mapOrigCopy map[any]any, repeatFrom *Repeat) (repeatTo *Repeat) {
+func GongCopyBranchRepeat(mapOrigCopy map[any]any, repeatFrom *Repeat) (repeatTo *Repeat) {
 
 	// repeatFrom has already been copied
 	if _repeatTo, ok := mapOrigCopy[repeatFrom]; ok {
@@ -13431,7 +12724,7 @@ func CopyBranchRepeat(mapOrigCopy map[any]any, repeatFrom *Repeat) (repeatTo *Re
 
 	repeatTo = new(Repeat)
 	mapOrigCopy[repeatFrom] = repeatTo
-	repeatFrom.CopyBasicFields(repeatTo)
+	repeatFrom.GongCopyBasicFields(repeatTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13440,7 +12733,7 @@ func CopyBranchRepeat(mapOrigCopy map[any]any, repeatFrom *Repeat) (repeatTo *Re
 	return
 }
 
-func CopyBranchRest(mapOrigCopy map[any]any, restFrom *Rest) (restTo *Rest) {
+func GongCopyBranchRest(mapOrigCopy map[any]any, restFrom *Rest) (restTo *Rest) {
 
 	// restFrom has already been copied
 	if _restTo, ok := mapOrigCopy[restFrom]; ok {
@@ -13450,7 +12743,7 @@ func CopyBranchRest(mapOrigCopy map[any]any, restFrom *Rest) (restTo *Rest) {
 
 	restTo = new(Rest)
 	mapOrigCopy[restFrom] = restTo
-	restFrom.CopyBasicFields(restTo)
+	restFrom.GongCopyBasicFields(restTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13459,7 +12752,7 @@ func CopyBranchRest(mapOrigCopy map[any]any, restFrom *Rest) (restTo *Rest) {
 	return
 }
 
-func CopyBranchRoot(mapOrigCopy map[any]any, rootFrom *Root) (rootTo *Root) {
+func GongCopyBranchRoot(mapOrigCopy map[any]any, rootFrom *Root) (rootTo *Root) {
 
 	// rootFrom has already been copied
 	if _rootTo, ok := mapOrigCopy[rootFrom]; ok {
@@ -13469,14 +12762,14 @@ func CopyBranchRoot(mapOrigCopy map[any]any, rootFrom *Root) (rootTo *Root) {
 
 	rootTo = new(Root)
 	mapOrigCopy[rootFrom] = rootTo
-	rootFrom.CopyBasicFields(rootTo)
+	rootFrom.GongCopyBasicFields(rootTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if rootFrom.Root_step != nil {
-		rootTo.Root_step = CopyBranchRoot_step(mapOrigCopy, rootFrom.Root_step)
+		rootTo.Root_step = GongCopyBranchRoot_step(mapOrigCopy, rootFrom.Root_step)
 	}
 	if rootFrom.Root_alter != nil {
-		rootTo.Root_alter = CopyBranchHarmony_alter(mapOrigCopy, rootFrom.Root_alter)
+		rootTo.Root_alter = GongCopyBranchHarmony_alter(mapOrigCopy, rootFrom.Root_alter)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -13484,7 +12777,7 @@ func CopyBranchRoot(mapOrigCopy map[any]any, rootFrom *Root) (rootTo *Root) {
 	return
 }
 
-func CopyBranchRoot_step(mapOrigCopy map[any]any, root_stepFrom *Root_step) (root_stepTo *Root_step) {
+func GongCopyBranchRoot_step(mapOrigCopy map[any]any, root_stepFrom *Root_step) (root_stepTo *Root_step) {
 
 	// root_stepFrom has already been copied
 	if _root_stepTo, ok := mapOrigCopy[root_stepFrom]; ok {
@@ -13494,7 +12787,7 @@ func CopyBranchRoot_step(mapOrigCopy map[any]any, root_stepFrom *Root_step) (roo
 
 	root_stepTo = new(Root_step)
 	mapOrigCopy[root_stepFrom] = root_stepTo
-	root_stepFrom.CopyBasicFields(root_stepTo)
+	root_stepFrom.GongCopyBasicFields(root_stepTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13503,7 +12796,7 @@ func CopyBranchRoot_step(mapOrigCopy map[any]any, root_stepFrom *Root_step) (roo
 	return
 }
 
-func CopyBranchScaling(mapOrigCopy map[any]any, scalingFrom *Scaling) (scalingTo *Scaling) {
+func GongCopyBranchScaling(mapOrigCopy map[any]any, scalingFrom *Scaling) (scalingTo *Scaling) {
 
 	// scalingFrom has already been copied
 	if _scalingTo, ok := mapOrigCopy[scalingFrom]; ok {
@@ -13513,7 +12806,7 @@ func CopyBranchScaling(mapOrigCopy map[any]any, scalingFrom *Scaling) (scalingTo
 
 	scalingTo = new(Scaling)
 	mapOrigCopy[scalingFrom] = scalingTo
-	scalingFrom.CopyBasicFields(scalingTo)
+	scalingFrom.GongCopyBasicFields(scalingTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13522,7 +12815,7 @@ func CopyBranchScaling(mapOrigCopy map[any]any, scalingFrom *Scaling) (scalingTo
 	return
 }
 
-func CopyBranchScordatura(mapOrigCopy map[any]any, scordaturaFrom *Scordatura) (scordaturaTo *Scordatura) {
+func GongCopyBranchScordatura(mapOrigCopy map[any]any, scordaturaFrom *Scordatura) (scordaturaTo *Scordatura) {
 
 	// scordaturaFrom has already been copied
 	if _scordaturaTo, ok := mapOrigCopy[scordaturaFrom]; ok {
@@ -13532,19 +12825,19 @@ func CopyBranchScordatura(mapOrigCopy map[any]any, scordaturaFrom *Scordatura) (
 
 	scordaturaTo = new(Scordatura)
 	mapOrigCopy[scordaturaFrom] = scordaturaTo
-	scordaturaFrom.CopyBasicFields(scordaturaTo)
+	scordaturaFrom.GongCopyBasicFields(scordaturaTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _accord := range scordaturaFrom.Accord {
-		scordaturaTo.Accord = append(scordaturaTo.Accord, CopyBranchAccord(mapOrigCopy, _accord))
+		scordaturaTo.Accord = append(scordaturaTo.Accord, GongCopyBranchAccord(mapOrigCopy, _accord))
 	}
 
 	return
 }
 
-func CopyBranchScore_instrument(mapOrigCopy map[any]any, score_instrumentFrom *Score_instrument) (score_instrumentTo *Score_instrument) {
+func GongCopyBranchScore_instrument(mapOrigCopy map[any]any, score_instrumentFrom *Score_instrument) (score_instrumentTo *Score_instrument) {
 
 	// score_instrumentFrom has already been copied
 	if _score_instrumentTo, ok := mapOrigCopy[score_instrumentFrom]; ok {
@@ -13554,11 +12847,11 @@ func CopyBranchScore_instrument(mapOrigCopy map[any]any, score_instrumentFrom *S
 
 	score_instrumentTo = new(Score_instrument)
 	mapOrigCopy[score_instrumentFrom] = score_instrumentTo
-	score_instrumentFrom.CopyBasicFields(score_instrumentTo)
+	score_instrumentFrom.GongCopyBasicFields(score_instrumentTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if score_instrumentFrom.Virtual_instrument != nil {
-		score_instrumentTo.Virtual_instrument = CopyBranchVirtual_instrument(mapOrigCopy, score_instrumentFrom.Virtual_instrument)
+		score_instrumentTo.Virtual_instrument = GongCopyBranchVirtual_instrument(mapOrigCopy, score_instrumentFrom.Virtual_instrument)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -13566,7 +12859,7 @@ func CopyBranchScore_instrument(mapOrigCopy map[any]any, score_instrumentFrom *S
 	return
 }
 
-func CopyBranchScore_part(mapOrigCopy map[any]any, score_partFrom *Score_part) (score_partTo *Score_part) {
+func GongCopyBranchScore_part(mapOrigCopy map[any]any, score_partFrom *Score_part) (score_partTo *Score_part) {
 
 	// score_partFrom has already been copied
 	if _score_partTo, ok := mapOrigCopy[score_partFrom]; ok {
@@ -13576,46 +12869,46 @@ func CopyBranchScore_part(mapOrigCopy map[any]any, score_partFrom *Score_part) (
 
 	score_partTo = new(Score_part)
 	mapOrigCopy[score_partFrom] = score_partTo
-	score_partFrom.CopyBasicFields(score_partTo)
+	score_partFrom.GongCopyBasicFields(score_partTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if score_partFrom.Identification != nil {
-		score_partTo.Identification = CopyBranchIdentification(mapOrigCopy, score_partFrom.Identification)
+		score_partTo.Identification = GongCopyBranchIdentification(mapOrigCopy, score_partFrom.Identification)
 	}
 	if score_partFrom.Part_name != nil {
-		score_partTo.Part_name = CopyBranchPart_name(mapOrigCopy, score_partFrom.Part_name)
+		score_partTo.Part_name = GongCopyBranchPart_name(mapOrigCopy, score_partFrom.Part_name)
 	}
 	if score_partFrom.Part_name_display != nil {
-		score_partTo.Part_name_display = CopyBranchName_display(mapOrigCopy, score_partFrom.Part_name_display)
+		score_partTo.Part_name_display = GongCopyBranchName_display(mapOrigCopy, score_partFrom.Part_name_display)
 	}
 	if score_partFrom.Part_abbreviation != nil {
-		score_partTo.Part_abbreviation = CopyBranchPart_name(mapOrigCopy, score_partFrom.Part_abbreviation)
+		score_partTo.Part_abbreviation = GongCopyBranchPart_name(mapOrigCopy, score_partFrom.Part_abbreviation)
 	}
 	if score_partFrom.Part_abbreviation_display != nil {
-		score_partTo.Part_abbreviation_display = CopyBranchName_display(mapOrigCopy, score_partFrom.Part_abbreviation_display)
+		score_partTo.Part_abbreviation_display = GongCopyBranchName_display(mapOrigCopy, score_partFrom.Part_abbreviation_display)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _part_link := range score_partFrom.Part_link {
-		score_partTo.Part_link = append(score_partTo.Part_link, CopyBranchPart_link(mapOrigCopy, _part_link))
+		score_partTo.Part_link = append(score_partTo.Part_link, GongCopyBranchPart_link(mapOrigCopy, _part_link))
 	}
 	for _, _score_instrument := range score_partFrom.Score_instrument {
-		score_partTo.Score_instrument = append(score_partTo.Score_instrument, CopyBranchScore_instrument(mapOrigCopy, _score_instrument))
+		score_partTo.Score_instrument = append(score_partTo.Score_instrument, GongCopyBranchScore_instrument(mapOrigCopy, _score_instrument))
 	}
 	for _, _player := range score_partFrom.Player {
-		score_partTo.Player = append(score_partTo.Player, CopyBranchPlayer(mapOrigCopy, _player))
+		score_partTo.Player = append(score_partTo.Player, GongCopyBranchPlayer(mapOrigCopy, _player))
 	}
 	for _, _midi_device := range score_partFrom.Midi_device {
-		score_partTo.Midi_device = append(score_partTo.Midi_device, CopyBranchMidi_device(mapOrigCopy, _midi_device))
+		score_partTo.Midi_device = append(score_partTo.Midi_device, GongCopyBranchMidi_device(mapOrigCopy, _midi_device))
 	}
 	for _, _midi_instrument := range score_partFrom.Midi_instrument {
-		score_partTo.Midi_instrument = append(score_partTo.Midi_instrument, CopyBranchMidi_instrument(mapOrigCopy, _midi_instrument))
+		score_partTo.Midi_instrument = append(score_partTo.Midi_instrument, GongCopyBranchMidi_instrument(mapOrigCopy, _midi_instrument))
 	}
 
 	return
 }
 
-func CopyBranchScore_partwise(mapOrigCopy map[any]any, score_partwiseFrom *Score_partwise) (score_partwiseTo *Score_partwise) {
+func GongCopyBranchScore_partwise(mapOrigCopy map[any]any, score_partwiseFrom *Score_partwise) (score_partwiseTo *Score_partwise) {
 
 	// score_partwiseFrom has already been copied
 	if _score_partwiseTo, ok := mapOrigCopy[score_partwiseFrom]; ok {
@@ -13625,34 +12918,34 @@ func CopyBranchScore_partwise(mapOrigCopy map[any]any, score_partwiseFrom *Score
 
 	score_partwiseTo = new(Score_partwise)
 	mapOrigCopy[score_partwiseFrom] = score_partwiseTo
-	score_partwiseFrom.CopyBasicFields(score_partwiseTo)
+	score_partwiseFrom.GongCopyBasicFields(score_partwiseTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if score_partwiseFrom.Work != nil {
-		score_partwiseTo.Work = CopyBranchWork(mapOrigCopy, score_partwiseFrom.Work)
+		score_partwiseTo.Work = GongCopyBranchWork(mapOrigCopy, score_partwiseFrom.Work)
 	}
 	if score_partwiseFrom.Identification != nil {
-		score_partwiseTo.Identification = CopyBranchIdentification(mapOrigCopy, score_partwiseFrom.Identification)
+		score_partwiseTo.Identification = GongCopyBranchIdentification(mapOrigCopy, score_partwiseFrom.Identification)
 	}
 	if score_partwiseFrom.Defaults != nil {
-		score_partwiseTo.Defaults = CopyBranchDefaults(mapOrigCopy, score_partwiseFrom.Defaults)
+		score_partwiseTo.Defaults = GongCopyBranchDefaults(mapOrigCopy, score_partwiseFrom.Defaults)
 	}
 	if score_partwiseFrom.Part_list != nil {
-		score_partwiseTo.Part_list = CopyBranchPart_list(mapOrigCopy, score_partwiseFrom.Part_list)
+		score_partwiseTo.Part_list = GongCopyBranchPart_list(mapOrigCopy, score_partwiseFrom.Part_list)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _credit := range score_partwiseFrom.Credit {
-		score_partwiseTo.Credit = append(score_partwiseTo.Credit, CopyBranchCredit(mapOrigCopy, _credit))
+		score_partwiseTo.Credit = append(score_partwiseTo.Credit, GongCopyBranchCredit(mapOrigCopy, _credit))
 	}
 	for _, _a_part := range score_partwiseFrom.Part {
-		score_partwiseTo.Part = append(score_partwiseTo.Part, CopyBranchA_part(mapOrigCopy, _a_part))
+		score_partwiseTo.Part = append(score_partwiseTo.Part, GongCopyBranchA_part(mapOrigCopy, _a_part))
 	}
 
 	return
 }
 
-func CopyBranchScore_timewise(mapOrigCopy map[any]any, score_timewiseFrom *Score_timewise) (score_timewiseTo *Score_timewise) {
+func GongCopyBranchScore_timewise(mapOrigCopy map[any]any, score_timewiseFrom *Score_timewise) (score_timewiseTo *Score_timewise) {
 
 	// score_timewiseFrom has already been copied
 	if _score_timewiseTo, ok := mapOrigCopy[score_timewiseFrom]; ok {
@@ -13662,34 +12955,34 @@ func CopyBranchScore_timewise(mapOrigCopy map[any]any, score_timewiseFrom *Score
 
 	score_timewiseTo = new(Score_timewise)
 	mapOrigCopy[score_timewiseFrom] = score_timewiseTo
-	score_timewiseFrom.CopyBasicFields(score_timewiseTo)
+	score_timewiseFrom.GongCopyBasicFields(score_timewiseTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if score_timewiseFrom.Work != nil {
-		score_timewiseTo.Work = CopyBranchWork(mapOrigCopy, score_timewiseFrom.Work)
+		score_timewiseTo.Work = GongCopyBranchWork(mapOrigCopy, score_timewiseFrom.Work)
 	}
 	if score_timewiseFrom.Identification != nil {
-		score_timewiseTo.Identification = CopyBranchIdentification(mapOrigCopy, score_timewiseFrom.Identification)
+		score_timewiseTo.Identification = GongCopyBranchIdentification(mapOrigCopy, score_timewiseFrom.Identification)
 	}
 	if score_timewiseFrom.Defaults != nil {
-		score_timewiseTo.Defaults = CopyBranchDefaults(mapOrigCopy, score_timewiseFrom.Defaults)
+		score_timewiseTo.Defaults = GongCopyBranchDefaults(mapOrigCopy, score_timewiseFrom.Defaults)
 	}
 	if score_timewiseFrom.Part_list != nil {
-		score_timewiseTo.Part_list = CopyBranchPart_list(mapOrigCopy, score_timewiseFrom.Part_list)
+		score_timewiseTo.Part_list = GongCopyBranchPart_list(mapOrigCopy, score_timewiseFrom.Part_list)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _credit := range score_timewiseFrom.Credit {
-		score_timewiseTo.Credit = append(score_timewiseTo.Credit, CopyBranchCredit(mapOrigCopy, _credit))
+		score_timewiseTo.Credit = append(score_timewiseTo.Credit, GongCopyBranchCredit(mapOrigCopy, _credit))
 	}
 	for _, _a_measure_1 := range score_timewiseFrom.Measure {
-		score_timewiseTo.Measure = append(score_timewiseTo.Measure, CopyBranchA_measure_1(mapOrigCopy, _a_measure_1))
+		score_timewiseTo.Measure = append(score_timewiseTo.Measure, GongCopyBranchA_measure_1(mapOrigCopy, _a_measure_1))
 	}
 
 	return
 }
 
-func CopyBranchSegno(mapOrigCopy map[any]any, segnoFrom *Segno) (segnoTo *Segno) {
+func GongCopyBranchSegno(mapOrigCopy map[any]any, segnoFrom *Segno) (segnoTo *Segno) {
 
 	// segnoFrom has already been copied
 	if _segnoTo, ok := mapOrigCopy[segnoFrom]; ok {
@@ -13699,7 +12992,7 @@ func CopyBranchSegno(mapOrigCopy map[any]any, segnoFrom *Segno) (segnoTo *Segno)
 
 	segnoTo = new(Segno)
 	mapOrigCopy[segnoFrom] = segnoTo
-	segnoFrom.CopyBasicFields(segnoTo)
+	segnoFrom.GongCopyBasicFields(segnoTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13708,7 +13001,7 @@ func CopyBranchSegno(mapOrigCopy map[any]any, segnoFrom *Segno) (segnoTo *Segno)
 	return
 }
 
-func CopyBranchSlash(mapOrigCopy map[any]any, slashFrom *Slash) (slashTo *Slash) {
+func GongCopyBranchSlash(mapOrigCopy map[any]any, slashFrom *Slash) (slashTo *Slash) {
 
 	// slashFrom has already been copied
 	if _slashTo, ok := mapOrigCopy[slashFrom]; ok {
@@ -13718,7 +13011,7 @@ func CopyBranchSlash(mapOrigCopy map[any]any, slashFrom *Slash) (slashTo *Slash)
 
 	slashTo = new(Slash)
 	mapOrigCopy[slashFrom] = slashTo
-	slashFrom.CopyBasicFields(slashTo)
+	slashFrom.GongCopyBasicFields(slashTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13727,7 +13020,7 @@ func CopyBranchSlash(mapOrigCopy map[any]any, slashFrom *Slash) (slashTo *Slash)
 	return
 }
 
-func CopyBranchSlide(mapOrigCopy map[any]any, slideFrom *Slide) (slideTo *Slide) {
+func GongCopyBranchSlide(mapOrigCopy map[any]any, slideFrom *Slide) (slideTo *Slide) {
 
 	// slideFrom has already been copied
 	if _slideTo, ok := mapOrigCopy[slideFrom]; ok {
@@ -13737,7 +13030,7 @@ func CopyBranchSlide(mapOrigCopy map[any]any, slideFrom *Slide) (slideTo *Slide)
 
 	slideTo = new(Slide)
 	mapOrigCopy[slideFrom] = slideTo
-	slideFrom.CopyBasicFields(slideTo)
+	slideFrom.GongCopyBasicFields(slideTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13746,7 +13039,7 @@ func CopyBranchSlide(mapOrigCopy map[any]any, slideFrom *Slide) (slideTo *Slide)
 	return
 }
 
-func CopyBranchSlur(mapOrigCopy map[any]any, slurFrom *Slur) (slurTo *Slur) {
+func GongCopyBranchSlur(mapOrigCopy map[any]any, slurFrom *Slur) (slurTo *Slur) {
 
 	// slurFrom has already been copied
 	if _slurTo, ok := mapOrigCopy[slurFrom]; ok {
@@ -13756,7 +13049,7 @@ func CopyBranchSlur(mapOrigCopy map[any]any, slurFrom *Slur) (slurTo *Slur) {
 
 	slurTo = new(Slur)
 	mapOrigCopy[slurFrom] = slurTo
-	slurFrom.CopyBasicFields(slurTo)
+	slurFrom.GongCopyBasicFields(slurTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13765,7 +13058,7 @@ func CopyBranchSlur(mapOrigCopy map[any]any, slurFrom *Slur) (slurTo *Slur) {
 	return
 }
 
-func CopyBranchSound(mapOrigCopy map[any]any, soundFrom *Sound) (soundTo *Sound) {
+func GongCopyBranchSound(mapOrigCopy map[any]any, soundFrom *Sound) (soundTo *Sound) {
 
 	// soundFrom has already been copied
 	if _soundTo, ok := mapOrigCopy[soundFrom]; ok {
@@ -13775,34 +13068,34 @@ func CopyBranchSound(mapOrigCopy map[any]any, soundFrom *Sound) (soundTo *Sound)
 
 	soundTo = new(Sound)
 	mapOrigCopy[soundFrom] = soundTo
-	soundFrom.CopyBasicFields(soundTo)
+	soundFrom.GongCopyBasicFields(soundTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if soundFrom.Swing != nil {
-		soundTo.Swing = CopyBranchSwing(mapOrigCopy, soundFrom.Swing)
+		soundTo.Swing = GongCopyBranchSwing(mapOrigCopy, soundFrom.Swing)
 	}
 	if soundFrom.Offset != nil {
-		soundTo.Offset = CopyBranchOffset(mapOrigCopy, soundFrom.Offset)
+		soundTo.Offset = GongCopyBranchOffset(mapOrigCopy, soundFrom.Offset)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _instrument_change := range soundFrom.Instrument_change {
-		soundTo.Instrument_change = append(soundTo.Instrument_change, CopyBranchInstrument_change(mapOrigCopy, _instrument_change))
+		soundTo.Instrument_change = append(soundTo.Instrument_change, GongCopyBranchInstrument_change(mapOrigCopy, _instrument_change))
 	}
 	for _, _midi_device := range soundFrom.Midi_device {
-		soundTo.Midi_device = append(soundTo.Midi_device, CopyBranchMidi_device(mapOrigCopy, _midi_device))
+		soundTo.Midi_device = append(soundTo.Midi_device, GongCopyBranchMidi_device(mapOrigCopy, _midi_device))
 	}
 	for _, _midi_instrument := range soundFrom.Midi_instrument {
-		soundTo.Midi_instrument = append(soundTo.Midi_instrument, CopyBranchMidi_instrument(mapOrigCopy, _midi_instrument))
+		soundTo.Midi_instrument = append(soundTo.Midi_instrument, GongCopyBranchMidi_instrument(mapOrigCopy, _midi_instrument))
 	}
 	for _, _play := range soundFrom.Play {
-		soundTo.Play = append(soundTo.Play, CopyBranchPlay(mapOrigCopy, _play))
+		soundTo.Play = append(soundTo.Play, GongCopyBranchPlay(mapOrigCopy, _play))
 	}
 
 	return
 }
 
-func CopyBranchStaff_details(mapOrigCopy map[any]any, staff_detailsFrom *Staff_details) (staff_detailsTo *Staff_details) {
+func GongCopyBranchStaff_details(mapOrigCopy map[any]any, staff_detailsFrom *Staff_details) (staff_detailsTo *Staff_details) {
 
 	// staff_detailsFrom has already been copied
 	if _staff_detailsTo, ok := mapOrigCopy[staff_detailsFrom]; ok {
@@ -13812,25 +13105,25 @@ func CopyBranchStaff_details(mapOrigCopy map[any]any, staff_detailsFrom *Staff_d
 
 	staff_detailsTo = new(Staff_details)
 	mapOrigCopy[staff_detailsFrom] = staff_detailsTo
-	staff_detailsFrom.CopyBasicFields(staff_detailsTo)
+	staff_detailsFrom.GongCopyBasicFields(staff_detailsTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if staff_detailsFrom.Staff_size != nil {
-		staff_detailsTo.Staff_size = CopyBranchStaff_size(mapOrigCopy, staff_detailsFrom.Staff_size)
+		staff_detailsTo.Staff_size = GongCopyBranchStaff_size(mapOrigCopy, staff_detailsFrom.Staff_size)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _line_detail := range staff_detailsFrom.Line_detail {
-		staff_detailsTo.Line_detail = append(staff_detailsTo.Line_detail, CopyBranchLine_detail(mapOrigCopy, _line_detail))
+		staff_detailsTo.Line_detail = append(staff_detailsTo.Line_detail, GongCopyBranchLine_detail(mapOrigCopy, _line_detail))
 	}
 	for _, _staff_tuning := range staff_detailsFrom.Staff_tuning {
-		staff_detailsTo.Staff_tuning = append(staff_detailsTo.Staff_tuning, CopyBranchStaff_tuning(mapOrigCopy, _staff_tuning))
+		staff_detailsTo.Staff_tuning = append(staff_detailsTo.Staff_tuning, GongCopyBranchStaff_tuning(mapOrigCopy, _staff_tuning))
 	}
 
 	return
 }
 
-func CopyBranchStaff_divide(mapOrigCopy map[any]any, staff_divideFrom *Staff_divide) (staff_divideTo *Staff_divide) {
+func GongCopyBranchStaff_divide(mapOrigCopy map[any]any, staff_divideFrom *Staff_divide) (staff_divideTo *Staff_divide) {
 
 	// staff_divideFrom has already been copied
 	if _staff_divideTo, ok := mapOrigCopy[staff_divideFrom]; ok {
@@ -13840,7 +13133,7 @@ func CopyBranchStaff_divide(mapOrigCopy map[any]any, staff_divideFrom *Staff_div
 
 	staff_divideTo = new(Staff_divide)
 	mapOrigCopy[staff_divideFrom] = staff_divideTo
-	staff_divideFrom.CopyBasicFields(staff_divideTo)
+	staff_divideFrom.GongCopyBasicFields(staff_divideTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13849,7 +13142,7 @@ func CopyBranchStaff_divide(mapOrigCopy map[any]any, staff_divideFrom *Staff_div
 	return
 }
 
-func CopyBranchStaff_layout(mapOrigCopy map[any]any, staff_layoutFrom *Staff_layout) (staff_layoutTo *Staff_layout) {
+func GongCopyBranchStaff_layout(mapOrigCopy map[any]any, staff_layoutFrom *Staff_layout) (staff_layoutTo *Staff_layout) {
 
 	// staff_layoutFrom has already been copied
 	if _staff_layoutTo, ok := mapOrigCopy[staff_layoutFrom]; ok {
@@ -13859,7 +13152,7 @@ func CopyBranchStaff_layout(mapOrigCopy map[any]any, staff_layoutFrom *Staff_lay
 
 	staff_layoutTo = new(Staff_layout)
 	mapOrigCopy[staff_layoutFrom] = staff_layoutTo
-	staff_layoutFrom.CopyBasicFields(staff_layoutTo)
+	staff_layoutFrom.GongCopyBasicFields(staff_layoutTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13868,7 +13161,7 @@ func CopyBranchStaff_layout(mapOrigCopy map[any]any, staff_layoutFrom *Staff_lay
 	return
 }
 
-func CopyBranchStaff_size(mapOrigCopy map[any]any, staff_sizeFrom *Staff_size) (staff_sizeTo *Staff_size) {
+func GongCopyBranchStaff_size(mapOrigCopy map[any]any, staff_sizeFrom *Staff_size) (staff_sizeTo *Staff_size) {
 
 	// staff_sizeFrom has already been copied
 	if _staff_sizeTo, ok := mapOrigCopy[staff_sizeFrom]; ok {
@@ -13878,7 +13171,7 @@ func CopyBranchStaff_size(mapOrigCopy map[any]any, staff_sizeFrom *Staff_size) (
 
 	staff_sizeTo = new(Staff_size)
 	mapOrigCopy[staff_sizeFrom] = staff_sizeTo
-	staff_sizeFrom.CopyBasicFields(staff_sizeTo)
+	staff_sizeFrom.GongCopyBasicFields(staff_sizeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13887,7 +13180,7 @@ func CopyBranchStaff_size(mapOrigCopy map[any]any, staff_sizeFrom *Staff_size) (
 	return
 }
 
-func CopyBranchStaff_tuning(mapOrigCopy map[any]any, staff_tuningFrom *Staff_tuning) (staff_tuningTo *Staff_tuning) {
+func GongCopyBranchStaff_tuning(mapOrigCopy map[any]any, staff_tuningFrom *Staff_tuning) (staff_tuningTo *Staff_tuning) {
 
 	// staff_tuningFrom has already been copied
 	if _staff_tuningTo, ok := mapOrigCopy[staff_tuningFrom]; ok {
@@ -13897,7 +13190,7 @@ func CopyBranchStaff_tuning(mapOrigCopy map[any]any, staff_tuningFrom *Staff_tun
 
 	staff_tuningTo = new(Staff_tuning)
 	mapOrigCopy[staff_tuningFrom] = staff_tuningTo
-	staff_tuningFrom.CopyBasicFields(staff_tuningTo)
+	staff_tuningFrom.GongCopyBasicFields(staff_tuningTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13906,7 +13199,7 @@ func CopyBranchStaff_tuning(mapOrigCopy map[any]any, staff_tuningFrom *Staff_tun
 	return
 }
 
-func CopyBranchStem(mapOrigCopy map[any]any, stemFrom *Stem) (stemTo *Stem) {
+func GongCopyBranchStem(mapOrigCopy map[any]any, stemFrom *Stem) (stemTo *Stem) {
 
 	// stemFrom has already been copied
 	if _stemTo, ok := mapOrigCopy[stemFrom]; ok {
@@ -13916,7 +13209,7 @@ func CopyBranchStem(mapOrigCopy map[any]any, stemFrom *Stem) (stemTo *Stem) {
 
 	stemTo = new(Stem)
 	mapOrigCopy[stemFrom] = stemTo
-	stemFrom.CopyBasicFields(stemTo)
+	stemFrom.GongCopyBasicFields(stemTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13925,7 +13218,7 @@ func CopyBranchStem(mapOrigCopy map[any]any, stemFrom *Stem) (stemTo *Stem) {
 	return
 }
 
-func CopyBranchStick(mapOrigCopy map[any]any, stickFrom *Stick) (stickTo *Stick) {
+func GongCopyBranchStick(mapOrigCopy map[any]any, stickFrom *Stick) (stickTo *Stick) {
 
 	// stickFrom has already been copied
 	if _stickTo, ok := mapOrigCopy[stickFrom]; ok {
@@ -13935,7 +13228,7 @@ func CopyBranchStick(mapOrigCopy map[any]any, stickFrom *Stick) (stickTo *Stick)
 
 	stickTo = new(Stick)
 	mapOrigCopy[stickFrom] = stickTo
-	stickFrom.CopyBasicFields(stickTo)
+	stickFrom.GongCopyBasicFields(stickTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13944,7 +13237,7 @@ func CopyBranchStick(mapOrigCopy map[any]any, stickFrom *Stick) (stickTo *Stick)
 	return
 }
 
-func CopyBranchString_mute(mapOrigCopy map[any]any, string_muteFrom *String_mute) (string_muteTo *String_mute) {
+func GongCopyBranchString_mute(mapOrigCopy map[any]any, string_muteFrom *String_mute) (string_muteTo *String_mute) {
 
 	// string_muteFrom has already been copied
 	if _string_muteTo, ok := mapOrigCopy[string_muteFrom]; ok {
@@ -13954,7 +13247,7 @@ func CopyBranchString_mute(mapOrigCopy map[any]any, string_muteFrom *String_mute
 
 	string_muteTo = new(String_mute)
 	mapOrigCopy[string_muteFrom] = string_muteTo
-	string_muteFrom.CopyBasicFields(string_muteTo)
+	string_muteFrom.GongCopyBasicFields(string_muteTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13963,7 +13256,7 @@ func CopyBranchString_mute(mapOrigCopy map[any]any, string_muteFrom *String_mute
 	return
 }
 
-func CopyBranchString_type(mapOrigCopy map[any]any, string_typeFrom *String_type) (string_typeTo *String_type) {
+func GongCopyBranchString_type(mapOrigCopy map[any]any, string_typeFrom *String_type) (string_typeTo *String_type) {
 
 	// string_typeFrom has already been copied
 	if _string_typeTo, ok := mapOrigCopy[string_typeFrom]; ok {
@@ -13973,7 +13266,7 @@ func CopyBranchString_type(mapOrigCopy map[any]any, string_typeFrom *String_type
 
 	string_typeTo = new(String_type)
 	mapOrigCopy[string_typeFrom] = string_typeTo
-	string_typeFrom.CopyBasicFields(string_typeTo)
+	string_typeFrom.GongCopyBasicFields(string_typeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -13982,7 +13275,7 @@ func CopyBranchString_type(mapOrigCopy map[any]any, string_typeFrom *String_type
 	return
 }
 
-func CopyBranchStrong_accent(mapOrigCopy map[any]any, strong_accentFrom *Strong_accent) (strong_accentTo *Strong_accent) {
+func GongCopyBranchStrong_accent(mapOrigCopy map[any]any, strong_accentFrom *Strong_accent) (strong_accentTo *Strong_accent) {
 
 	// strong_accentFrom has already been copied
 	if _strong_accentTo, ok := mapOrigCopy[strong_accentFrom]; ok {
@@ -13992,7 +13285,7 @@ func CopyBranchStrong_accent(mapOrigCopy map[any]any, strong_accentFrom *Strong_
 
 	strong_accentTo = new(Strong_accent)
 	mapOrigCopy[strong_accentFrom] = strong_accentTo
-	strong_accentFrom.CopyBasicFields(strong_accentTo)
+	strong_accentFrom.GongCopyBasicFields(strong_accentTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14001,7 +13294,7 @@ func CopyBranchStrong_accent(mapOrigCopy map[any]any, strong_accentFrom *Strong_
 	return
 }
 
-func CopyBranchStyle_text(mapOrigCopy map[any]any, style_textFrom *Style_text) (style_textTo *Style_text) {
+func GongCopyBranchStyle_text(mapOrigCopy map[any]any, style_textFrom *Style_text) (style_textTo *Style_text) {
 
 	// style_textFrom has already been copied
 	if _style_textTo, ok := mapOrigCopy[style_textFrom]; ok {
@@ -14011,7 +13304,7 @@ func CopyBranchStyle_text(mapOrigCopy map[any]any, style_textFrom *Style_text) (
 
 	style_textTo = new(Style_text)
 	mapOrigCopy[style_textFrom] = style_textTo
-	style_textFrom.CopyBasicFields(style_textTo)
+	style_textFrom.GongCopyBasicFields(style_textTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14020,7 +13313,7 @@ func CopyBranchStyle_text(mapOrigCopy map[any]any, style_textFrom *Style_text) (
 	return
 }
 
-func CopyBranchSupports(mapOrigCopy map[any]any, supportsFrom *Supports) (supportsTo *Supports) {
+func GongCopyBranchSupports(mapOrigCopy map[any]any, supportsFrom *Supports) (supportsTo *Supports) {
 
 	// supportsFrom has already been copied
 	if _supportsTo, ok := mapOrigCopy[supportsFrom]; ok {
@@ -14030,7 +13323,7 @@ func CopyBranchSupports(mapOrigCopy map[any]any, supportsFrom *Supports) (suppor
 
 	supportsTo = new(Supports)
 	mapOrigCopy[supportsFrom] = supportsTo
-	supportsFrom.CopyBasicFields(supportsTo)
+	supportsFrom.GongCopyBasicFields(supportsTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14039,7 +13332,7 @@ func CopyBranchSupports(mapOrigCopy map[any]any, supportsFrom *Supports) (suppor
 	return
 }
 
-func CopyBranchSwing(mapOrigCopy map[any]any, swingFrom *Swing) (swingTo *Swing) {
+func GongCopyBranchSwing(mapOrigCopy map[any]any, swingFrom *Swing) (swingTo *Swing) {
 
 	// swingFrom has already been copied
 	if _swingTo, ok := mapOrigCopy[swingFrom]; ok {
@@ -14049,7 +13342,7 @@ func CopyBranchSwing(mapOrigCopy map[any]any, swingFrom *Swing) (swingTo *Swing)
 
 	swingTo = new(Swing)
 	mapOrigCopy[swingFrom] = swingTo
-	swingFrom.CopyBasicFields(swingTo)
+	swingFrom.GongCopyBasicFields(swingTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14058,7 +13351,7 @@ func CopyBranchSwing(mapOrigCopy map[any]any, swingFrom *Swing) (swingTo *Swing)
 	return
 }
 
-func CopyBranchSync(mapOrigCopy map[any]any, syncFrom *Sync) (syncTo *Sync) {
+func GongCopyBranchSync(mapOrigCopy map[any]any, syncFrom *Sync) (syncTo *Sync) {
 
 	// syncFrom has already been copied
 	if _syncTo, ok := mapOrigCopy[syncFrom]; ok {
@@ -14068,7 +13361,7 @@ func CopyBranchSync(mapOrigCopy map[any]any, syncFrom *Sync) (syncTo *Sync) {
 
 	syncTo = new(Sync)
 	mapOrigCopy[syncFrom] = syncTo
-	syncFrom.CopyBasicFields(syncTo)
+	syncFrom.GongCopyBasicFields(syncTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14077,7 +13370,7 @@ func CopyBranchSync(mapOrigCopy map[any]any, syncFrom *Sync) (syncTo *Sync) {
 	return
 }
 
-func CopyBranchSystem_dividers(mapOrigCopy map[any]any, system_dividersFrom *System_dividers) (system_dividersTo *System_dividers) {
+func GongCopyBranchSystem_dividers(mapOrigCopy map[any]any, system_dividersFrom *System_dividers) (system_dividersTo *System_dividers) {
 
 	// system_dividersFrom has already been copied
 	if _system_dividersTo, ok := mapOrigCopy[system_dividersFrom]; ok {
@@ -14087,14 +13380,14 @@ func CopyBranchSystem_dividers(mapOrigCopy map[any]any, system_dividersFrom *Sys
 
 	system_dividersTo = new(System_dividers)
 	mapOrigCopy[system_dividersFrom] = system_dividersTo
-	system_dividersFrom.CopyBasicFields(system_dividersTo)
+	system_dividersFrom.GongCopyBasicFields(system_dividersTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if system_dividersFrom.Left_divider != nil {
-		system_dividersTo.Left_divider = CopyBranchEmpty_print_object_style_align(mapOrigCopy, system_dividersFrom.Left_divider)
+		system_dividersTo.Left_divider = GongCopyBranchEmpty_print_object_style_align(mapOrigCopy, system_dividersFrom.Left_divider)
 	}
 	if system_dividersFrom.Right_divider != nil {
-		system_dividersTo.Right_divider = CopyBranchEmpty_print_object_style_align(mapOrigCopy, system_dividersFrom.Right_divider)
+		system_dividersTo.Right_divider = GongCopyBranchEmpty_print_object_style_align(mapOrigCopy, system_dividersFrom.Right_divider)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -14102,7 +13395,7 @@ func CopyBranchSystem_dividers(mapOrigCopy map[any]any, system_dividersFrom *Sys
 	return
 }
 
-func CopyBranchSystem_layout(mapOrigCopy map[any]any, system_layoutFrom *System_layout) (system_layoutTo *System_layout) {
+func GongCopyBranchSystem_layout(mapOrigCopy map[any]any, system_layoutFrom *System_layout) (system_layoutTo *System_layout) {
 
 	// system_layoutFrom has already been copied
 	if _system_layoutTo, ok := mapOrigCopy[system_layoutFrom]; ok {
@@ -14112,14 +13405,14 @@ func CopyBranchSystem_layout(mapOrigCopy map[any]any, system_layoutFrom *System_
 
 	system_layoutTo = new(System_layout)
 	mapOrigCopy[system_layoutFrom] = system_layoutTo
-	system_layoutFrom.CopyBasicFields(system_layoutTo)
+	system_layoutFrom.GongCopyBasicFields(system_layoutTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if system_layoutFrom.System_margins != nil {
-		system_layoutTo.System_margins = CopyBranchSystem_margins(mapOrigCopy, system_layoutFrom.System_margins)
+		system_layoutTo.System_margins = GongCopyBranchSystem_margins(mapOrigCopy, system_layoutFrom.System_margins)
 	}
 	if system_layoutFrom.System_dividers != nil {
-		system_layoutTo.System_dividers = CopyBranchSystem_dividers(mapOrigCopy, system_layoutFrom.System_dividers)
+		system_layoutTo.System_dividers = GongCopyBranchSystem_dividers(mapOrigCopy, system_layoutFrom.System_dividers)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -14127,7 +13420,7 @@ func CopyBranchSystem_layout(mapOrigCopy map[any]any, system_layoutFrom *System_
 	return
 }
 
-func CopyBranchSystem_margins(mapOrigCopy map[any]any, system_marginsFrom *System_margins) (system_marginsTo *System_margins) {
+func GongCopyBranchSystem_margins(mapOrigCopy map[any]any, system_marginsFrom *System_margins) (system_marginsTo *System_margins) {
 
 	// system_marginsFrom has already been copied
 	if _system_marginsTo, ok := mapOrigCopy[system_marginsFrom]; ok {
@@ -14137,7 +13430,7 @@ func CopyBranchSystem_margins(mapOrigCopy map[any]any, system_marginsFrom *Syste
 
 	system_marginsTo = new(System_margins)
 	mapOrigCopy[system_marginsFrom] = system_marginsTo
-	system_marginsFrom.CopyBasicFields(system_marginsTo)
+	system_marginsFrom.GongCopyBasicFields(system_marginsTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14146,7 +13439,7 @@ func CopyBranchSystem_margins(mapOrigCopy map[any]any, system_marginsFrom *Syste
 	return
 }
 
-func CopyBranchTap(mapOrigCopy map[any]any, tapFrom *Tap) (tapTo *Tap) {
+func GongCopyBranchTap(mapOrigCopy map[any]any, tapFrom *Tap) (tapTo *Tap) {
 
 	// tapFrom has already been copied
 	if _tapTo, ok := mapOrigCopy[tapFrom]; ok {
@@ -14156,7 +13449,7 @@ func CopyBranchTap(mapOrigCopy map[any]any, tapFrom *Tap) (tapTo *Tap) {
 
 	tapTo = new(Tap)
 	mapOrigCopy[tapFrom] = tapTo
-	tapFrom.CopyBasicFields(tapTo)
+	tapFrom.GongCopyBasicFields(tapTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14165,7 +13458,7 @@ func CopyBranchTap(mapOrigCopy map[any]any, tapFrom *Tap) (tapTo *Tap) {
 	return
 }
 
-func CopyBranchTechnical(mapOrigCopy map[any]any, technicalFrom *Technical) (technicalTo *Technical) {
+func GongCopyBranchTechnical(mapOrigCopy map[any]any, technicalFrom *Technical) (technicalTo *Technical) {
 
 	// technicalFrom has already been copied
 	if _technicalTo, ok := mapOrigCopy[technicalFrom]; ok {
@@ -14175,109 +13468,109 @@ func CopyBranchTechnical(mapOrigCopy map[any]any, technicalFrom *Technical) (tec
 
 	technicalTo = new(Technical)
 	mapOrigCopy[technicalFrom] = technicalTo
-	technicalFrom.CopyBasicFields(technicalTo)
+	technicalFrom.GongCopyBasicFields(technicalTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _empty_placement := range technicalFrom.Up_bow {
-		technicalTo.Up_bow = append(technicalTo.Up_bow, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		technicalTo.Up_bow = append(technicalTo.Up_bow, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _empty_placement := range technicalFrom.Down_bow {
-		technicalTo.Down_bow = append(technicalTo.Down_bow, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		technicalTo.Down_bow = append(technicalTo.Down_bow, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _harmonic := range technicalFrom.Harmonic {
-		technicalTo.Harmonic = append(technicalTo.Harmonic, CopyBranchHarmonic(mapOrigCopy, _harmonic))
+		technicalTo.Harmonic = append(technicalTo.Harmonic, GongCopyBranchHarmonic(mapOrigCopy, _harmonic))
 	}
 	for _, _empty_placement := range technicalFrom.Open_string {
-		technicalTo.Open_string = append(technicalTo.Open_string, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		technicalTo.Open_string = append(technicalTo.Open_string, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _empty_placement := range technicalFrom.Thumb_position {
-		technicalTo.Thumb_position = append(technicalTo.Thumb_position, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		technicalTo.Thumb_position = append(technicalTo.Thumb_position, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _fingering := range technicalFrom.Fingering {
-		technicalTo.Fingering = append(technicalTo.Fingering, CopyBranchFingering(mapOrigCopy, _fingering))
+		technicalTo.Fingering = append(technicalTo.Fingering, GongCopyBranchFingering(mapOrigCopy, _fingering))
 	}
 	for _, _placement_text := range technicalFrom.Pluck {
-		technicalTo.Pluck = append(technicalTo.Pluck, CopyBranchPlacement_text(mapOrigCopy, _placement_text))
+		technicalTo.Pluck = append(technicalTo.Pluck, GongCopyBranchPlacement_text(mapOrigCopy, _placement_text))
 	}
 	for _, _empty_placement := range technicalFrom.Double_tongue {
-		technicalTo.Double_tongue = append(technicalTo.Double_tongue, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		technicalTo.Double_tongue = append(technicalTo.Double_tongue, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _empty_placement := range technicalFrom.Triple_tongue {
-		technicalTo.Triple_tongue = append(technicalTo.Triple_tongue, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		technicalTo.Triple_tongue = append(technicalTo.Triple_tongue, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _empty_placement_smufl := range technicalFrom.Stopped {
-		technicalTo.Stopped = append(technicalTo.Stopped, CopyBranchEmpty_placement_smufl(mapOrigCopy, _empty_placement_smufl))
+		technicalTo.Stopped = append(technicalTo.Stopped, GongCopyBranchEmpty_placement_smufl(mapOrigCopy, _empty_placement_smufl))
 	}
 	for _, _empty_placement := range technicalFrom.Snap_pizzicato {
-		technicalTo.Snap_pizzicato = append(technicalTo.Snap_pizzicato, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		technicalTo.Snap_pizzicato = append(technicalTo.Snap_pizzicato, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _fret := range technicalFrom.Fret {
-		technicalTo.Fret = append(technicalTo.Fret, CopyBranchFret(mapOrigCopy, _fret))
+		technicalTo.Fret = append(technicalTo.Fret, GongCopyBranchFret(mapOrigCopy, _fret))
 	}
 	for _, _string_type := range technicalFrom.String {
-		technicalTo.String = append(technicalTo.String, CopyBranchString_type(mapOrigCopy, _string_type))
+		technicalTo.String = append(technicalTo.String, GongCopyBranchString_type(mapOrigCopy, _string_type))
 	}
 	for _, _hammer_on_pull_off := range technicalFrom.Hammer_on {
-		technicalTo.Hammer_on = append(technicalTo.Hammer_on, CopyBranchHammer_on_pull_off(mapOrigCopy, _hammer_on_pull_off))
+		technicalTo.Hammer_on = append(technicalTo.Hammer_on, GongCopyBranchHammer_on_pull_off(mapOrigCopy, _hammer_on_pull_off))
 	}
 	for _, _hammer_on_pull_off := range technicalFrom.Pull_off {
-		technicalTo.Pull_off = append(technicalTo.Pull_off, CopyBranchHammer_on_pull_off(mapOrigCopy, _hammer_on_pull_off))
+		technicalTo.Pull_off = append(technicalTo.Pull_off, GongCopyBranchHammer_on_pull_off(mapOrigCopy, _hammer_on_pull_off))
 	}
 	for _, _bend := range technicalFrom.Bend {
-		technicalTo.Bend = append(technicalTo.Bend, CopyBranchBend(mapOrigCopy, _bend))
+		technicalTo.Bend = append(technicalTo.Bend, GongCopyBranchBend(mapOrigCopy, _bend))
 	}
 	for _, _tap := range technicalFrom.Tap {
-		technicalTo.Tap = append(technicalTo.Tap, CopyBranchTap(mapOrigCopy, _tap))
+		technicalTo.Tap = append(technicalTo.Tap, GongCopyBranchTap(mapOrigCopy, _tap))
 	}
 	for _, _heel_toe := range technicalFrom.Heel {
-		technicalTo.Heel = append(technicalTo.Heel, CopyBranchHeel_toe(mapOrigCopy, _heel_toe))
+		technicalTo.Heel = append(technicalTo.Heel, GongCopyBranchHeel_toe(mapOrigCopy, _heel_toe))
 	}
 	for _, _heel_toe := range technicalFrom.Toe {
-		technicalTo.Toe = append(technicalTo.Toe, CopyBranchHeel_toe(mapOrigCopy, _heel_toe))
+		technicalTo.Toe = append(technicalTo.Toe, GongCopyBranchHeel_toe(mapOrigCopy, _heel_toe))
 	}
 	for _, _empty_placement := range technicalFrom.Fingernails {
-		technicalTo.Fingernails = append(technicalTo.Fingernails, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		technicalTo.Fingernails = append(technicalTo.Fingernails, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _hole := range technicalFrom.Hole {
-		technicalTo.Hole = append(technicalTo.Hole, CopyBranchHole(mapOrigCopy, _hole))
+		technicalTo.Hole = append(technicalTo.Hole, GongCopyBranchHole(mapOrigCopy, _hole))
 	}
 	for _, _arrow := range technicalFrom.Arrow {
-		technicalTo.Arrow = append(technicalTo.Arrow, CopyBranchArrow(mapOrigCopy, _arrow))
+		technicalTo.Arrow = append(technicalTo.Arrow, GongCopyBranchArrow(mapOrigCopy, _arrow))
 	}
 	for _, _handbell := range technicalFrom.Handbell {
-		technicalTo.Handbell = append(technicalTo.Handbell, CopyBranchHandbell(mapOrigCopy, _handbell))
+		technicalTo.Handbell = append(technicalTo.Handbell, GongCopyBranchHandbell(mapOrigCopy, _handbell))
 	}
 	for _, _empty_placement := range technicalFrom.Brass_bend {
-		technicalTo.Brass_bend = append(technicalTo.Brass_bend, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		technicalTo.Brass_bend = append(technicalTo.Brass_bend, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _empty_placement := range technicalFrom.Flip {
-		technicalTo.Flip = append(technicalTo.Flip, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		technicalTo.Flip = append(technicalTo.Flip, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _empty_placement := range technicalFrom.Smear {
-		technicalTo.Smear = append(technicalTo.Smear, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		technicalTo.Smear = append(technicalTo.Smear, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _empty_placement_smufl := range technicalFrom.Open {
-		technicalTo.Open = append(technicalTo.Open, CopyBranchEmpty_placement_smufl(mapOrigCopy, _empty_placement_smufl))
+		technicalTo.Open = append(technicalTo.Open, GongCopyBranchEmpty_placement_smufl(mapOrigCopy, _empty_placement_smufl))
 	}
 	for _, _empty_placement_smufl := range technicalFrom.Half_muted {
-		technicalTo.Half_muted = append(technicalTo.Half_muted, CopyBranchEmpty_placement_smufl(mapOrigCopy, _empty_placement_smufl))
+		technicalTo.Half_muted = append(technicalTo.Half_muted, GongCopyBranchEmpty_placement_smufl(mapOrigCopy, _empty_placement_smufl))
 	}
 	for _, _harmon_mute := range technicalFrom.Harmon_mute {
-		technicalTo.Harmon_mute = append(technicalTo.Harmon_mute, CopyBranchHarmon_mute(mapOrigCopy, _harmon_mute))
+		technicalTo.Harmon_mute = append(technicalTo.Harmon_mute, GongCopyBranchHarmon_mute(mapOrigCopy, _harmon_mute))
 	}
 	for _, _empty_placement := range technicalFrom.Golpe {
-		technicalTo.Golpe = append(technicalTo.Golpe, CopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
+		technicalTo.Golpe = append(technicalTo.Golpe, GongCopyBranchEmpty_placement(mapOrigCopy, _empty_placement))
 	}
 	for _, _other_placement_text := range technicalFrom.Other_technical {
-		technicalTo.Other_technical = append(technicalTo.Other_technical, CopyBranchOther_placement_text(mapOrigCopy, _other_placement_text))
+		technicalTo.Other_technical = append(technicalTo.Other_technical, GongCopyBranchOther_placement_text(mapOrigCopy, _other_placement_text))
 	}
 
 	return
 }
 
-func CopyBranchText_element_data(mapOrigCopy map[any]any, text_element_dataFrom *Text_element_data) (text_element_dataTo *Text_element_data) {
+func GongCopyBranchText_element_data(mapOrigCopy map[any]any, text_element_dataFrom *Text_element_data) (text_element_dataTo *Text_element_data) {
 
 	// text_element_dataFrom has already been copied
 	if _text_element_dataTo, ok := mapOrigCopy[text_element_dataFrom]; ok {
@@ -14287,7 +13580,7 @@ func CopyBranchText_element_data(mapOrigCopy map[any]any, text_element_dataFrom 
 
 	text_element_dataTo = new(Text_element_data)
 	mapOrigCopy[text_element_dataFrom] = text_element_dataTo
-	text_element_dataFrom.CopyBasicFields(text_element_dataTo)
+	text_element_dataFrom.GongCopyBasicFields(text_element_dataTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14296,7 +13589,7 @@ func CopyBranchText_element_data(mapOrigCopy map[any]any, text_element_dataFrom 
 	return
 }
 
-func CopyBranchTie(mapOrigCopy map[any]any, tieFrom *Tie) (tieTo *Tie) {
+func GongCopyBranchTie(mapOrigCopy map[any]any, tieFrom *Tie) (tieTo *Tie) {
 
 	// tieFrom has already been copied
 	if _tieTo, ok := mapOrigCopy[tieFrom]; ok {
@@ -14306,7 +13599,7 @@ func CopyBranchTie(mapOrigCopy map[any]any, tieFrom *Tie) (tieTo *Tie) {
 
 	tieTo = new(Tie)
 	mapOrigCopy[tieFrom] = tieTo
-	tieFrom.CopyBasicFields(tieTo)
+	tieFrom.GongCopyBasicFields(tieTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14315,7 +13608,7 @@ func CopyBranchTie(mapOrigCopy map[any]any, tieFrom *Tie) (tieTo *Tie) {
 	return
 }
 
-func CopyBranchTied(mapOrigCopy map[any]any, tiedFrom *Tied) (tiedTo *Tied) {
+func GongCopyBranchTied(mapOrigCopy map[any]any, tiedFrom *Tied) (tiedTo *Tied) {
 
 	// tiedFrom has already been copied
 	if _tiedTo, ok := mapOrigCopy[tiedFrom]; ok {
@@ -14325,7 +13618,7 @@ func CopyBranchTied(mapOrigCopy map[any]any, tiedFrom *Tied) (tiedTo *Tied) {
 
 	tiedTo = new(Tied)
 	mapOrigCopy[tiedFrom] = tiedTo
-	tiedFrom.CopyBasicFields(tiedTo)
+	tiedFrom.GongCopyBasicFields(tiedTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14334,7 +13627,7 @@ func CopyBranchTied(mapOrigCopy map[any]any, tiedFrom *Tied) (tiedTo *Tied) {
 	return
 }
 
-func CopyBranchTime(mapOrigCopy map[any]any, timeFrom *Time) (timeTo *Time) {
+func GongCopyBranchTime(mapOrigCopy map[any]any, timeFrom *Time) (timeTo *Time) {
 
 	// timeFrom has already been copied
 	if _timeTo, ok := mapOrigCopy[timeFrom]; ok {
@@ -14344,11 +13637,11 @@ func CopyBranchTime(mapOrigCopy map[any]any, timeFrom *Time) (timeTo *Time) {
 
 	timeTo = new(Time)
 	mapOrigCopy[timeFrom] = timeTo
-	timeFrom.CopyBasicFields(timeTo)
+	timeFrom.GongCopyBasicFields(timeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if timeFrom.Interchangeable != nil {
-		timeTo.Interchangeable = CopyBranchInterchangeable(mapOrigCopy, timeFrom.Interchangeable)
+		timeTo.Interchangeable = GongCopyBranchInterchangeable(mapOrigCopy, timeFrom.Interchangeable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -14356,7 +13649,7 @@ func CopyBranchTime(mapOrigCopy map[any]any, timeFrom *Time) (timeTo *Time) {
 	return
 }
 
-func CopyBranchTime_modification(mapOrigCopy map[any]any, time_modificationFrom *Time_modification) (time_modificationTo *Time_modification) {
+func GongCopyBranchTime_modification(mapOrigCopy map[any]any, time_modificationFrom *Time_modification) (time_modificationTo *Time_modification) {
 
 	// time_modificationFrom has already been copied
 	if _time_modificationTo, ok := mapOrigCopy[time_modificationFrom]; ok {
@@ -14366,7 +13659,7 @@ func CopyBranchTime_modification(mapOrigCopy map[any]any, time_modificationFrom 
 
 	time_modificationTo = new(Time_modification)
 	mapOrigCopy[time_modificationFrom] = time_modificationTo
-	time_modificationFrom.CopyBasicFields(time_modificationTo)
+	time_modificationFrom.GongCopyBasicFields(time_modificationTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14375,7 +13668,7 @@ func CopyBranchTime_modification(mapOrigCopy map[any]any, time_modificationFrom 
 	return
 }
 
-func CopyBranchTimpani(mapOrigCopy map[any]any, timpaniFrom *Timpani) (timpaniTo *Timpani) {
+func GongCopyBranchTimpani(mapOrigCopy map[any]any, timpaniFrom *Timpani) (timpaniTo *Timpani) {
 
 	// timpaniFrom has already been copied
 	if _timpaniTo, ok := mapOrigCopy[timpaniFrom]; ok {
@@ -14385,7 +13678,7 @@ func CopyBranchTimpani(mapOrigCopy map[any]any, timpaniFrom *Timpani) (timpaniTo
 
 	timpaniTo = new(Timpani)
 	mapOrigCopy[timpaniFrom] = timpaniTo
-	timpaniFrom.CopyBasicFields(timpaniTo)
+	timpaniFrom.GongCopyBasicFields(timpaniTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14394,7 +13687,7 @@ func CopyBranchTimpani(mapOrigCopy map[any]any, timpaniFrom *Timpani) (timpaniTo
 	return
 }
 
-func CopyBranchTranspose(mapOrigCopy map[any]any, transposeFrom *Transpose) (transposeTo *Transpose) {
+func GongCopyBranchTranspose(mapOrigCopy map[any]any, transposeFrom *Transpose) (transposeTo *Transpose) {
 
 	// transposeFrom has already been copied
 	if _transposeTo, ok := mapOrigCopy[transposeFrom]; ok {
@@ -14404,7 +13697,7 @@ func CopyBranchTranspose(mapOrigCopy map[any]any, transposeFrom *Transpose) (tra
 
 	transposeTo = new(Transpose)
 	mapOrigCopy[transposeFrom] = transposeTo
-	transposeFrom.CopyBasicFields(transposeTo)
+	transposeFrom.GongCopyBasicFields(transposeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14413,7 +13706,7 @@ func CopyBranchTranspose(mapOrigCopy map[any]any, transposeFrom *Transpose) (tra
 	return
 }
 
-func CopyBranchTremolo(mapOrigCopy map[any]any, tremoloFrom *Tremolo) (tremoloTo *Tremolo) {
+func GongCopyBranchTremolo(mapOrigCopy map[any]any, tremoloFrom *Tremolo) (tremoloTo *Tremolo) {
 
 	// tremoloFrom has already been copied
 	if _tremoloTo, ok := mapOrigCopy[tremoloFrom]; ok {
@@ -14423,7 +13716,7 @@ func CopyBranchTremolo(mapOrigCopy map[any]any, tremoloFrom *Tremolo) (tremoloTo
 
 	tremoloTo = new(Tremolo)
 	mapOrigCopy[tremoloFrom] = tremoloTo
-	tremoloFrom.CopyBasicFields(tremoloTo)
+	tremoloFrom.GongCopyBasicFields(tremoloTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14432,7 +13725,7 @@ func CopyBranchTremolo(mapOrigCopy map[any]any, tremoloFrom *Tremolo) (tremoloTo
 	return
 }
 
-func CopyBranchTuplet(mapOrigCopy map[any]any, tupletFrom *Tuplet) (tupletTo *Tuplet) {
+func GongCopyBranchTuplet(mapOrigCopy map[any]any, tupletFrom *Tuplet) (tupletTo *Tuplet) {
 
 	// tupletFrom has already been copied
 	if _tupletTo, ok := mapOrigCopy[tupletFrom]; ok {
@@ -14442,14 +13735,14 @@ func CopyBranchTuplet(mapOrigCopy map[any]any, tupletFrom *Tuplet) (tupletTo *Tu
 
 	tupletTo = new(Tuplet)
 	mapOrigCopy[tupletFrom] = tupletTo
-	tupletFrom.CopyBasicFields(tupletTo)
+	tupletFrom.GongCopyBasicFields(tupletTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if tupletFrom.Tuplet_actual != nil {
-		tupletTo.Tuplet_actual = CopyBranchTuplet_portion(mapOrigCopy, tupletFrom.Tuplet_actual)
+		tupletTo.Tuplet_actual = GongCopyBranchTuplet_portion(mapOrigCopy, tupletFrom.Tuplet_actual)
 	}
 	if tupletFrom.Tuplet_normal != nil {
-		tupletTo.Tuplet_normal = CopyBranchTuplet_portion(mapOrigCopy, tupletFrom.Tuplet_normal)
+		tupletTo.Tuplet_normal = GongCopyBranchTuplet_portion(mapOrigCopy, tupletFrom.Tuplet_normal)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -14457,7 +13750,7 @@ func CopyBranchTuplet(mapOrigCopy map[any]any, tupletFrom *Tuplet) (tupletTo *Tu
 	return
 }
 
-func CopyBranchTuplet_dot(mapOrigCopy map[any]any, tuplet_dotFrom *Tuplet_dot) (tuplet_dotTo *Tuplet_dot) {
+func GongCopyBranchTuplet_dot(mapOrigCopy map[any]any, tuplet_dotFrom *Tuplet_dot) (tuplet_dotTo *Tuplet_dot) {
 
 	// tuplet_dotFrom has already been copied
 	if _tuplet_dotTo, ok := mapOrigCopy[tuplet_dotFrom]; ok {
@@ -14467,7 +13760,7 @@ func CopyBranchTuplet_dot(mapOrigCopy map[any]any, tuplet_dotFrom *Tuplet_dot) (
 
 	tuplet_dotTo = new(Tuplet_dot)
 	mapOrigCopy[tuplet_dotFrom] = tuplet_dotTo
-	tuplet_dotFrom.CopyBasicFields(tuplet_dotTo)
+	tuplet_dotFrom.GongCopyBasicFields(tuplet_dotTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14476,7 +13769,7 @@ func CopyBranchTuplet_dot(mapOrigCopy map[any]any, tuplet_dotFrom *Tuplet_dot) (
 	return
 }
 
-func CopyBranchTuplet_number(mapOrigCopy map[any]any, tuplet_numberFrom *Tuplet_number) (tuplet_numberTo *Tuplet_number) {
+func GongCopyBranchTuplet_number(mapOrigCopy map[any]any, tuplet_numberFrom *Tuplet_number) (tuplet_numberTo *Tuplet_number) {
 
 	// tuplet_numberFrom has already been copied
 	if _tuplet_numberTo, ok := mapOrigCopy[tuplet_numberFrom]; ok {
@@ -14486,7 +13779,7 @@ func CopyBranchTuplet_number(mapOrigCopy map[any]any, tuplet_numberFrom *Tuplet_
 
 	tuplet_numberTo = new(Tuplet_number)
 	mapOrigCopy[tuplet_numberFrom] = tuplet_numberTo
-	tuplet_numberFrom.CopyBasicFields(tuplet_numberTo)
+	tuplet_numberFrom.GongCopyBasicFields(tuplet_numberTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14495,7 +13788,7 @@ func CopyBranchTuplet_number(mapOrigCopy map[any]any, tuplet_numberFrom *Tuplet_
 	return
 }
 
-func CopyBranchTuplet_portion(mapOrigCopy map[any]any, tuplet_portionFrom *Tuplet_portion) (tuplet_portionTo *Tuplet_portion) {
+func GongCopyBranchTuplet_portion(mapOrigCopy map[any]any, tuplet_portionFrom *Tuplet_portion) (tuplet_portionTo *Tuplet_portion) {
 
 	// tuplet_portionFrom has already been copied
 	if _tuplet_portionTo, ok := mapOrigCopy[tuplet_portionFrom]; ok {
@@ -14505,25 +13798,25 @@ func CopyBranchTuplet_portion(mapOrigCopy map[any]any, tuplet_portionFrom *Tuple
 
 	tuplet_portionTo = new(Tuplet_portion)
 	mapOrigCopy[tuplet_portionFrom] = tuplet_portionTo
-	tuplet_portionFrom.CopyBasicFields(tuplet_portionTo)
+	tuplet_portionFrom.GongCopyBasicFields(tuplet_portionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if tuplet_portionFrom.Tuplet_number != nil {
-		tuplet_portionTo.Tuplet_number = CopyBranchTuplet_number(mapOrigCopy, tuplet_portionFrom.Tuplet_number)
+		tuplet_portionTo.Tuplet_number = GongCopyBranchTuplet_number(mapOrigCopy, tuplet_portionFrom.Tuplet_number)
 	}
 	if tuplet_portionFrom.Tuplet_type != nil {
-		tuplet_portionTo.Tuplet_type = CopyBranchTuplet_type(mapOrigCopy, tuplet_portionFrom.Tuplet_type)
+		tuplet_portionTo.Tuplet_type = GongCopyBranchTuplet_type(mapOrigCopy, tuplet_portionFrom.Tuplet_type)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tuplet_dot := range tuplet_portionFrom.Tuplet_dot {
-		tuplet_portionTo.Tuplet_dot = append(tuplet_portionTo.Tuplet_dot, CopyBranchTuplet_dot(mapOrigCopy, _tuplet_dot))
+		tuplet_portionTo.Tuplet_dot = append(tuplet_portionTo.Tuplet_dot, GongCopyBranchTuplet_dot(mapOrigCopy, _tuplet_dot))
 	}
 
 	return
 }
 
-func CopyBranchTuplet_type(mapOrigCopy map[any]any, tuplet_typeFrom *Tuplet_type) (tuplet_typeTo *Tuplet_type) {
+func GongCopyBranchTuplet_type(mapOrigCopy map[any]any, tuplet_typeFrom *Tuplet_type) (tuplet_typeTo *Tuplet_type) {
 
 	// tuplet_typeFrom has already been copied
 	if _tuplet_typeTo, ok := mapOrigCopy[tuplet_typeFrom]; ok {
@@ -14533,7 +13826,7 @@ func CopyBranchTuplet_type(mapOrigCopy map[any]any, tuplet_typeFrom *Tuplet_type
 
 	tuplet_typeTo = new(Tuplet_type)
 	mapOrigCopy[tuplet_typeFrom] = tuplet_typeTo
-	tuplet_typeFrom.CopyBasicFields(tuplet_typeTo)
+	tuplet_typeFrom.GongCopyBasicFields(tuplet_typeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14542,7 +13835,7 @@ func CopyBranchTuplet_type(mapOrigCopy map[any]any, tuplet_typeFrom *Tuplet_type
 	return
 }
 
-func CopyBranchTyped_text(mapOrigCopy map[any]any, typed_textFrom *Typed_text) (typed_textTo *Typed_text) {
+func GongCopyBranchTyped_text(mapOrigCopy map[any]any, typed_textFrom *Typed_text) (typed_textTo *Typed_text) {
 
 	// typed_textFrom has already been copied
 	if _typed_textTo, ok := mapOrigCopy[typed_textFrom]; ok {
@@ -14552,7 +13845,7 @@ func CopyBranchTyped_text(mapOrigCopy map[any]any, typed_textFrom *Typed_text) (
 
 	typed_textTo = new(Typed_text)
 	mapOrigCopy[typed_textFrom] = typed_textTo
-	typed_textFrom.CopyBasicFields(typed_textTo)
+	typed_textFrom.GongCopyBasicFields(typed_textTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14561,7 +13854,7 @@ func CopyBranchTyped_text(mapOrigCopy map[any]any, typed_textFrom *Typed_text) (
 	return
 }
 
-func CopyBranchUnpitched(mapOrigCopy map[any]any, unpitchedFrom *Unpitched) (unpitchedTo *Unpitched) {
+func GongCopyBranchUnpitched(mapOrigCopy map[any]any, unpitchedFrom *Unpitched) (unpitchedTo *Unpitched) {
 
 	// unpitchedFrom has already been copied
 	if _unpitchedTo, ok := mapOrigCopy[unpitchedFrom]; ok {
@@ -14571,7 +13864,7 @@ func CopyBranchUnpitched(mapOrigCopy map[any]any, unpitchedFrom *Unpitched) (unp
 
 	unpitchedTo = new(Unpitched)
 	mapOrigCopy[unpitchedFrom] = unpitchedTo
-	unpitchedFrom.CopyBasicFields(unpitchedTo)
+	unpitchedFrom.GongCopyBasicFields(unpitchedTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14580,7 +13873,7 @@ func CopyBranchUnpitched(mapOrigCopy map[any]any, unpitchedFrom *Unpitched) (unp
 	return
 }
 
-func CopyBranchVirtual_instrument(mapOrigCopy map[any]any, virtual_instrumentFrom *Virtual_instrument) (virtual_instrumentTo *Virtual_instrument) {
+func GongCopyBranchVirtual_instrument(mapOrigCopy map[any]any, virtual_instrumentFrom *Virtual_instrument) (virtual_instrumentTo *Virtual_instrument) {
 
 	// virtual_instrumentFrom has already been copied
 	if _virtual_instrumentTo, ok := mapOrigCopy[virtual_instrumentFrom]; ok {
@@ -14590,7 +13883,7 @@ func CopyBranchVirtual_instrument(mapOrigCopy map[any]any, virtual_instrumentFro
 
 	virtual_instrumentTo = new(Virtual_instrument)
 	mapOrigCopy[virtual_instrumentFrom] = virtual_instrumentTo
-	virtual_instrumentFrom.CopyBasicFields(virtual_instrumentTo)
+	virtual_instrumentFrom.GongCopyBasicFields(virtual_instrumentTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14599,7 +13892,7 @@ func CopyBranchVirtual_instrument(mapOrigCopy map[any]any, virtual_instrumentFro
 	return
 }
 
-func CopyBranchWait(mapOrigCopy map[any]any, waitFrom *Wait) (waitTo *Wait) {
+func GongCopyBranchWait(mapOrigCopy map[any]any, waitFrom *Wait) (waitTo *Wait) {
 
 	// waitFrom has already been copied
 	if _waitTo, ok := mapOrigCopy[waitFrom]; ok {
@@ -14609,7 +13902,7 @@ func CopyBranchWait(mapOrigCopy map[any]any, waitFrom *Wait) (waitTo *Wait) {
 
 	waitTo = new(Wait)
 	mapOrigCopy[waitFrom] = waitTo
-	waitFrom.CopyBasicFields(waitTo)
+	waitFrom.GongCopyBasicFields(waitTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14618,7 +13911,7 @@ func CopyBranchWait(mapOrigCopy map[any]any, waitFrom *Wait) (waitTo *Wait) {
 	return
 }
 
-func CopyBranchWavy_line(mapOrigCopy map[any]any, wavy_lineFrom *Wavy_line) (wavy_lineTo *Wavy_line) {
+func GongCopyBranchWavy_line(mapOrigCopy map[any]any, wavy_lineFrom *Wavy_line) (wavy_lineTo *Wavy_line) {
 
 	// wavy_lineFrom has already been copied
 	if _wavy_lineTo, ok := mapOrigCopy[wavy_lineFrom]; ok {
@@ -14628,7 +13921,7 @@ func CopyBranchWavy_line(mapOrigCopy map[any]any, wavy_lineFrom *Wavy_line) (wav
 
 	wavy_lineTo = new(Wavy_line)
 	mapOrigCopy[wavy_lineFrom] = wavy_lineTo
-	wavy_lineFrom.CopyBasicFields(wavy_lineTo)
+	wavy_lineFrom.GongCopyBasicFields(wavy_lineTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14637,7 +13930,7 @@ func CopyBranchWavy_line(mapOrigCopy map[any]any, wavy_lineFrom *Wavy_line) (wav
 	return
 }
 
-func CopyBranchWedge(mapOrigCopy map[any]any, wedgeFrom *Wedge) (wedgeTo *Wedge) {
+func GongCopyBranchWedge(mapOrigCopy map[any]any, wedgeFrom *Wedge) (wedgeTo *Wedge) {
 
 	// wedgeFrom has already been copied
 	if _wedgeTo, ok := mapOrigCopy[wedgeFrom]; ok {
@@ -14647,7 +13940,7 @@ func CopyBranchWedge(mapOrigCopy map[any]any, wedgeFrom *Wedge) (wedgeTo *Wedge)
 
 	wedgeTo = new(Wedge)
 	mapOrigCopy[wedgeFrom] = wedgeTo
-	wedgeFrom.CopyBasicFields(wedgeTo)
+	wedgeFrom.GongCopyBasicFields(wedgeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14656,7 +13949,7 @@ func CopyBranchWedge(mapOrigCopy map[any]any, wedgeFrom *Wedge) (wedgeTo *Wedge)
 	return
 }
 
-func CopyBranchWood(mapOrigCopy map[any]any, woodFrom *Wood) (woodTo *Wood) {
+func GongCopyBranchWood(mapOrigCopy map[any]any, woodFrom *Wood) (woodTo *Wood) {
 
 	// woodFrom has already been copied
 	if _woodTo, ok := mapOrigCopy[woodFrom]; ok {
@@ -14666,7 +13959,7 @@ func CopyBranchWood(mapOrigCopy map[any]any, woodFrom *Wood) (woodTo *Wood) {
 
 	woodTo = new(Wood)
 	mapOrigCopy[woodFrom] = woodTo
-	woodFrom.CopyBasicFields(woodTo)
+	woodFrom.GongCopyBasicFields(woodTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -14675,7 +13968,7 @@ func CopyBranchWood(mapOrigCopy map[any]any, woodFrom *Wood) (woodTo *Wood) {
 	return
 }
 
-func CopyBranchWork(mapOrigCopy map[any]any, workFrom *Work) (workTo *Work) {
+func GongCopyBranchWork(mapOrigCopy map[any]any, workFrom *Work) (workTo *Work) {
 
 	// workFrom has already been copied
 	if _workTo, ok := mapOrigCopy[workFrom]; ok {
@@ -14685,11 +13978,11 @@ func CopyBranchWork(mapOrigCopy map[any]any, workFrom *Work) (workTo *Work) {
 
 	workTo = new(Work)
 	mapOrigCopy[workFrom] = workTo
-	workFrom.CopyBasicFields(workTo)
+	workFrom.GongCopyBasicFields(workTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if workFrom.Opus != nil {
-		workTo.Opus = CopyBranchOpus(mapOrigCopy, workFrom.Opus)
+		workTo.Opus = GongCopyBranchOpus(mapOrigCopy, workFrom.Opus)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -15404,16 +14697,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchA_directive(a_directive *A_directive) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, a_directive) {
+	if !stage.IsStaged(a_directive) {
 		return
 	}
 
@@ -15428,7 +14716,7 @@ func (stage *Stage) UnstageBranchA_directive(a_directive *A_directive) {
 func (stage *Stage) UnstageBranchA_measure(a_measure *A_measure) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, a_measure) {
+	if !stage.IsStaged(a_measure) {
 		return
 	}
 
@@ -15438,46 +14726,46 @@ func (stage *Stage) UnstageBranchA_measure(a_measure *A_measure) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _note := range a_measure.Note {
-		UnstageBranch(stage, _note)
+		stage.UnstageBranch(_note)
 	}
 	for _, _backup := range a_measure.Backup {
-		UnstageBranch(stage, _backup)
+		stage.UnstageBranch(_backup)
 	}
 	for _, _forward := range a_measure.Forward {
-		UnstageBranch(stage, _forward)
+		stage.UnstageBranch(_forward)
 	}
 	for _, _direction := range a_measure.Direction {
-		UnstageBranch(stage, _direction)
+		stage.UnstageBranch(_direction)
 	}
 	for _, _attributes := range a_measure.Attributes {
-		UnstageBranch(stage, _attributes)
+		stage.UnstageBranch(_attributes)
 	}
 	for _, _harmony := range a_measure.Harmony {
-		UnstageBranch(stage, _harmony)
+		stage.UnstageBranch(_harmony)
 	}
 	for _, _figured_bass := range a_measure.Figured_bass {
-		UnstageBranch(stage, _figured_bass)
+		stage.UnstageBranch(_figured_bass)
 	}
 	for _, _print := range a_measure.Print {
-		UnstageBranch(stage, _print)
+		stage.UnstageBranch(_print)
 	}
 	for _, _sound := range a_measure.Sound {
-		UnstageBranch(stage, _sound)
+		stage.UnstageBranch(_sound)
 	}
 	for _, _listening := range a_measure.Listening {
-		UnstageBranch(stage, _listening)
+		stage.UnstageBranch(_listening)
 	}
 	for _, _barline := range a_measure.Barline {
-		UnstageBranch(stage, _barline)
+		stage.UnstageBranch(_barline)
 	}
 	for _, _grouping := range a_measure.Grouping {
-		UnstageBranch(stage, _grouping)
+		stage.UnstageBranch(_grouping)
 	}
 	for _, _link := range a_measure.Link {
-		UnstageBranch(stage, _link)
+		stage.UnstageBranch(_link)
 	}
 	for _, _bookmark := range a_measure.Bookmark {
-		UnstageBranch(stage, _bookmark)
+		stage.UnstageBranch(_bookmark)
 	}
 
 }
@@ -15485,7 +14773,7 @@ func (stage *Stage) UnstageBranchA_measure(a_measure *A_measure) {
 func (stage *Stage) UnstageBranchA_measure_1(a_measure_1 *A_measure_1) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, a_measure_1) {
+	if !stage.IsStaged(a_measure_1) {
 		return
 	}
 
@@ -15495,7 +14783,7 @@ func (stage *Stage) UnstageBranchA_measure_1(a_measure_1 *A_measure_1) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _a_part_1 := range a_measure_1.Part {
-		UnstageBranch(stage, _a_part_1)
+		stage.UnstageBranch(_a_part_1)
 	}
 
 }
@@ -15503,7 +14791,7 @@ func (stage *Stage) UnstageBranchA_measure_1(a_measure_1 *A_measure_1) {
 func (stage *Stage) UnstageBranchA_part(a_part *A_part) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, a_part) {
+	if !stage.IsStaged(a_part) {
 		return
 	}
 
@@ -15513,7 +14801,7 @@ func (stage *Stage) UnstageBranchA_part(a_part *A_part) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _a_measure := range a_part.Measure {
-		UnstageBranch(stage, _a_measure)
+		stage.UnstageBranch(_a_measure)
 	}
 
 }
@@ -15521,7 +14809,7 @@ func (stage *Stage) UnstageBranchA_part(a_part *A_part) {
 func (stage *Stage) UnstageBranchA_part_1(a_part_1 *A_part_1) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, a_part_1) {
+	if !stage.IsStaged(a_part_1) {
 		return
 	}
 
@@ -15531,46 +14819,46 @@ func (stage *Stage) UnstageBranchA_part_1(a_part_1 *A_part_1) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _note := range a_part_1.Note {
-		UnstageBranch(stage, _note)
+		stage.UnstageBranch(_note)
 	}
 	for _, _backup := range a_part_1.Backup {
-		UnstageBranch(stage, _backup)
+		stage.UnstageBranch(_backup)
 	}
 	for _, _forward := range a_part_1.Forward {
-		UnstageBranch(stage, _forward)
+		stage.UnstageBranch(_forward)
 	}
 	for _, _direction := range a_part_1.Direction {
-		UnstageBranch(stage, _direction)
+		stage.UnstageBranch(_direction)
 	}
 	for _, _attributes := range a_part_1.Attributes {
-		UnstageBranch(stage, _attributes)
+		stage.UnstageBranch(_attributes)
 	}
 	for _, _harmony := range a_part_1.Harmony {
-		UnstageBranch(stage, _harmony)
+		stage.UnstageBranch(_harmony)
 	}
 	for _, _figured_bass := range a_part_1.Figured_bass {
-		UnstageBranch(stage, _figured_bass)
+		stage.UnstageBranch(_figured_bass)
 	}
 	for _, _print := range a_part_1.Print {
-		UnstageBranch(stage, _print)
+		stage.UnstageBranch(_print)
 	}
 	for _, _sound := range a_part_1.Sound {
-		UnstageBranch(stage, _sound)
+		stage.UnstageBranch(_sound)
 	}
 	for _, _listening := range a_part_1.Listening {
-		UnstageBranch(stage, _listening)
+		stage.UnstageBranch(_listening)
 	}
 	for _, _barline := range a_part_1.Barline {
-		UnstageBranch(stage, _barline)
+		stage.UnstageBranch(_barline)
 	}
 	for _, _grouping := range a_part_1.Grouping {
-		UnstageBranch(stage, _grouping)
+		stage.UnstageBranch(_grouping)
 	}
 	for _, _link := range a_part_1.Link {
-		UnstageBranch(stage, _link)
+		stage.UnstageBranch(_link)
 	}
 	for _, _bookmark := range a_part_1.Bookmark {
-		UnstageBranch(stage, _bookmark)
+		stage.UnstageBranch(_bookmark)
 	}
 
 }
@@ -15578,7 +14866,7 @@ func (stage *Stage) UnstageBranchA_part_1(a_part_1 *A_part_1) {
 func (stage *Stage) UnstageBranchAccidental(accidental *Accidental) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, accidental) {
+	if !stage.IsStaged(accidental) {
 		return
 	}
 
@@ -15593,7 +14881,7 @@ func (stage *Stage) UnstageBranchAccidental(accidental *Accidental) {
 func (stage *Stage) UnstageBranchAccidental_mark(accidental_mark *Accidental_mark) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, accidental_mark) {
+	if !stage.IsStaged(accidental_mark) {
 		return
 	}
 
@@ -15608,7 +14896,7 @@ func (stage *Stage) UnstageBranchAccidental_mark(accidental_mark *Accidental_mar
 func (stage *Stage) UnstageBranchAccidental_text(accidental_text *Accidental_text) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, accidental_text) {
+	if !stage.IsStaged(accidental_text) {
 		return
 	}
 
@@ -15623,7 +14911,7 @@ func (stage *Stage) UnstageBranchAccidental_text(accidental_text *Accidental_tex
 func (stage *Stage) UnstageBranchAccord(accord *Accord) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, accord) {
+	if !stage.IsStaged(accord) {
 		return
 	}
 
@@ -15638,7 +14926,7 @@ func (stage *Stage) UnstageBranchAccord(accord *Accord) {
 func (stage *Stage) UnstageBranchAccordion_registration(accordion_registration *Accordion_registration) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, accordion_registration) {
+	if !stage.IsStaged(accordion_registration) {
 		return
 	}
 
@@ -15653,7 +14941,7 @@ func (stage *Stage) UnstageBranchAccordion_registration(accordion_registration *
 func (stage *Stage) UnstageBranchAppearance(appearance *Appearance) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, appearance) {
+	if !stage.IsStaged(appearance) {
 		return
 	}
 
@@ -15663,19 +14951,19 @@ func (stage *Stage) UnstageBranchAppearance(appearance *Appearance) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _line_width := range appearance.Line_width {
-		UnstageBranch(stage, _line_width)
+		stage.UnstageBranch(_line_width)
 	}
 	for _, _note_size := range appearance.Note_size {
-		UnstageBranch(stage, _note_size)
+		stage.UnstageBranch(_note_size)
 	}
 	for _, _distance := range appearance.Distance {
-		UnstageBranch(stage, _distance)
+		stage.UnstageBranch(_distance)
 	}
 	for _, _glyph := range appearance.Glyph {
-		UnstageBranch(stage, _glyph)
+		stage.UnstageBranch(_glyph)
 	}
 	for _, _other_appearance := range appearance.Other_appearance {
-		UnstageBranch(stage, _other_appearance)
+		stage.UnstageBranch(_other_appearance)
 	}
 
 }
@@ -15683,7 +14971,7 @@ func (stage *Stage) UnstageBranchAppearance(appearance *Appearance) {
 func (stage *Stage) UnstageBranchArpeggiate(arpeggiate *Arpeggiate) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, arpeggiate) {
+	if !stage.IsStaged(arpeggiate) {
 		return
 	}
 
@@ -15698,7 +14986,7 @@ func (stage *Stage) UnstageBranchArpeggiate(arpeggiate *Arpeggiate) {
 func (stage *Stage) UnstageBranchArrow(arrow *Arrow) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, arrow) {
+	if !stage.IsStaged(arrow) {
 		return
 	}
 
@@ -15713,7 +15001,7 @@ func (stage *Stage) UnstageBranchArrow(arrow *Arrow) {
 func (stage *Stage) UnstageBranchArticulations(articulations *Articulations) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, articulations) {
+	if !stage.IsStaged(articulations) {
 		return
 	}
 
@@ -15723,55 +15011,55 @@ func (stage *Stage) UnstageBranchArticulations(articulations *Articulations) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _empty_placement := range articulations.Accent {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _strong_accent := range articulations.Strong_accent {
-		UnstageBranch(stage, _strong_accent)
+		stage.UnstageBranch(_strong_accent)
 	}
 	for _, _empty_placement := range articulations.Staccato {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range articulations.Tenuto {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range articulations.Detached_legato {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range articulations.Staccatissimo {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range articulations.Spiccato {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _empty_line := range articulations.Scoop {
-		UnstageBranch(stage, _empty_line)
+		stage.UnstageBranch(_empty_line)
 	}
 	for _, _empty_line := range articulations.Plop {
-		UnstageBranch(stage, _empty_line)
+		stage.UnstageBranch(_empty_line)
 	}
 	for _, _empty_line := range articulations.Doit {
-		UnstageBranch(stage, _empty_line)
+		stage.UnstageBranch(_empty_line)
 	}
 	for _, _empty_line := range articulations.Falloff {
-		UnstageBranch(stage, _empty_line)
+		stage.UnstageBranch(_empty_line)
 	}
 	for _, _breath_mark := range articulations.Breath_mark {
-		UnstageBranch(stage, _breath_mark)
+		stage.UnstageBranch(_breath_mark)
 	}
 	for _, _caesura := range articulations.Caesura {
-		UnstageBranch(stage, _caesura)
+		stage.UnstageBranch(_caesura)
 	}
 	for _, _empty_placement := range articulations.Stress {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range articulations.Unstress {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range articulations.Soft_accent {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _other_placement_text := range articulations.Other_articulation {
-		UnstageBranch(stage, _other_placement_text)
+		stage.UnstageBranch(_other_placement_text)
 	}
 
 }
@@ -15779,7 +15067,7 @@ func (stage *Stage) UnstageBranchArticulations(articulations *Articulations) {
 func (stage *Stage) UnstageBranchAssess(assess *Assess) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, assess) {
+	if !stage.IsStaged(assess) {
 		return
 	}
 
@@ -15794,7 +15082,7 @@ func (stage *Stage) UnstageBranchAssess(assess *Assess) {
 func (stage *Stage) UnstageBranchAttributes(attributes *Attributes) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, attributes) {
+	if !stage.IsStaged(attributes) {
 		return
 	}
 
@@ -15802,39 +15090,39 @@ func (stage *Stage) UnstageBranchAttributes(attributes *Attributes) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if attributes.Footnote != nil {
-		UnstageBranch(stage, attributes.Footnote)
+		stage.UnstageBranch(attributes.Footnote)
 	}
 	if attributes.Level != nil {
-		UnstageBranch(stage, attributes.Level)
+		stage.UnstageBranch(attributes.Level)
 	}
 	if attributes.Part_symbol != nil {
-		UnstageBranch(stage, attributes.Part_symbol)
+		stage.UnstageBranch(attributes.Part_symbol)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _key := range attributes.Key {
-		UnstageBranch(stage, _key)
+		stage.UnstageBranch(_key)
 	}
 	for _, _time := range attributes.Time {
-		UnstageBranch(stage, _time)
+		stage.UnstageBranch(_time)
 	}
 	for _, _clef := range attributes.Clef {
-		UnstageBranch(stage, _clef)
+		stage.UnstageBranch(_clef)
 	}
 	for _, _staff_details := range attributes.Staff_details {
-		UnstageBranch(stage, _staff_details)
+		stage.UnstageBranch(_staff_details)
 	}
 	for _, _transpose := range attributes.Transpose {
-		UnstageBranch(stage, _transpose)
+		stage.UnstageBranch(_transpose)
 	}
 	for _, _for_part := range attributes.For_part {
-		UnstageBranch(stage, _for_part)
+		stage.UnstageBranch(_for_part)
 	}
 	for _, _a_directive := range attributes.Directive {
-		UnstageBranch(stage, _a_directive)
+		stage.UnstageBranch(_a_directive)
 	}
 	for _, _measure_style := range attributes.Measure_style {
-		UnstageBranch(stage, _measure_style)
+		stage.UnstageBranch(_measure_style)
 	}
 
 }
@@ -15842,7 +15130,7 @@ func (stage *Stage) UnstageBranchAttributes(attributes *Attributes) {
 func (stage *Stage) UnstageBranchBackup(backup *Backup) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, backup) {
+	if !stage.IsStaged(backup) {
 		return
 	}
 
@@ -15850,10 +15138,10 @@ func (stage *Stage) UnstageBranchBackup(backup *Backup) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if backup.Footnote != nil {
-		UnstageBranch(stage, backup.Footnote)
+		stage.UnstageBranch(backup.Footnote)
 	}
 	if backup.Level != nil {
-		UnstageBranch(stage, backup.Level)
+		stage.UnstageBranch(backup.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -15863,7 +15151,7 @@ func (stage *Stage) UnstageBranchBackup(backup *Backup) {
 func (stage *Stage) UnstageBranchBar_style_color(bar_style_color *Bar_style_color) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, bar_style_color) {
+	if !stage.IsStaged(bar_style_color) {
 		return
 	}
 
@@ -15878,7 +15166,7 @@ func (stage *Stage) UnstageBranchBar_style_color(bar_style_color *Bar_style_colo
 func (stage *Stage) UnstageBranchBarline(barline *Barline) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, barline) {
+	if !stage.IsStaged(barline) {
 		return
 	}
 
@@ -15886,31 +15174,31 @@ func (stage *Stage) UnstageBranchBarline(barline *Barline) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if barline.Bar_style != nil {
-		UnstageBranch(stage, barline.Bar_style)
+		stage.UnstageBranch(barline.Bar_style)
 	}
 	if barline.Footnote != nil {
-		UnstageBranch(stage, barline.Footnote)
+		stage.UnstageBranch(barline.Footnote)
 	}
 	if barline.Level != nil {
-		UnstageBranch(stage, barline.Level)
+		stage.UnstageBranch(barline.Level)
 	}
 	if barline.Wavy_line != nil {
-		UnstageBranch(stage, barline.Wavy_line)
+		stage.UnstageBranch(barline.Wavy_line)
 	}
 	if barline.Segno_1 != nil {
-		UnstageBranch(stage, barline.Segno_1)
+		stage.UnstageBranch(barline.Segno_1)
 	}
 	if barline.Coda_1 != nil {
-		UnstageBranch(stage, barline.Coda_1)
+		stage.UnstageBranch(barline.Coda_1)
 	}
 	if barline.Fermata != nil {
-		UnstageBranch(stage, barline.Fermata)
+		stage.UnstageBranch(barline.Fermata)
 	}
 	if barline.Ending != nil {
-		UnstageBranch(stage, barline.Ending)
+		stage.UnstageBranch(barline.Ending)
 	}
 	if barline.Repeat != nil {
-		UnstageBranch(stage, barline.Repeat)
+		stage.UnstageBranch(barline.Repeat)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -15920,7 +15208,7 @@ func (stage *Stage) UnstageBranchBarline(barline *Barline) {
 func (stage *Stage) UnstageBranchBarre(barre *Barre) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, barre) {
+	if !stage.IsStaged(barre) {
 		return
 	}
 
@@ -15935,7 +15223,7 @@ func (stage *Stage) UnstageBranchBarre(barre *Barre) {
 func (stage *Stage) UnstageBranchBass(bass *Bass) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, bass) {
+	if !stage.IsStaged(bass) {
 		return
 	}
 
@@ -15943,13 +15231,13 @@ func (stage *Stage) UnstageBranchBass(bass *Bass) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if bass.Bass_separator != nil {
-		UnstageBranch(stage, bass.Bass_separator)
+		stage.UnstageBranch(bass.Bass_separator)
 	}
 	if bass.Bass_step != nil {
-		UnstageBranch(stage, bass.Bass_step)
+		stage.UnstageBranch(bass.Bass_step)
 	}
 	if bass.Bass_alter != nil {
-		UnstageBranch(stage, bass.Bass_alter)
+		stage.UnstageBranch(bass.Bass_alter)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -15959,7 +15247,7 @@ func (stage *Stage) UnstageBranchBass(bass *Bass) {
 func (stage *Stage) UnstageBranchBass_step(bass_step *Bass_step) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, bass_step) {
+	if !stage.IsStaged(bass_step) {
 		return
 	}
 
@@ -15974,7 +15262,7 @@ func (stage *Stage) UnstageBranchBass_step(bass_step *Bass_step) {
 func (stage *Stage) UnstageBranchBeam(beam *Beam) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, beam) {
+	if !stage.IsStaged(beam) {
 		return
 	}
 
@@ -15989,7 +15277,7 @@ func (stage *Stage) UnstageBranchBeam(beam *Beam) {
 func (stage *Stage) UnstageBranchBeat_repeat(beat_repeat *Beat_repeat) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, beat_repeat) {
+	if !stage.IsStaged(beat_repeat) {
 		return
 	}
 
@@ -16004,7 +15292,7 @@ func (stage *Stage) UnstageBranchBeat_repeat(beat_repeat *Beat_repeat) {
 func (stage *Stage) UnstageBranchBeat_unit_tied(beat_unit_tied *Beat_unit_tied) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, beat_unit_tied) {
+	if !stage.IsStaged(beat_unit_tied) {
 		return
 	}
 
@@ -16019,7 +15307,7 @@ func (stage *Stage) UnstageBranchBeat_unit_tied(beat_unit_tied *Beat_unit_tied) 
 func (stage *Stage) UnstageBranchBeater(beater *Beater) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, beater) {
+	if !stage.IsStaged(beater) {
 		return
 	}
 
@@ -16034,7 +15322,7 @@ func (stage *Stage) UnstageBranchBeater(beater *Beater) {
 func (stage *Stage) UnstageBranchBend(bend *Bend) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, bend) {
+	if !stage.IsStaged(bend) {
 		return
 	}
 
@@ -16042,10 +15330,10 @@ func (stage *Stage) UnstageBranchBend(bend *Bend) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if bend.Release != nil {
-		UnstageBranch(stage, bend.Release)
+		stage.UnstageBranch(bend.Release)
 	}
 	if bend.With_bar != nil {
-		UnstageBranch(stage, bend.With_bar)
+		stage.UnstageBranch(bend.With_bar)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -16055,7 +15343,7 @@ func (stage *Stage) UnstageBranchBend(bend *Bend) {
 func (stage *Stage) UnstageBranchBookmark(bookmark *Bookmark) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, bookmark) {
+	if !stage.IsStaged(bookmark) {
 		return
 	}
 
@@ -16070,7 +15358,7 @@ func (stage *Stage) UnstageBranchBookmark(bookmark *Bookmark) {
 func (stage *Stage) UnstageBranchBracket(bracket *Bracket) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, bracket) {
+	if !stage.IsStaged(bracket) {
 		return
 	}
 
@@ -16085,7 +15373,7 @@ func (stage *Stage) UnstageBranchBracket(bracket *Bracket) {
 func (stage *Stage) UnstageBranchBreath_mark(breath_mark *Breath_mark) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, breath_mark) {
+	if !stage.IsStaged(breath_mark) {
 		return
 	}
 
@@ -16100,7 +15388,7 @@ func (stage *Stage) UnstageBranchBreath_mark(breath_mark *Breath_mark) {
 func (stage *Stage) UnstageBranchCaesura(caesura *Caesura) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, caesura) {
+	if !stage.IsStaged(caesura) {
 		return
 	}
 
@@ -16115,7 +15403,7 @@ func (stage *Stage) UnstageBranchCaesura(caesura *Caesura) {
 func (stage *Stage) UnstageBranchCancel(cancel *Cancel) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, cancel) {
+	if !stage.IsStaged(cancel) {
 		return
 	}
 
@@ -16130,7 +15418,7 @@ func (stage *Stage) UnstageBranchCancel(cancel *Cancel) {
 func (stage *Stage) UnstageBranchClef(clef *Clef) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, clef) {
+	if !stage.IsStaged(clef) {
 		return
 	}
 
@@ -16145,7 +15433,7 @@ func (stage *Stage) UnstageBranchClef(clef *Clef) {
 func (stage *Stage) UnstageBranchCoda(coda *Coda) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, coda) {
+	if !stage.IsStaged(coda) {
 		return
 	}
 
@@ -16160,7 +15448,7 @@ func (stage *Stage) UnstageBranchCoda(coda *Coda) {
 func (stage *Stage) UnstageBranchCredit(credit *Credit) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, credit) {
+	if !stage.IsStaged(credit) {
 		return
 	}
 
@@ -16168,21 +15456,21 @@ func (stage *Stage) UnstageBranchCredit(credit *Credit) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if credit.Credit_image != nil {
-		UnstageBranch(stage, credit.Credit_image)
+		stage.UnstageBranch(credit.Credit_image)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _link := range credit.Link {
-		UnstageBranch(stage, _link)
+		stage.UnstageBranch(_link)
 	}
 	for _, _bookmark := range credit.Bookmark {
-		UnstageBranch(stage, _bookmark)
+		stage.UnstageBranch(_bookmark)
 	}
 	for _, _formatted_text_id := range credit.Credit_words {
-		UnstageBranch(stage, _formatted_text_id)
+		stage.UnstageBranch(_formatted_text_id)
 	}
 	for _, _formatted_symbol_id := range credit.Credit_symbol {
-		UnstageBranch(stage, _formatted_symbol_id)
+		stage.UnstageBranch(_formatted_symbol_id)
 	}
 
 }
@@ -16190,7 +15478,7 @@ func (stage *Stage) UnstageBranchCredit(credit *Credit) {
 func (stage *Stage) UnstageBranchDashes(dashes *Dashes) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, dashes) {
+	if !stage.IsStaged(dashes) {
 		return
 	}
 
@@ -16205,7 +15493,7 @@ func (stage *Stage) UnstageBranchDashes(dashes *Dashes) {
 func (stage *Stage) UnstageBranchDefaults(defaults *Defaults) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, defaults) {
+	if !stage.IsStaged(defaults) {
 		return
 	}
 
@@ -16213,33 +15501,33 @@ func (stage *Stage) UnstageBranchDefaults(defaults *Defaults) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if defaults.Scaling != nil {
-		UnstageBranch(stage, defaults.Scaling)
+		stage.UnstageBranch(defaults.Scaling)
 	}
 	if defaults.Page_layout != nil {
-		UnstageBranch(stage, defaults.Page_layout)
+		stage.UnstageBranch(defaults.Page_layout)
 	}
 	if defaults.System_layout != nil {
-		UnstageBranch(stage, defaults.System_layout)
+		stage.UnstageBranch(defaults.System_layout)
 	}
 	if defaults.Appearance != nil {
-		UnstageBranch(stage, defaults.Appearance)
+		stage.UnstageBranch(defaults.Appearance)
 	}
 	if defaults.Music_font != nil {
-		UnstageBranch(stage, defaults.Music_font)
+		stage.UnstageBranch(defaults.Music_font)
 	}
 	if defaults.Word_font != nil {
-		UnstageBranch(stage, defaults.Word_font)
+		stage.UnstageBranch(defaults.Word_font)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _staff_layout := range defaults.Staff_layout {
-		UnstageBranch(stage, _staff_layout)
+		stage.UnstageBranch(_staff_layout)
 	}
 	for _, _lyric_font := range defaults.Lyric_font {
-		UnstageBranch(stage, _lyric_font)
+		stage.UnstageBranch(_lyric_font)
 	}
 	for _, _lyric_language := range defaults.Lyric_language {
-		UnstageBranch(stage, _lyric_language)
+		stage.UnstageBranch(_lyric_language)
 	}
 
 }
@@ -16247,7 +15535,7 @@ func (stage *Stage) UnstageBranchDefaults(defaults *Defaults) {
 func (stage *Stage) UnstageBranchDegree(degree *Degree) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, degree) {
+	if !stage.IsStaged(degree) {
 		return
 	}
 
@@ -16255,13 +15543,13 @@ func (stage *Stage) UnstageBranchDegree(degree *Degree) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if degree.Degree_value != nil {
-		UnstageBranch(stage, degree.Degree_value)
+		stage.UnstageBranch(degree.Degree_value)
 	}
 	if degree.Degree_alter != nil {
-		UnstageBranch(stage, degree.Degree_alter)
+		stage.UnstageBranch(degree.Degree_alter)
 	}
 	if degree.Degree_type != nil {
-		UnstageBranch(stage, degree.Degree_type)
+		stage.UnstageBranch(degree.Degree_type)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -16271,7 +15559,7 @@ func (stage *Stage) UnstageBranchDegree(degree *Degree) {
 func (stage *Stage) UnstageBranchDegree_alter(degree_alter *Degree_alter) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, degree_alter) {
+	if !stage.IsStaged(degree_alter) {
 		return
 	}
 
@@ -16286,7 +15574,7 @@ func (stage *Stage) UnstageBranchDegree_alter(degree_alter *Degree_alter) {
 func (stage *Stage) UnstageBranchDegree_type(degree_type *Degree_type) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, degree_type) {
+	if !stage.IsStaged(degree_type) {
 		return
 	}
 
@@ -16301,7 +15589,7 @@ func (stage *Stage) UnstageBranchDegree_type(degree_type *Degree_type) {
 func (stage *Stage) UnstageBranchDegree_value(degree_value *Degree_value) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, degree_value) {
+	if !stage.IsStaged(degree_value) {
 		return
 	}
 
@@ -16316,7 +15604,7 @@ func (stage *Stage) UnstageBranchDegree_value(degree_value *Degree_value) {
 func (stage *Stage) UnstageBranchDirection(direction *Direction) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, direction) {
+	if !stage.IsStaged(direction) {
 		return
 	}
 
@@ -16324,24 +15612,24 @@ func (stage *Stage) UnstageBranchDirection(direction *Direction) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if direction.Offset != nil {
-		UnstageBranch(stage, direction.Offset)
+		stage.UnstageBranch(direction.Offset)
 	}
 	if direction.Footnote != nil {
-		UnstageBranch(stage, direction.Footnote)
+		stage.UnstageBranch(direction.Footnote)
 	}
 	if direction.Level != nil {
-		UnstageBranch(stage, direction.Level)
+		stage.UnstageBranch(direction.Level)
 	}
 	if direction.Sound != nil {
-		UnstageBranch(stage, direction.Sound)
+		stage.UnstageBranch(direction.Sound)
 	}
 	if direction.Listening != nil {
-		UnstageBranch(stage, direction.Listening)
+		stage.UnstageBranch(direction.Listening)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _direction_type := range direction.Direction_type {
-		UnstageBranch(stage, _direction_type)
+		stage.UnstageBranch(_direction_type)
 	}
 
 }
@@ -16349,7 +15637,7 @@ func (stage *Stage) UnstageBranchDirection(direction *Direction) {
 func (stage *Stage) UnstageBranchDirection_type(direction_type *Direction_type) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, direction_type) {
+	if !stage.IsStaged(direction_type) {
 		return
 	}
 
@@ -16357,78 +15645,78 @@ func (stage *Stage) UnstageBranchDirection_type(direction_type *Direction_type) 
 
 	//insertion point for the staging of instances referenced by pointers
 	if direction_type.Wedge != nil {
-		UnstageBranch(stage, direction_type.Wedge)
+		stage.UnstageBranch(direction_type.Wedge)
 	}
 	if direction_type.Dashes != nil {
-		UnstageBranch(stage, direction_type.Dashes)
+		stage.UnstageBranch(direction_type.Dashes)
 	}
 	if direction_type.Bracket != nil {
-		UnstageBranch(stage, direction_type.Bracket)
+		stage.UnstageBranch(direction_type.Bracket)
 	}
 	if direction_type.Pedal != nil {
-		UnstageBranch(stage, direction_type.Pedal)
+		stage.UnstageBranch(direction_type.Pedal)
 	}
 	if direction_type.Metronome != nil {
-		UnstageBranch(stage, direction_type.Metronome)
+		stage.UnstageBranch(direction_type.Metronome)
 	}
 	if direction_type.Octave_shift != nil {
-		UnstageBranch(stage, direction_type.Octave_shift)
+		stage.UnstageBranch(direction_type.Octave_shift)
 	}
 	if direction_type.Harp_pedals != nil {
-		UnstageBranch(stage, direction_type.Harp_pedals)
+		stage.UnstageBranch(direction_type.Harp_pedals)
 	}
 	if direction_type.Damp != nil {
-		UnstageBranch(stage, direction_type.Damp)
+		stage.UnstageBranch(direction_type.Damp)
 	}
 	if direction_type.Damp_all != nil {
-		UnstageBranch(stage, direction_type.Damp_all)
+		stage.UnstageBranch(direction_type.Damp_all)
 	}
 	if direction_type.Eyeglasses != nil {
-		UnstageBranch(stage, direction_type.Eyeglasses)
+		stage.UnstageBranch(direction_type.Eyeglasses)
 	}
 	if direction_type.String_mute != nil {
-		UnstageBranch(stage, direction_type.String_mute)
+		stage.UnstageBranch(direction_type.String_mute)
 	}
 	if direction_type.Scordatura != nil {
-		UnstageBranch(stage, direction_type.Scordatura)
+		stage.UnstageBranch(direction_type.Scordatura)
 	}
 	if direction_type.Image != nil {
-		UnstageBranch(stage, direction_type.Image)
+		stage.UnstageBranch(direction_type.Image)
 	}
 	if direction_type.Principal_voice != nil {
-		UnstageBranch(stage, direction_type.Principal_voice)
+		stage.UnstageBranch(direction_type.Principal_voice)
 	}
 	if direction_type.Accordion_registration != nil {
-		UnstageBranch(stage, direction_type.Accordion_registration)
+		stage.UnstageBranch(direction_type.Accordion_registration)
 	}
 	if direction_type.Staff_divide != nil {
-		UnstageBranch(stage, direction_type.Staff_divide)
+		stage.UnstageBranch(direction_type.Staff_divide)
 	}
 	if direction_type.Other_direction != nil {
-		UnstageBranch(stage, direction_type.Other_direction)
+		stage.UnstageBranch(direction_type.Other_direction)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formatted_text_id := range direction_type.Rehearsal {
-		UnstageBranch(stage, _formatted_text_id)
+		stage.UnstageBranch(_formatted_text_id)
 	}
 	for _, _segno := range direction_type.Segno {
-		UnstageBranch(stage, _segno)
+		stage.UnstageBranch(_segno)
 	}
 	for _, _coda := range direction_type.Coda {
-		UnstageBranch(stage, _coda)
+		stage.UnstageBranch(_coda)
 	}
 	for _, _formatted_text_id := range direction_type.Words {
-		UnstageBranch(stage, _formatted_text_id)
+		stage.UnstageBranch(_formatted_text_id)
 	}
 	for _, _formatted_symbol_id := range direction_type.Symbol {
-		UnstageBranch(stage, _formatted_symbol_id)
+		stage.UnstageBranch(_formatted_symbol_id)
 	}
 	for _, _dynamics := range direction_type.Dynamics {
-		UnstageBranch(stage, _dynamics)
+		stage.UnstageBranch(_dynamics)
 	}
 	for _, _percussion := range direction_type.Percussion {
-		UnstageBranch(stage, _percussion)
+		stage.UnstageBranch(_percussion)
 	}
 
 }
@@ -16436,7 +15724,7 @@ func (stage *Stage) UnstageBranchDirection_type(direction_type *Direction_type) 
 func (stage *Stage) UnstageBranchDistance(distance *Distance) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, distance) {
+	if !stage.IsStaged(distance) {
 		return
 	}
 
@@ -16451,7 +15739,7 @@ func (stage *Stage) UnstageBranchDistance(distance *Distance) {
 func (stage *Stage) UnstageBranchDouble(double *Double) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, double) {
+	if !stage.IsStaged(double) {
 		return
 	}
 
@@ -16466,7 +15754,7 @@ func (stage *Stage) UnstageBranchDouble(double *Double) {
 func (stage *Stage) UnstageBranchDynamics(dynamics *Dynamics) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, dynamics) {
+	if !stage.IsStaged(dynamics) {
 		return
 	}
 
@@ -16476,7 +15764,7 @@ func (stage *Stage) UnstageBranchDynamics(dynamics *Dynamics) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _other_text := range dynamics.Other_dynamics {
-		UnstageBranch(stage, _other_text)
+		stage.UnstageBranch(_other_text)
 	}
 
 }
@@ -16484,7 +15772,7 @@ func (stage *Stage) UnstageBranchDynamics(dynamics *Dynamics) {
 func (stage *Stage) UnstageBranchEffect(effect *Effect) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, effect) {
+	if !stage.IsStaged(effect) {
 		return
 	}
 
@@ -16499,7 +15787,7 @@ func (stage *Stage) UnstageBranchEffect(effect *Effect) {
 func (stage *Stage) UnstageBranchElision(elision *Elision) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, elision) {
+	if !stage.IsStaged(elision) {
 		return
 	}
 
@@ -16514,7 +15802,7 @@ func (stage *Stage) UnstageBranchElision(elision *Elision) {
 func (stage *Stage) UnstageBranchEmpty(empty *Empty) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, empty) {
+	if !stage.IsStaged(empty) {
 		return
 	}
 
@@ -16529,7 +15817,7 @@ func (stage *Stage) UnstageBranchEmpty(empty *Empty) {
 func (stage *Stage) UnstageBranchEmpty_font(empty_font *Empty_font) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, empty_font) {
+	if !stage.IsStaged(empty_font) {
 		return
 	}
 
@@ -16544,7 +15832,7 @@ func (stage *Stage) UnstageBranchEmpty_font(empty_font *Empty_font) {
 func (stage *Stage) UnstageBranchEmpty_line(empty_line *Empty_line) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, empty_line) {
+	if !stage.IsStaged(empty_line) {
 		return
 	}
 
@@ -16559,7 +15847,7 @@ func (stage *Stage) UnstageBranchEmpty_line(empty_line *Empty_line) {
 func (stage *Stage) UnstageBranchEmpty_placement(empty_placement *Empty_placement) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, empty_placement) {
+	if !stage.IsStaged(empty_placement) {
 		return
 	}
 
@@ -16574,7 +15862,7 @@ func (stage *Stage) UnstageBranchEmpty_placement(empty_placement *Empty_placemen
 func (stage *Stage) UnstageBranchEmpty_placement_smufl(empty_placement_smufl *Empty_placement_smufl) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, empty_placement_smufl) {
+	if !stage.IsStaged(empty_placement_smufl) {
 		return
 	}
 
@@ -16589,7 +15877,7 @@ func (stage *Stage) UnstageBranchEmpty_placement_smufl(empty_placement_smufl *Em
 func (stage *Stage) UnstageBranchEmpty_print_object_style_align(empty_print_object_style_align *Empty_print_object_style_align) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, empty_print_object_style_align) {
+	if !stage.IsStaged(empty_print_object_style_align) {
 		return
 	}
 
@@ -16604,7 +15892,7 @@ func (stage *Stage) UnstageBranchEmpty_print_object_style_align(empty_print_obje
 func (stage *Stage) UnstageBranchEmpty_print_style(empty_print_style *Empty_print_style) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, empty_print_style) {
+	if !stage.IsStaged(empty_print_style) {
 		return
 	}
 
@@ -16619,7 +15907,7 @@ func (stage *Stage) UnstageBranchEmpty_print_style(empty_print_style *Empty_prin
 func (stage *Stage) UnstageBranchEmpty_print_style_align(empty_print_style_align *Empty_print_style_align) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, empty_print_style_align) {
+	if !stage.IsStaged(empty_print_style_align) {
 		return
 	}
 
@@ -16634,7 +15922,7 @@ func (stage *Stage) UnstageBranchEmpty_print_style_align(empty_print_style_align
 func (stage *Stage) UnstageBranchEmpty_print_style_align_id(empty_print_style_align_id *Empty_print_style_align_id) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, empty_print_style_align_id) {
+	if !stage.IsStaged(empty_print_style_align_id) {
 		return
 	}
 
@@ -16649,7 +15937,7 @@ func (stage *Stage) UnstageBranchEmpty_print_style_align_id(empty_print_style_al
 func (stage *Stage) UnstageBranchEmpty_trill_sound(empty_trill_sound *Empty_trill_sound) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, empty_trill_sound) {
+	if !stage.IsStaged(empty_trill_sound) {
 		return
 	}
 
@@ -16664,7 +15952,7 @@ func (stage *Stage) UnstageBranchEmpty_trill_sound(empty_trill_sound *Empty_tril
 func (stage *Stage) UnstageBranchEncoding(encoding *Encoding) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, encoding) {
+	if !stage.IsStaged(encoding) {
 		return
 	}
 
@@ -16674,10 +15962,10 @@ func (stage *Stage) UnstageBranchEncoding(encoding *Encoding) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _typed_text := range encoding.Encoder {
-		UnstageBranch(stage, _typed_text)
+		stage.UnstageBranch(_typed_text)
 	}
 	for _, _supports := range encoding.Supports {
-		UnstageBranch(stage, _supports)
+		stage.UnstageBranch(_supports)
 	}
 
 }
@@ -16685,7 +15973,7 @@ func (stage *Stage) UnstageBranchEncoding(encoding *Encoding) {
 func (stage *Stage) UnstageBranchEnding(ending *Ending) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, ending) {
+	if !stage.IsStaged(ending) {
 		return
 	}
 
@@ -16700,7 +15988,7 @@ func (stage *Stage) UnstageBranchEnding(ending *Ending) {
 func (stage *Stage) UnstageBranchExtend(extend *Extend) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, extend) {
+	if !stage.IsStaged(extend) {
 		return
 	}
 
@@ -16715,7 +16003,7 @@ func (stage *Stage) UnstageBranchExtend(extend *Extend) {
 func (stage *Stage) UnstageBranchFeature(feature *Feature) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, feature) {
+	if !stage.IsStaged(feature) {
 		return
 	}
 
@@ -16730,7 +16018,7 @@ func (stage *Stage) UnstageBranchFeature(feature *Feature) {
 func (stage *Stage) UnstageBranchFermata(fermata *Fermata) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, fermata) {
+	if !stage.IsStaged(fermata) {
 		return
 	}
 
@@ -16745,7 +16033,7 @@ func (stage *Stage) UnstageBranchFermata(fermata *Fermata) {
 func (stage *Stage) UnstageBranchFigure(figure *Figure) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, figure) {
+	if !stage.IsStaged(figure) {
 		return
 	}
 
@@ -16753,22 +16041,22 @@ func (stage *Stage) UnstageBranchFigure(figure *Figure) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if figure.Prefix != nil {
-		UnstageBranch(stage, figure.Prefix)
+		stage.UnstageBranch(figure.Prefix)
 	}
 	if figure.Figure_number != nil {
-		UnstageBranch(stage, figure.Figure_number)
+		stage.UnstageBranch(figure.Figure_number)
 	}
 	if figure.Suffix != nil {
-		UnstageBranch(stage, figure.Suffix)
+		stage.UnstageBranch(figure.Suffix)
 	}
 	if figure.Extend != nil {
-		UnstageBranch(stage, figure.Extend)
+		stage.UnstageBranch(figure.Extend)
 	}
 	if figure.Footnote != nil {
-		UnstageBranch(stage, figure.Footnote)
+		stage.UnstageBranch(figure.Footnote)
 	}
 	if figure.Level != nil {
-		UnstageBranch(stage, figure.Level)
+		stage.UnstageBranch(figure.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -16778,7 +16066,7 @@ func (stage *Stage) UnstageBranchFigure(figure *Figure) {
 func (stage *Stage) UnstageBranchFigured_bass(figured_bass *Figured_bass) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, figured_bass) {
+	if !stage.IsStaged(figured_bass) {
 		return
 	}
 
@@ -16786,15 +16074,15 @@ func (stage *Stage) UnstageBranchFigured_bass(figured_bass *Figured_bass) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if figured_bass.Footnote != nil {
-		UnstageBranch(stage, figured_bass.Footnote)
+		stage.UnstageBranch(figured_bass.Footnote)
 	}
 	if figured_bass.Level != nil {
-		UnstageBranch(stage, figured_bass.Level)
+		stage.UnstageBranch(figured_bass.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _figure := range figured_bass.Figure {
-		UnstageBranch(stage, _figure)
+		stage.UnstageBranch(_figure)
 	}
 
 }
@@ -16802,7 +16090,7 @@ func (stage *Stage) UnstageBranchFigured_bass(figured_bass *Figured_bass) {
 func (stage *Stage) UnstageBranchFingering(fingering *Fingering) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, fingering) {
+	if !stage.IsStaged(fingering) {
 		return
 	}
 
@@ -16817,7 +16105,7 @@ func (stage *Stage) UnstageBranchFingering(fingering *Fingering) {
 func (stage *Stage) UnstageBranchFirst_fret(first_fret *First_fret) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, first_fret) {
+	if !stage.IsStaged(first_fret) {
 		return
 	}
 
@@ -16832,7 +16120,7 @@ func (stage *Stage) UnstageBranchFirst_fret(first_fret *First_fret) {
 func (stage *Stage) UnstageBranchFor_part(for_part *For_part) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, for_part) {
+	if !stage.IsStaged(for_part) {
 		return
 	}
 
@@ -16840,10 +16128,10 @@ func (stage *Stage) UnstageBranchFor_part(for_part *For_part) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if for_part.Part_clef != nil {
-		UnstageBranch(stage, for_part.Part_clef)
+		stage.UnstageBranch(for_part.Part_clef)
 	}
 	if for_part.Part_transpose != nil {
-		UnstageBranch(stage, for_part.Part_transpose)
+		stage.UnstageBranch(for_part.Part_transpose)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -16853,7 +16141,7 @@ func (stage *Stage) UnstageBranchFor_part(for_part *For_part) {
 func (stage *Stage) UnstageBranchFormatted_symbol(formatted_symbol *Formatted_symbol) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formatted_symbol) {
+	if !stage.IsStaged(formatted_symbol) {
 		return
 	}
 
@@ -16868,7 +16156,7 @@ func (stage *Stage) UnstageBranchFormatted_symbol(formatted_symbol *Formatted_sy
 func (stage *Stage) UnstageBranchFormatted_symbol_id(formatted_symbol_id *Formatted_symbol_id) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formatted_symbol_id) {
+	if !stage.IsStaged(formatted_symbol_id) {
 		return
 	}
 
@@ -16883,7 +16171,7 @@ func (stage *Stage) UnstageBranchFormatted_symbol_id(formatted_symbol_id *Format
 func (stage *Stage) UnstageBranchFormatted_text(formatted_text *Formatted_text) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formatted_text) {
+	if !stage.IsStaged(formatted_text) {
 		return
 	}
 
@@ -16898,7 +16186,7 @@ func (stage *Stage) UnstageBranchFormatted_text(formatted_text *Formatted_text) 
 func (stage *Stage) UnstageBranchFormatted_text_id(formatted_text_id *Formatted_text_id) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formatted_text_id) {
+	if !stage.IsStaged(formatted_text_id) {
 		return
 	}
 
@@ -16913,7 +16201,7 @@ func (stage *Stage) UnstageBranchFormatted_text_id(formatted_text_id *Formatted_
 func (stage *Stage) UnstageBranchForward(forward *Forward) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, forward) {
+	if !stage.IsStaged(forward) {
 		return
 	}
 
@@ -16921,10 +16209,10 @@ func (stage *Stage) UnstageBranchForward(forward *Forward) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if forward.Footnote != nil {
-		UnstageBranch(stage, forward.Footnote)
+		stage.UnstageBranch(forward.Footnote)
 	}
 	if forward.Level != nil {
-		UnstageBranch(stage, forward.Level)
+		stage.UnstageBranch(forward.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -16934,7 +16222,7 @@ func (stage *Stage) UnstageBranchForward(forward *Forward) {
 func (stage *Stage) UnstageBranchFrame(frame *Frame) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, frame) {
+	if !stage.IsStaged(frame) {
 		return
 	}
 
@@ -16942,12 +16230,12 @@ func (stage *Stage) UnstageBranchFrame(frame *Frame) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if frame.First_fret != nil {
-		UnstageBranch(stage, frame.First_fret)
+		stage.UnstageBranch(frame.First_fret)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _frame_note := range frame.Frame_note {
-		UnstageBranch(stage, _frame_note)
+		stage.UnstageBranch(_frame_note)
 	}
 
 }
@@ -16955,7 +16243,7 @@ func (stage *Stage) UnstageBranchFrame(frame *Frame) {
 func (stage *Stage) UnstageBranchFrame_note(frame_note *Frame_note) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, frame_note) {
+	if !stage.IsStaged(frame_note) {
 		return
 	}
 
@@ -16963,16 +16251,16 @@ func (stage *Stage) UnstageBranchFrame_note(frame_note *Frame_note) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if frame_note.String != nil {
-		UnstageBranch(stage, frame_note.String)
+		stage.UnstageBranch(frame_note.String)
 	}
 	if frame_note.Fret != nil {
-		UnstageBranch(stage, frame_note.Fret)
+		stage.UnstageBranch(frame_note.Fret)
 	}
 	if frame_note.Fingering != nil {
-		UnstageBranch(stage, frame_note.Fingering)
+		stage.UnstageBranch(frame_note.Fingering)
 	}
 	if frame_note.Barre != nil {
-		UnstageBranch(stage, frame_note.Barre)
+		stage.UnstageBranch(frame_note.Barre)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -16982,7 +16270,7 @@ func (stage *Stage) UnstageBranchFrame_note(frame_note *Frame_note) {
 func (stage *Stage) UnstageBranchFret(fret *Fret) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, fret) {
+	if !stage.IsStaged(fret) {
 		return
 	}
 
@@ -16997,7 +16285,7 @@ func (stage *Stage) UnstageBranchFret(fret *Fret) {
 func (stage *Stage) UnstageBranchGlass(glass *Glass) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, glass) {
+	if !stage.IsStaged(glass) {
 		return
 	}
 
@@ -17012,7 +16300,7 @@ func (stage *Stage) UnstageBranchGlass(glass *Glass) {
 func (stage *Stage) UnstageBranchGlissando(glissando *Glissando) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, glissando) {
+	if !stage.IsStaged(glissando) {
 		return
 	}
 
@@ -17027,7 +16315,7 @@ func (stage *Stage) UnstageBranchGlissando(glissando *Glissando) {
 func (stage *Stage) UnstageBranchGlyph(glyph *Glyph) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, glyph) {
+	if !stage.IsStaged(glyph) {
 		return
 	}
 
@@ -17042,7 +16330,7 @@ func (stage *Stage) UnstageBranchGlyph(glyph *Glyph) {
 func (stage *Stage) UnstageBranchGrace(grace *Grace) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, grace) {
+	if !stage.IsStaged(grace) {
 		return
 	}
 
@@ -17057,7 +16345,7 @@ func (stage *Stage) UnstageBranchGrace(grace *Grace) {
 func (stage *Stage) UnstageBranchGroup_barline(group_barline *Group_barline) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, group_barline) {
+	if !stage.IsStaged(group_barline) {
 		return
 	}
 
@@ -17072,7 +16360,7 @@ func (stage *Stage) UnstageBranchGroup_barline(group_barline *Group_barline) {
 func (stage *Stage) UnstageBranchGroup_name(group_name *Group_name) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, group_name) {
+	if !stage.IsStaged(group_name) {
 		return
 	}
 
@@ -17087,7 +16375,7 @@ func (stage *Stage) UnstageBranchGroup_name(group_name *Group_name) {
 func (stage *Stage) UnstageBranchGroup_symbol(group_symbol *Group_symbol) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, group_symbol) {
+	if !stage.IsStaged(group_symbol) {
 		return
 	}
 
@@ -17102,7 +16390,7 @@ func (stage *Stage) UnstageBranchGroup_symbol(group_symbol *Group_symbol) {
 func (stage *Stage) UnstageBranchGrouping(grouping *Grouping) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, grouping) {
+	if !stage.IsStaged(grouping) {
 		return
 	}
 
@@ -17112,7 +16400,7 @@ func (stage *Stage) UnstageBranchGrouping(grouping *Grouping) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _feature := range grouping.Feature {
-		UnstageBranch(stage, _feature)
+		stage.UnstageBranch(_feature)
 	}
 
 }
@@ -17120,7 +16408,7 @@ func (stage *Stage) UnstageBranchGrouping(grouping *Grouping) {
 func (stage *Stage) UnstageBranchHammer_on_pull_off(hammer_on_pull_off *Hammer_on_pull_off) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, hammer_on_pull_off) {
+	if !stage.IsStaged(hammer_on_pull_off) {
 		return
 	}
 
@@ -17135,7 +16423,7 @@ func (stage *Stage) UnstageBranchHammer_on_pull_off(hammer_on_pull_off *Hammer_o
 func (stage *Stage) UnstageBranchHandbell(handbell *Handbell) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, handbell) {
+	if !stage.IsStaged(handbell) {
 		return
 	}
 
@@ -17150,7 +16438,7 @@ func (stage *Stage) UnstageBranchHandbell(handbell *Handbell) {
 func (stage *Stage) UnstageBranchHarmon_closed(harmon_closed *Harmon_closed) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, harmon_closed) {
+	if !stage.IsStaged(harmon_closed) {
 		return
 	}
 
@@ -17165,7 +16453,7 @@ func (stage *Stage) UnstageBranchHarmon_closed(harmon_closed *Harmon_closed) {
 func (stage *Stage) UnstageBranchHarmon_mute(harmon_mute *Harmon_mute) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, harmon_mute) {
+	if !stage.IsStaged(harmon_mute) {
 		return
 	}
 
@@ -17173,7 +16461,7 @@ func (stage *Stage) UnstageBranchHarmon_mute(harmon_mute *Harmon_mute) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if harmon_mute.Harmon_closed != nil {
-		UnstageBranch(stage, harmon_mute.Harmon_closed)
+		stage.UnstageBranch(harmon_mute.Harmon_closed)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -17183,7 +16471,7 @@ func (stage *Stage) UnstageBranchHarmon_mute(harmon_mute *Harmon_mute) {
 func (stage *Stage) UnstageBranchHarmonic(harmonic *Harmonic) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, harmonic) {
+	if !stage.IsStaged(harmonic) {
 		return
 	}
 
@@ -17198,7 +16486,7 @@ func (stage *Stage) UnstageBranchHarmonic(harmonic *Harmonic) {
 func (stage *Stage) UnstageBranchHarmony(harmony *Harmony) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, harmony) {
+	if !stage.IsStaged(harmony) {
 		return
 	}
 
@@ -17206,39 +16494,39 @@ func (stage *Stage) UnstageBranchHarmony(harmony *Harmony) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if harmony.Root != nil {
-		UnstageBranch(stage, harmony.Root)
+		stage.UnstageBranch(harmony.Root)
 	}
 	if harmony.Numeral != nil {
-		UnstageBranch(stage, harmony.Numeral)
+		stage.UnstageBranch(harmony.Numeral)
 	}
 	if harmony.Function != nil {
-		UnstageBranch(stage, harmony.Function)
+		stage.UnstageBranch(harmony.Function)
 	}
 	if harmony.Kind != nil {
-		UnstageBranch(stage, harmony.Kind)
+		stage.UnstageBranch(harmony.Kind)
 	}
 	if harmony.Inversion != nil {
-		UnstageBranch(stage, harmony.Inversion)
+		stage.UnstageBranch(harmony.Inversion)
 	}
 	if harmony.Bass != nil {
-		UnstageBranch(stage, harmony.Bass)
+		stage.UnstageBranch(harmony.Bass)
 	}
 	if harmony.Frame != nil {
-		UnstageBranch(stage, harmony.Frame)
+		stage.UnstageBranch(harmony.Frame)
 	}
 	if harmony.Offset != nil {
-		UnstageBranch(stage, harmony.Offset)
+		stage.UnstageBranch(harmony.Offset)
 	}
 	if harmony.Footnote != nil {
-		UnstageBranch(stage, harmony.Footnote)
+		stage.UnstageBranch(harmony.Footnote)
 	}
 	if harmony.Level != nil {
-		UnstageBranch(stage, harmony.Level)
+		stage.UnstageBranch(harmony.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _degree := range harmony.Degree {
-		UnstageBranch(stage, _degree)
+		stage.UnstageBranch(_degree)
 	}
 
 }
@@ -17246,7 +16534,7 @@ func (stage *Stage) UnstageBranchHarmony(harmony *Harmony) {
 func (stage *Stage) UnstageBranchHarmony_alter(harmony_alter *Harmony_alter) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, harmony_alter) {
+	if !stage.IsStaged(harmony_alter) {
 		return
 	}
 
@@ -17261,7 +16549,7 @@ func (stage *Stage) UnstageBranchHarmony_alter(harmony_alter *Harmony_alter) {
 func (stage *Stage) UnstageBranchHarp_pedals(harp_pedals *Harp_pedals) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, harp_pedals) {
+	if !stage.IsStaged(harp_pedals) {
 		return
 	}
 
@@ -17271,7 +16559,7 @@ func (stage *Stage) UnstageBranchHarp_pedals(harp_pedals *Harp_pedals) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _pedal_tuning := range harp_pedals.Pedal_tuning {
-		UnstageBranch(stage, _pedal_tuning)
+		stage.UnstageBranch(_pedal_tuning)
 	}
 
 }
@@ -17279,7 +16567,7 @@ func (stage *Stage) UnstageBranchHarp_pedals(harp_pedals *Harp_pedals) {
 func (stage *Stage) UnstageBranchHeel_toe(heel_toe *Heel_toe) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, heel_toe) {
+	if !stage.IsStaged(heel_toe) {
 		return
 	}
 
@@ -17294,7 +16582,7 @@ func (stage *Stage) UnstageBranchHeel_toe(heel_toe *Heel_toe) {
 func (stage *Stage) UnstageBranchHole(hole *Hole) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, hole) {
+	if !stage.IsStaged(hole) {
 		return
 	}
 
@@ -17302,7 +16590,7 @@ func (stage *Stage) UnstageBranchHole(hole *Hole) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if hole.Hole_closed != nil {
-		UnstageBranch(stage, hole.Hole_closed)
+		stage.UnstageBranch(hole.Hole_closed)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -17312,7 +16600,7 @@ func (stage *Stage) UnstageBranchHole(hole *Hole) {
 func (stage *Stage) UnstageBranchHole_closed(hole_closed *Hole_closed) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, hole_closed) {
+	if !stage.IsStaged(hole_closed) {
 		return
 	}
 
@@ -17327,7 +16615,7 @@ func (stage *Stage) UnstageBranchHole_closed(hole_closed *Hole_closed) {
 func (stage *Stage) UnstageBranchHorizontal_turn(horizontal_turn *Horizontal_turn) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, horizontal_turn) {
+	if !stage.IsStaged(horizontal_turn) {
 		return
 	}
 
@@ -17342,7 +16630,7 @@ func (stage *Stage) UnstageBranchHorizontal_turn(horizontal_turn *Horizontal_tur
 func (stage *Stage) UnstageBranchIdentification(identification *Identification) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, identification) {
+	if !stage.IsStaged(identification) {
 		return
 	}
 
@@ -17350,21 +16638,21 @@ func (stage *Stage) UnstageBranchIdentification(identification *Identification) 
 
 	//insertion point for the staging of instances referenced by pointers
 	if identification.Encoding != nil {
-		UnstageBranch(stage, identification.Encoding)
+		stage.UnstageBranch(identification.Encoding)
 	}
 	if identification.Miscellaneous != nil {
-		UnstageBranch(stage, identification.Miscellaneous)
+		stage.UnstageBranch(identification.Miscellaneous)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _typed_text := range identification.Creator {
-		UnstageBranch(stage, _typed_text)
+		stage.UnstageBranch(_typed_text)
 	}
 	for _, _typed_text := range identification.Rights {
-		UnstageBranch(stage, _typed_text)
+		stage.UnstageBranch(_typed_text)
 	}
 	for _, _typed_text := range identification.Relation {
-		UnstageBranch(stage, _typed_text)
+		stage.UnstageBranch(_typed_text)
 	}
 
 }
@@ -17372,7 +16660,7 @@ func (stage *Stage) UnstageBranchIdentification(identification *Identification) 
 func (stage *Stage) UnstageBranchImage(image *Image) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, image) {
+	if !stage.IsStaged(image) {
 		return
 	}
 
@@ -17387,7 +16675,7 @@ func (stage *Stage) UnstageBranchImage(image *Image) {
 func (stage *Stage) UnstageBranchInstrument(instrument *Instrument) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, instrument) {
+	if !stage.IsStaged(instrument) {
 		return
 	}
 
@@ -17402,7 +16690,7 @@ func (stage *Stage) UnstageBranchInstrument(instrument *Instrument) {
 func (stage *Stage) UnstageBranchInstrument_change(instrument_change *Instrument_change) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, instrument_change) {
+	if !stage.IsStaged(instrument_change) {
 		return
 	}
 
@@ -17410,7 +16698,7 @@ func (stage *Stage) UnstageBranchInstrument_change(instrument_change *Instrument
 
 	//insertion point for the staging of instances referenced by pointers
 	if instrument_change.Virtual_instrument != nil {
-		UnstageBranch(stage, instrument_change.Virtual_instrument)
+		stage.UnstageBranch(instrument_change.Virtual_instrument)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -17420,7 +16708,7 @@ func (stage *Stage) UnstageBranchInstrument_change(instrument_change *Instrument
 func (stage *Stage) UnstageBranchInstrument_link(instrument_link *Instrument_link) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, instrument_link) {
+	if !stage.IsStaged(instrument_link) {
 		return
 	}
 
@@ -17435,7 +16723,7 @@ func (stage *Stage) UnstageBranchInstrument_link(instrument_link *Instrument_lin
 func (stage *Stage) UnstageBranchInterchangeable(interchangeable *Interchangeable) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, interchangeable) {
+	if !stage.IsStaged(interchangeable) {
 		return
 	}
 
@@ -17450,7 +16738,7 @@ func (stage *Stage) UnstageBranchInterchangeable(interchangeable *Interchangeabl
 func (stage *Stage) UnstageBranchInversion(inversion *Inversion) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, inversion) {
+	if !stage.IsStaged(inversion) {
 		return
 	}
 
@@ -17465,7 +16753,7 @@ func (stage *Stage) UnstageBranchInversion(inversion *Inversion) {
 func (stage *Stage) UnstageBranchKey(key *Key) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, key) {
+	if !stage.IsStaged(key) {
 		return
 	}
 
@@ -17473,15 +16761,15 @@ func (stage *Stage) UnstageBranchKey(key *Key) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if key.Cancel != nil {
-		UnstageBranch(stage, key.Cancel)
+		stage.UnstageBranch(key.Cancel)
 	}
 	if key.Key_accidental != nil {
-		UnstageBranch(stage, key.Key_accidental)
+		stage.UnstageBranch(key.Key_accidental)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _key_octave := range key.Key_octave {
-		UnstageBranch(stage, _key_octave)
+		stage.UnstageBranch(_key_octave)
 	}
 
 }
@@ -17489,7 +16777,7 @@ func (stage *Stage) UnstageBranchKey(key *Key) {
 func (stage *Stage) UnstageBranchKey_accidental(key_accidental *Key_accidental) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, key_accidental) {
+	if !stage.IsStaged(key_accidental) {
 		return
 	}
 
@@ -17504,7 +16792,7 @@ func (stage *Stage) UnstageBranchKey_accidental(key_accidental *Key_accidental) 
 func (stage *Stage) UnstageBranchKey_octave(key_octave *Key_octave) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, key_octave) {
+	if !stage.IsStaged(key_octave) {
 		return
 	}
 
@@ -17519,7 +16807,7 @@ func (stage *Stage) UnstageBranchKey_octave(key_octave *Key_octave) {
 func (stage *Stage) UnstageBranchKind(kind *Kind) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, kind) {
+	if !stage.IsStaged(kind) {
 		return
 	}
 
@@ -17534,7 +16822,7 @@ func (stage *Stage) UnstageBranchKind(kind *Kind) {
 func (stage *Stage) UnstageBranchLevel(level *Level) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, level) {
+	if !stage.IsStaged(level) {
 		return
 	}
 
@@ -17549,7 +16837,7 @@ func (stage *Stage) UnstageBranchLevel(level *Level) {
 func (stage *Stage) UnstageBranchLine_detail(line_detail *Line_detail) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, line_detail) {
+	if !stage.IsStaged(line_detail) {
 		return
 	}
 
@@ -17564,7 +16852,7 @@ func (stage *Stage) UnstageBranchLine_detail(line_detail *Line_detail) {
 func (stage *Stage) UnstageBranchLine_width(line_width *Line_width) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, line_width) {
+	if !stage.IsStaged(line_width) {
 		return
 	}
 
@@ -17579,7 +16867,7 @@ func (stage *Stage) UnstageBranchLine_width(line_width *Line_width) {
 func (stage *Stage) UnstageBranchLink(link *Link) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, link) {
+	if !stage.IsStaged(link) {
 		return
 	}
 
@@ -17594,7 +16882,7 @@ func (stage *Stage) UnstageBranchLink(link *Link) {
 func (stage *Stage) UnstageBranchListen(listen *Listen) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, listen) {
+	if !stage.IsStaged(listen) {
 		return
 	}
 
@@ -17604,13 +16892,13 @@ func (stage *Stage) UnstageBranchListen(listen *Listen) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assess := range listen.Assess {
-		UnstageBranch(stage, _assess)
+		stage.UnstageBranch(_assess)
 	}
 	for _, _wait := range listen.Wait {
-		UnstageBranch(stage, _wait)
+		stage.UnstageBranch(_wait)
 	}
 	for _, _other_listening := range listen.Other_listen {
-		UnstageBranch(stage, _other_listening)
+		stage.UnstageBranch(_other_listening)
 	}
 
 }
@@ -17618,7 +16906,7 @@ func (stage *Stage) UnstageBranchListen(listen *Listen) {
 func (stage *Stage) UnstageBranchListening(listening *Listening) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, listening) {
+	if !stage.IsStaged(listening) {
 		return
 	}
 
@@ -17626,15 +16914,15 @@ func (stage *Stage) UnstageBranchListening(listening *Listening) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if listening.Offset != nil {
-		UnstageBranch(stage, listening.Offset)
+		stage.UnstageBranch(listening.Offset)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sync := range listening.Sync {
-		UnstageBranch(stage, _sync)
+		stage.UnstageBranch(_sync)
 	}
 	for _, _other_listening := range listening.Other_listening {
-		UnstageBranch(stage, _other_listening)
+		stage.UnstageBranch(_other_listening)
 	}
 
 }
@@ -17642,7 +16930,7 @@ func (stage *Stage) UnstageBranchListening(listening *Listening) {
 func (stage *Stage) UnstageBranchLyric(lyric *Lyric) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, lyric) {
+	if !stage.IsStaged(lyric) {
 		return
 	}
 
@@ -17650,21 +16938,21 @@ func (stage *Stage) UnstageBranchLyric(lyric *Lyric) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if lyric.Extend != nil {
-		UnstageBranch(stage, lyric.Extend)
+		stage.UnstageBranch(lyric.Extend)
 	}
 	if lyric.Footnote != nil {
-		UnstageBranch(stage, lyric.Footnote)
+		stage.UnstageBranch(lyric.Footnote)
 	}
 	if lyric.Level != nil {
-		UnstageBranch(stage, lyric.Level)
+		stage.UnstageBranch(lyric.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _elision := range lyric.Elision {
-		UnstageBranch(stage, _elision)
+		stage.UnstageBranch(_elision)
 	}
 	for _, _text_element_data := range lyric.Text {
-		UnstageBranch(stage, _text_element_data)
+		stage.UnstageBranch(_text_element_data)
 	}
 
 }
@@ -17672,7 +16960,7 @@ func (stage *Stage) UnstageBranchLyric(lyric *Lyric) {
 func (stage *Stage) UnstageBranchLyric_font(lyric_font *Lyric_font) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, lyric_font) {
+	if !stage.IsStaged(lyric_font) {
 		return
 	}
 
@@ -17687,7 +16975,7 @@ func (stage *Stage) UnstageBranchLyric_font(lyric_font *Lyric_font) {
 func (stage *Stage) UnstageBranchLyric_language(lyric_language *Lyric_language) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, lyric_language) {
+	if !stage.IsStaged(lyric_language) {
 		return
 	}
 
@@ -17702,7 +16990,7 @@ func (stage *Stage) UnstageBranchLyric_language(lyric_language *Lyric_language) 
 func (stage *Stage) UnstageBranchMeasure_layout(measure_layout *Measure_layout) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, measure_layout) {
+	if !stage.IsStaged(measure_layout) {
 		return
 	}
 
@@ -17717,7 +17005,7 @@ func (stage *Stage) UnstageBranchMeasure_layout(measure_layout *Measure_layout) 
 func (stage *Stage) UnstageBranchMeasure_numbering(measure_numbering *Measure_numbering) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, measure_numbering) {
+	if !stage.IsStaged(measure_numbering) {
 		return
 	}
 
@@ -17732,7 +17020,7 @@ func (stage *Stage) UnstageBranchMeasure_numbering(measure_numbering *Measure_nu
 func (stage *Stage) UnstageBranchMeasure_repeat(measure_repeat *Measure_repeat) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, measure_repeat) {
+	if !stage.IsStaged(measure_repeat) {
 		return
 	}
 
@@ -17747,7 +17035,7 @@ func (stage *Stage) UnstageBranchMeasure_repeat(measure_repeat *Measure_repeat) 
 func (stage *Stage) UnstageBranchMeasure_style(measure_style *Measure_style) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, measure_style) {
+	if !stage.IsStaged(measure_style) {
 		return
 	}
 
@@ -17755,16 +17043,16 @@ func (stage *Stage) UnstageBranchMeasure_style(measure_style *Measure_style) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if measure_style.Multiple_rest != nil {
-		UnstageBranch(stage, measure_style.Multiple_rest)
+		stage.UnstageBranch(measure_style.Multiple_rest)
 	}
 	if measure_style.Measure_repeat != nil {
-		UnstageBranch(stage, measure_style.Measure_repeat)
+		stage.UnstageBranch(measure_style.Measure_repeat)
 	}
 	if measure_style.Beat_repeat != nil {
-		UnstageBranch(stage, measure_style.Beat_repeat)
+		stage.UnstageBranch(measure_style.Beat_repeat)
 	}
 	if measure_style.Slash != nil {
-		UnstageBranch(stage, measure_style.Slash)
+		stage.UnstageBranch(measure_style.Slash)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -17774,7 +17062,7 @@ func (stage *Stage) UnstageBranchMeasure_style(measure_style *Measure_style) {
 func (stage *Stage) UnstageBranchMembrane(membrane *Membrane) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, membrane) {
+	if !stage.IsStaged(membrane) {
 		return
 	}
 
@@ -17789,7 +17077,7 @@ func (stage *Stage) UnstageBranchMembrane(membrane *Membrane) {
 func (stage *Stage) UnstageBranchMetal(metal *Metal) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, metal) {
+	if !stage.IsStaged(metal) {
 		return
 	}
 
@@ -17804,7 +17092,7 @@ func (stage *Stage) UnstageBranchMetal(metal *Metal) {
 func (stage *Stage) UnstageBranchMetronome(metronome *Metronome) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, metronome) {
+	if !stage.IsStaged(metronome) {
 		return
 	}
 
@@ -17812,15 +17100,15 @@ func (stage *Stage) UnstageBranchMetronome(metronome *Metronome) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if metronome.Per_minute != nil {
-		UnstageBranch(stage, metronome.Per_minute)
+		stage.UnstageBranch(metronome.Per_minute)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _beat_unit_tied := range metronome.Beat_unit_tied {
-		UnstageBranch(stage, _beat_unit_tied)
+		stage.UnstageBranch(_beat_unit_tied)
 	}
 	for _, _metronome_note := range metronome.Metronome_note {
-		UnstageBranch(stage, _metronome_note)
+		stage.UnstageBranch(_metronome_note)
 	}
 
 }
@@ -17828,7 +17116,7 @@ func (stage *Stage) UnstageBranchMetronome(metronome *Metronome) {
 func (stage *Stage) UnstageBranchMetronome_beam(metronome_beam *Metronome_beam) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, metronome_beam) {
+	if !stage.IsStaged(metronome_beam) {
 		return
 	}
 
@@ -17843,7 +17131,7 @@ func (stage *Stage) UnstageBranchMetronome_beam(metronome_beam *Metronome_beam) 
 func (stage *Stage) UnstageBranchMetronome_note(metronome_note *Metronome_note) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, metronome_note) {
+	if !stage.IsStaged(metronome_note) {
 		return
 	}
 
@@ -17851,15 +17139,15 @@ func (stage *Stage) UnstageBranchMetronome_note(metronome_note *Metronome_note) 
 
 	//insertion point for the staging of instances referenced by pointers
 	if metronome_note.Metronome_tied != nil {
-		UnstageBranch(stage, metronome_note.Metronome_tied)
+		stage.UnstageBranch(metronome_note.Metronome_tied)
 	}
 	if metronome_note.Metronome_tuplet != nil {
-		UnstageBranch(stage, metronome_note.Metronome_tuplet)
+		stage.UnstageBranch(metronome_note.Metronome_tuplet)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _metronome_beam := range metronome_note.Metronome_beam {
-		UnstageBranch(stage, _metronome_beam)
+		stage.UnstageBranch(_metronome_beam)
 	}
 
 }
@@ -17867,7 +17155,7 @@ func (stage *Stage) UnstageBranchMetronome_note(metronome_note *Metronome_note) 
 func (stage *Stage) UnstageBranchMetronome_tied(metronome_tied *Metronome_tied) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, metronome_tied) {
+	if !stage.IsStaged(metronome_tied) {
 		return
 	}
 
@@ -17882,7 +17170,7 @@ func (stage *Stage) UnstageBranchMetronome_tied(metronome_tied *Metronome_tied) 
 func (stage *Stage) UnstageBranchMetronome_tuplet(metronome_tuplet *Metronome_tuplet) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, metronome_tuplet) {
+	if !stage.IsStaged(metronome_tuplet) {
 		return
 	}
 
@@ -17897,7 +17185,7 @@ func (stage *Stage) UnstageBranchMetronome_tuplet(metronome_tuplet *Metronome_tu
 func (stage *Stage) UnstageBranchMidi_device(midi_device *Midi_device) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, midi_device) {
+	if !stage.IsStaged(midi_device) {
 		return
 	}
 
@@ -17912,7 +17200,7 @@ func (stage *Stage) UnstageBranchMidi_device(midi_device *Midi_device) {
 func (stage *Stage) UnstageBranchMidi_instrument(midi_instrument *Midi_instrument) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, midi_instrument) {
+	if !stage.IsStaged(midi_instrument) {
 		return
 	}
 
@@ -17927,7 +17215,7 @@ func (stage *Stage) UnstageBranchMidi_instrument(midi_instrument *Midi_instrumen
 func (stage *Stage) UnstageBranchMiscellaneous(miscellaneous *Miscellaneous) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, miscellaneous) {
+	if !stage.IsStaged(miscellaneous) {
 		return
 	}
 
@@ -17937,7 +17225,7 @@ func (stage *Stage) UnstageBranchMiscellaneous(miscellaneous *Miscellaneous) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _miscellaneous_field := range miscellaneous.Miscellaneous_field {
-		UnstageBranch(stage, _miscellaneous_field)
+		stage.UnstageBranch(_miscellaneous_field)
 	}
 
 }
@@ -17945,7 +17233,7 @@ func (stage *Stage) UnstageBranchMiscellaneous(miscellaneous *Miscellaneous) {
 func (stage *Stage) UnstageBranchMiscellaneous_field(miscellaneous_field *Miscellaneous_field) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, miscellaneous_field) {
+	if !stage.IsStaged(miscellaneous_field) {
 		return
 	}
 
@@ -17960,7 +17248,7 @@ func (stage *Stage) UnstageBranchMiscellaneous_field(miscellaneous_field *Miscel
 func (stage *Stage) UnstageBranchMordent(mordent *Mordent) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, mordent) {
+	if !stage.IsStaged(mordent) {
 		return
 	}
 
@@ -17975,7 +17263,7 @@ func (stage *Stage) UnstageBranchMordent(mordent *Mordent) {
 func (stage *Stage) UnstageBranchMultiple_rest(multiple_rest *Multiple_rest) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, multiple_rest) {
+	if !stage.IsStaged(multiple_rest) {
 		return
 	}
 
@@ -17990,7 +17278,7 @@ func (stage *Stage) UnstageBranchMultiple_rest(multiple_rest *Multiple_rest) {
 func (stage *Stage) UnstageBranchName_display(name_display *Name_display) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, name_display) {
+	if !stage.IsStaged(name_display) {
 		return
 	}
 
@@ -18000,10 +17288,10 @@ func (stage *Stage) UnstageBranchName_display(name_display *Name_display) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formatted_text := range name_display.Display_text {
-		UnstageBranch(stage, _formatted_text)
+		stage.UnstageBranch(_formatted_text)
 	}
 	for _, _accidental_text := range name_display.Accidental_text {
-		UnstageBranch(stage, _accidental_text)
+		stage.UnstageBranch(_accidental_text)
 	}
 
 }
@@ -18011,7 +17299,7 @@ func (stage *Stage) UnstageBranchName_display(name_display *Name_display) {
 func (stage *Stage) UnstageBranchNon_arpeggiate(non_arpeggiate *Non_arpeggiate) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, non_arpeggiate) {
+	if !stage.IsStaged(non_arpeggiate) {
 		return
 	}
 
@@ -18026,7 +17314,7 @@ func (stage *Stage) UnstageBranchNon_arpeggiate(non_arpeggiate *Non_arpeggiate) 
 func (stage *Stage) UnstageBranchNotations(notations *Notations) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, notations) {
+	if !stage.IsStaged(notations) {
 		return
 	}
 
@@ -18034,54 +17322,54 @@ func (stage *Stage) UnstageBranchNotations(notations *Notations) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if notations.Footnote != nil {
-		UnstageBranch(stage, notations.Footnote)
+		stage.UnstageBranch(notations.Footnote)
 	}
 	if notations.Level != nil {
-		UnstageBranch(stage, notations.Level)
+		stage.UnstageBranch(notations.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tied := range notations.Tied {
-		UnstageBranch(stage, _tied)
+		stage.UnstageBranch(_tied)
 	}
 	for _, _slur := range notations.Slur {
-		UnstageBranch(stage, _slur)
+		stage.UnstageBranch(_slur)
 	}
 	for _, _tuplet := range notations.Tuplet {
-		UnstageBranch(stage, _tuplet)
+		stage.UnstageBranch(_tuplet)
 	}
 	for _, _glissando := range notations.Glissando {
-		UnstageBranch(stage, _glissando)
+		stage.UnstageBranch(_glissando)
 	}
 	for _, _slide := range notations.Slide {
-		UnstageBranch(stage, _slide)
+		stage.UnstageBranch(_slide)
 	}
 	for _, _ornaments := range notations.Ornaments {
-		UnstageBranch(stage, _ornaments)
+		stage.UnstageBranch(_ornaments)
 	}
 	for _, _technical := range notations.Technical {
-		UnstageBranch(stage, _technical)
+		stage.UnstageBranch(_technical)
 	}
 	for _, _articulations := range notations.Articulations {
-		UnstageBranch(stage, _articulations)
+		stage.UnstageBranch(_articulations)
 	}
 	for _, _dynamics := range notations.Dynamics {
-		UnstageBranch(stage, _dynamics)
+		stage.UnstageBranch(_dynamics)
 	}
 	for _, _fermata := range notations.Fermata {
-		UnstageBranch(stage, _fermata)
+		stage.UnstageBranch(_fermata)
 	}
 	for _, _arpeggiate := range notations.Arpeggiate {
-		UnstageBranch(stage, _arpeggiate)
+		stage.UnstageBranch(_arpeggiate)
 	}
 	for _, _non_arpeggiate := range notations.Non_arpeggiate {
-		UnstageBranch(stage, _non_arpeggiate)
+		stage.UnstageBranch(_non_arpeggiate)
 	}
 	for _, _accidental_mark := range notations.Accidental_mark {
-		UnstageBranch(stage, _accidental_mark)
+		stage.UnstageBranch(_accidental_mark)
 	}
 	for _, _other_notation := range notations.Other_notation {
-		UnstageBranch(stage, _other_notation)
+		stage.UnstageBranch(_other_notation)
 	}
 
 }
@@ -18089,7 +17377,7 @@ func (stage *Stage) UnstageBranchNotations(notations *Notations) {
 func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, note) {
+	if !stage.IsStaged(note) {
 		return
 	}
 
@@ -18097,66 +17385,66 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if note.Grace != nil {
-		UnstageBranch(stage, note.Grace)
+		stage.UnstageBranch(note.Grace)
 	}
 	if note.Pitch != nil {
-		UnstageBranch(stage, note.Pitch)
+		stage.UnstageBranch(note.Pitch)
 	}
 	if note.Unpitched != nil {
-		UnstageBranch(stage, note.Unpitched)
+		stage.UnstageBranch(note.Unpitched)
 	}
 	if note.Rest != nil {
-		UnstageBranch(stage, note.Rest)
+		stage.UnstageBranch(note.Rest)
 	}
 	if note.Tie != nil {
-		UnstageBranch(stage, note.Tie)
+		stage.UnstageBranch(note.Tie)
 	}
 	if note.Footnote != nil {
-		UnstageBranch(stage, note.Footnote)
+		stage.UnstageBranch(note.Footnote)
 	}
 	if note.Level != nil {
-		UnstageBranch(stage, note.Level)
+		stage.UnstageBranch(note.Level)
 	}
 	if note.Type != nil {
-		UnstageBranch(stage, note.Type)
+		stage.UnstageBranch(note.Type)
 	}
 	if note.Accidental != nil {
-		UnstageBranch(stage, note.Accidental)
+		stage.UnstageBranch(note.Accidental)
 	}
 	if note.Time_modification != nil {
-		UnstageBranch(stage, note.Time_modification)
+		stage.UnstageBranch(note.Time_modification)
 	}
 	if note.Stem != nil {
-		UnstageBranch(stage, note.Stem)
+		stage.UnstageBranch(note.Stem)
 	}
 	if note.Notehead != nil {
-		UnstageBranch(stage, note.Notehead)
+		stage.UnstageBranch(note.Notehead)
 	}
 	if note.Notehead_text != nil {
-		UnstageBranch(stage, note.Notehead_text)
+		stage.UnstageBranch(note.Notehead_text)
 	}
 	if note.Beam != nil {
-		UnstageBranch(stage, note.Beam)
+		stage.UnstageBranch(note.Beam)
 	}
 	if note.Play != nil {
-		UnstageBranch(stage, note.Play)
+		stage.UnstageBranch(note.Play)
 	}
 	if note.Listen != nil {
-		UnstageBranch(stage, note.Listen)
+		stage.UnstageBranch(note.Listen)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _instrument := range note.Instrument {
-		UnstageBranch(stage, _instrument)
+		stage.UnstageBranch(_instrument)
 	}
 	for _, _empty_placement := range note.Dot {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _notations := range note.Notations {
-		UnstageBranch(stage, _notations)
+		stage.UnstageBranch(_notations)
 	}
 	for _, _lyric := range note.Lyric {
-		UnstageBranch(stage, _lyric)
+		stage.UnstageBranch(_lyric)
 	}
 
 }
@@ -18164,7 +17452,7 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 func (stage *Stage) UnstageBranchNote_size(note_size *Note_size) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, note_size) {
+	if !stage.IsStaged(note_size) {
 		return
 	}
 
@@ -18179,7 +17467,7 @@ func (stage *Stage) UnstageBranchNote_size(note_size *Note_size) {
 func (stage *Stage) UnstageBranchNote_type(note_type *Note_type) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, note_type) {
+	if !stage.IsStaged(note_type) {
 		return
 	}
 
@@ -18194,7 +17482,7 @@ func (stage *Stage) UnstageBranchNote_type(note_type *Note_type) {
 func (stage *Stage) UnstageBranchNotehead(notehead *Notehead) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, notehead) {
+	if !stage.IsStaged(notehead) {
 		return
 	}
 
@@ -18209,7 +17497,7 @@ func (stage *Stage) UnstageBranchNotehead(notehead *Notehead) {
 func (stage *Stage) UnstageBranchNotehead_text(notehead_text *Notehead_text) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, notehead_text) {
+	if !stage.IsStaged(notehead_text) {
 		return
 	}
 
@@ -18219,10 +17507,10 @@ func (stage *Stage) UnstageBranchNotehead_text(notehead_text *Notehead_text) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formatted_text := range notehead_text.Display_text {
-		UnstageBranch(stage, _formatted_text)
+		stage.UnstageBranch(_formatted_text)
 	}
 	for _, _accidental_text := range notehead_text.Accidental_text {
-		UnstageBranch(stage, _accidental_text)
+		stage.UnstageBranch(_accidental_text)
 	}
 
 }
@@ -18230,7 +17518,7 @@ func (stage *Stage) UnstageBranchNotehead_text(notehead_text *Notehead_text) {
 func (stage *Stage) UnstageBranchNumeral(numeral *Numeral) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, numeral) {
+	if !stage.IsStaged(numeral) {
 		return
 	}
 
@@ -18238,13 +17526,13 @@ func (stage *Stage) UnstageBranchNumeral(numeral *Numeral) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if numeral.Numeral_root != nil {
-		UnstageBranch(stage, numeral.Numeral_root)
+		stage.UnstageBranch(numeral.Numeral_root)
 	}
 	if numeral.Numeral_alter != nil {
-		UnstageBranch(stage, numeral.Numeral_alter)
+		stage.UnstageBranch(numeral.Numeral_alter)
 	}
 	if numeral.Numeral_key != nil {
-		UnstageBranch(stage, numeral.Numeral_key)
+		stage.UnstageBranch(numeral.Numeral_key)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -18254,7 +17542,7 @@ func (stage *Stage) UnstageBranchNumeral(numeral *Numeral) {
 func (stage *Stage) UnstageBranchNumeral_key(numeral_key *Numeral_key) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, numeral_key) {
+	if !stage.IsStaged(numeral_key) {
 		return
 	}
 
@@ -18269,7 +17557,7 @@ func (stage *Stage) UnstageBranchNumeral_key(numeral_key *Numeral_key) {
 func (stage *Stage) UnstageBranchNumeral_root(numeral_root *Numeral_root) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, numeral_root) {
+	if !stage.IsStaged(numeral_root) {
 		return
 	}
 
@@ -18284,7 +17572,7 @@ func (stage *Stage) UnstageBranchNumeral_root(numeral_root *Numeral_root) {
 func (stage *Stage) UnstageBranchOctave_shift(octave_shift *Octave_shift) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, octave_shift) {
+	if !stage.IsStaged(octave_shift) {
 		return
 	}
 
@@ -18299,7 +17587,7 @@ func (stage *Stage) UnstageBranchOctave_shift(octave_shift *Octave_shift) {
 func (stage *Stage) UnstageBranchOffset(offset *Offset) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, offset) {
+	if !stage.IsStaged(offset) {
 		return
 	}
 
@@ -18314,7 +17602,7 @@ func (stage *Stage) UnstageBranchOffset(offset *Offset) {
 func (stage *Stage) UnstageBranchOpus(opus *Opus) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, opus) {
+	if !stage.IsStaged(opus) {
 		return
 	}
 
@@ -18329,7 +17617,7 @@ func (stage *Stage) UnstageBranchOpus(opus *Opus) {
 func (stage *Stage) UnstageBranchOrnaments(ornaments *Ornaments) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, ornaments) {
+	if !stage.IsStaged(ornaments) {
 		return
 	}
 
@@ -18339,52 +17627,52 @@ func (stage *Stage) UnstageBranchOrnaments(ornaments *Ornaments) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _empty_trill_sound := range ornaments.Trill_mark {
-		UnstageBranch(stage, _empty_trill_sound)
+		stage.UnstageBranch(_empty_trill_sound)
 	}
 	for _, _horizontal_turn := range ornaments.Turn {
-		UnstageBranch(stage, _horizontal_turn)
+		stage.UnstageBranch(_horizontal_turn)
 	}
 	for _, _horizontal_turn := range ornaments.Delayed_turn {
-		UnstageBranch(stage, _horizontal_turn)
+		stage.UnstageBranch(_horizontal_turn)
 	}
 	for _, _horizontal_turn := range ornaments.Inverted_turn {
-		UnstageBranch(stage, _horizontal_turn)
+		stage.UnstageBranch(_horizontal_turn)
 	}
 	for _, _horizontal_turn := range ornaments.Delayed_inverted_turn {
-		UnstageBranch(stage, _horizontal_turn)
+		stage.UnstageBranch(_horizontal_turn)
 	}
 	for _, _empty_trill_sound := range ornaments.Vertical_turn {
-		UnstageBranch(stage, _empty_trill_sound)
+		stage.UnstageBranch(_empty_trill_sound)
 	}
 	for _, _empty_trill_sound := range ornaments.Inverted_vertical_turn {
-		UnstageBranch(stage, _empty_trill_sound)
+		stage.UnstageBranch(_empty_trill_sound)
 	}
 	for _, _empty_trill_sound := range ornaments.Shake {
-		UnstageBranch(stage, _empty_trill_sound)
+		stage.UnstageBranch(_empty_trill_sound)
 	}
 	for _, _wavy_line := range ornaments.Wavy_line {
-		UnstageBranch(stage, _wavy_line)
+		stage.UnstageBranch(_wavy_line)
 	}
 	for _, _mordent := range ornaments.Mordent {
-		UnstageBranch(stage, _mordent)
+		stage.UnstageBranch(_mordent)
 	}
 	for _, _mordent := range ornaments.Inverted_mordent {
-		UnstageBranch(stage, _mordent)
+		stage.UnstageBranch(_mordent)
 	}
 	for _, _empty_placement := range ornaments.Schleifer {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _tremolo := range ornaments.Tremolo {
-		UnstageBranch(stage, _tremolo)
+		stage.UnstageBranch(_tremolo)
 	}
 	for _, _empty_trill_sound := range ornaments.Haydn {
-		UnstageBranch(stage, _empty_trill_sound)
+		stage.UnstageBranch(_empty_trill_sound)
 	}
 	for _, _other_placement_text := range ornaments.Other_ornament {
-		UnstageBranch(stage, _other_placement_text)
+		stage.UnstageBranch(_other_placement_text)
 	}
 	for _, _accidental_mark := range ornaments.Accidental_mark {
-		UnstageBranch(stage, _accidental_mark)
+		stage.UnstageBranch(_accidental_mark)
 	}
 
 }
@@ -18392,7 +17680,7 @@ func (stage *Stage) UnstageBranchOrnaments(ornaments *Ornaments) {
 func (stage *Stage) UnstageBranchOther_appearance(other_appearance *Other_appearance) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, other_appearance) {
+	if !stage.IsStaged(other_appearance) {
 		return
 	}
 
@@ -18407,7 +17695,7 @@ func (stage *Stage) UnstageBranchOther_appearance(other_appearance *Other_appear
 func (stage *Stage) UnstageBranchOther_direction(other_direction *Other_direction) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, other_direction) {
+	if !stage.IsStaged(other_direction) {
 		return
 	}
 
@@ -18422,7 +17710,7 @@ func (stage *Stage) UnstageBranchOther_direction(other_direction *Other_directio
 func (stage *Stage) UnstageBranchOther_listening(other_listening *Other_listening) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, other_listening) {
+	if !stage.IsStaged(other_listening) {
 		return
 	}
 
@@ -18437,7 +17725,7 @@ func (stage *Stage) UnstageBranchOther_listening(other_listening *Other_listenin
 func (stage *Stage) UnstageBranchOther_notation(other_notation *Other_notation) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, other_notation) {
+	if !stage.IsStaged(other_notation) {
 		return
 	}
 
@@ -18452,7 +17740,7 @@ func (stage *Stage) UnstageBranchOther_notation(other_notation *Other_notation) 
 func (stage *Stage) UnstageBranchOther_placement_text(other_placement_text *Other_placement_text) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, other_placement_text) {
+	if !stage.IsStaged(other_placement_text) {
 		return
 	}
 
@@ -18467,7 +17755,7 @@ func (stage *Stage) UnstageBranchOther_placement_text(other_placement_text *Othe
 func (stage *Stage) UnstageBranchOther_play(other_play *Other_play) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, other_play) {
+	if !stage.IsStaged(other_play) {
 		return
 	}
 
@@ -18482,7 +17770,7 @@ func (stage *Stage) UnstageBranchOther_play(other_play *Other_play) {
 func (stage *Stage) UnstageBranchOther_text(other_text *Other_text) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, other_text) {
+	if !stage.IsStaged(other_text) {
 		return
 	}
 
@@ -18497,7 +17785,7 @@ func (stage *Stage) UnstageBranchOther_text(other_text *Other_text) {
 func (stage *Stage) UnstageBranchPage_layout(page_layout *Page_layout) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, page_layout) {
+	if !stage.IsStaged(page_layout) {
 		return
 	}
 
@@ -18505,7 +17793,7 @@ func (stage *Stage) UnstageBranchPage_layout(page_layout *Page_layout) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if page_layout.Page_margins != nil {
-		UnstageBranch(stage, page_layout.Page_margins)
+		stage.UnstageBranch(page_layout.Page_margins)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -18515,7 +17803,7 @@ func (stage *Stage) UnstageBranchPage_layout(page_layout *Page_layout) {
 func (stage *Stage) UnstageBranchPage_margins(page_margins *Page_margins) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, page_margins) {
+	if !stage.IsStaged(page_margins) {
 		return
 	}
 
@@ -18530,7 +17818,7 @@ func (stage *Stage) UnstageBranchPage_margins(page_margins *Page_margins) {
 func (stage *Stage) UnstageBranchPart_clef(part_clef *Part_clef) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, part_clef) {
+	if !stage.IsStaged(part_clef) {
 		return
 	}
 
@@ -18545,7 +17833,7 @@ func (stage *Stage) UnstageBranchPart_clef(part_clef *Part_clef) {
 func (stage *Stage) UnstageBranchPart_group(part_group *Part_group) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, part_group) {
+	if !stage.IsStaged(part_group) {
 		return
 	}
 
@@ -18553,28 +17841,28 @@ func (stage *Stage) UnstageBranchPart_group(part_group *Part_group) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if part_group.Group_name != nil {
-		UnstageBranch(stage, part_group.Group_name)
+		stage.UnstageBranch(part_group.Group_name)
 	}
 	if part_group.Group_name_display != nil {
-		UnstageBranch(stage, part_group.Group_name_display)
+		stage.UnstageBranch(part_group.Group_name_display)
 	}
 	if part_group.Group_abbreviation != nil {
-		UnstageBranch(stage, part_group.Group_abbreviation)
+		stage.UnstageBranch(part_group.Group_abbreviation)
 	}
 	if part_group.Group_abbreviation_display != nil {
-		UnstageBranch(stage, part_group.Group_abbreviation_display)
+		stage.UnstageBranch(part_group.Group_abbreviation_display)
 	}
 	if part_group.Group_symbol != nil {
-		UnstageBranch(stage, part_group.Group_symbol)
+		stage.UnstageBranch(part_group.Group_symbol)
 	}
 	if part_group.Group_barline != nil {
-		UnstageBranch(stage, part_group.Group_barline)
+		stage.UnstageBranch(part_group.Group_barline)
 	}
 	if part_group.Footnote != nil {
-		UnstageBranch(stage, part_group.Footnote)
+		stage.UnstageBranch(part_group.Footnote)
 	}
 	if part_group.Level != nil {
-		UnstageBranch(stage, part_group.Level)
+		stage.UnstageBranch(part_group.Level)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -18584,7 +17872,7 @@ func (stage *Stage) UnstageBranchPart_group(part_group *Part_group) {
 func (stage *Stage) UnstageBranchPart_link(part_link *Part_link) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, part_link) {
+	if !stage.IsStaged(part_link) {
 		return
 	}
 
@@ -18594,7 +17882,7 @@ func (stage *Stage) UnstageBranchPart_link(part_link *Part_link) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _instrument_link := range part_link.Instrument_link {
-		UnstageBranch(stage, _instrument_link)
+		stage.UnstageBranch(_instrument_link)
 	}
 
 }
@@ -18602,7 +17890,7 @@ func (stage *Stage) UnstageBranchPart_link(part_link *Part_link) {
 func (stage *Stage) UnstageBranchPart_list(part_list *Part_list) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, part_list) {
+	if !stage.IsStaged(part_list) {
 		return
 	}
 
@@ -18610,10 +17898,10 @@ func (stage *Stage) UnstageBranchPart_list(part_list *Part_list) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if part_list.Part_group != nil {
-		UnstageBranch(stage, part_list.Part_group)
+		stage.UnstageBranch(part_list.Part_group)
 	}
 	if part_list.Score_part != nil {
-		UnstageBranch(stage, part_list.Score_part)
+		stage.UnstageBranch(part_list.Score_part)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -18623,7 +17911,7 @@ func (stage *Stage) UnstageBranchPart_list(part_list *Part_list) {
 func (stage *Stage) UnstageBranchPart_name(part_name *Part_name) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, part_name) {
+	if !stage.IsStaged(part_name) {
 		return
 	}
 
@@ -18638,7 +17926,7 @@ func (stage *Stage) UnstageBranchPart_name(part_name *Part_name) {
 func (stage *Stage) UnstageBranchPart_symbol(part_symbol *Part_symbol) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, part_symbol) {
+	if !stage.IsStaged(part_symbol) {
 		return
 	}
 
@@ -18653,7 +17941,7 @@ func (stage *Stage) UnstageBranchPart_symbol(part_symbol *Part_symbol) {
 func (stage *Stage) UnstageBranchPart_transpose(part_transpose *Part_transpose) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, part_transpose) {
+	if !stage.IsStaged(part_transpose) {
 		return
 	}
 
@@ -18668,7 +17956,7 @@ func (stage *Stage) UnstageBranchPart_transpose(part_transpose *Part_transpose) 
 func (stage *Stage) UnstageBranchPedal(pedal *Pedal) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, pedal) {
+	if !stage.IsStaged(pedal) {
 		return
 	}
 
@@ -18683,7 +17971,7 @@ func (stage *Stage) UnstageBranchPedal(pedal *Pedal) {
 func (stage *Stage) UnstageBranchPedal_tuning(pedal_tuning *Pedal_tuning) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, pedal_tuning) {
+	if !stage.IsStaged(pedal_tuning) {
 		return
 	}
 
@@ -18698,7 +17986,7 @@ func (stage *Stage) UnstageBranchPedal_tuning(pedal_tuning *Pedal_tuning) {
 func (stage *Stage) UnstageBranchPer_minute(per_minute *Per_minute) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, per_minute) {
+	if !stage.IsStaged(per_minute) {
 		return
 	}
 
@@ -18713,7 +18001,7 @@ func (stage *Stage) UnstageBranchPer_minute(per_minute *Per_minute) {
 func (stage *Stage) UnstageBranchPercussion(percussion *Percussion) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, percussion) {
+	if !stage.IsStaged(percussion) {
 		return
 	}
 
@@ -18721,34 +18009,34 @@ func (stage *Stage) UnstageBranchPercussion(percussion *Percussion) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if percussion.Glass != nil {
-		UnstageBranch(stage, percussion.Glass)
+		stage.UnstageBranch(percussion.Glass)
 	}
 	if percussion.Metal != nil {
-		UnstageBranch(stage, percussion.Metal)
+		stage.UnstageBranch(percussion.Metal)
 	}
 	if percussion.Wood != nil {
-		UnstageBranch(stage, percussion.Wood)
+		stage.UnstageBranch(percussion.Wood)
 	}
 	if percussion.Pitched != nil {
-		UnstageBranch(stage, percussion.Pitched)
+		stage.UnstageBranch(percussion.Pitched)
 	}
 	if percussion.Membrane != nil {
-		UnstageBranch(stage, percussion.Membrane)
+		stage.UnstageBranch(percussion.Membrane)
 	}
 	if percussion.Effect != nil {
-		UnstageBranch(stage, percussion.Effect)
+		stage.UnstageBranch(percussion.Effect)
 	}
 	if percussion.Timpani != nil {
-		UnstageBranch(stage, percussion.Timpani)
+		stage.UnstageBranch(percussion.Timpani)
 	}
 	if percussion.Beater != nil {
-		UnstageBranch(stage, percussion.Beater)
+		stage.UnstageBranch(percussion.Beater)
 	}
 	if percussion.Stick != nil {
-		UnstageBranch(stage, percussion.Stick)
+		stage.UnstageBranch(percussion.Stick)
 	}
 	if percussion.Other_percussion != nil {
-		UnstageBranch(stage, percussion.Other_percussion)
+		stage.UnstageBranch(percussion.Other_percussion)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -18758,7 +18046,7 @@ func (stage *Stage) UnstageBranchPercussion(percussion *Percussion) {
 func (stage *Stage) UnstageBranchPitch(pitch *Pitch) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, pitch) {
+	if !stage.IsStaged(pitch) {
 		return
 	}
 
@@ -18773,7 +18061,7 @@ func (stage *Stage) UnstageBranchPitch(pitch *Pitch) {
 func (stage *Stage) UnstageBranchPitched(pitched *Pitched) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, pitched) {
+	if !stage.IsStaged(pitched) {
 		return
 	}
 
@@ -18788,7 +18076,7 @@ func (stage *Stage) UnstageBranchPitched(pitched *Pitched) {
 func (stage *Stage) UnstageBranchPlacement_text(placement_text *Placement_text) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, placement_text) {
+	if !stage.IsStaged(placement_text) {
 		return
 	}
 
@@ -18803,7 +18091,7 @@ func (stage *Stage) UnstageBranchPlacement_text(placement_text *Placement_text) 
 func (stage *Stage) UnstageBranchPlay(play *Play) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, play) {
+	if !stage.IsStaged(play) {
 		return
 	}
 
@@ -18813,7 +18101,7 @@ func (stage *Stage) UnstageBranchPlay(play *Play) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _other_play := range play.Other_play {
-		UnstageBranch(stage, _other_play)
+		stage.UnstageBranch(_other_play)
 	}
 
 }
@@ -18821,7 +18109,7 @@ func (stage *Stage) UnstageBranchPlay(play *Play) {
 func (stage *Stage) UnstageBranchPlayer(player *Player) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, player) {
+	if !stage.IsStaged(player) {
 		return
 	}
 
@@ -18836,7 +18124,7 @@ func (stage *Stage) UnstageBranchPlayer(player *Player) {
 func (stage *Stage) UnstageBranchPrincipal_voice(principal_voice *Principal_voice) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, principal_voice) {
+	if !stage.IsStaged(principal_voice) {
 		return
 	}
 
@@ -18851,7 +18139,7 @@ func (stage *Stage) UnstageBranchPrincipal_voice(principal_voice *Principal_voic
 func (stage *Stage) UnstageBranchPrint(print *Print) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, print) {
+	if !stage.IsStaged(print) {
 		return
 	}
 
@@ -18859,27 +18147,27 @@ func (stage *Stage) UnstageBranchPrint(print *Print) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if print.Page_layout != nil {
-		UnstageBranch(stage, print.Page_layout)
+		stage.UnstageBranch(print.Page_layout)
 	}
 	if print.System_layout != nil {
-		UnstageBranch(stage, print.System_layout)
+		stage.UnstageBranch(print.System_layout)
 	}
 	if print.Measure_layout != nil {
-		UnstageBranch(stage, print.Measure_layout)
+		stage.UnstageBranch(print.Measure_layout)
 	}
 	if print.Measure_numbering != nil {
-		UnstageBranch(stage, print.Measure_numbering)
+		stage.UnstageBranch(print.Measure_numbering)
 	}
 	if print.Part_name_display != nil {
-		UnstageBranch(stage, print.Part_name_display)
+		stage.UnstageBranch(print.Part_name_display)
 	}
 	if print.Part_abbreviation_display != nil {
-		UnstageBranch(stage, print.Part_abbreviation_display)
+		stage.UnstageBranch(print.Part_abbreviation_display)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _staff_layout := range print.Staff_layout {
-		UnstageBranch(stage, _staff_layout)
+		stage.UnstageBranch(_staff_layout)
 	}
 
 }
@@ -18887,7 +18175,7 @@ func (stage *Stage) UnstageBranchPrint(print *Print) {
 func (stage *Stage) UnstageBranchRelease(release *Release) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, release) {
+	if !stage.IsStaged(release) {
 		return
 	}
 
@@ -18902,7 +18190,7 @@ func (stage *Stage) UnstageBranchRelease(release *Release) {
 func (stage *Stage) UnstageBranchRepeat(repeat *Repeat) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, repeat) {
+	if !stage.IsStaged(repeat) {
 		return
 	}
 
@@ -18917,7 +18205,7 @@ func (stage *Stage) UnstageBranchRepeat(repeat *Repeat) {
 func (stage *Stage) UnstageBranchRest(rest *Rest) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, rest) {
+	if !stage.IsStaged(rest) {
 		return
 	}
 
@@ -18932,7 +18220,7 @@ func (stage *Stage) UnstageBranchRest(rest *Rest) {
 func (stage *Stage) UnstageBranchRoot(root *Root) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, root) {
+	if !stage.IsStaged(root) {
 		return
 	}
 
@@ -18940,10 +18228,10 @@ func (stage *Stage) UnstageBranchRoot(root *Root) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if root.Root_step != nil {
-		UnstageBranch(stage, root.Root_step)
+		stage.UnstageBranch(root.Root_step)
 	}
 	if root.Root_alter != nil {
-		UnstageBranch(stage, root.Root_alter)
+		stage.UnstageBranch(root.Root_alter)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -18953,7 +18241,7 @@ func (stage *Stage) UnstageBranchRoot(root *Root) {
 func (stage *Stage) UnstageBranchRoot_step(root_step *Root_step) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, root_step) {
+	if !stage.IsStaged(root_step) {
 		return
 	}
 
@@ -18968,7 +18256,7 @@ func (stage *Stage) UnstageBranchRoot_step(root_step *Root_step) {
 func (stage *Stage) UnstageBranchScaling(scaling *Scaling) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, scaling) {
+	if !stage.IsStaged(scaling) {
 		return
 	}
 
@@ -18983,7 +18271,7 @@ func (stage *Stage) UnstageBranchScaling(scaling *Scaling) {
 func (stage *Stage) UnstageBranchScordatura(scordatura *Scordatura) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, scordatura) {
+	if !stage.IsStaged(scordatura) {
 		return
 	}
 
@@ -18993,7 +18281,7 @@ func (stage *Stage) UnstageBranchScordatura(scordatura *Scordatura) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _accord := range scordatura.Accord {
-		UnstageBranch(stage, _accord)
+		stage.UnstageBranch(_accord)
 	}
 
 }
@@ -19001,7 +18289,7 @@ func (stage *Stage) UnstageBranchScordatura(scordatura *Scordatura) {
 func (stage *Stage) UnstageBranchScore_instrument(score_instrument *Score_instrument) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, score_instrument) {
+	if !stage.IsStaged(score_instrument) {
 		return
 	}
 
@@ -19009,7 +18297,7 @@ func (stage *Stage) UnstageBranchScore_instrument(score_instrument *Score_instru
 
 	//insertion point for the staging of instances referenced by pointers
 	if score_instrument.Virtual_instrument != nil {
-		UnstageBranch(stage, score_instrument.Virtual_instrument)
+		stage.UnstageBranch(score_instrument.Virtual_instrument)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -19019,7 +18307,7 @@ func (stage *Stage) UnstageBranchScore_instrument(score_instrument *Score_instru
 func (stage *Stage) UnstageBranchScore_part(score_part *Score_part) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, score_part) {
+	if !stage.IsStaged(score_part) {
 		return
 	}
 
@@ -19027,36 +18315,36 @@ func (stage *Stage) UnstageBranchScore_part(score_part *Score_part) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if score_part.Identification != nil {
-		UnstageBranch(stage, score_part.Identification)
+		stage.UnstageBranch(score_part.Identification)
 	}
 	if score_part.Part_name != nil {
-		UnstageBranch(stage, score_part.Part_name)
+		stage.UnstageBranch(score_part.Part_name)
 	}
 	if score_part.Part_name_display != nil {
-		UnstageBranch(stage, score_part.Part_name_display)
+		stage.UnstageBranch(score_part.Part_name_display)
 	}
 	if score_part.Part_abbreviation != nil {
-		UnstageBranch(stage, score_part.Part_abbreviation)
+		stage.UnstageBranch(score_part.Part_abbreviation)
 	}
 	if score_part.Part_abbreviation_display != nil {
-		UnstageBranch(stage, score_part.Part_abbreviation_display)
+		stage.UnstageBranch(score_part.Part_abbreviation_display)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _part_link := range score_part.Part_link {
-		UnstageBranch(stage, _part_link)
+		stage.UnstageBranch(_part_link)
 	}
 	for _, _score_instrument := range score_part.Score_instrument {
-		UnstageBranch(stage, _score_instrument)
+		stage.UnstageBranch(_score_instrument)
 	}
 	for _, _player := range score_part.Player {
-		UnstageBranch(stage, _player)
+		stage.UnstageBranch(_player)
 	}
 	for _, _midi_device := range score_part.Midi_device {
-		UnstageBranch(stage, _midi_device)
+		stage.UnstageBranch(_midi_device)
 	}
 	for _, _midi_instrument := range score_part.Midi_instrument {
-		UnstageBranch(stage, _midi_instrument)
+		stage.UnstageBranch(_midi_instrument)
 	}
 
 }
@@ -19064,7 +18352,7 @@ func (stage *Stage) UnstageBranchScore_part(score_part *Score_part) {
 func (stage *Stage) UnstageBranchScore_partwise(score_partwise *Score_partwise) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, score_partwise) {
+	if !stage.IsStaged(score_partwise) {
 		return
 	}
 
@@ -19072,24 +18360,24 @@ func (stage *Stage) UnstageBranchScore_partwise(score_partwise *Score_partwise) 
 
 	//insertion point for the staging of instances referenced by pointers
 	if score_partwise.Work != nil {
-		UnstageBranch(stage, score_partwise.Work)
+		stage.UnstageBranch(score_partwise.Work)
 	}
 	if score_partwise.Identification != nil {
-		UnstageBranch(stage, score_partwise.Identification)
+		stage.UnstageBranch(score_partwise.Identification)
 	}
 	if score_partwise.Defaults != nil {
-		UnstageBranch(stage, score_partwise.Defaults)
+		stage.UnstageBranch(score_partwise.Defaults)
 	}
 	if score_partwise.Part_list != nil {
-		UnstageBranch(stage, score_partwise.Part_list)
+		stage.UnstageBranch(score_partwise.Part_list)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _credit := range score_partwise.Credit {
-		UnstageBranch(stage, _credit)
+		stage.UnstageBranch(_credit)
 	}
 	for _, _a_part := range score_partwise.Part {
-		UnstageBranch(stage, _a_part)
+		stage.UnstageBranch(_a_part)
 	}
 
 }
@@ -19097,7 +18385,7 @@ func (stage *Stage) UnstageBranchScore_partwise(score_partwise *Score_partwise) 
 func (stage *Stage) UnstageBranchScore_timewise(score_timewise *Score_timewise) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, score_timewise) {
+	if !stage.IsStaged(score_timewise) {
 		return
 	}
 
@@ -19105,24 +18393,24 @@ func (stage *Stage) UnstageBranchScore_timewise(score_timewise *Score_timewise) 
 
 	//insertion point for the staging of instances referenced by pointers
 	if score_timewise.Work != nil {
-		UnstageBranch(stage, score_timewise.Work)
+		stage.UnstageBranch(score_timewise.Work)
 	}
 	if score_timewise.Identification != nil {
-		UnstageBranch(stage, score_timewise.Identification)
+		stage.UnstageBranch(score_timewise.Identification)
 	}
 	if score_timewise.Defaults != nil {
-		UnstageBranch(stage, score_timewise.Defaults)
+		stage.UnstageBranch(score_timewise.Defaults)
 	}
 	if score_timewise.Part_list != nil {
-		UnstageBranch(stage, score_timewise.Part_list)
+		stage.UnstageBranch(score_timewise.Part_list)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _credit := range score_timewise.Credit {
-		UnstageBranch(stage, _credit)
+		stage.UnstageBranch(_credit)
 	}
 	for _, _a_measure_1 := range score_timewise.Measure {
-		UnstageBranch(stage, _a_measure_1)
+		stage.UnstageBranch(_a_measure_1)
 	}
 
 }
@@ -19130,7 +18418,7 @@ func (stage *Stage) UnstageBranchScore_timewise(score_timewise *Score_timewise) 
 func (stage *Stage) UnstageBranchSegno(segno *Segno) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, segno) {
+	if !stage.IsStaged(segno) {
 		return
 	}
 
@@ -19145,7 +18433,7 @@ func (stage *Stage) UnstageBranchSegno(segno *Segno) {
 func (stage *Stage) UnstageBranchSlash(slash *Slash) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, slash) {
+	if !stage.IsStaged(slash) {
 		return
 	}
 
@@ -19160,7 +18448,7 @@ func (stage *Stage) UnstageBranchSlash(slash *Slash) {
 func (stage *Stage) UnstageBranchSlide(slide *Slide) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, slide) {
+	if !stage.IsStaged(slide) {
 		return
 	}
 
@@ -19175,7 +18463,7 @@ func (stage *Stage) UnstageBranchSlide(slide *Slide) {
 func (stage *Stage) UnstageBranchSlur(slur *Slur) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, slur) {
+	if !stage.IsStaged(slur) {
 		return
 	}
 
@@ -19190,7 +18478,7 @@ func (stage *Stage) UnstageBranchSlur(slur *Slur) {
 func (stage *Stage) UnstageBranchSound(sound *Sound) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, sound) {
+	if !stage.IsStaged(sound) {
 		return
 	}
 
@@ -19198,24 +18486,24 @@ func (stage *Stage) UnstageBranchSound(sound *Sound) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if sound.Swing != nil {
-		UnstageBranch(stage, sound.Swing)
+		stage.UnstageBranch(sound.Swing)
 	}
 	if sound.Offset != nil {
-		UnstageBranch(stage, sound.Offset)
+		stage.UnstageBranch(sound.Offset)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _instrument_change := range sound.Instrument_change {
-		UnstageBranch(stage, _instrument_change)
+		stage.UnstageBranch(_instrument_change)
 	}
 	for _, _midi_device := range sound.Midi_device {
-		UnstageBranch(stage, _midi_device)
+		stage.UnstageBranch(_midi_device)
 	}
 	for _, _midi_instrument := range sound.Midi_instrument {
-		UnstageBranch(stage, _midi_instrument)
+		stage.UnstageBranch(_midi_instrument)
 	}
 	for _, _play := range sound.Play {
-		UnstageBranch(stage, _play)
+		stage.UnstageBranch(_play)
 	}
 
 }
@@ -19223,7 +18511,7 @@ func (stage *Stage) UnstageBranchSound(sound *Sound) {
 func (stage *Stage) UnstageBranchStaff_details(staff_details *Staff_details) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, staff_details) {
+	if !stage.IsStaged(staff_details) {
 		return
 	}
 
@@ -19231,15 +18519,15 @@ func (stage *Stage) UnstageBranchStaff_details(staff_details *Staff_details) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if staff_details.Staff_size != nil {
-		UnstageBranch(stage, staff_details.Staff_size)
+		stage.UnstageBranch(staff_details.Staff_size)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _line_detail := range staff_details.Line_detail {
-		UnstageBranch(stage, _line_detail)
+		stage.UnstageBranch(_line_detail)
 	}
 	for _, _staff_tuning := range staff_details.Staff_tuning {
-		UnstageBranch(stage, _staff_tuning)
+		stage.UnstageBranch(_staff_tuning)
 	}
 
 }
@@ -19247,7 +18535,7 @@ func (stage *Stage) UnstageBranchStaff_details(staff_details *Staff_details) {
 func (stage *Stage) UnstageBranchStaff_divide(staff_divide *Staff_divide) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, staff_divide) {
+	if !stage.IsStaged(staff_divide) {
 		return
 	}
 
@@ -19262,7 +18550,7 @@ func (stage *Stage) UnstageBranchStaff_divide(staff_divide *Staff_divide) {
 func (stage *Stage) UnstageBranchStaff_layout(staff_layout *Staff_layout) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, staff_layout) {
+	if !stage.IsStaged(staff_layout) {
 		return
 	}
 
@@ -19277,7 +18565,7 @@ func (stage *Stage) UnstageBranchStaff_layout(staff_layout *Staff_layout) {
 func (stage *Stage) UnstageBranchStaff_size(staff_size *Staff_size) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, staff_size) {
+	if !stage.IsStaged(staff_size) {
 		return
 	}
 
@@ -19292,7 +18580,7 @@ func (stage *Stage) UnstageBranchStaff_size(staff_size *Staff_size) {
 func (stage *Stage) UnstageBranchStaff_tuning(staff_tuning *Staff_tuning) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, staff_tuning) {
+	if !stage.IsStaged(staff_tuning) {
 		return
 	}
 
@@ -19307,7 +18595,7 @@ func (stage *Stage) UnstageBranchStaff_tuning(staff_tuning *Staff_tuning) {
 func (stage *Stage) UnstageBranchStem(stem *Stem) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, stem) {
+	if !stage.IsStaged(stem) {
 		return
 	}
 
@@ -19322,7 +18610,7 @@ func (stage *Stage) UnstageBranchStem(stem *Stem) {
 func (stage *Stage) UnstageBranchStick(stick *Stick) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, stick) {
+	if !stage.IsStaged(stick) {
 		return
 	}
 
@@ -19337,7 +18625,7 @@ func (stage *Stage) UnstageBranchStick(stick *Stick) {
 func (stage *Stage) UnstageBranchString_mute(string_mute *String_mute) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, string_mute) {
+	if !stage.IsStaged(string_mute) {
 		return
 	}
 
@@ -19352,7 +18640,7 @@ func (stage *Stage) UnstageBranchString_mute(string_mute *String_mute) {
 func (stage *Stage) UnstageBranchString_type(string_type *String_type) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, string_type) {
+	if !stage.IsStaged(string_type) {
 		return
 	}
 
@@ -19367,7 +18655,7 @@ func (stage *Stage) UnstageBranchString_type(string_type *String_type) {
 func (stage *Stage) UnstageBranchStrong_accent(strong_accent *Strong_accent) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, strong_accent) {
+	if !stage.IsStaged(strong_accent) {
 		return
 	}
 
@@ -19382,7 +18670,7 @@ func (stage *Stage) UnstageBranchStrong_accent(strong_accent *Strong_accent) {
 func (stage *Stage) UnstageBranchStyle_text(style_text *Style_text) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, style_text) {
+	if !stage.IsStaged(style_text) {
 		return
 	}
 
@@ -19397,7 +18685,7 @@ func (stage *Stage) UnstageBranchStyle_text(style_text *Style_text) {
 func (stage *Stage) UnstageBranchSupports(supports *Supports) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, supports) {
+	if !stage.IsStaged(supports) {
 		return
 	}
 
@@ -19412,7 +18700,7 @@ func (stage *Stage) UnstageBranchSupports(supports *Supports) {
 func (stage *Stage) UnstageBranchSwing(swing *Swing) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, swing) {
+	if !stage.IsStaged(swing) {
 		return
 	}
 
@@ -19427,7 +18715,7 @@ func (stage *Stage) UnstageBranchSwing(swing *Swing) {
 func (stage *Stage) UnstageBranchSync(sync *Sync) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, sync) {
+	if !stage.IsStaged(sync) {
 		return
 	}
 
@@ -19442,7 +18730,7 @@ func (stage *Stage) UnstageBranchSync(sync *Sync) {
 func (stage *Stage) UnstageBranchSystem_dividers(system_dividers *System_dividers) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, system_dividers) {
+	if !stage.IsStaged(system_dividers) {
 		return
 	}
 
@@ -19450,10 +18738,10 @@ func (stage *Stage) UnstageBranchSystem_dividers(system_dividers *System_divider
 
 	//insertion point for the staging of instances referenced by pointers
 	if system_dividers.Left_divider != nil {
-		UnstageBranch(stage, system_dividers.Left_divider)
+		stage.UnstageBranch(system_dividers.Left_divider)
 	}
 	if system_dividers.Right_divider != nil {
-		UnstageBranch(stage, system_dividers.Right_divider)
+		stage.UnstageBranch(system_dividers.Right_divider)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -19463,7 +18751,7 @@ func (stage *Stage) UnstageBranchSystem_dividers(system_dividers *System_divider
 func (stage *Stage) UnstageBranchSystem_layout(system_layout *System_layout) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, system_layout) {
+	if !stage.IsStaged(system_layout) {
 		return
 	}
 
@@ -19471,10 +18759,10 @@ func (stage *Stage) UnstageBranchSystem_layout(system_layout *System_layout) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if system_layout.System_margins != nil {
-		UnstageBranch(stage, system_layout.System_margins)
+		stage.UnstageBranch(system_layout.System_margins)
 	}
 	if system_layout.System_dividers != nil {
-		UnstageBranch(stage, system_layout.System_dividers)
+		stage.UnstageBranch(system_layout.System_dividers)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -19484,7 +18772,7 @@ func (stage *Stage) UnstageBranchSystem_layout(system_layout *System_layout) {
 func (stage *Stage) UnstageBranchSystem_margins(system_margins *System_margins) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, system_margins) {
+	if !stage.IsStaged(system_margins) {
 		return
 	}
 
@@ -19499,7 +18787,7 @@ func (stage *Stage) UnstageBranchSystem_margins(system_margins *System_margins) 
 func (stage *Stage) UnstageBranchTap(tap *Tap) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tap) {
+	if !stage.IsStaged(tap) {
 		return
 	}
 
@@ -19514,7 +18802,7 @@ func (stage *Stage) UnstageBranchTap(tap *Tap) {
 func (stage *Stage) UnstageBranchTechnical(technical *Technical) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, technical) {
+	if !stage.IsStaged(technical) {
 		return
 	}
 
@@ -19524,97 +18812,97 @@ func (stage *Stage) UnstageBranchTechnical(technical *Technical) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _empty_placement := range technical.Up_bow {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range technical.Down_bow {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _harmonic := range technical.Harmonic {
-		UnstageBranch(stage, _harmonic)
+		stage.UnstageBranch(_harmonic)
 	}
 	for _, _empty_placement := range technical.Open_string {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range technical.Thumb_position {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _fingering := range technical.Fingering {
-		UnstageBranch(stage, _fingering)
+		stage.UnstageBranch(_fingering)
 	}
 	for _, _placement_text := range technical.Pluck {
-		UnstageBranch(stage, _placement_text)
+		stage.UnstageBranch(_placement_text)
 	}
 	for _, _empty_placement := range technical.Double_tongue {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range technical.Triple_tongue {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _empty_placement_smufl := range technical.Stopped {
-		UnstageBranch(stage, _empty_placement_smufl)
+		stage.UnstageBranch(_empty_placement_smufl)
 	}
 	for _, _empty_placement := range technical.Snap_pizzicato {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _fret := range technical.Fret {
-		UnstageBranch(stage, _fret)
+		stage.UnstageBranch(_fret)
 	}
 	for _, _string_type := range technical.String {
-		UnstageBranch(stage, _string_type)
+		stage.UnstageBranch(_string_type)
 	}
 	for _, _hammer_on_pull_off := range technical.Hammer_on {
-		UnstageBranch(stage, _hammer_on_pull_off)
+		stage.UnstageBranch(_hammer_on_pull_off)
 	}
 	for _, _hammer_on_pull_off := range technical.Pull_off {
-		UnstageBranch(stage, _hammer_on_pull_off)
+		stage.UnstageBranch(_hammer_on_pull_off)
 	}
 	for _, _bend := range technical.Bend {
-		UnstageBranch(stage, _bend)
+		stage.UnstageBranch(_bend)
 	}
 	for _, _tap := range technical.Tap {
-		UnstageBranch(stage, _tap)
+		stage.UnstageBranch(_tap)
 	}
 	for _, _heel_toe := range technical.Heel {
-		UnstageBranch(stage, _heel_toe)
+		stage.UnstageBranch(_heel_toe)
 	}
 	for _, _heel_toe := range technical.Toe {
-		UnstageBranch(stage, _heel_toe)
+		stage.UnstageBranch(_heel_toe)
 	}
 	for _, _empty_placement := range technical.Fingernails {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _hole := range technical.Hole {
-		UnstageBranch(stage, _hole)
+		stage.UnstageBranch(_hole)
 	}
 	for _, _arrow := range technical.Arrow {
-		UnstageBranch(stage, _arrow)
+		stage.UnstageBranch(_arrow)
 	}
 	for _, _handbell := range technical.Handbell {
-		UnstageBranch(stage, _handbell)
+		stage.UnstageBranch(_handbell)
 	}
 	for _, _empty_placement := range technical.Brass_bend {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range technical.Flip {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _empty_placement := range technical.Smear {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _empty_placement_smufl := range technical.Open {
-		UnstageBranch(stage, _empty_placement_smufl)
+		stage.UnstageBranch(_empty_placement_smufl)
 	}
 	for _, _empty_placement_smufl := range technical.Half_muted {
-		UnstageBranch(stage, _empty_placement_smufl)
+		stage.UnstageBranch(_empty_placement_smufl)
 	}
 	for _, _harmon_mute := range technical.Harmon_mute {
-		UnstageBranch(stage, _harmon_mute)
+		stage.UnstageBranch(_harmon_mute)
 	}
 	for _, _empty_placement := range technical.Golpe {
-		UnstageBranch(stage, _empty_placement)
+		stage.UnstageBranch(_empty_placement)
 	}
 	for _, _other_placement_text := range technical.Other_technical {
-		UnstageBranch(stage, _other_placement_text)
+		stage.UnstageBranch(_other_placement_text)
 	}
 
 }
@@ -19622,7 +18910,7 @@ func (stage *Stage) UnstageBranchTechnical(technical *Technical) {
 func (stage *Stage) UnstageBranchText_element_data(text_element_data *Text_element_data) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, text_element_data) {
+	if !stage.IsStaged(text_element_data) {
 		return
 	}
 
@@ -19637,7 +18925,7 @@ func (stage *Stage) UnstageBranchText_element_data(text_element_data *Text_eleme
 func (stage *Stage) UnstageBranchTie(tie *Tie) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tie) {
+	if !stage.IsStaged(tie) {
 		return
 	}
 
@@ -19652,7 +18940,7 @@ func (stage *Stage) UnstageBranchTie(tie *Tie) {
 func (stage *Stage) UnstageBranchTied(tied *Tied) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tied) {
+	if !stage.IsStaged(tied) {
 		return
 	}
 
@@ -19667,7 +18955,7 @@ func (stage *Stage) UnstageBranchTied(tied *Tied) {
 func (stage *Stage) UnstageBranchTime(time *Time) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, time) {
+	if !stage.IsStaged(time) {
 		return
 	}
 
@@ -19675,7 +18963,7 @@ func (stage *Stage) UnstageBranchTime(time *Time) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if time.Interchangeable != nil {
-		UnstageBranch(stage, time.Interchangeable)
+		stage.UnstageBranch(time.Interchangeable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -19685,7 +18973,7 @@ func (stage *Stage) UnstageBranchTime(time *Time) {
 func (stage *Stage) UnstageBranchTime_modification(time_modification *Time_modification) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, time_modification) {
+	if !stage.IsStaged(time_modification) {
 		return
 	}
 
@@ -19700,7 +18988,7 @@ func (stage *Stage) UnstageBranchTime_modification(time_modification *Time_modif
 func (stage *Stage) UnstageBranchTimpani(timpani *Timpani) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, timpani) {
+	if !stage.IsStaged(timpani) {
 		return
 	}
 
@@ -19715,7 +19003,7 @@ func (stage *Stage) UnstageBranchTimpani(timpani *Timpani) {
 func (stage *Stage) UnstageBranchTranspose(transpose *Transpose) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, transpose) {
+	if !stage.IsStaged(transpose) {
 		return
 	}
 
@@ -19730,7 +19018,7 @@ func (stage *Stage) UnstageBranchTranspose(transpose *Transpose) {
 func (stage *Stage) UnstageBranchTremolo(tremolo *Tremolo) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tremolo) {
+	if !stage.IsStaged(tremolo) {
 		return
 	}
 
@@ -19745,7 +19033,7 @@ func (stage *Stage) UnstageBranchTremolo(tremolo *Tremolo) {
 func (stage *Stage) UnstageBranchTuplet(tuplet *Tuplet) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tuplet) {
+	if !stage.IsStaged(tuplet) {
 		return
 	}
 
@@ -19753,10 +19041,10 @@ func (stage *Stage) UnstageBranchTuplet(tuplet *Tuplet) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if tuplet.Tuplet_actual != nil {
-		UnstageBranch(stage, tuplet.Tuplet_actual)
+		stage.UnstageBranch(tuplet.Tuplet_actual)
 	}
 	if tuplet.Tuplet_normal != nil {
-		UnstageBranch(stage, tuplet.Tuplet_normal)
+		stage.UnstageBranch(tuplet.Tuplet_normal)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -19766,7 +19054,7 @@ func (stage *Stage) UnstageBranchTuplet(tuplet *Tuplet) {
 func (stage *Stage) UnstageBranchTuplet_dot(tuplet_dot *Tuplet_dot) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tuplet_dot) {
+	if !stage.IsStaged(tuplet_dot) {
 		return
 	}
 
@@ -19781,7 +19069,7 @@ func (stage *Stage) UnstageBranchTuplet_dot(tuplet_dot *Tuplet_dot) {
 func (stage *Stage) UnstageBranchTuplet_number(tuplet_number *Tuplet_number) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tuplet_number) {
+	if !stage.IsStaged(tuplet_number) {
 		return
 	}
 
@@ -19796,7 +19084,7 @@ func (stage *Stage) UnstageBranchTuplet_number(tuplet_number *Tuplet_number) {
 func (stage *Stage) UnstageBranchTuplet_portion(tuplet_portion *Tuplet_portion) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tuplet_portion) {
+	if !stage.IsStaged(tuplet_portion) {
 		return
 	}
 
@@ -19804,15 +19092,15 @@ func (stage *Stage) UnstageBranchTuplet_portion(tuplet_portion *Tuplet_portion) 
 
 	//insertion point for the staging of instances referenced by pointers
 	if tuplet_portion.Tuplet_number != nil {
-		UnstageBranch(stage, tuplet_portion.Tuplet_number)
+		stage.UnstageBranch(tuplet_portion.Tuplet_number)
 	}
 	if tuplet_portion.Tuplet_type != nil {
-		UnstageBranch(stage, tuplet_portion.Tuplet_type)
+		stage.UnstageBranch(tuplet_portion.Tuplet_type)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tuplet_dot := range tuplet_portion.Tuplet_dot {
-		UnstageBranch(stage, _tuplet_dot)
+		stage.UnstageBranch(_tuplet_dot)
 	}
 
 }
@@ -19820,7 +19108,7 @@ func (stage *Stage) UnstageBranchTuplet_portion(tuplet_portion *Tuplet_portion) 
 func (stage *Stage) UnstageBranchTuplet_type(tuplet_type *Tuplet_type) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tuplet_type) {
+	if !stage.IsStaged(tuplet_type) {
 		return
 	}
 
@@ -19835,7 +19123,7 @@ func (stage *Stage) UnstageBranchTuplet_type(tuplet_type *Tuplet_type) {
 func (stage *Stage) UnstageBranchTyped_text(typed_text *Typed_text) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, typed_text) {
+	if !stage.IsStaged(typed_text) {
 		return
 	}
 
@@ -19850,7 +19138,7 @@ func (stage *Stage) UnstageBranchTyped_text(typed_text *Typed_text) {
 func (stage *Stage) UnstageBranchUnpitched(unpitched *Unpitched) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, unpitched) {
+	if !stage.IsStaged(unpitched) {
 		return
 	}
 
@@ -19865,7 +19153,7 @@ func (stage *Stage) UnstageBranchUnpitched(unpitched *Unpitched) {
 func (stage *Stage) UnstageBranchVirtual_instrument(virtual_instrument *Virtual_instrument) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, virtual_instrument) {
+	if !stage.IsStaged(virtual_instrument) {
 		return
 	}
 
@@ -19880,7 +19168,7 @@ func (stage *Stage) UnstageBranchVirtual_instrument(virtual_instrument *Virtual_
 func (stage *Stage) UnstageBranchWait(wait *Wait) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, wait) {
+	if !stage.IsStaged(wait) {
 		return
 	}
 
@@ -19895,7 +19183,7 @@ func (stage *Stage) UnstageBranchWait(wait *Wait) {
 func (stage *Stage) UnstageBranchWavy_line(wavy_line *Wavy_line) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, wavy_line) {
+	if !stage.IsStaged(wavy_line) {
 		return
 	}
 
@@ -19910,7 +19198,7 @@ func (stage *Stage) UnstageBranchWavy_line(wavy_line *Wavy_line) {
 func (stage *Stage) UnstageBranchWedge(wedge *Wedge) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, wedge) {
+	if !stage.IsStaged(wedge) {
 		return
 	}
 
@@ -19925,7 +19213,7 @@ func (stage *Stage) UnstageBranchWedge(wedge *Wedge) {
 func (stage *Stage) UnstageBranchWood(wood *Wood) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, wood) {
+	if !stage.IsStaged(wood) {
 		return
 	}
 
@@ -19940,7 +19228,7 @@ func (stage *Stage) UnstageBranchWood(wood *Wood) {
 func (stage *Stage) UnstageBranchWork(work *Work) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, work) {
+	if !stage.IsStaged(work) {
 		return
 	}
 
@@ -19948,7 +19236,7 @@ func (stage *Stage) UnstageBranchWork(work *Work) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if work.Opus != nil {
-		UnstageBranch(stage, work.Opus)
+		stage.UnstageBranch(work.Opus)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -25969,7 +25257,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if NoteDifferent {
-		ops := Diff(stage, a_measure, a_measureOther, "Note", a_measureOther.Note, a_measure.Note)
+		ops := stage.Diff(a_measure, a_measureOther, "Note", a_measureOther.Note, a_measure.Note)
 		diffs = append(diffs, ops)
 	}
 	BackupDifferent := false
@@ -25990,7 +25278,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if BackupDifferent {
-		ops := Diff(stage, a_measure, a_measureOther, "Backup", a_measureOther.Backup, a_measure.Backup)
+		ops := stage.Diff(a_measure, a_measureOther, "Backup", a_measureOther.Backup, a_measure.Backup)
 		diffs = append(diffs, ops)
 	}
 	ForwardDifferent := false
@@ -26011,7 +25299,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if ForwardDifferent {
-		ops := Diff(stage, a_measure, a_measureOther, "Forward", a_measureOther.Forward, a_measure.Forward)
+		ops := stage.Diff(a_measure, a_measureOther, "Forward", a_measureOther.Forward, a_measure.Forward)
 		diffs = append(diffs, ops)
 	}
 	DirectionDifferent := false
@@ -26032,7 +25320,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if DirectionDifferent {
-		ops := Diff(stage, a_measure, a_measureOther, "Direction", a_measureOther.Direction, a_measure.Direction)
+		ops := stage.Diff(a_measure, a_measureOther, "Direction", a_measureOther.Direction, a_measure.Direction)
 		diffs = append(diffs, ops)
 	}
 	AttributesDifferent := false
@@ -26053,7 +25341,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if AttributesDifferent {
-		ops := Diff(stage, a_measure, a_measureOther, "Attributes", a_measureOther.Attributes, a_measure.Attributes)
+		ops := stage.Diff(a_measure, a_measureOther, "Attributes", a_measureOther.Attributes, a_measure.Attributes)
 		diffs = append(diffs, ops)
 	}
 	HarmonyDifferent := false
@@ -26074,7 +25362,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if HarmonyDifferent {
-		ops := Diff(stage, a_measure, a_measureOther, "Harmony", a_measureOther.Harmony, a_measure.Harmony)
+		ops := stage.Diff(a_measure, a_measureOther, "Harmony", a_measureOther.Harmony, a_measure.Harmony)
 		diffs = append(diffs, ops)
 	}
 	Figured_bassDifferent := false
@@ -26095,7 +25383,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if Figured_bassDifferent {
-		ops := Diff(stage, a_measure, a_measureOther, "Figured_bass", a_measureOther.Figured_bass, a_measure.Figured_bass)
+		ops := stage.Diff(a_measure, a_measureOther, "Figured_bass", a_measureOther.Figured_bass, a_measure.Figured_bass)
 		diffs = append(diffs, ops)
 	}
 	PrintDifferent := false
@@ -26116,7 +25404,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if PrintDifferent {
-		ops := Diff(stage, a_measure, a_measureOther, "Print", a_measureOther.Print, a_measure.Print)
+		ops := stage.Diff(a_measure, a_measureOther, "Print", a_measureOther.Print, a_measure.Print)
 		diffs = append(diffs, ops)
 	}
 	SoundDifferent := false
@@ -26137,7 +25425,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if SoundDifferent {
-		ops := Diff(stage, a_measure, a_measureOther, "Sound", a_measureOther.Sound, a_measure.Sound)
+		ops := stage.Diff(a_measure, a_measureOther, "Sound", a_measureOther.Sound, a_measure.Sound)
 		diffs = append(diffs, ops)
 	}
 	ListeningDifferent := false
@@ -26158,7 +25446,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if ListeningDifferent {
-		ops := Diff(stage, a_measure, a_measureOther, "Listening", a_measureOther.Listening, a_measure.Listening)
+		ops := stage.Diff(a_measure, a_measureOther, "Listening", a_measureOther.Listening, a_measure.Listening)
 		diffs = append(diffs, ops)
 	}
 	BarlineDifferent := false
@@ -26179,7 +25467,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if BarlineDifferent {
-		ops := Diff(stage, a_measure, a_measureOther, "Barline", a_measureOther.Barline, a_measure.Barline)
+		ops := stage.Diff(a_measure, a_measureOther, "Barline", a_measureOther.Barline, a_measure.Barline)
 		diffs = append(diffs, ops)
 	}
 	GroupingDifferent := false
@@ -26200,7 +25488,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if GroupingDifferent {
-		ops := Diff(stage, a_measure, a_measureOther, "Grouping", a_measureOther.Grouping, a_measure.Grouping)
+		ops := stage.Diff(a_measure, a_measureOther, "Grouping", a_measureOther.Grouping, a_measure.Grouping)
 		diffs = append(diffs, ops)
 	}
 	LinkDifferent := false
@@ -26221,7 +25509,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if LinkDifferent {
-		ops := Diff(stage, a_measure, a_measureOther, "Link", a_measureOther.Link, a_measure.Link)
+		ops := stage.Diff(a_measure, a_measureOther, "Link", a_measureOther.Link, a_measure.Link)
 		diffs = append(diffs, ops)
 	}
 	BookmarkDifferent := false
@@ -26242,7 +25530,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if BookmarkDifferent {
-		ops := Diff(stage, a_measure, a_measureOther, "Bookmark", a_measureOther.Bookmark, a_measure.Bookmark)
+		ops := stage.Diff(a_measure, a_measureOther, "Bookmark", a_measureOther.Bookmark, a_measure.Bookmark)
 		diffs = append(diffs, ops)
 	}
 
@@ -26292,7 +25580,7 @@ func (a_measure_1 *A_measure_1) GongDiff(stage *Stage, a_measure_1Other *A_measu
 		}
 	}
 	if PartDifferent {
-		ops := Diff(stage, a_measure_1, a_measure_1Other, "Part", a_measure_1Other.Part, a_measure_1.Part)
+		ops := stage.Diff(a_measure_1, a_measure_1Other, "Part", a_measure_1Other.Part, a_measure_1.Part)
 		diffs = append(diffs, ops)
 	}
 
@@ -26327,7 +25615,7 @@ func (a_part *A_part) GongDiff(stage *Stage, a_partOther *A_part) (diffs []strin
 		}
 	}
 	if MeasureDifferent {
-		ops := Diff(stage, a_part, a_partOther, "Measure", a_partOther.Measure, a_part.Measure)
+		ops := stage.Diff(a_part, a_partOther, "Measure", a_partOther.Measure, a_part.Measure)
 		diffs = append(diffs, ops)
 	}
 
@@ -26362,7 +25650,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if NoteDifferent {
-		ops := Diff(stage, a_part_1, a_part_1Other, "Note", a_part_1Other.Note, a_part_1.Note)
+		ops := stage.Diff(a_part_1, a_part_1Other, "Note", a_part_1Other.Note, a_part_1.Note)
 		diffs = append(diffs, ops)
 	}
 	BackupDifferent := false
@@ -26383,7 +25671,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if BackupDifferent {
-		ops := Diff(stage, a_part_1, a_part_1Other, "Backup", a_part_1Other.Backup, a_part_1.Backup)
+		ops := stage.Diff(a_part_1, a_part_1Other, "Backup", a_part_1Other.Backup, a_part_1.Backup)
 		diffs = append(diffs, ops)
 	}
 	ForwardDifferent := false
@@ -26404,7 +25692,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if ForwardDifferent {
-		ops := Diff(stage, a_part_1, a_part_1Other, "Forward", a_part_1Other.Forward, a_part_1.Forward)
+		ops := stage.Diff(a_part_1, a_part_1Other, "Forward", a_part_1Other.Forward, a_part_1.Forward)
 		diffs = append(diffs, ops)
 	}
 	DirectionDifferent := false
@@ -26425,7 +25713,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if DirectionDifferent {
-		ops := Diff(stage, a_part_1, a_part_1Other, "Direction", a_part_1Other.Direction, a_part_1.Direction)
+		ops := stage.Diff(a_part_1, a_part_1Other, "Direction", a_part_1Other.Direction, a_part_1.Direction)
 		diffs = append(diffs, ops)
 	}
 	AttributesDifferent := false
@@ -26446,7 +25734,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if AttributesDifferent {
-		ops := Diff(stage, a_part_1, a_part_1Other, "Attributes", a_part_1Other.Attributes, a_part_1.Attributes)
+		ops := stage.Diff(a_part_1, a_part_1Other, "Attributes", a_part_1Other.Attributes, a_part_1.Attributes)
 		diffs = append(diffs, ops)
 	}
 	HarmonyDifferent := false
@@ -26467,7 +25755,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if HarmonyDifferent {
-		ops := Diff(stage, a_part_1, a_part_1Other, "Harmony", a_part_1Other.Harmony, a_part_1.Harmony)
+		ops := stage.Diff(a_part_1, a_part_1Other, "Harmony", a_part_1Other.Harmony, a_part_1.Harmony)
 		diffs = append(diffs, ops)
 	}
 	Figured_bassDifferent := false
@@ -26488,7 +25776,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if Figured_bassDifferent {
-		ops := Diff(stage, a_part_1, a_part_1Other, "Figured_bass", a_part_1Other.Figured_bass, a_part_1.Figured_bass)
+		ops := stage.Diff(a_part_1, a_part_1Other, "Figured_bass", a_part_1Other.Figured_bass, a_part_1.Figured_bass)
 		diffs = append(diffs, ops)
 	}
 	PrintDifferent := false
@@ -26509,7 +25797,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if PrintDifferent {
-		ops := Diff(stage, a_part_1, a_part_1Other, "Print", a_part_1Other.Print, a_part_1.Print)
+		ops := stage.Diff(a_part_1, a_part_1Other, "Print", a_part_1Other.Print, a_part_1.Print)
 		diffs = append(diffs, ops)
 	}
 	SoundDifferent := false
@@ -26530,7 +25818,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if SoundDifferent {
-		ops := Diff(stage, a_part_1, a_part_1Other, "Sound", a_part_1Other.Sound, a_part_1.Sound)
+		ops := stage.Diff(a_part_1, a_part_1Other, "Sound", a_part_1Other.Sound, a_part_1.Sound)
 		diffs = append(diffs, ops)
 	}
 	ListeningDifferent := false
@@ -26551,7 +25839,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if ListeningDifferent {
-		ops := Diff(stage, a_part_1, a_part_1Other, "Listening", a_part_1Other.Listening, a_part_1.Listening)
+		ops := stage.Diff(a_part_1, a_part_1Other, "Listening", a_part_1Other.Listening, a_part_1.Listening)
 		diffs = append(diffs, ops)
 	}
 	BarlineDifferent := false
@@ -26572,7 +25860,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if BarlineDifferent {
-		ops := Diff(stage, a_part_1, a_part_1Other, "Barline", a_part_1Other.Barline, a_part_1.Barline)
+		ops := stage.Diff(a_part_1, a_part_1Other, "Barline", a_part_1Other.Barline, a_part_1.Barline)
 		diffs = append(diffs, ops)
 	}
 	GroupingDifferent := false
@@ -26593,7 +25881,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if GroupingDifferent {
-		ops := Diff(stage, a_part_1, a_part_1Other, "Grouping", a_part_1Other.Grouping, a_part_1.Grouping)
+		ops := stage.Diff(a_part_1, a_part_1Other, "Grouping", a_part_1Other.Grouping, a_part_1.Grouping)
 		diffs = append(diffs, ops)
 	}
 	LinkDifferent := false
@@ -26614,7 +25902,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if LinkDifferent {
-		ops := Diff(stage, a_part_1, a_part_1Other, "Link", a_part_1Other.Link, a_part_1.Link)
+		ops := stage.Diff(a_part_1, a_part_1Other, "Link", a_part_1Other.Link, a_part_1.Link)
 		diffs = append(diffs, ops)
 	}
 	BookmarkDifferent := false
@@ -26635,7 +25923,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if BookmarkDifferent {
-		ops := Diff(stage, a_part_1, a_part_1Other, "Bookmark", a_part_1Other.Bookmark, a_part_1.Bookmark)
+		ops := stage.Diff(a_part_1, a_part_1Other, "Bookmark", a_part_1Other.Bookmark, a_part_1.Bookmark)
 		diffs = append(diffs, ops)
 	}
 
@@ -26947,7 +26235,7 @@ func (appearance *Appearance) GongDiff(stage *Stage, appearanceOther *Appearance
 		}
 	}
 	if Line_widthDifferent {
-		ops := Diff(stage, appearance, appearanceOther, "Line_width", appearanceOther.Line_width, appearance.Line_width)
+		ops := stage.Diff(appearance, appearanceOther, "Line_width", appearanceOther.Line_width, appearance.Line_width)
 		diffs = append(diffs, ops)
 	}
 	Note_sizeDifferent := false
@@ -26968,7 +26256,7 @@ func (appearance *Appearance) GongDiff(stage *Stage, appearanceOther *Appearance
 		}
 	}
 	if Note_sizeDifferent {
-		ops := Diff(stage, appearance, appearanceOther, "Note_size", appearanceOther.Note_size, appearance.Note_size)
+		ops := stage.Diff(appearance, appearanceOther, "Note_size", appearanceOther.Note_size, appearance.Note_size)
 		diffs = append(diffs, ops)
 	}
 	DistanceDifferent := false
@@ -26989,7 +26277,7 @@ func (appearance *Appearance) GongDiff(stage *Stage, appearanceOther *Appearance
 		}
 	}
 	if DistanceDifferent {
-		ops := Diff(stage, appearance, appearanceOther, "Distance", appearanceOther.Distance, appearance.Distance)
+		ops := stage.Diff(appearance, appearanceOther, "Distance", appearanceOther.Distance, appearance.Distance)
 		diffs = append(diffs, ops)
 	}
 	GlyphDifferent := false
@@ -27010,7 +26298,7 @@ func (appearance *Appearance) GongDiff(stage *Stage, appearanceOther *Appearance
 		}
 	}
 	if GlyphDifferent {
-		ops := Diff(stage, appearance, appearanceOther, "Glyph", appearanceOther.Glyph, appearance.Glyph)
+		ops := stage.Diff(appearance, appearanceOther, "Glyph", appearanceOther.Glyph, appearance.Glyph)
 		diffs = append(diffs, ops)
 	}
 	Other_appearanceDifferent := false
@@ -27031,7 +26319,7 @@ func (appearance *Appearance) GongDiff(stage *Stage, appearanceOther *Appearance
 		}
 	}
 	if Other_appearanceDifferent {
-		ops := Diff(stage, appearance, appearanceOther, "Other_appearance", appearanceOther.Other_appearance, appearance.Other_appearance)
+		ops := stage.Diff(appearance, appearanceOther, "Other_appearance", appearanceOther.Other_appearance, appearance.Other_appearance)
 		diffs = append(diffs, ops)
 	}
 
@@ -27163,7 +26451,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if AccentDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Accent", articulationsOther.Accent, articulations.Accent)
+		ops := stage.Diff(articulations, articulationsOther, "Accent", articulationsOther.Accent, articulations.Accent)
 		diffs = append(diffs, ops)
 	}
 	Strong_accentDifferent := false
@@ -27184,7 +26472,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if Strong_accentDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Strong_accent", articulationsOther.Strong_accent, articulations.Strong_accent)
+		ops := stage.Diff(articulations, articulationsOther, "Strong_accent", articulationsOther.Strong_accent, articulations.Strong_accent)
 		diffs = append(diffs, ops)
 	}
 	StaccatoDifferent := false
@@ -27205,7 +26493,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if StaccatoDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Staccato", articulationsOther.Staccato, articulations.Staccato)
+		ops := stage.Diff(articulations, articulationsOther, "Staccato", articulationsOther.Staccato, articulations.Staccato)
 		diffs = append(diffs, ops)
 	}
 	TenutoDifferent := false
@@ -27226,7 +26514,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if TenutoDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Tenuto", articulationsOther.Tenuto, articulations.Tenuto)
+		ops := stage.Diff(articulations, articulationsOther, "Tenuto", articulationsOther.Tenuto, articulations.Tenuto)
 		diffs = append(diffs, ops)
 	}
 	Detached_legatoDifferent := false
@@ -27247,7 +26535,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if Detached_legatoDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Detached_legato", articulationsOther.Detached_legato, articulations.Detached_legato)
+		ops := stage.Diff(articulations, articulationsOther, "Detached_legato", articulationsOther.Detached_legato, articulations.Detached_legato)
 		diffs = append(diffs, ops)
 	}
 	StaccatissimoDifferent := false
@@ -27268,7 +26556,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if StaccatissimoDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Staccatissimo", articulationsOther.Staccatissimo, articulations.Staccatissimo)
+		ops := stage.Diff(articulations, articulationsOther, "Staccatissimo", articulationsOther.Staccatissimo, articulations.Staccatissimo)
 		diffs = append(diffs, ops)
 	}
 	SpiccatoDifferent := false
@@ -27289,7 +26577,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if SpiccatoDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Spiccato", articulationsOther.Spiccato, articulations.Spiccato)
+		ops := stage.Diff(articulations, articulationsOther, "Spiccato", articulationsOther.Spiccato, articulations.Spiccato)
 		diffs = append(diffs, ops)
 	}
 	ScoopDifferent := false
@@ -27310,7 +26598,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if ScoopDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Scoop", articulationsOther.Scoop, articulations.Scoop)
+		ops := stage.Diff(articulations, articulationsOther, "Scoop", articulationsOther.Scoop, articulations.Scoop)
 		diffs = append(diffs, ops)
 	}
 	PlopDifferent := false
@@ -27331,7 +26619,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if PlopDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Plop", articulationsOther.Plop, articulations.Plop)
+		ops := stage.Diff(articulations, articulationsOther, "Plop", articulationsOther.Plop, articulations.Plop)
 		diffs = append(diffs, ops)
 	}
 	DoitDifferent := false
@@ -27352,7 +26640,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if DoitDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Doit", articulationsOther.Doit, articulations.Doit)
+		ops := stage.Diff(articulations, articulationsOther, "Doit", articulationsOther.Doit, articulations.Doit)
 		diffs = append(diffs, ops)
 	}
 	FalloffDifferent := false
@@ -27373,7 +26661,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if FalloffDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Falloff", articulationsOther.Falloff, articulations.Falloff)
+		ops := stage.Diff(articulations, articulationsOther, "Falloff", articulationsOther.Falloff, articulations.Falloff)
 		diffs = append(diffs, ops)
 	}
 	Breath_markDifferent := false
@@ -27394,7 +26682,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if Breath_markDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Breath_mark", articulationsOther.Breath_mark, articulations.Breath_mark)
+		ops := stage.Diff(articulations, articulationsOther, "Breath_mark", articulationsOther.Breath_mark, articulations.Breath_mark)
 		diffs = append(diffs, ops)
 	}
 	CaesuraDifferent := false
@@ -27415,7 +26703,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if CaesuraDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Caesura", articulationsOther.Caesura, articulations.Caesura)
+		ops := stage.Diff(articulations, articulationsOther, "Caesura", articulationsOther.Caesura, articulations.Caesura)
 		diffs = append(diffs, ops)
 	}
 	StressDifferent := false
@@ -27436,7 +26724,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if StressDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Stress", articulationsOther.Stress, articulations.Stress)
+		ops := stage.Diff(articulations, articulationsOther, "Stress", articulationsOther.Stress, articulations.Stress)
 		diffs = append(diffs, ops)
 	}
 	UnstressDifferent := false
@@ -27457,7 +26745,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if UnstressDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Unstress", articulationsOther.Unstress, articulations.Unstress)
+		ops := stage.Diff(articulations, articulationsOther, "Unstress", articulationsOther.Unstress, articulations.Unstress)
 		diffs = append(diffs, ops)
 	}
 	Soft_accentDifferent := false
@@ -27478,7 +26766,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if Soft_accentDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Soft_accent", articulationsOther.Soft_accent, articulations.Soft_accent)
+		ops := stage.Diff(articulations, articulationsOther, "Soft_accent", articulationsOther.Soft_accent, articulations.Soft_accent)
 		diffs = append(diffs, ops)
 	}
 	Other_articulationDifferent := false
@@ -27499,7 +26787,7 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if Other_articulationDifferent {
-		ops := Diff(stage, articulations, articulationsOther, "Other_articulation", articulationsOther.Other_articulation, articulations.Other_articulation)
+		ops := stage.Diff(articulations, articulationsOther, "Other_articulation", articulationsOther.Other_articulation, articulations.Other_articulation)
 		diffs = append(diffs, ops)
 	}
 
@@ -27568,7 +26856,7 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if KeyDifferent {
-		ops := Diff(stage, attributes, attributesOther, "Key", attributesOther.Key, attributes.Key)
+		ops := stage.Diff(attributes, attributesOther, "Key", attributesOther.Key, attributes.Key)
 		diffs = append(diffs, ops)
 	}
 	TimeDifferent := false
@@ -27589,7 +26877,7 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if TimeDifferent {
-		ops := Diff(stage, attributes, attributesOther, "Time", attributesOther.Time, attributes.Time)
+		ops := stage.Diff(attributes, attributesOther, "Time", attributesOther.Time, attributes.Time)
 		diffs = append(diffs, ops)
 	}
 	if attributes.Staves != attributesOther.Staves {
@@ -27623,7 +26911,7 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if ClefDifferent {
-		ops := Diff(stage, attributes, attributesOther, "Clef", attributesOther.Clef, attributes.Clef)
+		ops := stage.Diff(attributes, attributesOther, "Clef", attributesOther.Clef, attributes.Clef)
 		diffs = append(diffs, ops)
 	}
 	Staff_detailsDifferent := false
@@ -27644,7 +26932,7 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if Staff_detailsDifferent {
-		ops := Diff(stage, attributes, attributesOther, "Staff_details", attributesOther.Staff_details, attributes.Staff_details)
+		ops := stage.Diff(attributes, attributesOther, "Staff_details", attributesOther.Staff_details, attributes.Staff_details)
 		diffs = append(diffs, ops)
 	}
 	TransposeDifferent := false
@@ -27665,7 +26953,7 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if TransposeDifferent {
-		ops := Diff(stage, attributes, attributesOther, "Transpose", attributesOther.Transpose, attributes.Transpose)
+		ops := stage.Diff(attributes, attributesOther, "Transpose", attributesOther.Transpose, attributes.Transpose)
 		diffs = append(diffs, ops)
 	}
 	For_partDifferent := false
@@ -27686,7 +26974,7 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if For_partDifferent {
-		ops := Diff(stage, attributes, attributesOther, "For_part", attributesOther.For_part, attributes.For_part)
+		ops := stage.Diff(attributes, attributesOther, "For_part", attributesOther.For_part, attributes.For_part)
 		diffs = append(diffs, ops)
 	}
 	DirectiveDifferent := false
@@ -27707,7 +26995,7 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if DirectiveDifferent {
-		ops := Diff(stage, attributes, attributesOther, "Directive", attributesOther.Directive, attributes.Directive)
+		ops := stage.Diff(attributes, attributesOther, "Directive", attributesOther.Directive, attributes.Directive)
 		diffs = append(diffs, ops)
 	}
 	Measure_styleDifferent := false
@@ -27728,7 +27016,7 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if Measure_styleDifferent {
-		ops := Diff(stage, attributes, attributesOther, "Measure_style", attributesOther.Measure_style, attributes.Measure_style)
+		ops := stage.Diff(attributes, attributesOther, "Measure_style", attributesOther.Measure_style, attributes.Measure_style)
 		diffs = append(diffs, ops)
 	}
 
@@ -28464,7 +27752,7 @@ func (credit *Credit) GongDiff(stage *Stage, creditOther *Credit) (diffs []strin
 		}
 	}
 	if LinkDifferent {
-		ops := Diff(stage, credit, creditOther, "Link", creditOther.Link, credit.Link)
+		ops := stage.Diff(credit, creditOther, "Link", creditOther.Link, credit.Link)
 		diffs = append(diffs, ops)
 	}
 	BookmarkDifferent := false
@@ -28485,7 +27773,7 @@ func (credit *Credit) GongDiff(stage *Stage, creditOther *Credit) (diffs []strin
 		}
 	}
 	if BookmarkDifferent {
-		ops := Diff(stage, credit, creditOther, "Bookmark", creditOther.Bookmark, credit.Bookmark)
+		ops := stage.Diff(credit, creditOther, "Bookmark", creditOther.Bookmark, credit.Bookmark)
 		diffs = append(diffs, ops)
 	}
 	Credit_wordsDifferent := false
@@ -28506,7 +27794,7 @@ func (credit *Credit) GongDiff(stage *Stage, creditOther *Credit) (diffs []strin
 		}
 	}
 	if Credit_wordsDifferent {
-		ops := Diff(stage, credit, creditOther, "Credit_words", creditOther.Credit_words, credit.Credit_words)
+		ops := stage.Diff(credit, creditOther, "Credit_words", creditOther.Credit_words, credit.Credit_words)
 		diffs = append(diffs, ops)
 	}
 	Credit_symbolDifferent := false
@@ -28527,7 +27815,7 @@ func (credit *Credit) GongDiff(stage *Stage, creditOther *Credit) (diffs []strin
 		}
 	}
 	if Credit_symbolDifferent {
-		ops := Diff(stage, credit, creditOther, "Credit_symbol", creditOther.Credit_symbol, credit.Credit_symbol)
+		ops := stage.Diff(credit, creditOther, "Credit_symbol", creditOther.Credit_symbol, credit.Credit_symbol)
 		diffs = append(diffs, ops)
 	}
 
@@ -28624,7 +27912,7 @@ func (defaults *Defaults) GongDiff(stage *Stage, defaultsOther *Defaults) (diffs
 		}
 	}
 	if Staff_layoutDifferent {
-		ops := Diff(stage, defaults, defaultsOther, "Staff_layout", defaultsOther.Staff_layout, defaults.Staff_layout)
+		ops := stage.Diff(defaults, defaultsOther, "Staff_layout", defaultsOther.Staff_layout, defaults.Staff_layout)
 		diffs = append(diffs, ops)
 	}
 	if (defaults.Appearance == nil) != (defaultsOther.Appearance == nil) {
@@ -28666,7 +27954,7 @@ func (defaults *Defaults) GongDiff(stage *Stage, defaultsOther *Defaults) (diffs
 		}
 	}
 	if Lyric_fontDifferent {
-		ops := Diff(stage, defaults, defaultsOther, "Lyric_font", defaultsOther.Lyric_font, defaults.Lyric_font)
+		ops := stage.Diff(defaults, defaultsOther, "Lyric_font", defaultsOther.Lyric_font, defaults.Lyric_font)
 		diffs = append(diffs, ops)
 	}
 	Lyric_languageDifferent := false
@@ -28687,7 +27975,7 @@ func (defaults *Defaults) GongDiff(stage *Stage, defaultsOther *Defaults) (diffs
 		}
 	}
 	if Lyric_languageDifferent {
-		ops := Diff(stage, defaults, defaultsOther, "Lyric_language", defaultsOther.Lyric_language, defaults.Lyric_language)
+		ops := stage.Diff(defaults, defaultsOther, "Lyric_language", defaultsOther.Lyric_language, defaults.Lyric_language)
 		diffs = append(diffs, ops)
 	}
 
@@ -28901,7 +28189,7 @@ func (direction *Direction) GongDiff(stage *Stage, directionOther *Direction) (d
 		}
 	}
 	if Direction_typeDifferent {
-		ops := Diff(stage, direction, directionOther, "Direction_type", directionOther.Direction_type, direction.Direction_type)
+		ops := stage.Diff(direction, directionOther, "Direction_type", directionOther.Direction_type, direction.Direction_type)
 		diffs = append(diffs, ops)
 	}
 	if (direction.Offset == nil) != (directionOther.Offset == nil) {
@@ -28977,7 +28265,7 @@ func (direction_type *Direction_type) GongDiff(stage *Stage, direction_typeOther
 		}
 	}
 	if RehearsalDifferent {
-		ops := Diff(stage, direction_type, direction_typeOther, "Rehearsal", direction_typeOther.Rehearsal, direction_type.Rehearsal)
+		ops := stage.Diff(direction_type, direction_typeOther, "Rehearsal", direction_typeOther.Rehearsal, direction_type.Rehearsal)
 		diffs = append(diffs, ops)
 	}
 	SegnoDifferent := false
@@ -28998,7 +28286,7 @@ func (direction_type *Direction_type) GongDiff(stage *Stage, direction_typeOther
 		}
 	}
 	if SegnoDifferent {
-		ops := Diff(stage, direction_type, direction_typeOther, "Segno", direction_typeOther.Segno, direction_type.Segno)
+		ops := stage.Diff(direction_type, direction_typeOther, "Segno", direction_typeOther.Segno, direction_type.Segno)
 		diffs = append(diffs, ops)
 	}
 	CodaDifferent := false
@@ -29019,7 +28307,7 @@ func (direction_type *Direction_type) GongDiff(stage *Stage, direction_typeOther
 		}
 	}
 	if CodaDifferent {
-		ops := Diff(stage, direction_type, direction_typeOther, "Coda", direction_typeOther.Coda, direction_type.Coda)
+		ops := stage.Diff(direction_type, direction_typeOther, "Coda", direction_typeOther.Coda, direction_type.Coda)
 		diffs = append(diffs, ops)
 	}
 	WordsDifferent := false
@@ -29040,7 +28328,7 @@ func (direction_type *Direction_type) GongDiff(stage *Stage, direction_typeOther
 		}
 	}
 	if WordsDifferent {
-		ops := Diff(stage, direction_type, direction_typeOther, "Words", direction_typeOther.Words, direction_type.Words)
+		ops := stage.Diff(direction_type, direction_typeOther, "Words", direction_typeOther.Words, direction_type.Words)
 		diffs = append(diffs, ops)
 	}
 	SymbolDifferent := false
@@ -29061,7 +28349,7 @@ func (direction_type *Direction_type) GongDiff(stage *Stage, direction_typeOther
 		}
 	}
 	if SymbolDifferent {
-		ops := Diff(stage, direction_type, direction_typeOther, "Symbol", direction_typeOther.Symbol, direction_type.Symbol)
+		ops := stage.Diff(direction_type, direction_typeOther, "Symbol", direction_typeOther.Symbol, direction_type.Symbol)
 		diffs = append(diffs, ops)
 	}
 	if (direction_type.Wedge == nil) != (direction_typeOther.Wedge == nil) {
@@ -29089,7 +28377,7 @@ func (direction_type *Direction_type) GongDiff(stage *Stage, direction_typeOther
 		}
 	}
 	if DynamicsDifferent {
-		ops := Diff(stage, direction_type, direction_typeOther, "Dynamics", direction_typeOther.Dynamics, direction_type.Dynamics)
+		ops := stage.Diff(direction_type, direction_typeOther, "Dynamics", direction_typeOther.Dynamics, direction_type.Dynamics)
 		diffs = append(diffs, ops)
 	}
 	if (direction_type.Dashes == nil) != (direction_typeOther.Dashes == nil) {
@@ -29201,7 +28489,7 @@ func (direction_type *Direction_type) GongDiff(stage *Stage, direction_typeOther
 		}
 	}
 	if PercussionDifferent {
-		ops := Diff(stage, direction_type, direction_typeOther, "Percussion", direction_typeOther.Percussion, direction_type.Percussion)
+		ops := stage.Diff(direction_type, direction_typeOther, "Percussion", direction_typeOther.Percussion, direction_type.Percussion)
 		diffs = append(diffs, ops)
 	}
 	if (direction_type.Accordion_registration == nil) != (direction_typeOther.Accordion_registration == nil) {
@@ -29414,7 +28702,7 @@ func (dynamics *Dynamics) GongDiff(stage *Stage, dynamicsOther *Dynamics) (diffs
 		}
 	}
 	if Other_dynamicsDifferent {
-		ops := Diff(stage, dynamics, dynamicsOther, "Other_dynamics", dynamicsOther.Other_dynamics, dynamics.Other_dynamics)
+		ops := stage.Diff(dynamics, dynamicsOther, "Other_dynamics", dynamicsOther.Other_dynamics, dynamics.Other_dynamics)
 		diffs = append(diffs, ops)
 	}
 
@@ -29908,7 +29196,7 @@ func (encoding *Encoding) GongDiff(stage *Stage, encodingOther *Encoding) (diffs
 		}
 	}
 	if EncoderDifferent {
-		ops := Diff(stage, encoding, encodingOther, "Encoder", encodingOther.Encoder, encoding.Encoder)
+		ops := stage.Diff(encoding, encodingOther, "Encoder", encodingOther.Encoder, encoding.Encoder)
 		diffs = append(diffs, ops)
 	}
 	if encoding.Software != encodingOther.Software {
@@ -29935,7 +29223,7 @@ func (encoding *Encoding) GongDiff(stage *Stage, encodingOther *Encoding) (diffs
 		}
 	}
 	if SupportsDifferent {
-		ops := Diff(stage, encoding, encodingOther, "Supports", encodingOther.Supports, encoding.Supports)
+		ops := stage.Diff(encoding, encodingOther, "Supports", encodingOther.Supports, encoding.Supports)
 		diffs = append(diffs, ops)
 	}
 
@@ -30229,7 +29517,7 @@ func (figured_bass *Figured_bass) GongDiff(stage *Stage, figured_bassOther *Figu
 		}
 	}
 	if FigureDifferent {
-		ops := Diff(stage, figured_bass, figured_bassOther, "Figure", figured_bassOther.Figure, figured_bass.Figure)
+		ops := stage.Diff(figured_bass, figured_bassOther, "Figure", figured_bassOther.Figure, figured_bass.Figure)
 		diffs = append(diffs, ops)
 	}
 	if figured_bass.Duration != figured_bassOther.Duration {
@@ -30773,7 +30061,7 @@ func (frame *Frame) GongDiff(stage *Stage, frameOther *Frame) (diffs []string) {
 		}
 	}
 	if Frame_noteDifferent {
-		ops := Diff(stage, frame, frameOther, "Frame_note", frameOther.Frame_note, frame.Frame_note)
+		ops := stage.Diff(frame, frameOther, "Frame_note", frameOther.Frame_note, frame.Frame_note)
 		diffs = append(diffs, ops)
 	}
 
@@ -31091,7 +30379,7 @@ func (grouping *Grouping) GongDiff(stage *Stage, groupingOther *Grouping) (diffs
 		}
 	}
 	if FeatureDifferent {
-		ops := Diff(stage, grouping, groupingOther, "Feature", groupingOther.Feature, grouping.Feature)
+		ops := stage.Diff(grouping, groupingOther, "Feature", groupingOther.Feature, grouping.Feature)
 		diffs = append(diffs, ops)
 	}
 
@@ -31431,7 +30719,7 @@ func (harmony *Harmony) GongDiff(stage *Stage, harmonyOther *Harmony) (diffs []s
 		}
 	}
 	if DegreeDifferent {
-		ops := Diff(stage, harmony, harmonyOther, "Degree", harmonyOther.Degree, harmony.Degree)
+		ops := stage.Diff(harmony, harmonyOther, "Degree", harmonyOther.Degree, harmony.Degree)
 		diffs = append(diffs, ops)
 	}
 	if (harmony.Frame == nil) != (harmonyOther.Frame == nil) {
@@ -31577,7 +30865,7 @@ func (harp_pedals *Harp_pedals) GongDiff(stage *Stage, harp_pedalsOther *Harp_pe
 		}
 	}
 	if Pedal_tuningDifferent {
-		ops := Diff(stage, harp_pedals, harp_pedalsOther, "Pedal_tuning", harp_pedalsOther.Pedal_tuning, harp_pedals.Pedal_tuning)
+		ops := stage.Diff(harp_pedals, harp_pedalsOther, "Pedal_tuning", harp_pedalsOther.Pedal_tuning, harp_pedals.Pedal_tuning)
 		diffs = append(diffs, ops)
 	}
 
@@ -31756,7 +31044,7 @@ func (identification *Identification) GongDiff(stage *Stage, identificationOther
 		}
 	}
 	if CreatorDifferent {
-		ops := Diff(stage, identification, identificationOther, "Creator", identificationOther.Creator, identification.Creator)
+		ops := stage.Diff(identification, identificationOther, "Creator", identificationOther.Creator, identification.Creator)
 		diffs = append(diffs, ops)
 	}
 	RightsDifferent := false
@@ -31777,7 +31065,7 @@ func (identification *Identification) GongDiff(stage *Stage, identificationOther
 		}
 	}
 	if RightsDifferent {
-		ops := Diff(stage, identification, identificationOther, "Rights", identificationOther.Rights, identification.Rights)
+		ops := stage.Diff(identification, identificationOther, "Rights", identificationOther.Rights, identification.Rights)
 		diffs = append(diffs, ops)
 	}
 	if (identification.Encoding == nil) != (identificationOther.Encoding == nil) {
@@ -31808,7 +31096,7 @@ func (identification *Identification) GongDiff(stage *Stage, identificationOther
 		}
 	}
 	if RelationDifferent {
-		ops := Diff(stage, identification, identificationOther, "Relation", identificationOther.Relation, identification.Relation)
+		ops := stage.Diff(identification, identificationOther, "Relation", identificationOther.Relation, identification.Relation)
 		diffs = append(diffs, ops)
 	}
 	if (identification.Miscellaneous == nil) != (identificationOther.Miscellaneous == nil) {
@@ -32081,7 +31369,7 @@ func (key *Key) GongDiff(stage *Stage, keyOther *Key) (diffs []string) {
 		}
 	}
 	if Key_octaveDifferent {
-		ops := Diff(stage, key, keyOther, "Key_octave", keyOther.Key_octave, key.Key_octave)
+		ops := stage.Diff(key, keyOther, "Key_octave", keyOther.Key_octave, key.Key_octave)
 		diffs = append(diffs, ops)
 	}
 
@@ -32334,7 +31622,7 @@ func (listen *Listen) GongDiff(stage *Stage, listenOther *Listen) (diffs []strin
 		}
 	}
 	if AssessDifferent {
-		ops := Diff(stage, listen, listenOther, "Assess", listenOther.Assess, listen.Assess)
+		ops := stage.Diff(listen, listenOther, "Assess", listenOther.Assess, listen.Assess)
 		diffs = append(diffs, ops)
 	}
 	WaitDifferent := false
@@ -32355,7 +31643,7 @@ func (listen *Listen) GongDiff(stage *Stage, listenOther *Listen) (diffs []strin
 		}
 	}
 	if WaitDifferent {
-		ops := Diff(stage, listen, listenOther, "Wait", listenOther.Wait, listen.Wait)
+		ops := stage.Diff(listen, listenOther, "Wait", listenOther.Wait, listen.Wait)
 		diffs = append(diffs, ops)
 	}
 	Other_listenDifferent := false
@@ -32376,7 +31664,7 @@ func (listen *Listen) GongDiff(stage *Stage, listenOther *Listen) (diffs []strin
 		}
 	}
 	if Other_listenDifferent {
-		ops := Diff(stage, listen, listenOther, "Other_listen", listenOther.Other_listen, listen.Other_listen)
+		ops := stage.Diff(listen, listenOther, "Other_listen", listenOther.Other_listen, listen.Other_listen)
 		diffs = append(diffs, ops)
 	}
 
@@ -32408,7 +31696,7 @@ func (listening *Listening) GongDiff(stage *Stage, listeningOther *Listening) (d
 		}
 	}
 	if SyncDifferent {
-		ops := Diff(stage, listening, listeningOther, "Sync", listeningOther.Sync, listening.Sync)
+		ops := stage.Diff(listening, listeningOther, "Sync", listeningOther.Sync, listening.Sync)
 		diffs = append(diffs, ops)
 	}
 	Other_listeningDifferent := false
@@ -32429,7 +31717,7 @@ func (listening *Listening) GongDiff(stage *Stage, listeningOther *Listening) (d
 		}
 	}
 	if Other_listeningDifferent {
-		ops := Diff(stage, listening, listeningOther, "Other_listening", listeningOther.Other_listening, listening.Other_listening)
+		ops := stage.Diff(listening, listeningOther, "Other_listening", listeningOther.Other_listening, listening.Other_listening)
 		diffs = append(diffs, ops)
 	}
 	if (listening.Offset == nil) != (listeningOther.Offset == nil) {
@@ -32504,7 +31792,7 @@ func (lyric *Lyric) GongDiff(stage *Stage, lyricOther *Lyric) (diffs []string) {
 		}
 	}
 	if ElisionDifferent {
-		ops := Diff(stage, lyric, lyricOther, "Elision", lyricOther.Elision, lyric.Elision)
+		ops := stage.Diff(lyric, lyricOther, "Elision", lyricOther.Elision, lyric.Elision)
 		diffs = append(diffs, ops)
 	}
 	if lyric.Syllabic != lyricOther.Syllabic {
@@ -32528,7 +31816,7 @@ func (lyric *Lyric) GongDiff(stage *Stage, lyricOther *Lyric) (diffs []string) {
 		}
 	}
 	if TextDifferent {
-		ops := Diff(stage, lyric, lyricOther, "Text", lyricOther.Text, lyric.Text)
+		ops := stage.Diff(lyric, lyricOther, "Text", lyricOther.Text, lyric.Text)
 		diffs = append(diffs, ops)
 	}
 	if (lyric.Extend == nil) != (lyricOther.Extend == nil) {
@@ -32887,7 +32175,7 @@ func (metronome *Metronome) GongDiff(stage *Stage, metronomeOther *Metronome) (d
 		}
 	}
 	if Beat_unit_tiedDifferent {
-		ops := Diff(stage, metronome, metronomeOther, "Beat_unit_tied", metronomeOther.Beat_unit_tied, metronome.Beat_unit_tied)
+		ops := stage.Diff(metronome, metronomeOther, "Beat_unit_tied", metronomeOther.Beat_unit_tied, metronome.Beat_unit_tied)
 		diffs = append(diffs, ops)
 	}
 	if metronome.Metronome_arrows != metronomeOther.Metronome_arrows {
@@ -32914,7 +32202,7 @@ func (metronome *Metronome) GongDiff(stage *Stage, metronomeOther *Metronome) (d
 		}
 	}
 	if Metronome_noteDifferent {
-		ops := Diff(stage, metronome, metronomeOther, "Metronome_note", metronomeOther.Metronome_note, metronome.Metronome_note)
+		ops := stage.Diff(metronome, metronomeOther, "Metronome_note", metronomeOther.Metronome_note, metronome.Metronome_note)
 		diffs = append(diffs, ops)
 	}
 
@@ -32969,7 +32257,7 @@ func (metronome_note *Metronome_note) GongDiff(stage *Stage, metronome_noteOther
 		}
 	}
 	if Metronome_beamDifferent {
-		ops := Diff(stage, metronome_note, metronome_noteOther, "Metronome_beam", metronome_noteOther.Metronome_beam, metronome_note.Metronome_beam)
+		ops := stage.Diff(metronome_note, metronome_noteOther, "Metronome_beam", metronome_noteOther.Metronome_beam, metronome_note.Metronome_beam)
 		diffs = append(diffs, ops)
 	}
 	if (metronome_note.Metronome_tied == nil) != (metronome_noteOther.Metronome_tied == nil) {
@@ -33098,7 +32386,7 @@ func (miscellaneous *Miscellaneous) GongDiff(stage *Stage, miscellaneousOther *M
 		}
 	}
 	if Miscellaneous_fieldDifferent {
-		ops := Diff(stage, miscellaneous, miscellaneousOther, "Miscellaneous_field", miscellaneousOther.Miscellaneous_field, miscellaneous.Miscellaneous_field)
+		ops := stage.Diff(miscellaneous, miscellaneousOther, "Miscellaneous_field", miscellaneousOther.Miscellaneous_field, miscellaneous.Miscellaneous_field)
 		diffs = append(diffs, ops)
 	}
 
@@ -33178,7 +32466,7 @@ func (name_display *Name_display) GongDiff(stage *Stage, name_displayOther *Name
 		}
 	}
 	if Display_textDifferent {
-		ops := Diff(stage, name_display, name_displayOther, "Display_text", name_displayOther.Display_text, name_display.Display_text)
+		ops := stage.Diff(name_display, name_displayOther, "Display_text", name_displayOther.Display_text, name_display.Display_text)
 		diffs = append(diffs, ops)
 	}
 	Accidental_textDifferent := false
@@ -33199,7 +32487,7 @@ func (name_display *Name_display) GongDiff(stage *Stage, name_displayOther *Name
 		}
 	}
 	if Accidental_textDifferent {
-		ops := Diff(stage, name_display, name_displayOther, "Accidental_text", name_displayOther.Accidental_text, name_display.Accidental_text)
+		ops := stage.Diff(name_display, name_displayOther, "Accidental_text", name_displayOther.Accidental_text, name_display.Accidental_text)
 		diffs = append(diffs, ops)
 	}
 
@@ -33289,7 +32577,7 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if TiedDifferent {
-		ops := Diff(stage, notations, notationsOther, "Tied", notationsOther.Tied, notations.Tied)
+		ops := stage.Diff(notations, notationsOther, "Tied", notationsOther.Tied, notations.Tied)
 		diffs = append(diffs, ops)
 	}
 	SlurDifferent := false
@@ -33310,7 +32598,7 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if SlurDifferent {
-		ops := Diff(stage, notations, notationsOther, "Slur", notationsOther.Slur, notations.Slur)
+		ops := stage.Diff(notations, notationsOther, "Slur", notationsOther.Slur, notations.Slur)
 		diffs = append(diffs, ops)
 	}
 	TupletDifferent := false
@@ -33331,7 +32619,7 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if TupletDifferent {
-		ops := Diff(stage, notations, notationsOther, "Tuplet", notationsOther.Tuplet, notations.Tuplet)
+		ops := stage.Diff(notations, notationsOther, "Tuplet", notationsOther.Tuplet, notations.Tuplet)
 		diffs = append(diffs, ops)
 	}
 	GlissandoDifferent := false
@@ -33352,7 +32640,7 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if GlissandoDifferent {
-		ops := Diff(stage, notations, notationsOther, "Glissando", notationsOther.Glissando, notations.Glissando)
+		ops := stage.Diff(notations, notationsOther, "Glissando", notationsOther.Glissando, notations.Glissando)
 		diffs = append(diffs, ops)
 	}
 	SlideDifferent := false
@@ -33373,7 +32661,7 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if SlideDifferent {
-		ops := Diff(stage, notations, notationsOther, "Slide", notationsOther.Slide, notations.Slide)
+		ops := stage.Diff(notations, notationsOther, "Slide", notationsOther.Slide, notations.Slide)
 		diffs = append(diffs, ops)
 	}
 	OrnamentsDifferent := false
@@ -33394,7 +32682,7 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if OrnamentsDifferent {
-		ops := Diff(stage, notations, notationsOther, "Ornaments", notationsOther.Ornaments, notations.Ornaments)
+		ops := stage.Diff(notations, notationsOther, "Ornaments", notationsOther.Ornaments, notations.Ornaments)
 		diffs = append(diffs, ops)
 	}
 	TechnicalDifferent := false
@@ -33415,7 +32703,7 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if TechnicalDifferent {
-		ops := Diff(stage, notations, notationsOther, "Technical", notationsOther.Technical, notations.Technical)
+		ops := stage.Diff(notations, notationsOther, "Technical", notationsOther.Technical, notations.Technical)
 		diffs = append(diffs, ops)
 	}
 	ArticulationsDifferent := false
@@ -33436,7 +32724,7 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if ArticulationsDifferent {
-		ops := Diff(stage, notations, notationsOther, "Articulations", notationsOther.Articulations, notations.Articulations)
+		ops := stage.Diff(notations, notationsOther, "Articulations", notationsOther.Articulations, notations.Articulations)
 		diffs = append(diffs, ops)
 	}
 	DynamicsDifferent := false
@@ -33457,7 +32745,7 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if DynamicsDifferent {
-		ops := Diff(stage, notations, notationsOther, "Dynamics", notationsOther.Dynamics, notations.Dynamics)
+		ops := stage.Diff(notations, notationsOther, "Dynamics", notationsOther.Dynamics, notations.Dynamics)
 		diffs = append(diffs, ops)
 	}
 	FermataDifferent := false
@@ -33478,7 +32766,7 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if FermataDifferent {
-		ops := Diff(stage, notations, notationsOther, "Fermata", notationsOther.Fermata, notations.Fermata)
+		ops := stage.Diff(notations, notationsOther, "Fermata", notationsOther.Fermata, notations.Fermata)
 		diffs = append(diffs, ops)
 	}
 	ArpeggiateDifferent := false
@@ -33499,7 +32787,7 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if ArpeggiateDifferent {
-		ops := Diff(stage, notations, notationsOther, "Arpeggiate", notationsOther.Arpeggiate, notations.Arpeggiate)
+		ops := stage.Diff(notations, notationsOther, "Arpeggiate", notationsOther.Arpeggiate, notations.Arpeggiate)
 		diffs = append(diffs, ops)
 	}
 	Non_arpeggiateDifferent := false
@@ -33520,7 +32808,7 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if Non_arpeggiateDifferent {
-		ops := Diff(stage, notations, notationsOther, "Non_arpeggiate", notationsOther.Non_arpeggiate, notations.Non_arpeggiate)
+		ops := stage.Diff(notations, notationsOther, "Non_arpeggiate", notationsOther.Non_arpeggiate, notations.Non_arpeggiate)
 		diffs = append(diffs, ops)
 	}
 	Accidental_markDifferent := false
@@ -33541,7 +32829,7 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if Accidental_markDifferent {
-		ops := Diff(stage, notations, notationsOther, "Accidental_mark", notationsOther.Accidental_mark, notations.Accidental_mark)
+		ops := stage.Diff(notations, notationsOther, "Accidental_mark", notationsOther.Accidental_mark, notations.Accidental_mark)
 		diffs = append(diffs, ops)
 	}
 	Other_notationDifferent := false
@@ -33562,7 +32850,7 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if Other_notationDifferent {
-		ops := Diff(stage, notations, notationsOther, "Other_notation", notationsOther.Other_notation, notations.Other_notation)
+		ops := stage.Diff(notations, notationsOther, "Other_notation", notationsOther.Other_notation, notations.Other_notation)
 		diffs = append(diffs, ops)
 	}
 
@@ -33701,7 +32989,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if InstrumentDifferent {
-		ops := Diff(stage, note, noteOther, "Instrument", noteOther.Instrument, note.Instrument)
+		ops := stage.Diff(note, noteOther, "Instrument", noteOther.Instrument, note.Instrument)
 		diffs = append(diffs, ops)
 	}
 	if (note.Footnote == nil) != (noteOther.Footnote == nil) {
@@ -33746,7 +33034,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if DotDifferent {
-		ops := Diff(stage, note, noteOther, "Dot", noteOther.Dot, note.Dot)
+		ops := stage.Diff(note, noteOther, "Dot", noteOther.Dot, note.Dot)
 		diffs = append(diffs, ops)
 	}
 	if (note.Accidental == nil) != (noteOther.Accidental == nil) {
@@ -33812,7 +33100,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if NotationsDifferent {
-		ops := Diff(stage, note, noteOther, "Notations", noteOther.Notations, note.Notations)
+		ops := stage.Diff(note, noteOther, "Notations", noteOther.Notations, note.Notations)
 		diffs = append(diffs, ops)
 	}
 	LyricDifferent := false
@@ -33833,7 +33121,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if LyricDifferent {
-		ops := Diff(stage, note, noteOther, "Lyric", noteOther.Lyric, note.Lyric)
+		ops := stage.Diff(note, noteOther, "Lyric", noteOther.Lyric, note.Lyric)
 		diffs = append(diffs, ops)
 	}
 	if (note.Play == nil) != (noteOther.Play == nil) {
@@ -33951,7 +33239,7 @@ func (notehead_text *Notehead_text) GongDiff(stage *Stage, notehead_textOther *N
 		}
 	}
 	if Display_textDifferent {
-		ops := Diff(stage, notehead_text, notehead_textOther, "Display_text", notehead_textOther.Display_text, notehead_text.Display_text)
+		ops := stage.Diff(notehead_text, notehead_textOther, "Display_text", notehead_textOther.Display_text, notehead_text.Display_text)
 		diffs = append(diffs, ops)
 	}
 	Accidental_textDifferent := false
@@ -33972,7 +33260,7 @@ func (notehead_text *Notehead_text) GongDiff(stage *Stage, notehead_textOther *N
 		}
 	}
 	if Accidental_textDifferent {
-		ops := Diff(stage, notehead_text, notehead_textOther, "Accidental_text", notehead_textOther.Accidental_text, notehead_text.Accidental_text)
+		ops := stage.Diff(notehead_text, notehead_textOther, "Accidental_text", notehead_textOther.Accidental_text, notehead_text.Accidental_text)
 		diffs = append(diffs, ops)
 	}
 
@@ -34205,7 +33493,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Trill_markDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Trill_mark", ornamentsOther.Trill_mark, ornaments.Trill_mark)
+		ops := stage.Diff(ornaments, ornamentsOther, "Trill_mark", ornamentsOther.Trill_mark, ornaments.Trill_mark)
 		diffs = append(diffs, ops)
 	}
 	TurnDifferent := false
@@ -34226,7 +33514,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if TurnDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Turn", ornamentsOther.Turn, ornaments.Turn)
+		ops := stage.Diff(ornaments, ornamentsOther, "Turn", ornamentsOther.Turn, ornaments.Turn)
 		diffs = append(diffs, ops)
 	}
 	Delayed_turnDifferent := false
@@ -34247,7 +33535,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Delayed_turnDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Delayed_turn", ornamentsOther.Delayed_turn, ornaments.Delayed_turn)
+		ops := stage.Diff(ornaments, ornamentsOther, "Delayed_turn", ornamentsOther.Delayed_turn, ornaments.Delayed_turn)
 		diffs = append(diffs, ops)
 	}
 	Inverted_turnDifferent := false
@@ -34268,7 +33556,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Inverted_turnDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Inverted_turn", ornamentsOther.Inverted_turn, ornaments.Inverted_turn)
+		ops := stage.Diff(ornaments, ornamentsOther, "Inverted_turn", ornamentsOther.Inverted_turn, ornaments.Inverted_turn)
 		diffs = append(diffs, ops)
 	}
 	Delayed_inverted_turnDifferent := false
@@ -34289,7 +33577,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Delayed_inverted_turnDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Delayed_inverted_turn", ornamentsOther.Delayed_inverted_turn, ornaments.Delayed_inverted_turn)
+		ops := stage.Diff(ornaments, ornamentsOther, "Delayed_inverted_turn", ornamentsOther.Delayed_inverted_turn, ornaments.Delayed_inverted_turn)
 		diffs = append(diffs, ops)
 	}
 	Vertical_turnDifferent := false
@@ -34310,7 +33598,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Vertical_turnDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Vertical_turn", ornamentsOther.Vertical_turn, ornaments.Vertical_turn)
+		ops := stage.Diff(ornaments, ornamentsOther, "Vertical_turn", ornamentsOther.Vertical_turn, ornaments.Vertical_turn)
 		diffs = append(diffs, ops)
 	}
 	Inverted_vertical_turnDifferent := false
@@ -34331,7 +33619,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Inverted_vertical_turnDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Inverted_vertical_turn", ornamentsOther.Inverted_vertical_turn, ornaments.Inverted_vertical_turn)
+		ops := stage.Diff(ornaments, ornamentsOther, "Inverted_vertical_turn", ornamentsOther.Inverted_vertical_turn, ornaments.Inverted_vertical_turn)
 		diffs = append(diffs, ops)
 	}
 	ShakeDifferent := false
@@ -34352,7 +33640,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if ShakeDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Shake", ornamentsOther.Shake, ornaments.Shake)
+		ops := stage.Diff(ornaments, ornamentsOther, "Shake", ornamentsOther.Shake, ornaments.Shake)
 		diffs = append(diffs, ops)
 	}
 	Wavy_lineDifferent := false
@@ -34373,7 +33661,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Wavy_lineDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Wavy_line", ornamentsOther.Wavy_line, ornaments.Wavy_line)
+		ops := stage.Diff(ornaments, ornamentsOther, "Wavy_line", ornamentsOther.Wavy_line, ornaments.Wavy_line)
 		diffs = append(diffs, ops)
 	}
 	MordentDifferent := false
@@ -34394,7 +33682,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if MordentDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Mordent", ornamentsOther.Mordent, ornaments.Mordent)
+		ops := stage.Diff(ornaments, ornamentsOther, "Mordent", ornamentsOther.Mordent, ornaments.Mordent)
 		diffs = append(diffs, ops)
 	}
 	Inverted_mordentDifferent := false
@@ -34415,7 +33703,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Inverted_mordentDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Inverted_mordent", ornamentsOther.Inverted_mordent, ornaments.Inverted_mordent)
+		ops := stage.Diff(ornaments, ornamentsOther, "Inverted_mordent", ornamentsOther.Inverted_mordent, ornaments.Inverted_mordent)
 		diffs = append(diffs, ops)
 	}
 	SchleiferDifferent := false
@@ -34436,7 +33724,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if SchleiferDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Schleifer", ornamentsOther.Schleifer, ornaments.Schleifer)
+		ops := stage.Diff(ornaments, ornamentsOther, "Schleifer", ornamentsOther.Schleifer, ornaments.Schleifer)
 		diffs = append(diffs, ops)
 	}
 	TremoloDifferent := false
@@ -34457,7 +33745,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if TremoloDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Tremolo", ornamentsOther.Tremolo, ornaments.Tremolo)
+		ops := stage.Diff(ornaments, ornamentsOther, "Tremolo", ornamentsOther.Tremolo, ornaments.Tremolo)
 		diffs = append(diffs, ops)
 	}
 	HaydnDifferent := false
@@ -34478,7 +33766,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if HaydnDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Haydn", ornamentsOther.Haydn, ornaments.Haydn)
+		ops := stage.Diff(ornaments, ornamentsOther, "Haydn", ornamentsOther.Haydn, ornaments.Haydn)
 		diffs = append(diffs, ops)
 	}
 	Other_ornamentDifferent := false
@@ -34499,7 +33787,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Other_ornamentDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Other_ornament", ornamentsOther.Other_ornament, ornaments.Other_ornament)
+		ops := stage.Diff(ornaments, ornamentsOther, "Other_ornament", ornamentsOther.Other_ornament, ornaments.Other_ornament)
 		diffs = append(diffs, ops)
 	}
 	Accidental_markDifferent := false
@@ -34520,7 +33808,7 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Accidental_markDifferent {
-		ops := Diff(stage, ornaments, ornamentsOther, "Accidental_mark", ornamentsOther.Accidental_mark, ornaments.Accidental_mark)
+		ops := stage.Diff(ornaments, ornamentsOther, "Accidental_mark", ornamentsOther.Accidental_mark, ornaments.Accidental_mark)
 		diffs = append(diffs, ops)
 	}
 
@@ -34952,7 +34240,7 @@ func (part_link *Part_link) GongDiff(stage *Stage, part_linkOther *Part_link) (d
 		}
 	}
 	if Instrument_linkDifferent {
-		ops := Diff(stage, part_link, part_linkOther, "Instrument_link", part_linkOther.Instrument_link, part_link.Instrument_link)
+		ops := stage.Diff(part_link, part_linkOther, "Instrument_link", part_linkOther.Instrument_link, part_link.Instrument_link)
 		diffs = append(diffs, ops)
 	}
 	if part_link.Group_link != part_linkOther.Group_link {
@@ -35438,7 +34726,7 @@ func (play *Play) GongDiff(stage *Stage, playOther *Play) (diffs []string) {
 		}
 	}
 	if Other_playDifferent {
-		ops := Diff(stage, play, playOther, "Other_play", playOther.Other_play, play.Other_play)
+		ops := stage.Diff(play, playOther, "Other_play", playOther.Other_play, play.Other_play)
 		diffs = append(diffs, ops)
 	}
 
@@ -35575,7 +34863,7 @@ func (print *Print) GongDiff(stage *Stage, printOther *Print) (diffs []string) {
 		}
 	}
 	if Staff_layoutDifferent {
-		ops := Diff(stage, print, printOther, "Staff_layout", printOther.Staff_layout, print.Staff_layout)
+		ops := stage.Diff(print, printOther, "Staff_layout", printOther.Staff_layout, print.Staff_layout)
 		diffs = append(diffs, ops)
 	}
 	if (print.Measure_layout == nil) != (printOther.Measure_layout == nil) {
@@ -35778,7 +35066,7 @@ func (scordatura *Scordatura) GongDiff(stage *Stage, scordaturaOther *Scordatura
 		}
 	}
 	if AccordDifferent {
-		ops := Diff(stage, scordatura, scordaturaOther, "Accord", scordaturaOther.Accord, scordatura.Accord)
+		ops := stage.Diff(scordatura, scordaturaOther, "Accord", scordaturaOther.Accord, scordatura.Accord)
 		diffs = append(diffs, ops)
 	}
 
@@ -35856,7 +35144,7 @@ func (score_part *Score_part) GongDiff(stage *Stage, score_partOther *Score_part
 		}
 	}
 	if Part_linkDifferent {
-		ops := Diff(stage, score_part, score_partOther, "Part_link", score_partOther.Part_link, score_part.Part_link)
+		ops := stage.Diff(score_part, score_partOther, "Part_link", score_partOther.Part_link, score_part.Part_link)
 		diffs = append(diffs, ops)
 	}
 	if (score_part.Part_name == nil) != (score_partOther.Part_name == nil) {
@@ -35908,7 +35196,7 @@ func (score_part *Score_part) GongDiff(stage *Stage, score_partOther *Score_part
 		}
 	}
 	if Score_instrumentDifferent {
-		ops := Diff(stage, score_part, score_partOther, "Score_instrument", score_partOther.Score_instrument, score_part.Score_instrument)
+		ops := stage.Diff(score_part, score_partOther, "Score_instrument", score_partOther.Score_instrument, score_part.Score_instrument)
 		diffs = append(diffs, ops)
 	}
 	PlayerDifferent := false
@@ -35929,7 +35217,7 @@ func (score_part *Score_part) GongDiff(stage *Stage, score_partOther *Score_part
 		}
 	}
 	if PlayerDifferent {
-		ops := Diff(stage, score_part, score_partOther, "Player", score_partOther.Player, score_part.Player)
+		ops := stage.Diff(score_part, score_partOther, "Player", score_partOther.Player, score_part.Player)
 		diffs = append(diffs, ops)
 	}
 	Midi_deviceDifferent := false
@@ -35950,7 +35238,7 @@ func (score_part *Score_part) GongDiff(stage *Stage, score_partOther *Score_part
 		}
 	}
 	if Midi_deviceDifferent {
-		ops := Diff(stage, score_part, score_partOther, "Midi_device", score_partOther.Midi_device, score_part.Midi_device)
+		ops := stage.Diff(score_part, score_partOther, "Midi_device", score_partOther.Midi_device, score_part.Midi_device)
 		diffs = append(diffs, ops)
 	}
 	Midi_instrumentDifferent := false
@@ -35971,7 +35259,7 @@ func (score_part *Score_part) GongDiff(stage *Stage, score_partOther *Score_part
 		}
 	}
 	if Midi_instrumentDifferent {
-		ops := Diff(stage, score_part, score_partOther, "Midi_instrument", score_partOther.Midi_instrument, score_part.Midi_instrument)
+		ops := stage.Diff(score_part, score_partOther, "Midi_instrument", score_partOther.Midi_instrument, score_part.Midi_instrument)
 		diffs = append(diffs, ops)
 	}
 
@@ -36033,7 +35321,7 @@ func (score_partwise *Score_partwise) GongDiff(stage *Stage, score_partwiseOther
 		}
 	}
 	if CreditDifferent {
-		ops := Diff(stage, score_partwise, score_partwiseOther, "Credit", score_partwiseOther.Credit, score_partwise.Credit)
+		ops := stage.Diff(score_partwise, score_partwiseOther, "Credit", score_partwiseOther.Credit, score_partwise.Credit)
 		diffs = append(diffs, ops)
 	}
 	if (score_partwise.Part_list == nil) != (score_partwiseOther.Part_list == nil) {
@@ -36061,7 +35349,7 @@ func (score_partwise *Score_partwise) GongDiff(stage *Stage, score_partwiseOther
 		}
 	}
 	if PartDifferent {
-		ops := Diff(stage, score_partwise, score_partwiseOther, "Part", score_partwiseOther.Part, score_partwise.Part)
+		ops := stage.Diff(score_partwise, score_partwiseOther, "Part", score_partwiseOther.Part, score_partwise.Part)
 		diffs = append(diffs, ops)
 	}
 
@@ -36123,7 +35411,7 @@ func (score_timewise *Score_timewise) GongDiff(stage *Stage, score_timewiseOther
 		}
 	}
 	if CreditDifferent {
-		ops := Diff(stage, score_timewise, score_timewiseOther, "Credit", score_timewiseOther.Credit, score_timewise.Credit)
+		ops := stage.Diff(score_timewise, score_timewiseOther, "Credit", score_timewiseOther.Credit, score_timewise.Credit)
 		diffs = append(diffs, ops)
 	}
 	if (score_timewise.Part_list == nil) != (score_timewiseOther.Part_list == nil) {
@@ -36151,7 +35439,7 @@ func (score_timewise *Score_timewise) GongDiff(stage *Stage, score_timewiseOther
 		}
 	}
 	if MeasureDifferent {
-		ops := Diff(stage, score_timewise, score_timewiseOther, "Measure", score_timewiseOther.Measure, score_timewise.Measure)
+		ops := stage.Diff(score_timewise, score_timewiseOther, "Measure", score_timewiseOther.Measure, score_timewise.Measure)
 		diffs = append(diffs, ops)
 	}
 
@@ -36455,7 +35743,7 @@ func (sound *Sound) GongDiff(stage *Stage, soundOther *Sound) (diffs []string) {
 		}
 	}
 	if Instrument_changeDifferent {
-		ops := Diff(stage, sound, soundOther, "Instrument_change", soundOther.Instrument_change, sound.Instrument_change)
+		ops := stage.Diff(sound, soundOther, "Instrument_change", soundOther.Instrument_change, sound.Instrument_change)
 		diffs = append(diffs, ops)
 	}
 	Midi_deviceDifferent := false
@@ -36476,7 +35764,7 @@ func (sound *Sound) GongDiff(stage *Stage, soundOther *Sound) (diffs []string) {
 		}
 	}
 	if Midi_deviceDifferent {
-		ops := Diff(stage, sound, soundOther, "Midi_device", soundOther.Midi_device, sound.Midi_device)
+		ops := stage.Diff(sound, soundOther, "Midi_device", soundOther.Midi_device, sound.Midi_device)
 		diffs = append(diffs, ops)
 	}
 	Midi_instrumentDifferent := false
@@ -36497,7 +35785,7 @@ func (sound *Sound) GongDiff(stage *Stage, soundOther *Sound) (diffs []string) {
 		}
 	}
 	if Midi_instrumentDifferent {
-		ops := Diff(stage, sound, soundOther, "Midi_instrument", soundOther.Midi_instrument, sound.Midi_instrument)
+		ops := stage.Diff(sound, soundOther, "Midi_instrument", soundOther.Midi_instrument, sound.Midi_instrument)
 		diffs = append(diffs, ops)
 	}
 	PlayDifferent := false
@@ -36518,7 +35806,7 @@ func (sound *Sound) GongDiff(stage *Stage, soundOther *Sound) (diffs []string) {
 		}
 	}
 	if PlayDifferent {
-		ops := Diff(stage, sound, soundOther, "Play", soundOther.Play, sound.Play)
+		ops := stage.Diff(sound, soundOther, "Play", soundOther.Play, sound.Play)
 		diffs = append(diffs, ops)
 	}
 	if (sound.Swing == nil) != (soundOther.Swing == nil) {
@@ -36582,7 +35870,7 @@ func (staff_details *Staff_details) GongDiff(stage *Stage, staff_detailsOther *S
 		}
 	}
 	if Line_detailDifferent {
-		ops := Diff(stage, staff_details, staff_detailsOther, "Line_detail", staff_detailsOther.Line_detail, staff_details.Line_detail)
+		ops := stage.Diff(staff_details, staff_detailsOther, "Line_detail", staff_detailsOther.Line_detail, staff_details.Line_detail)
 		diffs = append(diffs, ops)
 	}
 	Staff_tuningDifferent := false
@@ -36603,7 +35891,7 @@ func (staff_details *Staff_details) GongDiff(stage *Stage, staff_detailsOther *S
 		}
 	}
 	if Staff_tuningDifferent {
-		ops := Diff(stage, staff_details, staff_detailsOther, "Staff_tuning", staff_detailsOther.Staff_tuning, staff_details.Staff_tuning)
+		ops := stage.Diff(staff_details, staff_detailsOther, "Staff_tuning", staff_detailsOther.Staff_tuning, staff_details.Staff_tuning)
 		diffs = append(diffs, ops)
 	}
 	if staff_details.Capo != staff_detailsOther.Capo {
@@ -37148,7 +36436,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Up_bowDifferent {
-		ops := Diff(stage, technical, technicalOther, "Up_bow", technicalOther.Up_bow, technical.Up_bow)
+		ops := stage.Diff(technical, technicalOther, "Up_bow", technicalOther.Up_bow, technical.Up_bow)
 		diffs = append(diffs, ops)
 	}
 	Down_bowDifferent := false
@@ -37169,7 +36457,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Down_bowDifferent {
-		ops := Diff(stage, technical, technicalOther, "Down_bow", technicalOther.Down_bow, technical.Down_bow)
+		ops := stage.Diff(technical, technicalOther, "Down_bow", technicalOther.Down_bow, technical.Down_bow)
 		diffs = append(diffs, ops)
 	}
 	HarmonicDifferent := false
@@ -37190,7 +36478,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if HarmonicDifferent {
-		ops := Diff(stage, technical, technicalOther, "Harmonic", technicalOther.Harmonic, technical.Harmonic)
+		ops := stage.Diff(technical, technicalOther, "Harmonic", technicalOther.Harmonic, technical.Harmonic)
 		diffs = append(diffs, ops)
 	}
 	Open_stringDifferent := false
@@ -37211,7 +36499,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Open_stringDifferent {
-		ops := Diff(stage, technical, technicalOther, "Open_string", technicalOther.Open_string, technical.Open_string)
+		ops := stage.Diff(technical, technicalOther, "Open_string", technicalOther.Open_string, technical.Open_string)
 		diffs = append(diffs, ops)
 	}
 	Thumb_positionDifferent := false
@@ -37232,7 +36520,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Thumb_positionDifferent {
-		ops := Diff(stage, technical, technicalOther, "Thumb_position", technicalOther.Thumb_position, technical.Thumb_position)
+		ops := stage.Diff(technical, technicalOther, "Thumb_position", technicalOther.Thumb_position, technical.Thumb_position)
 		diffs = append(diffs, ops)
 	}
 	FingeringDifferent := false
@@ -37253,7 +36541,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if FingeringDifferent {
-		ops := Diff(stage, technical, technicalOther, "Fingering", technicalOther.Fingering, technical.Fingering)
+		ops := stage.Diff(technical, technicalOther, "Fingering", technicalOther.Fingering, technical.Fingering)
 		diffs = append(diffs, ops)
 	}
 	PluckDifferent := false
@@ -37274,7 +36562,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if PluckDifferent {
-		ops := Diff(stage, technical, technicalOther, "Pluck", technicalOther.Pluck, technical.Pluck)
+		ops := stage.Diff(technical, technicalOther, "Pluck", technicalOther.Pluck, technical.Pluck)
 		diffs = append(diffs, ops)
 	}
 	Double_tongueDifferent := false
@@ -37295,7 +36583,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Double_tongueDifferent {
-		ops := Diff(stage, technical, technicalOther, "Double_tongue", technicalOther.Double_tongue, technical.Double_tongue)
+		ops := stage.Diff(technical, technicalOther, "Double_tongue", technicalOther.Double_tongue, technical.Double_tongue)
 		diffs = append(diffs, ops)
 	}
 	Triple_tongueDifferent := false
@@ -37316,7 +36604,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Triple_tongueDifferent {
-		ops := Diff(stage, technical, technicalOther, "Triple_tongue", technicalOther.Triple_tongue, technical.Triple_tongue)
+		ops := stage.Diff(technical, technicalOther, "Triple_tongue", technicalOther.Triple_tongue, technical.Triple_tongue)
 		diffs = append(diffs, ops)
 	}
 	StoppedDifferent := false
@@ -37337,7 +36625,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if StoppedDifferent {
-		ops := Diff(stage, technical, technicalOther, "Stopped", technicalOther.Stopped, technical.Stopped)
+		ops := stage.Diff(technical, technicalOther, "Stopped", technicalOther.Stopped, technical.Stopped)
 		diffs = append(diffs, ops)
 	}
 	Snap_pizzicatoDifferent := false
@@ -37358,7 +36646,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Snap_pizzicatoDifferent {
-		ops := Diff(stage, technical, technicalOther, "Snap_pizzicato", technicalOther.Snap_pizzicato, technical.Snap_pizzicato)
+		ops := stage.Diff(technical, technicalOther, "Snap_pizzicato", technicalOther.Snap_pizzicato, technical.Snap_pizzicato)
 		diffs = append(diffs, ops)
 	}
 	FretDifferent := false
@@ -37379,7 +36667,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if FretDifferent {
-		ops := Diff(stage, technical, technicalOther, "Fret", technicalOther.Fret, technical.Fret)
+		ops := stage.Diff(technical, technicalOther, "Fret", technicalOther.Fret, technical.Fret)
 		diffs = append(diffs, ops)
 	}
 	StringDifferent := false
@@ -37400,7 +36688,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if StringDifferent {
-		ops := Diff(stage, technical, technicalOther, "String", technicalOther.String, technical.String)
+		ops := stage.Diff(technical, technicalOther, "String", technicalOther.String, technical.String)
 		diffs = append(diffs, ops)
 	}
 	Hammer_onDifferent := false
@@ -37421,7 +36709,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Hammer_onDifferent {
-		ops := Diff(stage, technical, technicalOther, "Hammer_on", technicalOther.Hammer_on, technical.Hammer_on)
+		ops := stage.Diff(technical, technicalOther, "Hammer_on", technicalOther.Hammer_on, technical.Hammer_on)
 		diffs = append(diffs, ops)
 	}
 	Pull_offDifferent := false
@@ -37442,7 +36730,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Pull_offDifferent {
-		ops := Diff(stage, technical, technicalOther, "Pull_off", technicalOther.Pull_off, technical.Pull_off)
+		ops := stage.Diff(technical, technicalOther, "Pull_off", technicalOther.Pull_off, technical.Pull_off)
 		diffs = append(diffs, ops)
 	}
 	BendDifferent := false
@@ -37463,7 +36751,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if BendDifferent {
-		ops := Diff(stage, technical, technicalOther, "Bend", technicalOther.Bend, technical.Bend)
+		ops := stage.Diff(technical, technicalOther, "Bend", technicalOther.Bend, technical.Bend)
 		diffs = append(diffs, ops)
 	}
 	TapDifferent := false
@@ -37484,7 +36772,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if TapDifferent {
-		ops := Diff(stage, technical, technicalOther, "Tap", technicalOther.Tap, technical.Tap)
+		ops := stage.Diff(technical, technicalOther, "Tap", technicalOther.Tap, technical.Tap)
 		diffs = append(diffs, ops)
 	}
 	HeelDifferent := false
@@ -37505,7 +36793,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if HeelDifferent {
-		ops := Diff(stage, technical, technicalOther, "Heel", technicalOther.Heel, technical.Heel)
+		ops := stage.Diff(technical, technicalOther, "Heel", technicalOther.Heel, technical.Heel)
 		diffs = append(diffs, ops)
 	}
 	ToeDifferent := false
@@ -37526,7 +36814,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if ToeDifferent {
-		ops := Diff(stage, technical, technicalOther, "Toe", technicalOther.Toe, technical.Toe)
+		ops := stage.Diff(technical, technicalOther, "Toe", technicalOther.Toe, technical.Toe)
 		diffs = append(diffs, ops)
 	}
 	FingernailsDifferent := false
@@ -37547,7 +36835,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if FingernailsDifferent {
-		ops := Diff(stage, technical, technicalOther, "Fingernails", technicalOther.Fingernails, technical.Fingernails)
+		ops := stage.Diff(technical, technicalOther, "Fingernails", technicalOther.Fingernails, technical.Fingernails)
 		diffs = append(diffs, ops)
 	}
 	HoleDifferent := false
@@ -37568,7 +36856,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if HoleDifferent {
-		ops := Diff(stage, technical, technicalOther, "Hole", technicalOther.Hole, technical.Hole)
+		ops := stage.Diff(technical, technicalOther, "Hole", technicalOther.Hole, technical.Hole)
 		diffs = append(diffs, ops)
 	}
 	ArrowDifferent := false
@@ -37589,7 +36877,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if ArrowDifferent {
-		ops := Diff(stage, technical, technicalOther, "Arrow", technicalOther.Arrow, technical.Arrow)
+		ops := stage.Diff(technical, technicalOther, "Arrow", technicalOther.Arrow, technical.Arrow)
 		diffs = append(diffs, ops)
 	}
 	HandbellDifferent := false
@@ -37610,7 +36898,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if HandbellDifferent {
-		ops := Diff(stage, technical, technicalOther, "Handbell", technicalOther.Handbell, technical.Handbell)
+		ops := stage.Diff(technical, technicalOther, "Handbell", technicalOther.Handbell, technical.Handbell)
 		diffs = append(diffs, ops)
 	}
 	Brass_bendDifferent := false
@@ -37631,7 +36919,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Brass_bendDifferent {
-		ops := Diff(stage, technical, technicalOther, "Brass_bend", technicalOther.Brass_bend, technical.Brass_bend)
+		ops := stage.Diff(technical, technicalOther, "Brass_bend", technicalOther.Brass_bend, technical.Brass_bend)
 		diffs = append(diffs, ops)
 	}
 	FlipDifferent := false
@@ -37652,7 +36940,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if FlipDifferent {
-		ops := Diff(stage, technical, technicalOther, "Flip", technicalOther.Flip, technical.Flip)
+		ops := stage.Diff(technical, technicalOther, "Flip", technicalOther.Flip, technical.Flip)
 		diffs = append(diffs, ops)
 	}
 	SmearDifferent := false
@@ -37673,7 +36961,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if SmearDifferent {
-		ops := Diff(stage, technical, technicalOther, "Smear", technicalOther.Smear, technical.Smear)
+		ops := stage.Diff(technical, technicalOther, "Smear", technicalOther.Smear, technical.Smear)
 		diffs = append(diffs, ops)
 	}
 	OpenDifferent := false
@@ -37694,7 +36982,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if OpenDifferent {
-		ops := Diff(stage, technical, technicalOther, "Open", technicalOther.Open, technical.Open)
+		ops := stage.Diff(technical, technicalOther, "Open", technicalOther.Open, technical.Open)
 		diffs = append(diffs, ops)
 	}
 	Half_mutedDifferent := false
@@ -37715,7 +37003,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Half_mutedDifferent {
-		ops := Diff(stage, technical, technicalOther, "Half_muted", technicalOther.Half_muted, technical.Half_muted)
+		ops := stage.Diff(technical, technicalOther, "Half_muted", technicalOther.Half_muted, technical.Half_muted)
 		diffs = append(diffs, ops)
 	}
 	Harmon_muteDifferent := false
@@ -37736,7 +37024,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Harmon_muteDifferent {
-		ops := Diff(stage, technical, technicalOther, "Harmon_mute", technicalOther.Harmon_mute, technical.Harmon_mute)
+		ops := stage.Diff(technical, technicalOther, "Harmon_mute", technicalOther.Harmon_mute, technical.Harmon_mute)
 		diffs = append(diffs, ops)
 	}
 	GolpeDifferent := false
@@ -37757,7 +37045,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if GolpeDifferent {
-		ops := Diff(stage, technical, technicalOther, "Golpe", technicalOther.Golpe, technical.Golpe)
+		ops := stage.Diff(technical, technicalOther, "Golpe", technicalOther.Golpe, technical.Golpe)
 		diffs = append(diffs, ops)
 	}
 	Other_technicalDifferent := false
@@ -37778,7 +37066,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Other_technicalDifferent {
-		ops := Diff(stage, technical, technicalOther, "Other_technical", technicalOther.Other_technical, technical.Other_technical)
+		ops := stage.Diff(technical, technicalOther, "Other_technical", technicalOther.Other_technical, technical.Other_technical)
 		diffs = append(diffs, ops)
 	}
 
@@ -38266,7 +37554,7 @@ func (tuplet_portion *Tuplet_portion) GongDiff(stage *Stage, tuplet_portionOther
 		}
 	}
 	if Tuplet_dotDifferent {
-		ops := Diff(stage, tuplet_portion, tuplet_portionOther, "Tuplet_dot", tuplet_portionOther.Tuplet_dot, tuplet_portion.Tuplet_dot)
+		ops := stage.Diff(tuplet_portion, tuplet_portionOther, "Tuplet_dot", tuplet_portionOther.Tuplet_dot, tuplet_portion.Tuplet_dot)
 		diffs = append(diffs, ops)
 	}
 
@@ -38594,9 +37882,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

@@ -73,9 +73,9 @@ const SliceOfPointersFieldInitStatement = ` + "`" + `
 const TimeInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")` + "`" + `
 
-// ToRawStringLiteral formats a string into safe Go source code,
+// __gong__toRawStringLiteral formats a string into safe Go source code,
 // using backticks to preserve newlines and readability.
-func ToRawStringLiteral(s string) string {
+func __gong__toRawStringLiteral(s string) string {
 	// Step 1: Replace every backtick with a closing backtick,
 	// a double-quoted backtick, and an opening backtick.
 	escaped := strings.ReplaceAll(s, "` + "`" + `", "` + "`" + ` + \"` + "`" + `\" + ` + "`" + `")

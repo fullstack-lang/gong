@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Diagram_WOP struct {
@@ -103,7 +101,7 @@ type Diagram_WOP struct {
 	IsResourcesNodeExpanded bool
 }
 
-func (from *Diagram) CopyBasicFields(to *Diagram) {
+func (from *Diagram) GongCopyBasicFields(to *Diagram) {
 	// insertion point
 	to.Name = from.Name
 	to.DefaultBoxWidth = from.DefaultBoxWidth
@@ -168,7 +166,7 @@ type Library_WOP struct {
 	IsRootLibrary bool
 }
 
-func (from *Library) CopyBasicFields(to *Library) {
+func (from *Library) GongCopyBasicFields(to *Library) {
 	// insertion point
 	to.Name = from.Name
 	to.NbPixPerCharacter = from.NbPixPerCharacter
@@ -190,7 +188,7 @@ type Note_WOP struct {
 	LayoutDirection LayoutDirection
 }
 
-func (from *Note) CopyBasicFields(to *Note) {
+func (from *Note) GongCopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -216,7 +214,7 @@ type NoteProductShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteProductShape) CopyBasicFields(to *NoteProductShape) {
+func (from *NoteProductShape) GongCopyBasicFields(to *NoteProductShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -245,7 +243,7 @@ type NoteResourceShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteResourceShape) CopyBasicFields(to *NoteResourceShape) {
+func (from *NoteResourceShape) GongCopyBasicFields(to *NoteResourceShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -276,7 +274,7 @@ type NoteShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteShape) CopyBasicFields(to *NoteShape) {
+func (from *NoteShape) GongCopyBasicFields(to *NoteShape) {
 	// insertion point
 	to.Name = from.Name
 	to.OverideLayoutDirection = from.OverideLayoutDirection
@@ -306,7 +304,7 @@ type NoteTaskShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteTaskShape) CopyBasicFields(to *NoteTaskShape) {
+func (from *NoteTaskShape) GongCopyBasicFields(to *NoteTaskShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -337,7 +335,7 @@ type Product_WOP struct {
 	LayoutDirection LayoutDirection
 }
 
-func (from *Product) CopyBasicFields(to *Product) {
+func (from *Product) GongCopyBasicFields(to *Product) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -367,7 +365,7 @@ type ProductCompositionShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ProductCompositionShape) CopyBasicFields(to *ProductCompositionShape) {
+func (from *ProductCompositionShape) GongCopyBasicFields(to *ProductCompositionShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -398,7 +396,7 @@ type ProductShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ProductShape) CopyBasicFields(to *ProductShape) {
+func (from *ProductShape) GongCopyBasicFields(to *ProductShape) {
 	// insertion point
 	to.Name = from.Name
 	to.OverideLayoutDirection = from.OverideLayoutDirection
@@ -426,7 +424,7 @@ type Resource_WOP struct {
 	IsImport bool
 }
 
-func (from *Resource) CopyBasicFields(to *Resource) {
+func (from *Resource) GongCopyBasicFields(to *Resource) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -454,7 +452,7 @@ type ResourceCompositionShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ResourceCompositionShape) CopyBasicFields(to *ResourceCompositionShape) {
+func (from *ResourceCompositionShape) GongCopyBasicFields(to *ResourceCompositionShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -485,7 +483,7 @@ type ResourceShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ResourceShape) CopyBasicFields(to *ResourceShape) {
+func (from *ResourceShape) GongCopyBasicFields(to *ResourceShape) {
 	// insertion point
 	to.Name = from.Name
 	to.OverideLayoutDirection = from.OverideLayoutDirection
@@ -515,7 +513,7 @@ type ResourceTaskShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ResourceTaskShape) CopyBasicFields(to *ResourceTaskShape) {
+func (from *ResourceTaskShape) GongCopyBasicFields(to *ResourceTaskShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -578,7 +576,7 @@ type Task_WOP struct {
 	LayoutDirection LayoutDirection
 }
 
-func (from *Task) CopyBasicFields(to *Task) {
+func (from *Task) GongCopyBasicFields(to *Task) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -624,7 +622,7 @@ type TaskCompositionShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *TaskCompositionShape) CopyBasicFields(to *TaskCompositionShape) {
+func (from *TaskCompositionShape) GongCopyBasicFields(to *TaskCompositionShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -645,7 +643,7 @@ type TaskGroup_WOP struct {
 	IsExpanded bool
 }
 
-func (from *TaskGroup) CopyBasicFields(to *TaskGroup) {
+func (from *TaskGroup) GongCopyBasicFields(to *TaskGroup) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -668,7 +666,7 @@ type TaskGroupShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *TaskGroupShape) CopyBasicFields(to *TaskGroupShape) {
+func (from *TaskGroupShape) GongCopyBasicFields(to *TaskGroupShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -696,7 +694,7 @@ type TaskInputShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *TaskInputShape) CopyBasicFields(to *TaskInputShape) {
+func (from *TaskInputShape) GongCopyBasicFields(to *TaskInputShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -725,7 +723,7 @@ type TaskOutputShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *TaskOutputShape) CopyBasicFields(to *TaskOutputShape) {
+func (from *TaskOutputShape) GongCopyBasicFields(to *TaskOutputShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -754,7 +752,7 @@ type TaskPredecessorShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *TaskPredecessorShape) CopyBasicFields(to *TaskPredecessorShape) {
+func (from *TaskPredecessorShape) GongCopyBasicFields(to *TaskPredecessorShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -787,7 +785,7 @@ type TaskShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *TaskShape) CopyBasicFields(to *TaskShape) {
+func (from *TaskShape) GongCopyBasicFields(to *TaskShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsShowDate = from.IsShowDate

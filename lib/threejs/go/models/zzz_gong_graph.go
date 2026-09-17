@@ -74,80 +74,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *AmbiantLight:
-		ok = stage.IsStagedAmbiantLight(target)
-
-	case *BoxGeometry:
-		ok = stage.IsStagedBoxGeometry(target)
-
-	case *BufferGeometry:
-		ok = stage.IsStagedBufferGeometry(target)
-
-	case *Camera:
-		ok = stage.IsStagedCamera(target)
-
-	case *Canvas:
-		ok = stage.IsStagedCanvas(target)
-
-	case *Curve:
-		ok = stage.IsStagedCurve(target)
-
-	case *CylinderGeometry:
-		ok = stage.IsStagedCylinderGeometry(target)
-
-	case *DirectionalLight:
-		ok = stage.IsStagedDirectionalLight(target)
-
-	case *ExtrudeGeometry:
-		ok = stage.IsStagedExtrudeGeometry(target)
-
-	case *Mesh:
-		ok = stage.IsStagedMesh(target)
-
-	case *MeshMaterialBasic:
-		ok = stage.IsStagedMeshMaterialBasic(target)
-
-	case *MeshPhysicalMaterial:
-		ok = stage.IsStagedMeshPhysicalMaterial(target)
-
-	case *PlaneGeometry:
-		ok = stage.IsStagedPlaneGeometry(target)
-
-	case *Shape:
-		ok = stage.IsStagedShape(target)
-
-	case *SphereGeometry:
-		ok = stage.IsStagedSphereGeometry(target)
-
-	case *TorusGeometry:
-		ok = stage.IsStagedTorusGeometry(target)
-
-	case *Triangle:
-		ok = stage.IsStagedTriangle(target)
-
-	case *TubeGeometry:
-		ok = stage.IsStagedTubeGeometry(target)
-
-	case *Vector2:
-		ok = stage.IsStagedVector2(target)
-
-	case *Vector3:
-		ok = stage.IsStagedVector3(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedAmbiantLight(ambiantlight *AmbiantLight) (ok bool) {
 
@@ -368,7 +294,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchAmbiantLight(ambiantlight *AmbiantLight) {
 
 	// check if instance is already staged
-	if IsStaged(stage, ambiantlight) {
+	if stage.IsStaged(ambiantlight) {
 		return
 	}
 
@@ -383,7 +309,7 @@ func (stage *Stage) StageBranchAmbiantLight(ambiantlight *AmbiantLight) {
 func (stage *Stage) StageBranchBoxGeometry(boxgeometry *BoxGeometry) {
 
 	// check if instance is already staged
-	if IsStaged(stage, boxgeometry) {
+	if stage.IsStaged(boxgeometry) {
 		return
 	}
 
@@ -398,7 +324,7 @@ func (stage *Stage) StageBranchBoxGeometry(boxgeometry *BoxGeometry) {
 func (stage *Stage) StageBranchBufferGeometry(buffergeometry *BufferGeometry) {
 
 	// check if instance is already staged
-	if IsStaged(stage, buffergeometry) {
+	if stage.IsStaged(buffergeometry) {
 		return
 	}
 
@@ -408,10 +334,10 @@ func (stage *Stage) StageBranchBufferGeometry(buffergeometry *BufferGeometry) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _vector3 := range buffergeometry.Vertices {
-		StageBranch(stage, _vector3)
+		stage.StageBranch(_vector3)
 	}
 	for _, _triangle := range buffergeometry.Faces {
-		StageBranch(stage, _triangle)
+		stage.StageBranch(_triangle)
 	}
 
 }
@@ -419,7 +345,7 @@ func (stage *Stage) StageBranchBufferGeometry(buffergeometry *BufferGeometry) {
 func (stage *Stage) StageBranchCamera(camera *Camera) {
 
 	// check if instance is already staged
-	if IsStaged(stage, camera) {
+	if stage.IsStaged(camera) {
 		return
 	}
 
@@ -434,7 +360,7 @@ func (stage *Stage) StageBranchCamera(camera *Camera) {
 func (stage *Stage) StageBranchCanvas(canvas *Canvas) {
 
 	// check if instance is already staged
-	if IsStaged(stage, canvas) {
+	if stage.IsStaged(canvas) {
 		return
 	}
 
@@ -442,18 +368,18 @@ func (stage *Stage) StageBranchCanvas(canvas *Canvas) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if canvas.AmbiantLight != nil {
-		StageBranch(stage, canvas.AmbiantLight)
+		stage.StageBranch(canvas.AmbiantLight)
 	}
 	if canvas.Camera != nil {
-		StageBranch(stage, canvas.Camera)
+		stage.StageBranch(canvas.Camera)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _directionallight := range canvas.DirectionalLights {
-		StageBranch(stage, _directionallight)
+		stage.StageBranch(_directionallight)
 	}
 	for _, _mesh := range canvas.Meshs {
-		StageBranch(stage, _mesh)
+		stage.StageBranch(_mesh)
 	}
 
 }
@@ -461,7 +387,7 @@ func (stage *Stage) StageBranchCanvas(canvas *Canvas) {
 func (stage *Stage) StageBranchCurve(curve *Curve) {
 
 	// check if instance is already staged
-	if IsStaged(stage, curve) {
+	if stage.IsStaged(curve) {
 		return
 	}
 
@@ -471,7 +397,7 @@ func (stage *Stage) StageBranchCurve(curve *Curve) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _vector3 := range curve.Points {
-		StageBranch(stage, _vector3)
+		stage.StageBranch(_vector3)
 	}
 
 }
@@ -479,7 +405,7 @@ func (stage *Stage) StageBranchCurve(curve *Curve) {
 func (stage *Stage) StageBranchCylinderGeometry(cylindergeometry *CylinderGeometry) {
 
 	// check if instance is already staged
-	if IsStaged(stage, cylindergeometry) {
+	if stage.IsStaged(cylindergeometry) {
 		return
 	}
 
@@ -494,7 +420,7 @@ func (stage *Stage) StageBranchCylinderGeometry(cylindergeometry *CylinderGeomet
 func (stage *Stage) StageBranchDirectionalLight(directionallight *DirectionalLight) {
 
 	// check if instance is already staged
-	if IsStaged(stage, directionallight) {
+	if stage.IsStaged(directionallight) {
 		return
 	}
 
@@ -509,7 +435,7 @@ func (stage *Stage) StageBranchDirectionalLight(directionallight *DirectionalLig
 func (stage *Stage) StageBranchExtrudeGeometry(extrudegeometry *ExtrudeGeometry) {
 
 	// check if instance is already staged
-	if IsStaged(stage, extrudegeometry) {
+	if stage.IsStaged(extrudegeometry) {
 		return
 	}
 
@@ -517,10 +443,10 @@ func (stage *Stage) StageBranchExtrudeGeometry(extrudegeometry *ExtrudeGeometry)
 
 	//insertion point for the staging of instances referenced by pointers
 	if extrudegeometry.Shape != nil {
-		StageBranch(stage, extrudegeometry.Shape)
+		stage.StageBranch(extrudegeometry.Shape)
 	}
 	if extrudegeometry.ExtrudePath != nil {
-		StageBranch(stage, extrudegeometry.ExtrudePath)
+		stage.StageBranch(extrudegeometry.ExtrudePath)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -530,7 +456,7 @@ func (stage *Stage) StageBranchExtrudeGeometry(extrudegeometry *ExtrudeGeometry)
 func (stage *Stage) StageBranchMesh(mesh *Mesh) {
 
 	// check if instance is already staged
-	if IsStaged(stage, mesh) {
+	if stage.IsStaged(mesh) {
 		return
 	}
 
@@ -538,34 +464,34 @@ func (stage *Stage) StageBranchMesh(mesh *Mesh) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if mesh.MeshMaterialBasic != nil {
-		StageBranch(stage, mesh.MeshMaterialBasic)
+		stage.StageBranch(mesh.MeshMaterialBasic)
 	}
 	if mesh.MeshPhysicalMaterial != nil {
-		StageBranch(stage, mesh.MeshPhysicalMaterial)
+		stage.StageBranch(mesh.MeshPhysicalMaterial)
 	}
 	if mesh.CylinderGeometry != nil {
-		StageBranch(stage, mesh.CylinderGeometry)
+		stage.StageBranch(mesh.CylinderGeometry)
 	}
 	if mesh.BoxGeometry != nil {
-		StageBranch(stage, mesh.BoxGeometry)
+		stage.StageBranch(mesh.BoxGeometry)
 	}
 	if mesh.SphereGeometry != nil {
-		StageBranch(stage, mesh.SphereGeometry)
+		stage.StageBranch(mesh.SphereGeometry)
 	}
 	if mesh.TorusGeometry != nil {
-		StageBranch(stage, mesh.TorusGeometry)
+		stage.StageBranch(mesh.TorusGeometry)
 	}
 	if mesh.PlaneGeometry != nil {
-		StageBranch(stage, mesh.PlaneGeometry)
+		stage.StageBranch(mesh.PlaneGeometry)
 	}
 	if mesh.TubeGeometry != nil {
-		StageBranch(stage, mesh.TubeGeometry)
+		stage.StageBranch(mesh.TubeGeometry)
 	}
 	if mesh.ExtrudeGeometry != nil {
-		StageBranch(stage, mesh.ExtrudeGeometry)
+		stage.StageBranch(mesh.ExtrudeGeometry)
 	}
 	if mesh.BufferGeometry != nil {
-		StageBranch(stage, mesh.BufferGeometry)
+		stage.StageBranch(mesh.BufferGeometry)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -575,7 +501,7 @@ func (stage *Stage) StageBranchMesh(mesh *Mesh) {
 func (stage *Stage) StageBranchMeshMaterialBasic(meshmaterialbasic *MeshMaterialBasic) {
 
 	// check if instance is already staged
-	if IsStaged(stage, meshmaterialbasic) {
+	if stage.IsStaged(meshmaterialbasic) {
 		return
 	}
 
@@ -590,7 +516,7 @@ func (stage *Stage) StageBranchMeshMaterialBasic(meshmaterialbasic *MeshMaterial
 func (stage *Stage) StageBranchMeshPhysicalMaterial(meshphysicalmaterial *MeshPhysicalMaterial) {
 
 	// check if instance is already staged
-	if IsStaged(stage, meshphysicalmaterial) {
+	if stage.IsStaged(meshphysicalmaterial) {
 		return
 	}
 
@@ -605,7 +531,7 @@ func (stage *Stage) StageBranchMeshPhysicalMaterial(meshphysicalmaterial *MeshPh
 func (stage *Stage) StageBranchPlaneGeometry(planegeometry *PlaneGeometry) {
 
 	// check if instance is already staged
-	if IsStaged(stage, planegeometry) {
+	if stage.IsStaged(planegeometry) {
 		return
 	}
 
@@ -620,7 +546,7 @@ func (stage *Stage) StageBranchPlaneGeometry(planegeometry *PlaneGeometry) {
 func (stage *Stage) StageBranchShape(shape *Shape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, shape) {
+	if stage.IsStaged(shape) {
 		return
 	}
 
@@ -630,7 +556,7 @@ func (stage *Stage) StageBranchShape(shape *Shape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _vector2 := range shape.Points {
-		StageBranch(stage, _vector2)
+		stage.StageBranch(_vector2)
 	}
 
 }
@@ -638,7 +564,7 @@ func (stage *Stage) StageBranchShape(shape *Shape) {
 func (stage *Stage) StageBranchSphereGeometry(spheregeometry *SphereGeometry) {
 
 	// check if instance is already staged
-	if IsStaged(stage, spheregeometry) {
+	if stage.IsStaged(spheregeometry) {
 		return
 	}
 
@@ -653,7 +579,7 @@ func (stage *Stage) StageBranchSphereGeometry(spheregeometry *SphereGeometry) {
 func (stage *Stage) StageBranchTorusGeometry(torusgeometry *TorusGeometry) {
 
 	// check if instance is already staged
-	if IsStaged(stage, torusgeometry) {
+	if stage.IsStaged(torusgeometry) {
 		return
 	}
 
@@ -668,7 +594,7 @@ func (stage *Stage) StageBranchTorusGeometry(torusgeometry *TorusGeometry) {
 func (stage *Stage) StageBranchTriangle(triangle *Triangle) {
 
 	// check if instance is already staged
-	if IsStaged(stage, triangle) {
+	if stage.IsStaged(triangle) {
 		return
 	}
 
@@ -683,7 +609,7 @@ func (stage *Stage) StageBranchTriangle(triangle *Triangle) {
 func (stage *Stage) StageBranchTubeGeometry(tubegeometry *TubeGeometry) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tubegeometry) {
+	if stage.IsStaged(tubegeometry) {
 		return
 	}
 
@@ -691,7 +617,7 @@ func (stage *Stage) StageBranchTubeGeometry(tubegeometry *TubeGeometry) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if tubegeometry.Path != nil {
-		StageBranch(stage, tubegeometry.Path)
+		stage.StageBranch(tubegeometry.Path)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -701,7 +627,7 @@ func (stage *Stage) StageBranchTubeGeometry(tubegeometry *TubeGeometry) {
 func (stage *Stage) StageBranchVector2(vector2 *Vector2) {
 
 	// check if instance is already staged
-	if IsStaged(stage, vector2) {
+	if stage.IsStaged(vector2) {
 		return
 	}
 
@@ -716,7 +642,7 @@ func (stage *Stage) StageBranchVector2(vector2 *Vector2) {
 func (stage *Stage) StageBranchVector3(vector3 *Vector3) {
 
 	// check if instance is already staged
-	if IsStaged(stage, vector3) {
+	if stage.IsStaged(vector3) {
 		return
 	}
 
@@ -728,11 +654,11 @@ func (stage *Stage) StageBranchVector3(vector3 *Vector3) {
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -740,83 +666,83 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *AmbiantLight:
-		toT := CopyBranchAmbiantLight(mapOrigCopy, fromT)
+		toT := GongCopyBranchAmbiantLight(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *BoxGeometry:
-		toT := CopyBranchBoxGeometry(mapOrigCopy, fromT)
+		toT := GongCopyBranchBoxGeometry(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *BufferGeometry:
-		toT := CopyBranchBufferGeometry(mapOrigCopy, fromT)
+		toT := GongCopyBranchBufferGeometry(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Camera:
-		toT := CopyBranchCamera(mapOrigCopy, fromT)
+		toT := GongCopyBranchCamera(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Canvas:
-		toT := CopyBranchCanvas(mapOrigCopy, fromT)
+		toT := GongCopyBranchCanvas(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Curve:
-		toT := CopyBranchCurve(mapOrigCopy, fromT)
+		toT := GongCopyBranchCurve(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *CylinderGeometry:
-		toT := CopyBranchCylinderGeometry(mapOrigCopy, fromT)
+		toT := GongCopyBranchCylinderGeometry(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *DirectionalLight:
-		toT := CopyBranchDirectionalLight(mapOrigCopy, fromT)
+		toT := GongCopyBranchDirectionalLight(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ExtrudeGeometry:
-		toT := CopyBranchExtrudeGeometry(mapOrigCopy, fromT)
+		toT := GongCopyBranchExtrudeGeometry(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Mesh:
-		toT := CopyBranchMesh(mapOrigCopy, fromT)
+		toT := GongCopyBranchMesh(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *MeshMaterialBasic:
-		toT := CopyBranchMeshMaterialBasic(mapOrigCopy, fromT)
+		toT := GongCopyBranchMeshMaterialBasic(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *MeshPhysicalMaterial:
-		toT := CopyBranchMeshPhysicalMaterial(mapOrigCopy, fromT)
+		toT := GongCopyBranchMeshPhysicalMaterial(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *PlaneGeometry:
-		toT := CopyBranchPlaneGeometry(mapOrigCopy, fromT)
+		toT := GongCopyBranchPlaneGeometry(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Shape:
-		toT := CopyBranchShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *SphereGeometry:
-		toT := CopyBranchSphereGeometry(mapOrigCopy, fromT)
+		toT := GongCopyBranchSphereGeometry(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TorusGeometry:
-		toT := CopyBranchTorusGeometry(mapOrigCopy, fromT)
+		toT := GongCopyBranchTorusGeometry(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Triangle:
-		toT := CopyBranchTriangle(mapOrigCopy, fromT)
+		toT := GongCopyBranchTriangle(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TubeGeometry:
-		toT := CopyBranchTubeGeometry(mapOrigCopy, fromT)
+		toT := GongCopyBranchTubeGeometry(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Vector2:
-		toT := CopyBranchVector2(mapOrigCopy, fromT)
+		toT := GongCopyBranchVector2(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Vector3:
-		toT := CopyBranchVector3(mapOrigCopy, fromT)
+		toT := GongCopyBranchVector3(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -826,7 +752,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchAmbiantLight(mapOrigCopy map[any]any, ambiantlightFrom *AmbiantLight) (ambiantlightTo *AmbiantLight) {
+func GongCopyBranchAmbiantLight(mapOrigCopy map[any]any, ambiantlightFrom *AmbiantLight) (ambiantlightTo *AmbiantLight) {
 
 	// ambiantlightFrom has already been copied
 	if _ambiantlightTo, ok := mapOrigCopy[ambiantlightFrom]; ok {
@@ -836,7 +762,7 @@ func CopyBranchAmbiantLight(mapOrigCopy map[any]any, ambiantlightFrom *AmbiantLi
 
 	ambiantlightTo = new(AmbiantLight)
 	mapOrigCopy[ambiantlightFrom] = ambiantlightTo
-	ambiantlightFrom.CopyBasicFields(ambiantlightTo)
+	ambiantlightFrom.GongCopyBasicFields(ambiantlightTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -845,7 +771,7 @@ func CopyBranchAmbiantLight(mapOrigCopy map[any]any, ambiantlightFrom *AmbiantLi
 	return
 }
 
-func CopyBranchBoxGeometry(mapOrigCopy map[any]any, boxgeometryFrom *BoxGeometry) (boxgeometryTo *BoxGeometry) {
+func GongCopyBranchBoxGeometry(mapOrigCopy map[any]any, boxgeometryFrom *BoxGeometry) (boxgeometryTo *BoxGeometry) {
 
 	// boxgeometryFrom has already been copied
 	if _boxgeometryTo, ok := mapOrigCopy[boxgeometryFrom]; ok {
@@ -855,7 +781,7 @@ func CopyBranchBoxGeometry(mapOrigCopy map[any]any, boxgeometryFrom *BoxGeometry
 
 	boxgeometryTo = new(BoxGeometry)
 	mapOrigCopy[boxgeometryFrom] = boxgeometryTo
-	boxgeometryFrom.CopyBasicFields(boxgeometryTo)
+	boxgeometryFrom.GongCopyBasicFields(boxgeometryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -864,7 +790,7 @@ func CopyBranchBoxGeometry(mapOrigCopy map[any]any, boxgeometryFrom *BoxGeometry
 	return
 }
 
-func CopyBranchBufferGeometry(mapOrigCopy map[any]any, buffergeometryFrom *BufferGeometry) (buffergeometryTo *BufferGeometry) {
+func GongCopyBranchBufferGeometry(mapOrigCopy map[any]any, buffergeometryFrom *BufferGeometry) (buffergeometryTo *BufferGeometry) {
 
 	// buffergeometryFrom has already been copied
 	if _buffergeometryTo, ok := mapOrigCopy[buffergeometryFrom]; ok {
@@ -874,22 +800,22 @@ func CopyBranchBufferGeometry(mapOrigCopy map[any]any, buffergeometryFrom *Buffe
 
 	buffergeometryTo = new(BufferGeometry)
 	mapOrigCopy[buffergeometryFrom] = buffergeometryTo
-	buffergeometryFrom.CopyBasicFields(buffergeometryTo)
+	buffergeometryFrom.GongCopyBasicFields(buffergeometryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _vector3 := range buffergeometryFrom.Vertices {
-		buffergeometryTo.Vertices = append(buffergeometryTo.Vertices, CopyBranchVector3(mapOrigCopy, _vector3))
+		buffergeometryTo.Vertices = append(buffergeometryTo.Vertices, GongCopyBranchVector3(mapOrigCopy, _vector3))
 	}
 	for _, _triangle := range buffergeometryFrom.Faces {
-		buffergeometryTo.Faces = append(buffergeometryTo.Faces, CopyBranchTriangle(mapOrigCopy, _triangle))
+		buffergeometryTo.Faces = append(buffergeometryTo.Faces, GongCopyBranchTriangle(mapOrigCopy, _triangle))
 	}
 
 	return
 }
 
-func CopyBranchCamera(mapOrigCopy map[any]any, cameraFrom *Camera) (cameraTo *Camera) {
+func GongCopyBranchCamera(mapOrigCopy map[any]any, cameraFrom *Camera) (cameraTo *Camera) {
 
 	// cameraFrom has already been copied
 	if _cameraTo, ok := mapOrigCopy[cameraFrom]; ok {
@@ -899,7 +825,7 @@ func CopyBranchCamera(mapOrigCopy map[any]any, cameraFrom *Camera) (cameraTo *Ca
 
 	cameraTo = new(Camera)
 	mapOrigCopy[cameraFrom] = cameraTo
-	cameraFrom.CopyBasicFields(cameraTo)
+	cameraFrom.GongCopyBasicFields(cameraTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -908,7 +834,7 @@ func CopyBranchCamera(mapOrigCopy map[any]any, cameraFrom *Camera) (cameraTo *Ca
 	return
 }
 
-func CopyBranchCanvas(mapOrigCopy map[any]any, canvasFrom *Canvas) (canvasTo *Canvas) {
+func GongCopyBranchCanvas(mapOrigCopy map[any]any, canvasFrom *Canvas) (canvasTo *Canvas) {
 
 	// canvasFrom has already been copied
 	if _canvasTo, ok := mapOrigCopy[canvasFrom]; ok {
@@ -918,28 +844,28 @@ func CopyBranchCanvas(mapOrigCopy map[any]any, canvasFrom *Canvas) (canvasTo *Ca
 
 	canvasTo = new(Canvas)
 	mapOrigCopy[canvasFrom] = canvasTo
-	canvasFrom.CopyBasicFields(canvasTo)
+	canvasFrom.GongCopyBasicFields(canvasTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if canvasFrom.AmbiantLight != nil {
-		canvasTo.AmbiantLight = CopyBranchAmbiantLight(mapOrigCopy, canvasFrom.AmbiantLight)
+		canvasTo.AmbiantLight = GongCopyBranchAmbiantLight(mapOrigCopy, canvasFrom.AmbiantLight)
 	}
 	if canvasFrom.Camera != nil {
-		canvasTo.Camera = CopyBranchCamera(mapOrigCopy, canvasFrom.Camera)
+		canvasTo.Camera = GongCopyBranchCamera(mapOrigCopy, canvasFrom.Camera)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _directionallight := range canvasFrom.DirectionalLights {
-		canvasTo.DirectionalLights = append(canvasTo.DirectionalLights, CopyBranchDirectionalLight(mapOrigCopy, _directionallight))
+		canvasTo.DirectionalLights = append(canvasTo.DirectionalLights, GongCopyBranchDirectionalLight(mapOrigCopy, _directionallight))
 	}
 	for _, _mesh := range canvasFrom.Meshs {
-		canvasTo.Meshs = append(canvasTo.Meshs, CopyBranchMesh(mapOrigCopy, _mesh))
+		canvasTo.Meshs = append(canvasTo.Meshs, GongCopyBranchMesh(mapOrigCopy, _mesh))
 	}
 
 	return
 }
 
-func CopyBranchCurve(mapOrigCopy map[any]any, curveFrom *Curve) (curveTo *Curve) {
+func GongCopyBranchCurve(mapOrigCopy map[any]any, curveFrom *Curve) (curveTo *Curve) {
 
 	// curveFrom has already been copied
 	if _curveTo, ok := mapOrigCopy[curveFrom]; ok {
@@ -949,19 +875,19 @@ func CopyBranchCurve(mapOrigCopy map[any]any, curveFrom *Curve) (curveTo *Curve)
 
 	curveTo = new(Curve)
 	mapOrigCopy[curveFrom] = curveTo
-	curveFrom.CopyBasicFields(curveTo)
+	curveFrom.GongCopyBasicFields(curveTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _vector3 := range curveFrom.Points {
-		curveTo.Points = append(curveTo.Points, CopyBranchVector3(mapOrigCopy, _vector3))
+		curveTo.Points = append(curveTo.Points, GongCopyBranchVector3(mapOrigCopy, _vector3))
 	}
 
 	return
 }
 
-func CopyBranchCylinderGeometry(mapOrigCopy map[any]any, cylindergeometryFrom *CylinderGeometry) (cylindergeometryTo *CylinderGeometry) {
+func GongCopyBranchCylinderGeometry(mapOrigCopy map[any]any, cylindergeometryFrom *CylinderGeometry) (cylindergeometryTo *CylinderGeometry) {
 
 	// cylindergeometryFrom has already been copied
 	if _cylindergeometryTo, ok := mapOrigCopy[cylindergeometryFrom]; ok {
@@ -971,7 +897,7 @@ func CopyBranchCylinderGeometry(mapOrigCopy map[any]any, cylindergeometryFrom *C
 
 	cylindergeometryTo = new(CylinderGeometry)
 	mapOrigCopy[cylindergeometryFrom] = cylindergeometryTo
-	cylindergeometryFrom.CopyBasicFields(cylindergeometryTo)
+	cylindergeometryFrom.GongCopyBasicFields(cylindergeometryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -980,7 +906,7 @@ func CopyBranchCylinderGeometry(mapOrigCopy map[any]any, cylindergeometryFrom *C
 	return
 }
 
-func CopyBranchDirectionalLight(mapOrigCopy map[any]any, directionallightFrom *DirectionalLight) (directionallightTo *DirectionalLight) {
+func GongCopyBranchDirectionalLight(mapOrigCopy map[any]any, directionallightFrom *DirectionalLight) (directionallightTo *DirectionalLight) {
 
 	// directionallightFrom has already been copied
 	if _directionallightTo, ok := mapOrigCopy[directionallightFrom]; ok {
@@ -990,7 +916,7 @@ func CopyBranchDirectionalLight(mapOrigCopy map[any]any, directionallightFrom *D
 
 	directionallightTo = new(DirectionalLight)
 	mapOrigCopy[directionallightFrom] = directionallightTo
-	directionallightFrom.CopyBasicFields(directionallightTo)
+	directionallightFrom.GongCopyBasicFields(directionallightTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -999,7 +925,7 @@ func CopyBranchDirectionalLight(mapOrigCopy map[any]any, directionallightFrom *D
 	return
 }
 
-func CopyBranchExtrudeGeometry(mapOrigCopy map[any]any, extrudegeometryFrom *ExtrudeGeometry) (extrudegeometryTo *ExtrudeGeometry) {
+func GongCopyBranchExtrudeGeometry(mapOrigCopy map[any]any, extrudegeometryFrom *ExtrudeGeometry) (extrudegeometryTo *ExtrudeGeometry) {
 
 	// extrudegeometryFrom has already been copied
 	if _extrudegeometryTo, ok := mapOrigCopy[extrudegeometryFrom]; ok {
@@ -1009,14 +935,14 @@ func CopyBranchExtrudeGeometry(mapOrigCopy map[any]any, extrudegeometryFrom *Ext
 
 	extrudegeometryTo = new(ExtrudeGeometry)
 	mapOrigCopy[extrudegeometryFrom] = extrudegeometryTo
-	extrudegeometryFrom.CopyBasicFields(extrudegeometryTo)
+	extrudegeometryFrom.GongCopyBasicFields(extrudegeometryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if extrudegeometryFrom.Shape != nil {
-		extrudegeometryTo.Shape = CopyBranchShape(mapOrigCopy, extrudegeometryFrom.Shape)
+		extrudegeometryTo.Shape = GongCopyBranchShape(mapOrigCopy, extrudegeometryFrom.Shape)
 	}
 	if extrudegeometryFrom.ExtrudePath != nil {
-		extrudegeometryTo.ExtrudePath = CopyBranchCurve(mapOrigCopy, extrudegeometryFrom.ExtrudePath)
+		extrudegeometryTo.ExtrudePath = GongCopyBranchCurve(mapOrigCopy, extrudegeometryFrom.ExtrudePath)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1024,7 +950,7 @@ func CopyBranchExtrudeGeometry(mapOrigCopy map[any]any, extrudegeometryFrom *Ext
 	return
 }
 
-func CopyBranchMesh(mapOrigCopy map[any]any, meshFrom *Mesh) (meshTo *Mesh) {
+func GongCopyBranchMesh(mapOrigCopy map[any]any, meshFrom *Mesh) (meshTo *Mesh) {
 
 	// meshFrom has already been copied
 	if _meshTo, ok := mapOrigCopy[meshFrom]; ok {
@@ -1034,38 +960,38 @@ func CopyBranchMesh(mapOrigCopy map[any]any, meshFrom *Mesh) (meshTo *Mesh) {
 
 	meshTo = new(Mesh)
 	mapOrigCopy[meshFrom] = meshTo
-	meshFrom.CopyBasicFields(meshTo)
+	meshFrom.GongCopyBasicFields(meshTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if meshFrom.MeshMaterialBasic != nil {
-		meshTo.MeshMaterialBasic = CopyBranchMeshMaterialBasic(mapOrigCopy, meshFrom.MeshMaterialBasic)
+		meshTo.MeshMaterialBasic = GongCopyBranchMeshMaterialBasic(mapOrigCopy, meshFrom.MeshMaterialBasic)
 	}
 	if meshFrom.MeshPhysicalMaterial != nil {
-		meshTo.MeshPhysicalMaterial = CopyBranchMeshPhysicalMaterial(mapOrigCopy, meshFrom.MeshPhysicalMaterial)
+		meshTo.MeshPhysicalMaterial = GongCopyBranchMeshPhysicalMaterial(mapOrigCopy, meshFrom.MeshPhysicalMaterial)
 	}
 	if meshFrom.CylinderGeometry != nil {
-		meshTo.CylinderGeometry = CopyBranchCylinderGeometry(mapOrigCopy, meshFrom.CylinderGeometry)
+		meshTo.CylinderGeometry = GongCopyBranchCylinderGeometry(mapOrigCopy, meshFrom.CylinderGeometry)
 	}
 	if meshFrom.BoxGeometry != nil {
-		meshTo.BoxGeometry = CopyBranchBoxGeometry(mapOrigCopy, meshFrom.BoxGeometry)
+		meshTo.BoxGeometry = GongCopyBranchBoxGeometry(mapOrigCopy, meshFrom.BoxGeometry)
 	}
 	if meshFrom.SphereGeometry != nil {
-		meshTo.SphereGeometry = CopyBranchSphereGeometry(mapOrigCopy, meshFrom.SphereGeometry)
+		meshTo.SphereGeometry = GongCopyBranchSphereGeometry(mapOrigCopy, meshFrom.SphereGeometry)
 	}
 	if meshFrom.TorusGeometry != nil {
-		meshTo.TorusGeometry = CopyBranchTorusGeometry(mapOrigCopy, meshFrom.TorusGeometry)
+		meshTo.TorusGeometry = GongCopyBranchTorusGeometry(mapOrigCopy, meshFrom.TorusGeometry)
 	}
 	if meshFrom.PlaneGeometry != nil {
-		meshTo.PlaneGeometry = CopyBranchPlaneGeometry(mapOrigCopy, meshFrom.PlaneGeometry)
+		meshTo.PlaneGeometry = GongCopyBranchPlaneGeometry(mapOrigCopy, meshFrom.PlaneGeometry)
 	}
 	if meshFrom.TubeGeometry != nil {
-		meshTo.TubeGeometry = CopyBranchTubeGeometry(mapOrigCopy, meshFrom.TubeGeometry)
+		meshTo.TubeGeometry = GongCopyBranchTubeGeometry(mapOrigCopy, meshFrom.TubeGeometry)
 	}
 	if meshFrom.ExtrudeGeometry != nil {
-		meshTo.ExtrudeGeometry = CopyBranchExtrudeGeometry(mapOrigCopy, meshFrom.ExtrudeGeometry)
+		meshTo.ExtrudeGeometry = GongCopyBranchExtrudeGeometry(mapOrigCopy, meshFrom.ExtrudeGeometry)
 	}
 	if meshFrom.BufferGeometry != nil {
-		meshTo.BufferGeometry = CopyBranchBufferGeometry(mapOrigCopy, meshFrom.BufferGeometry)
+		meshTo.BufferGeometry = GongCopyBranchBufferGeometry(mapOrigCopy, meshFrom.BufferGeometry)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1073,7 +999,7 @@ func CopyBranchMesh(mapOrigCopy map[any]any, meshFrom *Mesh) (meshTo *Mesh) {
 	return
 }
 
-func CopyBranchMeshMaterialBasic(mapOrigCopy map[any]any, meshmaterialbasicFrom *MeshMaterialBasic) (meshmaterialbasicTo *MeshMaterialBasic) {
+func GongCopyBranchMeshMaterialBasic(mapOrigCopy map[any]any, meshmaterialbasicFrom *MeshMaterialBasic) (meshmaterialbasicTo *MeshMaterialBasic) {
 
 	// meshmaterialbasicFrom has already been copied
 	if _meshmaterialbasicTo, ok := mapOrigCopy[meshmaterialbasicFrom]; ok {
@@ -1083,7 +1009,7 @@ func CopyBranchMeshMaterialBasic(mapOrigCopy map[any]any, meshmaterialbasicFrom 
 
 	meshmaterialbasicTo = new(MeshMaterialBasic)
 	mapOrigCopy[meshmaterialbasicFrom] = meshmaterialbasicTo
-	meshmaterialbasicFrom.CopyBasicFields(meshmaterialbasicTo)
+	meshmaterialbasicFrom.GongCopyBasicFields(meshmaterialbasicTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1092,7 +1018,7 @@ func CopyBranchMeshMaterialBasic(mapOrigCopy map[any]any, meshmaterialbasicFrom 
 	return
 }
 
-func CopyBranchMeshPhysicalMaterial(mapOrigCopy map[any]any, meshphysicalmaterialFrom *MeshPhysicalMaterial) (meshphysicalmaterialTo *MeshPhysicalMaterial) {
+func GongCopyBranchMeshPhysicalMaterial(mapOrigCopy map[any]any, meshphysicalmaterialFrom *MeshPhysicalMaterial) (meshphysicalmaterialTo *MeshPhysicalMaterial) {
 
 	// meshphysicalmaterialFrom has already been copied
 	if _meshphysicalmaterialTo, ok := mapOrigCopy[meshphysicalmaterialFrom]; ok {
@@ -1102,7 +1028,7 @@ func CopyBranchMeshPhysicalMaterial(mapOrigCopy map[any]any, meshphysicalmateria
 
 	meshphysicalmaterialTo = new(MeshPhysicalMaterial)
 	mapOrigCopy[meshphysicalmaterialFrom] = meshphysicalmaterialTo
-	meshphysicalmaterialFrom.CopyBasicFields(meshphysicalmaterialTo)
+	meshphysicalmaterialFrom.GongCopyBasicFields(meshphysicalmaterialTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1111,7 +1037,7 @@ func CopyBranchMeshPhysicalMaterial(mapOrigCopy map[any]any, meshphysicalmateria
 	return
 }
 
-func CopyBranchPlaneGeometry(mapOrigCopy map[any]any, planegeometryFrom *PlaneGeometry) (planegeometryTo *PlaneGeometry) {
+func GongCopyBranchPlaneGeometry(mapOrigCopy map[any]any, planegeometryFrom *PlaneGeometry) (planegeometryTo *PlaneGeometry) {
 
 	// planegeometryFrom has already been copied
 	if _planegeometryTo, ok := mapOrigCopy[planegeometryFrom]; ok {
@@ -1121,7 +1047,7 @@ func CopyBranchPlaneGeometry(mapOrigCopy map[any]any, planegeometryFrom *PlaneGe
 
 	planegeometryTo = new(PlaneGeometry)
 	mapOrigCopy[planegeometryFrom] = planegeometryTo
-	planegeometryFrom.CopyBasicFields(planegeometryTo)
+	planegeometryFrom.GongCopyBasicFields(planegeometryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1130,7 +1056,7 @@ func CopyBranchPlaneGeometry(mapOrigCopy map[any]any, planegeometryFrom *PlaneGe
 	return
 }
 
-func CopyBranchShape(mapOrigCopy map[any]any, shapeFrom *Shape) (shapeTo *Shape) {
+func GongCopyBranchShape(mapOrigCopy map[any]any, shapeFrom *Shape) (shapeTo *Shape) {
 
 	// shapeFrom has already been copied
 	if _shapeTo, ok := mapOrigCopy[shapeFrom]; ok {
@@ -1140,19 +1066,19 @@ func CopyBranchShape(mapOrigCopy map[any]any, shapeFrom *Shape) (shapeTo *Shape)
 
 	shapeTo = new(Shape)
 	mapOrigCopy[shapeFrom] = shapeTo
-	shapeFrom.CopyBasicFields(shapeTo)
+	shapeFrom.GongCopyBasicFields(shapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _vector2 := range shapeFrom.Points {
-		shapeTo.Points = append(shapeTo.Points, CopyBranchVector2(mapOrigCopy, _vector2))
+		shapeTo.Points = append(shapeTo.Points, GongCopyBranchVector2(mapOrigCopy, _vector2))
 	}
 
 	return
 }
 
-func CopyBranchSphereGeometry(mapOrigCopy map[any]any, spheregeometryFrom *SphereGeometry) (spheregeometryTo *SphereGeometry) {
+func GongCopyBranchSphereGeometry(mapOrigCopy map[any]any, spheregeometryFrom *SphereGeometry) (spheregeometryTo *SphereGeometry) {
 
 	// spheregeometryFrom has already been copied
 	if _spheregeometryTo, ok := mapOrigCopy[spheregeometryFrom]; ok {
@@ -1162,7 +1088,7 @@ func CopyBranchSphereGeometry(mapOrigCopy map[any]any, spheregeometryFrom *Spher
 
 	spheregeometryTo = new(SphereGeometry)
 	mapOrigCopy[spheregeometryFrom] = spheregeometryTo
-	spheregeometryFrom.CopyBasicFields(spheregeometryTo)
+	spheregeometryFrom.GongCopyBasicFields(spheregeometryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1171,7 +1097,7 @@ func CopyBranchSphereGeometry(mapOrigCopy map[any]any, spheregeometryFrom *Spher
 	return
 }
 
-func CopyBranchTorusGeometry(mapOrigCopy map[any]any, torusgeometryFrom *TorusGeometry) (torusgeometryTo *TorusGeometry) {
+func GongCopyBranchTorusGeometry(mapOrigCopy map[any]any, torusgeometryFrom *TorusGeometry) (torusgeometryTo *TorusGeometry) {
 
 	// torusgeometryFrom has already been copied
 	if _torusgeometryTo, ok := mapOrigCopy[torusgeometryFrom]; ok {
@@ -1181,7 +1107,7 @@ func CopyBranchTorusGeometry(mapOrigCopy map[any]any, torusgeometryFrom *TorusGe
 
 	torusgeometryTo = new(TorusGeometry)
 	mapOrigCopy[torusgeometryFrom] = torusgeometryTo
-	torusgeometryFrom.CopyBasicFields(torusgeometryTo)
+	torusgeometryFrom.GongCopyBasicFields(torusgeometryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1190,7 +1116,7 @@ func CopyBranchTorusGeometry(mapOrigCopy map[any]any, torusgeometryFrom *TorusGe
 	return
 }
 
-func CopyBranchTriangle(mapOrigCopy map[any]any, triangleFrom *Triangle) (triangleTo *Triangle) {
+func GongCopyBranchTriangle(mapOrigCopy map[any]any, triangleFrom *Triangle) (triangleTo *Triangle) {
 
 	// triangleFrom has already been copied
 	if _triangleTo, ok := mapOrigCopy[triangleFrom]; ok {
@@ -1200,7 +1126,7 @@ func CopyBranchTriangle(mapOrigCopy map[any]any, triangleFrom *Triangle) (triang
 
 	triangleTo = new(Triangle)
 	mapOrigCopy[triangleFrom] = triangleTo
-	triangleFrom.CopyBasicFields(triangleTo)
+	triangleFrom.GongCopyBasicFields(triangleTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1209,7 +1135,7 @@ func CopyBranchTriangle(mapOrigCopy map[any]any, triangleFrom *Triangle) (triang
 	return
 }
 
-func CopyBranchTubeGeometry(mapOrigCopy map[any]any, tubegeometryFrom *TubeGeometry) (tubegeometryTo *TubeGeometry) {
+func GongCopyBranchTubeGeometry(mapOrigCopy map[any]any, tubegeometryFrom *TubeGeometry) (tubegeometryTo *TubeGeometry) {
 
 	// tubegeometryFrom has already been copied
 	if _tubegeometryTo, ok := mapOrigCopy[tubegeometryFrom]; ok {
@@ -1219,11 +1145,11 @@ func CopyBranchTubeGeometry(mapOrigCopy map[any]any, tubegeometryFrom *TubeGeome
 
 	tubegeometryTo = new(TubeGeometry)
 	mapOrigCopy[tubegeometryFrom] = tubegeometryTo
-	tubegeometryFrom.CopyBasicFields(tubegeometryTo)
+	tubegeometryFrom.GongCopyBasicFields(tubegeometryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if tubegeometryFrom.Path != nil {
-		tubegeometryTo.Path = CopyBranchCurve(mapOrigCopy, tubegeometryFrom.Path)
+		tubegeometryTo.Path = GongCopyBranchCurve(mapOrigCopy, tubegeometryFrom.Path)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1231,7 +1157,7 @@ func CopyBranchTubeGeometry(mapOrigCopy map[any]any, tubegeometryFrom *TubeGeome
 	return
 }
 
-func CopyBranchVector2(mapOrigCopy map[any]any, vector2From *Vector2) (vector2To *Vector2) {
+func GongCopyBranchVector2(mapOrigCopy map[any]any, vector2From *Vector2) (vector2To *Vector2) {
 
 	// vector2From has already been copied
 	if _vector2To, ok := mapOrigCopy[vector2From]; ok {
@@ -1241,7 +1167,7 @@ func CopyBranchVector2(mapOrigCopy map[any]any, vector2From *Vector2) (vector2To
 
 	vector2To = new(Vector2)
 	mapOrigCopy[vector2From] = vector2To
-	vector2From.CopyBasicFields(vector2To)
+	vector2From.GongCopyBasicFields(vector2To)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1250,7 +1176,7 @@ func CopyBranchVector2(mapOrigCopy map[any]any, vector2From *Vector2) (vector2To
 	return
 }
 
-func CopyBranchVector3(mapOrigCopy map[any]any, vector3From *Vector3) (vector3To *Vector3) {
+func GongCopyBranchVector3(mapOrigCopy map[any]any, vector3From *Vector3) (vector3To *Vector3) {
 
 	// vector3From has already been copied
 	if _vector3To, ok := mapOrigCopy[vector3From]; ok {
@@ -1260,7 +1186,7 @@ func CopyBranchVector3(mapOrigCopy map[any]any, vector3From *Vector3) (vector3To
 
 	vector3To = new(Vector3)
 	mapOrigCopy[vector3From] = vector3To
-	vector3From.CopyBasicFields(vector3To)
+	vector3From.GongCopyBasicFields(vector3To)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1343,16 +1269,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchAmbiantLight(ambiantlight *AmbiantLight) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, ambiantlight) {
+	if !stage.IsStaged(ambiantlight) {
 		return
 	}
 
@@ -1367,7 +1288,7 @@ func (stage *Stage) UnstageBranchAmbiantLight(ambiantlight *AmbiantLight) {
 func (stage *Stage) UnstageBranchBoxGeometry(boxgeometry *BoxGeometry) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, boxgeometry) {
+	if !stage.IsStaged(boxgeometry) {
 		return
 	}
 
@@ -1382,7 +1303,7 @@ func (stage *Stage) UnstageBranchBoxGeometry(boxgeometry *BoxGeometry) {
 func (stage *Stage) UnstageBranchBufferGeometry(buffergeometry *BufferGeometry) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, buffergeometry) {
+	if !stage.IsStaged(buffergeometry) {
 		return
 	}
 
@@ -1392,10 +1313,10 @@ func (stage *Stage) UnstageBranchBufferGeometry(buffergeometry *BufferGeometry) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _vector3 := range buffergeometry.Vertices {
-		UnstageBranch(stage, _vector3)
+		stage.UnstageBranch(_vector3)
 	}
 	for _, _triangle := range buffergeometry.Faces {
-		UnstageBranch(stage, _triangle)
+		stage.UnstageBranch(_triangle)
 	}
 
 }
@@ -1403,7 +1324,7 @@ func (stage *Stage) UnstageBranchBufferGeometry(buffergeometry *BufferGeometry) 
 func (stage *Stage) UnstageBranchCamera(camera *Camera) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, camera) {
+	if !stage.IsStaged(camera) {
 		return
 	}
 
@@ -1418,7 +1339,7 @@ func (stage *Stage) UnstageBranchCamera(camera *Camera) {
 func (stage *Stage) UnstageBranchCanvas(canvas *Canvas) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, canvas) {
+	if !stage.IsStaged(canvas) {
 		return
 	}
 
@@ -1426,18 +1347,18 @@ func (stage *Stage) UnstageBranchCanvas(canvas *Canvas) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if canvas.AmbiantLight != nil {
-		UnstageBranch(stage, canvas.AmbiantLight)
+		stage.UnstageBranch(canvas.AmbiantLight)
 	}
 	if canvas.Camera != nil {
-		UnstageBranch(stage, canvas.Camera)
+		stage.UnstageBranch(canvas.Camera)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _directionallight := range canvas.DirectionalLights {
-		UnstageBranch(stage, _directionallight)
+		stage.UnstageBranch(_directionallight)
 	}
 	for _, _mesh := range canvas.Meshs {
-		UnstageBranch(stage, _mesh)
+		stage.UnstageBranch(_mesh)
 	}
 
 }
@@ -1445,7 +1366,7 @@ func (stage *Stage) UnstageBranchCanvas(canvas *Canvas) {
 func (stage *Stage) UnstageBranchCurve(curve *Curve) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, curve) {
+	if !stage.IsStaged(curve) {
 		return
 	}
 
@@ -1455,7 +1376,7 @@ func (stage *Stage) UnstageBranchCurve(curve *Curve) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _vector3 := range curve.Points {
-		UnstageBranch(stage, _vector3)
+		stage.UnstageBranch(_vector3)
 	}
 
 }
@@ -1463,7 +1384,7 @@ func (stage *Stage) UnstageBranchCurve(curve *Curve) {
 func (stage *Stage) UnstageBranchCylinderGeometry(cylindergeometry *CylinderGeometry) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, cylindergeometry) {
+	if !stage.IsStaged(cylindergeometry) {
 		return
 	}
 
@@ -1478,7 +1399,7 @@ func (stage *Stage) UnstageBranchCylinderGeometry(cylindergeometry *CylinderGeom
 func (stage *Stage) UnstageBranchDirectionalLight(directionallight *DirectionalLight) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, directionallight) {
+	if !stage.IsStaged(directionallight) {
 		return
 	}
 
@@ -1493,7 +1414,7 @@ func (stage *Stage) UnstageBranchDirectionalLight(directionallight *DirectionalL
 func (stage *Stage) UnstageBranchExtrudeGeometry(extrudegeometry *ExtrudeGeometry) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, extrudegeometry) {
+	if !stage.IsStaged(extrudegeometry) {
 		return
 	}
 
@@ -1501,10 +1422,10 @@ func (stage *Stage) UnstageBranchExtrudeGeometry(extrudegeometry *ExtrudeGeometr
 
 	//insertion point for the staging of instances referenced by pointers
 	if extrudegeometry.Shape != nil {
-		UnstageBranch(stage, extrudegeometry.Shape)
+		stage.UnstageBranch(extrudegeometry.Shape)
 	}
 	if extrudegeometry.ExtrudePath != nil {
-		UnstageBranch(stage, extrudegeometry.ExtrudePath)
+		stage.UnstageBranch(extrudegeometry.ExtrudePath)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1514,7 +1435,7 @@ func (stage *Stage) UnstageBranchExtrudeGeometry(extrudegeometry *ExtrudeGeometr
 func (stage *Stage) UnstageBranchMesh(mesh *Mesh) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, mesh) {
+	if !stage.IsStaged(mesh) {
 		return
 	}
 
@@ -1522,34 +1443,34 @@ func (stage *Stage) UnstageBranchMesh(mesh *Mesh) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if mesh.MeshMaterialBasic != nil {
-		UnstageBranch(stage, mesh.MeshMaterialBasic)
+		stage.UnstageBranch(mesh.MeshMaterialBasic)
 	}
 	if mesh.MeshPhysicalMaterial != nil {
-		UnstageBranch(stage, mesh.MeshPhysicalMaterial)
+		stage.UnstageBranch(mesh.MeshPhysicalMaterial)
 	}
 	if mesh.CylinderGeometry != nil {
-		UnstageBranch(stage, mesh.CylinderGeometry)
+		stage.UnstageBranch(mesh.CylinderGeometry)
 	}
 	if mesh.BoxGeometry != nil {
-		UnstageBranch(stage, mesh.BoxGeometry)
+		stage.UnstageBranch(mesh.BoxGeometry)
 	}
 	if mesh.SphereGeometry != nil {
-		UnstageBranch(stage, mesh.SphereGeometry)
+		stage.UnstageBranch(mesh.SphereGeometry)
 	}
 	if mesh.TorusGeometry != nil {
-		UnstageBranch(stage, mesh.TorusGeometry)
+		stage.UnstageBranch(mesh.TorusGeometry)
 	}
 	if mesh.PlaneGeometry != nil {
-		UnstageBranch(stage, mesh.PlaneGeometry)
+		stage.UnstageBranch(mesh.PlaneGeometry)
 	}
 	if mesh.TubeGeometry != nil {
-		UnstageBranch(stage, mesh.TubeGeometry)
+		stage.UnstageBranch(mesh.TubeGeometry)
 	}
 	if mesh.ExtrudeGeometry != nil {
-		UnstageBranch(stage, mesh.ExtrudeGeometry)
+		stage.UnstageBranch(mesh.ExtrudeGeometry)
 	}
 	if mesh.BufferGeometry != nil {
-		UnstageBranch(stage, mesh.BufferGeometry)
+		stage.UnstageBranch(mesh.BufferGeometry)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1559,7 +1480,7 @@ func (stage *Stage) UnstageBranchMesh(mesh *Mesh) {
 func (stage *Stage) UnstageBranchMeshMaterialBasic(meshmaterialbasic *MeshMaterialBasic) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, meshmaterialbasic) {
+	if !stage.IsStaged(meshmaterialbasic) {
 		return
 	}
 
@@ -1574,7 +1495,7 @@ func (stage *Stage) UnstageBranchMeshMaterialBasic(meshmaterialbasic *MeshMateri
 func (stage *Stage) UnstageBranchMeshPhysicalMaterial(meshphysicalmaterial *MeshPhysicalMaterial) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, meshphysicalmaterial) {
+	if !stage.IsStaged(meshphysicalmaterial) {
 		return
 	}
 
@@ -1589,7 +1510,7 @@ func (stage *Stage) UnstageBranchMeshPhysicalMaterial(meshphysicalmaterial *Mesh
 func (stage *Stage) UnstageBranchPlaneGeometry(planegeometry *PlaneGeometry) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, planegeometry) {
+	if !stage.IsStaged(planegeometry) {
 		return
 	}
 
@@ -1604,7 +1525,7 @@ func (stage *Stage) UnstageBranchPlaneGeometry(planegeometry *PlaneGeometry) {
 func (stage *Stage) UnstageBranchShape(shape *Shape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, shape) {
+	if !stage.IsStaged(shape) {
 		return
 	}
 
@@ -1614,7 +1535,7 @@ func (stage *Stage) UnstageBranchShape(shape *Shape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _vector2 := range shape.Points {
-		UnstageBranch(stage, _vector2)
+		stage.UnstageBranch(_vector2)
 	}
 
 }
@@ -1622,7 +1543,7 @@ func (stage *Stage) UnstageBranchShape(shape *Shape) {
 func (stage *Stage) UnstageBranchSphereGeometry(spheregeometry *SphereGeometry) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, spheregeometry) {
+	if !stage.IsStaged(spheregeometry) {
 		return
 	}
 
@@ -1637,7 +1558,7 @@ func (stage *Stage) UnstageBranchSphereGeometry(spheregeometry *SphereGeometry) 
 func (stage *Stage) UnstageBranchTorusGeometry(torusgeometry *TorusGeometry) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, torusgeometry) {
+	if !stage.IsStaged(torusgeometry) {
 		return
 	}
 
@@ -1652,7 +1573,7 @@ func (stage *Stage) UnstageBranchTorusGeometry(torusgeometry *TorusGeometry) {
 func (stage *Stage) UnstageBranchTriangle(triangle *Triangle) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, triangle) {
+	if !stage.IsStaged(triangle) {
 		return
 	}
 
@@ -1667,7 +1588,7 @@ func (stage *Stage) UnstageBranchTriangle(triangle *Triangle) {
 func (stage *Stage) UnstageBranchTubeGeometry(tubegeometry *TubeGeometry) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tubegeometry) {
+	if !stage.IsStaged(tubegeometry) {
 		return
 	}
 
@@ -1675,7 +1596,7 @@ func (stage *Stage) UnstageBranchTubeGeometry(tubegeometry *TubeGeometry) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if tubegeometry.Path != nil {
-		UnstageBranch(stage, tubegeometry.Path)
+		stage.UnstageBranch(tubegeometry.Path)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1685,7 +1606,7 @@ func (stage *Stage) UnstageBranchTubeGeometry(tubegeometry *TubeGeometry) {
 func (stage *Stage) UnstageBranchVector2(vector2 *Vector2) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, vector2) {
+	if !stage.IsStaged(vector2) {
 		return
 	}
 
@@ -1700,7 +1621,7 @@ func (stage *Stage) UnstageBranchVector2(vector2 *Vector2) {
 func (stage *Stage) UnstageBranchVector3(vector3 *Vector3) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, vector3) {
+	if !stage.IsStaged(vector3) {
 		return
 	}
 
@@ -2184,7 +2105,7 @@ func (buffergeometry *BufferGeometry) GongDiff(stage *Stage, buffergeometryOther
 		}
 	}
 	if VerticesDifferent {
-		ops := Diff(stage, buffergeometry, buffergeometryOther, "Vertices", buffergeometryOther.Vertices, buffergeometry.Vertices)
+		ops := stage.Diff(buffergeometry, buffergeometryOther, "Vertices", buffergeometryOther.Vertices, buffergeometry.Vertices)
 		diffs = append(diffs, ops)
 	}
 	FacesDifferent := false
@@ -2205,7 +2126,7 @@ func (buffergeometry *BufferGeometry) GongDiff(stage *Stage, buffergeometryOther
 		}
 	}
 	if FacesDifferent {
-		ops := Diff(stage, buffergeometry, buffergeometryOther, "Faces", buffergeometryOther.Faces, buffergeometry.Faces)
+		ops := stage.Diff(buffergeometry, buffergeometryOther, "Faces", buffergeometryOther.Faces, buffergeometry.Faces)
 		diffs = append(diffs, ops)
 	}
 
@@ -2269,7 +2190,7 @@ func (canvas *Canvas) GongDiff(stage *Stage, canvasOther *Canvas) (diffs []strin
 		}
 	}
 	if DirectionalLightsDifferent {
-		ops := Diff(stage, canvas, canvasOther, "DirectionalLights", canvasOther.DirectionalLights, canvas.DirectionalLights)
+		ops := stage.Diff(canvas, canvasOther, "DirectionalLights", canvasOther.DirectionalLights, canvas.DirectionalLights)
 		diffs = append(diffs, ops)
 	}
 	if (canvas.AmbiantLight == nil) != (canvasOther.AmbiantLight == nil) {
@@ -2297,7 +2218,7 @@ func (canvas *Canvas) GongDiff(stage *Stage, canvasOther *Canvas) (diffs []strin
 		}
 	}
 	if MeshsDifferent {
-		ops := Diff(stage, canvas, canvasOther, "Meshs", canvasOther.Meshs, canvas.Meshs)
+		ops := stage.Diff(canvas, canvasOther, "Meshs", canvasOther.Meshs, canvas.Meshs)
 		diffs = append(diffs, ops)
 	}
 	if (canvas.Camera == nil) != (canvasOther.Camera == nil) {
@@ -2345,7 +2266,7 @@ func (curve *Curve) GongDiff(stage *Stage, curveOther *Curve) (diffs []string) {
 		}
 	}
 	if PointsDifferent {
-		ops := Diff(stage, curve, curveOther, "Points", curveOther.Points, curve.Points)
+		ops := stage.Diff(curve, curveOther, "Points", curveOther.Points, curve.Points)
 		diffs = append(diffs, ops)
 	}
 
@@ -2619,7 +2540,7 @@ func (shape *Shape) GongDiff(stage *Stage, shapeOther *Shape) (diffs []string) {
 		}
 	}
 	if PointsDifferent {
-		ops := Diff(stage, shape, shapeOther, "Points", shapeOther.Points, shape.Points)
+		ops := stage.Diff(shape, shapeOther, "Points", shapeOther.Points, shape.Points)
 		diffs = append(diffs, ops)
 	}
 
@@ -2845,9 +2766,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

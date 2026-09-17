@@ -56,62 +56,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *CheckBox:
-		ok = stage.IsStagedCheckBox(target)
-
-	case *FormDiv:
-		ok = stage.IsStagedFormDiv(target)
-
-	case *FormEditAssocButton:
-		ok = stage.IsStagedFormEditAssocButton(target)
-
-	case *FormField:
-		ok = stage.IsStagedFormField(target)
-
-	case *FormFieldDate:
-		ok = stage.IsStagedFormFieldDate(target)
-
-	case *FormFieldDateTime:
-		ok = stage.IsStagedFormFieldDateTime(target)
-
-	case *FormFieldFloat64:
-		ok = stage.IsStagedFormFieldFloat64(target)
-
-	case *FormFieldInt:
-		ok = stage.IsStagedFormFieldInt(target)
-
-	case *FormFieldSelect:
-		ok = stage.IsStagedFormFieldSelect(target)
-
-	case *FormFieldString:
-		ok = stage.IsStagedFormFieldString(target)
-
-	case *FormFieldTime:
-		ok = stage.IsStagedFormFieldTime(target)
-
-	case *FormGroup:
-		ok = stage.IsStagedFormGroup(target)
-
-	case *FormSortAssocButton:
-		ok = stage.IsStagedFormSortAssocButton(target)
-
-	case *Option:
-		ok = stage.IsStagedOption(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedCheckBox(checkbox *CheckBox) (ok bool) {
 
@@ -272,7 +216,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchCheckBox(checkbox *CheckBox) {
 
 	// check if instance is already staged
-	if IsStaged(stage, checkbox) {
+	if stage.IsStaged(checkbox) {
 		return
 	}
 
@@ -287,7 +231,7 @@ func (stage *Stage) StageBranchCheckBox(checkbox *CheckBox) {
 func (stage *Stage) StageBranchFormDiv(formdiv *FormDiv) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formdiv) {
+	if stage.IsStaged(formdiv) {
 		return
 	}
 
@@ -295,18 +239,18 @@ func (stage *Stage) StageBranchFormDiv(formdiv *FormDiv) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if formdiv.FormEditAssocButton != nil {
-		StageBranch(stage, formdiv.FormEditAssocButton)
+		stage.StageBranch(formdiv.FormEditAssocButton)
 	}
 	if formdiv.FormSortAssocButton != nil {
-		StageBranch(stage, formdiv.FormSortAssocButton)
+		stage.StageBranch(formdiv.FormSortAssocButton)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formfield := range formdiv.FormFields {
-		StageBranch(stage, _formfield)
+		stage.StageBranch(_formfield)
 	}
 	for _, _checkbox := range formdiv.CheckBoxs {
-		StageBranch(stage, _checkbox)
+		stage.StageBranch(_checkbox)
 	}
 
 }
@@ -314,7 +258,7 @@ func (stage *Stage) StageBranchFormDiv(formdiv *FormDiv) {
 func (stage *Stage) StageBranchFormEditAssocButton(formeditassocbutton *FormEditAssocButton) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formeditassocbutton) {
+	if stage.IsStaged(formeditassocbutton) {
 		return
 	}
 
@@ -329,7 +273,7 @@ func (stage *Stage) StageBranchFormEditAssocButton(formeditassocbutton *FormEdit
 func (stage *Stage) StageBranchFormField(formfield *FormField) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formfield) {
+	if stage.IsStaged(formfield) {
 		return
 	}
 
@@ -337,25 +281,25 @@ func (stage *Stage) StageBranchFormField(formfield *FormField) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if formfield.FormFieldString != nil {
-		StageBranch(stage, formfield.FormFieldString)
+		stage.StageBranch(formfield.FormFieldString)
 	}
 	if formfield.FormFieldFloat64 != nil {
-		StageBranch(stage, formfield.FormFieldFloat64)
+		stage.StageBranch(formfield.FormFieldFloat64)
 	}
 	if formfield.FormFieldInt != nil {
-		StageBranch(stage, formfield.FormFieldInt)
+		stage.StageBranch(formfield.FormFieldInt)
 	}
 	if formfield.FormFieldDate != nil {
-		StageBranch(stage, formfield.FormFieldDate)
+		stage.StageBranch(formfield.FormFieldDate)
 	}
 	if formfield.FormFieldTime != nil {
-		StageBranch(stage, formfield.FormFieldTime)
+		stage.StageBranch(formfield.FormFieldTime)
 	}
 	if formfield.FormFieldDateTime != nil {
-		StageBranch(stage, formfield.FormFieldDateTime)
+		stage.StageBranch(formfield.FormFieldDateTime)
 	}
 	if formfield.FormFieldSelect != nil {
-		StageBranch(stage, formfield.FormFieldSelect)
+		stage.StageBranch(formfield.FormFieldSelect)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -365,7 +309,7 @@ func (stage *Stage) StageBranchFormField(formfield *FormField) {
 func (stage *Stage) StageBranchFormFieldDate(formfielddate *FormFieldDate) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formfielddate) {
+	if stage.IsStaged(formfielddate) {
 		return
 	}
 
@@ -380,7 +324,7 @@ func (stage *Stage) StageBranchFormFieldDate(formfielddate *FormFieldDate) {
 func (stage *Stage) StageBranchFormFieldDateTime(formfielddatetime *FormFieldDateTime) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formfielddatetime) {
+	if stage.IsStaged(formfielddatetime) {
 		return
 	}
 
@@ -395,7 +339,7 @@ func (stage *Stage) StageBranchFormFieldDateTime(formfielddatetime *FormFieldDat
 func (stage *Stage) StageBranchFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formfieldfloat64) {
+	if stage.IsStaged(formfieldfloat64) {
 		return
 	}
 
@@ -410,7 +354,7 @@ func (stage *Stage) StageBranchFormFieldFloat64(formfieldfloat64 *FormFieldFloat
 func (stage *Stage) StageBranchFormFieldInt(formfieldint *FormFieldInt) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formfieldint) {
+	if stage.IsStaged(formfieldint) {
 		return
 	}
 
@@ -425,7 +369,7 @@ func (stage *Stage) StageBranchFormFieldInt(formfieldint *FormFieldInt) {
 func (stage *Stage) StageBranchFormFieldSelect(formfieldselect *FormFieldSelect) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formfieldselect) {
+	if stage.IsStaged(formfieldselect) {
 		return
 	}
 
@@ -433,12 +377,12 @@ func (stage *Stage) StageBranchFormFieldSelect(formfieldselect *FormFieldSelect)
 
 	//insertion point for the staging of instances referenced by pointers
 	if formfieldselect.Value != nil {
-		StageBranch(stage, formfieldselect.Value)
+		stage.StageBranch(formfieldselect.Value)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _option := range formfieldselect.Options {
-		StageBranch(stage, _option)
+		stage.StageBranch(_option)
 	}
 
 }
@@ -446,7 +390,7 @@ func (stage *Stage) StageBranchFormFieldSelect(formfieldselect *FormFieldSelect)
 func (stage *Stage) StageBranchFormFieldString(formfieldstring *FormFieldString) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formfieldstring) {
+	if stage.IsStaged(formfieldstring) {
 		return
 	}
 
@@ -461,7 +405,7 @@ func (stage *Stage) StageBranchFormFieldString(formfieldstring *FormFieldString)
 func (stage *Stage) StageBranchFormFieldTime(formfieldtime *FormFieldTime) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formfieldtime) {
+	if stage.IsStaged(formfieldtime) {
 		return
 	}
 
@@ -476,7 +420,7 @@ func (stage *Stage) StageBranchFormFieldTime(formfieldtime *FormFieldTime) {
 func (stage *Stage) StageBranchFormGroup(formgroup *FormGroup) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formgroup) {
+	if stage.IsStaged(formgroup) {
 		return
 	}
 
@@ -486,7 +430,7 @@ func (stage *Stage) StageBranchFormGroup(formgroup *FormGroup) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formdiv := range formgroup.FormDivs {
-		StageBranch(stage, _formdiv)
+		stage.StageBranch(_formdiv)
 	}
 
 }
@@ -494,7 +438,7 @@ func (stage *Stage) StageBranchFormGroup(formgroup *FormGroup) {
 func (stage *Stage) StageBranchFormSortAssocButton(formsortassocbutton *FormSortAssocButton) {
 
 	// check if instance is already staged
-	if IsStaged(stage, formsortassocbutton) {
+	if stage.IsStaged(formsortassocbutton) {
 		return
 	}
 
@@ -502,7 +446,7 @@ func (stage *Stage) StageBranchFormSortAssocButton(formsortassocbutton *FormSort
 
 	//insertion point for the staging of instances referenced by pointers
 	if formsortassocbutton.FormEditAssocButton != nil {
-		StageBranch(stage, formsortassocbutton.FormEditAssocButton)
+		stage.StageBranch(formsortassocbutton.FormEditAssocButton)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -512,7 +456,7 @@ func (stage *Stage) StageBranchFormSortAssocButton(formsortassocbutton *FormSort
 func (stage *Stage) StageBranchOption(option *Option) {
 
 	// check if instance is already staged
-	if IsStaged(stage, option) {
+	if stage.IsStaged(option) {
 		return
 	}
 
@@ -524,11 +468,11 @@ func (stage *Stage) StageBranchOption(option *Option) {
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -536,59 +480,59 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *CheckBox:
-		toT := CopyBranchCheckBox(mapOrigCopy, fromT)
+		toT := GongCopyBranchCheckBox(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *FormDiv:
-		toT := CopyBranchFormDiv(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormDiv(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *FormEditAssocButton:
-		toT := CopyBranchFormEditAssocButton(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormEditAssocButton(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *FormField:
-		toT := CopyBranchFormField(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormField(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *FormFieldDate:
-		toT := CopyBranchFormFieldDate(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormFieldDate(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *FormFieldDateTime:
-		toT := CopyBranchFormFieldDateTime(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormFieldDateTime(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *FormFieldFloat64:
-		toT := CopyBranchFormFieldFloat64(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormFieldFloat64(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *FormFieldInt:
-		toT := CopyBranchFormFieldInt(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormFieldInt(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *FormFieldSelect:
-		toT := CopyBranchFormFieldSelect(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormFieldSelect(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *FormFieldString:
-		toT := CopyBranchFormFieldString(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormFieldString(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *FormFieldTime:
-		toT := CopyBranchFormFieldTime(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormFieldTime(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *FormGroup:
-		toT := CopyBranchFormGroup(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormGroup(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *FormSortAssocButton:
-		toT := CopyBranchFormSortAssocButton(mapOrigCopy, fromT)
+		toT := GongCopyBranchFormSortAssocButton(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Option:
-		toT := CopyBranchOption(mapOrigCopy, fromT)
+		toT := GongCopyBranchOption(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -598,7 +542,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchCheckBox(mapOrigCopy map[any]any, checkboxFrom *CheckBox) (checkboxTo *CheckBox) {
+func GongCopyBranchCheckBox(mapOrigCopy map[any]any, checkboxFrom *CheckBox) (checkboxTo *CheckBox) {
 
 	// checkboxFrom has already been copied
 	if _checkboxTo, ok := mapOrigCopy[checkboxFrom]; ok {
@@ -608,7 +552,7 @@ func CopyBranchCheckBox(mapOrigCopy map[any]any, checkboxFrom *CheckBox) (checkb
 
 	checkboxTo = new(CheckBox)
 	mapOrigCopy[checkboxFrom] = checkboxTo
-	checkboxFrom.CopyBasicFields(checkboxTo)
+	checkboxFrom.GongCopyBasicFields(checkboxTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -617,7 +561,7 @@ func CopyBranchCheckBox(mapOrigCopy map[any]any, checkboxFrom *CheckBox) (checkb
 	return
 }
 
-func CopyBranchFormDiv(mapOrigCopy map[any]any, formdivFrom *FormDiv) (formdivTo *FormDiv) {
+func GongCopyBranchFormDiv(mapOrigCopy map[any]any, formdivFrom *FormDiv) (formdivTo *FormDiv) {
 
 	// formdivFrom has already been copied
 	if _formdivTo, ok := mapOrigCopy[formdivFrom]; ok {
@@ -627,28 +571,28 @@ func CopyBranchFormDiv(mapOrigCopy map[any]any, formdivFrom *FormDiv) (formdivTo
 
 	formdivTo = new(FormDiv)
 	mapOrigCopy[formdivFrom] = formdivTo
-	formdivFrom.CopyBasicFields(formdivTo)
+	formdivFrom.GongCopyBasicFields(formdivTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if formdivFrom.FormEditAssocButton != nil {
-		formdivTo.FormEditAssocButton = CopyBranchFormEditAssocButton(mapOrigCopy, formdivFrom.FormEditAssocButton)
+		formdivTo.FormEditAssocButton = GongCopyBranchFormEditAssocButton(mapOrigCopy, formdivFrom.FormEditAssocButton)
 	}
 	if formdivFrom.FormSortAssocButton != nil {
-		formdivTo.FormSortAssocButton = CopyBranchFormSortAssocButton(mapOrigCopy, formdivFrom.FormSortAssocButton)
+		formdivTo.FormSortAssocButton = GongCopyBranchFormSortAssocButton(mapOrigCopy, formdivFrom.FormSortAssocButton)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formfield := range formdivFrom.FormFields {
-		formdivTo.FormFields = append(formdivTo.FormFields, CopyBranchFormField(mapOrigCopy, _formfield))
+		formdivTo.FormFields = append(formdivTo.FormFields, GongCopyBranchFormField(mapOrigCopy, _formfield))
 	}
 	for _, _checkbox := range formdivFrom.CheckBoxs {
-		formdivTo.CheckBoxs = append(formdivTo.CheckBoxs, CopyBranchCheckBox(mapOrigCopy, _checkbox))
+		formdivTo.CheckBoxs = append(formdivTo.CheckBoxs, GongCopyBranchCheckBox(mapOrigCopy, _checkbox))
 	}
 
 	return
 }
 
-func CopyBranchFormEditAssocButton(mapOrigCopy map[any]any, formeditassocbuttonFrom *FormEditAssocButton) (formeditassocbuttonTo *FormEditAssocButton) {
+func GongCopyBranchFormEditAssocButton(mapOrigCopy map[any]any, formeditassocbuttonFrom *FormEditAssocButton) (formeditassocbuttonTo *FormEditAssocButton) {
 
 	// formeditassocbuttonFrom has already been copied
 	if _formeditassocbuttonTo, ok := mapOrigCopy[formeditassocbuttonFrom]; ok {
@@ -658,7 +602,7 @@ func CopyBranchFormEditAssocButton(mapOrigCopy map[any]any, formeditassocbuttonF
 
 	formeditassocbuttonTo = new(FormEditAssocButton)
 	mapOrigCopy[formeditassocbuttonFrom] = formeditassocbuttonTo
-	formeditassocbuttonFrom.CopyBasicFields(formeditassocbuttonTo)
+	formeditassocbuttonFrom.GongCopyBasicFields(formeditassocbuttonTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -667,7 +611,7 @@ func CopyBranchFormEditAssocButton(mapOrigCopy map[any]any, formeditassocbuttonF
 	return
 }
 
-func CopyBranchFormField(mapOrigCopy map[any]any, formfieldFrom *FormField) (formfieldTo *FormField) {
+func GongCopyBranchFormField(mapOrigCopy map[any]any, formfieldFrom *FormField) (formfieldTo *FormField) {
 
 	// formfieldFrom has already been copied
 	if _formfieldTo, ok := mapOrigCopy[formfieldFrom]; ok {
@@ -677,29 +621,29 @@ func CopyBranchFormField(mapOrigCopy map[any]any, formfieldFrom *FormField) (for
 
 	formfieldTo = new(FormField)
 	mapOrigCopy[formfieldFrom] = formfieldTo
-	formfieldFrom.CopyBasicFields(formfieldTo)
+	formfieldFrom.GongCopyBasicFields(formfieldTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if formfieldFrom.FormFieldString != nil {
-		formfieldTo.FormFieldString = CopyBranchFormFieldString(mapOrigCopy, formfieldFrom.FormFieldString)
+		formfieldTo.FormFieldString = GongCopyBranchFormFieldString(mapOrigCopy, formfieldFrom.FormFieldString)
 	}
 	if formfieldFrom.FormFieldFloat64 != nil {
-		formfieldTo.FormFieldFloat64 = CopyBranchFormFieldFloat64(mapOrigCopy, formfieldFrom.FormFieldFloat64)
+		formfieldTo.FormFieldFloat64 = GongCopyBranchFormFieldFloat64(mapOrigCopy, formfieldFrom.FormFieldFloat64)
 	}
 	if formfieldFrom.FormFieldInt != nil {
-		formfieldTo.FormFieldInt = CopyBranchFormFieldInt(mapOrigCopy, formfieldFrom.FormFieldInt)
+		formfieldTo.FormFieldInt = GongCopyBranchFormFieldInt(mapOrigCopy, formfieldFrom.FormFieldInt)
 	}
 	if formfieldFrom.FormFieldDate != nil {
-		formfieldTo.FormFieldDate = CopyBranchFormFieldDate(mapOrigCopy, formfieldFrom.FormFieldDate)
+		formfieldTo.FormFieldDate = GongCopyBranchFormFieldDate(mapOrigCopy, formfieldFrom.FormFieldDate)
 	}
 	if formfieldFrom.FormFieldTime != nil {
-		formfieldTo.FormFieldTime = CopyBranchFormFieldTime(mapOrigCopy, formfieldFrom.FormFieldTime)
+		formfieldTo.FormFieldTime = GongCopyBranchFormFieldTime(mapOrigCopy, formfieldFrom.FormFieldTime)
 	}
 	if formfieldFrom.FormFieldDateTime != nil {
-		formfieldTo.FormFieldDateTime = CopyBranchFormFieldDateTime(mapOrigCopy, formfieldFrom.FormFieldDateTime)
+		formfieldTo.FormFieldDateTime = GongCopyBranchFormFieldDateTime(mapOrigCopy, formfieldFrom.FormFieldDateTime)
 	}
 	if formfieldFrom.FormFieldSelect != nil {
-		formfieldTo.FormFieldSelect = CopyBranchFormFieldSelect(mapOrigCopy, formfieldFrom.FormFieldSelect)
+		formfieldTo.FormFieldSelect = GongCopyBranchFormFieldSelect(mapOrigCopy, formfieldFrom.FormFieldSelect)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -707,7 +651,7 @@ func CopyBranchFormField(mapOrigCopy map[any]any, formfieldFrom *FormField) (for
 	return
 }
 
-func CopyBranchFormFieldDate(mapOrigCopy map[any]any, formfielddateFrom *FormFieldDate) (formfielddateTo *FormFieldDate) {
+func GongCopyBranchFormFieldDate(mapOrigCopy map[any]any, formfielddateFrom *FormFieldDate) (formfielddateTo *FormFieldDate) {
 
 	// formfielddateFrom has already been copied
 	if _formfielddateTo, ok := mapOrigCopy[formfielddateFrom]; ok {
@@ -717,7 +661,7 @@ func CopyBranchFormFieldDate(mapOrigCopy map[any]any, formfielddateFrom *FormFie
 
 	formfielddateTo = new(FormFieldDate)
 	mapOrigCopy[formfielddateFrom] = formfielddateTo
-	formfielddateFrom.CopyBasicFields(formfielddateTo)
+	formfielddateFrom.GongCopyBasicFields(formfielddateTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -726,7 +670,7 @@ func CopyBranchFormFieldDate(mapOrigCopy map[any]any, formfielddateFrom *FormFie
 	return
 }
 
-func CopyBranchFormFieldDateTime(mapOrigCopy map[any]any, formfielddatetimeFrom *FormFieldDateTime) (formfielddatetimeTo *FormFieldDateTime) {
+func GongCopyBranchFormFieldDateTime(mapOrigCopy map[any]any, formfielddatetimeFrom *FormFieldDateTime) (formfielddatetimeTo *FormFieldDateTime) {
 
 	// formfielddatetimeFrom has already been copied
 	if _formfielddatetimeTo, ok := mapOrigCopy[formfielddatetimeFrom]; ok {
@@ -736,7 +680,7 @@ func CopyBranchFormFieldDateTime(mapOrigCopy map[any]any, formfielddatetimeFrom 
 
 	formfielddatetimeTo = new(FormFieldDateTime)
 	mapOrigCopy[formfielddatetimeFrom] = formfielddatetimeTo
-	formfielddatetimeFrom.CopyBasicFields(formfielddatetimeTo)
+	formfielddatetimeFrom.GongCopyBasicFields(formfielddatetimeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -745,7 +689,7 @@ func CopyBranchFormFieldDateTime(mapOrigCopy map[any]any, formfielddatetimeFrom 
 	return
 }
 
-func CopyBranchFormFieldFloat64(mapOrigCopy map[any]any, formfieldfloat64From *FormFieldFloat64) (formfieldfloat64To *FormFieldFloat64) {
+func GongCopyBranchFormFieldFloat64(mapOrigCopy map[any]any, formfieldfloat64From *FormFieldFloat64) (formfieldfloat64To *FormFieldFloat64) {
 
 	// formfieldfloat64From has already been copied
 	if _formfieldfloat64To, ok := mapOrigCopy[formfieldfloat64From]; ok {
@@ -755,7 +699,7 @@ func CopyBranchFormFieldFloat64(mapOrigCopy map[any]any, formfieldfloat64From *F
 
 	formfieldfloat64To = new(FormFieldFloat64)
 	mapOrigCopy[formfieldfloat64From] = formfieldfloat64To
-	formfieldfloat64From.CopyBasicFields(formfieldfloat64To)
+	formfieldfloat64From.GongCopyBasicFields(formfieldfloat64To)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -764,7 +708,7 @@ func CopyBranchFormFieldFloat64(mapOrigCopy map[any]any, formfieldfloat64From *F
 	return
 }
 
-func CopyBranchFormFieldInt(mapOrigCopy map[any]any, formfieldintFrom *FormFieldInt) (formfieldintTo *FormFieldInt) {
+func GongCopyBranchFormFieldInt(mapOrigCopy map[any]any, formfieldintFrom *FormFieldInt) (formfieldintTo *FormFieldInt) {
 
 	// formfieldintFrom has already been copied
 	if _formfieldintTo, ok := mapOrigCopy[formfieldintFrom]; ok {
@@ -774,7 +718,7 @@ func CopyBranchFormFieldInt(mapOrigCopy map[any]any, formfieldintFrom *FormField
 
 	formfieldintTo = new(FormFieldInt)
 	mapOrigCopy[formfieldintFrom] = formfieldintTo
-	formfieldintFrom.CopyBasicFields(formfieldintTo)
+	formfieldintFrom.GongCopyBasicFields(formfieldintTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -783,7 +727,7 @@ func CopyBranchFormFieldInt(mapOrigCopy map[any]any, formfieldintFrom *FormField
 	return
 }
 
-func CopyBranchFormFieldSelect(mapOrigCopy map[any]any, formfieldselectFrom *FormFieldSelect) (formfieldselectTo *FormFieldSelect) {
+func GongCopyBranchFormFieldSelect(mapOrigCopy map[any]any, formfieldselectFrom *FormFieldSelect) (formfieldselectTo *FormFieldSelect) {
 
 	// formfieldselectFrom has already been copied
 	if _formfieldselectTo, ok := mapOrigCopy[formfieldselectFrom]; ok {
@@ -793,22 +737,22 @@ func CopyBranchFormFieldSelect(mapOrigCopy map[any]any, formfieldselectFrom *For
 
 	formfieldselectTo = new(FormFieldSelect)
 	mapOrigCopy[formfieldselectFrom] = formfieldselectTo
-	formfieldselectFrom.CopyBasicFields(formfieldselectTo)
+	formfieldselectFrom.GongCopyBasicFields(formfieldselectTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if formfieldselectFrom.Value != nil {
-		formfieldselectTo.Value = CopyBranchOption(mapOrigCopy, formfieldselectFrom.Value)
+		formfieldselectTo.Value = GongCopyBranchOption(mapOrigCopy, formfieldselectFrom.Value)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _option := range formfieldselectFrom.Options {
-		formfieldselectTo.Options = append(formfieldselectTo.Options, CopyBranchOption(mapOrigCopy, _option))
+		formfieldselectTo.Options = append(formfieldselectTo.Options, GongCopyBranchOption(mapOrigCopy, _option))
 	}
 
 	return
 }
 
-func CopyBranchFormFieldString(mapOrigCopy map[any]any, formfieldstringFrom *FormFieldString) (formfieldstringTo *FormFieldString) {
+func GongCopyBranchFormFieldString(mapOrigCopy map[any]any, formfieldstringFrom *FormFieldString) (formfieldstringTo *FormFieldString) {
 
 	// formfieldstringFrom has already been copied
 	if _formfieldstringTo, ok := mapOrigCopy[formfieldstringFrom]; ok {
@@ -818,7 +762,7 @@ func CopyBranchFormFieldString(mapOrigCopy map[any]any, formfieldstringFrom *For
 
 	formfieldstringTo = new(FormFieldString)
 	mapOrigCopy[formfieldstringFrom] = formfieldstringTo
-	formfieldstringFrom.CopyBasicFields(formfieldstringTo)
+	formfieldstringFrom.GongCopyBasicFields(formfieldstringTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -827,7 +771,7 @@ func CopyBranchFormFieldString(mapOrigCopy map[any]any, formfieldstringFrom *For
 	return
 }
 
-func CopyBranchFormFieldTime(mapOrigCopy map[any]any, formfieldtimeFrom *FormFieldTime) (formfieldtimeTo *FormFieldTime) {
+func GongCopyBranchFormFieldTime(mapOrigCopy map[any]any, formfieldtimeFrom *FormFieldTime) (formfieldtimeTo *FormFieldTime) {
 
 	// formfieldtimeFrom has already been copied
 	if _formfieldtimeTo, ok := mapOrigCopy[formfieldtimeFrom]; ok {
@@ -837,7 +781,7 @@ func CopyBranchFormFieldTime(mapOrigCopy map[any]any, formfieldtimeFrom *FormFie
 
 	formfieldtimeTo = new(FormFieldTime)
 	mapOrigCopy[formfieldtimeFrom] = formfieldtimeTo
-	formfieldtimeFrom.CopyBasicFields(formfieldtimeTo)
+	formfieldtimeFrom.GongCopyBasicFields(formfieldtimeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -846,7 +790,7 @@ func CopyBranchFormFieldTime(mapOrigCopy map[any]any, formfieldtimeFrom *FormFie
 	return
 }
 
-func CopyBranchFormGroup(mapOrigCopy map[any]any, formgroupFrom *FormGroup) (formgroupTo *FormGroup) {
+func GongCopyBranchFormGroup(mapOrigCopy map[any]any, formgroupFrom *FormGroup) (formgroupTo *FormGroup) {
 
 	// formgroupFrom has already been copied
 	if _formgroupTo, ok := mapOrigCopy[formgroupFrom]; ok {
@@ -856,19 +800,19 @@ func CopyBranchFormGroup(mapOrigCopy map[any]any, formgroupFrom *FormGroup) (for
 
 	formgroupTo = new(FormGroup)
 	mapOrigCopy[formgroupFrom] = formgroupTo
-	formgroupFrom.CopyBasicFields(formgroupTo)
+	formgroupFrom.GongCopyBasicFields(formgroupTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formdiv := range formgroupFrom.FormDivs {
-		formgroupTo.FormDivs = append(formgroupTo.FormDivs, CopyBranchFormDiv(mapOrigCopy, _formdiv))
+		formgroupTo.FormDivs = append(formgroupTo.FormDivs, GongCopyBranchFormDiv(mapOrigCopy, _formdiv))
 	}
 
 	return
 }
 
-func CopyBranchFormSortAssocButton(mapOrigCopy map[any]any, formsortassocbuttonFrom *FormSortAssocButton) (formsortassocbuttonTo *FormSortAssocButton) {
+func GongCopyBranchFormSortAssocButton(mapOrigCopy map[any]any, formsortassocbuttonFrom *FormSortAssocButton) (formsortassocbuttonTo *FormSortAssocButton) {
 
 	// formsortassocbuttonFrom has already been copied
 	if _formsortassocbuttonTo, ok := mapOrigCopy[formsortassocbuttonFrom]; ok {
@@ -878,11 +822,11 @@ func CopyBranchFormSortAssocButton(mapOrigCopy map[any]any, formsortassocbuttonF
 
 	formsortassocbuttonTo = new(FormSortAssocButton)
 	mapOrigCopy[formsortassocbuttonFrom] = formsortassocbuttonTo
-	formsortassocbuttonFrom.CopyBasicFields(formsortassocbuttonTo)
+	formsortassocbuttonFrom.GongCopyBasicFields(formsortassocbuttonTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if formsortassocbuttonFrom.FormEditAssocButton != nil {
-		formsortassocbuttonTo.FormEditAssocButton = CopyBranchFormEditAssocButton(mapOrigCopy, formsortassocbuttonFrom.FormEditAssocButton)
+		formsortassocbuttonTo.FormEditAssocButton = GongCopyBranchFormEditAssocButton(mapOrigCopy, formsortassocbuttonFrom.FormEditAssocButton)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -890,7 +834,7 @@ func CopyBranchFormSortAssocButton(mapOrigCopy map[any]any, formsortassocbuttonF
 	return
 }
 
-func CopyBranchOption(mapOrigCopy map[any]any, optionFrom *Option) (optionTo *Option) {
+func GongCopyBranchOption(mapOrigCopy map[any]any, optionFrom *Option) (optionTo *Option) {
 
 	// optionFrom has already been copied
 	if _optionTo, ok := mapOrigCopy[optionFrom]; ok {
@@ -900,7 +844,7 @@ func CopyBranchOption(mapOrigCopy map[any]any, optionFrom *Option) (optionTo *Op
 
 	optionTo = new(Option)
 	mapOrigCopy[optionFrom] = optionTo
-	optionFrom.CopyBasicFields(optionTo)
+	optionFrom.GongCopyBasicFields(optionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -965,16 +909,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchCheckBox(checkbox *CheckBox) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, checkbox) {
+	if !stage.IsStaged(checkbox) {
 		return
 	}
 
@@ -989,7 +928,7 @@ func (stage *Stage) UnstageBranchCheckBox(checkbox *CheckBox) {
 func (stage *Stage) UnstageBranchFormDiv(formdiv *FormDiv) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formdiv) {
+	if !stage.IsStaged(formdiv) {
 		return
 	}
 
@@ -997,18 +936,18 @@ func (stage *Stage) UnstageBranchFormDiv(formdiv *FormDiv) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if formdiv.FormEditAssocButton != nil {
-		UnstageBranch(stage, formdiv.FormEditAssocButton)
+		stage.UnstageBranch(formdiv.FormEditAssocButton)
 	}
 	if formdiv.FormSortAssocButton != nil {
-		UnstageBranch(stage, formdiv.FormSortAssocButton)
+		stage.UnstageBranch(formdiv.FormSortAssocButton)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formfield := range formdiv.FormFields {
-		UnstageBranch(stage, _formfield)
+		stage.UnstageBranch(_formfield)
 	}
 	for _, _checkbox := range formdiv.CheckBoxs {
-		UnstageBranch(stage, _checkbox)
+		stage.UnstageBranch(_checkbox)
 	}
 
 }
@@ -1016,7 +955,7 @@ func (stage *Stage) UnstageBranchFormDiv(formdiv *FormDiv) {
 func (stage *Stage) UnstageBranchFormEditAssocButton(formeditassocbutton *FormEditAssocButton) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formeditassocbutton) {
+	if !stage.IsStaged(formeditassocbutton) {
 		return
 	}
 
@@ -1031,7 +970,7 @@ func (stage *Stage) UnstageBranchFormEditAssocButton(formeditassocbutton *FormEd
 func (stage *Stage) UnstageBranchFormField(formfield *FormField) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formfield) {
+	if !stage.IsStaged(formfield) {
 		return
 	}
 
@@ -1039,25 +978,25 @@ func (stage *Stage) UnstageBranchFormField(formfield *FormField) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if formfield.FormFieldString != nil {
-		UnstageBranch(stage, formfield.FormFieldString)
+		stage.UnstageBranch(formfield.FormFieldString)
 	}
 	if formfield.FormFieldFloat64 != nil {
-		UnstageBranch(stage, formfield.FormFieldFloat64)
+		stage.UnstageBranch(formfield.FormFieldFloat64)
 	}
 	if formfield.FormFieldInt != nil {
-		UnstageBranch(stage, formfield.FormFieldInt)
+		stage.UnstageBranch(formfield.FormFieldInt)
 	}
 	if formfield.FormFieldDate != nil {
-		UnstageBranch(stage, formfield.FormFieldDate)
+		stage.UnstageBranch(formfield.FormFieldDate)
 	}
 	if formfield.FormFieldTime != nil {
-		UnstageBranch(stage, formfield.FormFieldTime)
+		stage.UnstageBranch(formfield.FormFieldTime)
 	}
 	if formfield.FormFieldDateTime != nil {
-		UnstageBranch(stage, formfield.FormFieldDateTime)
+		stage.UnstageBranch(formfield.FormFieldDateTime)
 	}
 	if formfield.FormFieldSelect != nil {
-		UnstageBranch(stage, formfield.FormFieldSelect)
+		stage.UnstageBranch(formfield.FormFieldSelect)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1067,7 +1006,7 @@ func (stage *Stage) UnstageBranchFormField(formfield *FormField) {
 func (stage *Stage) UnstageBranchFormFieldDate(formfielddate *FormFieldDate) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formfielddate) {
+	if !stage.IsStaged(formfielddate) {
 		return
 	}
 
@@ -1082,7 +1021,7 @@ func (stage *Stage) UnstageBranchFormFieldDate(formfielddate *FormFieldDate) {
 func (stage *Stage) UnstageBranchFormFieldDateTime(formfielddatetime *FormFieldDateTime) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formfielddatetime) {
+	if !stage.IsStaged(formfielddatetime) {
 		return
 	}
 
@@ -1097,7 +1036,7 @@ func (stage *Stage) UnstageBranchFormFieldDateTime(formfielddatetime *FormFieldD
 func (stage *Stage) UnstageBranchFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formfieldfloat64) {
+	if !stage.IsStaged(formfieldfloat64) {
 		return
 	}
 
@@ -1112,7 +1051,7 @@ func (stage *Stage) UnstageBranchFormFieldFloat64(formfieldfloat64 *FormFieldFlo
 func (stage *Stage) UnstageBranchFormFieldInt(formfieldint *FormFieldInt) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formfieldint) {
+	if !stage.IsStaged(formfieldint) {
 		return
 	}
 
@@ -1127,7 +1066,7 @@ func (stage *Stage) UnstageBranchFormFieldInt(formfieldint *FormFieldInt) {
 func (stage *Stage) UnstageBranchFormFieldSelect(formfieldselect *FormFieldSelect) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formfieldselect) {
+	if !stage.IsStaged(formfieldselect) {
 		return
 	}
 
@@ -1135,12 +1074,12 @@ func (stage *Stage) UnstageBranchFormFieldSelect(formfieldselect *FormFieldSelec
 
 	//insertion point for the staging of instances referenced by pointers
 	if formfieldselect.Value != nil {
-		UnstageBranch(stage, formfieldselect.Value)
+		stage.UnstageBranch(formfieldselect.Value)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _option := range formfieldselect.Options {
-		UnstageBranch(stage, _option)
+		stage.UnstageBranch(_option)
 	}
 
 }
@@ -1148,7 +1087,7 @@ func (stage *Stage) UnstageBranchFormFieldSelect(formfieldselect *FormFieldSelec
 func (stage *Stage) UnstageBranchFormFieldString(formfieldstring *FormFieldString) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formfieldstring) {
+	if !stage.IsStaged(formfieldstring) {
 		return
 	}
 
@@ -1163,7 +1102,7 @@ func (stage *Stage) UnstageBranchFormFieldString(formfieldstring *FormFieldStrin
 func (stage *Stage) UnstageBranchFormFieldTime(formfieldtime *FormFieldTime) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formfieldtime) {
+	if !stage.IsStaged(formfieldtime) {
 		return
 	}
 
@@ -1178,7 +1117,7 @@ func (stage *Stage) UnstageBranchFormFieldTime(formfieldtime *FormFieldTime) {
 func (stage *Stage) UnstageBranchFormGroup(formgroup *FormGroup) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formgroup) {
+	if !stage.IsStaged(formgroup) {
 		return
 	}
 
@@ -1188,7 +1127,7 @@ func (stage *Stage) UnstageBranchFormGroup(formgroup *FormGroup) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formdiv := range formgroup.FormDivs {
-		UnstageBranch(stage, _formdiv)
+		stage.UnstageBranch(_formdiv)
 	}
 
 }
@@ -1196,7 +1135,7 @@ func (stage *Stage) UnstageBranchFormGroup(formgroup *FormGroup) {
 func (stage *Stage) UnstageBranchFormSortAssocButton(formsortassocbutton *FormSortAssocButton) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, formsortassocbutton) {
+	if !stage.IsStaged(formsortassocbutton) {
 		return
 	}
 
@@ -1204,7 +1143,7 @@ func (stage *Stage) UnstageBranchFormSortAssocButton(formsortassocbutton *FormSo
 
 	//insertion point for the staging of instances referenced by pointers
 	if formsortassocbutton.FormEditAssocButton != nil {
-		UnstageBranch(stage, formsortassocbutton.FormEditAssocButton)
+		stage.UnstageBranch(formsortassocbutton.FormEditAssocButton)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1214,7 +1153,7 @@ func (stage *Stage) UnstageBranchFormSortAssocButton(formsortassocbutton *FormSo
 func (stage *Stage) UnstageBranchOption(option *Option) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, option) {
+	if !stage.IsStaged(option) {
 		return
 	}
 
@@ -1551,7 +1490,7 @@ func (formdiv *FormDiv) GongDiff(stage *Stage, formdivOther *FormDiv) (diffs []s
 		}
 	}
 	if FormFieldsDifferent {
-		ops := Diff(stage, formdiv, formdivOther, "FormFields", formdivOther.FormFields, formdiv.FormFields)
+		ops := stage.Diff(formdiv, formdivOther, "FormFields", formdivOther.FormFields, formdiv.FormFields)
 		diffs = append(diffs, ops)
 	}
 	CheckBoxsDifferent := false
@@ -1572,7 +1511,7 @@ func (formdiv *FormDiv) GongDiff(stage *Stage, formdivOther *FormDiv) (diffs []s
 		}
 	}
 	if CheckBoxsDifferent {
-		ops := Diff(stage, formdiv, formdivOther, "CheckBoxs", formdivOther.CheckBoxs, formdiv.CheckBoxs)
+		ops := stage.Diff(formdiv, formdivOther, "CheckBoxs", formdivOther.CheckBoxs, formdiv.CheckBoxs)
 		diffs = append(diffs, ops)
 	}
 	if (formdiv.FormEditAssocButton == nil) != (formdivOther.FormEditAssocButton == nil) {
@@ -1830,7 +1769,7 @@ func (formfieldselect *FormFieldSelect) GongDiff(stage *Stage, formfieldselectOt
 		}
 	}
 	if OptionsDifferent {
-		ops := Diff(stage, formfieldselect, formfieldselectOther, "Options", formfieldselectOther.Options, formfieldselect.Options)
+		ops := stage.Diff(formfieldselect, formfieldselectOther, "Options", formfieldselectOther.Options, formfieldselect.Options)
 		diffs = append(diffs, ops)
 	}
 	if formfieldselect.CanBeEmpty != formfieldselectOther.CanBeEmpty {
@@ -1908,7 +1847,7 @@ func (formgroup *FormGroup) GongDiff(stage *Stage, formgroupOther *FormGroup) (d
 		}
 	}
 	if FormDivsDifferent {
-		ops := Diff(stage, formgroup, formgroupOther, "FormDivs", formgroupOther.FormDivs, formgroup.FormDivs)
+		ops := stage.Diff(formgroup, formgroupOther, "FormDivs", formgroupOther.FormDivs, formgroup.FormDivs)
 		diffs = append(diffs, ops)
 	}
 	if formgroup.HasSuppressButton != formgroupOther.HasSuppressButton {
@@ -2036,9 +1975,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

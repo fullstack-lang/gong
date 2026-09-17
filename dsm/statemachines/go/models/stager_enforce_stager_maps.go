@@ -21,7 +21,7 @@ func (stager *Stager) enforceStagerMaps() {
 	}
 
 	// Map objects to state machines and start states
-	map_State_Objects := stager.stage.GetPointerReverseMap[Object, State](GetAssociationName[Object]().State.Name)
+	map_State_Objects := stager.stage.GetPointerReverseMap[Object, State](GongGetAssociationName[Object]().State.Name)
 	for _, stateMachine := range stager.stage.GetInstancesSorted[*StateMachine]() {
 		stager.map_stateMachine_objects[stateMachine] = []*Object{}
 
@@ -36,7 +36,7 @@ func (stager *Stager) enforceStagerMaps() {
 	}
 
 	// Map states to their state machines & populate state.Diagrams
-	map_State_StateMachines := GetSliceOfPointersReverseMap[StateMachine, State](GetAssociationName[StateMachine]().States[0].Name, stager.stage)
+	map_State_StateMachines := stager.stage.GetSliceOfPointersReverseMap[StateMachine, State](GongGetAssociationName[StateMachine]().States[0].Name)
 	for _, state := range stager.stage.GetInstancesSorted[*State]() {
 		if stateMachines, ok := map_State_StateMachines[state]; ok && len(stateMachines) > 0 {
 			stager.map_state_stateMachine[state] = stateMachines[0]
@@ -58,7 +58,7 @@ func (stager *Stager) enforceStagerMaps() {
 	}
 
 	// Map diagrams to their state machines
-	map_diagram_StateMachines := GetSliceOfPointersReverseMap[StateMachine, Diagram](GetAssociationName[StateMachine]().Diagrams[0].Name, stager.stage)
+	map_diagram_StateMachines := stager.stage.GetSliceOfPointersReverseMap[StateMachine, Diagram](GongGetAssociationName[StateMachine]().Diagrams[0].Name)
 	for _, diagram := range stager.stage.GetInstancesSorted[*Diagram]() {
 		if stateMachines, ok := map_diagram_StateMachines[diagram]; ok && len(stateMachines) > 0 {
 			stager.map_diagram_stateMachine[diagram] = stateMachines[0]

@@ -110,11 +110,11 @@ func ExampleOfReverseMapAccess(stage *Stage) {
 
 	// getting the reverse map of the association [Astruct.Anarrayofb]
 	// it returns a map of Bstruct instances to slices of Astruct instances
-	rm := GetSliceOfPointersReverseMap[Astruct, Bstruct](GetAssociationName[Astruct]().Anarrayofb[0].Name, stage)
+	rm := stage.GetSliceOfPointersReverseMap[Astruct, Bstruct](GongGetAssociationName[Astruct]().Anarrayofb[0].Name)
 	_ = rm
 
 	// ifem for [Astruct.Bstruct]
-	rm2 := stage.GetPointerReverseMap[Astruct, Bstruct](GetAssociationName[Astruct]().Bstruct.Name)
+	rm2 := stage.GetPointerReverseMap[Astruct, Bstruct](GongGetAssociationName[Astruct]().Bstruct.Name)
 	_ = rm2
 	//
 }

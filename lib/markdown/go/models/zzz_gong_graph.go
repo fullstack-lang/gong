@@ -26,32 +26,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Content:
-		ok = stage.IsStagedContent(target)
-
-	case *JpgImage:
-		ok = stage.IsStagedJpgImage(target)
-
-	case *PngImage:
-		ok = stage.IsStagedPngImage(target)
-
-	case *SvgImage:
-		ok = stage.IsStagedSvgImage(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedContent(content *Content) (ok bool) {
 
@@ -112,7 +86,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchContent(content *Content) {
 
 	// check if instance is already staged
-	if IsStaged(stage, content) {
+	if stage.IsStaged(content) {
 		return
 	}
 
@@ -127,7 +101,7 @@ func (stage *Stage) StageBranchContent(content *Content) {
 func (stage *Stage) StageBranchJpgImage(jpgimage *JpgImage) {
 
 	// check if instance is already staged
-	if IsStaged(stage, jpgimage) {
+	if stage.IsStaged(jpgimage) {
 		return
 	}
 
@@ -142,7 +116,7 @@ func (stage *Stage) StageBranchJpgImage(jpgimage *JpgImage) {
 func (stage *Stage) StageBranchPngImage(pngimage *PngImage) {
 
 	// check if instance is already staged
-	if IsStaged(stage, pngimage) {
+	if stage.IsStaged(pngimage) {
 		return
 	}
 
@@ -157,7 +131,7 @@ func (stage *Stage) StageBranchPngImage(pngimage *PngImage) {
 func (stage *Stage) StageBranchSvgImage(svgimage *SvgImage) {
 
 	// check if instance is already staged
-	if IsStaged(stage, svgimage) {
+	if stage.IsStaged(svgimage) {
 		return
 	}
 
@@ -169,11 +143,11 @@ func (stage *Stage) StageBranchSvgImage(svgimage *SvgImage) {
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -181,19 +155,19 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *Content:
-		toT := CopyBranchContent(mapOrigCopy, fromT)
+		toT := GongCopyBranchContent(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *JpgImage:
-		toT := CopyBranchJpgImage(mapOrigCopy, fromT)
+		toT := GongCopyBranchJpgImage(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *PngImage:
-		toT := CopyBranchPngImage(mapOrigCopy, fromT)
+		toT := GongCopyBranchPngImage(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *SvgImage:
-		toT := CopyBranchSvgImage(mapOrigCopy, fromT)
+		toT := GongCopyBranchSvgImage(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -203,7 +177,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchContent(mapOrigCopy map[any]any, contentFrom *Content) (contentTo *Content) {
+func GongCopyBranchContent(mapOrigCopy map[any]any, contentFrom *Content) (contentTo *Content) {
 
 	// contentFrom has already been copied
 	if _contentTo, ok := mapOrigCopy[contentFrom]; ok {
@@ -213,7 +187,7 @@ func CopyBranchContent(mapOrigCopy map[any]any, contentFrom *Content) (contentTo
 
 	contentTo = new(Content)
 	mapOrigCopy[contentFrom] = contentTo
-	contentFrom.CopyBasicFields(contentTo)
+	contentFrom.GongCopyBasicFields(contentTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -222,7 +196,7 @@ func CopyBranchContent(mapOrigCopy map[any]any, contentFrom *Content) (contentTo
 	return
 }
 
-func CopyBranchJpgImage(mapOrigCopy map[any]any, jpgimageFrom *JpgImage) (jpgimageTo *JpgImage) {
+func GongCopyBranchJpgImage(mapOrigCopy map[any]any, jpgimageFrom *JpgImage) (jpgimageTo *JpgImage) {
 
 	// jpgimageFrom has already been copied
 	if _jpgimageTo, ok := mapOrigCopy[jpgimageFrom]; ok {
@@ -232,7 +206,7 @@ func CopyBranchJpgImage(mapOrigCopy map[any]any, jpgimageFrom *JpgImage) (jpgima
 
 	jpgimageTo = new(JpgImage)
 	mapOrigCopy[jpgimageFrom] = jpgimageTo
-	jpgimageFrom.CopyBasicFields(jpgimageTo)
+	jpgimageFrom.GongCopyBasicFields(jpgimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -241,7 +215,7 @@ func CopyBranchJpgImage(mapOrigCopy map[any]any, jpgimageFrom *JpgImage) (jpgima
 	return
 }
 
-func CopyBranchPngImage(mapOrigCopy map[any]any, pngimageFrom *PngImage) (pngimageTo *PngImage) {
+func GongCopyBranchPngImage(mapOrigCopy map[any]any, pngimageFrom *PngImage) (pngimageTo *PngImage) {
 
 	// pngimageFrom has already been copied
 	if _pngimageTo, ok := mapOrigCopy[pngimageFrom]; ok {
@@ -251,7 +225,7 @@ func CopyBranchPngImage(mapOrigCopy map[any]any, pngimageFrom *PngImage) (pngima
 
 	pngimageTo = new(PngImage)
 	mapOrigCopy[pngimageFrom] = pngimageTo
-	pngimageFrom.CopyBasicFields(pngimageTo)
+	pngimageFrom.GongCopyBasicFields(pngimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -260,7 +234,7 @@ func CopyBranchPngImage(mapOrigCopy map[any]any, pngimageFrom *PngImage) (pngima
 	return
 }
 
-func CopyBranchSvgImage(mapOrigCopy map[any]any, svgimageFrom *SvgImage) (svgimageTo *SvgImage) {
+func GongCopyBranchSvgImage(mapOrigCopy map[any]any, svgimageFrom *SvgImage) (svgimageTo *SvgImage) {
 
 	// svgimageFrom has already been copied
 	if _svgimageTo, ok := mapOrigCopy[svgimageFrom]; ok {
@@ -270,7 +244,7 @@ func CopyBranchSvgImage(mapOrigCopy map[any]any, svgimageFrom *SvgImage) (svgima
 
 	svgimageTo = new(SvgImage)
 	mapOrigCopy[svgimageFrom] = svgimageTo
-	svgimageFrom.CopyBasicFields(svgimageTo)
+	svgimageFrom.GongCopyBasicFields(svgimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -305,16 +279,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchContent(content *Content) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, content) {
+	if !stage.IsStaged(content) {
 		return
 	}
 
@@ -329,7 +298,7 @@ func (stage *Stage) UnstageBranchContent(content *Content) {
 func (stage *Stage) UnstageBranchJpgImage(jpgimage *JpgImage) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, jpgimage) {
+	if !stage.IsStaged(jpgimage) {
 		return
 	}
 
@@ -344,7 +313,7 @@ func (stage *Stage) UnstageBranchJpgImage(jpgimage *JpgImage) {
 func (stage *Stage) UnstageBranchPngImage(pngimage *PngImage) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, pngimage) {
+	if !stage.IsStaged(pngimage) {
 		return
 	}
 
@@ -359,7 +328,7 @@ func (stage *Stage) UnstageBranchPngImage(pngimage *PngImage) {
 func (stage *Stage) UnstageBranchSvgImage(svgimage *SvgImage) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, svgimage) {
+	if !stage.IsStaged(svgimage) {
 		return
 	}
 
@@ -544,9 +513,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

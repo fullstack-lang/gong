@@ -99,7 +99,7 @@ func NewLevel1StackDelta(
 	}
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -124,17 +124,17 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.GongBasicField](stage)
-	models.SetOrchestratorOnAfterUpdate[models.GongEnum](stage)
-	models.SetOrchestratorOnAfterUpdate[models.GongEnumValue](stage)
-	models.SetOrchestratorOnAfterUpdate[models.GongLink](stage)
-	models.SetOrchestratorOnAfterUpdate[models.GongNote](stage)
-	models.SetOrchestratorOnAfterUpdate[models.GongStruct](stage)
-	models.SetOrchestratorOnAfterUpdate[models.GongTimeField](stage)
-	models.SetOrchestratorOnAfterUpdate[models.MetaReference](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ModelPkg](stage)
-	models.SetOrchestratorOnAfterUpdate[models.PointerToGongStructField](stage)
-	models.SetOrchestratorOnAfterUpdate[models.SliceOfPointerToGongStructField](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.GongBasicField]()
+	stage.SetOrchestratorOnAfterUpdate[models.GongEnum]()
+	stage.SetOrchestratorOnAfterUpdate[models.GongEnumValue]()
+	stage.SetOrchestratorOnAfterUpdate[models.GongLink]()
+	stage.SetOrchestratorOnAfterUpdate[models.GongNote]()
+	stage.SetOrchestratorOnAfterUpdate[models.GongStruct]()
+	stage.SetOrchestratorOnAfterUpdate[models.GongTimeField]()
+	stage.SetOrchestratorOnAfterUpdate[models.MetaReference]()
+	stage.SetOrchestratorOnAfterUpdate[models.ModelPkg]()
+	stage.SetOrchestratorOnAfterUpdate[models.PointerToGongStructField]()
+	stage.SetOrchestratorOnAfterUpdate[models.SliceOfPointerToGongStructField]()
 
 	return
 }

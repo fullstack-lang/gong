@@ -96,7 +96,7 @@ Ce site web statique présente l'analyse des besoins pour l'outil du référenti
 			log.Println("Error creating temp file for Excel export:", err)
 		} else {
 			defer os.Remove(tempFile.Name())
-			SerializeStage2(stager.stage, tempFile.Name(), false)
+			stager.stage.SerializeStage2(tempFile.Name(), false)
 
 			content, err := os.ReadFile(tempFile.Name())
 			if err != nil {

@@ -35,41 +35,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Astruct:
-		ok = stage.IsStagedAstruct(target)
-
-	case *AstructBstruct2Use:
-		ok = stage.IsStagedAstructBstruct2Use(target)
-
-	case *AstructBstructUse:
-		ok = stage.IsStagedAstructBstructUse(target)
-
-	case *Bstruct:
-		ok = stage.IsStagedBstruct(target)
-
-	case *Dstruct:
-		ok = stage.IsStagedDstruct(target)
-
-	case *F0123456789012345678901234567890:
-		ok = stage.IsStagedF0123456789012345678901234567890(target)
-
-	case *Gstruct:
-		ok = stage.IsStagedGstruct(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedAstruct(astruct *Astruct) (ok bool) {
 
@@ -160,7 +125,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchAstruct(astruct *Astruct) {
 
 	// check if instance is already staged
-	if IsStaged(stage, astruct) {
+	if stage.IsStaged(astruct) {
 		return
 	}
 
@@ -168,51 +133,51 @@ func (stage *Stage) StageBranchAstruct(astruct *Astruct) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if astruct.Associationtob != nil {
-		StageBranch(stage, astruct.Associationtob)
+		stage.StageBranch(astruct.Associationtob)
 	}
 	if astruct.Anotherassociationtob_2 != nil {
-		StageBranch(stage, astruct.Anotherassociationtob_2)
+		stage.StageBranch(astruct.Anotherassociationtob_2)
 	}
 	if astruct.Bstruct != nil {
-		StageBranch(stage, astruct.Bstruct)
+		stage.StageBranch(astruct.Bstruct)
 	}
 	if astruct.Bstruct2 != nil {
-		StageBranch(stage, astruct.Bstruct2)
+		stage.StageBranch(astruct.Bstruct2)
 	}
 	if astruct.Dstruct != nil {
-		StageBranch(stage, astruct.Dstruct)
+		stage.StageBranch(astruct.Dstruct)
 	}
 	if astruct.Dstruct2 != nil {
-		StageBranch(stage, astruct.Dstruct2)
+		stage.StageBranch(astruct.Dstruct2)
 	}
 	if astruct.Dstruct3 != nil {
-		StageBranch(stage, astruct.Dstruct3)
+		stage.StageBranch(astruct.Dstruct3)
 	}
 	if astruct.Dstruct4 != nil {
-		StageBranch(stage, astruct.Dstruct4)
+		stage.StageBranch(astruct.Dstruct4)
 	}
 	if astruct.AnAstruct != nil {
-		StageBranch(stage, astruct.AnAstruct)
+		stage.StageBranch(astruct.AnAstruct)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bstruct := range astruct.Anarrayofb {
-		StageBranch(stage, _bstruct)
+		stage.StageBranch(_bstruct)
 	}
 	for _, _dstruct := range astruct.Dstruct4s {
-		StageBranch(stage, _dstruct)
+		stage.StageBranch(_dstruct)
 	}
 	for _, _astruct := range astruct.Anarrayofa {
-		StageBranch(stage, _astruct)
+		stage.StageBranch(_astruct)
 	}
 	for _, _bstruct := range astruct.Anotherarrayofb {
-		StageBranch(stage, _bstruct)
+		stage.StageBranch(_bstruct)
 	}
 	for _, _astructbstructuse := range astruct.AnarrayofbUse {
-		StageBranch(stage, _astructbstructuse)
+		stage.StageBranch(_astructbstructuse)
 	}
 	for _, _astructbstruct2use := range astruct.Anarrayofb2Use {
-		StageBranch(stage, _astructbstruct2use)
+		stage.StageBranch(_astructbstruct2use)
 	}
 
 }
@@ -220,7 +185,7 @@ func (stage *Stage) StageBranchAstruct(astruct *Astruct) {
 func (stage *Stage) StageBranchAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
 
 	// check if instance is already staged
-	if IsStaged(stage, astructbstruct2use) {
+	if stage.IsStaged(astructbstruct2use) {
 		return
 	}
 
@@ -228,7 +193,7 @@ func (stage *Stage) StageBranchAstructBstruct2Use(astructbstruct2use *AstructBst
 
 	//insertion point for the staging of instances referenced by pointers
 	if astructbstruct2use.Bstrcut2 != nil {
-		StageBranch(stage, astructbstruct2use.Bstrcut2)
+		stage.StageBranch(astructbstruct2use.Bstrcut2)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -238,7 +203,7 @@ func (stage *Stage) StageBranchAstructBstruct2Use(astructbstruct2use *AstructBst
 func (stage *Stage) StageBranchAstructBstructUse(astructbstructuse *AstructBstructUse) {
 
 	// check if instance is already staged
-	if IsStaged(stage, astructbstructuse) {
+	if stage.IsStaged(astructbstructuse) {
 		return
 	}
 
@@ -246,7 +211,7 @@ func (stage *Stage) StageBranchAstructBstructUse(astructbstructuse *AstructBstru
 
 	//insertion point for the staging of instances referenced by pointers
 	if astructbstructuse.Bstruct2 != nil {
-		StageBranch(stage, astructbstructuse.Bstruct2)
+		stage.StageBranch(astructbstructuse.Bstruct2)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -256,7 +221,7 @@ func (stage *Stage) StageBranchAstructBstructUse(astructbstructuse *AstructBstru
 func (stage *Stage) StageBranchBstruct(bstruct *Bstruct) {
 
 	// check if instance is already staged
-	if IsStaged(stage, bstruct) {
+	if stage.IsStaged(bstruct) {
 		return
 	}
 
@@ -271,7 +236,7 @@ func (stage *Stage) StageBranchBstruct(bstruct *Bstruct) {
 func (stage *Stage) StageBranchDstruct(dstruct *Dstruct) {
 
 	// check if instance is already staged
-	if IsStaged(stage, dstruct) {
+	if stage.IsStaged(dstruct) {
 		return
 	}
 
@@ -279,15 +244,15 @@ func (stage *Stage) StageBranchDstruct(dstruct *Dstruct) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if dstruct.Gstruct != nil {
-		StageBranch(stage, dstruct.Gstruct)
+		stage.StageBranch(dstruct.Gstruct)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bstruct := range dstruct.Anarrayofb {
-		StageBranch(stage, _bstruct)
+		stage.StageBranch(_bstruct)
 	}
 	for _, _gstruct := range dstruct.Gstructs {
-		StageBranch(stage, _gstruct)
+		stage.StageBranch(_gstruct)
 	}
 
 }
@@ -295,7 +260,7 @@ func (stage *Stage) StageBranchDstruct(dstruct *Dstruct) {
 func (stage *Stage) StageBranchF0123456789012345678901234567890(f0123456789012345678901234567890 *F0123456789012345678901234567890) {
 
 	// check if instance is already staged
-	if IsStaged(stage, f0123456789012345678901234567890) {
+	if stage.IsStaged(f0123456789012345678901234567890) {
 		return
 	}
 
@@ -310,7 +275,7 @@ func (stage *Stage) StageBranchF0123456789012345678901234567890(f012345678901234
 func (stage *Stage) StageBranchGstruct(gstruct *Gstruct) {
 
 	// check if instance is already staged
-	if IsStaged(stage, gstruct) {
+	if stage.IsStaged(gstruct) {
 		return
 	}
 
@@ -322,11 +287,11 @@ func (stage *Stage) StageBranchGstruct(gstruct *Gstruct) {
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -334,31 +299,31 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *Astruct:
-		toT := CopyBranchAstruct(mapOrigCopy, fromT)
+		toT := GongCopyBranchAstruct(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *AstructBstruct2Use:
-		toT := CopyBranchAstructBstruct2Use(mapOrigCopy, fromT)
+		toT := GongCopyBranchAstructBstruct2Use(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *AstructBstructUse:
-		toT := CopyBranchAstructBstructUse(mapOrigCopy, fromT)
+		toT := GongCopyBranchAstructBstructUse(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Bstruct:
-		toT := CopyBranchBstruct(mapOrigCopy, fromT)
+		toT := GongCopyBranchBstruct(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Dstruct:
-		toT := CopyBranchDstruct(mapOrigCopy, fromT)
+		toT := GongCopyBranchDstruct(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *F0123456789012345678901234567890:
-		toT := CopyBranchF0123456789012345678901234567890(mapOrigCopy, fromT)
+		toT := GongCopyBranchF0123456789012345678901234567890(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Gstruct:
-		toT := CopyBranchGstruct(mapOrigCopy, fromT)
+		toT := GongCopyBranchGstruct(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -368,7 +333,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchAstruct(mapOrigCopy map[any]any, astructFrom *Astruct) (astructTo *Astruct) {
+func GongCopyBranchAstruct(mapOrigCopy map[any]any, astructFrom *Astruct) (astructTo *Astruct) {
 
 	// astructFrom has already been copied
 	if _astructTo, ok := mapOrigCopy[astructFrom]; ok {
@@ -378,61 +343,61 @@ func CopyBranchAstruct(mapOrigCopy map[any]any, astructFrom *Astruct) (astructTo
 
 	astructTo = new(Astruct)
 	mapOrigCopy[astructFrom] = astructTo
-	astructFrom.CopyBasicFields(astructTo)
+	astructFrom.GongCopyBasicFields(astructTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if astructFrom.Associationtob != nil {
-		astructTo.Associationtob = CopyBranchBstruct(mapOrigCopy, astructFrom.Associationtob)
+		astructTo.Associationtob = GongCopyBranchBstruct(mapOrigCopy, astructFrom.Associationtob)
 	}
 	if astructFrom.Anotherassociationtob_2 != nil {
 		astructTo.Anotherassociationtob_2 = astructFrom.Anotherassociationtob_2
 	}
 	if astructFrom.Bstruct != nil {
-		astructTo.Bstruct = CopyBranchBstruct(mapOrigCopy, astructFrom.Bstruct)
+		astructTo.Bstruct = GongCopyBranchBstruct(mapOrigCopy, astructFrom.Bstruct)
 	}
 	if astructFrom.Bstruct2 != nil {
-		astructTo.Bstruct2 = CopyBranchBstruct(mapOrigCopy, astructFrom.Bstruct2)
+		astructTo.Bstruct2 = GongCopyBranchBstruct(mapOrigCopy, astructFrom.Bstruct2)
 	}
 	if astructFrom.Dstruct != nil {
-		astructTo.Dstruct = CopyBranchDstruct(mapOrigCopy, astructFrom.Dstruct)
+		astructTo.Dstruct = GongCopyBranchDstruct(mapOrigCopy, astructFrom.Dstruct)
 	}
 	if astructFrom.Dstruct2 != nil {
-		astructTo.Dstruct2 = CopyBranchDstruct(mapOrigCopy, astructFrom.Dstruct2)
+		astructTo.Dstruct2 = GongCopyBranchDstruct(mapOrigCopy, astructFrom.Dstruct2)
 	}
 	if astructFrom.Dstruct3 != nil {
-		astructTo.Dstruct3 = CopyBranchDstruct(mapOrigCopy, astructFrom.Dstruct3)
+		astructTo.Dstruct3 = GongCopyBranchDstruct(mapOrigCopy, astructFrom.Dstruct3)
 	}
 	if astructFrom.Dstruct4 != nil {
-		astructTo.Dstruct4 = CopyBranchDstruct(mapOrigCopy, astructFrom.Dstruct4)
+		astructTo.Dstruct4 = GongCopyBranchDstruct(mapOrigCopy, astructFrom.Dstruct4)
 	}
 	if astructFrom.AnAstruct != nil {
-		astructTo.AnAstruct = CopyBranchAstruct(mapOrigCopy, astructFrom.AnAstruct)
+		astructTo.AnAstruct = GongCopyBranchAstruct(mapOrigCopy, astructFrom.AnAstruct)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bstruct := range astructFrom.Anarrayofb {
-		astructTo.Anarrayofb = append(astructTo.Anarrayofb, CopyBranchBstruct(mapOrigCopy, _bstruct))
+		astructTo.Anarrayofb = append(astructTo.Anarrayofb, GongCopyBranchBstruct(mapOrigCopy, _bstruct))
 	}
 	for _, _dstruct := range astructFrom.Dstruct4s {
-		astructTo.Dstruct4s = append(astructTo.Dstruct4s, CopyBranchDstruct(mapOrigCopy, _dstruct))
+		astructTo.Dstruct4s = append(astructTo.Dstruct4s, GongCopyBranchDstruct(mapOrigCopy, _dstruct))
 	}
 	for _, _astruct := range astructFrom.Anarrayofa {
-		astructTo.Anarrayofa = append(astructTo.Anarrayofa, CopyBranchAstruct(mapOrigCopy, _astruct))
+		astructTo.Anarrayofa = append(astructTo.Anarrayofa, GongCopyBranchAstruct(mapOrigCopy, _astruct))
 	}
 	for _, _bstruct := range astructFrom.Anotherarrayofb {
-		astructTo.Anotherarrayofb = append(astructTo.Anotherarrayofb, CopyBranchBstruct(mapOrigCopy, _bstruct))
+		astructTo.Anotherarrayofb = append(astructTo.Anotherarrayofb, GongCopyBranchBstruct(mapOrigCopy, _bstruct))
 	}
 	for _, _astructbstructuse := range astructFrom.AnarrayofbUse {
-		astructTo.AnarrayofbUse = append(astructTo.AnarrayofbUse, CopyBranchAstructBstructUse(mapOrigCopy, _astructbstructuse))
+		astructTo.AnarrayofbUse = append(astructTo.AnarrayofbUse, GongCopyBranchAstructBstructUse(mapOrigCopy, _astructbstructuse))
 	}
 	for _, _astructbstruct2use := range astructFrom.Anarrayofb2Use {
-		astructTo.Anarrayofb2Use = append(astructTo.Anarrayofb2Use, CopyBranchAstructBstruct2Use(mapOrigCopy, _astructbstruct2use))
+		astructTo.Anarrayofb2Use = append(astructTo.Anarrayofb2Use, GongCopyBranchAstructBstruct2Use(mapOrigCopy, _astructbstruct2use))
 	}
 
 	return
 }
 
-func CopyBranchAstructBstruct2Use(mapOrigCopy map[any]any, astructbstruct2useFrom *AstructBstruct2Use) (astructbstruct2useTo *AstructBstruct2Use) {
+func GongCopyBranchAstructBstruct2Use(mapOrigCopy map[any]any, astructbstruct2useFrom *AstructBstruct2Use) (astructbstruct2useTo *AstructBstruct2Use) {
 
 	// astructbstruct2useFrom has already been copied
 	if _astructbstruct2useTo, ok := mapOrigCopy[astructbstruct2useFrom]; ok {
@@ -442,11 +407,11 @@ func CopyBranchAstructBstruct2Use(mapOrigCopy map[any]any, astructbstruct2useFro
 
 	astructbstruct2useTo = new(AstructBstruct2Use)
 	mapOrigCopy[astructbstruct2useFrom] = astructbstruct2useTo
-	astructbstruct2useFrom.CopyBasicFields(astructbstruct2useTo)
+	astructbstruct2useFrom.GongCopyBasicFields(astructbstruct2useTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if astructbstruct2useFrom.Bstrcut2 != nil {
-		astructbstruct2useTo.Bstrcut2 = CopyBranchBstruct(mapOrigCopy, astructbstruct2useFrom.Bstrcut2)
+		astructbstruct2useTo.Bstrcut2 = GongCopyBranchBstruct(mapOrigCopy, astructbstruct2useFrom.Bstrcut2)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -454,7 +419,7 @@ func CopyBranchAstructBstruct2Use(mapOrigCopy map[any]any, astructbstruct2useFro
 	return
 }
 
-func CopyBranchAstructBstructUse(mapOrigCopy map[any]any, astructbstructuseFrom *AstructBstructUse) (astructbstructuseTo *AstructBstructUse) {
+func GongCopyBranchAstructBstructUse(mapOrigCopy map[any]any, astructbstructuseFrom *AstructBstructUse) (astructbstructuseTo *AstructBstructUse) {
 
 	// astructbstructuseFrom has already been copied
 	if _astructbstructuseTo, ok := mapOrigCopy[astructbstructuseFrom]; ok {
@@ -464,11 +429,11 @@ func CopyBranchAstructBstructUse(mapOrigCopy map[any]any, astructbstructuseFrom 
 
 	astructbstructuseTo = new(AstructBstructUse)
 	mapOrigCopy[astructbstructuseFrom] = astructbstructuseTo
-	astructbstructuseFrom.CopyBasicFields(astructbstructuseTo)
+	astructbstructuseFrom.GongCopyBasicFields(astructbstructuseTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if astructbstructuseFrom.Bstruct2 != nil {
-		astructbstructuseTo.Bstruct2 = CopyBranchBstruct(mapOrigCopy, astructbstructuseFrom.Bstruct2)
+		astructbstructuseTo.Bstruct2 = GongCopyBranchBstruct(mapOrigCopy, astructbstructuseFrom.Bstruct2)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -476,7 +441,7 @@ func CopyBranchAstructBstructUse(mapOrigCopy map[any]any, astructbstructuseFrom 
 	return
 }
 
-func CopyBranchBstruct(mapOrigCopy map[any]any, bstructFrom *Bstruct) (bstructTo *Bstruct) {
+func GongCopyBranchBstruct(mapOrigCopy map[any]any, bstructFrom *Bstruct) (bstructTo *Bstruct) {
 
 	// bstructFrom has already been copied
 	if _bstructTo, ok := mapOrigCopy[bstructFrom]; ok {
@@ -486,7 +451,7 @@ func CopyBranchBstruct(mapOrigCopy map[any]any, bstructFrom *Bstruct) (bstructTo
 
 	bstructTo = new(Bstruct)
 	mapOrigCopy[bstructFrom] = bstructTo
-	bstructFrom.CopyBasicFields(bstructTo)
+	bstructFrom.GongCopyBasicFields(bstructTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -495,7 +460,7 @@ func CopyBranchBstruct(mapOrigCopy map[any]any, bstructFrom *Bstruct) (bstructTo
 	return
 }
 
-func CopyBranchDstruct(mapOrigCopy map[any]any, dstructFrom *Dstruct) (dstructTo *Dstruct) {
+func GongCopyBranchDstruct(mapOrigCopy map[any]any, dstructFrom *Dstruct) (dstructTo *Dstruct) {
 
 	// dstructFrom has already been copied
 	if _dstructTo, ok := mapOrigCopy[dstructFrom]; ok {
@@ -505,25 +470,25 @@ func CopyBranchDstruct(mapOrigCopy map[any]any, dstructFrom *Dstruct) (dstructTo
 
 	dstructTo = new(Dstruct)
 	mapOrigCopy[dstructFrom] = dstructTo
-	dstructFrom.CopyBasicFields(dstructTo)
+	dstructFrom.GongCopyBasicFields(dstructTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if dstructFrom.Gstruct != nil {
-		dstructTo.Gstruct = CopyBranchGstruct(mapOrigCopy, dstructFrom.Gstruct)
+		dstructTo.Gstruct = GongCopyBranchGstruct(mapOrigCopy, dstructFrom.Gstruct)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bstruct := range dstructFrom.Anarrayofb {
-		dstructTo.Anarrayofb = append(dstructTo.Anarrayofb, CopyBranchBstruct(mapOrigCopy, _bstruct))
+		dstructTo.Anarrayofb = append(dstructTo.Anarrayofb, GongCopyBranchBstruct(mapOrigCopy, _bstruct))
 	}
 	for _, _gstruct := range dstructFrom.Gstructs {
-		dstructTo.Gstructs = append(dstructTo.Gstructs, CopyBranchGstruct(mapOrigCopy, _gstruct))
+		dstructTo.Gstructs = append(dstructTo.Gstructs, GongCopyBranchGstruct(mapOrigCopy, _gstruct))
 	}
 
 	return
 }
 
-func CopyBranchF0123456789012345678901234567890(mapOrigCopy map[any]any, f0123456789012345678901234567890From *F0123456789012345678901234567890) (f0123456789012345678901234567890To *F0123456789012345678901234567890) {
+func GongCopyBranchF0123456789012345678901234567890(mapOrigCopy map[any]any, f0123456789012345678901234567890From *F0123456789012345678901234567890) (f0123456789012345678901234567890To *F0123456789012345678901234567890) {
 
 	// f0123456789012345678901234567890From has already been copied
 	if _f0123456789012345678901234567890To, ok := mapOrigCopy[f0123456789012345678901234567890From]; ok {
@@ -533,7 +498,7 @@ func CopyBranchF0123456789012345678901234567890(mapOrigCopy map[any]any, f012345
 
 	f0123456789012345678901234567890To = new(F0123456789012345678901234567890)
 	mapOrigCopy[f0123456789012345678901234567890From] = f0123456789012345678901234567890To
-	f0123456789012345678901234567890From.CopyBasicFields(f0123456789012345678901234567890To)
+	f0123456789012345678901234567890From.GongCopyBasicFields(f0123456789012345678901234567890To)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -542,7 +507,7 @@ func CopyBranchF0123456789012345678901234567890(mapOrigCopy map[any]any, f012345
 	return
 }
 
-func CopyBranchGstruct(mapOrigCopy map[any]any, gstructFrom *Gstruct) (gstructTo *Gstruct) {
+func GongCopyBranchGstruct(mapOrigCopy map[any]any, gstructFrom *Gstruct) (gstructTo *Gstruct) {
 
 	// gstructFrom has already been copied
 	if _gstructTo, ok := mapOrigCopy[gstructFrom]; ok {
@@ -552,7 +517,7 @@ func CopyBranchGstruct(mapOrigCopy map[any]any, gstructFrom *Gstruct) (gstructTo
 
 	gstructTo = new(Gstruct)
 	mapOrigCopy[gstructFrom] = gstructTo
-	gstructFrom.CopyBasicFields(gstructTo)
+	gstructFrom.GongCopyBasicFields(gstructTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -596,16 +561,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchAstruct(astruct *Astruct) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, astruct) {
+	if !stage.IsStaged(astruct) {
 		return
 	}
 
@@ -613,51 +573,51 @@ func (stage *Stage) UnstageBranchAstruct(astruct *Astruct) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if astruct.Associationtob != nil {
-		UnstageBranch(stage, astruct.Associationtob)
+		stage.UnstageBranch(astruct.Associationtob)
 	}
 	if astruct.Anotherassociationtob_2 != nil {
-		UnstageBranch(stage, astruct.Anotherassociationtob_2)
+		stage.UnstageBranch(astruct.Anotherassociationtob_2)
 	}
 	if astruct.Bstruct != nil {
-		UnstageBranch(stage, astruct.Bstruct)
+		stage.UnstageBranch(astruct.Bstruct)
 	}
 	if astruct.Bstruct2 != nil {
-		UnstageBranch(stage, astruct.Bstruct2)
+		stage.UnstageBranch(astruct.Bstruct2)
 	}
 	if astruct.Dstruct != nil {
-		UnstageBranch(stage, astruct.Dstruct)
+		stage.UnstageBranch(astruct.Dstruct)
 	}
 	if astruct.Dstruct2 != nil {
-		UnstageBranch(stage, astruct.Dstruct2)
+		stage.UnstageBranch(astruct.Dstruct2)
 	}
 	if astruct.Dstruct3 != nil {
-		UnstageBranch(stage, astruct.Dstruct3)
+		stage.UnstageBranch(astruct.Dstruct3)
 	}
 	if astruct.Dstruct4 != nil {
-		UnstageBranch(stage, astruct.Dstruct4)
+		stage.UnstageBranch(astruct.Dstruct4)
 	}
 	if astruct.AnAstruct != nil {
-		UnstageBranch(stage, astruct.AnAstruct)
+		stage.UnstageBranch(astruct.AnAstruct)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bstruct := range astruct.Anarrayofb {
-		UnstageBranch(stage, _bstruct)
+		stage.UnstageBranch(_bstruct)
 	}
 	for _, _dstruct := range astruct.Dstruct4s {
-		UnstageBranch(stage, _dstruct)
+		stage.UnstageBranch(_dstruct)
 	}
 	for _, _astruct := range astruct.Anarrayofa {
-		UnstageBranch(stage, _astruct)
+		stage.UnstageBranch(_astruct)
 	}
 	for _, _bstruct := range astruct.Anotherarrayofb {
-		UnstageBranch(stage, _bstruct)
+		stage.UnstageBranch(_bstruct)
 	}
 	for _, _astructbstructuse := range astruct.AnarrayofbUse {
-		UnstageBranch(stage, _astructbstructuse)
+		stage.UnstageBranch(_astructbstructuse)
 	}
 	for _, _astructbstruct2use := range astruct.Anarrayofb2Use {
-		UnstageBranch(stage, _astructbstruct2use)
+		stage.UnstageBranch(_astructbstruct2use)
 	}
 
 }
@@ -665,7 +625,7 @@ func (stage *Stage) UnstageBranchAstruct(astruct *Astruct) {
 func (stage *Stage) UnstageBranchAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, astructbstruct2use) {
+	if !stage.IsStaged(astructbstruct2use) {
 		return
 	}
 
@@ -673,7 +633,7 @@ func (stage *Stage) UnstageBranchAstructBstruct2Use(astructbstruct2use *AstructB
 
 	//insertion point for the staging of instances referenced by pointers
 	if astructbstruct2use.Bstrcut2 != nil {
-		UnstageBranch(stage, astructbstruct2use.Bstrcut2)
+		stage.UnstageBranch(astructbstruct2use.Bstrcut2)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -683,7 +643,7 @@ func (stage *Stage) UnstageBranchAstructBstruct2Use(astructbstruct2use *AstructB
 func (stage *Stage) UnstageBranchAstructBstructUse(astructbstructuse *AstructBstructUse) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, astructbstructuse) {
+	if !stage.IsStaged(astructbstructuse) {
 		return
 	}
 
@@ -691,7 +651,7 @@ func (stage *Stage) UnstageBranchAstructBstructUse(astructbstructuse *AstructBst
 
 	//insertion point for the staging of instances referenced by pointers
 	if astructbstructuse.Bstruct2 != nil {
-		UnstageBranch(stage, astructbstructuse.Bstruct2)
+		stage.UnstageBranch(astructbstructuse.Bstruct2)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -701,7 +661,7 @@ func (stage *Stage) UnstageBranchAstructBstructUse(astructbstructuse *AstructBst
 func (stage *Stage) UnstageBranchBstruct(bstruct *Bstruct) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, bstruct) {
+	if !stage.IsStaged(bstruct) {
 		return
 	}
 
@@ -716,7 +676,7 @@ func (stage *Stage) UnstageBranchBstruct(bstruct *Bstruct) {
 func (stage *Stage) UnstageBranchDstruct(dstruct *Dstruct) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, dstruct) {
+	if !stage.IsStaged(dstruct) {
 		return
 	}
 
@@ -724,15 +684,15 @@ func (stage *Stage) UnstageBranchDstruct(dstruct *Dstruct) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if dstruct.Gstruct != nil {
-		UnstageBranch(stage, dstruct.Gstruct)
+		stage.UnstageBranch(dstruct.Gstruct)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bstruct := range dstruct.Anarrayofb {
-		UnstageBranch(stage, _bstruct)
+		stage.UnstageBranch(_bstruct)
 	}
 	for _, _gstruct := range dstruct.Gstructs {
-		UnstageBranch(stage, _gstruct)
+		stage.UnstageBranch(_gstruct)
 	}
 
 }
@@ -740,7 +700,7 @@ func (stage *Stage) UnstageBranchDstruct(dstruct *Dstruct) {
 func (stage *Stage) UnstageBranchF0123456789012345678901234567890(f0123456789012345678901234567890 *F0123456789012345678901234567890) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, f0123456789012345678901234567890) {
+	if !stage.IsStaged(f0123456789012345678901234567890) {
 		return
 	}
 
@@ -755,7 +715,7 @@ func (stage *Stage) UnstageBranchF0123456789012345678901234567890(f0123456789012
 func (stage *Stage) UnstageBranchGstruct(gstruct *Gstruct) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, gstruct) {
+	if !stage.IsStaged(gstruct) {
 		return
 	}
 
@@ -1071,7 +1031,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if AnarrayofbDifferent {
-		ops := Diff(stage, astruct, astructOther, "Anarrayofb", astructOther.Anarrayofb, astruct.Anarrayofb)
+		ops := stage.Diff(astruct, astructOther, "Anarrayofb", astructOther.Anarrayofb, astruct.Anarrayofb)
 		diffs = append(diffs, ops)
 	}
 	if (astruct.Anotherassociationtob_2 == nil) != (astructOther.Anotherassociationtob_2 == nil) {
@@ -1168,7 +1128,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if Dstruct4sDifferent {
-		ops := Diff(stage, astruct, astructOther, "Dstruct4s", astructOther.Dstruct4s, astruct.Dstruct4s)
+		ops := stage.Diff(astruct, astructOther, "Dstruct4s", astructOther.Dstruct4s, astruct.Dstruct4s)
 		diffs = append(diffs, ops)
 	}
 	if astruct.Floatfield != astructOther.Floatfield {
@@ -1201,7 +1161,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if AnarrayofaDifferent {
-		ops := Diff(stage, astruct, astructOther, "Anarrayofa", astructOther.Anarrayofa, astruct.Anarrayofa)
+		ops := stage.Diff(astruct, astructOther, "Anarrayofa", astructOther.Anarrayofa, astruct.Anarrayofa)
 		diffs = append(diffs, ops)
 	}
 	AnotherarrayofbDifferent := false
@@ -1222,7 +1182,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if AnotherarrayofbDifferent {
-		ops := Diff(stage, astruct, astructOther, "Anotherarrayofb", astructOther.Anotherarrayofb, astruct.Anotherarrayofb)
+		ops := stage.Diff(astruct, astructOther, "Anotherarrayofb", astructOther.Anotherarrayofb, astruct.Anotherarrayofb)
 		diffs = append(diffs, ops)
 	}
 	AnarrayofbUseDifferent := false
@@ -1243,7 +1203,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if AnarrayofbUseDifferent {
-		ops := Diff(stage, astruct, astructOther, "AnarrayofbUse", astructOther.AnarrayofbUse, astruct.AnarrayofbUse)
+		ops := stage.Diff(astruct, astructOther, "AnarrayofbUse", astructOther.AnarrayofbUse, astruct.AnarrayofbUse)
 		diffs = append(diffs, ops)
 	}
 	Anarrayofb2UseDifferent := false
@@ -1264,7 +1224,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if Anarrayofb2UseDifferent {
-		ops := Diff(stage, astruct, astructOther, "Anarrayofb2Use", astructOther.Anarrayofb2Use, astruct.Anarrayofb2Use)
+		ops := stage.Diff(astruct, astructOther, "Anarrayofb2Use", astructOther.Anarrayofb2Use, astruct.Anarrayofb2Use)
 		diffs = append(diffs, ops)
 	}
 	if (astruct.AnAstruct == nil) != (astructOther.AnAstruct == nil) {
@@ -1365,7 +1325,7 @@ func (dstruct *Dstruct) GongDiff(stage *Stage, dstructOther *Dstruct) (diffs []s
 		}
 	}
 	if AnarrayofbDifferent {
-		ops := Diff(stage, dstruct, dstructOther, "Anarrayofb", dstructOther.Anarrayofb, dstruct.Anarrayofb)
+		ops := stage.Diff(dstruct, dstructOther, "Anarrayofb", dstructOther.Anarrayofb, dstruct.Anarrayofb)
 		diffs = append(diffs, ops)
 	}
 	if (dstruct.Gstruct == nil) != (dstructOther.Gstruct == nil) {
@@ -1393,7 +1353,7 @@ func (dstruct *Dstruct) GongDiff(stage *Stage, dstructOther *Dstruct) (diffs []s
 		}
 	}
 	if GstructsDifferent {
-		ops := Diff(stage, dstruct, dstructOther, "Gstructs", dstructOther.Gstructs, dstruct.Gstructs)
+		ops := stage.Diff(dstruct, dstructOther, "Gstructs", dstructOther.Gstructs, dstruct.Gstructs)
 		diffs = append(diffs, ops)
 	}
 
@@ -1508,9 +1468,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

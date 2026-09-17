@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Animate_WOP struct {
@@ -27,7 +25,7 @@ type Animate_WOP struct {
 	RepeatCount string
 }
 
-func (from *Animate) CopyBasicFields(to *Animate) {
+func (from *Animate) GongCopyBasicFields(to *Animate) {
 	// insertion point
 	to.Name = from.Name
 	to.AttributeName = from.AttributeName
@@ -66,7 +64,7 @@ type Circle_WOP struct {
 	Transform string
 }
 
-func (from *Circle) CopyBasicFields(to *Circle) {
+func (from *Circle) GongCopyBasicFields(to *Circle) {
 	// insertion point
 	to.Name = from.Name
 	to.CX = from.CX
@@ -88,7 +86,7 @@ type Condition_WOP struct {
 	Name string
 }
 
-func (from *Condition) CopyBasicFields(to *Condition) {
+func (from *Condition) GongCopyBasicFields(to *Condition) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -103,7 +101,7 @@ type ControlPoint_WOP struct {
 	Y_Relative float64
 }
 
-func (from *ControlPoint) CopyBasicFields(to *ControlPoint) {
+func (from *ControlPoint) GongCopyBasicFields(to *ControlPoint) {
 	// insertion point
 	to.Name = from.Name
 	to.X_Relative = from.X_Relative
@@ -140,7 +138,7 @@ type Ellipse_WOP struct {
 	Transform string
 }
 
-func (from *Ellipse) CopyBasicFields(to *Ellipse) {
+func (from *Ellipse) GongCopyBasicFields(to *Ellipse) {
 	// insertion point
 	to.Name = from.Name
 	to.CX = from.CX
@@ -165,7 +163,7 @@ type FileToDownload_WOP struct {
 	Base64EncodedContent string
 }
 
-func (from *FileToDownload) CopyBasicFields(to *FileToDownload) {
+func (from *FileToDownload) GongCopyBasicFields(to *FileToDownload) {
 	// insertion point
 	to.Name = from.Name
 	to.Base64EncodedContent = from.Base64EncodedContent
@@ -177,7 +175,7 @@ type Layer_WOP struct {
 	Name string
 }
 
-func (from *Layer) CopyBasicFields(to *Layer) {
+func (from *Layer) GongCopyBasicFields(to *Layer) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -216,7 +214,7 @@ type Line_WOP struct {
 	MouseClickY float64
 }
 
-func (from *Line) CopyBasicFields(to *Line) {
+func (from *Line) GongCopyBasicFields(to *Line) {
 	// insertion point
 	to.Name = from.Name
 	to.X1 = from.X1
@@ -295,7 +293,7 @@ type Link_WOP struct {
 	MouseEventKey MouseEventKey
 }
 
-func (from *Link) CopyBasicFields(to *Link) {
+func (from *Link) GongCopyBasicFields(to *Link) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -359,7 +357,7 @@ type LinkAnchoredPath_WOP struct {
 	Transform string
 }
 
-func (from *LinkAnchoredPath) CopyBasicFields(to *LinkAnchoredPath) {
+func (from *LinkAnchoredPath) GongCopyBasicFields(to *LinkAnchoredPath) {
 	// insertion point
 	to.Name = from.Name
 	to.Definition = from.Definition
@@ -421,7 +419,7 @@ type LinkAnchoredText_WOP struct {
 	Transform string
 }
 
-func (from *LinkAnchoredText) CopyBasicFields(to *LinkAnchoredText) {
+func (from *LinkAnchoredText) GongCopyBasicFields(to *LinkAnchoredText) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content
@@ -469,7 +467,7 @@ type Path_WOP struct {
 	Transform string
 }
 
-func (from *Path) CopyBasicFields(to *Path) {
+func (from *Path) GongCopyBasicFields(to *Path) {
 	// insertion point
 	to.Name = from.Name
 	to.Definition = from.Definition
@@ -493,7 +491,7 @@ type Point_WOP struct {
 	Y float64
 }
 
-func (from *Point) CopyBasicFields(to *Point) {
+func (from *Point) GongCopyBasicFields(to *Point) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -524,7 +522,7 @@ type Polygone_WOP struct {
 	Transform string
 }
 
-func (from *Polygone) CopyBasicFields(to *Polygone) {
+func (from *Polygone) GongCopyBasicFields(to *Polygone) {
 	// insertion point
 	to.Name = from.Name
 	to.Points = from.Points
@@ -562,7 +560,7 @@ type Polyline_WOP struct {
 	Transform string
 }
 
-func (from *Polyline) CopyBasicFields(to *Polyline) {
+func (from *Polyline) GongCopyBasicFields(to *Polyline) {
 	// insertion point
 	to.Name = from.Name
 	to.Points = from.Points
@@ -660,7 +658,7 @@ type Rect_WOP struct {
 	URLTarget LinkTargetType
 }
 
-func (from *Rect) CopyBasicFields(to *Rect) {
+func (from *Rect) GongCopyBasicFields(to *Rect) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -738,7 +736,7 @@ type RectAnchoredPath_WOP struct {
 	Transform string
 }
 
-func (from *RectAnchoredPath) CopyBasicFields(to *RectAnchoredPath) {
+func (from *RectAnchoredPath) GongCopyBasicFields(to *RectAnchoredPath) {
 	// insertion point
 	to.Name = from.Name
 	to.Definition = from.Definition
@@ -781,7 +779,7 @@ type RectAnchoredPngImage_WOP struct {
 	Base64Content string
 }
 
-func (from *RectAnchoredPngImage) CopyBasicFields(to *RectAnchoredPngImage) {
+func (from *RectAnchoredPngImage) GongCopyBasicFields(to *RectAnchoredPngImage) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -841,7 +839,7 @@ type RectAnchoredRect_WOP struct {
 	Transform string
 }
 
-func (from *RectAnchoredRect) CopyBasicFields(to *RectAnchoredRect) {
+func (from *RectAnchoredRect) GongCopyBasicFields(to *RectAnchoredRect) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -918,7 +916,7 @@ type RectAnchoredText_WOP struct {
 	URLTarget LinkTargetType
 }
 
-func (from *RectAnchoredText) CopyBasicFields(to *RectAnchoredText) {
+func (from *RectAnchoredText) GongCopyBasicFields(to *RectAnchoredText) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content
@@ -970,7 +968,7 @@ type RectLinkLink_WOP struct {
 	Transform string
 }
 
-func (from *RectLinkLink) CopyBasicFields(to *RectLinkLink) {
+func (from *RectLinkLink) GongCopyBasicFields(to *RectLinkLink) {
 	// insertion point
 	to.Name = from.Name
 	to.TargetAnchorPosition = from.TargetAnchorPosition
@@ -1016,7 +1014,7 @@ type SVG_WOP struct {
 	OverriddenHeight float64
 }
 
-func (from *SVG) CopyBasicFields(to *SVG) {
+func (from *SVG) GongCopyBasicFields(to *SVG) {
 	// insertion point
 	to.Name = from.Name
 	to.DrawingState = from.DrawingState
@@ -1042,7 +1040,7 @@ type SvgText_WOP struct {
 	Text string
 }
 
-func (from *SvgText) CopyBasicFields(to *SvgText) {
+func (from *SvgText) GongCopyBasicFields(to *SvgText) {
 	// insertion point
 	to.Name = from.Name
 	to.Text = from.Text
@@ -1088,7 +1086,7 @@ type Text_WOP struct {
 	WhiteSpace WhiteSpaceEnum
 }
 
-func (from *Text) CopyBasicFields(to *Text) {
+func (from *Text) GongCopyBasicFields(to *Text) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X

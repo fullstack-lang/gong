@@ -169,7 +169,7 @@ func NewStack(
 	stack.BackRepo = backRepo
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -235,5 +235,5 @@ const (
 var ModelGongNewStackInstanceStructSubTemplateCode map[string]string = // new line
 map[string]string{
 	string(rune(ModelGongNewStackInstanceSet)): `
-	models.SetOrchestratorOnAfterUpdate[models.{{Structname}}](stage)`,
+	stage.SetOrchestratorOnAfterUpdate[models.{{Structname}}]()`,
 }

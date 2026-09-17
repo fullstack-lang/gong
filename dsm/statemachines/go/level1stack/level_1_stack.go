@@ -99,7 +99,7 @@ func NewLevel1StackDelta(
 	}
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -124,24 +124,24 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.Action](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Activities](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Diagram](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Guard](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Kill](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Message](stage)
-	models.SetOrchestratorOnAfterUpdate[models.MessageType](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Note](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NoteShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NoteStateShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Object](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Role](stage)
-	models.SetOrchestratorOnAfterUpdate[models.State](stage)
-	models.SetOrchestratorOnAfterUpdate[models.StateMachine](stage)
-	models.SetOrchestratorOnAfterUpdate[models.StateShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Transition](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Transition_Shape](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.Action]()
+	stage.SetOrchestratorOnAfterUpdate[models.Activities]()
+	stage.SetOrchestratorOnAfterUpdate[models.Diagram]()
+	stage.SetOrchestratorOnAfterUpdate[models.Guard]()
+	stage.SetOrchestratorOnAfterUpdate[models.Kill]()
+	stage.SetOrchestratorOnAfterUpdate[models.Library]()
+	stage.SetOrchestratorOnAfterUpdate[models.Message]()
+	stage.SetOrchestratorOnAfterUpdate[models.MessageType]()
+	stage.SetOrchestratorOnAfterUpdate[models.Note]()
+	stage.SetOrchestratorOnAfterUpdate[models.NoteShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.NoteStateShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Object]()
+	stage.SetOrchestratorOnAfterUpdate[models.Role]()
+	stage.SetOrchestratorOnAfterUpdate[models.State]()
+	stage.SetOrchestratorOnAfterUpdate[models.StateMachine]()
+	stage.SetOrchestratorOnAfterUpdate[models.StateShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Transition]()
+	stage.SetOrchestratorOnAfterUpdate[models.Transition_Shape]()
 
 	return
 }

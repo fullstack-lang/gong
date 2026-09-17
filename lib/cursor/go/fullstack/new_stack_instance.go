@@ -49,7 +49,7 @@ func NewStackInstance(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.Cursor](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.Cursor]()
 
 	return
 }

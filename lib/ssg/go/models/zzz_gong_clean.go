@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -42,18 +37,13 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 	return
 }
 
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
-}
-
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Chapter
 func (chapter *Chapter) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &chapter.Sections) || modified
-	modified = GongCleanSlice(stage, &chapter.Pages) || modified
-	modified = GongCleanSlice(stage, &chapter.SubChapters) || modified
+	modified = stage.CleanSlice(&chapter.Sections) || modified
+	modified = stage.CleanSlice(&chapter.Pages) || modified
+	modified = stage.CleanSlice(&chapter.SubChapters) || modified
 	// insertion point per field
 	return
 }
@@ -61,7 +51,7 @@ func (chapter *Chapter) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Content
 func (content *Content) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &content.Chapters) || modified
+	modified = stage.CleanSlice(&content.Chapters) || modified
 	// insertion point per field
 	return
 }
@@ -83,7 +73,7 @@ func (jpgimage *JpgImage) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Page
 func (page *Page) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &page.Sections) || modified
+	modified = stage.CleanSlice(&page.Sections) || modified
 	// insertion point per field
 	return
 }
@@ -99,10 +89,10 @@ func (pngimage *PngImage) GongClean(stage *Stage) (modified bool) {
 func (section *Section) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &section.SvgImage) || modified
-	modified = GongCleanPointer(stage, &section.PngImage) || modified
-	modified = GongCleanPointer(stage, &section.JpgImage) || modified
-	modified = GongCleanPointer(stage, &section.DownloadableFile) || modified
+	modified = stage.CleanPointer(&section.SvgImage) || modified
+	modified = stage.CleanPointer(&section.PngImage) || modified
+	modified = stage.CleanPointer(&section.JpgImage) || modified
+	modified = stage.CleanPointer(&section.DownloadableFile) || modified
 	return
 }
 

@@ -99,7 +99,7 @@ func NewLevel1StackDelta(
 	}
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -124,32 +124,32 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.All](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Annotation](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Attribute](stage)
-	models.SetOrchestratorOnAfterUpdate[models.AttributeGroup](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Choice](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ComplexContent](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ComplexType](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Documentation](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Element](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Enumeration](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Extension](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Group](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Length](stage)
-	models.SetOrchestratorOnAfterUpdate[models.MaxInclusive](stage)
-	models.SetOrchestratorOnAfterUpdate[models.MaxLength](stage)
-	models.SetOrchestratorOnAfterUpdate[models.MinInclusive](stage)
-	models.SetOrchestratorOnAfterUpdate[models.MinLength](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Pattern](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Restriction](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Schema](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Sequence](stage)
-	models.SetOrchestratorOnAfterUpdate[models.SimpleContent](stage)
-	models.SetOrchestratorOnAfterUpdate[models.SimpleType](stage)
-	models.SetOrchestratorOnAfterUpdate[models.TotalDigit](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Union](stage)
-	models.SetOrchestratorOnAfterUpdate[models.WhiteSpace](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.All]()
+	stage.SetOrchestratorOnAfterUpdate[models.Annotation]()
+	stage.SetOrchestratorOnAfterUpdate[models.Attribute]()
+	stage.SetOrchestratorOnAfterUpdate[models.AttributeGroup]()
+	stage.SetOrchestratorOnAfterUpdate[models.Choice]()
+	stage.SetOrchestratorOnAfterUpdate[models.ComplexContent]()
+	stage.SetOrchestratorOnAfterUpdate[models.ComplexType]()
+	stage.SetOrchestratorOnAfterUpdate[models.Documentation]()
+	stage.SetOrchestratorOnAfterUpdate[models.Element]()
+	stage.SetOrchestratorOnAfterUpdate[models.Enumeration]()
+	stage.SetOrchestratorOnAfterUpdate[models.Extension]()
+	stage.SetOrchestratorOnAfterUpdate[models.Group]()
+	stage.SetOrchestratorOnAfterUpdate[models.Length]()
+	stage.SetOrchestratorOnAfterUpdate[models.MaxInclusive]()
+	stage.SetOrchestratorOnAfterUpdate[models.MaxLength]()
+	stage.SetOrchestratorOnAfterUpdate[models.MinInclusive]()
+	stage.SetOrchestratorOnAfterUpdate[models.MinLength]()
+	stage.SetOrchestratorOnAfterUpdate[models.Pattern]()
+	stage.SetOrchestratorOnAfterUpdate[models.Restriction]()
+	stage.SetOrchestratorOnAfterUpdate[models.Schema]()
+	stage.SetOrchestratorOnAfterUpdate[models.Sequence]()
+	stage.SetOrchestratorOnAfterUpdate[models.SimpleContent]()
+	stage.SetOrchestratorOnAfterUpdate[models.SimpleType]()
+	stage.SetOrchestratorOnAfterUpdate[models.TotalDigit]()
+	stage.SetOrchestratorOnAfterUpdate[models.Union]()
+	stage.SetOrchestratorOnAfterUpdate[models.WhiteSpace]()
 
 	return
 }

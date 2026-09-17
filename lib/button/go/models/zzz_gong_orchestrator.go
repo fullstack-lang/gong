@@ -39,8 +39,3 @@ func (stage *Stage) SetOrchestratorOnAfterUpdate[Type Gongstruct]() {
 	}
 
 }
-
-// SetOrchestratorOnAfterUpdate is a backward-compatible package-level forwarder.
-func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
-	stage.SetOrchestratorOnAfterUpdate[Type]()
-}

@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -42,16 +37,11 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 	return
 }
 
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
-}
-
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by AsSplit
 func (assplit *AsSplit) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &assplit.AsSplitAreas) || modified
+	modified = stage.CleanSlice(&assplit.AsSplitAreas) || modified
 	// insertion point per field
 	return
 }
@@ -60,20 +50,20 @@ func (assplit *AsSplit) GongClean(stage *Stage) (modified bool) {
 func (assplitarea *AsSplitArea) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &assplitarea.AsSplit) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Button) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Cursor) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Form) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Load) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Markdown) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Slider) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Split) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Svg) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Table) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Tone) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Tree) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Threejs) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Xlsx) || modified
+	modified = stage.CleanPointer(&assplitarea.AsSplit) || modified
+	modified = stage.CleanPointer(&assplitarea.Button) || modified
+	modified = stage.CleanPointer(&assplitarea.Cursor) || modified
+	modified = stage.CleanPointer(&assplitarea.Form) || modified
+	modified = stage.CleanPointer(&assplitarea.Load) || modified
+	modified = stage.CleanPointer(&assplitarea.Markdown) || modified
+	modified = stage.CleanPointer(&assplitarea.Slider) || modified
+	modified = stage.CleanPointer(&assplitarea.Split) || modified
+	modified = stage.CleanPointer(&assplitarea.Svg) || modified
+	modified = stage.CleanPointer(&assplitarea.Table) || modified
+	modified = stage.CleanPointer(&assplitarea.Tone) || modified
+	modified = stage.CleanPointer(&assplitarea.Tree) || modified
+	modified = stage.CleanPointer(&assplitarea.Threejs) || modified
+	modified = stage.CleanPointer(&assplitarea.Xlsx) || modified
 	return
 }
 
@@ -192,7 +182,7 @@ func (tree *Tree) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by View
 func (view *View) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &view.RootAsSplitAreas) || modified
+	modified = stage.CleanSlice(&view.RootAsSplitAreas) || modified
 	// insertion point per field
 	return
 }

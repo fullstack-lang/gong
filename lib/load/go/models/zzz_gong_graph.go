@@ -23,29 +23,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *FileToDownload:
-		ok = stage.IsStagedFileToDownload(target)
-
-	case *FileToUpload:
-		ok = stage.IsStagedFileToUpload(target)
-
-	case *Message:
-		ok = stage.IsStagedMessage(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedFileToDownload(filetodownload *FileToDownload) (ok bool) {
 
@@ -96,7 +73,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchFileToDownload(filetodownload *FileToDownload) {
 
 	// check if instance is already staged
-	if IsStaged(stage, filetodownload) {
+	if stage.IsStaged(filetodownload) {
 		return
 	}
 
@@ -111,7 +88,7 @@ func (stage *Stage) StageBranchFileToDownload(filetodownload *FileToDownload) {
 func (stage *Stage) StageBranchFileToUpload(filetoupload *FileToUpload) {
 
 	// check if instance is already staged
-	if IsStaged(stage, filetoupload) {
+	if stage.IsStaged(filetoupload) {
 		return
 	}
 
@@ -126,7 +103,7 @@ func (stage *Stage) StageBranchFileToUpload(filetoupload *FileToUpload) {
 func (stage *Stage) StageBranchMessage(message *Message) {
 
 	// check if instance is already staged
-	if IsStaged(stage, message) {
+	if stage.IsStaged(message) {
 		return
 	}
 
@@ -138,11 +115,11 @@ func (stage *Stage) StageBranchMessage(message *Message) {
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -150,15 +127,15 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *FileToDownload:
-		toT := CopyBranchFileToDownload(mapOrigCopy, fromT)
+		toT := GongCopyBranchFileToDownload(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *FileToUpload:
-		toT := CopyBranchFileToUpload(mapOrigCopy, fromT)
+		toT := GongCopyBranchFileToUpload(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Message:
-		toT := CopyBranchMessage(mapOrigCopy, fromT)
+		toT := GongCopyBranchMessage(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -168,7 +145,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchFileToDownload(mapOrigCopy map[any]any, filetodownloadFrom *FileToDownload) (filetodownloadTo *FileToDownload) {
+func GongCopyBranchFileToDownload(mapOrigCopy map[any]any, filetodownloadFrom *FileToDownload) (filetodownloadTo *FileToDownload) {
 
 	// filetodownloadFrom has already been copied
 	if _filetodownloadTo, ok := mapOrigCopy[filetodownloadFrom]; ok {
@@ -178,7 +155,7 @@ func CopyBranchFileToDownload(mapOrigCopy map[any]any, filetodownloadFrom *FileT
 
 	filetodownloadTo = new(FileToDownload)
 	mapOrigCopy[filetodownloadFrom] = filetodownloadTo
-	filetodownloadFrom.CopyBasicFields(filetodownloadTo)
+	filetodownloadFrom.GongCopyBasicFields(filetodownloadTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -187,7 +164,7 @@ func CopyBranchFileToDownload(mapOrigCopy map[any]any, filetodownloadFrom *FileT
 	return
 }
 
-func CopyBranchFileToUpload(mapOrigCopy map[any]any, filetouploadFrom *FileToUpload) (filetouploadTo *FileToUpload) {
+func GongCopyBranchFileToUpload(mapOrigCopy map[any]any, filetouploadFrom *FileToUpload) (filetouploadTo *FileToUpload) {
 
 	// filetouploadFrom has already been copied
 	if _filetouploadTo, ok := mapOrigCopy[filetouploadFrom]; ok {
@@ -197,7 +174,7 @@ func CopyBranchFileToUpload(mapOrigCopy map[any]any, filetouploadFrom *FileToUpl
 
 	filetouploadTo = new(FileToUpload)
 	mapOrigCopy[filetouploadFrom] = filetouploadTo
-	filetouploadFrom.CopyBasicFields(filetouploadTo)
+	filetouploadFrom.GongCopyBasicFields(filetouploadTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -206,7 +183,7 @@ func CopyBranchFileToUpload(mapOrigCopy map[any]any, filetouploadFrom *FileToUpl
 	return
 }
 
-func CopyBranchMessage(mapOrigCopy map[any]any, messageFrom *Message) (messageTo *Message) {
+func GongCopyBranchMessage(mapOrigCopy map[any]any, messageFrom *Message) (messageTo *Message) {
 
 	// messageFrom has already been copied
 	if _messageTo, ok := mapOrigCopy[messageFrom]; ok {
@@ -216,7 +193,7 @@ func CopyBranchMessage(mapOrigCopy map[any]any, messageFrom *Message) (messageTo
 
 	messageTo = new(Message)
 	mapOrigCopy[messageFrom] = messageTo
-	messageFrom.CopyBasicFields(messageTo)
+	messageFrom.GongCopyBasicFields(messageTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -248,16 +225,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchFileToDownload(filetodownload *FileToDownload) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, filetodownload) {
+	if !stage.IsStaged(filetodownload) {
 		return
 	}
 
@@ -272,7 +244,7 @@ func (stage *Stage) UnstageBranchFileToDownload(filetodownload *FileToDownload) 
 func (stage *Stage) UnstageBranchFileToUpload(filetoupload *FileToUpload) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, filetoupload) {
+	if !stage.IsStaged(filetoupload) {
 		return
 	}
 
@@ -287,7 +259,7 @@ func (stage *Stage) UnstageBranchFileToUpload(filetoupload *FileToUpload) {
 func (stage *Stage) UnstageBranchMessage(message *Message) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, message) {
+	if !stage.IsStaged(message) {
 		return
 	}
 
@@ -445,9 +417,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

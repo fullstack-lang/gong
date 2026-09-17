@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -42,11 +37,6 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 	return
 }
 
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
-}
-
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by CheckBox
 func (checkbox *CheckBox) GongClean(stage *Stage) (modified bool) {
@@ -58,11 +48,11 @@ func (checkbox *CheckBox) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by FormDiv
 func (formdiv *FormDiv) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &formdiv.FormFields) || modified
-	modified = GongCleanSlice(stage, &formdiv.CheckBoxs) || modified
+	modified = stage.CleanSlice(&formdiv.FormFields) || modified
+	modified = stage.CleanSlice(&formdiv.CheckBoxs) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &formdiv.FormEditAssocButton) || modified
-	modified = GongCleanPointer(stage, &formdiv.FormSortAssocButton) || modified
+	modified = stage.CleanPointer(&formdiv.FormEditAssocButton) || modified
+	modified = stage.CleanPointer(&formdiv.FormSortAssocButton) || modified
 	return
 }
 
@@ -77,13 +67,13 @@ func (formeditassocbutton *FormEditAssocButton) GongClean(stage *Stage) (modifie
 func (formfield *FormField) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &formfield.FormFieldString) || modified
-	modified = GongCleanPointer(stage, &formfield.FormFieldFloat64) || modified
-	modified = GongCleanPointer(stage, &formfield.FormFieldInt) || modified
-	modified = GongCleanPointer(stage, &formfield.FormFieldDate) || modified
-	modified = GongCleanPointer(stage, &formfield.FormFieldTime) || modified
-	modified = GongCleanPointer(stage, &formfield.FormFieldDateTime) || modified
-	modified = GongCleanPointer(stage, &formfield.FormFieldSelect) || modified
+	modified = stage.CleanPointer(&formfield.FormFieldString) || modified
+	modified = stage.CleanPointer(&formfield.FormFieldFloat64) || modified
+	modified = stage.CleanPointer(&formfield.FormFieldInt) || modified
+	modified = stage.CleanPointer(&formfield.FormFieldDate) || modified
+	modified = stage.CleanPointer(&formfield.FormFieldTime) || modified
+	modified = stage.CleanPointer(&formfield.FormFieldDateTime) || modified
+	modified = stage.CleanPointer(&formfield.FormFieldSelect) || modified
 	return
 }
 
@@ -118,9 +108,9 @@ func (formfieldint *FormFieldInt) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by FormFieldSelect
 func (formfieldselect *FormFieldSelect) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &formfieldselect.Options) || modified
+	modified = stage.CleanSlice(&formfieldselect.Options) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &formfieldselect.Value) || modified
+	modified = stage.CleanPointer(&formfieldselect.Value) || modified
 	return
 }
 
@@ -141,7 +131,7 @@ func (formfieldtime *FormFieldTime) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by FormGroup
 func (formgroup *FormGroup) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &formgroup.FormDivs) || modified
+	modified = stage.CleanSlice(&formgroup.FormDivs) || modified
 	// insertion point per field
 	return
 }
@@ -150,7 +140,7 @@ func (formgroup *FormGroup) GongClean(stage *Stage) (modified bool) {
 func (formsortassocbutton *FormSortAssocButton) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &formsortassocbutton.FormEditAssocButton) || modified
+	modified = stage.CleanPointer(&formsortassocbutton.FormEditAssocButton) || modified
 	return
 }
 

@@ -94,31 +94,31 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 // insertion point per named struct
 func (button *Button) GongCopy() GongstructIF {
 	newInstance := new(Button)
-	button.CopyBasicFields(newInstance)
+	button.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (menu *Menu) GongCopy() GongstructIF {
 	newInstance := new(Menu)
-	menu.CopyBasicFields(newInstance)
+	menu.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (node *Node) GongCopy() GongstructIF {
 	newInstance := new(Node)
-	node.CopyBasicFields(newInstance)
+	node.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (svgicon *SVGIcon) GongCopy() GongstructIF {
 	newInstance := new(SVGIcon)
-	svgicon.CopyBasicFields(newInstance)
+	svgicon.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (tree *Tree) GongCopy() GongstructIF {
 	newInstance := new(Tree)
-	tree.CopyBasicFields(newInstance)
+	tree.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -129,7 +129,7 @@ func (button *Button) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(button), uint64(stage.GetOrder(button)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(button), uint64(stage.GetOrder(button)))
 	return
 }
 
@@ -139,7 +139,7 @@ func (menu *Menu) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(menu), uint64(stage.GetOrder(menu)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(menu), uint64(stage.GetOrder(menu)))
 	return
 }
 
@@ -149,7 +149,7 @@ func (node *Node) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(node), uint64(stage.GetOrder(node)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(node), uint64(stage.GetOrder(node)))
 	return
 }
 
@@ -159,7 +159,7 @@ func (svgicon *SVGIcon) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svgicon), uint64(stage.GetOrder(svgicon)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(svgicon), uint64(stage.GetOrder(svgicon)))
 	return
 }
 
@@ -169,7 +169,7 @@ func (tree *Tree) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tree), uint64(stage.GetOrder(tree)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(tree), uint64(stage.GetOrder(tree)))
 	return
 }
 
@@ -704,7 +704,7 @@ func (button *Button) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Button")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(button.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(button.Name))
 	return
 }
 
@@ -712,7 +712,7 @@ func (menu *Menu) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", menu.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Menu")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(menu.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(menu.Name))
 	return
 }
 
@@ -720,7 +720,7 @@ func (node *Node) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", node.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Node")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(node.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(node.Name))
 	return
 }
 
@@ -728,7 +728,7 @@ func (svgicon *SVGIcon) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SVGIcon")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svgicon.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svgicon.Name))
 	return
 }
 
@@ -736,7 +736,7 @@ func (tree *Tree) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tree.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Tree")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tree.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tree.Name))
 	return
 }
 
@@ -771,10 +771,10 @@ func (tree *Tree) GongMarshallUnstaging(stage *Stage) (decl string) {
 	return
 }
 
-func IntToLetters(number int32) (letters string) {
+func GongIntToLetters(number int32) (letters string) {
 	number--
 	if firstLetter := number / 26; firstLetter > 0 {
-		letters += IntToLetters(firstLetter)
+		letters += GongIntToLetters(firstLetter)
 		letters += string('A' + number%26)
 	} else {
 		letters += string('A' + number)
@@ -783,8 +783,8 @@ func IntToLetters(number int32) (letters string) {
 	return
 }
 
-// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
-func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+// GongGenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 1. Create a deterministic hash from the inputs using SHA-256
 	h := sha256.New()
 

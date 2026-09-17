@@ -70,9 +70,9 @@ const SliceOfPointersFieldInitStatement = `
 const TimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
 
-// ToRawStringLiteral formats a string into safe Go source code,
+// __gong__toRawStringLiteral formats a string into safe Go source code,
 // using backticks to preserve newlines and readability.
-func ToRawStringLiteral(s string) string {
+func __gong__toRawStringLiteral(s string) string {
 	// Step 1: Replace every backtick with a closing backtick,
 	// a double-quoted backtick, and an opening backtick.
 	escaped := strings.ReplaceAll(s, "`", "` + \"`\" + `")
@@ -627,17 +627,17 @@ func (arrow *Arrow) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Name))
 	case "OptionnalColor":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OptionnalColor")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.OptionnalColor))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.OptionnalColor))
 	case "OptionnalStroke":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OptionnalStroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.OptionnalStroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.OptionnalStroke))
 
 	case "From":
 		if arrow.From != nil {
@@ -678,7 +678,7 @@ func (bar *Bar) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bar.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bar.Name))
 	case "Start":
 		res = TimeInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
@@ -698,12 +698,12 @@ func (bar *Bar) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OptionnalColor")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bar.OptionnalColor))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bar.OptionnalColor))
 	case "OptionnalStroke":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OptionnalStroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bar.OptionnalStroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bar.OptionnalStroke))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
@@ -718,7 +718,7 @@ func (bar *Bar) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bar.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bar.StrokeDashArray))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Bar", fieldName)
@@ -733,7 +733,7 @@ func (gantt *Gantt) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gantt.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gantt.Name))
 	case "ComputedStart":
 		res = TimeInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
@@ -813,7 +813,7 @@ func (gantt *Gantt) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gantt.TimeLine_Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gantt.TimeLine_Color))
 	case "TimeLine_FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
@@ -823,7 +823,7 @@ func (gantt *Gantt) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gantt.TimeLine_Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gantt.TimeLine_Stroke))
 	case "TimeLine_StrokeWidth":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
@@ -833,7 +833,7 @@ func (gantt *Gantt) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gantt.Group_Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gantt.Group_Stroke))
 	case "Group_StrokeWidth":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
@@ -843,7 +843,7 @@ func (gantt *Gantt) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gantt.Group_StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gantt.Group_StrokeDashArray))
 	case "DateYOffset":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
@@ -908,7 +908,7 @@ func (group *Group) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group.Name))
 
 	case "GroupLanes":
 		var sb strings.Builder
@@ -933,7 +933,7 @@ func (lane *Lane) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lane.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lane.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lane.Name))
 	case "Order":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lane.GongGetIdentifier(stage))
@@ -963,7 +963,7 @@ func (laneuse *LaneUse) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", laneuse.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(laneuse.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(laneuse.Name))
 
 	case "Lane":
 		if laneuse.Lane != nil {
@@ -991,7 +991,7 @@ func (milestone *Milestone) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(milestone.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(milestone.Name))
 	case "Date":
 		res = TimeInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))

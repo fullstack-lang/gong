@@ -99,7 +99,7 @@ func NewLevel1StackDelta(
 	}
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -124,18 +124,18 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.CompareAnalysis](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Complexity](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DiagramFlossEquation](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Effort](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Note](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NoteComplexityShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NoteEffortShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NotePerformanceShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NoteShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Performance](stage)
-	models.SetOrchestratorOnAfterUpdate[models.System](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.CompareAnalysis]()
+	stage.SetOrchestratorOnAfterUpdate[models.Complexity]()
+	stage.SetOrchestratorOnAfterUpdate[models.DiagramFlossEquation]()
+	stage.SetOrchestratorOnAfterUpdate[models.Effort]()
+	stage.SetOrchestratorOnAfterUpdate[models.Library]()
+	stage.SetOrchestratorOnAfterUpdate[models.Note]()
+	stage.SetOrchestratorOnAfterUpdate[models.NoteComplexityShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.NoteEffortShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.NotePerformanceShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.NoteShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Performance]()
+	stage.SetOrchestratorOnAfterUpdate[models.System]()
 
 	return
 }

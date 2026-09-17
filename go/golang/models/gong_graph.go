@@ -29,20 +29,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage{{` + string(rune(ModelGongGraphStructInsertionIsStaged)) + `}}
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct{{` + string(rune(ModelGongGraphStructInsertionIsStagedPerStruct)) + `}}
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
 func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
@@ -60,11 +46,11 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct{{` + string(rune(ModelGongGraphStructInsertionStageBranchPerStruct)) + `}}
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -90,11 +76,6 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	default:
 		_ = target
 	}
-}
-
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
 }
 
 // insertion point for unstage branch per struct{{` + string(rune(ModelGongGraphStructInsertionUnstageBranchPerStruct)) + `}}
@@ -176,11 +157,6 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	return ops
 }
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
-}
 `
 
 // insertion points are places where the code is
@@ -225,7 +201,7 @@ func (stage *Stage) IsStaged{{Structname}}({{structname}} *{{Structname}}) (ok b
 func (stage *Stage) StageBranch{{Structname}}({{structname}} *{{Structname}}) {
 
 	// check if instance is already staged
-	if IsStaged(stage, {{structname}}) {
+	if stage.IsStaged({{structname}}) {
 		return
 	}
 
@@ -239,11 +215,11 @@ func (stage *Stage) StageBranch{{Structname}}({{structname}} *{{Structname}}) {
 `,
 	ModelGongGraphStructInsertionCopyBranch: `
 	case *{{Structname}}:
-		toT := CopyBranch{{Structname}}(mapOrigCopy, fromT)
+		toT := GongCopyBranch{{Structname}}(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 `,
 	ModelGongGraphStructInsertionCopyBranchPerStruct: `
-func CopyBranch{{Structname}}(mapOrigCopy map[any]any, {{structname}}From *{{Structname}}) ({{structname}}To *{{Structname}}) {
+func GongCopyBranch{{Structname}}(mapOrigCopy map[any]any, {{structname}}From *{{Structname}}) ({{structname}}To *{{Structname}}) {
 
 	// {{structname}}From has already been copied
 	if _{{structname}}To, ok := mapOrigCopy[{{structname}}From]; ok {
@@ -253,7 +229,7 @@ func CopyBranch{{Structname}}(mapOrigCopy map[any]any, {{structname}}From *{{Str
 
 	{{structname}}To = new({{Structname}})
 	mapOrigCopy[{{structname}}From] = {{structname}}To
-	{{structname}}From.CopyBasicFields({{structname}}To)
+	{{structname}}From.GongCopyBasicFields({{structname}}To)
 
 	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
 
@@ -270,7 +246,7 @@ func CopyBranch{{Structname}}(mapOrigCopy map[any]any, {{structname}}From *{{Str
 func (stage *Stage) UnstageBranch{{Structname}}({{structname}} *{{Structname}}) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, {{structname}}) {
+	if !stage.IsStaged({{structname}}) {
 		return
 	}
 
@@ -332,15 +308,15 @@ map[GongGraphFilePerStructSubTemplateId]string{
 
 	GongGraphFileFieldSubTmplStagePointerField: `
 	if {{structname}}.{{FieldName}} != nil {
-		StageBranch(stage, {{structname}}.{{FieldName}})
+		stage.StageBranch({{structname}}.{{FieldName}})
 	}`,
 	GongGraphFileFieldSubTmplStageSliceOfPointersField: `
 	for _, _{{assocstructname}} := range {{structname}}.{{FieldName}} {
-		StageBranch(stage, _{{assocstructname}})
+		stage.StageBranch(_{{assocstructname}})
 	}`,
 	GongGraphFileFieldSubTmplCopyPointerField: `
 	if {{structname}}From.{{FieldName}} != nil {
-		{{structname}}To.{{FieldName}} = CopyBranch{{AssocStructName}}(mapOrigCopy, {{structname}}From.{{FieldName}})
+		{{structname}}To.{{FieldName}} = GongCopyBranch{{AssocStructName}}(mapOrigCopy, {{structname}}From.{{FieldName}})
 	}`,
 	GongGraphFileFieldSubTmplCopyPointerFieldAndStop: `
 	if {{structname}}From.{{FieldName}} != nil {
@@ -348,15 +324,15 @@ map[GongGraphFilePerStructSubTemplateId]string{
 	}`,
 	GongGraphFileFieldSubTmplCopySliceOfPointersField: `
 	for _, _{{assocstructname}} := range {{structname}}From.{{FieldName}} {
-		{{structname}}To.{{FieldName}} = append({{structname}}To.{{FieldName}}, CopyBranch{{AssocStructName}}(mapOrigCopy, _{{assocstructname}}))
+		{{structname}}To.{{FieldName}} = append({{structname}}To.{{FieldName}}, GongCopyBranch{{AssocStructName}}(mapOrigCopy, _{{assocstructname}}))
 	}`,
 	GongGraphFileFieldSubTmplUnstagePointerField: `
 	if {{structname}}.{{FieldName}} != nil {
-		UnstageBranch(stage, {{structname}}.{{FieldName}})
+		stage.UnstageBranch({{structname}}.{{FieldName}})
 	}`,
 	GongGraphFileFieldSubTmplUnstageSliceOfPointersField: `
 	for _, _{{assocstructname}} := range {{structname}}.{{FieldName}} {
-		UnstageBranch(stage, _{{assocstructname}})
+		stage.UnstageBranch(_{{assocstructname}})
 	}`,
 	GongGraphBasicFieldDiff: `
 	if {{structname}}.{{FieldName}} != {{structname}}Other.{{FieldName}} {
@@ -389,7 +365,7 @@ map[GongGraphFilePerStructSubTemplateId]string{
 		}
 	}
 	if {{FieldName}}Different {
-		ops := Diff(stage, {{structname}}, {{structname}}Other, "{{FieldName}}", {{structname}}Other.{{FieldName}}, {{structname}}.{{FieldName}})
+		ops := stage.Diff({{structname}}, {{structname}}Other, "{{FieldName}}", {{structname}}Other.{{FieldName}}, {{structname}}.{{FieldName}})
 		diffs = append(diffs, ops)
 	}`,
 

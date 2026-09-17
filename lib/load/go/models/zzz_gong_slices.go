@@ -52,19 +52,19 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 // insertion point per named struct
 func (filetodownload *FileToDownload) GongCopy() GongstructIF {
 	newInstance := new(FileToDownload)
-	filetodownload.CopyBasicFields(newInstance)
+	filetodownload.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (filetoupload *FileToUpload) GongCopy() GongstructIF {
 	newInstance := new(FileToUpload)
-	filetoupload.CopyBasicFields(newInstance)
+	filetoupload.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (message *Message) GongCopy() GongstructIF {
 	newInstance := new(Message)
-	message.CopyBasicFields(newInstance)
+	message.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -75,7 +75,7 @@ func (filetodownload *FileToDownload) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(filetodownload), uint64(stage.GetOrder(filetodownload)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(filetodownload), uint64(stage.GetOrder(filetodownload)))
 	return
 }
 
@@ -85,7 +85,7 @@ func (filetoupload *FileToUpload) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(filetoupload), uint64(stage.GetOrder(filetoupload)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(filetoupload), uint64(stage.GetOrder(filetoupload)))
 	return
 }
 
@@ -95,7 +95,7 @@ func (message *Message) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(message), uint64(stage.GetOrder(message)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(message), uint64(stage.GetOrder(message)))
 	return
 }
 
@@ -448,7 +448,7 @@ func (filetodownload *FileToDownload) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FileToDownload")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(filetodownload.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(filetodownload.Name))
 	return
 }
 
@@ -456,7 +456,7 @@ func (filetoupload *FileToUpload) GongMarshallIdentifier(stage *Stage) (decl str
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FileToUpload")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(filetoupload.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(filetoupload.Name))
 	return
 }
 
@@ -464,7 +464,7 @@ func (message *Message) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", message.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Message")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(message.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(message.Name))
 	return
 }
 
@@ -487,10 +487,10 @@ func (message *Message) GongMarshallUnstaging(stage *Stage) (decl string) {
 	return
 }
 
-func IntToLetters(number int32) (letters string) {
+func GongIntToLetters(number int32) (letters string) {
 	number--
 	if firstLetter := number / 26; firstLetter > 0 {
-		letters += IntToLetters(firstLetter)
+		letters += GongIntToLetters(firstLetter)
 		letters += string('A' + number%26)
 	} else {
 		letters += string('A' + number)
@@ -499,8 +499,8 @@ func IntToLetters(number int32) (letters string) {
 	return
 }
 
-// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
-func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+// GongGenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 1. Create a deterministic hash from the inputs using SHA-256
 	h := sha256.New()
 

@@ -29,35 +29,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Button:
-		ok = stage.IsStagedButton(target)
-
-	case *Menu:
-		ok = stage.IsStagedMenu(target)
-
-	case *Node:
-		ok = stage.IsStagedNode(target)
-
-	case *SVGIcon:
-		ok = stage.IsStagedSVGIcon(target)
-
-	case *Tree:
-		ok = stage.IsStagedTree(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
 
@@ -128,7 +99,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchButton(button *Button) {
 
 	// check if instance is already staged
-	if IsStaged(stage, button) {
+	if stage.IsStaged(button) {
 		return
 	}
 
@@ -136,7 +107,7 @@ func (stage *Stage) StageBranchButton(button *Button) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if button.SVGIcon != nil {
-		StageBranch(stage, button.SVGIcon)
+		stage.StageBranch(button.SVGIcon)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -146,7 +117,7 @@ func (stage *Stage) StageBranchButton(button *Button) {
 func (stage *Stage) StageBranchMenu(menu *Menu) {
 
 	// check if instance is already staged
-	if IsStaged(stage, menu) {
+	if stage.IsStaged(menu) {
 		return
 	}
 
@@ -156,7 +127,7 @@ func (stage *Stage) StageBranchMenu(menu *Menu) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _button := range menu.Buttons {
-		StageBranch(stage, _button)
+		stage.StageBranch(_button)
 	}
 
 }
@@ -164,7 +135,7 @@ func (stage *Stage) StageBranchMenu(menu *Menu) {
 func (stage *Stage) StageBranchNode(node *Node) {
 
 	// check if instance is already staged
-	if IsStaged(stage, node) {
+	if stage.IsStaged(node) {
 		return
 	}
 
@@ -172,18 +143,18 @@ func (stage *Stage) StageBranchNode(node *Node) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if node.PreceedingSVGIcon != nil {
-		StageBranch(stage, node.PreceedingSVGIcon)
+		stage.StageBranch(node.PreceedingSVGIcon)
 	}
 	if node.Menu != nil {
-		StageBranch(stage, node.Menu)
+		stage.StageBranch(node.Menu)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _node := range node.Children {
-		StageBranch(stage, _node)
+		stage.StageBranch(_node)
 	}
 	for _, _button := range node.Buttons {
-		StageBranch(stage, _button)
+		stage.StageBranch(_button)
 	}
 
 }
@@ -191,7 +162,7 @@ func (stage *Stage) StageBranchNode(node *Node) {
 func (stage *Stage) StageBranchSVGIcon(svgicon *SVGIcon) {
 
 	// check if instance is already staged
-	if IsStaged(stage, svgicon) {
+	if stage.IsStaged(svgicon) {
 		return
 	}
 
@@ -206,7 +177,7 @@ func (stage *Stage) StageBranchSVGIcon(svgicon *SVGIcon) {
 func (stage *Stage) StageBranchTree(tree *Tree) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tree) {
+	if stage.IsStaged(tree) {
 		return
 	}
 
@@ -216,16 +187,16 @@ func (stage *Stage) StageBranchTree(tree *Tree) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _node := range tree.RootNodes {
-		StageBranch(stage, _node)
+		stage.StageBranch(_node)
 	}
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -233,23 +204,23 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *Button:
-		toT := CopyBranchButton(mapOrigCopy, fromT)
+		toT := GongCopyBranchButton(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Menu:
-		toT := CopyBranchMenu(mapOrigCopy, fromT)
+		toT := GongCopyBranchMenu(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Node:
-		toT := CopyBranchNode(mapOrigCopy, fromT)
+		toT := GongCopyBranchNode(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *SVGIcon:
-		toT := CopyBranchSVGIcon(mapOrigCopy, fromT)
+		toT := GongCopyBranchSVGIcon(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tree:
-		toT := CopyBranchTree(mapOrigCopy, fromT)
+		toT := GongCopyBranchTree(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -259,7 +230,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Button) {
+func GongCopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Button) {
 
 	// buttonFrom has already been copied
 	if _buttonTo, ok := mapOrigCopy[buttonFrom]; ok {
@@ -269,11 +240,11 @@ func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Bu
 
 	buttonTo = new(Button)
 	mapOrigCopy[buttonFrom] = buttonTo
-	buttonFrom.CopyBasicFields(buttonTo)
+	buttonFrom.GongCopyBasicFields(buttonTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if buttonFrom.SVGIcon != nil {
-		buttonTo.SVGIcon = CopyBranchSVGIcon(mapOrigCopy, buttonFrom.SVGIcon)
+		buttonTo.SVGIcon = GongCopyBranchSVGIcon(mapOrigCopy, buttonFrom.SVGIcon)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -281,7 +252,7 @@ func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Bu
 	return
 }
 
-func CopyBranchMenu(mapOrigCopy map[any]any, menuFrom *Menu) (menuTo *Menu) {
+func GongCopyBranchMenu(mapOrigCopy map[any]any, menuFrom *Menu) (menuTo *Menu) {
 
 	// menuFrom has already been copied
 	if _menuTo, ok := mapOrigCopy[menuFrom]; ok {
@@ -291,19 +262,19 @@ func CopyBranchMenu(mapOrigCopy map[any]any, menuFrom *Menu) (menuTo *Menu) {
 
 	menuTo = new(Menu)
 	mapOrigCopy[menuFrom] = menuTo
-	menuFrom.CopyBasicFields(menuTo)
+	menuFrom.GongCopyBasicFields(menuTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _button := range menuFrom.Buttons {
-		menuTo.Buttons = append(menuTo.Buttons, CopyBranchButton(mapOrigCopy, _button))
+		menuTo.Buttons = append(menuTo.Buttons, GongCopyBranchButton(mapOrigCopy, _button))
 	}
 
 	return
 }
 
-func CopyBranchNode(mapOrigCopy map[any]any, nodeFrom *Node) (nodeTo *Node) {
+func GongCopyBranchNode(mapOrigCopy map[any]any, nodeFrom *Node) (nodeTo *Node) {
 
 	// nodeFrom has already been copied
 	if _nodeTo, ok := mapOrigCopy[nodeFrom]; ok {
@@ -313,28 +284,28 @@ func CopyBranchNode(mapOrigCopy map[any]any, nodeFrom *Node) (nodeTo *Node) {
 
 	nodeTo = new(Node)
 	mapOrigCopy[nodeFrom] = nodeTo
-	nodeFrom.CopyBasicFields(nodeTo)
+	nodeFrom.GongCopyBasicFields(nodeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if nodeFrom.PreceedingSVGIcon != nil {
-		nodeTo.PreceedingSVGIcon = CopyBranchSVGIcon(mapOrigCopy, nodeFrom.PreceedingSVGIcon)
+		nodeTo.PreceedingSVGIcon = GongCopyBranchSVGIcon(mapOrigCopy, nodeFrom.PreceedingSVGIcon)
 	}
 	if nodeFrom.Menu != nil {
-		nodeTo.Menu = CopyBranchMenu(mapOrigCopy, nodeFrom.Menu)
+		nodeTo.Menu = GongCopyBranchMenu(mapOrigCopy, nodeFrom.Menu)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _node := range nodeFrom.Children {
-		nodeTo.Children = append(nodeTo.Children, CopyBranchNode(mapOrigCopy, _node))
+		nodeTo.Children = append(nodeTo.Children, GongCopyBranchNode(mapOrigCopy, _node))
 	}
 	for _, _button := range nodeFrom.Buttons {
-		nodeTo.Buttons = append(nodeTo.Buttons, CopyBranchButton(mapOrigCopy, _button))
+		nodeTo.Buttons = append(nodeTo.Buttons, GongCopyBranchButton(mapOrigCopy, _button))
 	}
 
 	return
 }
 
-func CopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo *SVGIcon) {
+func GongCopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo *SVGIcon) {
 
 	// svgiconFrom has already been copied
 	if _svgiconTo, ok := mapOrigCopy[svgiconFrom]; ok {
@@ -344,7 +315,7 @@ func CopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo
 
 	svgiconTo = new(SVGIcon)
 	mapOrigCopy[svgiconFrom] = svgiconTo
-	svgiconFrom.CopyBasicFields(svgiconTo)
+	svgiconFrom.GongCopyBasicFields(svgiconTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -353,7 +324,7 @@ func CopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo
 	return
 }
 
-func CopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo *Tree) {
+func GongCopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo *Tree) {
 
 	// treeFrom has already been copied
 	if _treeTo, ok := mapOrigCopy[treeFrom]; ok {
@@ -363,13 +334,13 @@ func CopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo *Tree) {
 
 	treeTo = new(Tree)
 	mapOrigCopy[treeFrom] = treeTo
-	treeFrom.CopyBasicFields(treeTo)
+	treeFrom.GongCopyBasicFields(treeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _node := range treeFrom.RootNodes {
-		treeTo.RootNodes = append(treeTo.RootNodes, CopyBranchNode(mapOrigCopy, _node))
+		treeTo.RootNodes = append(treeTo.RootNodes, GongCopyBranchNode(mapOrigCopy, _node))
 	}
 
 	return
@@ -404,16 +375,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, button) {
+	if !stage.IsStaged(button) {
 		return
 	}
 
@@ -421,7 +387,7 @@ func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if button.SVGIcon != nil {
-		UnstageBranch(stage, button.SVGIcon)
+		stage.UnstageBranch(button.SVGIcon)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -431,7 +397,7 @@ func (stage *Stage) UnstageBranchButton(button *Button) {
 func (stage *Stage) UnstageBranchMenu(menu *Menu) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, menu) {
+	if !stage.IsStaged(menu) {
 		return
 	}
 
@@ -441,7 +407,7 @@ func (stage *Stage) UnstageBranchMenu(menu *Menu) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _button := range menu.Buttons {
-		UnstageBranch(stage, _button)
+		stage.UnstageBranch(_button)
 	}
 
 }
@@ -449,7 +415,7 @@ func (stage *Stage) UnstageBranchMenu(menu *Menu) {
 func (stage *Stage) UnstageBranchNode(node *Node) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, node) {
+	if !stage.IsStaged(node) {
 		return
 	}
 
@@ -457,18 +423,18 @@ func (stage *Stage) UnstageBranchNode(node *Node) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if node.PreceedingSVGIcon != nil {
-		UnstageBranch(stage, node.PreceedingSVGIcon)
+		stage.UnstageBranch(node.PreceedingSVGIcon)
 	}
 	if node.Menu != nil {
-		UnstageBranch(stage, node.Menu)
+		stage.UnstageBranch(node.Menu)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _node := range node.Children {
-		UnstageBranch(stage, _node)
+		stage.UnstageBranch(_node)
 	}
 	for _, _button := range node.Buttons {
-		UnstageBranch(stage, _button)
+		stage.UnstageBranch(_button)
 	}
 
 }
@@ -476,7 +442,7 @@ func (stage *Stage) UnstageBranchNode(node *Node) {
 func (stage *Stage) UnstageBranchSVGIcon(svgicon *SVGIcon) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, svgicon) {
+	if !stage.IsStaged(svgicon) {
 		return
 	}
 
@@ -491,7 +457,7 @@ func (stage *Stage) UnstageBranchSVGIcon(svgicon *SVGIcon) {
 func (stage *Stage) UnstageBranchTree(tree *Tree) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tree) {
+	if !stage.IsStaged(tree) {
 		return
 	}
 
@@ -501,7 +467,7 @@ func (stage *Stage) UnstageBranchTree(tree *Tree) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _node := range tree.RootNodes {
-		UnstageBranch(stage, _node)
+		stage.UnstageBranch(_node)
 	}
 
 }
@@ -694,7 +660,7 @@ func (menu *Menu) GongDiff(stage *Stage, menuOther *Menu) (diffs []string) {
 		}
 	}
 	if ButtonsDifferent {
-		ops := Diff(stage, menu, menuOther, "Buttons", menuOther.Buttons, menu.Buttons)
+		ops := stage.Diff(menu, menuOther, "Buttons", menuOther.Buttons, menu.Buttons)
 		diffs = append(diffs, ops)
 	}
 
@@ -811,7 +777,7 @@ func (node *Node) GongDiff(stage *Stage, nodeOther *Node) (diffs []string) {
 		}
 	}
 	if ChildrenDifferent {
-		ops := Diff(stage, node, nodeOther, "Children", nodeOther.Children, node.Children)
+		ops := stage.Diff(node, nodeOther, "Children", nodeOther.Children, node.Children)
 		diffs = append(diffs, ops)
 	}
 	ButtonsDifferent := false
@@ -832,7 +798,7 @@ func (node *Node) GongDiff(stage *Stage, nodeOther *Node) (diffs []string) {
 		}
 	}
 	if ButtonsDifferent {
-		ops := Diff(stage, node, nodeOther, "Buttons", nodeOther.Buttons, node.Buttons)
+		ops := stage.Diff(node, nodeOther, "Buttons", nodeOther.Buttons, node.Buttons)
 		diffs = append(diffs, ops)
 	}
 	if (node.Menu == nil) != (nodeOther.Menu == nil) {
@@ -885,7 +851,7 @@ func (tree *Tree) GongDiff(stage *Stage, treeOther *Tree) (diffs []string) {
 		}
 	}
 	if RootNodesDifferent {
-		ops := Diff(stage, tree, treeOther, "RootNodes", treeOther.RootNodes, tree.RootNodes)
+		ops := stage.Diff(tree, treeOther, "RootNodes", treeOther.RootNodes, tree.RootNodes)
 		diffs = append(diffs, ops)
 	}
 	if tree.HaveSearch != treeOther.HaveSearch {
@@ -969,9 +935,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

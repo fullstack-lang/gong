@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -42,11 +37,6 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 	return
 }
 
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
-}
-
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by ALTERNATIVE_ID
 func (alternative_id *ALTERNATIVE_ID) GongClean(stage *Stage) (modified bool) {
@@ -59,9 +49,9 @@ func (alternative_id *ALTERNATIVE_ID) GongClean(stage *Stage) (modified bool) {
 func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attribute_definition_boolean.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &attribute_definition_boolean.DEFAULT_VALUE) || modified
-	modified = GongCleanPointer(stage, &attribute_definition_boolean.TYPE) || modified
+	modified = stage.CleanPointer(&attribute_definition_boolean.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&attribute_definition_boolean.DEFAULT_VALUE) || modified
+	modified = stage.CleanPointer(&attribute_definition_boolean.TYPE) || modified
 	return
 }
 
@@ -76,9 +66,9 @@ func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rende
 func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attribute_definition_date.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &attribute_definition_date.DEFAULT_VALUE) || modified
-	modified = GongCleanPointer(stage, &attribute_definition_date.TYPE) || modified
+	modified = stage.CleanPointer(&attribute_definition_date.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&attribute_definition_date.DEFAULT_VALUE) || modified
+	modified = stage.CleanPointer(&attribute_definition_date.TYPE) || modified
 	return
 }
 
@@ -93,9 +83,9 @@ func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) 
 func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attribute_definition_enumeration.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &attribute_definition_enumeration.DEFAULT_VALUE) || modified
-	modified = GongCleanPointer(stage, &attribute_definition_enumeration.TYPE) || modified
+	modified = stage.CleanPointer(&attribute_definition_enumeration.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&attribute_definition_enumeration.DEFAULT_VALUE) || modified
+	modified = stage.CleanPointer(&attribute_definition_enumeration.TYPE) || modified
 	return
 }
 
@@ -110,9 +100,9 @@ func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATI
 func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attribute_definition_integer.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &attribute_definition_integer.DEFAULT_VALUE) || modified
-	modified = GongCleanPointer(stage, &attribute_definition_integer.TYPE) || modified
+	modified = stage.CleanPointer(&attribute_definition_integer.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&attribute_definition_integer.DEFAULT_VALUE) || modified
+	modified = stage.CleanPointer(&attribute_definition_integer.TYPE) || modified
 	return
 }
 
@@ -127,9 +117,9 @@ func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rende
 func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attribute_definition_real.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &attribute_definition_real.DEFAULT_VALUE) || modified
-	modified = GongCleanPointer(stage, &attribute_definition_real.TYPE) || modified
+	modified = stage.CleanPointer(&attribute_definition_real.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&attribute_definition_real.DEFAULT_VALUE) || modified
+	modified = stage.CleanPointer(&attribute_definition_real.TYPE) || modified
 	return
 }
 
@@ -151,9 +141,9 @@ func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) GongClean(
 func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attribute_definition_string.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &attribute_definition_string.DEFAULT_VALUE) || modified
-	modified = GongCleanPointer(stage, &attribute_definition_string.TYPE) || modified
+	modified = stage.CleanPointer(&attribute_definition_string.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&attribute_definition_string.DEFAULT_VALUE) || modified
+	modified = stage.CleanPointer(&attribute_definition_string.TYPE) || modified
 	return
 }
 
@@ -168,9 +158,9 @@ func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Renderi
 func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attribute_definition_xhtml.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &attribute_definition_xhtml.DEFAULT_VALUE) || modified
-	modified = GongCleanPointer(stage, &attribute_definition_xhtml.TYPE) || modified
+	modified = stage.CleanPointer(&attribute_definition_xhtml.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&attribute_definition_xhtml.DEFAULT_VALUE) || modified
+	modified = stage.CleanPointer(&attribute_definition_xhtml.TYPE) || modified
 	return
 }
 
@@ -185,7 +175,7 @@ func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering
 func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attribute_value_boolean.DEFINITION) || modified
+	modified = stage.CleanPointer(&attribute_value_boolean.DEFINITION) || modified
 	return
 }
 
@@ -193,7 +183,7 @@ func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) GongClean(stage *Stage) 
 func (attribute_value_date *ATTRIBUTE_VALUE_DATE) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attribute_value_date.DEFINITION) || modified
+	modified = stage.CleanPointer(&attribute_value_date.DEFINITION) || modified
 	return
 }
 
@@ -201,8 +191,8 @@ func (attribute_value_date *ATTRIBUTE_VALUE_DATE) GongClean(stage *Stage) (modif
 func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attribute_value_enumeration.DEFINITION) || modified
-	modified = GongCleanPointer(stage, &attribute_value_enumeration.VALUES) || modified
+	modified = stage.CleanPointer(&attribute_value_enumeration.DEFINITION) || modified
+	modified = stage.CleanPointer(&attribute_value_enumeration.VALUES) || modified
 	return
 }
 
@@ -210,7 +200,7 @@ func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) GongClean(stage 
 func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attribute_value_integer.DEFINITION) || modified
+	modified = stage.CleanPointer(&attribute_value_integer.DEFINITION) || modified
 	return
 }
 
@@ -218,7 +208,7 @@ func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) GongClean(stage *Stage) 
 func (attribute_value_real *ATTRIBUTE_VALUE_REAL) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attribute_value_real.DEFINITION) || modified
+	modified = stage.CleanPointer(&attribute_value_real.DEFINITION) || modified
 	return
 }
 
@@ -226,7 +216,7 @@ func (attribute_value_real *ATTRIBUTE_VALUE_REAL) GongClean(stage *Stage) (modif
 func (attribute_value_string *ATTRIBUTE_VALUE_STRING) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attribute_value_string.DEFINITION) || modified
+	modified = stage.CleanPointer(&attribute_value_string.DEFINITION) || modified
 	return
 }
 
@@ -234,9 +224,9 @@ func (attribute_value_string *ATTRIBUTE_VALUE_STRING) GongClean(stage *Stage) (m
 func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attribute_value_xhtml.DEFINITION) || modified
-	modified = GongCleanPointer(stage, &attribute_value_xhtml.THE_VALUE) || modified
-	modified = GongCleanPointer(stage, &attribute_value_xhtml.THE_ORIGINAL_VALUE) || modified
+	modified = stage.CleanPointer(&attribute_value_xhtml.DEFINITION) || modified
+	modified = stage.CleanPointer(&attribute_value_xhtml.THE_VALUE) || modified
+	modified = stage.CleanPointer(&attribute_value_xhtml.THE_ORIGINAL_VALUE) || modified
 	return
 }
 
@@ -244,7 +234,7 @@ func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) GongClean(stage *Stage) (mod
 func (a_alternative_id *A_ALTERNATIVE_ID) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &a_alternative_id.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&a_alternative_id.ALTERNATIVE_ID) || modified
 	return
 }
 
@@ -300,7 +290,7 @@ func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongCl
 // Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_VALUE_BOOLEAN
 func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN) || modified
+	modified = stage.CleanSlice(&a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN) || modified
 	// insertion point per field
 	return
 }
@@ -308,7 +298,7 @@ func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongClean(stage *Sta
 // Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_VALUE_DATE
 func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_attribute_value_date.ATTRIBUTE_VALUE_DATE) || modified
+	modified = stage.CleanSlice(&a_attribute_value_date.ATTRIBUTE_VALUE_DATE) || modified
 	// insertion point per field
 	return
 }
@@ -316,7 +306,7 @@ func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) GongClean(stage *Stage) (m
 // Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_VALUE_ENUMERATION
 func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION) || modified
+	modified = stage.CleanSlice(&a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION) || modified
 	// insertion point per field
 	return
 }
@@ -324,7 +314,7 @@ func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) GongClean(st
 // Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_VALUE_INTEGER
 func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER) || modified
+	modified = stage.CleanSlice(&a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER) || modified
 	// insertion point per field
 	return
 }
@@ -332,7 +322,7 @@ func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) GongClean(stage *Sta
 // Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_VALUE_REAL
 func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_attribute_value_real.ATTRIBUTE_VALUE_REAL) || modified
+	modified = stage.CleanSlice(&a_attribute_value_real.ATTRIBUTE_VALUE_REAL) || modified
 	// insertion point per field
 	return
 }
@@ -340,7 +330,7 @@ func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) GongClean(stage *Stage) (m
 // Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_VALUE_STRING
 func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_attribute_value_string.ATTRIBUTE_VALUE_STRING) || modified
+	modified = stage.CleanSlice(&a_attribute_value_string.ATTRIBUTE_VALUE_STRING) || modified
 	// insertion point per field
 	return
 }
@@ -348,7 +338,7 @@ func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) GongClean(stage *Stage
 // Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_VALUE_XHTML
 func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML) || modified
+	modified = stage.CleanSlice(&a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML) || modified
 	// insertion point per field
 	return
 }
@@ -356,13 +346,13 @@ func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) GongClean(stage *Stage) 
 // Clean garbage collect unstaged instances that are referenced by A_ATTRIBUTE_VALUE_XHTML_1
 func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN) || modified
-	modified = GongCleanSlice(stage, &a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE) || modified
-	modified = GongCleanSlice(stage, &a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION) || modified
-	modified = GongCleanSlice(stage, &a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER) || modified
-	modified = GongCleanSlice(stage, &a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL) || modified
-	modified = GongCleanSlice(stage, &a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING) || modified
-	modified = GongCleanSlice(stage, &a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML) || modified
+	modified = stage.CleanSlice(&a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN) || modified
+	modified = stage.CleanSlice(&a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE) || modified
+	modified = stage.CleanSlice(&a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION) || modified
+	modified = stage.CleanSlice(&a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER) || modified
+	modified = stage.CleanSlice(&a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL) || modified
+	modified = stage.CleanSlice(&a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING) || modified
+	modified = stage.CleanSlice(&a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML) || modified
 	// insertion point per field
 	return
 }
@@ -370,7 +360,7 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongClean(stage *Sta
 // Clean garbage collect unstaged instances that are referenced by A_CHILDREN
 func (a_children *A_CHILDREN) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_children.SPEC_HIERARCHY) || modified
+	modified = stage.CleanSlice(&a_children.SPEC_HIERARCHY) || modified
 	// insertion point per field
 	return
 }
@@ -379,20 +369,20 @@ func (a_children *A_CHILDREN) GongClean(stage *Stage) (modified bool) {
 func (a_core_content *A_CORE_CONTENT) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &a_core_content.REQ_IF_CONTENT) || modified
+	modified = stage.CleanPointer(&a_core_content.REQ_IF_CONTENT) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by A_DATATYPES
 func (a_datatypes *A_DATATYPES) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_datatypes.DATATYPE_DEFINITION_BOOLEAN) || modified
-	modified = GongCleanSlice(stage, &a_datatypes.DATATYPE_DEFINITION_DATE) || modified
-	modified = GongCleanSlice(stage, &a_datatypes.DATATYPE_DEFINITION_ENUMERATION) || modified
-	modified = GongCleanSlice(stage, &a_datatypes.DATATYPE_DEFINITION_INTEGER) || modified
-	modified = GongCleanSlice(stage, &a_datatypes.DATATYPE_DEFINITION_REAL) || modified
-	modified = GongCleanSlice(stage, &a_datatypes.DATATYPE_DEFINITION_STRING) || modified
-	modified = GongCleanSlice(stage, &a_datatypes.DATATYPE_DEFINITION_XHTML) || modified
+	modified = stage.CleanSlice(&a_datatypes.DATATYPE_DEFINITION_BOOLEAN) || modified
+	modified = stage.CleanSlice(&a_datatypes.DATATYPE_DEFINITION_DATE) || modified
+	modified = stage.CleanSlice(&a_datatypes.DATATYPE_DEFINITION_ENUMERATION) || modified
+	modified = stage.CleanSlice(&a_datatypes.DATATYPE_DEFINITION_INTEGER) || modified
+	modified = stage.CleanSlice(&a_datatypes.DATATYPE_DEFINITION_REAL) || modified
+	modified = stage.CleanSlice(&a_datatypes.DATATYPE_DEFINITION_STRING) || modified
+	modified = stage.CleanSlice(&a_datatypes.DATATYPE_DEFINITION_XHTML) || modified
 	// insertion point per field
 	return
 }
@@ -471,7 +461,7 @@ func (a_object *A_OBJECT) GongClean(stage *Stage) (modified bool) {
 func (a_properties *A_PROPERTIES) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &a_properties.EMBEDDED_VALUE) || modified
+	modified = stage.CleanPointer(&a_properties.EMBEDDED_VALUE) || modified
 	return
 }
 
@@ -499,7 +489,7 @@ func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongClean(stage *Stage
 // Clean garbage collect unstaged instances that are referenced by A_SPECIFICATIONS
 func (a_specifications *A_SPECIFICATIONS) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_specifications.SPECIFICATION) || modified
+	modified = stage.CleanSlice(&a_specifications.SPECIFICATION) || modified
 	// insertion point per field
 	return
 }
@@ -514,7 +504,7 @@ func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) GongClean(stage *Stage
 // Clean garbage collect unstaged instances that are referenced by A_SPECIFIED_VALUES
 func (a_specified_values *A_SPECIFIED_VALUES) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_specified_values.ENUM_VALUE) || modified
+	modified = stage.CleanSlice(&a_specified_values.ENUM_VALUE) || modified
 	// insertion point per field
 	return
 }
@@ -522,13 +512,13 @@ func (a_specified_values *A_SPECIFIED_VALUES) GongClean(stage *Stage) (modified 
 // Clean garbage collect unstaged instances that are referenced by A_SPEC_ATTRIBUTES
 func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN) || modified
-	modified = GongCleanSlice(stage, &a_spec_attributes.ATTRIBUTE_DEFINITION_DATE) || modified
-	modified = GongCleanSlice(stage, &a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION) || modified
-	modified = GongCleanSlice(stage, &a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER) || modified
-	modified = GongCleanSlice(stage, &a_spec_attributes.ATTRIBUTE_DEFINITION_REAL) || modified
-	modified = GongCleanSlice(stage, &a_spec_attributes.ATTRIBUTE_DEFINITION_STRING) || modified
-	modified = GongCleanSlice(stage, &a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML) || modified
+	modified = stage.CleanSlice(&a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN) || modified
+	modified = stage.CleanSlice(&a_spec_attributes.ATTRIBUTE_DEFINITION_DATE) || modified
+	modified = stage.CleanSlice(&a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION) || modified
+	modified = stage.CleanSlice(&a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER) || modified
+	modified = stage.CleanSlice(&a_spec_attributes.ATTRIBUTE_DEFINITION_REAL) || modified
+	modified = stage.CleanSlice(&a_spec_attributes.ATTRIBUTE_DEFINITION_STRING) || modified
+	modified = stage.CleanSlice(&a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML) || modified
 	// insertion point per field
 	return
 }
@@ -536,7 +526,7 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongClean(stage *Stage) (modified bo
 // Clean garbage collect unstaged instances that are referenced by A_SPEC_OBJECTS
 func (a_spec_objects *A_SPEC_OBJECTS) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_spec_objects.SPEC_OBJECT) || modified
+	modified = stage.CleanSlice(&a_spec_objects.SPEC_OBJECT) || modified
 	// insertion point per field
 	return
 }
@@ -551,7 +541,7 @@ func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) GongClean(stage *Stage) (m
 // Clean garbage collect unstaged instances that are referenced by A_SPEC_RELATIONS
 func (a_spec_relations *A_SPEC_RELATIONS) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_spec_relations.SPEC_RELATION) || modified
+	modified = stage.CleanSlice(&a_spec_relations.SPEC_RELATION) || modified
 	// insertion point per field
 	return
 }
@@ -559,7 +549,7 @@ func (a_spec_relations *A_SPEC_RELATIONS) GongClean(stage *Stage) (modified bool
 // Clean garbage collect unstaged instances that are referenced by A_SPEC_RELATION_GROUPS
 func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_spec_relation_groups.RELATION_GROUP) || modified
+	modified = stage.CleanSlice(&a_spec_relation_groups.RELATION_GROUP) || modified
 	// insertion point per field
 	return
 }
@@ -581,10 +571,10 @@ func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) GongClean(stage *Stage
 // Clean garbage collect unstaged instances that are referenced by A_SPEC_TYPES
 func (a_spec_types *A_SPEC_TYPES) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_spec_types.RELATION_GROUP_TYPE) || modified
-	modified = GongCleanSlice(stage, &a_spec_types.SPEC_OBJECT_TYPE) || modified
-	modified = GongCleanSlice(stage, &a_spec_types.SPEC_RELATION_TYPE) || modified
-	modified = GongCleanSlice(stage, &a_spec_types.SPECIFICATION_TYPE) || modified
+	modified = stage.CleanSlice(&a_spec_types.RELATION_GROUP_TYPE) || modified
+	modified = stage.CleanSlice(&a_spec_types.SPEC_OBJECT_TYPE) || modified
+	modified = stage.CleanSlice(&a_spec_types.SPEC_RELATION_TYPE) || modified
+	modified = stage.CleanSlice(&a_spec_types.SPECIFICATION_TYPE) || modified
 	// insertion point per field
 	return
 }
@@ -593,14 +583,14 @@ func (a_spec_types *A_SPEC_TYPES) GongClean(stage *Stage) (modified bool) {
 func (a_the_header *A_THE_HEADER) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &a_the_header.REQ_IF_HEADER) || modified
+	modified = stage.CleanPointer(&a_the_header.REQ_IF_HEADER) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by A_TOOL_EXTENSIONS
 func (a_tool_extensions *A_TOOL_EXTENSIONS) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_tool_extensions.REQ_IF_TOOL_EXTENSION) || modified
+	modified = stage.CleanSlice(&a_tool_extensions.REQ_IF_TOOL_EXTENSION) || modified
 	// insertion point per field
 	return
 }
@@ -609,7 +599,7 @@ func (a_tool_extensions *A_TOOL_EXTENSIONS) GongClean(stage *Stage) (modified bo
 func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &datatype_definition_boolean.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&datatype_definition_boolean.ALTERNATIVE_ID) || modified
 	return
 }
 
@@ -617,7 +607,7 @@ func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) GongClean(stage 
 func (datatype_definition_date *DATATYPE_DEFINITION_DATE) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &datatype_definition_date.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&datatype_definition_date.ALTERNATIVE_ID) || modified
 	return
 }
 
@@ -625,8 +615,8 @@ func (datatype_definition_date *DATATYPE_DEFINITION_DATE) GongClean(stage *Stage
 func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &datatype_definition_enumeration.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &datatype_definition_enumeration.SPECIFIED_VALUES) || modified
+	modified = stage.CleanPointer(&datatype_definition_enumeration.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&datatype_definition_enumeration.SPECIFIED_VALUES) || modified
 	return
 }
 
@@ -634,7 +624,7 @@ func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) GongClea
 func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &datatype_definition_integer.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&datatype_definition_integer.ALTERNATIVE_ID) || modified
 	return
 }
 
@@ -642,7 +632,7 @@ func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongClean(stage 
 func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &datatype_definition_real.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&datatype_definition_real.ALTERNATIVE_ID) || modified
 	return
 }
 
@@ -650,7 +640,7 @@ func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongClean(stage *Stage
 func (datatype_definition_string *DATATYPE_DEFINITION_STRING) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &datatype_definition_string.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&datatype_definition_string.ALTERNATIVE_ID) || modified
 	return
 }
 
@@ -658,7 +648,7 @@ func (datatype_definition_string *DATATYPE_DEFINITION_STRING) GongClean(stage *S
 func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &datatype_definition_xhtml.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&datatype_definition_xhtml.ALTERNATIVE_ID) || modified
 	return
 }
 
@@ -673,8 +663,8 @@ func (embedded_value *EMBEDDED_VALUE) GongClean(stage *Stage) (modified bool) {
 func (enum_value *ENUM_VALUE) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &enum_value.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &enum_value.PROPERTIES) || modified
+	modified = stage.CleanPointer(&enum_value.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&enum_value.PROPERTIES) || modified
 	return
 }
 
@@ -717,11 +707,11 @@ func (map_identifier_bool *Map_identifier_bool) GongClean(stage *Stage) (modifie
 func (relation_group *RELATION_GROUP) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &relation_group.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &relation_group.SOURCE_SPECIFICATION) || modified
-	modified = GongCleanPointer(stage, &relation_group.SPEC_RELATIONS) || modified
-	modified = GongCleanPointer(stage, &relation_group.TARGET_SPECIFICATION) || modified
-	modified = GongCleanPointer(stage, &relation_group.TYPE) || modified
+	modified = stage.CleanPointer(&relation_group.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&relation_group.SOURCE_SPECIFICATION) || modified
+	modified = stage.CleanPointer(&relation_group.SPEC_RELATIONS) || modified
+	modified = stage.CleanPointer(&relation_group.TARGET_SPECIFICATION) || modified
+	modified = stage.CleanPointer(&relation_group.TYPE) || modified
 	return
 }
 
@@ -729,8 +719,8 @@ func (relation_group *RELATION_GROUP) GongClean(stage *Stage) (modified bool) {
 func (relation_group_type *RELATION_GROUP_TYPE) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &relation_group_type.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &relation_group_type.SPEC_ATTRIBUTES) || modified
+	modified = stage.CleanPointer(&relation_group_type.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&relation_group_type.SPEC_ATTRIBUTES) || modified
 	return
 }
 
@@ -738,9 +728,9 @@ func (relation_group_type *RELATION_GROUP_TYPE) GongClean(stage *Stage) (modifie
 func (req_if *REQ_IF) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &req_if.THE_HEADER) || modified
-	modified = GongCleanPointer(stage, &req_if.CORE_CONTENT) || modified
-	modified = GongCleanPointer(stage, &req_if.TOOL_EXTENSIONS) || modified
+	modified = stage.CleanPointer(&req_if.THE_HEADER) || modified
+	modified = stage.CleanPointer(&req_if.CORE_CONTENT) || modified
+	modified = stage.CleanPointer(&req_if.TOOL_EXTENSIONS) || modified
 	return
 }
 
@@ -748,12 +738,12 @@ func (req_if *REQ_IF) GongClean(stage *Stage) (modified bool) {
 func (req_if_content *REQ_IF_CONTENT) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &req_if_content.DATATYPES) || modified
-	modified = GongCleanPointer(stage, &req_if_content.SPEC_TYPES) || modified
-	modified = GongCleanPointer(stage, &req_if_content.SPEC_OBJECTS) || modified
-	modified = GongCleanPointer(stage, &req_if_content.SPEC_RELATIONS) || modified
-	modified = GongCleanPointer(stage, &req_if_content.SPECIFICATIONS) || modified
-	modified = GongCleanPointer(stage, &req_if_content.SPEC_RELATION_GROUPS) || modified
+	modified = stage.CleanPointer(&req_if_content.DATATYPES) || modified
+	modified = stage.CleanPointer(&req_if_content.SPEC_TYPES) || modified
+	modified = stage.CleanPointer(&req_if_content.SPEC_OBJECTS) || modified
+	modified = stage.CleanPointer(&req_if_content.SPEC_RELATIONS) || modified
+	modified = stage.CleanPointer(&req_if_content.SPECIFICATIONS) || modified
+	modified = stage.CleanPointer(&req_if_content.SPEC_RELATION_GROUPS) || modified
 	return
 }
 
@@ -775,10 +765,10 @@ func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) GongClean(stage *Stage) (mod
 func (specification *SPECIFICATION) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &specification.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &specification.TYPE) || modified
-	modified = GongCleanPointer(stage, &specification.CHILDREN) || modified
-	modified = GongCleanPointer(stage, &specification.VALUES) || modified
+	modified = stage.CleanPointer(&specification.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&specification.TYPE) || modified
+	modified = stage.CleanPointer(&specification.CHILDREN) || modified
+	modified = stage.CleanPointer(&specification.VALUES) || modified
 	return
 }
 
@@ -793,8 +783,8 @@ func (specification_rendering *SPECIFICATION_Rendering) GongClean(stage *Stage) 
 func (specification_type *SPECIFICATION_TYPE) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &specification_type.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &specification_type.SPEC_ATTRIBUTES) || modified
+	modified = stage.CleanPointer(&specification_type.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&specification_type.SPEC_ATTRIBUTES) || modified
 	return
 }
 
@@ -802,10 +792,10 @@ func (specification_type *SPECIFICATION_TYPE) GongClean(stage *Stage) (modified 
 func (spec_hierarchy *SPEC_HIERARCHY) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &spec_hierarchy.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &spec_hierarchy.OBJECT) || modified
-	modified = GongCleanPointer(stage, &spec_hierarchy.CHILDREN) || modified
-	modified = GongCleanPointer(stage, &spec_hierarchy.EDITABLE_ATTS) || modified
+	modified = stage.CleanPointer(&spec_hierarchy.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&spec_hierarchy.OBJECT) || modified
+	modified = stage.CleanPointer(&spec_hierarchy.CHILDREN) || modified
+	modified = stage.CleanPointer(&spec_hierarchy.EDITABLE_ATTS) || modified
 	return
 }
 
@@ -813,9 +803,9 @@ func (spec_hierarchy *SPEC_HIERARCHY) GongClean(stage *Stage) (modified bool) {
 func (spec_object *SPEC_OBJECT) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &spec_object.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &spec_object.VALUES) || modified
-	modified = GongCleanPointer(stage, &spec_object.TYPE) || modified
+	modified = stage.CleanPointer(&spec_object.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&spec_object.VALUES) || modified
+	modified = stage.CleanPointer(&spec_object.TYPE) || modified
 	return
 }
 
@@ -823,8 +813,8 @@ func (spec_object *SPEC_OBJECT) GongClean(stage *Stage) (modified bool) {
 func (spec_object_type *SPEC_OBJECT_TYPE) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &spec_object_type.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &spec_object_type.SPEC_ATTRIBUTES) || modified
+	modified = stage.CleanPointer(&spec_object_type.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&spec_object_type.SPEC_ATTRIBUTES) || modified
 	return
 }
 
@@ -839,11 +829,11 @@ func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) GongClean(stage *S
 func (spec_relation *SPEC_RELATION) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &spec_relation.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &spec_relation.VALUES) || modified
-	modified = GongCleanPointer(stage, &spec_relation.SOURCE) || modified
-	modified = GongCleanPointer(stage, &spec_relation.TARGET) || modified
-	modified = GongCleanPointer(stage, &spec_relation.TYPE) || modified
+	modified = stage.CleanPointer(&spec_relation.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&spec_relation.VALUES) || modified
+	modified = stage.CleanPointer(&spec_relation.SOURCE) || modified
+	modified = stage.CleanPointer(&spec_relation.TARGET) || modified
+	modified = stage.CleanPointer(&spec_relation.TYPE) || modified
 	return
 }
 
@@ -851,15 +841,15 @@ func (spec_relation *SPEC_RELATION) GongClean(stage *Stage) (modified bool) {
 func (spec_relation_type *SPEC_RELATION_TYPE) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &spec_relation_type.ALTERNATIVE_ID) || modified
-	modified = GongCleanPointer(stage, &spec_relation_type.SPEC_ATTRIBUTES) || modified
+	modified = stage.CleanPointer(&spec_relation_type.ALTERNATIVE_ID) || modified
+	modified = stage.CleanPointer(&spec_relation_type.SPEC_ATTRIBUTES) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by StaticWebSite
 func (staticwebsite *StaticWebSite) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &staticwebsite.Chapters) || modified
+	modified = stage.CleanSlice(&staticwebsite.Chapters) || modified
 	// insertion point per field
 	return
 }
@@ -867,7 +857,7 @@ func (staticwebsite *StaticWebSite) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by StaticWebSiteChapter
 func (staticwebsitechapter *StaticWebSiteChapter) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &staticwebsitechapter.Paragraphs) || modified
+	modified = stage.CleanSlice(&staticwebsitechapter.Paragraphs) || modified
 	// insertion point per field
 	return
 }
@@ -890,7 +880,7 @@ func (staticwebsiteimage *StaticWebSiteImage) GongClean(stage *Stage) (modified 
 func (staticwebsiteparagraph *StaticWebSiteParagraph) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &staticwebsiteparagraph.Image) || modified
+	modified = stage.CleanPointer(&staticwebsiteparagraph.Image) || modified
 	return
 }
 

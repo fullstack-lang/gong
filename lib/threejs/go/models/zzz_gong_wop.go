@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type AmbiantLight_WOP struct {
@@ -17,7 +15,7 @@ type AmbiantLight_WOP struct {
 	Intensity float64
 }
 
-func (from *AmbiantLight) CopyBasicFields(to *AmbiantLight) {
+func (from *AmbiantLight) GongCopyBasicFields(to *AmbiantLight) {
 	// insertion point
 	to.Name = from.Name
 	to.Intensity = from.Intensity
@@ -41,7 +39,7 @@ type BoxGeometry_WOP struct {
 	DepthSegments int
 }
 
-func (from *BoxGeometry) CopyBasicFields(to *BoxGeometry) {
+func (from *BoxGeometry) GongCopyBasicFields(to *BoxGeometry) {
 	// insertion point
 	to.Name = from.Name
 	to.Width = from.Width
@@ -58,7 +56,7 @@ type BufferGeometry_WOP struct {
 	Name string
 }
 
-func (from *BufferGeometry) CopyBasicFields(to *BufferGeometry) {
+func (from *BufferGeometry) GongCopyBasicFields(to *BufferGeometry) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -83,7 +81,7 @@ type Camera_WOP struct {
 	Fov float64
 }
 
-func (from *Camera) CopyBasicFields(to *Camera) {
+func (from *Camera) GongCopyBasicFields(to *Camera) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -107,7 +105,7 @@ type Canvas_WOP struct {
 	Frame64BitsEncoded string
 }
 
-func (from *Canvas) CopyBasicFields(to *Canvas) {
+func (from *Canvas) GongCopyBasicFields(to *Canvas) {
 	// insertion point
 	to.Name = from.Name
 	to.IsWithLastRenderingUpdate = from.IsWithLastRenderingUpdate
@@ -121,7 +119,7 @@ type Curve_WOP struct {
 	Name string
 }
 
-func (from *Curve) CopyBasicFields(to *Curve) {
+func (from *Curve) GongCopyBasicFields(to *Curve) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -148,7 +146,7 @@ type CylinderGeometry_WOP struct {
 	ThetaLength float64
 }
 
-func (from *CylinderGeometry) CopyBasicFields(to *CylinderGeometry) {
+func (from *CylinderGeometry) GongCopyBasicFields(to *CylinderGeometry) {
 	// insertion point
 	to.Name = from.Name
 	to.RadiusTop = from.RadiusTop
@@ -177,7 +175,7 @@ type DirectionalLight_WOP struct {
 	IsWithCastShadow bool
 }
 
-func (from *DirectionalLight) CopyBasicFields(to *DirectionalLight) {
+func (from *DirectionalLight) GongCopyBasicFields(to *DirectionalLight) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -195,7 +193,7 @@ type ExtrudeGeometry_WOP struct {
 	Steps int
 }
 
-func (from *ExtrudeGeometry) CopyBasicFields(to *ExtrudeGeometry) {
+func (from *ExtrudeGeometry) GongCopyBasicFields(to *ExtrudeGeometry) {
 	// insertion point
 	to.Name = from.Name
 	to.Steps = from.Steps
@@ -213,7 +211,7 @@ type Mesh_WOP struct {
 	Z float64
 }
 
-func (from *Mesh) CopyBasicFields(to *Mesh) {
+func (from *Mesh) GongCopyBasicFields(to *Mesh) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -229,7 +227,7 @@ type MeshMaterialBasic_WOP struct {
 	Color string
 }
 
-func (from *MeshMaterialBasic) CopyBasicFields(to *MeshMaterialBasic) {
+func (from *MeshMaterialBasic) GongCopyBasicFields(to *MeshMaterialBasic) {
 	// insertion point
 	to.Name = from.Name
 	to.Color = from.Color
@@ -251,7 +249,7 @@ type MeshPhysicalMaterial_WOP struct {
 	Visible bool
 }
 
-func (from *MeshPhysicalMaterial) CopyBasicFields(to *MeshPhysicalMaterial) {
+func (from *MeshPhysicalMaterial) GongCopyBasicFields(to *MeshPhysicalMaterial) {
 	// insertion point
 	to.Name = from.Name
 	to.Color = from.Color
@@ -275,7 +273,7 @@ type PlaneGeometry_WOP struct {
 	HeightSegments int
 }
 
-func (from *PlaneGeometry) CopyBasicFields(to *PlaneGeometry) {
+func (from *PlaneGeometry) GongCopyBasicFields(to *PlaneGeometry) {
 	// insertion point
 	to.Name = from.Name
 	to.Width = from.Width
@@ -290,7 +288,7 @@ type Shape_WOP struct {
 	Name string
 }
 
-func (from *Shape) CopyBasicFields(to *Shape) {
+func (from *Shape) GongCopyBasicFields(to *Shape) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -315,7 +313,7 @@ type SphereGeometry_WOP struct {
 	ThetaLength float64
 }
 
-func (from *SphereGeometry) CopyBasicFields(to *SphereGeometry) {
+func (from *SphereGeometry) GongCopyBasicFields(to *SphereGeometry) {
 	// insertion point
 	to.Name = from.Name
 	to.Radius = from.Radius
@@ -343,7 +341,7 @@ type TorusGeometry_WOP struct {
 	Arc float64
 }
 
-func (from *TorusGeometry) CopyBasicFields(to *TorusGeometry) {
+func (from *TorusGeometry) GongCopyBasicFields(to *TorusGeometry) {
 	// insertion point
 	to.Name = from.Name
 	to.Radius = from.Radius
@@ -365,7 +363,7 @@ type Triangle_WOP struct {
 	V3 int
 }
 
-func (from *Triangle) CopyBasicFields(to *Triangle) {
+func (from *Triangle) GongCopyBasicFields(to *Triangle) {
 	// insertion point
 	to.Name = from.Name
 	to.V1 = from.V1
@@ -387,7 +385,7 @@ type TubeGeometry_WOP struct {
 	Closed bool
 }
 
-func (from *TubeGeometry) CopyBasicFields(to *TubeGeometry) {
+func (from *TubeGeometry) GongCopyBasicFields(to *TubeGeometry) {
 	// insertion point
 	to.Name = from.Name
 	to.TubularSegments = from.TubularSegments
@@ -406,7 +404,7 @@ type Vector2_WOP struct {
 	Y float64
 }
 
-func (from *Vector2) CopyBasicFields(to *Vector2) {
+func (from *Vector2) GongCopyBasicFields(to *Vector2) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -425,7 +423,7 @@ type Vector3_WOP struct {
 	Z float64
 }
 
-func (from *Vector3) CopyBasicFields(to *Vector3) {
+func (from *Vector3) GongCopyBasicFields(to *Vector3) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X

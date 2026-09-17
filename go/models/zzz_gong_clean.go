@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -42,24 +37,19 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 	return
 }
 
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
-}
-
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by GongBasicField
 func (gongbasicfield *GongBasicField) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &gongbasicfield.GongEnum) || modified
+	modified = stage.CleanPointer(&gongbasicfield.GongEnum) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by GongEnum
 func (gongenum *GongEnum) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &gongenum.GongEnumValues) || modified
+	modified = stage.CleanSlice(&gongenum.GongEnumValues) || modified
 	// insertion point per field
 	return
 }
@@ -81,7 +71,7 @@ func (gonglink *GongLink) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by GongNote
 func (gongnote *GongNote) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &gongnote.Links) || modified
+	modified = stage.CleanSlice(&gongnote.Links) || modified
 	// insertion point per field
 	return
 }
@@ -89,10 +79,10 @@ func (gongnote *GongNote) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by GongStruct
 func (gongstruct *GongStruct) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &gongstruct.GongBasicFields) || modified
-	modified = GongCleanSlice(stage, &gongstruct.GongTimeFields) || modified
-	modified = GongCleanSlice(stage, &gongstruct.PointerToGongStructFields) || modified
-	modified = GongCleanSlice(stage, &gongstruct.SliceOfPointerToGongStructFields) || modified
+	modified = stage.CleanSlice(&gongstruct.GongBasicFields) || modified
+	modified = stage.CleanSlice(&gongstruct.GongTimeFields) || modified
+	modified = stage.CleanSlice(&gongstruct.PointerToGongStructFields) || modified
+	modified = stage.CleanSlice(&gongstruct.SliceOfPointerToGongStructFields) || modified
 	// insertion point per field
 	return
 }
@@ -122,7 +112,7 @@ func (modelpkg *ModelPkg) GongClean(stage *Stage) (modified bool) {
 func (pointertogongstructfield *PointerToGongStructField) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &pointertogongstructfield.GongStruct) || modified
+	modified = stage.CleanPointer(&pointertogongstructfield.GongStruct) || modified
 	return
 }
 
@@ -130,7 +120,7 @@ func (pointertogongstructfield *PointerToGongStructField) GongClean(stage *Stage
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &sliceofpointertogongstructfield.GongStruct) || modified
+	modified = stage.CleanPointer(&sliceofpointertogongstructfield.GongStruct) || modified
 	return
 }
 

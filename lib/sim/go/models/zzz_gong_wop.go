@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Command_WOP struct {
@@ -19,7 +17,7 @@ type Command_WOP struct {
 	CommandDate string
 }
 
-func (from *Command) CopyBasicFields(to *Command) {
+func (from *Command) GongCopyBasicFields(to *Command) {
 	// insertion point
 	to.Name = from.Name
 	to.Command = from.Command
@@ -34,7 +32,7 @@ type DummyAgent_WOP struct {
 	Name string
 }
 
-func (from *DummyAgent) CopyBasicFields(to *DummyAgent) {
+func (from *DummyAgent) GongCopyBasicFields(to *DummyAgent) {
 	// insertion point
 	to.TechName = from.TechName
 	to.Name = from.Name
@@ -62,7 +60,7 @@ type Engine_WOP struct {
 	Speed float64
 }
 
-func (from *Engine) CopyBasicFields(to *Engine) {
+func (from *Engine) GongCopyBasicFields(to *Engine) {
 	// insertion point
 	to.Name = from.Name
 	to.EndTime = from.EndTime
@@ -83,7 +81,7 @@ type Event_WOP struct {
 	Duration time.Duration
 }
 
-func (from *Event) CopyBasicFields(to *Event) {
+func (from *Event) GongCopyBasicFields(to *Event) {
 	// insertion point
 	to.Name = from.Name
 	to.Duration = from.Duration
@@ -103,7 +101,7 @@ type Status_WOP struct {
 	SpeedCommandCompletionDate string
 }
 
-func (from *Status) CopyBasicFields(to *Status) {
+func (from *Status) GongCopyBasicFields(to *Status) {
 	// insertion point
 	to.Name = from.Name
 	to.CurrentCommand = from.CurrentCommand
@@ -122,7 +120,7 @@ type UpdateState_WOP struct {
 	Period time.Duration
 }
 
-func (from *UpdateState) CopyBasicFields(to *UpdateState) {
+func (from *UpdateState) GongCopyBasicFields(to *UpdateState) {
 	// insertion point
 	to.Name = from.Name
 	to.Duration = from.Duration

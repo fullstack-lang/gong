@@ -157,85 +157,85 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 // insertion point per named struct
 func (checkbox *CheckBox) GongCopy() GongstructIF {
 	newInstance := new(CheckBox)
-	checkbox.CopyBasicFields(newInstance)
+	checkbox.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (formdiv *FormDiv) GongCopy() GongstructIF {
 	newInstance := new(FormDiv)
-	formdiv.CopyBasicFields(newInstance)
+	formdiv.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (formeditassocbutton *FormEditAssocButton) GongCopy() GongstructIF {
 	newInstance := new(FormEditAssocButton)
-	formeditassocbutton.CopyBasicFields(newInstance)
+	formeditassocbutton.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (formfield *FormField) GongCopy() GongstructIF {
 	newInstance := new(FormField)
-	formfield.CopyBasicFields(newInstance)
+	formfield.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (formfielddate *FormFieldDate) GongCopy() GongstructIF {
 	newInstance := new(FormFieldDate)
-	formfielddate.CopyBasicFields(newInstance)
+	formfielddate.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (formfielddatetime *FormFieldDateTime) GongCopy() GongstructIF {
 	newInstance := new(FormFieldDateTime)
-	formfielddatetime.CopyBasicFields(newInstance)
+	formfielddatetime.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (formfieldfloat64 *FormFieldFloat64) GongCopy() GongstructIF {
 	newInstance := new(FormFieldFloat64)
-	formfieldfloat64.CopyBasicFields(newInstance)
+	formfieldfloat64.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (formfieldint *FormFieldInt) GongCopy() GongstructIF {
 	newInstance := new(FormFieldInt)
-	formfieldint.CopyBasicFields(newInstance)
+	formfieldint.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (formfieldselect *FormFieldSelect) GongCopy() GongstructIF {
 	newInstance := new(FormFieldSelect)
-	formfieldselect.CopyBasicFields(newInstance)
+	formfieldselect.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (formfieldstring *FormFieldString) GongCopy() GongstructIF {
 	newInstance := new(FormFieldString)
-	formfieldstring.CopyBasicFields(newInstance)
+	formfieldstring.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (formfieldtime *FormFieldTime) GongCopy() GongstructIF {
 	newInstance := new(FormFieldTime)
-	formfieldtime.CopyBasicFields(newInstance)
+	formfieldtime.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (formgroup *FormGroup) GongCopy() GongstructIF {
 	newInstance := new(FormGroup)
-	formgroup.CopyBasicFields(newInstance)
+	formgroup.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (formsortassocbutton *FormSortAssocButton) GongCopy() GongstructIF {
 	newInstance := new(FormSortAssocButton)
-	formsortassocbutton.CopyBasicFields(newInstance)
+	formsortassocbutton.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (option *Option) GongCopy() GongstructIF {
 	newInstance := new(Option)
-	option.CopyBasicFields(newInstance)
+	option.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -246,7 +246,7 @@ func (checkbox *CheckBox) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(checkbox), uint64(stage.GetOrder(checkbox)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(checkbox), uint64(stage.GetOrder(checkbox)))
 	return
 }
 
@@ -256,7 +256,7 @@ func (formdiv *FormDiv) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formdiv), uint64(stage.GetOrder(formdiv)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(formdiv), uint64(stage.GetOrder(formdiv)))
 	return
 }
 
@@ -266,7 +266,7 @@ func (formeditassocbutton *FormEditAssocButton) GongGetUUID(stage *Stage) (uuid 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formeditassocbutton), uint64(stage.GetOrder(formeditassocbutton)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(formeditassocbutton), uint64(stage.GetOrder(formeditassocbutton)))
 	return
 }
 
@@ -276,7 +276,7 @@ func (formfield *FormField) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfield), uint64(stage.GetOrder(formfield)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(formfield), uint64(stage.GetOrder(formfield)))
 	return
 }
 
@@ -286,7 +286,7 @@ func (formfielddate *FormFieldDate) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfielddate), uint64(stage.GetOrder(formfielddate)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(formfielddate), uint64(stage.GetOrder(formfielddate)))
 	return
 }
 
@@ -296,7 +296,7 @@ func (formfielddatetime *FormFieldDateTime) GongGetUUID(stage *Stage) (uuid stri
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfielddatetime), uint64(stage.GetOrder(formfielddatetime)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(formfielddatetime), uint64(stage.GetOrder(formfielddatetime)))
 	return
 }
 
@@ -306,7 +306,7 @@ func (formfieldfloat64 *FormFieldFloat64) GongGetUUID(stage *Stage) (uuid string
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldfloat64), uint64(stage.GetOrder(formfieldfloat64)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(formfieldfloat64), uint64(stage.GetOrder(formfieldfloat64)))
 	return
 }
 
@@ -316,7 +316,7 @@ func (formfieldint *FormFieldInt) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldint), uint64(stage.GetOrder(formfieldint)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(formfieldint), uint64(stage.GetOrder(formfieldint)))
 	return
 }
 
@@ -326,7 +326,7 @@ func (formfieldselect *FormFieldSelect) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldselect), uint64(stage.GetOrder(formfieldselect)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(formfieldselect), uint64(stage.GetOrder(formfieldselect)))
 	return
 }
 
@@ -336,7 +336,7 @@ func (formfieldstring *FormFieldString) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldstring), uint64(stage.GetOrder(formfieldstring)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(formfieldstring), uint64(stage.GetOrder(formfieldstring)))
 	return
 }
 
@@ -346,7 +346,7 @@ func (formfieldtime *FormFieldTime) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldtime), uint64(stage.GetOrder(formfieldtime)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(formfieldtime), uint64(stage.GetOrder(formfieldtime)))
 	return
 }
 
@@ -356,7 +356,7 @@ func (formgroup *FormGroup) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formgroup), uint64(stage.GetOrder(formgroup)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(formgroup), uint64(stage.GetOrder(formgroup)))
 	return
 }
 
@@ -366,7 +366,7 @@ func (formsortassocbutton *FormSortAssocButton) GongGetUUID(stage *Stage) (uuid 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formsortassocbutton), uint64(stage.GetOrder(formsortassocbutton)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(formsortassocbutton), uint64(stage.GetOrder(formsortassocbutton)))
 	return
 }
 
@@ -376,7 +376,7 @@ func (option *Option) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(option), uint64(stage.GetOrder(option)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(option), uint64(stage.GetOrder(option)))
 	return
 }
 
@@ -1730,7 +1730,7 @@ func (checkbox *CheckBox) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CheckBox")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(checkbox.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(checkbox.Name))
 	return
 }
 
@@ -1738,7 +1738,7 @@ func (formdiv *FormDiv) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormDiv")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formdiv.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formdiv.Name))
 	return
 }
 
@@ -1746,7 +1746,7 @@ func (formeditassocbutton *FormEditAssocButton) GongMarshallIdentifier(stage *St
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormEditAssocButton")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formeditassocbutton.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formeditassocbutton.Name))
 	return
 }
 
@@ -1754,7 +1754,7 @@ func (formfield *FormField) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormField")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfield.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfield.Name))
 	return
 }
 
@@ -1762,7 +1762,7 @@ func (formfielddate *FormFieldDate) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfielddate.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldDate")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfielddate.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfielddate.Name))
 	return
 }
 
@@ -1770,7 +1770,7 @@ func (formfielddatetime *FormFieldDateTime) GongMarshallIdentifier(stage *Stage)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfielddatetime.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldDateTime")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfielddatetime.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfielddatetime.Name))
 	return
 }
 
@@ -1778,7 +1778,7 @@ func (formfieldfloat64 *FormFieldFloat64) GongMarshallIdentifier(stage *Stage) (
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldFloat64")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfieldfloat64.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldfloat64.Name))
 	return
 }
 
@@ -1786,7 +1786,7 @@ func (formfieldint *FormFieldInt) GongMarshallIdentifier(stage *Stage) (decl str
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldInt")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfieldint.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldint.Name))
 	return
 }
 
@@ -1794,7 +1794,7 @@ func (formfieldselect *FormFieldSelect) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldSelect")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfieldselect.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldselect.Name))
 	return
 }
 
@@ -1802,7 +1802,7 @@ func (formfieldstring *FormFieldString) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldstring.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldString")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfieldstring.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldstring.Name))
 	return
 }
 
@@ -1810,7 +1810,7 @@ func (formfieldtime *FormFieldTime) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldtime.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldTime")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfieldtime.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldtime.Name))
 	return
 }
 
@@ -1818,7 +1818,7 @@ func (formgroup *FormGroup) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormGroup")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formgroup.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formgroup.Name))
 	return
 }
 
@@ -1826,7 +1826,7 @@ func (formsortassocbutton *FormSortAssocButton) GongMarshallIdentifier(stage *St
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormSortAssocButton")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formsortassocbutton.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formsortassocbutton.Name))
 	return
 }
 
@@ -1834,7 +1834,7 @@ func (option *Option) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", option.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Option")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(option.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(option.Name))
 	return
 }
 
@@ -1923,10 +1923,10 @@ func (option *Option) GongMarshallUnstaging(stage *Stage) (decl string) {
 	return
 }
 
-func IntToLetters(number int32) (letters string) {
+func GongIntToLetters(number int32) (letters string) {
 	number--
 	if firstLetter := number / 26; firstLetter > 0 {
-		letters += IntToLetters(firstLetter)
+		letters += GongIntToLetters(firstLetter)
 		letters += string('A' + number%26)
 	} else {
 		letters += string('A' + number)
@@ -1935,8 +1935,8 @@ func IntToLetters(number int32) (letters string) {
 	return
 }
 
-// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
-func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+// GongGenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 1. Create a deterministic hash from the inputs using SHA-256
 	h := sha256.New()
 

@@ -25,7 +25,7 @@ func main() {
 
 	for _, file := range flag.Args() {
 		log.Printf("parsing %s", file)
-		err := models.ParseAstFile(stage, file, false)
+		err := stage.ParseAstFile(file, false)
 		if err != nil {
 			log.Fatalf("error unmarshalling %s: %s", file, err.Error())
 		}

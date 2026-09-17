@@ -18,10 +18,7 @@ import (
 	"time"
 )
 
-var (
-	_time__dummyDeclaration2 time.Duration
-	_                        = _time__dummyDeclaration2
-)
+var _ = time.Hour
 
 // swagger:ignore
 type GONG__ExpressionType string
@@ -48,12 +45,8 @@ type ModelUnmarshaller interface {
 	UnmarshallField(stage *Stage, instance GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error
 }
 
-func (stage *Stage) UnmarshallFile(pathToFile string, preserveOrder bool) error {
-	return ParseAstFile(stage, pathToFile, preserveOrder)
-}
-
 // ParseAstFile Parse pathToFile and stages all instances declared in the file
-func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
+func (stage *Stage) ParseAstFile(pathToFile string, preserveOrder bool) error {
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {
 		return errors.New("Path does not exist %s ;" + fileOfInterest)
@@ -65,11 +58,11 @@ func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst(stage, inFile, fset, preserveOrder)
+	return stage.ParseAstFileFromAst(inFile, fset, preserveOrder)
 }
 
 // ParseAstEmbeddedFile parses the Go source code from an embedded file
-func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) error {
+func (stage *Stage) ParseAstEmbeddedFile(directory embed.FS, pathToFile string) error {
 	fileContentBytes, err := directory.ReadFile(pathToFile)
 	if err != nil {
 		return errors.New(stage.GetName() + "; Unable to read embedded file " + err.Error())
@@ -81,11 +74,11 @@ func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) e
 		return errors.New("Unable to parse embedded file '" + pathToFile + "': " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst(stage, inFile, fset, false)
+	return stage.ParseAstFileFromAst(inFile, fset, false)
 }
 
-// GongParseAstString parses the Go source code from a string
-func GongParseAstString(stage *Stage, blob string, preserveOrder bool) error {
+// ParseAstString parses the Go source code from a string
+func (stage *Stage) ParseAstString(blob string, preserveOrder bool) error {
 	fileString := "package main\nfunc _() {\n" + blob + "\n}"
 	fset := token.NewFileSet()
 	inFile, errParser := parser.ParseFile(fset, "", fileString, parser.ParseComments)
@@ -93,11 +86,11 @@ func GongParseAstString(stage *Stage, blob string, preserveOrder bool) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst(stage, inFile, fset, preserveOrder)
+	return stage.ParseAstFileFromAst(inFile, fset, preserveOrder)
 }
 
 // ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry
-func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
+func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 
 	var fileModuleVersion string
 	for _, commentGroup := range inFile.Comments {
@@ -275,8 +268,8 @@ func GongExtractInt(expr ast.Expr) int {
 	return 0
 }
 
-// ExtractMiddleUint takes a formatted string and returns the extracted integer.
-func ExtractMiddleUint(input string) (uint, error) {
+// __gong__extractMiddleUint takes a formatted string and returns the extracted integer.
+func __gong__extractMiddleUint(input string) (uint, error) {
 	// Compile the Regex Pattern
 	re := regexp.MustCompile(`__.*?__(\d+)_.*`)
 
@@ -468,7 +461,7 @@ func (u *ALTERNATIVE_IDUnmarshaller) Initialize(stage *Stage, identifier string,
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -499,7 +492,7 @@ func (u *ATTRIBUTE_DEFINITION_BOOLEANUnmarshaller) Initialize(stage *Stage, iden
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -544,7 +537,7 @@ func (u *ATTRIBUTE_DEFINITION_DATEUnmarshaller) Initialize(stage *Stage, identif
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -589,7 +582,7 @@ func (u *ATTRIBUTE_DEFINITION_ENUMERATIONUnmarshaller) Initialize(stage *Stage, 
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -636,7 +629,7 @@ func (u *ATTRIBUTE_DEFINITION_INTEGERUnmarshaller) Initialize(stage *Stage, iden
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -681,7 +674,7 @@ func (u *ATTRIBUTE_DEFINITION_REALUnmarshaller) Initialize(stage *Stage, identif
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -726,7 +719,7 @@ func (u *ATTRIBUTE_DEFINITION_STRINGUnmarshaller) Initialize(stage *Stage, ident
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -771,7 +764,7 @@ func (u *ATTRIBUTE_DEFINITION_XHTMLUnmarshaller) Initialize(stage *Stage, identi
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -816,7 +809,7 @@ func (u *ATTRIBUTE_VALUE_BOOLEANUnmarshaller) Initialize(stage *Stage, identifie
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -849,7 +842,7 @@ func (u *ATTRIBUTE_VALUE_DATEUnmarshaller) Initialize(stage *Stage, identifier s
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -882,7 +875,7 @@ func (u *ATTRIBUTE_VALUE_ENUMERATIONUnmarshaller) Initialize(stage *Stage, ident
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -915,7 +908,7 @@ func (u *ATTRIBUTE_VALUE_INTEGERUnmarshaller) Initialize(stage *Stage, identifie
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -948,7 +941,7 @@ func (u *ATTRIBUTE_VALUE_REALUnmarshaller) Initialize(stage *Stage, identifier s
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -981,7 +974,7 @@ func (u *ATTRIBUTE_VALUE_STRINGUnmarshaller) Initialize(stage *Stage, identifier
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1014,7 +1007,7 @@ func (u *ATTRIBUTE_VALUE_XHTMLUnmarshaller) Initialize(stage *Stage, identifier 
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1051,7 +1044,7 @@ func (u *A_ALTERNATIVE_IDUnmarshaller) Initialize(stage *Stage, identifier strin
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1082,7 +1075,7 @@ func (u *A_ATTRIBUTE_DEFINITION_BOOLEAN_REFUnmarshaller) Initialize(stage *Stage
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1113,7 +1106,7 @@ func (u *A_ATTRIBUTE_DEFINITION_DATE_REFUnmarshaller) Initialize(stage *Stage, i
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1144,7 +1137,7 @@ func (u *A_ATTRIBUTE_DEFINITION_ENUMERATION_REFUnmarshaller) Initialize(stage *S
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1175,7 +1168,7 @@ func (u *A_ATTRIBUTE_DEFINITION_INTEGER_REFUnmarshaller) Initialize(stage *Stage
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1206,7 +1199,7 @@ func (u *A_ATTRIBUTE_DEFINITION_REAL_REFUnmarshaller) Initialize(stage *Stage, i
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1237,7 +1230,7 @@ func (u *A_ATTRIBUTE_DEFINITION_STRING_REFUnmarshaller) Initialize(stage *Stage,
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1268,7 +1261,7 @@ func (u *A_ATTRIBUTE_DEFINITION_XHTML_REFUnmarshaller) Initialize(stage *Stage, 
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1299,7 +1292,7 @@ func (u *A_ATTRIBUTE_VALUE_BOOLEANUnmarshaller) Initialize(stage *Stage, identif
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1330,7 +1323,7 @@ func (u *A_ATTRIBUTE_VALUE_DATEUnmarshaller) Initialize(stage *Stage, identifier
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1361,7 +1354,7 @@ func (u *A_ATTRIBUTE_VALUE_ENUMERATIONUnmarshaller) Initialize(stage *Stage, ide
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1392,7 +1385,7 @@ func (u *A_ATTRIBUTE_VALUE_INTEGERUnmarshaller) Initialize(stage *Stage, identif
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1423,7 +1416,7 @@ func (u *A_ATTRIBUTE_VALUE_REALUnmarshaller) Initialize(stage *Stage, identifier
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1454,7 +1447,7 @@ func (u *A_ATTRIBUTE_VALUE_STRINGUnmarshaller) Initialize(stage *Stage, identifi
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1485,7 +1478,7 @@ func (u *A_ATTRIBUTE_VALUE_XHTMLUnmarshaller) Initialize(stage *Stage, identifie
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1516,7 +1509,7 @@ func (u *A_ATTRIBUTE_VALUE_XHTML_1Unmarshaller) Initialize(stage *Stage, identif
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1559,7 +1552,7 @@ func (u *A_CHILDRENUnmarshaller) Initialize(stage *Stage, identifier string, ins
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1590,7 +1583,7 @@ func (u *A_CORE_CONTENTUnmarshaller) Initialize(stage *Stage, identifier string,
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1621,7 +1614,7 @@ func (u *A_DATATYPESUnmarshaller) Initialize(stage *Stage, identifier string, in
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1664,7 +1657,7 @@ func (u *A_DATATYPE_DEFINITION_BOOLEAN_REFUnmarshaller) Initialize(stage *Stage,
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1695,7 +1688,7 @@ func (u *A_DATATYPE_DEFINITION_DATE_REFUnmarshaller) Initialize(stage *Stage, id
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1726,7 +1719,7 @@ func (u *A_DATATYPE_DEFINITION_ENUMERATION_REFUnmarshaller) Initialize(stage *St
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1757,7 +1750,7 @@ func (u *A_DATATYPE_DEFINITION_INTEGER_REFUnmarshaller) Initialize(stage *Stage,
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1788,7 +1781,7 @@ func (u *A_DATATYPE_DEFINITION_REAL_REFUnmarshaller) Initialize(stage *Stage, id
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1819,7 +1812,7 @@ func (u *A_DATATYPE_DEFINITION_STRING_REFUnmarshaller) Initialize(stage *Stage, 
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1850,7 +1843,7 @@ func (u *A_DATATYPE_DEFINITION_XHTML_REFUnmarshaller) Initialize(stage *Stage, i
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1881,7 +1874,7 @@ func (u *A_EDITABLE_ATTSUnmarshaller) Initialize(stage *Stage, identifier string
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1924,7 +1917,7 @@ func (u *A_ENUM_VALUE_REFUnmarshaller) Initialize(stage *Stage, identifier strin
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1955,7 +1948,7 @@ func (u *A_OBJECTUnmarshaller) Initialize(stage *Stage, identifier string, insta
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -1986,7 +1979,7 @@ func (u *A_PROPERTIESUnmarshaller) Initialize(stage *Stage, identifier string, i
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2017,7 +2010,7 @@ func (u *A_RELATION_GROUP_TYPE_REFUnmarshaller) Initialize(stage *Stage, identif
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2048,7 +2041,7 @@ func (u *A_SOURCE_1Unmarshaller) Initialize(stage *Stage, identifier string, ins
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2079,7 +2072,7 @@ func (u *A_SOURCE_SPECIFICATION_1Unmarshaller) Initialize(stage *Stage, identifi
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2110,7 +2103,7 @@ func (u *A_SPECIFICATIONSUnmarshaller) Initialize(stage *Stage, identifier strin
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2141,7 +2134,7 @@ func (u *A_SPECIFICATION_TYPE_REFUnmarshaller) Initialize(stage *Stage, identifi
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2172,7 +2165,7 @@ func (u *A_SPECIFIED_VALUESUnmarshaller) Initialize(stage *Stage, identifier str
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2203,7 +2196,7 @@ func (u *A_SPEC_ATTRIBUTESUnmarshaller) Initialize(stage *Stage, identifier stri
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2246,7 +2239,7 @@ func (u *A_SPEC_OBJECTSUnmarshaller) Initialize(stage *Stage, identifier string,
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2277,7 +2270,7 @@ func (u *A_SPEC_OBJECT_TYPE_REFUnmarshaller) Initialize(stage *Stage, identifier
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2308,7 +2301,7 @@ func (u *A_SPEC_RELATIONSUnmarshaller) Initialize(stage *Stage, identifier strin
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2339,7 +2332,7 @@ func (u *A_SPEC_RELATION_GROUPSUnmarshaller) Initialize(stage *Stage, identifier
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2370,7 +2363,7 @@ func (u *A_SPEC_RELATION_REFUnmarshaller) Initialize(stage *Stage, identifier st
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2401,7 +2394,7 @@ func (u *A_SPEC_RELATION_TYPE_REFUnmarshaller) Initialize(stage *Stage, identifi
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2432,7 +2425,7 @@ func (u *A_SPEC_TYPESUnmarshaller) Initialize(stage *Stage, identifier string, i
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2469,7 +2462,7 @@ func (u *A_THE_HEADERUnmarshaller) Initialize(stage *Stage, identifier string, i
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2500,7 +2493,7 @@ func (u *A_TOOL_EXTENSIONSUnmarshaller) Initialize(stage *Stage, identifier stri
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2531,7 +2524,7 @@ func (u *DATATYPE_DEFINITION_BOOLEANUnmarshaller) Initialize(stage *Stage, ident
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2570,7 +2563,7 @@ func (u *DATATYPE_DEFINITION_DATEUnmarshaller) Initialize(stage *Stage, identifi
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2609,7 +2602,7 @@ func (u *DATATYPE_DEFINITION_ENUMERATIONUnmarshaller) Initialize(stage *Stage, i
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2650,7 +2643,7 @@ func (u *DATATYPE_DEFINITION_INTEGERUnmarshaller) Initialize(stage *Stage, ident
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2693,7 +2686,7 @@ func (u *DATATYPE_DEFINITION_REALUnmarshaller) Initialize(stage *Stage, identifi
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2738,7 +2731,7 @@ func (u *DATATYPE_DEFINITION_STRINGUnmarshaller) Initialize(stage *Stage, identi
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2779,7 +2772,7 @@ func (u *DATATYPE_DEFINITION_XHTMLUnmarshaller) Initialize(stage *Stage, identif
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2818,7 +2811,7 @@ func (u *EMBEDDED_VALUEUnmarshaller) Initialize(stage *Stage, identifier string,
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2851,7 +2844,7 @@ func (u *ENUM_VALUEUnmarshaller) Initialize(stage *Stage, identifier string, ins
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2892,7 +2885,7 @@ func (u *RELATION_GROUPUnmarshaller) Initialize(stage *Stage, identifier string,
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2939,7 +2932,7 @@ func (u *RELATION_GROUP_TYPEUnmarshaller) Initialize(stage *Stage, identifier st
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -2980,7 +2973,7 @@ func (u *REQ_IFUnmarshaller) Initialize(stage *Stage, identifier string, instanc
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -3017,7 +3010,7 @@ func (u *REQ_IF_CONTENTUnmarshaller) Initialize(stage *Stage, identifier string,
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -3058,7 +3051,7 @@ func (u *REQ_IF_HEADERUnmarshaller) Initialize(stage *Stage, identifier string, 
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -3103,7 +3096,7 @@ func (u *REQ_IF_TOOL_EXTENSIONUnmarshaller) Initialize(stage *Stage, identifier 
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -3132,7 +3125,7 @@ func (u *SPECIFICATIONUnmarshaller) Initialize(stage *Stage, identifier string, 
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -3177,7 +3170,7 @@ func (u *SPECIFICATION_TYPEUnmarshaller) Initialize(stage *Stage, identifier str
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -3218,7 +3211,7 @@ func (u *SPEC_HIERARCHYUnmarshaller) Initialize(stage *Stage, identifier string,
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -3267,7 +3260,7 @@ func (u *SPEC_OBJECTUnmarshaller) Initialize(stage *Stage, identifier string, in
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -3310,7 +3303,7 @@ func (u *SPEC_OBJECT_TYPEUnmarshaller) Initialize(stage *Stage, identifier strin
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -3351,7 +3344,7 @@ func (u *SPEC_RELATIONUnmarshaller) Initialize(stage *Stage, identifier string, 
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -3398,7 +3391,7 @@ func (u *SPEC_RELATION_TYPEUnmarshaller) Initialize(stage *Stage, identifier str
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
@@ -3439,7 +3432,7 @@ func (u *XHTML_CONTENTUnmarshaller) Initialize(stage *Stage, identifier string, 
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {

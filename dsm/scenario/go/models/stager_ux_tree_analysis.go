@@ -28,7 +28,7 @@ func (stager *Stager) treeAnalysis(treeInstance *tree.Tree, analysis *Analysis, 
 	analysisNode.OnNameChange = stager.onNameChange(analysis)
 	addRenameButton(analysis, analysisNode, stager)
 
-	slices.SortFunc(analysis.Scenarios, CompareGongstructByName)
+	slices.SortFunc(analysis.Scenarios, GongCompareGongstructByName)
 	for _, scenario := range analysis.Scenarios {
 		stager.treeScenario(treeInstance, scenario, &analysisNode.Children)
 	}

@@ -9,18 +9,18 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-func SerializeStage(stage *Stage, filename string) {
-	SerializeStage2(stage, filename, false)
+func (stage *Stage) SerializeStage(filename string) {
+	stage.SerializeStage2(filename, false)
 }
 
-func SerializeStage2(stage *Stage, filename string, addIDs bool) {
-	f := buildExcelizeFile(stage, addIDs)
+func (stage *Stage) SerializeStage2(filename string, addIDs bool) {
+	f := stage.__gong__buildExcelizeFile(addIDs)
 	if err := f.SaveAs(filename); err != nil {
 		fmt.Println("cannot write xl file : ", err)
 	}
 }
 
-func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
+func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
@@ -164,8 +164,8 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 }
 
 // SerializeStageAsBytes serializes the stage to a pure in-memory Excel file and returns the bytes.
-func SerializeStageAsBytes(stage *Stage, addIDs bool) ([]byte, error) {
-	f := buildExcelizeFile(stage, addIDs)
+func (stage *Stage) SerializeStageAsBytes(addIDs bool) ([]byte, error) {
+	f := stage.__gong__buildExcelizeFile(addIDs)
 	buf, err := f.WriteToBuffer()
 	if err != nil {
 		return nil, err
@@ -173,7 +173,7 @@ func SerializeStageAsBytes(stage *Stage, addIDs bool) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-func shortenString(s string) string {
+func __gong__shortenString(s string) string {
 	if len(s) > 31 {
 		return s[:31]
 	}
@@ -214,9 +214,9 @@ func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *exceli
 
 // SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
 func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
-	sheetName := GetPointerToGongstructName[Type]()
+	sheetName := GongGetPointerToGongstructName[Type]()
 
-	sheetName = shortenString(sheetName)
+	sheetName = __gong__shortenString(sheetName)
 
 	// Create a new sheet.
 	f.NewSheet(sheetName)
@@ -233,22 +233,22 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 
 	line := 1
 
-	for index, fieldHeader := range GetFieldsFromPointer[Type]() {
+	for index, fieldHeader := range GongGetFieldsFromPointer[Type]() {
 		if !addIDs {
-			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldHeader.Name)
+			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(index+1)), line), fieldHeader.Name)
 		} else {
-			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+1)), line), fieldHeader.Name)
+			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(2*index+1)), line), fieldHeader.Name)
 			switch fieldHeader.GongFieldValueType {
 			case GongFieldValueTypePointer:
-				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line),
+				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(2*index+2)), line),
 					fieldHeader.Name+":"+fieldHeader.TargetGongstructName+":ID")
 			case GongFieldValueTypeSliceOfPointers:
-				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line),
+				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(2*index+2)), line),
 					fieldHeader.Name+":"+fieldHeader.TargetGongstructName+":IDs")
 			default:
 				// if index is 0, this is the ID of the instance
 				if index == 0 {
-					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), "ID")
+					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(2*index+2)), line), "ID")
 				} else {
 					// one have to put the type of the cell
 					header := fieldHeader.Name
@@ -269,7 +269,7 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 						header += ":basicType"
 					}
 					header += ":noID"
-					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), header)
+					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(2*index+2)), line), header)
 				}
 			}
 		}
@@ -277,7 +277,7 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 
 	// AutoFilter starting from A1
 	f.AutoFilter(sheetName,
-		fmt.Sprintf("%s%d", IntToLetters(int32(1)), line),
+		fmt.Sprintf("%s%d", GongIntToLetters(int32(1)), line),
 		[]excelize.AutoFilterOptions{})
 
 	for _, instance := range sortedSlice {
@@ -285,18 +285,18 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 
 		// 3. Add the ID value in column B
 
-		for index, fieldName := range GetFieldsFromPointer[Type]() {
-			fieldStringValue := GetFieldStringValueFromPointer(instance, fieldName.Name, stage)
+		for index, fieldName := range GongGetFieldsFromPointer[Type]() {
+			fieldStringValue := stage.GetFieldStringValueFromPointer(instance, fieldName.Name)
 			if !addIDs {
-				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldStringValue.GetValueString())
+				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(index+1)), line), fieldStringValue.GetValueString())
 			} else {
-				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+1)), line), fieldStringValue.GetValueString())
+				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(2*index+1)), line), fieldStringValue.GetValueString())
 				if index == 0 {
-					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), instance.GongGetUUID(stage))
+					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(2*index+2)), line), instance.GongGetUUID(stage))
 				} else {
 					switch fieldStringValue.GongFieldValueType {
 					case GongFieldValueTypePointer, GongFieldValueTypeSliceOfPointers:
-						f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldStringValue.ids)
+						f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(2*index+2)), line), fieldStringValue.ids)
 					}
 				}
 
@@ -323,14 +323,4 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 	// 	}
 	// 	f.SetColWidth(sheetName, name, name, float64(largestWidth))
 	// }
-}
-
-// SerializeExcelizePointerToGongstruct is a backward-compatible forwarder.
-func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {
-	stage.SerializeExcelizePointer[Type](f)
-}
-
-// SerializeExcelizePointerToGongstruct2 is a backward-compatible forwarder.
-func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stage, f *excelize.File, addIDs bool) {
-	stage.SerializeExcelizePointer2[Type](f, addIDs)
 }

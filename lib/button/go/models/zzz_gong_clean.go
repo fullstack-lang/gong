@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -40,11 +35,6 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 		return
 	}
 	return
-}
-
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
 }
 
 // insertion point per named struct
@@ -65,7 +55,7 @@ func (buttontoggle *ButtonToggle) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Group
 func (group *Group) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &group.Buttons) || modified
+	modified = stage.CleanSlice(&group.Buttons) || modified
 	// insertion point per field
 	return
 }
@@ -73,7 +63,7 @@ func (group *Group) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by GroupToogle
 func (grouptoogle *GroupToogle) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &grouptoogle.ButtonToggles) || modified
+	modified = stage.CleanSlice(&grouptoogle.ButtonToggles) || modified
 	// insertion point per field
 	return
 }
@@ -81,8 +71,8 @@ func (grouptoogle *GroupToogle) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Layout
 func (layout *Layout) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &layout.Groups) || modified
-	modified = GongCleanSlice(stage, &layout.GroupToogles) || modified
+	modified = stage.CleanSlice(&layout.Groups) || modified
+	modified = stage.CleanSlice(&layout.GroupToogles) || modified
 	// insertion point per field
 	return
 }

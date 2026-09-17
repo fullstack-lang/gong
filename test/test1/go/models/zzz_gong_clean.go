@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -42,31 +37,26 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 	return
 }
 
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
-}
-
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Astruct
 func (astruct *Astruct) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &astruct.Anarrayofb) || modified
-	modified = GongCleanSlice(stage, &astruct.Dstruct4s) || modified
-	modified = GongCleanSlice(stage, &astruct.Anarrayofa) || modified
-	modified = GongCleanSlice(stage, &astruct.Anotherarrayofb) || modified
-	modified = GongCleanSlice(stage, &astruct.AnarrayofbUse) || modified
-	modified = GongCleanSlice(stage, &astruct.Anarrayofb2Use) || modified
+	modified = stage.CleanSlice(&astruct.Anarrayofb) || modified
+	modified = stage.CleanSlice(&astruct.Dstruct4s) || modified
+	modified = stage.CleanSlice(&astruct.Anarrayofa) || modified
+	modified = stage.CleanSlice(&astruct.Anotherarrayofb) || modified
+	modified = stage.CleanSlice(&astruct.AnarrayofbUse) || modified
+	modified = stage.CleanSlice(&astruct.Anarrayofb2Use) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &astruct.Associationtob) || modified
-	modified = GongCleanPointer(stage, &astruct.Anotherassociationtob_2) || modified
-	modified = GongCleanPointer(stage, &astruct.Bstruct) || modified
-	modified = GongCleanPointer(stage, &astruct.Bstruct2) || modified
-	modified = GongCleanPointer(stage, &astruct.Dstruct) || modified
-	modified = GongCleanPointer(stage, &astruct.Dstruct2) || modified
-	modified = GongCleanPointer(stage, &astruct.Dstruct3) || modified
-	modified = GongCleanPointer(stage, &astruct.Dstruct4) || modified
-	modified = GongCleanPointer(stage, &astruct.AnAstruct) || modified
+	modified = stage.CleanPointer(&astruct.Associationtob) || modified
+	modified = stage.CleanPointer(&astruct.Anotherassociationtob_2) || modified
+	modified = stage.CleanPointer(&astruct.Bstruct) || modified
+	modified = stage.CleanPointer(&astruct.Bstruct2) || modified
+	modified = stage.CleanPointer(&astruct.Dstruct) || modified
+	modified = stage.CleanPointer(&astruct.Dstruct2) || modified
+	modified = stage.CleanPointer(&astruct.Dstruct3) || modified
+	modified = stage.CleanPointer(&astruct.Dstruct4) || modified
+	modified = stage.CleanPointer(&astruct.AnAstruct) || modified
 	return
 }
 
@@ -74,7 +64,7 @@ func (astruct *Astruct) GongClean(stage *Stage) (modified bool) {
 func (astructbstruct2use *AstructBstruct2Use) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &astructbstruct2use.Bstrcut2) || modified
+	modified = stage.CleanPointer(&astructbstruct2use.Bstrcut2) || modified
 	return
 }
 
@@ -82,7 +72,7 @@ func (astructbstruct2use *AstructBstruct2Use) GongClean(stage *Stage) (modified 
 func (astructbstructuse *AstructBstructUse) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &astructbstructuse.Bstruct2) || modified
+	modified = stage.CleanPointer(&astructbstructuse.Bstruct2) || modified
 	return
 }
 
@@ -96,10 +86,10 @@ func (bstruct *Bstruct) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Dstruct
 func (dstruct *Dstruct) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &dstruct.Anarrayofb) || modified
-	modified = GongCleanSlice(stage, &dstruct.Gstructs) || modified
+	modified = stage.CleanSlice(&dstruct.Anarrayofb) || modified
+	modified = stage.CleanSlice(&dstruct.Gstructs) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &dstruct.Gstruct) || modified
+	modified = stage.CleanPointer(&dstruct.Gstruct) || modified
 	return
 }
 

@@ -77,83 +77,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *AllocatedProcessShape:
-		ok = stage.IsStagedAllocatedProcessShape(target)
-
-	case *AllocatedResourceShape:
-		ok = stage.IsStagedAllocatedResourceShape(target)
-
-	case *ControlFlow:
-		ok = stage.IsStagedControlFlow(target)
-
-	case *ControlFlowShape:
-		ok = stage.IsStagedControlFlowShape(target)
-
-	case *Data:
-		ok = stage.IsStagedData(target)
-
-	case *DataFlow:
-		ok = stage.IsStagedDataFlow(target)
-
-	case *DataFlowShape:
-		ok = stage.IsStagedDataFlowShape(target)
-
-	case *DataShape:
-		ok = stage.IsStagedDataShape(target)
-
-	case *DiagramProcess:
-		ok = stage.IsStagedDiagramProcess(target)
-
-	case *ExternalParticipantShape:
-		ok = stage.IsStagedExternalParticipantShape(target)
-
-	case *Library:
-		ok = stage.IsStagedLibrary(target)
-
-	case *Note:
-		ok = stage.IsStagedNote(target)
-
-	case *NoteShape:
-		ok = stage.IsStagedNoteShape(target)
-
-	case *NoteTaskShape:
-		ok = stage.IsStagedNoteTaskShape(target)
-
-	case *Participant:
-		ok = stage.IsStagedParticipant(target)
-
-	case *ParticipantShape:
-		ok = stage.IsStagedParticipantShape(target)
-
-	case *Process:
-		ok = stage.IsStagedProcess(target)
-
-	case *ProcessShape:
-		ok = stage.IsStagedProcessShape(target)
-
-	case *Resource:
-		ok = stage.IsStagedResource(target)
-
-	case *Task:
-		ok = stage.IsStagedTask(target)
-
-	case *TaskShape:
-		ok = stage.IsStagedTaskShape(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedAllocatedProcessShape(allocatedprocessshape *AllocatedProcessShape) (ok bool) {
 
@@ -384,7 +307,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchAllocatedProcessShape(allocatedprocessshape *AllocatedProcessShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, allocatedprocessshape) {
+	if stage.IsStaged(allocatedprocessshape) {
 		return
 	}
 
@@ -392,10 +315,10 @@ func (stage *Stage) StageBranchAllocatedProcessShape(allocatedprocessshape *Allo
 
 	//insertion point for the staging of instances referenced by pointers
 	if allocatedprocessshape.Participant != nil {
-		StageBranch(stage, allocatedprocessshape.Participant)
+		stage.StageBranch(allocatedprocessshape.Participant)
 	}
 	if allocatedprocessshape.Process != nil {
-		StageBranch(stage, allocatedprocessshape.Process)
+		stage.StageBranch(allocatedprocessshape.Process)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -405,7 +328,7 @@ func (stage *Stage) StageBranchAllocatedProcessShape(allocatedprocessshape *Allo
 func (stage *Stage) StageBranchAllocatedResourceShape(allocatedresourceshape *AllocatedResourceShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, allocatedresourceshape) {
+	if stage.IsStaged(allocatedresourceshape) {
 		return
 	}
 
@@ -413,10 +336,10 @@ func (stage *Stage) StageBranchAllocatedResourceShape(allocatedresourceshape *Al
 
 	//insertion point for the staging of instances referenced by pointers
 	if allocatedresourceshape.Participant != nil {
-		StageBranch(stage, allocatedresourceshape.Participant)
+		stage.StageBranch(allocatedresourceshape.Participant)
 	}
 	if allocatedresourceshape.Resource != nil {
-		StageBranch(stage, allocatedresourceshape.Resource)
+		stage.StageBranch(allocatedresourceshape.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -426,7 +349,7 @@ func (stage *Stage) StageBranchAllocatedResourceShape(allocatedresourceshape *Al
 func (stage *Stage) StageBranchControlFlow(controlflow *ControlFlow) {
 
 	// check if instance is already staged
-	if IsStaged(stage, controlflow) {
+	if stage.IsStaged(controlflow) {
 		return
 	}
 
@@ -434,10 +357,10 @@ func (stage *Stage) StageBranchControlFlow(controlflow *ControlFlow) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if controlflow.Start != nil {
-		StageBranch(stage, controlflow.Start)
+		stage.StageBranch(controlflow.Start)
 	}
 	if controlflow.End != nil {
-		StageBranch(stage, controlflow.End)
+		stage.StageBranch(controlflow.End)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -447,7 +370,7 @@ func (stage *Stage) StageBranchControlFlow(controlflow *ControlFlow) {
 func (stage *Stage) StageBranchControlFlowShape(controlflowshape *ControlFlowShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, controlflowshape) {
+	if stage.IsStaged(controlflowshape) {
 		return
 	}
 
@@ -455,7 +378,7 @@ func (stage *Stage) StageBranchControlFlowShape(controlflowshape *ControlFlowSha
 
 	//insertion point for the staging of instances referenced by pointers
 	if controlflowshape.ControlFlow != nil {
-		StageBranch(stage, controlflowshape.ControlFlow)
+		stage.StageBranch(controlflowshape.ControlFlow)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -465,7 +388,7 @@ func (stage *Stage) StageBranchControlFlowShape(controlflowshape *ControlFlowSha
 func (stage *Stage) StageBranchData(data *Data) {
 
 	// check if instance is already staged
-	if IsStaged(stage, data) {
+	if stage.IsStaged(data) {
 		return
 	}
 
@@ -480,7 +403,7 @@ func (stage *Stage) StageBranchData(data *Data) {
 func (stage *Stage) StageBranchDataFlow(dataflow *DataFlow) {
 
 	// check if instance is already staged
-	if IsStaged(stage, dataflow) {
+	if stage.IsStaged(dataflow) {
 		return
 	}
 
@@ -488,21 +411,21 @@ func (stage *Stage) StageBranchDataFlow(dataflow *DataFlow) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if dataflow.StartTask != nil {
-		StageBranch(stage, dataflow.StartTask)
+		stage.StageBranch(dataflow.StartTask)
 	}
 	if dataflow.EndTask != nil {
-		StageBranch(stage, dataflow.EndTask)
+		stage.StageBranch(dataflow.EndTask)
 	}
 	if dataflow.StartExternalParticipant != nil {
-		StageBranch(stage, dataflow.StartExternalParticipant)
+		stage.StageBranch(dataflow.StartExternalParticipant)
 	}
 	if dataflow.EndExternalParticipant != nil {
-		StageBranch(stage, dataflow.EndExternalParticipant)
+		stage.StageBranch(dataflow.EndExternalParticipant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _data := range dataflow.Datas {
-		StageBranch(stage, _data)
+		stage.StageBranch(_data)
 	}
 
 }
@@ -510,7 +433,7 @@ func (stage *Stage) StageBranchDataFlow(dataflow *DataFlow) {
 func (stage *Stage) StageBranchDataFlowShape(dataflowshape *DataFlowShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, dataflowshape) {
+	if stage.IsStaged(dataflowshape) {
 		return
 	}
 
@@ -518,7 +441,7 @@ func (stage *Stage) StageBranchDataFlowShape(dataflowshape *DataFlowShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if dataflowshape.DataFlow != nil {
-		StageBranch(stage, dataflowshape.DataFlow)
+		stage.StageBranch(dataflowshape.DataFlow)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -528,7 +451,7 @@ func (stage *Stage) StageBranchDataFlowShape(dataflowshape *DataFlowShape) {
 func (stage *Stage) StageBranchDataShape(datashape *DataShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, datashape) {
+	if stage.IsStaged(datashape) {
 		return
 	}
 
@@ -536,10 +459,10 @@ func (stage *Stage) StageBranchDataShape(datashape *DataShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if datashape.Data != nil {
-		StageBranch(stage, datashape.Data)
+		stage.StageBranch(datashape.Data)
 	}
 	if datashape.DataFlow != nil {
-		StageBranch(stage, datashape.DataFlow)
+		stage.StageBranch(datashape.DataFlow)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -549,7 +472,7 @@ func (stage *Stage) StageBranchDataShape(datashape *DataShape) {
 func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 
 	// check if instance is already staged
-	if IsStaged(stage, diagramprocess) {
+	if stage.IsStaged(diagramprocess) {
 		return
 	}
 
@@ -559,76 +482,76 @@ func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _processshape := range diagramprocess.Process_Shapes {
-		StageBranch(stage, _processshape)
+		stage.StageBranch(_processshape)
 	}
 	for _, _process := range diagramprocess.ProcesssWhoseNodeIsExpanded {
-		StageBranch(stage, _process)
+		stage.StageBranch(_process)
 	}
 	for _, _participantshape := range diagramprocess.Participant_Shapes {
-		StageBranch(stage, _participantshape)
+		stage.StageBranch(_participantshape)
 	}
 	for _, _participant := range diagramprocess.ParticipantWhoseNodeIsExpanded {
-		StageBranch(stage, _participant)
+		stage.StageBranch(_participant)
 	}
 	for _, _externalparticipantshape := range diagramprocess.ExternalParticipant_Shapes {
-		StageBranch(stage, _externalparticipantshape)
+		stage.StageBranch(_externalparticipantshape)
 	}
 	for _, _participant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
-		StageBranch(stage, _participant)
+		stage.StageBranch(_participant)
 	}
 	for _, _participant := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
-		StageBranch(stage, _participant)
+		stage.StageBranch(_participant)
 	}
 	for _, _participant := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
-		StageBranch(stage, _participant)
+		stage.StageBranch(_participant)
 	}
 	for _, _task := range diagramprocess.TasksWhoseNodeIsExpanded {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 	for _, _taskshape := range diagramprocess.Task_Shapes {
-		StageBranch(stage, _taskshape)
+		stage.StageBranch(_taskshape)
 	}
 	for _, _controlflow := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
-		StageBranch(stage, _controlflow)
+		stage.StageBranch(_controlflow)
 	}
 	for _, _controlflowshape := range diagramprocess.ControlFlow_Shapes {
-		StageBranch(stage, _controlflowshape)
+		stage.StageBranch(_controlflowshape)
 	}
 	for _, _dataflow := range diagramprocess.DataFlowsWhoseNodeIsExpanded {
-		StageBranch(stage, _dataflow)
+		stage.StageBranch(_dataflow)
 	}
 	for _, _dataflowshape := range diagramprocess.DataFlow_Shapes {
-		StageBranch(stage, _dataflowshape)
+		stage.StageBranch(_dataflowshape)
 	}
 	for _, _data := range diagramprocess.DatasWhoseNodeIsExpanded {
-		StageBranch(stage, _data)
+		stage.StageBranch(_data)
 	}
 	for _, _datashape := range diagramprocess.Data_Shapes {
-		StageBranch(stage, _datashape)
+		stage.StageBranch(_datashape)
 	}
 	for _, _dataflow := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
-		StageBranch(stage, _dataflow)
+		stage.StageBranch(_dataflow)
 	}
 	for _, _resource := range diagramprocess.AllocatedResourcesWhoseNodeIsExpanded {
-		StageBranch(stage, _resource)
+		stage.StageBranch(_resource)
 	}
 	for _, _allocatedresourceshape := range diagramprocess.AllocatedResourceShapes {
-		StageBranch(stage, _allocatedresourceshape)
+		stage.StageBranch(_allocatedresourceshape)
 	}
 	for _, _process := range diagramprocess.AllocatedProcessesWhoseNodeIsExpanded {
-		StageBranch(stage, _process)
+		stage.StageBranch(_process)
 	}
 	for _, _allocatedprocessshape := range diagramprocess.AllocatedProcessShapes {
-		StageBranch(stage, _allocatedprocessshape)
+		stage.StageBranch(_allocatedprocessshape)
 	}
 	for _, _noteshape := range diagramprocess.Note_Shapes {
-		StageBranch(stage, _noteshape)
+		stage.StageBranch(_noteshape)
 	}
 	for _, _note := range diagramprocess.NotesWhoseNodeIsExpanded {
-		StageBranch(stage, _note)
+		stage.StageBranch(_note)
 	}
 	for _, _notetaskshape := range diagramprocess.NoteTaskShapes {
-		StageBranch(stage, _notetaskshape)
+		stage.StageBranch(_notetaskshape)
 	}
 
 }
@@ -636,7 +559,7 @@ func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 func (stage *Stage) StageBranchExternalParticipantShape(externalparticipantshape *ExternalParticipantShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, externalparticipantshape) {
+	if stage.IsStaged(externalparticipantshape) {
 		return
 	}
 
@@ -644,7 +567,7 @@ func (stage *Stage) StageBranchExternalParticipantShape(externalparticipantshape
 
 	//insertion point for the staging of instances referenced by pointers
 	if externalparticipantshape.Participant != nil {
-		StageBranch(stage, externalparticipantshape.Participant)
+		stage.StageBranch(externalparticipantshape.Participant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -654,7 +577,7 @@ func (stage *Stage) StageBranchExternalParticipantShape(externalparticipantshape
 func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
-	if IsStaged(stage, library) {
+	if stage.IsStaged(library) {
 		return
 	}
 
@@ -664,43 +587,43 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _library := range library.SubLibraries {
-		StageBranch(stage, _library)
+		stage.StageBranch(_library)
 	}
 	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
-		StageBranch(stage, _library)
+		stage.StageBranch(_library)
 	}
 	for _, _process := range library.RootProcesses {
-		StageBranch(stage, _process)
+		stage.StageBranch(_process)
 	}
 	for _, _process := range library.ProcesssWhoseNodeIsExpanded {
-		StageBranch(stage, _process)
+		stage.StageBranch(_process)
 	}
 	for _, _dataflow := range library.RootDataFlows {
-		StageBranch(stage, _dataflow)
+		stage.StageBranch(_dataflow)
 	}
 	for _, _dataflow := range library.DataFlowsWhoseNodeIsExpanded {
-		StageBranch(stage, _dataflow)
+		stage.StageBranch(_dataflow)
 	}
 	for _, _data := range library.RootDatas {
-		StageBranch(stage, _data)
+		stage.StageBranch(_data)
 	}
 	for _, _data := range library.DatasWhoseNodeIsExpanded {
-		StageBranch(stage, _data)
+		stage.StageBranch(_data)
 	}
 	for _, _resource := range library.RootResources {
-		StageBranch(stage, _resource)
+		stage.StageBranch(_resource)
 	}
 	for _, _resource := range library.ResourcesWhoseNodeIsExpanded {
-		StageBranch(stage, _resource)
+		stage.StageBranch(_resource)
 	}
 	for _, _participant := range library.ParticipantsWhoseNodeIsExpanded {
-		StageBranch(stage, _participant)
+		stage.StageBranch(_participant)
 	}
 	for _, _note := range library.RootNotes {
-		StageBranch(stage, _note)
+		stage.StageBranch(_note)
 	}
 	for _, _note := range library.NotesWhoseNodeIsExpanded {
-		StageBranch(stage, _note)
+		stage.StageBranch(_note)
 	}
 
 }
@@ -708,7 +631,7 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 func (stage *Stage) StageBranchNote(note *Note) {
 
 	// check if instance is already staged
-	if IsStaged(stage, note) {
+	if stage.IsStaged(note) {
 		return
 	}
 
@@ -718,7 +641,7 @@ func (stage *Stage) StageBranchNote(note *Note) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range note.Tasks {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 
 }
@@ -726,7 +649,7 @@ func (stage *Stage) StageBranchNote(note *Note) {
 func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, noteshape) {
+	if stage.IsStaged(noteshape) {
 		return
 	}
 
@@ -734,7 +657,7 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshape.Note != nil {
-		StageBranch(stage, noteshape.Note)
+		stage.StageBranch(noteshape.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -744,7 +667,7 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, notetaskshape) {
+	if stage.IsStaged(notetaskshape) {
 		return
 	}
 
@@ -752,10 +675,10 @@ func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if notetaskshape.Note != nil {
-		StageBranch(stage, notetaskshape.Note)
+		stage.StageBranch(notetaskshape.Note)
 	}
 	if notetaskshape.Task != nil {
-		StageBranch(stage, notetaskshape.Task)
+		stage.StageBranch(notetaskshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -765,7 +688,7 @@ func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 func (stage *Stage) StageBranchParticipant(participant *Participant) {
 
 	// check if instance is already staged
-	if IsStaged(stage, participant) {
+	if stage.IsStaged(participant) {
 		return
 	}
 
@@ -775,28 +698,28 @@ func (stage *Stage) StageBranchParticipant(participant *Participant) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _resource := range participant.Resources {
-		StageBranch(stage, _resource)
+		stage.StageBranch(_resource)
 	}
 	for _, _process := range participant.Processes {
-		StageBranch(stage, _process)
+		stage.StageBranch(_process)
 	}
 	for _, _task := range participant.Tasks {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 	for _, _controlflow := range participant.ControlFlows {
-		StageBranch(stage, _controlflow)
+		stage.StageBranch(_controlflow)
 	}
 	for _, _task := range participant.TaskWhoseOutControlFlowsNodeIsExpanded {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 	for _, _task := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 	for _, _task := range participant.TaskWhoseOutDataFlowsNodeIsExpanded {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 	for _, _task := range participant.TaskWhoseInDataFlowsNodeIsExpanded {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 
 }
@@ -804,7 +727,7 @@ func (stage *Stage) StageBranchParticipant(participant *Participant) {
 func (stage *Stage) StageBranchParticipantShape(participantshape *ParticipantShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, participantshape) {
+	if stage.IsStaged(participantshape) {
 		return
 	}
 
@@ -812,7 +735,7 @@ func (stage *Stage) StageBranchParticipantShape(participantshape *ParticipantSha
 
 	//insertion point for the staging of instances referenced by pointers
 	if participantshape.Participant != nil {
-		StageBranch(stage, participantshape.Participant)
+		stage.StageBranch(participantshape.Participant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -822,7 +745,7 @@ func (stage *Stage) StageBranchParticipantShape(participantshape *ParticipantSha
 func (stage *Stage) StageBranchProcess(process *Process) {
 
 	// check if instance is already staged
-	if IsStaged(stage, process) {
+	if stage.IsStaged(process) {
 		return
 	}
 
@@ -832,28 +755,28 @@ func (stage *Stage) StageBranchProcess(process *Process) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _diagramprocess := range process.DiagramProcesss {
-		StageBranch(stage, _diagramprocess)
+		stage.StageBranch(_diagramprocess)
 	}
 	for _, _diagramprocess := range process.DiagramProcessWhoseNodeIsExpanded {
-		StageBranch(stage, _diagramprocess)
+		stage.StageBranch(_diagramprocess)
 	}
 	for _, _process := range process.SubProcesses {
-		StageBranch(stage, _process)
+		stage.StageBranch(_process)
 	}
 	for _, _participant := range process.Participants {
-		StageBranch(stage, _participant)
+		stage.StageBranch(_participant)
 	}
 	for _, _participant := range process.ParticipantWhoseNodeIsExpanded {
-		StageBranch(stage, _participant)
+		stage.StageBranch(_participant)
 	}
 	for _, _dataflow := range process.DataFlows {
-		StageBranch(stage, _dataflow)
+		stage.StageBranch(_dataflow)
 	}
 	for _, _participant := range process.ExternalParticipants {
-		StageBranch(stage, _participant)
+		stage.StageBranch(_participant)
 	}
 	for _, _participant := range process.ExternalParticipantWhoseNodeIsExpanded {
-		StageBranch(stage, _participant)
+		stage.StageBranch(_participant)
 	}
 
 }
@@ -861,7 +784,7 @@ func (stage *Stage) StageBranchProcess(process *Process) {
 func (stage *Stage) StageBranchProcessShape(processshape *ProcessShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, processshape) {
+	if stage.IsStaged(processshape) {
 		return
 	}
 
@@ -869,7 +792,7 @@ func (stage *Stage) StageBranchProcessShape(processshape *ProcessShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if processshape.Process != nil {
-		StageBranch(stage, processshape.Process)
+		stage.StageBranch(processshape.Process)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -879,7 +802,7 @@ func (stage *Stage) StageBranchProcessShape(processshape *ProcessShape) {
 func (stage *Stage) StageBranchResource(resource *Resource) {
 
 	// check if instance is already staged
-	if IsStaged(stage, resource) {
+	if stage.IsStaged(resource) {
 		return
 	}
 
@@ -894,7 +817,7 @@ func (stage *Stage) StageBranchResource(resource *Resource) {
 func (stage *Stage) StageBranchTask(task *Task) {
 
 	// check if instance is already staged
-	if IsStaged(stage, task) {
+	if stage.IsStaged(task) {
 		return
 	}
 
@@ -902,7 +825,7 @@ func (stage *Stage) StageBranchTask(task *Task) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if task.Type != nil {
-		StageBranch(stage, task.Type)
+		stage.StageBranch(task.Type)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -912,7 +835,7 @@ func (stage *Stage) StageBranchTask(task *Task) {
 func (stage *Stage) StageBranchTaskShape(taskshape *TaskShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, taskshape) {
+	if stage.IsStaged(taskshape) {
 		return
 	}
 
@@ -920,18 +843,18 @@ func (stage *Stage) StageBranchTaskShape(taskshape *TaskShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskshape.Task != nil {
-		StageBranch(stage, taskshape.Task)
+		stage.StageBranch(taskshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -939,87 +862,87 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *AllocatedProcessShape:
-		toT := CopyBranchAllocatedProcessShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchAllocatedProcessShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *AllocatedResourceShape:
-		toT := CopyBranchAllocatedResourceShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchAllocatedResourceShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ControlFlow:
-		toT := CopyBranchControlFlow(mapOrigCopy, fromT)
+		toT := GongCopyBranchControlFlow(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ControlFlowShape:
-		toT := CopyBranchControlFlowShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchControlFlowShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Data:
-		toT := CopyBranchData(mapOrigCopy, fromT)
+		toT := GongCopyBranchData(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *DataFlow:
-		toT := CopyBranchDataFlow(mapOrigCopy, fromT)
+		toT := GongCopyBranchDataFlow(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *DataFlowShape:
-		toT := CopyBranchDataFlowShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchDataFlowShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *DataShape:
-		toT := CopyBranchDataShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchDataShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *DiagramProcess:
-		toT := CopyBranchDiagramProcess(mapOrigCopy, fromT)
+		toT := GongCopyBranchDiagramProcess(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ExternalParticipantShape:
-		toT := CopyBranchExternalParticipantShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchExternalParticipantShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Library:
-		toT := CopyBranchLibrary(mapOrigCopy, fromT)
+		toT := GongCopyBranchLibrary(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Note:
-		toT := CopyBranchNote(mapOrigCopy, fromT)
+		toT := GongCopyBranchNote(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteShape:
-		toT := CopyBranchNoteShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteTaskShape:
-		toT := CopyBranchNoteTaskShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteTaskShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Participant:
-		toT := CopyBranchParticipant(mapOrigCopy, fromT)
+		toT := GongCopyBranchParticipant(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ParticipantShape:
-		toT := CopyBranchParticipantShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchParticipantShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Process:
-		toT := CopyBranchProcess(mapOrigCopy, fromT)
+		toT := GongCopyBranchProcess(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ProcessShape:
-		toT := CopyBranchProcessShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchProcessShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Resource:
-		toT := CopyBranchResource(mapOrigCopy, fromT)
+		toT := GongCopyBranchResource(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Task:
-		toT := CopyBranchTask(mapOrigCopy, fromT)
+		toT := GongCopyBranchTask(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TaskShape:
-		toT := CopyBranchTaskShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchTaskShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -1029,7 +952,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchAllocatedProcessShape(mapOrigCopy map[any]any, allocatedprocessshapeFrom *AllocatedProcessShape) (allocatedprocessshapeTo *AllocatedProcessShape) {
+func GongCopyBranchAllocatedProcessShape(mapOrigCopy map[any]any, allocatedprocessshapeFrom *AllocatedProcessShape) (allocatedprocessshapeTo *AllocatedProcessShape) {
 
 	// allocatedprocessshapeFrom has already been copied
 	if _allocatedprocessshapeTo, ok := mapOrigCopy[allocatedprocessshapeFrom]; ok {
@@ -1039,14 +962,14 @@ func CopyBranchAllocatedProcessShape(mapOrigCopy map[any]any, allocatedprocesssh
 
 	allocatedprocessshapeTo = new(AllocatedProcessShape)
 	mapOrigCopy[allocatedprocessshapeFrom] = allocatedprocessshapeTo
-	allocatedprocessshapeFrom.CopyBasicFields(allocatedprocessshapeTo)
+	allocatedprocessshapeFrom.GongCopyBasicFields(allocatedprocessshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if allocatedprocessshapeFrom.Participant != nil {
-		allocatedprocessshapeTo.Participant = CopyBranchParticipant(mapOrigCopy, allocatedprocessshapeFrom.Participant)
+		allocatedprocessshapeTo.Participant = GongCopyBranchParticipant(mapOrigCopy, allocatedprocessshapeFrom.Participant)
 	}
 	if allocatedprocessshapeFrom.Process != nil {
-		allocatedprocessshapeTo.Process = CopyBranchProcess(mapOrigCopy, allocatedprocessshapeFrom.Process)
+		allocatedprocessshapeTo.Process = GongCopyBranchProcess(mapOrigCopy, allocatedprocessshapeFrom.Process)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1054,7 +977,7 @@ func CopyBranchAllocatedProcessShape(mapOrigCopy map[any]any, allocatedprocesssh
 	return
 }
 
-func CopyBranchAllocatedResourceShape(mapOrigCopy map[any]any, allocatedresourceshapeFrom *AllocatedResourceShape) (allocatedresourceshapeTo *AllocatedResourceShape) {
+func GongCopyBranchAllocatedResourceShape(mapOrigCopy map[any]any, allocatedresourceshapeFrom *AllocatedResourceShape) (allocatedresourceshapeTo *AllocatedResourceShape) {
 
 	// allocatedresourceshapeFrom has already been copied
 	if _allocatedresourceshapeTo, ok := mapOrigCopy[allocatedresourceshapeFrom]; ok {
@@ -1064,14 +987,14 @@ func CopyBranchAllocatedResourceShape(mapOrigCopy map[any]any, allocatedresource
 
 	allocatedresourceshapeTo = new(AllocatedResourceShape)
 	mapOrigCopy[allocatedresourceshapeFrom] = allocatedresourceshapeTo
-	allocatedresourceshapeFrom.CopyBasicFields(allocatedresourceshapeTo)
+	allocatedresourceshapeFrom.GongCopyBasicFields(allocatedresourceshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if allocatedresourceshapeFrom.Participant != nil {
-		allocatedresourceshapeTo.Participant = CopyBranchParticipant(mapOrigCopy, allocatedresourceshapeFrom.Participant)
+		allocatedresourceshapeTo.Participant = GongCopyBranchParticipant(mapOrigCopy, allocatedresourceshapeFrom.Participant)
 	}
 	if allocatedresourceshapeFrom.Resource != nil {
-		allocatedresourceshapeTo.Resource = CopyBranchResource(mapOrigCopy, allocatedresourceshapeFrom.Resource)
+		allocatedresourceshapeTo.Resource = GongCopyBranchResource(mapOrigCopy, allocatedresourceshapeFrom.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1079,7 +1002,7 @@ func CopyBranchAllocatedResourceShape(mapOrigCopy map[any]any, allocatedresource
 	return
 }
 
-func CopyBranchControlFlow(mapOrigCopy map[any]any, controlflowFrom *ControlFlow) (controlflowTo *ControlFlow) {
+func GongCopyBranchControlFlow(mapOrigCopy map[any]any, controlflowFrom *ControlFlow) (controlflowTo *ControlFlow) {
 
 	// controlflowFrom has already been copied
 	if _controlflowTo, ok := mapOrigCopy[controlflowFrom]; ok {
@@ -1089,14 +1012,14 @@ func CopyBranchControlFlow(mapOrigCopy map[any]any, controlflowFrom *ControlFlow
 
 	controlflowTo = new(ControlFlow)
 	mapOrigCopy[controlflowFrom] = controlflowTo
-	controlflowFrom.CopyBasicFields(controlflowTo)
+	controlflowFrom.GongCopyBasicFields(controlflowTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if controlflowFrom.Start != nil {
-		controlflowTo.Start = CopyBranchTask(mapOrigCopy, controlflowFrom.Start)
+		controlflowTo.Start = GongCopyBranchTask(mapOrigCopy, controlflowFrom.Start)
 	}
 	if controlflowFrom.End != nil {
-		controlflowTo.End = CopyBranchTask(mapOrigCopy, controlflowFrom.End)
+		controlflowTo.End = GongCopyBranchTask(mapOrigCopy, controlflowFrom.End)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1104,7 +1027,7 @@ func CopyBranchControlFlow(mapOrigCopy map[any]any, controlflowFrom *ControlFlow
 	return
 }
 
-func CopyBranchControlFlowShape(mapOrigCopy map[any]any, controlflowshapeFrom *ControlFlowShape) (controlflowshapeTo *ControlFlowShape) {
+func GongCopyBranchControlFlowShape(mapOrigCopy map[any]any, controlflowshapeFrom *ControlFlowShape) (controlflowshapeTo *ControlFlowShape) {
 
 	// controlflowshapeFrom has already been copied
 	if _controlflowshapeTo, ok := mapOrigCopy[controlflowshapeFrom]; ok {
@@ -1114,11 +1037,11 @@ func CopyBranchControlFlowShape(mapOrigCopy map[any]any, controlflowshapeFrom *C
 
 	controlflowshapeTo = new(ControlFlowShape)
 	mapOrigCopy[controlflowshapeFrom] = controlflowshapeTo
-	controlflowshapeFrom.CopyBasicFields(controlflowshapeTo)
+	controlflowshapeFrom.GongCopyBasicFields(controlflowshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if controlflowshapeFrom.ControlFlow != nil {
-		controlflowshapeTo.ControlFlow = CopyBranchControlFlow(mapOrigCopy, controlflowshapeFrom.ControlFlow)
+		controlflowshapeTo.ControlFlow = GongCopyBranchControlFlow(mapOrigCopy, controlflowshapeFrom.ControlFlow)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1126,7 +1049,7 @@ func CopyBranchControlFlowShape(mapOrigCopy map[any]any, controlflowshapeFrom *C
 	return
 }
 
-func CopyBranchData(mapOrigCopy map[any]any, dataFrom *Data) (dataTo *Data) {
+func GongCopyBranchData(mapOrigCopy map[any]any, dataFrom *Data) (dataTo *Data) {
 
 	// dataFrom has already been copied
 	if _dataTo, ok := mapOrigCopy[dataFrom]; ok {
@@ -1136,7 +1059,7 @@ func CopyBranchData(mapOrigCopy map[any]any, dataFrom *Data) (dataTo *Data) {
 
 	dataTo = new(Data)
 	mapOrigCopy[dataFrom] = dataTo
-	dataFrom.CopyBasicFields(dataTo)
+	dataFrom.GongCopyBasicFields(dataTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1145,7 +1068,7 @@ func CopyBranchData(mapOrigCopy map[any]any, dataFrom *Data) (dataTo *Data) {
 	return
 }
 
-func CopyBranchDataFlow(mapOrigCopy map[any]any, dataflowFrom *DataFlow) (dataflowTo *DataFlow) {
+func GongCopyBranchDataFlow(mapOrigCopy map[any]any, dataflowFrom *DataFlow) (dataflowTo *DataFlow) {
 
 	// dataflowFrom has already been copied
 	if _dataflowTo, ok := mapOrigCopy[dataflowFrom]; ok {
@@ -1155,31 +1078,31 @@ func CopyBranchDataFlow(mapOrigCopy map[any]any, dataflowFrom *DataFlow) (datafl
 
 	dataflowTo = new(DataFlow)
 	mapOrigCopy[dataflowFrom] = dataflowTo
-	dataflowFrom.CopyBasicFields(dataflowTo)
+	dataflowFrom.GongCopyBasicFields(dataflowTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if dataflowFrom.StartTask != nil {
-		dataflowTo.StartTask = CopyBranchTask(mapOrigCopy, dataflowFrom.StartTask)
+		dataflowTo.StartTask = GongCopyBranchTask(mapOrigCopy, dataflowFrom.StartTask)
 	}
 	if dataflowFrom.EndTask != nil {
-		dataflowTo.EndTask = CopyBranchTask(mapOrigCopy, dataflowFrom.EndTask)
+		dataflowTo.EndTask = GongCopyBranchTask(mapOrigCopy, dataflowFrom.EndTask)
 	}
 	if dataflowFrom.StartExternalParticipant != nil {
-		dataflowTo.StartExternalParticipant = CopyBranchParticipant(mapOrigCopy, dataflowFrom.StartExternalParticipant)
+		dataflowTo.StartExternalParticipant = GongCopyBranchParticipant(mapOrigCopy, dataflowFrom.StartExternalParticipant)
 	}
 	if dataflowFrom.EndExternalParticipant != nil {
-		dataflowTo.EndExternalParticipant = CopyBranchParticipant(mapOrigCopy, dataflowFrom.EndExternalParticipant)
+		dataflowTo.EndExternalParticipant = GongCopyBranchParticipant(mapOrigCopy, dataflowFrom.EndExternalParticipant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _data := range dataflowFrom.Datas {
-		dataflowTo.Datas = append(dataflowTo.Datas, CopyBranchData(mapOrigCopy, _data))
+		dataflowTo.Datas = append(dataflowTo.Datas, GongCopyBranchData(mapOrigCopy, _data))
 	}
 
 	return
 }
 
-func CopyBranchDataFlowShape(mapOrigCopy map[any]any, dataflowshapeFrom *DataFlowShape) (dataflowshapeTo *DataFlowShape) {
+func GongCopyBranchDataFlowShape(mapOrigCopy map[any]any, dataflowshapeFrom *DataFlowShape) (dataflowshapeTo *DataFlowShape) {
 
 	// dataflowshapeFrom has already been copied
 	if _dataflowshapeTo, ok := mapOrigCopy[dataflowshapeFrom]; ok {
@@ -1189,11 +1112,11 @@ func CopyBranchDataFlowShape(mapOrigCopy map[any]any, dataflowshapeFrom *DataFlo
 
 	dataflowshapeTo = new(DataFlowShape)
 	mapOrigCopy[dataflowshapeFrom] = dataflowshapeTo
-	dataflowshapeFrom.CopyBasicFields(dataflowshapeTo)
+	dataflowshapeFrom.GongCopyBasicFields(dataflowshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if dataflowshapeFrom.DataFlow != nil {
-		dataflowshapeTo.DataFlow = CopyBranchDataFlow(mapOrigCopy, dataflowshapeFrom.DataFlow)
+		dataflowshapeTo.DataFlow = GongCopyBranchDataFlow(mapOrigCopy, dataflowshapeFrom.DataFlow)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1201,7 +1124,7 @@ func CopyBranchDataFlowShape(mapOrigCopy map[any]any, dataflowshapeFrom *DataFlo
 	return
 }
 
-func CopyBranchDataShape(mapOrigCopy map[any]any, datashapeFrom *DataShape) (datashapeTo *DataShape) {
+func GongCopyBranchDataShape(mapOrigCopy map[any]any, datashapeFrom *DataShape) (datashapeTo *DataShape) {
 
 	// datashapeFrom has already been copied
 	if _datashapeTo, ok := mapOrigCopy[datashapeFrom]; ok {
@@ -1211,14 +1134,14 @@ func CopyBranchDataShape(mapOrigCopy map[any]any, datashapeFrom *DataShape) (dat
 
 	datashapeTo = new(DataShape)
 	mapOrigCopy[datashapeFrom] = datashapeTo
-	datashapeFrom.CopyBasicFields(datashapeTo)
+	datashapeFrom.GongCopyBasicFields(datashapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if datashapeFrom.Data != nil {
-		datashapeTo.Data = CopyBranchData(mapOrigCopy, datashapeFrom.Data)
+		datashapeTo.Data = GongCopyBranchData(mapOrigCopy, datashapeFrom.Data)
 	}
 	if datashapeFrom.DataFlow != nil {
-		datashapeTo.DataFlow = CopyBranchDataFlow(mapOrigCopy, datashapeFrom.DataFlow)
+		datashapeTo.DataFlow = GongCopyBranchDataFlow(mapOrigCopy, datashapeFrom.DataFlow)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1226,7 +1149,7 @@ func CopyBranchDataShape(mapOrigCopy map[any]any, datashapeFrom *DataShape) (dat
 	return
 }
 
-func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *DiagramProcess) (diagramprocessTo *DiagramProcess) {
+func GongCopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *DiagramProcess) (diagramprocessTo *DiagramProcess) {
 
 	// diagramprocessFrom has already been copied
 	if _diagramprocessTo, ok := mapOrigCopy[diagramprocessFrom]; ok {
@@ -1236,88 +1159,88 @@ func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *Diagr
 
 	diagramprocessTo = new(DiagramProcess)
 	mapOrigCopy[diagramprocessFrom] = diagramprocessTo
-	diagramprocessFrom.CopyBasicFields(diagramprocessTo)
+	diagramprocessFrom.GongCopyBasicFields(diagramprocessTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _processshape := range diagramprocessFrom.Process_Shapes {
-		diagramprocessTo.Process_Shapes = append(diagramprocessTo.Process_Shapes, CopyBranchProcessShape(mapOrigCopy, _processshape))
+		diagramprocessTo.Process_Shapes = append(diagramprocessTo.Process_Shapes, GongCopyBranchProcessShape(mapOrigCopy, _processshape))
 	}
 	for _, _process := range diagramprocessFrom.ProcesssWhoseNodeIsExpanded {
-		diagramprocessTo.ProcesssWhoseNodeIsExpanded = append(diagramprocessTo.ProcesssWhoseNodeIsExpanded, CopyBranchProcess(mapOrigCopy, _process))
+		diagramprocessTo.ProcesssWhoseNodeIsExpanded = append(diagramprocessTo.ProcesssWhoseNodeIsExpanded, GongCopyBranchProcess(mapOrigCopy, _process))
 	}
 	for _, _participantshape := range diagramprocessFrom.Participant_Shapes {
-		diagramprocessTo.Participant_Shapes = append(diagramprocessTo.Participant_Shapes, CopyBranchParticipantShape(mapOrigCopy, _participantshape))
+		diagramprocessTo.Participant_Shapes = append(diagramprocessTo.Participant_Shapes, GongCopyBranchParticipantShape(mapOrigCopy, _participantshape))
 	}
 	for _, _participant := range diagramprocessFrom.ParticipantWhoseNodeIsExpanded {
-		diagramprocessTo.ParticipantWhoseNodeIsExpanded = append(diagramprocessTo.ParticipantWhoseNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
+		diagramprocessTo.ParticipantWhoseNodeIsExpanded = append(diagramprocessTo.ParticipantWhoseNodeIsExpanded, GongCopyBranchParticipant(mapOrigCopy, _participant))
 	}
 	for _, _externalparticipantshape := range diagramprocessFrom.ExternalParticipant_Shapes {
-		diagramprocessTo.ExternalParticipant_Shapes = append(diagramprocessTo.ExternalParticipant_Shapes, CopyBranchExternalParticipantShape(mapOrigCopy, _externalparticipantshape))
+		diagramprocessTo.ExternalParticipant_Shapes = append(diagramprocessTo.ExternalParticipant_Shapes, GongCopyBranchExternalParticipantShape(mapOrigCopy, _externalparticipantshape))
 	}
 	for _, _participant := range diagramprocessFrom.ExternalParticipantWhoseNodeIsExpanded {
-		diagramprocessTo.ExternalParticipantWhoseNodeIsExpanded = append(diagramprocessTo.ExternalParticipantWhoseNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
+		diagramprocessTo.ExternalParticipantWhoseNodeIsExpanded = append(diagramprocessTo.ExternalParticipantWhoseNodeIsExpanded, GongCopyBranchParticipant(mapOrigCopy, _participant))
 	}
 	for _, _participant := range diagramprocessFrom.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
-		diagramprocessTo.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(diagramprocessTo.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
+		diagramprocessTo.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(diagramprocessTo.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, GongCopyBranchParticipant(mapOrigCopy, _participant))
 	}
 	for _, _participant := range diagramprocessFrom.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
-		diagramprocessTo.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(diagramprocessTo.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
+		diagramprocessTo.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(diagramprocessTo.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, GongCopyBranchParticipant(mapOrigCopy, _participant))
 	}
 	for _, _task := range diagramprocessFrom.TasksWhoseNodeIsExpanded {
-		diagramprocessTo.TasksWhoseNodeIsExpanded = append(diagramprocessTo.TasksWhoseNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+		diagramprocessTo.TasksWhoseNodeIsExpanded = append(diagramprocessTo.TasksWhoseNodeIsExpanded, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _taskshape := range diagramprocessFrom.Task_Shapes {
-		diagramprocessTo.Task_Shapes = append(diagramprocessTo.Task_Shapes, CopyBranchTaskShape(mapOrigCopy, _taskshape))
+		diagramprocessTo.Task_Shapes = append(diagramprocessTo.Task_Shapes, GongCopyBranchTaskShape(mapOrigCopy, _taskshape))
 	}
 	for _, _controlflow := range diagramprocessFrom.ControlFlowsWhoseNodeIsExpanded {
-		diagramprocessTo.ControlFlowsWhoseNodeIsExpanded = append(diagramprocessTo.ControlFlowsWhoseNodeIsExpanded, CopyBranchControlFlow(mapOrigCopy, _controlflow))
+		diagramprocessTo.ControlFlowsWhoseNodeIsExpanded = append(diagramprocessTo.ControlFlowsWhoseNodeIsExpanded, GongCopyBranchControlFlow(mapOrigCopy, _controlflow))
 	}
 	for _, _controlflowshape := range diagramprocessFrom.ControlFlow_Shapes {
-		diagramprocessTo.ControlFlow_Shapes = append(diagramprocessTo.ControlFlow_Shapes, CopyBranchControlFlowShape(mapOrigCopy, _controlflowshape))
+		diagramprocessTo.ControlFlow_Shapes = append(diagramprocessTo.ControlFlow_Shapes, GongCopyBranchControlFlowShape(mapOrigCopy, _controlflowshape))
 	}
 	for _, _dataflow := range diagramprocessFrom.DataFlowsWhoseNodeIsExpanded {
-		diagramprocessTo.DataFlowsWhoseNodeIsExpanded = append(diagramprocessTo.DataFlowsWhoseNodeIsExpanded, CopyBranchDataFlow(mapOrigCopy, _dataflow))
+		diagramprocessTo.DataFlowsWhoseNodeIsExpanded = append(diagramprocessTo.DataFlowsWhoseNodeIsExpanded, GongCopyBranchDataFlow(mapOrigCopy, _dataflow))
 	}
 	for _, _dataflowshape := range diagramprocessFrom.DataFlow_Shapes {
-		diagramprocessTo.DataFlow_Shapes = append(diagramprocessTo.DataFlow_Shapes, CopyBranchDataFlowShape(mapOrigCopy, _dataflowshape))
+		diagramprocessTo.DataFlow_Shapes = append(diagramprocessTo.DataFlow_Shapes, GongCopyBranchDataFlowShape(mapOrigCopy, _dataflowshape))
 	}
 	for _, _data := range diagramprocessFrom.DatasWhoseNodeIsExpanded {
-		diagramprocessTo.DatasWhoseNodeIsExpanded = append(diagramprocessTo.DatasWhoseNodeIsExpanded, CopyBranchData(mapOrigCopy, _data))
+		diagramprocessTo.DatasWhoseNodeIsExpanded = append(diagramprocessTo.DatasWhoseNodeIsExpanded, GongCopyBranchData(mapOrigCopy, _data))
 	}
 	for _, _datashape := range diagramprocessFrom.Data_Shapes {
-		diagramprocessTo.Data_Shapes = append(diagramprocessTo.Data_Shapes, CopyBranchDataShape(mapOrigCopy, _datashape))
+		diagramprocessTo.Data_Shapes = append(diagramprocessTo.Data_Shapes, GongCopyBranchDataShape(mapOrigCopy, _datashape))
 	}
 	for _, _dataflow := range diagramprocessFrom.DataFlowsWhoseDataNodeIsExpanded {
-		diagramprocessTo.DataFlowsWhoseDataNodeIsExpanded = append(diagramprocessTo.DataFlowsWhoseDataNodeIsExpanded, CopyBranchDataFlow(mapOrigCopy, _dataflow))
+		diagramprocessTo.DataFlowsWhoseDataNodeIsExpanded = append(diagramprocessTo.DataFlowsWhoseDataNodeIsExpanded, GongCopyBranchDataFlow(mapOrigCopy, _dataflow))
 	}
 	for _, _resource := range diagramprocessFrom.AllocatedResourcesWhoseNodeIsExpanded {
-		diagramprocessTo.AllocatedResourcesWhoseNodeIsExpanded = append(diagramprocessTo.AllocatedResourcesWhoseNodeIsExpanded, CopyBranchResource(mapOrigCopy, _resource))
+		diagramprocessTo.AllocatedResourcesWhoseNodeIsExpanded = append(diagramprocessTo.AllocatedResourcesWhoseNodeIsExpanded, GongCopyBranchResource(mapOrigCopy, _resource))
 	}
 	for _, _allocatedresourceshape := range diagramprocessFrom.AllocatedResourceShapes {
-		diagramprocessTo.AllocatedResourceShapes = append(diagramprocessTo.AllocatedResourceShapes, CopyBranchAllocatedResourceShape(mapOrigCopy, _allocatedresourceshape))
+		diagramprocessTo.AllocatedResourceShapes = append(diagramprocessTo.AllocatedResourceShapes, GongCopyBranchAllocatedResourceShape(mapOrigCopy, _allocatedresourceshape))
 	}
 	for _, _process := range diagramprocessFrom.AllocatedProcessesWhoseNodeIsExpanded {
-		diagramprocessTo.AllocatedProcessesWhoseNodeIsExpanded = append(diagramprocessTo.AllocatedProcessesWhoseNodeIsExpanded, CopyBranchProcess(mapOrigCopy, _process))
+		diagramprocessTo.AllocatedProcessesWhoseNodeIsExpanded = append(diagramprocessTo.AllocatedProcessesWhoseNodeIsExpanded, GongCopyBranchProcess(mapOrigCopy, _process))
 	}
 	for _, _allocatedprocessshape := range diagramprocessFrom.AllocatedProcessShapes {
-		diagramprocessTo.AllocatedProcessShapes = append(diagramprocessTo.AllocatedProcessShapes, CopyBranchAllocatedProcessShape(mapOrigCopy, _allocatedprocessshape))
+		diagramprocessTo.AllocatedProcessShapes = append(diagramprocessTo.AllocatedProcessShapes, GongCopyBranchAllocatedProcessShape(mapOrigCopy, _allocatedprocessshape))
 	}
 	for _, _noteshape := range diagramprocessFrom.Note_Shapes {
-		diagramprocessTo.Note_Shapes = append(diagramprocessTo.Note_Shapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
+		diagramprocessTo.Note_Shapes = append(diagramprocessTo.Note_Shapes, GongCopyBranchNoteShape(mapOrigCopy, _noteshape))
 	}
 	for _, _note := range diagramprocessFrom.NotesWhoseNodeIsExpanded {
-		diagramprocessTo.NotesWhoseNodeIsExpanded = append(diagramprocessTo.NotesWhoseNodeIsExpanded, CopyBranchNote(mapOrigCopy, _note))
+		diagramprocessTo.NotesWhoseNodeIsExpanded = append(diagramprocessTo.NotesWhoseNodeIsExpanded, GongCopyBranchNote(mapOrigCopy, _note))
 	}
 	for _, _notetaskshape := range diagramprocessFrom.NoteTaskShapes {
-		diagramprocessTo.NoteTaskShapes = append(diagramprocessTo.NoteTaskShapes, CopyBranchNoteTaskShape(mapOrigCopy, _notetaskshape))
+		diagramprocessTo.NoteTaskShapes = append(diagramprocessTo.NoteTaskShapes, GongCopyBranchNoteTaskShape(mapOrigCopy, _notetaskshape))
 	}
 
 	return
 }
 
-func CopyBranchExternalParticipantShape(mapOrigCopy map[any]any, externalparticipantshapeFrom *ExternalParticipantShape) (externalparticipantshapeTo *ExternalParticipantShape) {
+func GongCopyBranchExternalParticipantShape(mapOrigCopy map[any]any, externalparticipantshapeFrom *ExternalParticipantShape) (externalparticipantshapeTo *ExternalParticipantShape) {
 
 	// externalparticipantshapeFrom has already been copied
 	if _externalparticipantshapeTo, ok := mapOrigCopy[externalparticipantshapeFrom]; ok {
@@ -1327,11 +1250,11 @@ func CopyBranchExternalParticipantShape(mapOrigCopy map[any]any, externalpartici
 
 	externalparticipantshapeTo = new(ExternalParticipantShape)
 	mapOrigCopy[externalparticipantshapeFrom] = externalparticipantshapeTo
-	externalparticipantshapeFrom.CopyBasicFields(externalparticipantshapeTo)
+	externalparticipantshapeFrom.GongCopyBasicFields(externalparticipantshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if externalparticipantshapeFrom.Participant != nil {
-		externalparticipantshapeTo.Participant = CopyBranchParticipant(mapOrigCopy, externalparticipantshapeFrom.Participant)
+		externalparticipantshapeTo.Participant = GongCopyBranchParticipant(mapOrigCopy, externalparticipantshapeFrom.Participant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1339,7 +1262,7 @@ func CopyBranchExternalParticipantShape(mapOrigCopy map[any]any, externalpartici
 	return
 }
 
-func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
+func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
 
 	// libraryFrom has already been copied
 	if _libraryTo, ok := mapOrigCopy[libraryFrom]; ok {
@@ -1349,55 +1272,55 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 
 	libraryTo = new(Library)
 	mapOrigCopy[libraryFrom] = libraryTo
-	libraryFrom.CopyBasicFields(libraryTo)
+	libraryFrom.GongCopyBasicFields(libraryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _library := range libraryFrom.SubLibraries {
-		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
+		libraryTo.SubLibraries = append(libraryTo.SubLibraries, GongCopyBranchLibrary(mapOrigCopy, _library))
 	}
 	for _, _library := range libraryFrom.SubLibrariesWhoseNodeIsExpanded {
-		libraryTo.SubLibrariesWhoseNodeIsExpanded = append(libraryTo.SubLibrariesWhoseNodeIsExpanded, CopyBranchLibrary(mapOrigCopy, _library))
+		libraryTo.SubLibrariesWhoseNodeIsExpanded = append(libraryTo.SubLibrariesWhoseNodeIsExpanded, GongCopyBranchLibrary(mapOrigCopy, _library))
 	}
 	for _, _process := range libraryFrom.RootProcesses {
-		libraryTo.RootProcesses = append(libraryTo.RootProcesses, CopyBranchProcess(mapOrigCopy, _process))
+		libraryTo.RootProcesses = append(libraryTo.RootProcesses, GongCopyBranchProcess(mapOrigCopy, _process))
 	}
 	for _, _process := range libraryFrom.ProcesssWhoseNodeIsExpanded {
-		libraryTo.ProcesssWhoseNodeIsExpanded = append(libraryTo.ProcesssWhoseNodeIsExpanded, CopyBranchProcess(mapOrigCopy, _process))
+		libraryTo.ProcesssWhoseNodeIsExpanded = append(libraryTo.ProcesssWhoseNodeIsExpanded, GongCopyBranchProcess(mapOrigCopy, _process))
 	}
 	for _, _dataflow := range libraryFrom.RootDataFlows {
-		libraryTo.RootDataFlows = append(libraryTo.RootDataFlows, CopyBranchDataFlow(mapOrigCopy, _dataflow))
+		libraryTo.RootDataFlows = append(libraryTo.RootDataFlows, GongCopyBranchDataFlow(mapOrigCopy, _dataflow))
 	}
 	for _, _dataflow := range libraryFrom.DataFlowsWhoseNodeIsExpanded {
-		libraryTo.DataFlowsWhoseNodeIsExpanded = append(libraryTo.DataFlowsWhoseNodeIsExpanded, CopyBranchDataFlow(mapOrigCopy, _dataflow))
+		libraryTo.DataFlowsWhoseNodeIsExpanded = append(libraryTo.DataFlowsWhoseNodeIsExpanded, GongCopyBranchDataFlow(mapOrigCopy, _dataflow))
 	}
 	for _, _data := range libraryFrom.RootDatas {
-		libraryTo.RootDatas = append(libraryTo.RootDatas, CopyBranchData(mapOrigCopy, _data))
+		libraryTo.RootDatas = append(libraryTo.RootDatas, GongCopyBranchData(mapOrigCopy, _data))
 	}
 	for _, _data := range libraryFrom.DatasWhoseNodeIsExpanded {
-		libraryTo.DatasWhoseNodeIsExpanded = append(libraryTo.DatasWhoseNodeIsExpanded, CopyBranchData(mapOrigCopy, _data))
+		libraryTo.DatasWhoseNodeIsExpanded = append(libraryTo.DatasWhoseNodeIsExpanded, GongCopyBranchData(mapOrigCopy, _data))
 	}
 	for _, _resource := range libraryFrom.RootResources {
-		libraryTo.RootResources = append(libraryTo.RootResources, CopyBranchResource(mapOrigCopy, _resource))
+		libraryTo.RootResources = append(libraryTo.RootResources, GongCopyBranchResource(mapOrigCopy, _resource))
 	}
 	for _, _resource := range libraryFrom.ResourcesWhoseNodeIsExpanded {
-		libraryTo.ResourcesWhoseNodeIsExpanded = append(libraryTo.ResourcesWhoseNodeIsExpanded, CopyBranchResource(mapOrigCopy, _resource))
+		libraryTo.ResourcesWhoseNodeIsExpanded = append(libraryTo.ResourcesWhoseNodeIsExpanded, GongCopyBranchResource(mapOrigCopy, _resource))
 	}
 	for _, _participant := range libraryFrom.ParticipantsWhoseNodeIsExpanded {
-		libraryTo.ParticipantsWhoseNodeIsExpanded = append(libraryTo.ParticipantsWhoseNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
+		libraryTo.ParticipantsWhoseNodeIsExpanded = append(libraryTo.ParticipantsWhoseNodeIsExpanded, GongCopyBranchParticipant(mapOrigCopy, _participant))
 	}
 	for _, _note := range libraryFrom.RootNotes {
-		libraryTo.RootNotes = append(libraryTo.RootNotes, CopyBranchNote(mapOrigCopy, _note))
+		libraryTo.RootNotes = append(libraryTo.RootNotes, GongCopyBranchNote(mapOrigCopy, _note))
 	}
 	for _, _note := range libraryFrom.NotesWhoseNodeIsExpanded {
-		libraryTo.NotesWhoseNodeIsExpanded = append(libraryTo.NotesWhoseNodeIsExpanded, CopyBranchNote(mapOrigCopy, _note))
+		libraryTo.NotesWhoseNodeIsExpanded = append(libraryTo.NotesWhoseNodeIsExpanded, GongCopyBranchNote(mapOrigCopy, _note))
 	}
 
 	return
 }
 
-func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
+func GongCopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 
 	// noteFrom has already been copied
 	if _noteTo, ok := mapOrigCopy[noteFrom]; ok {
@@ -1407,19 +1330,19 @@ func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 
 	noteTo = new(Note)
 	mapOrigCopy[noteFrom] = noteTo
-	noteFrom.CopyBasicFields(noteTo)
+	noteFrom.GongCopyBasicFields(noteTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range noteFrom.Tasks {
-		noteTo.Tasks = append(noteTo.Tasks, CopyBranchTask(mapOrigCopy, _task))
+		noteTo.Tasks = append(noteTo.Tasks, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 
 	return
 }
 
-func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
+func GongCopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
 
 	// noteshapeFrom has already been copied
 	if _noteshapeTo, ok := mapOrigCopy[noteshapeFrom]; ok {
@@ -1429,11 +1352,11 @@ func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (not
 
 	noteshapeTo = new(NoteShape)
 	mapOrigCopy[noteshapeFrom] = noteshapeTo
-	noteshapeFrom.CopyBasicFields(noteshapeTo)
+	noteshapeFrom.GongCopyBasicFields(noteshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshapeFrom.Note != nil {
-		noteshapeTo.Note = CopyBranchNote(mapOrigCopy, noteshapeFrom.Note)
+		noteshapeTo.Note = GongCopyBranchNote(mapOrigCopy, noteshapeFrom.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1441,7 +1364,7 @@ func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (not
 	return
 }
 
-func CopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *NoteTaskShape) (notetaskshapeTo *NoteTaskShape) {
+func GongCopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *NoteTaskShape) (notetaskshapeTo *NoteTaskShape) {
 
 	// notetaskshapeFrom has already been copied
 	if _notetaskshapeTo, ok := mapOrigCopy[notetaskshapeFrom]; ok {
@@ -1451,14 +1374,14 @@ func CopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *NoteTas
 
 	notetaskshapeTo = new(NoteTaskShape)
 	mapOrigCopy[notetaskshapeFrom] = notetaskshapeTo
-	notetaskshapeFrom.CopyBasicFields(notetaskshapeTo)
+	notetaskshapeFrom.GongCopyBasicFields(notetaskshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if notetaskshapeFrom.Note != nil {
-		notetaskshapeTo.Note = CopyBranchNote(mapOrigCopy, notetaskshapeFrom.Note)
+		notetaskshapeTo.Note = GongCopyBranchNote(mapOrigCopy, notetaskshapeFrom.Note)
 	}
 	if notetaskshapeFrom.Task != nil {
-		notetaskshapeTo.Task = CopyBranchTask(mapOrigCopy, notetaskshapeFrom.Task)
+		notetaskshapeTo.Task = GongCopyBranchTask(mapOrigCopy, notetaskshapeFrom.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1466,7 +1389,7 @@ func CopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *NoteTas
 	return
 }
 
-func CopyBranchParticipant(mapOrigCopy map[any]any, participantFrom *Participant) (participantTo *Participant) {
+func GongCopyBranchParticipant(mapOrigCopy map[any]any, participantFrom *Participant) (participantTo *Participant) {
 
 	// participantFrom has already been copied
 	if _participantTo, ok := mapOrigCopy[participantFrom]; ok {
@@ -1476,40 +1399,40 @@ func CopyBranchParticipant(mapOrigCopy map[any]any, participantFrom *Participant
 
 	participantTo = new(Participant)
 	mapOrigCopy[participantFrom] = participantTo
-	participantFrom.CopyBasicFields(participantTo)
+	participantFrom.GongCopyBasicFields(participantTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _resource := range participantFrom.Resources {
-		participantTo.Resources = append(participantTo.Resources, CopyBranchResource(mapOrigCopy, _resource))
+		participantTo.Resources = append(participantTo.Resources, GongCopyBranchResource(mapOrigCopy, _resource))
 	}
 	for _, _process := range participantFrom.Processes {
-		participantTo.Processes = append(participantTo.Processes, CopyBranchProcess(mapOrigCopy, _process))
+		participantTo.Processes = append(participantTo.Processes, GongCopyBranchProcess(mapOrigCopy, _process))
 	}
 	for _, _task := range participantFrom.Tasks {
-		participantTo.Tasks = append(participantTo.Tasks, CopyBranchTask(mapOrigCopy, _task))
+		participantTo.Tasks = append(participantTo.Tasks, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _controlflow := range participantFrom.ControlFlows {
-		participantTo.ControlFlows = append(participantTo.ControlFlows, CopyBranchControlFlow(mapOrigCopy, _controlflow))
+		participantTo.ControlFlows = append(participantTo.ControlFlows, GongCopyBranchControlFlow(mapOrigCopy, _controlflow))
 	}
 	for _, _task := range participantFrom.TaskWhoseOutControlFlowsNodeIsExpanded {
-		participantTo.TaskWhoseOutControlFlowsNodeIsExpanded = append(participantTo.TaskWhoseOutControlFlowsNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+		participantTo.TaskWhoseOutControlFlowsNodeIsExpanded = append(participantTo.TaskWhoseOutControlFlowsNodeIsExpanded, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _task := range participantFrom.TaskWhoseInControlFlowsNodeIsExpanded {
-		participantTo.TaskWhoseInControlFlowsNodeIsExpanded = append(participantTo.TaskWhoseInControlFlowsNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+		participantTo.TaskWhoseInControlFlowsNodeIsExpanded = append(participantTo.TaskWhoseInControlFlowsNodeIsExpanded, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _task := range participantFrom.TaskWhoseOutDataFlowsNodeIsExpanded {
-		participantTo.TaskWhoseOutDataFlowsNodeIsExpanded = append(participantTo.TaskWhoseOutDataFlowsNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+		participantTo.TaskWhoseOutDataFlowsNodeIsExpanded = append(participantTo.TaskWhoseOutDataFlowsNodeIsExpanded, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _task := range participantFrom.TaskWhoseInDataFlowsNodeIsExpanded {
-		participantTo.TaskWhoseInDataFlowsNodeIsExpanded = append(participantTo.TaskWhoseInDataFlowsNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+		participantTo.TaskWhoseInDataFlowsNodeIsExpanded = append(participantTo.TaskWhoseInDataFlowsNodeIsExpanded, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 
 	return
 }
 
-func CopyBranchParticipantShape(mapOrigCopy map[any]any, participantshapeFrom *ParticipantShape) (participantshapeTo *ParticipantShape) {
+func GongCopyBranchParticipantShape(mapOrigCopy map[any]any, participantshapeFrom *ParticipantShape) (participantshapeTo *ParticipantShape) {
 
 	// participantshapeFrom has already been copied
 	if _participantshapeTo, ok := mapOrigCopy[participantshapeFrom]; ok {
@@ -1519,11 +1442,11 @@ func CopyBranchParticipantShape(mapOrigCopy map[any]any, participantshapeFrom *P
 
 	participantshapeTo = new(ParticipantShape)
 	mapOrigCopy[participantshapeFrom] = participantshapeTo
-	participantshapeFrom.CopyBasicFields(participantshapeTo)
+	participantshapeFrom.GongCopyBasicFields(participantshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if participantshapeFrom.Participant != nil {
-		participantshapeTo.Participant = CopyBranchParticipant(mapOrigCopy, participantshapeFrom.Participant)
+		participantshapeTo.Participant = GongCopyBranchParticipant(mapOrigCopy, participantshapeFrom.Participant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1531,7 +1454,7 @@ func CopyBranchParticipantShape(mapOrigCopy map[any]any, participantshapeFrom *P
 	return
 }
 
-func CopyBranchProcess(mapOrigCopy map[any]any, processFrom *Process) (processTo *Process) {
+func GongCopyBranchProcess(mapOrigCopy map[any]any, processFrom *Process) (processTo *Process) {
 
 	// processFrom has already been copied
 	if _processTo, ok := mapOrigCopy[processFrom]; ok {
@@ -1541,40 +1464,40 @@ func CopyBranchProcess(mapOrigCopy map[any]any, processFrom *Process) (processTo
 
 	processTo = new(Process)
 	mapOrigCopy[processFrom] = processTo
-	processFrom.CopyBasicFields(processTo)
+	processFrom.GongCopyBasicFields(processTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _diagramprocess := range processFrom.DiagramProcesss {
-		processTo.DiagramProcesss = append(processTo.DiagramProcesss, CopyBranchDiagramProcess(mapOrigCopy, _diagramprocess))
+		processTo.DiagramProcesss = append(processTo.DiagramProcesss, GongCopyBranchDiagramProcess(mapOrigCopy, _diagramprocess))
 	}
 	for _, _diagramprocess := range processFrom.DiagramProcessWhoseNodeIsExpanded {
-		processTo.DiagramProcessWhoseNodeIsExpanded = append(processTo.DiagramProcessWhoseNodeIsExpanded, CopyBranchDiagramProcess(mapOrigCopy, _diagramprocess))
+		processTo.DiagramProcessWhoseNodeIsExpanded = append(processTo.DiagramProcessWhoseNodeIsExpanded, GongCopyBranchDiagramProcess(mapOrigCopy, _diagramprocess))
 	}
 	for _, _process := range processFrom.SubProcesses {
-		processTo.SubProcesses = append(processTo.SubProcesses, CopyBranchProcess(mapOrigCopy, _process))
+		processTo.SubProcesses = append(processTo.SubProcesses, GongCopyBranchProcess(mapOrigCopy, _process))
 	}
 	for _, _participant := range processFrom.Participants {
-		processTo.Participants = append(processTo.Participants, CopyBranchParticipant(mapOrigCopy, _participant))
+		processTo.Participants = append(processTo.Participants, GongCopyBranchParticipant(mapOrigCopy, _participant))
 	}
 	for _, _participant := range processFrom.ParticipantWhoseNodeIsExpanded {
-		processTo.ParticipantWhoseNodeIsExpanded = append(processTo.ParticipantWhoseNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
+		processTo.ParticipantWhoseNodeIsExpanded = append(processTo.ParticipantWhoseNodeIsExpanded, GongCopyBranchParticipant(mapOrigCopy, _participant))
 	}
 	for _, _dataflow := range processFrom.DataFlows {
-		processTo.DataFlows = append(processTo.DataFlows, CopyBranchDataFlow(mapOrigCopy, _dataflow))
+		processTo.DataFlows = append(processTo.DataFlows, GongCopyBranchDataFlow(mapOrigCopy, _dataflow))
 	}
 	for _, _participant := range processFrom.ExternalParticipants {
-		processTo.ExternalParticipants = append(processTo.ExternalParticipants, CopyBranchParticipant(mapOrigCopy, _participant))
+		processTo.ExternalParticipants = append(processTo.ExternalParticipants, GongCopyBranchParticipant(mapOrigCopy, _participant))
 	}
 	for _, _participant := range processFrom.ExternalParticipantWhoseNodeIsExpanded {
-		processTo.ExternalParticipantWhoseNodeIsExpanded = append(processTo.ExternalParticipantWhoseNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
+		processTo.ExternalParticipantWhoseNodeIsExpanded = append(processTo.ExternalParticipantWhoseNodeIsExpanded, GongCopyBranchParticipant(mapOrigCopy, _participant))
 	}
 
 	return
 }
 
-func CopyBranchProcessShape(mapOrigCopy map[any]any, processshapeFrom *ProcessShape) (processshapeTo *ProcessShape) {
+func GongCopyBranchProcessShape(mapOrigCopy map[any]any, processshapeFrom *ProcessShape) (processshapeTo *ProcessShape) {
 
 	// processshapeFrom has already been copied
 	if _processshapeTo, ok := mapOrigCopy[processshapeFrom]; ok {
@@ -1584,11 +1507,11 @@ func CopyBranchProcessShape(mapOrigCopy map[any]any, processshapeFrom *ProcessSh
 
 	processshapeTo = new(ProcessShape)
 	mapOrigCopy[processshapeFrom] = processshapeTo
-	processshapeFrom.CopyBasicFields(processshapeTo)
+	processshapeFrom.GongCopyBasicFields(processshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if processshapeFrom.Process != nil {
-		processshapeTo.Process = CopyBranchProcess(mapOrigCopy, processshapeFrom.Process)
+		processshapeTo.Process = GongCopyBranchProcess(mapOrigCopy, processshapeFrom.Process)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1596,7 +1519,7 @@ func CopyBranchProcessShape(mapOrigCopy map[any]any, processshapeFrom *ProcessSh
 	return
 }
 
-func CopyBranchResource(mapOrigCopy map[any]any, resourceFrom *Resource) (resourceTo *Resource) {
+func GongCopyBranchResource(mapOrigCopy map[any]any, resourceFrom *Resource) (resourceTo *Resource) {
 
 	// resourceFrom has already been copied
 	if _resourceTo, ok := mapOrigCopy[resourceFrom]; ok {
@@ -1606,7 +1529,7 @@ func CopyBranchResource(mapOrigCopy map[any]any, resourceFrom *Resource) (resour
 
 	resourceTo = new(Resource)
 	mapOrigCopy[resourceFrom] = resourceTo
-	resourceFrom.CopyBasicFields(resourceTo)
+	resourceFrom.GongCopyBasicFields(resourceTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1615,7 +1538,7 @@ func CopyBranchResource(mapOrigCopy map[any]any, resourceFrom *Resource) (resour
 	return
 }
 
-func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
+func GongCopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 
 	// taskFrom has already been copied
 	if _taskTo, ok := mapOrigCopy[taskFrom]; ok {
@@ -1625,11 +1548,11 @@ func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 
 	taskTo = new(Task)
 	mapOrigCopy[taskFrom] = taskTo
-	taskFrom.CopyBasicFields(taskTo)
+	taskFrom.GongCopyBasicFields(taskTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskFrom.Type != nil {
-		taskTo.Type = CopyBranchProcess(mapOrigCopy, taskFrom.Type)
+		taskTo.Type = GongCopyBranchProcess(mapOrigCopy, taskFrom.Type)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1637,7 +1560,7 @@ func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 	return
 }
 
-func CopyBranchTaskShape(mapOrigCopy map[any]any, taskshapeFrom *TaskShape) (taskshapeTo *TaskShape) {
+func GongCopyBranchTaskShape(mapOrigCopy map[any]any, taskshapeFrom *TaskShape) (taskshapeTo *TaskShape) {
 
 	// taskshapeFrom has already been copied
 	if _taskshapeTo, ok := mapOrigCopy[taskshapeFrom]; ok {
@@ -1647,11 +1570,11 @@ func CopyBranchTaskShape(mapOrigCopy map[any]any, taskshapeFrom *TaskShape) (tas
 
 	taskshapeTo = new(TaskShape)
 	mapOrigCopy[taskshapeFrom] = taskshapeTo
-	taskshapeFrom.CopyBasicFields(taskshapeTo)
+	taskshapeFrom.GongCopyBasicFields(taskshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskshapeFrom.Task != nil {
-		taskshapeTo.Task = CopyBranchTask(mapOrigCopy, taskshapeFrom.Task)
+		taskshapeTo.Task = GongCopyBranchTask(mapOrigCopy, taskshapeFrom.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1736,16 +1659,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchAllocatedProcessShape(allocatedprocessshape *AllocatedProcessShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, allocatedprocessshape) {
+	if !stage.IsStaged(allocatedprocessshape) {
 		return
 	}
 
@@ -1753,10 +1671,10 @@ func (stage *Stage) UnstageBranchAllocatedProcessShape(allocatedprocessshape *Al
 
 	//insertion point for the staging of instances referenced by pointers
 	if allocatedprocessshape.Participant != nil {
-		UnstageBranch(stage, allocatedprocessshape.Participant)
+		stage.UnstageBranch(allocatedprocessshape.Participant)
 	}
 	if allocatedprocessshape.Process != nil {
-		UnstageBranch(stage, allocatedprocessshape.Process)
+		stage.UnstageBranch(allocatedprocessshape.Process)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1766,7 +1684,7 @@ func (stage *Stage) UnstageBranchAllocatedProcessShape(allocatedprocessshape *Al
 func (stage *Stage) UnstageBranchAllocatedResourceShape(allocatedresourceshape *AllocatedResourceShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, allocatedresourceshape) {
+	if !stage.IsStaged(allocatedresourceshape) {
 		return
 	}
 
@@ -1774,10 +1692,10 @@ func (stage *Stage) UnstageBranchAllocatedResourceShape(allocatedresourceshape *
 
 	//insertion point for the staging of instances referenced by pointers
 	if allocatedresourceshape.Participant != nil {
-		UnstageBranch(stage, allocatedresourceshape.Participant)
+		stage.UnstageBranch(allocatedresourceshape.Participant)
 	}
 	if allocatedresourceshape.Resource != nil {
-		UnstageBranch(stage, allocatedresourceshape.Resource)
+		stage.UnstageBranch(allocatedresourceshape.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1787,7 +1705,7 @@ func (stage *Stage) UnstageBranchAllocatedResourceShape(allocatedresourceshape *
 func (stage *Stage) UnstageBranchControlFlow(controlflow *ControlFlow) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, controlflow) {
+	if !stage.IsStaged(controlflow) {
 		return
 	}
 
@@ -1795,10 +1713,10 @@ func (stage *Stage) UnstageBranchControlFlow(controlflow *ControlFlow) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if controlflow.Start != nil {
-		UnstageBranch(stage, controlflow.Start)
+		stage.UnstageBranch(controlflow.Start)
 	}
 	if controlflow.End != nil {
-		UnstageBranch(stage, controlflow.End)
+		stage.UnstageBranch(controlflow.End)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1808,7 +1726,7 @@ func (stage *Stage) UnstageBranchControlFlow(controlflow *ControlFlow) {
 func (stage *Stage) UnstageBranchControlFlowShape(controlflowshape *ControlFlowShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, controlflowshape) {
+	if !stage.IsStaged(controlflowshape) {
 		return
 	}
 
@@ -1816,7 +1734,7 @@ func (stage *Stage) UnstageBranchControlFlowShape(controlflowshape *ControlFlowS
 
 	//insertion point for the staging of instances referenced by pointers
 	if controlflowshape.ControlFlow != nil {
-		UnstageBranch(stage, controlflowshape.ControlFlow)
+		stage.UnstageBranch(controlflowshape.ControlFlow)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1826,7 +1744,7 @@ func (stage *Stage) UnstageBranchControlFlowShape(controlflowshape *ControlFlowS
 func (stage *Stage) UnstageBranchData(data *Data) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, data) {
+	if !stage.IsStaged(data) {
 		return
 	}
 
@@ -1841,7 +1759,7 @@ func (stage *Stage) UnstageBranchData(data *Data) {
 func (stage *Stage) UnstageBranchDataFlow(dataflow *DataFlow) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, dataflow) {
+	if !stage.IsStaged(dataflow) {
 		return
 	}
 
@@ -1849,21 +1767,21 @@ func (stage *Stage) UnstageBranchDataFlow(dataflow *DataFlow) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if dataflow.StartTask != nil {
-		UnstageBranch(stage, dataflow.StartTask)
+		stage.UnstageBranch(dataflow.StartTask)
 	}
 	if dataflow.EndTask != nil {
-		UnstageBranch(stage, dataflow.EndTask)
+		stage.UnstageBranch(dataflow.EndTask)
 	}
 	if dataflow.StartExternalParticipant != nil {
-		UnstageBranch(stage, dataflow.StartExternalParticipant)
+		stage.UnstageBranch(dataflow.StartExternalParticipant)
 	}
 	if dataflow.EndExternalParticipant != nil {
-		UnstageBranch(stage, dataflow.EndExternalParticipant)
+		stage.UnstageBranch(dataflow.EndExternalParticipant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _data := range dataflow.Datas {
-		UnstageBranch(stage, _data)
+		stage.UnstageBranch(_data)
 	}
 
 }
@@ -1871,7 +1789,7 @@ func (stage *Stage) UnstageBranchDataFlow(dataflow *DataFlow) {
 func (stage *Stage) UnstageBranchDataFlowShape(dataflowshape *DataFlowShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, dataflowshape) {
+	if !stage.IsStaged(dataflowshape) {
 		return
 	}
 
@@ -1879,7 +1797,7 @@ func (stage *Stage) UnstageBranchDataFlowShape(dataflowshape *DataFlowShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if dataflowshape.DataFlow != nil {
-		UnstageBranch(stage, dataflowshape.DataFlow)
+		stage.UnstageBranch(dataflowshape.DataFlow)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1889,7 +1807,7 @@ func (stage *Stage) UnstageBranchDataFlowShape(dataflowshape *DataFlowShape) {
 func (stage *Stage) UnstageBranchDataShape(datashape *DataShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, datashape) {
+	if !stage.IsStaged(datashape) {
 		return
 	}
 
@@ -1897,10 +1815,10 @@ func (stage *Stage) UnstageBranchDataShape(datashape *DataShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if datashape.Data != nil {
-		UnstageBranch(stage, datashape.Data)
+		stage.UnstageBranch(datashape.Data)
 	}
 	if datashape.DataFlow != nil {
-		UnstageBranch(stage, datashape.DataFlow)
+		stage.UnstageBranch(datashape.DataFlow)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1910,7 +1828,7 @@ func (stage *Stage) UnstageBranchDataShape(datashape *DataShape) {
 func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, diagramprocess) {
+	if !stage.IsStaged(diagramprocess) {
 		return
 	}
 
@@ -1920,76 +1838,76 @@ func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _processshape := range diagramprocess.Process_Shapes {
-		UnstageBranch(stage, _processshape)
+		stage.UnstageBranch(_processshape)
 	}
 	for _, _process := range diagramprocess.ProcesssWhoseNodeIsExpanded {
-		UnstageBranch(stage, _process)
+		stage.UnstageBranch(_process)
 	}
 	for _, _participantshape := range diagramprocess.Participant_Shapes {
-		UnstageBranch(stage, _participantshape)
+		stage.UnstageBranch(_participantshape)
 	}
 	for _, _participant := range diagramprocess.ParticipantWhoseNodeIsExpanded {
-		UnstageBranch(stage, _participant)
+		stage.UnstageBranch(_participant)
 	}
 	for _, _externalparticipantshape := range diagramprocess.ExternalParticipant_Shapes {
-		UnstageBranch(stage, _externalparticipantshape)
+		stage.UnstageBranch(_externalparticipantshape)
 	}
 	for _, _participant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
-		UnstageBranch(stage, _participant)
+		stage.UnstageBranch(_participant)
 	}
 	for _, _participant := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
-		UnstageBranch(stage, _participant)
+		stage.UnstageBranch(_participant)
 	}
 	for _, _participant := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
-		UnstageBranch(stage, _participant)
+		stage.UnstageBranch(_participant)
 	}
 	for _, _task := range diagramprocess.TasksWhoseNodeIsExpanded {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 	for _, _taskshape := range diagramprocess.Task_Shapes {
-		UnstageBranch(stage, _taskshape)
+		stage.UnstageBranch(_taskshape)
 	}
 	for _, _controlflow := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _controlflow)
+		stage.UnstageBranch(_controlflow)
 	}
 	for _, _controlflowshape := range diagramprocess.ControlFlow_Shapes {
-		UnstageBranch(stage, _controlflowshape)
+		stage.UnstageBranch(_controlflowshape)
 	}
 	for _, _dataflow := range diagramprocess.DataFlowsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _dataflow)
+		stage.UnstageBranch(_dataflow)
 	}
 	for _, _dataflowshape := range diagramprocess.DataFlow_Shapes {
-		UnstageBranch(stage, _dataflowshape)
+		stage.UnstageBranch(_dataflowshape)
 	}
 	for _, _data := range diagramprocess.DatasWhoseNodeIsExpanded {
-		UnstageBranch(stage, _data)
+		stage.UnstageBranch(_data)
 	}
 	for _, _datashape := range diagramprocess.Data_Shapes {
-		UnstageBranch(stage, _datashape)
+		stage.UnstageBranch(_datashape)
 	}
 	for _, _dataflow := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
-		UnstageBranch(stage, _dataflow)
+		stage.UnstageBranch(_dataflow)
 	}
 	for _, _resource := range diagramprocess.AllocatedResourcesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _resource)
+		stage.UnstageBranch(_resource)
 	}
 	for _, _allocatedresourceshape := range diagramprocess.AllocatedResourceShapes {
-		UnstageBranch(stage, _allocatedresourceshape)
+		stage.UnstageBranch(_allocatedresourceshape)
 	}
 	for _, _process := range diagramprocess.AllocatedProcessesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _process)
+		stage.UnstageBranch(_process)
 	}
 	for _, _allocatedprocessshape := range diagramprocess.AllocatedProcessShapes {
-		UnstageBranch(stage, _allocatedprocessshape)
+		stage.UnstageBranch(_allocatedprocessshape)
 	}
 	for _, _noteshape := range diagramprocess.Note_Shapes {
-		UnstageBranch(stage, _noteshape)
+		stage.UnstageBranch(_noteshape)
 	}
 	for _, _note := range diagramprocess.NotesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _note)
+		stage.UnstageBranch(_note)
 	}
 	for _, _notetaskshape := range diagramprocess.NoteTaskShapes {
-		UnstageBranch(stage, _notetaskshape)
+		stage.UnstageBranch(_notetaskshape)
 	}
 
 }
@@ -1997,7 +1915,7 @@ func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) 
 func (stage *Stage) UnstageBranchExternalParticipantShape(externalparticipantshape *ExternalParticipantShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, externalparticipantshape) {
+	if !stage.IsStaged(externalparticipantshape) {
 		return
 	}
 
@@ -2005,7 +1923,7 @@ func (stage *Stage) UnstageBranchExternalParticipantShape(externalparticipantsha
 
 	//insertion point for the staging of instances referenced by pointers
 	if externalparticipantshape.Participant != nil {
-		UnstageBranch(stage, externalparticipantshape.Participant)
+		stage.UnstageBranch(externalparticipantshape.Participant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2015,7 +1933,7 @@ func (stage *Stage) UnstageBranchExternalParticipantShape(externalparticipantsha
 func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, library) {
+	if !stage.IsStaged(library) {
 		return
 	}
 
@@ -2025,43 +1943,43 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _library := range library.SubLibraries {
-		UnstageBranch(stage, _library)
+		stage.UnstageBranch(_library)
 	}
 	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _library)
+		stage.UnstageBranch(_library)
 	}
 	for _, _process := range library.RootProcesses {
-		UnstageBranch(stage, _process)
+		stage.UnstageBranch(_process)
 	}
 	for _, _process := range library.ProcesssWhoseNodeIsExpanded {
-		UnstageBranch(stage, _process)
+		stage.UnstageBranch(_process)
 	}
 	for _, _dataflow := range library.RootDataFlows {
-		UnstageBranch(stage, _dataflow)
+		stage.UnstageBranch(_dataflow)
 	}
 	for _, _dataflow := range library.DataFlowsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _dataflow)
+		stage.UnstageBranch(_dataflow)
 	}
 	for _, _data := range library.RootDatas {
-		UnstageBranch(stage, _data)
+		stage.UnstageBranch(_data)
 	}
 	for _, _data := range library.DatasWhoseNodeIsExpanded {
-		UnstageBranch(stage, _data)
+		stage.UnstageBranch(_data)
 	}
 	for _, _resource := range library.RootResources {
-		UnstageBranch(stage, _resource)
+		stage.UnstageBranch(_resource)
 	}
 	for _, _resource := range library.ResourcesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _resource)
+		stage.UnstageBranch(_resource)
 	}
 	for _, _participant := range library.ParticipantsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _participant)
+		stage.UnstageBranch(_participant)
 	}
 	for _, _note := range library.RootNotes {
-		UnstageBranch(stage, _note)
+		stage.UnstageBranch(_note)
 	}
 	for _, _note := range library.NotesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _note)
+		stage.UnstageBranch(_note)
 	}
 
 }
@@ -2069,7 +1987,7 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, note) {
+	if !stage.IsStaged(note) {
 		return
 	}
 
@@ -2079,7 +1997,7 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range note.Tasks {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 
 }
@@ -2087,7 +2005,7 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, noteshape) {
+	if !stage.IsStaged(noteshape) {
 		return
 	}
 
@@ -2095,7 +2013,7 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshape.Note != nil {
-		UnstageBranch(stage, noteshape.Note)
+		stage.UnstageBranch(noteshape.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2105,7 +2023,7 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, notetaskshape) {
+	if !stage.IsStaged(notetaskshape) {
 		return
 	}
 
@@ -2113,10 +2031,10 @@ func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if notetaskshape.Note != nil {
-		UnstageBranch(stage, notetaskshape.Note)
+		stage.UnstageBranch(notetaskshape.Note)
 	}
 	if notetaskshape.Task != nil {
-		UnstageBranch(stage, notetaskshape.Task)
+		stage.UnstageBranch(notetaskshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2126,7 +2044,7 @@ func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 func (stage *Stage) UnstageBranchParticipant(participant *Participant) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, participant) {
+	if !stage.IsStaged(participant) {
 		return
 	}
 
@@ -2136,28 +2054,28 @@ func (stage *Stage) UnstageBranchParticipant(participant *Participant) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _resource := range participant.Resources {
-		UnstageBranch(stage, _resource)
+		stage.UnstageBranch(_resource)
 	}
 	for _, _process := range participant.Processes {
-		UnstageBranch(stage, _process)
+		stage.UnstageBranch(_process)
 	}
 	for _, _task := range participant.Tasks {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 	for _, _controlflow := range participant.ControlFlows {
-		UnstageBranch(stage, _controlflow)
+		stage.UnstageBranch(_controlflow)
 	}
 	for _, _task := range participant.TaskWhoseOutControlFlowsNodeIsExpanded {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 	for _, _task := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 	for _, _task := range participant.TaskWhoseOutDataFlowsNodeIsExpanded {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 	for _, _task := range participant.TaskWhoseInDataFlowsNodeIsExpanded {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 
 }
@@ -2165,7 +2083,7 @@ func (stage *Stage) UnstageBranchParticipant(participant *Participant) {
 func (stage *Stage) UnstageBranchParticipantShape(participantshape *ParticipantShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, participantshape) {
+	if !stage.IsStaged(participantshape) {
 		return
 	}
 
@@ -2173,7 +2091,7 @@ func (stage *Stage) UnstageBranchParticipantShape(participantshape *ParticipantS
 
 	//insertion point for the staging of instances referenced by pointers
 	if participantshape.Participant != nil {
-		UnstageBranch(stage, participantshape.Participant)
+		stage.UnstageBranch(participantshape.Participant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2183,7 +2101,7 @@ func (stage *Stage) UnstageBranchParticipantShape(participantshape *ParticipantS
 func (stage *Stage) UnstageBranchProcess(process *Process) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, process) {
+	if !stage.IsStaged(process) {
 		return
 	}
 
@@ -2193,28 +2111,28 @@ func (stage *Stage) UnstageBranchProcess(process *Process) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _diagramprocess := range process.DiagramProcesss {
-		UnstageBranch(stage, _diagramprocess)
+		stage.UnstageBranch(_diagramprocess)
 	}
 	for _, _diagramprocess := range process.DiagramProcessWhoseNodeIsExpanded {
-		UnstageBranch(stage, _diagramprocess)
+		stage.UnstageBranch(_diagramprocess)
 	}
 	for _, _process := range process.SubProcesses {
-		UnstageBranch(stage, _process)
+		stage.UnstageBranch(_process)
 	}
 	for _, _participant := range process.Participants {
-		UnstageBranch(stage, _participant)
+		stage.UnstageBranch(_participant)
 	}
 	for _, _participant := range process.ParticipantWhoseNodeIsExpanded {
-		UnstageBranch(stage, _participant)
+		stage.UnstageBranch(_participant)
 	}
 	for _, _dataflow := range process.DataFlows {
-		UnstageBranch(stage, _dataflow)
+		stage.UnstageBranch(_dataflow)
 	}
 	for _, _participant := range process.ExternalParticipants {
-		UnstageBranch(stage, _participant)
+		stage.UnstageBranch(_participant)
 	}
 	for _, _participant := range process.ExternalParticipantWhoseNodeIsExpanded {
-		UnstageBranch(stage, _participant)
+		stage.UnstageBranch(_participant)
 	}
 
 }
@@ -2222,7 +2140,7 @@ func (stage *Stage) UnstageBranchProcess(process *Process) {
 func (stage *Stage) UnstageBranchProcessShape(processshape *ProcessShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, processshape) {
+	if !stage.IsStaged(processshape) {
 		return
 	}
 
@@ -2230,7 +2148,7 @@ func (stage *Stage) UnstageBranchProcessShape(processshape *ProcessShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if processshape.Process != nil {
-		UnstageBranch(stage, processshape.Process)
+		stage.UnstageBranch(processshape.Process)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2240,7 +2158,7 @@ func (stage *Stage) UnstageBranchProcessShape(processshape *ProcessShape) {
 func (stage *Stage) UnstageBranchResource(resource *Resource) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, resource) {
+	if !stage.IsStaged(resource) {
 		return
 	}
 
@@ -2255,7 +2173,7 @@ func (stage *Stage) UnstageBranchResource(resource *Resource) {
 func (stage *Stage) UnstageBranchTask(task *Task) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, task) {
+	if !stage.IsStaged(task) {
 		return
 	}
 
@@ -2263,7 +2181,7 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if task.Type != nil {
-		UnstageBranch(stage, task.Type)
+		stage.UnstageBranch(task.Type)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2273,7 +2191,7 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 func (stage *Stage) UnstageBranchTaskShape(taskshape *TaskShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, taskshape) {
+	if !stage.IsStaged(taskshape) {
 		return
 	}
 
@@ -2281,7 +2199,7 @@ func (stage *Stage) UnstageBranchTaskShape(taskshape *TaskShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskshape.Task != nil {
-		UnstageBranch(stage, taskshape.Task)
+		stage.UnstageBranch(taskshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -3478,7 +3396,7 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 		}
 	}
 	if DatasDifferent {
-		ops := Diff(stage, dataflow, dataflowOther, "Datas", dataflowOther.Datas, dataflow.Datas)
+		ops := stage.Diff(dataflow, dataflowOther, "Datas", dataflowOther.Datas, dataflow.Datas)
 		diffs = append(diffs, ops)
 	}
 	if dataflow.Description != dataflowOther.Description {
@@ -3644,7 +3562,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if Process_ShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "Process_Shapes", diagramprocessOther.Process_Shapes, diagramprocess.Process_Shapes)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "Process_Shapes", diagramprocessOther.Process_Shapes, diagramprocess.Process_Shapes)
 		diffs = append(diffs, ops)
 	}
 	if diagramprocess.IsProcesssNodeExpanded != diagramprocessOther.IsProcesssNodeExpanded {
@@ -3668,7 +3586,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if ProcesssWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "ProcesssWhoseNodeIsExpanded", diagramprocessOther.ProcesssWhoseNodeIsExpanded, diagramprocess.ProcesssWhoseNodeIsExpanded)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "ProcesssWhoseNodeIsExpanded", diagramprocessOther.ProcesssWhoseNodeIsExpanded, diagramprocess.ProcesssWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	Participant_ShapesDifferent := false
@@ -3689,7 +3607,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if Participant_ShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "Participant_Shapes", diagramprocessOther.Participant_Shapes, diagramprocess.Participant_Shapes)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "Participant_Shapes", diagramprocessOther.Participant_Shapes, diagramprocess.Participant_Shapes)
 		diffs = append(diffs, ops)
 	}
 	if diagramprocess.IsParticipantsNodeExpanded != diagramprocessOther.IsParticipantsNodeExpanded {
@@ -3713,7 +3631,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if ParticipantWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "ParticipantWhoseNodeIsExpanded", diagramprocessOther.ParticipantWhoseNodeIsExpanded, diagramprocess.ParticipantWhoseNodeIsExpanded)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "ParticipantWhoseNodeIsExpanded", diagramprocessOther.ParticipantWhoseNodeIsExpanded, diagramprocess.ParticipantWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	ExternalParticipant_ShapesDifferent := false
@@ -3734,7 +3652,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if ExternalParticipant_ShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "ExternalParticipant_Shapes", diagramprocessOther.ExternalParticipant_Shapes, diagramprocess.ExternalParticipant_Shapes)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "ExternalParticipant_Shapes", diagramprocessOther.ExternalParticipant_Shapes, diagramprocess.ExternalParticipant_Shapes)
 		diffs = append(diffs, ops)
 	}
 	if diagramprocess.IsExternalParticipantsNodeExpanded != diagramprocessOther.IsExternalParticipantsNodeExpanded {
@@ -3758,7 +3676,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if ExternalParticipantWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "ExternalParticipantWhoseNodeIsExpanded", diagramprocessOther.ExternalParticipantWhoseNodeIsExpanded, diagramprocess.ExternalParticipantWhoseNodeIsExpanded)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "ExternalParticipantWhoseNodeIsExpanded", diagramprocessOther.ExternalParticipantWhoseNodeIsExpanded, diagramprocess.ExternalParticipantWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	ExternalParticipantsWhoseOutDataFlowsNodeIsExpandedDifferent := false
@@ -3779,7 +3697,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if ExternalParticipantsWhoseOutDataFlowsNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded", diagramprocessOther.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded", diagramprocessOther.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	ExternalParticipantsWhoseInDataFlowsNodeIsExpandedDifferent := false
@@ -3800,7 +3718,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if ExternalParticipantsWhoseInDataFlowsNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded", diagramprocessOther.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded", diagramprocessOther.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	TasksWhoseNodeIsExpandedDifferent := false
@@ -3821,7 +3739,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if TasksWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "TasksWhoseNodeIsExpanded", diagramprocessOther.TasksWhoseNodeIsExpanded, diagramprocess.TasksWhoseNodeIsExpanded)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "TasksWhoseNodeIsExpanded", diagramprocessOther.TasksWhoseNodeIsExpanded, diagramprocess.TasksWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	Task_ShapesDifferent := false
@@ -3842,7 +3760,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if Task_ShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "Task_Shapes", diagramprocessOther.Task_Shapes, diagramprocess.Task_Shapes)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "Task_Shapes", diagramprocessOther.Task_Shapes, diagramprocess.Task_Shapes)
 		diffs = append(diffs, ops)
 	}
 	ControlFlowsWhoseNodeIsExpandedDifferent := false
@@ -3863,7 +3781,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if ControlFlowsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "ControlFlowsWhoseNodeIsExpanded", diagramprocessOther.ControlFlowsWhoseNodeIsExpanded, diagramprocess.ControlFlowsWhoseNodeIsExpanded)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "ControlFlowsWhoseNodeIsExpanded", diagramprocessOther.ControlFlowsWhoseNodeIsExpanded, diagramprocess.ControlFlowsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	ControlFlow_ShapesDifferent := false
@@ -3884,7 +3802,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if ControlFlow_ShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "ControlFlow_Shapes", diagramprocessOther.ControlFlow_Shapes, diagramprocess.ControlFlow_Shapes)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "ControlFlow_Shapes", diagramprocessOther.ControlFlow_Shapes, diagramprocess.ControlFlow_Shapes)
 		diffs = append(diffs, ops)
 	}
 	DataFlowsWhoseNodeIsExpandedDifferent := false
@@ -3905,7 +3823,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if DataFlowsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "DataFlowsWhoseNodeIsExpanded", diagramprocessOther.DataFlowsWhoseNodeIsExpanded, diagramprocess.DataFlowsWhoseNodeIsExpanded)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "DataFlowsWhoseNodeIsExpanded", diagramprocessOther.DataFlowsWhoseNodeIsExpanded, diagramprocess.DataFlowsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	DataFlow_ShapesDifferent := false
@@ -3926,7 +3844,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if DataFlow_ShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "DataFlow_Shapes", diagramprocessOther.DataFlow_Shapes, diagramprocess.DataFlow_Shapes)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "DataFlow_Shapes", diagramprocessOther.DataFlow_Shapes, diagramprocess.DataFlow_Shapes)
 		diffs = append(diffs, ops)
 	}
 	DatasWhoseNodeIsExpandedDifferent := false
@@ -3947,7 +3865,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if DatasWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "DatasWhoseNodeIsExpanded", diagramprocessOther.DatasWhoseNodeIsExpanded, diagramprocess.DatasWhoseNodeIsExpanded)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "DatasWhoseNodeIsExpanded", diagramprocessOther.DatasWhoseNodeIsExpanded, diagramprocess.DatasWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	Data_ShapesDifferent := false
@@ -3968,7 +3886,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if Data_ShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "Data_Shapes", diagramprocessOther.Data_Shapes, diagramprocess.Data_Shapes)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "Data_Shapes", diagramprocessOther.Data_Shapes, diagramprocess.Data_Shapes)
 		diffs = append(diffs, ops)
 	}
 	DataFlowsWhoseDataNodeIsExpandedDifferent := false
@@ -3989,7 +3907,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if DataFlowsWhoseDataNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "DataFlowsWhoseDataNodeIsExpanded", diagramprocessOther.DataFlowsWhoseDataNodeIsExpanded, diagramprocess.DataFlowsWhoseDataNodeIsExpanded)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "DataFlowsWhoseDataNodeIsExpanded", diagramprocessOther.DataFlowsWhoseDataNodeIsExpanded, diagramprocess.DataFlowsWhoseDataNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	AllocatedResourcesWhoseNodeIsExpandedDifferent := false
@@ -4010,7 +3928,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if AllocatedResourcesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "AllocatedResourcesWhoseNodeIsExpanded", diagramprocessOther.AllocatedResourcesWhoseNodeIsExpanded, diagramprocess.AllocatedResourcesWhoseNodeIsExpanded)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "AllocatedResourcesWhoseNodeIsExpanded", diagramprocessOther.AllocatedResourcesWhoseNodeIsExpanded, diagramprocess.AllocatedResourcesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	AllocatedResourceShapesDifferent := false
@@ -4031,7 +3949,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if AllocatedResourceShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "AllocatedResourceShapes", diagramprocessOther.AllocatedResourceShapes, diagramprocess.AllocatedResourceShapes)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "AllocatedResourceShapes", diagramprocessOther.AllocatedResourceShapes, diagramprocess.AllocatedResourceShapes)
 		diffs = append(diffs, ops)
 	}
 	AllocatedProcessesWhoseNodeIsExpandedDifferent := false
@@ -4052,7 +3970,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if AllocatedProcessesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "AllocatedProcessesWhoseNodeIsExpanded", diagramprocessOther.AllocatedProcessesWhoseNodeIsExpanded, diagramprocess.AllocatedProcessesWhoseNodeIsExpanded)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "AllocatedProcessesWhoseNodeIsExpanded", diagramprocessOther.AllocatedProcessesWhoseNodeIsExpanded, diagramprocess.AllocatedProcessesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	AllocatedProcessShapesDifferent := false
@@ -4073,7 +3991,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if AllocatedProcessShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "AllocatedProcessShapes", diagramprocessOther.AllocatedProcessShapes, diagramprocess.AllocatedProcessShapes)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "AllocatedProcessShapes", diagramprocessOther.AllocatedProcessShapes, diagramprocess.AllocatedProcessShapes)
 		diffs = append(diffs, ops)
 	}
 	Note_ShapesDifferent := false
@@ -4094,7 +4012,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if Note_ShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "Note_Shapes", diagramprocessOther.Note_Shapes, diagramprocess.Note_Shapes)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "Note_Shapes", diagramprocessOther.Note_Shapes, diagramprocess.Note_Shapes)
 		diffs = append(diffs, ops)
 	}
 	NotesWhoseNodeIsExpandedDifferent := false
@@ -4115,7 +4033,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if NotesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "NotesWhoseNodeIsExpanded", diagramprocessOther.NotesWhoseNodeIsExpanded, diagramprocess.NotesWhoseNodeIsExpanded)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "NotesWhoseNodeIsExpanded", diagramprocessOther.NotesWhoseNodeIsExpanded, diagramprocess.NotesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagramprocess.IsNotesNodeExpanded != diagramprocessOther.IsNotesNodeExpanded {
@@ -4139,7 +4057,7 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		}
 	}
 	if NoteTaskShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "NoteTaskShapes", diagramprocessOther.NoteTaskShapes, diagramprocess.NoteTaskShapes)
+		ops := stage.Diff(diagramprocess, diagramprocessOther, "NoteTaskShapes", diagramprocessOther.NoteTaskShapes, diagramprocess.NoteTaskShapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -4222,7 +4140,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if SubLibrariesDifferent {
-		ops := Diff(stage, library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
+		ops := stage.Diff(library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
 		diffs = append(diffs, ops)
 	}
 	if library.IsSubLibrariesNodeExpanded != libraryOther.IsSubLibrariesNodeExpanded {
@@ -4246,7 +4164,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if SubLibrariesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "SubLibrariesWhoseNodeIsExpanded", libraryOther.SubLibrariesWhoseNodeIsExpanded, library.SubLibrariesWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "SubLibrariesWhoseNodeIsExpanded", libraryOther.SubLibrariesWhoseNodeIsExpanded, library.SubLibrariesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
@@ -4273,7 +4191,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootProcessesDifferent {
-		ops := Diff(stage, library, libraryOther, "RootProcesses", libraryOther.RootProcesses, library.RootProcesses)
+		ops := stage.Diff(library, libraryOther, "RootProcesses", libraryOther.RootProcesses, library.RootProcesses)
 		diffs = append(diffs, ops)
 	}
 	if library.IsProcessesNodeExpanded != libraryOther.IsProcessesNodeExpanded {
@@ -4297,7 +4215,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if ProcesssWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "ProcesssWhoseNodeIsExpanded", libraryOther.ProcesssWhoseNodeIsExpanded, library.ProcesssWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "ProcesssWhoseNodeIsExpanded", libraryOther.ProcesssWhoseNodeIsExpanded, library.ProcesssWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	RootDataFlowsDifferent := false
@@ -4318,7 +4236,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootDataFlowsDifferent {
-		ops := Diff(stage, library, libraryOther, "RootDataFlows", libraryOther.RootDataFlows, library.RootDataFlows)
+		ops := stage.Diff(library, libraryOther, "RootDataFlows", libraryOther.RootDataFlows, library.RootDataFlows)
 		diffs = append(diffs, ops)
 	}
 	if library.IsDataFlowsNodeExpanded != libraryOther.IsDataFlowsNodeExpanded {
@@ -4342,7 +4260,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if DataFlowsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "DataFlowsWhoseNodeIsExpanded", libraryOther.DataFlowsWhoseNodeIsExpanded, library.DataFlowsWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "DataFlowsWhoseNodeIsExpanded", libraryOther.DataFlowsWhoseNodeIsExpanded, library.DataFlowsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	RootDatasDifferent := false
@@ -4363,7 +4281,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootDatasDifferent {
-		ops := Diff(stage, library, libraryOther, "RootDatas", libraryOther.RootDatas, library.RootDatas)
+		ops := stage.Diff(library, libraryOther, "RootDatas", libraryOther.RootDatas, library.RootDatas)
 		diffs = append(diffs, ops)
 	}
 	if library.IsDatasNodeExpanded != libraryOther.IsDatasNodeExpanded {
@@ -4387,7 +4305,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if DatasWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "DatasWhoseNodeIsExpanded", libraryOther.DatasWhoseNodeIsExpanded, library.DatasWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "DatasWhoseNodeIsExpanded", libraryOther.DatasWhoseNodeIsExpanded, library.DatasWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	RootResourcesDifferent := false
@@ -4408,7 +4326,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootResourcesDifferent {
-		ops := Diff(stage, library, libraryOther, "RootResources", libraryOther.RootResources, library.RootResources)
+		ops := stage.Diff(library, libraryOther, "RootResources", libraryOther.RootResources, library.RootResources)
 		diffs = append(diffs, ops)
 	}
 	if library.IsResourcesNodeExpanded != libraryOther.IsResourcesNodeExpanded {
@@ -4432,7 +4350,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if ResourcesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "ResourcesWhoseNodeIsExpanded", libraryOther.ResourcesWhoseNodeIsExpanded, library.ResourcesWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "ResourcesWhoseNodeIsExpanded", libraryOther.ResourcesWhoseNodeIsExpanded, library.ResourcesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	ParticipantsWhoseNodeIsExpandedDifferent := false
@@ -4453,7 +4371,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if ParticipantsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "ParticipantsWhoseNodeIsExpanded", libraryOther.ParticipantsWhoseNodeIsExpanded, library.ParticipantsWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "ParticipantsWhoseNodeIsExpanded", libraryOther.ParticipantsWhoseNodeIsExpanded, library.ParticipantsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	RootNotesDifferent := false
@@ -4474,7 +4392,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootNotesDifferent {
-		ops := Diff(stage, library, libraryOther, "RootNotes", libraryOther.RootNotes, library.RootNotes)
+		ops := stage.Diff(library, libraryOther, "RootNotes", libraryOther.RootNotes, library.RootNotes)
 		diffs = append(diffs, ops)
 	}
 	if library.IsNotesNodeExpanded != libraryOther.IsNotesNodeExpanded {
@@ -4498,7 +4416,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if NotesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "NotesWhoseNodeIsExpanded", libraryOther.NotesWhoseNodeIsExpanded, library.NotesWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "NotesWhoseNodeIsExpanded", libraryOther.NotesWhoseNodeIsExpanded, library.NotesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if library.IsExpandedTmp != libraryOther.IsExpandedTmp {
@@ -4545,7 +4463,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if TasksDifferent {
-		ops := Diff(stage, note, noteOther, "Tasks", noteOther.Tasks, note.Tasks)
+		ops := stage.Diff(note, noteOther, "Tasks", noteOther.Tasks, note.Tasks)
 		diffs = append(diffs, ops)
 	}
 
@@ -4659,7 +4577,7 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 		}
 	}
 	if ResourcesDifferent {
-		ops := Diff(stage, participant, participantOther, "Resources", participantOther.Resources, participant.Resources)
+		ops := stage.Diff(participant, participantOther, "Resources", participantOther.Resources, participant.Resources)
 		diffs = append(diffs, ops)
 	}
 	if participant.IsResourcesNodeExpanded != participantOther.IsResourcesNodeExpanded {
@@ -4683,7 +4601,7 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 		}
 	}
 	if ProcessesDifferent {
-		ops := Diff(stage, participant, participantOther, "Processes", participantOther.Processes, participant.Processes)
+		ops := stage.Diff(participant, participantOther, "Processes", participantOther.Processes, participant.Processes)
 		diffs = append(diffs, ops)
 	}
 	if participant.IsProcessesNodeExpanded != participantOther.IsProcessesNodeExpanded {
@@ -4716,7 +4634,7 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 		}
 	}
 	if TasksDifferent {
-		ops := Diff(stage, participant, participantOther, "Tasks", participantOther.Tasks, participant.Tasks)
+		ops := stage.Diff(participant, participantOther, "Tasks", participantOther.Tasks, participant.Tasks)
 		diffs = append(diffs, ops)
 	}
 	if participant.IsControlFlowsNodeExpanded != participantOther.IsControlFlowsNodeExpanded {
@@ -4740,7 +4658,7 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 		}
 	}
 	if ControlFlowsDifferent {
-		ops := Diff(stage, participant, participantOther, "ControlFlows", participantOther.ControlFlows, participant.ControlFlows)
+		ops := stage.Diff(participant, participantOther, "ControlFlows", participantOther.ControlFlows, participant.ControlFlows)
 		diffs = append(diffs, ops)
 	}
 	TaskWhoseOutControlFlowsNodeIsExpandedDifferent := false
@@ -4761,7 +4679,7 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 		}
 	}
 	if TaskWhoseOutControlFlowsNodeIsExpandedDifferent {
-		ops := Diff(stage, participant, participantOther, "TaskWhoseOutControlFlowsNodeIsExpanded", participantOther.TaskWhoseOutControlFlowsNodeIsExpanded, participant.TaskWhoseOutControlFlowsNodeIsExpanded)
+		ops := stage.Diff(participant, participantOther, "TaskWhoseOutControlFlowsNodeIsExpanded", participantOther.TaskWhoseOutControlFlowsNodeIsExpanded, participant.TaskWhoseOutControlFlowsNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	TaskWhoseInControlFlowsNodeIsExpandedDifferent := false
@@ -4782,7 +4700,7 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 		}
 	}
 	if TaskWhoseInControlFlowsNodeIsExpandedDifferent {
-		ops := Diff(stage, participant, participantOther, "TaskWhoseInControlFlowsNodeIsExpanded", participantOther.TaskWhoseInControlFlowsNodeIsExpanded, participant.TaskWhoseInControlFlowsNodeIsExpanded)
+		ops := stage.Diff(participant, participantOther, "TaskWhoseInControlFlowsNodeIsExpanded", participantOther.TaskWhoseInControlFlowsNodeIsExpanded, participant.TaskWhoseInControlFlowsNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if participant.IsDataFlowsNodeExpanded != participantOther.IsDataFlowsNodeExpanded {
@@ -4806,7 +4724,7 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 		}
 	}
 	if TaskWhoseOutDataFlowsNodeIsExpandedDifferent {
-		ops := Diff(stage, participant, participantOther, "TaskWhoseOutDataFlowsNodeIsExpanded", participantOther.TaskWhoseOutDataFlowsNodeIsExpanded, participant.TaskWhoseOutDataFlowsNodeIsExpanded)
+		ops := stage.Diff(participant, participantOther, "TaskWhoseOutDataFlowsNodeIsExpanded", participantOther.TaskWhoseOutDataFlowsNodeIsExpanded, participant.TaskWhoseOutDataFlowsNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	TaskWhoseInDataFlowsNodeIsExpandedDifferent := false
@@ -4827,7 +4745,7 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 		}
 	}
 	if TaskWhoseInDataFlowsNodeIsExpandedDifferent {
-		ops := Diff(stage, participant, participantOther, "TaskWhoseInDataFlowsNodeIsExpanded", participantOther.TaskWhoseInDataFlowsNodeIsExpanded, participant.TaskWhoseInDataFlowsNodeIsExpanded)
+		ops := stage.Diff(participant, participantOther, "TaskWhoseInDataFlowsNodeIsExpanded", participantOther.TaskWhoseInDataFlowsNodeIsExpanded, participant.TaskWhoseInDataFlowsNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 
@@ -4913,7 +4831,7 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 		}
 	}
 	if DiagramProcesssDifferent {
-		ops := Diff(stage, process, processOther, "DiagramProcesss", processOther.DiagramProcesss, process.DiagramProcesss)
+		ops := stage.Diff(process, processOther, "DiagramProcesss", processOther.DiagramProcesss, process.DiagramProcesss)
 		diffs = append(diffs, ops)
 	}
 	DiagramProcessWhoseNodeIsExpandedDifferent := false
@@ -4934,7 +4852,7 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 		}
 	}
 	if DiagramProcessWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, process, processOther, "DiagramProcessWhoseNodeIsExpanded", processOther.DiagramProcessWhoseNodeIsExpanded, process.DiagramProcessWhoseNodeIsExpanded)
+		ops := stage.Diff(process, processOther, "DiagramProcessWhoseNodeIsExpanded", processOther.DiagramProcessWhoseNodeIsExpanded, process.DiagramProcessWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if process.IsSubProcessNodeExpanded != processOther.IsSubProcessNodeExpanded {
@@ -4958,7 +4876,7 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 		}
 	}
 	if SubProcessesDifferent {
-		ops := Diff(stage, process, processOther, "SubProcesses", processOther.SubProcesses, process.SubProcesses)
+		ops := stage.Diff(process, processOther, "SubProcesses", processOther.SubProcesses, process.SubProcesses)
 		diffs = append(diffs, ops)
 	}
 	ParticipantsDifferent := false
@@ -4979,7 +4897,7 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 		}
 	}
 	if ParticipantsDifferent {
-		ops := Diff(stage, process, processOther, "Participants", processOther.Participants, process.Participants)
+		ops := stage.Diff(process, processOther, "Participants", processOther.Participants, process.Participants)
 		diffs = append(diffs, ops)
 	}
 	ParticipantWhoseNodeIsExpandedDifferent := false
@@ -5000,7 +4918,7 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 		}
 	}
 	if ParticipantWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, process, processOther, "ParticipantWhoseNodeIsExpanded", processOther.ParticipantWhoseNodeIsExpanded, process.ParticipantWhoseNodeIsExpanded)
+		ops := stage.Diff(process, processOther, "ParticipantWhoseNodeIsExpanded", processOther.ParticipantWhoseNodeIsExpanded, process.ParticipantWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	DataFlowsDifferent := false
@@ -5021,7 +4939,7 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 		}
 	}
 	if DataFlowsDifferent {
-		ops := Diff(stage, process, processOther, "DataFlows", processOther.DataFlows, process.DataFlows)
+		ops := stage.Diff(process, processOther, "DataFlows", processOther.DataFlows, process.DataFlows)
 		diffs = append(diffs, ops)
 	}
 	if process.IsDataFlowsNodeExpanded != processOther.IsDataFlowsNodeExpanded {
@@ -5045,7 +4963,7 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 		}
 	}
 	if ExternalParticipantsDifferent {
-		ops := Diff(stage, process, processOther, "ExternalParticipants", processOther.ExternalParticipants, process.ExternalParticipants)
+		ops := stage.Diff(process, processOther, "ExternalParticipants", processOther.ExternalParticipants, process.ExternalParticipants)
 		diffs = append(diffs, ops)
 	}
 	ExternalParticipantWhoseNodeIsExpandedDifferent := false
@@ -5066,7 +4984,7 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 		}
 	}
 	if ExternalParticipantWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, process, processOther, "ExternalParticipantWhoseNodeIsExpanded", processOther.ExternalParticipantWhoseNodeIsExpanded, process.ExternalParticipantWhoseNodeIsExpanded)
+		ops := stage.Diff(process, processOther, "ExternalParticipantWhoseNodeIsExpanded", processOther.ExternalParticipantWhoseNodeIsExpanded, process.ExternalParticipantWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 
@@ -5284,9 +5202,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

@@ -228,7 +228,7 @@ func TestMergeStageFiles_ActualWorkspaceFiles(t *testing.T) {
 
 	// Verify unmarshalling with test3 models
 	testStage := test3_models.NewStage("test")
-	err = test3_models.ParseAstFile(testStage, outFile, false)
+	err = testStage.ParseAstFile(outFile, false)
 	if err != nil {
 		t.Fatalf("failed to unmarshall merged stage with test3 models: %v", err)
 	}

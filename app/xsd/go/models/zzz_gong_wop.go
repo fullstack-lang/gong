@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type All_WOP struct {
@@ -25,7 +23,7 @@ type All_WOP struct {
 	MaxOccurs string
 }
 
-func (from *All) CopyBasicFields(to *All) {
+func (from *All) GongCopyBasicFields(to *All) {
 	// insertion point
 	to.Name = from.Name
 	to.OuterElementName = from.OuterElementName
@@ -41,7 +39,7 @@ type Annotation_WOP struct {
 	Name string
 }
 
-func (from *Annotation) CopyBasicFields(to *Annotation) {
+func (from *Annotation) GongCopyBasicFields(to *Annotation) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -76,7 +74,7 @@ type Attribute_WOP struct {
 	IDXSD string
 }
 
-func (from *Attribute) CopyBasicFields(to *Attribute) {
+func (from *Attribute) GongCopyBasicFields(to *Attribute) {
 	// insertion point
 	to.Name = from.Name
 	to.NameXSD = from.NameXSD
@@ -111,7 +109,7 @@ type AttributeGroup_WOP struct {
 	Depth int
 }
 
-func (from *AttributeGroup) CopyBasicFields(to *AttributeGroup) {
+func (from *AttributeGroup) GongCopyBasicFields(to *AttributeGroup) {
 	// insertion point
 	to.Name = from.Name
 	to.NameXSD = from.NameXSD
@@ -140,7 +138,7 @@ type Choice_WOP struct {
 	IsDuplicatedInXSD bool
 }
 
-func (from *Choice) CopyBasicFields(to *Choice) {
+func (from *Choice) GongCopyBasicFields(to *Choice) {
 	// insertion point
 	to.Name = from.Name
 	to.OuterElementName = from.OuterElementName
@@ -157,7 +155,7 @@ type ComplexContent_WOP struct {
 	Name string
 }
 
-func (from *ComplexContent) CopyBasicFields(to *ComplexContent) {
+func (from *ComplexContent) GongCopyBasicFields(to *ComplexContent) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -188,7 +186,7 @@ type ComplexType_WOP struct {
 	IsDuplicatedInXSD bool
 }
 
-func (from *ComplexType) CopyBasicFields(to *ComplexType) {
+func (from *ComplexType) GongCopyBasicFields(to *ComplexType) {
 	// insertion point
 	to.Name = from.Name
 	to.HasNameConflict = from.HasNameConflict
@@ -215,7 +213,7 @@ type Documentation_WOP struct {
 	Lang string
 }
 
-func (from *Documentation) CopyBasicFields(to *Documentation) {
+func (from *Documentation) GongCopyBasicFields(to *Documentation) {
 	// insertion point
 	to.Name = from.Name
 	to.Text = from.Text
@@ -263,7 +261,7 @@ type Element_WOP struct {
 	IsDuplicatedInXSD bool
 }
 
-func (from *Element) CopyBasicFields(to *Element) {
+func (from *Element) GongCopyBasicFields(to *Element) {
 	// insertion point
 	to.Name = from.Name
 	to.Order = from.Order
@@ -293,7 +291,7 @@ type Enumeration_WOP struct {
 	Value string
 }
 
-func (from *Enumeration) CopyBasicFields(to *Enumeration) {
+func (from *Enumeration) GongCopyBasicFields(to *Enumeration) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -319,7 +317,7 @@ type Extension_WOP struct {
 	Ref string
 }
 
-func (from *Extension) CopyBasicFields(to *Extension) {
+func (from *Extension) GongCopyBasicFields(to *Extension) {
 	// insertion point
 	to.Name = from.Name
 	to.OuterElementName = from.OuterElementName
@@ -357,7 +355,7 @@ type Group_WOP struct {
 	MaxOccurs string
 }
 
-func (from *Group) CopyBasicFields(to *Group) {
+func (from *Group) GongCopyBasicFields(to *Group) {
 	// insertion point
 	to.Name = from.Name
 	to.NameXSD = from.NameXSD
@@ -380,7 +378,7 @@ type Length_WOP struct {
 	Value string
 }
 
-func (from *Length) CopyBasicFields(to *Length) {
+func (from *Length) GongCopyBasicFields(to *Length) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -394,7 +392,7 @@ type MaxInclusive_WOP struct {
 	Value string
 }
 
-func (from *MaxInclusive) CopyBasicFields(to *MaxInclusive) {
+func (from *MaxInclusive) GongCopyBasicFields(to *MaxInclusive) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -408,7 +406,7 @@ type MaxLength_WOP struct {
 	Value string
 }
 
-func (from *MaxLength) CopyBasicFields(to *MaxLength) {
+func (from *MaxLength) GongCopyBasicFields(to *MaxLength) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -422,7 +420,7 @@ type MinInclusive_WOP struct {
 	Value string
 }
 
-func (from *MinInclusive) CopyBasicFields(to *MinInclusive) {
+func (from *MinInclusive) GongCopyBasicFields(to *MinInclusive) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -436,7 +434,7 @@ type MinLength_WOP struct {
 	Value string
 }
 
-func (from *MinLength) CopyBasicFields(to *MinLength) {
+func (from *MinLength) GongCopyBasicFields(to *MinLength) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -450,7 +448,7 @@ type Pattern_WOP struct {
 	Value string
 }
 
-func (from *Pattern) CopyBasicFields(to *Pattern) {
+func (from *Pattern) GongCopyBasicFields(to *Pattern) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -464,7 +462,7 @@ type Restriction_WOP struct {
 	Base string
 }
 
-func (from *Restriction) CopyBasicFields(to *Restriction) {
+func (from *Restriction) GongCopyBasicFields(to *Restriction) {
 	// insertion point
 	to.Name = from.Name
 	to.Base = from.Base
@@ -482,7 +480,7 @@ type Schema_WOP struct {
 	Depth int
 }
 
-func (from *Schema) CopyBasicFields(to *Schema) {
+func (from *Schema) GongCopyBasicFields(to *Schema) {
 	// insertion point
 	to.Name = from.Name
 	to.Xs = from.Xs
@@ -506,7 +504,7 @@ type Sequence_WOP struct {
 	MaxOccurs string
 }
 
-func (from *Sequence) CopyBasicFields(to *Sequence) {
+func (from *Sequence) GongCopyBasicFields(to *Sequence) {
 	// insertion point
 	to.Name = from.Name
 	to.OuterElementName = from.OuterElementName
@@ -522,7 +520,7 @@ type SimpleContent_WOP struct {
 	Name string
 }
 
-func (from *SimpleContent) CopyBasicFields(to *SimpleContent) {
+func (from *SimpleContent) GongCopyBasicFields(to *SimpleContent) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -539,7 +537,7 @@ type SimpleType_WOP struct {
 	Depth int
 }
 
-func (from *SimpleType) CopyBasicFields(to *SimpleType) {
+func (from *SimpleType) GongCopyBasicFields(to *SimpleType) {
 	// insertion point
 	to.Name = from.Name
 	to.NameXSD = from.NameXSD
@@ -555,7 +553,7 @@ type TotalDigit_WOP struct {
 	Value string
 }
 
-func (from *TotalDigit) CopyBasicFields(to *TotalDigit) {
+func (from *TotalDigit) GongCopyBasicFields(to *TotalDigit) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -569,7 +567,7 @@ type Union_WOP struct {
 	MemberTypes string
 }
 
-func (from *Union) CopyBasicFields(to *Union) {
+func (from *Union) GongCopyBasicFields(to *Union) {
 	// insertion point
 	to.Name = from.Name
 	to.MemberTypes = from.MemberTypes
@@ -583,7 +581,7 @@ type WhiteSpace_WOP struct {
 	Value string
 }
 
-func (from *WhiteSpace) CopyBasicFields(to *WhiteSpace) {
+func (from *WhiteSpace) GongCopyBasicFields(to *WhiteSpace) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value

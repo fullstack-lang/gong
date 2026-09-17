@@ -101,107 +101,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *AnalysisNeed:
-		ok = stage.IsStagedAnalysisNeed(target)
-
-	case *Concept:
-		ok = stage.IsStagedConcept(target)
-
-	case *ConceptShape:
-		ok = stage.IsStagedConceptShape(target)
-
-	case *Concern:
-		ok = stage.IsStagedConcern(target)
-
-	case *ConcernCompositionShape:
-		ok = stage.IsStagedConcernCompositionShape(target)
-
-	case *ConcernInputShape:
-		ok = stage.IsStagedConcernInputShape(target)
-
-	case *ConcernOutputShape:
-		ok = stage.IsStagedConcernOutputShape(target)
-
-	case *ConcernShape:
-		ok = stage.IsStagedConcernShape(target)
-
-	case *ControlPointShape:
-		ok = stage.IsStagedControlPointShape(target)
-
-	case *Deliverable:
-		ok = stage.IsStagedDeliverable(target)
-
-	case *DeliverableCompositionShape:
-		ok = stage.IsStagedDeliverableCompositionShape(target)
-
-	case *DeliverableConceptShape:
-		ok = stage.IsStagedDeliverableConceptShape(target)
-
-	case *DeliverableShape:
-		ok = stage.IsStagedDeliverableShape(target)
-
-	case *Diagram:
-		ok = stage.IsStagedDiagram(target)
-
-	case *DiagramShape:
-		ok = stage.IsStagedDiagramShape(target)
-
-	case *Library:
-		ok = stage.IsStagedLibrary(target)
-
-	case *Note:
-		ok = stage.IsStagedNote(target)
-
-	case *NoteDeliverableShape:
-		ok = stage.IsStagedNoteDeliverableShape(target)
-
-	case *NoteShape:
-		ok = stage.IsStagedNoteShape(target)
-
-	case *NoteStakeholderShape:
-		ok = stage.IsStagedNoteStakeholderShape(target)
-
-	case *NoteTaskShape:
-		ok = stage.IsStagedNoteTaskShape(target)
-
-	case *Requirement:
-		ok = stage.IsStagedRequirement(target)
-
-	case *RequirementShape:
-		ok = stage.IsStagedRequirementShape(target)
-
-	case *Stakeholder:
-		ok = stage.IsStagedStakeholder(target)
-
-	case *StakeholderCompositionShape:
-		ok = stage.IsStagedStakeholderCompositionShape(target)
-
-	case *StakeholderConcernShape:
-		ok = stage.IsStagedStakeholderConcernShape(target)
-
-	case *StakeholderShape:
-		ok = stage.IsStagedStakeholderShape(target)
-
-	case *SupportLevel:
-		ok = stage.IsStagedSupportLevel(target)
-
-	case *Tool:
-		ok = stage.IsStagedTool(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedAnalysisNeed(analysisneed *AnalysisNeed) (ok bool) {
 
@@ -512,7 +411,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchAnalysisNeed(analysisneed *AnalysisNeed) {
 
 	// check if instance is already staged
-	if IsStaged(stage, analysisneed) {
+	if stage.IsStaged(analysisneed) {
 		return
 	}
 
@@ -527,7 +426,7 @@ func (stage *Stage) StageBranchAnalysisNeed(analysisneed *AnalysisNeed) {
 func (stage *Stage) StageBranchConcept(concept *Concept) {
 
 	// check if instance is already staged
-	if IsStaged(stage, concept) {
+	if stage.IsStaged(concept) {
 		return
 	}
 
@@ -537,7 +436,7 @@ func (stage *Stage) StageBranchConcept(concept *Concept) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tool := range concept.Tools {
-		StageBranch(stage, _tool)
+		stage.StageBranch(_tool)
 	}
 
 }
@@ -545,7 +444,7 @@ func (stage *Stage) StageBranchConcept(concept *Concept) {
 func (stage *Stage) StageBranchConceptShape(conceptshape *ConceptShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, conceptshape) {
+	if stage.IsStaged(conceptshape) {
 		return
 	}
 
@@ -553,7 +452,7 @@ func (stage *Stage) StageBranchConceptShape(conceptshape *ConceptShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if conceptshape.Concept != nil {
-		StageBranch(stage, conceptshape.Concept)
+		stage.StageBranch(conceptshape.Concept)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -563,7 +462,7 @@ func (stage *Stage) StageBranchConceptShape(conceptshape *ConceptShape) {
 func (stage *Stage) StageBranchConcern(concern *Concern) {
 
 	// check if instance is already staged
-	if IsStaged(stage, concern) {
+	if stage.IsStaged(concern) {
 		return
 	}
 
@@ -573,16 +472,16 @@ func (stage *Stage) StageBranchConcern(concern *Concern) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _concern := range concern.SubConcerns {
-		StageBranch(stage, _concern)
+		stage.StageBranch(_concern)
 	}
 	for _, _deliverable := range concern.Inputs {
-		StageBranch(stage, _deliverable)
+		stage.StageBranch(_deliverable)
 	}
 	for _, _deliverable := range concern.Outputs {
-		StageBranch(stage, _deliverable)
+		stage.StageBranch(_deliverable)
 	}
 	for _, _requirement := range concern.Requirements {
-		StageBranch(stage, _requirement)
+		stage.StageBranch(_requirement)
 	}
 
 }
@@ -590,7 +489,7 @@ func (stage *Stage) StageBranchConcern(concern *Concern) {
 func (stage *Stage) StageBranchConcernCompositionShape(concerncompositionshape *ConcernCompositionShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, concerncompositionshape) {
+	if stage.IsStaged(concerncompositionshape) {
 		return
 	}
 
@@ -598,12 +497,12 @@ func (stage *Stage) StageBranchConcernCompositionShape(concerncompositionshape *
 
 	//insertion point for the staging of instances referenced by pointers
 	if concerncompositionshape.Concern != nil {
-		StageBranch(stage, concerncompositionshape.Concern)
+		stage.StageBranch(concerncompositionshape.Concern)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range concerncompositionshape.ControlPointShapes {
-		StageBranch(stage, _controlpointshape)
+		stage.StageBranch(_controlpointshape)
 	}
 
 }
@@ -611,7 +510,7 @@ func (stage *Stage) StageBranchConcernCompositionShape(concerncompositionshape *
 func (stage *Stage) StageBranchConcernInputShape(concerninputshape *ConcernInputShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, concerninputshape) {
+	if stage.IsStaged(concerninputshape) {
 		return
 	}
 
@@ -619,15 +518,15 @@ func (stage *Stage) StageBranchConcernInputShape(concerninputshape *ConcernInput
 
 	//insertion point for the staging of instances referenced by pointers
 	if concerninputshape.Deliverable != nil {
-		StageBranch(stage, concerninputshape.Deliverable)
+		stage.StageBranch(concerninputshape.Deliverable)
 	}
 	if concerninputshape.Concern != nil {
-		StageBranch(stage, concerninputshape.Concern)
+		stage.StageBranch(concerninputshape.Concern)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range concerninputshape.ControlPointShapes {
-		StageBranch(stage, _controlpointshape)
+		stage.StageBranch(_controlpointshape)
 	}
 
 }
@@ -635,7 +534,7 @@ func (stage *Stage) StageBranchConcernInputShape(concerninputshape *ConcernInput
 func (stage *Stage) StageBranchConcernOutputShape(concernoutputshape *ConcernOutputShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, concernoutputshape) {
+	if stage.IsStaged(concernoutputshape) {
 		return
 	}
 
@@ -643,15 +542,15 @@ func (stage *Stage) StageBranchConcernOutputShape(concernoutputshape *ConcernOut
 
 	//insertion point for the staging of instances referenced by pointers
 	if concernoutputshape.Concern != nil {
-		StageBranch(stage, concernoutputshape.Concern)
+		stage.StageBranch(concernoutputshape.Concern)
 	}
 	if concernoutputshape.Deliverable != nil {
-		StageBranch(stage, concernoutputshape.Deliverable)
+		stage.StageBranch(concernoutputshape.Deliverable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range concernoutputshape.ControlPointShapes {
-		StageBranch(stage, _controlpointshape)
+		stage.StageBranch(_controlpointshape)
 	}
 
 }
@@ -659,7 +558,7 @@ func (stage *Stage) StageBranchConcernOutputShape(concernoutputshape *ConcernOut
 func (stage *Stage) StageBranchConcernShape(concernshape *ConcernShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, concernshape) {
+	if stage.IsStaged(concernshape) {
 		return
 	}
 
@@ -667,7 +566,7 @@ func (stage *Stage) StageBranchConcernShape(concernshape *ConcernShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if concernshape.Concern != nil {
-		StageBranch(stage, concernshape.Concern)
+		stage.StageBranch(concernshape.Concern)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -677,7 +576,7 @@ func (stage *Stage) StageBranchConcernShape(concernshape *ConcernShape) {
 func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPointShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, controlpointshape) {
+	if stage.IsStaged(controlpointshape) {
 		return
 	}
 
@@ -692,7 +591,7 @@ func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPoint
 func (stage *Stage) StageBranchDeliverable(deliverable *Deliverable) {
 
 	// check if instance is already staged
-	if IsStaged(stage, deliverable) {
+	if stage.IsStaged(deliverable) {
 		return
 	}
 
@@ -702,10 +601,10 @@ func (stage *Stage) StageBranchDeliverable(deliverable *Deliverable) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _deliverable := range deliverable.SubDeliverables {
-		StageBranch(stage, _deliverable)
+		stage.StageBranch(_deliverable)
 	}
 	for _, _concept := range deliverable.Concepts {
-		StageBranch(stage, _concept)
+		stage.StageBranch(_concept)
 	}
 
 }
@@ -713,7 +612,7 @@ func (stage *Stage) StageBranchDeliverable(deliverable *Deliverable) {
 func (stage *Stage) StageBranchDeliverableCompositionShape(deliverablecompositionshape *DeliverableCompositionShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, deliverablecompositionshape) {
+	if stage.IsStaged(deliverablecompositionshape) {
 		return
 	}
 
@@ -721,12 +620,12 @@ func (stage *Stage) StageBranchDeliverableCompositionShape(deliverablecompositio
 
 	//insertion point for the staging of instances referenced by pointers
 	if deliverablecompositionshape.Deliverable != nil {
-		StageBranch(stage, deliverablecompositionshape.Deliverable)
+		stage.StageBranch(deliverablecompositionshape.Deliverable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range deliverablecompositionshape.ControlPointShapes {
-		StageBranch(stage, _controlpointshape)
+		stage.StageBranch(_controlpointshape)
 	}
 
 }
@@ -734,7 +633,7 @@ func (stage *Stage) StageBranchDeliverableCompositionShape(deliverablecompositio
 func (stage *Stage) StageBranchDeliverableConceptShape(deliverableconceptshape *DeliverableConceptShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, deliverableconceptshape) {
+	if stage.IsStaged(deliverableconceptshape) {
 		return
 	}
 
@@ -742,15 +641,15 @@ func (stage *Stage) StageBranchDeliverableConceptShape(deliverableconceptshape *
 
 	//insertion point for the staging of instances referenced by pointers
 	if deliverableconceptshape.Deliverable != nil {
-		StageBranch(stage, deliverableconceptshape.Deliverable)
+		stage.StageBranch(deliverableconceptshape.Deliverable)
 	}
 	if deliverableconceptshape.Concept != nil {
-		StageBranch(stage, deliverableconceptshape.Concept)
+		stage.StageBranch(deliverableconceptshape.Concept)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range deliverableconceptshape.ControlPointShapes {
-		StageBranch(stage, _controlpointshape)
+		stage.StageBranch(_controlpointshape)
 	}
 
 }
@@ -758,7 +657,7 @@ func (stage *Stage) StageBranchDeliverableConceptShape(deliverableconceptshape *
 func (stage *Stage) StageBranchDeliverableShape(deliverableshape *DeliverableShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, deliverableshape) {
+	if stage.IsStaged(deliverableshape) {
 		return
 	}
 
@@ -766,7 +665,7 @@ func (stage *Stage) StageBranchDeliverableShape(deliverableshape *DeliverableSha
 
 	//insertion point for the staging of instances referenced by pointers
 	if deliverableshape.Deliverable != nil {
-		StageBranch(stage, deliverableshape.Deliverable)
+		stage.StageBranch(deliverableshape.Deliverable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -776,7 +675,7 @@ func (stage *Stage) StageBranchDeliverableShape(deliverableshape *DeliverableSha
 func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
-	if IsStaged(stage, diagram) {
+	if stage.IsStaged(diagram) {
 		return
 	}
 
@@ -786,94 +685,94 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _concern := range diagram.ConcernsWhoseRequirementsNodeIsExpanded {
-		StageBranch(stage, _concern)
+		stage.StageBranch(_concern)
 	}
 	for _, _deliverableshape := range diagram.Deliverable_Shapes {
-		StageBranch(stage, _deliverableshape)
+		stage.StageBranch(_deliverableshape)
 	}
 	for _, _deliverable := range diagram.DeliverablesWhoseNodeIsExpanded {
-		StageBranch(stage, _deliverable)
+		stage.StageBranch(_deliverable)
 	}
 	for _, _deliverable := range diagram.DeliverablesWhoseConceptsNodeIsExpanded {
-		StageBranch(stage, _deliverable)
+		stage.StageBranch(_deliverable)
 	}
 	for _, _deliverablecompositionshape := range diagram.DeliverableComposition_Shapes {
-		StageBranch(stage, _deliverablecompositionshape)
+		stage.StageBranch(_deliverablecompositionshape)
 	}
 	for _, _concernshape := range diagram.Concern_Shapes {
-		StageBranch(stage, _concernshape)
+		stage.StageBranch(_concernshape)
 	}
 	for _, _concern := range diagram.ConcernsWhoseNodeIsExpanded {
-		StageBranch(stage, _concern)
+		stage.StageBranch(_concern)
 	}
 	for _, _concern := range diagram.ConcernsWhoseInputNodeIsExpanded {
-		StageBranch(stage, _concern)
+		stage.StageBranch(_concern)
 	}
 	for _, _concern := range diagram.ConcernsWhoseStakeholderNodeIsExpanded {
-		StageBranch(stage, _concern)
+		stage.StageBranch(_concern)
 	}
 	for _, _concern := range diagram.ConcernssWhoseOutputNodeIsExpanded {
-		StageBranch(stage, _concern)
+		stage.StageBranch(_concern)
 	}
 	for _, _concerncompositionshape := range diagram.ConcernComposition_Shapes {
-		StageBranch(stage, _concerncompositionshape)
+		stage.StageBranch(_concerncompositionshape)
 	}
 	for _, _concerninputshape := range diagram.ConcernInputShapes {
-		StageBranch(stage, _concerninputshape)
+		stage.StageBranch(_concerninputshape)
 	}
 	for _, _concernoutputshape := range diagram.ConcernOutputShapes {
-		StageBranch(stage, _concernoutputshape)
+		stage.StageBranch(_concernoutputshape)
 	}
 	for _, _noteshape := range diagram.Note_Shapes {
-		StageBranch(stage, _noteshape)
+		stage.StageBranch(_noteshape)
 	}
 	for _, _note := range diagram.NotesWhoseNodeIsExpanded {
-		StageBranch(stage, _note)
+		stage.StageBranch(_note)
 	}
 	for _, _notedeliverableshape := range diagram.NoteDeliverableShapes {
-		StageBranch(stage, _notedeliverableshape)
+		stage.StageBranch(_notedeliverableshape)
 	}
 	for _, _notetaskshape := range diagram.NoteTaskShapes {
-		StageBranch(stage, _notetaskshape)
+		stage.StageBranch(_notetaskshape)
 	}
 	for _, _notestakeholdershape := range diagram.NoteResourceShapes {
-		StageBranch(stage, _notestakeholdershape)
+		stage.StageBranch(_notestakeholdershape)
 	}
 	for _, _stakeholdershape := range diagram.Stakeholder_Shapes {
-		StageBranch(stage, _stakeholdershape)
+		stage.StageBranch(_stakeholdershape)
 	}
 	for _, _stakeholder := range diagram.ResourcesWhoseNodeIsExpanded {
-		StageBranch(stage, _stakeholder)
+		stage.StageBranch(_stakeholder)
 	}
 	for _, _stakeholdercompositionshape := range diagram.ResourceComposition_Shapes {
-		StageBranch(stage, _stakeholdercompositionshape)
+		stage.StageBranch(_stakeholdercompositionshape)
 	}
 	for _, _stakeholderconcernshape := range diagram.StakeholderConcernShapes {
-		StageBranch(stage, _stakeholderconcernshape)
+		stage.StageBranch(_stakeholderconcernshape)
 	}
 	for _, _requirementshape := range diagram.Requirement_Shapes {
-		StageBranch(stage, _requirementshape)
+		stage.StageBranch(_requirementshape)
 	}
 	for _, _requirement := range diagram.RequirementsWhoseNodeIsExpanded {
-		StageBranch(stage, _requirement)
+		stage.StageBranch(_requirement)
 	}
 	for _, _conceptshape := range diagram.Concept_Shapes {
-		StageBranch(stage, _conceptshape)
+		stage.StageBranch(_conceptshape)
 	}
 	for _, _concept := range diagram.ConceptsWhoseNodeIsExpanded {
-		StageBranch(stage, _concept)
+		stage.StageBranch(_concept)
 	}
 	for _, _concept := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
-		StageBranch(stage, _concept)
+		stage.StageBranch(_concept)
 	}
 	for _, _deliverableconceptshape := range diagram.DeliverableConceptShapes {
-		StageBranch(stage, _deliverableconceptshape)
+		stage.StageBranch(_deliverableconceptshape)
 	}
 	for _, _diagramshape := range diagram.Diagram_Shapes {
-		StageBranch(stage, _diagramshape)
+		stage.StageBranch(_diagramshape)
 	}
 	for _, _diagram := range diagram.DiagramsWhoseNodeIsExpanded {
-		StageBranch(stage, _diagram)
+		stage.StageBranch(_diagram)
 	}
 
 }
@@ -881,7 +780,7 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 func (stage *Stage) StageBranchDiagramShape(diagramshape *DiagramShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, diagramshape) {
+	if stage.IsStaged(diagramshape) {
 		return
 	}
 
@@ -889,7 +788,7 @@ func (stage *Stage) StageBranchDiagramShape(diagramshape *DiagramShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if diagramshape.Diagram != nil {
-		StageBranch(stage, diagramshape.Diagram)
+		stage.StageBranch(diagramshape.Diagram)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -899,7 +798,7 @@ func (stage *Stage) StageBranchDiagramShape(diagramshape *DiagramShape) {
 func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
-	if IsStaged(stage, library) {
+	if stage.IsStaged(library) {
 		return
 	}
 
@@ -909,31 +808,31 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _deliverable := range library.RootDeliverables {
-		StageBranch(stage, _deliverable)
+		stage.StageBranch(_deliverable)
 	}
 	for _, _concern := range library.RootConcerns {
-		StageBranch(stage, _concern)
+		stage.StageBranch(_concern)
 	}
 	for _, _stakeholder := range library.RootStakeholders {
-		StageBranch(stage, _stakeholder)
+		stage.StageBranch(_stakeholder)
 	}
 	for _, _requirement := range library.RootRequirements {
-		StageBranch(stage, _requirement)
+		stage.StageBranch(_requirement)
 	}
 	for _, _concept := range library.RootConcepts {
-		StageBranch(stage, _concept)
+		stage.StageBranch(_concept)
 	}
 	for _, _analysisneed := range library.AnalysisNeeds {
-		StageBranch(stage, _analysisneed)
+		stage.StageBranch(_analysisneed)
 	}
 	for _, _note := range library.Notes {
-		StageBranch(stage, _note)
+		stage.StageBranch(_note)
 	}
 	for _, _diagram := range library.Diagrams {
-		StageBranch(stage, _diagram)
+		stage.StageBranch(_diagram)
 	}
 	for _, _library := range library.SubLibraries {
-		StageBranch(stage, _library)
+		stage.StageBranch(_library)
 	}
 
 }
@@ -941,7 +840,7 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 func (stage *Stage) StageBranchNote(note *Note) {
 
 	// check if instance is already staged
-	if IsStaged(stage, note) {
+	if stage.IsStaged(note) {
 		return
 	}
 
@@ -951,13 +850,13 @@ func (stage *Stage) StageBranchNote(note *Note) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _deliverable := range note.Deliverables {
-		StageBranch(stage, _deliverable)
+		stage.StageBranch(_deliverable)
 	}
 	for _, _concern := range note.Tasks {
-		StageBranch(stage, _concern)
+		stage.StageBranch(_concern)
 	}
 	for _, _stakeholder := range note.Resources {
-		StageBranch(stage, _stakeholder)
+		stage.StageBranch(_stakeholder)
 	}
 
 }
@@ -965,7 +864,7 @@ func (stage *Stage) StageBranchNote(note *Note) {
 func (stage *Stage) StageBranchNoteDeliverableShape(notedeliverableshape *NoteDeliverableShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, notedeliverableshape) {
+	if stage.IsStaged(notedeliverableshape) {
 		return
 	}
 
@@ -973,15 +872,15 @@ func (stage *Stage) StageBranchNoteDeliverableShape(notedeliverableshape *NoteDe
 
 	//insertion point for the staging of instances referenced by pointers
 	if notedeliverableshape.Note != nil {
-		StageBranch(stage, notedeliverableshape.Note)
+		stage.StageBranch(notedeliverableshape.Note)
 	}
 	if notedeliverableshape.Deliverable != nil {
-		StageBranch(stage, notedeliverableshape.Deliverable)
+		stage.StageBranch(notedeliverableshape.Deliverable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range notedeliverableshape.ControlPointShapes {
-		StageBranch(stage, _controlpointshape)
+		stage.StageBranch(_controlpointshape)
 	}
 
 }
@@ -989,7 +888,7 @@ func (stage *Stage) StageBranchNoteDeliverableShape(notedeliverableshape *NoteDe
 func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, noteshape) {
+	if stage.IsStaged(noteshape) {
 		return
 	}
 
@@ -997,7 +896,7 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshape.Note != nil {
-		StageBranch(stage, noteshape.Note)
+		stage.StageBranch(noteshape.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1007,7 +906,7 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 func (stage *Stage) StageBranchNoteStakeholderShape(notestakeholdershape *NoteStakeholderShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, notestakeholdershape) {
+	if stage.IsStaged(notestakeholdershape) {
 		return
 	}
 
@@ -1015,15 +914,15 @@ func (stage *Stage) StageBranchNoteStakeholderShape(notestakeholdershape *NoteSt
 
 	//insertion point for the staging of instances referenced by pointers
 	if notestakeholdershape.Note != nil {
-		StageBranch(stage, notestakeholdershape.Note)
+		stage.StageBranch(notestakeholdershape.Note)
 	}
 	if notestakeholdershape.Stakeholder != nil {
-		StageBranch(stage, notestakeholdershape.Stakeholder)
+		stage.StageBranch(notestakeholdershape.Stakeholder)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range notestakeholdershape.ControlPointShapes {
-		StageBranch(stage, _controlpointshape)
+		stage.StageBranch(_controlpointshape)
 	}
 
 }
@@ -1031,7 +930,7 @@ func (stage *Stage) StageBranchNoteStakeholderShape(notestakeholdershape *NoteSt
 func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, notetaskshape) {
+	if stage.IsStaged(notetaskshape) {
 		return
 	}
 
@@ -1039,15 +938,15 @@ func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if notetaskshape.Note != nil {
-		StageBranch(stage, notetaskshape.Note)
+		stage.StageBranch(notetaskshape.Note)
 	}
 	if notetaskshape.Task != nil {
-		StageBranch(stage, notetaskshape.Task)
+		stage.StageBranch(notetaskshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range notetaskshape.ControlPointShapes {
-		StageBranch(stage, _controlpointshape)
+		stage.StageBranch(_controlpointshape)
 	}
 
 }
@@ -1055,7 +954,7 @@ func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 func (stage *Stage) StageBranchRequirement(requirement *Requirement) {
 
 	// check if instance is already staged
-	if IsStaged(stage, requirement) {
+	if stage.IsStaged(requirement) {
 		return
 	}
 
@@ -1065,10 +964,10 @@ func (stage *Stage) StageBranchRequirement(requirement *Requirement) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _supportlevel := range requirement.SupportLevels {
-		StageBranch(stage, _supportlevel)
+		stage.StageBranch(_supportlevel)
 	}
 	for _, _concept := range requirement.Concepts {
-		StageBranch(stage, _concept)
+		stage.StageBranch(_concept)
 	}
 
 }
@@ -1076,7 +975,7 @@ func (stage *Stage) StageBranchRequirement(requirement *Requirement) {
 func (stage *Stage) StageBranchRequirementShape(requirementshape *RequirementShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, requirementshape) {
+	if stage.IsStaged(requirementshape) {
 		return
 	}
 
@@ -1084,7 +983,7 @@ func (stage *Stage) StageBranchRequirementShape(requirementshape *RequirementSha
 
 	//insertion point for the staging of instances referenced by pointers
 	if requirementshape.Requirement != nil {
-		StageBranch(stage, requirementshape.Requirement)
+		stage.StageBranch(requirementshape.Requirement)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1094,7 +993,7 @@ func (stage *Stage) StageBranchRequirementShape(requirementshape *RequirementSha
 func (stage *Stage) StageBranchStakeholder(stakeholder *Stakeholder) {
 
 	// check if instance is already staged
-	if IsStaged(stage, stakeholder) {
+	if stage.IsStaged(stakeholder) {
 		return
 	}
 
@@ -1104,10 +1003,10 @@ func (stage *Stage) StageBranchStakeholder(stakeholder *Stakeholder) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _concern := range stakeholder.Concerns {
-		StageBranch(stage, _concern)
+		stage.StageBranch(_concern)
 	}
 	for _, _stakeholder := range stakeholder.SubStakeholders {
-		StageBranch(stage, _stakeholder)
+		stage.StageBranch(_stakeholder)
 	}
 
 }
@@ -1115,7 +1014,7 @@ func (stage *Stage) StageBranchStakeholder(stakeholder *Stakeholder) {
 func (stage *Stage) StageBranchStakeholderCompositionShape(stakeholdercompositionshape *StakeholderCompositionShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, stakeholdercompositionshape) {
+	if stage.IsStaged(stakeholdercompositionshape) {
 		return
 	}
 
@@ -1123,12 +1022,12 @@ func (stage *Stage) StageBranchStakeholderCompositionShape(stakeholdercompositio
 
 	//insertion point for the staging of instances referenced by pointers
 	if stakeholdercompositionshape.Stakeholder != nil {
-		StageBranch(stage, stakeholdercompositionshape.Stakeholder)
+		stage.StageBranch(stakeholdercompositionshape.Stakeholder)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range stakeholdercompositionshape.ControlPointShapes {
-		StageBranch(stage, _controlpointshape)
+		stage.StageBranch(_controlpointshape)
 	}
 
 }
@@ -1136,7 +1035,7 @@ func (stage *Stage) StageBranchStakeholderCompositionShape(stakeholdercompositio
 func (stage *Stage) StageBranchStakeholderConcernShape(stakeholderconcernshape *StakeholderConcernShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, stakeholderconcernshape) {
+	if stage.IsStaged(stakeholderconcernshape) {
 		return
 	}
 
@@ -1144,15 +1043,15 @@ func (stage *Stage) StageBranchStakeholderConcernShape(stakeholderconcernshape *
 
 	//insertion point for the staging of instances referenced by pointers
 	if stakeholderconcernshape.Stakeholder != nil {
-		StageBranch(stage, stakeholderconcernshape.Stakeholder)
+		stage.StageBranch(stakeholderconcernshape.Stakeholder)
 	}
 	if stakeholderconcernshape.Concern != nil {
-		StageBranch(stage, stakeholderconcernshape.Concern)
+		stage.StageBranch(stakeholderconcernshape.Concern)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range stakeholderconcernshape.ControlPointShapes {
-		StageBranch(stage, _controlpointshape)
+		stage.StageBranch(_controlpointshape)
 	}
 
 }
@@ -1160,7 +1059,7 @@ func (stage *Stage) StageBranchStakeholderConcernShape(stakeholderconcernshape *
 func (stage *Stage) StageBranchStakeholderShape(stakeholdershape *StakeholderShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, stakeholdershape) {
+	if stage.IsStaged(stakeholdershape) {
 		return
 	}
 
@@ -1168,7 +1067,7 @@ func (stage *Stage) StageBranchStakeholderShape(stakeholdershape *StakeholderSha
 
 	//insertion point for the staging of instances referenced by pointers
 	if stakeholdershape.Stakeholder != nil {
-		StageBranch(stage, stakeholdershape.Stakeholder)
+		stage.StageBranch(stakeholdershape.Stakeholder)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1178,7 +1077,7 @@ func (stage *Stage) StageBranchStakeholderShape(stakeholdershape *StakeholderSha
 func (stage *Stage) StageBranchSupportLevel(supportlevel *SupportLevel) {
 
 	// check if instance is already staged
-	if IsStaged(stage, supportlevel) {
+	if stage.IsStaged(supportlevel) {
 		return
 	}
 
@@ -1186,7 +1085,7 @@ func (stage *Stage) StageBranchSupportLevel(supportlevel *SupportLevel) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if supportlevel.Tool != nil {
-		StageBranch(stage, supportlevel.Tool)
+		stage.StageBranch(supportlevel.Tool)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1196,7 +1095,7 @@ func (stage *Stage) StageBranchSupportLevel(supportlevel *SupportLevel) {
 func (stage *Stage) StageBranchTool(tool *Tool) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tool) {
+	if stage.IsStaged(tool) {
 		return
 	}
 
@@ -1208,11 +1107,11 @@ func (stage *Stage) StageBranchTool(tool *Tool) {
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -1220,119 +1119,119 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *AnalysisNeed:
-		toT := CopyBranchAnalysisNeed(mapOrigCopy, fromT)
+		toT := GongCopyBranchAnalysisNeed(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Concept:
-		toT := CopyBranchConcept(mapOrigCopy, fromT)
+		toT := GongCopyBranchConcept(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ConceptShape:
-		toT := CopyBranchConceptShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchConceptShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Concern:
-		toT := CopyBranchConcern(mapOrigCopy, fromT)
+		toT := GongCopyBranchConcern(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ConcernCompositionShape:
-		toT := CopyBranchConcernCompositionShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchConcernCompositionShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ConcernInputShape:
-		toT := CopyBranchConcernInputShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchConcernInputShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ConcernOutputShape:
-		toT := CopyBranchConcernOutputShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchConcernOutputShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ConcernShape:
-		toT := CopyBranchConcernShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchConcernShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ControlPointShape:
-		toT := CopyBranchControlPointShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchControlPointShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Deliverable:
-		toT := CopyBranchDeliverable(mapOrigCopy, fromT)
+		toT := GongCopyBranchDeliverable(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *DeliverableCompositionShape:
-		toT := CopyBranchDeliverableCompositionShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchDeliverableCompositionShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *DeliverableConceptShape:
-		toT := CopyBranchDeliverableConceptShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchDeliverableConceptShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *DeliverableShape:
-		toT := CopyBranchDeliverableShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchDeliverableShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Diagram:
-		toT := CopyBranchDiagram(mapOrigCopy, fromT)
+		toT := GongCopyBranchDiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *DiagramShape:
-		toT := CopyBranchDiagramShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchDiagramShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Library:
-		toT := CopyBranchLibrary(mapOrigCopy, fromT)
+		toT := GongCopyBranchLibrary(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Note:
-		toT := CopyBranchNote(mapOrigCopy, fromT)
+		toT := GongCopyBranchNote(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteDeliverableShape:
-		toT := CopyBranchNoteDeliverableShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteDeliverableShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteShape:
-		toT := CopyBranchNoteShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteStakeholderShape:
-		toT := CopyBranchNoteStakeholderShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteStakeholderShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteTaskShape:
-		toT := CopyBranchNoteTaskShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteTaskShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Requirement:
-		toT := CopyBranchRequirement(mapOrigCopy, fromT)
+		toT := GongCopyBranchRequirement(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *RequirementShape:
-		toT := CopyBranchRequirementShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchRequirementShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Stakeholder:
-		toT := CopyBranchStakeholder(mapOrigCopy, fromT)
+		toT := GongCopyBranchStakeholder(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *StakeholderCompositionShape:
-		toT := CopyBranchStakeholderCompositionShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchStakeholderCompositionShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *StakeholderConcernShape:
-		toT := CopyBranchStakeholderConcernShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchStakeholderConcernShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *StakeholderShape:
-		toT := CopyBranchStakeholderShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchStakeholderShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *SupportLevel:
-		toT := CopyBranchSupportLevel(mapOrigCopy, fromT)
+		toT := GongCopyBranchSupportLevel(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tool:
-		toT := CopyBranchTool(mapOrigCopy, fromT)
+		toT := GongCopyBranchTool(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -1342,7 +1241,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchAnalysisNeed(mapOrigCopy map[any]any, analysisneedFrom *AnalysisNeed) (analysisneedTo *AnalysisNeed) {
+func GongCopyBranchAnalysisNeed(mapOrigCopy map[any]any, analysisneedFrom *AnalysisNeed) (analysisneedTo *AnalysisNeed) {
 
 	// analysisneedFrom has already been copied
 	if _analysisneedTo, ok := mapOrigCopy[analysisneedFrom]; ok {
@@ -1352,7 +1251,7 @@ func CopyBranchAnalysisNeed(mapOrigCopy map[any]any, analysisneedFrom *AnalysisN
 
 	analysisneedTo = new(AnalysisNeed)
 	mapOrigCopy[analysisneedFrom] = analysisneedTo
-	analysisneedFrom.CopyBasicFields(analysisneedTo)
+	analysisneedFrom.GongCopyBasicFields(analysisneedTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1361,7 +1260,7 @@ func CopyBranchAnalysisNeed(mapOrigCopy map[any]any, analysisneedFrom *AnalysisN
 	return
 }
 
-func CopyBranchConcept(mapOrigCopy map[any]any, conceptFrom *Concept) (conceptTo *Concept) {
+func GongCopyBranchConcept(mapOrigCopy map[any]any, conceptFrom *Concept) (conceptTo *Concept) {
 
 	// conceptFrom has already been copied
 	if _conceptTo, ok := mapOrigCopy[conceptFrom]; ok {
@@ -1371,19 +1270,19 @@ func CopyBranchConcept(mapOrigCopy map[any]any, conceptFrom *Concept) (conceptTo
 
 	conceptTo = new(Concept)
 	mapOrigCopy[conceptFrom] = conceptTo
-	conceptFrom.CopyBasicFields(conceptTo)
+	conceptFrom.GongCopyBasicFields(conceptTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tool := range conceptFrom.Tools {
-		conceptTo.Tools = append(conceptTo.Tools, CopyBranchTool(mapOrigCopy, _tool))
+		conceptTo.Tools = append(conceptTo.Tools, GongCopyBranchTool(mapOrigCopy, _tool))
 	}
 
 	return
 }
 
-func CopyBranchConceptShape(mapOrigCopy map[any]any, conceptshapeFrom *ConceptShape) (conceptshapeTo *ConceptShape) {
+func GongCopyBranchConceptShape(mapOrigCopy map[any]any, conceptshapeFrom *ConceptShape) (conceptshapeTo *ConceptShape) {
 
 	// conceptshapeFrom has already been copied
 	if _conceptshapeTo, ok := mapOrigCopy[conceptshapeFrom]; ok {
@@ -1393,11 +1292,11 @@ func CopyBranchConceptShape(mapOrigCopy map[any]any, conceptshapeFrom *ConceptSh
 
 	conceptshapeTo = new(ConceptShape)
 	mapOrigCopy[conceptshapeFrom] = conceptshapeTo
-	conceptshapeFrom.CopyBasicFields(conceptshapeTo)
+	conceptshapeFrom.GongCopyBasicFields(conceptshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if conceptshapeFrom.Concept != nil {
-		conceptshapeTo.Concept = CopyBranchConcept(mapOrigCopy, conceptshapeFrom.Concept)
+		conceptshapeTo.Concept = GongCopyBranchConcept(mapOrigCopy, conceptshapeFrom.Concept)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1405,7 +1304,7 @@ func CopyBranchConceptShape(mapOrigCopy map[any]any, conceptshapeFrom *ConceptSh
 	return
 }
 
-func CopyBranchConcern(mapOrigCopy map[any]any, concernFrom *Concern) (concernTo *Concern) {
+func GongCopyBranchConcern(mapOrigCopy map[any]any, concernFrom *Concern) (concernTo *Concern) {
 
 	// concernFrom has already been copied
 	if _concernTo, ok := mapOrigCopy[concernFrom]; ok {
@@ -1415,28 +1314,28 @@ func CopyBranchConcern(mapOrigCopy map[any]any, concernFrom *Concern) (concernTo
 
 	concernTo = new(Concern)
 	mapOrigCopy[concernFrom] = concernTo
-	concernFrom.CopyBasicFields(concernTo)
+	concernFrom.GongCopyBasicFields(concernTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _concern := range concernFrom.SubConcerns {
-		concernTo.SubConcerns = append(concernTo.SubConcerns, CopyBranchConcern(mapOrigCopy, _concern))
+		concernTo.SubConcerns = append(concernTo.SubConcerns, GongCopyBranchConcern(mapOrigCopy, _concern))
 	}
 	for _, _deliverable := range concernFrom.Inputs {
-		concernTo.Inputs = append(concernTo.Inputs, CopyBranchDeliverable(mapOrigCopy, _deliverable))
+		concernTo.Inputs = append(concernTo.Inputs, GongCopyBranchDeliverable(mapOrigCopy, _deliverable))
 	}
 	for _, _deliverable := range concernFrom.Outputs {
-		concernTo.Outputs = append(concernTo.Outputs, CopyBranchDeliverable(mapOrigCopy, _deliverable))
+		concernTo.Outputs = append(concernTo.Outputs, GongCopyBranchDeliverable(mapOrigCopy, _deliverable))
 	}
 	for _, _requirement := range concernFrom.Requirements {
-		concernTo.Requirements = append(concernTo.Requirements, CopyBranchRequirement(mapOrigCopy, _requirement))
+		concernTo.Requirements = append(concernTo.Requirements, GongCopyBranchRequirement(mapOrigCopy, _requirement))
 	}
 
 	return
 }
 
-func CopyBranchConcernCompositionShape(mapOrigCopy map[any]any, concerncompositionshapeFrom *ConcernCompositionShape) (concerncompositionshapeTo *ConcernCompositionShape) {
+func GongCopyBranchConcernCompositionShape(mapOrigCopy map[any]any, concerncompositionshapeFrom *ConcernCompositionShape) (concerncompositionshapeTo *ConcernCompositionShape) {
 
 	// concerncompositionshapeFrom has already been copied
 	if _concerncompositionshapeTo, ok := mapOrigCopy[concerncompositionshapeFrom]; ok {
@@ -1446,22 +1345,22 @@ func CopyBranchConcernCompositionShape(mapOrigCopy map[any]any, concerncompositi
 
 	concerncompositionshapeTo = new(ConcernCompositionShape)
 	mapOrigCopy[concerncompositionshapeFrom] = concerncompositionshapeTo
-	concerncompositionshapeFrom.CopyBasicFields(concerncompositionshapeTo)
+	concerncompositionshapeFrom.GongCopyBasicFields(concerncompositionshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if concerncompositionshapeFrom.Concern != nil {
-		concerncompositionshapeTo.Concern = CopyBranchConcern(mapOrigCopy, concerncompositionshapeFrom.Concern)
+		concerncompositionshapeTo.Concern = GongCopyBranchConcern(mapOrigCopy, concerncompositionshapeFrom.Concern)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range concerncompositionshapeFrom.ControlPointShapes {
-		concerncompositionshapeTo.ControlPointShapes = append(concerncompositionshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+		concerncompositionshapeTo.ControlPointShapes = append(concerncompositionshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
 	}
 
 	return
 }
 
-func CopyBranchConcernInputShape(mapOrigCopy map[any]any, concerninputshapeFrom *ConcernInputShape) (concerninputshapeTo *ConcernInputShape) {
+func GongCopyBranchConcernInputShape(mapOrigCopy map[any]any, concerninputshapeFrom *ConcernInputShape) (concerninputshapeTo *ConcernInputShape) {
 
 	// concerninputshapeFrom has already been copied
 	if _concerninputshapeTo, ok := mapOrigCopy[concerninputshapeFrom]; ok {
@@ -1471,25 +1370,25 @@ func CopyBranchConcernInputShape(mapOrigCopy map[any]any, concerninputshapeFrom 
 
 	concerninputshapeTo = new(ConcernInputShape)
 	mapOrigCopy[concerninputshapeFrom] = concerninputshapeTo
-	concerninputshapeFrom.CopyBasicFields(concerninputshapeTo)
+	concerninputshapeFrom.GongCopyBasicFields(concerninputshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if concerninputshapeFrom.Deliverable != nil {
-		concerninputshapeTo.Deliverable = CopyBranchDeliverable(mapOrigCopy, concerninputshapeFrom.Deliverable)
+		concerninputshapeTo.Deliverable = GongCopyBranchDeliverable(mapOrigCopy, concerninputshapeFrom.Deliverable)
 	}
 	if concerninputshapeFrom.Concern != nil {
-		concerninputshapeTo.Concern = CopyBranchConcern(mapOrigCopy, concerninputshapeFrom.Concern)
+		concerninputshapeTo.Concern = GongCopyBranchConcern(mapOrigCopy, concerninputshapeFrom.Concern)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range concerninputshapeFrom.ControlPointShapes {
-		concerninputshapeTo.ControlPointShapes = append(concerninputshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+		concerninputshapeTo.ControlPointShapes = append(concerninputshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
 	}
 
 	return
 }
 
-func CopyBranchConcernOutputShape(mapOrigCopy map[any]any, concernoutputshapeFrom *ConcernOutputShape) (concernoutputshapeTo *ConcernOutputShape) {
+func GongCopyBranchConcernOutputShape(mapOrigCopy map[any]any, concernoutputshapeFrom *ConcernOutputShape) (concernoutputshapeTo *ConcernOutputShape) {
 
 	// concernoutputshapeFrom has already been copied
 	if _concernoutputshapeTo, ok := mapOrigCopy[concernoutputshapeFrom]; ok {
@@ -1499,25 +1398,25 @@ func CopyBranchConcernOutputShape(mapOrigCopy map[any]any, concernoutputshapeFro
 
 	concernoutputshapeTo = new(ConcernOutputShape)
 	mapOrigCopy[concernoutputshapeFrom] = concernoutputshapeTo
-	concernoutputshapeFrom.CopyBasicFields(concernoutputshapeTo)
+	concernoutputshapeFrom.GongCopyBasicFields(concernoutputshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if concernoutputshapeFrom.Concern != nil {
-		concernoutputshapeTo.Concern = CopyBranchConcern(mapOrigCopy, concernoutputshapeFrom.Concern)
+		concernoutputshapeTo.Concern = GongCopyBranchConcern(mapOrigCopy, concernoutputshapeFrom.Concern)
 	}
 	if concernoutputshapeFrom.Deliverable != nil {
-		concernoutputshapeTo.Deliverable = CopyBranchDeliverable(mapOrigCopy, concernoutputshapeFrom.Deliverable)
+		concernoutputshapeTo.Deliverable = GongCopyBranchDeliverable(mapOrigCopy, concernoutputshapeFrom.Deliverable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range concernoutputshapeFrom.ControlPointShapes {
-		concernoutputshapeTo.ControlPointShapes = append(concernoutputshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+		concernoutputshapeTo.ControlPointShapes = append(concernoutputshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
 	}
 
 	return
 }
 
-func CopyBranchConcernShape(mapOrigCopy map[any]any, concernshapeFrom *ConcernShape) (concernshapeTo *ConcernShape) {
+func GongCopyBranchConcernShape(mapOrigCopy map[any]any, concernshapeFrom *ConcernShape) (concernshapeTo *ConcernShape) {
 
 	// concernshapeFrom has already been copied
 	if _concernshapeTo, ok := mapOrigCopy[concernshapeFrom]; ok {
@@ -1527,11 +1426,11 @@ func CopyBranchConcernShape(mapOrigCopy map[any]any, concernshapeFrom *ConcernSh
 
 	concernshapeTo = new(ConcernShape)
 	mapOrigCopy[concernshapeFrom] = concernshapeTo
-	concernshapeFrom.CopyBasicFields(concernshapeTo)
+	concernshapeFrom.GongCopyBasicFields(concernshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if concernshapeFrom.Concern != nil {
-		concernshapeTo.Concern = CopyBranchConcern(mapOrigCopy, concernshapeFrom.Concern)
+		concernshapeTo.Concern = GongCopyBranchConcern(mapOrigCopy, concernshapeFrom.Concern)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1539,7 +1438,7 @@ func CopyBranchConcernShape(mapOrigCopy map[any]any, concernshapeFrom *ConcernSh
 	return
 }
 
-func CopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeFrom *ControlPointShape) (controlpointshapeTo *ControlPointShape) {
+func GongCopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeFrom *ControlPointShape) (controlpointshapeTo *ControlPointShape) {
 
 	// controlpointshapeFrom has already been copied
 	if _controlpointshapeTo, ok := mapOrigCopy[controlpointshapeFrom]; ok {
@@ -1549,7 +1448,7 @@ func CopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeFrom 
 
 	controlpointshapeTo = new(ControlPointShape)
 	mapOrigCopy[controlpointshapeFrom] = controlpointshapeTo
-	controlpointshapeFrom.CopyBasicFields(controlpointshapeTo)
+	controlpointshapeFrom.GongCopyBasicFields(controlpointshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1558,7 +1457,7 @@ func CopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeFrom 
 	return
 }
 
-func CopyBranchDeliverable(mapOrigCopy map[any]any, deliverableFrom *Deliverable) (deliverableTo *Deliverable) {
+func GongCopyBranchDeliverable(mapOrigCopy map[any]any, deliverableFrom *Deliverable) (deliverableTo *Deliverable) {
 
 	// deliverableFrom has already been copied
 	if _deliverableTo, ok := mapOrigCopy[deliverableFrom]; ok {
@@ -1568,22 +1467,22 @@ func CopyBranchDeliverable(mapOrigCopy map[any]any, deliverableFrom *Deliverable
 
 	deliverableTo = new(Deliverable)
 	mapOrigCopy[deliverableFrom] = deliverableTo
-	deliverableFrom.CopyBasicFields(deliverableTo)
+	deliverableFrom.GongCopyBasicFields(deliverableTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _deliverable := range deliverableFrom.SubDeliverables {
-		deliverableTo.SubDeliverables = append(deliverableTo.SubDeliverables, CopyBranchDeliverable(mapOrigCopy, _deliverable))
+		deliverableTo.SubDeliverables = append(deliverableTo.SubDeliverables, GongCopyBranchDeliverable(mapOrigCopy, _deliverable))
 	}
 	for _, _concept := range deliverableFrom.Concepts {
-		deliverableTo.Concepts = append(deliverableTo.Concepts, CopyBranchConcept(mapOrigCopy, _concept))
+		deliverableTo.Concepts = append(deliverableTo.Concepts, GongCopyBranchConcept(mapOrigCopy, _concept))
 	}
 
 	return
 }
 
-func CopyBranchDeliverableCompositionShape(mapOrigCopy map[any]any, deliverablecompositionshapeFrom *DeliverableCompositionShape) (deliverablecompositionshapeTo *DeliverableCompositionShape) {
+func GongCopyBranchDeliverableCompositionShape(mapOrigCopy map[any]any, deliverablecompositionshapeFrom *DeliverableCompositionShape) (deliverablecompositionshapeTo *DeliverableCompositionShape) {
 
 	// deliverablecompositionshapeFrom has already been copied
 	if _deliverablecompositionshapeTo, ok := mapOrigCopy[deliverablecompositionshapeFrom]; ok {
@@ -1593,22 +1492,22 @@ func CopyBranchDeliverableCompositionShape(mapOrigCopy map[any]any, deliverablec
 
 	deliverablecompositionshapeTo = new(DeliverableCompositionShape)
 	mapOrigCopy[deliverablecompositionshapeFrom] = deliverablecompositionshapeTo
-	deliverablecompositionshapeFrom.CopyBasicFields(deliverablecompositionshapeTo)
+	deliverablecompositionshapeFrom.GongCopyBasicFields(deliverablecompositionshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if deliverablecompositionshapeFrom.Deliverable != nil {
-		deliverablecompositionshapeTo.Deliverable = CopyBranchDeliverable(mapOrigCopy, deliverablecompositionshapeFrom.Deliverable)
+		deliverablecompositionshapeTo.Deliverable = GongCopyBranchDeliverable(mapOrigCopy, deliverablecompositionshapeFrom.Deliverable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range deliverablecompositionshapeFrom.ControlPointShapes {
-		deliverablecompositionshapeTo.ControlPointShapes = append(deliverablecompositionshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+		deliverablecompositionshapeTo.ControlPointShapes = append(deliverablecompositionshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
 	}
 
 	return
 }
 
-func CopyBranchDeliverableConceptShape(mapOrigCopy map[any]any, deliverableconceptshapeFrom *DeliverableConceptShape) (deliverableconceptshapeTo *DeliverableConceptShape) {
+func GongCopyBranchDeliverableConceptShape(mapOrigCopy map[any]any, deliverableconceptshapeFrom *DeliverableConceptShape) (deliverableconceptshapeTo *DeliverableConceptShape) {
 
 	// deliverableconceptshapeFrom has already been copied
 	if _deliverableconceptshapeTo, ok := mapOrigCopy[deliverableconceptshapeFrom]; ok {
@@ -1618,25 +1517,25 @@ func CopyBranchDeliverableConceptShape(mapOrigCopy map[any]any, deliverableconce
 
 	deliverableconceptshapeTo = new(DeliverableConceptShape)
 	mapOrigCopy[deliverableconceptshapeFrom] = deliverableconceptshapeTo
-	deliverableconceptshapeFrom.CopyBasicFields(deliverableconceptshapeTo)
+	deliverableconceptshapeFrom.GongCopyBasicFields(deliverableconceptshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if deliverableconceptshapeFrom.Deliverable != nil {
-		deliverableconceptshapeTo.Deliverable = CopyBranchDeliverable(mapOrigCopy, deliverableconceptshapeFrom.Deliverable)
+		deliverableconceptshapeTo.Deliverable = GongCopyBranchDeliverable(mapOrigCopy, deliverableconceptshapeFrom.Deliverable)
 	}
 	if deliverableconceptshapeFrom.Concept != nil {
-		deliverableconceptshapeTo.Concept = CopyBranchConcept(mapOrigCopy, deliverableconceptshapeFrom.Concept)
+		deliverableconceptshapeTo.Concept = GongCopyBranchConcept(mapOrigCopy, deliverableconceptshapeFrom.Concept)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range deliverableconceptshapeFrom.ControlPointShapes {
-		deliverableconceptshapeTo.ControlPointShapes = append(deliverableconceptshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+		deliverableconceptshapeTo.ControlPointShapes = append(deliverableconceptshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
 	}
 
 	return
 }
 
-func CopyBranchDeliverableShape(mapOrigCopy map[any]any, deliverableshapeFrom *DeliverableShape) (deliverableshapeTo *DeliverableShape) {
+func GongCopyBranchDeliverableShape(mapOrigCopy map[any]any, deliverableshapeFrom *DeliverableShape) (deliverableshapeTo *DeliverableShape) {
 
 	// deliverableshapeFrom has already been copied
 	if _deliverableshapeTo, ok := mapOrigCopy[deliverableshapeFrom]; ok {
@@ -1646,11 +1545,11 @@ func CopyBranchDeliverableShape(mapOrigCopy map[any]any, deliverableshapeFrom *D
 
 	deliverableshapeTo = new(DeliverableShape)
 	mapOrigCopy[deliverableshapeFrom] = deliverableshapeTo
-	deliverableshapeFrom.CopyBasicFields(deliverableshapeTo)
+	deliverableshapeFrom.GongCopyBasicFields(deliverableshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if deliverableshapeFrom.Deliverable != nil {
-		deliverableshapeTo.Deliverable = CopyBranchDeliverable(mapOrigCopy, deliverableshapeFrom.Deliverable)
+		deliverableshapeTo.Deliverable = GongCopyBranchDeliverable(mapOrigCopy, deliverableshapeFrom.Deliverable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1658,7 +1557,7 @@ func CopyBranchDeliverableShape(mapOrigCopy map[any]any, deliverableshapeFrom *D
 	return
 }
 
-func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
+func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
 
 	// diagramFrom has already been copied
 	if _diagramTo, ok := mapOrigCopy[diagramFrom]; ok {
@@ -1668,106 +1567,106 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 
 	diagramTo = new(Diagram)
 	mapOrigCopy[diagramFrom] = diagramTo
-	diagramFrom.CopyBasicFields(diagramTo)
+	diagramFrom.GongCopyBasicFields(diagramTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _concern := range diagramFrom.ConcernsWhoseRequirementsNodeIsExpanded {
-		diagramTo.ConcernsWhoseRequirementsNodeIsExpanded = append(diagramTo.ConcernsWhoseRequirementsNodeIsExpanded, CopyBranchConcern(mapOrigCopy, _concern))
+		diagramTo.ConcernsWhoseRequirementsNodeIsExpanded = append(diagramTo.ConcernsWhoseRequirementsNodeIsExpanded, GongCopyBranchConcern(mapOrigCopy, _concern))
 	}
 	for _, _deliverableshape := range diagramFrom.Deliverable_Shapes {
-		diagramTo.Deliverable_Shapes = append(diagramTo.Deliverable_Shapes, CopyBranchDeliverableShape(mapOrigCopy, _deliverableshape))
+		diagramTo.Deliverable_Shapes = append(diagramTo.Deliverable_Shapes, GongCopyBranchDeliverableShape(mapOrigCopy, _deliverableshape))
 	}
 	for _, _deliverable := range diagramFrom.DeliverablesWhoseNodeIsExpanded {
-		diagramTo.DeliverablesWhoseNodeIsExpanded = append(diagramTo.DeliverablesWhoseNodeIsExpanded, CopyBranchDeliverable(mapOrigCopy, _deliverable))
+		diagramTo.DeliverablesWhoseNodeIsExpanded = append(diagramTo.DeliverablesWhoseNodeIsExpanded, GongCopyBranchDeliverable(mapOrigCopy, _deliverable))
 	}
 	for _, _deliverable := range diagramFrom.DeliverablesWhoseConceptsNodeIsExpanded {
-		diagramTo.DeliverablesWhoseConceptsNodeIsExpanded = append(diagramTo.DeliverablesWhoseConceptsNodeIsExpanded, CopyBranchDeliverable(mapOrigCopy, _deliverable))
+		diagramTo.DeliverablesWhoseConceptsNodeIsExpanded = append(diagramTo.DeliverablesWhoseConceptsNodeIsExpanded, GongCopyBranchDeliverable(mapOrigCopy, _deliverable))
 	}
 	for _, _deliverablecompositionshape := range diagramFrom.DeliverableComposition_Shapes {
-		diagramTo.DeliverableComposition_Shapes = append(diagramTo.DeliverableComposition_Shapes, CopyBranchDeliverableCompositionShape(mapOrigCopy, _deliverablecompositionshape))
+		diagramTo.DeliverableComposition_Shapes = append(diagramTo.DeliverableComposition_Shapes, GongCopyBranchDeliverableCompositionShape(mapOrigCopy, _deliverablecompositionshape))
 	}
 	for _, _concernshape := range diagramFrom.Concern_Shapes {
-		diagramTo.Concern_Shapes = append(diagramTo.Concern_Shapes, CopyBranchConcernShape(mapOrigCopy, _concernshape))
+		diagramTo.Concern_Shapes = append(diagramTo.Concern_Shapes, GongCopyBranchConcernShape(mapOrigCopy, _concernshape))
 	}
 	for _, _concern := range diagramFrom.ConcernsWhoseNodeIsExpanded {
-		diagramTo.ConcernsWhoseNodeIsExpanded = append(diagramTo.ConcernsWhoseNodeIsExpanded, CopyBranchConcern(mapOrigCopy, _concern))
+		diagramTo.ConcernsWhoseNodeIsExpanded = append(diagramTo.ConcernsWhoseNodeIsExpanded, GongCopyBranchConcern(mapOrigCopy, _concern))
 	}
 	for _, _concern := range diagramFrom.ConcernsWhoseInputNodeIsExpanded {
-		diagramTo.ConcernsWhoseInputNodeIsExpanded = append(diagramTo.ConcernsWhoseInputNodeIsExpanded, CopyBranchConcern(mapOrigCopy, _concern))
+		diagramTo.ConcernsWhoseInputNodeIsExpanded = append(diagramTo.ConcernsWhoseInputNodeIsExpanded, GongCopyBranchConcern(mapOrigCopy, _concern))
 	}
 	for _, _concern := range diagramFrom.ConcernsWhoseStakeholderNodeIsExpanded {
-		diagramTo.ConcernsWhoseStakeholderNodeIsExpanded = append(diagramTo.ConcernsWhoseStakeholderNodeIsExpanded, CopyBranchConcern(mapOrigCopy, _concern))
+		diagramTo.ConcernsWhoseStakeholderNodeIsExpanded = append(diagramTo.ConcernsWhoseStakeholderNodeIsExpanded, GongCopyBranchConcern(mapOrigCopy, _concern))
 	}
 	for _, _concern := range diagramFrom.ConcernssWhoseOutputNodeIsExpanded {
-		diagramTo.ConcernssWhoseOutputNodeIsExpanded = append(diagramTo.ConcernssWhoseOutputNodeIsExpanded, CopyBranchConcern(mapOrigCopy, _concern))
+		diagramTo.ConcernssWhoseOutputNodeIsExpanded = append(diagramTo.ConcernssWhoseOutputNodeIsExpanded, GongCopyBranchConcern(mapOrigCopy, _concern))
 	}
 	for _, _concerncompositionshape := range diagramFrom.ConcernComposition_Shapes {
-		diagramTo.ConcernComposition_Shapes = append(diagramTo.ConcernComposition_Shapes, CopyBranchConcernCompositionShape(mapOrigCopy, _concerncompositionshape))
+		diagramTo.ConcernComposition_Shapes = append(diagramTo.ConcernComposition_Shapes, GongCopyBranchConcernCompositionShape(mapOrigCopy, _concerncompositionshape))
 	}
 	for _, _concerninputshape := range diagramFrom.ConcernInputShapes {
-		diagramTo.ConcernInputShapes = append(diagramTo.ConcernInputShapes, CopyBranchConcernInputShape(mapOrigCopy, _concerninputshape))
+		diagramTo.ConcernInputShapes = append(diagramTo.ConcernInputShapes, GongCopyBranchConcernInputShape(mapOrigCopy, _concerninputshape))
 	}
 	for _, _concernoutputshape := range diagramFrom.ConcernOutputShapes {
-		diagramTo.ConcernOutputShapes = append(diagramTo.ConcernOutputShapes, CopyBranchConcernOutputShape(mapOrigCopy, _concernoutputshape))
+		diagramTo.ConcernOutputShapes = append(diagramTo.ConcernOutputShapes, GongCopyBranchConcernOutputShape(mapOrigCopy, _concernoutputshape))
 	}
 	for _, _noteshape := range diagramFrom.Note_Shapes {
-		diagramTo.Note_Shapes = append(diagramTo.Note_Shapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
+		diagramTo.Note_Shapes = append(diagramTo.Note_Shapes, GongCopyBranchNoteShape(mapOrigCopy, _noteshape))
 	}
 	for _, _note := range diagramFrom.NotesWhoseNodeIsExpanded {
-		diagramTo.NotesWhoseNodeIsExpanded = append(diagramTo.NotesWhoseNodeIsExpanded, CopyBranchNote(mapOrigCopy, _note))
+		diagramTo.NotesWhoseNodeIsExpanded = append(diagramTo.NotesWhoseNodeIsExpanded, GongCopyBranchNote(mapOrigCopy, _note))
 	}
 	for _, _notedeliverableshape := range diagramFrom.NoteDeliverableShapes {
-		diagramTo.NoteDeliverableShapes = append(diagramTo.NoteDeliverableShapes, CopyBranchNoteDeliverableShape(mapOrigCopy, _notedeliverableshape))
+		diagramTo.NoteDeliverableShapes = append(diagramTo.NoteDeliverableShapes, GongCopyBranchNoteDeliverableShape(mapOrigCopy, _notedeliverableshape))
 	}
 	for _, _notetaskshape := range diagramFrom.NoteTaskShapes {
-		diagramTo.NoteTaskShapes = append(diagramTo.NoteTaskShapes, CopyBranchNoteTaskShape(mapOrigCopy, _notetaskshape))
+		diagramTo.NoteTaskShapes = append(diagramTo.NoteTaskShapes, GongCopyBranchNoteTaskShape(mapOrigCopy, _notetaskshape))
 	}
 	for _, _notestakeholdershape := range diagramFrom.NoteResourceShapes {
-		diagramTo.NoteResourceShapes = append(diagramTo.NoteResourceShapes, CopyBranchNoteStakeholderShape(mapOrigCopy, _notestakeholdershape))
+		diagramTo.NoteResourceShapes = append(diagramTo.NoteResourceShapes, GongCopyBranchNoteStakeholderShape(mapOrigCopy, _notestakeholdershape))
 	}
 	for _, _stakeholdershape := range diagramFrom.Stakeholder_Shapes {
-		diagramTo.Stakeholder_Shapes = append(diagramTo.Stakeholder_Shapes, CopyBranchStakeholderShape(mapOrigCopy, _stakeholdershape))
+		diagramTo.Stakeholder_Shapes = append(diagramTo.Stakeholder_Shapes, GongCopyBranchStakeholderShape(mapOrigCopy, _stakeholdershape))
 	}
 	for _, _stakeholder := range diagramFrom.ResourcesWhoseNodeIsExpanded {
-		diagramTo.ResourcesWhoseNodeIsExpanded = append(diagramTo.ResourcesWhoseNodeIsExpanded, CopyBranchStakeholder(mapOrigCopy, _stakeholder))
+		diagramTo.ResourcesWhoseNodeIsExpanded = append(diagramTo.ResourcesWhoseNodeIsExpanded, GongCopyBranchStakeholder(mapOrigCopy, _stakeholder))
 	}
 	for _, _stakeholdercompositionshape := range diagramFrom.ResourceComposition_Shapes {
-		diagramTo.ResourceComposition_Shapes = append(diagramTo.ResourceComposition_Shapes, CopyBranchStakeholderCompositionShape(mapOrigCopy, _stakeholdercompositionshape))
+		diagramTo.ResourceComposition_Shapes = append(diagramTo.ResourceComposition_Shapes, GongCopyBranchStakeholderCompositionShape(mapOrigCopy, _stakeholdercompositionshape))
 	}
 	for _, _stakeholderconcernshape := range diagramFrom.StakeholderConcernShapes {
-		diagramTo.StakeholderConcernShapes = append(diagramTo.StakeholderConcernShapes, CopyBranchStakeholderConcernShape(mapOrigCopy, _stakeholderconcernshape))
+		diagramTo.StakeholderConcernShapes = append(diagramTo.StakeholderConcernShapes, GongCopyBranchStakeholderConcernShape(mapOrigCopy, _stakeholderconcernshape))
 	}
 	for _, _requirementshape := range diagramFrom.Requirement_Shapes {
-		diagramTo.Requirement_Shapes = append(diagramTo.Requirement_Shapes, CopyBranchRequirementShape(mapOrigCopy, _requirementshape))
+		diagramTo.Requirement_Shapes = append(diagramTo.Requirement_Shapes, GongCopyBranchRequirementShape(mapOrigCopy, _requirementshape))
 	}
 	for _, _requirement := range diagramFrom.RequirementsWhoseNodeIsExpanded {
-		diagramTo.RequirementsWhoseNodeIsExpanded = append(diagramTo.RequirementsWhoseNodeIsExpanded, CopyBranchRequirement(mapOrigCopy, _requirement))
+		diagramTo.RequirementsWhoseNodeIsExpanded = append(diagramTo.RequirementsWhoseNodeIsExpanded, GongCopyBranchRequirement(mapOrigCopy, _requirement))
 	}
 	for _, _conceptshape := range diagramFrom.Concept_Shapes {
-		diagramTo.Concept_Shapes = append(diagramTo.Concept_Shapes, CopyBranchConceptShape(mapOrigCopy, _conceptshape))
+		diagramTo.Concept_Shapes = append(diagramTo.Concept_Shapes, GongCopyBranchConceptShape(mapOrigCopy, _conceptshape))
 	}
 	for _, _concept := range diagramFrom.ConceptsWhoseNodeIsExpanded {
-		diagramTo.ConceptsWhoseNodeIsExpanded = append(diagramTo.ConceptsWhoseNodeIsExpanded, CopyBranchConcept(mapOrigCopy, _concept))
+		diagramTo.ConceptsWhoseNodeIsExpanded = append(diagramTo.ConceptsWhoseNodeIsExpanded, GongCopyBranchConcept(mapOrigCopy, _concept))
 	}
 	for _, _concept := range diagramFrom.ConceptsWhoseDeliverablesNodeIsExpanded {
-		diagramTo.ConceptsWhoseDeliverablesNodeIsExpanded = append(diagramTo.ConceptsWhoseDeliverablesNodeIsExpanded, CopyBranchConcept(mapOrigCopy, _concept))
+		diagramTo.ConceptsWhoseDeliverablesNodeIsExpanded = append(diagramTo.ConceptsWhoseDeliverablesNodeIsExpanded, GongCopyBranchConcept(mapOrigCopy, _concept))
 	}
 	for _, _deliverableconceptshape := range diagramFrom.DeliverableConceptShapes {
-		diagramTo.DeliverableConceptShapes = append(diagramTo.DeliverableConceptShapes, CopyBranchDeliverableConceptShape(mapOrigCopy, _deliverableconceptshape))
+		diagramTo.DeliverableConceptShapes = append(diagramTo.DeliverableConceptShapes, GongCopyBranchDeliverableConceptShape(mapOrigCopy, _deliverableconceptshape))
 	}
 	for _, _diagramshape := range diagramFrom.Diagram_Shapes {
-		diagramTo.Diagram_Shapes = append(diagramTo.Diagram_Shapes, CopyBranchDiagramShape(mapOrigCopy, _diagramshape))
+		diagramTo.Diagram_Shapes = append(diagramTo.Diagram_Shapes, GongCopyBranchDiagramShape(mapOrigCopy, _diagramshape))
 	}
 	for _, _diagram := range diagramFrom.DiagramsWhoseNodeIsExpanded {
-		diagramTo.DiagramsWhoseNodeIsExpanded = append(diagramTo.DiagramsWhoseNodeIsExpanded, CopyBranchDiagram(mapOrigCopy, _diagram))
+		diagramTo.DiagramsWhoseNodeIsExpanded = append(diagramTo.DiagramsWhoseNodeIsExpanded, GongCopyBranchDiagram(mapOrigCopy, _diagram))
 	}
 
 	return
 }
 
-func CopyBranchDiagramShape(mapOrigCopy map[any]any, diagramshapeFrom *DiagramShape) (diagramshapeTo *DiagramShape) {
+func GongCopyBranchDiagramShape(mapOrigCopy map[any]any, diagramshapeFrom *DiagramShape) (diagramshapeTo *DiagramShape) {
 
 	// diagramshapeFrom has already been copied
 	if _diagramshapeTo, ok := mapOrigCopy[diagramshapeFrom]; ok {
@@ -1777,11 +1676,11 @@ func CopyBranchDiagramShape(mapOrigCopy map[any]any, diagramshapeFrom *DiagramSh
 
 	diagramshapeTo = new(DiagramShape)
 	mapOrigCopy[diagramshapeFrom] = diagramshapeTo
-	diagramshapeFrom.CopyBasicFields(diagramshapeTo)
+	diagramshapeFrom.GongCopyBasicFields(diagramshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if diagramshapeFrom.Diagram != nil {
-		diagramshapeTo.Diagram = CopyBranchDiagram(mapOrigCopy, diagramshapeFrom.Diagram)
+		diagramshapeTo.Diagram = GongCopyBranchDiagram(mapOrigCopy, diagramshapeFrom.Diagram)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1789,7 +1688,7 @@ func CopyBranchDiagramShape(mapOrigCopy map[any]any, diagramshapeFrom *DiagramSh
 	return
 }
 
-func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
+func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
 
 	// libraryFrom has already been copied
 	if _libraryTo, ok := mapOrigCopy[libraryFrom]; ok {
@@ -1799,43 +1698,43 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 
 	libraryTo = new(Library)
 	mapOrigCopy[libraryFrom] = libraryTo
-	libraryFrom.CopyBasicFields(libraryTo)
+	libraryFrom.GongCopyBasicFields(libraryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _deliverable := range libraryFrom.RootDeliverables {
-		libraryTo.RootDeliverables = append(libraryTo.RootDeliverables, CopyBranchDeliverable(mapOrigCopy, _deliverable))
+		libraryTo.RootDeliverables = append(libraryTo.RootDeliverables, GongCopyBranchDeliverable(mapOrigCopy, _deliverable))
 	}
 	for _, _concern := range libraryFrom.RootConcerns {
-		libraryTo.RootConcerns = append(libraryTo.RootConcerns, CopyBranchConcern(mapOrigCopy, _concern))
+		libraryTo.RootConcerns = append(libraryTo.RootConcerns, GongCopyBranchConcern(mapOrigCopy, _concern))
 	}
 	for _, _stakeholder := range libraryFrom.RootStakeholders {
-		libraryTo.RootStakeholders = append(libraryTo.RootStakeholders, CopyBranchStakeholder(mapOrigCopy, _stakeholder))
+		libraryTo.RootStakeholders = append(libraryTo.RootStakeholders, GongCopyBranchStakeholder(mapOrigCopy, _stakeholder))
 	}
 	for _, _requirement := range libraryFrom.RootRequirements {
-		libraryTo.RootRequirements = append(libraryTo.RootRequirements, CopyBranchRequirement(mapOrigCopy, _requirement))
+		libraryTo.RootRequirements = append(libraryTo.RootRequirements, GongCopyBranchRequirement(mapOrigCopy, _requirement))
 	}
 	for _, _concept := range libraryFrom.RootConcepts {
-		libraryTo.RootConcepts = append(libraryTo.RootConcepts, CopyBranchConcept(mapOrigCopy, _concept))
+		libraryTo.RootConcepts = append(libraryTo.RootConcepts, GongCopyBranchConcept(mapOrigCopy, _concept))
 	}
 	for _, _analysisneed := range libraryFrom.AnalysisNeeds {
-		libraryTo.AnalysisNeeds = append(libraryTo.AnalysisNeeds, CopyBranchAnalysisNeed(mapOrigCopy, _analysisneed))
+		libraryTo.AnalysisNeeds = append(libraryTo.AnalysisNeeds, GongCopyBranchAnalysisNeed(mapOrigCopy, _analysisneed))
 	}
 	for _, _note := range libraryFrom.Notes {
-		libraryTo.Notes = append(libraryTo.Notes, CopyBranchNote(mapOrigCopy, _note))
+		libraryTo.Notes = append(libraryTo.Notes, GongCopyBranchNote(mapOrigCopy, _note))
 	}
 	for _, _diagram := range libraryFrom.Diagrams {
-		libraryTo.Diagrams = append(libraryTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
+		libraryTo.Diagrams = append(libraryTo.Diagrams, GongCopyBranchDiagram(mapOrigCopy, _diagram))
 	}
 	for _, _library := range libraryFrom.SubLibraries {
-		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
+		libraryTo.SubLibraries = append(libraryTo.SubLibraries, GongCopyBranchLibrary(mapOrigCopy, _library))
 	}
 
 	return
 }
 
-func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
+func GongCopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 
 	// noteFrom has already been copied
 	if _noteTo, ok := mapOrigCopy[noteFrom]; ok {
@@ -1845,25 +1744,25 @@ func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 
 	noteTo = new(Note)
 	mapOrigCopy[noteFrom] = noteTo
-	noteFrom.CopyBasicFields(noteTo)
+	noteFrom.GongCopyBasicFields(noteTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _deliverable := range noteFrom.Deliverables {
-		noteTo.Deliverables = append(noteTo.Deliverables, CopyBranchDeliverable(mapOrigCopy, _deliverable))
+		noteTo.Deliverables = append(noteTo.Deliverables, GongCopyBranchDeliverable(mapOrigCopy, _deliverable))
 	}
 	for _, _concern := range noteFrom.Tasks {
-		noteTo.Tasks = append(noteTo.Tasks, CopyBranchConcern(mapOrigCopy, _concern))
+		noteTo.Tasks = append(noteTo.Tasks, GongCopyBranchConcern(mapOrigCopy, _concern))
 	}
 	for _, _stakeholder := range noteFrom.Resources {
-		noteTo.Resources = append(noteTo.Resources, CopyBranchStakeholder(mapOrigCopy, _stakeholder))
+		noteTo.Resources = append(noteTo.Resources, GongCopyBranchStakeholder(mapOrigCopy, _stakeholder))
 	}
 
 	return
 }
 
-func CopyBranchNoteDeliverableShape(mapOrigCopy map[any]any, notedeliverableshapeFrom *NoteDeliverableShape) (notedeliverableshapeTo *NoteDeliverableShape) {
+func GongCopyBranchNoteDeliverableShape(mapOrigCopy map[any]any, notedeliverableshapeFrom *NoteDeliverableShape) (notedeliverableshapeTo *NoteDeliverableShape) {
 
 	// notedeliverableshapeFrom has already been copied
 	if _notedeliverableshapeTo, ok := mapOrigCopy[notedeliverableshapeFrom]; ok {
@@ -1873,25 +1772,25 @@ func CopyBranchNoteDeliverableShape(mapOrigCopy map[any]any, notedeliverableshap
 
 	notedeliverableshapeTo = new(NoteDeliverableShape)
 	mapOrigCopy[notedeliverableshapeFrom] = notedeliverableshapeTo
-	notedeliverableshapeFrom.CopyBasicFields(notedeliverableshapeTo)
+	notedeliverableshapeFrom.GongCopyBasicFields(notedeliverableshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if notedeliverableshapeFrom.Note != nil {
-		notedeliverableshapeTo.Note = CopyBranchNote(mapOrigCopy, notedeliverableshapeFrom.Note)
+		notedeliverableshapeTo.Note = GongCopyBranchNote(mapOrigCopy, notedeliverableshapeFrom.Note)
 	}
 	if notedeliverableshapeFrom.Deliverable != nil {
-		notedeliverableshapeTo.Deliverable = CopyBranchDeliverable(mapOrigCopy, notedeliverableshapeFrom.Deliverable)
+		notedeliverableshapeTo.Deliverable = GongCopyBranchDeliverable(mapOrigCopy, notedeliverableshapeFrom.Deliverable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range notedeliverableshapeFrom.ControlPointShapes {
-		notedeliverableshapeTo.ControlPointShapes = append(notedeliverableshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+		notedeliverableshapeTo.ControlPointShapes = append(notedeliverableshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
 	}
 
 	return
 }
 
-func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
+func GongCopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
 
 	// noteshapeFrom has already been copied
 	if _noteshapeTo, ok := mapOrigCopy[noteshapeFrom]; ok {
@@ -1901,11 +1800,11 @@ func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (not
 
 	noteshapeTo = new(NoteShape)
 	mapOrigCopy[noteshapeFrom] = noteshapeTo
-	noteshapeFrom.CopyBasicFields(noteshapeTo)
+	noteshapeFrom.GongCopyBasicFields(noteshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshapeFrom.Note != nil {
-		noteshapeTo.Note = CopyBranchNote(mapOrigCopy, noteshapeFrom.Note)
+		noteshapeTo.Note = GongCopyBranchNote(mapOrigCopy, noteshapeFrom.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1913,7 +1812,7 @@ func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (not
 	return
 }
 
-func CopyBranchNoteStakeholderShape(mapOrigCopy map[any]any, notestakeholdershapeFrom *NoteStakeholderShape) (notestakeholdershapeTo *NoteStakeholderShape) {
+func GongCopyBranchNoteStakeholderShape(mapOrigCopy map[any]any, notestakeholdershapeFrom *NoteStakeholderShape) (notestakeholdershapeTo *NoteStakeholderShape) {
 
 	// notestakeholdershapeFrom has already been copied
 	if _notestakeholdershapeTo, ok := mapOrigCopy[notestakeholdershapeFrom]; ok {
@@ -1923,25 +1822,25 @@ func CopyBranchNoteStakeholderShape(mapOrigCopy map[any]any, notestakeholdershap
 
 	notestakeholdershapeTo = new(NoteStakeholderShape)
 	mapOrigCopy[notestakeholdershapeFrom] = notestakeholdershapeTo
-	notestakeholdershapeFrom.CopyBasicFields(notestakeholdershapeTo)
+	notestakeholdershapeFrom.GongCopyBasicFields(notestakeholdershapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if notestakeholdershapeFrom.Note != nil {
-		notestakeholdershapeTo.Note = CopyBranchNote(mapOrigCopy, notestakeholdershapeFrom.Note)
+		notestakeholdershapeTo.Note = GongCopyBranchNote(mapOrigCopy, notestakeholdershapeFrom.Note)
 	}
 	if notestakeholdershapeFrom.Stakeholder != nil {
-		notestakeholdershapeTo.Stakeholder = CopyBranchStakeholder(mapOrigCopy, notestakeholdershapeFrom.Stakeholder)
+		notestakeholdershapeTo.Stakeholder = GongCopyBranchStakeholder(mapOrigCopy, notestakeholdershapeFrom.Stakeholder)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range notestakeholdershapeFrom.ControlPointShapes {
-		notestakeholdershapeTo.ControlPointShapes = append(notestakeholdershapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+		notestakeholdershapeTo.ControlPointShapes = append(notestakeholdershapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
 	}
 
 	return
 }
 
-func CopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *NoteTaskShape) (notetaskshapeTo *NoteTaskShape) {
+func GongCopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *NoteTaskShape) (notetaskshapeTo *NoteTaskShape) {
 
 	// notetaskshapeFrom has already been copied
 	if _notetaskshapeTo, ok := mapOrigCopy[notetaskshapeFrom]; ok {
@@ -1951,25 +1850,25 @@ func CopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *NoteTas
 
 	notetaskshapeTo = new(NoteTaskShape)
 	mapOrigCopy[notetaskshapeFrom] = notetaskshapeTo
-	notetaskshapeFrom.CopyBasicFields(notetaskshapeTo)
+	notetaskshapeFrom.GongCopyBasicFields(notetaskshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if notetaskshapeFrom.Note != nil {
-		notetaskshapeTo.Note = CopyBranchNote(mapOrigCopy, notetaskshapeFrom.Note)
+		notetaskshapeTo.Note = GongCopyBranchNote(mapOrigCopy, notetaskshapeFrom.Note)
 	}
 	if notetaskshapeFrom.Task != nil {
-		notetaskshapeTo.Task = CopyBranchConcern(mapOrigCopy, notetaskshapeFrom.Task)
+		notetaskshapeTo.Task = GongCopyBranchConcern(mapOrigCopy, notetaskshapeFrom.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range notetaskshapeFrom.ControlPointShapes {
-		notetaskshapeTo.ControlPointShapes = append(notetaskshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+		notetaskshapeTo.ControlPointShapes = append(notetaskshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
 	}
 
 	return
 }
 
-func CopyBranchRequirement(mapOrigCopy map[any]any, requirementFrom *Requirement) (requirementTo *Requirement) {
+func GongCopyBranchRequirement(mapOrigCopy map[any]any, requirementFrom *Requirement) (requirementTo *Requirement) {
 
 	// requirementFrom has already been copied
 	if _requirementTo, ok := mapOrigCopy[requirementFrom]; ok {
@@ -1979,22 +1878,22 @@ func CopyBranchRequirement(mapOrigCopy map[any]any, requirementFrom *Requirement
 
 	requirementTo = new(Requirement)
 	mapOrigCopy[requirementFrom] = requirementTo
-	requirementFrom.CopyBasicFields(requirementTo)
+	requirementFrom.GongCopyBasicFields(requirementTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _supportlevel := range requirementFrom.SupportLevels {
-		requirementTo.SupportLevels = append(requirementTo.SupportLevels, CopyBranchSupportLevel(mapOrigCopy, _supportlevel))
+		requirementTo.SupportLevels = append(requirementTo.SupportLevels, GongCopyBranchSupportLevel(mapOrigCopy, _supportlevel))
 	}
 	for _, _concept := range requirementFrom.Concepts {
-		requirementTo.Concepts = append(requirementTo.Concepts, CopyBranchConcept(mapOrigCopy, _concept))
+		requirementTo.Concepts = append(requirementTo.Concepts, GongCopyBranchConcept(mapOrigCopy, _concept))
 	}
 
 	return
 }
 
-func CopyBranchRequirementShape(mapOrigCopy map[any]any, requirementshapeFrom *RequirementShape) (requirementshapeTo *RequirementShape) {
+func GongCopyBranchRequirementShape(mapOrigCopy map[any]any, requirementshapeFrom *RequirementShape) (requirementshapeTo *RequirementShape) {
 
 	// requirementshapeFrom has already been copied
 	if _requirementshapeTo, ok := mapOrigCopy[requirementshapeFrom]; ok {
@@ -2004,11 +1903,11 @@ func CopyBranchRequirementShape(mapOrigCopy map[any]any, requirementshapeFrom *R
 
 	requirementshapeTo = new(RequirementShape)
 	mapOrigCopy[requirementshapeFrom] = requirementshapeTo
-	requirementshapeFrom.CopyBasicFields(requirementshapeTo)
+	requirementshapeFrom.GongCopyBasicFields(requirementshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if requirementshapeFrom.Requirement != nil {
-		requirementshapeTo.Requirement = CopyBranchRequirement(mapOrigCopy, requirementshapeFrom.Requirement)
+		requirementshapeTo.Requirement = GongCopyBranchRequirement(mapOrigCopy, requirementshapeFrom.Requirement)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2016,7 +1915,7 @@ func CopyBranchRequirementShape(mapOrigCopy map[any]any, requirementshapeFrom *R
 	return
 }
 
-func CopyBranchStakeholder(mapOrigCopy map[any]any, stakeholderFrom *Stakeholder) (stakeholderTo *Stakeholder) {
+func GongCopyBranchStakeholder(mapOrigCopy map[any]any, stakeholderFrom *Stakeholder) (stakeholderTo *Stakeholder) {
 
 	// stakeholderFrom has already been copied
 	if _stakeholderTo, ok := mapOrigCopy[stakeholderFrom]; ok {
@@ -2026,22 +1925,22 @@ func CopyBranchStakeholder(mapOrigCopy map[any]any, stakeholderFrom *Stakeholder
 
 	stakeholderTo = new(Stakeholder)
 	mapOrigCopy[stakeholderFrom] = stakeholderTo
-	stakeholderFrom.CopyBasicFields(stakeholderTo)
+	stakeholderFrom.GongCopyBasicFields(stakeholderTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _concern := range stakeholderFrom.Concerns {
-		stakeholderTo.Concerns = append(stakeholderTo.Concerns, CopyBranchConcern(mapOrigCopy, _concern))
+		stakeholderTo.Concerns = append(stakeholderTo.Concerns, GongCopyBranchConcern(mapOrigCopy, _concern))
 	}
 	for _, _stakeholder := range stakeholderFrom.SubStakeholders {
-		stakeholderTo.SubStakeholders = append(stakeholderTo.SubStakeholders, CopyBranchStakeholder(mapOrigCopy, _stakeholder))
+		stakeholderTo.SubStakeholders = append(stakeholderTo.SubStakeholders, GongCopyBranchStakeholder(mapOrigCopy, _stakeholder))
 	}
 
 	return
 }
 
-func CopyBranchStakeholderCompositionShape(mapOrigCopy map[any]any, stakeholdercompositionshapeFrom *StakeholderCompositionShape) (stakeholdercompositionshapeTo *StakeholderCompositionShape) {
+func GongCopyBranchStakeholderCompositionShape(mapOrigCopy map[any]any, stakeholdercompositionshapeFrom *StakeholderCompositionShape) (stakeholdercompositionshapeTo *StakeholderCompositionShape) {
 
 	// stakeholdercompositionshapeFrom has already been copied
 	if _stakeholdercompositionshapeTo, ok := mapOrigCopy[stakeholdercompositionshapeFrom]; ok {
@@ -2051,22 +1950,22 @@ func CopyBranchStakeholderCompositionShape(mapOrigCopy map[any]any, stakeholderc
 
 	stakeholdercompositionshapeTo = new(StakeholderCompositionShape)
 	mapOrigCopy[stakeholdercompositionshapeFrom] = stakeholdercompositionshapeTo
-	stakeholdercompositionshapeFrom.CopyBasicFields(stakeholdercompositionshapeTo)
+	stakeholdercompositionshapeFrom.GongCopyBasicFields(stakeholdercompositionshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if stakeholdercompositionshapeFrom.Stakeholder != nil {
-		stakeholdercompositionshapeTo.Stakeholder = CopyBranchStakeholder(mapOrigCopy, stakeholdercompositionshapeFrom.Stakeholder)
+		stakeholdercompositionshapeTo.Stakeholder = GongCopyBranchStakeholder(mapOrigCopy, stakeholdercompositionshapeFrom.Stakeholder)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range stakeholdercompositionshapeFrom.ControlPointShapes {
-		stakeholdercompositionshapeTo.ControlPointShapes = append(stakeholdercompositionshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+		stakeholdercompositionshapeTo.ControlPointShapes = append(stakeholdercompositionshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
 	}
 
 	return
 }
 
-func CopyBranchStakeholderConcernShape(mapOrigCopy map[any]any, stakeholderconcernshapeFrom *StakeholderConcernShape) (stakeholderconcernshapeTo *StakeholderConcernShape) {
+func GongCopyBranchStakeholderConcernShape(mapOrigCopy map[any]any, stakeholderconcernshapeFrom *StakeholderConcernShape) (stakeholderconcernshapeTo *StakeholderConcernShape) {
 
 	// stakeholderconcernshapeFrom has already been copied
 	if _stakeholderconcernshapeTo, ok := mapOrigCopy[stakeholderconcernshapeFrom]; ok {
@@ -2076,25 +1975,25 @@ func CopyBranchStakeholderConcernShape(mapOrigCopy map[any]any, stakeholderconce
 
 	stakeholderconcernshapeTo = new(StakeholderConcernShape)
 	mapOrigCopy[stakeholderconcernshapeFrom] = stakeholderconcernshapeTo
-	stakeholderconcernshapeFrom.CopyBasicFields(stakeholderconcernshapeTo)
+	stakeholderconcernshapeFrom.GongCopyBasicFields(stakeholderconcernshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if stakeholderconcernshapeFrom.Stakeholder != nil {
-		stakeholderconcernshapeTo.Stakeholder = CopyBranchStakeholder(mapOrigCopy, stakeholderconcernshapeFrom.Stakeholder)
+		stakeholderconcernshapeTo.Stakeholder = GongCopyBranchStakeholder(mapOrigCopy, stakeholderconcernshapeFrom.Stakeholder)
 	}
 	if stakeholderconcernshapeFrom.Concern != nil {
-		stakeholderconcernshapeTo.Concern = CopyBranchConcern(mapOrigCopy, stakeholderconcernshapeFrom.Concern)
+		stakeholderconcernshapeTo.Concern = GongCopyBranchConcern(mapOrigCopy, stakeholderconcernshapeFrom.Concern)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range stakeholderconcernshapeFrom.ControlPointShapes {
-		stakeholderconcernshapeTo.ControlPointShapes = append(stakeholderconcernshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+		stakeholderconcernshapeTo.ControlPointShapes = append(stakeholderconcernshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
 	}
 
 	return
 }
 
-func CopyBranchStakeholderShape(mapOrigCopy map[any]any, stakeholdershapeFrom *StakeholderShape) (stakeholdershapeTo *StakeholderShape) {
+func GongCopyBranchStakeholderShape(mapOrigCopy map[any]any, stakeholdershapeFrom *StakeholderShape) (stakeholdershapeTo *StakeholderShape) {
 
 	// stakeholdershapeFrom has already been copied
 	if _stakeholdershapeTo, ok := mapOrigCopy[stakeholdershapeFrom]; ok {
@@ -2104,11 +2003,11 @@ func CopyBranchStakeholderShape(mapOrigCopy map[any]any, stakeholdershapeFrom *S
 
 	stakeholdershapeTo = new(StakeholderShape)
 	mapOrigCopy[stakeholdershapeFrom] = stakeholdershapeTo
-	stakeholdershapeFrom.CopyBasicFields(stakeholdershapeTo)
+	stakeholdershapeFrom.GongCopyBasicFields(stakeholdershapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if stakeholdershapeFrom.Stakeholder != nil {
-		stakeholdershapeTo.Stakeholder = CopyBranchStakeholder(mapOrigCopy, stakeholdershapeFrom.Stakeholder)
+		stakeholdershapeTo.Stakeholder = GongCopyBranchStakeholder(mapOrigCopy, stakeholdershapeFrom.Stakeholder)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2116,7 +2015,7 @@ func CopyBranchStakeholderShape(mapOrigCopy map[any]any, stakeholdershapeFrom *S
 	return
 }
 
-func CopyBranchSupportLevel(mapOrigCopy map[any]any, supportlevelFrom *SupportLevel) (supportlevelTo *SupportLevel) {
+func GongCopyBranchSupportLevel(mapOrigCopy map[any]any, supportlevelFrom *SupportLevel) (supportlevelTo *SupportLevel) {
 
 	// supportlevelFrom has already been copied
 	if _supportlevelTo, ok := mapOrigCopy[supportlevelFrom]; ok {
@@ -2126,11 +2025,11 @@ func CopyBranchSupportLevel(mapOrigCopy map[any]any, supportlevelFrom *SupportLe
 
 	supportlevelTo = new(SupportLevel)
 	mapOrigCopy[supportlevelFrom] = supportlevelTo
-	supportlevelFrom.CopyBasicFields(supportlevelTo)
+	supportlevelFrom.GongCopyBasicFields(supportlevelTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if supportlevelFrom.Tool != nil {
-		supportlevelTo.Tool = CopyBranchTool(mapOrigCopy, supportlevelFrom.Tool)
+		supportlevelTo.Tool = GongCopyBranchTool(mapOrigCopy, supportlevelFrom.Tool)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2138,7 +2037,7 @@ func CopyBranchSupportLevel(mapOrigCopy map[any]any, supportlevelFrom *SupportLe
 	return
 }
 
-func CopyBranchTool(mapOrigCopy map[any]any, toolFrom *Tool) (toolTo *Tool) {
+func GongCopyBranchTool(mapOrigCopy map[any]any, toolFrom *Tool) (toolTo *Tool) {
 
 	// toolFrom has already been copied
 	if _toolTo, ok := mapOrigCopy[toolFrom]; ok {
@@ -2148,7 +2047,7 @@ func CopyBranchTool(mapOrigCopy map[any]any, toolFrom *Tool) (toolTo *Tool) {
 
 	toolTo = new(Tool)
 	mapOrigCopy[toolFrom] = toolTo
-	toolFrom.CopyBasicFields(toolTo)
+	toolFrom.GongCopyBasicFields(toolTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -2258,16 +2157,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchAnalysisNeed(analysisneed *AnalysisNeed) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, analysisneed) {
+	if !stage.IsStaged(analysisneed) {
 		return
 	}
 
@@ -2282,7 +2176,7 @@ func (stage *Stage) UnstageBranchAnalysisNeed(analysisneed *AnalysisNeed) {
 func (stage *Stage) UnstageBranchConcept(concept *Concept) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, concept) {
+	if !stage.IsStaged(concept) {
 		return
 	}
 
@@ -2292,7 +2186,7 @@ func (stage *Stage) UnstageBranchConcept(concept *Concept) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tool := range concept.Tools {
-		UnstageBranch(stage, _tool)
+		stage.UnstageBranch(_tool)
 	}
 
 }
@@ -2300,7 +2194,7 @@ func (stage *Stage) UnstageBranchConcept(concept *Concept) {
 func (stage *Stage) UnstageBranchConceptShape(conceptshape *ConceptShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, conceptshape) {
+	if !stage.IsStaged(conceptshape) {
 		return
 	}
 
@@ -2308,7 +2202,7 @@ func (stage *Stage) UnstageBranchConceptShape(conceptshape *ConceptShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if conceptshape.Concept != nil {
-		UnstageBranch(stage, conceptshape.Concept)
+		stage.UnstageBranch(conceptshape.Concept)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2318,7 +2212,7 @@ func (stage *Stage) UnstageBranchConceptShape(conceptshape *ConceptShape) {
 func (stage *Stage) UnstageBranchConcern(concern *Concern) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, concern) {
+	if !stage.IsStaged(concern) {
 		return
 	}
 
@@ -2328,16 +2222,16 @@ func (stage *Stage) UnstageBranchConcern(concern *Concern) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _concern := range concern.SubConcerns {
-		UnstageBranch(stage, _concern)
+		stage.UnstageBranch(_concern)
 	}
 	for _, _deliverable := range concern.Inputs {
-		UnstageBranch(stage, _deliverable)
+		stage.UnstageBranch(_deliverable)
 	}
 	for _, _deliverable := range concern.Outputs {
-		UnstageBranch(stage, _deliverable)
+		stage.UnstageBranch(_deliverable)
 	}
 	for _, _requirement := range concern.Requirements {
-		UnstageBranch(stage, _requirement)
+		stage.UnstageBranch(_requirement)
 	}
 
 }
@@ -2345,7 +2239,7 @@ func (stage *Stage) UnstageBranchConcern(concern *Concern) {
 func (stage *Stage) UnstageBranchConcernCompositionShape(concerncompositionshape *ConcernCompositionShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, concerncompositionshape) {
+	if !stage.IsStaged(concerncompositionshape) {
 		return
 	}
 
@@ -2353,12 +2247,12 @@ func (stage *Stage) UnstageBranchConcernCompositionShape(concerncompositionshape
 
 	//insertion point for the staging of instances referenced by pointers
 	if concerncompositionshape.Concern != nil {
-		UnstageBranch(stage, concerncompositionshape.Concern)
+		stage.UnstageBranch(concerncompositionshape.Concern)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range concerncompositionshape.ControlPointShapes {
-		UnstageBranch(stage, _controlpointshape)
+		stage.UnstageBranch(_controlpointshape)
 	}
 
 }
@@ -2366,7 +2260,7 @@ func (stage *Stage) UnstageBranchConcernCompositionShape(concerncompositionshape
 func (stage *Stage) UnstageBranchConcernInputShape(concerninputshape *ConcernInputShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, concerninputshape) {
+	if !stage.IsStaged(concerninputshape) {
 		return
 	}
 
@@ -2374,15 +2268,15 @@ func (stage *Stage) UnstageBranchConcernInputShape(concerninputshape *ConcernInp
 
 	//insertion point for the staging of instances referenced by pointers
 	if concerninputshape.Deliverable != nil {
-		UnstageBranch(stage, concerninputshape.Deliverable)
+		stage.UnstageBranch(concerninputshape.Deliverable)
 	}
 	if concerninputshape.Concern != nil {
-		UnstageBranch(stage, concerninputshape.Concern)
+		stage.UnstageBranch(concerninputshape.Concern)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range concerninputshape.ControlPointShapes {
-		UnstageBranch(stage, _controlpointshape)
+		stage.UnstageBranch(_controlpointshape)
 	}
 
 }
@@ -2390,7 +2284,7 @@ func (stage *Stage) UnstageBranchConcernInputShape(concerninputshape *ConcernInp
 func (stage *Stage) UnstageBranchConcernOutputShape(concernoutputshape *ConcernOutputShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, concernoutputshape) {
+	if !stage.IsStaged(concernoutputshape) {
 		return
 	}
 
@@ -2398,15 +2292,15 @@ func (stage *Stage) UnstageBranchConcernOutputShape(concernoutputshape *ConcernO
 
 	//insertion point for the staging of instances referenced by pointers
 	if concernoutputshape.Concern != nil {
-		UnstageBranch(stage, concernoutputshape.Concern)
+		stage.UnstageBranch(concernoutputshape.Concern)
 	}
 	if concernoutputshape.Deliverable != nil {
-		UnstageBranch(stage, concernoutputshape.Deliverable)
+		stage.UnstageBranch(concernoutputshape.Deliverable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range concernoutputshape.ControlPointShapes {
-		UnstageBranch(stage, _controlpointshape)
+		stage.UnstageBranch(_controlpointshape)
 	}
 
 }
@@ -2414,7 +2308,7 @@ func (stage *Stage) UnstageBranchConcernOutputShape(concernoutputshape *ConcernO
 func (stage *Stage) UnstageBranchConcernShape(concernshape *ConcernShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, concernshape) {
+	if !stage.IsStaged(concernshape) {
 		return
 	}
 
@@ -2422,7 +2316,7 @@ func (stage *Stage) UnstageBranchConcernShape(concernshape *ConcernShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if concernshape.Concern != nil {
-		UnstageBranch(stage, concernshape.Concern)
+		stage.UnstageBranch(concernshape.Concern)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2432,7 +2326,7 @@ func (stage *Stage) UnstageBranchConcernShape(concernshape *ConcernShape) {
 func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPointShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, controlpointshape) {
+	if !stage.IsStaged(controlpointshape) {
 		return
 	}
 
@@ -2447,7 +2341,7 @@ func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPoi
 func (stage *Stage) UnstageBranchDeliverable(deliverable *Deliverable) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, deliverable) {
+	if !stage.IsStaged(deliverable) {
 		return
 	}
 
@@ -2457,10 +2351,10 @@ func (stage *Stage) UnstageBranchDeliverable(deliverable *Deliverable) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _deliverable := range deliverable.SubDeliverables {
-		UnstageBranch(stage, _deliverable)
+		stage.UnstageBranch(_deliverable)
 	}
 	for _, _concept := range deliverable.Concepts {
-		UnstageBranch(stage, _concept)
+		stage.UnstageBranch(_concept)
 	}
 
 }
@@ -2468,7 +2362,7 @@ func (stage *Stage) UnstageBranchDeliverable(deliverable *Deliverable) {
 func (stage *Stage) UnstageBranchDeliverableCompositionShape(deliverablecompositionshape *DeliverableCompositionShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, deliverablecompositionshape) {
+	if !stage.IsStaged(deliverablecompositionshape) {
 		return
 	}
 
@@ -2476,12 +2370,12 @@ func (stage *Stage) UnstageBranchDeliverableCompositionShape(deliverablecomposit
 
 	//insertion point for the staging of instances referenced by pointers
 	if deliverablecompositionshape.Deliverable != nil {
-		UnstageBranch(stage, deliverablecompositionshape.Deliverable)
+		stage.UnstageBranch(deliverablecompositionshape.Deliverable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range deliverablecompositionshape.ControlPointShapes {
-		UnstageBranch(stage, _controlpointshape)
+		stage.UnstageBranch(_controlpointshape)
 	}
 
 }
@@ -2489,7 +2383,7 @@ func (stage *Stage) UnstageBranchDeliverableCompositionShape(deliverablecomposit
 func (stage *Stage) UnstageBranchDeliverableConceptShape(deliverableconceptshape *DeliverableConceptShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, deliverableconceptshape) {
+	if !stage.IsStaged(deliverableconceptshape) {
 		return
 	}
 
@@ -2497,15 +2391,15 @@ func (stage *Stage) UnstageBranchDeliverableConceptShape(deliverableconceptshape
 
 	//insertion point for the staging of instances referenced by pointers
 	if deliverableconceptshape.Deliverable != nil {
-		UnstageBranch(stage, deliverableconceptshape.Deliverable)
+		stage.UnstageBranch(deliverableconceptshape.Deliverable)
 	}
 	if deliverableconceptshape.Concept != nil {
-		UnstageBranch(stage, deliverableconceptshape.Concept)
+		stage.UnstageBranch(deliverableconceptshape.Concept)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range deliverableconceptshape.ControlPointShapes {
-		UnstageBranch(stage, _controlpointshape)
+		stage.UnstageBranch(_controlpointshape)
 	}
 
 }
@@ -2513,7 +2407,7 @@ func (stage *Stage) UnstageBranchDeliverableConceptShape(deliverableconceptshape
 func (stage *Stage) UnstageBranchDeliverableShape(deliverableshape *DeliverableShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, deliverableshape) {
+	if !stage.IsStaged(deliverableshape) {
 		return
 	}
 
@@ -2521,7 +2415,7 @@ func (stage *Stage) UnstageBranchDeliverableShape(deliverableshape *DeliverableS
 
 	//insertion point for the staging of instances referenced by pointers
 	if deliverableshape.Deliverable != nil {
-		UnstageBranch(stage, deliverableshape.Deliverable)
+		stage.UnstageBranch(deliverableshape.Deliverable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2531,7 +2425,7 @@ func (stage *Stage) UnstageBranchDeliverableShape(deliverableshape *DeliverableS
 func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, diagram) {
+	if !stage.IsStaged(diagram) {
 		return
 	}
 
@@ -2541,94 +2435,94 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _concern := range diagram.ConcernsWhoseRequirementsNodeIsExpanded {
-		UnstageBranch(stage, _concern)
+		stage.UnstageBranch(_concern)
 	}
 	for _, _deliverableshape := range diagram.Deliverable_Shapes {
-		UnstageBranch(stage, _deliverableshape)
+		stage.UnstageBranch(_deliverableshape)
 	}
 	for _, _deliverable := range diagram.DeliverablesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _deliverable)
+		stage.UnstageBranch(_deliverable)
 	}
 	for _, _deliverable := range diagram.DeliverablesWhoseConceptsNodeIsExpanded {
-		UnstageBranch(stage, _deliverable)
+		stage.UnstageBranch(_deliverable)
 	}
 	for _, _deliverablecompositionshape := range diagram.DeliverableComposition_Shapes {
-		UnstageBranch(stage, _deliverablecompositionshape)
+		stage.UnstageBranch(_deliverablecompositionshape)
 	}
 	for _, _concernshape := range diagram.Concern_Shapes {
-		UnstageBranch(stage, _concernshape)
+		stage.UnstageBranch(_concernshape)
 	}
 	for _, _concern := range diagram.ConcernsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _concern)
+		stage.UnstageBranch(_concern)
 	}
 	for _, _concern := range diagram.ConcernsWhoseInputNodeIsExpanded {
-		UnstageBranch(stage, _concern)
+		stage.UnstageBranch(_concern)
 	}
 	for _, _concern := range diagram.ConcernsWhoseStakeholderNodeIsExpanded {
-		UnstageBranch(stage, _concern)
+		stage.UnstageBranch(_concern)
 	}
 	for _, _concern := range diagram.ConcernssWhoseOutputNodeIsExpanded {
-		UnstageBranch(stage, _concern)
+		stage.UnstageBranch(_concern)
 	}
 	for _, _concerncompositionshape := range diagram.ConcernComposition_Shapes {
-		UnstageBranch(stage, _concerncompositionshape)
+		stage.UnstageBranch(_concerncompositionshape)
 	}
 	for _, _concerninputshape := range diagram.ConcernInputShapes {
-		UnstageBranch(stage, _concerninputshape)
+		stage.UnstageBranch(_concerninputshape)
 	}
 	for _, _concernoutputshape := range diagram.ConcernOutputShapes {
-		UnstageBranch(stage, _concernoutputshape)
+		stage.UnstageBranch(_concernoutputshape)
 	}
 	for _, _noteshape := range diagram.Note_Shapes {
-		UnstageBranch(stage, _noteshape)
+		stage.UnstageBranch(_noteshape)
 	}
 	for _, _note := range diagram.NotesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _note)
+		stage.UnstageBranch(_note)
 	}
 	for _, _notedeliverableshape := range diagram.NoteDeliverableShapes {
-		UnstageBranch(stage, _notedeliverableshape)
+		stage.UnstageBranch(_notedeliverableshape)
 	}
 	for _, _notetaskshape := range diagram.NoteTaskShapes {
-		UnstageBranch(stage, _notetaskshape)
+		stage.UnstageBranch(_notetaskshape)
 	}
 	for _, _notestakeholdershape := range diagram.NoteResourceShapes {
-		UnstageBranch(stage, _notestakeholdershape)
+		stage.UnstageBranch(_notestakeholdershape)
 	}
 	for _, _stakeholdershape := range diagram.Stakeholder_Shapes {
-		UnstageBranch(stage, _stakeholdershape)
+		stage.UnstageBranch(_stakeholdershape)
 	}
 	for _, _stakeholder := range diagram.ResourcesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _stakeholder)
+		stage.UnstageBranch(_stakeholder)
 	}
 	for _, _stakeholdercompositionshape := range diagram.ResourceComposition_Shapes {
-		UnstageBranch(stage, _stakeholdercompositionshape)
+		stage.UnstageBranch(_stakeholdercompositionshape)
 	}
 	for _, _stakeholderconcernshape := range diagram.StakeholderConcernShapes {
-		UnstageBranch(stage, _stakeholderconcernshape)
+		stage.UnstageBranch(_stakeholderconcernshape)
 	}
 	for _, _requirementshape := range diagram.Requirement_Shapes {
-		UnstageBranch(stage, _requirementshape)
+		stage.UnstageBranch(_requirementshape)
 	}
 	for _, _requirement := range diagram.RequirementsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _requirement)
+		stage.UnstageBranch(_requirement)
 	}
 	for _, _conceptshape := range diagram.Concept_Shapes {
-		UnstageBranch(stage, _conceptshape)
+		stage.UnstageBranch(_conceptshape)
 	}
 	for _, _concept := range diagram.ConceptsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _concept)
+		stage.UnstageBranch(_concept)
 	}
 	for _, _concept := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
-		UnstageBranch(stage, _concept)
+		stage.UnstageBranch(_concept)
 	}
 	for _, _deliverableconceptshape := range diagram.DeliverableConceptShapes {
-		UnstageBranch(stage, _deliverableconceptshape)
+		stage.UnstageBranch(_deliverableconceptshape)
 	}
 	for _, _diagramshape := range diagram.Diagram_Shapes {
-		UnstageBranch(stage, _diagramshape)
+		stage.UnstageBranch(_diagramshape)
 	}
 	for _, _diagram := range diagram.DiagramsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _diagram)
+		stage.UnstageBranch(_diagram)
 	}
 
 }
@@ -2636,7 +2530,7 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 func (stage *Stage) UnstageBranchDiagramShape(diagramshape *DiagramShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, diagramshape) {
+	if !stage.IsStaged(diagramshape) {
 		return
 	}
 
@@ -2644,7 +2538,7 @@ func (stage *Stage) UnstageBranchDiagramShape(diagramshape *DiagramShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if diagramshape.Diagram != nil {
-		UnstageBranch(stage, diagramshape.Diagram)
+		stage.UnstageBranch(diagramshape.Diagram)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2654,7 +2548,7 @@ func (stage *Stage) UnstageBranchDiagramShape(diagramshape *DiagramShape) {
 func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, library) {
+	if !stage.IsStaged(library) {
 		return
 	}
 
@@ -2664,31 +2558,31 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _deliverable := range library.RootDeliverables {
-		UnstageBranch(stage, _deliverable)
+		stage.UnstageBranch(_deliverable)
 	}
 	for _, _concern := range library.RootConcerns {
-		UnstageBranch(stage, _concern)
+		stage.UnstageBranch(_concern)
 	}
 	for _, _stakeholder := range library.RootStakeholders {
-		UnstageBranch(stage, _stakeholder)
+		stage.UnstageBranch(_stakeholder)
 	}
 	for _, _requirement := range library.RootRequirements {
-		UnstageBranch(stage, _requirement)
+		stage.UnstageBranch(_requirement)
 	}
 	for _, _concept := range library.RootConcepts {
-		UnstageBranch(stage, _concept)
+		stage.UnstageBranch(_concept)
 	}
 	for _, _analysisneed := range library.AnalysisNeeds {
-		UnstageBranch(stage, _analysisneed)
+		stage.UnstageBranch(_analysisneed)
 	}
 	for _, _note := range library.Notes {
-		UnstageBranch(stage, _note)
+		stage.UnstageBranch(_note)
 	}
 	for _, _diagram := range library.Diagrams {
-		UnstageBranch(stage, _diagram)
+		stage.UnstageBranch(_diagram)
 	}
 	for _, _library := range library.SubLibraries {
-		UnstageBranch(stage, _library)
+		stage.UnstageBranch(_library)
 	}
 
 }
@@ -2696,7 +2590,7 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, note) {
+	if !stage.IsStaged(note) {
 		return
 	}
 
@@ -2706,13 +2600,13 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _deliverable := range note.Deliverables {
-		UnstageBranch(stage, _deliverable)
+		stage.UnstageBranch(_deliverable)
 	}
 	for _, _concern := range note.Tasks {
-		UnstageBranch(stage, _concern)
+		stage.UnstageBranch(_concern)
 	}
 	for _, _stakeholder := range note.Resources {
-		UnstageBranch(stage, _stakeholder)
+		stage.UnstageBranch(_stakeholder)
 	}
 
 }
@@ -2720,7 +2614,7 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 func (stage *Stage) UnstageBranchNoteDeliverableShape(notedeliverableshape *NoteDeliverableShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, notedeliverableshape) {
+	if !stage.IsStaged(notedeliverableshape) {
 		return
 	}
 
@@ -2728,15 +2622,15 @@ func (stage *Stage) UnstageBranchNoteDeliverableShape(notedeliverableshape *Note
 
 	//insertion point for the staging of instances referenced by pointers
 	if notedeliverableshape.Note != nil {
-		UnstageBranch(stage, notedeliverableshape.Note)
+		stage.UnstageBranch(notedeliverableshape.Note)
 	}
 	if notedeliverableshape.Deliverable != nil {
-		UnstageBranch(stage, notedeliverableshape.Deliverable)
+		stage.UnstageBranch(notedeliverableshape.Deliverable)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range notedeliverableshape.ControlPointShapes {
-		UnstageBranch(stage, _controlpointshape)
+		stage.UnstageBranch(_controlpointshape)
 	}
 
 }
@@ -2744,7 +2638,7 @@ func (stage *Stage) UnstageBranchNoteDeliverableShape(notedeliverableshape *Note
 func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, noteshape) {
+	if !stage.IsStaged(noteshape) {
 		return
 	}
 
@@ -2752,7 +2646,7 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshape.Note != nil {
-		UnstageBranch(stage, noteshape.Note)
+		stage.UnstageBranch(noteshape.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2762,7 +2656,7 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 func (stage *Stage) UnstageBranchNoteStakeholderShape(notestakeholdershape *NoteStakeholderShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, notestakeholdershape) {
+	if !stage.IsStaged(notestakeholdershape) {
 		return
 	}
 
@@ -2770,15 +2664,15 @@ func (stage *Stage) UnstageBranchNoteStakeholderShape(notestakeholdershape *Note
 
 	//insertion point for the staging of instances referenced by pointers
 	if notestakeholdershape.Note != nil {
-		UnstageBranch(stage, notestakeholdershape.Note)
+		stage.UnstageBranch(notestakeholdershape.Note)
 	}
 	if notestakeholdershape.Stakeholder != nil {
-		UnstageBranch(stage, notestakeholdershape.Stakeholder)
+		stage.UnstageBranch(notestakeholdershape.Stakeholder)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range notestakeholdershape.ControlPointShapes {
-		UnstageBranch(stage, _controlpointshape)
+		stage.UnstageBranch(_controlpointshape)
 	}
 
 }
@@ -2786,7 +2680,7 @@ func (stage *Stage) UnstageBranchNoteStakeholderShape(notestakeholdershape *Note
 func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, notetaskshape) {
+	if !stage.IsStaged(notetaskshape) {
 		return
 	}
 
@@ -2794,15 +2688,15 @@ func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if notetaskshape.Note != nil {
-		UnstageBranch(stage, notetaskshape.Note)
+		stage.UnstageBranch(notetaskshape.Note)
 	}
 	if notetaskshape.Task != nil {
-		UnstageBranch(stage, notetaskshape.Task)
+		stage.UnstageBranch(notetaskshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range notetaskshape.ControlPointShapes {
-		UnstageBranch(stage, _controlpointshape)
+		stage.UnstageBranch(_controlpointshape)
 	}
 
 }
@@ -2810,7 +2704,7 @@ func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 func (stage *Stage) UnstageBranchRequirement(requirement *Requirement) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, requirement) {
+	if !stage.IsStaged(requirement) {
 		return
 	}
 
@@ -2820,10 +2714,10 @@ func (stage *Stage) UnstageBranchRequirement(requirement *Requirement) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _supportlevel := range requirement.SupportLevels {
-		UnstageBranch(stage, _supportlevel)
+		stage.UnstageBranch(_supportlevel)
 	}
 	for _, _concept := range requirement.Concepts {
-		UnstageBranch(stage, _concept)
+		stage.UnstageBranch(_concept)
 	}
 
 }
@@ -2831,7 +2725,7 @@ func (stage *Stage) UnstageBranchRequirement(requirement *Requirement) {
 func (stage *Stage) UnstageBranchRequirementShape(requirementshape *RequirementShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, requirementshape) {
+	if !stage.IsStaged(requirementshape) {
 		return
 	}
 
@@ -2839,7 +2733,7 @@ func (stage *Stage) UnstageBranchRequirementShape(requirementshape *RequirementS
 
 	//insertion point for the staging of instances referenced by pointers
 	if requirementshape.Requirement != nil {
-		UnstageBranch(stage, requirementshape.Requirement)
+		stage.UnstageBranch(requirementshape.Requirement)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2849,7 +2743,7 @@ func (stage *Stage) UnstageBranchRequirementShape(requirementshape *RequirementS
 func (stage *Stage) UnstageBranchStakeholder(stakeholder *Stakeholder) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, stakeholder) {
+	if !stage.IsStaged(stakeholder) {
 		return
 	}
 
@@ -2859,10 +2753,10 @@ func (stage *Stage) UnstageBranchStakeholder(stakeholder *Stakeholder) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _concern := range stakeholder.Concerns {
-		UnstageBranch(stage, _concern)
+		stage.UnstageBranch(_concern)
 	}
 	for _, _stakeholder := range stakeholder.SubStakeholders {
-		UnstageBranch(stage, _stakeholder)
+		stage.UnstageBranch(_stakeholder)
 	}
 
 }
@@ -2870,7 +2764,7 @@ func (stage *Stage) UnstageBranchStakeholder(stakeholder *Stakeholder) {
 func (stage *Stage) UnstageBranchStakeholderCompositionShape(stakeholdercompositionshape *StakeholderCompositionShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, stakeholdercompositionshape) {
+	if !stage.IsStaged(stakeholdercompositionshape) {
 		return
 	}
 
@@ -2878,12 +2772,12 @@ func (stage *Stage) UnstageBranchStakeholderCompositionShape(stakeholdercomposit
 
 	//insertion point for the staging of instances referenced by pointers
 	if stakeholdercompositionshape.Stakeholder != nil {
-		UnstageBranch(stage, stakeholdercompositionshape.Stakeholder)
+		stage.UnstageBranch(stakeholdercompositionshape.Stakeholder)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range stakeholdercompositionshape.ControlPointShapes {
-		UnstageBranch(stage, _controlpointshape)
+		stage.UnstageBranch(_controlpointshape)
 	}
 
 }
@@ -2891,7 +2785,7 @@ func (stage *Stage) UnstageBranchStakeholderCompositionShape(stakeholdercomposit
 func (stage *Stage) UnstageBranchStakeholderConcernShape(stakeholderconcernshape *StakeholderConcernShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, stakeholderconcernshape) {
+	if !stage.IsStaged(stakeholderconcernshape) {
 		return
 	}
 
@@ -2899,15 +2793,15 @@ func (stage *Stage) UnstageBranchStakeholderConcernShape(stakeholderconcernshape
 
 	//insertion point for the staging of instances referenced by pointers
 	if stakeholderconcernshape.Stakeholder != nil {
-		UnstageBranch(stage, stakeholderconcernshape.Stakeholder)
+		stage.UnstageBranch(stakeholderconcernshape.Stakeholder)
 	}
 	if stakeholderconcernshape.Concern != nil {
-		UnstageBranch(stage, stakeholderconcernshape.Concern)
+		stage.UnstageBranch(stakeholderconcernshape.Concern)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range stakeholderconcernshape.ControlPointShapes {
-		UnstageBranch(stage, _controlpointshape)
+		stage.UnstageBranch(_controlpointshape)
 	}
 
 }
@@ -2915,7 +2809,7 @@ func (stage *Stage) UnstageBranchStakeholderConcernShape(stakeholderconcernshape
 func (stage *Stage) UnstageBranchStakeholderShape(stakeholdershape *StakeholderShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, stakeholdershape) {
+	if !stage.IsStaged(stakeholdershape) {
 		return
 	}
 
@@ -2923,7 +2817,7 @@ func (stage *Stage) UnstageBranchStakeholderShape(stakeholdershape *StakeholderS
 
 	//insertion point for the staging of instances referenced by pointers
 	if stakeholdershape.Stakeholder != nil {
-		UnstageBranch(stage, stakeholdershape.Stakeholder)
+		stage.UnstageBranch(stakeholdershape.Stakeholder)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2933,7 +2827,7 @@ func (stage *Stage) UnstageBranchStakeholderShape(stakeholdershape *StakeholderS
 func (stage *Stage) UnstageBranchSupportLevel(supportlevel *SupportLevel) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, supportlevel) {
+	if !stage.IsStaged(supportlevel) {
 		return
 	}
 
@@ -2941,7 +2835,7 @@ func (stage *Stage) UnstageBranchSupportLevel(supportlevel *SupportLevel) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if supportlevel.Tool != nil {
-		UnstageBranch(stage, supportlevel.Tool)
+		stage.UnstageBranch(supportlevel.Tool)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2951,7 +2845,7 @@ func (stage *Stage) UnstageBranchSupportLevel(supportlevel *SupportLevel) {
 func (stage *Stage) UnstageBranchTool(tool *Tool) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tool) {
+	if !stage.IsStaged(tool) {
 		return
 	}
 
@@ -4222,7 +4116,7 @@ func (concept *Concept) GongDiff(stage *Stage, conceptOther *Concept) (diffs []s
 		}
 	}
 	if ToolsDifferent {
-		ops := Diff(stage, concept, conceptOther, "Tools", conceptOther.Tools, concept.Tools)
+		ops := stage.Diff(concept, conceptOther, "Tools", conceptOther.Tools, concept.Tools)
 		diffs = append(diffs, ops)
 	}
 
@@ -4305,7 +4199,7 @@ func (concern *Concern) GongDiff(stage *Stage, concernOther *Concern) (diffs []s
 		}
 	}
 	if SubConcernsDifferent {
-		ops := Diff(stage, concern, concernOther, "SubConcerns", concernOther.SubConcerns, concern.SubConcerns)
+		ops := stage.Diff(concern, concernOther, "SubConcerns", concernOther.SubConcerns, concern.SubConcerns)
 		diffs = append(diffs, ops)
 	}
 	InputsDifferent := false
@@ -4326,7 +4220,7 @@ func (concern *Concern) GongDiff(stage *Stage, concernOther *Concern) (diffs []s
 		}
 	}
 	if InputsDifferent {
-		ops := Diff(stage, concern, concernOther, "Inputs", concernOther.Inputs, concern.Inputs)
+		ops := stage.Diff(concern, concernOther, "Inputs", concernOther.Inputs, concern.Inputs)
 		diffs = append(diffs, ops)
 	}
 	if concern.IsInputsNodeExpanded != concernOther.IsInputsNodeExpanded {
@@ -4350,7 +4244,7 @@ func (concern *Concern) GongDiff(stage *Stage, concernOther *Concern) (diffs []s
 		}
 	}
 	if OutputsDifferent {
-		ops := Diff(stage, concern, concernOther, "Outputs", concernOther.Outputs, concern.Outputs)
+		ops := stage.Diff(concern, concernOther, "Outputs", concernOther.Outputs, concern.Outputs)
 		diffs = append(diffs, ops)
 	}
 	if concern.IsOutputsNodeExpanded != concernOther.IsOutputsNodeExpanded {
@@ -4380,7 +4274,7 @@ func (concern *Concern) GongDiff(stage *Stage, concernOther *Concern) (diffs []s
 		}
 	}
 	if RequirementsDifferent {
-		ops := Diff(stage, concern, concernOther, "Requirements", concernOther.Requirements, concern.Requirements)
+		ops := stage.Diff(concern, concernOther, "Requirements", concernOther.Requirements, concern.Requirements)
 		diffs = append(diffs, ops)
 	}
 
@@ -4437,7 +4331,7 @@ func (concerncompositionshape *ConcernCompositionShape) GongDiff(stage *Stage, c
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := Diff(stage, concerncompositionshape, concerncompositionshapeOther, "ControlPointShapes", concerncompositionshapeOther.ControlPointShapes, concerncompositionshape.ControlPointShapes)
+		ops := stage.Diff(concerncompositionshape, concerncompositionshapeOther, "ControlPointShapes", concerncompositionshapeOther.ControlPointShapes, concerncompositionshape.ControlPointShapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -4501,7 +4395,7 @@ func (concerninputshape *ConcernInputShape) GongDiff(stage *Stage, concerninputs
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := Diff(stage, concerninputshape, concerninputshapeOther, "ControlPointShapes", concerninputshapeOther.ControlPointShapes, concerninputshape.ControlPointShapes)
+		ops := stage.Diff(concerninputshape, concerninputshapeOther, "ControlPointShapes", concerninputshapeOther.ControlPointShapes, concerninputshape.ControlPointShapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -4565,7 +4459,7 @@ func (concernoutputshape *ConcernOutputShape) GongDiff(stage *Stage, concernoutp
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := Diff(stage, concernoutputshape, concernoutputshapeOther, "ControlPointShapes", concernoutputshapeOther.ControlPointShapes, concernoutputshape.ControlPointShapes)
+		ops := stage.Diff(concernoutputshape, concernoutputshapeOther, "ControlPointShapes", concernoutputshapeOther.ControlPointShapes, concernoutputshape.ControlPointShapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -4662,7 +4556,7 @@ func (deliverable *Deliverable) GongDiff(stage *Stage, deliverableOther *Deliver
 		}
 	}
 	if SubDeliverablesDifferent {
-		ops := Diff(stage, deliverable, deliverableOther, "SubDeliverables", deliverableOther.SubDeliverables, deliverable.SubDeliverables)
+		ops := stage.Diff(deliverable, deliverableOther, "SubDeliverables", deliverableOther.SubDeliverables, deliverable.SubDeliverables)
 		diffs = append(diffs, ops)
 	}
 	if deliverable.IsProducersNodeExpanded != deliverableOther.IsProducersNodeExpanded {
@@ -4689,7 +4583,7 @@ func (deliverable *Deliverable) GongDiff(stage *Stage, deliverableOther *Deliver
 		}
 	}
 	if ConceptsDifferent {
-		ops := Diff(stage, deliverable, deliverableOther, "Concepts", deliverableOther.Concepts, deliverable.Concepts)
+		ops := stage.Diff(deliverable, deliverableOther, "Concepts", deliverableOther.Concepts, deliverable.Concepts)
 		diffs = append(diffs, ops)
 	}
 
@@ -4746,7 +4640,7 @@ func (deliverablecompositionshape *DeliverableCompositionShape) GongDiff(stage *
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := Diff(stage, deliverablecompositionshape, deliverablecompositionshapeOther, "ControlPointShapes", deliverablecompositionshapeOther.ControlPointShapes, deliverablecompositionshape.ControlPointShapes)
+		ops := stage.Diff(deliverablecompositionshape, deliverablecompositionshapeOther, "ControlPointShapes", deliverablecompositionshapeOther.ControlPointShapes, deliverablecompositionshape.ControlPointShapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -4810,7 +4704,7 @@ func (deliverableconceptshape *DeliverableConceptShape) GongDiff(stage *Stage, d
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := Diff(stage, deliverableconceptshape, deliverableconceptshapeOther, "ControlPointShapes", deliverableconceptshapeOther.ControlPointShapes, deliverableconceptshape.ControlPointShapes)
+		ops := stage.Diff(deliverableconceptshape, deliverableconceptshapeOther, "ControlPointShapes", deliverableconceptshapeOther.ControlPointShapes, deliverableconceptshape.ControlPointShapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -4905,7 +4799,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernsWhoseRequirementsNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ConcernsWhoseRequirementsNodeIsExpanded", diagramOther.ConcernsWhoseRequirementsNodeIsExpanded, diagram.ConcernsWhoseRequirementsNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "ConcernsWhoseRequirementsNodeIsExpanded", diagramOther.ConcernsWhoseRequirementsNodeIsExpanded, diagram.ConcernsWhoseRequirementsNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsRequirementsNodeExpanded != diagramOther.IsRequirementsNodeExpanded {
@@ -4932,7 +4826,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Deliverable_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Deliverable_Shapes", diagramOther.Deliverable_Shapes, diagram.Deliverable_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "Deliverable_Shapes", diagramOther.Deliverable_Shapes, diagram.Deliverable_Shapes)
 		diffs = append(diffs, ops)
 	}
 	DeliverablesWhoseNodeIsExpandedDifferent := false
@@ -4953,7 +4847,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if DeliverablesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "DeliverablesWhoseNodeIsExpanded", diagramOther.DeliverablesWhoseNodeIsExpanded, diagram.DeliverablesWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "DeliverablesWhoseNodeIsExpanded", diagramOther.DeliverablesWhoseNodeIsExpanded, diagram.DeliverablesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	DeliverablesWhoseConceptsNodeIsExpandedDifferent := false
@@ -4974,7 +4868,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if DeliverablesWhoseConceptsNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "DeliverablesWhoseConceptsNodeIsExpanded", diagramOther.DeliverablesWhoseConceptsNodeIsExpanded, diagram.DeliverablesWhoseConceptsNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "DeliverablesWhoseConceptsNodeIsExpanded", diagramOther.DeliverablesWhoseConceptsNodeIsExpanded, diagram.DeliverablesWhoseConceptsNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsPBSNodeExpanded != diagramOther.IsPBSNodeExpanded {
@@ -4998,7 +4892,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if DeliverableComposition_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "DeliverableComposition_Shapes", diagramOther.DeliverableComposition_Shapes, diagram.DeliverableComposition_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "DeliverableComposition_Shapes", diagramOther.DeliverableComposition_Shapes, diagram.DeliverableComposition_Shapes)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsConcernsNodeExpanded != diagramOther.IsConcernsNodeExpanded {
@@ -5022,7 +4916,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Concern_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Concern_Shapes", diagramOther.Concern_Shapes, diagram.Concern_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "Concern_Shapes", diagramOther.Concern_Shapes, diagram.Concern_Shapes)
 		diffs = append(diffs, ops)
 	}
 	ConcernsWhoseNodeIsExpandedDifferent := false
@@ -5043,7 +4937,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ConcernsWhoseNodeIsExpanded", diagramOther.ConcernsWhoseNodeIsExpanded, diagram.ConcernsWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "ConcernsWhoseNodeIsExpanded", diagramOther.ConcernsWhoseNodeIsExpanded, diagram.ConcernsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	ConcernsWhoseInputNodeIsExpandedDifferent := false
@@ -5064,7 +4958,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernsWhoseInputNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ConcernsWhoseInputNodeIsExpanded", diagramOther.ConcernsWhoseInputNodeIsExpanded, diagram.ConcernsWhoseInputNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "ConcernsWhoseInputNodeIsExpanded", diagramOther.ConcernsWhoseInputNodeIsExpanded, diagram.ConcernsWhoseInputNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	ConcernsWhoseStakeholderNodeIsExpandedDifferent := false
@@ -5085,7 +4979,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernsWhoseStakeholderNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ConcernsWhoseStakeholderNodeIsExpanded", diagramOther.ConcernsWhoseStakeholderNodeIsExpanded, diagram.ConcernsWhoseStakeholderNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "ConcernsWhoseStakeholderNodeIsExpanded", diagramOther.ConcernsWhoseStakeholderNodeIsExpanded, diagram.ConcernsWhoseStakeholderNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	ConcernssWhoseOutputNodeIsExpandedDifferent := false
@@ -5106,7 +5000,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernssWhoseOutputNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ConcernssWhoseOutputNodeIsExpanded", diagramOther.ConcernssWhoseOutputNodeIsExpanded, diagram.ConcernssWhoseOutputNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "ConcernssWhoseOutputNodeIsExpanded", diagramOther.ConcernssWhoseOutputNodeIsExpanded, diagram.ConcernssWhoseOutputNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	ConcernComposition_ShapesDifferent := false
@@ -5127,7 +5021,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernComposition_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ConcernComposition_Shapes", diagramOther.ConcernComposition_Shapes, diagram.ConcernComposition_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "ConcernComposition_Shapes", diagramOther.ConcernComposition_Shapes, diagram.ConcernComposition_Shapes)
 		diffs = append(diffs, ops)
 	}
 	ConcernInputShapesDifferent := false
@@ -5148,7 +5042,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernInputShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ConcernInputShapes", diagramOther.ConcernInputShapes, diagram.ConcernInputShapes)
+		ops := stage.Diff(diagram, diagramOther, "ConcernInputShapes", diagramOther.ConcernInputShapes, diagram.ConcernInputShapes)
 		diffs = append(diffs, ops)
 	}
 	ConcernOutputShapesDifferent := false
@@ -5169,7 +5063,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernOutputShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ConcernOutputShapes", diagramOther.ConcernOutputShapes, diagram.ConcernOutputShapes)
+		ops := stage.Diff(diagram, diagramOther, "ConcernOutputShapes", diagramOther.ConcernOutputShapes, diagram.ConcernOutputShapes)
 		diffs = append(diffs, ops)
 	}
 	Note_ShapesDifferent := false
@@ -5190,7 +5084,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Note_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Note_Shapes", diagramOther.Note_Shapes, diagram.Note_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "Note_Shapes", diagramOther.Note_Shapes, diagram.Note_Shapes)
 		diffs = append(diffs, ops)
 	}
 	NotesWhoseNodeIsExpandedDifferent := false
@@ -5211,7 +5105,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NotesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "NotesWhoseNodeIsExpanded", diagramOther.NotesWhoseNodeIsExpanded, diagram.NotesWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "NotesWhoseNodeIsExpanded", diagramOther.NotesWhoseNodeIsExpanded, diagram.NotesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsNotesNodeExpanded != diagramOther.IsNotesNodeExpanded {
@@ -5235,7 +5129,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteDeliverableShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "NoteDeliverableShapes", diagramOther.NoteDeliverableShapes, diagram.NoteDeliverableShapes)
+		ops := stage.Diff(diagram, diagramOther, "NoteDeliverableShapes", diagramOther.NoteDeliverableShapes, diagram.NoteDeliverableShapes)
 		diffs = append(diffs, ops)
 	}
 	NoteTaskShapesDifferent := false
@@ -5256,7 +5150,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteTaskShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "NoteTaskShapes", diagramOther.NoteTaskShapes, diagram.NoteTaskShapes)
+		ops := stage.Diff(diagram, diagramOther, "NoteTaskShapes", diagramOther.NoteTaskShapes, diagram.NoteTaskShapes)
 		diffs = append(diffs, ops)
 	}
 	NoteResourceShapesDifferent := false
@@ -5277,7 +5171,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteResourceShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "NoteResourceShapes", diagramOther.NoteResourceShapes, diagram.NoteResourceShapes)
+		ops := stage.Diff(diagram, diagramOther, "NoteResourceShapes", diagramOther.NoteResourceShapes, diagram.NoteResourceShapes)
 		diffs = append(diffs, ops)
 	}
 	Stakeholder_ShapesDifferent := false
@@ -5298,7 +5192,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Stakeholder_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Stakeholder_Shapes", diagramOther.Stakeholder_Shapes, diagram.Stakeholder_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "Stakeholder_Shapes", diagramOther.Stakeholder_Shapes, diagram.Stakeholder_Shapes)
 		diffs = append(diffs, ops)
 	}
 	ResourcesWhoseNodeIsExpandedDifferent := false
@@ -5319,7 +5213,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ResourcesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ResourcesWhoseNodeIsExpanded", diagramOther.ResourcesWhoseNodeIsExpanded, diagram.ResourcesWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "ResourcesWhoseNodeIsExpanded", diagramOther.ResourcesWhoseNodeIsExpanded, diagram.ResourcesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsStakeholdersNodeExpanded != diagramOther.IsStakeholdersNodeExpanded {
@@ -5343,7 +5237,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ResourceComposition_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ResourceComposition_Shapes", diagramOther.ResourceComposition_Shapes, diagram.ResourceComposition_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "ResourceComposition_Shapes", diagramOther.ResourceComposition_Shapes, diagram.ResourceComposition_Shapes)
 		diffs = append(diffs, ops)
 	}
 	StakeholderConcernShapesDifferent := false
@@ -5364,7 +5258,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if StakeholderConcernShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "StakeholderConcernShapes", diagramOther.StakeholderConcernShapes, diagram.StakeholderConcernShapes)
+		ops := stage.Diff(diagram, diagramOther, "StakeholderConcernShapes", diagramOther.StakeholderConcernShapes, diagram.StakeholderConcernShapes)
 		diffs = append(diffs, ops)
 	}
 	Requirement_ShapesDifferent := false
@@ -5385,7 +5279,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Requirement_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Requirement_Shapes", diagramOther.Requirement_Shapes, diagram.Requirement_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "Requirement_Shapes", diagramOther.Requirement_Shapes, diagram.Requirement_Shapes)
 		diffs = append(diffs, ops)
 	}
 	RequirementsWhoseNodeIsExpandedDifferent := false
@@ -5406,7 +5300,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if RequirementsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "RequirementsWhoseNodeIsExpanded", diagramOther.RequirementsWhoseNodeIsExpanded, diagram.RequirementsWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "RequirementsWhoseNodeIsExpanded", diagramOther.RequirementsWhoseNodeIsExpanded, diagram.RequirementsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	Concept_ShapesDifferent := false
@@ -5427,7 +5321,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Concept_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Concept_Shapes", diagramOther.Concept_Shapes, diagram.Concept_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "Concept_Shapes", diagramOther.Concept_Shapes, diagram.Concept_Shapes)
 		diffs = append(diffs, ops)
 	}
 	ConceptsWhoseNodeIsExpandedDifferent := false
@@ -5448,7 +5342,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConceptsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ConceptsWhoseNodeIsExpanded", diagramOther.ConceptsWhoseNodeIsExpanded, diagram.ConceptsWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "ConceptsWhoseNodeIsExpanded", diagramOther.ConceptsWhoseNodeIsExpanded, diagram.ConceptsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	ConceptsWhoseDeliverablesNodeIsExpandedDifferent := false
@@ -5469,7 +5363,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConceptsWhoseDeliverablesNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ConceptsWhoseDeliverablesNodeIsExpanded", diagramOther.ConceptsWhoseDeliverablesNodeIsExpanded, diagram.ConceptsWhoseDeliverablesNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "ConceptsWhoseDeliverablesNodeIsExpanded", diagramOther.ConceptsWhoseDeliverablesNodeIsExpanded, diagram.ConceptsWhoseDeliverablesNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	DeliverableConceptShapesDifferent := false
@@ -5490,7 +5384,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if DeliverableConceptShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "DeliverableConceptShapes", diagramOther.DeliverableConceptShapes, diagram.DeliverableConceptShapes)
+		ops := stage.Diff(diagram, diagramOther, "DeliverableConceptShapes", diagramOther.DeliverableConceptShapes, diagram.DeliverableConceptShapes)
 		diffs = append(diffs, ops)
 	}
 	Diagram_ShapesDifferent := false
@@ -5511,7 +5405,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Diagram_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Diagram_Shapes", diagramOther.Diagram_Shapes, diagram.Diagram_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "Diagram_Shapes", diagramOther.Diagram_Shapes, diagram.Diagram_Shapes)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsDiagramsNodeExpanded != diagramOther.IsDiagramsNodeExpanded {
@@ -5535,7 +5429,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if DiagramsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "DiagramsWhoseNodeIsExpanded", diagramOther.DiagramsWhoseNodeIsExpanded, diagram.DiagramsWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "DiagramsWhoseNodeIsExpanded", diagramOther.DiagramsWhoseNodeIsExpanded, diagram.DiagramsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 
@@ -5612,7 +5506,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootDeliverablesDifferent {
-		ops := Diff(stage, library, libraryOther, "RootDeliverables", libraryOther.RootDeliverables, library.RootDeliverables)
+		ops := stage.Diff(library, libraryOther, "RootDeliverables", libraryOther.RootDeliverables, library.RootDeliverables)
 		diffs = append(diffs, ops)
 	}
 	RootConcernsDifferent := false
@@ -5633,7 +5527,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootConcernsDifferent {
-		ops := Diff(stage, library, libraryOther, "RootConcerns", libraryOther.RootConcerns, library.RootConcerns)
+		ops := stage.Diff(library, libraryOther, "RootConcerns", libraryOther.RootConcerns, library.RootConcerns)
 		diffs = append(diffs, ops)
 	}
 	RootStakeholdersDifferent := false
@@ -5654,7 +5548,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootStakeholdersDifferent {
-		ops := Diff(stage, library, libraryOther, "RootStakeholders", libraryOther.RootStakeholders, library.RootStakeholders)
+		ops := stage.Diff(library, libraryOther, "RootStakeholders", libraryOther.RootStakeholders, library.RootStakeholders)
 		diffs = append(diffs, ops)
 	}
 	RootRequirementsDifferent := false
@@ -5675,7 +5569,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootRequirementsDifferent {
-		ops := Diff(stage, library, libraryOther, "RootRequirements", libraryOther.RootRequirements, library.RootRequirements)
+		ops := stage.Diff(library, libraryOther, "RootRequirements", libraryOther.RootRequirements, library.RootRequirements)
 		diffs = append(diffs, ops)
 	}
 	RootConceptsDifferent := false
@@ -5696,7 +5590,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootConceptsDifferent {
-		ops := Diff(stage, library, libraryOther, "RootConcepts", libraryOther.RootConcepts, library.RootConcepts)
+		ops := stage.Diff(library, libraryOther, "RootConcepts", libraryOther.RootConcepts, library.RootConcepts)
 		diffs = append(diffs, ops)
 	}
 	AnalysisNeedsDifferent := false
@@ -5717,7 +5611,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if AnalysisNeedsDifferent {
-		ops := Diff(stage, library, libraryOther, "AnalysisNeeds", libraryOther.AnalysisNeeds, library.AnalysisNeeds)
+		ops := stage.Diff(library, libraryOther, "AnalysisNeeds", libraryOther.AnalysisNeeds, library.AnalysisNeeds)
 		diffs = append(diffs, ops)
 	}
 	NotesDifferent := false
@@ -5738,7 +5632,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if NotesDifferent {
-		ops := Diff(stage, library, libraryOther, "Notes", libraryOther.Notes, library.Notes)
+		ops := stage.Diff(library, libraryOther, "Notes", libraryOther.Notes, library.Notes)
 		diffs = append(diffs, ops)
 	}
 	DiagramsDifferent := false
@@ -5759,7 +5653,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if DiagramsDifferent {
-		ops := Diff(stage, library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
+		ops := stage.Diff(library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
 		diffs = append(diffs, ops)
 	}
 	SubLibrariesDifferent := false
@@ -5780,7 +5674,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if SubLibrariesDifferent {
-		ops := Diff(stage, library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
+		ops := stage.Diff(library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
 		diffs = append(diffs, ops)
 	}
 	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
@@ -5821,7 +5715,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if DeliverablesDifferent {
-		ops := Diff(stage, note, noteOther, "Deliverables", noteOther.Deliverables, note.Deliverables)
+		ops := stage.Diff(note, noteOther, "Deliverables", noteOther.Deliverables, note.Deliverables)
 		diffs = append(diffs, ops)
 	}
 	TasksDifferent := false
@@ -5842,7 +5736,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if TasksDifferent {
-		ops := Diff(stage, note, noteOther, "Tasks", noteOther.Tasks, note.Tasks)
+		ops := stage.Diff(note, noteOther, "Tasks", noteOther.Tasks, note.Tasks)
 		diffs = append(diffs, ops)
 	}
 	ResourcesDifferent := false
@@ -5863,7 +5757,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if ResourcesDifferent {
-		ops := Diff(stage, note, noteOther, "Resources", noteOther.Resources, note.Resources)
+		ops := stage.Diff(note, noteOther, "Resources", noteOther.Resources, note.Resources)
 		diffs = append(diffs, ops)
 	}
 
@@ -5927,7 +5821,7 @@ func (notedeliverableshape *NoteDeliverableShape) GongDiff(stage *Stage, notedel
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := Diff(stage, notedeliverableshape, notedeliverableshapeOther, "ControlPointShapes", notedeliverableshapeOther.ControlPointShapes, notedeliverableshape.ControlPointShapes)
+		ops := stage.Diff(notedeliverableshape, notedeliverableshapeOther, "ControlPointShapes", notedeliverableshapeOther.ControlPointShapes, notedeliverableshape.ControlPointShapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -6027,7 +5921,7 @@ func (notestakeholdershape *NoteStakeholderShape) GongDiff(stage *Stage, notesta
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := Diff(stage, notestakeholdershape, notestakeholdershapeOther, "ControlPointShapes", notestakeholdershapeOther.ControlPointShapes, notestakeholdershape.ControlPointShapes)
+		ops := stage.Diff(notestakeholdershape, notestakeholdershapeOther, "ControlPointShapes", notestakeholdershapeOther.ControlPointShapes, notestakeholdershape.ControlPointShapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -6091,7 +5985,7 @@ func (notetaskshape *NoteTaskShape) GongDiff(stage *Stage, notetaskshapeOther *N
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := Diff(stage, notetaskshape, notetaskshapeOther, "ControlPointShapes", notetaskshapeOther.ControlPointShapes, notetaskshape.ControlPointShapes)
+		ops := stage.Diff(notetaskshape, notetaskshapeOther, "ControlPointShapes", notetaskshapeOther.ControlPointShapes, notetaskshape.ControlPointShapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -6129,7 +6023,7 @@ func (requirement *Requirement) GongDiff(stage *Stage, requirementOther *Require
 		}
 	}
 	if SupportLevelsDifferent {
-		ops := Diff(stage, requirement, requirementOther, "SupportLevels", requirementOther.SupportLevels, requirement.SupportLevels)
+		ops := stage.Diff(requirement, requirementOther, "SupportLevels", requirementOther.SupportLevels, requirement.SupportLevels)
 		diffs = append(diffs, ops)
 	}
 	ConceptsDifferent := false
@@ -6150,7 +6044,7 @@ func (requirement *Requirement) GongDiff(stage *Stage, requirementOther *Require
 		}
 	}
 	if ConceptsDifferent {
-		ops := Diff(stage, requirement, requirementOther, "Concepts", requirementOther.Concepts, requirement.Concepts)
+		ops := stage.Diff(requirement, requirementOther, "Concepts", requirementOther.Concepts, requirement.Concepts)
 		diffs = append(diffs, ops)
 	}
 
@@ -6230,7 +6124,7 @@ func (stakeholder *Stakeholder) GongDiff(stage *Stage, stakeholderOther *Stakeho
 		}
 	}
 	if ConcernsDifferent {
-		ops := Diff(stage, stakeholder, stakeholderOther, "Concerns", stakeholderOther.Concerns, stakeholder.Concerns)
+		ops := stage.Diff(stakeholder, stakeholderOther, "Concerns", stakeholderOther.Concerns, stakeholder.Concerns)
 		diffs = append(diffs, ops)
 	}
 	SubStakeholdersDifferent := false
@@ -6251,7 +6145,7 @@ func (stakeholder *Stakeholder) GongDiff(stage *Stage, stakeholderOther *Stakeho
 		}
 	}
 	if SubStakeholdersDifferent {
-		ops := Diff(stage, stakeholder, stakeholderOther, "SubStakeholders", stakeholderOther.SubStakeholders, stakeholder.SubStakeholders)
+		ops := stage.Diff(stakeholder, stakeholderOther, "SubStakeholders", stakeholderOther.SubStakeholders, stakeholder.SubStakeholders)
 		diffs = append(diffs, ops)
 	}
 
@@ -6308,7 +6202,7 @@ func (stakeholdercompositionshape *StakeholderCompositionShape) GongDiff(stage *
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := Diff(stage, stakeholdercompositionshape, stakeholdercompositionshapeOther, "ControlPointShapes", stakeholdercompositionshapeOther.ControlPointShapes, stakeholdercompositionshape.ControlPointShapes)
+		ops := stage.Diff(stakeholdercompositionshape, stakeholdercompositionshapeOther, "ControlPointShapes", stakeholdercompositionshapeOther.ControlPointShapes, stakeholdercompositionshape.ControlPointShapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -6372,7 +6266,7 @@ func (stakeholderconcernshape *StakeholderConcernShape) GongDiff(stage *Stage, s
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := Diff(stage, stakeholderconcernshape, stakeholderconcernshapeOther, "ControlPointShapes", stakeholderconcernshapeOther.ControlPointShapes, stakeholderconcernshape.ControlPointShapes)
+		ops := stage.Diff(stakeholderconcernshape, stakeholderconcernshapeOther, "ControlPointShapes", stakeholderconcernshapeOther.ControlPointShapes, stakeholderconcernshape.ControlPointShapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -6518,9 +6412,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

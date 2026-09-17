@@ -72,7 +72,7 @@ func Prepare(
 			}
 		}
 
-		err := models.ParseAstFile(stage, diagramsPath, true)
+		err := stage.ParseAstFile(diagramsPath, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -91,9 +91,9 @@ func Prepare(
 		stage.ComputeReferenceAndOrders() // from which the delta are computed
 
 	} else {
-		err := models.ParseAstEmbeddedFile(stage, goDiagramsDir, "models/diagrams/diagrams.go")
+		err := stage.ParseAstEmbeddedFile(goDiagramsDir, "models/diagrams/diagrams.go")
 		if err != nil {
-			err = models.ParseAstEmbeddedFile(stage, goDiagramsDir, "diagrams/diagrams.go")
+			err = stage.ParseAstEmbeddedFile(goDiagramsDir, "diagrams/diagrams.go")
 		}
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit

@@ -108,7 +108,7 @@ func (stager *Stager) enforceThereIsARootLibrary() (needCommit bool) {
 		}
 
 		if len(rootCandidates) > 0 {
-			slices.SortFunc(rootCandidates, CompareGongstructByName[*Library])
+			slices.SortFunc(rootCandidates, GongCompareGongstructByName[*Library])
 			rootLibrary = rootCandidates[0]
 			rootLibrary.IsRootLibrary = true
 			if stager.probeForm != nil {

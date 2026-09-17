@@ -68,74 +68,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Action:
-		ok = stage.IsStagedAction(target)
-
-	case *Activities:
-		ok = stage.IsStagedActivities(target)
-
-	case *Diagram:
-		ok = stage.IsStagedDiagram(target)
-
-	case *Guard:
-		ok = stage.IsStagedGuard(target)
-
-	case *Kill:
-		ok = stage.IsStagedKill(target)
-
-	case *Library:
-		ok = stage.IsStagedLibrary(target)
-
-	case *Message:
-		ok = stage.IsStagedMessage(target)
-
-	case *MessageType:
-		ok = stage.IsStagedMessageType(target)
-
-	case *Note:
-		ok = stage.IsStagedNote(target)
-
-	case *NoteShape:
-		ok = stage.IsStagedNoteShape(target)
-
-	case *NoteStateShape:
-		ok = stage.IsStagedNoteStateShape(target)
-
-	case *Object:
-		ok = stage.IsStagedObject(target)
-
-	case *Role:
-		ok = stage.IsStagedRole(target)
-
-	case *State:
-		ok = stage.IsStagedState(target)
-
-	case *StateMachine:
-		ok = stage.IsStagedStateMachine(target)
-
-	case *StateShape:
-		ok = stage.IsStagedStateShape(target)
-
-	case *Transition:
-		ok = stage.IsStagedTransition(target)
-
-	case *Transition_Shape:
-		ok = stage.IsStagedTransition_Shape(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedAction(action *Action) (ok bool) {
 
@@ -336,7 +268,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchAction(action *Action) {
 
 	// check if instance is already staged
-	if IsStaged(stage, action) {
+	if stage.IsStaged(action) {
 		return
 	}
 
@@ -351,7 +283,7 @@ func (stage *Stage) StageBranchAction(action *Action) {
 func (stage *Stage) StageBranchActivities(activities *Activities) {
 
 	// check if instance is already staged
-	if IsStaged(stage, activities) {
+	if stage.IsStaged(activities) {
 		return
 	}
 
@@ -366,7 +298,7 @@ func (stage *Stage) StageBranchActivities(activities *Activities) {
 func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
-	if IsStaged(stage, diagram) {
+	if stage.IsStaged(diagram) {
 		return
 	}
 
@@ -376,19 +308,19 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _stateshape := range diagram.State_Shapes {
-		StageBranch(stage, _stateshape)
+		stage.StageBranch(_stateshape)
 	}
 	for _, _state := range diagram.StatesWhoseNodeIsExpanded {
-		StageBranch(stage, _state)
+		stage.StageBranch(_state)
 	}
 	for _, _transition_shape := range diagram.Transition_Shapes {
-		StageBranch(stage, _transition_shape)
+		stage.StageBranch(_transition_shape)
 	}
 	for _, _noteshape := range diagram.Note_Shapes {
-		StageBranch(stage, _noteshape)
+		stage.StageBranch(_noteshape)
 	}
 	for _, _notestateshape := range diagram.NoteState_Shapes {
-		StageBranch(stage, _notestateshape)
+		stage.StageBranch(_notestateshape)
 	}
 
 }
@@ -396,7 +328,7 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 func (stage *Stage) StageBranchGuard(guard *Guard) {
 
 	// check if instance is already staged
-	if IsStaged(stage, guard) {
+	if stage.IsStaged(guard) {
 		return
 	}
 
@@ -411,7 +343,7 @@ func (stage *Stage) StageBranchGuard(guard *Guard) {
 func (stage *Stage) StageBranchKill(kill *Kill) {
 
 	// check if instance is already staged
-	if IsStaged(stage, kill) {
+	if stage.IsStaged(kill) {
 		return
 	}
 
@@ -426,7 +358,7 @@ func (stage *Stage) StageBranchKill(kill *Kill) {
 func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
-	if IsStaged(stage, library) {
+	if stage.IsStaged(library) {
 		return
 	}
 
@@ -436,22 +368,22 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _library := range library.SubLibraries {
-		StageBranch(stage, _library)
+		stage.StageBranch(_library)
 	}
 	for _, _diagram := range library.Diagrams {
-		StageBranch(stage, _diagram)
+		stage.StageBranch(_diagram)
 	}
 	for _, _statemachine := range library.RootStateMachines {
-		StageBranch(stage, _statemachine)
+		stage.StageBranch(_statemachine)
 	}
 	for _, _statemachine := range library.StateMachinesWhoseNodeIsExpanded {
-		StageBranch(stage, _statemachine)
+		stage.StageBranch(_statemachine)
 	}
 	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
-		StageBranch(stage, _library)
+		stage.StageBranch(_library)
 	}
 	for _, _role := range library.Roles {
-		StageBranch(stage, _role)
+		stage.StageBranch(_role)
 	}
 
 }
@@ -459,7 +391,7 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 func (stage *Stage) StageBranchMessage(message *Message) {
 
 	// check if instance is already staged
-	if IsStaged(stage, message) {
+	if stage.IsStaged(message) {
 		return
 	}
 
@@ -467,10 +399,10 @@ func (stage *Stage) StageBranchMessage(message *Message) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if message.MessageType != nil {
-		StageBranch(stage, message.MessageType)
+		stage.StageBranch(message.MessageType)
 	}
 	if message.OriginTransition != nil {
-		StageBranch(stage, message.OriginTransition)
+		stage.StageBranch(message.OriginTransition)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -480,7 +412,7 @@ func (stage *Stage) StageBranchMessage(message *Message) {
 func (stage *Stage) StageBranchMessageType(messagetype *MessageType) {
 
 	// check if instance is already staged
-	if IsStaged(stage, messagetype) {
+	if stage.IsStaged(messagetype) {
 		return
 	}
 
@@ -495,7 +427,7 @@ func (stage *Stage) StageBranchMessageType(messagetype *MessageType) {
 func (stage *Stage) StageBranchNote(note *Note) {
 
 	// check if instance is already staged
-	if IsStaged(stage, note) {
+	if stage.IsStaged(note) {
 		return
 	}
 
@@ -503,7 +435,7 @@ func (stage *Stage) StageBranchNote(note *Note) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if note.State != nil {
-		StageBranch(stage, note.State)
+		stage.StageBranch(note.State)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -513,7 +445,7 @@ func (stage *Stage) StageBranchNote(note *Note) {
 func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, noteshape) {
+	if stage.IsStaged(noteshape) {
 		return
 	}
 
@@ -521,7 +453,7 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshape.Note != nil {
-		StageBranch(stage, noteshape.Note)
+		stage.StageBranch(noteshape.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -531,7 +463,7 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 func (stage *Stage) StageBranchNoteStateShape(notestateshape *NoteStateShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, notestateshape) {
+	if stage.IsStaged(notestateshape) {
 		return
 	}
 
@@ -539,10 +471,10 @@ func (stage *Stage) StageBranchNoteStateShape(notestateshape *NoteStateShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if notestateshape.Note != nil {
-		StageBranch(stage, notestateshape.Note)
+		stage.StageBranch(notestateshape.Note)
 	}
 	if notestateshape.State != nil {
-		StageBranch(stage, notestateshape.State)
+		stage.StageBranch(notestateshape.State)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -552,7 +484,7 @@ func (stage *Stage) StageBranchNoteStateShape(notestateshape *NoteStateShape) {
 func (stage *Stage) StageBranchObject(object *Object) {
 
 	// check if instance is already staged
-	if IsStaged(stage, object) {
+	if stage.IsStaged(object) {
 		return
 	}
 
@@ -560,12 +492,12 @@ func (stage *Stage) StageBranchObject(object *Object) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if object.State != nil {
-		StageBranch(stage, object.State)
+		stage.StageBranch(object.State)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _message := range object.Messages {
-		StageBranch(stage, _message)
+		stage.StageBranch(_message)
 	}
 
 }
@@ -573,7 +505,7 @@ func (stage *Stage) StageBranchObject(object *Object) {
 func (stage *Stage) StageBranchRole(role *Role) {
 
 	// check if instance is already staged
-	if IsStaged(stage, role) {
+	if stage.IsStaged(role) {
 		return
 	}
 
@@ -583,7 +515,7 @@ func (stage *Stage) StageBranchRole(role *Role) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _role := range role.RolesWithSamePermissions {
-		StageBranch(stage, _role)
+		stage.StageBranch(_role)
 	}
 
 }
@@ -591,7 +523,7 @@ func (stage *Stage) StageBranchRole(role *Role) {
 func (stage *Stage) StageBranchState(state *State) {
 
 	// check if instance is already staged
-	if IsStaged(stage, state) {
+	if stage.IsStaged(state) {
 		return
 	}
 
@@ -599,27 +531,27 @@ func (stage *Stage) StageBranchState(state *State) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if state.Entry != nil {
-		StageBranch(stage, state.Entry)
+		stage.StageBranch(state.Entry)
 	}
 	if state.Exit != nil {
-		StageBranch(stage, state.Exit)
+		stage.StageBranch(state.Exit)
 	}
 	if state.Parent != nil {
-		StageBranch(stage, state.Parent)
+		stage.StageBranch(state.Parent)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _state := range state.SubStates {
-		StageBranch(stage, _state)
+		stage.StageBranch(_state)
 	}
 	for _, _activities := range state.Activities {
-		StageBranch(stage, _activities)
+		stage.StageBranch(_activities)
 	}
 	for _, _diagram := range state.Diagrams {
-		StageBranch(stage, _diagram)
+		stage.StageBranch(_diagram)
 	}
 	for _, _note := range state.Notes {
-		StageBranch(stage, _note)
+		stage.StageBranch(_note)
 	}
 
 }
@@ -627,7 +559,7 @@ func (stage *Stage) StageBranchState(state *State) {
 func (stage *Stage) StageBranchStateMachine(statemachine *StateMachine) {
 
 	// check if instance is already staged
-	if IsStaged(stage, statemachine) {
+	if stage.IsStaged(statemachine) {
 		return
 	}
 
@@ -635,15 +567,15 @@ func (stage *Stage) StageBranchStateMachine(statemachine *StateMachine) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if statemachine.InitialState != nil {
-		StageBranch(stage, statemachine.InitialState)
+		stage.StageBranch(statemachine.InitialState)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _state := range statemachine.States {
-		StageBranch(stage, _state)
+		stage.StageBranch(_state)
 	}
 	for _, _diagram := range statemachine.Diagrams {
-		StageBranch(stage, _diagram)
+		stage.StageBranch(_diagram)
 	}
 
 }
@@ -651,7 +583,7 @@ func (stage *Stage) StageBranchStateMachine(statemachine *StateMachine) {
 func (stage *Stage) StageBranchStateShape(stateshape *StateShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, stateshape) {
+	if stage.IsStaged(stateshape) {
 		return
 	}
 
@@ -659,7 +591,7 @@ func (stage *Stage) StageBranchStateShape(stateshape *StateShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if stateshape.State != nil {
-		StageBranch(stage, stateshape.State)
+		stage.StageBranch(stateshape.State)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -669,7 +601,7 @@ func (stage *Stage) StageBranchStateShape(stateshape *StateShape) {
 func (stage *Stage) StageBranchTransition(transition *Transition) {
 
 	// check if instance is already staged
-	if IsStaged(stage, transition) {
+	if stage.IsStaged(transition) {
 		return
 	}
 
@@ -677,24 +609,24 @@ func (stage *Stage) StageBranchTransition(transition *Transition) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if transition.Start != nil {
-		StageBranch(stage, transition.Start)
+		stage.StageBranch(transition.Start)
 	}
 	if transition.End != nil {
-		StageBranch(stage, transition.End)
+		stage.StageBranch(transition.End)
 	}
 	if transition.Guard != nil {
-		StageBranch(stage, transition.Guard)
+		stage.StageBranch(transition.Guard)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _role := range transition.RolesWithPermissions {
-		StageBranch(stage, _role)
+		stage.StageBranch(_role)
 	}
 	for _, _messagetype := range transition.GeneratedMessages {
-		StageBranch(stage, _messagetype)
+		stage.StageBranch(_messagetype)
 	}
 	for _, _diagram := range transition.Diagrams {
-		StageBranch(stage, _diagram)
+		stage.StageBranch(_diagram)
 	}
 
 }
@@ -702,7 +634,7 @@ func (stage *Stage) StageBranchTransition(transition *Transition) {
 func (stage *Stage) StageBranchTransition_Shape(transition_shape *Transition_Shape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, transition_shape) {
+	if stage.IsStaged(transition_shape) {
 		return
 	}
 
@@ -710,18 +642,18 @@ func (stage *Stage) StageBranchTransition_Shape(transition_shape *Transition_Sha
 
 	//insertion point for the staging of instances referenced by pointers
 	if transition_shape.Transition != nil {
-		StageBranch(stage, transition_shape.Transition)
+		stage.StageBranch(transition_shape.Transition)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -729,75 +661,75 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *Action:
-		toT := CopyBranchAction(mapOrigCopy, fromT)
+		toT := GongCopyBranchAction(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Activities:
-		toT := CopyBranchActivities(mapOrigCopy, fromT)
+		toT := GongCopyBranchActivities(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Diagram:
-		toT := CopyBranchDiagram(mapOrigCopy, fromT)
+		toT := GongCopyBranchDiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Guard:
-		toT := CopyBranchGuard(mapOrigCopy, fromT)
+		toT := GongCopyBranchGuard(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Kill:
-		toT := CopyBranchKill(mapOrigCopy, fromT)
+		toT := GongCopyBranchKill(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Library:
-		toT := CopyBranchLibrary(mapOrigCopy, fromT)
+		toT := GongCopyBranchLibrary(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Message:
-		toT := CopyBranchMessage(mapOrigCopy, fromT)
+		toT := GongCopyBranchMessage(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *MessageType:
-		toT := CopyBranchMessageType(mapOrigCopy, fromT)
+		toT := GongCopyBranchMessageType(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Note:
-		toT := CopyBranchNote(mapOrigCopy, fromT)
+		toT := GongCopyBranchNote(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteShape:
-		toT := CopyBranchNoteShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteStateShape:
-		toT := CopyBranchNoteStateShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteStateShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Object:
-		toT := CopyBranchObject(mapOrigCopy, fromT)
+		toT := GongCopyBranchObject(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Role:
-		toT := CopyBranchRole(mapOrigCopy, fromT)
+		toT := GongCopyBranchRole(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *State:
-		toT := CopyBranchState(mapOrigCopy, fromT)
+		toT := GongCopyBranchState(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *StateMachine:
-		toT := CopyBranchStateMachine(mapOrigCopy, fromT)
+		toT := GongCopyBranchStateMachine(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *StateShape:
-		toT := CopyBranchStateShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchStateShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Transition:
-		toT := CopyBranchTransition(mapOrigCopy, fromT)
+		toT := GongCopyBranchTransition(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Transition_Shape:
-		toT := CopyBranchTransition_Shape(mapOrigCopy, fromT)
+		toT := GongCopyBranchTransition_Shape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -807,7 +739,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchAction(mapOrigCopy map[any]any, actionFrom *Action) (actionTo *Action) {
+func GongCopyBranchAction(mapOrigCopy map[any]any, actionFrom *Action) (actionTo *Action) {
 
 	// actionFrom has already been copied
 	if _actionTo, ok := mapOrigCopy[actionFrom]; ok {
@@ -817,7 +749,7 @@ func CopyBranchAction(mapOrigCopy map[any]any, actionFrom *Action) (actionTo *Ac
 
 	actionTo = new(Action)
 	mapOrigCopy[actionFrom] = actionTo
-	actionFrom.CopyBasicFields(actionTo)
+	actionFrom.GongCopyBasicFields(actionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -826,7 +758,7 @@ func CopyBranchAction(mapOrigCopy map[any]any, actionFrom *Action) (actionTo *Ac
 	return
 }
 
-func CopyBranchActivities(mapOrigCopy map[any]any, activitiesFrom *Activities) (activitiesTo *Activities) {
+func GongCopyBranchActivities(mapOrigCopy map[any]any, activitiesFrom *Activities) (activitiesTo *Activities) {
 
 	// activitiesFrom has already been copied
 	if _activitiesTo, ok := mapOrigCopy[activitiesFrom]; ok {
@@ -836,7 +768,7 @@ func CopyBranchActivities(mapOrigCopy map[any]any, activitiesFrom *Activities) (
 
 	activitiesTo = new(Activities)
 	mapOrigCopy[activitiesFrom] = activitiesTo
-	activitiesFrom.CopyBasicFields(activitiesTo)
+	activitiesFrom.GongCopyBasicFields(activitiesTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -845,7 +777,7 @@ func CopyBranchActivities(mapOrigCopy map[any]any, activitiesFrom *Activities) (
 	return
 }
 
-func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
+func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
 
 	// diagramFrom has already been copied
 	if _diagramTo, ok := mapOrigCopy[diagramFrom]; ok {
@@ -855,31 +787,31 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 
 	diagramTo = new(Diagram)
 	mapOrigCopy[diagramFrom] = diagramTo
-	diagramFrom.CopyBasicFields(diagramTo)
+	diagramFrom.GongCopyBasicFields(diagramTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _stateshape := range diagramFrom.State_Shapes {
-		diagramTo.State_Shapes = append(diagramTo.State_Shapes, CopyBranchStateShape(mapOrigCopy, _stateshape))
+		diagramTo.State_Shapes = append(diagramTo.State_Shapes, GongCopyBranchStateShape(mapOrigCopy, _stateshape))
 	}
 	for _, _state := range diagramFrom.StatesWhoseNodeIsExpanded {
-		diagramTo.StatesWhoseNodeIsExpanded = append(diagramTo.StatesWhoseNodeIsExpanded, CopyBranchState(mapOrigCopy, _state))
+		diagramTo.StatesWhoseNodeIsExpanded = append(diagramTo.StatesWhoseNodeIsExpanded, GongCopyBranchState(mapOrigCopy, _state))
 	}
 	for _, _transition_shape := range diagramFrom.Transition_Shapes {
-		diagramTo.Transition_Shapes = append(diagramTo.Transition_Shapes, CopyBranchTransition_Shape(mapOrigCopy, _transition_shape))
+		diagramTo.Transition_Shapes = append(diagramTo.Transition_Shapes, GongCopyBranchTransition_Shape(mapOrigCopy, _transition_shape))
 	}
 	for _, _noteshape := range diagramFrom.Note_Shapes {
-		diagramTo.Note_Shapes = append(diagramTo.Note_Shapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
+		diagramTo.Note_Shapes = append(diagramTo.Note_Shapes, GongCopyBranchNoteShape(mapOrigCopy, _noteshape))
 	}
 	for _, _notestateshape := range diagramFrom.NoteState_Shapes {
-		diagramTo.NoteState_Shapes = append(diagramTo.NoteState_Shapes, CopyBranchNoteStateShape(mapOrigCopy, _notestateshape))
+		diagramTo.NoteState_Shapes = append(diagramTo.NoteState_Shapes, GongCopyBranchNoteStateShape(mapOrigCopy, _notestateshape))
 	}
 
 	return
 }
 
-func CopyBranchGuard(mapOrigCopy map[any]any, guardFrom *Guard) (guardTo *Guard) {
+func GongCopyBranchGuard(mapOrigCopy map[any]any, guardFrom *Guard) (guardTo *Guard) {
 
 	// guardFrom has already been copied
 	if _guardTo, ok := mapOrigCopy[guardFrom]; ok {
@@ -889,7 +821,7 @@ func CopyBranchGuard(mapOrigCopy map[any]any, guardFrom *Guard) (guardTo *Guard)
 
 	guardTo = new(Guard)
 	mapOrigCopy[guardFrom] = guardTo
-	guardFrom.CopyBasicFields(guardTo)
+	guardFrom.GongCopyBasicFields(guardTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -898,7 +830,7 @@ func CopyBranchGuard(mapOrigCopy map[any]any, guardFrom *Guard) (guardTo *Guard)
 	return
 }
 
-func CopyBranchKill(mapOrigCopy map[any]any, killFrom *Kill) (killTo *Kill) {
+func GongCopyBranchKill(mapOrigCopy map[any]any, killFrom *Kill) (killTo *Kill) {
 
 	// killFrom has already been copied
 	if _killTo, ok := mapOrigCopy[killFrom]; ok {
@@ -908,7 +840,7 @@ func CopyBranchKill(mapOrigCopy map[any]any, killFrom *Kill) (killTo *Kill) {
 
 	killTo = new(Kill)
 	mapOrigCopy[killFrom] = killTo
-	killFrom.CopyBasicFields(killTo)
+	killFrom.GongCopyBasicFields(killTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -917,7 +849,7 @@ func CopyBranchKill(mapOrigCopy map[any]any, killFrom *Kill) (killTo *Kill) {
 	return
 }
 
-func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
+func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
 
 	// libraryFrom has already been copied
 	if _libraryTo, ok := mapOrigCopy[libraryFrom]; ok {
@@ -927,34 +859,34 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 
 	libraryTo = new(Library)
 	mapOrigCopy[libraryFrom] = libraryTo
-	libraryFrom.CopyBasicFields(libraryTo)
+	libraryFrom.GongCopyBasicFields(libraryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _library := range libraryFrom.SubLibraries {
-		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
+		libraryTo.SubLibraries = append(libraryTo.SubLibraries, GongCopyBranchLibrary(mapOrigCopy, _library))
 	}
 	for _, _diagram := range libraryFrom.Diagrams {
-		libraryTo.Diagrams = append(libraryTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
+		libraryTo.Diagrams = append(libraryTo.Diagrams, GongCopyBranchDiagram(mapOrigCopy, _diagram))
 	}
 	for _, _statemachine := range libraryFrom.RootStateMachines {
-		libraryTo.RootStateMachines = append(libraryTo.RootStateMachines, CopyBranchStateMachine(mapOrigCopy, _statemachine))
+		libraryTo.RootStateMachines = append(libraryTo.RootStateMachines, GongCopyBranchStateMachine(mapOrigCopy, _statemachine))
 	}
 	for _, _statemachine := range libraryFrom.StateMachinesWhoseNodeIsExpanded {
-		libraryTo.StateMachinesWhoseNodeIsExpanded = append(libraryTo.StateMachinesWhoseNodeIsExpanded, CopyBranchStateMachine(mapOrigCopy, _statemachine))
+		libraryTo.StateMachinesWhoseNodeIsExpanded = append(libraryTo.StateMachinesWhoseNodeIsExpanded, GongCopyBranchStateMachine(mapOrigCopy, _statemachine))
 	}
 	for _, _library := range libraryFrom.SubLibrariesWhoseNodeIsExpanded {
-		libraryTo.SubLibrariesWhoseNodeIsExpanded = append(libraryTo.SubLibrariesWhoseNodeIsExpanded, CopyBranchLibrary(mapOrigCopy, _library))
+		libraryTo.SubLibrariesWhoseNodeIsExpanded = append(libraryTo.SubLibrariesWhoseNodeIsExpanded, GongCopyBranchLibrary(mapOrigCopy, _library))
 	}
 	for _, _role := range libraryFrom.Roles {
-		libraryTo.Roles = append(libraryTo.Roles, CopyBranchRole(mapOrigCopy, _role))
+		libraryTo.Roles = append(libraryTo.Roles, GongCopyBranchRole(mapOrigCopy, _role))
 	}
 
 	return
 }
 
-func CopyBranchMessage(mapOrigCopy map[any]any, messageFrom *Message) (messageTo *Message) {
+func GongCopyBranchMessage(mapOrigCopy map[any]any, messageFrom *Message) (messageTo *Message) {
 
 	// messageFrom has already been copied
 	if _messageTo, ok := mapOrigCopy[messageFrom]; ok {
@@ -964,14 +896,14 @@ func CopyBranchMessage(mapOrigCopy map[any]any, messageFrom *Message) (messageTo
 
 	messageTo = new(Message)
 	mapOrigCopy[messageFrom] = messageTo
-	messageFrom.CopyBasicFields(messageTo)
+	messageFrom.GongCopyBasicFields(messageTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if messageFrom.MessageType != nil {
-		messageTo.MessageType = CopyBranchMessageType(mapOrigCopy, messageFrom.MessageType)
+		messageTo.MessageType = GongCopyBranchMessageType(mapOrigCopy, messageFrom.MessageType)
 	}
 	if messageFrom.OriginTransition != nil {
-		messageTo.OriginTransition = CopyBranchTransition(mapOrigCopy, messageFrom.OriginTransition)
+		messageTo.OriginTransition = GongCopyBranchTransition(mapOrigCopy, messageFrom.OriginTransition)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -979,7 +911,7 @@ func CopyBranchMessage(mapOrigCopy map[any]any, messageFrom *Message) (messageTo
 	return
 }
 
-func CopyBranchMessageType(mapOrigCopy map[any]any, messagetypeFrom *MessageType) (messagetypeTo *MessageType) {
+func GongCopyBranchMessageType(mapOrigCopy map[any]any, messagetypeFrom *MessageType) (messagetypeTo *MessageType) {
 
 	// messagetypeFrom has already been copied
 	if _messagetypeTo, ok := mapOrigCopy[messagetypeFrom]; ok {
@@ -989,7 +921,7 @@ func CopyBranchMessageType(mapOrigCopy map[any]any, messagetypeFrom *MessageType
 
 	messagetypeTo = new(MessageType)
 	mapOrigCopy[messagetypeFrom] = messagetypeTo
-	messagetypeFrom.CopyBasicFields(messagetypeTo)
+	messagetypeFrom.GongCopyBasicFields(messagetypeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -998,7 +930,7 @@ func CopyBranchMessageType(mapOrigCopy map[any]any, messagetypeFrom *MessageType
 	return
 }
 
-func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
+func GongCopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 
 	// noteFrom has already been copied
 	if _noteTo, ok := mapOrigCopy[noteFrom]; ok {
@@ -1008,11 +940,11 @@ func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 
 	noteTo = new(Note)
 	mapOrigCopy[noteFrom] = noteTo
-	noteFrom.CopyBasicFields(noteTo)
+	noteFrom.GongCopyBasicFields(noteTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteFrom.State != nil {
-		noteTo.State = CopyBranchState(mapOrigCopy, noteFrom.State)
+		noteTo.State = GongCopyBranchState(mapOrigCopy, noteFrom.State)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1020,7 +952,7 @@ func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 	return
 }
 
-func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
+func GongCopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
 
 	// noteshapeFrom has already been copied
 	if _noteshapeTo, ok := mapOrigCopy[noteshapeFrom]; ok {
@@ -1030,11 +962,11 @@ func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (not
 
 	noteshapeTo = new(NoteShape)
 	mapOrigCopy[noteshapeFrom] = noteshapeTo
-	noteshapeFrom.CopyBasicFields(noteshapeTo)
+	noteshapeFrom.GongCopyBasicFields(noteshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshapeFrom.Note != nil {
-		noteshapeTo.Note = CopyBranchNote(mapOrigCopy, noteshapeFrom.Note)
+		noteshapeTo.Note = GongCopyBranchNote(mapOrigCopy, noteshapeFrom.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1042,7 +974,7 @@ func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (not
 	return
 }
 
-func CopyBranchNoteStateShape(mapOrigCopy map[any]any, notestateshapeFrom *NoteStateShape) (notestateshapeTo *NoteStateShape) {
+func GongCopyBranchNoteStateShape(mapOrigCopy map[any]any, notestateshapeFrom *NoteStateShape) (notestateshapeTo *NoteStateShape) {
 
 	// notestateshapeFrom has already been copied
 	if _notestateshapeTo, ok := mapOrigCopy[notestateshapeFrom]; ok {
@@ -1052,14 +984,14 @@ func CopyBranchNoteStateShape(mapOrigCopy map[any]any, notestateshapeFrom *NoteS
 
 	notestateshapeTo = new(NoteStateShape)
 	mapOrigCopy[notestateshapeFrom] = notestateshapeTo
-	notestateshapeFrom.CopyBasicFields(notestateshapeTo)
+	notestateshapeFrom.GongCopyBasicFields(notestateshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if notestateshapeFrom.Note != nil {
-		notestateshapeTo.Note = CopyBranchNote(mapOrigCopy, notestateshapeFrom.Note)
+		notestateshapeTo.Note = GongCopyBranchNote(mapOrigCopy, notestateshapeFrom.Note)
 	}
 	if notestateshapeFrom.State != nil {
-		notestateshapeTo.State = CopyBranchState(mapOrigCopy, notestateshapeFrom.State)
+		notestateshapeTo.State = GongCopyBranchState(mapOrigCopy, notestateshapeFrom.State)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1067,7 +999,7 @@ func CopyBranchNoteStateShape(mapOrigCopy map[any]any, notestateshapeFrom *NoteS
 	return
 }
 
-func CopyBranchObject(mapOrigCopy map[any]any, objectFrom *Object) (objectTo *Object) {
+func GongCopyBranchObject(mapOrigCopy map[any]any, objectFrom *Object) (objectTo *Object) {
 
 	// objectFrom has already been copied
 	if _objectTo, ok := mapOrigCopy[objectFrom]; ok {
@@ -1077,22 +1009,22 @@ func CopyBranchObject(mapOrigCopy map[any]any, objectFrom *Object) (objectTo *Ob
 
 	objectTo = new(Object)
 	mapOrigCopy[objectFrom] = objectTo
-	objectFrom.CopyBasicFields(objectTo)
+	objectFrom.GongCopyBasicFields(objectTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if objectFrom.State != nil {
-		objectTo.State = CopyBranchState(mapOrigCopy, objectFrom.State)
+		objectTo.State = GongCopyBranchState(mapOrigCopy, objectFrom.State)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _message := range objectFrom.Messages {
-		objectTo.Messages = append(objectTo.Messages, CopyBranchMessage(mapOrigCopy, _message))
+		objectTo.Messages = append(objectTo.Messages, GongCopyBranchMessage(mapOrigCopy, _message))
 	}
 
 	return
 }
 
-func CopyBranchRole(mapOrigCopy map[any]any, roleFrom *Role) (roleTo *Role) {
+func GongCopyBranchRole(mapOrigCopy map[any]any, roleFrom *Role) (roleTo *Role) {
 
 	// roleFrom has already been copied
 	if _roleTo, ok := mapOrigCopy[roleFrom]; ok {
@@ -1102,19 +1034,19 @@ func CopyBranchRole(mapOrigCopy map[any]any, roleFrom *Role) (roleTo *Role) {
 
 	roleTo = new(Role)
 	mapOrigCopy[roleFrom] = roleTo
-	roleFrom.CopyBasicFields(roleTo)
+	roleFrom.GongCopyBasicFields(roleTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _role := range roleFrom.RolesWithSamePermissions {
-		roleTo.RolesWithSamePermissions = append(roleTo.RolesWithSamePermissions, CopyBranchRole(mapOrigCopy, _role))
+		roleTo.RolesWithSamePermissions = append(roleTo.RolesWithSamePermissions, GongCopyBranchRole(mapOrigCopy, _role))
 	}
 
 	return
 }
 
-func CopyBranchState(mapOrigCopy map[any]any, stateFrom *State) (stateTo *State) {
+func GongCopyBranchState(mapOrigCopy map[any]any, stateFrom *State) (stateTo *State) {
 
 	// stateFrom has already been copied
 	if _stateTo, ok := mapOrigCopy[stateFrom]; ok {
@@ -1124,37 +1056,37 @@ func CopyBranchState(mapOrigCopy map[any]any, stateFrom *State) (stateTo *State)
 
 	stateTo = new(State)
 	mapOrigCopy[stateFrom] = stateTo
-	stateFrom.CopyBasicFields(stateTo)
+	stateFrom.GongCopyBasicFields(stateTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if stateFrom.Entry != nil {
-		stateTo.Entry = CopyBranchAction(mapOrigCopy, stateFrom.Entry)
+		stateTo.Entry = GongCopyBranchAction(mapOrigCopy, stateFrom.Entry)
 	}
 	if stateFrom.Exit != nil {
-		stateTo.Exit = CopyBranchAction(mapOrigCopy, stateFrom.Exit)
+		stateTo.Exit = GongCopyBranchAction(mapOrigCopy, stateFrom.Exit)
 	}
 	if stateFrom.Parent != nil {
-		stateTo.Parent = CopyBranchState(mapOrigCopy, stateFrom.Parent)
+		stateTo.Parent = GongCopyBranchState(mapOrigCopy, stateFrom.Parent)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _state := range stateFrom.SubStates {
-		stateTo.SubStates = append(stateTo.SubStates, CopyBranchState(mapOrigCopy, _state))
+		stateTo.SubStates = append(stateTo.SubStates, GongCopyBranchState(mapOrigCopy, _state))
 	}
 	for _, _activities := range stateFrom.Activities {
-		stateTo.Activities = append(stateTo.Activities, CopyBranchActivities(mapOrigCopy, _activities))
+		stateTo.Activities = append(stateTo.Activities, GongCopyBranchActivities(mapOrigCopy, _activities))
 	}
 	for _, _diagram := range stateFrom.Diagrams {
-		stateTo.Diagrams = append(stateTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
+		stateTo.Diagrams = append(stateTo.Diagrams, GongCopyBranchDiagram(mapOrigCopy, _diagram))
 	}
 	for _, _note := range stateFrom.Notes {
-		stateTo.Notes = append(stateTo.Notes, CopyBranchNote(mapOrigCopy, _note))
+		stateTo.Notes = append(stateTo.Notes, GongCopyBranchNote(mapOrigCopy, _note))
 	}
 
 	return
 }
 
-func CopyBranchStateMachine(mapOrigCopy map[any]any, statemachineFrom *StateMachine) (statemachineTo *StateMachine) {
+func GongCopyBranchStateMachine(mapOrigCopy map[any]any, statemachineFrom *StateMachine) (statemachineTo *StateMachine) {
 
 	// statemachineFrom has already been copied
 	if _statemachineTo, ok := mapOrigCopy[statemachineFrom]; ok {
@@ -1164,25 +1096,25 @@ func CopyBranchStateMachine(mapOrigCopy map[any]any, statemachineFrom *StateMach
 
 	statemachineTo = new(StateMachine)
 	mapOrigCopy[statemachineFrom] = statemachineTo
-	statemachineFrom.CopyBasicFields(statemachineTo)
+	statemachineFrom.GongCopyBasicFields(statemachineTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if statemachineFrom.InitialState != nil {
-		statemachineTo.InitialState = CopyBranchState(mapOrigCopy, statemachineFrom.InitialState)
+		statemachineTo.InitialState = GongCopyBranchState(mapOrigCopy, statemachineFrom.InitialState)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _state := range statemachineFrom.States {
-		statemachineTo.States = append(statemachineTo.States, CopyBranchState(mapOrigCopy, _state))
+		statemachineTo.States = append(statemachineTo.States, GongCopyBranchState(mapOrigCopy, _state))
 	}
 	for _, _diagram := range statemachineFrom.Diagrams {
-		statemachineTo.Diagrams = append(statemachineTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
+		statemachineTo.Diagrams = append(statemachineTo.Diagrams, GongCopyBranchDiagram(mapOrigCopy, _diagram))
 	}
 
 	return
 }
 
-func CopyBranchStateShape(mapOrigCopy map[any]any, stateshapeFrom *StateShape) (stateshapeTo *StateShape) {
+func GongCopyBranchStateShape(mapOrigCopy map[any]any, stateshapeFrom *StateShape) (stateshapeTo *StateShape) {
 
 	// stateshapeFrom has already been copied
 	if _stateshapeTo, ok := mapOrigCopy[stateshapeFrom]; ok {
@@ -1192,11 +1124,11 @@ func CopyBranchStateShape(mapOrigCopy map[any]any, stateshapeFrom *StateShape) (
 
 	stateshapeTo = new(StateShape)
 	mapOrigCopy[stateshapeFrom] = stateshapeTo
-	stateshapeFrom.CopyBasicFields(stateshapeTo)
+	stateshapeFrom.GongCopyBasicFields(stateshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if stateshapeFrom.State != nil {
-		stateshapeTo.State = CopyBranchState(mapOrigCopy, stateshapeFrom.State)
+		stateshapeTo.State = GongCopyBranchState(mapOrigCopy, stateshapeFrom.State)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1204,7 +1136,7 @@ func CopyBranchStateShape(mapOrigCopy map[any]any, stateshapeFrom *StateShape) (
 	return
 }
 
-func CopyBranchTransition(mapOrigCopy map[any]any, transitionFrom *Transition) (transitionTo *Transition) {
+func GongCopyBranchTransition(mapOrigCopy map[any]any, transitionFrom *Transition) (transitionTo *Transition) {
 
 	// transitionFrom has already been copied
 	if _transitionTo, ok := mapOrigCopy[transitionFrom]; ok {
@@ -1214,34 +1146,34 @@ func CopyBranchTransition(mapOrigCopy map[any]any, transitionFrom *Transition) (
 
 	transitionTo = new(Transition)
 	mapOrigCopy[transitionFrom] = transitionTo
-	transitionFrom.CopyBasicFields(transitionTo)
+	transitionFrom.GongCopyBasicFields(transitionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if transitionFrom.Start != nil {
-		transitionTo.Start = CopyBranchState(mapOrigCopy, transitionFrom.Start)
+		transitionTo.Start = GongCopyBranchState(mapOrigCopy, transitionFrom.Start)
 	}
 	if transitionFrom.End != nil {
-		transitionTo.End = CopyBranchState(mapOrigCopy, transitionFrom.End)
+		transitionTo.End = GongCopyBranchState(mapOrigCopy, transitionFrom.End)
 	}
 	if transitionFrom.Guard != nil {
-		transitionTo.Guard = CopyBranchGuard(mapOrigCopy, transitionFrom.Guard)
+		transitionTo.Guard = GongCopyBranchGuard(mapOrigCopy, transitionFrom.Guard)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _role := range transitionFrom.RolesWithPermissions {
-		transitionTo.RolesWithPermissions = append(transitionTo.RolesWithPermissions, CopyBranchRole(mapOrigCopy, _role))
+		transitionTo.RolesWithPermissions = append(transitionTo.RolesWithPermissions, GongCopyBranchRole(mapOrigCopy, _role))
 	}
 	for _, _messagetype := range transitionFrom.GeneratedMessages {
-		transitionTo.GeneratedMessages = append(transitionTo.GeneratedMessages, CopyBranchMessageType(mapOrigCopy, _messagetype))
+		transitionTo.GeneratedMessages = append(transitionTo.GeneratedMessages, GongCopyBranchMessageType(mapOrigCopy, _messagetype))
 	}
 	for _, _diagram := range transitionFrom.Diagrams {
-		transitionTo.Diagrams = append(transitionTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
+		transitionTo.Diagrams = append(transitionTo.Diagrams, GongCopyBranchDiagram(mapOrigCopy, _diagram))
 	}
 
 	return
 }
 
-func CopyBranchTransition_Shape(mapOrigCopy map[any]any, transition_shapeFrom *Transition_Shape) (transition_shapeTo *Transition_Shape) {
+func GongCopyBranchTransition_Shape(mapOrigCopy map[any]any, transition_shapeFrom *Transition_Shape) (transition_shapeTo *Transition_Shape) {
 
 	// transition_shapeFrom has already been copied
 	if _transition_shapeTo, ok := mapOrigCopy[transition_shapeFrom]; ok {
@@ -1251,11 +1183,11 @@ func CopyBranchTransition_Shape(mapOrigCopy map[any]any, transition_shapeFrom *T
 
 	transition_shapeTo = new(Transition_Shape)
 	mapOrigCopy[transition_shapeFrom] = transition_shapeTo
-	transition_shapeFrom.CopyBasicFields(transition_shapeTo)
+	transition_shapeFrom.GongCopyBasicFields(transition_shapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if transition_shapeFrom.Transition != nil {
-		transition_shapeTo.Transition = CopyBranchTransition(mapOrigCopy, transition_shapeFrom.Transition)
+		transition_shapeTo.Transition = GongCopyBranchTransition(mapOrigCopy, transition_shapeFrom.Transition)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1331,16 +1263,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchAction(action *Action) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, action) {
+	if !stage.IsStaged(action) {
 		return
 	}
 
@@ -1355,7 +1282,7 @@ func (stage *Stage) UnstageBranchAction(action *Action) {
 func (stage *Stage) UnstageBranchActivities(activities *Activities) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, activities) {
+	if !stage.IsStaged(activities) {
 		return
 	}
 
@@ -1370,7 +1297,7 @@ func (stage *Stage) UnstageBranchActivities(activities *Activities) {
 func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, diagram) {
+	if !stage.IsStaged(diagram) {
 		return
 	}
 
@@ -1380,19 +1307,19 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _stateshape := range diagram.State_Shapes {
-		UnstageBranch(stage, _stateshape)
+		stage.UnstageBranch(_stateshape)
 	}
 	for _, _state := range diagram.StatesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _state)
+		stage.UnstageBranch(_state)
 	}
 	for _, _transition_shape := range diagram.Transition_Shapes {
-		UnstageBranch(stage, _transition_shape)
+		stage.UnstageBranch(_transition_shape)
 	}
 	for _, _noteshape := range diagram.Note_Shapes {
-		UnstageBranch(stage, _noteshape)
+		stage.UnstageBranch(_noteshape)
 	}
 	for _, _notestateshape := range diagram.NoteState_Shapes {
-		UnstageBranch(stage, _notestateshape)
+		stage.UnstageBranch(_notestateshape)
 	}
 
 }
@@ -1400,7 +1327,7 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 func (stage *Stage) UnstageBranchGuard(guard *Guard) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, guard) {
+	if !stage.IsStaged(guard) {
 		return
 	}
 
@@ -1415,7 +1342,7 @@ func (stage *Stage) UnstageBranchGuard(guard *Guard) {
 func (stage *Stage) UnstageBranchKill(kill *Kill) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, kill) {
+	if !stage.IsStaged(kill) {
 		return
 	}
 
@@ -1430,7 +1357,7 @@ func (stage *Stage) UnstageBranchKill(kill *Kill) {
 func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, library) {
+	if !stage.IsStaged(library) {
 		return
 	}
 
@@ -1440,22 +1367,22 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _library := range library.SubLibraries {
-		UnstageBranch(stage, _library)
+		stage.UnstageBranch(_library)
 	}
 	for _, _diagram := range library.Diagrams {
-		UnstageBranch(stage, _diagram)
+		stage.UnstageBranch(_diagram)
 	}
 	for _, _statemachine := range library.RootStateMachines {
-		UnstageBranch(stage, _statemachine)
+		stage.UnstageBranch(_statemachine)
 	}
 	for _, _statemachine := range library.StateMachinesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _statemachine)
+		stage.UnstageBranch(_statemachine)
 	}
 	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _library)
+		stage.UnstageBranch(_library)
 	}
 	for _, _role := range library.Roles {
-		UnstageBranch(stage, _role)
+		stage.UnstageBranch(_role)
 	}
 
 }
@@ -1463,7 +1390,7 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 func (stage *Stage) UnstageBranchMessage(message *Message) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, message) {
+	if !stage.IsStaged(message) {
 		return
 	}
 
@@ -1471,10 +1398,10 @@ func (stage *Stage) UnstageBranchMessage(message *Message) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if message.MessageType != nil {
-		UnstageBranch(stage, message.MessageType)
+		stage.UnstageBranch(message.MessageType)
 	}
 	if message.OriginTransition != nil {
-		UnstageBranch(stage, message.OriginTransition)
+		stage.UnstageBranch(message.OriginTransition)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1484,7 +1411,7 @@ func (stage *Stage) UnstageBranchMessage(message *Message) {
 func (stage *Stage) UnstageBranchMessageType(messagetype *MessageType) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, messagetype) {
+	if !stage.IsStaged(messagetype) {
 		return
 	}
 
@@ -1499,7 +1426,7 @@ func (stage *Stage) UnstageBranchMessageType(messagetype *MessageType) {
 func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, note) {
+	if !stage.IsStaged(note) {
 		return
 	}
 
@@ -1507,7 +1434,7 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if note.State != nil {
-		UnstageBranch(stage, note.State)
+		stage.UnstageBranch(note.State)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1517,7 +1444,7 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, noteshape) {
+	if !stage.IsStaged(noteshape) {
 		return
 	}
 
@@ -1525,7 +1452,7 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshape.Note != nil {
-		UnstageBranch(stage, noteshape.Note)
+		stage.UnstageBranch(noteshape.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1535,7 +1462,7 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 func (stage *Stage) UnstageBranchNoteStateShape(notestateshape *NoteStateShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, notestateshape) {
+	if !stage.IsStaged(notestateshape) {
 		return
 	}
 
@@ -1543,10 +1470,10 @@ func (stage *Stage) UnstageBranchNoteStateShape(notestateshape *NoteStateShape) 
 
 	//insertion point for the staging of instances referenced by pointers
 	if notestateshape.Note != nil {
-		UnstageBranch(stage, notestateshape.Note)
+		stage.UnstageBranch(notestateshape.Note)
 	}
 	if notestateshape.State != nil {
-		UnstageBranch(stage, notestateshape.State)
+		stage.UnstageBranch(notestateshape.State)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1556,7 +1483,7 @@ func (stage *Stage) UnstageBranchNoteStateShape(notestateshape *NoteStateShape) 
 func (stage *Stage) UnstageBranchObject(object *Object) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, object) {
+	if !stage.IsStaged(object) {
 		return
 	}
 
@@ -1564,12 +1491,12 @@ func (stage *Stage) UnstageBranchObject(object *Object) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if object.State != nil {
-		UnstageBranch(stage, object.State)
+		stage.UnstageBranch(object.State)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _message := range object.Messages {
-		UnstageBranch(stage, _message)
+		stage.UnstageBranch(_message)
 	}
 
 }
@@ -1577,7 +1504,7 @@ func (stage *Stage) UnstageBranchObject(object *Object) {
 func (stage *Stage) UnstageBranchRole(role *Role) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, role) {
+	if !stage.IsStaged(role) {
 		return
 	}
 
@@ -1587,7 +1514,7 @@ func (stage *Stage) UnstageBranchRole(role *Role) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _role := range role.RolesWithSamePermissions {
-		UnstageBranch(stage, _role)
+		stage.UnstageBranch(_role)
 	}
 
 }
@@ -1595,7 +1522,7 @@ func (stage *Stage) UnstageBranchRole(role *Role) {
 func (stage *Stage) UnstageBranchState(state *State) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, state) {
+	if !stage.IsStaged(state) {
 		return
 	}
 
@@ -1603,27 +1530,27 @@ func (stage *Stage) UnstageBranchState(state *State) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if state.Entry != nil {
-		UnstageBranch(stage, state.Entry)
+		stage.UnstageBranch(state.Entry)
 	}
 	if state.Exit != nil {
-		UnstageBranch(stage, state.Exit)
+		stage.UnstageBranch(state.Exit)
 	}
 	if state.Parent != nil {
-		UnstageBranch(stage, state.Parent)
+		stage.UnstageBranch(state.Parent)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _state := range state.SubStates {
-		UnstageBranch(stage, _state)
+		stage.UnstageBranch(_state)
 	}
 	for _, _activities := range state.Activities {
-		UnstageBranch(stage, _activities)
+		stage.UnstageBranch(_activities)
 	}
 	for _, _diagram := range state.Diagrams {
-		UnstageBranch(stage, _diagram)
+		stage.UnstageBranch(_diagram)
 	}
 	for _, _note := range state.Notes {
-		UnstageBranch(stage, _note)
+		stage.UnstageBranch(_note)
 	}
 
 }
@@ -1631,7 +1558,7 @@ func (stage *Stage) UnstageBranchState(state *State) {
 func (stage *Stage) UnstageBranchStateMachine(statemachine *StateMachine) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, statemachine) {
+	if !stage.IsStaged(statemachine) {
 		return
 	}
 
@@ -1639,15 +1566,15 @@ func (stage *Stage) UnstageBranchStateMachine(statemachine *StateMachine) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if statemachine.InitialState != nil {
-		UnstageBranch(stage, statemachine.InitialState)
+		stage.UnstageBranch(statemachine.InitialState)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _state := range statemachine.States {
-		UnstageBranch(stage, _state)
+		stage.UnstageBranch(_state)
 	}
 	for _, _diagram := range statemachine.Diagrams {
-		UnstageBranch(stage, _diagram)
+		stage.UnstageBranch(_diagram)
 	}
 
 }
@@ -1655,7 +1582,7 @@ func (stage *Stage) UnstageBranchStateMachine(statemachine *StateMachine) {
 func (stage *Stage) UnstageBranchStateShape(stateshape *StateShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, stateshape) {
+	if !stage.IsStaged(stateshape) {
 		return
 	}
 
@@ -1663,7 +1590,7 @@ func (stage *Stage) UnstageBranchStateShape(stateshape *StateShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if stateshape.State != nil {
-		UnstageBranch(stage, stateshape.State)
+		stage.UnstageBranch(stateshape.State)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1673,7 +1600,7 @@ func (stage *Stage) UnstageBranchStateShape(stateshape *StateShape) {
 func (stage *Stage) UnstageBranchTransition(transition *Transition) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, transition) {
+	if !stage.IsStaged(transition) {
 		return
 	}
 
@@ -1681,24 +1608,24 @@ func (stage *Stage) UnstageBranchTransition(transition *Transition) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if transition.Start != nil {
-		UnstageBranch(stage, transition.Start)
+		stage.UnstageBranch(transition.Start)
 	}
 	if transition.End != nil {
-		UnstageBranch(stage, transition.End)
+		stage.UnstageBranch(transition.End)
 	}
 	if transition.Guard != nil {
-		UnstageBranch(stage, transition.Guard)
+		stage.UnstageBranch(transition.Guard)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _role := range transition.RolesWithPermissions {
-		UnstageBranch(stage, _role)
+		stage.UnstageBranch(_role)
 	}
 	for _, _messagetype := range transition.GeneratedMessages {
-		UnstageBranch(stage, _messagetype)
+		stage.UnstageBranch(_messagetype)
 	}
 	for _, _diagram := range transition.Diagrams {
-		UnstageBranch(stage, _diagram)
+		stage.UnstageBranch(_diagram)
 	}
 
 }
@@ -1706,7 +1633,7 @@ func (stage *Stage) UnstageBranchTransition(transition *Transition) {
 func (stage *Stage) UnstageBranchTransition_Shape(transition_shape *Transition_Shape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, transition_shape) {
+	if !stage.IsStaged(transition_shape) {
 		return
 	}
 
@@ -1714,7 +1641,7 @@ func (stage *Stage) UnstageBranchTransition_Shape(transition_shape *Transition_S
 
 	//insertion point for the staging of instances referenced by pointers
 	if transition_shape.Transition != nil {
-		UnstageBranch(stage, transition_shape.Transition)
+		stage.UnstageBranch(transition_shape.Transition)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2355,7 +2282,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if State_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "State_Shapes", diagramOther.State_Shapes, diagram.State_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "State_Shapes", diagramOther.State_Shapes, diagram.State_Shapes)
 		diffs = append(diffs, ops)
 	}
 	StatesWhoseNodeIsExpandedDifferent := false
@@ -2376,7 +2303,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if StatesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "StatesWhoseNodeIsExpanded", diagramOther.StatesWhoseNodeIsExpanded, diagram.StatesWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "StatesWhoseNodeIsExpanded", diagramOther.StatesWhoseNodeIsExpanded, diagram.StatesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	Transition_ShapesDifferent := false
@@ -2397,7 +2324,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Transition_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Transition_Shapes", diagramOther.Transition_Shapes, diagram.Transition_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "Transition_Shapes", diagramOther.Transition_Shapes, diagram.Transition_Shapes)
 		diffs = append(diffs, ops)
 	}
 	Note_ShapesDifferent := false
@@ -2418,7 +2345,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Note_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Note_Shapes", diagramOther.Note_Shapes, diagram.Note_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "Note_Shapes", diagramOther.Note_Shapes, diagram.Note_Shapes)
 		diffs = append(diffs, ops)
 	}
 	NoteState_ShapesDifferent := false
@@ -2439,7 +2366,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteState_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "NoteState_Shapes", diagramOther.NoteState_Shapes, diagram.NoteState_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "NoteState_Shapes", diagramOther.NoteState_Shapes, diagram.NoteState_Shapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -2493,7 +2420,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if SubLibrariesDifferent {
-		ops := Diff(stage, library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
+		ops := stage.Diff(library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
 		diffs = append(diffs, ops)
 	}
 	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
@@ -2529,7 +2456,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if DiagramsDifferent {
-		ops := Diff(stage, library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
+		ops := stage.Diff(library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
 		diffs = append(diffs, ops)
 	}
 	RootStateMachinesDifferent := false
@@ -2550,7 +2477,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootStateMachinesDifferent {
-		ops := Diff(stage, library, libraryOther, "RootStateMachines", libraryOther.RootStateMachines, library.RootStateMachines)
+		ops := stage.Diff(library, libraryOther, "RootStateMachines", libraryOther.RootStateMachines, library.RootStateMachines)
 		diffs = append(diffs, ops)
 	}
 	if library.IsStateMachinesNodeExpanded != libraryOther.IsStateMachinesNodeExpanded {
@@ -2574,7 +2501,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if StateMachinesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "StateMachinesWhoseNodeIsExpanded", libraryOther.StateMachinesWhoseNodeIsExpanded, library.StateMachinesWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "StateMachinesWhoseNodeIsExpanded", libraryOther.StateMachinesWhoseNodeIsExpanded, library.StateMachinesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if library.IsSubLibrariesNodeExpanded != libraryOther.IsSubLibrariesNodeExpanded {
@@ -2598,7 +2525,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if SubLibrariesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "SubLibrariesWhoseNodeIsExpanded", libraryOther.SubLibrariesWhoseNodeIsExpanded, library.SubLibrariesWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "SubLibrariesWhoseNodeIsExpanded", libraryOther.SubLibrariesWhoseNodeIsExpanded, library.SubLibrariesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if library.IsExpandedTmp != libraryOther.IsExpandedTmp {
@@ -2622,7 +2549,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RolesDifferent {
-		ops := Diff(stage, library, libraryOther, "Roles", libraryOther.Roles, library.Roles)
+		ops := stage.Diff(library, libraryOther, "Roles", libraryOther.Roles, library.Roles)
 		diffs = append(diffs, ops)
 	}
 
@@ -2818,7 +2745,7 @@ func (object *Object) GongDiff(stage *Stage, objectOther *Object) (diffs []strin
 		}
 	}
 	if MessagesDifferent {
-		ops := Diff(stage, object, objectOther, "Messages", objectOther.Messages, object.Messages)
+		ops := stage.Diff(object, objectOther, "Messages", objectOther.Messages, object.Messages)
 		diffs = append(diffs, ops)
 	}
 
@@ -2853,7 +2780,7 @@ func (role *Role) GongDiff(stage *Stage, roleOther *Role) (diffs []string) {
 		}
 	}
 	if RolesWithSamePermissionsDifferent {
-		ops := Diff(stage, role, roleOther, "RolesWithSamePermissions", roleOther.RolesWithSamePermissions, role.RolesWithSamePermissions)
+		ops := stage.Diff(role, roleOther, "RolesWithSamePermissions", roleOther.RolesWithSamePermissions, role.RolesWithSamePermissions)
 		diffs = append(diffs, ops)
 	}
 
@@ -2891,7 +2818,7 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 		}
 	}
 	if SubStatesDifferent {
-		ops := Diff(stage, state, stateOther, "SubStates", stateOther.SubStates, state.SubStates)
+		ops := stage.Diff(state, stateOther, "SubStates", stateOther.SubStates, state.SubStates)
 		diffs = append(diffs, ops)
 	}
 	if (state.Entry == nil) != (stateOther.Entry == nil) {
@@ -2919,7 +2846,7 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 		}
 	}
 	if ActivitiesDifferent {
-		ops := Diff(stage, state, stateOther, "Activities", stateOther.Activities, state.Activities)
+		ops := stage.Diff(state, stateOther, "Activities", stateOther.Activities, state.Activities)
 		diffs = append(diffs, ops)
 	}
 	if (state.Exit == nil) != (stateOther.Exit == nil) {
@@ -2957,7 +2884,7 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 		}
 	}
 	if DiagramsDifferent {
-		ops := Diff(stage, state, stateOther, "Diagrams", stateOther.Diagrams, state.Diagrams)
+		ops := stage.Diff(state, stateOther, "Diagrams", stateOther.Diagrams, state.Diagrams)
 		diffs = append(diffs, ops)
 	}
 	NotesDifferent := false
@@ -2978,7 +2905,7 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 		}
 	}
 	if NotesDifferent {
-		ops := Diff(stage, state, stateOther, "Notes", stateOther.Notes, state.Notes)
+		ops := stage.Diff(state, stateOther, "Notes", stateOther.Notes, state.Notes)
 		diffs = append(diffs, ops)
 	}
 
@@ -3017,7 +2944,7 @@ func (statemachine *StateMachine) GongDiff(stage *Stage, statemachineOther *Stat
 		}
 	}
 	if StatesDifferent {
-		ops := Diff(stage, statemachine, statemachineOther, "States", statemachineOther.States, statemachine.States)
+		ops := stage.Diff(statemachine, statemachineOther, "States", statemachineOther.States, statemachine.States)
 		diffs = append(diffs, ops)
 	}
 	DiagramsDifferent := false
@@ -3038,7 +2965,7 @@ func (statemachine *StateMachine) GongDiff(stage *Stage, statemachineOther *Stat
 		}
 	}
 	if DiagramsDifferent {
-		ops := Diff(stage, statemachine, statemachineOther, "Diagrams", statemachineOther.Diagrams, statemachine.Diagrams)
+		ops := stage.Diff(statemachine, statemachineOther, "Diagrams", statemachineOther.Diagrams, statemachine.Diagrams)
 		diffs = append(diffs, ops)
 	}
 	if statemachine.IsWithTransitionNameAutonamticalyGenerated != statemachineOther.IsWithTransitionNameAutonamticalyGenerated {
@@ -3126,7 +3053,7 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 		}
 	}
 	if RolesWithPermissionsDifferent {
-		ops := Diff(stage, transition, transitionOther, "RolesWithPermissions", transitionOther.RolesWithPermissions, transition.RolesWithPermissions)
+		ops := stage.Diff(transition, transitionOther, "RolesWithPermissions", transitionOther.RolesWithPermissions, transition.RolesWithPermissions)
 		diffs = append(diffs, ops)
 	}
 	GeneratedMessagesDifferent := false
@@ -3147,7 +3074,7 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 		}
 	}
 	if GeneratedMessagesDifferent {
-		ops := Diff(stage, transition, transitionOther, "GeneratedMessages", transitionOther.GeneratedMessages, transition.GeneratedMessages)
+		ops := stage.Diff(transition, transitionOther, "GeneratedMessages", transitionOther.GeneratedMessages, transition.GeneratedMessages)
 		diffs = append(diffs, ops)
 	}
 	if (transition.Guard == nil) != (transitionOther.Guard == nil) {
@@ -3175,7 +3102,7 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 		}
 	}
 	if DiagramsDifferent {
-		ops := Diff(stage, transition, transitionOther, "Diagrams", transitionOther.Diagrams, transition.Diagrams)
+		ops := stage.Diff(transition, transitionOther, "Diagrams", transitionOther.Diagrams, transition.Diagrams)
 		diffs = append(diffs, ops)
 	}
 
@@ -3292,9 +3219,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

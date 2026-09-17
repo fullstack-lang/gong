@@ -73,8 +73,8 @@ func (classdiagram *Classdiagram) RemoveGongEnumShape(stage *Stage, gongenumshap
 	// remove documentation links that go this gongenumshape
 	//
 	// generate the map to navigate from children to parents
-	fieldName := GetAssociationName[GongNoteShape]().GongNoteLinkShapes[0].Name
-	map_NoteShapeLink_NodeShape := GetSliceOfPointersReverseMap[GongNoteShape, GongNoteLinkShape](fieldName, stage)
+	fieldName := GongGetAssociationName[GongNoteShape]().GongNoteLinkShapes[0].Name
+	map_NoteShapeLink_NodeShape := stage.GetSliceOfPointersReverseMap[GongNoteShape, GongNoteLinkShape](fieldName)
 	for noteShapeLink := range *stage.GetInstancesSet[*GongNoteLinkShape]() {
 		if noteShapeLink.Name == gongenumshapeName {
 

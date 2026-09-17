@@ -79,7 +79,7 @@ func executeServer(args []string) {
 	}
 
 	if *pathToXLFile != "" {
-		gongreqif_models.SerializeStage(stack.Stage, *pathToXLFile)
+		stack.Stage.SerializeStage(*pathToXLFile)
 	}
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))

@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -42,11 +37,6 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 	return
 }
 
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
-}
-
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by A_directive
 func (a_directive *A_directive) GongClean(stage *Stage) (modified bool) {
@@ -58,20 +48,20 @@ func (a_directive *A_directive) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by A_measure
 func (a_measure *A_measure) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_measure.Note) || modified
-	modified = GongCleanSlice(stage, &a_measure.Backup) || modified
-	modified = GongCleanSlice(stage, &a_measure.Forward) || modified
-	modified = GongCleanSlice(stage, &a_measure.Direction) || modified
-	modified = GongCleanSlice(stage, &a_measure.Attributes) || modified
-	modified = GongCleanSlice(stage, &a_measure.Harmony) || modified
-	modified = GongCleanSlice(stage, &a_measure.Figured_bass) || modified
-	modified = GongCleanSlice(stage, &a_measure.Print) || modified
-	modified = GongCleanSlice(stage, &a_measure.Sound) || modified
-	modified = GongCleanSlice(stage, &a_measure.Listening) || modified
-	modified = GongCleanSlice(stage, &a_measure.Barline) || modified
-	modified = GongCleanSlice(stage, &a_measure.Grouping) || modified
-	modified = GongCleanSlice(stage, &a_measure.Link) || modified
-	modified = GongCleanSlice(stage, &a_measure.Bookmark) || modified
+	modified = stage.CleanSlice(&a_measure.Note) || modified
+	modified = stage.CleanSlice(&a_measure.Backup) || modified
+	modified = stage.CleanSlice(&a_measure.Forward) || modified
+	modified = stage.CleanSlice(&a_measure.Direction) || modified
+	modified = stage.CleanSlice(&a_measure.Attributes) || modified
+	modified = stage.CleanSlice(&a_measure.Harmony) || modified
+	modified = stage.CleanSlice(&a_measure.Figured_bass) || modified
+	modified = stage.CleanSlice(&a_measure.Print) || modified
+	modified = stage.CleanSlice(&a_measure.Sound) || modified
+	modified = stage.CleanSlice(&a_measure.Listening) || modified
+	modified = stage.CleanSlice(&a_measure.Barline) || modified
+	modified = stage.CleanSlice(&a_measure.Grouping) || modified
+	modified = stage.CleanSlice(&a_measure.Link) || modified
+	modified = stage.CleanSlice(&a_measure.Bookmark) || modified
 	// insertion point per field
 	return
 }
@@ -79,7 +69,7 @@ func (a_measure *A_measure) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by A_measure_1
 func (a_measure_1 *A_measure_1) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_measure_1.Part) || modified
+	modified = stage.CleanSlice(&a_measure_1.Part) || modified
 	// insertion point per field
 	return
 }
@@ -87,7 +77,7 @@ func (a_measure_1 *A_measure_1) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by A_part
 func (a_part *A_part) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_part.Measure) || modified
+	modified = stage.CleanSlice(&a_part.Measure) || modified
 	// insertion point per field
 	return
 }
@@ -95,20 +85,20 @@ func (a_part *A_part) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by A_part_1
 func (a_part_1 *A_part_1) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a_part_1.Note) || modified
-	modified = GongCleanSlice(stage, &a_part_1.Backup) || modified
-	modified = GongCleanSlice(stage, &a_part_1.Forward) || modified
-	modified = GongCleanSlice(stage, &a_part_1.Direction) || modified
-	modified = GongCleanSlice(stage, &a_part_1.Attributes) || modified
-	modified = GongCleanSlice(stage, &a_part_1.Harmony) || modified
-	modified = GongCleanSlice(stage, &a_part_1.Figured_bass) || modified
-	modified = GongCleanSlice(stage, &a_part_1.Print) || modified
-	modified = GongCleanSlice(stage, &a_part_1.Sound) || modified
-	modified = GongCleanSlice(stage, &a_part_1.Listening) || modified
-	modified = GongCleanSlice(stage, &a_part_1.Barline) || modified
-	modified = GongCleanSlice(stage, &a_part_1.Grouping) || modified
-	modified = GongCleanSlice(stage, &a_part_1.Link) || modified
-	modified = GongCleanSlice(stage, &a_part_1.Bookmark) || modified
+	modified = stage.CleanSlice(&a_part_1.Note) || modified
+	modified = stage.CleanSlice(&a_part_1.Backup) || modified
+	modified = stage.CleanSlice(&a_part_1.Forward) || modified
+	modified = stage.CleanSlice(&a_part_1.Direction) || modified
+	modified = stage.CleanSlice(&a_part_1.Attributes) || modified
+	modified = stage.CleanSlice(&a_part_1.Harmony) || modified
+	modified = stage.CleanSlice(&a_part_1.Figured_bass) || modified
+	modified = stage.CleanSlice(&a_part_1.Print) || modified
+	modified = stage.CleanSlice(&a_part_1.Sound) || modified
+	modified = stage.CleanSlice(&a_part_1.Listening) || modified
+	modified = stage.CleanSlice(&a_part_1.Barline) || modified
+	modified = stage.CleanSlice(&a_part_1.Grouping) || modified
+	modified = stage.CleanSlice(&a_part_1.Link) || modified
+	modified = stage.CleanSlice(&a_part_1.Bookmark) || modified
 	// insertion point per field
 	return
 }
@@ -151,11 +141,11 @@ func (accordion_registration *Accordion_registration) GongClean(stage *Stage) (m
 // Clean garbage collect unstaged instances that are referenced by Appearance
 func (appearance *Appearance) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &appearance.Line_width) || modified
-	modified = GongCleanSlice(stage, &appearance.Note_size) || modified
-	modified = GongCleanSlice(stage, &appearance.Distance) || modified
-	modified = GongCleanSlice(stage, &appearance.Glyph) || modified
-	modified = GongCleanSlice(stage, &appearance.Other_appearance) || modified
+	modified = stage.CleanSlice(&appearance.Line_width) || modified
+	modified = stage.CleanSlice(&appearance.Note_size) || modified
+	modified = stage.CleanSlice(&appearance.Distance) || modified
+	modified = stage.CleanSlice(&appearance.Glyph) || modified
+	modified = stage.CleanSlice(&appearance.Other_appearance) || modified
 	// insertion point per field
 	return
 }
@@ -177,23 +167,23 @@ func (arrow *Arrow) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Articulations
 func (articulations *Articulations) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &articulations.Accent) || modified
-	modified = GongCleanSlice(stage, &articulations.Strong_accent) || modified
-	modified = GongCleanSlice(stage, &articulations.Staccato) || modified
-	modified = GongCleanSlice(stage, &articulations.Tenuto) || modified
-	modified = GongCleanSlice(stage, &articulations.Detached_legato) || modified
-	modified = GongCleanSlice(stage, &articulations.Staccatissimo) || modified
-	modified = GongCleanSlice(stage, &articulations.Spiccato) || modified
-	modified = GongCleanSlice(stage, &articulations.Scoop) || modified
-	modified = GongCleanSlice(stage, &articulations.Plop) || modified
-	modified = GongCleanSlice(stage, &articulations.Doit) || modified
-	modified = GongCleanSlice(stage, &articulations.Falloff) || modified
-	modified = GongCleanSlice(stage, &articulations.Breath_mark) || modified
-	modified = GongCleanSlice(stage, &articulations.Caesura) || modified
-	modified = GongCleanSlice(stage, &articulations.Stress) || modified
-	modified = GongCleanSlice(stage, &articulations.Unstress) || modified
-	modified = GongCleanSlice(stage, &articulations.Soft_accent) || modified
-	modified = GongCleanSlice(stage, &articulations.Other_articulation) || modified
+	modified = stage.CleanSlice(&articulations.Accent) || modified
+	modified = stage.CleanSlice(&articulations.Strong_accent) || modified
+	modified = stage.CleanSlice(&articulations.Staccato) || modified
+	modified = stage.CleanSlice(&articulations.Tenuto) || modified
+	modified = stage.CleanSlice(&articulations.Detached_legato) || modified
+	modified = stage.CleanSlice(&articulations.Staccatissimo) || modified
+	modified = stage.CleanSlice(&articulations.Spiccato) || modified
+	modified = stage.CleanSlice(&articulations.Scoop) || modified
+	modified = stage.CleanSlice(&articulations.Plop) || modified
+	modified = stage.CleanSlice(&articulations.Doit) || modified
+	modified = stage.CleanSlice(&articulations.Falloff) || modified
+	modified = stage.CleanSlice(&articulations.Breath_mark) || modified
+	modified = stage.CleanSlice(&articulations.Caesura) || modified
+	modified = stage.CleanSlice(&articulations.Stress) || modified
+	modified = stage.CleanSlice(&articulations.Unstress) || modified
+	modified = stage.CleanSlice(&articulations.Soft_accent) || modified
+	modified = stage.CleanSlice(&articulations.Other_articulation) || modified
 	// insertion point per field
 	return
 }
@@ -208,18 +198,18 @@ func (assess *Assess) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Attributes
 func (attributes *Attributes) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &attributes.Key) || modified
-	modified = GongCleanSlice(stage, &attributes.Time) || modified
-	modified = GongCleanSlice(stage, &attributes.Clef) || modified
-	modified = GongCleanSlice(stage, &attributes.Staff_details) || modified
-	modified = GongCleanSlice(stage, &attributes.Transpose) || modified
-	modified = GongCleanSlice(stage, &attributes.For_part) || modified
-	modified = GongCleanSlice(stage, &attributes.Directive) || modified
-	modified = GongCleanSlice(stage, &attributes.Measure_style) || modified
+	modified = stage.CleanSlice(&attributes.Key) || modified
+	modified = stage.CleanSlice(&attributes.Time) || modified
+	modified = stage.CleanSlice(&attributes.Clef) || modified
+	modified = stage.CleanSlice(&attributes.Staff_details) || modified
+	modified = stage.CleanSlice(&attributes.Transpose) || modified
+	modified = stage.CleanSlice(&attributes.For_part) || modified
+	modified = stage.CleanSlice(&attributes.Directive) || modified
+	modified = stage.CleanSlice(&attributes.Measure_style) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &attributes.Footnote) || modified
-	modified = GongCleanPointer(stage, &attributes.Level) || modified
-	modified = GongCleanPointer(stage, &attributes.Part_symbol) || modified
+	modified = stage.CleanPointer(&attributes.Footnote) || modified
+	modified = stage.CleanPointer(&attributes.Level) || modified
+	modified = stage.CleanPointer(&attributes.Part_symbol) || modified
 	return
 }
 
@@ -227,8 +217,8 @@ func (attributes *Attributes) GongClean(stage *Stage) (modified bool) {
 func (backup *Backup) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &backup.Footnote) || modified
-	modified = GongCleanPointer(stage, &backup.Level) || modified
+	modified = stage.CleanPointer(&backup.Footnote) || modified
+	modified = stage.CleanPointer(&backup.Level) || modified
 	return
 }
 
@@ -243,15 +233,15 @@ func (bar_style_color *Bar_style_color) GongClean(stage *Stage) (modified bool) 
 func (barline *Barline) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &barline.Bar_style) || modified
-	modified = GongCleanPointer(stage, &barline.Footnote) || modified
-	modified = GongCleanPointer(stage, &barline.Level) || modified
-	modified = GongCleanPointer(stage, &barline.Wavy_line) || modified
-	modified = GongCleanPointer(stage, &barline.Segno_1) || modified
-	modified = GongCleanPointer(stage, &barline.Coda_1) || modified
-	modified = GongCleanPointer(stage, &barline.Fermata) || modified
-	modified = GongCleanPointer(stage, &barline.Ending) || modified
-	modified = GongCleanPointer(stage, &barline.Repeat) || modified
+	modified = stage.CleanPointer(&barline.Bar_style) || modified
+	modified = stage.CleanPointer(&barline.Footnote) || modified
+	modified = stage.CleanPointer(&barline.Level) || modified
+	modified = stage.CleanPointer(&barline.Wavy_line) || modified
+	modified = stage.CleanPointer(&barline.Segno_1) || modified
+	modified = stage.CleanPointer(&barline.Coda_1) || modified
+	modified = stage.CleanPointer(&barline.Fermata) || modified
+	modified = stage.CleanPointer(&barline.Ending) || modified
+	modified = stage.CleanPointer(&barline.Repeat) || modified
 	return
 }
 
@@ -266,9 +256,9 @@ func (barre *Barre) GongClean(stage *Stage) (modified bool) {
 func (bass *Bass) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &bass.Bass_separator) || modified
-	modified = GongCleanPointer(stage, &bass.Bass_step) || modified
-	modified = GongCleanPointer(stage, &bass.Bass_alter) || modified
+	modified = stage.CleanPointer(&bass.Bass_separator) || modified
+	modified = stage.CleanPointer(&bass.Bass_step) || modified
+	modified = stage.CleanPointer(&bass.Bass_alter) || modified
 	return
 }
 
@@ -311,8 +301,8 @@ func (beater *Beater) GongClean(stage *Stage) (modified bool) {
 func (bend *Bend) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &bend.Release) || modified
-	modified = GongCleanPointer(stage, &bend.With_bar) || modified
+	modified = stage.CleanPointer(&bend.Release) || modified
+	modified = stage.CleanPointer(&bend.With_bar) || modified
 	return
 }
 
@@ -368,12 +358,12 @@ func (coda *Coda) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Credit
 func (credit *Credit) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &credit.Link) || modified
-	modified = GongCleanSlice(stage, &credit.Bookmark) || modified
-	modified = GongCleanSlice(stage, &credit.Credit_words) || modified
-	modified = GongCleanSlice(stage, &credit.Credit_symbol) || modified
+	modified = stage.CleanSlice(&credit.Link) || modified
+	modified = stage.CleanSlice(&credit.Bookmark) || modified
+	modified = stage.CleanSlice(&credit.Credit_words) || modified
+	modified = stage.CleanSlice(&credit.Credit_symbol) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &credit.Credit_image) || modified
+	modified = stage.CleanPointer(&credit.Credit_image) || modified
 	return
 }
 
@@ -387,16 +377,16 @@ func (dashes *Dashes) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Defaults
 func (defaults *Defaults) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &defaults.Staff_layout) || modified
-	modified = GongCleanSlice(stage, &defaults.Lyric_font) || modified
-	modified = GongCleanSlice(stage, &defaults.Lyric_language) || modified
+	modified = stage.CleanSlice(&defaults.Staff_layout) || modified
+	modified = stage.CleanSlice(&defaults.Lyric_font) || modified
+	modified = stage.CleanSlice(&defaults.Lyric_language) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &defaults.Scaling) || modified
-	modified = GongCleanPointer(stage, &defaults.Page_layout) || modified
-	modified = GongCleanPointer(stage, &defaults.System_layout) || modified
-	modified = GongCleanPointer(stage, &defaults.Appearance) || modified
-	modified = GongCleanPointer(stage, &defaults.Music_font) || modified
-	modified = GongCleanPointer(stage, &defaults.Word_font) || modified
+	modified = stage.CleanPointer(&defaults.Scaling) || modified
+	modified = stage.CleanPointer(&defaults.Page_layout) || modified
+	modified = stage.CleanPointer(&defaults.System_layout) || modified
+	modified = stage.CleanPointer(&defaults.Appearance) || modified
+	modified = stage.CleanPointer(&defaults.Music_font) || modified
+	modified = stage.CleanPointer(&defaults.Word_font) || modified
 	return
 }
 
@@ -404,9 +394,9 @@ func (defaults *Defaults) GongClean(stage *Stage) (modified bool) {
 func (degree *Degree) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &degree.Degree_value) || modified
-	modified = GongCleanPointer(stage, &degree.Degree_alter) || modified
-	modified = GongCleanPointer(stage, &degree.Degree_type) || modified
+	modified = stage.CleanPointer(&degree.Degree_value) || modified
+	modified = stage.CleanPointer(&degree.Degree_alter) || modified
+	modified = stage.CleanPointer(&degree.Degree_type) || modified
 	return
 }
 
@@ -434,44 +424,44 @@ func (degree_value *Degree_value) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Direction
 func (direction *Direction) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &direction.Direction_type) || modified
+	modified = stage.CleanSlice(&direction.Direction_type) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &direction.Offset) || modified
-	modified = GongCleanPointer(stage, &direction.Footnote) || modified
-	modified = GongCleanPointer(stage, &direction.Level) || modified
-	modified = GongCleanPointer(stage, &direction.Sound) || modified
-	modified = GongCleanPointer(stage, &direction.Listening) || modified
+	modified = stage.CleanPointer(&direction.Offset) || modified
+	modified = stage.CleanPointer(&direction.Footnote) || modified
+	modified = stage.CleanPointer(&direction.Level) || modified
+	modified = stage.CleanPointer(&direction.Sound) || modified
+	modified = stage.CleanPointer(&direction.Listening) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Direction_type
 func (direction_type *Direction_type) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &direction_type.Rehearsal) || modified
-	modified = GongCleanSlice(stage, &direction_type.Segno) || modified
-	modified = GongCleanSlice(stage, &direction_type.Coda) || modified
-	modified = GongCleanSlice(stage, &direction_type.Words) || modified
-	modified = GongCleanSlice(stage, &direction_type.Symbol) || modified
-	modified = GongCleanSlice(stage, &direction_type.Dynamics) || modified
-	modified = GongCleanSlice(stage, &direction_type.Percussion) || modified
+	modified = stage.CleanSlice(&direction_type.Rehearsal) || modified
+	modified = stage.CleanSlice(&direction_type.Segno) || modified
+	modified = stage.CleanSlice(&direction_type.Coda) || modified
+	modified = stage.CleanSlice(&direction_type.Words) || modified
+	modified = stage.CleanSlice(&direction_type.Symbol) || modified
+	modified = stage.CleanSlice(&direction_type.Dynamics) || modified
+	modified = stage.CleanSlice(&direction_type.Percussion) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &direction_type.Wedge) || modified
-	modified = GongCleanPointer(stage, &direction_type.Dashes) || modified
-	modified = GongCleanPointer(stage, &direction_type.Bracket) || modified
-	modified = GongCleanPointer(stage, &direction_type.Pedal) || modified
-	modified = GongCleanPointer(stage, &direction_type.Metronome) || modified
-	modified = GongCleanPointer(stage, &direction_type.Octave_shift) || modified
-	modified = GongCleanPointer(stage, &direction_type.Harp_pedals) || modified
-	modified = GongCleanPointer(stage, &direction_type.Damp) || modified
-	modified = GongCleanPointer(stage, &direction_type.Damp_all) || modified
-	modified = GongCleanPointer(stage, &direction_type.Eyeglasses) || modified
-	modified = GongCleanPointer(stage, &direction_type.String_mute) || modified
-	modified = GongCleanPointer(stage, &direction_type.Scordatura) || modified
-	modified = GongCleanPointer(stage, &direction_type.Image) || modified
-	modified = GongCleanPointer(stage, &direction_type.Principal_voice) || modified
-	modified = GongCleanPointer(stage, &direction_type.Accordion_registration) || modified
-	modified = GongCleanPointer(stage, &direction_type.Staff_divide) || modified
-	modified = GongCleanPointer(stage, &direction_type.Other_direction) || modified
+	modified = stage.CleanPointer(&direction_type.Wedge) || modified
+	modified = stage.CleanPointer(&direction_type.Dashes) || modified
+	modified = stage.CleanPointer(&direction_type.Bracket) || modified
+	modified = stage.CleanPointer(&direction_type.Pedal) || modified
+	modified = stage.CleanPointer(&direction_type.Metronome) || modified
+	modified = stage.CleanPointer(&direction_type.Octave_shift) || modified
+	modified = stage.CleanPointer(&direction_type.Harp_pedals) || modified
+	modified = stage.CleanPointer(&direction_type.Damp) || modified
+	modified = stage.CleanPointer(&direction_type.Damp_all) || modified
+	modified = stage.CleanPointer(&direction_type.Eyeglasses) || modified
+	modified = stage.CleanPointer(&direction_type.String_mute) || modified
+	modified = stage.CleanPointer(&direction_type.Scordatura) || modified
+	modified = stage.CleanPointer(&direction_type.Image) || modified
+	modified = stage.CleanPointer(&direction_type.Principal_voice) || modified
+	modified = stage.CleanPointer(&direction_type.Accordion_registration) || modified
+	modified = stage.CleanPointer(&direction_type.Staff_divide) || modified
+	modified = stage.CleanPointer(&direction_type.Other_direction) || modified
 	return
 }
 
@@ -492,7 +482,7 @@ func (double *Double) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Dynamics
 func (dynamics *Dynamics) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &dynamics.Other_dynamics) || modified
+	modified = stage.CleanSlice(&dynamics.Other_dynamics) || modified
 	// insertion point per field
 	return
 }
@@ -584,8 +574,8 @@ func (empty_trill_sound *Empty_trill_sound) GongClean(stage *Stage) (modified bo
 // Clean garbage collect unstaged instances that are referenced by Encoding
 func (encoding *Encoding) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &encoding.Encoder) || modified
-	modified = GongCleanSlice(stage, &encoding.Supports) || modified
+	modified = stage.CleanSlice(&encoding.Encoder) || modified
+	modified = stage.CleanSlice(&encoding.Supports) || modified
 	// insertion point per field
 	return
 }
@@ -622,22 +612,22 @@ func (fermata *Fermata) GongClean(stage *Stage) (modified bool) {
 func (figure *Figure) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &figure.Prefix) || modified
-	modified = GongCleanPointer(stage, &figure.Figure_number) || modified
-	modified = GongCleanPointer(stage, &figure.Suffix) || modified
-	modified = GongCleanPointer(stage, &figure.Extend) || modified
-	modified = GongCleanPointer(stage, &figure.Footnote) || modified
-	modified = GongCleanPointer(stage, &figure.Level) || modified
+	modified = stage.CleanPointer(&figure.Prefix) || modified
+	modified = stage.CleanPointer(&figure.Figure_number) || modified
+	modified = stage.CleanPointer(&figure.Suffix) || modified
+	modified = stage.CleanPointer(&figure.Extend) || modified
+	modified = stage.CleanPointer(&figure.Footnote) || modified
+	modified = stage.CleanPointer(&figure.Level) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Figured_bass
 func (figured_bass *Figured_bass) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &figured_bass.Figure) || modified
+	modified = stage.CleanSlice(&figured_bass.Figure) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &figured_bass.Footnote) || modified
-	modified = GongCleanPointer(stage, &figured_bass.Level) || modified
+	modified = stage.CleanPointer(&figured_bass.Footnote) || modified
+	modified = stage.CleanPointer(&figured_bass.Level) || modified
 	return
 }
 
@@ -659,8 +649,8 @@ func (first_fret *First_fret) GongClean(stage *Stage) (modified bool) {
 func (for_part *For_part) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &for_part.Part_clef) || modified
-	modified = GongCleanPointer(stage, &for_part.Part_transpose) || modified
+	modified = stage.CleanPointer(&for_part.Part_clef) || modified
+	modified = stage.CleanPointer(&for_part.Part_transpose) || modified
 	return
 }
 
@@ -696,17 +686,17 @@ func (formatted_text_id *Formatted_text_id) GongClean(stage *Stage) (modified bo
 func (forward *Forward) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &forward.Footnote) || modified
-	modified = GongCleanPointer(stage, &forward.Level) || modified
+	modified = stage.CleanPointer(&forward.Footnote) || modified
+	modified = stage.CleanPointer(&forward.Level) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Frame
 func (frame *Frame) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &frame.Frame_note) || modified
+	modified = stage.CleanSlice(&frame.Frame_note) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &frame.First_fret) || modified
+	modified = stage.CleanPointer(&frame.First_fret) || modified
 	return
 }
 
@@ -714,10 +704,10 @@ func (frame *Frame) GongClean(stage *Stage) (modified bool) {
 func (frame_note *Frame_note) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &frame_note.String) || modified
-	modified = GongCleanPointer(stage, &frame_note.Fret) || modified
-	modified = GongCleanPointer(stage, &frame_note.Fingering) || modified
-	modified = GongCleanPointer(stage, &frame_note.Barre) || modified
+	modified = stage.CleanPointer(&frame_note.String) || modified
+	modified = stage.CleanPointer(&frame_note.Fret) || modified
+	modified = stage.CleanPointer(&frame_note.Fingering) || modified
+	modified = stage.CleanPointer(&frame_note.Barre) || modified
 	return
 }
 
@@ -780,7 +770,7 @@ func (group_symbol *Group_symbol) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Grouping
 func (grouping *Grouping) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &grouping.Feature) || modified
+	modified = stage.CleanSlice(&grouping.Feature) || modified
 	// insertion point per field
 	return
 }
@@ -810,7 +800,7 @@ func (harmon_closed *Harmon_closed) GongClean(stage *Stage) (modified bool) {
 func (harmon_mute *Harmon_mute) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &harmon_mute.Harmon_closed) || modified
+	modified = stage.CleanPointer(&harmon_mute.Harmon_closed) || modified
 	return
 }
 
@@ -824,18 +814,18 @@ func (harmonic *Harmonic) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Harmony
 func (harmony *Harmony) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &harmony.Degree) || modified
+	modified = stage.CleanSlice(&harmony.Degree) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &harmony.Root) || modified
-	modified = GongCleanPointer(stage, &harmony.Numeral) || modified
-	modified = GongCleanPointer(stage, &harmony.Function) || modified
-	modified = GongCleanPointer(stage, &harmony.Kind) || modified
-	modified = GongCleanPointer(stage, &harmony.Inversion) || modified
-	modified = GongCleanPointer(stage, &harmony.Bass) || modified
-	modified = GongCleanPointer(stage, &harmony.Frame) || modified
-	modified = GongCleanPointer(stage, &harmony.Offset) || modified
-	modified = GongCleanPointer(stage, &harmony.Footnote) || modified
-	modified = GongCleanPointer(stage, &harmony.Level) || modified
+	modified = stage.CleanPointer(&harmony.Root) || modified
+	modified = stage.CleanPointer(&harmony.Numeral) || modified
+	modified = stage.CleanPointer(&harmony.Function) || modified
+	modified = stage.CleanPointer(&harmony.Kind) || modified
+	modified = stage.CleanPointer(&harmony.Inversion) || modified
+	modified = stage.CleanPointer(&harmony.Bass) || modified
+	modified = stage.CleanPointer(&harmony.Frame) || modified
+	modified = stage.CleanPointer(&harmony.Offset) || modified
+	modified = stage.CleanPointer(&harmony.Footnote) || modified
+	modified = stage.CleanPointer(&harmony.Level) || modified
 	return
 }
 
@@ -849,7 +839,7 @@ func (harmony_alter *Harmony_alter) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Harp_pedals
 func (harp_pedals *Harp_pedals) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &harp_pedals.Pedal_tuning) || modified
+	modified = stage.CleanSlice(&harp_pedals.Pedal_tuning) || modified
 	// insertion point per field
 	return
 }
@@ -865,7 +855,7 @@ func (heel_toe *Heel_toe) GongClean(stage *Stage) (modified bool) {
 func (hole *Hole) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &hole.Hole_closed) || modified
+	modified = stage.CleanPointer(&hole.Hole_closed) || modified
 	return
 }
 
@@ -886,12 +876,12 @@ func (horizontal_turn *Horizontal_turn) GongClean(stage *Stage) (modified bool) 
 // Clean garbage collect unstaged instances that are referenced by Identification
 func (identification *Identification) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &identification.Creator) || modified
-	modified = GongCleanSlice(stage, &identification.Rights) || modified
-	modified = GongCleanSlice(stage, &identification.Relation) || modified
+	modified = stage.CleanSlice(&identification.Creator) || modified
+	modified = stage.CleanSlice(&identification.Rights) || modified
+	modified = stage.CleanSlice(&identification.Relation) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &identification.Encoding) || modified
-	modified = GongCleanPointer(stage, &identification.Miscellaneous) || modified
+	modified = stage.CleanPointer(&identification.Encoding) || modified
+	modified = stage.CleanPointer(&identification.Miscellaneous) || modified
 	return
 }
 
@@ -913,7 +903,7 @@ func (instrument *Instrument) GongClean(stage *Stage) (modified bool) {
 func (instrument_change *Instrument_change) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &instrument_change.Virtual_instrument) || modified
+	modified = stage.CleanPointer(&instrument_change.Virtual_instrument) || modified
 	return
 }
 
@@ -941,10 +931,10 @@ func (inversion *Inversion) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Key
 func (key *Key) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &key.Key_octave) || modified
+	modified = stage.CleanSlice(&key.Key_octave) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &key.Cancel) || modified
-	modified = GongCleanPointer(stage, &key.Key_accidental) || modified
+	modified = stage.CleanPointer(&key.Cancel) || modified
+	modified = stage.CleanPointer(&key.Key_accidental) || modified
 	return
 }
 
@@ -1000,9 +990,9 @@ func (link *Link) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Listen
 func (listen *Listen) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &listen.Assess) || modified
-	modified = GongCleanSlice(stage, &listen.Wait) || modified
-	modified = GongCleanSlice(stage, &listen.Other_listen) || modified
+	modified = stage.CleanSlice(&listen.Assess) || modified
+	modified = stage.CleanSlice(&listen.Wait) || modified
+	modified = stage.CleanSlice(&listen.Other_listen) || modified
 	// insertion point per field
 	return
 }
@@ -1010,22 +1000,22 @@ func (listen *Listen) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Listening
 func (listening *Listening) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &listening.Sync) || modified
-	modified = GongCleanSlice(stage, &listening.Other_listening) || modified
+	modified = stage.CleanSlice(&listening.Sync) || modified
+	modified = stage.CleanSlice(&listening.Other_listening) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &listening.Offset) || modified
+	modified = stage.CleanPointer(&listening.Offset) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Lyric
 func (lyric *Lyric) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &lyric.Elision) || modified
-	modified = GongCleanSlice(stage, &lyric.Text) || modified
+	modified = stage.CleanSlice(&lyric.Elision) || modified
+	modified = stage.CleanSlice(&lyric.Text) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &lyric.Extend) || modified
-	modified = GongCleanPointer(stage, &lyric.Footnote) || modified
-	modified = GongCleanPointer(stage, &lyric.Level) || modified
+	modified = stage.CleanPointer(&lyric.Extend) || modified
+	modified = stage.CleanPointer(&lyric.Footnote) || modified
+	modified = stage.CleanPointer(&lyric.Level) || modified
 	return
 }
 
@@ -1068,10 +1058,10 @@ func (measure_repeat *Measure_repeat) GongClean(stage *Stage) (modified bool) {
 func (measure_style *Measure_style) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &measure_style.Multiple_rest) || modified
-	modified = GongCleanPointer(stage, &measure_style.Measure_repeat) || modified
-	modified = GongCleanPointer(stage, &measure_style.Beat_repeat) || modified
-	modified = GongCleanPointer(stage, &measure_style.Slash) || modified
+	modified = stage.CleanPointer(&measure_style.Multiple_rest) || modified
+	modified = stage.CleanPointer(&measure_style.Measure_repeat) || modified
+	modified = stage.CleanPointer(&measure_style.Beat_repeat) || modified
+	modified = stage.CleanPointer(&measure_style.Slash) || modified
 	return
 }
 
@@ -1092,10 +1082,10 @@ func (metal *Metal) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Metronome
 func (metronome *Metronome) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &metronome.Beat_unit_tied) || modified
-	modified = GongCleanSlice(stage, &metronome.Metronome_note) || modified
+	modified = stage.CleanSlice(&metronome.Beat_unit_tied) || modified
+	modified = stage.CleanSlice(&metronome.Metronome_note) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &metronome.Per_minute) || modified
+	modified = stage.CleanPointer(&metronome.Per_minute) || modified
 	return
 }
 
@@ -1109,10 +1099,10 @@ func (metronome_beam *Metronome_beam) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Metronome_note
 func (metronome_note *Metronome_note) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &metronome_note.Metronome_beam) || modified
+	modified = stage.CleanSlice(&metronome_note.Metronome_beam) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &metronome_note.Metronome_tied) || modified
-	modified = GongCleanPointer(stage, &metronome_note.Metronome_tuplet) || modified
+	modified = stage.CleanPointer(&metronome_note.Metronome_tied) || modified
+	modified = stage.CleanPointer(&metronome_note.Metronome_tuplet) || modified
 	return
 }
 
@@ -1147,7 +1137,7 @@ func (midi_instrument *Midi_instrument) GongClean(stage *Stage) (modified bool) 
 // Clean garbage collect unstaged instances that are referenced by Miscellaneous
 func (miscellaneous *Miscellaneous) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &miscellaneous.Miscellaneous_field) || modified
+	modified = stage.CleanSlice(&miscellaneous.Miscellaneous_field) || modified
 	// insertion point per field
 	return
 }
@@ -1176,8 +1166,8 @@ func (multiple_rest *Multiple_rest) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Name_display
 func (name_display *Name_display) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &name_display.Display_text) || modified
-	modified = GongCleanSlice(stage, &name_display.Accidental_text) || modified
+	modified = stage.CleanSlice(&name_display.Display_text) || modified
+	modified = stage.CleanSlice(&name_display.Accidental_text) || modified
 	// insertion point per field
 	return
 }
@@ -1192,50 +1182,50 @@ func (non_arpeggiate *Non_arpeggiate) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Notations
 func (notations *Notations) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &notations.Tied) || modified
-	modified = GongCleanSlice(stage, &notations.Slur) || modified
-	modified = GongCleanSlice(stage, &notations.Tuplet) || modified
-	modified = GongCleanSlice(stage, &notations.Glissando) || modified
-	modified = GongCleanSlice(stage, &notations.Slide) || modified
-	modified = GongCleanSlice(stage, &notations.Ornaments) || modified
-	modified = GongCleanSlice(stage, &notations.Technical) || modified
-	modified = GongCleanSlice(stage, &notations.Articulations) || modified
-	modified = GongCleanSlice(stage, &notations.Dynamics) || modified
-	modified = GongCleanSlice(stage, &notations.Fermata) || modified
-	modified = GongCleanSlice(stage, &notations.Arpeggiate) || modified
-	modified = GongCleanSlice(stage, &notations.Non_arpeggiate) || modified
-	modified = GongCleanSlice(stage, &notations.Accidental_mark) || modified
-	modified = GongCleanSlice(stage, &notations.Other_notation) || modified
+	modified = stage.CleanSlice(&notations.Tied) || modified
+	modified = stage.CleanSlice(&notations.Slur) || modified
+	modified = stage.CleanSlice(&notations.Tuplet) || modified
+	modified = stage.CleanSlice(&notations.Glissando) || modified
+	modified = stage.CleanSlice(&notations.Slide) || modified
+	modified = stage.CleanSlice(&notations.Ornaments) || modified
+	modified = stage.CleanSlice(&notations.Technical) || modified
+	modified = stage.CleanSlice(&notations.Articulations) || modified
+	modified = stage.CleanSlice(&notations.Dynamics) || modified
+	modified = stage.CleanSlice(&notations.Fermata) || modified
+	modified = stage.CleanSlice(&notations.Arpeggiate) || modified
+	modified = stage.CleanSlice(&notations.Non_arpeggiate) || modified
+	modified = stage.CleanSlice(&notations.Accidental_mark) || modified
+	modified = stage.CleanSlice(&notations.Other_notation) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &notations.Footnote) || modified
-	modified = GongCleanPointer(stage, &notations.Level) || modified
+	modified = stage.CleanPointer(&notations.Footnote) || modified
+	modified = stage.CleanPointer(&notations.Level) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Note
 func (note *Note) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &note.Instrument) || modified
-	modified = GongCleanSlice(stage, &note.Dot) || modified
-	modified = GongCleanSlice(stage, &note.Notations) || modified
-	modified = GongCleanSlice(stage, &note.Lyric) || modified
+	modified = stage.CleanSlice(&note.Instrument) || modified
+	modified = stage.CleanSlice(&note.Dot) || modified
+	modified = stage.CleanSlice(&note.Notations) || modified
+	modified = stage.CleanSlice(&note.Lyric) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &note.Grace) || modified
-	modified = GongCleanPointer(stage, &note.Pitch) || modified
-	modified = GongCleanPointer(stage, &note.Unpitched) || modified
-	modified = GongCleanPointer(stage, &note.Rest) || modified
-	modified = GongCleanPointer(stage, &note.Tie) || modified
-	modified = GongCleanPointer(stage, &note.Footnote) || modified
-	modified = GongCleanPointer(stage, &note.Level) || modified
-	modified = GongCleanPointer(stage, &note.Type) || modified
-	modified = GongCleanPointer(stage, &note.Accidental) || modified
-	modified = GongCleanPointer(stage, &note.Time_modification) || modified
-	modified = GongCleanPointer(stage, &note.Stem) || modified
-	modified = GongCleanPointer(stage, &note.Notehead) || modified
-	modified = GongCleanPointer(stage, &note.Notehead_text) || modified
-	modified = GongCleanPointer(stage, &note.Beam) || modified
-	modified = GongCleanPointer(stage, &note.Play) || modified
-	modified = GongCleanPointer(stage, &note.Listen) || modified
+	modified = stage.CleanPointer(&note.Grace) || modified
+	modified = stage.CleanPointer(&note.Pitch) || modified
+	modified = stage.CleanPointer(&note.Unpitched) || modified
+	modified = stage.CleanPointer(&note.Rest) || modified
+	modified = stage.CleanPointer(&note.Tie) || modified
+	modified = stage.CleanPointer(&note.Footnote) || modified
+	modified = stage.CleanPointer(&note.Level) || modified
+	modified = stage.CleanPointer(&note.Type) || modified
+	modified = stage.CleanPointer(&note.Accidental) || modified
+	modified = stage.CleanPointer(&note.Time_modification) || modified
+	modified = stage.CleanPointer(&note.Stem) || modified
+	modified = stage.CleanPointer(&note.Notehead) || modified
+	modified = stage.CleanPointer(&note.Notehead_text) || modified
+	modified = stage.CleanPointer(&note.Beam) || modified
+	modified = stage.CleanPointer(&note.Play) || modified
+	modified = stage.CleanPointer(&note.Listen) || modified
 	return
 }
 
@@ -1263,8 +1253,8 @@ func (notehead *Notehead) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Notehead_text
 func (notehead_text *Notehead_text) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &notehead_text.Display_text) || modified
-	modified = GongCleanSlice(stage, &notehead_text.Accidental_text) || modified
+	modified = stage.CleanSlice(&notehead_text.Display_text) || modified
+	modified = stage.CleanSlice(&notehead_text.Accidental_text) || modified
 	// insertion point per field
 	return
 }
@@ -1273,9 +1263,9 @@ func (notehead_text *Notehead_text) GongClean(stage *Stage) (modified bool) {
 func (numeral *Numeral) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &numeral.Numeral_root) || modified
-	modified = GongCleanPointer(stage, &numeral.Numeral_alter) || modified
-	modified = GongCleanPointer(stage, &numeral.Numeral_key) || modified
+	modified = stage.CleanPointer(&numeral.Numeral_root) || modified
+	modified = stage.CleanPointer(&numeral.Numeral_alter) || modified
+	modified = stage.CleanPointer(&numeral.Numeral_key) || modified
 	return
 }
 
@@ -1317,22 +1307,22 @@ func (opus *Opus) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Ornaments
 func (ornaments *Ornaments) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &ornaments.Trill_mark) || modified
-	modified = GongCleanSlice(stage, &ornaments.Turn) || modified
-	modified = GongCleanSlice(stage, &ornaments.Delayed_turn) || modified
-	modified = GongCleanSlice(stage, &ornaments.Inverted_turn) || modified
-	modified = GongCleanSlice(stage, &ornaments.Delayed_inverted_turn) || modified
-	modified = GongCleanSlice(stage, &ornaments.Vertical_turn) || modified
-	modified = GongCleanSlice(stage, &ornaments.Inverted_vertical_turn) || modified
-	modified = GongCleanSlice(stage, &ornaments.Shake) || modified
-	modified = GongCleanSlice(stage, &ornaments.Wavy_line) || modified
-	modified = GongCleanSlice(stage, &ornaments.Mordent) || modified
-	modified = GongCleanSlice(stage, &ornaments.Inverted_mordent) || modified
-	modified = GongCleanSlice(stage, &ornaments.Schleifer) || modified
-	modified = GongCleanSlice(stage, &ornaments.Tremolo) || modified
-	modified = GongCleanSlice(stage, &ornaments.Haydn) || modified
-	modified = GongCleanSlice(stage, &ornaments.Other_ornament) || modified
-	modified = GongCleanSlice(stage, &ornaments.Accidental_mark) || modified
+	modified = stage.CleanSlice(&ornaments.Trill_mark) || modified
+	modified = stage.CleanSlice(&ornaments.Turn) || modified
+	modified = stage.CleanSlice(&ornaments.Delayed_turn) || modified
+	modified = stage.CleanSlice(&ornaments.Inverted_turn) || modified
+	modified = stage.CleanSlice(&ornaments.Delayed_inverted_turn) || modified
+	modified = stage.CleanSlice(&ornaments.Vertical_turn) || modified
+	modified = stage.CleanSlice(&ornaments.Inverted_vertical_turn) || modified
+	modified = stage.CleanSlice(&ornaments.Shake) || modified
+	modified = stage.CleanSlice(&ornaments.Wavy_line) || modified
+	modified = stage.CleanSlice(&ornaments.Mordent) || modified
+	modified = stage.CleanSlice(&ornaments.Inverted_mordent) || modified
+	modified = stage.CleanSlice(&ornaments.Schleifer) || modified
+	modified = stage.CleanSlice(&ornaments.Tremolo) || modified
+	modified = stage.CleanSlice(&ornaments.Haydn) || modified
+	modified = stage.CleanSlice(&ornaments.Other_ornament) || modified
+	modified = stage.CleanSlice(&ornaments.Accidental_mark) || modified
 	// insertion point per field
 	return
 }
@@ -1390,7 +1380,7 @@ func (other_text *Other_text) GongClean(stage *Stage) (modified bool) {
 func (page_layout *Page_layout) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &page_layout.Page_margins) || modified
+	modified = stage.CleanPointer(&page_layout.Page_margins) || modified
 	return
 }
 
@@ -1412,21 +1402,21 @@ func (part_clef *Part_clef) GongClean(stage *Stage) (modified bool) {
 func (part_group *Part_group) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &part_group.Group_name) || modified
-	modified = GongCleanPointer(stage, &part_group.Group_name_display) || modified
-	modified = GongCleanPointer(stage, &part_group.Group_abbreviation) || modified
-	modified = GongCleanPointer(stage, &part_group.Group_abbreviation_display) || modified
-	modified = GongCleanPointer(stage, &part_group.Group_symbol) || modified
-	modified = GongCleanPointer(stage, &part_group.Group_barline) || modified
-	modified = GongCleanPointer(stage, &part_group.Footnote) || modified
-	modified = GongCleanPointer(stage, &part_group.Level) || modified
+	modified = stage.CleanPointer(&part_group.Group_name) || modified
+	modified = stage.CleanPointer(&part_group.Group_name_display) || modified
+	modified = stage.CleanPointer(&part_group.Group_abbreviation) || modified
+	modified = stage.CleanPointer(&part_group.Group_abbreviation_display) || modified
+	modified = stage.CleanPointer(&part_group.Group_symbol) || modified
+	modified = stage.CleanPointer(&part_group.Group_barline) || modified
+	modified = stage.CleanPointer(&part_group.Footnote) || modified
+	modified = stage.CleanPointer(&part_group.Level) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Part_link
 func (part_link *Part_link) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &part_link.Instrument_link) || modified
+	modified = stage.CleanSlice(&part_link.Instrument_link) || modified
 	// insertion point per field
 	return
 }
@@ -1435,8 +1425,8 @@ func (part_link *Part_link) GongClean(stage *Stage) (modified bool) {
 func (part_list *Part_list) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &part_list.Part_group) || modified
-	modified = GongCleanPointer(stage, &part_list.Score_part) || modified
+	modified = stage.CleanPointer(&part_list.Part_group) || modified
+	modified = stage.CleanPointer(&part_list.Score_part) || modified
 	return
 }
 
@@ -1486,16 +1476,16 @@ func (per_minute *Per_minute) GongClean(stage *Stage) (modified bool) {
 func (percussion *Percussion) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &percussion.Glass) || modified
-	modified = GongCleanPointer(stage, &percussion.Metal) || modified
-	modified = GongCleanPointer(stage, &percussion.Wood) || modified
-	modified = GongCleanPointer(stage, &percussion.Pitched) || modified
-	modified = GongCleanPointer(stage, &percussion.Membrane) || modified
-	modified = GongCleanPointer(stage, &percussion.Effect) || modified
-	modified = GongCleanPointer(stage, &percussion.Timpani) || modified
-	modified = GongCleanPointer(stage, &percussion.Beater) || modified
-	modified = GongCleanPointer(stage, &percussion.Stick) || modified
-	modified = GongCleanPointer(stage, &percussion.Other_percussion) || modified
+	modified = stage.CleanPointer(&percussion.Glass) || modified
+	modified = stage.CleanPointer(&percussion.Metal) || modified
+	modified = stage.CleanPointer(&percussion.Wood) || modified
+	modified = stage.CleanPointer(&percussion.Pitched) || modified
+	modified = stage.CleanPointer(&percussion.Membrane) || modified
+	modified = stage.CleanPointer(&percussion.Effect) || modified
+	modified = stage.CleanPointer(&percussion.Timpani) || modified
+	modified = stage.CleanPointer(&percussion.Beater) || modified
+	modified = stage.CleanPointer(&percussion.Stick) || modified
+	modified = stage.CleanPointer(&percussion.Other_percussion) || modified
 	return
 }
 
@@ -1523,7 +1513,7 @@ func (placement_text *Placement_text) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Play
 func (play *Play) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &play.Other_play) || modified
+	modified = stage.CleanSlice(&play.Other_play) || modified
 	// insertion point per field
 	return
 }
@@ -1545,14 +1535,14 @@ func (principal_voice *Principal_voice) GongClean(stage *Stage) (modified bool) 
 // Clean garbage collect unstaged instances that are referenced by Print
 func (print *Print) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &print.Staff_layout) || modified
+	modified = stage.CleanSlice(&print.Staff_layout) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &print.Page_layout) || modified
-	modified = GongCleanPointer(stage, &print.System_layout) || modified
-	modified = GongCleanPointer(stage, &print.Measure_layout) || modified
-	modified = GongCleanPointer(stage, &print.Measure_numbering) || modified
-	modified = GongCleanPointer(stage, &print.Part_name_display) || modified
-	modified = GongCleanPointer(stage, &print.Part_abbreviation_display) || modified
+	modified = stage.CleanPointer(&print.Page_layout) || modified
+	modified = stage.CleanPointer(&print.System_layout) || modified
+	modified = stage.CleanPointer(&print.Measure_layout) || modified
+	modified = stage.CleanPointer(&print.Measure_numbering) || modified
+	modified = stage.CleanPointer(&print.Part_name_display) || modified
+	modified = stage.CleanPointer(&print.Part_abbreviation_display) || modified
 	return
 }
 
@@ -1581,8 +1571,8 @@ func (rest *Rest) GongClean(stage *Stage) (modified bool) {
 func (root *Root) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &root.Root_step) || modified
-	modified = GongCleanPointer(stage, &root.Root_alter) || modified
+	modified = stage.CleanPointer(&root.Root_step) || modified
+	modified = stage.CleanPointer(&root.Root_alter) || modified
 	return
 }
 
@@ -1603,7 +1593,7 @@ func (scaling *Scaling) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Scordatura
 func (scordatura *Scordatura) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &scordatura.Accord) || modified
+	modified = stage.CleanSlice(&scordatura.Accord) || modified
 	// insertion point per field
 	return
 }
@@ -1612,50 +1602,50 @@ func (scordatura *Scordatura) GongClean(stage *Stage) (modified bool) {
 func (score_instrument *Score_instrument) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &score_instrument.Virtual_instrument) || modified
+	modified = stage.CleanPointer(&score_instrument.Virtual_instrument) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Score_part
 func (score_part *Score_part) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &score_part.Part_link) || modified
-	modified = GongCleanSlice(stage, &score_part.Score_instrument) || modified
-	modified = GongCleanSlice(stage, &score_part.Player) || modified
-	modified = GongCleanSlice(stage, &score_part.Midi_device) || modified
-	modified = GongCleanSlice(stage, &score_part.Midi_instrument) || modified
+	modified = stage.CleanSlice(&score_part.Part_link) || modified
+	modified = stage.CleanSlice(&score_part.Score_instrument) || modified
+	modified = stage.CleanSlice(&score_part.Player) || modified
+	modified = stage.CleanSlice(&score_part.Midi_device) || modified
+	modified = stage.CleanSlice(&score_part.Midi_instrument) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &score_part.Identification) || modified
-	modified = GongCleanPointer(stage, &score_part.Part_name) || modified
-	modified = GongCleanPointer(stage, &score_part.Part_name_display) || modified
-	modified = GongCleanPointer(stage, &score_part.Part_abbreviation) || modified
-	modified = GongCleanPointer(stage, &score_part.Part_abbreviation_display) || modified
+	modified = stage.CleanPointer(&score_part.Identification) || modified
+	modified = stage.CleanPointer(&score_part.Part_name) || modified
+	modified = stage.CleanPointer(&score_part.Part_name_display) || modified
+	modified = stage.CleanPointer(&score_part.Part_abbreviation) || modified
+	modified = stage.CleanPointer(&score_part.Part_abbreviation_display) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Score_partwise
 func (score_partwise *Score_partwise) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &score_partwise.Credit) || modified
-	modified = GongCleanSlice(stage, &score_partwise.Part) || modified
+	modified = stage.CleanSlice(&score_partwise.Credit) || modified
+	modified = stage.CleanSlice(&score_partwise.Part) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &score_partwise.Work) || modified
-	modified = GongCleanPointer(stage, &score_partwise.Identification) || modified
-	modified = GongCleanPointer(stage, &score_partwise.Defaults) || modified
-	modified = GongCleanPointer(stage, &score_partwise.Part_list) || modified
+	modified = stage.CleanPointer(&score_partwise.Work) || modified
+	modified = stage.CleanPointer(&score_partwise.Identification) || modified
+	modified = stage.CleanPointer(&score_partwise.Defaults) || modified
+	modified = stage.CleanPointer(&score_partwise.Part_list) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Score_timewise
 func (score_timewise *Score_timewise) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &score_timewise.Credit) || modified
-	modified = GongCleanSlice(stage, &score_timewise.Measure) || modified
+	modified = stage.CleanSlice(&score_timewise.Credit) || modified
+	modified = stage.CleanSlice(&score_timewise.Measure) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &score_timewise.Work) || modified
-	modified = GongCleanPointer(stage, &score_timewise.Identification) || modified
-	modified = GongCleanPointer(stage, &score_timewise.Defaults) || modified
-	modified = GongCleanPointer(stage, &score_timewise.Part_list) || modified
+	modified = stage.CleanPointer(&score_timewise.Work) || modified
+	modified = stage.CleanPointer(&score_timewise.Identification) || modified
+	modified = stage.CleanPointer(&score_timewise.Defaults) || modified
+	modified = stage.CleanPointer(&score_timewise.Part_list) || modified
 	return
 }
 
@@ -1690,23 +1680,23 @@ func (slur *Slur) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Sound
 func (sound *Sound) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &sound.Instrument_change) || modified
-	modified = GongCleanSlice(stage, &sound.Midi_device) || modified
-	modified = GongCleanSlice(stage, &sound.Midi_instrument) || modified
-	modified = GongCleanSlice(stage, &sound.Play) || modified
+	modified = stage.CleanSlice(&sound.Instrument_change) || modified
+	modified = stage.CleanSlice(&sound.Midi_device) || modified
+	modified = stage.CleanSlice(&sound.Midi_instrument) || modified
+	modified = stage.CleanSlice(&sound.Play) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &sound.Swing) || modified
-	modified = GongCleanPointer(stage, &sound.Offset) || modified
+	modified = stage.CleanPointer(&sound.Swing) || modified
+	modified = stage.CleanPointer(&sound.Offset) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Staff_details
 func (staff_details *Staff_details) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &staff_details.Line_detail) || modified
-	modified = GongCleanSlice(stage, &staff_details.Staff_tuning) || modified
+	modified = stage.CleanSlice(&staff_details.Line_detail) || modified
+	modified = stage.CleanSlice(&staff_details.Staff_tuning) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &staff_details.Staff_size) || modified
+	modified = stage.CleanPointer(&staff_details.Staff_size) || modified
 	return
 }
 
@@ -1805,8 +1795,8 @@ func (sync *Sync) GongClean(stage *Stage) (modified bool) {
 func (system_dividers *System_dividers) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &system_dividers.Left_divider) || modified
-	modified = GongCleanPointer(stage, &system_dividers.Right_divider) || modified
+	modified = stage.CleanPointer(&system_dividers.Left_divider) || modified
+	modified = stage.CleanPointer(&system_dividers.Right_divider) || modified
 	return
 }
 
@@ -1814,8 +1804,8 @@ func (system_dividers *System_dividers) GongClean(stage *Stage) (modified bool) 
 func (system_layout *System_layout) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &system_layout.System_margins) || modified
-	modified = GongCleanPointer(stage, &system_layout.System_dividers) || modified
+	modified = stage.CleanPointer(&system_layout.System_margins) || modified
+	modified = stage.CleanPointer(&system_layout.System_dividers) || modified
 	return
 }
 
@@ -1836,37 +1826,37 @@ func (tap *Tap) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Technical
 func (technical *Technical) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &technical.Up_bow) || modified
-	modified = GongCleanSlice(stage, &technical.Down_bow) || modified
-	modified = GongCleanSlice(stage, &technical.Harmonic) || modified
-	modified = GongCleanSlice(stage, &technical.Open_string) || modified
-	modified = GongCleanSlice(stage, &technical.Thumb_position) || modified
-	modified = GongCleanSlice(stage, &technical.Fingering) || modified
-	modified = GongCleanSlice(stage, &technical.Pluck) || modified
-	modified = GongCleanSlice(stage, &technical.Double_tongue) || modified
-	modified = GongCleanSlice(stage, &technical.Triple_tongue) || modified
-	modified = GongCleanSlice(stage, &technical.Stopped) || modified
-	modified = GongCleanSlice(stage, &technical.Snap_pizzicato) || modified
-	modified = GongCleanSlice(stage, &technical.Fret) || modified
-	modified = GongCleanSlice(stage, &technical.String) || modified
-	modified = GongCleanSlice(stage, &technical.Hammer_on) || modified
-	modified = GongCleanSlice(stage, &technical.Pull_off) || modified
-	modified = GongCleanSlice(stage, &technical.Bend) || modified
-	modified = GongCleanSlice(stage, &technical.Tap) || modified
-	modified = GongCleanSlice(stage, &technical.Heel) || modified
-	modified = GongCleanSlice(stage, &technical.Toe) || modified
-	modified = GongCleanSlice(stage, &technical.Fingernails) || modified
-	modified = GongCleanSlice(stage, &technical.Hole) || modified
-	modified = GongCleanSlice(stage, &technical.Arrow) || modified
-	modified = GongCleanSlice(stage, &technical.Handbell) || modified
-	modified = GongCleanSlice(stage, &technical.Brass_bend) || modified
-	modified = GongCleanSlice(stage, &technical.Flip) || modified
-	modified = GongCleanSlice(stage, &technical.Smear) || modified
-	modified = GongCleanSlice(stage, &technical.Open) || modified
-	modified = GongCleanSlice(stage, &technical.Half_muted) || modified
-	modified = GongCleanSlice(stage, &technical.Harmon_mute) || modified
-	modified = GongCleanSlice(stage, &technical.Golpe) || modified
-	modified = GongCleanSlice(stage, &technical.Other_technical) || modified
+	modified = stage.CleanSlice(&technical.Up_bow) || modified
+	modified = stage.CleanSlice(&technical.Down_bow) || modified
+	modified = stage.CleanSlice(&technical.Harmonic) || modified
+	modified = stage.CleanSlice(&technical.Open_string) || modified
+	modified = stage.CleanSlice(&technical.Thumb_position) || modified
+	modified = stage.CleanSlice(&technical.Fingering) || modified
+	modified = stage.CleanSlice(&technical.Pluck) || modified
+	modified = stage.CleanSlice(&technical.Double_tongue) || modified
+	modified = stage.CleanSlice(&technical.Triple_tongue) || modified
+	modified = stage.CleanSlice(&technical.Stopped) || modified
+	modified = stage.CleanSlice(&technical.Snap_pizzicato) || modified
+	modified = stage.CleanSlice(&technical.Fret) || modified
+	modified = stage.CleanSlice(&technical.String) || modified
+	modified = stage.CleanSlice(&technical.Hammer_on) || modified
+	modified = stage.CleanSlice(&technical.Pull_off) || modified
+	modified = stage.CleanSlice(&technical.Bend) || modified
+	modified = stage.CleanSlice(&technical.Tap) || modified
+	modified = stage.CleanSlice(&technical.Heel) || modified
+	modified = stage.CleanSlice(&technical.Toe) || modified
+	modified = stage.CleanSlice(&technical.Fingernails) || modified
+	modified = stage.CleanSlice(&technical.Hole) || modified
+	modified = stage.CleanSlice(&technical.Arrow) || modified
+	modified = stage.CleanSlice(&technical.Handbell) || modified
+	modified = stage.CleanSlice(&technical.Brass_bend) || modified
+	modified = stage.CleanSlice(&technical.Flip) || modified
+	modified = stage.CleanSlice(&technical.Smear) || modified
+	modified = stage.CleanSlice(&technical.Open) || modified
+	modified = stage.CleanSlice(&technical.Half_muted) || modified
+	modified = stage.CleanSlice(&technical.Harmon_mute) || modified
+	modified = stage.CleanSlice(&technical.Golpe) || modified
+	modified = stage.CleanSlice(&technical.Other_technical) || modified
 	// insertion point per field
 	return
 }
@@ -1896,7 +1886,7 @@ func (tied *Tied) GongClean(stage *Stage) (modified bool) {
 func (time *Time) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &time.Interchangeable) || modified
+	modified = stage.CleanPointer(&time.Interchangeable) || modified
 	return
 }
 
@@ -1932,8 +1922,8 @@ func (tremolo *Tremolo) GongClean(stage *Stage) (modified bool) {
 func (tuplet *Tuplet) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &tuplet.Tuplet_actual) || modified
-	modified = GongCleanPointer(stage, &tuplet.Tuplet_normal) || modified
+	modified = stage.CleanPointer(&tuplet.Tuplet_actual) || modified
+	modified = stage.CleanPointer(&tuplet.Tuplet_normal) || modified
 	return
 }
 
@@ -1954,10 +1944,10 @@ func (tuplet_number *Tuplet_number) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Tuplet_portion
 func (tuplet_portion *Tuplet_portion) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &tuplet_portion.Tuplet_dot) || modified
+	modified = stage.CleanSlice(&tuplet_portion.Tuplet_dot) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &tuplet_portion.Tuplet_number) || modified
-	modified = GongCleanPointer(stage, &tuplet_portion.Tuplet_type) || modified
+	modified = stage.CleanPointer(&tuplet_portion.Tuplet_number) || modified
+	modified = stage.CleanPointer(&tuplet_portion.Tuplet_type) || modified
 	return
 }
 
@@ -2021,7 +2011,7 @@ func (wood *Wood) GongClean(stage *Stage) (modified bool) {
 func (work *Work) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &work.Opus) || modified
+	modified = stage.CleanPointer(&work.Opus) || modified
 	return
 }
 

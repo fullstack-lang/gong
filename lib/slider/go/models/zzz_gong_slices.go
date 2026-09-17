@@ -80,25 +80,25 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 // insertion point per named struct
 func (checkbox *Checkbox) GongCopy() GongstructIF {
 	newInstance := new(Checkbox)
-	checkbox.CopyBasicFields(newInstance)
+	checkbox.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (group *Group) GongCopy() GongstructIF {
 	newInstance := new(Group)
-	group.CopyBasicFields(newInstance)
+	group.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (layout *Layout) GongCopy() GongstructIF {
 	newInstance := new(Layout)
-	layout.CopyBasicFields(newInstance)
+	layout.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (slider *Slider) GongCopy() GongstructIF {
 	newInstance := new(Slider)
-	slider.CopyBasicFields(newInstance)
+	slider.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -109,7 +109,7 @@ func (checkbox *Checkbox) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(checkbox), uint64(stage.GetOrder(checkbox)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(checkbox), uint64(stage.GetOrder(checkbox)))
 	return
 }
 
@@ -119,7 +119,7 @@ func (group *Group) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(group), uint64(stage.GetOrder(group)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(group), uint64(stage.GetOrder(group)))
 	return
 }
 
@@ -129,7 +129,7 @@ func (layout *Layout) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(layout), uint64(stage.GetOrder(layout)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(layout), uint64(stage.GetOrder(layout)))
 	return
 }
 
@@ -139,7 +139,7 @@ func (slider *Slider) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(slider), uint64(stage.GetOrder(slider)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(slider), uint64(stage.GetOrder(slider)))
 	return
 }
 
@@ -583,7 +583,7 @@ func (checkbox *Checkbox) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Checkbox")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(checkbox.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(checkbox.Name))
 	return
 }
 
@@ -591,7 +591,7 @@ func (group *Group) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", group.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Group")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group.Name))
 	return
 }
 
@@ -599,7 +599,7 @@ func (layout *Layout) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", layout.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Layout")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(layout.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(layout.Name))
 	return
 }
 
@@ -607,7 +607,7 @@ func (slider *Slider) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", slider.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Slider")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slider.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slider.Name))
 	return
 }
 
@@ -636,10 +636,10 @@ func (slider *Slider) GongMarshallUnstaging(stage *Stage) (decl string) {
 	return
 }
 
-func IntToLetters(number int32) (letters string) {
+func GongIntToLetters(number int32) (letters string) {
 	number--
 	if firstLetter := number / 26; firstLetter > 0 {
-		letters += IntToLetters(firstLetter)
+		letters += GongIntToLetters(firstLetter)
 		letters += string('A' + number%26)
 	} else {
 		letters += string('A' + number)
@@ -648,8 +648,8 @@ func IntToLetters(number int32) (letters string) {
 	return
 }
 
-// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
-func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+// GongGenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 1. Create a deterministic hash from the inputs using SHA-256
 	h := sha256.New()
 

@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type AnalysisNeed_WOP struct {
@@ -19,7 +17,7 @@ type AnalysisNeed_WOP struct {
 	IsExpanded bool
 }
 
-func (from *AnalysisNeed) CopyBasicFields(to *AnalysisNeed) {
+func (from *AnalysisNeed) GongCopyBasicFields(to *AnalysisNeed) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -36,7 +34,7 @@ type Concept_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Concept) CopyBasicFields(to *Concept) {
+func (from *Concept) GongCopyBasicFields(to *Concept) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -61,7 +59,7 @@ type ConceptShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ConceptShape) CopyBasicFields(to *ConceptShape) {
+func (from *ConceptShape) GongCopyBasicFields(to *ConceptShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
@@ -96,7 +94,7 @@ type Concern_WOP struct {
 	Completion CompletionEnum
 }
 
-func (from *Concern) CopyBasicFields(to *Concern) {
+func (from *Concern) GongCopyBasicFields(to *Concern) {
 	// insertion point
 	to.Name = from.Name
 	to.IDAirbus = from.IDAirbus
@@ -128,7 +126,7 @@ type ConcernCompositionShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ConcernCompositionShape) CopyBasicFields(to *ConcernCompositionShape) {
+func (from *ConcernCompositionShape) GongCopyBasicFields(to *ConcernCompositionShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -157,7 +155,7 @@ type ConcernInputShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ConcernInputShape) CopyBasicFields(to *ConcernInputShape) {
+func (from *ConcernInputShape) GongCopyBasicFields(to *ConcernInputShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -186,7 +184,7 @@ type ConcernOutputShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ConcernOutputShape) CopyBasicFields(to *ConcernOutputShape) {
+func (from *ConcernOutputShape) GongCopyBasicFields(to *ConcernOutputShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -215,7 +213,7 @@ type ConcernShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ConcernShape) CopyBasicFields(to *ConcernShape) {
+func (from *ConcernShape) GongCopyBasicFields(to *ConcernShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
@@ -238,7 +236,7 @@ type ControlPointShape_WOP struct {
 	IsStartShapeTheClosestShape bool
 }
 
-func (from *ControlPointShape) CopyBasicFields(to *ControlPointShape) {
+func (from *ControlPointShape) GongCopyBasicFields(to *ControlPointShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X_Relative = from.X_Relative
@@ -262,7 +260,7 @@ type Deliverable_WOP struct {
 	IsConsumersNodeExpanded bool
 }
 
-func (from *Deliverable) CopyBasicFields(to *Deliverable) {
+func (from *Deliverable) GongCopyBasicFields(to *Deliverable) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -290,7 +288,7 @@ type DeliverableCompositionShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *DeliverableCompositionShape) CopyBasicFields(to *DeliverableCompositionShape) {
+func (from *DeliverableCompositionShape) GongCopyBasicFields(to *DeliverableCompositionShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -319,7 +317,7 @@ type DeliverableConceptShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *DeliverableConceptShape) CopyBasicFields(to *DeliverableConceptShape) {
+func (from *DeliverableConceptShape) GongCopyBasicFields(to *DeliverableConceptShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -348,7 +346,7 @@ type DeliverableShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *DeliverableShape) CopyBasicFields(to *DeliverableShape) {
+func (from *DeliverableShape) GongCopyBasicFields(to *DeliverableShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
@@ -397,7 +395,7 @@ type Diagram_WOP struct {
 	IsDiagramsNodeExpanded bool
 }
 
-func (from *Diagram) CopyBasicFields(to *Diagram) {
+func (from *Diagram) GongCopyBasicFields(to *Diagram) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -436,7 +434,7 @@ type DiagramShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *DiagramShape) CopyBasicFields(to *DiagramShape) {
+func (from *DiagramShape) GongCopyBasicFields(to *DiagramShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
@@ -461,7 +459,7 @@ type Library_WOP struct {
 	NbPixPerCharacter float64
 }
 
-func (from *Library) CopyBasicFields(to *Library) {
+func (from *Library) GongCopyBasicFields(to *Library) {
 	// insertion point
 	to.Name = from.Name
 	to.IsRootLibrary = from.IsRootLibrary
@@ -480,7 +478,7 @@ type Note_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Note) CopyBasicFields(to *Note) {
+func (from *Note) GongCopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -505,7 +503,7 @@ type NoteDeliverableShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteDeliverableShape) CopyBasicFields(to *NoteDeliverableShape) {
+func (from *NoteDeliverableShape) GongCopyBasicFields(to *NoteDeliverableShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -534,7 +532,7 @@ type NoteShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteShape) CopyBasicFields(to *NoteShape) {
+func (from *NoteShape) GongCopyBasicFields(to *NoteShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
@@ -563,7 +561,7 @@ type NoteStakeholderShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteStakeholderShape) CopyBasicFields(to *NoteStakeholderShape) {
+func (from *NoteStakeholderShape) GongCopyBasicFields(to *NoteStakeholderShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -592,7 +590,7 @@ type NoteTaskShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteTaskShape) CopyBasicFields(to *NoteTaskShape) {
+func (from *NoteTaskShape) GongCopyBasicFields(to *NoteTaskShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -613,7 +611,7 @@ type Requirement_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Requirement) CopyBasicFields(to *Requirement) {
+func (from *Requirement) GongCopyBasicFields(to *Requirement) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -638,7 +636,7 @@ type RequirementShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *RequirementShape) CopyBasicFields(to *RequirementShape) {
+func (from *RequirementShape) GongCopyBasicFields(to *RequirementShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
@@ -663,7 +661,7 @@ type Stakeholder_WOP struct {
 	Description string
 }
 
-func (from *Stakeholder) CopyBasicFields(to *Stakeholder) {
+func (from *Stakeholder) GongCopyBasicFields(to *Stakeholder) {
 	// insertion point
 	to.Name = from.Name
 	to.IDAirbus = from.IDAirbus
@@ -690,7 +688,7 @@ type StakeholderCompositionShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *StakeholderCompositionShape) CopyBasicFields(to *StakeholderCompositionShape) {
+func (from *StakeholderCompositionShape) GongCopyBasicFields(to *StakeholderCompositionShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -719,7 +717,7 @@ type StakeholderConcernShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *StakeholderConcernShape) CopyBasicFields(to *StakeholderConcernShape) {
+func (from *StakeholderConcernShape) GongCopyBasicFields(to *StakeholderConcernShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -748,7 +746,7 @@ type StakeholderShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *StakeholderShape) CopyBasicFields(to *StakeholderShape) {
+func (from *StakeholderShape) GongCopyBasicFields(to *StakeholderShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
@@ -765,7 +763,7 @@ type SupportLevel_WOP struct {
 	Name string
 }
 
-func (from *SupportLevel) CopyBasicFields(to *SupportLevel) {
+func (from *SupportLevel) GongCopyBasicFields(to *SupportLevel) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -776,7 +774,7 @@ type Tool_WOP struct {
 	Name string
 }
 
-func (from *Tool) CopyBasicFields(to *Tool) {
+func (from *Tool) GongCopyBasicFields(to *Tool) {
 	// insertion point
 	to.Name = from.Name
 }

@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Arrow_WOP struct {
@@ -19,7 +17,7 @@ type Arrow_WOP struct {
 	OptionnalStroke string
 }
 
-func (from *Arrow) CopyBasicFields(to *Arrow) {
+func (from *Arrow) GongCopyBasicFields(to *Arrow) {
 	// insertion point
 	to.Name = from.Name
 	to.OptionnalColor = from.OptionnalColor
@@ -48,7 +46,7 @@ type Bar_WOP struct {
 	StrokeDashArray string
 }
 
-func (from *Bar) CopyBasicFields(to *Bar) {
+func (from *Bar) GongCopyBasicFields(to *Bar) {
 	// insertion point
 	to.Name = from.Name
 	to.Start = from.Start
@@ -115,7 +113,7 @@ type Gantt_WOP struct {
 	AlignOnStartEndOnYearStart bool
 }
 
-func (from *Gantt) CopyBasicFields(to *Gantt) {
+func (from *Gantt) GongCopyBasicFields(to *Gantt) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedStart = from.ComputedStart
@@ -150,7 +148,7 @@ type Group_WOP struct {
 	Name string
 }
 
-func (from *Group) CopyBasicFields(to *Group) {
+func (from *Group) GongCopyBasicFields(to *Group) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -163,7 +161,7 @@ type Lane_WOP struct {
 	Order int
 }
 
-func (from *Lane) CopyBasicFields(to *Lane) {
+func (from *Lane) GongCopyBasicFields(to *Lane) {
 	// insertion point
 	to.Name = from.Name
 	to.Order = from.Order
@@ -175,7 +173,7 @@ type LaneUse_WOP struct {
 	Name string
 }
 
-func (from *LaneUse) CopyBasicFields(to *LaneUse) {
+func (from *LaneUse) GongCopyBasicFields(to *LaneUse) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -190,7 +188,7 @@ type Milestone_WOP struct {
 	DisplayVerticalBar bool
 }
 
-func (from *Milestone) CopyBasicFields(to *Milestone) {
+func (from *Milestone) GongCopyBasicFields(to *Milestone) {
 	// insertion point
 	to.Name = from.Name
 	to.Date = from.Date

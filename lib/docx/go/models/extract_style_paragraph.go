@@ -31,13 +31,13 @@ func ExtractStyleText(styleName string, gongdocxStage *Stage) (res []string) {
 	reverseMapParagraph_ParagraphProperties :=
 		gongdocxStage.GetPointerReverseMap[
 			Paragraph, ParagraphProperties](
-			GetAssociationName[Paragraph]().ParagraphProperties.Name)
+			GongGetAssociationName[Paragraph]().ParagraphProperties.Name)
 	_ = reverseMapParagraph_ParagraphProperties
 
 	reverseMapParagraphProperties_ParagraphStyles :=
 		gongdocxStage.GetPointerReverseMap[
 			ParagraphProperties, ParagraphStyle](
-			GetAssociationName[ParagraphProperties]().ParagraphStyle.Name)
+			GongGetAssociationName[ParagraphProperties]().ParagraphStyle.Name)
 	_ = reverseMapParagraphProperties_ParagraphStyles
 
 	log.Println("Used styles are ")

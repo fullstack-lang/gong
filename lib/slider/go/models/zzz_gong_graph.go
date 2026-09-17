@@ -26,32 +26,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Checkbox:
-		ok = stage.IsStagedCheckbox(target)
-
-	case *Group:
-		ok = stage.IsStagedGroup(target)
-
-	case *Layout:
-		ok = stage.IsStagedLayout(target)
-
-	case *Slider:
-		ok = stage.IsStagedSlider(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedCheckbox(checkbox *Checkbox) (ok bool) {
 
@@ -112,7 +86,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchCheckbox(checkbox *Checkbox) {
 
 	// check if instance is already staged
-	if IsStaged(stage, checkbox) {
+	if stage.IsStaged(checkbox) {
 		return
 	}
 
@@ -127,7 +101,7 @@ func (stage *Stage) StageBranchCheckbox(checkbox *Checkbox) {
 func (stage *Stage) StageBranchGroup(group *Group) {
 
 	// check if instance is already staged
-	if IsStaged(stage, group) {
+	if stage.IsStaged(group) {
 		return
 	}
 
@@ -137,10 +111,10 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _slider := range group.Sliders {
-		StageBranch(stage, _slider)
+		stage.StageBranch(_slider)
 	}
 	for _, _checkbox := range group.Checkboxes {
-		StageBranch(stage, _checkbox)
+		stage.StageBranch(_checkbox)
 	}
 
 }
@@ -148,7 +122,7 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 func (stage *Stage) StageBranchLayout(layout *Layout) {
 
 	// check if instance is already staged
-	if IsStaged(stage, layout) {
+	if stage.IsStaged(layout) {
 		return
 	}
 
@@ -158,7 +132,7 @@ func (stage *Stage) StageBranchLayout(layout *Layout) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _group := range layout.Groups {
-		StageBranch(stage, _group)
+		stage.StageBranch(_group)
 	}
 
 }
@@ -166,7 +140,7 @@ func (stage *Stage) StageBranchLayout(layout *Layout) {
 func (stage *Stage) StageBranchSlider(slider *Slider) {
 
 	// check if instance is already staged
-	if IsStaged(stage, slider) {
+	if stage.IsStaged(slider) {
 		return
 	}
 
@@ -178,11 +152,11 @@ func (stage *Stage) StageBranchSlider(slider *Slider) {
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -190,19 +164,19 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *Checkbox:
-		toT := CopyBranchCheckbox(mapOrigCopy, fromT)
+		toT := GongCopyBranchCheckbox(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Group:
-		toT := CopyBranchGroup(mapOrigCopy, fromT)
+		toT := GongCopyBranchGroup(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Layout:
-		toT := CopyBranchLayout(mapOrigCopy, fromT)
+		toT := GongCopyBranchLayout(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Slider:
-		toT := CopyBranchSlider(mapOrigCopy, fromT)
+		toT := GongCopyBranchSlider(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -212,7 +186,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchCheckbox(mapOrigCopy map[any]any, checkboxFrom *Checkbox) (checkboxTo *Checkbox) {
+func GongCopyBranchCheckbox(mapOrigCopy map[any]any, checkboxFrom *Checkbox) (checkboxTo *Checkbox) {
 
 	// checkboxFrom has already been copied
 	if _checkboxTo, ok := mapOrigCopy[checkboxFrom]; ok {
@@ -222,7 +196,7 @@ func CopyBranchCheckbox(mapOrigCopy map[any]any, checkboxFrom *Checkbox) (checkb
 
 	checkboxTo = new(Checkbox)
 	mapOrigCopy[checkboxFrom] = checkboxTo
-	checkboxFrom.CopyBasicFields(checkboxTo)
+	checkboxFrom.GongCopyBasicFields(checkboxTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -231,7 +205,7 @@ func CopyBranchCheckbox(mapOrigCopy map[any]any, checkboxFrom *Checkbox) (checkb
 	return
 }
 
-func CopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group) {
+func GongCopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group) {
 
 	// groupFrom has already been copied
 	if _groupTo, ok := mapOrigCopy[groupFrom]; ok {
@@ -241,22 +215,22 @@ func CopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group)
 
 	groupTo = new(Group)
 	mapOrigCopy[groupFrom] = groupTo
-	groupFrom.CopyBasicFields(groupTo)
+	groupFrom.GongCopyBasicFields(groupTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _slider := range groupFrom.Sliders {
-		groupTo.Sliders = append(groupTo.Sliders, CopyBranchSlider(mapOrigCopy, _slider))
+		groupTo.Sliders = append(groupTo.Sliders, GongCopyBranchSlider(mapOrigCopy, _slider))
 	}
 	for _, _checkbox := range groupFrom.Checkboxes {
-		groupTo.Checkboxes = append(groupTo.Checkboxes, CopyBranchCheckbox(mapOrigCopy, _checkbox))
+		groupTo.Checkboxes = append(groupTo.Checkboxes, GongCopyBranchCheckbox(mapOrigCopy, _checkbox))
 	}
 
 	return
 }
 
-func CopyBranchLayout(mapOrigCopy map[any]any, layoutFrom *Layout) (layoutTo *Layout) {
+func GongCopyBranchLayout(mapOrigCopy map[any]any, layoutFrom *Layout) (layoutTo *Layout) {
 
 	// layoutFrom has already been copied
 	if _layoutTo, ok := mapOrigCopy[layoutFrom]; ok {
@@ -266,19 +240,19 @@ func CopyBranchLayout(mapOrigCopy map[any]any, layoutFrom *Layout) (layoutTo *La
 
 	layoutTo = new(Layout)
 	mapOrigCopy[layoutFrom] = layoutTo
-	layoutFrom.CopyBasicFields(layoutTo)
+	layoutFrom.GongCopyBasicFields(layoutTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _group := range layoutFrom.Groups {
-		layoutTo.Groups = append(layoutTo.Groups, CopyBranchGroup(mapOrigCopy, _group))
+		layoutTo.Groups = append(layoutTo.Groups, GongCopyBranchGroup(mapOrigCopy, _group))
 	}
 
 	return
 }
 
-func CopyBranchSlider(mapOrigCopy map[any]any, sliderFrom *Slider) (sliderTo *Slider) {
+func GongCopyBranchSlider(mapOrigCopy map[any]any, sliderFrom *Slider) (sliderTo *Slider) {
 
 	// sliderFrom has already been copied
 	if _sliderTo, ok := mapOrigCopy[sliderFrom]; ok {
@@ -288,7 +262,7 @@ func CopyBranchSlider(mapOrigCopy map[any]any, sliderFrom *Slider) (sliderTo *Sl
 
 	sliderTo = new(Slider)
 	mapOrigCopy[sliderFrom] = sliderTo
-	sliderFrom.CopyBasicFields(sliderTo)
+	sliderFrom.GongCopyBasicFields(sliderTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -323,16 +297,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchCheckbox(checkbox *Checkbox) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, checkbox) {
+	if !stage.IsStaged(checkbox) {
 		return
 	}
 
@@ -347,7 +316,7 @@ func (stage *Stage) UnstageBranchCheckbox(checkbox *Checkbox) {
 func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, group) {
+	if !stage.IsStaged(group) {
 		return
 	}
 
@@ -357,10 +326,10 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _slider := range group.Sliders {
-		UnstageBranch(stage, _slider)
+		stage.UnstageBranch(_slider)
 	}
 	for _, _checkbox := range group.Checkboxes {
-		UnstageBranch(stage, _checkbox)
+		stage.UnstageBranch(_checkbox)
 	}
 
 }
@@ -368,7 +337,7 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 func (stage *Stage) UnstageBranchLayout(layout *Layout) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, layout) {
+	if !stage.IsStaged(layout) {
 		return
 	}
 
@@ -378,7 +347,7 @@ func (stage *Stage) UnstageBranchLayout(layout *Layout) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _group := range layout.Groups {
-		UnstageBranch(stage, _group)
+		stage.UnstageBranch(_group)
 	}
 
 }
@@ -386,7 +355,7 @@ func (stage *Stage) UnstageBranchLayout(layout *Layout) {
 func (stage *Stage) UnstageBranchSlider(slider *Slider) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, slider) {
+	if !stage.IsStaged(slider) {
 		return
 	}
 
@@ -522,7 +491,7 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if SlidersDifferent {
-		ops := Diff(stage, group, groupOther, "Sliders", groupOther.Sliders, group.Sliders)
+		ops := stage.Diff(group, groupOther, "Sliders", groupOther.Sliders, group.Sliders)
 		diffs = append(diffs, ops)
 	}
 	CheckboxesDifferent := false
@@ -543,7 +512,7 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if CheckboxesDifferent {
-		ops := Diff(stage, group, groupOther, "Checkboxes", groupOther.Checkboxes, group.Checkboxes)
+		ops := stage.Diff(group, groupOther, "Checkboxes", groupOther.Checkboxes, group.Checkboxes)
 		diffs = append(diffs, ops)
 	}
 
@@ -575,7 +544,7 @@ func (layout *Layout) GongDiff(stage *Stage, layoutOther *Layout) (diffs []strin
 		}
 	}
 	if GroupsDifferent {
-		ops := Diff(stage, layout, layoutOther, "Groups", layoutOther.Groups, layout.Groups)
+		ops := stage.Diff(layout, layoutOther, "Groups", layoutOther.Groups, layout.Groups)
 		diffs = append(diffs, ops)
 	}
 	if layout.IsWithCustomGutterSize != layoutOther.IsWithCustomGutterSize {
@@ -706,9 +675,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

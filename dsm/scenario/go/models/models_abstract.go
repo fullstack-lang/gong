@@ -322,8 +322,8 @@ func GetWorkspace(stage *Stage) (workspace *Workspace) {
 // matches the
 func (workspace *Workspace) GetCurrentScenario(stage *Stage) (scenario *Scenario) {
 
-	fieldName := GetAssociationName[Scenario]().Diagrams[0].Name
-	map_Diagram_Scenario := GetSliceOfPointersReverseMap[Scenario, Diagram](fieldName, stage)
+	fieldName := GongGetAssociationName[Scenario]().Diagrams[0].Name
+	map_Diagram_Scenario := stage.GetSliceOfPointersReverseMap[Scenario, Diagram](fieldName)
 
 	scenario = map_Diagram_Scenario[workspace.SelectedDiagram][0]
 

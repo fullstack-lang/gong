@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Button_WOP struct {
@@ -29,7 +27,7 @@ type Button_WOP struct {
 	ClientOnY float64
 }
 
-func (from *Button) CopyBasicFields(to *Button) {
+func (from *Button) GongCopyBasicFields(to *Button) {
 	// insertion point
 	to.Name = from.Name
 	to.Icon = from.Icon
@@ -47,7 +45,7 @@ type Menu_WOP struct {
 	Name string
 }
 
-func (from *Menu) CopyBasicFields(to *Menu) {
+func (from *Menu) GongCopyBasicFields(to *Menu) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -110,7 +108,7 @@ type Node_WOP struct {
 	PreceedingIcon string
 }
 
-func (from *Node) CopyBasicFields(to *Node) {
+func (from *Node) GongCopyBasicFields(to *Node) {
 	// insertion point
 	to.Name = from.Name
 	to.IsWithPrefix = from.IsWithPrefix
@@ -149,7 +147,7 @@ type SVGIcon_WOP struct {
 	SVG string
 }
 
-func (from *SVGIcon) CopyBasicFields(to *SVGIcon) {
+func (from *SVGIcon) GongCopyBasicFields(to *SVGIcon) {
 	// insertion point
 	to.Name = from.Name
 	to.SVG = from.SVG
@@ -163,7 +161,7 @@ type Tree_WOP struct {
 	HaveSearch bool
 }
 
-func (from *Tree) CopyBasicFields(to *Tree) {
+func (from *Tree) GongCopyBasicFields(to *Tree) {
 	// insertion point
 	to.Name = from.Name
 	to.HaveSearch = from.HaveSearch

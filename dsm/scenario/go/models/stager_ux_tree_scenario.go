@@ -43,7 +43,7 @@ func (stager *Stager) treeCategoryDiagrams(treeInstance *tree.Tree, scenario *Sc
 	categoryNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&scenario.IsDiagramsNodeExpanded)
 	*parentNodes = append(*parentNodes, categoryNode)
 
-	slices.SortFunc(scenario.Diagrams, CompareGongstructByName)
+	slices.SortFunc(scenario.Diagrams, GongCompareGongstructByName)
 	for _, diagram := range scenario.Diagrams {
 		diagramNode := new(tree.Node)
 		diagramNode.Name = diagram.Name
@@ -115,7 +115,7 @@ func (stager *Stager) treeCategoryDiagrams(treeInstance *tree.Tree, scenario *Sc
 		parametersNode.IsNodeClickable = false
 		diagramNode.Children = append(diagramNode.Children, parametersNode)
 
-		slices.SortFunc(scenario.Parameters, CompareGongstructByName)
+		slices.SortFunc(scenario.Parameters, GongCompareGongstructByName)
 		for _, p := range scenario.Parameters {
 			conf := TreeNodeAndShapeConfigurationWithoutLink[
 				*Parameter, Parameter, // AT, AT_
@@ -142,7 +142,7 @@ func (stager *Stager) treeCategoryDiagrams(treeInstance *tree.Tree, scenario *Sc
 		actorStatesNode.IsNodeClickable = false
 		diagramNode.Children = append(diagramNode.Children, actorStatesNode)
 
-		slices.SortFunc(scenario.ActorStates, CompareGongstructByName)
+		slices.SortFunc(scenario.ActorStates, GongCompareGongstructByName)
 		for _, as := range scenario.ActorStates {
 			conf := TreeNodeAndShapeConfigurationWithoutLink[
 				*ActorState, ActorState,
@@ -169,7 +169,7 @@ func (stager *Stager) treeCategoryDiagrams(treeInstance *tree.Tree, scenario *Sc
 		evolutionDirectionsNode.IsNodeClickable = false
 		diagramNode.Children = append(diagramNode.Children, evolutionDirectionsNode)
 
-		slices.SortFunc(scenario.EvolutionDirections, CompareGongstructByName)
+		slices.SortFunc(scenario.EvolutionDirections, GongCompareGongstructByName)
 		for _, ed := range scenario.EvolutionDirections {
 			conf := TreeNodeAndShapeConfigurationWithoutLink[
 				*EvolutionDirection, EvolutionDirection,
@@ -196,7 +196,7 @@ func (stager *Stager) treeCategoryDiagrams(treeInstance *tree.Tree, scenario *Sc
 		parametersAggregatesNode.IsNodeClickable = false
 		diagramNode.Children = append(diagramNode.Children, parametersAggregatesNode)
 
-		slices.SortFunc(scenario.ParametersAggretates, CompareGongstructByName)
+		slices.SortFunc(scenario.ParametersAggretates, GongCompareGongstructByName)
 		for _, pa := range scenario.ParametersAggretates {
 			conf := TreeNodeAndShapeConfigurationWithoutLink[
 				*ParametersAggregate, ParametersAggregate,
@@ -223,7 +223,7 @@ func (stager *Stager) treeCategoryDiagrams(treeInstance *tree.Tree, scenario *Sc
 		actorStateTransitionsNode.IsNodeClickable = false
 		diagramNode.Children = append(diagramNode.Children, actorStateTransitionsNode)
 
-		slices.SortFunc(scenario.ActorStateTransitions, CompareGongstructByName)
+		slices.SortFunc(scenario.ActorStateTransitions, GongCompareGongstructByName)
 		for _, ast := range scenario.ActorStateTransitions {
 			conf := TreeNodeAndShapeConfigurationWithoutLink[
 				*ActorStateTransition, ActorStateTransition,

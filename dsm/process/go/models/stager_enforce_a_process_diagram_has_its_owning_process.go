@@ -4,7 +4,7 @@ import "time"
 
 func (stager *Stager) enforceAProcessDiagramHasItsOwningProcess() (needCommit bool) {
 
-	rm := GetSliceOfPointersReverseMap[Process, DiagramProcess](GetAssociationName[Process]().DiagramProcesss[0].Name, stager.stage)
+	rm := stager.stage.GetSliceOfPointersReverseMap[Process, DiagramProcess](GongGetAssociationName[Process]().DiagramProcesss[0].Name)
 
 	for diagramProcess := range *stager.stage.GetInstancesSet[*DiagramProcess]() {
 

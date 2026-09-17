@@ -37,11 +37,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -55,11 +50,6 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 		return
 	}
 	return
-}
-
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
 }
 
 // insertion point per named struct{{` + string(rune(GongCleanRangeElements)) + `}}
@@ -106,9 +96,9 @@ const (
 var GongCleanFileFieldFieldSubTemplateCode map[GongCleanSubTemplateId]string = // declaration of the sub templates
 map[GongCleanSubTemplateId]string{
 	GongCleanSubTmplCleanPointer: `
-	modified = GongCleanPointer(stage, &{{structname}}.{{FieldName}}) || modified`,
+	modified = stage.CleanPointer(&{{structname}}.{{FieldName}}) || modified`,
 	GongCleanSubTmplCleanOfSlicePointers: `
-	modified = GongCleanSlice(stage, &{{structname}}.{{FieldName}}) || modified`,
+	modified = stage.CleanSlice(&{{structname}}.{{FieldName}}) || modified`,
 }
 
 func CodeGeneratorModelGongClean(

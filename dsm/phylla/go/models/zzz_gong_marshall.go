@@ -70,9 +70,9 @@ const SliceOfPointersFieldInitStatement = `
 const TimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
 
-// ToRawStringLiteral formats a string into safe Go source code,
+// __gong__toRawStringLiteral formats a string into safe Go source code,
 // using backticks to preserve newlines and readability.
-func ToRawStringLiteral(s string) string {
+func __gong__toRawStringLiteral(s string) string {
 	// Step 1: Replace every backtick with a closing backtick,
 	// a double-quoted backtick, and an opening backtick.
 	escaped := strings.ReplaceAll(s, "`", "` + \"`\" + `")
@@ -1411,7 +1411,7 @@ func (angle0shape *Angle0Shape) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", angle0shape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(angle0shape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(angle0shape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Angle0Shape", fieldName)
@@ -1426,7 +1426,7 @@ func (arcnormalvectorshape *ArcNormalVectorShape) GongMarshallField(stage *Stage
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arcnormalvectorshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arcnormalvectorshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arcnormalvectorshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arcnormalvectorshape.GongGetIdentifier(stage))
@@ -1461,7 +1461,7 @@ func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arcnormalvectorshapegrid.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arcnormalvectorshapegrid.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arcnormalvectorshapegrid.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ArcNormalVectorShapeGrid", fieldName)
@@ -1476,7 +1476,7 @@ func (axesshape *AxesShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", axesshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(axesshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(axesshape.Name))
 	case "LengthX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", axesshape.GongGetIdentifier(stage))
@@ -1506,7 +1506,7 @@ func (basevectorshape *BaseVectorShape) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", basevectorshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(basevectorshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(basevectorshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", basevectorshape.GongGetIdentifier(stage))
@@ -1541,7 +1541,7 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", basevectorshapegrid.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(basevectorshapegrid.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(basevectorshapegrid.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct BaseVectorShapeGrid", fieldName)
@@ -1556,7 +1556,7 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(chosenp1p2pairshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(chosenp1p2pairshape.Name))
 	case "P1X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
@@ -1616,7 +1616,7 @@ func (circlegridshape *CircleGridShape) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", circlegridshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(circlegridshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(circlegridshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct CircleGridShape", fieldName)
@@ -1631,7 +1631,7 @@ func (circumference3dshape *Circumference3DShape) GongMarshallField(stage *Stage
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", circumference3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(circumference3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(circumference3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Circumference3DShape", fieldName)
@@ -1646,7 +1646,7 @@ func (clock2ddiagram *Clock2DDiagram) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clock2ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clock2ddiagram.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clock2ddiagram.Name))
 	case "Zoom":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clock2ddiagram.GongGetIdentifier(stage))
@@ -1666,7 +1666,7 @@ func (clock2ddiagram *Clock2DDiagram) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clock2ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clock2ddiagram.ComputedPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clock2ddiagram.ComputedPrefix))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clock2ddiagram.GongGetIdentifier(stage))
@@ -1686,7 +1686,7 @@ func (clock3ddiagram *Clock3DDiagram) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clock3ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clock3ddiagram.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clock3ddiagram.Name))
 	case "IsHiddenClockTopCurveShape":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clock3ddiagram.GongGetIdentifier(stage))
@@ -1716,7 +1716,7 @@ func (clock3ddiagram *Clock3DDiagram) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clock3ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clock3ddiagram.ComputedPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clock3ddiagram.ComputedPrefix))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clock3ddiagram.GongGetIdentifier(stage))
@@ -1762,7 +1762,7 @@ func (clockabstract *ClockAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clockabstract.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clockabstract.Name))
 	case "RadialRepetitions":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
@@ -1812,7 +1812,7 @@ func (clocktopcurveshape *ClockTopCurveShape) GongMarshallField(stage *Stage, fi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clocktopcurveshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clocktopcurveshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clocktopcurveshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ClockTopCurveShape", fieldName)
@@ -1827,7 +1827,7 @@ func (cutline3dshape *CutLine3DShape) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cutline3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cutline3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cutline3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct CutLine3DShape", fieldName)
@@ -1842,7 +1842,7 @@ func (endarcshape *EndArcShape) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", endarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(endarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(endarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", endarcshape.GongGetIdentifier(stage))
@@ -1902,7 +1902,7 @@ func (endarcshapegrid *EndArcShapeGrid) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", endarcshapegrid.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(endarcshapegrid.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(endarcshapegrid.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct EndArcShapeGrid", fieldName)
@@ -1917,7 +1917,7 @@ func (endhalfwayarcshape *EndHalfwayArcShape) GongMarshallField(stage *Stage, fi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", endhalfwayarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(endhalfwayarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(endhalfwayarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", endhalfwayarcshape.GongGetIdentifier(stage))
@@ -1977,7 +1977,7 @@ func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) GongMarshallField(stage *S
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", endhalfwayarcshapegrid.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(endhalfwayarcshapegrid.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(endhalfwayarcshapegrid.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct EndHalfwayArcShapeGrid", fieldName)
@@ -1992,7 +1992,7 @@ func (explanationtextshape *ExplanationTextShape) GongMarshallField(stage *Stage
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", explanationtextshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(explanationtextshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(explanationtextshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ExplanationTextShape", fieldName)
@@ -2007,7 +2007,7 @@ func (eye3dshape *Eye3DShape) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", eye3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(eye3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(eye3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Eye3DShape", fieldName)
@@ -2022,7 +2022,7 @@ func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongMarsha
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", eyecornerssampledpoints3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(eyecornerssampledpoints3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(eyecornerssampledpoints3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct EyeCornersSampledPoints3DShape", fieldName)
@@ -2037,7 +2037,7 @@ func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", eyesampledpoints3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(eyesampledpoints3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(eyesampledpoints3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct EyeSampledPoints3DShape", fieldName)
@@ -2052,7 +2052,7 @@ func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", eyeseatbottomcurveshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(eyeseatbottomcurveshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(eyeseatbottomcurveshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct EyeSeatBottomCurveShape", fieldName)
@@ -2067,7 +2067,7 @@ func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", eyestoolbottomcurveshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(eyestoolbottomcurveshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(eyestoolbottomcurveshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct EyeStoolBottomCurveShape", fieldName)
@@ -2082,7 +2082,7 @@ func (eyevolume3dshape *EyeVolume3DShape) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", eyevolume3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(eyevolume3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(eyevolume3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct EyeVolume3DShape", fieldName)
@@ -2097,7 +2097,7 @@ func (gridpathshape *GridPathShape) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gridpathshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gridpathshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gridpathshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct GridPathShape", fieldName)
@@ -2112,7 +2112,7 @@ func (growthcurve2d *GrowthCurve2D) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", growthcurve2d.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurve2d.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(growthcurve2d.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct GrowthCurve2D", fieldName)
@@ -2127,7 +2127,7 @@ func (growthcurve2dribbon *GrowthCurve2DRibbon) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", growthcurve2dribbon.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurve2dribbon.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(growthcurve2dribbon.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct GrowthCurve2DRibbon", fieldName)
@@ -2142,7 +2142,7 @@ func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongMarshallFiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", growthcurve2dribbonendshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurve2dribbonendshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(growthcurve2dribbonendshape.Name))
 	case "BottomStartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", growthcurve2dribbonendshape.GongGetIdentifier(stage))
@@ -2247,7 +2247,7 @@ func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongMarshall
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", growthcurve2dribbonstartshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurve2dribbonstartshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(growthcurve2dribbonstartshape.Name))
 	case "BottomStartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", growthcurve2dribbonstartshape.GongGetIdentifier(stage))
@@ -2352,7 +2352,7 @@ func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongMarshallFiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", growthcurverhombusgridshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurverhombusgridshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(growthcurverhombusgridshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct GrowthCurveRhombusGridShape", fieldName)
@@ -2367,7 +2367,7 @@ func (growthcurverhombusshape *GrowthCurveRhombusShape) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", growthcurverhombusshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurverhombusshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(growthcurverhombusshape.Name))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", growthcurverhombusshape.GongGetIdentifier(stage))
@@ -2392,7 +2392,7 @@ func (growthvectorshape *GrowthVectorShape) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", growthvectorshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthvectorshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(growthvectorshape.Name))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", growthvectorshape.GongGetIdentifier(stage))
@@ -2417,7 +2417,7 @@ func (initialrhombusgridshape *InitialRhombusGridShape) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", initialrhombusgridshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(initialrhombusgridshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(initialrhombusgridshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct InitialRhombusGridShape", fieldName)
@@ -2432,7 +2432,7 @@ func (initialrhombusshape *InitialRhombusShape) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", initialrhombusshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(initialrhombusshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(initialrhombusshape.Name))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", initialrhombusshape.GongGetIdentifier(stage))
@@ -2457,7 +2457,7 @@ func (key3dshape *Key3DShape) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Key3DShape", fieldName)
@@ -2472,7 +2472,7 @@ func (keyhole3dshape *KeyHole3DShape) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", keyhole3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(keyhole3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(keyhole3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct KeyHole3DShape", fieldName)
@@ -2487,7 +2487,7 @@ func (keyholeshape *KeyHoleShape) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", keyholeshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(keyholeshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(keyholeshape.Name))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", keyholeshape.GongGetIdentifier(stage))
@@ -2522,7 +2522,7 @@ func (leaves3dshape *Leaves3DShape) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", leaves3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(leaves3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(leaves3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Leaves3DShape", fieldName)
@@ -2537,7 +2537,7 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(library.Name))
 	case "NbPixPerCharacter":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
@@ -2547,12 +2547,12 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LogoSVGFile")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.LogoSVGFile))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(library.LogoSVGFile))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.ComputedPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(library.ComputedPrefix))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
@@ -2597,7 +2597,7 @@ func (midarcvectorshape *MidArcVectorShape) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midarcvectorshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midarcvectorshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(midarcvectorshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midarcvectorshape.GongGetIdentifier(stage))
@@ -2632,7 +2632,7 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallField(stage *Sta
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midarcvectorshapegrid.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midarcvectorshapegrid.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(midarcvectorshapegrid.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct MidArcVectorShapeGrid", fieldName)
@@ -2647,7 +2647,7 @@ func (musicabstract *MusicAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(musicabstract.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(musicabstract.Name))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
@@ -2792,7 +2792,7 @@ func (originalpoints3dshape *OriginalPoints3DShape) GongMarshallField(stage *Sta
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", originalpoints3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(originalpoints3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(originalpoints3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct OriginalPoints3DShape", fieldName)
@@ -2807,7 +2807,7 @@ func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", parastichymcurves3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parastichymcurves3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(parastichymcurves3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ParastichyMCurves3DShape", fieldName)
@@ -2822,7 +2822,7 @@ func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", parastichyncurves3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parastichyncurves3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(parastichyncurves3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ParastichyNCurves3DShape", fieldName)
@@ -2837,7 +2837,7 @@ func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongMarshallFi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dribbon.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dribbon.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dribbon.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PartiallyGrowthCurve2DRibbon", fieldName)
@@ -2852,7 +2852,7 @@ func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dribbonendshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dribbonendshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dribbonendshape.Name))
 	case "BottomStartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dribbonendshape.GongGetIdentifier(stage))
@@ -2957,7 +2957,7 @@ func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartS
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dribbonstartshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dribbonstartshape.Name))
 	case "BottomStartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
@@ -3062,7 +3062,7 @@ func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongMa
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectory.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectory.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectory.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PartiallyGrowthCurve2DTrajectory", fieldName)
@@ -3077,7 +3077,7 @@ func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajec
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp1curveshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryp1curveshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectoryp1curveshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp1curveshape.GongGetIdentifier(stage))
@@ -3112,7 +3112,7 @@ func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp1p2.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryp1p2.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectoryp1p2.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PartiallyGrowthCurve2DTrajectoryP1P2", fieldName)
@@ -3127,7 +3127,7 @@ func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DT
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp1p2pairlineshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp1p2pairlineshape.GongGetIdentifier(stage))
@@ -3162,7 +3162,7 @@ func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajec
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp1pointshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryp1pointshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectoryp1pointshape.Name))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp1pointshape.GongGetIdentifier(stage))
@@ -3187,7 +3187,7 @@ func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajec
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp2curveshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryp2curveshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectoryp2curveshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp2curveshape.GongGetIdentifier(stage))
@@ -3222,7 +3222,7 @@ func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajec
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp2pointshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryp2pointshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectoryp2pointshape.Name))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryp2pointshape.GongGetIdentifier(stage))
@@ -3247,7 +3247,7 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallygrowthcurve2dtrajectoryshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryshape.GongGetIdentifier(stage))
@@ -3282,7 +3282,7 @@ func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallyrotatedseatbottomcurveshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallyrotatedseatbottomcurveshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallyrotatedseatbottomcurveshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PartiallyRotatedSeatBottomCurveShape", fieldName)
@@ -3297,7 +3297,7 @@ func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) Gong
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallyrotatedseattopcurveshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallyrotatedseattopcurveshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallyrotatedseattopcurveshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PartiallyRotatedSeatTopCurveShape", fieldName)
@@ -3312,7 +3312,7 @@ func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongMarshallField(
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", partiallyrotatedtorusshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallyrotatedtorusshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(partiallyrotatedtorusshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PartiallyRotatedTorusShape", fieldName)
@@ -3327,7 +3327,7 @@ func (perpendicularvector *PerpendicularVector) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", perpendicularvector.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(perpendicularvector.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(perpendicularvector.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", perpendicularvector.GongGetIdentifier(stage))
@@ -3362,7 +3362,7 @@ func (perpendicularvectorgrid *PerpendicularVectorGrid) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", perpendicularvectorgrid.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(perpendicularvectorgrid.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(perpendicularvectorgrid.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PerpendicularVectorGrid", fieldName)
@@ -3377,7 +3377,7 @@ func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) GongMarsha
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", perpendicularvectorgridhalfway.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(perpendicularvectorgridhalfway.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(perpendicularvectorgridhalfway.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PerpendicularVectorGridHalfway", fieldName)
@@ -3392,7 +3392,7 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongMarshallField(
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", perpendicularvectorhalfway.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(perpendicularvectorhalfway.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(perpendicularvectorhalfway.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", perpendicularvectorhalfway.GongGetIdentifier(stage))
@@ -3427,7 +3427,7 @@ func (plant2ddiagram *Plant2DDiagram) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant2ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plant2ddiagram.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(plant2ddiagram.Name))
 	case "OriginX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant2ddiagram.GongGetIdentifier(stage))
@@ -3562,7 +3562,7 @@ func (plant2ddiagram *Plant2DDiagram) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant2ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plant2ddiagram.ComputedPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(plant2ddiagram.ComputedPrefix))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant2ddiagram.GongGetIdentifier(stage))
@@ -3582,7 +3582,7 @@ func (plant3ddiagram *Plant3DDiagram) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plant3ddiagram.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(plant3ddiagram.Name))
 	case "IsHiddenStemCylinder3DShape":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
@@ -3627,7 +3627,7 @@ func (plant3ddiagram *Plant3DDiagram) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plant3ddiagram.ComputedPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(plant3ddiagram.ComputedPrefix))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
@@ -3738,7 +3738,7 @@ func (plantabstract *PlantAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plantabstract.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(plantabstract.Name))
 	case "N":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
@@ -3794,7 +3794,7 @@ func (plantabstract *PlantAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plantabstract.ComputedPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(plantabstract.ComputedPrefix))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
@@ -3991,7 +3991,7 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantcircumferenceshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plantcircumferenceshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(plantcircumferenceshape.Name))
 	case "AngleDegree":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantcircumferenceshape.GongGetIdentifier(stage))
@@ -4016,7 +4016,7 @@ func (pointsandlines3dshape *PointsAndLines3DShape) GongMarshallField(stage *Sta
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pointsandlines3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pointsandlines3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pointsandlines3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PointsAndLines3DShape", fieldName)
@@ -4031,7 +4031,7 @@ func (pxshape *PxShape) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pxshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pxshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pxshape.Name))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pxshape.GongGetIdentifier(stage))
@@ -4056,7 +4056,7 @@ func (rendered3dshape *Rendered3DShape) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rendered3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rendered3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rendered3dshape.Name))
 	case "ViewX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rendered3dshape.GongGetIdentifier(stage))
@@ -4106,7 +4106,7 @@ func (rhombusshape *RhombusShape) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rhombusshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rhombusshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rhombusshape.Name))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rhombusshape.GongGetIdentifier(stage))
@@ -4131,7 +4131,7 @@ func (rhombusstuff *RhombusStuff) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rhombusstuff.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rhombusstuff.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rhombusstuff.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct RhombusStuff", fieldName)
@@ -4146,7 +4146,7 @@ func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rotatedrhombusgridshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rotatedrhombusgridshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rotatedrhombusgridshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct RotatedRhombusGridShape", fieldName)
@@ -4161,7 +4161,7 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rotatedrhombusshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rotatedrhombusshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rotatedrhombusshape.Name))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rotatedrhombusshape.GongGetIdentifier(stage))
@@ -4186,7 +4186,7 @@ func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongMarshallFiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rotatedsampledpoints3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rotatedsampledpoints3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rotatedsampledpoints3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct RotatedSampledPoints3DShape", fieldName)
@@ -4201,7 +4201,7 @@ func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GongMarshallField(st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rotatedseatandlegs3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rotatedseatandlegs3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rotatedseatandlegs3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct RotatedSeatAndLegs3DShape", fieldName)
@@ -4216,7 +4216,7 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongMarshallField(stage *Stage
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sampledpoints3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sampledpoints3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sampledpoints3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SampledPoints3DShape", fieldName)
@@ -4231,7 +4231,7 @@ func (seat3dshape *Seat3DShape) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", seat3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(seat3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(seat3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Seat3DShape", fieldName)
@@ -4246,7 +4246,7 @@ func (seatandlegs3dshape *SeatAndLegs3DShape) GongMarshallField(stage *Stage, fi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", seatandlegs3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(seatandlegs3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(seatandlegs3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SeatAndLegs3DShape", fieldName)
@@ -4261,7 +4261,7 @@ func (seatbottomcurveshape *SeatBottomCurveShape) GongMarshallField(stage *Stage
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", seatbottomcurveshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(seatbottomcurveshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(seatbottomcurveshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SeatBottomCurveShape", fieldName)
@@ -4276,7 +4276,7 @@ func (seattopcurveshape *SeatTopCurveShape) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", seattopcurveshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(seattopcurveshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(seattopcurveshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SeatTopCurveShape", fieldName)
@@ -4291,7 +4291,7 @@ func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongMarshall
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedbottomtopstartarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedbottomtopstartarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedbottomtopstartarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedbottomtopstartarcshape.GongGetIdentifier(stage))
@@ -4351,7 +4351,7 @@ func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) Gong
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedbottomtopstartarcshapegrid.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedbottomtopstartarcshapegrid.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedbottomtopstartarcshapegrid.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ShiftedBottomTopStartArcShapeGrid", fieldName)
@@ -4366,7 +4366,7 @@ func (shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) GongMarsha
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftgrowthcurve2dribbon.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftgrowthcurve2dribbon.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftgrowthcurve2dribbon.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ShiftedLeftGrowthCurve2DRibbon", fieldName)
@@ -4381,7 +4381,7 @@ func (shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndS
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftgrowthcurve2dribbonendshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftgrowthcurve2dribbonendshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftgrowthcurve2dribbonendshape.Name))
 	case "BottomStartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftgrowthcurve2dribbonendshape.GongGetIdentifier(stage))
@@ -4486,7 +4486,7 @@ func (shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonSt
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftgrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftgrowthcurve2dribbonstartshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftgrowthcurve2dribbonstartshape.Name))
 	case "BottomStartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftgrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
@@ -4591,7 +4591,7 @@ func (shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2D
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftpartiallygrowthcurve2dribbon.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftpartiallygrowthcurve2dribbon.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftpartiallygrowthcurve2dribbon.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ShiftedLeftPartiallyGrowthCurve2DRibbon", fieldName)
@@ -4606,7 +4606,7 @@ func (shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowt
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftpartiallygrowthcurve2dribbonendshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftpartiallygrowthcurve2dribbonendshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftpartiallygrowthcurve2dribbonendshape.Name))
 	case "BottomStartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftpartiallygrowthcurve2dribbonendshape.GongGetIdentifier(stage))
@@ -4711,7 +4711,7 @@ func (shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGro
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftpartiallygrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftpartiallygrowthcurve2dribbonstartshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftpartiallygrowthcurve2dribbonstartshape.Name))
 	case "BottomStartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftpartiallygrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
@@ -4816,7 +4816,7 @@ func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcS
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftstackgrowthcurveendarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstackgrowthcurveendarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftstackgrowthcurveendarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftstackgrowthcurveendarcshape.GongGetIdentifier(stage))
@@ -4876,7 +4876,7 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftstackgrowthcurvestartarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstackgrowthcurvestartarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftstackgrowthcurvestartarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftstackgrowthcurvestartarcshape.GongGetIdentifier(stage))
@@ -4936,7 +4936,7 @@ func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongMarshallFi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftstacknormalvector.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstacknormalvector.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftstacknormalvector.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftstacknormalvector.GongGetIdentifier(stage))
@@ -4971,7 +4971,7 @@ func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongMarshall
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftstackofgrowthcurve.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstackofgrowthcurve.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftstackofgrowthcurve.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ShiftedLeftStackOfGrowthCurve", fieldName)
@@ -4986,7 +4986,7 @@ func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongMarsha
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftstackofnormalvector.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstackofnormalvector.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedleftstackofnormalvector.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ShiftedLeftStackOfNormalVector", fieldName)
@@ -5001,7 +5001,7 @@ func (shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) GongMars
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedrightgrowthcurve2dribbon.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedrightgrowthcurve2dribbon.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedrightgrowthcurve2dribbon.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ShiftedRightGrowthCurve2DRibbon", fieldName)
@@ -5016,7 +5016,7 @@ func (shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEn
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedrightgrowthcurve2dribbonendshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedrightgrowthcurve2dribbonendshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedrightgrowthcurve2dribbonendshape.Name))
 	case "BottomStartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedrightgrowthcurve2dribbonendshape.GongGetIdentifier(stage))
@@ -5121,7 +5121,7 @@ func (shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbon
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedrightgrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedrightgrowthcurve2dribbonstartshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shiftedrightgrowthcurve2dribbonstartshape.Name))
 	case "BottomStartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedrightgrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
@@ -5226,7 +5226,7 @@ func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackgrowthcurve2dendhalfwayarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackgrowthcurve2dendhalfwayarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackgrowthcurve2dendhalfwayarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackgrowthcurve2dendhalfwayarcshape.GongGetIdentifier(stage))
@@ -5286,7 +5286,7 @@ func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) GongMa
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackgrowthcurve2dribbonendshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackgrowthcurve2dribbonendshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackgrowthcurve2dribbonendshape.Name))
 	case "BottomStartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackgrowthcurve2dribbonendshape.GongGetIdentifier(stage))
@@ -5391,7 +5391,7 @@ func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) Go
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackgrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackgrowthcurve2dribbonstartshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackgrowthcurve2dribbonstartshape.Name))
 	case "BottomStartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackgrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
@@ -5496,7 +5496,7 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackgrowthcurve2dstarthalfwayarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackgrowthcurve2dstarthalfwayarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackgrowthcurve2dstarthalfwayarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackgrowthcurve2dstarthalfwayarcshape.GongGetIdentifier(stage))
@@ -5556,7 +5556,7 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongMarshallField(stage *Stage
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackofgrowthcurve2d.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofgrowthcurve2d.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackofgrowthcurve2d.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StackOfGrowthCurve2D", fieldName)
@@ -5571,7 +5571,7 @@ func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) Go
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackofgrowthcurve2dbygrowthvector.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofgrowthcurve2dbygrowthvector.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackofgrowthcurve2dbygrowthvector.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StackOfGrowthCurve2DByGrowthVector", fieldName)
@@ -5586,7 +5586,7 @@ func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongMarshallField(
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackofgrowthcurve2dribbon.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofgrowthcurve2dribbon.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackofgrowthcurve2dribbon.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StackOfGrowthCurve2DRibbon", fieldName)
@@ -5601,7 +5601,7 @@ func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) Gong
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackofpartiallyrotatedtorusshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofpartiallyrotatedtorusshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackofpartiallyrotatedtorusshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StackOfPartiallyRotatedTorusShape", fieldName)
@@ -5616,7 +5616,7 @@ func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongMarshallFiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackofrotatedgrowthcurve2d.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofrotatedgrowthcurve2d.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackofrotatedgrowthcurve2d.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StackOfRotatedGrowthCurve2D", fieldName)
@@ -5631,7 +5631,7 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackofrotatedgrowthcurve2dribbon.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofrotatedgrowthcurve2dribbon.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackofrotatedgrowthcurve2dribbon.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StackOfRotatedGrowthCurve2DRibbon", fieldName)
@@ -5646,7 +5646,7 @@ func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackrotatedgrowthcurve2dendarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackrotatedgrowthcurve2dendarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackrotatedgrowthcurve2dendarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackrotatedgrowthcurve2dendarcshape.GongGetIdentifier(stage))
@@ -5706,7 +5706,7 @@ func (stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEn
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackrotatedgrowthcurve2dribbonendshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackrotatedgrowthcurve2dribbonendshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackrotatedgrowthcurve2dribbonendshape.Name))
 	case "BottomStartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackrotatedgrowthcurve2dribbonendshape.GongGetIdentifier(stage))
@@ -5811,7 +5811,7 @@ func (stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbon
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackrotatedgrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackrotatedgrowthcurve2dribbonstartshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackrotatedgrowthcurve2dribbonstartshape.Name))
 	case "BottomStartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackrotatedgrowthcurve2dribbonstartshape.GongGetIdentifier(stage))
@@ -5916,7 +5916,7 @@ func (stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcS
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackrotatedgrowthcurve2dstartarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackrotatedgrowthcurve2dstartarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackrotatedgrowthcurve2dstartarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stackrotatedgrowthcurve2dstartarcshape.GongGetIdentifier(stage))
@@ -5976,7 +5976,7 @@ func (startarcshape *StartArcShape) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", startarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(startarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(startarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", startarcshape.GongGetIdentifier(stage))
@@ -6036,7 +6036,7 @@ func (startarcshapegrid *StartArcShapeGrid) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", startarcshapegrid.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(startarcshapegrid.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(startarcshapegrid.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StartArcShapeGrid", fieldName)
@@ -6051,7 +6051,7 @@ func (starthalfwayarcshape *StartHalfwayArcShape) GongMarshallField(stage *Stage
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", starthalfwayarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(starthalfwayarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(starthalfwayarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", starthalfwayarcshape.GongGetIdentifier(stage))
@@ -6111,7 +6111,7 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", starthalfwayarcshapegrid.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(starthalfwayarcshapegrid.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(starthalfwayarcshapegrid.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StartHalfwayArcShapeGrid", fieldName)
@@ -6126,7 +6126,7 @@ func (stemcylinder3dshape *StemCylinder3DShape) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stemcylinder3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stemcylinder3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stemcylinder3dshape.Name))
 	case "Transparency":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stemcylinder3dshape.GongGetIdentifier(stage))
@@ -6146,7 +6146,7 @@ func (stool2ddiagram *Stool2DDiagram) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stool2ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stool2ddiagram.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stool2ddiagram.Name))
 	case "Zoom":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stool2ddiagram.GongGetIdentifier(stage))
@@ -6166,7 +6166,7 @@ func (stool2ddiagram *Stool2DDiagram) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stool2ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stool2ddiagram.ComputedPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stool2ddiagram.ComputedPrefix))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stool2ddiagram.GongGetIdentifier(stage))
@@ -6186,7 +6186,7 @@ func (stool3ddiagram *Stool3DDiagram) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stool3ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stool3ddiagram.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stool3ddiagram.Name))
 	case "IsHiddenSeatTopCurveShape":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stool3ddiagram.GongGetIdentifier(stage))
@@ -6286,7 +6286,7 @@ func (stool3ddiagram *Stool3DDiagram) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stool3ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stool3ddiagram.ComputedPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stool3ddiagram.ComputedPrefix))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stool3ddiagram.GongGetIdentifier(stage))
@@ -6332,7 +6332,7 @@ func (stoolabstract *StoolAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stoolabstract.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stoolabstract.Name))
 	case "RadialRepetitions":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
@@ -6397,7 +6397,7 @@ func (tiledfloor3dshape *TiledFloor3DShape) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tiledfloor3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tiledfloor3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tiledfloor3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TiledFloor3DShape", fieldName)
@@ -6412,7 +6412,7 @@ func (topendarcshape *TopEndArcShape) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topendarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topendarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topendarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topendarcshape.GongGetIdentifier(stage))
@@ -6472,7 +6472,7 @@ func (topendarcshapegrid *TopEndArcShapeGrid) GongMarshallField(stage *Stage, fi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topendarcshapegrid.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topendarcshapegrid.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topendarcshapegrid.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TopEndArcShapeGrid", fieldName)
@@ -6487,7 +6487,7 @@ func (topendhalfwayarcshape *TopEndHalfwayArcShape) GongMarshallField(stage *Sta
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topendhalfwayarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topendhalfwayarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topendhalfwayarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topendhalfwayarcshape.GongGetIdentifier(stage))
@@ -6547,7 +6547,7 @@ func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) GongMarshallField(st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topendhalfwayarcshapegrid.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topendhalfwayarcshapegrid.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topendhalfwayarcshapegrid.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TopEndHalfwayArcShapeGrid", fieldName)
@@ -6562,7 +6562,7 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topgrowthcurve2d.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topgrowthcurve2d.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topgrowthcurve2d.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TopGrowthCurve2D", fieldName)
@@ -6577,7 +6577,7 @@ func (topmidarcvectorshape *TopMidArcVectorShape) GongMarshallField(stage *Stage
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topmidarcvectorshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topmidarcvectorshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topmidarcvectorshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topmidarcvectorshape.GongGetIdentifier(stage))
@@ -6612,7 +6612,7 @@ func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topmidarcvectorshapegrid.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topmidarcvectorshapegrid.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topmidarcvectorshapegrid.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TopMidArcVectorShapeGrid", fieldName)
@@ -6627,7 +6627,7 @@ func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayAr
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurve2dendhalfwayarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackgrowthcurve2dendhalfwayarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstackgrowthcurve2dendhalfwayarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurve2dendhalfwayarcshape.GongGetIdentifier(stage))
@@ -6687,7 +6687,7 @@ func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfw
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurve2dstarthalfwayarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackgrowthcurve2dstarthalfwayarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstackgrowthcurve2dstarthalfwayarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurve2dstarthalfwayarcshape.GongGetIdentifier(stage))
@@ -6747,7 +6747,7 @@ func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstackofgrowthcurve2d.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackofgrowthcurve2d.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstackofgrowthcurve2d.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TopStackOfGrowthCurve2D", fieldName)
@@ -6762,7 +6762,7 @@ func (topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) GongMarsha
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstackofrotatedgrowthcurve2d.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackofrotatedgrowthcurve2d.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstackofrotatedgrowthcurve2d.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TopStackOfRotatedGrowthCurve2D", fieldName)
@@ -6777,7 +6777,7 @@ func (topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DE
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstackofrotatedgrowthcurve2dendarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackofrotatedgrowthcurve2dendarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstackofrotatedgrowthcurve2dendarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstackofrotatedgrowthcurve2dendarcshape.GongGetIdentifier(stage))
@@ -6837,7 +6837,7 @@ func (topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstackofrotatedgrowthcurve2dstartarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackofrotatedgrowthcurve2dstartarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstackofrotatedgrowthcurve2dstartarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstackofrotatedgrowthcurve2dstartarcshape.GongGetIdentifier(stage))
@@ -6897,7 +6897,7 @@ func (topstartarcshape *TopStartArcShape) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstartarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstartarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstartarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstartarcshape.GongGetIdentifier(stage))
@@ -6957,7 +6957,7 @@ func (topstartarcshapegrid *TopStartArcShapeGrid) GongMarshallField(stage *Stage
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstartarcshapegrid.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstartarcshapegrid.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstartarcshapegrid.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TopStartArcShapeGrid", fieldName)
@@ -6972,7 +6972,7 @@ func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstarthalfwayarcshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstarthalfwayarcshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstarthalfwayarcshape.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstarthalfwayarcshape.GongGetIdentifier(stage))
@@ -7032,7 +7032,7 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongMarshallFiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", topstarthalfwayarcshapegrid.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstarthalfwayarcshapegrid.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topstarthalfwayarcshapegrid.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TopStartHalfwayArcShapeGrid", fieldName)
@@ -7047,7 +7047,7 @@ func (torus3dshape *Torus3DShape) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", torus3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(torus3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(torus3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Torus3DShape", fieldName)
@@ -7062,7 +7062,7 @@ func (torusedge3dshape *TorusEdge3DShape) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", torusedge3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(torusedge3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(torusedge3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TorusEdge3DShape", fieldName)
@@ -7077,7 +7077,7 @@ func (torusstackshape *TorusStackShape) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", torusstackshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(torusstackshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(torusstackshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TorusStackShape", fieldName)
@@ -7092,7 +7092,7 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tubevase3ddiagram.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tubevase3ddiagram.Name))
 	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
@@ -7172,7 +7172,7 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tubevase3ddiagram.ComputedPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tubevase3ddiagram.ComputedPrefix))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
@@ -7244,7 +7244,7 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tubevaseabstract.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tubevaseabstract.Name))
 	case "RelativeVerticalThickness":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
@@ -7354,7 +7354,7 @@ func (vase2ddiagram *Vase2DDiagram) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", vase2ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(vase2ddiagram.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(vase2ddiagram.Name))
 	case "Zoom":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", vase2ddiagram.GongGetIdentifier(stage))
@@ -7539,7 +7539,7 @@ func (vase2ddiagram *Vase2DDiagram) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", vase2ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(vase2ddiagram.ComputedPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(vase2ddiagram.ComputedPrefix))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", vase2ddiagram.GongGetIdentifier(stage))
@@ -7559,7 +7559,7 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", verticaltorusstackshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(verticaltorusstackshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(verticaltorusstackshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct VerticalTorusStackShape", fieldName)
@@ -7574,7 +7574,7 @@ func (volumekey3dshape *VolumeKey3DShape) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", volumekey3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(volumekey3dshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(volumekey3dshape.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct VolumeKey3DShape", fieldName)

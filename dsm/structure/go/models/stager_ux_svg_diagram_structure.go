@@ -348,7 +348,7 @@ func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure,
 }
 
 func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *svg.Layer, rectOfOwningSystem *svg.Rect) {
-	rm := GetSliceOfPointersReverseMap[Part, Port](GetAssociationName[Part]().Ports[0].Name, stager.stage)
+	rm := stager.stage.GetSliceOfPointersReverseMap[Part, Port](GongGetAssociationName[Part]().Ports[0].Name)
 
 	diagramStructure.map_Port_Rect = make(map[*Port]*svg.Rect)
 	for _, portShape := range diagramStructure.Port_Shapes {

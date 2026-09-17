@@ -19,9 +19,7 @@ package {{PkgGoName}}
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point{{` + string(rune(ModelGongWopStruct)) + `}}
 // end of insertion point
@@ -41,7 +39,7 @@ type {{Structname}}_WOP struct {
 	// insertion point{{FieldCode}}
 }
 
-func (from *{{Structname}}) CopyBasicFields(to *{{Structname}}) {
+func (from *{{Structname}}) GongCopyBasicFields(to *{{Structname}}) {
 	// insertion point{{FieldsCopyCode}}
 }
 `,

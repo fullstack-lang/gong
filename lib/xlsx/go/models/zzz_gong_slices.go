@@ -94,31 +94,31 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 // insertion point per named struct
 func (displayselection *DisplaySelection) GongCopy() GongstructIF {
 	newInstance := new(DisplaySelection)
-	displayselection.CopyBasicFields(newInstance)
+	displayselection.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (xlcell *XLCell) GongCopy() GongstructIF {
 	newInstance := new(XLCell)
-	xlcell.CopyBasicFields(newInstance)
+	xlcell.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (xlfile *XLFile) GongCopy() GongstructIF {
 	newInstance := new(XLFile)
-	xlfile.CopyBasicFields(newInstance)
+	xlfile.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (xlrow *XLRow) GongCopy() GongstructIF {
 	newInstance := new(XLRow)
-	xlrow.CopyBasicFields(newInstance)
+	xlrow.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (xlsheet *XLSheet) GongCopy() GongstructIF {
 	newInstance := new(XLSheet)
-	xlsheet.CopyBasicFields(newInstance)
+	xlsheet.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -129,7 +129,7 @@ func (displayselection *DisplaySelection) GongGetUUID(stage *Stage) (uuid string
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(displayselection), uint64(stage.GetOrder(displayselection)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(displayselection), uint64(stage.GetOrder(displayselection)))
 	return
 }
 
@@ -139,7 +139,7 @@ func (xlcell *XLCell) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(xlcell), uint64(stage.GetOrder(xlcell)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(xlcell), uint64(stage.GetOrder(xlcell)))
 	return
 }
 
@@ -149,7 +149,7 @@ func (xlfile *XLFile) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(xlfile), uint64(stage.GetOrder(xlfile)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(xlfile), uint64(stage.GetOrder(xlfile)))
 	return
 }
 
@@ -159,7 +159,7 @@ func (xlrow *XLRow) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(xlrow), uint64(stage.GetOrder(xlrow)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(xlrow), uint64(stage.GetOrder(xlrow)))
 	return
 }
 
@@ -169,7 +169,7 @@ func (xlsheet *XLSheet) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(xlsheet), uint64(stage.GetOrder(xlsheet)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(xlsheet), uint64(stage.GetOrder(xlsheet)))
 	return
 }
 
@@ -704,7 +704,7 @@ func (displayselection *DisplaySelection) GongMarshallIdentifier(stage *Stage) (
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayselection.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DisplaySelection")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(displayselection.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(displayselection.Name))
 	return
 }
 
@@ -712,7 +712,7 @@ func (xlcell *XLCell) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlcell.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLCell")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(xlcell.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(xlcell.Name))
 	return
 }
 
@@ -720,7 +720,7 @@ func (xlfile *XLFile) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlfile.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLFile")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(xlfile.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(xlfile.Name))
 	return
 }
 
@@ -728,7 +728,7 @@ func (xlrow *XLRow) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlrow.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLRow")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(xlrow.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(xlrow.Name))
 	return
 }
 
@@ -736,7 +736,7 @@ func (xlsheet *XLSheet) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlsheet.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLSheet")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(xlsheet.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(xlsheet.Name))
 	return
 }
 
@@ -771,10 +771,10 @@ func (xlsheet *XLSheet) GongMarshallUnstaging(stage *Stage) (decl string) {
 	return
 }
 
-func IntToLetters(number int32) (letters string) {
+func GongIntToLetters(number int32) (letters string) {
 	number--
 	if firstLetter := number / 26; firstLetter > 0 {
-		letters += IntToLetters(firstLetter)
+		letters += GongIntToLetters(firstLetter)
 		letters += string('A' + number%26)
 	} else {
 		letters += string('A' + number)
@@ -783,8 +783,8 @@ func IntToLetters(number int32) (letters string) {
 	return
 }
 
-// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
-func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+// GongGenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 1. Create a deterministic hash from the inputs using SHA-256
 	h := sha256.New()
 

@@ -213,121 +213,121 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 // insertion point per named struct
 func (ambiantlight *AmbiantLight) GongCopy() GongstructIF {
 	newInstance := new(AmbiantLight)
-	ambiantlight.CopyBasicFields(newInstance)
+	ambiantlight.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (boxgeometry *BoxGeometry) GongCopy() GongstructIF {
 	newInstance := new(BoxGeometry)
-	boxgeometry.CopyBasicFields(newInstance)
+	boxgeometry.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (buffergeometry *BufferGeometry) GongCopy() GongstructIF {
 	newInstance := new(BufferGeometry)
-	buffergeometry.CopyBasicFields(newInstance)
+	buffergeometry.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (camera *Camera) GongCopy() GongstructIF {
 	newInstance := new(Camera)
-	camera.CopyBasicFields(newInstance)
+	camera.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (canvas *Canvas) GongCopy() GongstructIF {
 	newInstance := new(Canvas)
-	canvas.CopyBasicFields(newInstance)
+	canvas.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (curve *Curve) GongCopy() GongstructIF {
 	newInstance := new(Curve)
-	curve.CopyBasicFields(newInstance)
+	curve.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (cylindergeometry *CylinderGeometry) GongCopy() GongstructIF {
 	newInstance := new(CylinderGeometry)
-	cylindergeometry.CopyBasicFields(newInstance)
+	cylindergeometry.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (directionallight *DirectionalLight) GongCopy() GongstructIF {
 	newInstance := new(DirectionalLight)
-	directionallight.CopyBasicFields(newInstance)
+	directionallight.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (extrudegeometry *ExtrudeGeometry) GongCopy() GongstructIF {
 	newInstance := new(ExtrudeGeometry)
-	extrudegeometry.CopyBasicFields(newInstance)
+	extrudegeometry.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (mesh *Mesh) GongCopy() GongstructIF {
 	newInstance := new(Mesh)
-	mesh.CopyBasicFields(newInstance)
+	mesh.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (meshmaterialbasic *MeshMaterialBasic) GongCopy() GongstructIF {
 	newInstance := new(MeshMaterialBasic)
-	meshmaterialbasic.CopyBasicFields(newInstance)
+	meshmaterialbasic.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (meshphysicalmaterial *MeshPhysicalMaterial) GongCopy() GongstructIF {
 	newInstance := new(MeshPhysicalMaterial)
-	meshphysicalmaterial.CopyBasicFields(newInstance)
+	meshphysicalmaterial.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (planegeometry *PlaneGeometry) GongCopy() GongstructIF {
 	newInstance := new(PlaneGeometry)
-	planegeometry.CopyBasicFields(newInstance)
+	planegeometry.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (shape *Shape) GongCopy() GongstructIF {
 	newInstance := new(Shape)
-	shape.CopyBasicFields(newInstance)
+	shape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (spheregeometry *SphereGeometry) GongCopy() GongstructIF {
 	newInstance := new(SphereGeometry)
-	spheregeometry.CopyBasicFields(newInstance)
+	spheregeometry.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (torusgeometry *TorusGeometry) GongCopy() GongstructIF {
 	newInstance := new(TorusGeometry)
-	torusgeometry.CopyBasicFields(newInstance)
+	torusgeometry.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (triangle *Triangle) GongCopy() GongstructIF {
 	newInstance := new(Triangle)
-	triangle.CopyBasicFields(newInstance)
+	triangle.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (tubegeometry *TubeGeometry) GongCopy() GongstructIF {
 	newInstance := new(TubeGeometry)
-	tubegeometry.CopyBasicFields(newInstance)
+	tubegeometry.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (vector2 *Vector2) GongCopy() GongstructIF {
 	newInstance := new(Vector2)
-	vector2.CopyBasicFields(newInstance)
+	vector2.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (vector3 *Vector3) GongCopy() GongstructIF {
 	newInstance := new(Vector3)
-	vector3.CopyBasicFields(newInstance)
+	vector3.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -338,7 +338,7 @@ func (ambiantlight *AmbiantLight) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(ambiantlight), uint64(stage.GetOrder(ambiantlight)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(ambiantlight), uint64(stage.GetOrder(ambiantlight)))
 	return
 }
 
@@ -348,7 +348,7 @@ func (boxgeometry *BoxGeometry) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(boxgeometry), uint64(stage.GetOrder(boxgeometry)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(boxgeometry), uint64(stage.GetOrder(boxgeometry)))
 	return
 }
 
@@ -358,7 +358,7 @@ func (buffergeometry *BufferGeometry) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(buffergeometry), uint64(stage.GetOrder(buffergeometry)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(buffergeometry), uint64(stage.GetOrder(buffergeometry)))
 	return
 }
 
@@ -368,7 +368,7 @@ func (camera *Camera) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(camera), uint64(stage.GetOrder(camera)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(camera), uint64(stage.GetOrder(camera)))
 	return
 }
 
@@ -378,7 +378,7 @@ func (canvas *Canvas) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(canvas), uint64(stage.GetOrder(canvas)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(canvas), uint64(stage.GetOrder(canvas)))
 	return
 }
 
@@ -388,7 +388,7 @@ func (curve *Curve) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(curve), uint64(stage.GetOrder(curve)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(curve), uint64(stage.GetOrder(curve)))
 	return
 }
 
@@ -398,7 +398,7 @@ func (cylindergeometry *CylinderGeometry) GongGetUUID(stage *Stage) (uuid string
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cylindergeometry), uint64(stage.GetOrder(cylindergeometry)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(cylindergeometry), uint64(stage.GetOrder(cylindergeometry)))
 	return
 }
 
@@ -408,7 +408,7 @@ func (directionallight *DirectionalLight) GongGetUUID(stage *Stage) (uuid string
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(directionallight), uint64(stage.GetOrder(directionallight)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(directionallight), uint64(stage.GetOrder(directionallight)))
 	return
 }
 
@@ -418,7 +418,7 @@ func (extrudegeometry *ExtrudeGeometry) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(extrudegeometry), uint64(stage.GetOrder(extrudegeometry)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(extrudegeometry), uint64(stage.GetOrder(extrudegeometry)))
 	return
 }
 
@@ -428,7 +428,7 @@ func (mesh *Mesh) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(mesh), uint64(stage.GetOrder(mesh)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(mesh), uint64(stage.GetOrder(mesh)))
 	return
 }
 
@@ -438,7 +438,7 @@ func (meshmaterialbasic *MeshMaterialBasic) GongGetUUID(stage *Stage) (uuid stri
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(meshmaterialbasic), uint64(stage.GetOrder(meshmaterialbasic)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(meshmaterialbasic), uint64(stage.GetOrder(meshmaterialbasic)))
 	return
 }
 
@@ -448,7 +448,7 @@ func (meshphysicalmaterial *MeshPhysicalMaterial) GongGetUUID(stage *Stage) (uui
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(meshphysicalmaterial), uint64(stage.GetOrder(meshphysicalmaterial)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(meshphysicalmaterial), uint64(stage.GetOrder(meshphysicalmaterial)))
 	return
 }
 
@@ -458,7 +458,7 @@ func (planegeometry *PlaneGeometry) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(planegeometry), uint64(stage.GetOrder(planegeometry)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(planegeometry), uint64(stage.GetOrder(planegeometry)))
 	return
 }
 
@@ -468,7 +468,7 @@ func (shape *Shape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shape), uint64(stage.GetOrder(shape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(shape), uint64(stage.GetOrder(shape)))
 	return
 }
 
@@ -478,7 +478,7 @@ func (spheregeometry *SphereGeometry) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spheregeometry), uint64(stage.GetOrder(spheregeometry)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(spheregeometry), uint64(stage.GetOrder(spheregeometry)))
 	return
 }
 
@@ -488,7 +488,7 @@ func (torusgeometry *TorusGeometry) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(torusgeometry), uint64(stage.GetOrder(torusgeometry)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(torusgeometry), uint64(stage.GetOrder(torusgeometry)))
 	return
 }
 
@@ -498,7 +498,7 @@ func (triangle *Triangle) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(triangle), uint64(stage.GetOrder(triangle)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(triangle), uint64(stage.GetOrder(triangle)))
 	return
 }
 
@@ -508,7 +508,7 @@ func (tubegeometry *TubeGeometry) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tubegeometry), uint64(stage.GetOrder(tubegeometry)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(tubegeometry), uint64(stage.GetOrder(tubegeometry)))
 	return
 }
 
@@ -518,7 +518,7 @@ func (vector2 *Vector2) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(vector2), uint64(stage.GetOrder(vector2)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(vector2), uint64(stage.GetOrder(vector2)))
 	return
 }
 
@@ -528,7 +528,7 @@ func (vector3 *Vector3) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(vector3), uint64(stage.GetOrder(vector3)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(vector3), uint64(stage.GetOrder(vector3)))
 	return
 }
 
@@ -2428,7 +2428,7 @@ func (ambiantlight *AmbiantLight) GongMarshallIdentifier(stage *Stage) (decl str
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", ambiantlight.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AmbiantLight")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ambiantlight.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ambiantlight.Name))
 	return
 }
 
@@ -2436,7 +2436,7 @@ func (boxgeometry *BoxGeometry) GongMarshallIdentifier(stage *Stage) (decl strin
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", boxgeometry.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "BoxGeometry")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(boxgeometry.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(boxgeometry.Name))
 	return
 }
 
@@ -2444,7 +2444,7 @@ func (buffergeometry *BufferGeometry) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", buffergeometry.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "BufferGeometry")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(buffergeometry.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(buffergeometry.Name))
 	return
 }
 
@@ -2452,7 +2452,7 @@ func (camera *Camera) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", camera.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Camera")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(camera.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(camera.Name))
 	return
 }
 
@@ -2460,7 +2460,7 @@ func (canvas *Canvas) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", canvas.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Canvas")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(canvas.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(canvas.Name))
 	return
 }
 
@@ -2468,7 +2468,7 @@ func (curve *Curve) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", curve.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Curve")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(curve.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(curve.Name))
 	return
 }
 
@@ -2476,7 +2476,7 @@ func (cylindergeometry *CylinderGeometry) GongMarshallIdentifier(stage *Stage) (
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cylindergeometry.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CylinderGeometry")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cylindergeometry.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cylindergeometry.Name))
 	return
 }
 
@@ -2484,7 +2484,7 @@ func (directionallight *DirectionalLight) GongMarshallIdentifier(stage *Stage) (
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", directionallight.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DirectionalLight")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(directionallight.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(directionallight.Name))
 	return
 }
 
@@ -2492,7 +2492,7 @@ func (extrudegeometry *ExtrudeGeometry) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", extrudegeometry.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ExtrudeGeometry")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(extrudegeometry.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(extrudegeometry.Name))
 	return
 }
 
@@ -2500,7 +2500,7 @@ func (mesh *Mesh) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", mesh.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Mesh")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(mesh.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(mesh.Name))
 	return
 }
 
@@ -2508,7 +2508,7 @@ func (meshmaterialbasic *MeshMaterialBasic) GongMarshallIdentifier(stage *Stage)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", meshmaterialbasic.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MeshMaterialBasic")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(meshmaterialbasic.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(meshmaterialbasic.Name))
 	return
 }
 
@@ -2516,7 +2516,7 @@ func (meshphysicalmaterial *MeshPhysicalMaterial) GongMarshallIdentifier(stage *
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", meshphysicalmaterial.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MeshPhysicalMaterial")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(meshphysicalmaterial.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(meshphysicalmaterial.Name))
 	return
 }
 
@@ -2524,7 +2524,7 @@ func (planegeometry *PlaneGeometry) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", planegeometry.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PlaneGeometry")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(planegeometry.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(planegeometry.Name))
 	return
 }
 
@@ -2532,7 +2532,7 @@ func (shape *Shape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Shape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(shape.Name))
 	return
 }
 
@@ -2540,7 +2540,7 @@ func (spheregeometry *SphereGeometry) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", spheregeometry.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SphereGeometry")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spheregeometry.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spheregeometry.Name))
 	return
 }
 
@@ -2548,7 +2548,7 @@ func (torusgeometry *TorusGeometry) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", torusgeometry.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TorusGeometry")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(torusgeometry.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(torusgeometry.Name))
 	return
 }
 
@@ -2556,7 +2556,7 @@ func (triangle *Triangle) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", triangle.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Triangle")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(triangle.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(triangle.Name))
 	return
 }
 
@@ -2564,7 +2564,7 @@ func (tubegeometry *TubeGeometry) GongMarshallIdentifier(stage *Stage) (decl str
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tubegeometry.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TubeGeometry")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tubegeometry.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tubegeometry.Name))
 	return
 }
 
@@ -2572,7 +2572,7 @@ func (vector2 *Vector2) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", vector2.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Vector2")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(vector2.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(vector2.Name))
 	return
 }
 
@@ -2580,7 +2580,7 @@ func (vector3 *Vector3) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", vector3.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Vector3")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(vector3.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(vector3.Name))
 	return
 }
 
@@ -2705,10 +2705,10 @@ func (vector3 *Vector3) GongMarshallUnstaging(stage *Stage) (decl string) {
 	return
 }
 
-func IntToLetters(number int32) (letters string) {
+func GongIntToLetters(number int32) (letters string) {
 	number--
 	if firstLetter := number / 26; firstLetter > 0 {
-		letters += IntToLetters(firstLetter)
+		letters += GongIntToLetters(firstLetter)
 		letters += string('A' + number%26)
 	} else {
 		letters += string('A' + number)
@@ -2717,8 +2717,8 @@ func IntToLetters(number int32) (letters string) {
 	return
 }
 
-// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
-func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+// GongGenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 1. Create a deterministic hash from the inputs using SHA-256
 	h := sha256.New()
 

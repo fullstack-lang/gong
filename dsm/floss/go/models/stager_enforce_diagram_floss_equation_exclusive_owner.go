@@ -6,10 +6,10 @@ import (
 )
 
 func (stager *Stager) enforceDiagramFlossEquationExclusiveOwner() (needCommit bool) {
-	rmSys := GetSliceOfPointersReverseMap[System, DiagramFlossEquation](
-		GetAssociationName[System]().DiagramFlossEquations[0].Name, stager.stage)
-	rmCA := GetSliceOfPointersReverseMap[CompareAnalysis, DiagramFlossEquation](
-		GetAssociationName[CompareAnalysis]().DiagramFlossEquations[0].Name, stager.stage)
+	rmSys := stager.stage.GetSliceOfPointersReverseMap[System, DiagramFlossEquation](
+		GongGetAssociationName[System]().DiagramFlossEquations[0].Name)
+	rmCA := stager.stage.GetSliceOfPointersReverseMap[CompareAnalysis, DiagramFlossEquation](
+		GongGetAssociationName[CompareAnalysis]().DiagramFlossEquations[0].Name)
 
 	for diagram := range *stager.stage.GetInstancesSet[*DiagramFlossEquation]() {
 		owningSystems := rmSys[diagram]

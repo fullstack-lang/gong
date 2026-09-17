@@ -84,7 +84,7 @@ func (stager *Stager) treeLibrary(
 							fset := token.NewFileSet()
 							file, err := parser.ParseFile(fset, "", string(content), parser.ParseComments)
 							if err == nil {
-								ParseAstFileFromAst(stager.stage, file, fset, true)
+								stager.stage.ParseAstFileFromAst(file, fset, true)
 								stager.stage.ComputeReverseMaps()
 								stager.stage.ComputeInstancesNb()
 								stager.stage.ComputeReferenceAndOrders()

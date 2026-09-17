@@ -92,98 +92,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *All:
-		ok = stage.IsStagedAll(target)
-
-	case *Annotation:
-		ok = stage.IsStagedAnnotation(target)
-
-	case *Attribute:
-		ok = stage.IsStagedAttribute(target)
-
-	case *AttributeGroup:
-		ok = stage.IsStagedAttributeGroup(target)
-
-	case *Choice:
-		ok = stage.IsStagedChoice(target)
-
-	case *ComplexContent:
-		ok = stage.IsStagedComplexContent(target)
-
-	case *ComplexType:
-		ok = stage.IsStagedComplexType(target)
-
-	case *Documentation:
-		ok = stage.IsStagedDocumentation(target)
-
-	case *Element:
-		ok = stage.IsStagedElement(target)
-
-	case *Enumeration:
-		ok = stage.IsStagedEnumeration(target)
-
-	case *Extension:
-		ok = stage.IsStagedExtension(target)
-
-	case *Group:
-		ok = stage.IsStagedGroup(target)
-
-	case *Length:
-		ok = stage.IsStagedLength(target)
-
-	case *MaxInclusive:
-		ok = stage.IsStagedMaxInclusive(target)
-
-	case *MaxLength:
-		ok = stage.IsStagedMaxLength(target)
-
-	case *MinInclusive:
-		ok = stage.IsStagedMinInclusive(target)
-
-	case *MinLength:
-		ok = stage.IsStagedMinLength(target)
-
-	case *Pattern:
-		ok = stage.IsStagedPattern(target)
-
-	case *Restriction:
-		ok = stage.IsStagedRestriction(target)
-
-	case *Schema:
-		ok = stage.IsStagedSchema(target)
-
-	case *Sequence:
-		ok = stage.IsStagedSequence(target)
-
-	case *SimpleContent:
-		ok = stage.IsStagedSimpleContent(target)
-
-	case *SimpleType:
-		ok = stage.IsStagedSimpleType(target)
-
-	case *TotalDigit:
-		ok = stage.IsStagedTotalDigit(target)
-
-	case *Union:
-		ok = stage.IsStagedUnion(target)
-
-	case *WhiteSpace:
-		ok = stage.IsStagedWhiteSpace(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedAll(all *All) (ok bool) {
 
@@ -464,7 +372,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchAll(all *All) {
 
 	// check if instance is already staged
-	if IsStaged(stage, all) {
+	if stage.IsStaged(all) {
 		return
 	}
 
@@ -472,24 +380,24 @@ func (stage *Stage) StageBranchAll(all *All) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if all.Annotation != nil {
-		StageBranch(stage, all.Annotation)
+		stage.StageBranch(all.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range all.Sequences {
-		StageBranch(stage, _sequence)
+		stage.StageBranch(_sequence)
 	}
 	for _, _all := range all.Alls {
-		StageBranch(stage, _all)
+		stage.StageBranch(_all)
 	}
 	for _, _choice := range all.Choices {
-		StageBranch(stage, _choice)
+		stage.StageBranch(_choice)
 	}
 	for _, _group := range all.Groups {
-		StageBranch(stage, _group)
+		stage.StageBranch(_group)
 	}
 	for _, _element := range all.Elements {
-		StageBranch(stage, _element)
+		stage.StageBranch(_element)
 	}
 
 }
@@ -497,7 +405,7 @@ func (stage *Stage) StageBranchAll(all *All) {
 func (stage *Stage) StageBranchAnnotation(annotation *Annotation) {
 
 	// check if instance is already staged
-	if IsStaged(stage, annotation) {
+	if stage.IsStaged(annotation) {
 		return
 	}
 
@@ -507,7 +415,7 @@ func (stage *Stage) StageBranchAnnotation(annotation *Annotation) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _documentation := range annotation.Documentations {
-		StageBranch(stage, _documentation)
+		stage.StageBranch(_documentation)
 	}
 
 }
@@ -515,7 +423,7 @@ func (stage *Stage) StageBranchAnnotation(annotation *Annotation) {
 func (stage *Stage) StageBranchAttribute(attribute *Attribute) {
 
 	// check if instance is already staged
-	if IsStaged(stage, attribute) {
+	if stage.IsStaged(attribute) {
 		return
 	}
 
@@ -523,7 +431,7 @@ func (stage *Stage) StageBranchAttribute(attribute *Attribute) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if attribute.Annotation != nil {
-		StageBranch(stage, attribute.Annotation)
+		stage.StageBranch(attribute.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -533,7 +441,7 @@ func (stage *Stage) StageBranchAttribute(attribute *Attribute) {
 func (stage *Stage) StageBranchAttributeGroup(attributegroup *AttributeGroup) {
 
 	// check if instance is already staged
-	if IsStaged(stage, attributegroup) {
+	if stage.IsStaged(attributegroup) {
 		return
 	}
 
@@ -541,15 +449,15 @@ func (stage *Stage) StageBranchAttributeGroup(attributegroup *AttributeGroup) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if attributegroup.Annotation != nil {
-		StageBranch(stage, attributegroup.Annotation)
+		stage.StageBranch(attributegroup.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _attributegroup := range attributegroup.AttributeGroups {
-		StageBranch(stage, _attributegroup)
+		stage.StageBranch(_attributegroup)
 	}
 	for _, _attribute := range attributegroup.Attributes {
-		StageBranch(stage, _attribute)
+		stage.StageBranch(_attribute)
 	}
 
 }
@@ -557,7 +465,7 @@ func (stage *Stage) StageBranchAttributeGroup(attributegroup *AttributeGroup) {
 func (stage *Stage) StageBranchChoice(choice *Choice) {
 
 	// check if instance is already staged
-	if IsStaged(stage, choice) {
+	if stage.IsStaged(choice) {
 		return
 	}
 
@@ -565,24 +473,24 @@ func (stage *Stage) StageBranchChoice(choice *Choice) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if choice.Annotation != nil {
-		StageBranch(stage, choice.Annotation)
+		stage.StageBranch(choice.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range choice.Sequences {
-		StageBranch(stage, _sequence)
+		stage.StageBranch(_sequence)
 	}
 	for _, _all := range choice.Alls {
-		StageBranch(stage, _all)
+		stage.StageBranch(_all)
 	}
 	for _, _choice := range choice.Choices {
-		StageBranch(stage, _choice)
+		stage.StageBranch(_choice)
 	}
 	for _, _group := range choice.Groups {
-		StageBranch(stage, _group)
+		stage.StageBranch(_group)
 	}
 	for _, _element := range choice.Elements {
-		StageBranch(stage, _element)
+		stage.StageBranch(_element)
 	}
 
 }
@@ -590,7 +498,7 @@ func (stage *Stage) StageBranchChoice(choice *Choice) {
 func (stage *Stage) StageBranchComplexContent(complexcontent *ComplexContent) {
 
 	// check if instance is already staged
-	if IsStaged(stage, complexcontent) {
+	if stage.IsStaged(complexcontent) {
 		return
 	}
 
@@ -605,7 +513,7 @@ func (stage *Stage) StageBranchComplexContent(complexcontent *ComplexContent) {
 func (stage *Stage) StageBranchComplexType(complextype *ComplexType) {
 
 	// check if instance is already staged
-	if IsStaged(stage, complextype) {
+	if stage.IsStaged(complextype) {
 		return
 	}
 
@@ -613,42 +521,42 @@ func (stage *Stage) StageBranchComplexType(complextype *ComplexType) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if complextype.OuterElement != nil {
-		StageBranch(stage, complextype.OuterElement)
+		stage.StageBranch(complextype.OuterElement)
 	}
 	if complextype.Annotation != nil {
-		StageBranch(stage, complextype.Annotation)
+		stage.StageBranch(complextype.Annotation)
 	}
 	if complextype.Extension != nil {
-		StageBranch(stage, complextype.Extension)
+		stage.StageBranch(complextype.Extension)
 	}
 	if complextype.SimpleContent != nil {
-		StageBranch(stage, complextype.SimpleContent)
+		stage.StageBranch(complextype.SimpleContent)
 	}
 	if complextype.ComplexContent != nil {
-		StageBranch(stage, complextype.ComplexContent)
+		stage.StageBranch(complextype.ComplexContent)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range complextype.Sequences {
-		StageBranch(stage, _sequence)
+		stage.StageBranch(_sequence)
 	}
 	for _, _all := range complextype.Alls {
-		StageBranch(stage, _all)
+		stage.StageBranch(_all)
 	}
 	for _, _choice := range complextype.Choices {
-		StageBranch(stage, _choice)
+		stage.StageBranch(_choice)
 	}
 	for _, _group := range complextype.Groups {
-		StageBranch(stage, _group)
+		stage.StageBranch(_group)
 	}
 	for _, _element := range complextype.Elements {
-		StageBranch(stage, _element)
+		stage.StageBranch(_element)
 	}
 	for _, _attribute := range complextype.Attributes {
-		StageBranch(stage, _attribute)
+		stage.StageBranch(_attribute)
 	}
 	for _, _attributegroup := range complextype.AttributeGroups {
-		StageBranch(stage, _attributegroup)
+		stage.StageBranch(_attributegroup)
 	}
 
 }
@@ -656,7 +564,7 @@ func (stage *Stage) StageBranchComplexType(complextype *ComplexType) {
 func (stage *Stage) StageBranchDocumentation(documentation *Documentation) {
 
 	// check if instance is already staged
-	if IsStaged(stage, documentation) {
+	if stage.IsStaged(documentation) {
 		return
 	}
 
@@ -671,7 +579,7 @@ func (stage *Stage) StageBranchDocumentation(documentation *Documentation) {
 func (stage *Stage) StageBranchElement(element *Element) {
 
 	// check if instance is already staged
-	if IsStaged(stage, element) {
+	if stage.IsStaged(element) {
 		return
 	}
 
@@ -679,18 +587,18 @@ func (stage *Stage) StageBranchElement(element *Element) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if element.Annotation != nil {
-		StageBranch(stage, element.Annotation)
+		stage.StageBranch(element.Annotation)
 	}
 	if element.SimpleType != nil {
-		StageBranch(stage, element.SimpleType)
+		stage.StageBranch(element.SimpleType)
 	}
 	if element.ComplexType != nil {
-		StageBranch(stage, element.ComplexType)
+		stage.StageBranch(element.ComplexType)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _group := range element.Groups {
-		StageBranch(stage, _group)
+		stage.StageBranch(_group)
 	}
 
 }
@@ -698,7 +606,7 @@ func (stage *Stage) StageBranchElement(element *Element) {
 func (stage *Stage) StageBranchEnumeration(enumeration *Enumeration) {
 
 	// check if instance is already staged
-	if IsStaged(stage, enumeration) {
+	if stage.IsStaged(enumeration) {
 		return
 	}
 
@@ -706,7 +614,7 @@ func (stage *Stage) StageBranchEnumeration(enumeration *Enumeration) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if enumeration.Annotation != nil {
-		StageBranch(stage, enumeration.Annotation)
+		stage.StageBranch(enumeration.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -716,7 +624,7 @@ func (stage *Stage) StageBranchEnumeration(enumeration *Enumeration) {
 func (stage *Stage) StageBranchExtension(extension *Extension) {
 
 	// check if instance is already staged
-	if IsStaged(stage, extension) {
+	if stage.IsStaged(extension) {
 		return
 	}
 
@@ -726,25 +634,25 @@ func (stage *Stage) StageBranchExtension(extension *Extension) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range extension.Sequences {
-		StageBranch(stage, _sequence)
+		stage.StageBranch(_sequence)
 	}
 	for _, _all := range extension.Alls {
-		StageBranch(stage, _all)
+		stage.StageBranch(_all)
 	}
 	for _, _choice := range extension.Choices {
-		StageBranch(stage, _choice)
+		stage.StageBranch(_choice)
 	}
 	for _, _group := range extension.Groups {
-		StageBranch(stage, _group)
+		stage.StageBranch(_group)
 	}
 	for _, _element := range extension.Elements {
-		StageBranch(stage, _element)
+		stage.StageBranch(_element)
 	}
 	for _, _attribute := range extension.Attributes {
-		StageBranch(stage, _attribute)
+		stage.StageBranch(_attribute)
 	}
 	for _, _attributegroup := range extension.AttributeGroups {
-		StageBranch(stage, _attributegroup)
+		stage.StageBranch(_attributegroup)
 	}
 
 }
@@ -752,7 +660,7 @@ func (stage *Stage) StageBranchExtension(extension *Extension) {
 func (stage *Stage) StageBranchGroup(group *Group) {
 
 	// check if instance is already staged
-	if IsStaged(stage, group) {
+	if stage.IsStaged(group) {
 		return
 	}
 
@@ -760,27 +668,27 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if group.Annotation != nil {
-		StageBranch(stage, group.Annotation)
+		stage.StageBranch(group.Annotation)
 	}
 	if group.OuterElement != nil {
-		StageBranch(stage, group.OuterElement)
+		stage.StageBranch(group.OuterElement)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range group.Sequences {
-		StageBranch(stage, _sequence)
+		stage.StageBranch(_sequence)
 	}
 	for _, _all := range group.Alls {
-		StageBranch(stage, _all)
+		stage.StageBranch(_all)
 	}
 	for _, _choice := range group.Choices {
-		StageBranch(stage, _choice)
+		stage.StageBranch(_choice)
 	}
 	for _, _group := range group.Groups {
-		StageBranch(stage, _group)
+		stage.StageBranch(_group)
 	}
 	for _, _element := range group.Elements {
-		StageBranch(stage, _element)
+		stage.StageBranch(_element)
 	}
 
 }
@@ -788,7 +696,7 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 func (stage *Stage) StageBranchLength(length *Length) {
 
 	// check if instance is already staged
-	if IsStaged(stage, length) {
+	if stage.IsStaged(length) {
 		return
 	}
 
@@ -796,7 +704,7 @@ func (stage *Stage) StageBranchLength(length *Length) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if length.Annotation != nil {
-		StageBranch(stage, length.Annotation)
+		stage.StageBranch(length.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -806,7 +714,7 @@ func (stage *Stage) StageBranchLength(length *Length) {
 func (stage *Stage) StageBranchMaxInclusive(maxinclusive *MaxInclusive) {
 
 	// check if instance is already staged
-	if IsStaged(stage, maxinclusive) {
+	if stage.IsStaged(maxinclusive) {
 		return
 	}
 
@@ -814,7 +722,7 @@ func (stage *Stage) StageBranchMaxInclusive(maxinclusive *MaxInclusive) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if maxinclusive.Annotation != nil {
-		StageBranch(stage, maxinclusive.Annotation)
+		stage.StageBranch(maxinclusive.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -824,7 +732,7 @@ func (stage *Stage) StageBranchMaxInclusive(maxinclusive *MaxInclusive) {
 func (stage *Stage) StageBranchMaxLength(maxlength *MaxLength) {
 
 	// check if instance is already staged
-	if IsStaged(stage, maxlength) {
+	if stage.IsStaged(maxlength) {
 		return
 	}
 
@@ -832,7 +740,7 @@ func (stage *Stage) StageBranchMaxLength(maxlength *MaxLength) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if maxlength.Annotation != nil {
-		StageBranch(stage, maxlength.Annotation)
+		stage.StageBranch(maxlength.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -842,7 +750,7 @@ func (stage *Stage) StageBranchMaxLength(maxlength *MaxLength) {
 func (stage *Stage) StageBranchMinInclusive(mininclusive *MinInclusive) {
 
 	// check if instance is already staged
-	if IsStaged(stage, mininclusive) {
+	if stage.IsStaged(mininclusive) {
 		return
 	}
 
@@ -850,7 +758,7 @@ func (stage *Stage) StageBranchMinInclusive(mininclusive *MinInclusive) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if mininclusive.Annotation != nil {
-		StageBranch(stage, mininclusive.Annotation)
+		stage.StageBranch(mininclusive.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -860,7 +768,7 @@ func (stage *Stage) StageBranchMinInclusive(mininclusive *MinInclusive) {
 func (stage *Stage) StageBranchMinLength(minlength *MinLength) {
 
 	// check if instance is already staged
-	if IsStaged(stage, minlength) {
+	if stage.IsStaged(minlength) {
 		return
 	}
 
@@ -868,7 +776,7 @@ func (stage *Stage) StageBranchMinLength(minlength *MinLength) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if minlength.Annotation != nil {
-		StageBranch(stage, minlength.Annotation)
+		stage.StageBranch(minlength.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -878,7 +786,7 @@ func (stage *Stage) StageBranchMinLength(minlength *MinLength) {
 func (stage *Stage) StageBranchPattern(pattern *Pattern) {
 
 	// check if instance is already staged
-	if IsStaged(stage, pattern) {
+	if stage.IsStaged(pattern) {
 		return
 	}
 
@@ -886,7 +794,7 @@ func (stage *Stage) StageBranchPattern(pattern *Pattern) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if pattern.Annotation != nil {
-		StageBranch(stage, pattern.Annotation)
+		stage.StageBranch(pattern.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -896,7 +804,7 @@ func (stage *Stage) StageBranchPattern(pattern *Pattern) {
 func (stage *Stage) StageBranchRestriction(restriction *Restriction) {
 
 	// check if instance is already staged
-	if IsStaged(stage, restriction) {
+	if stage.IsStaged(restriction) {
 		return
 	}
 
@@ -904,36 +812,36 @@ func (stage *Stage) StageBranchRestriction(restriction *Restriction) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if restriction.Annotation != nil {
-		StageBranch(stage, restriction.Annotation)
+		stage.StageBranch(restriction.Annotation)
 	}
 	if restriction.MinInclusive != nil {
-		StageBranch(stage, restriction.MinInclusive)
+		stage.StageBranch(restriction.MinInclusive)
 	}
 	if restriction.MaxInclusive != nil {
-		StageBranch(stage, restriction.MaxInclusive)
+		stage.StageBranch(restriction.MaxInclusive)
 	}
 	if restriction.Pattern != nil {
-		StageBranch(stage, restriction.Pattern)
+		stage.StageBranch(restriction.Pattern)
 	}
 	if restriction.WhiteSpace != nil {
-		StageBranch(stage, restriction.WhiteSpace)
+		stage.StageBranch(restriction.WhiteSpace)
 	}
 	if restriction.MinLength != nil {
-		StageBranch(stage, restriction.MinLength)
+		stage.StageBranch(restriction.MinLength)
 	}
 	if restriction.MaxLength != nil {
-		StageBranch(stage, restriction.MaxLength)
+		stage.StageBranch(restriction.MaxLength)
 	}
 	if restriction.Length != nil {
-		StageBranch(stage, restriction.Length)
+		stage.StageBranch(restriction.Length)
 	}
 	if restriction.TotalDigit != nil {
-		StageBranch(stage, restriction.TotalDigit)
+		stage.StageBranch(restriction.TotalDigit)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _enumeration := range restriction.Enumerations {
-		StageBranch(stage, _enumeration)
+		stage.StageBranch(_enumeration)
 	}
 
 }
@@ -941,7 +849,7 @@ func (stage *Stage) StageBranchRestriction(restriction *Restriction) {
 func (stage *Stage) StageBranchSchema(schema *Schema) {
 
 	// check if instance is already staged
-	if IsStaged(stage, schema) {
+	if stage.IsStaged(schema) {
 		return
 	}
 
@@ -949,24 +857,24 @@ func (stage *Stage) StageBranchSchema(schema *Schema) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if schema.Annotation != nil {
-		StageBranch(stage, schema.Annotation)
+		stage.StageBranch(schema.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _element := range schema.Elements {
-		StageBranch(stage, _element)
+		stage.StageBranch(_element)
 	}
 	for _, _simpletype := range schema.SimpleTypes {
-		StageBranch(stage, _simpletype)
+		stage.StageBranch(_simpletype)
 	}
 	for _, _complextype := range schema.ComplexTypes {
-		StageBranch(stage, _complextype)
+		stage.StageBranch(_complextype)
 	}
 	for _, _attributegroup := range schema.AttributeGroups {
-		StageBranch(stage, _attributegroup)
+		stage.StageBranch(_attributegroup)
 	}
 	for _, _group := range schema.Groups {
-		StageBranch(stage, _group)
+		stage.StageBranch(_group)
 	}
 
 }
@@ -974,7 +882,7 @@ func (stage *Stage) StageBranchSchema(schema *Schema) {
 func (stage *Stage) StageBranchSequence(sequence *Sequence) {
 
 	// check if instance is already staged
-	if IsStaged(stage, sequence) {
+	if stage.IsStaged(sequence) {
 		return
 	}
 
@@ -982,24 +890,24 @@ func (stage *Stage) StageBranchSequence(sequence *Sequence) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if sequence.Annotation != nil {
-		StageBranch(stage, sequence.Annotation)
+		stage.StageBranch(sequence.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range sequence.Sequences {
-		StageBranch(stage, _sequence)
+		stage.StageBranch(_sequence)
 	}
 	for _, _all := range sequence.Alls {
-		StageBranch(stage, _all)
+		stage.StageBranch(_all)
 	}
 	for _, _choice := range sequence.Choices {
-		StageBranch(stage, _choice)
+		stage.StageBranch(_choice)
 	}
 	for _, _group := range sequence.Groups {
-		StageBranch(stage, _group)
+		stage.StageBranch(_group)
 	}
 	for _, _element := range sequence.Elements {
-		StageBranch(stage, _element)
+		stage.StageBranch(_element)
 	}
 
 }
@@ -1007,7 +915,7 @@ func (stage *Stage) StageBranchSequence(sequence *Sequence) {
 func (stage *Stage) StageBranchSimpleContent(simplecontent *SimpleContent) {
 
 	// check if instance is already staged
-	if IsStaged(stage, simplecontent) {
+	if stage.IsStaged(simplecontent) {
 		return
 	}
 
@@ -1015,10 +923,10 @@ func (stage *Stage) StageBranchSimpleContent(simplecontent *SimpleContent) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if simplecontent.Extension != nil {
-		StageBranch(stage, simplecontent.Extension)
+		stage.StageBranch(simplecontent.Extension)
 	}
 	if simplecontent.Restriction != nil {
-		StageBranch(stage, simplecontent.Restriction)
+		stage.StageBranch(simplecontent.Restriction)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1028,7 +936,7 @@ func (stage *Stage) StageBranchSimpleContent(simplecontent *SimpleContent) {
 func (stage *Stage) StageBranchSimpleType(simpletype *SimpleType) {
 
 	// check if instance is already staged
-	if IsStaged(stage, simpletype) {
+	if stage.IsStaged(simpletype) {
 		return
 	}
 
@@ -1036,13 +944,13 @@ func (stage *Stage) StageBranchSimpleType(simpletype *SimpleType) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if simpletype.Annotation != nil {
-		StageBranch(stage, simpletype.Annotation)
+		stage.StageBranch(simpletype.Annotation)
 	}
 	if simpletype.Restriction != nil {
-		StageBranch(stage, simpletype.Restriction)
+		stage.StageBranch(simpletype.Restriction)
 	}
 	if simpletype.Union != nil {
-		StageBranch(stage, simpletype.Union)
+		stage.StageBranch(simpletype.Union)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1052,7 +960,7 @@ func (stage *Stage) StageBranchSimpleType(simpletype *SimpleType) {
 func (stage *Stage) StageBranchTotalDigit(totaldigit *TotalDigit) {
 
 	// check if instance is already staged
-	if IsStaged(stage, totaldigit) {
+	if stage.IsStaged(totaldigit) {
 		return
 	}
 
@@ -1060,7 +968,7 @@ func (stage *Stage) StageBranchTotalDigit(totaldigit *TotalDigit) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if totaldigit.Annotation != nil {
-		StageBranch(stage, totaldigit.Annotation)
+		stage.StageBranch(totaldigit.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1070,7 +978,7 @@ func (stage *Stage) StageBranchTotalDigit(totaldigit *TotalDigit) {
 func (stage *Stage) StageBranchUnion(union *Union) {
 
 	// check if instance is already staged
-	if IsStaged(stage, union) {
+	if stage.IsStaged(union) {
 		return
 	}
 
@@ -1078,7 +986,7 @@ func (stage *Stage) StageBranchUnion(union *Union) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if union.Annotation != nil {
-		StageBranch(stage, union.Annotation)
+		stage.StageBranch(union.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1088,7 +996,7 @@ func (stage *Stage) StageBranchUnion(union *Union) {
 func (stage *Stage) StageBranchWhiteSpace(whitespace *WhiteSpace) {
 
 	// check if instance is already staged
-	if IsStaged(stage, whitespace) {
+	if stage.IsStaged(whitespace) {
 		return
 	}
 
@@ -1096,18 +1004,18 @@ func (stage *Stage) StageBranchWhiteSpace(whitespace *WhiteSpace) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if whitespace.Annotation != nil {
-		StageBranch(stage, whitespace.Annotation)
+		stage.StageBranch(whitespace.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -1115,107 +1023,107 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *All:
-		toT := CopyBranchAll(mapOrigCopy, fromT)
+		toT := GongCopyBranchAll(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Annotation:
-		toT := CopyBranchAnnotation(mapOrigCopy, fromT)
+		toT := GongCopyBranchAnnotation(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Attribute:
-		toT := CopyBranchAttribute(mapOrigCopy, fromT)
+		toT := GongCopyBranchAttribute(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *AttributeGroup:
-		toT := CopyBranchAttributeGroup(mapOrigCopy, fromT)
+		toT := GongCopyBranchAttributeGroup(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Choice:
-		toT := CopyBranchChoice(mapOrigCopy, fromT)
+		toT := GongCopyBranchChoice(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ComplexContent:
-		toT := CopyBranchComplexContent(mapOrigCopy, fromT)
+		toT := GongCopyBranchComplexContent(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ComplexType:
-		toT := CopyBranchComplexType(mapOrigCopy, fromT)
+		toT := GongCopyBranchComplexType(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Documentation:
-		toT := CopyBranchDocumentation(mapOrigCopy, fromT)
+		toT := GongCopyBranchDocumentation(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Element:
-		toT := CopyBranchElement(mapOrigCopy, fromT)
+		toT := GongCopyBranchElement(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Enumeration:
-		toT := CopyBranchEnumeration(mapOrigCopy, fromT)
+		toT := GongCopyBranchEnumeration(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Extension:
-		toT := CopyBranchExtension(mapOrigCopy, fromT)
+		toT := GongCopyBranchExtension(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Group:
-		toT := CopyBranchGroup(mapOrigCopy, fromT)
+		toT := GongCopyBranchGroup(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Length:
-		toT := CopyBranchLength(mapOrigCopy, fromT)
+		toT := GongCopyBranchLength(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *MaxInclusive:
-		toT := CopyBranchMaxInclusive(mapOrigCopy, fromT)
+		toT := GongCopyBranchMaxInclusive(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *MaxLength:
-		toT := CopyBranchMaxLength(mapOrigCopy, fromT)
+		toT := GongCopyBranchMaxLength(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *MinInclusive:
-		toT := CopyBranchMinInclusive(mapOrigCopy, fromT)
+		toT := GongCopyBranchMinInclusive(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *MinLength:
-		toT := CopyBranchMinLength(mapOrigCopy, fromT)
+		toT := GongCopyBranchMinLength(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Pattern:
-		toT := CopyBranchPattern(mapOrigCopy, fromT)
+		toT := GongCopyBranchPattern(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Restriction:
-		toT := CopyBranchRestriction(mapOrigCopy, fromT)
+		toT := GongCopyBranchRestriction(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Schema:
-		toT := CopyBranchSchema(mapOrigCopy, fromT)
+		toT := GongCopyBranchSchema(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Sequence:
-		toT := CopyBranchSequence(mapOrigCopy, fromT)
+		toT := GongCopyBranchSequence(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *SimpleContent:
-		toT := CopyBranchSimpleContent(mapOrigCopy, fromT)
+		toT := GongCopyBranchSimpleContent(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *SimpleType:
-		toT := CopyBranchSimpleType(mapOrigCopy, fromT)
+		toT := GongCopyBranchSimpleType(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TotalDigit:
-		toT := CopyBranchTotalDigit(mapOrigCopy, fromT)
+		toT := GongCopyBranchTotalDigit(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Union:
-		toT := CopyBranchUnion(mapOrigCopy, fromT)
+		toT := GongCopyBranchUnion(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *WhiteSpace:
-		toT := CopyBranchWhiteSpace(mapOrigCopy, fromT)
+		toT := GongCopyBranchWhiteSpace(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -1225,7 +1133,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchAll(mapOrigCopy map[any]any, allFrom *All) (allTo *All) {
+func GongCopyBranchAll(mapOrigCopy map[any]any, allFrom *All) (allTo *All) {
 
 	// allFrom has already been copied
 	if _allTo, ok := mapOrigCopy[allFrom]; ok {
@@ -1235,34 +1143,34 @@ func CopyBranchAll(mapOrigCopy map[any]any, allFrom *All) (allTo *All) {
 
 	allTo = new(All)
 	mapOrigCopy[allFrom] = allTo
-	allFrom.CopyBasicFields(allTo)
+	allFrom.GongCopyBasicFields(allTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if allFrom.Annotation != nil {
-		allTo.Annotation = CopyBranchAnnotation(mapOrigCopy, allFrom.Annotation)
+		allTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, allFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range allFrom.Sequences {
-		allTo.Sequences = append(allTo.Sequences, CopyBranchSequence(mapOrigCopy, _sequence))
+		allTo.Sequences = append(allTo.Sequences, GongCopyBranchSequence(mapOrigCopy, _sequence))
 	}
 	for _, _all := range allFrom.Alls {
-		allTo.Alls = append(allTo.Alls, CopyBranchAll(mapOrigCopy, _all))
+		allTo.Alls = append(allTo.Alls, GongCopyBranchAll(mapOrigCopy, _all))
 	}
 	for _, _choice := range allFrom.Choices {
-		allTo.Choices = append(allTo.Choices, CopyBranchChoice(mapOrigCopy, _choice))
+		allTo.Choices = append(allTo.Choices, GongCopyBranchChoice(mapOrigCopy, _choice))
 	}
 	for _, _group := range allFrom.Groups {
-		allTo.Groups = append(allTo.Groups, CopyBranchGroup(mapOrigCopy, _group))
+		allTo.Groups = append(allTo.Groups, GongCopyBranchGroup(mapOrigCopy, _group))
 	}
 	for _, _element := range allFrom.Elements {
-		allTo.Elements = append(allTo.Elements, CopyBranchElement(mapOrigCopy, _element))
+		allTo.Elements = append(allTo.Elements, GongCopyBranchElement(mapOrigCopy, _element))
 	}
 
 	return
 }
 
-func CopyBranchAnnotation(mapOrigCopy map[any]any, annotationFrom *Annotation) (annotationTo *Annotation) {
+func GongCopyBranchAnnotation(mapOrigCopy map[any]any, annotationFrom *Annotation) (annotationTo *Annotation) {
 
 	// annotationFrom has already been copied
 	if _annotationTo, ok := mapOrigCopy[annotationFrom]; ok {
@@ -1272,19 +1180,19 @@ func CopyBranchAnnotation(mapOrigCopy map[any]any, annotationFrom *Annotation) (
 
 	annotationTo = new(Annotation)
 	mapOrigCopy[annotationFrom] = annotationTo
-	annotationFrom.CopyBasicFields(annotationTo)
+	annotationFrom.GongCopyBasicFields(annotationTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _documentation := range annotationFrom.Documentations {
-		annotationTo.Documentations = append(annotationTo.Documentations, CopyBranchDocumentation(mapOrigCopy, _documentation))
+		annotationTo.Documentations = append(annotationTo.Documentations, GongCopyBranchDocumentation(mapOrigCopy, _documentation))
 	}
 
 	return
 }
 
-func CopyBranchAttribute(mapOrigCopy map[any]any, attributeFrom *Attribute) (attributeTo *Attribute) {
+func GongCopyBranchAttribute(mapOrigCopy map[any]any, attributeFrom *Attribute) (attributeTo *Attribute) {
 
 	// attributeFrom has already been copied
 	if _attributeTo, ok := mapOrigCopy[attributeFrom]; ok {
@@ -1294,11 +1202,11 @@ func CopyBranchAttribute(mapOrigCopy map[any]any, attributeFrom *Attribute) (att
 
 	attributeTo = new(Attribute)
 	mapOrigCopy[attributeFrom] = attributeTo
-	attributeFrom.CopyBasicFields(attributeTo)
+	attributeFrom.GongCopyBasicFields(attributeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if attributeFrom.Annotation != nil {
-		attributeTo.Annotation = CopyBranchAnnotation(mapOrigCopy, attributeFrom.Annotation)
+		attributeTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, attributeFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1306,7 +1214,7 @@ func CopyBranchAttribute(mapOrigCopy map[any]any, attributeFrom *Attribute) (att
 	return
 }
 
-func CopyBranchAttributeGroup(mapOrigCopy map[any]any, attributegroupFrom *AttributeGroup) (attributegroupTo *AttributeGroup) {
+func GongCopyBranchAttributeGroup(mapOrigCopy map[any]any, attributegroupFrom *AttributeGroup) (attributegroupTo *AttributeGroup) {
 
 	// attributegroupFrom has already been copied
 	if _attributegroupTo, ok := mapOrigCopy[attributegroupFrom]; ok {
@@ -1316,25 +1224,25 @@ func CopyBranchAttributeGroup(mapOrigCopy map[any]any, attributegroupFrom *Attri
 
 	attributegroupTo = new(AttributeGroup)
 	mapOrigCopy[attributegroupFrom] = attributegroupTo
-	attributegroupFrom.CopyBasicFields(attributegroupTo)
+	attributegroupFrom.GongCopyBasicFields(attributegroupTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if attributegroupFrom.Annotation != nil {
-		attributegroupTo.Annotation = CopyBranchAnnotation(mapOrigCopy, attributegroupFrom.Annotation)
+		attributegroupTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, attributegroupFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _attributegroup := range attributegroupFrom.AttributeGroups {
-		attributegroupTo.AttributeGroups = append(attributegroupTo.AttributeGroups, CopyBranchAttributeGroup(mapOrigCopy, _attributegroup))
+		attributegroupTo.AttributeGroups = append(attributegroupTo.AttributeGroups, GongCopyBranchAttributeGroup(mapOrigCopy, _attributegroup))
 	}
 	for _, _attribute := range attributegroupFrom.Attributes {
-		attributegroupTo.Attributes = append(attributegroupTo.Attributes, CopyBranchAttribute(mapOrigCopy, _attribute))
+		attributegroupTo.Attributes = append(attributegroupTo.Attributes, GongCopyBranchAttribute(mapOrigCopy, _attribute))
 	}
 
 	return
 }
 
-func CopyBranchChoice(mapOrigCopy map[any]any, choiceFrom *Choice) (choiceTo *Choice) {
+func GongCopyBranchChoice(mapOrigCopy map[any]any, choiceFrom *Choice) (choiceTo *Choice) {
 
 	// choiceFrom has already been copied
 	if _choiceTo, ok := mapOrigCopy[choiceFrom]; ok {
@@ -1344,34 +1252,34 @@ func CopyBranchChoice(mapOrigCopy map[any]any, choiceFrom *Choice) (choiceTo *Ch
 
 	choiceTo = new(Choice)
 	mapOrigCopy[choiceFrom] = choiceTo
-	choiceFrom.CopyBasicFields(choiceTo)
+	choiceFrom.GongCopyBasicFields(choiceTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if choiceFrom.Annotation != nil {
-		choiceTo.Annotation = CopyBranchAnnotation(mapOrigCopy, choiceFrom.Annotation)
+		choiceTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, choiceFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range choiceFrom.Sequences {
-		choiceTo.Sequences = append(choiceTo.Sequences, CopyBranchSequence(mapOrigCopy, _sequence))
+		choiceTo.Sequences = append(choiceTo.Sequences, GongCopyBranchSequence(mapOrigCopy, _sequence))
 	}
 	for _, _all := range choiceFrom.Alls {
-		choiceTo.Alls = append(choiceTo.Alls, CopyBranchAll(mapOrigCopy, _all))
+		choiceTo.Alls = append(choiceTo.Alls, GongCopyBranchAll(mapOrigCopy, _all))
 	}
 	for _, _choice := range choiceFrom.Choices {
-		choiceTo.Choices = append(choiceTo.Choices, CopyBranchChoice(mapOrigCopy, _choice))
+		choiceTo.Choices = append(choiceTo.Choices, GongCopyBranchChoice(mapOrigCopy, _choice))
 	}
 	for _, _group := range choiceFrom.Groups {
-		choiceTo.Groups = append(choiceTo.Groups, CopyBranchGroup(mapOrigCopy, _group))
+		choiceTo.Groups = append(choiceTo.Groups, GongCopyBranchGroup(mapOrigCopy, _group))
 	}
 	for _, _element := range choiceFrom.Elements {
-		choiceTo.Elements = append(choiceTo.Elements, CopyBranchElement(mapOrigCopy, _element))
+		choiceTo.Elements = append(choiceTo.Elements, GongCopyBranchElement(mapOrigCopy, _element))
 	}
 
 	return
 }
 
-func CopyBranchComplexContent(mapOrigCopy map[any]any, complexcontentFrom *ComplexContent) (complexcontentTo *ComplexContent) {
+func GongCopyBranchComplexContent(mapOrigCopy map[any]any, complexcontentFrom *ComplexContent) (complexcontentTo *ComplexContent) {
 
 	// complexcontentFrom has already been copied
 	if _complexcontentTo, ok := mapOrigCopy[complexcontentFrom]; ok {
@@ -1381,7 +1289,7 @@ func CopyBranchComplexContent(mapOrigCopy map[any]any, complexcontentFrom *Compl
 
 	complexcontentTo = new(ComplexContent)
 	mapOrigCopy[complexcontentFrom] = complexcontentTo
-	complexcontentFrom.CopyBasicFields(complexcontentTo)
+	complexcontentFrom.GongCopyBasicFields(complexcontentTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1390,7 +1298,7 @@ func CopyBranchComplexContent(mapOrigCopy map[any]any, complexcontentFrom *Compl
 	return
 }
 
-func CopyBranchComplexType(mapOrigCopy map[any]any, complextypeFrom *ComplexType) (complextypeTo *ComplexType) {
+func GongCopyBranchComplexType(mapOrigCopy map[any]any, complextypeFrom *ComplexType) (complextypeTo *ComplexType) {
 
 	// complextypeFrom has already been copied
 	if _complextypeTo, ok := mapOrigCopy[complextypeFrom]; ok {
@@ -1400,52 +1308,52 @@ func CopyBranchComplexType(mapOrigCopy map[any]any, complextypeFrom *ComplexType
 
 	complextypeTo = new(ComplexType)
 	mapOrigCopy[complextypeFrom] = complextypeTo
-	complextypeFrom.CopyBasicFields(complextypeTo)
+	complextypeFrom.GongCopyBasicFields(complextypeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if complextypeFrom.OuterElement != nil {
-		complextypeTo.OuterElement = CopyBranchElement(mapOrigCopy, complextypeFrom.OuterElement)
+		complextypeTo.OuterElement = GongCopyBranchElement(mapOrigCopy, complextypeFrom.OuterElement)
 	}
 	if complextypeFrom.Annotation != nil {
-		complextypeTo.Annotation = CopyBranchAnnotation(mapOrigCopy, complextypeFrom.Annotation)
+		complextypeTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, complextypeFrom.Annotation)
 	}
 	if complextypeFrom.Extension != nil {
-		complextypeTo.Extension = CopyBranchExtension(mapOrigCopy, complextypeFrom.Extension)
+		complextypeTo.Extension = GongCopyBranchExtension(mapOrigCopy, complextypeFrom.Extension)
 	}
 	if complextypeFrom.SimpleContent != nil {
-		complextypeTo.SimpleContent = CopyBranchSimpleContent(mapOrigCopy, complextypeFrom.SimpleContent)
+		complextypeTo.SimpleContent = GongCopyBranchSimpleContent(mapOrigCopy, complextypeFrom.SimpleContent)
 	}
 	if complextypeFrom.ComplexContent != nil {
-		complextypeTo.ComplexContent = CopyBranchComplexContent(mapOrigCopy, complextypeFrom.ComplexContent)
+		complextypeTo.ComplexContent = GongCopyBranchComplexContent(mapOrigCopy, complextypeFrom.ComplexContent)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range complextypeFrom.Sequences {
-		complextypeTo.Sequences = append(complextypeTo.Sequences, CopyBranchSequence(mapOrigCopy, _sequence))
+		complextypeTo.Sequences = append(complextypeTo.Sequences, GongCopyBranchSequence(mapOrigCopy, _sequence))
 	}
 	for _, _all := range complextypeFrom.Alls {
-		complextypeTo.Alls = append(complextypeTo.Alls, CopyBranchAll(mapOrigCopy, _all))
+		complextypeTo.Alls = append(complextypeTo.Alls, GongCopyBranchAll(mapOrigCopy, _all))
 	}
 	for _, _choice := range complextypeFrom.Choices {
-		complextypeTo.Choices = append(complextypeTo.Choices, CopyBranchChoice(mapOrigCopy, _choice))
+		complextypeTo.Choices = append(complextypeTo.Choices, GongCopyBranchChoice(mapOrigCopy, _choice))
 	}
 	for _, _group := range complextypeFrom.Groups {
-		complextypeTo.Groups = append(complextypeTo.Groups, CopyBranchGroup(mapOrigCopy, _group))
+		complextypeTo.Groups = append(complextypeTo.Groups, GongCopyBranchGroup(mapOrigCopy, _group))
 	}
 	for _, _element := range complextypeFrom.Elements {
-		complextypeTo.Elements = append(complextypeTo.Elements, CopyBranchElement(mapOrigCopy, _element))
+		complextypeTo.Elements = append(complextypeTo.Elements, GongCopyBranchElement(mapOrigCopy, _element))
 	}
 	for _, _attribute := range complextypeFrom.Attributes {
-		complextypeTo.Attributes = append(complextypeTo.Attributes, CopyBranchAttribute(mapOrigCopy, _attribute))
+		complextypeTo.Attributes = append(complextypeTo.Attributes, GongCopyBranchAttribute(mapOrigCopy, _attribute))
 	}
 	for _, _attributegroup := range complextypeFrom.AttributeGroups {
-		complextypeTo.AttributeGroups = append(complextypeTo.AttributeGroups, CopyBranchAttributeGroup(mapOrigCopy, _attributegroup))
+		complextypeTo.AttributeGroups = append(complextypeTo.AttributeGroups, GongCopyBranchAttributeGroup(mapOrigCopy, _attributegroup))
 	}
 
 	return
 }
 
-func CopyBranchDocumentation(mapOrigCopy map[any]any, documentationFrom *Documentation) (documentationTo *Documentation) {
+func GongCopyBranchDocumentation(mapOrigCopy map[any]any, documentationFrom *Documentation) (documentationTo *Documentation) {
 
 	// documentationFrom has already been copied
 	if _documentationTo, ok := mapOrigCopy[documentationFrom]; ok {
@@ -1455,7 +1363,7 @@ func CopyBranchDocumentation(mapOrigCopy map[any]any, documentationFrom *Documen
 
 	documentationTo = new(Documentation)
 	mapOrigCopy[documentationFrom] = documentationTo
-	documentationFrom.CopyBasicFields(documentationTo)
+	documentationFrom.GongCopyBasicFields(documentationTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1464,7 +1372,7 @@ func CopyBranchDocumentation(mapOrigCopy map[any]any, documentationFrom *Documen
 	return
 }
 
-func CopyBranchElement(mapOrigCopy map[any]any, elementFrom *Element) (elementTo *Element) {
+func GongCopyBranchElement(mapOrigCopy map[any]any, elementFrom *Element) (elementTo *Element) {
 
 	// elementFrom has already been copied
 	if _elementTo, ok := mapOrigCopy[elementFrom]; ok {
@@ -1474,28 +1382,28 @@ func CopyBranchElement(mapOrigCopy map[any]any, elementFrom *Element) (elementTo
 
 	elementTo = new(Element)
 	mapOrigCopy[elementFrom] = elementTo
-	elementFrom.CopyBasicFields(elementTo)
+	elementFrom.GongCopyBasicFields(elementTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if elementFrom.Annotation != nil {
-		elementTo.Annotation = CopyBranchAnnotation(mapOrigCopy, elementFrom.Annotation)
+		elementTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, elementFrom.Annotation)
 	}
 	if elementFrom.SimpleType != nil {
-		elementTo.SimpleType = CopyBranchSimpleType(mapOrigCopy, elementFrom.SimpleType)
+		elementTo.SimpleType = GongCopyBranchSimpleType(mapOrigCopy, elementFrom.SimpleType)
 	}
 	if elementFrom.ComplexType != nil {
-		elementTo.ComplexType = CopyBranchComplexType(mapOrigCopy, elementFrom.ComplexType)
+		elementTo.ComplexType = GongCopyBranchComplexType(mapOrigCopy, elementFrom.ComplexType)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _group := range elementFrom.Groups {
-		elementTo.Groups = append(elementTo.Groups, CopyBranchGroup(mapOrigCopy, _group))
+		elementTo.Groups = append(elementTo.Groups, GongCopyBranchGroup(mapOrigCopy, _group))
 	}
 
 	return
 }
 
-func CopyBranchEnumeration(mapOrigCopy map[any]any, enumerationFrom *Enumeration) (enumerationTo *Enumeration) {
+func GongCopyBranchEnumeration(mapOrigCopy map[any]any, enumerationFrom *Enumeration) (enumerationTo *Enumeration) {
 
 	// enumerationFrom has already been copied
 	if _enumerationTo, ok := mapOrigCopy[enumerationFrom]; ok {
@@ -1505,11 +1413,11 @@ func CopyBranchEnumeration(mapOrigCopy map[any]any, enumerationFrom *Enumeration
 
 	enumerationTo = new(Enumeration)
 	mapOrigCopy[enumerationFrom] = enumerationTo
-	enumerationFrom.CopyBasicFields(enumerationTo)
+	enumerationFrom.GongCopyBasicFields(enumerationTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if enumerationFrom.Annotation != nil {
-		enumerationTo.Annotation = CopyBranchAnnotation(mapOrigCopy, enumerationFrom.Annotation)
+		enumerationTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, enumerationFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1517,7 +1425,7 @@ func CopyBranchEnumeration(mapOrigCopy map[any]any, enumerationFrom *Enumeration
 	return
 }
 
-func CopyBranchExtension(mapOrigCopy map[any]any, extensionFrom *Extension) (extensionTo *Extension) {
+func GongCopyBranchExtension(mapOrigCopy map[any]any, extensionFrom *Extension) (extensionTo *Extension) {
 
 	// extensionFrom has already been copied
 	if _extensionTo, ok := mapOrigCopy[extensionFrom]; ok {
@@ -1527,37 +1435,37 @@ func CopyBranchExtension(mapOrigCopy map[any]any, extensionFrom *Extension) (ext
 
 	extensionTo = new(Extension)
 	mapOrigCopy[extensionFrom] = extensionTo
-	extensionFrom.CopyBasicFields(extensionTo)
+	extensionFrom.GongCopyBasicFields(extensionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range extensionFrom.Sequences {
-		extensionTo.Sequences = append(extensionTo.Sequences, CopyBranchSequence(mapOrigCopy, _sequence))
+		extensionTo.Sequences = append(extensionTo.Sequences, GongCopyBranchSequence(mapOrigCopy, _sequence))
 	}
 	for _, _all := range extensionFrom.Alls {
-		extensionTo.Alls = append(extensionTo.Alls, CopyBranchAll(mapOrigCopy, _all))
+		extensionTo.Alls = append(extensionTo.Alls, GongCopyBranchAll(mapOrigCopy, _all))
 	}
 	for _, _choice := range extensionFrom.Choices {
-		extensionTo.Choices = append(extensionTo.Choices, CopyBranchChoice(mapOrigCopy, _choice))
+		extensionTo.Choices = append(extensionTo.Choices, GongCopyBranchChoice(mapOrigCopy, _choice))
 	}
 	for _, _group := range extensionFrom.Groups {
-		extensionTo.Groups = append(extensionTo.Groups, CopyBranchGroup(mapOrigCopy, _group))
+		extensionTo.Groups = append(extensionTo.Groups, GongCopyBranchGroup(mapOrigCopy, _group))
 	}
 	for _, _element := range extensionFrom.Elements {
-		extensionTo.Elements = append(extensionTo.Elements, CopyBranchElement(mapOrigCopy, _element))
+		extensionTo.Elements = append(extensionTo.Elements, GongCopyBranchElement(mapOrigCopy, _element))
 	}
 	for _, _attribute := range extensionFrom.Attributes {
-		extensionTo.Attributes = append(extensionTo.Attributes, CopyBranchAttribute(mapOrigCopy, _attribute))
+		extensionTo.Attributes = append(extensionTo.Attributes, GongCopyBranchAttribute(mapOrigCopy, _attribute))
 	}
 	for _, _attributegroup := range extensionFrom.AttributeGroups {
-		extensionTo.AttributeGroups = append(extensionTo.AttributeGroups, CopyBranchAttributeGroup(mapOrigCopy, _attributegroup))
+		extensionTo.AttributeGroups = append(extensionTo.AttributeGroups, GongCopyBranchAttributeGroup(mapOrigCopy, _attributegroup))
 	}
 
 	return
 }
 
-func CopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group) {
+func GongCopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group) {
 
 	// groupFrom has already been copied
 	if _groupTo, ok := mapOrigCopy[groupFrom]; ok {
@@ -1567,37 +1475,37 @@ func CopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group)
 
 	groupTo = new(Group)
 	mapOrigCopy[groupFrom] = groupTo
-	groupFrom.CopyBasicFields(groupTo)
+	groupFrom.GongCopyBasicFields(groupTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if groupFrom.Annotation != nil {
-		groupTo.Annotation = CopyBranchAnnotation(mapOrigCopy, groupFrom.Annotation)
+		groupTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, groupFrom.Annotation)
 	}
 	if groupFrom.OuterElement != nil {
-		groupTo.OuterElement = CopyBranchElement(mapOrigCopy, groupFrom.OuterElement)
+		groupTo.OuterElement = GongCopyBranchElement(mapOrigCopy, groupFrom.OuterElement)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range groupFrom.Sequences {
-		groupTo.Sequences = append(groupTo.Sequences, CopyBranchSequence(mapOrigCopy, _sequence))
+		groupTo.Sequences = append(groupTo.Sequences, GongCopyBranchSequence(mapOrigCopy, _sequence))
 	}
 	for _, _all := range groupFrom.Alls {
-		groupTo.Alls = append(groupTo.Alls, CopyBranchAll(mapOrigCopy, _all))
+		groupTo.Alls = append(groupTo.Alls, GongCopyBranchAll(mapOrigCopy, _all))
 	}
 	for _, _choice := range groupFrom.Choices {
-		groupTo.Choices = append(groupTo.Choices, CopyBranchChoice(mapOrigCopy, _choice))
+		groupTo.Choices = append(groupTo.Choices, GongCopyBranchChoice(mapOrigCopy, _choice))
 	}
 	for _, _group := range groupFrom.Groups {
-		groupTo.Groups = append(groupTo.Groups, CopyBranchGroup(mapOrigCopy, _group))
+		groupTo.Groups = append(groupTo.Groups, GongCopyBranchGroup(mapOrigCopy, _group))
 	}
 	for _, _element := range groupFrom.Elements {
-		groupTo.Elements = append(groupTo.Elements, CopyBranchElement(mapOrigCopy, _element))
+		groupTo.Elements = append(groupTo.Elements, GongCopyBranchElement(mapOrigCopy, _element))
 	}
 
 	return
 }
 
-func CopyBranchLength(mapOrigCopy map[any]any, lengthFrom *Length) (lengthTo *Length) {
+func GongCopyBranchLength(mapOrigCopy map[any]any, lengthFrom *Length) (lengthTo *Length) {
 
 	// lengthFrom has already been copied
 	if _lengthTo, ok := mapOrigCopy[lengthFrom]; ok {
@@ -1607,11 +1515,11 @@ func CopyBranchLength(mapOrigCopy map[any]any, lengthFrom *Length) (lengthTo *Le
 
 	lengthTo = new(Length)
 	mapOrigCopy[lengthFrom] = lengthTo
-	lengthFrom.CopyBasicFields(lengthTo)
+	lengthFrom.GongCopyBasicFields(lengthTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if lengthFrom.Annotation != nil {
-		lengthTo.Annotation = CopyBranchAnnotation(mapOrigCopy, lengthFrom.Annotation)
+		lengthTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, lengthFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1619,7 +1527,7 @@ func CopyBranchLength(mapOrigCopy map[any]any, lengthFrom *Length) (lengthTo *Le
 	return
 }
 
-func CopyBranchMaxInclusive(mapOrigCopy map[any]any, maxinclusiveFrom *MaxInclusive) (maxinclusiveTo *MaxInclusive) {
+func GongCopyBranchMaxInclusive(mapOrigCopy map[any]any, maxinclusiveFrom *MaxInclusive) (maxinclusiveTo *MaxInclusive) {
 
 	// maxinclusiveFrom has already been copied
 	if _maxinclusiveTo, ok := mapOrigCopy[maxinclusiveFrom]; ok {
@@ -1629,11 +1537,11 @@ func CopyBranchMaxInclusive(mapOrigCopy map[any]any, maxinclusiveFrom *MaxInclus
 
 	maxinclusiveTo = new(MaxInclusive)
 	mapOrigCopy[maxinclusiveFrom] = maxinclusiveTo
-	maxinclusiveFrom.CopyBasicFields(maxinclusiveTo)
+	maxinclusiveFrom.GongCopyBasicFields(maxinclusiveTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if maxinclusiveFrom.Annotation != nil {
-		maxinclusiveTo.Annotation = CopyBranchAnnotation(mapOrigCopy, maxinclusiveFrom.Annotation)
+		maxinclusiveTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, maxinclusiveFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1641,7 +1549,7 @@ func CopyBranchMaxInclusive(mapOrigCopy map[any]any, maxinclusiveFrom *MaxInclus
 	return
 }
 
-func CopyBranchMaxLength(mapOrigCopy map[any]any, maxlengthFrom *MaxLength) (maxlengthTo *MaxLength) {
+func GongCopyBranchMaxLength(mapOrigCopy map[any]any, maxlengthFrom *MaxLength) (maxlengthTo *MaxLength) {
 
 	// maxlengthFrom has already been copied
 	if _maxlengthTo, ok := mapOrigCopy[maxlengthFrom]; ok {
@@ -1651,11 +1559,11 @@ func CopyBranchMaxLength(mapOrigCopy map[any]any, maxlengthFrom *MaxLength) (max
 
 	maxlengthTo = new(MaxLength)
 	mapOrigCopy[maxlengthFrom] = maxlengthTo
-	maxlengthFrom.CopyBasicFields(maxlengthTo)
+	maxlengthFrom.GongCopyBasicFields(maxlengthTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if maxlengthFrom.Annotation != nil {
-		maxlengthTo.Annotation = CopyBranchAnnotation(mapOrigCopy, maxlengthFrom.Annotation)
+		maxlengthTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, maxlengthFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1663,7 +1571,7 @@ func CopyBranchMaxLength(mapOrigCopy map[any]any, maxlengthFrom *MaxLength) (max
 	return
 }
 
-func CopyBranchMinInclusive(mapOrigCopy map[any]any, mininclusiveFrom *MinInclusive) (mininclusiveTo *MinInclusive) {
+func GongCopyBranchMinInclusive(mapOrigCopy map[any]any, mininclusiveFrom *MinInclusive) (mininclusiveTo *MinInclusive) {
 
 	// mininclusiveFrom has already been copied
 	if _mininclusiveTo, ok := mapOrigCopy[mininclusiveFrom]; ok {
@@ -1673,11 +1581,11 @@ func CopyBranchMinInclusive(mapOrigCopy map[any]any, mininclusiveFrom *MinInclus
 
 	mininclusiveTo = new(MinInclusive)
 	mapOrigCopy[mininclusiveFrom] = mininclusiveTo
-	mininclusiveFrom.CopyBasicFields(mininclusiveTo)
+	mininclusiveFrom.GongCopyBasicFields(mininclusiveTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if mininclusiveFrom.Annotation != nil {
-		mininclusiveTo.Annotation = CopyBranchAnnotation(mapOrigCopy, mininclusiveFrom.Annotation)
+		mininclusiveTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, mininclusiveFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1685,7 +1593,7 @@ func CopyBranchMinInclusive(mapOrigCopy map[any]any, mininclusiveFrom *MinInclus
 	return
 }
 
-func CopyBranchMinLength(mapOrigCopy map[any]any, minlengthFrom *MinLength) (minlengthTo *MinLength) {
+func GongCopyBranchMinLength(mapOrigCopy map[any]any, minlengthFrom *MinLength) (minlengthTo *MinLength) {
 
 	// minlengthFrom has already been copied
 	if _minlengthTo, ok := mapOrigCopy[minlengthFrom]; ok {
@@ -1695,11 +1603,11 @@ func CopyBranchMinLength(mapOrigCopy map[any]any, minlengthFrom *MinLength) (min
 
 	minlengthTo = new(MinLength)
 	mapOrigCopy[minlengthFrom] = minlengthTo
-	minlengthFrom.CopyBasicFields(minlengthTo)
+	minlengthFrom.GongCopyBasicFields(minlengthTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if minlengthFrom.Annotation != nil {
-		minlengthTo.Annotation = CopyBranchAnnotation(mapOrigCopy, minlengthFrom.Annotation)
+		minlengthTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, minlengthFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1707,7 +1615,7 @@ func CopyBranchMinLength(mapOrigCopy map[any]any, minlengthFrom *MinLength) (min
 	return
 }
 
-func CopyBranchPattern(mapOrigCopy map[any]any, patternFrom *Pattern) (patternTo *Pattern) {
+func GongCopyBranchPattern(mapOrigCopy map[any]any, patternFrom *Pattern) (patternTo *Pattern) {
 
 	// patternFrom has already been copied
 	if _patternTo, ok := mapOrigCopy[patternFrom]; ok {
@@ -1717,11 +1625,11 @@ func CopyBranchPattern(mapOrigCopy map[any]any, patternFrom *Pattern) (patternTo
 
 	patternTo = new(Pattern)
 	mapOrigCopy[patternFrom] = patternTo
-	patternFrom.CopyBasicFields(patternTo)
+	patternFrom.GongCopyBasicFields(patternTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if patternFrom.Annotation != nil {
-		patternTo.Annotation = CopyBranchAnnotation(mapOrigCopy, patternFrom.Annotation)
+		patternTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, patternFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1729,7 +1637,7 @@ func CopyBranchPattern(mapOrigCopy map[any]any, patternFrom *Pattern) (patternTo
 	return
 }
 
-func CopyBranchRestriction(mapOrigCopy map[any]any, restrictionFrom *Restriction) (restrictionTo *Restriction) {
+func GongCopyBranchRestriction(mapOrigCopy map[any]any, restrictionFrom *Restriction) (restrictionTo *Restriction) {
 
 	// restrictionFrom has already been copied
 	if _restrictionTo, ok := mapOrigCopy[restrictionFrom]; ok {
@@ -1739,46 +1647,46 @@ func CopyBranchRestriction(mapOrigCopy map[any]any, restrictionFrom *Restriction
 
 	restrictionTo = new(Restriction)
 	mapOrigCopy[restrictionFrom] = restrictionTo
-	restrictionFrom.CopyBasicFields(restrictionTo)
+	restrictionFrom.GongCopyBasicFields(restrictionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if restrictionFrom.Annotation != nil {
-		restrictionTo.Annotation = CopyBranchAnnotation(mapOrigCopy, restrictionFrom.Annotation)
+		restrictionTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, restrictionFrom.Annotation)
 	}
 	if restrictionFrom.MinInclusive != nil {
-		restrictionTo.MinInclusive = CopyBranchMinInclusive(mapOrigCopy, restrictionFrom.MinInclusive)
+		restrictionTo.MinInclusive = GongCopyBranchMinInclusive(mapOrigCopy, restrictionFrom.MinInclusive)
 	}
 	if restrictionFrom.MaxInclusive != nil {
-		restrictionTo.MaxInclusive = CopyBranchMaxInclusive(mapOrigCopy, restrictionFrom.MaxInclusive)
+		restrictionTo.MaxInclusive = GongCopyBranchMaxInclusive(mapOrigCopy, restrictionFrom.MaxInclusive)
 	}
 	if restrictionFrom.Pattern != nil {
-		restrictionTo.Pattern = CopyBranchPattern(mapOrigCopy, restrictionFrom.Pattern)
+		restrictionTo.Pattern = GongCopyBranchPattern(mapOrigCopy, restrictionFrom.Pattern)
 	}
 	if restrictionFrom.WhiteSpace != nil {
-		restrictionTo.WhiteSpace = CopyBranchWhiteSpace(mapOrigCopy, restrictionFrom.WhiteSpace)
+		restrictionTo.WhiteSpace = GongCopyBranchWhiteSpace(mapOrigCopy, restrictionFrom.WhiteSpace)
 	}
 	if restrictionFrom.MinLength != nil {
-		restrictionTo.MinLength = CopyBranchMinLength(mapOrigCopy, restrictionFrom.MinLength)
+		restrictionTo.MinLength = GongCopyBranchMinLength(mapOrigCopy, restrictionFrom.MinLength)
 	}
 	if restrictionFrom.MaxLength != nil {
-		restrictionTo.MaxLength = CopyBranchMaxLength(mapOrigCopy, restrictionFrom.MaxLength)
+		restrictionTo.MaxLength = GongCopyBranchMaxLength(mapOrigCopy, restrictionFrom.MaxLength)
 	}
 	if restrictionFrom.Length != nil {
-		restrictionTo.Length = CopyBranchLength(mapOrigCopy, restrictionFrom.Length)
+		restrictionTo.Length = GongCopyBranchLength(mapOrigCopy, restrictionFrom.Length)
 	}
 	if restrictionFrom.TotalDigit != nil {
-		restrictionTo.TotalDigit = CopyBranchTotalDigit(mapOrigCopy, restrictionFrom.TotalDigit)
+		restrictionTo.TotalDigit = GongCopyBranchTotalDigit(mapOrigCopy, restrictionFrom.TotalDigit)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _enumeration := range restrictionFrom.Enumerations {
-		restrictionTo.Enumerations = append(restrictionTo.Enumerations, CopyBranchEnumeration(mapOrigCopy, _enumeration))
+		restrictionTo.Enumerations = append(restrictionTo.Enumerations, GongCopyBranchEnumeration(mapOrigCopy, _enumeration))
 	}
 
 	return
 }
 
-func CopyBranchSchema(mapOrigCopy map[any]any, schemaFrom *Schema) (schemaTo *Schema) {
+func GongCopyBranchSchema(mapOrigCopy map[any]any, schemaFrom *Schema) (schemaTo *Schema) {
 
 	// schemaFrom has already been copied
 	if _schemaTo, ok := mapOrigCopy[schemaFrom]; ok {
@@ -1788,34 +1696,34 @@ func CopyBranchSchema(mapOrigCopy map[any]any, schemaFrom *Schema) (schemaTo *Sc
 
 	schemaTo = new(Schema)
 	mapOrigCopy[schemaFrom] = schemaTo
-	schemaFrom.CopyBasicFields(schemaTo)
+	schemaFrom.GongCopyBasicFields(schemaTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if schemaFrom.Annotation != nil {
-		schemaTo.Annotation = CopyBranchAnnotation(mapOrigCopy, schemaFrom.Annotation)
+		schemaTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, schemaFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _element := range schemaFrom.Elements {
-		schemaTo.Elements = append(schemaTo.Elements, CopyBranchElement(mapOrigCopy, _element))
+		schemaTo.Elements = append(schemaTo.Elements, GongCopyBranchElement(mapOrigCopy, _element))
 	}
 	for _, _simpletype := range schemaFrom.SimpleTypes {
-		schemaTo.SimpleTypes = append(schemaTo.SimpleTypes, CopyBranchSimpleType(mapOrigCopy, _simpletype))
+		schemaTo.SimpleTypes = append(schemaTo.SimpleTypes, GongCopyBranchSimpleType(mapOrigCopy, _simpletype))
 	}
 	for _, _complextype := range schemaFrom.ComplexTypes {
-		schemaTo.ComplexTypes = append(schemaTo.ComplexTypes, CopyBranchComplexType(mapOrigCopy, _complextype))
+		schemaTo.ComplexTypes = append(schemaTo.ComplexTypes, GongCopyBranchComplexType(mapOrigCopy, _complextype))
 	}
 	for _, _attributegroup := range schemaFrom.AttributeGroups {
-		schemaTo.AttributeGroups = append(schemaTo.AttributeGroups, CopyBranchAttributeGroup(mapOrigCopy, _attributegroup))
+		schemaTo.AttributeGroups = append(schemaTo.AttributeGroups, GongCopyBranchAttributeGroup(mapOrigCopy, _attributegroup))
 	}
 	for _, _group := range schemaFrom.Groups {
-		schemaTo.Groups = append(schemaTo.Groups, CopyBranchGroup(mapOrigCopy, _group))
+		schemaTo.Groups = append(schemaTo.Groups, GongCopyBranchGroup(mapOrigCopy, _group))
 	}
 
 	return
 }
 
-func CopyBranchSequence(mapOrigCopy map[any]any, sequenceFrom *Sequence) (sequenceTo *Sequence) {
+func GongCopyBranchSequence(mapOrigCopy map[any]any, sequenceFrom *Sequence) (sequenceTo *Sequence) {
 
 	// sequenceFrom has already been copied
 	if _sequenceTo, ok := mapOrigCopy[sequenceFrom]; ok {
@@ -1825,34 +1733,34 @@ func CopyBranchSequence(mapOrigCopy map[any]any, sequenceFrom *Sequence) (sequen
 
 	sequenceTo = new(Sequence)
 	mapOrigCopy[sequenceFrom] = sequenceTo
-	sequenceFrom.CopyBasicFields(sequenceTo)
+	sequenceFrom.GongCopyBasicFields(sequenceTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if sequenceFrom.Annotation != nil {
-		sequenceTo.Annotation = CopyBranchAnnotation(mapOrigCopy, sequenceFrom.Annotation)
+		sequenceTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, sequenceFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range sequenceFrom.Sequences {
-		sequenceTo.Sequences = append(sequenceTo.Sequences, CopyBranchSequence(mapOrigCopy, _sequence))
+		sequenceTo.Sequences = append(sequenceTo.Sequences, GongCopyBranchSequence(mapOrigCopy, _sequence))
 	}
 	for _, _all := range sequenceFrom.Alls {
-		sequenceTo.Alls = append(sequenceTo.Alls, CopyBranchAll(mapOrigCopy, _all))
+		sequenceTo.Alls = append(sequenceTo.Alls, GongCopyBranchAll(mapOrigCopy, _all))
 	}
 	for _, _choice := range sequenceFrom.Choices {
-		sequenceTo.Choices = append(sequenceTo.Choices, CopyBranchChoice(mapOrigCopy, _choice))
+		sequenceTo.Choices = append(sequenceTo.Choices, GongCopyBranchChoice(mapOrigCopy, _choice))
 	}
 	for _, _group := range sequenceFrom.Groups {
-		sequenceTo.Groups = append(sequenceTo.Groups, CopyBranchGroup(mapOrigCopy, _group))
+		sequenceTo.Groups = append(sequenceTo.Groups, GongCopyBranchGroup(mapOrigCopy, _group))
 	}
 	for _, _element := range sequenceFrom.Elements {
-		sequenceTo.Elements = append(sequenceTo.Elements, CopyBranchElement(mapOrigCopy, _element))
+		sequenceTo.Elements = append(sequenceTo.Elements, GongCopyBranchElement(mapOrigCopy, _element))
 	}
 
 	return
 }
 
-func CopyBranchSimpleContent(mapOrigCopy map[any]any, simplecontentFrom *SimpleContent) (simplecontentTo *SimpleContent) {
+func GongCopyBranchSimpleContent(mapOrigCopy map[any]any, simplecontentFrom *SimpleContent) (simplecontentTo *SimpleContent) {
 
 	// simplecontentFrom has already been copied
 	if _simplecontentTo, ok := mapOrigCopy[simplecontentFrom]; ok {
@@ -1862,14 +1770,14 @@ func CopyBranchSimpleContent(mapOrigCopy map[any]any, simplecontentFrom *SimpleC
 
 	simplecontentTo = new(SimpleContent)
 	mapOrigCopy[simplecontentFrom] = simplecontentTo
-	simplecontentFrom.CopyBasicFields(simplecontentTo)
+	simplecontentFrom.GongCopyBasicFields(simplecontentTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if simplecontentFrom.Extension != nil {
-		simplecontentTo.Extension = CopyBranchExtension(mapOrigCopy, simplecontentFrom.Extension)
+		simplecontentTo.Extension = GongCopyBranchExtension(mapOrigCopy, simplecontentFrom.Extension)
 	}
 	if simplecontentFrom.Restriction != nil {
-		simplecontentTo.Restriction = CopyBranchRestriction(mapOrigCopy, simplecontentFrom.Restriction)
+		simplecontentTo.Restriction = GongCopyBranchRestriction(mapOrigCopy, simplecontentFrom.Restriction)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1877,7 +1785,7 @@ func CopyBranchSimpleContent(mapOrigCopy map[any]any, simplecontentFrom *SimpleC
 	return
 }
 
-func CopyBranchSimpleType(mapOrigCopy map[any]any, simpletypeFrom *SimpleType) (simpletypeTo *SimpleType) {
+func GongCopyBranchSimpleType(mapOrigCopy map[any]any, simpletypeFrom *SimpleType) (simpletypeTo *SimpleType) {
 
 	// simpletypeFrom has already been copied
 	if _simpletypeTo, ok := mapOrigCopy[simpletypeFrom]; ok {
@@ -1887,17 +1795,17 @@ func CopyBranchSimpleType(mapOrigCopy map[any]any, simpletypeFrom *SimpleType) (
 
 	simpletypeTo = new(SimpleType)
 	mapOrigCopy[simpletypeFrom] = simpletypeTo
-	simpletypeFrom.CopyBasicFields(simpletypeTo)
+	simpletypeFrom.GongCopyBasicFields(simpletypeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if simpletypeFrom.Annotation != nil {
-		simpletypeTo.Annotation = CopyBranchAnnotation(mapOrigCopy, simpletypeFrom.Annotation)
+		simpletypeTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, simpletypeFrom.Annotation)
 	}
 	if simpletypeFrom.Restriction != nil {
-		simpletypeTo.Restriction = CopyBranchRestriction(mapOrigCopy, simpletypeFrom.Restriction)
+		simpletypeTo.Restriction = GongCopyBranchRestriction(mapOrigCopy, simpletypeFrom.Restriction)
 	}
 	if simpletypeFrom.Union != nil {
-		simpletypeTo.Union = CopyBranchUnion(mapOrigCopy, simpletypeFrom.Union)
+		simpletypeTo.Union = GongCopyBranchUnion(mapOrigCopy, simpletypeFrom.Union)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1905,7 +1813,7 @@ func CopyBranchSimpleType(mapOrigCopy map[any]any, simpletypeFrom *SimpleType) (
 	return
 }
 
-func CopyBranchTotalDigit(mapOrigCopy map[any]any, totaldigitFrom *TotalDigit) (totaldigitTo *TotalDigit) {
+func GongCopyBranchTotalDigit(mapOrigCopy map[any]any, totaldigitFrom *TotalDigit) (totaldigitTo *TotalDigit) {
 
 	// totaldigitFrom has already been copied
 	if _totaldigitTo, ok := mapOrigCopy[totaldigitFrom]; ok {
@@ -1915,11 +1823,11 @@ func CopyBranchTotalDigit(mapOrigCopy map[any]any, totaldigitFrom *TotalDigit) (
 
 	totaldigitTo = new(TotalDigit)
 	mapOrigCopy[totaldigitFrom] = totaldigitTo
-	totaldigitFrom.CopyBasicFields(totaldigitTo)
+	totaldigitFrom.GongCopyBasicFields(totaldigitTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if totaldigitFrom.Annotation != nil {
-		totaldigitTo.Annotation = CopyBranchAnnotation(mapOrigCopy, totaldigitFrom.Annotation)
+		totaldigitTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, totaldigitFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1927,7 +1835,7 @@ func CopyBranchTotalDigit(mapOrigCopy map[any]any, totaldigitFrom *TotalDigit) (
 	return
 }
 
-func CopyBranchUnion(mapOrigCopy map[any]any, unionFrom *Union) (unionTo *Union) {
+func GongCopyBranchUnion(mapOrigCopy map[any]any, unionFrom *Union) (unionTo *Union) {
 
 	// unionFrom has already been copied
 	if _unionTo, ok := mapOrigCopy[unionFrom]; ok {
@@ -1937,11 +1845,11 @@ func CopyBranchUnion(mapOrigCopy map[any]any, unionFrom *Union) (unionTo *Union)
 
 	unionTo = new(Union)
 	mapOrigCopy[unionFrom] = unionTo
-	unionFrom.CopyBasicFields(unionTo)
+	unionFrom.GongCopyBasicFields(unionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if unionFrom.Annotation != nil {
-		unionTo.Annotation = CopyBranchAnnotation(mapOrigCopy, unionFrom.Annotation)
+		unionTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, unionFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1949,7 +1857,7 @@ func CopyBranchUnion(mapOrigCopy map[any]any, unionFrom *Union) (unionTo *Union)
 	return
 }
 
-func CopyBranchWhiteSpace(mapOrigCopy map[any]any, whitespaceFrom *WhiteSpace) (whitespaceTo *WhiteSpace) {
+func GongCopyBranchWhiteSpace(mapOrigCopy map[any]any, whitespaceFrom *WhiteSpace) (whitespaceTo *WhiteSpace) {
 
 	// whitespaceFrom has already been copied
 	if _whitespaceTo, ok := mapOrigCopy[whitespaceFrom]; ok {
@@ -1959,11 +1867,11 @@ func CopyBranchWhiteSpace(mapOrigCopy map[any]any, whitespaceFrom *WhiteSpace) (
 
 	whitespaceTo = new(WhiteSpace)
 	mapOrigCopy[whitespaceFrom] = whitespaceTo
-	whitespaceFrom.CopyBasicFields(whitespaceTo)
+	whitespaceFrom.GongCopyBasicFields(whitespaceTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if whitespaceFrom.Annotation != nil {
-		whitespaceTo.Annotation = CopyBranchAnnotation(mapOrigCopy, whitespaceFrom.Annotation)
+		whitespaceTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, whitespaceFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2063,16 +1971,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchAll(all *All) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, all) {
+	if !stage.IsStaged(all) {
 		return
 	}
 
@@ -2080,24 +1983,24 @@ func (stage *Stage) UnstageBranchAll(all *All) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if all.Annotation != nil {
-		UnstageBranch(stage, all.Annotation)
+		stage.UnstageBranch(all.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range all.Sequences {
-		UnstageBranch(stage, _sequence)
+		stage.UnstageBranch(_sequence)
 	}
 	for _, _all := range all.Alls {
-		UnstageBranch(stage, _all)
+		stage.UnstageBranch(_all)
 	}
 	for _, _choice := range all.Choices {
-		UnstageBranch(stage, _choice)
+		stage.UnstageBranch(_choice)
 	}
 	for _, _group := range all.Groups {
-		UnstageBranch(stage, _group)
+		stage.UnstageBranch(_group)
 	}
 	for _, _element := range all.Elements {
-		UnstageBranch(stage, _element)
+		stage.UnstageBranch(_element)
 	}
 
 }
@@ -2105,7 +2008,7 @@ func (stage *Stage) UnstageBranchAll(all *All) {
 func (stage *Stage) UnstageBranchAnnotation(annotation *Annotation) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, annotation) {
+	if !stage.IsStaged(annotation) {
 		return
 	}
 
@@ -2115,7 +2018,7 @@ func (stage *Stage) UnstageBranchAnnotation(annotation *Annotation) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _documentation := range annotation.Documentations {
-		UnstageBranch(stage, _documentation)
+		stage.UnstageBranch(_documentation)
 	}
 
 }
@@ -2123,7 +2026,7 @@ func (stage *Stage) UnstageBranchAnnotation(annotation *Annotation) {
 func (stage *Stage) UnstageBranchAttribute(attribute *Attribute) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, attribute) {
+	if !stage.IsStaged(attribute) {
 		return
 	}
 
@@ -2131,7 +2034,7 @@ func (stage *Stage) UnstageBranchAttribute(attribute *Attribute) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if attribute.Annotation != nil {
-		UnstageBranch(stage, attribute.Annotation)
+		stage.UnstageBranch(attribute.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2141,7 +2044,7 @@ func (stage *Stage) UnstageBranchAttribute(attribute *Attribute) {
 func (stage *Stage) UnstageBranchAttributeGroup(attributegroup *AttributeGroup) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, attributegroup) {
+	if !stage.IsStaged(attributegroup) {
 		return
 	}
 
@@ -2149,15 +2052,15 @@ func (stage *Stage) UnstageBranchAttributeGroup(attributegroup *AttributeGroup) 
 
 	//insertion point for the staging of instances referenced by pointers
 	if attributegroup.Annotation != nil {
-		UnstageBranch(stage, attributegroup.Annotation)
+		stage.UnstageBranch(attributegroup.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _attributegroup := range attributegroup.AttributeGroups {
-		UnstageBranch(stage, _attributegroup)
+		stage.UnstageBranch(_attributegroup)
 	}
 	for _, _attribute := range attributegroup.Attributes {
-		UnstageBranch(stage, _attribute)
+		stage.UnstageBranch(_attribute)
 	}
 
 }
@@ -2165,7 +2068,7 @@ func (stage *Stage) UnstageBranchAttributeGroup(attributegroup *AttributeGroup) 
 func (stage *Stage) UnstageBranchChoice(choice *Choice) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, choice) {
+	if !stage.IsStaged(choice) {
 		return
 	}
 
@@ -2173,24 +2076,24 @@ func (stage *Stage) UnstageBranchChoice(choice *Choice) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if choice.Annotation != nil {
-		UnstageBranch(stage, choice.Annotation)
+		stage.UnstageBranch(choice.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range choice.Sequences {
-		UnstageBranch(stage, _sequence)
+		stage.UnstageBranch(_sequence)
 	}
 	for _, _all := range choice.Alls {
-		UnstageBranch(stage, _all)
+		stage.UnstageBranch(_all)
 	}
 	for _, _choice := range choice.Choices {
-		UnstageBranch(stage, _choice)
+		stage.UnstageBranch(_choice)
 	}
 	for _, _group := range choice.Groups {
-		UnstageBranch(stage, _group)
+		stage.UnstageBranch(_group)
 	}
 	for _, _element := range choice.Elements {
-		UnstageBranch(stage, _element)
+		stage.UnstageBranch(_element)
 	}
 
 }
@@ -2198,7 +2101,7 @@ func (stage *Stage) UnstageBranchChoice(choice *Choice) {
 func (stage *Stage) UnstageBranchComplexContent(complexcontent *ComplexContent) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, complexcontent) {
+	if !stage.IsStaged(complexcontent) {
 		return
 	}
 
@@ -2213,7 +2116,7 @@ func (stage *Stage) UnstageBranchComplexContent(complexcontent *ComplexContent) 
 func (stage *Stage) UnstageBranchComplexType(complextype *ComplexType) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, complextype) {
+	if !stage.IsStaged(complextype) {
 		return
 	}
 
@@ -2221,42 +2124,42 @@ func (stage *Stage) UnstageBranchComplexType(complextype *ComplexType) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if complextype.OuterElement != nil {
-		UnstageBranch(stage, complextype.OuterElement)
+		stage.UnstageBranch(complextype.OuterElement)
 	}
 	if complextype.Annotation != nil {
-		UnstageBranch(stage, complextype.Annotation)
+		stage.UnstageBranch(complextype.Annotation)
 	}
 	if complextype.Extension != nil {
-		UnstageBranch(stage, complextype.Extension)
+		stage.UnstageBranch(complextype.Extension)
 	}
 	if complextype.SimpleContent != nil {
-		UnstageBranch(stage, complextype.SimpleContent)
+		stage.UnstageBranch(complextype.SimpleContent)
 	}
 	if complextype.ComplexContent != nil {
-		UnstageBranch(stage, complextype.ComplexContent)
+		stage.UnstageBranch(complextype.ComplexContent)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range complextype.Sequences {
-		UnstageBranch(stage, _sequence)
+		stage.UnstageBranch(_sequence)
 	}
 	for _, _all := range complextype.Alls {
-		UnstageBranch(stage, _all)
+		stage.UnstageBranch(_all)
 	}
 	for _, _choice := range complextype.Choices {
-		UnstageBranch(stage, _choice)
+		stage.UnstageBranch(_choice)
 	}
 	for _, _group := range complextype.Groups {
-		UnstageBranch(stage, _group)
+		stage.UnstageBranch(_group)
 	}
 	for _, _element := range complextype.Elements {
-		UnstageBranch(stage, _element)
+		stage.UnstageBranch(_element)
 	}
 	for _, _attribute := range complextype.Attributes {
-		UnstageBranch(stage, _attribute)
+		stage.UnstageBranch(_attribute)
 	}
 	for _, _attributegroup := range complextype.AttributeGroups {
-		UnstageBranch(stage, _attributegroup)
+		stage.UnstageBranch(_attributegroup)
 	}
 
 }
@@ -2264,7 +2167,7 @@ func (stage *Stage) UnstageBranchComplexType(complextype *ComplexType) {
 func (stage *Stage) UnstageBranchDocumentation(documentation *Documentation) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, documentation) {
+	if !stage.IsStaged(documentation) {
 		return
 	}
 
@@ -2279,7 +2182,7 @@ func (stage *Stage) UnstageBranchDocumentation(documentation *Documentation) {
 func (stage *Stage) UnstageBranchElement(element *Element) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, element) {
+	if !stage.IsStaged(element) {
 		return
 	}
 
@@ -2287,18 +2190,18 @@ func (stage *Stage) UnstageBranchElement(element *Element) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if element.Annotation != nil {
-		UnstageBranch(stage, element.Annotation)
+		stage.UnstageBranch(element.Annotation)
 	}
 	if element.SimpleType != nil {
-		UnstageBranch(stage, element.SimpleType)
+		stage.UnstageBranch(element.SimpleType)
 	}
 	if element.ComplexType != nil {
-		UnstageBranch(stage, element.ComplexType)
+		stage.UnstageBranch(element.ComplexType)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _group := range element.Groups {
-		UnstageBranch(stage, _group)
+		stage.UnstageBranch(_group)
 	}
 
 }
@@ -2306,7 +2209,7 @@ func (stage *Stage) UnstageBranchElement(element *Element) {
 func (stage *Stage) UnstageBranchEnumeration(enumeration *Enumeration) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, enumeration) {
+	if !stage.IsStaged(enumeration) {
 		return
 	}
 
@@ -2314,7 +2217,7 @@ func (stage *Stage) UnstageBranchEnumeration(enumeration *Enumeration) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if enumeration.Annotation != nil {
-		UnstageBranch(stage, enumeration.Annotation)
+		stage.UnstageBranch(enumeration.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2324,7 +2227,7 @@ func (stage *Stage) UnstageBranchEnumeration(enumeration *Enumeration) {
 func (stage *Stage) UnstageBranchExtension(extension *Extension) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, extension) {
+	if !stage.IsStaged(extension) {
 		return
 	}
 
@@ -2334,25 +2237,25 @@ func (stage *Stage) UnstageBranchExtension(extension *Extension) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range extension.Sequences {
-		UnstageBranch(stage, _sequence)
+		stage.UnstageBranch(_sequence)
 	}
 	for _, _all := range extension.Alls {
-		UnstageBranch(stage, _all)
+		stage.UnstageBranch(_all)
 	}
 	for _, _choice := range extension.Choices {
-		UnstageBranch(stage, _choice)
+		stage.UnstageBranch(_choice)
 	}
 	for _, _group := range extension.Groups {
-		UnstageBranch(stage, _group)
+		stage.UnstageBranch(_group)
 	}
 	for _, _element := range extension.Elements {
-		UnstageBranch(stage, _element)
+		stage.UnstageBranch(_element)
 	}
 	for _, _attribute := range extension.Attributes {
-		UnstageBranch(stage, _attribute)
+		stage.UnstageBranch(_attribute)
 	}
 	for _, _attributegroup := range extension.AttributeGroups {
-		UnstageBranch(stage, _attributegroup)
+		stage.UnstageBranch(_attributegroup)
 	}
 
 }
@@ -2360,7 +2263,7 @@ func (stage *Stage) UnstageBranchExtension(extension *Extension) {
 func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, group) {
+	if !stage.IsStaged(group) {
 		return
 	}
 
@@ -2368,27 +2271,27 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if group.Annotation != nil {
-		UnstageBranch(stage, group.Annotation)
+		stage.UnstageBranch(group.Annotation)
 	}
 	if group.OuterElement != nil {
-		UnstageBranch(stage, group.OuterElement)
+		stage.UnstageBranch(group.OuterElement)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range group.Sequences {
-		UnstageBranch(stage, _sequence)
+		stage.UnstageBranch(_sequence)
 	}
 	for _, _all := range group.Alls {
-		UnstageBranch(stage, _all)
+		stage.UnstageBranch(_all)
 	}
 	for _, _choice := range group.Choices {
-		UnstageBranch(stage, _choice)
+		stage.UnstageBranch(_choice)
 	}
 	for _, _group := range group.Groups {
-		UnstageBranch(stage, _group)
+		stage.UnstageBranch(_group)
 	}
 	for _, _element := range group.Elements {
-		UnstageBranch(stage, _element)
+		stage.UnstageBranch(_element)
 	}
 
 }
@@ -2396,7 +2299,7 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 func (stage *Stage) UnstageBranchLength(length *Length) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, length) {
+	if !stage.IsStaged(length) {
 		return
 	}
 
@@ -2404,7 +2307,7 @@ func (stage *Stage) UnstageBranchLength(length *Length) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if length.Annotation != nil {
-		UnstageBranch(stage, length.Annotation)
+		stage.UnstageBranch(length.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2414,7 +2317,7 @@ func (stage *Stage) UnstageBranchLength(length *Length) {
 func (stage *Stage) UnstageBranchMaxInclusive(maxinclusive *MaxInclusive) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, maxinclusive) {
+	if !stage.IsStaged(maxinclusive) {
 		return
 	}
 
@@ -2422,7 +2325,7 @@ func (stage *Stage) UnstageBranchMaxInclusive(maxinclusive *MaxInclusive) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if maxinclusive.Annotation != nil {
-		UnstageBranch(stage, maxinclusive.Annotation)
+		stage.UnstageBranch(maxinclusive.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2432,7 +2335,7 @@ func (stage *Stage) UnstageBranchMaxInclusive(maxinclusive *MaxInclusive) {
 func (stage *Stage) UnstageBranchMaxLength(maxlength *MaxLength) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, maxlength) {
+	if !stage.IsStaged(maxlength) {
 		return
 	}
 
@@ -2440,7 +2343,7 @@ func (stage *Stage) UnstageBranchMaxLength(maxlength *MaxLength) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if maxlength.Annotation != nil {
-		UnstageBranch(stage, maxlength.Annotation)
+		stage.UnstageBranch(maxlength.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2450,7 +2353,7 @@ func (stage *Stage) UnstageBranchMaxLength(maxlength *MaxLength) {
 func (stage *Stage) UnstageBranchMinInclusive(mininclusive *MinInclusive) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, mininclusive) {
+	if !stage.IsStaged(mininclusive) {
 		return
 	}
 
@@ -2458,7 +2361,7 @@ func (stage *Stage) UnstageBranchMinInclusive(mininclusive *MinInclusive) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if mininclusive.Annotation != nil {
-		UnstageBranch(stage, mininclusive.Annotation)
+		stage.UnstageBranch(mininclusive.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2468,7 +2371,7 @@ func (stage *Stage) UnstageBranchMinInclusive(mininclusive *MinInclusive) {
 func (stage *Stage) UnstageBranchMinLength(minlength *MinLength) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, minlength) {
+	if !stage.IsStaged(minlength) {
 		return
 	}
 
@@ -2476,7 +2379,7 @@ func (stage *Stage) UnstageBranchMinLength(minlength *MinLength) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if minlength.Annotation != nil {
-		UnstageBranch(stage, minlength.Annotation)
+		stage.UnstageBranch(minlength.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2486,7 +2389,7 @@ func (stage *Stage) UnstageBranchMinLength(minlength *MinLength) {
 func (stage *Stage) UnstageBranchPattern(pattern *Pattern) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, pattern) {
+	if !stage.IsStaged(pattern) {
 		return
 	}
 
@@ -2494,7 +2397,7 @@ func (stage *Stage) UnstageBranchPattern(pattern *Pattern) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if pattern.Annotation != nil {
-		UnstageBranch(stage, pattern.Annotation)
+		stage.UnstageBranch(pattern.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2504,7 +2407,7 @@ func (stage *Stage) UnstageBranchPattern(pattern *Pattern) {
 func (stage *Stage) UnstageBranchRestriction(restriction *Restriction) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, restriction) {
+	if !stage.IsStaged(restriction) {
 		return
 	}
 
@@ -2512,36 +2415,36 @@ func (stage *Stage) UnstageBranchRestriction(restriction *Restriction) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if restriction.Annotation != nil {
-		UnstageBranch(stage, restriction.Annotation)
+		stage.UnstageBranch(restriction.Annotation)
 	}
 	if restriction.MinInclusive != nil {
-		UnstageBranch(stage, restriction.MinInclusive)
+		stage.UnstageBranch(restriction.MinInclusive)
 	}
 	if restriction.MaxInclusive != nil {
-		UnstageBranch(stage, restriction.MaxInclusive)
+		stage.UnstageBranch(restriction.MaxInclusive)
 	}
 	if restriction.Pattern != nil {
-		UnstageBranch(stage, restriction.Pattern)
+		stage.UnstageBranch(restriction.Pattern)
 	}
 	if restriction.WhiteSpace != nil {
-		UnstageBranch(stage, restriction.WhiteSpace)
+		stage.UnstageBranch(restriction.WhiteSpace)
 	}
 	if restriction.MinLength != nil {
-		UnstageBranch(stage, restriction.MinLength)
+		stage.UnstageBranch(restriction.MinLength)
 	}
 	if restriction.MaxLength != nil {
-		UnstageBranch(stage, restriction.MaxLength)
+		stage.UnstageBranch(restriction.MaxLength)
 	}
 	if restriction.Length != nil {
-		UnstageBranch(stage, restriction.Length)
+		stage.UnstageBranch(restriction.Length)
 	}
 	if restriction.TotalDigit != nil {
-		UnstageBranch(stage, restriction.TotalDigit)
+		stage.UnstageBranch(restriction.TotalDigit)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _enumeration := range restriction.Enumerations {
-		UnstageBranch(stage, _enumeration)
+		stage.UnstageBranch(_enumeration)
 	}
 
 }
@@ -2549,7 +2452,7 @@ func (stage *Stage) UnstageBranchRestriction(restriction *Restriction) {
 func (stage *Stage) UnstageBranchSchema(schema *Schema) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, schema) {
+	if !stage.IsStaged(schema) {
 		return
 	}
 
@@ -2557,24 +2460,24 @@ func (stage *Stage) UnstageBranchSchema(schema *Schema) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if schema.Annotation != nil {
-		UnstageBranch(stage, schema.Annotation)
+		stage.UnstageBranch(schema.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _element := range schema.Elements {
-		UnstageBranch(stage, _element)
+		stage.UnstageBranch(_element)
 	}
 	for _, _simpletype := range schema.SimpleTypes {
-		UnstageBranch(stage, _simpletype)
+		stage.UnstageBranch(_simpletype)
 	}
 	for _, _complextype := range schema.ComplexTypes {
-		UnstageBranch(stage, _complextype)
+		stage.UnstageBranch(_complextype)
 	}
 	for _, _attributegroup := range schema.AttributeGroups {
-		UnstageBranch(stage, _attributegroup)
+		stage.UnstageBranch(_attributegroup)
 	}
 	for _, _group := range schema.Groups {
-		UnstageBranch(stage, _group)
+		stage.UnstageBranch(_group)
 	}
 
 }
@@ -2582,7 +2485,7 @@ func (stage *Stage) UnstageBranchSchema(schema *Schema) {
 func (stage *Stage) UnstageBranchSequence(sequence *Sequence) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, sequence) {
+	if !stage.IsStaged(sequence) {
 		return
 	}
 
@@ -2590,24 +2493,24 @@ func (stage *Stage) UnstageBranchSequence(sequence *Sequence) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if sequence.Annotation != nil {
-		UnstageBranch(stage, sequence.Annotation)
+		stage.UnstageBranch(sequence.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _sequence := range sequence.Sequences {
-		UnstageBranch(stage, _sequence)
+		stage.UnstageBranch(_sequence)
 	}
 	for _, _all := range sequence.Alls {
-		UnstageBranch(stage, _all)
+		stage.UnstageBranch(_all)
 	}
 	for _, _choice := range sequence.Choices {
-		UnstageBranch(stage, _choice)
+		stage.UnstageBranch(_choice)
 	}
 	for _, _group := range sequence.Groups {
-		UnstageBranch(stage, _group)
+		stage.UnstageBranch(_group)
 	}
 	for _, _element := range sequence.Elements {
-		UnstageBranch(stage, _element)
+		stage.UnstageBranch(_element)
 	}
 
 }
@@ -2615,7 +2518,7 @@ func (stage *Stage) UnstageBranchSequence(sequence *Sequence) {
 func (stage *Stage) UnstageBranchSimpleContent(simplecontent *SimpleContent) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, simplecontent) {
+	if !stage.IsStaged(simplecontent) {
 		return
 	}
 
@@ -2623,10 +2526,10 @@ func (stage *Stage) UnstageBranchSimpleContent(simplecontent *SimpleContent) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if simplecontent.Extension != nil {
-		UnstageBranch(stage, simplecontent.Extension)
+		stage.UnstageBranch(simplecontent.Extension)
 	}
 	if simplecontent.Restriction != nil {
-		UnstageBranch(stage, simplecontent.Restriction)
+		stage.UnstageBranch(simplecontent.Restriction)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2636,7 +2539,7 @@ func (stage *Stage) UnstageBranchSimpleContent(simplecontent *SimpleContent) {
 func (stage *Stage) UnstageBranchSimpleType(simpletype *SimpleType) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, simpletype) {
+	if !stage.IsStaged(simpletype) {
 		return
 	}
 
@@ -2644,13 +2547,13 @@ func (stage *Stage) UnstageBranchSimpleType(simpletype *SimpleType) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if simpletype.Annotation != nil {
-		UnstageBranch(stage, simpletype.Annotation)
+		stage.UnstageBranch(simpletype.Annotation)
 	}
 	if simpletype.Restriction != nil {
-		UnstageBranch(stage, simpletype.Restriction)
+		stage.UnstageBranch(simpletype.Restriction)
 	}
 	if simpletype.Union != nil {
-		UnstageBranch(stage, simpletype.Union)
+		stage.UnstageBranch(simpletype.Union)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2660,7 +2563,7 @@ func (stage *Stage) UnstageBranchSimpleType(simpletype *SimpleType) {
 func (stage *Stage) UnstageBranchTotalDigit(totaldigit *TotalDigit) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, totaldigit) {
+	if !stage.IsStaged(totaldigit) {
 		return
 	}
 
@@ -2668,7 +2571,7 @@ func (stage *Stage) UnstageBranchTotalDigit(totaldigit *TotalDigit) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if totaldigit.Annotation != nil {
-		UnstageBranch(stage, totaldigit.Annotation)
+		stage.UnstageBranch(totaldigit.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2678,7 +2581,7 @@ func (stage *Stage) UnstageBranchTotalDigit(totaldigit *TotalDigit) {
 func (stage *Stage) UnstageBranchUnion(union *Union) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, union) {
+	if !stage.IsStaged(union) {
 		return
 	}
 
@@ -2686,7 +2589,7 @@ func (stage *Stage) UnstageBranchUnion(union *Union) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if union.Annotation != nil {
-		UnstageBranch(stage, union.Annotation)
+		stage.UnstageBranch(union.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2696,7 +2599,7 @@ func (stage *Stage) UnstageBranchUnion(union *Union) {
 func (stage *Stage) UnstageBranchWhiteSpace(whitespace *WhiteSpace) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, whitespace) {
+	if !stage.IsStaged(whitespace) {
 		return
 	}
 
@@ -2704,7 +2607,7 @@ func (stage *Stage) UnstageBranchWhiteSpace(whitespace *WhiteSpace) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if whitespace.Annotation != nil {
-		UnstageBranch(stage, whitespace.Annotation)
+		stage.UnstageBranch(whitespace.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -3853,7 +3756,7 @@ func (all *All) GongDiff(stage *Stage, allOther *All) (diffs []string) {
 		}
 	}
 	if SequencesDifferent {
-		ops := Diff(stage, all, allOther, "Sequences", allOther.Sequences, all.Sequences)
+		ops := stage.Diff(all, allOther, "Sequences", allOther.Sequences, all.Sequences)
 		diffs = append(diffs, ops)
 	}
 	AllsDifferent := false
@@ -3874,7 +3777,7 @@ func (all *All) GongDiff(stage *Stage, allOther *All) (diffs []string) {
 		}
 	}
 	if AllsDifferent {
-		ops := Diff(stage, all, allOther, "Alls", allOther.Alls, all.Alls)
+		ops := stage.Diff(all, allOther, "Alls", allOther.Alls, all.Alls)
 		diffs = append(diffs, ops)
 	}
 	ChoicesDifferent := false
@@ -3895,7 +3798,7 @@ func (all *All) GongDiff(stage *Stage, allOther *All) (diffs []string) {
 		}
 	}
 	if ChoicesDifferent {
-		ops := Diff(stage, all, allOther, "Choices", allOther.Choices, all.Choices)
+		ops := stage.Diff(all, allOther, "Choices", allOther.Choices, all.Choices)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -3916,7 +3819,7 @@ func (all *All) GongDiff(stage *Stage, allOther *All) (diffs []string) {
 		}
 	}
 	if GroupsDifferent {
-		ops := Diff(stage, all, allOther, "Groups", allOther.Groups, all.Groups)
+		ops := stage.Diff(all, allOther, "Groups", allOther.Groups, all.Groups)
 		diffs = append(diffs, ops)
 	}
 	ElementsDifferent := false
@@ -3937,7 +3840,7 @@ func (all *All) GongDiff(stage *Stage, allOther *All) (diffs []string) {
 		}
 	}
 	if ElementsDifferent {
-		ops := Diff(stage, all, allOther, "Elements", allOther.Elements, all.Elements)
+		ops := stage.Diff(all, allOther, "Elements", allOther.Elements, all.Elements)
 		diffs = append(diffs, ops)
 	}
 	if all.Order != allOther.Order {
@@ -3981,7 +3884,7 @@ func (annotation *Annotation) GongDiff(stage *Stage, annotationOther *Annotation
 		}
 	}
 	if DocumentationsDifferent {
-		ops := Diff(stage, annotation, annotationOther, "Documentations", annotationOther.Documentations, annotation.Documentations)
+		ops := stage.Diff(annotation, annotationOther, "Documentations", annotationOther.Documentations, annotation.Documentations)
 		diffs = append(diffs, ops)
 	}
 
@@ -4083,7 +3986,7 @@ func (attributegroup *AttributeGroup) GongDiff(stage *Stage, attributegroupOther
 		}
 	}
 	if AttributeGroupsDifferent {
-		ops := Diff(stage, attributegroup, attributegroupOther, "AttributeGroups", attributegroupOther.AttributeGroups, attributegroup.AttributeGroups)
+		ops := stage.Diff(attributegroup, attributegroupOther, "AttributeGroups", attributegroupOther.AttributeGroups, attributegroup.AttributeGroups)
 		diffs = append(diffs, ops)
 	}
 	if attributegroup.Ref != attributegroupOther.Ref {
@@ -4107,7 +4010,7 @@ func (attributegroup *AttributeGroup) GongDiff(stage *Stage, attributegroupOther
 		}
 	}
 	if AttributesDifferent {
-		ops := Diff(stage, attributegroup, attributegroupOther, "Attributes", attributegroupOther.Attributes, attributegroup.Attributes)
+		ops := stage.Diff(attributegroup, attributegroupOther, "Attributes", attributegroupOther.Attributes, attributegroup.Attributes)
 		diffs = append(diffs, ops)
 	}
 	if attributegroup.Order != attributegroupOther.Order {
@@ -4155,7 +4058,7 @@ func (choice *Choice) GongDiff(stage *Stage, choiceOther *Choice) (diffs []strin
 		}
 	}
 	if SequencesDifferent {
-		ops := Diff(stage, choice, choiceOther, "Sequences", choiceOther.Sequences, choice.Sequences)
+		ops := stage.Diff(choice, choiceOther, "Sequences", choiceOther.Sequences, choice.Sequences)
 		diffs = append(diffs, ops)
 	}
 	AllsDifferent := false
@@ -4176,7 +4079,7 @@ func (choice *Choice) GongDiff(stage *Stage, choiceOther *Choice) (diffs []strin
 		}
 	}
 	if AllsDifferent {
-		ops := Diff(stage, choice, choiceOther, "Alls", choiceOther.Alls, choice.Alls)
+		ops := stage.Diff(choice, choiceOther, "Alls", choiceOther.Alls, choice.Alls)
 		diffs = append(diffs, ops)
 	}
 	ChoicesDifferent := false
@@ -4197,7 +4100,7 @@ func (choice *Choice) GongDiff(stage *Stage, choiceOther *Choice) (diffs []strin
 		}
 	}
 	if ChoicesDifferent {
-		ops := Diff(stage, choice, choiceOther, "Choices", choiceOther.Choices, choice.Choices)
+		ops := stage.Diff(choice, choiceOther, "Choices", choiceOther.Choices, choice.Choices)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -4218,7 +4121,7 @@ func (choice *Choice) GongDiff(stage *Stage, choiceOther *Choice) (diffs []strin
 		}
 	}
 	if GroupsDifferent {
-		ops := Diff(stage, choice, choiceOther, "Groups", choiceOther.Groups, choice.Groups)
+		ops := stage.Diff(choice, choiceOther, "Groups", choiceOther.Groups, choice.Groups)
 		diffs = append(diffs, ops)
 	}
 	ElementsDifferent := false
@@ -4239,7 +4142,7 @@ func (choice *Choice) GongDiff(stage *Stage, choiceOther *Choice) (diffs []strin
 		}
 	}
 	if ElementsDifferent {
-		ops := Diff(stage, choice, choiceOther, "Elements", choiceOther.Elements, choice.Elements)
+		ops := stage.Diff(choice, choiceOther, "Elements", choiceOther.Elements, choice.Elements)
 		diffs = append(diffs, ops)
 	}
 	if choice.Order != choiceOther.Order {
@@ -4326,7 +4229,7 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 		}
 	}
 	if SequencesDifferent {
-		ops := Diff(stage, complextype, complextypeOther, "Sequences", complextypeOther.Sequences, complextype.Sequences)
+		ops := stage.Diff(complextype, complextypeOther, "Sequences", complextypeOther.Sequences, complextype.Sequences)
 		diffs = append(diffs, ops)
 	}
 	AllsDifferent := false
@@ -4347,7 +4250,7 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 		}
 	}
 	if AllsDifferent {
-		ops := Diff(stage, complextype, complextypeOther, "Alls", complextypeOther.Alls, complextype.Alls)
+		ops := stage.Diff(complextype, complextypeOther, "Alls", complextypeOther.Alls, complextype.Alls)
 		diffs = append(diffs, ops)
 	}
 	ChoicesDifferent := false
@@ -4368,7 +4271,7 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 		}
 	}
 	if ChoicesDifferent {
-		ops := Diff(stage, complextype, complextypeOther, "Choices", complextypeOther.Choices, complextype.Choices)
+		ops := stage.Diff(complextype, complextypeOther, "Choices", complextypeOther.Choices, complextype.Choices)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -4389,7 +4292,7 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 		}
 	}
 	if GroupsDifferent {
-		ops := Diff(stage, complextype, complextypeOther, "Groups", complextypeOther.Groups, complextype.Groups)
+		ops := stage.Diff(complextype, complextypeOther, "Groups", complextypeOther.Groups, complextype.Groups)
 		diffs = append(diffs, ops)
 	}
 	ElementsDifferent := false
@@ -4410,7 +4313,7 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 		}
 	}
 	if ElementsDifferent {
-		ops := Diff(stage, complextype, complextypeOther, "Elements", complextypeOther.Elements, complextype.Elements)
+		ops := stage.Diff(complextype, complextypeOther, "Elements", complextypeOther.Elements, complextype.Elements)
 		diffs = append(diffs, ops)
 	}
 	if complextype.Order != complextypeOther.Order {
@@ -4464,7 +4367,7 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 		}
 	}
 	if AttributesDifferent {
-		ops := Diff(stage, complextype, complextypeOther, "Attributes", complextypeOther.Attributes, complextype.Attributes)
+		ops := stage.Diff(complextype, complextypeOther, "Attributes", complextypeOther.Attributes, complextype.Attributes)
 		diffs = append(diffs, ops)
 	}
 	AttributeGroupsDifferent := false
@@ -4485,7 +4388,7 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 		}
 	}
 	if AttributeGroupsDifferent {
-		ops := Diff(stage, complextype, complextypeOther, "AttributeGroups", complextypeOther.AttributeGroups, complextype.AttributeGroups)
+		ops := stage.Diff(complextype, complextypeOther, "AttributeGroups", complextypeOther.AttributeGroups, complextype.AttributeGroups)
 		diffs = append(diffs, ops)
 	}
 	if complextype.IsDuplicatedInXSD != complextypeOther.IsDuplicatedInXSD {
@@ -4609,7 +4512,7 @@ func (element *Element) GongDiff(stage *Stage, elementOther *Element) (diffs []s
 		}
 	}
 	if GroupsDifferent {
-		ops := Diff(stage, element, elementOther, "Groups", elementOther.Groups, element.Groups)
+		ops := stage.Diff(element, elementOther, "Groups", elementOther.Groups, element.Groups)
 		diffs = append(diffs, ops)
 	}
 	if element.IsDuplicatedInXSD != elementOther.IsDuplicatedInXSD {
@@ -4668,7 +4571,7 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 		}
 	}
 	if SequencesDifferent {
-		ops := Diff(stage, extension, extensionOther, "Sequences", extensionOther.Sequences, extension.Sequences)
+		ops := stage.Diff(extension, extensionOther, "Sequences", extensionOther.Sequences, extension.Sequences)
 		diffs = append(diffs, ops)
 	}
 	AllsDifferent := false
@@ -4689,7 +4592,7 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 		}
 	}
 	if AllsDifferent {
-		ops := Diff(stage, extension, extensionOther, "Alls", extensionOther.Alls, extension.Alls)
+		ops := stage.Diff(extension, extensionOther, "Alls", extensionOther.Alls, extension.Alls)
 		diffs = append(diffs, ops)
 	}
 	ChoicesDifferent := false
@@ -4710,7 +4613,7 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 		}
 	}
 	if ChoicesDifferent {
-		ops := Diff(stage, extension, extensionOther, "Choices", extensionOther.Choices, extension.Choices)
+		ops := stage.Diff(extension, extensionOther, "Choices", extensionOther.Choices, extension.Choices)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -4731,7 +4634,7 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 		}
 	}
 	if GroupsDifferent {
-		ops := Diff(stage, extension, extensionOther, "Groups", extensionOther.Groups, extension.Groups)
+		ops := stage.Diff(extension, extensionOther, "Groups", extensionOther.Groups, extension.Groups)
 		diffs = append(diffs, ops)
 	}
 	ElementsDifferent := false
@@ -4752,7 +4655,7 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 		}
 	}
 	if ElementsDifferent {
-		ops := Diff(stage, extension, extensionOther, "Elements", extensionOther.Elements, extension.Elements)
+		ops := stage.Diff(extension, extensionOther, "Elements", extensionOther.Elements, extension.Elements)
 		diffs = append(diffs, ops)
 	}
 	if extension.Order != extensionOther.Order {
@@ -4791,7 +4694,7 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 		}
 	}
 	if AttributesDifferent {
-		ops := Diff(stage, extension, extensionOther, "Attributes", extensionOther.Attributes, extension.Attributes)
+		ops := stage.Diff(extension, extensionOther, "Attributes", extensionOther.Attributes, extension.Attributes)
 		diffs = append(diffs, ops)
 	}
 	AttributeGroupsDifferent := false
@@ -4812,7 +4715,7 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 		}
 	}
 	if AttributeGroupsDifferent {
-		ops := Diff(stage, extension, extensionOther, "AttributeGroups", extensionOther.AttributeGroups, extension.AttributeGroups)
+		ops := stage.Diff(extension, extensionOther, "AttributeGroups", extensionOther.AttributeGroups, extension.AttributeGroups)
 		diffs = append(diffs, ops)
 	}
 
@@ -4876,7 +4779,7 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if SequencesDifferent {
-		ops := Diff(stage, group, groupOther, "Sequences", groupOther.Sequences, group.Sequences)
+		ops := stage.Diff(group, groupOther, "Sequences", groupOther.Sequences, group.Sequences)
 		diffs = append(diffs, ops)
 	}
 	AllsDifferent := false
@@ -4897,7 +4800,7 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if AllsDifferent {
-		ops := Diff(stage, group, groupOther, "Alls", groupOther.Alls, group.Alls)
+		ops := stage.Diff(group, groupOther, "Alls", groupOther.Alls, group.Alls)
 		diffs = append(diffs, ops)
 	}
 	ChoicesDifferent := false
@@ -4918,7 +4821,7 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if ChoicesDifferent {
-		ops := Diff(stage, group, groupOther, "Choices", groupOther.Choices, group.Choices)
+		ops := stage.Diff(group, groupOther, "Choices", groupOther.Choices, group.Choices)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -4939,7 +4842,7 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if GroupsDifferent {
-		ops := Diff(stage, group, groupOther, "Groups", groupOther.Groups, group.Groups)
+		ops := stage.Diff(group, groupOther, "Groups", groupOther.Groups, group.Groups)
 		diffs = append(diffs, ops)
 	}
 	ElementsDifferent := false
@@ -4960,7 +4863,7 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if ElementsDifferent {
-		ops := Diff(stage, group, groupOther, "Elements", groupOther.Elements, group.Elements)
+		ops := stage.Diff(group, groupOther, "Elements", groupOther.Elements, group.Elements)
 		diffs = append(diffs, ops)
 	}
 	if group.Order != groupOther.Order {
@@ -5140,7 +5043,7 @@ func (restriction *Restriction) GongDiff(stage *Stage, restrictionOther *Restric
 		}
 	}
 	if EnumerationsDifferent {
-		ops := Diff(stage, restriction, restrictionOther, "Enumerations", restrictionOther.Enumerations, restriction.Enumerations)
+		ops := stage.Diff(restriction, restrictionOther, "Enumerations", restrictionOther.Enumerations, restriction.Enumerations)
 		diffs = append(diffs, ops)
 	}
 	if (restriction.MinInclusive == nil) != (restrictionOther.MinInclusive == nil) {
@@ -5238,7 +5141,7 @@ func (schema *Schema) GongDiff(stage *Stage, schemaOther *Schema) (diffs []strin
 		}
 	}
 	if ElementsDifferent {
-		ops := Diff(stage, schema, schemaOther, "Elements", schemaOther.Elements, schema.Elements)
+		ops := stage.Diff(schema, schemaOther, "Elements", schemaOther.Elements, schema.Elements)
 		diffs = append(diffs, ops)
 	}
 	SimpleTypesDifferent := false
@@ -5259,7 +5162,7 @@ func (schema *Schema) GongDiff(stage *Stage, schemaOther *Schema) (diffs []strin
 		}
 	}
 	if SimpleTypesDifferent {
-		ops := Diff(stage, schema, schemaOther, "SimpleTypes", schemaOther.SimpleTypes, schema.SimpleTypes)
+		ops := stage.Diff(schema, schemaOther, "SimpleTypes", schemaOther.SimpleTypes, schema.SimpleTypes)
 		diffs = append(diffs, ops)
 	}
 	ComplexTypesDifferent := false
@@ -5280,7 +5183,7 @@ func (schema *Schema) GongDiff(stage *Stage, schemaOther *Schema) (diffs []strin
 		}
 	}
 	if ComplexTypesDifferent {
-		ops := Diff(stage, schema, schemaOther, "ComplexTypes", schemaOther.ComplexTypes, schema.ComplexTypes)
+		ops := stage.Diff(schema, schemaOther, "ComplexTypes", schemaOther.ComplexTypes, schema.ComplexTypes)
 		diffs = append(diffs, ops)
 	}
 	AttributeGroupsDifferent := false
@@ -5301,7 +5204,7 @@ func (schema *Schema) GongDiff(stage *Stage, schemaOther *Schema) (diffs []strin
 		}
 	}
 	if AttributeGroupsDifferent {
-		ops := Diff(stage, schema, schemaOther, "AttributeGroups", schemaOther.AttributeGroups, schema.AttributeGroups)
+		ops := stage.Diff(schema, schemaOther, "AttributeGroups", schemaOther.AttributeGroups, schema.AttributeGroups)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -5322,7 +5225,7 @@ func (schema *Schema) GongDiff(stage *Stage, schemaOther *Schema) (diffs []strin
 		}
 	}
 	if GroupsDifferent {
-		ops := Diff(stage, schema, schemaOther, "Groups", schemaOther.Groups, schema.Groups)
+		ops := stage.Diff(schema, schemaOther, "Groups", schemaOther.Groups, schema.Groups)
 		diffs = append(diffs, ops)
 	}
 	if schema.Order != schemaOther.Order {
@@ -5370,7 +5273,7 @@ func (sequence *Sequence) GongDiff(stage *Stage, sequenceOther *Sequence) (diffs
 		}
 	}
 	if SequencesDifferent {
-		ops := Diff(stage, sequence, sequenceOther, "Sequences", sequenceOther.Sequences, sequence.Sequences)
+		ops := stage.Diff(sequence, sequenceOther, "Sequences", sequenceOther.Sequences, sequence.Sequences)
 		diffs = append(diffs, ops)
 	}
 	AllsDifferent := false
@@ -5391,7 +5294,7 @@ func (sequence *Sequence) GongDiff(stage *Stage, sequenceOther *Sequence) (diffs
 		}
 	}
 	if AllsDifferent {
-		ops := Diff(stage, sequence, sequenceOther, "Alls", sequenceOther.Alls, sequence.Alls)
+		ops := stage.Diff(sequence, sequenceOther, "Alls", sequenceOther.Alls, sequence.Alls)
 		diffs = append(diffs, ops)
 	}
 	ChoicesDifferent := false
@@ -5412,7 +5315,7 @@ func (sequence *Sequence) GongDiff(stage *Stage, sequenceOther *Sequence) (diffs
 		}
 	}
 	if ChoicesDifferent {
-		ops := Diff(stage, sequence, sequenceOther, "Choices", sequenceOther.Choices, sequence.Choices)
+		ops := stage.Diff(sequence, sequenceOther, "Choices", sequenceOther.Choices, sequence.Choices)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -5433,7 +5336,7 @@ func (sequence *Sequence) GongDiff(stage *Stage, sequenceOther *Sequence) (diffs
 		}
 	}
 	if GroupsDifferent {
-		ops := Diff(stage, sequence, sequenceOther, "Groups", sequenceOther.Groups, sequence.Groups)
+		ops := stage.Diff(sequence, sequenceOther, "Groups", sequenceOther.Groups, sequence.Groups)
 		diffs = append(diffs, ops)
 	}
 	ElementsDifferent := false
@@ -5454,7 +5357,7 @@ func (sequence *Sequence) GongDiff(stage *Stage, sequenceOther *Sequence) (diffs
 		}
 	}
 	if ElementsDifferent {
-		ops := Diff(stage, sequence, sequenceOther, "Elements", sequenceOther.Elements, sequence.Elements)
+		ops := stage.Diff(sequence, sequenceOther, "Elements", sequenceOther.Elements, sequence.Elements)
 		diffs = append(diffs, ops)
 	}
 	if sequence.Order != sequenceOther.Order {
@@ -5676,9 +5579,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

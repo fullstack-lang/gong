@@ -50,56 +50,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *CompareAnalysis:
-		ok = stage.IsStagedCompareAnalysis(target)
-
-	case *Complexity:
-		ok = stage.IsStagedComplexity(target)
-
-	case *DiagramFlossEquation:
-		ok = stage.IsStagedDiagramFlossEquation(target)
-
-	case *Effort:
-		ok = stage.IsStagedEffort(target)
-
-	case *Library:
-		ok = stage.IsStagedLibrary(target)
-
-	case *Note:
-		ok = stage.IsStagedNote(target)
-
-	case *NoteComplexityShape:
-		ok = stage.IsStagedNoteComplexityShape(target)
-
-	case *NoteEffortShape:
-		ok = stage.IsStagedNoteEffortShape(target)
-
-	case *NotePerformanceShape:
-		ok = stage.IsStagedNotePerformanceShape(target)
-
-	case *NoteShape:
-		ok = stage.IsStagedNoteShape(target)
-
-	case *Performance:
-		ok = stage.IsStagedPerformance(target)
-
-	case *System:
-		ok = stage.IsStagedSystem(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedCompareAnalysis(compareanalysis *CompareAnalysis) (ok bool) {
 
@@ -240,7 +190,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchCompareAnalysis(compareanalysis *CompareAnalysis) {
 
 	// check if instance is already staged
-	if IsStaged(stage, compareanalysis) {
+	if stage.IsStaged(compareanalysis) {
 		return
 	}
 
@@ -248,18 +198,18 @@ func (stage *Stage) StageBranchCompareAnalysis(compareanalysis *CompareAnalysis)
 
 	//insertion point for the staging of instances referenced by pointers
 	if compareanalysis.FromSystem != nil {
-		StageBranch(stage, compareanalysis.FromSystem)
+		stage.StageBranch(compareanalysis.FromSystem)
 	}
 	if compareanalysis.ToSystem != nil {
-		StageBranch(stage, compareanalysis.ToSystem)
+		stage.StageBranch(compareanalysis.ToSystem)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _diagramflossequation := range compareanalysis.DiagramFlossEquations {
-		StageBranch(stage, _diagramflossequation)
+		stage.StageBranch(_diagramflossequation)
 	}
 	for _, _diagramflossequation := range compareanalysis.DiagramFlossEquationsWhoseNodeIsExpanded {
-		StageBranch(stage, _diagramflossequation)
+		stage.StageBranch(_diagramflossequation)
 	}
 
 }
@@ -267,7 +217,7 @@ func (stage *Stage) StageBranchCompareAnalysis(compareanalysis *CompareAnalysis)
 func (stage *Stage) StageBranchComplexity(complexity *Complexity) {
 
 	// check if instance is already staged
-	if IsStaged(stage, complexity) {
+	if stage.IsStaged(complexity) {
 		return
 	}
 
@@ -282,7 +232,7 @@ func (stage *Stage) StageBranchComplexity(complexity *Complexity) {
 func (stage *Stage) StageBranchDiagramFlossEquation(diagramflossequation *DiagramFlossEquation) {
 
 	// check if instance is already staged
-	if IsStaged(stage, diagramflossequation) {
+	if stage.IsStaged(diagramflossequation) {
 		return
 	}
 
@@ -292,28 +242,28 @@ func (stage *Stage) StageBranchDiagramFlossEquation(diagramflossequation *Diagra
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _noteshape := range diagramflossequation.Note_Shapes {
-		StageBranch(stage, _noteshape)
+		stage.StageBranch(_noteshape)
 	}
 	for _, _notecomplexityshape := range diagramflossequation.NoteComplexityShapes {
-		StageBranch(stage, _notecomplexityshape)
+		stage.StageBranch(_notecomplexityshape)
 	}
 	for _, _noteperformanceshape := range diagramflossequation.NotePerformanceShapes {
-		StageBranch(stage, _noteperformanceshape)
+		stage.StageBranch(_noteperformanceshape)
 	}
 	for _, _noteeffortshape := range diagramflossequation.NoteEffortShapes {
-		StageBranch(stage, _noteeffortshape)
+		stage.StageBranch(_noteeffortshape)
 	}
 	for _, _note := range diagramflossequation.NotesWhoseNodeIsExpanded {
-		StageBranch(stage, _note)
+		stage.StageBranch(_note)
 	}
 	for _, _complexity := range diagramflossequation.ComplexitysWhoseNodeIsExpanded {
-		StageBranch(stage, _complexity)
+		stage.StageBranch(_complexity)
 	}
 	for _, _performance := range diagramflossequation.PerformancesWhoseNodeIsExpanded {
-		StageBranch(stage, _performance)
+		stage.StageBranch(_performance)
 	}
 	for _, _effort := range diagramflossequation.EffortsWhoseNodeIsExpanded {
-		StageBranch(stage, _effort)
+		stage.StageBranch(_effort)
 	}
 
 }
@@ -321,7 +271,7 @@ func (stage *Stage) StageBranchDiagramFlossEquation(diagramflossequation *Diagra
 func (stage *Stage) StageBranchEffort(effort *Effort) {
 
 	// check if instance is already staged
-	if IsStaged(stage, effort) {
+	if stage.IsStaged(effort) {
 		return
 	}
 
@@ -336,7 +286,7 @@ func (stage *Stage) StageBranchEffort(effort *Effort) {
 func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
-	if IsStaged(stage, library) {
+	if stage.IsStaged(library) {
 		return
 	}
 
@@ -346,46 +296,46 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _library := range library.SubLibraries {
-		StageBranch(stage, _library)
+		stage.StageBranch(_library)
 	}
 	for _, _system := range library.RootSystems {
-		StageBranch(stage, _system)
+		stage.StageBranch(_system)
 	}
 	for _, _complexity := range library.RootComplexitys {
-		StageBranch(stage, _complexity)
+		stage.StageBranch(_complexity)
 	}
 	for _, _performance := range library.RootPerformances {
-		StageBranch(stage, _performance)
+		stage.StageBranch(_performance)
 	}
 	for _, _effort := range library.RootEfforts {
-		StageBranch(stage, _effort)
+		stage.StageBranch(_effort)
 	}
 	for _, _compareanalysis := range library.RootCompareAnalysis {
-		StageBranch(stage, _compareanalysis)
+		stage.StageBranch(_compareanalysis)
 	}
 	for _, _note := range library.RootNotes {
-		StageBranch(stage, _note)
+		stage.StageBranch(_note)
 	}
 	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
-		StageBranch(stage, _library)
+		stage.StageBranch(_library)
 	}
 	for _, _system := range library.SystemsWhoseNodeIsExpanded {
-		StageBranch(stage, _system)
+		stage.StageBranch(_system)
 	}
 	for _, _complexity := range library.ComplexitysWhoseNodeIsExpanded {
-		StageBranch(stage, _complexity)
+		stage.StageBranch(_complexity)
 	}
 	for _, _performance := range library.PerformancesWhoseNodeIsExpanded {
-		StageBranch(stage, _performance)
+		stage.StageBranch(_performance)
 	}
 	for _, _effort := range library.EffortsWhoseNodeIsExpanded {
-		StageBranch(stage, _effort)
+		stage.StageBranch(_effort)
 	}
 	for _, _compareanalysis := range library.CompareAnalysisWhoseNodeIsExpanded {
-		StageBranch(stage, _compareanalysis)
+		stage.StageBranch(_compareanalysis)
 	}
 	for _, _note := range library.NotesWhoseNodeIsExpanded {
-		StageBranch(stage, _note)
+		stage.StageBranch(_note)
 	}
 
 }
@@ -393,7 +343,7 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 func (stage *Stage) StageBranchNote(note *Note) {
 
 	// check if instance is already staged
-	if IsStaged(stage, note) {
+	if stage.IsStaged(note) {
 		return
 	}
 
@@ -403,13 +353,13 @@ func (stage *Stage) StageBranchNote(note *Note) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _complexity := range note.Complexities {
-		StageBranch(stage, _complexity)
+		stage.StageBranch(_complexity)
 	}
 	for _, _performance := range note.Performances {
-		StageBranch(stage, _performance)
+		stage.StageBranch(_performance)
 	}
 	for _, _effort := range note.Efforts {
-		StageBranch(stage, _effort)
+		stage.StageBranch(_effort)
 	}
 
 }
@@ -417,7 +367,7 @@ func (stage *Stage) StageBranchNote(note *Note) {
 func (stage *Stage) StageBranchNoteComplexityShape(notecomplexityshape *NoteComplexityShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, notecomplexityshape) {
+	if stage.IsStaged(notecomplexityshape) {
 		return
 	}
 
@@ -425,10 +375,10 @@ func (stage *Stage) StageBranchNoteComplexityShape(notecomplexityshape *NoteComp
 
 	//insertion point for the staging of instances referenced by pointers
 	if notecomplexityshape.Note != nil {
-		StageBranch(stage, notecomplexityshape.Note)
+		stage.StageBranch(notecomplexityshape.Note)
 	}
 	if notecomplexityshape.Complexity != nil {
-		StageBranch(stage, notecomplexityshape.Complexity)
+		stage.StageBranch(notecomplexityshape.Complexity)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -438,7 +388,7 @@ func (stage *Stage) StageBranchNoteComplexityShape(notecomplexityshape *NoteComp
 func (stage *Stage) StageBranchNoteEffortShape(noteeffortshape *NoteEffortShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, noteeffortshape) {
+	if stage.IsStaged(noteeffortshape) {
 		return
 	}
 
@@ -446,10 +396,10 @@ func (stage *Stage) StageBranchNoteEffortShape(noteeffortshape *NoteEffortShape)
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteeffortshape.Note != nil {
-		StageBranch(stage, noteeffortshape.Note)
+		stage.StageBranch(noteeffortshape.Note)
 	}
 	if noteeffortshape.Effort != nil {
-		StageBranch(stage, noteeffortshape.Effort)
+		stage.StageBranch(noteeffortshape.Effort)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -459,7 +409,7 @@ func (stage *Stage) StageBranchNoteEffortShape(noteeffortshape *NoteEffortShape)
 func (stage *Stage) StageBranchNotePerformanceShape(noteperformanceshape *NotePerformanceShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, noteperformanceshape) {
+	if stage.IsStaged(noteperformanceshape) {
 		return
 	}
 
@@ -467,10 +417,10 @@ func (stage *Stage) StageBranchNotePerformanceShape(noteperformanceshape *NotePe
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteperformanceshape.Note != nil {
-		StageBranch(stage, noteperformanceshape.Note)
+		stage.StageBranch(noteperformanceshape.Note)
 	}
 	if noteperformanceshape.Performance != nil {
-		StageBranch(stage, noteperformanceshape.Performance)
+		stage.StageBranch(noteperformanceshape.Performance)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -480,7 +430,7 @@ func (stage *Stage) StageBranchNotePerformanceShape(noteperformanceshape *NotePe
 func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, noteshape) {
+	if stage.IsStaged(noteshape) {
 		return
 	}
 
@@ -488,7 +438,7 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshape.Note != nil {
-		StageBranch(stage, noteshape.Note)
+		stage.StageBranch(noteshape.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -498,7 +448,7 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 func (stage *Stage) StageBranchPerformance(performance *Performance) {
 
 	// check if instance is already staged
-	if IsStaged(stage, performance) {
+	if stage.IsStaged(performance) {
 		return
 	}
 
@@ -513,7 +463,7 @@ func (stage *Stage) StageBranchPerformance(performance *Performance) {
 func (stage *Stage) StageBranchSystem(system *System) {
 
 	// check if instance is already staged
-	if IsStaged(stage, system) {
+	if stage.IsStaged(system) {
 		return
 	}
 
@@ -523,40 +473,40 @@ func (stage *Stage) StageBranchSystem(system *System) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _complexity := range system.Complexities {
-		StageBranch(stage, _complexity)
+		stage.StageBranch(_complexity)
 	}
 	for _, _performance := range system.Performances {
-		StageBranch(stage, _performance)
+		stage.StageBranch(_performance)
 	}
 	for _, _effort := range system.Efforts {
-		StageBranch(stage, _effort)
+		stage.StageBranch(_effort)
 	}
 	for _, _system := range system.SubSystems {
-		StageBranch(stage, _system)
+		stage.StageBranch(_system)
 	}
 	for _, _diagramflossequation := range system.DiagramFlossEquations {
-		StageBranch(stage, _diagramflossequation)
+		stage.StageBranch(_diagramflossequation)
 	}
 	for _, _diagramflossequation := range system.DiagramFlossEquationsWhoseNodeIsExpanded {
-		StageBranch(stage, _diagramflossequation)
+		stage.StageBranch(_diagramflossequation)
 	}
 	for _, _complexity := range system.ComplexitysWhoseNodeIsExpanded {
-		StageBranch(stage, _complexity)
+		stage.StageBranch(_complexity)
 	}
 	for _, _performance := range system.PerformancesWhoseNodeIsExpanded {
-		StageBranch(stage, _performance)
+		stage.StageBranch(_performance)
 	}
 	for _, _effort := range system.EffortsWhoseNodeIsExpanded {
-		StageBranch(stage, _effort)
+		stage.StageBranch(_effort)
 	}
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -564,51 +514,51 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *CompareAnalysis:
-		toT := CopyBranchCompareAnalysis(mapOrigCopy, fromT)
+		toT := GongCopyBranchCompareAnalysis(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Complexity:
-		toT := CopyBranchComplexity(mapOrigCopy, fromT)
+		toT := GongCopyBranchComplexity(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *DiagramFlossEquation:
-		toT := CopyBranchDiagramFlossEquation(mapOrigCopy, fromT)
+		toT := GongCopyBranchDiagramFlossEquation(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Effort:
-		toT := CopyBranchEffort(mapOrigCopy, fromT)
+		toT := GongCopyBranchEffort(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Library:
-		toT := CopyBranchLibrary(mapOrigCopy, fromT)
+		toT := GongCopyBranchLibrary(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Note:
-		toT := CopyBranchNote(mapOrigCopy, fromT)
+		toT := GongCopyBranchNote(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteComplexityShape:
-		toT := CopyBranchNoteComplexityShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteComplexityShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteEffortShape:
-		toT := CopyBranchNoteEffortShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteEffortShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NotePerformanceShape:
-		toT := CopyBranchNotePerformanceShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNotePerformanceShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteShape:
-		toT := CopyBranchNoteShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Performance:
-		toT := CopyBranchPerformance(mapOrigCopy, fromT)
+		toT := GongCopyBranchPerformance(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *System:
-		toT := CopyBranchSystem(mapOrigCopy, fromT)
+		toT := GongCopyBranchSystem(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -618,7 +568,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchCompareAnalysis(mapOrigCopy map[any]any, compareanalysisFrom *CompareAnalysis) (compareanalysisTo *CompareAnalysis) {
+func GongCopyBranchCompareAnalysis(mapOrigCopy map[any]any, compareanalysisFrom *CompareAnalysis) (compareanalysisTo *CompareAnalysis) {
 
 	// compareanalysisFrom has already been copied
 	if _compareanalysisTo, ok := mapOrigCopy[compareanalysisFrom]; ok {
@@ -628,28 +578,28 @@ func CopyBranchCompareAnalysis(mapOrigCopy map[any]any, compareanalysisFrom *Com
 
 	compareanalysisTo = new(CompareAnalysis)
 	mapOrigCopy[compareanalysisFrom] = compareanalysisTo
-	compareanalysisFrom.CopyBasicFields(compareanalysisTo)
+	compareanalysisFrom.GongCopyBasicFields(compareanalysisTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if compareanalysisFrom.FromSystem != nil {
-		compareanalysisTo.FromSystem = CopyBranchSystem(mapOrigCopy, compareanalysisFrom.FromSystem)
+		compareanalysisTo.FromSystem = GongCopyBranchSystem(mapOrigCopy, compareanalysisFrom.FromSystem)
 	}
 	if compareanalysisFrom.ToSystem != nil {
-		compareanalysisTo.ToSystem = CopyBranchSystem(mapOrigCopy, compareanalysisFrom.ToSystem)
+		compareanalysisTo.ToSystem = GongCopyBranchSystem(mapOrigCopy, compareanalysisFrom.ToSystem)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _diagramflossequation := range compareanalysisFrom.DiagramFlossEquations {
-		compareanalysisTo.DiagramFlossEquations = append(compareanalysisTo.DiagramFlossEquations, CopyBranchDiagramFlossEquation(mapOrigCopy, _diagramflossequation))
+		compareanalysisTo.DiagramFlossEquations = append(compareanalysisTo.DiagramFlossEquations, GongCopyBranchDiagramFlossEquation(mapOrigCopy, _diagramflossequation))
 	}
 	for _, _diagramflossequation := range compareanalysisFrom.DiagramFlossEquationsWhoseNodeIsExpanded {
-		compareanalysisTo.DiagramFlossEquationsWhoseNodeIsExpanded = append(compareanalysisTo.DiagramFlossEquationsWhoseNodeIsExpanded, CopyBranchDiagramFlossEquation(mapOrigCopy, _diagramflossequation))
+		compareanalysisTo.DiagramFlossEquationsWhoseNodeIsExpanded = append(compareanalysisTo.DiagramFlossEquationsWhoseNodeIsExpanded, GongCopyBranchDiagramFlossEquation(mapOrigCopy, _diagramflossequation))
 	}
 
 	return
 }
 
-func CopyBranchComplexity(mapOrigCopy map[any]any, complexityFrom *Complexity) (complexityTo *Complexity) {
+func GongCopyBranchComplexity(mapOrigCopy map[any]any, complexityFrom *Complexity) (complexityTo *Complexity) {
 
 	// complexityFrom has already been copied
 	if _complexityTo, ok := mapOrigCopy[complexityFrom]; ok {
@@ -659,7 +609,7 @@ func CopyBranchComplexity(mapOrigCopy map[any]any, complexityFrom *Complexity) (
 
 	complexityTo = new(Complexity)
 	mapOrigCopy[complexityFrom] = complexityTo
-	complexityFrom.CopyBasicFields(complexityTo)
+	complexityFrom.GongCopyBasicFields(complexityTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -668,7 +618,7 @@ func CopyBranchComplexity(mapOrigCopy map[any]any, complexityFrom *Complexity) (
 	return
 }
 
-func CopyBranchDiagramFlossEquation(mapOrigCopy map[any]any, diagramflossequationFrom *DiagramFlossEquation) (diagramflossequationTo *DiagramFlossEquation) {
+func GongCopyBranchDiagramFlossEquation(mapOrigCopy map[any]any, diagramflossequationFrom *DiagramFlossEquation) (diagramflossequationTo *DiagramFlossEquation) {
 
 	// diagramflossequationFrom has already been copied
 	if _diagramflossequationTo, ok := mapOrigCopy[diagramflossequationFrom]; ok {
@@ -678,40 +628,40 @@ func CopyBranchDiagramFlossEquation(mapOrigCopy map[any]any, diagramflossequatio
 
 	diagramflossequationTo = new(DiagramFlossEquation)
 	mapOrigCopy[diagramflossequationFrom] = diagramflossequationTo
-	diagramflossequationFrom.CopyBasicFields(diagramflossequationTo)
+	diagramflossequationFrom.GongCopyBasicFields(diagramflossequationTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _noteshape := range diagramflossequationFrom.Note_Shapes {
-		diagramflossequationTo.Note_Shapes = append(diagramflossequationTo.Note_Shapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
+		diagramflossequationTo.Note_Shapes = append(diagramflossequationTo.Note_Shapes, GongCopyBranchNoteShape(mapOrigCopy, _noteshape))
 	}
 	for _, _notecomplexityshape := range diagramflossequationFrom.NoteComplexityShapes {
-		diagramflossequationTo.NoteComplexityShapes = append(diagramflossequationTo.NoteComplexityShapes, CopyBranchNoteComplexityShape(mapOrigCopy, _notecomplexityshape))
+		diagramflossequationTo.NoteComplexityShapes = append(diagramflossequationTo.NoteComplexityShapes, GongCopyBranchNoteComplexityShape(mapOrigCopy, _notecomplexityshape))
 	}
 	for _, _noteperformanceshape := range diagramflossequationFrom.NotePerformanceShapes {
-		diagramflossequationTo.NotePerformanceShapes = append(diagramflossequationTo.NotePerformanceShapes, CopyBranchNotePerformanceShape(mapOrigCopy, _noteperformanceshape))
+		diagramflossequationTo.NotePerformanceShapes = append(diagramflossequationTo.NotePerformanceShapes, GongCopyBranchNotePerformanceShape(mapOrigCopy, _noteperformanceshape))
 	}
 	for _, _noteeffortshape := range diagramflossequationFrom.NoteEffortShapes {
-		diagramflossequationTo.NoteEffortShapes = append(diagramflossequationTo.NoteEffortShapes, CopyBranchNoteEffortShape(mapOrigCopy, _noteeffortshape))
+		diagramflossequationTo.NoteEffortShapes = append(diagramflossequationTo.NoteEffortShapes, GongCopyBranchNoteEffortShape(mapOrigCopy, _noteeffortshape))
 	}
 	for _, _note := range diagramflossequationFrom.NotesWhoseNodeIsExpanded {
-		diagramflossequationTo.NotesWhoseNodeIsExpanded = append(diagramflossequationTo.NotesWhoseNodeIsExpanded, CopyBranchNote(mapOrigCopy, _note))
+		diagramflossequationTo.NotesWhoseNodeIsExpanded = append(diagramflossequationTo.NotesWhoseNodeIsExpanded, GongCopyBranchNote(mapOrigCopy, _note))
 	}
 	for _, _complexity := range diagramflossequationFrom.ComplexitysWhoseNodeIsExpanded {
-		diagramflossequationTo.ComplexitysWhoseNodeIsExpanded = append(diagramflossequationTo.ComplexitysWhoseNodeIsExpanded, CopyBranchComplexity(mapOrigCopy, _complexity))
+		diagramflossequationTo.ComplexitysWhoseNodeIsExpanded = append(diagramflossequationTo.ComplexitysWhoseNodeIsExpanded, GongCopyBranchComplexity(mapOrigCopy, _complexity))
 	}
 	for _, _performance := range diagramflossequationFrom.PerformancesWhoseNodeIsExpanded {
-		diagramflossequationTo.PerformancesWhoseNodeIsExpanded = append(diagramflossequationTo.PerformancesWhoseNodeIsExpanded, CopyBranchPerformance(mapOrigCopy, _performance))
+		diagramflossequationTo.PerformancesWhoseNodeIsExpanded = append(diagramflossequationTo.PerformancesWhoseNodeIsExpanded, GongCopyBranchPerformance(mapOrigCopy, _performance))
 	}
 	for _, _effort := range diagramflossequationFrom.EffortsWhoseNodeIsExpanded {
-		diagramflossequationTo.EffortsWhoseNodeIsExpanded = append(diagramflossequationTo.EffortsWhoseNodeIsExpanded, CopyBranchEffort(mapOrigCopy, _effort))
+		diagramflossequationTo.EffortsWhoseNodeIsExpanded = append(diagramflossequationTo.EffortsWhoseNodeIsExpanded, GongCopyBranchEffort(mapOrigCopy, _effort))
 	}
 
 	return
 }
 
-func CopyBranchEffort(mapOrigCopy map[any]any, effortFrom *Effort) (effortTo *Effort) {
+func GongCopyBranchEffort(mapOrigCopy map[any]any, effortFrom *Effort) (effortTo *Effort) {
 
 	// effortFrom has already been copied
 	if _effortTo, ok := mapOrigCopy[effortFrom]; ok {
@@ -721,7 +671,7 @@ func CopyBranchEffort(mapOrigCopy map[any]any, effortFrom *Effort) (effortTo *Ef
 
 	effortTo = new(Effort)
 	mapOrigCopy[effortFrom] = effortTo
-	effortFrom.CopyBasicFields(effortTo)
+	effortFrom.GongCopyBasicFields(effortTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -730,7 +680,7 @@ func CopyBranchEffort(mapOrigCopy map[any]any, effortFrom *Effort) (effortTo *Ef
 	return
 }
 
-func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
+func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
 
 	// libraryFrom has already been copied
 	if _libraryTo, ok := mapOrigCopy[libraryFrom]; ok {
@@ -740,58 +690,58 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 
 	libraryTo = new(Library)
 	mapOrigCopy[libraryFrom] = libraryTo
-	libraryFrom.CopyBasicFields(libraryTo)
+	libraryFrom.GongCopyBasicFields(libraryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _library := range libraryFrom.SubLibraries {
-		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
+		libraryTo.SubLibraries = append(libraryTo.SubLibraries, GongCopyBranchLibrary(mapOrigCopy, _library))
 	}
 	for _, _system := range libraryFrom.RootSystems {
-		libraryTo.RootSystems = append(libraryTo.RootSystems, CopyBranchSystem(mapOrigCopy, _system))
+		libraryTo.RootSystems = append(libraryTo.RootSystems, GongCopyBranchSystem(mapOrigCopy, _system))
 	}
 	for _, _complexity := range libraryFrom.RootComplexitys {
-		libraryTo.RootComplexitys = append(libraryTo.RootComplexitys, CopyBranchComplexity(mapOrigCopy, _complexity))
+		libraryTo.RootComplexitys = append(libraryTo.RootComplexitys, GongCopyBranchComplexity(mapOrigCopy, _complexity))
 	}
 	for _, _performance := range libraryFrom.RootPerformances {
-		libraryTo.RootPerformances = append(libraryTo.RootPerformances, CopyBranchPerformance(mapOrigCopy, _performance))
+		libraryTo.RootPerformances = append(libraryTo.RootPerformances, GongCopyBranchPerformance(mapOrigCopy, _performance))
 	}
 	for _, _effort := range libraryFrom.RootEfforts {
-		libraryTo.RootEfforts = append(libraryTo.RootEfforts, CopyBranchEffort(mapOrigCopy, _effort))
+		libraryTo.RootEfforts = append(libraryTo.RootEfforts, GongCopyBranchEffort(mapOrigCopy, _effort))
 	}
 	for _, _compareanalysis := range libraryFrom.RootCompareAnalysis {
-		libraryTo.RootCompareAnalysis = append(libraryTo.RootCompareAnalysis, CopyBranchCompareAnalysis(mapOrigCopy, _compareanalysis))
+		libraryTo.RootCompareAnalysis = append(libraryTo.RootCompareAnalysis, GongCopyBranchCompareAnalysis(mapOrigCopy, _compareanalysis))
 	}
 	for _, _note := range libraryFrom.RootNotes {
-		libraryTo.RootNotes = append(libraryTo.RootNotes, CopyBranchNote(mapOrigCopy, _note))
+		libraryTo.RootNotes = append(libraryTo.RootNotes, GongCopyBranchNote(mapOrigCopy, _note))
 	}
 	for _, _library := range libraryFrom.SubLibrariesWhoseNodeIsExpanded {
-		libraryTo.SubLibrariesWhoseNodeIsExpanded = append(libraryTo.SubLibrariesWhoseNodeIsExpanded, CopyBranchLibrary(mapOrigCopy, _library))
+		libraryTo.SubLibrariesWhoseNodeIsExpanded = append(libraryTo.SubLibrariesWhoseNodeIsExpanded, GongCopyBranchLibrary(mapOrigCopy, _library))
 	}
 	for _, _system := range libraryFrom.SystemsWhoseNodeIsExpanded {
-		libraryTo.SystemsWhoseNodeIsExpanded = append(libraryTo.SystemsWhoseNodeIsExpanded, CopyBranchSystem(mapOrigCopy, _system))
+		libraryTo.SystemsWhoseNodeIsExpanded = append(libraryTo.SystemsWhoseNodeIsExpanded, GongCopyBranchSystem(mapOrigCopy, _system))
 	}
 	for _, _complexity := range libraryFrom.ComplexitysWhoseNodeIsExpanded {
-		libraryTo.ComplexitysWhoseNodeIsExpanded = append(libraryTo.ComplexitysWhoseNodeIsExpanded, CopyBranchComplexity(mapOrigCopy, _complexity))
+		libraryTo.ComplexitysWhoseNodeIsExpanded = append(libraryTo.ComplexitysWhoseNodeIsExpanded, GongCopyBranchComplexity(mapOrigCopy, _complexity))
 	}
 	for _, _performance := range libraryFrom.PerformancesWhoseNodeIsExpanded {
-		libraryTo.PerformancesWhoseNodeIsExpanded = append(libraryTo.PerformancesWhoseNodeIsExpanded, CopyBranchPerformance(mapOrigCopy, _performance))
+		libraryTo.PerformancesWhoseNodeIsExpanded = append(libraryTo.PerformancesWhoseNodeIsExpanded, GongCopyBranchPerformance(mapOrigCopy, _performance))
 	}
 	for _, _effort := range libraryFrom.EffortsWhoseNodeIsExpanded {
-		libraryTo.EffortsWhoseNodeIsExpanded = append(libraryTo.EffortsWhoseNodeIsExpanded, CopyBranchEffort(mapOrigCopy, _effort))
+		libraryTo.EffortsWhoseNodeIsExpanded = append(libraryTo.EffortsWhoseNodeIsExpanded, GongCopyBranchEffort(mapOrigCopy, _effort))
 	}
 	for _, _compareanalysis := range libraryFrom.CompareAnalysisWhoseNodeIsExpanded {
-		libraryTo.CompareAnalysisWhoseNodeIsExpanded = append(libraryTo.CompareAnalysisWhoseNodeIsExpanded, CopyBranchCompareAnalysis(mapOrigCopy, _compareanalysis))
+		libraryTo.CompareAnalysisWhoseNodeIsExpanded = append(libraryTo.CompareAnalysisWhoseNodeIsExpanded, GongCopyBranchCompareAnalysis(mapOrigCopy, _compareanalysis))
 	}
 	for _, _note := range libraryFrom.NotesWhoseNodeIsExpanded {
-		libraryTo.NotesWhoseNodeIsExpanded = append(libraryTo.NotesWhoseNodeIsExpanded, CopyBranchNote(mapOrigCopy, _note))
+		libraryTo.NotesWhoseNodeIsExpanded = append(libraryTo.NotesWhoseNodeIsExpanded, GongCopyBranchNote(mapOrigCopy, _note))
 	}
 
 	return
 }
 
-func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
+func GongCopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 
 	// noteFrom has already been copied
 	if _noteTo, ok := mapOrigCopy[noteFrom]; ok {
@@ -801,25 +751,25 @@ func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 
 	noteTo = new(Note)
 	mapOrigCopy[noteFrom] = noteTo
-	noteFrom.CopyBasicFields(noteTo)
+	noteFrom.GongCopyBasicFields(noteTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _complexity := range noteFrom.Complexities {
-		noteTo.Complexities = append(noteTo.Complexities, CopyBranchComplexity(mapOrigCopy, _complexity))
+		noteTo.Complexities = append(noteTo.Complexities, GongCopyBranchComplexity(mapOrigCopy, _complexity))
 	}
 	for _, _performance := range noteFrom.Performances {
-		noteTo.Performances = append(noteTo.Performances, CopyBranchPerformance(mapOrigCopy, _performance))
+		noteTo.Performances = append(noteTo.Performances, GongCopyBranchPerformance(mapOrigCopy, _performance))
 	}
 	for _, _effort := range noteFrom.Efforts {
-		noteTo.Efforts = append(noteTo.Efforts, CopyBranchEffort(mapOrigCopy, _effort))
+		noteTo.Efforts = append(noteTo.Efforts, GongCopyBranchEffort(mapOrigCopy, _effort))
 	}
 
 	return
 }
 
-func CopyBranchNoteComplexityShape(mapOrigCopy map[any]any, notecomplexityshapeFrom *NoteComplexityShape) (notecomplexityshapeTo *NoteComplexityShape) {
+func GongCopyBranchNoteComplexityShape(mapOrigCopy map[any]any, notecomplexityshapeFrom *NoteComplexityShape) (notecomplexityshapeTo *NoteComplexityShape) {
 
 	// notecomplexityshapeFrom has already been copied
 	if _notecomplexityshapeTo, ok := mapOrigCopy[notecomplexityshapeFrom]; ok {
@@ -829,14 +779,14 @@ func CopyBranchNoteComplexityShape(mapOrigCopy map[any]any, notecomplexityshapeF
 
 	notecomplexityshapeTo = new(NoteComplexityShape)
 	mapOrigCopy[notecomplexityshapeFrom] = notecomplexityshapeTo
-	notecomplexityshapeFrom.CopyBasicFields(notecomplexityshapeTo)
+	notecomplexityshapeFrom.GongCopyBasicFields(notecomplexityshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if notecomplexityshapeFrom.Note != nil {
-		notecomplexityshapeTo.Note = CopyBranchNote(mapOrigCopy, notecomplexityshapeFrom.Note)
+		notecomplexityshapeTo.Note = GongCopyBranchNote(mapOrigCopy, notecomplexityshapeFrom.Note)
 	}
 	if notecomplexityshapeFrom.Complexity != nil {
-		notecomplexityshapeTo.Complexity = CopyBranchComplexity(mapOrigCopy, notecomplexityshapeFrom.Complexity)
+		notecomplexityshapeTo.Complexity = GongCopyBranchComplexity(mapOrigCopy, notecomplexityshapeFrom.Complexity)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -844,7 +794,7 @@ func CopyBranchNoteComplexityShape(mapOrigCopy map[any]any, notecomplexityshapeF
 	return
 }
 
-func CopyBranchNoteEffortShape(mapOrigCopy map[any]any, noteeffortshapeFrom *NoteEffortShape) (noteeffortshapeTo *NoteEffortShape) {
+func GongCopyBranchNoteEffortShape(mapOrigCopy map[any]any, noteeffortshapeFrom *NoteEffortShape) (noteeffortshapeTo *NoteEffortShape) {
 
 	// noteeffortshapeFrom has already been copied
 	if _noteeffortshapeTo, ok := mapOrigCopy[noteeffortshapeFrom]; ok {
@@ -854,14 +804,14 @@ func CopyBranchNoteEffortShape(mapOrigCopy map[any]any, noteeffortshapeFrom *Not
 
 	noteeffortshapeTo = new(NoteEffortShape)
 	mapOrigCopy[noteeffortshapeFrom] = noteeffortshapeTo
-	noteeffortshapeFrom.CopyBasicFields(noteeffortshapeTo)
+	noteeffortshapeFrom.GongCopyBasicFields(noteeffortshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteeffortshapeFrom.Note != nil {
-		noteeffortshapeTo.Note = CopyBranchNote(mapOrigCopy, noteeffortshapeFrom.Note)
+		noteeffortshapeTo.Note = GongCopyBranchNote(mapOrigCopy, noteeffortshapeFrom.Note)
 	}
 	if noteeffortshapeFrom.Effort != nil {
-		noteeffortshapeTo.Effort = CopyBranchEffort(mapOrigCopy, noteeffortshapeFrom.Effort)
+		noteeffortshapeTo.Effort = GongCopyBranchEffort(mapOrigCopy, noteeffortshapeFrom.Effort)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -869,7 +819,7 @@ func CopyBranchNoteEffortShape(mapOrigCopy map[any]any, noteeffortshapeFrom *Not
 	return
 }
 
-func CopyBranchNotePerformanceShape(mapOrigCopy map[any]any, noteperformanceshapeFrom *NotePerformanceShape) (noteperformanceshapeTo *NotePerformanceShape) {
+func GongCopyBranchNotePerformanceShape(mapOrigCopy map[any]any, noteperformanceshapeFrom *NotePerformanceShape) (noteperformanceshapeTo *NotePerformanceShape) {
 
 	// noteperformanceshapeFrom has already been copied
 	if _noteperformanceshapeTo, ok := mapOrigCopy[noteperformanceshapeFrom]; ok {
@@ -879,14 +829,14 @@ func CopyBranchNotePerformanceShape(mapOrigCopy map[any]any, noteperformanceshap
 
 	noteperformanceshapeTo = new(NotePerformanceShape)
 	mapOrigCopy[noteperformanceshapeFrom] = noteperformanceshapeTo
-	noteperformanceshapeFrom.CopyBasicFields(noteperformanceshapeTo)
+	noteperformanceshapeFrom.GongCopyBasicFields(noteperformanceshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteperformanceshapeFrom.Note != nil {
-		noteperformanceshapeTo.Note = CopyBranchNote(mapOrigCopy, noteperformanceshapeFrom.Note)
+		noteperformanceshapeTo.Note = GongCopyBranchNote(mapOrigCopy, noteperformanceshapeFrom.Note)
 	}
 	if noteperformanceshapeFrom.Performance != nil {
-		noteperformanceshapeTo.Performance = CopyBranchPerformance(mapOrigCopy, noteperformanceshapeFrom.Performance)
+		noteperformanceshapeTo.Performance = GongCopyBranchPerformance(mapOrigCopy, noteperformanceshapeFrom.Performance)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -894,7 +844,7 @@ func CopyBranchNotePerformanceShape(mapOrigCopy map[any]any, noteperformanceshap
 	return
 }
 
-func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
+func GongCopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
 
 	// noteshapeFrom has already been copied
 	if _noteshapeTo, ok := mapOrigCopy[noteshapeFrom]; ok {
@@ -904,11 +854,11 @@ func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (not
 
 	noteshapeTo = new(NoteShape)
 	mapOrigCopy[noteshapeFrom] = noteshapeTo
-	noteshapeFrom.CopyBasicFields(noteshapeTo)
+	noteshapeFrom.GongCopyBasicFields(noteshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshapeFrom.Note != nil {
-		noteshapeTo.Note = CopyBranchNote(mapOrigCopy, noteshapeFrom.Note)
+		noteshapeTo.Note = GongCopyBranchNote(mapOrigCopy, noteshapeFrom.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -916,7 +866,7 @@ func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (not
 	return
 }
 
-func CopyBranchPerformance(mapOrigCopy map[any]any, performanceFrom *Performance) (performanceTo *Performance) {
+func GongCopyBranchPerformance(mapOrigCopy map[any]any, performanceFrom *Performance) (performanceTo *Performance) {
 
 	// performanceFrom has already been copied
 	if _performanceTo, ok := mapOrigCopy[performanceFrom]; ok {
@@ -926,7 +876,7 @@ func CopyBranchPerformance(mapOrigCopy map[any]any, performanceFrom *Performance
 
 	performanceTo = new(Performance)
 	mapOrigCopy[performanceFrom] = performanceTo
-	performanceFrom.CopyBasicFields(performanceTo)
+	performanceFrom.GongCopyBasicFields(performanceTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -935,7 +885,7 @@ func CopyBranchPerformance(mapOrigCopy map[any]any, performanceFrom *Performance
 	return
 }
 
-func CopyBranchSystem(mapOrigCopy map[any]any, systemFrom *System) (systemTo *System) {
+func GongCopyBranchSystem(mapOrigCopy map[any]any, systemFrom *System) (systemTo *System) {
 
 	// systemFrom has already been copied
 	if _systemTo, ok := mapOrigCopy[systemFrom]; ok {
@@ -945,37 +895,37 @@ func CopyBranchSystem(mapOrigCopy map[any]any, systemFrom *System) (systemTo *Sy
 
 	systemTo = new(System)
 	mapOrigCopy[systemFrom] = systemTo
-	systemFrom.CopyBasicFields(systemTo)
+	systemFrom.GongCopyBasicFields(systemTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _complexity := range systemFrom.Complexities {
-		systemTo.Complexities = append(systemTo.Complexities, CopyBranchComplexity(mapOrigCopy, _complexity))
+		systemTo.Complexities = append(systemTo.Complexities, GongCopyBranchComplexity(mapOrigCopy, _complexity))
 	}
 	for _, _performance := range systemFrom.Performances {
-		systemTo.Performances = append(systemTo.Performances, CopyBranchPerformance(mapOrigCopy, _performance))
+		systemTo.Performances = append(systemTo.Performances, GongCopyBranchPerformance(mapOrigCopy, _performance))
 	}
 	for _, _effort := range systemFrom.Efforts {
-		systemTo.Efforts = append(systemTo.Efforts, CopyBranchEffort(mapOrigCopy, _effort))
+		systemTo.Efforts = append(systemTo.Efforts, GongCopyBranchEffort(mapOrigCopy, _effort))
 	}
 	for _, _system := range systemFrom.SubSystems {
-		systemTo.SubSystems = append(systemTo.SubSystems, CopyBranchSystem(mapOrigCopy, _system))
+		systemTo.SubSystems = append(systemTo.SubSystems, GongCopyBranchSystem(mapOrigCopy, _system))
 	}
 	for _, _diagramflossequation := range systemFrom.DiagramFlossEquations {
-		systemTo.DiagramFlossEquations = append(systemTo.DiagramFlossEquations, CopyBranchDiagramFlossEquation(mapOrigCopy, _diagramflossequation))
+		systemTo.DiagramFlossEquations = append(systemTo.DiagramFlossEquations, GongCopyBranchDiagramFlossEquation(mapOrigCopy, _diagramflossequation))
 	}
 	for _, _diagramflossequation := range systemFrom.DiagramFlossEquationsWhoseNodeIsExpanded {
-		systemTo.DiagramFlossEquationsWhoseNodeIsExpanded = append(systemTo.DiagramFlossEquationsWhoseNodeIsExpanded, CopyBranchDiagramFlossEquation(mapOrigCopy, _diagramflossequation))
+		systemTo.DiagramFlossEquationsWhoseNodeIsExpanded = append(systemTo.DiagramFlossEquationsWhoseNodeIsExpanded, GongCopyBranchDiagramFlossEquation(mapOrigCopy, _diagramflossequation))
 	}
 	for _, _complexity := range systemFrom.ComplexitysWhoseNodeIsExpanded {
-		systemTo.ComplexitysWhoseNodeIsExpanded = append(systemTo.ComplexitysWhoseNodeIsExpanded, CopyBranchComplexity(mapOrigCopy, _complexity))
+		systemTo.ComplexitysWhoseNodeIsExpanded = append(systemTo.ComplexitysWhoseNodeIsExpanded, GongCopyBranchComplexity(mapOrigCopy, _complexity))
 	}
 	for _, _performance := range systemFrom.PerformancesWhoseNodeIsExpanded {
-		systemTo.PerformancesWhoseNodeIsExpanded = append(systemTo.PerformancesWhoseNodeIsExpanded, CopyBranchPerformance(mapOrigCopy, _performance))
+		systemTo.PerformancesWhoseNodeIsExpanded = append(systemTo.PerformancesWhoseNodeIsExpanded, GongCopyBranchPerformance(mapOrigCopy, _performance))
 	}
 	for _, _effort := range systemFrom.EffortsWhoseNodeIsExpanded {
-		systemTo.EffortsWhoseNodeIsExpanded = append(systemTo.EffortsWhoseNodeIsExpanded, CopyBranchEffort(mapOrigCopy, _effort))
+		systemTo.EffortsWhoseNodeIsExpanded = append(systemTo.EffortsWhoseNodeIsExpanded, GongCopyBranchEffort(mapOrigCopy, _effort))
 	}
 
 	return
@@ -1031,16 +981,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchCompareAnalysis(compareanalysis *CompareAnalysis) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, compareanalysis) {
+	if !stage.IsStaged(compareanalysis) {
 		return
 	}
 
@@ -1048,18 +993,18 @@ func (stage *Stage) UnstageBranchCompareAnalysis(compareanalysis *CompareAnalysi
 
 	//insertion point for the staging of instances referenced by pointers
 	if compareanalysis.FromSystem != nil {
-		UnstageBranch(stage, compareanalysis.FromSystem)
+		stage.UnstageBranch(compareanalysis.FromSystem)
 	}
 	if compareanalysis.ToSystem != nil {
-		UnstageBranch(stage, compareanalysis.ToSystem)
+		stage.UnstageBranch(compareanalysis.ToSystem)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _diagramflossequation := range compareanalysis.DiagramFlossEquations {
-		UnstageBranch(stage, _diagramflossequation)
+		stage.UnstageBranch(_diagramflossequation)
 	}
 	for _, _diagramflossequation := range compareanalysis.DiagramFlossEquationsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _diagramflossequation)
+		stage.UnstageBranch(_diagramflossequation)
 	}
 
 }
@@ -1067,7 +1012,7 @@ func (stage *Stage) UnstageBranchCompareAnalysis(compareanalysis *CompareAnalysi
 func (stage *Stage) UnstageBranchComplexity(complexity *Complexity) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, complexity) {
+	if !stage.IsStaged(complexity) {
 		return
 	}
 
@@ -1082,7 +1027,7 @@ func (stage *Stage) UnstageBranchComplexity(complexity *Complexity) {
 func (stage *Stage) UnstageBranchDiagramFlossEquation(diagramflossequation *DiagramFlossEquation) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, diagramflossequation) {
+	if !stage.IsStaged(diagramflossequation) {
 		return
 	}
 
@@ -1092,28 +1037,28 @@ func (stage *Stage) UnstageBranchDiagramFlossEquation(diagramflossequation *Diag
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _noteshape := range diagramflossequation.Note_Shapes {
-		UnstageBranch(stage, _noteshape)
+		stage.UnstageBranch(_noteshape)
 	}
 	for _, _notecomplexityshape := range diagramflossequation.NoteComplexityShapes {
-		UnstageBranch(stage, _notecomplexityshape)
+		stage.UnstageBranch(_notecomplexityshape)
 	}
 	for _, _noteperformanceshape := range diagramflossequation.NotePerformanceShapes {
-		UnstageBranch(stage, _noteperformanceshape)
+		stage.UnstageBranch(_noteperformanceshape)
 	}
 	for _, _noteeffortshape := range diagramflossequation.NoteEffortShapes {
-		UnstageBranch(stage, _noteeffortshape)
+		stage.UnstageBranch(_noteeffortshape)
 	}
 	for _, _note := range diagramflossequation.NotesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _note)
+		stage.UnstageBranch(_note)
 	}
 	for _, _complexity := range diagramflossequation.ComplexitysWhoseNodeIsExpanded {
-		UnstageBranch(stage, _complexity)
+		stage.UnstageBranch(_complexity)
 	}
 	for _, _performance := range diagramflossequation.PerformancesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _performance)
+		stage.UnstageBranch(_performance)
 	}
 	for _, _effort := range diagramflossequation.EffortsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _effort)
+		stage.UnstageBranch(_effort)
 	}
 
 }
@@ -1121,7 +1066,7 @@ func (stage *Stage) UnstageBranchDiagramFlossEquation(diagramflossequation *Diag
 func (stage *Stage) UnstageBranchEffort(effort *Effort) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, effort) {
+	if !stage.IsStaged(effort) {
 		return
 	}
 
@@ -1136,7 +1081,7 @@ func (stage *Stage) UnstageBranchEffort(effort *Effort) {
 func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, library) {
+	if !stage.IsStaged(library) {
 		return
 	}
 
@@ -1146,46 +1091,46 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _library := range library.SubLibraries {
-		UnstageBranch(stage, _library)
+		stage.UnstageBranch(_library)
 	}
 	for _, _system := range library.RootSystems {
-		UnstageBranch(stage, _system)
+		stage.UnstageBranch(_system)
 	}
 	for _, _complexity := range library.RootComplexitys {
-		UnstageBranch(stage, _complexity)
+		stage.UnstageBranch(_complexity)
 	}
 	for _, _performance := range library.RootPerformances {
-		UnstageBranch(stage, _performance)
+		stage.UnstageBranch(_performance)
 	}
 	for _, _effort := range library.RootEfforts {
-		UnstageBranch(stage, _effort)
+		stage.UnstageBranch(_effort)
 	}
 	for _, _compareanalysis := range library.RootCompareAnalysis {
-		UnstageBranch(stage, _compareanalysis)
+		stage.UnstageBranch(_compareanalysis)
 	}
 	for _, _note := range library.RootNotes {
-		UnstageBranch(stage, _note)
+		stage.UnstageBranch(_note)
 	}
 	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _library)
+		stage.UnstageBranch(_library)
 	}
 	for _, _system := range library.SystemsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _system)
+		stage.UnstageBranch(_system)
 	}
 	for _, _complexity := range library.ComplexitysWhoseNodeIsExpanded {
-		UnstageBranch(stage, _complexity)
+		stage.UnstageBranch(_complexity)
 	}
 	for _, _performance := range library.PerformancesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _performance)
+		stage.UnstageBranch(_performance)
 	}
 	for _, _effort := range library.EffortsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _effort)
+		stage.UnstageBranch(_effort)
 	}
 	for _, _compareanalysis := range library.CompareAnalysisWhoseNodeIsExpanded {
-		UnstageBranch(stage, _compareanalysis)
+		stage.UnstageBranch(_compareanalysis)
 	}
 	for _, _note := range library.NotesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _note)
+		stage.UnstageBranch(_note)
 	}
 
 }
@@ -1193,7 +1138,7 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, note) {
+	if !stage.IsStaged(note) {
 		return
 	}
 
@@ -1203,13 +1148,13 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _complexity := range note.Complexities {
-		UnstageBranch(stage, _complexity)
+		stage.UnstageBranch(_complexity)
 	}
 	for _, _performance := range note.Performances {
-		UnstageBranch(stage, _performance)
+		stage.UnstageBranch(_performance)
 	}
 	for _, _effort := range note.Efforts {
-		UnstageBranch(stage, _effort)
+		stage.UnstageBranch(_effort)
 	}
 
 }
@@ -1217,7 +1162,7 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 func (stage *Stage) UnstageBranchNoteComplexityShape(notecomplexityshape *NoteComplexityShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, notecomplexityshape) {
+	if !stage.IsStaged(notecomplexityshape) {
 		return
 	}
 
@@ -1225,10 +1170,10 @@ func (stage *Stage) UnstageBranchNoteComplexityShape(notecomplexityshape *NoteCo
 
 	//insertion point for the staging of instances referenced by pointers
 	if notecomplexityshape.Note != nil {
-		UnstageBranch(stage, notecomplexityshape.Note)
+		stage.UnstageBranch(notecomplexityshape.Note)
 	}
 	if notecomplexityshape.Complexity != nil {
-		UnstageBranch(stage, notecomplexityshape.Complexity)
+		stage.UnstageBranch(notecomplexityshape.Complexity)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1238,7 +1183,7 @@ func (stage *Stage) UnstageBranchNoteComplexityShape(notecomplexityshape *NoteCo
 func (stage *Stage) UnstageBranchNoteEffortShape(noteeffortshape *NoteEffortShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, noteeffortshape) {
+	if !stage.IsStaged(noteeffortshape) {
 		return
 	}
 
@@ -1246,10 +1191,10 @@ func (stage *Stage) UnstageBranchNoteEffortShape(noteeffortshape *NoteEffortShap
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteeffortshape.Note != nil {
-		UnstageBranch(stage, noteeffortshape.Note)
+		stage.UnstageBranch(noteeffortshape.Note)
 	}
 	if noteeffortshape.Effort != nil {
-		UnstageBranch(stage, noteeffortshape.Effort)
+		stage.UnstageBranch(noteeffortshape.Effort)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1259,7 +1204,7 @@ func (stage *Stage) UnstageBranchNoteEffortShape(noteeffortshape *NoteEffortShap
 func (stage *Stage) UnstageBranchNotePerformanceShape(noteperformanceshape *NotePerformanceShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, noteperformanceshape) {
+	if !stage.IsStaged(noteperformanceshape) {
 		return
 	}
 
@@ -1267,10 +1212,10 @@ func (stage *Stage) UnstageBranchNotePerformanceShape(noteperformanceshape *Note
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteperformanceshape.Note != nil {
-		UnstageBranch(stage, noteperformanceshape.Note)
+		stage.UnstageBranch(noteperformanceshape.Note)
 	}
 	if noteperformanceshape.Performance != nil {
-		UnstageBranch(stage, noteperformanceshape.Performance)
+		stage.UnstageBranch(noteperformanceshape.Performance)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1280,7 +1225,7 @@ func (stage *Stage) UnstageBranchNotePerformanceShape(noteperformanceshape *Note
 func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, noteshape) {
+	if !stage.IsStaged(noteshape) {
 		return
 	}
 
@@ -1288,7 +1233,7 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshape.Note != nil {
-		UnstageBranch(stage, noteshape.Note)
+		stage.UnstageBranch(noteshape.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1298,7 +1243,7 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 func (stage *Stage) UnstageBranchPerformance(performance *Performance) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, performance) {
+	if !stage.IsStaged(performance) {
 		return
 	}
 
@@ -1313,7 +1258,7 @@ func (stage *Stage) UnstageBranchPerformance(performance *Performance) {
 func (stage *Stage) UnstageBranchSystem(system *System) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, system) {
+	if !stage.IsStaged(system) {
 		return
 	}
 
@@ -1323,31 +1268,31 @@ func (stage *Stage) UnstageBranchSystem(system *System) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _complexity := range system.Complexities {
-		UnstageBranch(stage, _complexity)
+		stage.UnstageBranch(_complexity)
 	}
 	for _, _performance := range system.Performances {
-		UnstageBranch(stage, _performance)
+		stage.UnstageBranch(_performance)
 	}
 	for _, _effort := range system.Efforts {
-		UnstageBranch(stage, _effort)
+		stage.UnstageBranch(_effort)
 	}
 	for _, _system := range system.SubSystems {
-		UnstageBranch(stage, _system)
+		stage.UnstageBranch(_system)
 	}
 	for _, _diagramflossequation := range system.DiagramFlossEquations {
-		UnstageBranch(stage, _diagramflossequation)
+		stage.UnstageBranch(_diagramflossequation)
 	}
 	for _, _diagramflossequation := range system.DiagramFlossEquationsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _diagramflossequation)
+		stage.UnstageBranch(_diagramflossequation)
 	}
 	for _, _complexity := range system.ComplexitysWhoseNodeIsExpanded {
-		UnstageBranch(stage, _complexity)
+		stage.UnstageBranch(_complexity)
 	}
 	for _, _performance := range system.PerformancesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _performance)
+		stage.UnstageBranch(_performance)
 	}
 	for _, _effort := range system.EffortsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _effort)
+		stage.UnstageBranch(_effort)
 	}
 
 }
@@ -1997,7 +1942,7 @@ func (compareanalysis *CompareAnalysis) GongDiff(stage *Stage, compareanalysisOt
 		}
 	}
 	if DiagramFlossEquationsDifferent {
-		ops := Diff(stage, compareanalysis, compareanalysisOther, "DiagramFlossEquations", compareanalysisOther.DiagramFlossEquations, compareanalysis.DiagramFlossEquations)
+		ops := stage.Diff(compareanalysis, compareanalysisOther, "DiagramFlossEquations", compareanalysisOther.DiagramFlossEquations, compareanalysis.DiagramFlossEquations)
 		diffs = append(diffs, ops)
 	}
 	DiagramFlossEquationsWhoseNodeIsExpandedDifferent := false
@@ -2018,7 +1963,7 @@ func (compareanalysis *CompareAnalysis) GongDiff(stage *Stage, compareanalysisOt
 		}
 	}
 	if DiagramFlossEquationsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, compareanalysis, compareanalysisOther, "DiagramFlossEquationsWhoseNodeIsExpanded", compareanalysisOther.DiagramFlossEquationsWhoseNodeIsExpanded, compareanalysis.DiagramFlossEquationsWhoseNodeIsExpanded)
+		ops := stage.Diff(compareanalysis, compareanalysisOther, "DiagramFlossEquationsWhoseNodeIsExpanded", compareanalysisOther.DiagramFlossEquationsWhoseNodeIsExpanded, compareanalysis.DiagramFlossEquationsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if compareanalysis.ComputedPrefix != compareanalysisOther.ComputedPrefix {
@@ -2130,7 +2075,7 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 		}
 	}
 	if Note_ShapesDifferent {
-		ops := Diff(stage, diagramflossequation, diagramflossequationOther, "Note_Shapes", diagramflossequationOther.Note_Shapes, diagramflossequation.Note_Shapes)
+		ops := stage.Diff(diagramflossequation, diagramflossequationOther, "Note_Shapes", diagramflossequationOther.Note_Shapes, diagramflossequation.Note_Shapes)
 		diffs = append(diffs, ops)
 	}
 	NoteComplexityShapesDifferent := false
@@ -2151,7 +2096,7 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 		}
 	}
 	if NoteComplexityShapesDifferent {
-		ops := Diff(stage, diagramflossequation, diagramflossequationOther, "NoteComplexityShapes", diagramflossequationOther.NoteComplexityShapes, diagramflossequation.NoteComplexityShapes)
+		ops := stage.Diff(diagramflossequation, diagramflossequationOther, "NoteComplexityShapes", diagramflossequationOther.NoteComplexityShapes, diagramflossequation.NoteComplexityShapes)
 		diffs = append(diffs, ops)
 	}
 	NotePerformanceShapesDifferent := false
@@ -2172,7 +2117,7 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 		}
 	}
 	if NotePerformanceShapesDifferent {
-		ops := Diff(stage, diagramflossequation, diagramflossequationOther, "NotePerformanceShapes", diagramflossequationOther.NotePerformanceShapes, diagramflossequation.NotePerformanceShapes)
+		ops := stage.Diff(diagramflossequation, diagramflossequationOther, "NotePerformanceShapes", diagramflossequationOther.NotePerformanceShapes, diagramflossequation.NotePerformanceShapes)
 		diffs = append(diffs, ops)
 	}
 	NoteEffortShapesDifferent := false
@@ -2193,7 +2138,7 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 		}
 	}
 	if NoteEffortShapesDifferent {
-		ops := Diff(stage, diagramflossequation, diagramflossequationOther, "NoteEffortShapes", diagramflossequationOther.NoteEffortShapes, diagramflossequation.NoteEffortShapes)
+		ops := stage.Diff(diagramflossequation, diagramflossequationOther, "NoteEffortShapes", diagramflossequationOther.NoteEffortShapes, diagramflossequation.NoteEffortShapes)
 		diffs = append(diffs, ops)
 	}
 	if diagramflossequation.IsNotesNodeExpanded != diagramflossequationOther.IsNotesNodeExpanded {
@@ -2217,7 +2162,7 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 		}
 	}
 	if NotesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramflossequation, diagramflossequationOther, "NotesWhoseNodeIsExpanded", diagramflossequationOther.NotesWhoseNodeIsExpanded, diagramflossequation.NotesWhoseNodeIsExpanded)
+		ops := stage.Diff(diagramflossequation, diagramflossequationOther, "NotesWhoseNodeIsExpanded", diagramflossequationOther.NotesWhoseNodeIsExpanded, diagramflossequation.NotesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagramflossequation.IsComplexitysNodeExpanded != diagramflossequationOther.IsComplexitysNodeExpanded {
@@ -2241,7 +2186,7 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 		}
 	}
 	if ComplexitysWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramflossequation, diagramflossequationOther, "ComplexitysWhoseNodeIsExpanded", diagramflossequationOther.ComplexitysWhoseNodeIsExpanded, diagramflossequation.ComplexitysWhoseNodeIsExpanded)
+		ops := stage.Diff(diagramflossequation, diagramflossequationOther, "ComplexitysWhoseNodeIsExpanded", diagramflossequationOther.ComplexitysWhoseNodeIsExpanded, diagramflossequation.ComplexitysWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagramflossequation.IsPerformancesNodeExpanded != diagramflossequationOther.IsPerformancesNodeExpanded {
@@ -2265,7 +2210,7 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 		}
 	}
 	if PerformancesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramflossequation, diagramflossequationOther, "PerformancesWhoseNodeIsExpanded", diagramflossequationOther.PerformancesWhoseNodeIsExpanded, diagramflossequation.PerformancesWhoseNodeIsExpanded)
+		ops := stage.Diff(diagramflossequation, diagramflossequationOther, "PerformancesWhoseNodeIsExpanded", diagramflossequationOther.PerformancesWhoseNodeIsExpanded, diagramflossequation.PerformancesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagramflossequation.IsEffortsNodeExpanded != diagramflossequationOther.IsEffortsNodeExpanded {
@@ -2289,7 +2234,7 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 		}
 	}
 	if EffortsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagramflossequation, diagramflossequationOther, "EffortsWhoseNodeIsExpanded", diagramflossequationOther.EffortsWhoseNodeIsExpanded, diagramflossequation.EffortsWhoseNodeIsExpanded)
+		ops := stage.Diff(diagramflossequation, diagramflossequationOther, "EffortsWhoseNodeIsExpanded", diagramflossequationOther.EffortsWhoseNodeIsExpanded, diagramflossequation.EffortsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 
@@ -2353,7 +2298,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if SubLibrariesDifferent {
-		ops := Diff(stage, library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
+		ops := stage.Diff(library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
 		diffs = append(diffs, ops)
 	}
 	RootSystemsDifferent := false
@@ -2374,7 +2319,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootSystemsDifferent {
-		ops := Diff(stage, library, libraryOther, "RootSystems", libraryOther.RootSystems, library.RootSystems)
+		ops := stage.Diff(library, libraryOther, "RootSystems", libraryOther.RootSystems, library.RootSystems)
 		diffs = append(diffs, ops)
 	}
 	RootComplexitysDifferent := false
@@ -2395,7 +2340,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootComplexitysDifferent {
-		ops := Diff(stage, library, libraryOther, "RootComplexitys", libraryOther.RootComplexitys, library.RootComplexitys)
+		ops := stage.Diff(library, libraryOther, "RootComplexitys", libraryOther.RootComplexitys, library.RootComplexitys)
 		diffs = append(diffs, ops)
 	}
 	RootPerformancesDifferent := false
@@ -2416,7 +2361,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootPerformancesDifferent {
-		ops := Diff(stage, library, libraryOther, "RootPerformances", libraryOther.RootPerformances, library.RootPerformances)
+		ops := stage.Diff(library, libraryOther, "RootPerformances", libraryOther.RootPerformances, library.RootPerformances)
 		diffs = append(diffs, ops)
 	}
 	RootEffortsDifferent := false
@@ -2437,7 +2382,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootEffortsDifferent {
-		ops := Diff(stage, library, libraryOther, "RootEfforts", libraryOther.RootEfforts, library.RootEfforts)
+		ops := stage.Diff(library, libraryOther, "RootEfforts", libraryOther.RootEfforts, library.RootEfforts)
 		diffs = append(diffs, ops)
 	}
 	RootCompareAnalysisDifferent := false
@@ -2458,7 +2403,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootCompareAnalysisDifferent {
-		ops := Diff(stage, library, libraryOther, "RootCompareAnalysis", libraryOther.RootCompareAnalysis, library.RootCompareAnalysis)
+		ops := stage.Diff(library, libraryOther, "RootCompareAnalysis", libraryOther.RootCompareAnalysis, library.RootCompareAnalysis)
 		diffs = append(diffs, ops)
 	}
 	RootNotesDifferent := false
@@ -2479,7 +2424,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootNotesDifferent {
-		ops := Diff(stage, library, libraryOther, "RootNotes", libraryOther.RootNotes, library.RootNotes)
+		ops := stage.Diff(library, libraryOther, "RootNotes", libraryOther.RootNotes, library.RootNotes)
 		diffs = append(diffs, ops)
 	}
 	if library.IsRootLibrary != libraryOther.IsRootLibrary {
@@ -2506,7 +2451,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if SubLibrariesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "SubLibrariesWhoseNodeIsExpanded", libraryOther.SubLibrariesWhoseNodeIsExpanded, library.SubLibrariesWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "SubLibrariesWhoseNodeIsExpanded", libraryOther.SubLibrariesWhoseNodeIsExpanded, library.SubLibrariesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
@@ -2536,7 +2481,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if SystemsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "SystemsWhoseNodeIsExpanded", libraryOther.SystemsWhoseNodeIsExpanded, library.SystemsWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "SystemsWhoseNodeIsExpanded", libraryOther.SystemsWhoseNodeIsExpanded, library.SystemsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if library.IsComplexitysNodeExpanded != libraryOther.IsComplexitysNodeExpanded {
@@ -2560,7 +2505,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if ComplexitysWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "ComplexitysWhoseNodeIsExpanded", libraryOther.ComplexitysWhoseNodeIsExpanded, library.ComplexitysWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "ComplexitysWhoseNodeIsExpanded", libraryOther.ComplexitysWhoseNodeIsExpanded, library.ComplexitysWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if library.IsPerformancesNodeExpanded != libraryOther.IsPerformancesNodeExpanded {
@@ -2584,7 +2529,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if PerformancesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "PerformancesWhoseNodeIsExpanded", libraryOther.PerformancesWhoseNodeIsExpanded, library.PerformancesWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "PerformancesWhoseNodeIsExpanded", libraryOther.PerformancesWhoseNodeIsExpanded, library.PerformancesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if library.IsEffortsNodeExpanded != libraryOther.IsEffortsNodeExpanded {
@@ -2608,7 +2553,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if EffortsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "EffortsWhoseNodeIsExpanded", libraryOther.EffortsWhoseNodeIsExpanded, library.EffortsWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "EffortsWhoseNodeIsExpanded", libraryOther.EffortsWhoseNodeIsExpanded, library.EffortsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if library.IsCompareAnalysisNodeExpanded != libraryOther.IsCompareAnalysisNodeExpanded {
@@ -2632,7 +2577,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if CompareAnalysisWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "CompareAnalysisWhoseNodeIsExpanded", libraryOther.CompareAnalysisWhoseNodeIsExpanded, library.CompareAnalysisWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "CompareAnalysisWhoseNodeIsExpanded", libraryOther.CompareAnalysisWhoseNodeIsExpanded, library.CompareAnalysisWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if library.IsNotesNodeExpanded != libraryOther.IsNotesNodeExpanded {
@@ -2656,7 +2601,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if NotesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, library, libraryOther, "NotesWhoseNodeIsExpanded", libraryOther.NotesWhoseNodeIsExpanded, library.NotesWhoseNodeIsExpanded)
+		ops := stage.Diff(library, libraryOther, "NotesWhoseNodeIsExpanded", libraryOther.NotesWhoseNodeIsExpanded, library.NotesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if library.IsExpandedTmp != libraryOther.IsExpandedTmp {
@@ -2694,7 +2639,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if ComplexitiesDifferent {
-		ops := Diff(stage, note, noteOther, "Complexities", noteOther.Complexities, note.Complexities)
+		ops := stage.Diff(note, noteOther, "Complexities", noteOther.Complexities, note.Complexities)
 		diffs = append(diffs, ops)
 	}
 	PerformancesDifferent := false
@@ -2715,7 +2660,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if PerformancesDifferent {
-		ops := Diff(stage, note, noteOther, "Performances", noteOther.Performances, note.Performances)
+		ops := stage.Diff(note, noteOther, "Performances", noteOther.Performances, note.Performances)
 		diffs = append(diffs, ops)
 	}
 	EffortsDifferent := false
@@ -2736,7 +2681,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if EffortsDifferent {
-		ops := Diff(stage, note, noteOther, "Efforts", noteOther.Efforts, note.Efforts)
+		ops := stage.Diff(note, noteOther, "Efforts", noteOther.Efforts, note.Efforts)
 		diffs = append(diffs, ops)
 	}
 	if note.ComputedPrefix != noteOther.ComputedPrefix {
@@ -2971,7 +2916,7 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 		}
 	}
 	if ComplexitiesDifferent {
-		ops := Diff(stage, system, systemOther, "Complexities", systemOther.Complexities, system.Complexities)
+		ops := stage.Diff(system, systemOther, "Complexities", systemOther.Complexities, system.Complexities)
 		diffs = append(diffs, ops)
 	}
 	PerformancesDifferent := false
@@ -2992,7 +2937,7 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 		}
 	}
 	if PerformancesDifferent {
-		ops := Diff(stage, system, systemOther, "Performances", systemOther.Performances, system.Performances)
+		ops := stage.Diff(system, systemOther, "Performances", systemOther.Performances, system.Performances)
 		diffs = append(diffs, ops)
 	}
 	EffortsDifferent := false
@@ -3013,7 +2958,7 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 		}
 	}
 	if EffortsDifferent {
-		ops := Diff(stage, system, systemOther, "Efforts", systemOther.Efforts, system.Efforts)
+		ops := stage.Diff(system, systemOther, "Efforts", systemOther.Efforts, system.Efforts)
 		diffs = append(diffs, ops)
 	}
 	SubSystemsDifferent := false
@@ -3034,7 +2979,7 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 		}
 	}
 	if SubSystemsDifferent {
-		ops := Diff(stage, system, systemOther, "SubSystems", systemOther.SubSystems, system.SubSystems)
+		ops := stage.Diff(system, systemOther, "SubSystems", systemOther.SubSystems, system.SubSystems)
 		diffs = append(diffs, ops)
 	}
 	if system.AreCPEsCompoundedFromSubSystems != systemOther.AreCPEsCompoundedFromSubSystems {
@@ -3070,7 +3015,7 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 		}
 	}
 	if DiagramFlossEquationsDifferent {
-		ops := Diff(stage, system, systemOther, "DiagramFlossEquations", systemOther.DiagramFlossEquations, system.DiagramFlossEquations)
+		ops := stage.Diff(system, systemOther, "DiagramFlossEquations", systemOther.DiagramFlossEquations, system.DiagramFlossEquations)
 		diffs = append(diffs, ops)
 	}
 	DiagramFlossEquationsWhoseNodeIsExpandedDifferent := false
@@ -3091,7 +3036,7 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 		}
 	}
 	if DiagramFlossEquationsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, system, systemOther, "DiagramFlossEquationsWhoseNodeIsExpanded", systemOther.DiagramFlossEquationsWhoseNodeIsExpanded, system.DiagramFlossEquationsWhoseNodeIsExpanded)
+		ops := stage.Diff(system, systemOther, "DiagramFlossEquationsWhoseNodeIsExpanded", systemOther.DiagramFlossEquationsWhoseNodeIsExpanded, system.DiagramFlossEquationsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if system.IsSubSystemNodeExpanded != systemOther.IsSubSystemNodeExpanded {
@@ -3118,7 +3063,7 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 		}
 	}
 	if ComplexitysWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, system, systemOther, "ComplexitysWhoseNodeIsExpanded", systemOther.ComplexitysWhoseNodeIsExpanded, system.ComplexitysWhoseNodeIsExpanded)
+		ops := stage.Diff(system, systemOther, "ComplexitysWhoseNodeIsExpanded", systemOther.ComplexitysWhoseNodeIsExpanded, system.ComplexitysWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if system.IsPerformancesNodeExpanded != systemOther.IsPerformancesNodeExpanded {
@@ -3142,7 +3087,7 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 		}
 	}
 	if PerformancesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, system, systemOther, "PerformancesWhoseNodeIsExpanded", systemOther.PerformancesWhoseNodeIsExpanded, system.PerformancesWhoseNodeIsExpanded)
+		ops := stage.Diff(system, systemOther, "PerformancesWhoseNodeIsExpanded", systemOther.PerformancesWhoseNodeIsExpanded, system.PerformancesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if system.IsEffortsNodeExpanded != systemOther.IsEffortsNodeExpanded {
@@ -3166,7 +3111,7 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 		}
 	}
 	if EffortsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, system, systemOther, "EffortsWhoseNodeIsExpanded", systemOther.EffortsWhoseNodeIsExpanded, system.EffortsWhoseNodeIsExpanded)
+		ops := stage.Diff(system, systemOther, "EffortsWhoseNodeIsExpanded", systemOther.EffortsWhoseNodeIsExpanded, system.EffortsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 
@@ -3247,9 +3192,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -42,17 +37,12 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 	return
 }
 
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
-}
-
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Button
 func (button *Button) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &button.SVGIcon) || modified
+	modified = stage.CleanPointer(&button.SVGIcon) || modified
 	return
 }
 
@@ -60,11 +50,11 @@ func (button *Button) GongClean(stage *Stage) (modified bool) {
 func (cell *Cell) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &cell.CellString) || modified
-	modified = GongCleanPointer(stage, &cell.CellFloat64) || modified
-	modified = GongCleanPointer(stage, &cell.CellInt) || modified
-	modified = GongCleanPointer(stage, &cell.CellBool) || modified
-	modified = GongCleanPointer(stage, &cell.CellIcon) || modified
+	modified = stage.CleanPointer(&cell.CellString) || modified
+	modified = stage.CleanPointer(&cell.CellFloat64) || modified
+	modified = stage.CleanPointer(&cell.CellInt) || modified
+	modified = stage.CleanPointer(&cell.CellBool) || modified
+	modified = stage.CleanPointer(&cell.CellIcon) || modified
 	return
 }
 
@@ -113,7 +103,7 @@ func (displayedcolumn *DisplayedColumn) GongClean(stage *Stage) (modified bool) 
 // Clean garbage collect unstaged instances that are referenced by Row
 func (row *Row) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &row.Cells) || modified
+	modified = stage.CleanSlice(&row.Cells) || modified
 	// insertion point per field
 	return
 }
@@ -128,10 +118,10 @@ func (svgicon *SVGIcon) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Table
 func (table *Table) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &table.DisplayedColumns) || modified
-	modified = GongCleanSlice(stage, &table.Rows) || modified
-	modified = GongCleanSlice(stage, &table.RowsSelectedForBulkDelete) || modified
-	modified = GongCleanSlice(stage, &table.Buttons) || modified
+	modified = stage.CleanSlice(&table.DisplayedColumns) || modified
+	modified = stage.CleanSlice(&table.Rows) || modified
+	modified = stage.CleanSlice(&table.RowsSelectedForBulkDelete) || modified
+	modified = stage.CleanSlice(&table.Buttons) || modified
 	// insertion point per field
 	return
 }

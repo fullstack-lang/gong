@@ -80,25 +80,25 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 // insertion point per named struct
 func (booktype *BookType) GongCopy() GongstructIF {
 	newInstance := new(BookType)
-	booktype.CopyBasicFields(newInstance)
+	booktype.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (books *Books) GongCopy() GongstructIF {
 	newInstance := new(Books)
-	books.CopyBasicFields(newInstance)
+	books.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (credit *Credit) GongCopy() GongstructIF {
 	newInstance := new(Credit)
-	credit.CopyBasicFields(newInstance)
+	credit.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (link *Link) GongCopy() GongstructIF {
 	newInstance := new(Link)
-	link.CopyBasicFields(newInstance)
+	link.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -109,7 +109,7 @@ func (booktype *BookType) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(booktype), uint64(stage.GetOrder(booktype)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(booktype), uint64(stage.GetOrder(booktype)))
 	return
 }
 
@@ -119,7 +119,7 @@ func (books *Books) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(books), uint64(stage.GetOrder(books)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(books), uint64(stage.GetOrder(books)))
 	return
 }
 
@@ -129,7 +129,7 @@ func (credit *Credit) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(credit), uint64(stage.GetOrder(credit)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(credit), uint64(stage.GetOrder(credit)))
 	return
 }
 
@@ -139,7 +139,7 @@ func (link *Link) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(link), uint64(stage.GetOrder(link)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(link), uint64(stage.GetOrder(link)))
 	return
 }
 
@@ -583,7 +583,7 @@ func (booktype *BookType) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", booktype.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "BookType")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(booktype.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(booktype.Name))
 	return
 }
 
@@ -591,7 +591,7 @@ func (books *Books) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", books.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Books")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(books.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(books.Name))
 	return
 }
 
@@ -599,7 +599,7 @@ func (credit *Credit) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", credit.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Credit")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(credit.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(credit.Name))
 	return
 }
 
@@ -607,7 +607,7 @@ func (link *Link) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", link.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Link")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.Name))
 	return
 }
 
@@ -636,10 +636,10 @@ func (link *Link) GongMarshallUnstaging(stage *Stage) (decl string) {
 	return
 }
 
-func IntToLetters(number int32) (letters string) {
+func GongIntToLetters(number int32) (letters string) {
 	number--
 	if firstLetter := number / 26; firstLetter > 0 {
-		letters += IntToLetters(firstLetter)
+		letters += GongIntToLetters(firstLetter)
 		letters += string('A' + number%26)
 	} else {
 		letters += string('A' + number)
@@ -648,8 +648,8 @@ func IntToLetters(number int32) (letters string) {
 	return
 }
 
-// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
-func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+// GongGenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 1. Create a deterministic hash from the inputs using SHA-256
 	h := sha256.New()
 

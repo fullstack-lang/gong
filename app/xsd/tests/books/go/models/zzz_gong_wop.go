@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type BookType_WOP struct {
@@ -29,7 +27,7 @@ type BookType_WOP struct {
 	Format string
 }
 
-func (from *BookType) CopyBasicFields(to *BookType) {
+func (from *BookType) GongCopyBasicFields(to *BookType) {
 	// insertion point
 	to.Name = from.Name
 	to.Edition = from.Edition
@@ -47,7 +45,7 @@ type Books_WOP struct {
 	Name string
 }
 
-func (from *Books) CopyBasicFields(to *Books) {
+func (from *Books) GongCopyBasicFields(to *Books) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -66,7 +64,7 @@ type Credit_WOP struct {
 	Credit_symbol string
 }
 
-func (from *Credit) CopyBasicFields(to *Credit) {
+func (from *Credit) GongCopyBasicFields(to *Credit) {
 	// insertion point
 	to.Name = from.Name
 	to.Page = from.Page
@@ -85,7 +83,7 @@ type Link_WOP struct {
 	EnclosedText string
 }
 
-func (from *Link) CopyBasicFields(to *Link) {
+func (from *Link) GongCopyBasicFields(to *Link) {
 	// insertion point
 	to.Name = from.Name
 	to.NameXSD = from.NameXSD

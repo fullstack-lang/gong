@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type ALTERNATIVE_ID_WOP struct {
@@ -17,7 +15,7 @@ type ALTERNATIVE_ID_WOP struct {
 	IDENTIFIER string
 }
 
-func (from *ALTERNATIVE_ID) CopyBasicFields(to *ALTERNATIVE_ID) {
+func (from *ALTERNATIVE_ID) GongCopyBasicFields(to *ALTERNATIVE_ID) {
 	// insertion point
 	to.Name = from.Name
 	to.IDENTIFIER = from.IDENTIFIER
@@ -39,7 +37,7 @@ type ATTRIBUTE_DEFINITION_BOOLEAN_WOP struct {
 	LONG_NAME string
 }
 
-func (from *ATTRIBUTE_DEFINITION_BOOLEAN) CopyBasicFields(to *ATTRIBUTE_DEFINITION_BOOLEAN) {
+func (from *ATTRIBUTE_DEFINITION_BOOLEAN) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_BOOLEAN) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -63,7 +61,7 @@ type ATTRIBUTE_DEFINITION_BOOLEAN_Rendering_WOP struct {
 	Rank int
 }
 
-func (from *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) CopyBasicFields(to *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) {
+func (from *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) {
 	// insertion point
 	to.Name = from.Name
 	to.ShowInTable = from.ShowInTable
@@ -88,7 +86,7 @@ type ATTRIBUTE_DEFINITION_DATE_WOP struct {
 	LONG_NAME string
 }
 
-func (from *ATTRIBUTE_DEFINITION_DATE) CopyBasicFields(to *ATTRIBUTE_DEFINITION_DATE) {
+func (from *ATTRIBUTE_DEFINITION_DATE) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_DATE) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -112,7 +110,7 @@ type ATTRIBUTE_DEFINITION_DATE_Rendering_WOP struct {
 	Rank int
 }
 
-func (from *ATTRIBUTE_DEFINITION_DATE_Rendering) CopyBasicFields(to *ATTRIBUTE_DEFINITION_DATE_Rendering) {
+func (from *ATTRIBUTE_DEFINITION_DATE_Rendering) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_DATE_Rendering) {
 	// insertion point
 	to.Name = from.Name
 	to.ShowInTable = from.ShowInTable
@@ -139,7 +137,7 @@ type ATTRIBUTE_DEFINITION_ENUMERATION_WOP struct {
 	MULTI_VALUED bool
 }
 
-func (from *ATTRIBUTE_DEFINITION_ENUMERATION) CopyBasicFields(to *ATTRIBUTE_DEFINITION_ENUMERATION) {
+func (from *ATTRIBUTE_DEFINITION_ENUMERATION) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_ENUMERATION) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -164,7 +162,7 @@ type ATTRIBUTE_DEFINITION_ENUMERATION_Rendering_WOP struct {
 	Rank int
 }
 
-func (from *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) CopyBasicFields(to *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) {
+func (from *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) {
 	// insertion point
 	to.Name = from.Name
 	to.ShowInTable = from.ShowInTable
@@ -189,7 +187,7 @@ type ATTRIBUTE_DEFINITION_INTEGER_WOP struct {
 	LONG_NAME string
 }
 
-func (from *ATTRIBUTE_DEFINITION_INTEGER) CopyBasicFields(to *ATTRIBUTE_DEFINITION_INTEGER) {
+func (from *ATTRIBUTE_DEFINITION_INTEGER) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_INTEGER) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -213,7 +211,7 @@ type ATTRIBUTE_DEFINITION_INTEGER_Rendering_WOP struct {
 	Rank int
 }
 
-func (from *ATTRIBUTE_DEFINITION_INTEGER_Rendering) CopyBasicFields(to *ATTRIBUTE_DEFINITION_INTEGER_Rendering) {
+func (from *ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_INTEGER_Rendering) {
 	// insertion point
 	to.Name = from.Name
 	to.ShowInTable = from.ShowInTable
@@ -238,7 +236,7 @@ type ATTRIBUTE_DEFINITION_REAL_WOP struct {
 	LONG_NAME string
 }
 
-func (from *ATTRIBUTE_DEFINITION_REAL) CopyBasicFields(to *ATTRIBUTE_DEFINITION_REAL) {
+func (from *ATTRIBUTE_DEFINITION_REAL) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_REAL) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -262,7 +260,7 @@ type ATTRIBUTE_DEFINITION_REAL_Rendering_WOP struct {
 	Rank int
 }
 
-func (from *ATTRIBUTE_DEFINITION_REAL_Rendering) CopyBasicFields(to *ATTRIBUTE_DEFINITION_REAL_Rendering) {
+func (from *ATTRIBUTE_DEFINITION_REAL_Rendering) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_REAL_Rendering) {
 	// insertion point
 	to.Name = from.Name
 	to.ShowInTable = from.ShowInTable
@@ -285,7 +283,7 @@ type ATTRIBUTE_DEFINITION_Rendering_WOP struct {
 	Rank int
 }
 
-func (from *ATTRIBUTE_DEFINITION_Rendering) CopyBasicFields(to *ATTRIBUTE_DEFINITION_Rendering) {
+func (from *ATTRIBUTE_DEFINITION_Rendering) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_Rendering) {
 	// insertion point
 	to.Name = from.Name
 	to.ShowInTable = from.ShowInTable
@@ -310,7 +308,7 @@ type ATTRIBUTE_DEFINITION_STRING_WOP struct {
 	LONG_NAME string
 }
 
-func (from *ATTRIBUTE_DEFINITION_STRING) CopyBasicFields(to *ATTRIBUTE_DEFINITION_STRING) {
+func (from *ATTRIBUTE_DEFINITION_STRING) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_STRING) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -334,7 +332,7 @@ type ATTRIBUTE_DEFINITION_STRING_Rendering_WOP struct {
 	Rank int
 }
 
-func (from *ATTRIBUTE_DEFINITION_STRING_Rendering) CopyBasicFields(to *ATTRIBUTE_DEFINITION_STRING_Rendering) {
+func (from *ATTRIBUTE_DEFINITION_STRING_Rendering) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_STRING_Rendering) {
 	// insertion point
 	to.Name = from.Name
 	to.ShowInTable = from.ShowInTable
@@ -359,7 +357,7 @@ type ATTRIBUTE_DEFINITION_XHTML_WOP struct {
 	LONG_NAME string
 }
 
-func (from *ATTRIBUTE_DEFINITION_XHTML) CopyBasicFields(to *ATTRIBUTE_DEFINITION_XHTML) {
+func (from *ATTRIBUTE_DEFINITION_XHTML) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_XHTML) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -383,7 +381,7 @@ type ATTRIBUTE_DEFINITION_XHTML_Rendering_WOP struct {
 	Rank int
 }
 
-func (from *ATTRIBUTE_DEFINITION_XHTML_Rendering) CopyBasicFields(to *ATTRIBUTE_DEFINITION_XHTML_Rendering) {
+func (from *ATTRIBUTE_DEFINITION_XHTML_Rendering) GongCopyBasicFields(to *ATTRIBUTE_DEFINITION_XHTML_Rendering) {
 	// insertion point
 	to.Name = from.Name
 	to.ShowInTable = from.ShowInTable
@@ -400,7 +398,7 @@ type ATTRIBUTE_VALUE_BOOLEAN_WOP struct {
 	THE_VALUE bool
 }
 
-func (from *ATTRIBUTE_VALUE_BOOLEAN) CopyBasicFields(to *ATTRIBUTE_VALUE_BOOLEAN) {
+func (from *ATTRIBUTE_VALUE_BOOLEAN) GongCopyBasicFields(to *ATTRIBUTE_VALUE_BOOLEAN) {
 	// insertion point
 	to.Name = from.Name
 	to.THE_VALUE = from.THE_VALUE
@@ -414,7 +412,7 @@ type ATTRIBUTE_VALUE_DATE_WOP struct {
 	THE_VALUE string
 }
 
-func (from *ATTRIBUTE_VALUE_DATE) CopyBasicFields(to *ATTRIBUTE_VALUE_DATE) {
+func (from *ATTRIBUTE_VALUE_DATE) GongCopyBasicFields(to *ATTRIBUTE_VALUE_DATE) {
 	// insertion point
 	to.Name = from.Name
 	to.THE_VALUE = from.THE_VALUE
@@ -426,7 +424,7 @@ type ATTRIBUTE_VALUE_ENUMERATION_WOP struct {
 	Name string
 }
 
-func (from *ATTRIBUTE_VALUE_ENUMERATION) CopyBasicFields(to *ATTRIBUTE_VALUE_ENUMERATION) {
+func (from *ATTRIBUTE_VALUE_ENUMERATION) GongCopyBasicFields(to *ATTRIBUTE_VALUE_ENUMERATION) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -439,7 +437,7 @@ type ATTRIBUTE_VALUE_INTEGER_WOP struct {
 	THE_VALUE int
 }
 
-func (from *ATTRIBUTE_VALUE_INTEGER) CopyBasicFields(to *ATTRIBUTE_VALUE_INTEGER) {
+func (from *ATTRIBUTE_VALUE_INTEGER) GongCopyBasicFields(to *ATTRIBUTE_VALUE_INTEGER) {
 	// insertion point
 	to.Name = from.Name
 	to.THE_VALUE = from.THE_VALUE
@@ -453,7 +451,7 @@ type ATTRIBUTE_VALUE_REAL_WOP struct {
 	THE_VALUE float64
 }
 
-func (from *ATTRIBUTE_VALUE_REAL) CopyBasicFields(to *ATTRIBUTE_VALUE_REAL) {
+func (from *ATTRIBUTE_VALUE_REAL) GongCopyBasicFields(to *ATTRIBUTE_VALUE_REAL) {
 	// insertion point
 	to.Name = from.Name
 	to.THE_VALUE = from.THE_VALUE
@@ -467,7 +465,7 @@ type ATTRIBUTE_VALUE_STRING_WOP struct {
 	THE_VALUE string
 }
 
-func (from *ATTRIBUTE_VALUE_STRING) CopyBasicFields(to *ATTRIBUTE_VALUE_STRING) {
+func (from *ATTRIBUTE_VALUE_STRING) GongCopyBasicFields(to *ATTRIBUTE_VALUE_STRING) {
 	// insertion point
 	to.Name = from.Name
 	to.THE_VALUE = from.THE_VALUE
@@ -481,7 +479,7 @@ type ATTRIBUTE_VALUE_XHTML_WOP struct {
 	IS_SIMPLIFIED bool
 }
 
-func (from *ATTRIBUTE_VALUE_XHTML) CopyBasicFields(to *ATTRIBUTE_VALUE_XHTML) {
+func (from *ATTRIBUTE_VALUE_XHTML) GongCopyBasicFields(to *ATTRIBUTE_VALUE_XHTML) {
 	// insertion point
 	to.Name = from.Name
 	to.IS_SIMPLIFIED = from.IS_SIMPLIFIED
@@ -493,7 +491,7 @@ type A_ALTERNATIVE_ID_WOP struct {
 	Name string
 }
 
-func (from *A_ALTERNATIVE_ID) CopyBasicFields(to *A_ALTERNATIVE_ID) {
+func (from *A_ALTERNATIVE_ID) GongCopyBasicFields(to *A_ALTERNATIVE_ID) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -506,7 +504,7 @@ type A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_WOP struct {
 	ATTRIBUTE_DEFINITION_BOOLEAN_REF string
 }
 
-func (from *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) CopyBasicFields(to *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) {
+func (from *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongCopyBasicFields(to *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.ATTRIBUTE_DEFINITION_BOOLEAN_REF = from.ATTRIBUTE_DEFINITION_BOOLEAN_REF
@@ -520,7 +518,7 @@ type A_ATTRIBUTE_DEFINITION_DATE_REF_WOP struct {
 	ATTRIBUTE_DEFINITION_DATE_REF string
 }
 
-func (from *A_ATTRIBUTE_DEFINITION_DATE_REF) CopyBasicFields(to *A_ATTRIBUTE_DEFINITION_DATE_REF) {
+func (from *A_ATTRIBUTE_DEFINITION_DATE_REF) GongCopyBasicFields(to *A_ATTRIBUTE_DEFINITION_DATE_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.ATTRIBUTE_DEFINITION_DATE_REF = from.ATTRIBUTE_DEFINITION_DATE_REF
@@ -534,7 +532,7 @@ type A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_WOP struct {
 	ATTRIBUTE_DEFINITION_ENUMERATION_REF string
 }
 
-func (from *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) CopyBasicFields(to *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) {
+func (from *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongCopyBasicFields(to *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.ATTRIBUTE_DEFINITION_ENUMERATION_REF = from.ATTRIBUTE_DEFINITION_ENUMERATION_REF
@@ -548,7 +546,7 @@ type A_ATTRIBUTE_DEFINITION_INTEGER_REF_WOP struct {
 	ATTRIBUTE_DEFINITION_INTEGER_REF string
 }
 
-func (from *A_ATTRIBUTE_DEFINITION_INTEGER_REF) CopyBasicFields(to *A_ATTRIBUTE_DEFINITION_INTEGER_REF) {
+func (from *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongCopyBasicFields(to *A_ATTRIBUTE_DEFINITION_INTEGER_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.ATTRIBUTE_DEFINITION_INTEGER_REF = from.ATTRIBUTE_DEFINITION_INTEGER_REF
@@ -562,7 +560,7 @@ type A_ATTRIBUTE_DEFINITION_REAL_REF_WOP struct {
 	ATTRIBUTE_DEFINITION_REAL_REF string
 }
 
-func (from *A_ATTRIBUTE_DEFINITION_REAL_REF) CopyBasicFields(to *A_ATTRIBUTE_DEFINITION_REAL_REF) {
+func (from *A_ATTRIBUTE_DEFINITION_REAL_REF) GongCopyBasicFields(to *A_ATTRIBUTE_DEFINITION_REAL_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.ATTRIBUTE_DEFINITION_REAL_REF = from.ATTRIBUTE_DEFINITION_REAL_REF
@@ -576,7 +574,7 @@ type A_ATTRIBUTE_DEFINITION_STRING_REF_WOP struct {
 	ATTRIBUTE_DEFINITION_STRING_REF string
 }
 
-func (from *A_ATTRIBUTE_DEFINITION_STRING_REF) CopyBasicFields(to *A_ATTRIBUTE_DEFINITION_STRING_REF) {
+func (from *A_ATTRIBUTE_DEFINITION_STRING_REF) GongCopyBasicFields(to *A_ATTRIBUTE_DEFINITION_STRING_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.ATTRIBUTE_DEFINITION_STRING_REF = from.ATTRIBUTE_DEFINITION_STRING_REF
@@ -590,7 +588,7 @@ type A_ATTRIBUTE_DEFINITION_XHTML_REF_WOP struct {
 	ATTRIBUTE_DEFINITION_XHTML_REF string
 }
 
-func (from *A_ATTRIBUTE_DEFINITION_XHTML_REF) CopyBasicFields(to *A_ATTRIBUTE_DEFINITION_XHTML_REF) {
+func (from *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongCopyBasicFields(to *A_ATTRIBUTE_DEFINITION_XHTML_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.ATTRIBUTE_DEFINITION_XHTML_REF = from.ATTRIBUTE_DEFINITION_XHTML_REF
@@ -602,7 +600,7 @@ type A_ATTRIBUTE_VALUE_BOOLEAN_WOP struct {
 	Name string
 }
 
-func (from *A_ATTRIBUTE_VALUE_BOOLEAN) CopyBasicFields(to *A_ATTRIBUTE_VALUE_BOOLEAN) {
+func (from *A_ATTRIBUTE_VALUE_BOOLEAN) GongCopyBasicFields(to *A_ATTRIBUTE_VALUE_BOOLEAN) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -613,7 +611,7 @@ type A_ATTRIBUTE_VALUE_DATE_WOP struct {
 	Name string
 }
 
-func (from *A_ATTRIBUTE_VALUE_DATE) CopyBasicFields(to *A_ATTRIBUTE_VALUE_DATE) {
+func (from *A_ATTRIBUTE_VALUE_DATE) GongCopyBasicFields(to *A_ATTRIBUTE_VALUE_DATE) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -624,7 +622,7 @@ type A_ATTRIBUTE_VALUE_ENUMERATION_WOP struct {
 	Name string
 }
 
-func (from *A_ATTRIBUTE_VALUE_ENUMERATION) CopyBasicFields(to *A_ATTRIBUTE_VALUE_ENUMERATION) {
+func (from *A_ATTRIBUTE_VALUE_ENUMERATION) GongCopyBasicFields(to *A_ATTRIBUTE_VALUE_ENUMERATION) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -635,7 +633,7 @@ type A_ATTRIBUTE_VALUE_INTEGER_WOP struct {
 	Name string
 }
 
-func (from *A_ATTRIBUTE_VALUE_INTEGER) CopyBasicFields(to *A_ATTRIBUTE_VALUE_INTEGER) {
+func (from *A_ATTRIBUTE_VALUE_INTEGER) GongCopyBasicFields(to *A_ATTRIBUTE_VALUE_INTEGER) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -646,7 +644,7 @@ type A_ATTRIBUTE_VALUE_REAL_WOP struct {
 	Name string
 }
 
-func (from *A_ATTRIBUTE_VALUE_REAL) CopyBasicFields(to *A_ATTRIBUTE_VALUE_REAL) {
+func (from *A_ATTRIBUTE_VALUE_REAL) GongCopyBasicFields(to *A_ATTRIBUTE_VALUE_REAL) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -657,7 +655,7 @@ type A_ATTRIBUTE_VALUE_STRING_WOP struct {
 	Name string
 }
 
-func (from *A_ATTRIBUTE_VALUE_STRING) CopyBasicFields(to *A_ATTRIBUTE_VALUE_STRING) {
+func (from *A_ATTRIBUTE_VALUE_STRING) GongCopyBasicFields(to *A_ATTRIBUTE_VALUE_STRING) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -668,7 +666,7 @@ type A_ATTRIBUTE_VALUE_XHTML_WOP struct {
 	Name string
 }
 
-func (from *A_ATTRIBUTE_VALUE_XHTML) CopyBasicFields(to *A_ATTRIBUTE_VALUE_XHTML) {
+func (from *A_ATTRIBUTE_VALUE_XHTML) GongCopyBasicFields(to *A_ATTRIBUTE_VALUE_XHTML) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -679,7 +677,7 @@ type A_ATTRIBUTE_VALUE_XHTML_1_WOP struct {
 	Name string
 }
 
-func (from *A_ATTRIBUTE_VALUE_XHTML_1) CopyBasicFields(to *A_ATTRIBUTE_VALUE_XHTML_1) {
+func (from *A_ATTRIBUTE_VALUE_XHTML_1) GongCopyBasicFields(to *A_ATTRIBUTE_VALUE_XHTML_1) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -690,7 +688,7 @@ type A_CHILDREN_WOP struct {
 	Name string
 }
 
-func (from *A_CHILDREN) CopyBasicFields(to *A_CHILDREN) {
+func (from *A_CHILDREN) GongCopyBasicFields(to *A_CHILDREN) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -701,7 +699,7 @@ type A_CORE_CONTENT_WOP struct {
 	Name string
 }
 
-func (from *A_CORE_CONTENT) CopyBasicFields(to *A_CORE_CONTENT) {
+func (from *A_CORE_CONTENT) GongCopyBasicFields(to *A_CORE_CONTENT) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -712,7 +710,7 @@ type A_DATATYPES_WOP struct {
 	Name string
 }
 
-func (from *A_DATATYPES) CopyBasicFields(to *A_DATATYPES) {
+func (from *A_DATATYPES) GongCopyBasicFields(to *A_DATATYPES) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -725,7 +723,7 @@ type A_DATATYPE_DEFINITION_BOOLEAN_REF_WOP struct {
 	DATATYPE_DEFINITION_BOOLEAN_REF string
 }
 
-func (from *A_DATATYPE_DEFINITION_BOOLEAN_REF) CopyBasicFields(to *A_DATATYPE_DEFINITION_BOOLEAN_REF) {
+func (from *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongCopyBasicFields(to *A_DATATYPE_DEFINITION_BOOLEAN_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.DATATYPE_DEFINITION_BOOLEAN_REF = from.DATATYPE_DEFINITION_BOOLEAN_REF
@@ -739,7 +737,7 @@ type A_DATATYPE_DEFINITION_DATE_REF_WOP struct {
 	DATATYPE_DEFINITION_DATE_REF string
 }
 
-func (from *A_DATATYPE_DEFINITION_DATE_REF) CopyBasicFields(to *A_DATATYPE_DEFINITION_DATE_REF) {
+func (from *A_DATATYPE_DEFINITION_DATE_REF) GongCopyBasicFields(to *A_DATATYPE_DEFINITION_DATE_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.DATATYPE_DEFINITION_DATE_REF = from.DATATYPE_DEFINITION_DATE_REF
@@ -753,7 +751,7 @@ type A_DATATYPE_DEFINITION_ENUMERATION_REF_WOP struct {
 	DATATYPE_DEFINITION_ENUMERATION_REF string
 }
 
-func (from *A_DATATYPE_DEFINITION_ENUMERATION_REF) CopyBasicFields(to *A_DATATYPE_DEFINITION_ENUMERATION_REF) {
+func (from *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongCopyBasicFields(to *A_DATATYPE_DEFINITION_ENUMERATION_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.DATATYPE_DEFINITION_ENUMERATION_REF = from.DATATYPE_DEFINITION_ENUMERATION_REF
@@ -767,7 +765,7 @@ type A_DATATYPE_DEFINITION_INTEGER_REF_WOP struct {
 	DATATYPE_DEFINITION_INTEGER_REF string
 }
 
-func (from *A_DATATYPE_DEFINITION_INTEGER_REF) CopyBasicFields(to *A_DATATYPE_DEFINITION_INTEGER_REF) {
+func (from *A_DATATYPE_DEFINITION_INTEGER_REF) GongCopyBasicFields(to *A_DATATYPE_DEFINITION_INTEGER_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.DATATYPE_DEFINITION_INTEGER_REF = from.DATATYPE_DEFINITION_INTEGER_REF
@@ -781,7 +779,7 @@ type A_DATATYPE_DEFINITION_REAL_REF_WOP struct {
 	DATATYPE_DEFINITION_REAL_REF string
 }
 
-func (from *A_DATATYPE_DEFINITION_REAL_REF) CopyBasicFields(to *A_DATATYPE_DEFINITION_REAL_REF) {
+func (from *A_DATATYPE_DEFINITION_REAL_REF) GongCopyBasicFields(to *A_DATATYPE_DEFINITION_REAL_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.DATATYPE_DEFINITION_REAL_REF = from.DATATYPE_DEFINITION_REAL_REF
@@ -795,7 +793,7 @@ type A_DATATYPE_DEFINITION_STRING_REF_WOP struct {
 	DATATYPE_DEFINITION_STRING_REF string
 }
 
-func (from *A_DATATYPE_DEFINITION_STRING_REF) CopyBasicFields(to *A_DATATYPE_DEFINITION_STRING_REF) {
+func (from *A_DATATYPE_DEFINITION_STRING_REF) GongCopyBasicFields(to *A_DATATYPE_DEFINITION_STRING_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.DATATYPE_DEFINITION_STRING_REF = from.DATATYPE_DEFINITION_STRING_REF
@@ -809,7 +807,7 @@ type A_DATATYPE_DEFINITION_XHTML_REF_WOP struct {
 	DATATYPE_DEFINITION_XHTML_REF string
 }
 
-func (from *A_DATATYPE_DEFINITION_XHTML_REF) CopyBasicFields(to *A_DATATYPE_DEFINITION_XHTML_REF) {
+func (from *A_DATATYPE_DEFINITION_XHTML_REF) GongCopyBasicFields(to *A_DATATYPE_DEFINITION_XHTML_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.DATATYPE_DEFINITION_XHTML_REF = from.DATATYPE_DEFINITION_XHTML_REF
@@ -835,7 +833,7 @@ type A_EDITABLE_ATTS_WOP struct {
 	ATTRIBUTE_DEFINITION_XHTML_REF string
 }
 
-func (from *A_EDITABLE_ATTS) CopyBasicFields(to *A_EDITABLE_ATTS) {
+func (from *A_EDITABLE_ATTS) GongCopyBasicFields(to *A_EDITABLE_ATTS) {
 	// insertion point
 	to.Name = from.Name
 	to.ATTRIBUTE_DEFINITION_BOOLEAN_REF = from.ATTRIBUTE_DEFINITION_BOOLEAN_REF
@@ -855,7 +853,7 @@ type A_ENUM_VALUE_REF_WOP struct {
 	ENUM_VALUE_REF string
 }
 
-func (from *A_ENUM_VALUE_REF) CopyBasicFields(to *A_ENUM_VALUE_REF) {
+func (from *A_ENUM_VALUE_REF) GongCopyBasicFields(to *A_ENUM_VALUE_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.ENUM_VALUE_REF = from.ENUM_VALUE_REF
@@ -869,7 +867,7 @@ type A_OBJECT_WOP struct {
 	SPEC_OBJECT_REF string
 }
 
-func (from *A_OBJECT) CopyBasicFields(to *A_OBJECT) {
+func (from *A_OBJECT) GongCopyBasicFields(to *A_OBJECT) {
 	// insertion point
 	to.Name = from.Name
 	to.SPEC_OBJECT_REF = from.SPEC_OBJECT_REF
@@ -881,7 +879,7 @@ type A_PROPERTIES_WOP struct {
 	Name string
 }
 
-func (from *A_PROPERTIES) CopyBasicFields(to *A_PROPERTIES) {
+func (from *A_PROPERTIES) GongCopyBasicFields(to *A_PROPERTIES) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -894,7 +892,7 @@ type A_RELATION_GROUP_TYPE_REF_WOP struct {
 	RELATION_GROUP_TYPE_REF string
 }
 
-func (from *A_RELATION_GROUP_TYPE_REF) CopyBasicFields(to *A_RELATION_GROUP_TYPE_REF) {
+func (from *A_RELATION_GROUP_TYPE_REF) GongCopyBasicFields(to *A_RELATION_GROUP_TYPE_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.RELATION_GROUP_TYPE_REF = from.RELATION_GROUP_TYPE_REF
@@ -908,7 +906,7 @@ type A_SOURCE_1_WOP struct {
 	SPEC_OBJECT_REF string
 }
 
-func (from *A_SOURCE_1) CopyBasicFields(to *A_SOURCE_1) {
+func (from *A_SOURCE_1) GongCopyBasicFields(to *A_SOURCE_1) {
 	// insertion point
 	to.Name = from.Name
 	to.SPEC_OBJECT_REF = from.SPEC_OBJECT_REF
@@ -922,7 +920,7 @@ type A_SOURCE_SPECIFICATION_1_WOP struct {
 	SPECIFICATION_REF Enum_GLOBAL_REF
 }
 
-func (from *A_SOURCE_SPECIFICATION_1) CopyBasicFields(to *A_SOURCE_SPECIFICATION_1) {
+func (from *A_SOURCE_SPECIFICATION_1) GongCopyBasicFields(to *A_SOURCE_SPECIFICATION_1) {
 	// insertion point
 	to.Name = from.Name
 	to.SPECIFICATION_REF = from.SPECIFICATION_REF
@@ -934,7 +932,7 @@ type A_SPECIFICATIONS_WOP struct {
 	Name string
 }
 
-func (from *A_SPECIFICATIONS) CopyBasicFields(to *A_SPECIFICATIONS) {
+func (from *A_SPECIFICATIONS) GongCopyBasicFields(to *A_SPECIFICATIONS) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -947,7 +945,7 @@ type A_SPECIFICATION_TYPE_REF_WOP struct {
 	SPECIFICATION_TYPE_REF string
 }
 
-func (from *A_SPECIFICATION_TYPE_REF) CopyBasicFields(to *A_SPECIFICATION_TYPE_REF) {
+func (from *A_SPECIFICATION_TYPE_REF) GongCopyBasicFields(to *A_SPECIFICATION_TYPE_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.SPECIFICATION_TYPE_REF = from.SPECIFICATION_TYPE_REF
@@ -959,7 +957,7 @@ type A_SPECIFIED_VALUES_WOP struct {
 	Name string
 }
 
-func (from *A_SPECIFIED_VALUES) CopyBasicFields(to *A_SPECIFIED_VALUES) {
+func (from *A_SPECIFIED_VALUES) GongCopyBasicFields(to *A_SPECIFIED_VALUES) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -970,7 +968,7 @@ type A_SPEC_ATTRIBUTES_WOP struct {
 	Name string
 }
 
-func (from *A_SPEC_ATTRIBUTES) CopyBasicFields(to *A_SPEC_ATTRIBUTES) {
+func (from *A_SPEC_ATTRIBUTES) GongCopyBasicFields(to *A_SPEC_ATTRIBUTES) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -981,7 +979,7 @@ type A_SPEC_OBJECTS_WOP struct {
 	Name string
 }
 
-func (from *A_SPEC_OBJECTS) CopyBasicFields(to *A_SPEC_OBJECTS) {
+func (from *A_SPEC_OBJECTS) GongCopyBasicFields(to *A_SPEC_OBJECTS) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -994,7 +992,7 @@ type A_SPEC_OBJECT_TYPE_REF_WOP struct {
 	SPEC_OBJECT_TYPE_REF string
 }
 
-func (from *A_SPEC_OBJECT_TYPE_REF) CopyBasicFields(to *A_SPEC_OBJECT_TYPE_REF) {
+func (from *A_SPEC_OBJECT_TYPE_REF) GongCopyBasicFields(to *A_SPEC_OBJECT_TYPE_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.SPEC_OBJECT_TYPE_REF = from.SPEC_OBJECT_TYPE_REF
@@ -1006,7 +1004,7 @@ type A_SPEC_RELATIONS_WOP struct {
 	Name string
 }
 
-func (from *A_SPEC_RELATIONS) CopyBasicFields(to *A_SPEC_RELATIONS) {
+func (from *A_SPEC_RELATIONS) GongCopyBasicFields(to *A_SPEC_RELATIONS) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -1017,7 +1015,7 @@ type A_SPEC_RELATION_GROUPS_WOP struct {
 	Name string
 }
 
-func (from *A_SPEC_RELATION_GROUPS) CopyBasicFields(to *A_SPEC_RELATION_GROUPS) {
+func (from *A_SPEC_RELATION_GROUPS) GongCopyBasicFields(to *A_SPEC_RELATION_GROUPS) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -1030,7 +1028,7 @@ type A_SPEC_RELATION_REF_WOP struct {
 	SPEC_RELATION_REF string
 }
 
-func (from *A_SPEC_RELATION_REF) CopyBasicFields(to *A_SPEC_RELATION_REF) {
+func (from *A_SPEC_RELATION_REF) GongCopyBasicFields(to *A_SPEC_RELATION_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.SPEC_RELATION_REF = from.SPEC_RELATION_REF
@@ -1044,7 +1042,7 @@ type A_SPEC_RELATION_TYPE_REF_WOP struct {
 	SPEC_RELATION_TYPE_REF string
 }
 
-func (from *A_SPEC_RELATION_TYPE_REF) CopyBasicFields(to *A_SPEC_RELATION_TYPE_REF) {
+func (from *A_SPEC_RELATION_TYPE_REF) GongCopyBasicFields(to *A_SPEC_RELATION_TYPE_REF) {
 	// insertion point
 	to.Name = from.Name
 	to.SPEC_RELATION_TYPE_REF = from.SPEC_RELATION_TYPE_REF
@@ -1056,7 +1054,7 @@ type A_SPEC_TYPES_WOP struct {
 	Name string
 }
 
-func (from *A_SPEC_TYPES) CopyBasicFields(to *A_SPEC_TYPES) {
+func (from *A_SPEC_TYPES) GongCopyBasicFields(to *A_SPEC_TYPES) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -1067,7 +1065,7 @@ type A_THE_HEADER_WOP struct {
 	Name string
 }
 
-func (from *A_THE_HEADER) CopyBasicFields(to *A_THE_HEADER) {
+func (from *A_THE_HEADER) GongCopyBasicFields(to *A_THE_HEADER) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -1078,7 +1076,7 @@ type A_TOOL_EXTENSIONS_WOP struct {
 	Name string
 }
 
-func (from *A_TOOL_EXTENSIONS) CopyBasicFields(to *A_TOOL_EXTENSIONS) {
+func (from *A_TOOL_EXTENSIONS) GongCopyBasicFields(to *A_TOOL_EXTENSIONS) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -1097,7 +1095,7 @@ type DATATYPE_DEFINITION_BOOLEAN_WOP struct {
 	LONG_NAME string
 }
 
-func (from *DATATYPE_DEFINITION_BOOLEAN) CopyBasicFields(to *DATATYPE_DEFINITION_BOOLEAN) {
+func (from *DATATYPE_DEFINITION_BOOLEAN) GongCopyBasicFields(to *DATATYPE_DEFINITION_BOOLEAN) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1120,7 +1118,7 @@ type DATATYPE_DEFINITION_DATE_WOP struct {
 	LONG_NAME string
 }
 
-func (from *DATATYPE_DEFINITION_DATE) CopyBasicFields(to *DATATYPE_DEFINITION_DATE) {
+func (from *DATATYPE_DEFINITION_DATE) GongCopyBasicFields(to *DATATYPE_DEFINITION_DATE) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1143,7 +1141,7 @@ type DATATYPE_DEFINITION_ENUMERATION_WOP struct {
 	LONG_NAME string
 }
 
-func (from *DATATYPE_DEFINITION_ENUMERATION) CopyBasicFields(to *DATATYPE_DEFINITION_ENUMERATION) {
+func (from *DATATYPE_DEFINITION_ENUMERATION) GongCopyBasicFields(to *DATATYPE_DEFINITION_ENUMERATION) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1170,7 +1168,7 @@ type DATATYPE_DEFINITION_INTEGER_WOP struct {
 	MIN int
 }
 
-func (from *DATATYPE_DEFINITION_INTEGER) CopyBasicFields(to *DATATYPE_DEFINITION_INTEGER) {
+func (from *DATATYPE_DEFINITION_INTEGER) GongCopyBasicFields(to *DATATYPE_DEFINITION_INTEGER) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1201,7 +1199,7 @@ type DATATYPE_DEFINITION_REAL_WOP struct {
 	MIN float64
 }
 
-func (from *DATATYPE_DEFINITION_REAL) CopyBasicFields(to *DATATYPE_DEFINITION_REAL) {
+func (from *DATATYPE_DEFINITION_REAL) GongCopyBasicFields(to *DATATYPE_DEFINITION_REAL) {
 	// insertion point
 	to.Name = from.Name
 	to.ACCURACY = from.ACCURACY
@@ -1229,7 +1227,7 @@ type DATATYPE_DEFINITION_STRING_WOP struct {
 	MAX_LENGTH int
 }
 
-func (from *DATATYPE_DEFINITION_STRING) CopyBasicFields(to *DATATYPE_DEFINITION_STRING) {
+func (from *DATATYPE_DEFINITION_STRING) GongCopyBasicFields(to *DATATYPE_DEFINITION_STRING) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1253,7 +1251,7 @@ type DATATYPE_DEFINITION_XHTML_WOP struct {
 	LONG_NAME string
 }
 
-func (from *DATATYPE_DEFINITION_XHTML) CopyBasicFields(to *DATATYPE_DEFINITION_XHTML) {
+func (from *DATATYPE_DEFINITION_XHTML) GongCopyBasicFields(to *DATATYPE_DEFINITION_XHTML) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1272,7 +1270,7 @@ type EMBEDDED_VALUE_WOP struct {
 	OTHER_CONTENT string
 }
 
-func (from *EMBEDDED_VALUE) CopyBasicFields(to *EMBEDDED_VALUE) {
+func (from *EMBEDDED_VALUE) GongCopyBasicFields(to *EMBEDDED_VALUE) {
 	// insertion point
 	to.Name = from.Name
 	to.KEY = from.KEY
@@ -1293,7 +1291,7 @@ type ENUM_VALUE_WOP struct {
 	LONG_NAME string
 }
 
-func (from *ENUM_VALUE) CopyBasicFields(to *ENUM_VALUE) {
+func (from *ENUM_VALUE) GongCopyBasicFields(to *ENUM_VALUE) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1310,7 +1308,7 @@ type EmbeddedJpgImage_WOP struct {
 	Base64Content string
 }
 
-func (from *EmbeddedJpgImage) CopyBasicFields(to *EmbeddedJpgImage) {
+func (from *EmbeddedJpgImage) GongCopyBasicFields(to *EmbeddedJpgImage) {
 	// insertion point
 	to.Name = from.Name
 	to.Base64Content = from.Base64Content
@@ -1324,7 +1322,7 @@ type EmbeddedPngImage_WOP struct {
 	Base64Content string
 }
 
-func (from *EmbeddedPngImage) CopyBasicFields(to *EmbeddedPngImage) {
+func (from *EmbeddedPngImage) GongCopyBasicFields(to *EmbeddedPngImage) {
 	// insertion point
 	to.Name = from.Name
 	to.Base64Content = from.Base64Content
@@ -1338,7 +1336,7 @@ type EmbeddedSvgImage_WOP struct {
 	Content string
 }
 
-func (from *EmbeddedSvgImage) CopyBasicFields(to *EmbeddedSvgImage) {
+func (from *EmbeddedSvgImage) GongCopyBasicFields(to *EmbeddedSvgImage) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content
@@ -1350,7 +1348,7 @@ type Kill_WOP struct {
 	Name string
 }
 
-func (from *Kill) CopyBasicFields(to *Kill) {
+func (from *Kill) GongCopyBasicFields(to *Kill) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -1363,7 +1361,7 @@ type Map_identifier_bool_WOP struct {
 	Value bool
 }
 
-func (from *Map_identifier_bool) CopyBasicFields(to *Map_identifier_bool) {
+func (from *Map_identifier_bool) GongCopyBasicFields(to *Map_identifier_bool) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -1383,7 +1381,7 @@ type RELATION_GROUP_WOP struct {
 	LONG_NAME string
 }
 
-func (from *RELATION_GROUP) CopyBasicFields(to *RELATION_GROUP) {
+func (from *RELATION_GROUP) GongCopyBasicFields(to *RELATION_GROUP) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1406,7 +1404,7 @@ type RELATION_GROUP_TYPE_WOP struct {
 	LONG_NAME string
 }
 
-func (from *RELATION_GROUP_TYPE) CopyBasicFields(to *RELATION_GROUP_TYPE) {
+func (from *RELATION_GROUP_TYPE) GongCopyBasicFields(to *RELATION_GROUP_TYPE) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1423,7 +1421,7 @@ type REQ_IF_WOP struct {
 	Lang string
 }
 
-func (from *REQ_IF) CopyBasicFields(to *REQ_IF) {
+func (from *REQ_IF) GongCopyBasicFields(to *REQ_IF) {
 	// insertion point
 	to.Name = from.Name
 	to.Lang = from.Lang
@@ -1435,7 +1433,7 @@ type REQ_IF_CONTENT_WOP struct {
 	Name string
 }
 
-func (from *REQ_IF_CONTENT) CopyBasicFields(to *REQ_IF_CONTENT) {
+func (from *REQ_IF_CONTENT) GongCopyBasicFields(to *REQ_IF_CONTENT) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -1462,7 +1460,7 @@ type REQ_IF_HEADER_WOP struct {
 	TITLE string
 }
 
-func (from *REQ_IF_HEADER) CopyBasicFields(to *REQ_IF_HEADER) {
+func (from *REQ_IF_HEADER) GongCopyBasicFields(to *REQ_IF_HEADER) {
 	// insertion point
 	to.Name = from.Name
 	to.IDENTIFIER = from.IDENTIFIER
@@ -1481,7 +1479,7 @@ type REQ_IF_TOOL_EXTENSION_WOP struct {
 	Name string
 }
 
-func (from *REQ_IF_TOOL_EXTENSION) CopyBasicFields(to *REQ_IF_TOOL_EXTENSION) {
+func (from *REQ_IF_TOOL_EXTENSION) GongCopyBasicFields(to *REQ_IF_TOOL_EXTENSION) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -1500,7 +1498,7 @@ type SPECIFICATION_WOP struct {
 	LONG_NAME string
 }
 
-func (from *SPECIFICATION) CopyBasicFields(to *SPECIFICATION) {
+func (from *SPECIFICATION) GongCopyBasicFields(to *SPECIFICATION) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1521,7 +1519,7 @@ type SPECIFICATION_Rendering_WOP struct {
 	IsWithHeadingNumbering bool
 }
 
-func (from *SPECIFICATION_Rendering) CopyBasicFields(to *SPECIFICATION_Rendering) {
+func (from *SPECIFICATION_Rendering) GongCopyBasicFields(to *SPECIFICATION_Rendering) {
 	// insertion point
 	to.Name = from.Name
 	to.IsNodeExpanded = from.IsNodeExpanded
@@ -1543,7 +1541,7 @@ type SPECIFICATION_TYPE_WOP struct {
 	LONG_NAME string
 }
 
-func (from *SPECIFICATION_TYPE) CopyBasicFields(to *SPECIFICATION_TYPE) {
+func (from *SPECIFICATION_TYPE) GongCopyBasicFields(to *SPECIFICATION_TYPE) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1570,7 +1568,7 @@ type SPEC_HIERARCHY_WOP struct {
 	LONG_NAME string
 }
 
-func (from *SPEC_HIERARCHY) CopyBasicFields(to *SPEC_HIERARCHY) {
+func (from *SPEC_HIERARCHY) GongCopyBasicFields(to *SPEC_HIERARCHY) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1595,7 +1593,7 @@ type SPEC_OBJECT_WOP struct {
 	LONG_NAME string
 }
 
-func (from *SPEC_OBJECT) CopyBasicFields(to *SPEC_OBJECT) {
+func (from *SPEC_OBJECT) GongCopyBasicFields(to *SPEC_OBJECT) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1618,7 +1616,7 @@ type SPEC_OBJECT_TYPE_WOP struct {
 	LONG_NAME string
 }
 
-func (from *SPEC_OBJECT_TYPE) CopyBasicFields(to *SPEC_OBJECT_TYPE) {
+func (from *SPEC_OBJECT_TYPE) GongCopyBasicFields(to *SPEC_OBJECT_TYPE) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1643,7 +1641,7 @@ type SPEC_OBJECT_TYPE_Rendering_WOP struct {
 	IsHeading bool
 }
 
-func (from *SPEC_OBJECT_TYPE_Rendering) CopyBasicFields(to *SPEC_OBJECT_TYPE_Rendering) {
+func (from *SPEC_OBJECT_TYPE_Rendering) GongCopyBasicFields(to *SPEC_OBJECT_TYPE_Rendering) {
 	// insertion point
 	to.Name = from.Name
 	to.IsNodeExpanded = from.IsNodeExpanded
@@ -1667,7 +1665,7 @@ type SPEC_RELATION_WOP struct {
 	LONG_NAME string
 }
 
-func (from *SPEC_RELATION) CopyBasicFields(to *SPEC_RELATION) {
+func (from *SPEC_RELATION) GongCopyBasicFields(to *SPEC_RELATION) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1690,7 +1688,7 @@ type SPEC_RELATION_TYPE_WOP struct {
 	LONG_NAME string
 }
 
-func (from *SPEC_RELATION_TYPE) CopyBasicFields(to *SPEC_RELATION_TYPE) {
+func (from *SPEC_RELATION_TYPE) GongCopyBasicFields(to *SPEC_RELATION_TYPE) {
 	// insertion point
 	to.Name = from.Name
 	to.DESC = from.DESC
@@ -1713,7 +1711,7 @@ type StaticWebSite_WOP struct {
 	VersionInfo string
 }
 
-func (from *StaticWebSite) CopyBasicFields(to *StaticWebSite) {
+func (from *StaticWebSite) GongCopyBasicFields(to *StaticWebSite) {
 	// insertion point
 	to.Name = from.Name
 	to.MarkdownContent = from.MarkdownContent
@@ -1730,7 +1728,7 @@ type StaticWebSiteChapter_WOP struct {
 	MarkdownContent string
 }
 
-func (from *StaticWebSiteChapter) CopyBasicFields(to *StaticWebSiteChapter) {
+func (from *StaticWebSiteChapter) GongCopyBasicFields(to *StaticWebSiteChapter) {
 	// insertion point
 	to.Name = from.Name
 	to.MarkdownContent = from.MarkdownContent
@@ -1748,7 +1746,7 @@ type StaticWebSiteGeneratedImage_WOP struct {
 	Height int
 }
 
-func (from *StaticWebSiteGeneratedImage) CopyBasicFields(to *StaticWebSiteGeneratedImage) {
+func (from *StaticWebSiteGeneratedImage) GongCopyBasicFields(to *StaticWebSiteGeneratedImage) {
 	// insertion point
 	to.Name = from.Name
 	to.SourceDirectoryPath = from.SourceDirectoryPath
@@ -1768,7 +1766,7 @@ type StaticWebSiteImage_WOP struct {
 	Height int
 }
 
-func (from *StaticWebSiteImage) CopyBasicFields(to *StaticWebSiteImage) {
+func (from *StaticWebSiteImage) GongCopyBasicFields(to *StaticWebSiteImage) {
 	// insertion point
 	to.Name = from.Name
 	to.SourceDirectoryPath = from.SourceDirectoryPath
@@ -1784,7 +1782,7 @@ type StaticWebSiteParagraph_WOP struct {
 	LegendMarkdownContent string
 }
 
-func (from *StaticWebSiteParagraph) CopyBasicFields(to *StaticWebSiteParagraph) {
+func (from *StaticWebSiteParagraph) GongCopyBasicFields(to *StaticWebSiteParagraph) {
 	// insertion point
 	to.Name = from.Name
 	to.LegendMarkdownContent = from.LegendMarkdownContent
@@ -1800,7 +1798,7 @@ type XHTML_CONTENT_WOP struct {
 	PureText string
 }
 
-func (from *XHTML_CONTENT) CopyBasicFields(to *XHTML_CONTENT) {
+func (from *XHTML_CONTENT) GongCopyBasicFields(to *XHTML_CONTENT) {
 	// insertion point
 	to.Name = from.Name
 	to.EnclosedText = from.EnclosedText

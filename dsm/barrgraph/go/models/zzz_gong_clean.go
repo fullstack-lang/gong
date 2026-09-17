@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -42,11 +37,6 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 	return
 }
 
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
-}
-
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by ArtefactType
 func (artefacttype *ArtefactType) GongClean(stage *Stage) (modified bool) {
@@ -59,7 +49,7 @@ func (artefacttype *ArtefactType) GongClean(stage *Stage) (modified bool) {
 func (artefacttypeshape *ArtefactTypeShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &artefacttypeshape.ArtefactType) || modified
+	modified = stage.CleanPointer(&artefacttypeshape.ArtefactType) || modified
 	return
 }
 
@@ -67,7 +57,7 @@ func (artefacttypeshape *ArtefactTypeShape) GongClean(stage *Stage) (modified bo
 func (artist *Artist) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &artist.Place) || modified
+	modified = stage.CleanPointer(&artist.Place) || modified
 	return
 }
 
@@ -75,7 +65,7 @@ func (artist *Artist) GongClean(stage *Stage) (modified bool) {
 func (artistshape *ArtistShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &artistshape.Artist) || modified
+	modified = stage.CleanPointer(&artistshape.Artist) || modified
 	return
 }
 
@@ -90,17 +80,17 @@ func (controlpointshape *ControlPointShape) GongClean(stage *Stage) (modified bo
 func (desk *Desk) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &desk.SelectedDiagram) || modified
+	modified = stage.CleanPointer(&desk.SelectedDiagram) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Diagram
 func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &diagram.MovementShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.ArtefactTypeShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.ArtistShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.InfluenceShapes) || modified
+	modified = stage.CleanSlice(&diagram.MovementShapes) || modified
+	modified = stage.CleanSlice(&diagram.ArtefactTypeShapes) || modified
+	modified = stage.CleanSlice(&diagram.ArtistShapes) || modified
+	modified = stage.CleanSlice(&diagram.InfluenceShapes) || modified
 	// insertion point per field
 	return
 }
@@ -109,29 +99,29 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 func (influence *Influence) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &influence.SourceMovement) || modified
-	modified = GongCleanPointer(stage, &influence.SourceArtefactType) || modified
-	modified = GongCleanPointer(stage, &influence.SourceArtist) || modified
-	modified = GongCleanPointer(stage, &influence.TargetMovement) || modified
-	modified = GongCleanPointer(stage, &influence.TargetArtefactType) || modified
-	modified = GongCleanPointer(stage, &influence.TargetArtist) || modified
+	modified = stage.CleanPointer(&influence.SourceMovement) || modified
+	modified = stage.CleanPointer(&influence.SourceArtefactType) || modified
+	modified = stage.CleanPointer(&influence.SourceArtist) || modified
+	modified = stage.CleanPointer(&influence.TargetMovement) || modified
+	modified = stage.CleanPointer(&influence.TargetArtefactType) || modified
+	modified = stage.CleanPointer(&influence.TargetArtist) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by InfluenceShape
 func (influenceshape *InfluenceShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &influenceshape.ControlPointShapes) || modified
+	modified = stage.CleanSlice(&influenceshape.ControlPointShapes) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &influenceshape.Influence) || modified
+	modified = stage.CleanPointer(&influenceshape.Influence) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Library
 func (library *Library) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &library.SubLibraries) || modified
-	modified = GongCleanSlice(stage, &library.SubLibrariesWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&library.SubLibraries) || modified
+	modified = stage.CleanSlice(&library.SubLibrariesWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }
@@ -139,7 +129,7 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Movement
 func (movement *Movement) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &movement.Places) || modified
+	modified = stage.CleanSlice(&movement.Places) || modified
 	// insertion point per field
 	return
 }
@@ -148,7 +138,7 @@ func (movement *Movement) GongClean(stage *Stage) (modified bool) {
 func (movementshape *MovementShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &movementshape.Movement) || modified
+	modified = stage.CleanPointer(&movementshape.Movement) || modified
 	return
 }
 

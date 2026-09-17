@@ -151,7 +151,7 @@ func (stager *Stager) exportWebsite() {
 		}
 
 		fmt.Println("exportWebsite: Generating Excel files...")
-		excelBytes, err := SerializeStageAsBytes(stager.stage, false)
+		excelBytes, err := stager.stage.SerializeStageAsBytes(false)
 		if err != nil {
 			log.Println("Error creating Excel export in memory:", err)
 			fmt.Println("exportWebsite: Error creating Excel in memory:", err)

@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Chapter_WOP struct {
@@ -17,7 +15,7 @@ type Chapter_WOP struct {
 	MardownContent string
 }
 
-func (from *Chapter) CopyBasicFields(to *Chapter) {
+func (from *Chapter) GongCopyBasicFields(to *Chapter) {
 	// insertion point
 	to.Name = from.Name
 	to.MardownContent = from.MardownContent
@@ -51,7 +49,7 @@ type Content_WOP struct {
 	VersionInfo string
 }
 
-func (from *Content) CopyBasicFields(to *Content) {
+func (from *Content) GongCopyBasicFields(to *Content) {
 	// insertion point
 	to.Name = from.Name
 	to.MardownContent = from.MardownContent
@@ -75,7 +73,7 @@ type DownloadableFile_WOP struct {
 	Base64Content string
 }
 
-func (from *DownloadableFile) CopyBasicFields(to *DownloadableFile) {
+func (from *DownloadableFile) GongCopyBasicFields(to *DownloadableFile) {
 	// insertion point
 	to.Name = from.Name
 	to.Base64Content = from.Base64Content
@@ -89,7 +87,7 @@ type JpgImage_WOP struct {
 	Base64Content string
 }
 
-func (from *JpgImage) CopyBasicFields(to *JpgImage) {
+func (from *JpgImage) GongCopyBasicFields(to *JpgImage) {
 	// insertion point
 	to.Name = from.Name
 	to.Base64Content = from.Base64Content
@@ -103,7 +101,7 @@ type Page_WOP struct {
 	MardownContent string
 }
 
-func (from *Page) CopyBasicFields(to *Page) {
+func (from *Page) GongCopyBasicFields(to *Page) {
 	// insertion point
 	to.Name = from.Name
 	to.MardownContent = from.MardownContent
@@ -117,7 +115,7 @@ type PngImage_WOP struct {
 	Base64Content string
 }
 
-func (from *PngImage) CopyBasicFields(to *PngImage) {
+func (from *PngImage) GongCopyBasicFields(to *PngImage) {
 	// insertion point
 	to.Name = from.Name
 	to.Base64Content = from.Base64Content
@@ -135,7 +133,7 @@ type Section_WOP struct {
 	IsDownloadableFile bool
 }
 
-func (from *Section) CopyBasicFields(to *Section) {
+func (from *Section) GongCopyBasicFields(to *Section) {
 	// insertion point
 	to.Name = from.Name
 	to.MardownContent = from.MardownContent
@@ -151,7 +149,7 @@ type SvgImage_WOP struct {
 	Content string
 }
 
-func (from *SvgImage) CopyBasicFields(to *SvgImage) {
+func (from *SvgImage) GongCopyBasicFields(to *SvgImage) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content

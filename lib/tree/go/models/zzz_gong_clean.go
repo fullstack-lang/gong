@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -42,24 +37,19 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 	return
 }
 
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
-}
-
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Button
 func (button *Button) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &button.SVGIcon) || modified
+	modified = stage.CleanPointer(&button.SVGIcon) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Menu
 func (menu *Menu) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &menu.Buttons) || modified
+	modified = stage.CleanSlice(&menu.Buttons) || modified
 	// insertion point per field
 	return
 }
@@ -67,11 +57,11 @@ func (menu *Menu) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Node
 func (node *Node) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &node.Children) || modified
-	modified = GongCleanSlice(stage, &node.Buttons) || modified
+	modified = stage.CleanSlice(&node.Children) || modified
+	modified = stage.CleanSlice(&node.Buttons) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &node.PreceedingSVGIcon) || modified
-	modified = GongCleanPointer(stage, &node.Menu) || modified
+	modified = stage.CleanPointer(&node.PreceedingSVGIcon) || modified
+	modified = stage.CleanPointer(&node.Menu) || modified
 	return
 }
 
@@ -85,7 +75,7 @@ func (svgicon *SVGIcon) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Tree
 func (tree *Tree) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &tree.RootNodes) || modified
+	modified = stage.CleanSlice(&tree.RootNodes) || modified
 	// insertion point per field
 	return
 }

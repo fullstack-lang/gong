@@ -35,41 +35,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Arrow:
-		ok = stage.IsStagedArrow(target)
-
-	case *Bar:
-		ok = stage.IsStagedBar(target)
-
-	case *Gantt:
-		ok = stage.IsStagedGantt(target)
-
-	case *Group:
-		ok = stage.IsStagedGroup(target)
-
-	case *Lane:
-		ok = stage.IsStagedLane(target)
-
-	case *LaneUse:
-		ok = stage.IsStagedLaneUse(target)
-
-	case *Milestone:
-		ok = stage.IsStagedMilestone(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedArrow(arrow *Arrow) (ok bool) {
 
@@ -160,7 +125,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchArrow(arrow *Arrow) {
 
 	// check if instance is already staged
-	if IsStaged(stage, arrow) {
+	if stage.IsStaged(arrow) {
 		return
 	}
 
@@ -168,10 +133,10 @@ func (stage *Stage) StageBranchArrow(arrow *Arrow) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if arrow.From != nil {
-		StageBranch(stage, arrow.From)
+		stage.StageBranch(arrow.From)
 	}
 	if arrow.To != nil {
-		StageBranch(stage, arrow.To)
+		stage.StageBranch(arrow.To)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -181,7 +146,7 @@ func (stage *Stage) StageBranchArrow(arrow *Arrow) {
 func (stage *Stage) StageBranchBar(bar *Bar) {
 
 	// check if instance is already staged
-	if IsStaged(stage, bar) {
+	if stage.IsStaged(bar) {
 		return
 	}
 
@@ -196,7 +161,7 @@ func (stage *Stage) StageBranchBar(bar *Bar) {
 func (stage *Stage) StageBranchGantt(gantt *Gantt) {
 
 	// check if instance is already staged
-	if IsStaged(stage, gantt) {
+	if stage.IsStaged(gantt) {
 		return
 	}
 
@@ -206,16 +171,16 @@ func (stage *Stage) StageBranchGantt(gantt *Gantt) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _lane := range gantt.Lanes {
-		StageBranch(stage, _lane)
+		stage.StageBranch(_lane)
 	}
 	for _, _milestone := range gantt.Milestones {
-		StageBranch(stage, _milestone)
+		stage.StageBranch(_milestone)
 	}
 	for _, _group := range gantt.Groups {
-		StageBranch(stage, _group)
+		stage.StageBranch(_group)
 	}
 	for _, _arrow := range gantt.Arrows {
-		StageBranch(stage, _arrow)
+		stage.StageBranch(_arrow)
 	}
 
 }
@@ -223,7 +188,7 @@ func (stage *Stage) StageBranchGantt(gantt *Gantt) {
 func (stage *Stage) StageBranchGroup(group *Group) {
 
 	// check if instance is already staged
-	if IsStaged(stage, group) {
+	if stage.IsStaged(group) {
 		return
 	}
 
@@ -233,7 +198,7 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _lane := range group.GroupLanes {
-		StageBranch(stage, _lane)
+		stage.StageBranch(_lane)
 	}
 
 }
@@ -241,7 +206,7 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 func (stage *Stage) StageBranchLane(lane *Lane) {
 
 	// check if instance is already staged
-	if IsStaged(stage, lane) {
+	if stage.IsStaged(lane) {
 		return
 	}
 
@@ -251,7 +216,7 @@ func (stage *Stage) StageBranchLane(lane *Lane) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bar := range lane.Bars {
-		StageBranch(stage, _bar)
+		stage.StageBranch(_bar)
 	}
 
 }
@@ -259,7 +224,7 @@ func (stage *Stage) StageBranchLane(lane *Lane) {
 func (stage *Stage) StageBranchLaneUse(laneuse *LaneUse) {
 
 	// check if instance is already staged
-	if IsStaged(stage, laneuse) {
+	if stage.IsStaged(laneuse) {
 		return
 	}
 
@@ -267,7 +232,7 @@ func (stage *Stage) StageBranchLaneUse(laneuse *LaneUse) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if laneuse.Lane != nil {
-		StageBranch(stage, laneuse.Lane)
+		stage.StageBranch(laneuse.Lane)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -277,7 +242,7 @@ func (stage *Stage) StageBranchLaneUse(laneuse *LaneUse) {
 func (stage *Stage) StageBranchMilestone(milestone *Milestone) {
 
 	// check if instance is already staged
-	if IsStaged(stage, milestone) {
+	if stage.IsStaged(milestone) {
 		return
 	}
 
@@ -287,16 +252,16 @@ func (stage *Stage) StageBranchMilestone(milestone *Milestone) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _lane := range milestone.LanesToDisplay {
-		StageBranch(stage, _lane)
+		stage.StageBranch(_lane)
 	}
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -304,31 +269,31 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *Arrow:
-		toT := CopyBranchArrow(mapOrigCopy, fromT)
+		toT := GongCopyBranchArrow(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Bar:
-		toT := CopyBranchBar(mapOrigCopy, fromT)
+		toT := GongCopyBranchBar(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Gantt:
-		toT := CopyBranchGantt(mapOrigCopy, fromT)
+		toT := GongCopyBranchGantt(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Group:
-		toT := CopyBranchGroup(mapOrigCopy, fromT)
+		toT := GongCopyBranchGroup(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Lane:
-		toT := CopyBranchLane(mapOrigCopy, fromT)
+		toT := GongCopyBranchLane(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *LaneUse:
-		toT := CopyBranchLaneUse(mapOrigCopy, fromT)
+		toT := GongCopyBranchLaneUse(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Milestone:
-		toT := CopyBranchMilestone(mapOrigCopy, fromT)
+		toT := GongCopyBranchMilestone(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -338,7 +303,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchArrow(mapOrigCopy map[any]any, arrowFrom *Arrow) (arrowTo *Arrow) {
+func GongCopyBranchArrow(mapOrigCopy map[any]any, arrowFrom *Arrow) (arrowTo *Arrow) {
 
 	// arrowFrom has already been copied
 	if _arrowTo, ok := mapOrigCopy[arrowFrom]; ok {
@@ -348,14 +313,14 @@ func CopyBranchArrow(mapOrigCopy map[any]any, arrowFrom *Arrow) (arrowTo *Arrow)
 
 	arrowTo = new(Arrow)
 	mapOrigCopy[arrowFrom] = arrowTo
-	arrowFrom.CopyBasicFields(arrowTo)
+	arrowFrom.GongCopyBasicFields(arrowTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if arrowFrom.From != nil {
-		arrowTo.From = CopyBranchBar(mapOrigCopy, arrowFrom.From)
+		arrowTo.From = GongCopyBranchBar(mapOrigCopy, arrowFrom.From)
 	}
 	if arrowFrom.To != nil {
-		arrowTo.To = CopyBranchBar(mapOrigCopy, arrowFrom.To)
+		arrowTo.To = GongCopyBranchBar(mapOrigCopy, arrowFrom.To)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -363,7 +328,7 @@ func CopyBranchArrow(mapOrigCopy map[any]any, arrowFrom *Arrow) (arrowTo *Arrow)
 	return
 }
 
-func CopyBranchBar(mapOrigCopy map[any]any, barFrom *Bar) (barTo *Bar) {
+func GongCopyBranchBar(mapOrigCopy map[any]any, barFrom *Bar) (barTo *Bar) {
 
 	// barFrom has already been copied
 	if _barTo, ok := mapOrigCopy[barFrom]; ok {
@@ -373,7 +338,7 @@ func CopyBranchBar(mapOrigCopy map[any]any, barFrom *Bar) (barTo *Bar) {
 
 	barTo = new(Bar)
 	mapOrigCopy[barFrom] = barTo
-	barFrom.CopyBasicFields(barTo)
+	barFrom.GongCopyBasicFields(barTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -382,7 +347,7 @@ func CopyBranchBar(mapOrigCopy map[any]any, barFrom *Bar) (barTo *Bar) {
 	return
 }
 
-func CopyBranchGantt(mapOrigCopy map[any]any, ganttFrom *Gantt) (ganttTo *Gantt) {
+func GongCopyBranchGantt(mapOrigCopy map[any]any, ganttFrom *Gantt) (ganttTo *Gantt) {
 
 	// ganttFrom has already been copied
 	if _ganttTo, ok := mapOrigCopy[ganttFrom]; ok {
@@ -392,28 +357,28 @@ func CopyBranchGantt(mapOrigCopy map[any]any, ganttFrom *Gantt) (ganttTo *Gantt)
 
 	ganttTo = new(Gantt)
 	mapOrigCopy[ganttFrom] = ganttTo
-	ganttFrom.CopyBasicFields(ganttTo)
+	ganttFrom.GongCopyBasicFields(ganttTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _lane := range ganttFrom.Lanes {
-		ganttTo.Lanes = append(ganttTo.Lanes, CopyBranchLane(mapOrigCopy, _lane))
+		ganttTo.Lanes = append(ganttTo.Lanes, GongCopyBranchLane(mapOrigCopy, _lane))
 	}
 	for _, _milestone := range ganttFrom.Milestones {
-		ganttTo.Milestones = append(ganttTo.Milestones, CopyBranchMilestone(mapOrigCopy, _milestone))
+		ganttTo.Milestones = append(ganttTo.Milestones, GongCopyBranchMilestone(mapOrigCopy, _milestone))
 	}
 	for _, _group := range ganttFrom.Groups {
-		ganttTo.Groups = append(ganttTo.Groups, CopyBranchGroup(mapOrigCopy, _group))
+		ganttTo.Groups = append(ganttTo.Groups, GongCopyBranchGroup(mapOrigCopy, _group))
 	}
 	for _, _arrow := range ganttFrom.Arrows {
-		ganttTo.Arrows = append(ganttTo.Arrows, CopyBranchArrow(mapOrigCopy, _arrow))
+		ganttTo.Arrows = append(ganttTo.Arrows, GongCopyBranchArrow(mapOrigCopy, _arrow))
 	}
 
 	return
 }
 
-func CopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group) {
+func GongCopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group) {
 
 	// groupFrom has already been copied
 	if _groupTo, ok := mapOrigCopy[groupFrom]; ok {
@@ -423,19 +388,19 @@ func CopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group)
 
 	groupTo = new(Group)
 	mapOrigCopy[groupFrom] = groupTo
-	groupFrom.CopyBasicFields(groupTo)
+	groupFrom.GongCopyBasicFields(groupTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _lane := range groupFrom.GroupLanes {
-		groupTo.GroupLanes = append(groupTo.GroupLanes, CopyBranchLane(mapOrigCopy, _lane))
+		groupTo.GroupLanes = append(groupTo.GroupLanes, GongCopyBranchLane(mapOrigCopy, _lane))
 	}
 
 	return
 }
 
-func CopyBranchLane(mapOrigCopy map[any]any, laneFrom *Lane) (laneTo *Lane) {
+func GongCopyBranchLane(mapOrigCopy map[any]any, laneFrom *Lane) (laneTo *Lane) {
 
 	// laneFrom has already been copied
 	if _laneTo, ok := mapOrigCopy[laneFrom]; ok {
@@ -445,19 +410,19 @@ func CopyBranchLane(mapOrigCopy map[any]any, laneFrom *Lane) (laneTo *Lane) {
 
 	laneTo = new(Lane)
 	mapOrigCopy[laneFrom] = laneTo
-	laneFrom.CopyBasicFields(laneTo)
+	laneFrom.GongCopyBasicFields(laneTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bar := range laneFrom.Bars {
-		laneTo.Bars = append(laneTo.Bars, CopyBranchBar(mapOrigCopy, _bar))
+		laneTo.Bars = append(laneTo.Bars, GongCopyBranchBar(mapOrigCopy, _bar))
 	}
 
 	return
 }
 
-func CopyBranchLaneUse(mapOrigCopy map[any]any, laneuseFrom *LaneUse) (laneuseTo *LaneUse) {
+func GongCopyBranchLaneUse(mapOrigCopy map[any]any, laneuseFrom *LaneUse) (laneuseTo *LaneUse) {
 
 	// laneuseFrom has already been copied
 	if _laneuseTo, ok := mapOrigCopy[laneuseFrom]; ok {
@@ -467,11 +432,11 @@ func CopyBranchLaneUse(mapOrigCopy map[any]any, laneuseFrom *LaneUse) (laneuseTo
 
 	laneuseTo = new(LaneUse)
 	mapOrigCopy[laneuseFrom] = laneuseTo
-	laneuseFrom.CopyBasicFields(laneuseTo)
+	laneuseFrom.GongCopyBasicFields(laneuseTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if laneuseFrom.Lane != nil {
-		laneuseTo.Lane = CopyBranchLane(mapOrigCopy, laneuseFrom.Lane)
+		laneuseTo.Lane = GongCopyBranchLane(mapOrigCopy, laneuseFrom.Lane)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -479,7 +444,7 @@ func CopyBranchLaneUse(mapOrigCopy map[any]any, laneuseFrom *LaneUse) (laneuseTo
 	return
 }
 
-func CopyBranchMilestone(mapOrigCopy map[any]any, milestoneFrom *Milestone) (milestoneTo *Milestone) {
+func GongCopyBranchMilestone(mapOrigCopy map[any]any, milestoneFrom *Milestone) (milestoneTo *Milestone) {
 
 	// milestoneFrom has already been copied
 	if _milestoneTo, ok := mapOrigCopy[milestoneFrom]; ok {
@@ -489,13 +454,13 @@ func CopyBranchMilestone(mapOrigCopy map[any]any, milestoneFrom *Milestone) (mil
 
 	milestoneTo = new(Milestone)
 	mapOrigCopy[milestoneFrom] = milestoneTo
-	milestoneFrom.CopyBasicFields(milestoneTo)
+	milestoneFrom.GongCopyBasicFields(milestoneTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _lane := range milestoneFrom.LanesToDisplay {
-		milestoneTo.LanesToDisplay = append(milestoneTo.LanesToDisplay, CopyBranchLane(mapOrigCopy, _lane))
+		milestoneTo.LanesToDisplay = append(milestoneTo.LanesToDisplay, GongCopyBranchLane(mapOrigCopy, _lane))
 	}
 
 	return
@@ -536,16 +501,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchArrow(arrow *Arrow) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, arrow) {
+	if !stage.IsStaged(arrow) {
 		return
 	}
 
@@ -553,10 +513,10 @@ func (stage *Stage) UnstageBranchArrow(arrow *Arrow) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if arrow.From != nil {
-		UnstageBranch(stage, arrow.From)
+		stage.UnstageBranch(arrow.From)
 	}
 	if arrow.To != nil {
-		UnstageBranch(stage, arrow.To)
+		stage.UnstageBranch(arrow.To)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -566,7 +526,7 @@ func (stage *Stage) UnstageBranchArrow(arrow *Arrow) {
 func (stage *Stage) UnstageBranchBar(bar *Bar) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, bar) {
+	if !stage.IsStaged(bar) {
 		return
 	}
 
@@ -581,7 +541,7 @@ func (stage *Stage) UnstageBranchBar(bar *Bar) {
 func (stage *Stage) UnstageBranchGantt(gantt *Gantt) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, gantt) {
+	if !stage.IsStaged(gantt) {
 		return
 	}
 
@@ -591,16 +551,16 @@ func (stage *Stage) UnstageBranchGantt(gantt *Gantt) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _lane := range gantt.Lanes {
-		UnstageBranch(stage, _lane)
+		stage.UnstageBranch(_lane)
 	}
 	for _, _milestone := range gantt.Milestones {
-		UnstageBranch(stage, _milestone)
+		stage.UnstageBranch(_milestone)
 	}
 	for _, _group := range gantt.Groups {
-		UnstageBranch(stage, _group)
+		stage.UnstageBranch(_group)
 	}
 	for _, _arrow := range gantt.Arrows {
-		UnstageBranch(stage, _arrow)
+		stage.UnstageBranch(_arrow)
 	}
 
 }
@@ -608,7 +568,7 @@ func (stage *Stage) UnstageBranchGantt(gantt *Gantt) {
 func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, group) {
+	if !stage.IsStaged(group) {
 		return
 	}
 
@@ -618,7 +578,7 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _lane := range group.GroupLanes {
-		UnstageBranch(stage, _lane)
+		stage.UnstageBranch(_lane)
 	}
 
 }
@@ -626,7 +586,7 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 func (stage *Stage) UnstageBranchLane(lane *Lane) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, lane) {
+	if !stage.IsStaged(lane) {
 		return
 	}
 
@@ -636,7 +596,7 @@ func (stage *Stage) UnstageBranchLane(lane *Lane) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bar := range lane.Bars {
-		UnstageBranch(stage, _bar)
+		stage.UnstageBranch(_bar)
 	}
 
 }
@@ -644,7 +604,7 @@ func (stage *Stage) UnstageBranchLane(lane *Lane) {
 func (stage *Stage) UnstageBranchLaneUse(laneuse *LaneUse) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, laneuse) {
+	if !stage.IsStaged(laneuse) {
 		return
 	}
 
@@ -652,7 +612,7 @@ func (stage *Stage) UnstageBranchLaneUse(laneuse *LaneUse) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if laneuse.Lane != nil {
-		UnstageBranch(stage, laneuse.Lane)
+		stage.UnstageBranch(laneuse.Lane)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -662,7 +622,7 @@ func (stage *Stage) UnstageBranchLaneUse(laneuse *LaneUse) {
 func (stage *Stage) UnstageBranchMilestone(milestone *Milestone) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, milestone) {
+	if !stage.IsStaged(milestone) {
 		return
 	}
 
@@ -672,7 +632,7 @@ func (stage *Stage) UnstageBranchMilestone(milestone *Milestone) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _lane := range milestone.LanesToDisplay {
-		UnstageBranch(stage, _lane)
+		stage.UnstageBranch(_lane)
 	}
 
 }
@@ -1017,7 +977,7 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if LanesDifferent {
-		ops := Diff(stage, gantt, ganttOther, "Lanes", ganttOther.Lanes, gantt.Lanes)
+		ops := stage.Diff(gantt, ganttOther, "Lanes", ganttOther.Lanes, gantt.Lanes)
 		diffs = append(diffs, ops)
 	}
 	MilestonesDifferent := false
@@ -1038,7 +998,7 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if MilestonesDifferent {
-		ops := Diff(stage, gantt, ganttOther, "Milestones", ganttOther.Milestones, gantt.Milestones)
+		ops := stage.Diff(gantt, ganttOther, "Milestones", ganttOther.Milestones, gantt.Milestones)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -1059,7 +1019,7 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if GroupsDifferent {
-		ops := Diff(stage, gantt, ganttOther, "Groups", ganttOther.Groups, gantt.Groups)
+		ops := stage.Diff(gantt, ganttOther, "Groups", ganttOther.Groups, gantt.Groups)
 		diffs = append(diffs, ops)
 	}
 	ArrowsDifferent := false
@@ -1080,7 +1040,7 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if ArrowsDifferent {
-		ops := Diff(stage, gantt, ganttOther, "Arrows", ganttOther.Arrows, gantt.Arrows)
+		ops := stage.Diff(gantt, ganttOther, "Arrows", ganttOther.Arrows, gantt.Arrows)
 		diffs = append(diffs, ops)
 	}
 
@@ -1112,7 +1072,7 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if GroupLanesDifferent {
-		ops := Diff(stage, group, groupOther, "GroupLanes", groupOther.GroupLanes, group.GroupLanes)
+		ops := stage.Diff(group, groupOther, "GroupLanes", groupOther.GroupLanes, group.GroupLanes)
 		diffs = append(diffs, ops)
 	}
 
@@ -1147,7 +1107,7 @@ func (lane *Lane) GongDiff(stage *Stage, laneOther *Lane) (diffs []string) {
 		}
 	}
 	if BarsDifferent {
-		ops := Diff(stage, lane, laneOther, "Bars", laneOther.Bars, lane.Bars)
+		ops := stage.Diff(lane, laneOther, "Bars", laneOther.Bars, lane.Bars)
 		diffs = append(diffs, ops)
 	}
 
@@ -1203,7 +1163,7 @@ func (milestone *Milestone) GongDiff(stage *Stage, milestoneOther *Milestone) (d
 		}
 	}
 	if LanesToDisplayDifferent {
-		ops := Diff(stage, milestone, milestoneOther, "LanesToDisplay", milestoneOther.LanesToDisplay, milestone.LanesToDisplay)
+		ops := stage.Diff(milestone, milestoneOther, "LanesToDisplay", milestoneOther.LanesToDisplay, milestone.LanesToDisplay)
 		diffs = append(diffs, ops)
 	}
 
@@ -1284,9 +1244,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

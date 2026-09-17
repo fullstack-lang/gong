@@ -77,7 +77,7 @@ func (proxy *ClassDiagramButtonProxy) ButtonUpdated(
 		// remove the classdiagram node from the pkg element node
 		idx := slices.Index(diagramPackage.Classdiagrams, proxy.classdiagram)
 		diagramPackage.Classdiagrams = slices.Delete(diagramPackage.Classdiagrams, idx, idx+1)
-		UnstageBranch(proxy.stager.stage, proxy.classdiagram)
+		proxy.stager.stage.UnstageBranch(proxy.classdiagram)
 
 		if diagramPackage.SelectedClassdiagram == proxy.classdiagram {
 			diagramPackage.SelectedClassdiagram = nil

@@ -26,32 +26,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *BookType:
-		ok = stage.IsStagedBookType(target)
-
-	case *Books:
-		ok = stage.IsStagedBooks(target)
-
-	case *Credit:
-		ok = stage.IsStagedCredit(target)
-
-	case *Link:
-		ok = stage.IsStagedLink(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedBookType(booktype *BookType) (ok bool) {
 
@@ -112,7 +86,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchBookType(booktype *BookType) {
 
 	// check if instance is already staged
-	if IsStaged(stage, booktype) {
+	if stage.IsStaged(booktype) {
 		return
 	}
 
@@ -122,7 +96,7 @@ func (stage *Stage) StageBranchBookType(booktype *BookType) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _credit := range booktype.Credit {
-		StageBranch(stage, _credit)
+		stage.StageBranch(_credit)
 	}
 
 }
@@ -130,7 +104,7 @@ func (stage *Stage) StageBranchBookType(booktype *BookType) {
 func (stage *Stage) StageBranchBooks(books *Books) {
 
 	// check if instance is already staged
-	if IsStaged(stage, books) {
+	if stage.IsStaged(books) {
 		return
 	}
 
@@ -140,7 +114,7 @@ func (stage *Stage) StageBranchBooks(books *Books) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _booktype := range books.Book {
-		StageBranch(stage, _booktype)
+		stage.StageBranch(_booktype)
 	}
 
 }
@@ -148,7 +122,7 @@ func (stage *Stage) StageBranchBooks(books *Books) {
 func (stage *Stage) StageBranchCredit(credit *Credit) {
 
 	// check if instance is already staged
-	if IsStaged(stage, credit) {
+	if stage.IsStaged(credit) {
 		return
 	}
 
@@ -158,7 +132,7 @@ func (stage *Stage) StageBranchCredit(credit *Credit) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _link := range credit.Link {
-		StageBranch(stage, _link)
+		stage.StageBranch(_link)
 	}
 
 }
@@ -166,7 +140,7 @@ func (stage *Stage) StageBranchCredit(credit *Credit) {
 func (stage *Stage) StageBranchLink(link *Link) {
 
 	// check if instance is already staged
-	if IsStaged(stage, link) {
+	if stage.IsStaged(link) {
 		return
 	}
 
@@ -178,11 +152,11 @@ func (stage *Stage) StageBranchLink(link *Link) {
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -190,19 +164,19 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *BookType:
-		toT := CopyBranchBookType(mapOrigCopy, fromT)
+		toT := GongCopyBranchBookType(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Books:
-		toT := CopyBranchBooks(mapOrigCopy, fromT)
+		toT := GongCopyBranchBooks(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Credit:
-		toT := CopyBranchCredit(mapOrigCopy, fromT)
+		toT := GongCopyBranchCredit(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Link:
-		toT := CopyBranchLink(mapOrigCopy, fromT)
+		toT := GongCopyBranchLink(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -212,7 +186,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchBookType(mapOrigCopy map[any]any, booktypeFrom *BookType) (booktypeTo *BookType) {
+func GongCopyBranchBookType(mapOrigCopy map[any]any, booktypeFrom *BookType) (booktypeTo *BookType) {
 
 	// booktypeFrom has already been copied
 	if _booktypeTo, ok := mapOrigCopy[booktypeFrom]; ok {
@@ -222,19 +196,19 @@ func CopyBranchBookType(mapOrigCopy map[any]any, booktypeFrom *BookType) (bookty
 
 	booktypeTo = new(BookType)
 	mapOrigCopy[booktypeFrom] = booktypeTo
-	booktypeFrom.CopyBasicFields(booktypeTo)
+	booktypeFrom.GongCopyBasicFields(booktypeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _credit := range booktypeFrom.Credit {
-		booktypeTo.Credit = append(booktypeTo.Credit, CopyBranchCredit(mapOrigCopy, _credit))
+		booktypeTo.Credit = append(booktypeTo.Credit, GongCopyBranchCredit(mapOrigCopy, _credit))
 	}
 
 	return
 }
 
-func CopyBranchBooks(mapOrigCopy map[any]any, booksFrom *Books) (booksTo *Books) {
+func GongCopyBranchBooks(mapOrigCopy map[any]any, booksFrom *Books) (booksTo *Books) {
 
 	// booksFrom has already been copied
 	if _booksTo, ok := mapOrigCopy[booksFrom]; ok {
@@ -244,19 +218,19 @@ func CopyBranchBooks(mapOrigCopy map[any]any, booksFrom *Books) (booksTo *Books)
 
 	booksTo = new(Books)
 	mapOrigCopy[booksFrom] = booksTo
-	booksFrom.CopyBasicFields(booksTo)
+	booksFrom.GongCopyBasicFields(booksTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _booktype := range booksFrom.Book {
-		booksTo.Book = append(booksTo.Book, CopyBranchBookType(mapOrigCopy, _booktype))
+		booksTo.Book = append(booksTo.Book, GongCopyBranchBookType(mapOrigCopy, _booktype))
 	}
 
 	return
 }
 
-func CopyBranchCredit(mapOrigCopy map[any]any, creditFrom *Credit) (creditTo *Credit) {
+func GongCopyBranchCredit(mapOrigCopy map[any]any, creditFrom *Credit) (creditTo *Credit) {
 
 	// creditFrom has already been copied
 	if _creditTo, ok := mapOrigCopy[creditFrom]; ok {
@@ -266,19 +240,19 @@ func CopyBranchCredit(mapOrigCopy map[any]any, creditFrom *Credit) (creditTo *Cr
 
 	creditTo = new(Credit)
 	mapOrigCopy[creditFrom] = creditTo
-	creditFrom.CopyBasicFields(creditTo)
+	creditFrom.GongCopyBasicFields(creditTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _link := range creditFrom.Link {
-		creditTo.Link = append(creditTo.Link, CopyBranchLink(mapOrigCopy, _link))
+		creditTo.Link = append(creditTo.Link, GongCopyBranchLink(mapOrigCopy, _link))
 	}
 
 	return
 }
 
-func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
+func GongCopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
 
 	// linkFrom has already been copied
 	if _linkTo, ok := mapOrigCopy[linkFrom]; ok {
@@ -288,7 +262,7 @@ func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
 
 	linkTo = new(Link)
 	mapOrigCopy[linkFrom] = linkTo
-	linkFrom.CopyBasicFields(linkTo)
+	linkFrom.GongCopyBasicFields(linkTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -323,16 +297,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchBookType(booktype *BookType) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, booktype) {
+	if !stage.IsStaged(booktype) {
 		return
 	}
 
@@ -342,7 +311,7 @@ func (stage *Stage) UnstageBranchBookType(booktype *BookType) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _credit := range booktype.Credit {
-		UnstageBranch(stage, _credit)
+		stage.UnstageBranch(_credit)
 	}
 
 }
@@ -350,7 +319,7 @@ func (stage *Stage) UnstageBranchBookType(booktype *BookType) {
 func (stage *Stage) UnstageBranchBooks(books *Books) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, books) {
+	if !stage.IsStaged(books) {
 		return
 	}
 
@@ -360,7 +329,7 @@ func (stage *Stage) UnstageBranchBooks(books *Books) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _booktype := range books.Book {
-		UnstageBranch(stage, _booktype)
+		stage.UnstageBranch(_booktype)
 	}
 
 }
@@ -368,7 +337,7 @@ func (stage *Stage) UnstageBranchBooks(books *Books) {
 func (stage *Stage) UnstageBranchCredit(credit *Credit) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, credit) {
+	if !stage.IsStaged(credit) {
 		return
 	}
 
@@ -378,7 +347,7 @@ func (stage *Stage) UnstageBranchCredit(credit *Credit) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _link := range credit.Link {
-		UnstageBranch(stage, _link)
+		stage.UnstageBranch(_link)
 	}
 
 }
@@ -386,7 +355,7 @@ func (stage *Stage) UnstageBranchCredit(credit *Credit) {
 func (stage *Stage) UnstageBranchLink(link *Link) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, link) {
+	if !stage.IsStaged(link) {
 		return
 	}
 
@@ -520,7 +489,7 @@ func (booktype *BookType) GongDiff(stage *Stage, booktypeOther *BookType) (diffs
 		}
 	}
 	if CreditDifferent {
-		ops := Diff(stage, booktype, booktypeOther, "Credit", booktypeOther.Credit, booktype.Credit)
+		ops := stage.Diff(booktype, booktypeOther, "Credit", booktypeOther.Credit, booktype.Credit)
 		diffs = append(diffs, ops)
 	}
 
@@ -552,7 +521,7 @@ func (books *Books) GongDiff(stage *Stage, booksOther *Books) (diffs []string) {
 		}
 	}
 	if BookDifferent {
-		ops := Diff(stage, books, booksOther, "Book", booksOther.Book, books.Book)
+		ops := stage.Diff(books, booksOther, "Book", booksOther.Book, books.Book)
 		diffs = append(diffs, ops)
 	}
 
@@ -590,7 +559,7 @@ func (credit *Credit) GongDiff(stage *Stage, creditOther *Credit) (diffs []strin
 		}
 	}
 	if LinkDifferent {
-		ops := Diff(stage, credit, creditOther, "Link", creditOther.Link, credit.Link)
+		ops := stage.Diff(credit, creditOther, "Link", creditOther.Link, credit.Link)
 		diffs = append(diffs, ops)
 	}
 	if credit.Credit_words != creditOther.Credit_words {
@@ -694,9 +663,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

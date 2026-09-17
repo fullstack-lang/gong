@@ -170,7 +170,7 @@ func (stager *Stager) treeStateMachines(
 	}
 
 	transitionsSet := *stager.stage.GetInstancesSet[*Transition]()
-	transitionSlice := SortGongstructSetByName(transitionsSet)
+	transitionSlice := GongSortGongstructSetByName(transitionsSet)
 
 	for _, diagram := range stateMachine.Diagrams {
 		diagramNode := new(tree.Node)

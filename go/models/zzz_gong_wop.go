@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type GongBasicField_WOP struct {
@@ -39,7 +37,7 @@ type GongBasicField_WOP struct {
 	BespokeHeight int
 }
 
-func (from *GongBasicField) CopyBasicFields(to *GongBasicField) {
+func (from *GongBasicField) GongCopyBasicFields(to *GongBasicField) {
 	// insertion point
 	to.Name = from.Name
 	to.BasicKindName = from.BasicKindName
@@ -64,7 +62,7 @@ type GongEnum_WOP struct {
 	Type GongEnumType
 }
 
-func (from *GongEnum) CopyBasicFields(to *GongEnum) {
+func (from *GongEnum) GongCopyBasicFields(to *GongEnum) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -78,7 +76,7 @@ type GongEnumValue_WOP struct {
 	Value string
 }
 
-func (from *GongEnumValue) CopyBasicFields(to *GongEnumValue) {
+func (from *GongEnumValue) GongCopyBasicFields(to *GongEnumValue) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -94,7 +92,7 @@ type GongLink_WOP struct {
 	ImportPath string
 }
 
-func (from *GongLink) CopyBasicFields(to *GongLink) {
+func (from *GongLink) GongCopyBasicFields(to *GongLink) {
 	// insertion point
 	to.Name = from.Name
 	to.Recv = from.Recv
@@ -111,7 +109,7 @@ type GongNote_WOP struct {
 	BodyHTML string
 }
 
-func (from *GongNote) CopyBasicFields(to *GongNote) {
+func (from *GongNote) GongCopyBasicFields(to *GongNote) {
 	// insertion point
 	to.Name = from.Name
 	to.Body = from.Body
@@ -130,7 +128,7 @@ type GongStruct_WOP struct {
 	IsOmittedForMarshalling bool
 }
 
-func (from *GongStruct) CopyBasicFields(to *GongStruct) {
+func (from *GongStruct) GongCopyBasicFields(to *GongStruct) {
 	// insertion point
 	to.Name = from.Name
 	to.HasOnAfterUpdateSignature = from.HasOnAfterUpdateSignature
@@ -158,7 +156,7 @@ type GongTimeField_WOP struct {
 	TimeFormOnly bool
 }
 
-func (from *GongTimeField) CopyBasicFields(to *GongTimeField) {
+func (from *GongTimeField) GongCopyBasicFields(to *GongTimeField) {
 	// insertion point
 	to.Name = from.Name
 	to.Index = from.Index
@@ -176,7 +174,7 @@ type MetaReference_WOP struct {
 	Name string
 }
 
-func (from *MetaReference) CopyBasicFields(to *MetaReference) {
+func (from *MetaReference) GongCopyBasicFields(to *MetaReference) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -223,7 +221,7 @@ type ModelPkg_WOP struct {
 	MaterialLibDatamodelTargetPath string
 }
 
-func (from *ModelPkg) CopyBasicFields(to *ModelPkg) {
+func (from *ModelPkg) GongCopyBasicFields(to *ModelPkg) {
 	// insertion point
 	to.Name = from.Name
 	to.PkgGoName = from.PkgGoName
@@ -264,7 +262,7 @@ type PointerToGongStructField_WOP struct {
 	IsType bool
 }
 
-func (from *PointerToGongStructField) CopyBasicFields(to *PointerToGongStructField) {
+func (from *PointerToGongStructField) GongCopyBasicFields(to *PointerToGongStructField) {
 	// insertion point
 	to.Name = from.Name
 	to.Index = from.Index
@@ -291,7 +289,7 @@ type SliceOfPointerToGongStructField_WOP struct {
 	IsAccordionEnd bool
 }
 
-func (from *SliceOfPointerToGongStructField) CopyBasicFields(to *SliceOfPointerToGongStructField) {
+func (from *SliceOfPointerToGongStructField) GongCopyBasicFields(to *SliceOfPointerToGongStructField) {
 	// insertion point
 	to.Name = from.Name
 	to.Index = from.Index

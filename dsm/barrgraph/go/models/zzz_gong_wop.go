@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type ArtefactType_WOP struct {
@@ -19,7 +17,7 @@ type ArtefactType_WOP struct {
 	IsExpanded bool
 }
 
-func (from *ArtefactType) CopyBasicFields(to *ArtefactType) {
+func (from *ArtefactType) GongCopyBasicFields(to *ArtefactType) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -42,7 +40,7 @@ type ArtefactTypeShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ArtefactTypeShape) CopyBasicFields(to *ArtefactTypeShape) {
+func (from *ArtefactTypeShape) GongCopyBasicFields(to *ArtefactTypeShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -66,7 +64,7 @@ type Artist_WOP struct {
 	DateOfDeath time.Time
 }
 
-func (from *Artist) CopyBasicFields(to *Artist) {
+func (from *Artist) GongCopyBasicFields(to *Artist) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -107,7 +105,7 @@ type ArtistShape_WOP struct {
 	ImagePngBase64Content string
 }
 
-func (from *ArtistShape) CopyBasicFields(to *ArtistShape) {
+func (from *ArtistShape) GongCopyBasicFields(to *ArtistShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -137,7 +135,7 @@ type ControlPointShape_WOP struct {
 	IsStartShapeTheClosestShape bool
 }
 
-func (from *ControlPointShape) CopyBasicFields(to *ControlPointShape) {
+func (from *ControlPointShape) GongCopyBasicFields(to *ControlPointShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X_Relative = from.X_Relative
@@ -151,7 +149,7 @@ type Desk_WOP struct {
 	Name string
 }
 
-func (from *Desk) CopyBasicFields(to *Desk) {
+func (from *Desk) GongCopyBasicFields(to *Desk) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -336,7 +334,7 @@ type Diagram_WOP struct {
 	InfluenceDashedLinePattern string
 }
 
-func (from *Diagram) CopyBasicFields(to *Diagram) {
+func (from *Diagram) GongCopyBasicFields(to *Diagram) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -440,7 +438,7 @@ type Influence_WOP struct {
 	IsHypothtical bool
 }
 
-func (from *Influence) CopyBasicFields(to *Influence) {
+func (from *Influence) GongCopyBasicFields(to *Influence) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -456,7 +454,7 @@ type InfluenceShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *InfluenceShape) CopyBasicFields(to *InfluenceShape) {
+func (from *InfluenceShape) GongCopyBasicFields(to *InfluenceShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsHidden = from.IsHidden
@@ -484,7 +482,7 @@ type Library_WOP struct {
 	IsExpandedTmp bool
 }
 
-func (from *Library) CopyBasicFields(to *Library) {
+func (from *Library) GongCopyBasicFields(to *Library) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -525,7 +523,7 @@ type Movement_WOP struct {
 	AdditionnalName string
 }
 
-func (from *Movement) CopyBasicFields(to *Movement) {
+func (from *Movement) GongCopyBasicFields(to *Movement) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -557,7 +555,7 @@ type MovementShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *MovementShape) CopyBasicFields(to *MovementShape) {
+func (from *MovementShape) GongCopyBasicFields(to *MovementShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -573,7 +571,7 @@ type Place_WOP struct {
 	Name string
 }
 
-func (from *Place) CopyBasicFields(to *Place) {
+func (from *Place) GongCopyBasicFields(to *Place) {
 	// insertion point
 	to.Name = from.Name
 }

@@ -103,7 +103,7 @@ func NewLevel1StackDelta(
 	}
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -142,5 +142,5 @@ const (
 var ModelGongNLevel1tackInstanceStructSubTemplateCode map[string]string = // new line
 map[string]string{
 	string(rune(ModelGongNLevel1tackInstanceSet)): `
-	models.SetOrchestratorOnAfterUpdate[models.{{Structname}}](stage)`,
+	stage.SetOrchestratorOnAfterUpdate[models.{{Structname}}]()`,
 }

@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -42,20 +37,15 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 	return
 }
 
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
-}
-
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by A
 func (a *A) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &a.Bs) || modified
-	modified = GongCleanSlice(stage, &a.Cs) || modified
+	modified = stage.CleanSlice(&a.Bs) || modified
+	modified = stage.CleanSlice(&a.Cs) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &a.B) || modified
-	modified = GongCleanPointer(stage, &a.C) || modified
+	modified = stage.CleanPointer(&a.B) || modified
+	modified = stage.CleanPointer(&a.C) || modified
 	return
 }
 

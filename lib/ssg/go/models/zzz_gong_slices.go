@@ -122,49 +122,49 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 // insertion point per named struct
 func (chapter *Chapter) GongCopy() GongstructIF {
 	newInstance := new(Chapter)
-	chapter.CopyBasicFields(newInstance)
+	chapter.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (content *Content) GongCopy() GongstructIF {
 	newInstance := new(Content)
-	content.CopyBasicFields(newInstance)
+	content.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (downloadablefile *DownloadableFile) GongCopy() GongstructIF {
 	newInstance := new(DownloadableFile)
-	downloadablefile.CopyBasicFields(newInstance)
+	downloadablefile.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (jpgimage *JpgImage) GongCopy() GongstructIF {
 	newInstance := new(JpgImage)
-	jpgimage.CopyBasicFields(newInstance)
+	jpgimage.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (page *Page) GongCopy() GongstructIF {
 	newInstance := new(Page)
-	page.CopyBasicFields(newInstance)
+	page.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (pngimage *PngImage) GongCopy() GongstructIF {
 	newInstance := new(PngImage)
-	pngimage.CopyBasicFields(newInstance)
+	pngimage.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (section *Section) GongCopy() GongstructIF {
 	newInstance := new(Section)
-	section.CopyBasicFields(newInstance)
+	section.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (svgimage *SvgImage) GongCopy() GongstructIF {
 	newInstance := new(SvgImage)
-	svgimage.CopyBasicFields(newInstance)
+	svgimage.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -175,7 +175,7 @@ func (chapter *Chapter) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(chapter), uint64(stage.GetOrder(chapter)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(chapter), uint64(stage.GetOrder(chapter)))
 	return
 }
 
@@ -185,7 +185,7 @@ func (content *Content) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(content), uint64(stage.GetOrder(content)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(content), uint64(stage.GetOrder(content)))
 	return
 }
 
@@ -195,7 +195,7 @@ func (downloadablefile *DownloadableFile) GongGetUUID(stage *Stage) (uuid string
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(downloadablefile), uint64(stage.GetOrder(downloadablefile)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(downloadablefile), uint64(stage.GetOrder(downloadablefile)))
 	return
 }
 
@@ -205,7 +205,7 @@ func (jpgimage *JpgImage) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(jpgimage), uint64(stage.GetOrder(jpgimage)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(jpgimage), uint64(stage.GetOrder(jpgimage)))
 	return
 }
 
@@ -215,7 +215,7 @@ func (page *Page) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(page), uint64(stage.GetOrder(page)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(page), uint64(stage.GetOrder(page)))
 	return
 }
 
@@ -225,7 +225,7 @@ func (pngimage *PngImage) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pngimage), uint64(stage.GetOrder(pngimage)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(pngimage), uint64(stage.GetOrder(pngimage)))
 	return
 }
 
@@ -235,7 +235,7 @@ func (section *Section) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(section), uint64(stage.GetOrder(section)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(section), uint64(stage.GetOrder(section)))
 	return
 }
 
@@ -245,7 +245,7 @@ func (svgimage *SvgImage) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svgimage), uint64(stage.GetOrder(svgimage)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(svgimage), uint64(stage.GetOrder(svgimage)))
 	return
 }
 
@@ -1053,7 +1053,7 @@ func (chapter *Chapter) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", chapter.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Chapter")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(chapter.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(chapter.Name))
 	return
 }
 
@@ -1061,7 +1061,7 @@ func (content *Content) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Content")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(content.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(content.Name))
 	return
 }
 
@@ -1069,7 +1069,7 @@ func (downloadablefile *DownloadableFile) GongMarshallIdentifier(stage *Stage) (
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", downloadablefile.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DownloadableFile")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(downloadablefile.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(downloadablefile.Name))
 	return
 }
 
@@ -1077,7 +1077,7 @@ func (jpgimage *JpgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "JpgImage")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(jpgimage.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(jpgimage.Name))
 	return
 }
 
@@ -1085,7 +1085,7 @@ func (page *Page) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", page.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Page")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(page.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(page.Name))
 	return
 }
 
@@ -1093,7 +1093,7 @@ func (pngimage *PngImage) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PngImage")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pngimage.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pngimage.Name))
 	return
 }
 
@@ -1101,7 +1101,7 @@ func (section *Section) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", section.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Section")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(section.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(section.Name))
 	return
 }
 
@@ -1109,7 +1109,7 @@ func (svgimage *SvgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SvgImage")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svgimage.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svgimage.Name))
 	return
 }
 
@@ -1162,10 +1162,10 @@ func (svgimage *SvgImage) GongMarshallUnstaging(stage *Stage) (decl string) {
 	return
 }
 
-func IntToLetters(number int32) (letters string) {
+func GongIntToLetters(number int32) (letters string) {
 	number--
 	if firstLetter := number / 26; firstLetter > 0 {
-		letters += IntToLetters(firstLetter)
+		letters += GongIntToLetters(firstLetter)
 		letters += string('A' + number%26)
 	} else {
 		letters += string('A' + number)
@@ -1174,8 +1174,8 @@ func IntToLetters(number int32) (letters string) {
 	return
 }
 
-// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
-func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+// GongGenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 1. Create a deterministic hash from the inputs using SHA-256
 	h := sha256.New()
 

@@ -49,10 +49,10 @@ func NewStackInstance(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.Checkbox](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Group](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Layout](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Slider](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.Checkbox]()
+	stage.SetOrchestratorOnAfterUpdate[models.Group]()
+	stage.SetOrchestratorOnAfterUpdate[models.Layout]()
+	stage.SetOrchestratorOnAfterUpdate[models.Slider]()
 
 	return
 }

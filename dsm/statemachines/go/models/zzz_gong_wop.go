@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Action_WOP struct {
@@ -17,7 +15,7 @@ type Action_WOP struct {
 	Criticality Criticality
 }
 
-func (from *Action) CopyBasicFields(to *Action) {
+func (from *Action) GongCopyBasicFields(to *Action) {
 	// insertion point
 	to.Name = from.Name
 	to.Criticality = from.Criticality
@@ -31,7 +29,7 @@ type Activities_WOP struct {
 	Criticality Criticality
 }
 
-func (from *Activities) CopyBasicFields(to *Activities) {
+func (from *Activities) GongCopyBasicFields(to *Activities) {
 	// insertion point
 	to.Name = from.Name
 	to.Criticality = from.Criticality
@@ -51,7 +49,7 @@ type Diagram_WOP struct {
 	IsStatesNodeExpanded bool
 }
 
-func (from *Diagram) CopyBasicFields(to *Diagram) {
+func (from *Diagram) GongCopyBasicFields(to *Diagram) {
 	// insertion point
 	to.Name = from.Name
 	to.IsChecked = from.IsChecked
@@ -66,7 +64,7 @@ type Guard_WOP struct {
 	Name string
 }
 
-func (from *Guard) CopyBasicFields(to *Guard) {
+func (from *Guard) GongCopyBasicFields(to *Guard) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -77,7 +75,7 @@ type Kill_WOP struct {
 	Name string
 }
 
-func (from *Kill) CopyBasicFields(to *Kill) {
+func (from *Kill) GongCopyBasicFields(to *Kill) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -104,7 +102,7 @@ type Library_WOP struct {
 	IsExpandedTmp bool
 }
 
-func (from *Library) CopyBasicFields(to *Library) {
+func (from *Library) GongCopyBasicFields(to *Library) {
 	// insertion point
 	to.Name = from.Name
 	to.NbPixPerCharacter = from.NbPixPerCharacter
@@ -125,7 +123,7 @@ type Message_WOP struct {
 	IsSelected bool
 }
 
-func (from *Message) CopyBasicFields(to *Message) {
+func (from *Message) GongCopyBasicFields(to *Message) {
 	// insertion point
 	to.Name = from.Name
 	to.IsSelected = from.IsSelected
@@ -139,7 +137,7 @@ type MessageType_WOP struct {
 	Description string
 }
 
-func (from *MessageType) CopyBasicFields(to *MessageType) {
+func (from *MessageType) GongCopyBasicFields(to *MessageType) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -155,7 +153,7 @@ type Note_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Note) CopyBasicFields(to *Note) {
+func (from *Note) GongCopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -182,7 +180,7 @@ type NoteShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteShape) CopyBasicFields(to *NoteShape) {
+func (from *NoteShape) GongCopyBasicFields(to *NoteShape) {
 	// insertion point
 	to.Name = from.Name
 	to.OverideLayoutDirection = from.OverideLayoutDirection
@@ -212,7 +210,7 @@ type NoteStateShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteStateShape) CopyBasicFields(to *NoteStateShape) {
+func (from *NoteStateShape) GongCopyBasicFields(to *NoteStateShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -235,7 +233,7 @@ type Object_WOP struct {
 	DOF time.Time
 }
 
-func (from *Object) CopyBasicFields(to *Object) {
+func (from *Object) GongCopyBasicFields(to *Object) {
 	// insertion point
 	to.Name = from.Name
 	to.IsSelected = from.IsSelected
@@ -251,7 +249,7 @@ type Role_WOP struct {
 	Acronym string
 }
 
-func (from *Role) CopyBasicFields(to *Role) {
+func (from *Role) GongCopyBasicFields(to *Role) {
 	// insertion point
 	to.Name = from.Name
 	to.Acronym = from.Acronym
@@ -269,7 +267,7 @@ type State_WOP struct {
 	IsFictious bool
 }
 
-func (from *State) CopyBasicFields(to *State) {
+func (from *State) GongCopyBasicFields(to *State) {
 	// insertion point
 	to.Name = from.Name
 	to.IsEndState = from.IsEndState
@@ -289,7 +287,7 @@ type StateMachine_WOP struct {
 	IsExpanded bool
 }
 
-func (from *StateMachine) CopyBasicFields(to *StateMachine) {
+func (from *StateMachine) GongCopyBasicFields(to *StateMachine) {
 	// insertion point
 	to.Name = from.Name
 	to.IsWithTransitionNameAutonamticalyGenerated = from.IsWithTransitionNameAutonamticalyGenerated
@@ -313,7 +311,7 @@ type StateShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *StateShape) CopyBasicFields(to *StateShape) {
+func (from *StateShape) GongCopyBasicFields(to *StateShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -329,7 +327,7 @@ type Transition_WOP struct {
 	Name string
 }
 
-func (from *Transition) CopyBasicFields(to *Transition) {
+func (from *Transition) GongCopyBasicFields(to *Transition) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -352,7 +350,7 @@ type Transition_Shape_WOP struct {
 	IsHidden bool
 }
 
-func (from *Transition_Shape) CopyBasicFields(to *Transition_Shape) {
+func (from *Transition_Shape) GongCopyBasicFields(to *Transition_Shape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio

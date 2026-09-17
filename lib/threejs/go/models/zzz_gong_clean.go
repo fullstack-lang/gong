@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -40,11 +35,6 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 		return
 	}
 	return
-}
-
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
 }
 
 // insertion point per named struct
@@ -65,8 +55,8 @@ func (boxgeometry *BoxGeometry) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by BufferGeometry
 func (buffergeometry *BufferGeometry) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &buffergeometry.Vertices) || modified
-	modified = GongCleanSlice(stage, &buffergeometry.Faces) || modified
+	modified = stage.CleanSlice(&buffergeometry.Vertices) || modified
+	modified = stage.CleanSlice(&buffergeometry.Faces) || modified
 	// insertion point per field
 	return
 }
@@ -81,18 +71,18 @@ func (camera *Camera) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Canvas
 func (canvas *Canvas) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &canvas.DirectionalLights) || modified
-	modified = GongCleanSlice(stage, &canvas.Meshs) || modified
+	modified = stage.CleanSlice(&canvas.DirectionalLights) || modified
+	modified = stage.CleanSlice(&canvas.Meshs) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &canvas.AmbiantLight) || modified
-	modified = GongCleanPointer(stage, &canvas.Camera) || modified
+	modified = stage.CleanPointer(&canvas.AmbiantLight) || modified
+	modified = stage.CleanPointer(&canvas.Camera) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Curve
 func (curve *Curve) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &curve.Points) || modified
+	modified = stage.CleanSlice(&curve.Points) || modified
 	// insertion point per field
 	return
 }
@@ -115,8 +105,8 @@ func (directionallight *DirectionalLight) GongClean(stage *Stage) (modified bool
 func (extrudegeometry *ExtrudeGeometry) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &extrudegeometry.Shape) || modified
-	modified = GongCleanPointer(stage, &extrudegeometry.ExtrudePath) || modified
+	modified = stage.CleanPointer(&extrudegeometry.Shape) || modified
+	modified = stage.CleanPointer(&extrudegeometry.ExtrudePath) || modified
 	return
 }
 
@@ -124,16 +114,16 @@ func (extrudegeometry *ExtrudeGeometry) GongClean(stage *Stage) (modified bool) 
 func (mesh *Mesh) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &mesh.MeshMaterialBasic) || modified
-	modified = GongCleanPointer(stage, &mesh.MeshPhysicalMaterial) || modified
-	modified = GongCleanPointer(stage, &mesh.CylinderGeometry) || modified
-	modified = GongCleanPointer(stage, &mesh.BoxGeometry) || modified
-	modified = GongCleanPointer(stage, &mesh.SphereGeometry) || modified
-	modified = GongCleanPointer(stage, &mesh.TorusGeometry) || modified
-	modified = GongCleanPointer(stage, &mesh.PlaneGeometry) || modified
-	modified = GongCleanPointer(stage, &mesh.TubeGeometry) || modified
-	modified = GongCleanPointer(stage, &mesh.ExtrudeGeometry) || modified
-	modified = GongCleanPointer(stage, &mesh.BufferGeometry) || modified
+	modified = stage.CleanPointer(&mesh.MeshMaterialBasic) || modified
+	modified = stage.CleanPointer(&mesh.MeshPhysicalMaterial) || modified
+	modified = stage.CleanPointer(&mesh.CylinderGeometry) || modified
+	modified = stage.CleanPointer(&mesh.BoxGeometry) || modified
+	modified = stage.CleanPointer(&mesh.SphereGeometry) || modified
+	modified = stage.CleanPointer(&mesh.TorusGeometry) || modified
+	modified = stage.CleanPointer(&mesh.PlaneGeometry) || modified
+	modified = stage.CleanPointer(&mesh.TubeGeometry) || modified
+	modified = stage.CleanPointer(&mesh.ExtrudeGeometry) || modified
+	modified = stage.CleanPointer(&mesh.BufferGeometry) || modified
 	return
 }
 
@@ -161,7 +151,7 @@ func (planegeometry *PlaneGeometry) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Shape
 func (shape *Shape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &shape.Points) || modified
+	modified = stage.CleanSlice(&shape.Points) || modified
 	// insertion point per field
 	return
 }
@@ -191,7 +181,7 @@ func (triangle *Triangle) GongClean(stage *Stage) (modified bool) {
 func (tubegeometry *TubeGeometry) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &tubegeometry.Path) || modified
+	modified = stage.CleanPointer(&tubegeometry.Path) || modified
 	return
 }
 

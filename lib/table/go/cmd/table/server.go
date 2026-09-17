@@ -52,7 +52,7 @@ func executeServer(args []string) {
 		stageForManualyEditedTable.Checkout()
 		stageForManualyEditedTable.Reset()
 		stageForManualyEditedTable.Commit()
-		err := gongtable_models.ParseAstFile(stageForManualyEditedTable, "table_stage.go", false)
+		err := stageForManualyEditedTable.ParseAstFile("table_stage.go", false)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.

@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Astruct_WOP struct {
@@ -47,7 +45,7 @@ type Astruct_WOP struct {
 	TextArea string
 }
 
-func (from *Astruct) CopyBasicFields(to *Astruct) {
+func (from *Astruct) GongCopyBasicFields(to *Astruct) {
 	// insertion point
 	to.Name = from.Name
 	to.Field = from.Field
@@ -74,7 +72,7 @@ type AstructBstruct2Use_WOP struct {
 	Name string
 }
 
-func (from *AstructBstruct2Use) CopyBasicFields(to *AstructBstruct2Use) {
+func (from *AstructBstruct2Use) GongCopyBasicFields(to *AstructBstruct2Use) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -85,7 +83,7 @@ type AstructBstructUse_WOP struct {
 	Name string
 }
 
-func (from *AstructBstructUse) CopyBasicFields(to *AstructBstructUse) {
+func (from *AstructBstructUse) GongCopyBasicFields(to *AstructBstructUse) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -102,7 +100,7 @@ type Bstruct_WOP struct {
 	Intfield int
 }
 
-func (from *Bstruct) CopyBasicFields(to *Bstruct) {
+func (from *Bstruct) GongCopyBasicFields(to *Bstruct) {
 	// insertion point
 	to.Name = from.Name
 	to.Floatfield = from.Floatfield
@@ -116,7 +114,7 @@ type Dstruct_WOP struct {
 	Name string
 }
 
-func (from *Dstruct) CopyBasicFields(to *Dstruct) {
+func (from *Dstruct) GongCopyBasicFields(to *Dstruct) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -129,7 +127,7 @@ type F0123456789012345678901234567890_WOP struct {
 	Date time.Time
 }
 
-func (from *F0123456789012345678901234567890) CopyBasicFields(to *F0123456789012345678901234567890) {
+func (from *F0123456789012345678901234567890) GongCopyBasicFields(to *F0123456789012345678901234567890) {
 	// insertion point
 	to.Name = from.Name
 	to.Date = from.Date
@@ -147,7 +145,7 @@ type Gstruct_WOP struct {
 	Intfield int
 }
 
-func (from *Gstruct) CopyBasicFields(to *Gstruct) {
+func (from *Gstruct) GongCopyBasicFields(to *Gstruct) {
 	// insertion point
 	to.Name = from.Name
 	to.Floatfield = from.Floatfield

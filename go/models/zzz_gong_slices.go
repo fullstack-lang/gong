@@ -150,67 +150,67 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 // insertion point per named struct
 func (gongbasicfield *GongBasicField) GongCopy() GongstructIF {
 	newInstance := new(GongBasicField)
-	gongbasicfield.CopyBasicFields(newInstance)
+	gongbasicfield.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (gongenum *GongEnum) GongCopy() GongstructIF {
 	newInstance := new(GongEnum)
-	gongenum.CopyBasicFields(newInstance)
+	gongenum.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (gongenumvalue *GongEnumValue) GongCopy() GongstructIF {
 	newInstance := new(GongEnumValue)
-	gongenumvalue.CopyBasicFields(newInstance)
+	gongenumvalue.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (gonglink *GongLink) GongCopy() GongstructIF {
 	newInstance := new(GongLink)
-	gonglink.CopyBasicFields(newInstance)
+	gonglink.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (gongnote *GongNote) GongCopy() GongstructIF {
 	newInstance := new(GongNote)
-	gongnote.CopyBasicFields(newInstance)
+	gongnote.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (gongstruct *GongStruct) GongCopy() GongstructIF {
 	newInstance := new(GongStruct)
-	gongstruct.CopyBasicFields(newInstance)
+	gongstruct.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (gongtimefield *GongTimeField) GongCopy() GongstructIF {
 	newInstance := new(GongTimeField)
-	gongtimefield.CopyBasicFields(newInstance)
+	gongtimefield.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (metareference *MetaReference) GongCopy() GongstructIF {
 	newInstance := new(MetaReference)
-	metareference.CopyBasicFields(newInstance)
+	metareference.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (modelpkg *ModelPkg) GongCopy() GongstructIF {
 	newInstance := new(ModelPkg)
-	modelpkg.CopyBasicFields(newInstance)
+	modelpkg.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (pointertogongstructfield *PointerToGongStructField) GongCopy() GongstructIF {
 	newInstance := new(PointerToGongStructField)
-	pointertogongstructfield.CopyBasicFields(newInstance)
+	pointertogongstructfield.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongCopy() GongstructIF {
 	newInstance := new(SliceOfPointerToGongStructField)
-	sliceofpointertogongstructfield.CopyBasicFields(newInstance)
+	sliceofpointertogongstructfield.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -221,7 +221,7 @@ func (gongbasicfield *GongBasicField) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongbasicfield), uint64(stage.GetOrder(gongbasicfield)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(gongbasicfield), uint64(stage.GetOrder(gongbasicfield)))
 	return
 }
 
@@ -231,7 +231,7 @@ func (gongenum *GongEnum) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongenum), uint64(stage.GetOrder(gongenum)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(gongenum), uint64(stage.GetOrder(gongenum)))
 	return
 }
 
@@ -241,7 +241,7 @@ func (gongenumvalue *GongEnumValue) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongenumvalue), uint64(stage.GetOrder(gongenumvalue)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(gongenumvalue), uint64(stage.GetOrder(gongenumvalue)))
 	return
 }
 
@@ -251,7 +251,7 @@ func (gonglink *GongLink) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gonglink), uint64(stage.GetOrder(gonglink)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(gonglink), uint64(stage.GetOrder(gonglink)))
 	return
 }
 
@@ -261,7 +261,7 @@ func (gongnote *GongNote) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongnote), uint64(stage.GetOrder(gongnote)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(gongnote), uint64(stage.GetOrder(gongnote)))
 	return
 }
 
@@ -271,7 +271,7 @@ func (gongstruct *GongStruct) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongstruct), uint64(stage.GetOrder(gongstruct)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(gongstruct), uint64(stage.GetOrder(gongstruct)))
 	return
 }
 
@@ -281,7 +281,7 @@ func (gongtimefield *GongTimeField) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongtimefield), uint64(stage.GetOrder(gongtimefield)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(gongtimefield), uint64(stage.GetOrder(gongtimefield)))
 	return
 }
 
@@ -291,7 +291,7 @@ func (metareference *MetaReference) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(metareference), uint64(stage.GetOrder(metareference)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(metareference), uint64(stage.GetOrder(metareference)))
 	return
 }
 
@@ -301,7 +301,7 @@ func (modelpkg *ModelPkg) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(modelpkg), uint64(stage.GetOrder(modelpkg)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(modelpkg), uint64(stage.GetOrder(modelpkg)))
 	return
 }
 
@@ -311,7 +311,7 @@ func (pointertogongstructfield *PointerToGongStructField) GongGetUUID(stage *Sta
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pointertogongstructfield), uint64(stage.GetOrder(pointertogongstructfield)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(pointertogongstructfield), uint64(stage.GetOrder(pointertogongstructfield)))
 	return
 }
 
@@ -321,7 +321,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetU
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(sliceofpointertogongstructfield), uint64(stage.GetOrder(sliceofpointertogongstructfield)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(sliceofpointertogongstructfield), uint64(stage.GetOrder(sliceofpointertogongstructfield)))
 	return
 }
 
@@ -1402,7 +1402,7 @@ func (gongbasicfield *GongBasicField) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongBasicField")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongbasicfield.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gongbasicfield.Name))
 	return
 }
 
@@ -1410,7 +1410,7 @@ func (gongenum *GongEnum) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenum.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongEnum")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongenum.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gongenum.Name))
 	return
 }
 
@@ -1418,7 +1418,7 @@ func (gongenumvalue *GongEnumValue) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenumvalue.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongEnumValue")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongenumvalue.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gongenumvalue.Name))
 	return
 }
 
@@ -1426,7 +1426,7 @@ func (gonglink *GongLink) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gonglink.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongLink")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gonglink.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gonglink.Name))
 	return
 }
 
@@ -1434,7 +1434,7 @@ func (gongnote *GongNote) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongnote.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongNote")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongnote.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gongnote.Name))
 	return
 }
 
@@ -1442,7 +1442,7 @@ func (gongstruct *GongStruct) GongMarshallIdentifier(stage *Stage) (decl string)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongStruct")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongstruct.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gongstruct.Name))
 	return
 }
 
@@ -1450,7 +1450,7 @@ func (gongtimefield *GongTimeField) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongTimeField")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongtimefield.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gongtimefield.Name))
 	return
 }
 
@@ -1458,7 +1458,7 @@ func (metareference *MetaReference) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", metareference.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MetaReference")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metareference.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metareference.Name))
 	return
 }
 
@@ -1466,7 +1466,7 @@ func (modelpkg *ModelPkg) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ModelPkg")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(modelpkg.Name))
 	return
 }
 
@@ -1474,7 +1474,7 @@ func (pointertogongstructfield *PointerToGongStructField) GongMarshallIdentifier
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PointerToGongStructField")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pointertogongstructfield.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pointertogongstructfield.Name))
 	return
 }
 
@@ -1482,7 +1482,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMars
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", sliceofpointertogongstructfield.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SliceOfPointerToGongStructField")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sliceofpointertogongstructfield.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sliceofpointertogongstructfield.Name))
 	return
 }
 
@@ -1553,10 +1553,10 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMars
 	return
 }
 
-func IntToLetters(number int32) (letters string) {
+func GongIntToLetters(number int32) (letters string) {
 	number--
 	if firstLetter := number / 26; firstLetter > 0 {
-		letters += IntToLetters(firstLetter)
+		letters += GongIntToLetters(firstLetter)
 		letters += string('A' + number%26)
 	} else {
 		letters += string('A' + number)
@@ -1565,8 +1565,8 @@ func IntToLetters(number int32) (letters string) {
 	return
 }
 
-// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
-func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+// GongGenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 1. Create a deterministic hash from the inputs using SHA-256
 	h := sha256.New()
 

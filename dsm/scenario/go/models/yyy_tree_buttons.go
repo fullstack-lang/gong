@@ -1231,7 +1231,7 @@ func ParseAstFromBytes(stage *Stage, input []byte) error {
 	if errParser != nil {
 		return fmt.Errorf("Unable to parse: %w", errParser)
 	}
-	return ParseAstFileFromAst(stage, inFile, fset, false)
+	return stage.ParseAstFileFromAst(inFile, fset, false)
 }
 
 // onNameChange provides a reusable callback for tree.Node.OnNameChange

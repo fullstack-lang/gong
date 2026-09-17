@@ -29,35 +29,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *DisplaySelection:
-		ok = stage.IsStagedDisplaySelection(target)
-
-	case *XLCell:
-		ok = stage.IsStagedXLCell(target)
-
-	case *XLFile:
-		ok = stage.IsStagedXLFile(target)
-
-	case *XLRow:
-		ok = stage.IsStagedXLRow(target)
-
-	case *XLSheet:
-		ok = stage.IsStagedXLSheet(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedDisplaySelection(displayselection *DisplaySelection) (ok bool) {
 
@@ -128,7 +99,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchDisplaySelection(displayselection *DisplaySelection) {
 
 	// check if instance is already staged
-	if IsStaged(stage, displayselection) {
+	if stage.IsStaged(displayselection) {
 		return
 	}
 
@@ -136,10 +107,10 @@ func (stage *Stage) StageBranchDisplaySelection(displayselection *DisplaySelecti
 
 	//insertion point for the staging of instances referenced by pointers
 	if displayselection.XLFile != nil {
-		StageBranch(stage, displayselection.XLFile)
+		stage.StageBranch(displayselection.XLFile)
 	}
 	if displayselection.XLSheet != nil {
-		StageBranch(stage, displayselection.XLSheet)
+		stage.StageBranch(displayselection.XLSheet)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -149,7 +120,7 @@ func (stage *Stage) StageBranchDisplaySelection(displayselection *DisplaySelecti
 func (stage *Stage) StageBranchXLCell(xlcell *XLCell) {
 
 	// check if instance is already staged
-	if IsStaged(stage, xlcell) {
+	if stage.IsStaged(xlcell) {
 		return
 	}
 
@@ -164,7 +135,7 @@ func (stage *Stage) StageBranchXLCell(xlcell *XLCell) {
 func (stage *Stage) StageBranchXLFile(xlfile *XLFile) {
 
 	// check if instance is already staged
-	if IsStaged(stage, xlfile) {
+	if stage.IsStaged(xlfile) {
 		return
 	}
 
@@ -174,7 +145,7 @@ func (stage *Stage) StageBranchXLFile(xlfile *XLFile) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _xlsheet := range xlfile.Sheets {
-		StageBranch(stage, _xlsheet)
+		stage.StageBranch(_xlsheet)
 	}
 
 }
@@ -182,7 +153,7 @@ func (stage *Stage) StageBranchXLFile(xlfile *XLFile) {
 func (stage *Stage) StageBranchXLRow(xlrow *XLRow) {
 
 	// check if instance is already staged
-	if IsStaged(stage, xlrow) {
+	if stage.IsStaged(xlrow) {
 		return
 	}
 
@@ -192,7 +163,7 @@ func (stage *Stage) StageBranchXLRow(xlrow *XLRow) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _xlcell := range xlrow.Cells {
-		StageBranch(stage, _xlcell)
+		stage.StageBranch(_xlcell)
 	}
 
 }
@@ -200,7 +171,7 @@ func (stage *Stage) StageBranchXLRow(xlrow *XLRow) {
 func (stage *Stage) StageBranchXLSheet(xlsheet *XLSheet) {
 
 	// check if instance is already staged
-	if IsStaged(stage, xlsheet) {
+	if stage.IsStaged(xlsheet) {
 		return
 	}
 
@@ -210,19 +181,19 @@ func (stage *Stage) StageBranchXLSheet(xlsheet *XLSheet) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _xlrow := range xlsheet.Rows {
-		StageBranch(stage, _xlrow)
+		stage.StageBranch(_xlrow)
 	}
 	for _, _xlcell := range xlsheet.SheetCells {
-		StageBranch(stage, _xlcell)
+		stage.StageBranch(_xlcell)
 	}
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -230,23 +201,23 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *DisplaySelection:
-		toT := CopyBranchDisplaySelection(mapOrigCopy, fromT)
+		toT := GongCopyBranchDisplaySelection(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *XLCell:
-		toT := CopyBranchXLCell(mapOrigCopy, fromT)
+		toT := GongCopyBranchXLCell(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *XLFile:
-		toT := CopyBranchXLFile(mapOrigCopy, fromT)
+		toT := GongCopyBranchXLFile(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *XLRow:
-		toT := CopyBranchXLRow(mapOrigCopy, fromT)
+		toT := GongCopyBranchXLRow(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *XLSheet:
-		toT := CopyBranchXLSheet(mapOrigCopy, fromT)
+		toT := GongCopyBranchXLSheet(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -256,7 +227,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchDisplaySelection(mapOrigCopy map[any]any, displayselectionFrom *DisplaySelection) (displayselectionTo *DisplaySelection) {
+func GongCopyBranchDisplaySelection(mapOrigCopy map[any]any, displayselectionFrom *DisplaySelection) (displayselectionTo *DisplaySelection) {
 
 	// displayselectionFrom has already been copied
 	if _displayselectionTo, ok := mapOrigCopy[displayselectionFrom]; ok {
@@ -266,14 +237,14 @@ func CopyBranchDisplaySelection(mapOrigCopy map[any]any, displayselectionFrom *D
 
 	displayselectionTo = new(DisplaySelection)
 	mapOrigCopy[displayselectionFrom] = displayselectionTo
-	displayselectionFrom.CopyBasicFields(displayselectionTo)
+	displayselectionFrom.GongCopyBasicFields(displayselectionTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if displayselectionFrom.XLFile != nil {
-		displayselectionTo.XLFile = CopyBranchXLFile(mapOrigCopy, displayselectionFrom.XLFile)
+		displayselectionTo.XLFile = GongCopyBranchXLFile(mapOrigCopy, displayselectionFrom.XLFile)
 	}
 	if displayselectionFrom.XLSheet != nil {
-		displayselectionTo.XLSheet = CopyBranchXLSheet(mapOrigCopy, displayselectionFrom.XLSheet)
+		displayselectionTo.XLSheet = GongCopyBranchXLSheet(mapOrigCopy, displayselectionFrom.XLSheet)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -281,7 +252,7 @@ func CopyBranchDisplaySelection(mapOrigCopy map[any]any, displayselectionFrom *D
 	return
 }
 
-func CopyBranchXLCell(mapOrigCopy map[any]any, xlcellFrom *XLCell) (xlcellTo *XLCell) {
+func GongCopyBranchXLCell(mapOrigCopy map[any]any, xlcellFrom *XLCell) (xlcellTo *XLCell) {
 
 	// xlcellFrom has already been copied
 	if _xlcellTo, ok := mapOrigCopy[xlcellFrom]; ok {
@@ -291,7 +262,7 @@ func CopyBranchXLCell(mapOrigCopy map[any]any, xlcellFrom *XLCell) (xlcellTo *XL
 
 	xlcellTo = new(XLCell)
 	mapOrigCopy[xlcellFrom] = xlcellTo
-	xlcellFrom.CopyBasicFields(xlcellTo)
+	xlcellFrom.GongCopyBasicFields(xlcellTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -300,7 +271,7 @@ func CopyBranchXLCell(mapOrigCopy map[any]any, xlcellFrom *XLCell) (xlcellTo *XL
 	return
 }
 
-func CopyBranchXLFile(mapOrigCopy map[any]any, xlfileFrom *XLFile) (xlfileTo *XLFile) {
+func GongCopyBranchXLFile(mapOrigCopy map[any]any, xlfileFrom *XLFile) (xlfileTo *XLFile) {
 
 	// xlfileFrom has already been copied
 	if _xlfileTo, ok := mapOrigCopy[xlfileFrom]; ok {
@@ -310,19 +281,19 @@ func CopyBranchXLFile(mapOrigCopy map[any]any, xlfileFrom *XLFile) (xlfileTo *XL
 
 	xlfileTo = new(XLFile)
 	mapOrigCopy[xlfileFrom] = xlfileTo
-	xlfileFrom.CopyBasicFields(xlfileTo)
+	xlfileFrom.GongCopyBasicFields(xlfileTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _xlsheet := range xlfileFrom.Sheets {
-		xlfileTo.Sheets = append(xlfileTo.Sheets, CopyBranchXLSheet(mapOrigCopy, _xlsheet))
+		xlfileTo.Sheets = append(xlfileTo.Sheets, GongCopyBranchXLSheet(mapOrigCopy, _xlsheet))
 	}
 
 	return
 }
 
-func CopyBranchXLRow(mapOrigCopy map[any]any, xlrowFrom *XLRow) (xlrowTo *XLRow) {
+func GongCopyBranchXLRow(mapOrigCopy map[any]any, xlrowFrom *XLRow) (xlrowTo *XLRow) {
 
 	// xlrowFrom has already been copied
 	if _xlrowTo, ok := mapOrigCopy[xlrowFrom]; ok {
@@ -332,19 +303,19 @@ func CopyBranchXLRow(mapOrigCopy map[any]any, xlrowFrom *XLRow) (xlrowTo *XLRow)
 
 	xlrowTo = new(XLRow)
 	mapOrigCopy[xlrowFrom] = xlrowTo
-	xlrowFrom.CopyBasicFields(xlrowTo)
+	xlrowFrom.GongCopyBasicFields(xlrowTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _xlcell := range xlrowFrom.Cells {
-		xlrowTo.Cells = append(xlrowTo.Cells, CopyBranchXLCell(mapOrigCopy, _xlcell))
+		xlrowTo.Cells = append(xlrowTo.Cells, GongCopyBranchXLCell(mapOrigCopy, _xlcell))
 	}
 
 	return
 }
 
-func CopyBranchXLSheet(mapOrigCopy map[any]any, xlsheetFrom *XLSheet) (xlsheetTo *XLSheet) {
+func GongCopyBranchXLSheet(mapOrigCopy map[any]any, xlsheetFrom *XLSheet) (xlsheetTo *XLSheet) {
 
 	// xlsheetFrom has already been copied
 	if _xlsheetTo, ok := mapOrigCopy[xlsheetFrom]; ok {
@@ -354,16 +325,16 @@ func CopyBranchXLSheet(mapOrigCopy map[any]any, xlsheetFrom *XLSheet) (xlsheetTo
 
 	xlsheetTo = new(XLSheet)
 	mapOrigCopy[xlsheetFrom] = xlsheetTo
-	xlsheetFrom.CopyBasicFields(xlsheetTo)
+	xlsheetFrom.GongCopyBasicFields(xlsheetTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _xlrow := range xlsheetFrom.Rows {
-		xlsheetTo.Rows = append(xlsheetTo.Rows, CopyBranchXLRow(mapOrigCopy, _xlrow))
+		xlsheetTo.Rows = append(xlsheetTo.Rows, GongCopyBranchXLRow(mapOrigCopy, _xlrow))
 	}
 	for _, _xlcell := range xlsheetFrom.SheetCells {
-		xlsheetTo.SheetCells = append(xlsheetTo.SheetCells, CopyBranchXLCell(mapOrigCopy, _xlcell))
+		xlsheetTo.SheetCells = append(xlsheetTo.SheetCells, GongCopyBranchXLCell(mapOrigCopy, _xlcell))
 	}
 
 	return
@@ -398,16 +369,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchDisplaySelection(displayselection *DisplaySelection) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, displayselection) {
+	if !stage.IsStaged(displayselection) {
 		return
 	}
 
@@ -415,10 +381,10 @@ func (stage *Stage) UnstageBranchDisplaySelection(displayselection *DisplaySelec
 
 	//insertion point for the staging of instances referenced by pointers
 	if displayselection.XLFile != nil {
-		UnstageBranch(stage, displayselection.XLFile)
+		stage.UnstageBranch(displayselection.XLFile)
 	}
 	if displayselection.XLSheet != nil {
-		UnstageBranch(stage, displayselection.XLSheet)
+		stage.UnstageBranch(displayselection.XLSheet)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -428,7 +394,7 @@ func (stage *Stage) UnstageBranchDisplaySelection(displayselection *DisplaySelec
 func (stage *Stage) UnstageBranchXLCell(xlcell *XLCell) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, xlcell) {
+	if !stage.IsStaged(xlcell) {
 		return
 	}
 
@@ -443,7 +409,7 @@ func (stage *Stage) UnstageBranchXLCell(xlcell *XLCell) {
 func (stage *Stage) UnstageBranchXLFile(xlfile *XLFile) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, xlfile) {
+	if !stage.IsStaged(xlfile) {
 		return
 	}
 
@@ -453,7 +419,7 @@ func (stage *Stage) UnstageBranchXLFile(xlfile *XLFile) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _xlsheet := range xlfile.Sheets {
-		UnstageBranch(stage, _xlsheet)
+		stage.UnstageBranch(_xlsheet)
 	}
 
 }
@@ -461,7 +427,7 @@ func (stage *Stage) UnstageBranchXLFile(xlfile *XLFile) {
 func (stage *Stage) UnstageBranchXLRow(xlrow *XLRow) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, xlrow) {
+	if !stage.IsStaged(xlrow) {
 		return
 	}
 
@@ -471,7 +437,7 @@ func (stage *Stage) UnstageBranchXLRow(xlrow *XLRow) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _xlcell := range xlrow.Cells {
-		UnstageBranch(stage, _xlcell)
+		stage.UnstageBranch(_xlcell)
 	}
 
 }
@@ -479,7 +445,7 @@ func (stage *Stage) UnstageBranchXLRow(xlrow *XLRow) {
 func (stage *Stage) UnstageBranchXLSheet(xlsheet *XLSheet) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, xlsheet) {
+	if !stage.IsStaged(xlsheet) {
 		return
 	}
 
@@ -489,10 +455,10 @@ func (stage *Stage) UnstageBranchXLSheet(xlsheet *XLSheet) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _xlrow := range xlsheet.Rows {
-		UnstageBranch(stage, _xlrow)
+		stage.UnstageBranch(_xlrow)
 	}
 	for _, _xlcell := range xlsheet.SheetCells {
-		UnstageBranch(stage, _xlcell)
+		stage.UnstageBranch(_xlcell)
 	}
 
 }
@@ -682,7 +648,7 @@ func (xlfile *XLFile) GongDiff(stage *Stage, xlfileOther *XLFile) (diffs []strin
 		}
 	}
 	if SheetsDifferent {
-		ops := Diff(stage, xlfile, xlfileOther, "Sheets", xlfileOther.Sheets, xlfile.Sheets)
+		ops := stage.Diff(xlfile, xlfileOther, "Sheets", xlfileOther.Sheets, xlfile.Sheets)
 		diffs = append(diffs, ops)
 	}
 
@@ -717,7 +683,7 @@ func (xlrow *XLRow) GongDiff(stage *Stage, xlrowOther *XLRow) (diffs []string) {
 		}
 	}
 	if CellsDifferent {
-		ops := Diff(stage, xlrow, xlrowOther, "Cells", xlrowOther.Cells, xlrow.Cells)
+		ops := stage.Diff(xlrow, xlrowOther, "Cells", xlrowOther.Cells, xlrow.Cells)
 		diffs = append(diffs, ops)
 	}
 
@@ -758,7 +724,7 @@ func (xlsheet *XLSheet) GongDiff(stage *Stage, xlsheetOther *XLSheet) (diffs []s
 		}
 	}
 	if RowsDifferent {
-		ops := Diff(stage, xlsheet, xlsheetOther, "Rows", xlsheetOther.Rows, xlsheet.Rows)
+		ops := stage.Diff(xlsheet, xlsheetOther, "Rows", xlsheetOther.Rows, xlsheet.Rows)
 		diffs = append(diffs, ops)
 	}
 	SheetCellsDifferent := false
@@ -779,7 +745,7 @@ func (xlsheet *XLSheet) GongDiff(stage *Stage, xlsheetOther *XLSheet) (diffs []s
 		}
 	}
 	if SheetCellsDifferent {
-		ops := Diff(stage, xlsheet, xlsheetOther, "SheetCells", xlsheetOther.SheetCells, xlsheet.SheetCells)
+		ops := stage.Diff(xlsheet, xlsheetOther, "SheetCells", xlsheetOther.SheetCells, xlsheet.SheetCells)
 		diffs = append(diffs, ops)
 	}
 
@@ -860,9 +826,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

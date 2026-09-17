@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Freqency_WOP struct {
@@ -15,7 +13,7 @@ type Freqency_WOP struct {
 	Name string
 }
 
-func (from *Freqency) CopyBasicFields(to *Freqency) {
+func (from *Freqency) GongCopyBasicFields(to *Freqency) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -34,7 +32,7 @@ type Note_WOP struct {
 	Info string
 }
 
-func (from *Note) CopyBasicFields(to *Note) {
+func (from *Note) GongCopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
 	to.Start = from.Start
@@ -51,7 +49,7 @@ type Player_WOP struct {
 	Status Status
 }
 
-func (from *Player) CopyBasicFields(to *Player) {
+func (from *Player) GongCopyBasicFields(to *Player) {
 	// insertion point
 	to.Name = from.Name
 	to.Status = from.Status

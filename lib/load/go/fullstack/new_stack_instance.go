@@ -49,9 +49,9 @@ func NewStackInstance(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.FileToDownload](stage)
-	models.SetOrchestratorOnAfterUpdate[models.FileToUpload](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Message](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.FileToDownload]()
+	stage.SetOrchestratorOnAfterUpdate[models.FileToUpload]()
+	stage.SetOrchestratorOnAfterUpdate[models.Message]()
 
 	return
 }

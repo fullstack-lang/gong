@@ -18,8 +18,8 @@ import (
 
 // can be used for
 //
-//	days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
-func __Gong__Abs(x int) int {
+//	days := __gong__abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
+func __gong__abs(x int) int {
 	if x < 0 {
 		return -x
 	}
@@ -27,7 +27,7 @@ func __Gong__Abs(x int) int {
 }
 
 var (
-	_ = __Gong__Abs
+	_ = __gong__abs
 	_ = strings.Clone("")
 )
 
@@ -86,14 +86,10 @@ var (
 )
 
 // needed to avoid when fmt package is not needed by generated code
-var __dummy__fmt_variable fmt.Scanner
-
-var _ = __dummy__fmt_variable
+var _ = fmt.Sprintf
 
 // idem for math package when not need by generated code
-var __dummy_math_variable = math.E
-
-var _ = __dummy_math_variable
+var _ = math.E
 
 // swagger:ignore
 type __void any
@@ -239,7 +235,7 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	// UX
 	stage.commitsBehind++
 	stage.isApplyingBackwardCommit = true
-	err := GongParseAstString(stage, commitToApply, true)
+	err := stage.ParseAstString(commitToApply, true)
 	stage.isApplyingBackwardCommit = false
 	if err != nil {
 		log.Println("error during ApplyBackwardCommit: ", err)
@@ -279,7 +275,7 @@ func (stage *Stage) ApplyForwardCommit() error {
 	// UX
 	stage.commitsBehind--
 	stage.isApplyingForwardCommit = true
-	err := GongParseAstString(stage, commitToApply, true)
+	err := stage.ParseAstString(commitToApply, true)
 	stage.isApplyingForwardCommit = false
 	if err != nil {
 		log.Println("error during ApplyForwardCommit: ", err)
@@ -413,7 +409,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	return
 }
 
-func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+func __gong__getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -672,15 +668,15 @@ type PointerToGongstruct interface {
 	comparable
 }
 
-func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
+func GongCompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
+func GongSortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
 	}
-	slices.SortFunc(sortedSlice, CompareGongstructByName)
+	slices.SortFunc(sortedSlice, GongCompareGongstructByName)
 
 	return
 }
@@ -688,7 +684,7 @@ func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedS
 // GetInstancesSorted is the Stage method returning sorted instances of a gongstruct.
 func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T) {
 	set := stage.GetInstancesSet[T]()
-	sortedSlice = SortGongstructSetByName(*set)
+	sortedSlice = GongSortGongstructSetByName(*set)
 
 	return
 }
@@ -715,11 +711,11 @@ func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() {{mapReturnType}
 	}
 }
 
-// GetAssociationName is a generic function that returns an instance of Type
+// GongGetAssociationName is a generic function that returns an instance of Type
 // where each association is filled with an instance whose name is the name of the association
 //
 // This function can be handy for generating navigation function that are refactorable
-func GetAssociationName[Type Gongstruct]() *Type {
+func GongGetAssociationName[Type Gongstruct]() *Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -757,14 +753,9 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
-// GetSliceOfPointersReverseMap is a backward-compatible package-level forwarder.
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
-	return stage.GetSliceOfPointersReverseMap[Start, End](fieldname)
-}
-
-// GetPointerToGongstructName returns the name of the Gongstruct
+// GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
-func GetPointerToGongstructName[Type GongstructIF]() (res string) {
+func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -773,12 +764,16 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 	return res
 }
 
+func GetPointerToGongstructName[Type GongstructIF]() (res string) {
+	return GongGetPointerToGongstructName[Type]()
+}
+
 type ReverseField struct {
 	GongstructName string
 	Fieldname      string
 }
 
-func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
+func GongGetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	res = make([]ReverseField, 0)
 
 	var ret Type
@@ -790,11 +785,19 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	return
 }
 
+func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
+	return GongGetReverseFields[Type]()
+}
+
 // insertion point for get fields header method{{` + string(rune(ModelGongStructInsertionGenericGetFieldsHeadersMethod)) + `}}
-// GetFieldsFromPointer return the array of the fields
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+// GongGetFieldsFromPointer return the array of the fields
+func GongGetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 	var ret Type
 	return ret.GongGetFieldHeaders()
+}
+
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+	return GongGetFieldsFromPointer[Type]()
 }
 
 type GongFieldValueType string
@@ -846,16 +849,23 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value{{` + string(rune(ModelGongStructInsertionGenericGetFieldValuesFromPointer)) + `}}
-func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
+func (stage *Stage) GetFieldStringValueFromPointer(instance GongstructIF, fieldName string) (res GongFieldValue) {
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
 }
 
+func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
+	return stage.GetFieldStringValueFromPointer(instance, fieldName)
+}
 
 // insertion point for generic get gongstruct name{{` + string(rune(ModelGongStructInsertionGenericGetGongstructName)) + `}}
-func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+func GongGetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()
 	return
+}
+
+func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+	return GongGetGongstructNameFromPointer(instance)
 }
 
 func (stage *Stage) ResetMapStrings() {

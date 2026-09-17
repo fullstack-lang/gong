@@ -12,12 +12,12 @@ func SerializeStageMessageTypeTransitionEtat(stage *Stage, w io.Writer) {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		SerializeExcelizePointerToGongstruct[*StateMachine](stage, f)
-		SerializeExcelizePointerToGongstruct[*Role](stage, f)
-		SerializeExcelizePointerToGongstruct[*MessageType](stage, f)
-		SerializeExcelizePointerToGongstruct[*State](stage, f)
-		SerializeExcelizePointerToGongstruct[*Transition](stage, f)
-		SerializeExcelizePointerToGongstruct[*Diagram](stage, f)
+		stage.SerializeExcelizePointer[*StateMachine](f)
+		stage.SerializeExcelizePointer[*Role](f)
+		stage.SerializeExcelizePointer[*MessageType](f)
+		stage.SerializeExcelizePointer[*State](f)
+		stage.SerializeExcelizePointer[*Transition](f)
+		stage.SerializeExcelizePointer[*Diagram](f)
 	}
 
 	// Create a style with wrap text enabled

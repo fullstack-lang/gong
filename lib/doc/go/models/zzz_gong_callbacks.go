@@ -47,11 +47,6 @@ func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
 	}
 }
 
-// AfterCreateFromFront is a backward-compatible package-level forwarder.
-func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.AfterCreateFromFront(instance)
-}
-
 type Gong__MouseEvent struct {
 	ShiftKey bool
 }
@@ -111,11 +106,6 @@ func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
 	}
 }
 
-// OnAfterUpdateFromFront is a backward-compatible package-level forwarder.
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
-	stage.OnAfterUpdateFromFront(old, new)
-}
-
 // AfterDeleteFromFront is the Stage method called after a delete from front.
 func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 
@@ -169,9 +159,4 @@ func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 	default:
 		_ = front
 	}
-}
-
-// AfterDeleteFromFront is a backward-compatible package-level forwarder.
-func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
-	stage.AfterDeleteFromFront(staged, front)
 }

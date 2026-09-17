@@ -136,6 +136,6 @@ func TestStageCount(t *testing.T) {
 	_ = a6
 	a6.Stage(stage)
 
-	models.SerializeStage(stage, "test.xlsx")
-	models.SerializeStage2(stage, "test_withIDs.xlsx", true)
+	stage.SerializeStage("test.xlsx")
+	stage.SerializeStage2("test_withIDs.xlsx", true)
 }

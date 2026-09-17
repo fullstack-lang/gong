@@ -70,9 +70,9 @@ const SliceOfPointersFieldInitStatement = `
 const TimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
 
-// ToRawStringLiteral formats a string into safe Go source code,
+// __gong__toRawStringLiteral formats a string into safe Go source code,
 // using backticks to preserve newlines and readability.
-func ToRawStringLiteral(s string) string {
+func __gong__toRawStringLiteral(s string) string {
 	// Step 1: Replace every backtick with a closing backtick,
 	// a double-quoted backtick, and an opening backtick.
 	escaped := strings.ReplaceAll(s, "`", "` + \"`\" + `")
@@ -10209,62 +10209,62 @@ func (a_directive *A_directive) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_directive.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_directive.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_directive.Name))
 	case "Lang":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_directive.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Lang")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_directive.Lang))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_directive.Lang))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_directive.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_directive.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_directive.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_directive.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_directive.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_directive.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_directive.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_directive.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_directive.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_directive.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_directive.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_directive.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_directive.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_directive.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_directive.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_directive.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_directive.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_directive.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_directive.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_directive.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_directive.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_directive.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_directive.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_directive.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_directive.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_directive.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_directive.Color))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_directive.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_directive.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_directive.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_directive", fieldName)
@@ -10279,17 +10279,17 @@ func (a_measure *A_measure) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_measure.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_measure.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_measure.Name))
 	case "Number":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_measure.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Number")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_measure.Number))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_measure.Number))
 	case "Text":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_measure.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_measure.Text))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_measure.Text))
 	case "Implicit":
 		if a_measure.Implicit.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -10320,12 +10320,12 @@ func (a_measure *A_measure) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_measure.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_measure.Width))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_measure.Width))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_measure.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_measure.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_measure.Id))
 
 	case "Note":
 		var sb strings.Builder
@@ -10480,17 +10480,17 @@ func (a_measure_1 *A_measure_1) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_measure_1.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_measure_1.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_measure_1.Name))
 	case "Number":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_measure_1.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Number")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_measure_1.Number))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_measure_1.Number))
 	case "Text":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_measure_1.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_measure_1.Text))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_measure_1.Text))
 	case "Implicit":
 		if a_measure_1.Implicit.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -10521,12 +10521,12 @@ func (a_measure_1 *A_measure_1) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_measure_1.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_measure_1.Width))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_measure_1.Width))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_measure_1.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_measure_1.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_measure_1.Id))
 
 	case "Part":
 		var sb strings.Builder
@@ -10551,12 +10551,12 @@ func (a_part *A_part) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_part.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_part.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_part.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_part.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_part.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_part.Id))
 
 	case "Measure":
 		var sb strings.Builder
@@ -10581,12 +10581,12 @@ func (a_part_1 *A_part_1) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_part_1.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_part_1.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_part_1.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_part_1.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_part_1.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_part_1.Id))
 
 	case "Note":
 		var sb strings.Builder
@@ -10741,12 +10741,12 @@ func (accidental *Accidental) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental.Name))
 	case "Cautionary":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Cautionary")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental.Cautionary))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental.Cautionary))
 	case "Editorial":
 		if accidental.Editorial.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -10764,7 +10764,7 @@ func (accidental *Accidental) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental.Smufl))
 	case "Parentheses":
 		if accidental.Parentheses.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -10808,52 +10808,52 @@ func (accidental *Accidental) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental.Color))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Accidental", fieldName)
@@ -10868,12 +10868,12 @@ func (accidental_mark *Accidental_mark) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_mark.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_mark.Name))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_mark.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_mark.Smufl))
 	case "Parentheses":
 		if accidental_mark.Parentheses.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -10917,57 +10917,57 @@ func (accidental_mark *Accidental_mark) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_mark.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_mark.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_mark.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_mark.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_mark.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_mark.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_mark.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_mark.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_mark.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_mark.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_mark.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_mark.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_mark.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_mark.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_mark.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_mark.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_mark.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_mark.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_mark.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_mark.Placement))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_mark.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_mark.Id))
 	case "EnclosedText":
 		if accidental_mark.EnclosedText.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -10995,22 +10995,22 @@ func (accidental_text *Accidental_text) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Name))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Smufl))
 	case "Lang":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Lang")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Lang))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Lang))
 	case "Space":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Space")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Space))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Space))
 	case "Justify":
 		if accidental_text.Justify.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -11028,57 +11028,57 @@ func (accidental_text *Accidental_text) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Valign))
 	case "Underline":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
@@ -11098,27 +11098,27 @@ func (accidental_text *Accidental_text) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rotation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Rotation))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Rotation))
 	case "Letter_spacing":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Letter_spacing")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Letter_spacing))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Letter_spacing))
 	case "Line_height":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Line_height))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Line_height))
 	case "Dir":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dir")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Dir))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Dir))
 	case "Enclosure":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accidental_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Enclosure")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accidental_text.Enclosure))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accidental_text.Enclosure))
 	case "EnclosedText":
 		if accidental_text.EnclosedText.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -11146,7 +11146,7 @@ func (accord *Accord) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accord.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accord.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accord.Name))
 	case "String":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accord.GongGetIdentifier(stage))
@@ -11169,7 +11169,7 @@ func (accord *Accord) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accord.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Tuning_alter")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accord.Tuning_alter))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accord.Tuning_alter))
 	case "Tuning_octave":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accord.GongGetIdentifier(stage))
@@ -11189,72 +11189,72 @@ func (accordion_registration *Accordion_registration) GongMarshallField(stage *S
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Valign))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Id))
 	case "Accordion_high":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Accordion_high")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Accordion_high))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Accordion_high))
 	case "Accordion_middle":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
@@ -11264,7 +11264,7 @@ func (accordion_registration *Accordion_registration) GongMarshallField(stage *S
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", accordion_registration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Accordion_low")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(accordion_registration.Accordion_low))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(accordion_registration.Accordion_low))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Accordion_registration", fieldName)
@@ -11279,7 +11279,7 @@ func (appearance *Appearance) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", appearance.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(appearance.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(appearance.Name))
 
 	case "Line_width":
 		var sb strings.Builder
@@ -11344,7 +11344,7 @@ func (arpeggiate *Arpeggiate) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arpeggiate.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arpeggiate.Name))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arpeggiate.GongGetIdentifier(stage))
@@ -11354,7 +11354,7 @@ func (arpeggiate *Arpeggiate) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Direction")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arpeggiate.Direction))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arpeggiate.Direction))
 	case "Unbroken":
 		if arpeggiate.Unbroken.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -11372,37 +11372,37 @@ func (arpeggiate *Arpeggiate) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arpeggiate.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arpeggiate.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arpeggiate.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arpeggiate.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arpeggiate.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arpeggiate.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arpeggiate.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arpeggiate.Relative_y))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arpeggiate.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arpeggiate.Placement))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arpeggiate.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arpeggiate.Color))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arpeggiate.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arpeggiate.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Arpeggiate", fieldName)
@@ -11417,82 +11417,82 @@ func (arrow *Arrow) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Placement))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Smufl))
 	case "Arrow_direction":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Arrow_direction")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Arrow_direction))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Arrow_direction))
 	case "Arrow_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Arrow_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Arrow_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Arrow_style))
 	case "Arrowhead":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Arrowhead")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Arrowhead))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Arrowhead))
 	case "Circular_arrow":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Circular_arrow")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arrow.Circular_arrow))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Circular_arrow))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Arrow", fieldName)
@@ -11507,12 +11507,12 @@ func (articulations *Articulations) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", articulations.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(articulations.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(articulations.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", articulations.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(articulations.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(articulations.Id))
 
 	case "Accent":
 		var sb strings.Builder
@@ -11697,7 +11697,7 @@ func (assess *Assess) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", assess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(assess.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(assess.Name))
 	case "Type":
 		if assess.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -11715,12 +11715,12 @@ func (assess *Assess) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", assess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Player")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(assess.Player))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(assess.Player))
 	case "Time_only":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", assess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Time_only")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(assess.Time_only))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(assess.Time_only))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Assess", fieldName)
@@ -11735,12 +11735,12 @@ func (attributes *Attributes) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attributes.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attributes.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attributes.Name))
 	case "Divisions":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attributes.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Divisions")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attributes.Divisions))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attributes.Divisions))
 	case "Staves":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attributes.GongGetIdentifier(stage))
@@ -11884,12 +11884,12 @@ func (backup *Backup) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", backup.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(backup.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(backup.Name))
 	case "Duration":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", backup.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Duration")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(backup.Duration))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(backup.Duration))
 
 	case "Footnote":
 		if backup.Footnote != nil {
@@ -11930,17 +11930,17 @@ func (bar_style_color *Bar_style_color) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bar_style_color.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bar_style_color.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bar_style_color.Name))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bar_style_color.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bar_style_color.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bar_style_color.Color))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bar_style_color.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bar_style_color.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bar_style_color.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Bar_style_color", fieldName)
@@ -11955,32 +11955,32 @@ func (barline *Barline) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", barline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(barline.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(barline.Name))
 	case "Location":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", barline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Location")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(barline.Location))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(barline.Location))
 	case "Segno":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", barline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Segno")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(barline.Segno))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(barline.Segno))
 	case "Coda":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", barline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Coda")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(barline.Coda))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(barline.Coda))
 	case "Divisions":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", barline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Divisions")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(barline.Divisions))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(barline.Divisions))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", barline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(barline.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(barline.Id))
 
 	case "Bar_style":
 		if barline.Bar_style != nil {
@@ -12112,17 +12112,17 @@ func (barre *Barre) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", barre.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(barre.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(barre.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", barre.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(barre.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(barre.Type))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", barre.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(barre.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(barre.Color))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Barre", fieldName)
@@ -12137,12 +12137,12 @@ func (bass *Bass) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bass.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bass.Name))
 	case "Arrangement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Arrangement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bass.Arrangement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bass.Arrangement))
 
 	case "Bass_separator":
 		if bass.Bass_separator != nil {
@@ -12196,62 +12196,62 @@ func (bass_step *Bass_step) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bass_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bass_step.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bass_step.Name))
 	case "Text":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bass_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bass_step.Text))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bass_step.Text))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bass_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bass_step.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bass_step.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bass_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bass_step.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bass_step.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bass_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bass_step.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bass_step.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bass_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bass_step.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bass_step.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bass_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bass_step.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bass_step.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bass_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bass_step.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bass_step.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bass_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bass_step.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bass_step.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bass_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bass_step.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bass_step.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bass_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bass_step.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bass_step.Color))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bass_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bass_step.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bass_step.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Bass_step", fieldName)
@@ -12266,7 +12266,7 @@ func (beam *Beam) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", beam.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(beam.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(beam.Name))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", beam.GongGetIdentifier(stage))
@@ -12289,22 +12289,22 @@ func (beam *Beam) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", beam.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Fan")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(beam.Fan))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(beam.Fan))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", beam.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(beam.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(beam.Color))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", beam.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(beam.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(beam.Id))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", beam.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(beam.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(beam.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Beam", fieldName)
@@ -12319,7 +12319,7 @@ func (beat_repeat *Beat_repeat) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", beat_repeat.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(beat_repeat.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(beat_repeat.Name))
 	case "Type":
 		if beat_repeat.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -12368,12 +12368,12 @@ func (beat_repeat *Beat_repeat) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", beat_repeat.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Slash_dot")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(beat_repeat.Slash_dot))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(beat_repeat.Slash_dot))
 	case "Except_voice":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", beat_repeat.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Except_voice")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(beat_repeat.Except_voice))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(beat_repeat.Except_voice))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Beat_repeat", fieldName)
@@ -12388,7 +12388,7 @@ func (beat_unit_tied *Beat_unit_tied) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", beat_unit_tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(beat_unit_tied.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(beat_unit_tied.Name))
 	case "Beat_unit":
 		if beat_unit_tied.Beat_unit.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -12406,7 +12406,7 @@ func (beat_unit_tied *Beat_unit_tied) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", beat_unit_tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Beat_unit_dot")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(beat_unit_tied.Beat_unit_dot))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(beat_unit_tied.Beat_unit_dot))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Beat_unit_tied", fieldName)
@@ -12421,17 +12421,17 @@ func (beater *Beater) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", beater.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(beater.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(beater.Name))
 	case "Tip":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", beater.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Tip")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(beater.Tip))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(beater.Tip))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", beater.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(beater.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(beater.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Beater", fieldName)
@@ -12446,57 +12446,57 @@ func (bend *Bend) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Name))
 	case "Shape":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Shape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Shape))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Shape))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Color))
 	case "Accelerate":
 		if bend.Accelerate.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -12514,27 +12514,27 @@ func (bend *Bend) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Beats")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Beats))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Beats))
 	case "First_beat":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "First_beat")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.First_beat))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.First_beat))
 	case "Last_beat":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Last_beat")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Last_beat))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Last_beat))
 	case "Bend_alter":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bend_alter")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Bend_alter))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Bend_alter))
 	case "Pre_bend":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Pre_bend")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bend.Pre_bend))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bend.Pre_bend))
 
 	case "Release":
 		if bend.Release != nil {
@@ -12575,22 +12575,22 @@ func (bookmark *Bookmark) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bookmark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bookmark.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bookmark.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bookmark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bookmark.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bookmark.Id))
 	case "NameXSD":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bookmark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NameXSD")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bookmark.NameXSD))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bookmark.NameXSD))
 	case "Element":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bookmark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Element")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bookmark.Element))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bookmark.Element))
 	case "Position":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bookmark.GongGetIdentifier(stage))
@@ -12610,12 +12610,12 @@ func (bracket *Bracket) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bracket.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bracket.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bracket.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bracket.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bracket.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bracket.Type))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bracket.GongGetIdentifier(stage))
@@ -12625,57 +12625,57 @@ func (bracket *Bracket) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bracket.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_end")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bracket.Line_end))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bracket.Line_end))
 	case "End_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bracket.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bracket.End_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bracket.End_length))
 	case "Line_type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bracket.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bracket.Line_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bracket.Line_type))
 	case "Dash_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bracket.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dash_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bracket.Dash_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bracket.Dash_length))
 	case "Space_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bracket.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Space_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bracket.Space_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bracket.Space_length))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bracket.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bracket.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bracket.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bracket.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bracket.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bracket.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bracket.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bracket.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bracket.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bracket.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bracket.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bracket.Relative_y))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bracket.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bracket.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bracket.Color))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bracket.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bracket.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bracket.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Bracket", fieldName)
@@ -12690,62 +12690,62 @@ func (breath_mark *Breath_mark) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", breath_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(breath_mark.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(breath_mark.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", breath_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(breath_mark.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(breath_mark.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", breath_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(breath_mark.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(breath_mark.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", breath_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(breath_mark.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(breath_mark.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", breath_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(breath_mark.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(breath_mark.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", breath_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(breath_mark.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(breath_mark.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", breath_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(breath_mark.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(breath_mark.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", breath_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(breath_mark.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(breath_mark.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", breath_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(breath_mark.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(breath_mark.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", breath_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(breath_mark.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(breath_mark.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", breath_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(breath_mark.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(breath_mark.Placement))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", breath_mark.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(breath_mark.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(breath_mark.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Breath_mark", fieldName)
@@ -12760,62 +12760,62 @@ func (caesura *Caesura) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", caesura.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(caesura.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(caesura.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", caesura.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(caesura.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(caesura.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", caesura.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(caesura.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(caesura.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", caesura.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(caesura.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(caesura.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", caesura.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(caesura.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(caesura.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", caesura.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(caesura.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(caesura.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", caesura.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(caesura.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(caesura.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", caesura.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(caesura.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(caesura.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", caesura.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(caesura.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(caesura.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", caesura.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(caesura.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(caesura.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", caesura.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(caesura.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(caesura.Placement))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", caesura.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(caesura.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(caesura.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Caesura", fieldName)
@@ -12830,12 +12830,12 @@ func (cancel *Cancel) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cancel.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cancel.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cancel.Name))
 	case "Location":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cancel.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Location")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cancel.Location))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cancel.Location))
 	case "EnclosedText":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cancel.GongGetIdentifier(stage))
@@ -12855,7 +12855,7 @@ func (clef *Clef) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clef.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clef.Name))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
@@ -12878,7 +12878,7 @@ func (clef *Clef) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clef.Size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clef.Size))
 	case "After_barline":
 		if clef.After_barline.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -12896,47 +12896,47 @@ func (clef *Clef) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clef.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clef.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clef.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clef.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clef.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clef.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clef.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clef.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clef.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clef.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clef.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clef.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clef.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clef.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clef.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clef.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clef.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clef.Color))
 	case "Print_object":
 		if clef.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -12954,12 +12954,12 @@ func (clef *Clef) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clef.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clef.Id))
 	case "Sign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Sign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clef.Sign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clef.Sign))
 	case "Line":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clef.GongGetIdentifier(stage))
@@ -12984,72 +12984,72 @@ func (coda *Coda) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", coda.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(coda.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(coda.Name))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", coda.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(coda.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(coda.Smufl))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", coda.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(coda.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(coda.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", coda.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(coda.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(coda.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", coda.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(coda.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(coda.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", coda.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(coda.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(coda.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", coda.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(coda.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(coda.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", coda.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(coda.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(coda.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", coda.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(coda.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(coda.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", coda.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(coda.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(coda.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", coda.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(coda.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(coda.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", coda.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(coda.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(coda.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", coda.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(coda.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(coda.Valign))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", coda.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(coda.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(coda.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Coda", fieldName)
@@ -13064,7 +13064,7 @@ func (credit *Credit) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", credit.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(credit.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(credit.Name))
 	case "Page":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", credit.GongGetIdentifier(stage))
@@ -13074,12 +13074,12 @@ func (credit *Credit) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", credit.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(credit.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(credit.Id))
 	case "Credit_type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", credit.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Credit_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(credit.Credit_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(credit.Credit_type))
 
 	case "Credit_image":
 		if credit.Credit_image != nil {
@@ -13147,7 +13147,7 @@ func (dashes *Dashes) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dashes.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dashes.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dashes.Name))
 	case "Type":
 		if dashes.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -13170,42 +13170,42 @@ func (dashes *Dashes) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dashes.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dash_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dashes.Dash_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dashes.Dash_length))
 	case "Space_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dashes.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Space_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dashes.Space_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dashes.Space_length))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dashes.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dashes.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dashes.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dashes.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dashes.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dashes.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dashes.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dashes.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dashes.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dashes.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dashes.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dashes.Relative_y))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dashes.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dashes.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dashes.Color))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dashes.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dashes.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dashes.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Dashes", fieldName)
@@ -13220,12 +13220,12 @@ func (defaults *Defaults) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", defaults.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(defaults.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(defaults.Name))
 	case "Concert_score":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", defaults.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Concert_score")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(defaults.Concert_score))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(defaults.Concert_score))
 
 	case "Scaling":
 		if defaults.Scaling != nil {
@@ -13348,7 +13348,7 @@ func (degree *Degree) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree.Name))
 	case "Print_object":
 		if degree.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -13415,7 +13415,7 @@ func (degree_alter *Degree_alter) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_alter.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_alter.Name))
 	case "Plus_minus":
 		if degree_alter.Plus_minus.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -13433,52 +13433,52 @@ func (degree_alter *Degree_alter) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_alter.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_alter.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_alter.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_alter.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_alter.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_alter.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_alter.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_alter.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_alter.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_alter.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_alter.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_alter.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_alter.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_alter.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_alter.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_alter.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_alter.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_alter.Color))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_alter.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_alter.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Degree_alter", fieldName)
@@ -13493,62 +13493,62 @@ func (degree_type *Degree_type) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_type.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_type.Name))
 	case "Text":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_type.Text))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_type.Text))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_type.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_type.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_type.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_type.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_type.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_type.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_type.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_type.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_type.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_type.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_type.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_type.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_type.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_type.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_type.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_type.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_type.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_type.Color))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_type.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_type.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Degree_type", fieldName)
@@ -13563,62 +13563,62 @@ func (degree_value *Degree_value) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_value.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_value.Name))
 	case "Symbol":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Symbol")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_value.Symbol))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_value.Symbol))
 	case "Text":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_value.Text))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_value.Text))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_value.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_value.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_value.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_value.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_value.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_value.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_value.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_value.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_value.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_value.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_value.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_value.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_value.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_value.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_value.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_value.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(degree_value.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(degree_value.Color))
 	case "EnclosedText":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", degree_value.GongGetIdentifier(stage))
@@ -13638,12 +13638,12 @@ func (direction *Direction) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(direction.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(direction.Name))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(direction.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(direction.Placement))
 	case "Directive":
 		if direction.Directive.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -13674,12 +13674,12 @@ func (direction *Direction) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(direction.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(direction.Id))
 	case "Voice":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Voice")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(direction.Voice))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(direction.Voice))
 	case "Staff":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", direction.GongGetIdentifier(stage))
@@ -13774,12 +13774,12 @@ func (direction_type *Direction_type) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", direction_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(direction_type.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(direction_type.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", direction_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(direction_type.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(direction_type.Id))
 
 	case "Rehearsal":
 		var sb strings.Builder
@@ -14085,17 +14085,17 @@ func (distance *Distance) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", distance.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(distance.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(distance.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", distance.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(distance.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(distance.Type))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", distance.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(distance.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(distance.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Distance", fieldName)
@@ -14110,7 +14110,7 @@ func (double *Double) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", double.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(double.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(double.Name))
 	case "Above":
 		if double.Above.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -14138,67 +14138,67 @@ func (dynamics *Dynamics) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Valign))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Placement))
 	case "Underline":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
@@ -14218,142 +14218,142 @@ func (dynamics *Dynamics) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Enclosure")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Enclosure))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Enclosure))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Id))
 	case "P":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "P")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.P))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.P))
 	case "Pp":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Pp")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Pp))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Pp))
 	case "Ppp":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Ppp")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Ppp))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Ppp))
 	case "Pppp":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Pppp")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Pppp))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Pppp))
 	case "Ppppp":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Ppppp")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Ppppp))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Ppppp))
 	case "Pppppp":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Pppppp")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Pppppp))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Pppppp))
 	case "F":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "F")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.F))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.F))
 	case "Ff":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Ff")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Ff))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Ff))
 	case "Fff":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Fff")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Fff))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Fff))
 	case "Ffff":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Ffff")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Ffff))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Ffff))
 	case "Fffff":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Fffff")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Fffff))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Fffff))
 	case "Ffffff":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Ffffff")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Ffffff))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Ffffff))
 	case "Mp":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Mp")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Mp))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Mp))
 	case "Mf":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Mf")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Mf))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Mf))
 	case "Sf":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Sf")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Sf))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Sf))
 	case "Sfp":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Sfp")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Sfp))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Sfp))
 	case "Sfpp":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Sfpp")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Sfpp))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Sfpp))
 	case "Fp":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Fp")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Fp))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Fp))
 	case "Rf":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rf")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Rf))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Rf))
 	case "Rfz":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rfz")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Rfz))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Rfz))
 	case "Sfz":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Sfz")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Sfz))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Sfz))
 	case "Sffz":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Sffz")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Sffz))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Sffz))
 	case "Fz":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Fz")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Fz))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Fz))
 	case "N":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "N")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.N))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.N))
 	case "Pf":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Pf")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Pf))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Pf))
 	case "Sfzp":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dynamics.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Sfzp")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dynamics.Sfzp))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dynamics.Sfzp))
 
 	case "Other_dynamics":
 		var sb strings.Builder
@@ -14378,17 +14378,17 @@ func (effect *Effect) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", effect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(effect.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(effect.Name))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", effect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(effect.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(effect.Smufl))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", effect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(effect.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(effect.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Effect", fieldName)
@@ -14403,42 +14403,42 @@ func (elision *Elision) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", elision.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(elision.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(elision.Name))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", elision.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(elision.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(elision.Smufl))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", elision.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(elision.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(elision.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", elision.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(elision.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(elision.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", elision.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(elision.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(elision.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", elision.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(elision.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(elision.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", elision.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(elision.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(elision.Color))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", elision.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(elision.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(elision.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Elision", fieldName)
@@ -14453,7 +14453,7 @@ func (empty *Empty) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty", fieldName)
@@ -14468,27 +14468,27 @@ func (empty_font *Empty_font) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_font.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_font.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_font.Name))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_font.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_font.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_font.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_font.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_font.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_font.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_font.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_font.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_font.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_font.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_font.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_font.Font_weight))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty_font", fieldName)
@@ -14503,82 +14503,82 @@ func (empty_line *Empty_line) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Name))
 	case "Line_shape":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_shape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Line_shape))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Line_shape))
 	case "Line_type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Line_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Line_type))
 	case "Line_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Line_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Line_length))
 	case "Dash_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dash_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Dash_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Dash_length))
 	case "Space_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Space_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Space_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Space_length))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_line.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_line.Placement))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty_line", fieldName)
@@ -14593,57 +14593,57 @@ func (empty_placement *Empty_placement) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement.Placement))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty_placement", fieldName)
@@ -14658,62 +14658,62 @@ func (empty_placement_smufl *Empty_placement_smufl) GongMarshallField(stage *Sta
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement_smufl.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement_smufl.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement_smufl.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement_smufl.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement_smufl.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement_smufl.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement_smufl.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement_smufl.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement_smufl.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement_smufl.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement_smufl.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement_smufl.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement_smufl.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement_smufl.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement_smufl.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement_smufl.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement_smufl.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement_smufl.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement_smufl.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement_smufl.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement_smufl.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement_smufl.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement_smufl.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement_smufl.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement_smufl.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement_smufl.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement_smufl.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement_smufl.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement_smufl.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement_smufl.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement_smufl.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement_smufl.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement_smufl.Placement))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_placement_smufl.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_placement_smufl.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_placement_smufl.Smufl))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty_placement_smufl", fieldName)
@@ -14728,7 +14728,7 @@ func (empty_print_object_style_align *Empty_print_object_style_align) GongMarsha
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_object_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_object_style_align.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_object_style_align.Name))
 	case "Print_object":
 		if empty_print_object_style_align.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -14746,57 +14746,57 @@ func (empty_print_object_style_align *Empty_print_object_style_align) GongMarsha
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_object_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_object_style_align.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_object_style_align.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_object_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_object_style_align.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_object_style_align.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_object_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_object_style_align.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_object_style_align.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_object_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_object_style_align.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_object_style_align.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_object_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_object_style_align.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_object_style_align.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_object_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_object_style_align.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_object_style_align.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_object_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_object_style_align.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_object_style_align.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_object_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_object_style_align.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_object_style_align.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_object_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_object_style_align.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_object_style_align.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_object_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_object_style_align.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_object_style_align.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_object_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_object_style_align.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_object_style_align.Valign))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty_print_object_style_align", fieldName)
@@ -14811,52 +14811,52 @@ func (empty_print_style *Empty_print_style) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style.Color))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty_print_style", fieldName)
@@ -14871,62 +14871,62 @@ func (empty_print_style_align *Empty_print_style_align) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align.Valign))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty_print_style_align", fieldName)
@@ -14941,67 +14941,67 @@ func (empty_print_style_align_id *Empty_print_style_align_id) GongMarshallField(
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align_id.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align_id.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align_id.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align_id.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align_id.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align_id.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align_id.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align_id.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align_id.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align_id.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align_id.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align_id.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align_id.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align_id.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align_id.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align_id.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align_id.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align_id.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align_id.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align_id.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align_id.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align_id.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align_id.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align_id.Valign))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_print_style_align_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_print_style_align_id.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_print_style_align_id.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty_print_style_align_id", fieldName)
@@ -15016,72 +15016,72 @@ func (empty_trill_sound *Empty_trill_sound) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Placement))
 	case "Start_note":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Start_note")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Start_note))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Start_note))
 	case "Trill_step":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Trill_step")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Trill_step))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Trill_step))
 	case "Two_note_turn":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Two_note_turn")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Two_note_turn))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Two_note_turn))
 	case "Accelerate":
 		if empty_trill_sound.Accelerate.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -15099,17 +15099,17 @@ func (empty_trill_sound *Empty_trill_sound) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Beats")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Beats))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Beats))
 	case "Second_beat":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Second_beat")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Second_beat))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Second_beat))
 	case "Last_beat":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", empty_trill_sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Last_beat")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(empty_trill_sound.Last_beat))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(empty_trill_sound.Last_beat))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty_trill_sound", fieldName)
@@ -15124,17 +15124,17 @@ func (encoding *Encoding) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", encoding.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(encoding.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(encoding.Name))
 	case "Software":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", encoding.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Software")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(encoding.Software))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(encoding.Software))
 	case "Encoding_description":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", encoding.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Encoding_description")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(encoding.Encoding_description))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(encoding.Encoding_description))
 
 	case "Encoder":
 		var sb strings.Builder
@@ -15169,32 +15169,32 @@ func (ending *Ending) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.Name))
 	case "Number":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Number")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.Number))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.Number))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.Type))
 	case "End_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.End_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.End_length))
 	case "Text_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.Text_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.Text_x))
 	case "Text_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.Text_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.Text_y))
 	case "Print_object":
 		if ending.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -15212,47 +15212,47 @@ func (ending *Ending) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.Color))
 	case "System":
 		if ending.System.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -15270,7 +15270,7 @@ func (ending *Ending) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ending.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ending.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ending.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Ending", fieldName)
@@ -15285,7 +15285,7 @@ func (extend *Extend) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", extend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(extend.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(extend.Name))
 	case "Type":
 		if extend.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -15303,27 +15303,27 @@ func (extend *Extend) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", extend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(extend.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(extend.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", extend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(extend.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(extend.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", extend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(extend.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(extend.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", extend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(extend.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(extend.Relative_y))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", extend.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(extend.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(extend.Color))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Extend", fieldName)
@@ -15338,17 +15338,17 @@ func (feature *Feature) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", feature.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(feature.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(feature.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", feature.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(feature.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(feature.Type))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", feature.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(feature.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(feature.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Feature", fieldName)
@@ -15363,67 +15363,67 @@ func (fermata *Fermata) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fermata.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fermata.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fermata.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fermata.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fermata.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fermata.Type))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fermata.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fermata.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fermata.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fermata.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fermata.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fermata.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fermata.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fermata.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fermata.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fermata.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fermata.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fermata.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fermata.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fermata.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fermata.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fermata.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fermata.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fermata.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fermata.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fermata.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fermata.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fermata.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fermata.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fermata.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fermata.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fermata.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fermata.Color))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fermata.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fermata.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fermata.Id))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fermata.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fermata.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fermata.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Fermata", fieldName)
@@ -15438,7 +15438,7 @@ func (figure *Figure) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figure.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figure.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figure.Name))
 
 	case "Prefix":
 		if figure.Prefix != nil {
@@ -15531,7 +15531,7 @@ func (figured_bass *Figured_bass) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Name))
 	case "Parentheses":
 		if figured_bass.Parentheses.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -15549,62 +15549,62 @@ func (figured_bass *Figured_bass) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Valign))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Placement))
 	case "Print_dot":
 		if figured_bass.Print_dot.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -15661,12 +15661,12 @@ func (figured_bass *Figured_bass) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Id))
 	case "Duration":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", figured_bass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Duration")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(figured_bass.Duration))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(figured_bass.Duration))
 
 	case "Figure":
 		var sb strings.Builder
@@ -15717,7 +15717,7 @@ func (fingering *Fingering) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fingering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fingering.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fingering.Name))
 	case "Substitution":
 		if fingering.Substitution.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -15748,57 +15748,57 @@ func (fingering *Fingering) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fingering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fingering.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fingering.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fingering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fingering.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fingering.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fingering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fingering.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fingering.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fingering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fingering.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fingering.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fingering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fingering.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fingering.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fingering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fingering.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fingering.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fingering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fingering.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fingering.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fingering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fingering.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fingering.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fingering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fingering.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fingering.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fingering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fingering.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fingering.Placement))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fingering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fingering.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fingering.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Fingering", fieldName)
@@ -15813,17 +15813,17 @@ func (first_fret *First_fret) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", first_fret.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(first_fret.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(first_fret.Name))
 	case "Text":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", first_fret.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(first_fret.Text))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(first_fret.Text))
 	case "Location":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", first_fret.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Location")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(first_fret.Location))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(first_fret.Location))
 	case "EnclosedText":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", first_fret.GongGetIdentifier(stage))
@@ -15843,7 +15843,7 @@ func (for_part *For_part) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", for_part.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(for_part.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(for_part.Name))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", for_part.GongGetIdentifier(stage))
@@ -15853,7 +15853,7 @@ func (for_part *For_part) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", for_part.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(for_part.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(for_part.Id))
 
 	case "Part_clef":
 		if for_part.Part_clef != nil {
@@ -15894,7 +15894,7 @@ func (formatted_symbol *Formatted_symbol) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Name))
 	case "Justify":
 		if formatted_symbol.Justify.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -15912,57 +15912,57 @@ func (formatted_symbol *Formatted_symbol) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Valign))
 	case "Underline":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
@@ -15982,32 +15982,32 @@ func (formatted_symbol *Formatted_symbol) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rotation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Rotation))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Rotation))
 	case "Letter_spacing":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Letter_spacing")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Letter_spacing))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Letter_spacing))
 	case "Line_height":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Line_height))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Line_height))
 	case "Dir":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dir")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Dir))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Dir))
 	case "Enclosure":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Enclosure")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.Enclosure))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.Enclosure))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Formatted_symbol", fieldName)
@@ -16022,7 +16022,7 @@ func (formatted_symbol_id *Formatted_symbol_id) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Name))
 	case "Justify":
 		if formatted_symbol_id.Justify.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -16040,57 +16040,57 @@ func (formatted_symbol_id *Formatted_symbol_id) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Valign))
 	case "Underline":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
@@ -16110,37 +16110,37 @@ func (formatted_symbol_id *Formatted_symbol_id) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rotation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Rotation))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Rotation))
 	case "Letter_spacing":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Letter_spacing")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Letter_spacing))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Letter_spacing))
 	case "Line_height":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Line_height))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Line_height))
 	case "Dir":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dir")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Dir))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Dir))
 	case "Enclosure":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Enclosure")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Enclosure))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Enclosure))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.Id))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_symbol_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_symbol_id.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_symbol_id.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Formatted_symbol_id", fieldName)
@@ -16155,17 +16155,17 @@ func (formatted_text *Formatted_text) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Name))
 	case "Lang":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Lang")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Lang))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Lang))
 	case "Space":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Space")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Space))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Space))
 	case "Justify":
 		if formatted_text.Justify.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -16183,57 +16183,57 @@ func (formatted_text *Formatted_text) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Valign))
 	case "Underline":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
@@ -16253,32 +16253,32 @@ func (formatted_text *Formatted_text) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rotation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Rotation))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Rotation))
 	case "Letter_spacing":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Letter_spacing")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Letter_spacing))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Letter_spacing))
 	case "Line_height":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Line_height))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Line_height))
 	case "Dir":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dir")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Dir))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Dir))
 	case "Enclosure":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Enclosure")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.Enclosure))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.Enclosure))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Formatted_text", fieldName)
@@ -16293,17 +16293,17 @@ func (formatted_text_id *Formatted_text_id) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Name))
 	case "Lang":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Lang")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Lang))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Lang))
 	case "Space":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Space")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Space))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Space))
 	case "Justify":
 		if formatted_text_id.Justify.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -16321,57 +16321,57 @@ func (formatted_text_id *Formatted_text_id) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Valign))
 	case "Underline":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
@@ -16391,37 +16391,37 @@ func (formatted_text_id *Formatted_text_id) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rotation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Rotation))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Rotation))
 	case "Letter_spacing":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Letter_spacing")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Letter_spacing))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Letter_spacing))
 	case "Line_height":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Line_height))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Line_height))
 	case "Dir":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dir")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Dir))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Dir))
 	case "Enclosure":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Enclosure")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Enclosure))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Enclosure))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.Id))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formatted_text_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formatted_text_id.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formatted_text_id.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Formatted_text_id", fieldName)
@@ -16436,17 +16436,17 @@ func (forward *Forward) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", forward.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(forward.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(forward.Name))
 	case "Duration":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", forward.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Duration")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(forward.Duration))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(forward.Duration))
 	case "Voice":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", forward.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Voice")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(forward.Voice))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(forward.Voice))
 	case "Staff":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", forward.GongGetIdentifier(stage))
@@ -16492,62 +16492,62 @@ func (frame *Frame) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", frame.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(frame.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(frame.Name))
 	case "Height":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", frame.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(frame.Height))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(frame.Height))
 	case "Width":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", frame.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(frame.Width))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(frame.Width))
 	case "Unplayed":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", frame.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Unplayed")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(frame.Unplayed))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(frame.Unplayed))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", frame.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(frame.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(frame.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", frame.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(frame.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(frame.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", frame.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(frame.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(frame.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", frame.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(frame.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(frame.Relative_y))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", frame.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(frame.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(frame.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", frame.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(frame.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(frame.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", frame.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(frame.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(frame.Valign))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", frame.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(frame.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(frame.Id))
 	case "Frame_strings":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", frame.GongGetIdentifier(stage))
@@ -16595,7 +16595,7 @@ func (frame_note *Frame_note) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", frame_note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(frame_note.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(frame_note.Name))
 
 	case "String":
 		if frame_note.String != nil {
@@ -16662,32 +16662,32 @@ func (fret *Fret) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fret.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fret.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fret.Name))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fret.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fret.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fret.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fret.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fret.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fret.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fret.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fret.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fret.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fret.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fret.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fret.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fret.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(fret.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(fret.Color))
 	case "EnclosedText":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", fret.GongGetIdentifier(stage))
@@ -16707,17 +16707,17 @@ func (glass *Glass) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glass.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glass.Name))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glass.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glass.Smufl))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glass.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glass.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glass.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Glass", fieldName)
@@ -16732,7 +16732,7 @@ func (glissando *Glissando) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.Name))
 	case "Type":
 		if glissando.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -16755,72 +16755,72 @@ func (glissando *Glissando) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.Line_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.Line_type))
 	case "Dash_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dash_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.Dash_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.Dash_length))
 	case "Space_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Space_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.Space_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.Space_length))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.Color))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.Id))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glissando.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glissando.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glissando.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Glissando", fieldName)
@@ -16835,17 +16835,17 @@ func (glyph *Glyph) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glyph.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glyph.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glyph.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glyph.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glyph.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glyph.Type))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", glyph.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(glyph.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(glyph.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Glyph", fieldName)
@@ -16860,22 +16860,22 @@ func (grace *Grace) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", grace.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(grace.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(grace.Name))
 	case "Steal_time_previous":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", grace.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Steal_time_previous")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(grace.Steal_time_previous))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(grace.Steal_time_previous))
 	case "Steal_time_following":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", grace.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Steal_time_following")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(grace.Steal_time_following))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(grace.Steal_time_following))
 	case "Make_time":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", grace.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Make_time")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(grace.Make_time))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(grace.Make_time))
 	case "Slash":
 		if grace.Slash.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -16903,17 +16903,17 @@ func (group_barline *Group_barline) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_barline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_barline.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_barline.Name))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_barline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_barline.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_barline.Color))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_barline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_barline.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_barline.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Group_barline", fieldName)
@@ -16928,52 +16928,52 @@ func (group_name *Group_name) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_name.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_name.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_name.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_name.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_name.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_name.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_name.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_name.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_name.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_name.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_name.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_name.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_name.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_name.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_name.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_name.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_name.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_name.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_name.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_name.Color))
 	case "Justify":
 		if group_name.Justify.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -16991,7 +16991,7 @@ func (group_name *Group_name) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_name.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_name.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Group_name", fieldName)
@@ -17006,37 +17006,37 @@ func (group_symbol *Group_symbol) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_symbol.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_symbol.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_symbol.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_symbol.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_symbol.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_symbol.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_symbol.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_symbol.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_symbol.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_symbol.Relative_y))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_symbol.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_symbol.Color))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group_symbol.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group_symbol.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Group_symbol", fieldName)
@@ -17051,27 +17051,27 @@ func (grouping *Grouping) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", grouping.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(grouping.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(grouping.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", grouping.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(grouping.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(grouping.Type))
 	case "Number":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", grouping.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Number")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(grouping.Number))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(grouping.Number))
 	case "Member_of":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", grouping.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Member_of")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(grouping.Member_of))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(grouping.Member_of))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", grouping.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(grouping.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(grouping.Id))
 
 	case "Feature":
 		var sb strings.Builder
@@ -17096,7 +17096,7 @@ func (hammer_on_pull_off *Hammer_on_pull_off) GongMarshallField(stage *Stage, fi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hammer_on_pull_off.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hammer_on_pull_off.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hammer_on_pull_off.Name))
 	case "Type":
 		if hammer_on_pull_off.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -17119,57 +17119,57 @@ func (hammer_on_pull_off *Hammer_on_pull_off) GongMarshallField(stage *Stage, fi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hammer_on_pull_off.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hammer_on_pull_off.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hammer_on_pull_off.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hammer_on_pull_off.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hammer_on_pull_off.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hammer_on_pull_off.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hammer_on_pull_off.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hammer_on_pull_off.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hammer_on_pull_off.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hammer_on_pull_off.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hammer_on_pull_off.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hammer_on_pull_off.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hammer_on_pull_off.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hammer_on_pull_off.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hammer_on_pull_off.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hammer_on_pull_off.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hammer_on_pull_off.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hammer_on_pull_off.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hammer_on_pull_off.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hammer_on_pull_off.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hammer_on_pull_off.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hammer_on_pull_off.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hammer_on_pull_off.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hammer_on_pull_off.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hammer_on_pull_off.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hammer_on_pull_off.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hammer_on_pull_off.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hammer_on_pull_off.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hammer_on_pull_off.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hammer_on_pull_off.Placement))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hammer_on_pull_off.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hammer_on_pull_off.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hammer_on_pull_off.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Hammer_on_pull_off", fieldName)
@@ -17184,62 +17184,62 @@ func (handbell *Handbell) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", handbell.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(handbell.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(handbell.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", handbell.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(handbell.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(handbell.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", handbell.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(handbell.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(handbell.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", handbell.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(handbell.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(handbell.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", handbell.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(handbell.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(handbell.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", handbell.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(handbell.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(handbell.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", handbell.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(handbell.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(handbell.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", handbell.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(handbell.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(handbell.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", handbell.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(handbell.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(handbell.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", handbell.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(handbell.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(handbell.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", handbell.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(handbell.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(handbell.Placement))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", handbell.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(handbell.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(handbell.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Handbell", fieldName)
@@ -17254,17 +17254,17 @@ func (harmon_closed *Harmon_closed) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmon_closed.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmon_closed.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmon_closed.Name))
 	case "Location":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmon_closed.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Location")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmon_closed.Location))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmon_closed.Location))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmon_closed.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmon_closed.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmon_closed.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Harmon_closed", fieldName)
@@ -17279,57 +17279,57 @@ func (harmon_mute *Harmon_mute) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmon_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmon_mute.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmon_mute.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmon_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmon_mute.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmon_mute.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmon_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmon_mute.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmon_mute.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmon_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmon_mute.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmon_mute.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmon_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmon_mute.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmon_mute.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmon_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmon_mute.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmon_mute.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmon_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmon_mute.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmon_mute.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmon_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmon_mute.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmon_mute.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmon_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmon_mute.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmon_mute.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmon_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmon_mute.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmon_mute.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmon_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmon_mute.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmon_mute.Placement))
 
 	case "Harmon_closed":
 		if harmon_mute.Harmon_closed != nil {
@@ -17357,7 +17357,7 @@ func (harmonic *Harmonic) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Name))
 	case "Print_object":
 		if harmonic.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -17375,77 +17375,77 @@ func (harmonic *Harmonic) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Placement))
 	case "Natural":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Natural")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Natural))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Natural))
 	case "Artificial":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Artificial")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Artificial))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Artificial))
 	case "Base_pitch":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base_pitch")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Base_pitch))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Base_pitch))
 	case "Touching_pitch":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Touching_pitch")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Touching_pitch))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Touching_pitch))
 	case "Sounding_pitch":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmonic.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Sounding_pitch")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmonic.Sounding_pitch))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmonic.Sounding_pitch))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Harmonic", fieldName)
@@ -17460,12 +17460,12 @@ func (harmony *Harmony) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony.Type))
 	case "Print_frame":
 		if harmony.Print_frame.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -17509,52 +17509,52 @@ func (harmony *Harmony) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony.Placement))
 	case "System":
 		if harmony.System.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -17572,7 +17572,7 @@ func (harmony *Harmony) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony.Id))
 	case "Staff":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony.GongGetIdentifier(stage))
@@ -17732,7 +17732,7 @@ func (harmony_alter *Harmony_alter) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony_alter.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony_alter.Name))
 	case "Location":
 		if harmony_alter.Location.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -17763,52 +17763,52 @@ func (harmony_alter *Harmony_alter) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony_alter.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony_alter.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony_alter.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony_alter.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony_alter.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony_alter.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony_alter.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony_alter.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony_alter.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony_alter.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony_alter.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony_alter.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony_alter.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony_alter.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony_alter.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony_alter.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony_alter.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony_alter.Color))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harmony_alter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harmony_alter.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harmony_alter.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Harmony_alter", fieldName)
@@ -17823,67 +17823,67 @@ func (harp_pedals *Harp_pedals) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harp_pedals.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harp_pedals.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harp_pedals.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harp_pedals.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harp_pedals.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harp_pedals.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harp_pedals.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harp_pedals.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harp_pedals.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harp_pedals.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harp_pedals.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harp_pedals.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harp_pedals.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harp_pedals.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harp_pedals.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harp_pedals.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harp_pedals.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harp_pedals.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harp_pedals.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harp_pedals.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harp_pedals.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harp_pedals.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harp_pedals.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harp_pedals.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harp_pedals.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harp_pedals.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harp_pedals.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harp_pedals.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harp_pedals.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harp_pedals.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harp_pedals.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harp_pedals.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harp_pedals.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harp_pedals.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harp_pedals.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harp_pedals.Valign))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", harp_pedals.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(harp_pedals.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(harp_pedals.Id))
 
 	case "Pedal_tuning":
 		var sb strings.Builder
@@ -17908,7 +17908,7 @@ func (heel_toe *Heel_toe) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", heel_toe.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(heel_toe.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(heel_toe.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Heel_toe", fieldName)
@@ -17923,67 +17923,67 @@ func (hole *Hole) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole.Placement))
 	case "Hole_type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Hole_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole.Hole_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole.Hole_type))
 	case "Hole_shape":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Hole_shape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole.Hole_shape))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole.Hole_shape))
 
 	case "Hole_closed":
 		if hole.Hole_closed != nil {
@@ -18011,17 +18011,17 @@ func (hole_closed *Hole_closed) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole_closed.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole_closed.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole_closed.Name))
 	case "Location":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole_closed.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Location")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole_closed.Location))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole_closed.Location))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", hole_closed.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(hole_closed.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(hole_closed.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Hole_closed", fieldName)
@@ -18036,7 +18036,7 @@ func (horizontal_turn *Horizontal_turn) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Name))
 	case "Slash":
 		if horizontal_turn.Slash.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -18054,67 +18054,67 @@ func (horizontal_turn *Horizontal_turn) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Placement))
 	case "Start_note":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Start_note")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Start_note))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Start_note))
 	case "Trill_step":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Trill_step")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Trill_step))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Trill_step))
 	case "Two_note_turn":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Two_note_turn")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Two_note_turn))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Two_note_turn))
 	case "Accelerate":
 		if horizontal_turn.Accelerate.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -18132,17 +18132,17 @@ func (horizontal_turn *Horizontal_turn) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Beats")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Beats))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Beats))
 	case "Second_beat":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Second_beat")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Second_beat))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Second_beat))
 	case "Last_beat":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", horizontal_turn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Last_beat")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(horizontal_turn.Last_beat))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(horizontal_turn.Last_beat))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Horizontal_turn", fieldName)
@@ -18157,12 +18157,12 @@ func (identification *Identification) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", identification.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(identification.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(identification.Name))
 	case "Source":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", identification.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Source")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(identification.Source))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(identification.Source))
 
 	case "Creator":
 		var sb strings.Builder
@@ -18233,62 +18233,62 @@ func (image *Image) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", image.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(image.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(image.Name))
 	case "Source":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", image.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Source")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(image.Source))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(image.Source))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", image.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(image.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(image.Type))
 	case "Height":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", image.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(image.Height))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(image.Height))
 	case "Width":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", image.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(image.Width))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(image.Width))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", image.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(image.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(image.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", image.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(image.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(image.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", image.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(image.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(image.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", image.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(image.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(image.Relative_y))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", image.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(image.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(image.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", image.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(image.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(image.Valign))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", image.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(image.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(image.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Image", fieldName)
@@ -18303,12 +18303,12 @@ func (instrument *Instrument) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(instrument.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(instrument.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(instrument.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(instrument.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Instrument", fieldName)
@@ -18323,27 +18323,27 @@ func (instrument_change *Instrument_change) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", instrument_change.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(instrument_change.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(instrument_change.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", instrument_change.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(instrument_change.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(instrument_change.Id))
 	case "Instrument_sound":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", instrument_change.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Instrument_sound")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(instrument_change.Instrument_sound))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(instrument_change.Instrument_sound))
 	case "Solo":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", instrument_change.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Solo")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(instrument_change.Solo))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(instrument_change.Solo))
 	case "Ensemble":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", instrument_change.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Ensemble")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(instrument_change.Ensemble))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(instrument_change.Ensemble))
 
 	case "Virtual_instrument":
 		if instrument_change.Virtual_instrument != nil {
@@ -18371,12 +18371,12 @@ func (instrument_link *Instrument_link) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", instrument_link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(instrument_link.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(instrument_link.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", instrument_link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(instrument_link.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(instrument_link.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Instrument_link", fieldName)
@@ -18391,32 +18391,32 @@ func (interchangeable *Interchangeable) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", interchangeable.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(interchangeable.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(interchangeable.Name))
 	case "Symbol":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", interchangeable.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Symbol")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(interchangeable.Symbol))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(interchangeable.Symbol))
 	case "Separator":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", interchangeable.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Separator")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(interchangeable.Separator))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(interchangeable.Separator))
 	case "Time_relation":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", interchangeable.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Time_relation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(interchangeable.Time_relation))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(interchangeable.Time_relation))
 	case "Beats":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", interchangeable.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Beats")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(interchangeable.Beats))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(interchangeable.Beats))
 	case "Beat_type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", interchangeable.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Beat_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(interchangeable.Beat_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(interchangeable.Beat_type))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Interchangeable", fieldName)
@@ -18431,57 +18431,57 @@ func (inversion *Inversion) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", inversion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(inversion.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(inversion.Name))
 	case "Text":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", inversion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(inversion.Text))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(inversion.Text))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", inversion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(inversion.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(inversion.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", inversion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(inversion.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(inversion.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", inversion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(inversion.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(inversion.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", inversion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(inversion.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(inversion.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", inversion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(inversion.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(inversion.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", inversion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(inversion.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(inversion.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", inversion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(inversion.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(inversion.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", inversion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(inversion.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(inversion.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", inversion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(inversion.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(inversion.Color))
 	case "EnclosedText":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", inversion.GongGetIdentifier(stage))
@@ -18501,7 +18501,7 @@ func (key *Key) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key.Name))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
@@ -18511,47 +18511,47 @@ func (key *Key) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key.Color))
 	case "Print_object":
 		if key.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -18569,7 +18569,7 @@ func (key *Key) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key.Id))
 	case "Fifths":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
@@ -18579,7 +18579,7 @@ func (key *Key) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Mode")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key.Mode))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key.Mode))
 	case "Key_step":
 		if key.Key_step.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -18597,7 +18597,7 @@ func (key *Key) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Key_alter")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key.Key_alter))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key.Key_alter))
 
 	case "Cancel":
 		if key.Cancel != nil {
@@ -18648,12 +18648,12 @@ func (key_accidental *Key_accidental) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key_accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key_accidental.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key_accidental.Name))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key_accidental.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key_accidental.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key_accidental.Smufl))
 	case "EnclosedText":
 		if key_accidental.EnclosedText.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -18681,7 +18681,7 @@ func (key_octave *Key_octave) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key_octave.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(key_octave.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(key_octave.Name))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", key_octave.GongGetIdentifier(stage))
@@ -18719,7 +18719,7 @@ func (kind *Kind) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kind.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kind.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kind.Name))
 	case "Use_symbols":
 		if kind.Use_symbols.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -18737,7 +18737,7 @@ func (kind *Kind) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kind.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kind.Text))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kind.Text))
 	case "Stack_degrees":
 		if kind.Stack_degrees.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -18781,62 +18781,62 @@ func (kind *Kind) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kind.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kind.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kind.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kind.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kind.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kind.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kind.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kind.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kind.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kind.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kind.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kind.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kind.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kind.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kind.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kind.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kind.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kind.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kind.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kind.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kind.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kind.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kind.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kind.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kind.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kind.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kind.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kind.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kind.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kind.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kind.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kind.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kind.Valign))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kind.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kind.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kind.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Kind", fieldName)
@@ -18851,7 +18851,7 @@ func (level *Level) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", level.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(level.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(level.Name))
 	case "Reference":
 		if level.Reference.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -18921,7 +18921,7 @@ func (level *Level) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", level.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(level.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(level.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Level", fieldName)
@@ -18936,7 +18936,7 @@ func (line_detail *Line_detail) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line_detail.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(line_detail.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(line_detail.Name))
 	case "Line":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line_detail.GongGetIdentifier(stage))
@@ -18946,17 +18946,17 @@ func (line_detail *Line_detail) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line_detail.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(line_detail.Width))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(line_detail.Width))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line_detail.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(line_detail.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(line_detail.Color))
 	case "Line_type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line_detail.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(line_detail.Line_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(line_detail.Line_type))
 	case "Print_object":
 		if line_detail.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -18984,17 +18984,17 @@ func (line_width *Line_width) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line_width.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(line_width.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(line_width.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line_width.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(line_width.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(line_width.Type))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line_width.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(line_width.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(line_width.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Line_width", fieldName)
@@ -19009,47 +19009,47 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.Name))
 	case "NameXSD":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NameXSD")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.NameXSD))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.NameXSD))
 	case "Href":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Href")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Href))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.Href))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.Type))
 	case "Role":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Role")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Role))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.Role))
 	case "Title":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Title")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Title))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.Title))
 	case "Show":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Show")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Show))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.Show))
 	case "Actuate":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Actuate")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Actuate))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.Actuate))
 	case "Element":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Element")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Element))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.Element))
 	case "Position":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
@@ -19059,22 +19059,22 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.Relative_y))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Link", fieldName)
@@ -19089,7 +19089,7 @@ func (listen *Listen) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", listen.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(listen.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(listen.Name))
 
 	case "Assess":
 		var sb strings.Builder
@@ -19134,7 +19134,7 @@ func (listening *Listening) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", listening.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(listening.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(listening.Name))
 
 	case "Sync":
 		var sb strings.Builder
@@ -19182,17 +19182,17 @@ func (lyric *Lyric) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.Name))
 	case "Number":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Number")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.Number))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.Number))
 	case "NameXSD":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NameXSD")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.NameXSD))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.NameXSD))
 	case "Time_only":
 		if lyric.Time_only.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -19223,32 +19223,32 @@ func (lyric *Lyric) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.Relative_y))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.Placement))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.Color))
 	case "Print_object":
 		if lyric.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -19266,32 +19266,32 @@ func (lyric *Lyric) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.Id))
 	case "Syllabic":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Syllabic")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.Syllabic))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.Syllabic))
 	case "Laughing":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Laughing")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.Laughing))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.Laughing))
 	case "Humming":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Humming")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.Humming))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.Humming))
 	case "End_line":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End_line")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.End_line))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.End_line))
 	case "End_paragraph":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End_paragraph")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric.End_paragraph))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric.End_paragraph))
 
 	case "Elision":
 		var sb strings.Builder
@@ -19365,37 +19365,37 @@ func (lyric_font *Lyric_font) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric_font.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric_font.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric_font.Name))
 	case "Number":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric_font.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Number")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric_font.Number))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric_font.Number))
 	case "NameXSD":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric_font.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NameXSD")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric_font.NameXSD))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric_font.NameXSD))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric_font.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric_font.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric_font.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric_font.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric_font.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric_font.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric_font.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric_font.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric_font.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric_font.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric_font.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric_font.Font_weight))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Lyric_font", fieldName)
@@ -19410,22 +19410,22 @@ func (lyric_language *Lyric_language) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric_language.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric_language.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric_language.Name))
 	case "Number":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric_language.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Number")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric_language.Number))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric_language.Number))
 	case "NameXSD":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric_language.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NameXSD")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric_language.NameXSD))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric_language.NameXSD))
 	case "Lang":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", lyric_language.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Lang")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(lyric_language.Lang))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lyric_language.Lang))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Lyric_language", fieldName)
@@ -19440,12 +19440,12 @@ func (measure_layout *Measure_layout) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_layout.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_layout.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_layout.Name))
 	case "Measure_distance":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_layout.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Measure_distance")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_layout.Measure_distance))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_layout.Measure_distance))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Measure_layout", fieldName)
@@ -19460,12 +19460,12 @@ func (measure_numbering *Measure_numbering) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_numbering.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_numbering.Name))
 	case "System":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "System")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_numbering.System))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_numbering.System))
 	case "Staff":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
@@ -19501,62 +19501,62 @@ func (measure_numbering *Measure_numbering) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_numbering.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_numbering.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_numbering.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_numbering.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_numbering.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_numbering.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_numbering.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_numbering.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_numbering.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_numbering.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_numbering.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_numbering.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_numbering.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_numbering.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_numbering.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_numbering.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_numbering.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_numbering.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_numbering.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_numbering.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_numbering.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_numbering.Valign))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_numbering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_numbering.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_numbering.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Measure_numbering", fieldName)
@@ -19571,7 +19571,7 @@ func (measure_repeat *Measure_repeat) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_repeat.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_repeat.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_repeat.Name))
 	case "Type":
 		if measure_repeat.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -19594,7 +19594,7 @@ func (measure_repeat *Measure_repeat) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_repeat.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_repeat.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_repeat.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Measure_repeat", fieldName)
@@ -19609,7 +19609,7 @@ func (measure_style *Measure_style) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_style.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_style.Name))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_style.GongGetIdentifier(stage))
@@ -19619,32 +19619,32 @@ func (measure_style *Measure_style) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_style.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_style.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_style.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_style.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_style.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_style.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_style.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_style.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_style.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_style.Color))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", measure_style.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(measure_style.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(measure_style.Id))
 
 	case "Multiple_rest":
 		if measure_style.Multiple_rest != nil {
@@ -19711,17 +19711,17 @@ func (membrane *Membrane) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", membrane.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(membrane.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(membrane.Name))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", membrane.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(membrane.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(membrane.Smufl))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", membrane.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(membrane.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(membrane.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Membrane", fieldName)
@@ -19736,17 +19736,17 @@ func (metal *Metal) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metal.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metal.Name))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metal.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metal.Smufl))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metal.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metal.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Metal", fieldName)
@@ -19761,7 +19761,7 @@ func (metronome *Metronome) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Name))
 	case "Parentheses":
 		if metronome.Parentheses.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -19779,57 +19779,57 @@ func (metronome *Metronome) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Valign))
 	case "Print_object":
 		if metronome.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -19860,7 +19860,7 @@ func (metronome *Metronome) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Id))
 	case "Beat_unit":
 		if metronome.Beat_unit.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -19878,17 +19878,17 @@ func (metronome *Metronome) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Beat_unit_dot")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Beat_unit_dot))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Beat_unit_dot))
 	case "Metronome_arrows":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Metronome_arrows")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Metronome_arrows))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Metronome_arrows))
 	case "Metronome_relation":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Metronome_relation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome.Metronome_relation))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome.Metronome_relation))
 
 	case "Per_minute":
 		if metronome.Per_minute != nil {
@@ -19936,7 +19936,7 @@ func (metronome_beam *Metronome_beam) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome_beam.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome_beam.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome_beam.Name))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome_beam.GongGetIdentifier(stage))
@@ -19969,17 +19969,17 @@ func (metronome_note *Metronome_note) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome_note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome_note.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome_note.Name))
 	case "Metronome_type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome_note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Metronome_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome_note.Metronome_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome_note.Metronome_type))
 	case "Metronome_dot":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome_note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Metronome_dot")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome_note.Metronome_dot))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome_note.Metronome_dot))
 
 	case "Metronome_beam":
 		var sb strings.Builder
@@ -20030,7 +20030,7 @@ func (metronome_tied *Metronome_tied) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome_tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome_tied.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome_tied.Name))
 	case "Type":
 		if metronome_tied.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -20058,7 +20058,7 @@ func (metronome_tuplet *Metronome_tuplet) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metronome_tuplet.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metronome_tuplet.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(metronome_tuplet.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Metronome_tuplet", fieldName)
@@ -20073,7 +20073,7 @@ func (midi_device *Midi_device) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midi_device.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midi_device.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(midi_device.Name))
 	case "Port":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midi_device.GongGetIdentifier(stage))
@@ -20083,12 +20083,12 @@ func (midi_device *Midi_device) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midi_device.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midi_device.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(midi_device.Id))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midi_device.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midi_device.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(midi_device.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Midi_device", fieldName)
@@ -20103,12 +20103,12 @@ func (midi_instrument *Midi_instrument) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midi_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midi_instrument.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(midi_instrument.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midi_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midi_instrument.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(midi_instrument.Id))
 	case "Midi_channel":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midi_instrument.GongGetIdentifier(stage))
@@ -20118,7 +20118,7 @@ func (midi_instrument *Midi_instrument) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midi_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Midi_name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midi_instrument.Midi_name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(midi_instrument.Midi_name))
 	case "Midi_bank":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midi_instrument.GongGetIdentifier(stage))
@@ -20138,17 +20138,17 @@ func (midi_instrument *Midi_instrument) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midi_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Volume")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midi_instrument.Volume))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(midi_instrument.Volume))
 	case "Pan":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midi_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Pan")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midi_instrument.Pan))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(midi_instrument.Pan))
 	case "Elevation":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", midi_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Elevation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midi_instrument.Elevation))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(midi_instrument.Elevation))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Midi_instrument", fieldName)
@@ -20163,7 +20163,7 @@ func (miscellaneous *Miscellaneous) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", miscellaneous.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(miscellaneous.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(miscellaneous.Name))
 
 	case "Miscellaneous_field":
 		var sb strings.Builder
@@ -20188,17 +20188,17 @@ func (miscellaneous_field *Miscellaneous_field) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", miscellaneous_field.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(miscellaneous_field.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(miscellaneous_field.Name))
 	case "NameXSD":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", miscellaneous_field.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NameXSD")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(miscellaneous_field.NameXSD))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(miscellaneous_field.NameXSD))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", miscellaneous_field.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(miscellaneous_field.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(miscellaneous_field.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Miscellaneous_field", fieldName)
@@ -20213,7 +20213,7 @@ func (mordent *Mordent) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", mordent.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(mordent.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(mordent.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Mordent", fieldName)
@@ -20228,7 +20228,7 @@ func (multiple_rest *Multiple_rest) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", multiple_rest.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(multiple_rest.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(multiple_rest.Name))
 	case "Use_symbols":
 		if multiple_rest.Use_symbols.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -20261,7 +20261,7 @@ func (name_display *Name_display) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", name_display.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(name_display.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(name_display.Name))
 	case "Print_object":
 		if name_display.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -20309,12 +20309,12 @@ func (non_arpeggiate *Non_arpeggiate) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", non_arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(non_arpeggiate.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(non_arpeggiate.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", non_arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(non_arpeggiate.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(non_arpeggiate.Type))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", non_arpeggiate.GongGetIdentifier(stage))
@@ -20324,37 +20324,37 @@ func (non_arpeggiate *Non_arpeggiate) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", non_arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(non_arpeggiate.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(non_arpeggiate.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", non_arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(non_arpeggiate.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(non_arpeggiate.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", non_arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(non_arpeggiate.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(non_arpeggiate.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", non_arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(non_arpeggiate.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(non_arpeggiate.Relative_y))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", non_arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(non_arpeggiate.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(non_arpeggiate.Placement))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", non_arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(non_arpeggiate.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(non_arpeggiate.Color))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", non_arpeggiate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(non_arpeggiate.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(non_arpeggiate.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Non_arpeggiate", fieldName)
@@ -20369,7 +20369,7 @@ func (notations *Notations) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", notations.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notations.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(notations.Name))
 	case "Print_object":
 		if notations.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -20387,7 +20387,7 @@ func (notations *Notations) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", notations.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notations.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(notations.Id))
 
 	case "Footnote":
 		if notations.Footnote != nil {
@@ -20568,7 +20568,7 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Name))
 	case "Print_leger":
 		if note.Print_leger.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -20586,22 +20586,22 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dynamics")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Dynamics))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Dynamics))
 	case "End_dynamics":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End_dynamics")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.End_dynamics))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.End_dynamics))
 	case "Attack":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Attack")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Attack))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Attack))
 	case "Release":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Release")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Release))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Release))
 	case "Time_only":
 		if note.Time_only.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -20632,47 +20632,47 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Color))
 	case "Print_dot":
 		if note.Print_dot.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -20729,27 +20729,27 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Id))
 	case "Chord":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Chord")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Chord))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Chord))
 	case "Cue":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Cue")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Cue))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Cue))
 	case "Duration":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Duration")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Duration))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Duration))
 	case "Voice":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Voice")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Voice))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Voice))
 	case "Staff":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
@@ -21017,17 +21017,17 @@ func (note_size *Note_size) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note_size.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note_size.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note_size.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note_size.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note_size.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note_size.Type))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note_size.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note_size.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note_size.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Note_size", fieldName)
@@ -21042,7 +21042,7 @@ func (note_type *Note_type) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note_type.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note_type.Name))
 	case "Size":
 		if note_type.Size.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -21083,7 +21083,7 @@ func (notehead *Notehead) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", notehead.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notehead.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(notehead.Name))
 	case "Filled":
 		if notehead.Filled.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -21114,37 +21114,37 @@ func (notehead *Notehead) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", notehead.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notehead.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(notehead.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", notehead.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notehead.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(notehead.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", notehead.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notehead.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(notehead.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", notehead.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notehead.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(notehead.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", notehead.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notehead.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(notehead.Color))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", notehead.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notehead.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(notehead.Smufl))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", notehead.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notehead.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(notehead.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Notehead", fieldName)
@@ -21159,7 +21159,7 @@ func (notehead_text *Notehead_text) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", notehead_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notehead_text.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(notehead_text.Name))
 
 	case "Display_text":
 		var sb strings.Builder
@@ -21194,7 +21194,7 @@ func (numeral *Numeral) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(numeral.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(numeral.Name))
 
 	case "Numeral_root":
 		if numeral.Numeral_root != nil {
@@ -21248,7 +21248,7 @@ func (numeral_key *Numeral_key) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral_key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(numeral_key.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(numeral_key.Name))
 	case "Print_object":
 		if numeral_key.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -21271,7 +21271,7 @@ func (numeral_key *Numeral_key) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral_key.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Numeral_mode")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(numeral_key.Numeral_mode))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(numeral_key.Numeral_mode))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Numeral_key", fieldName)
@@ -21286,57 +21286,57 @@ func (numeral_root *Numeral_root) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral_root.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(numeral_root.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(numeral_root.Name))
 	case "Text":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral_root.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(numeral_root.Text))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(numeral_root.Text))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral_root.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(numeral_root.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(numeral_root.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral_root.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(numeral_root.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(numeral_root.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral_root.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(numeral_root.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(numeral_root.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral_root.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(numeral_root.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(numeral_root.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral_root.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(numeral_root.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(numeral_root.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral_root.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(numeral_root.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(numeral_root.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral_root.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(numeral_root.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(numeral_root.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral_root.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(numeral_root.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(numeral_root.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral_root.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(numeral_root.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(numeral_root.Color))
 	case "EnclosedText":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", numeral_root.GongGetIdentifier(stage))
@@ -21356,12 +21356,12 @@ func (octave_shift *Octave_shift) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(octave_shift.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(octave_shift.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(octave_shift.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(octave_shift.Type))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
@@ -21376,62 +21376,62 @@ func (octave_shift *Octave_shift) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dash_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(octave_shift.Dash_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(octave_shift.Dash_length))
 	case "Space_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Space_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(octave_shift.Space_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(octave_shift.Space_length))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(octave_shift.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(octave_shift.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(octave_shift.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(octave_shift.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(octave_shift.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(octave_shift.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(octave_shift.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(octave_shift.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(octave_shift.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(octave_shift.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(octave_shift.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(octave_shift.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(octave_shift.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(octave_shift.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(octave_shift.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(octave_shift.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(octave_shift.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(octave_shift.Color))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", octave_shift.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(octave_shift.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(octave_shift.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Octave_shift", fieldName)
@@ -21446,7 +21446,7 @@ func (offset *Offset) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", offset.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(offset.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(offset.Name))
 	case "Sound":
 		if offset.Sound.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -21464,7 +21464,7 @@ func (offset *Offset) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", offset.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(offset.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(offset.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Offset", fieldName)
@@ -21479,37 +21479,37 @@ func (opus *Opus) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", opus.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(opus.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(opus.Name))
 	case "Href":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", opus.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Href")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(opus.Href))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(opus.Href))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", opus.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(opus.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(opus.Type))
 	case "Role":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", opus.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Role")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(opus.Role))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(opus.Role))
 	case "Title":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", opus.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Title")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(opus.Title))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(opus.Title))
 	case "Show":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", opus.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Show")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(opus.Show))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(opus.Show))
 	case "Actuate":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", opus.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Actuate")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(opus.Actuate))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(opus.Actuate))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Opus", fieldName)
@@ -21524,12 +21524,12 @@ func (ornaments *Ornaments) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ornaments.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ornaments.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ornaments.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ornaments.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ornaments.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(ornaments.Id))
 
 	case "Trill_mark":
 		var sb strings.Builder
@@ -21704,17 +21704,17 @@ func (other_appearance *Other_appearance) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_appearance.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_appearance.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_appearance.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_appearance.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_appearance.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_appearance.Type))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_appearance.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_appearance.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_appearance.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Other_appearance", fieldName)
@@ -21729,7 +21729,7 @@ func (other_direction *Other_direction) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.Name))
 	case "Print_object":
 		if other_direction.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -21747,72 +21747,72 @@ func (other_direction *Other_direction) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.Valign))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.Smufl))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.Id))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_direction.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_direction.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_direction.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Other_direction", fieldName)
@@ -21827,17 +21827,17 @@ func (other_listening *Other_listening) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_listening.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_listening.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_listening.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_listening.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_listening.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_listening.Type))
 	case "Player":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_listening.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Player")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_listening.Player))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_listening.Player))
 	case "Time_only":
 		if other_listening.Time_only.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -21855,7 +21855,7 @@ func (other_listening *Other_listening) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_listening.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_listening.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_listening.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Other_listening", fieldName)
@@ -21870,7 +21870,7 @@ func (other_notation *Other_notation) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_notation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_notation.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_notation.Name))
 	case "Type":
 		if other_notation.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -21906,67 +21906,67 @@ func (other_notation *Other_notation) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_notation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_notation.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_notation.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_notation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_notation.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_notation.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_notation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_notation.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_notation.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_notation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_notation.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_notation.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_notation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_notation.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_notation.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_notation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_notation.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_notation.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_notation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_notation.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_notation.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_notation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_notation.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_notation.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_notation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_notation.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_notation.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_notation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_notation.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_notation.Placement))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_notation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_notation.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_notation.Smufl))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_notation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_notation.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_notation.Id))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_notation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_notation.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_notation.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Other_notation", fieldName)
@@ -21981,67 +21981,67 @@ func (other_placement_text *Other_placement_text) GongMarshallField(stage *Stage
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_placement_text.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_placement_text.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_placement_text.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_placement_text.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_placement_text.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_placement_text.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_placement_text.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_placement_text.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_placement_text.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_placement_text.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_placement_text.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_placement_text.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_placement_text.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_placement_text.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_placement_text.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_placement_text.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_placement_text.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_placement_text.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_placement_text.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_placement_text.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_placement_text.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_placement_text.Placement))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_placement_text.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_placement_text.Smufl))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_placement_text.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_placement_text.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Other_placement_text", fieldName)
@@ -22056,17 +22056,17 @@ func (other_play *Other_play) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_play.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_play.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_play.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_play.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_play.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_play.Type))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_play.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_play.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_play.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Other_play", fieldName)
@@ -22081,17 +22081,17 @@ func (other_text *Other_text) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_text.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_text.Name))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_text.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_text.Smufl))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", other_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(other_text.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(other_text.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Other_text", fieldName)
@@ -22106,17 +22106,17 @@ func (page_layout *Page_layout) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", page_layout.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(page_layout.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(page_layout.Name))
 	case "Page_height":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", page_layout.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Page_height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(page_layout.Page_height))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(page_layout.Page_height))
 	case "Page_width":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", page_layout.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Page_width")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(page_layout.Page_width))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(page_layout.Page_width))
 
 	case "Page_margins":
 		if page_layout.Page_margins != nil {
@@ -22144,32 +22144,32 @@ func (page_margins *Page_margins) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", page_margins.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(page_margins.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(page_margins.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", page_margins.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(page_margins.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(page_margins.Type))
 	case "Left_margin":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", page_margins.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Left_margin")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(page_margins.Left_margin))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(page_margins.Left_margin))
 	case "Right_margin":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", page_margins.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Right_margin")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(page_margins.Right_margin))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(page_margins.Right_margin))
 	case "Top_margin":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", page_margins.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Top_margin")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(page_margins.Top_margin))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(page_margins.Top_margin))
 	case "Bottom_margin":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", page_margins.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bottom_margin")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(page_margins.Bottom_margin))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(page_margins.Bottom_margin))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Page_margins", fieldName)
@@ -22184,12 +22184,12 @@ func (part_clef *Part_clef) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_clef.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_clef.Name))
 	case "Sign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_clef.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Sign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_clef.Sign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_clef.Sign))
 	case "Line":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_clef.GongGetIdentifier(stage))
@@ -22214,7 +22214,7 @@ func (part_group *Part_group) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_group.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_group.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_group.Name))
 	case "Type":
 		if part_group.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -22232,12 +22232,12 @@ func (part_group *Part_group) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_group.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Number")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_group.Number))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_group.Number))
 	case "Group_time":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_group.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_time")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_group.Group_time))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_group.Group_time))
 
 	case "Group_name":
 		if part_group.Group_name != nil {
@@ -22356,42 +22356,42 @@ func (part_link *Part_link) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_link.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_link.Name))
 	case "Href":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Href")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_link.Href))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_link.Href))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_link.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_link.Type))
 	case "Role":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Role")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_link.Role))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_link.Role))
 	case "Title":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Title")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_link.Title))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_link.Title))
 	case "Show":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Show")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_link.Show))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_link.Show))
 	case "Actuate":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Actuate")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_link.Actuate))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_link.Actuate))
 	case "Group_link":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_link")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_link.Group_link))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_link.Group_link))
 
 	case "Instrument_link":
 		var sb strings.Builder
@@ -22416,7 +22416,7 @@ func (part_list *Part_list) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_list.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_list.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_list.Name))
 
 	case "Part_group":
 		if part_list.Part_group != nil {
@@ -22457,52 +22457,52 @@ func (part_name *Part_name) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_name.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_name.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_name.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_name.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_name.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_name.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_name.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_name.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_name.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_name.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_name.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_name.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_name.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_name.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_name.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_name.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_name.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_name.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_name.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_name.Color))
 	case "Print_object":
 		if part_name.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -22533,7 +22533,7 @@ func (part_name *Part_name) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_name.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_name.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_name.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Part_name", fieldName)
@@ -22548,7 +22548,7 @@ func (part_symbol *Part_symbol) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_symbol.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_symbol.Name))
 	case "Top_staff":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_symbol.GongGetIdentifier(stage))
@@ -22563,27 +22563,27 @@ func (part_symbol *Part_symbol) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_symbol.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_symbol.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_symbol.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_symbol.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_symbol.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_symbol.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_symbol.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_symbol.Relative_y))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_symbol.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_symbol.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_symbol.Color))
 	case "EnclosedText":
 		if part_symbol.EnclosedText.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -22611,7 +22611,7 @@ func (part_transpose *Part_transpose) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_transpose.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_transpose.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_transpose.Name))
 	case "Diatonic":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_transpose.GongGetIdentifier(stage))
@@ -22621,7 +22621,7 @@ func (part_transpose *Part_transpose) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_transpose.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Chromatic")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part_transpose.Chromatic))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(part_transpose.Chromatic))
 	case "Octave_change":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part_transpose.GongGetIdentifier(stage))
@@ -22646,12 +22646,12 @@ func (pedal *Pedal) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal.Type))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
@@ -22700,62 +22700,62 @@ func (pedal *Pedal) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal.Valign))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Pedal", fieldName)
@@ -22770,7 +22770,7 @@ func (pedal_tuning *Pedal_tuning) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal_tuning.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal_tuning.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal_tuning.Name))
 	case "Pedal_step":
 		if pedal_tuning.Pedal_step.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -22788,7 +22788,7 @@ func (pedal_tuning *Pedal_tuning) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pedal_tuning.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Pedal_alter")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pedal_tuning.Pedal_alter))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pedal_tuning.Pedal_alter))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Pedal_tuning", fieldName)
@@ -22803,32 +22803,32 @@ func (per_minute *Per_minute) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", per_minute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(per_minute.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(per_minute.Name))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", per_minute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(per_minute.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(per_minute.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", per_minute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(per_minute.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(per_minute.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", per_minute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(per_minute.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(per_minute.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", per_minute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(per_minute.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(per_minute.Font_weight))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", per_minute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(per_minute.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(per_minute.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Per_minute", fieldName)
@@ -22843,77 +22843,77 @@ func (percussion *Percussion) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Valign))
 	case "Enclosure":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Enclosure")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Enclosure))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Enclosure))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Id))
 	case "Stick_location":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", percussion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stick_location")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(percussion.Stick_location))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(percussion.Stick_location))
 
 	case "Glass":
 		if percussion.Glass != nil {
@@ -23058,7 +23058,7 @@ func (pitch *Pitch) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pitch.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pitch.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pitch.Name))
 	case "Step":
 		if pitch.Step.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -23076,7 +23076,7 @@ func (pitch *Pitch) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pitch.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Alter")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pitch.Alter))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pitch.Alter))
 	case "Octave":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pitch.GongGetIdentifier(stage))
@@ -23096,17 +23096,17 @@ func (pitched *Pitched) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pitched.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pitched.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pitched.Name))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pitched.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pitched.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pitched.Smufl))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pitched.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pitched.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pitched.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Pitched", fieldName)
@@ -23121,62 +23121,62 @@ func (placement_text *Placement_text) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(placement_text.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(placement_text.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(placement_text.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(placement_text.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(placement_text.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(placement_text.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(placement_text.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(placement_text.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(placement_text.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(placement_text.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(placement_text.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(placement_text.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(placement_text.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(placement_text.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(placement_text.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(placement_text.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(placement_text.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(placement_text.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(placement_text.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(placement_text.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(placement_text.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(placement_text.Placement))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", placement_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(placement_text.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(placement_text.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Placement_text", fieldName)
@@ -23191,27 +23191,27 @@ func (play *Play) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", play.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(play.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(play.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", play.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(play.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(play.Id))
 	case "Ipa":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", play.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Ipa")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(play.Ipa))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(play.Ipa))
 	case "Mute":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", play.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Mute")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(play.Mute))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(play.Mute))
 	case "Semi_pitched":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", play.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Semi_pitched")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(play.Semi_pitched))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(play.Semi_pitched))
 
 	case "Other_play":
 		var sb strings.Builder
@@ -23236,17 +23236,17 @@ func (player *Player) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", player.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(player.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(player.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", player.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(player.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(player.Id))
 	case "Player_name":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", player.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Player_name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(player.Player_name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(player.Player_name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Player", fieldName)
@@ -23261,7 +23261,7 @@ func (principal_voice *Principal_voice) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.Name))
 	case "Type":
 		if principal_voice.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -23279,72 +23279,72 @@ func (principal_voice *Principal_voice) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Symbol")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.Symbol))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.Symbol))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.Valign))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.Id))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", principal_voice.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(principal_voice.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(principal_voice.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Principal_voice", fieldName)
@@ -23359,12 +23359,12 @@ func (print *Print) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", print.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(print.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(print.Name))
 	case "Staff_spacing":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", print.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Staff_spacing")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(print.Staff_spacing))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(print.Staff_spacing))
 	case "New_system":
 		if print.New_system.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -23400,12 +23400,12 @@ func (print *Print) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", print.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Page_number")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(print.Page_number))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(print.Page_number))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", print.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(print.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(print.Id))
 
 	case "Page_layout":
 		if print.Page_layout != nil {
@@ -23508,7 +23508,7 @@ func (release *Release) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", release.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(release.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(release.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Release", fieldName)
@@ -23523,12 +23523,12 @@ func (repeat *Repeat) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", repeat.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(repeat.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(repeat.Name))
 	case "Direction":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", repeat.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Direction")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(repeat.Direction))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(repeat.Direction))
 	case "Times":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", repeat.GongGetIdentifier(stage))
@@ -23551,7 +23551,7 @@ func (repeat *Repeat) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", repeat.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Winged")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(repeat.Winged))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(repeat.Winged))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Repeat", fieldName)
@@ -23566,7 +23566,7 @@ func (rest *Rest) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rest.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rest.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rest.Name))
 	case "Measure":
 		if rest.Measure.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -23612,7 +23612,7 @@ func (root *Root) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", root.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(root.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(root.Name))
 
 	case "Root_step":
 		if root.Root_step != nil {
@@ -23653,57 +23653,57 @@ func (root_step *Root_step) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", root_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(root_step.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(root_step.Name))
 	case "Text":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", root_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(root_step.Text))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(root_step.Text))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", root_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(root_step.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(root_step.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", root_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(root_step.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(root_step.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", root_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(root_step.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(root_step.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", root_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(root_step.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(root_step.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", root_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(root_step.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(root_step.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", root_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(root_step.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(root_step.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", root_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(root_step.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(root_step.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", root_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(root_step.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(root_step.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", root_step.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(root_step.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(root_step.Color))
 	case "EnclosedText":
 		if root_step.EnclosedText.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -23731,17 +23731,17 @@ func (scaling *Scaling) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", scaling.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(scaling.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(scaling.Name))
 	case "Millimeters":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", scaling.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Millimeters")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(scaling.Millimeters))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(scaling.Millimeters))
 	case "Tenths":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", scaling.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Tenths")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(scaling.Tenths))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(scaling.Tenths))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Scaling", fieldName)
@@ -23756,12 +23756,12 @@ func (scordatura *Scordatura) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", scordatura.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(scordatura.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(scordatura.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", scordatura.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(scordatura.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(scordatura.Id))
 
 	case "Accord":
 		var sb strings.Builder
@@ -23786,37 +23786,37 @@ func (score_instrument *Score_instrument) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_instrument.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_instrument.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_instrument.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_instrument.Id))
 	case "Instrument_name":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Instrument_name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_instrument.Instrument_name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_instrument.Instrument_name))
 	case "Instrument_abbreviation":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Instrument_abbreviation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_instrument.Instrument_abbreviation))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_instrument.Instrument_abbreviation))
 	case "Instrument_sound":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Instrument_sound")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_instrument.Instrument_sound))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_instrument.Instrument_sound))
 	case "Solo":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Solo")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_instrument.Solo))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_instrument.Solo))
 	case "Ensemble":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Ensemble")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_instrument.Ensemble))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_instrument.Ensemble))
 
 	case "Virtual_instrument":
 		if score_instrument.Virtual_instrument != nil {
@@ -23844,17 +23844,17 @@ func (score_part *Score_part) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_part.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_part.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_part.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_part.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_part.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_part.Id))
 	case "Group":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_part.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_part.Group))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_part.Group))
 
 	case "Identification":
 		if score_part.Identification != nil {
@@ -23984,22 +23984,22 @@ func (score_partwise *Score_partwise) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_partwise.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_partwise.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_partwise.Name))
 	case "Version":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_partwise.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Version")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_partwise.Version))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_partwise.Version))
 	case "Movement_number":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_partwise.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Movement_number")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_partwise.Movement_number))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_partwise.Movement_number))
 	case "Movement_title":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_partwise.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Movement_title")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_partwise.Movement_title))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_partwise.Movement_title))
 
 	case "Work":
 		if score_partwise.Work != nil {
@@ -24086,22 +24086,22 @@ func (score_timewise *Score_timewise) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_timewise.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_timewise.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_timewise.Name))
 	case "Version":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_timewise.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Version")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_timewise.Version))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_timewise.Version))
 	case "Movement_number":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_timewise.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Movement_number")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_timewise.Movement_number))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_timewise.Movement_number))
 	case "Movement_title":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", score_timewise.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Movement_title")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(score_timewise.Movement_title))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(score_timewise.Movement_title))
 
 	case "Work":
 		if score_timewise.Work != nil {
@@ -24188,72 +24188,72 @@ func (segno *Segno) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", segno.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(segno.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(segno.Name))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", segno.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(segno.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(segno.Smufl))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", segno.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(segno.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(segno.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", segno.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(segno.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(segno.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", segno.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(segno.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(segno.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", segno.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(segno.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(segno.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", segno.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(segno.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(segno.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", segno.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(segno.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(segno.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", segno.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(segno.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(segno.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", segno.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(segno.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(segno.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", segno.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(segno.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(segno.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", segno.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(segno.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(segno.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", segno.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(segno.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(segno.Valign))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", segno.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(segno.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(segno.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Segno", fieldName)
@@ -24268,7 +24268,7 @@ func (slash *Slash) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slash.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slash.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slash.Name))
 	case "Type":
 		if slash.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -24325,12 +24325,12 @@ func (slash *Slash) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slash.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Slash_dot")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slash.Slash_dot))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slash.Slash_dot))
 	case "Except_voice":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slash.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Except_voice")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slash.Except_voice))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slash.Except_voice))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Slash", fieldName)
@@ -24345,7 +24345,7 @@ func (slide *Slide) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Name))
 	case "Type":
 		if slide.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -24368,62 +24368,62 @@ func (slide *Slide) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Line_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Line_type))
 	case "Dash_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dash_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Dash_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Dash_length))
 	case "Space_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Space_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Space_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Space_length))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Color))
 	case "Accelerate":
 		if slide.Accelerate.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -24441,27 +24441,27 @@ func (slide *Slide) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Beats")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Beats))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Beats))
 	case "First_beat":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "First_beat")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.First_beat))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.First_beat))
 	case "Last_beat":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Last_beat")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Last_beat))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Last_beat))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.Id))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slide.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slide.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Slide", fieldName)
@@ -24476,7 +24476,7 @@ func (slur *Slur) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Name))
 	case "Type":
 		if slur.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -24499,87 +24499,87 @@ func (slur *Slur) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Line_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Line_type))
 	case "Dash_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dash_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Dash_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Dash_length))
 	case "Space_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Space_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Space_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Space_length))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Relative_y))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Placement))
 	case "Orientation":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Orientation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Orientation))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Orientation))
 	case "Bezier_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bezier_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Bezier_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Bezier_x))
 	case "Bezier_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bezier_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Bezier_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Bezier_y))
 	case "Bezier_x2":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bezier_x2")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Bezier_x2))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Bezier_x2))
 	case "Bezier_y2":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bezier_y2")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Bezier_y2))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Bezier_y2))
 	case "Bezier_offset":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bezier_offset")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Bezier_offset))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Bezier_offset))
 	case "Bezier_offset2":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bezier_offset2")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Bezier_offset2))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Bezier_offset2))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Color))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slur.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slur.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slur.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Slur", fieldName)
@@ -24594,17 +24594,17 @@ func (sound *Sound) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Name))
 	case "Tempo":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Tempo")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Tempo))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Tempo))
 	case "Dynamics":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dynamics")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Dynamics))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Dynamics))
 	case "Dacapo":
 		if sound.Dacapo.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -24622,27 +24622,27 @@ func (sound *Sound) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Segno")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Segno))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Segno))
 	case "Dalsegno":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dalsegno")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Dalsegno))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Dalsegno))
 	case "Coda":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Coda")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Coda))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Coda))
 	case "Tocoda":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Tocoda")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Tocoda))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Tocoda))
 	case "Divisions":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Divisions")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Divisions))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Divisions))
 	case "Forward_repeat":
 		if sound.Forward_repeat.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -24660,7 +24660,7 @@ func (sound *Sound) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Fine")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Fine))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Fine))
 	case "Time_only":
 		if sound.Time_only.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -24691,32 +24691,32 @@ func (sound *Sound) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Pan")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Pan))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Pan))
 	case "Elevation":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Elevation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Elevation))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Elevation))
 	case "Damper_pedal":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Damper_pedal")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Damper_pedal))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Damper_pedal))
 	case "Soft_pedal":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Soft_pedal")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Soft_pedal))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Soft_pedal))
 	case "Sostenuto_pedal":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Sostenuto_pedal")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Sostenuto_pedal))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Sostenuto_pedal))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sound.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sound.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sound.Id))
 
 	case "Instrument_change":
 		var sb strings.Builder
@@ -24797,7 +24797,7 @@ func (staff_details *Staff_details) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_details.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_details.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_details.Name))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_details.GongGetIdentifier(stage))
@@ -24807,7 +24807,7 @@ func (staff_details *Staff_details) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_details.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Show_frets")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_details.Show_frets))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_details.Show_frets))
 	case "Print_object":
 		if staff_details.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -24838,7 +24838,7 @@ func (staff_details *Staff_details) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_details.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Staff_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_details.Staff_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_details.Staff_type))
 	case "Staff_lines":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_details.GongGetIdentifier(stage))
@@ -24896,72 +24896,72 @@ func (staff_divide *Staff_divide) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_divide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_divide.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_divide.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_divide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_divide.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_divide.Type))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_divide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_divide.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_divide.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_divide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_divide.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_divide.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_divide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_divide.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_divide.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_divide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_divide.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_divide.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_divide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_divide.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_divide.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_divide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_divide.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_divide.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_divide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_divide.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_divide.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_divide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_divide.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_divide.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_divide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_divide.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_divide.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_divide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_divide.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_divide.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_divide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_divide.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_divide.Valign))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_divide.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_divide.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_divide.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Staff_divide", fieldName)
@@ -24976,7 +24976,7 @@ func (staff_layout *Staff_layout) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_layout.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_layout.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_layout.Name))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_layout.GongGetIdentifier(stage))
@@ -24986,7 +24986,7 @@ func (staff_layout *Staff_layout) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_layout.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Staff_distance")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_layout.Staff_distance))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_layout.Staff_distance))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Staff_layout", fieldName)
@@ -25001,17 +25001,17 @@ func (staff_size *Staff_size) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_size.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_size.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_size.Name))
 	case "Scaling":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_size.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Scaling")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_size.Scaling))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_size.Scaling))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_size.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_size.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_size.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Staff_size", fieldName)
@@ -25026,7 +25026,7 @@ func (staff_tuning *Staff_tuning) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_tuning.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_tuning.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_tuning.Name))
 	case "Line":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_tuning.GongGetIdentifier(stage))
@@ -25049,7 +25049,7 @@ func (staff_tuning *Staff_tuning) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_tuning.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Tuning_alter")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staff_tuning.Tuning_alter))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staff_tuning.Tuning_alter))
 	case "Tuning_octave":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staff_tuning.GongGetIdentifier(stage))
@@ -25069,37 +25069,37 @@ func (stem *Stem) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stem.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stem.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stem.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stem.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stem.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stem.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stem.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stem.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stem.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stem.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stem.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stem.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stem.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stem.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stem.Relative_y))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stem.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stem.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stem.Color))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stem.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stem.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stem.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Stem", fieldName)
@@ -25114,7 +25114,7 @@ func (stick *Stick) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stick.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stick.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stick.Name))
 	case "Tip":
 		if stick.Tip.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -25158,12 +25158,12 @@ func (stick *Stick) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stick.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stick_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stick.Stick_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stick.Stick_type))
 	case "Stick_material":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stick.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stick_material")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stick.Stick_material))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stick.Stick_material))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Stick", fieldName)
@@ -25178,72 +25178,72 @@ func (string_mute *String_mute) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_mute.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_mute.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_mute.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_mute.Type))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_mute.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_mute.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_mute.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_mute.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_mute.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_mute.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_mute.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_mute.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_mute.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_mute.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_mute.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_mute.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_mute.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_mute.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_mute.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_mute.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_mute.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_mute.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_mute.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_mute.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_mute.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_mute.Valign))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_mute.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_mute.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_mute.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct String_mute", fieldName)
@@ -25258,57 +25258,57 @@ func (string_type *String_type) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_type.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_type.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_type.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_type.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_type.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_type.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_type.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_type.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_type.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_type.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_type.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_type.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_type.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_type.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_type.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_type.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_type.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_type.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_type.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_type.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(string_type.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string_type.Placement))
 	case "EnclosedText":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", string_type.GongGetIdentifier(stage))
@@ -25328,7 +25328,7 @@ func (strong_accent *Strong_accent) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", strong_accent.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(strong_accent.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(strong_accent.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Strong_accent", fieldName)
@@ -25343,57 +25343,57 @@ func (style_text *Style_text) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", style_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(style_text.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(style_text.Name))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", style_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(style_text.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(style_text.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", style_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(style_text.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(style_text.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", style_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(style_text.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(style_text.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", style_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(style_text.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(style_text.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", style_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(style_text.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(style_text.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", style_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(style_text.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(style_text.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", style_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(style_text.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(style_text.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", style_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(style_text.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(style_text.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", style_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(style_text.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(style_text.Color))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", style_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(style_text.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(style_text.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Style_text", fieldName)
@@ -25408,7 +25408,7 @@ func (supports *Supports) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", supports.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(supports.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(supports.Name))
 	case "Type":
 		if supports.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -25426,17 +25426,17 @@ func (supports *Supports) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", supports.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Element")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(supports.Element))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(supports.Element))
 	case "Attribute":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", supports.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Attribute")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(supports.Attribute))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(supports.Attribute))
 	case "Value":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", supports.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(supports.Value))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(supports.Value))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Supports", fieldName)
@@ -25451,12 +25451,12 @@ func (swing *Swing) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", swing.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(swing.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(swing.Name))
 	case "Straight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", swing.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Straight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(swing.Straight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(swing.Straight))
 	case "First":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", swing.GongGetIdentifier(stage))
@@ -25484,7 +25484,7 @@ func (swing *Swing) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", swing.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Swing_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(swing.Swing_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(swing.Swing_style))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Swing", fieldName)
@@ -25499,12 +25499,12 @@ func (sync *Sync) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sync.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sync.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sync.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sync.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sync.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sync.Type))
 	case "Latency":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sync.GongGetIdentifier(stage))
@@ -25514,7 +25514,7 @@ func (sync *Sync) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sync.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Player")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sync.Player))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(sync.Player))
 	case "Time_only":
 		if sync.Time_only.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -25542,7 +25542,7 @@ func (system_dividers *System_dividers) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", system_dividers.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(system_dividers.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(system_dividers.Name))
 
 	case "Left_divider":
 		if system_dividers.Left_divider != nil {
@@ -25583,17 +25583,17 @@ func (system_layout *System_layout) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", system_layout.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(system_layout.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(system_layout.Name))
 	case "System_distance":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", system_layout.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "System_distance")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(system_layout.System_distance))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(system_layout.System_distance))
 	case "Top_system_distance":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", system_layout.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Top_system_distance")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(system_layout.Top_system_distance))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(system_layout.Top_system_distance))
 
 	case "System_margins":
 		if system_layout.System_margins != nil {
@@ -25634,17 +25634,17 @@ func (system_margins *System_margins) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", system_margins.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(system_margins.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(system_margins.Name))
 	case "Left_margin":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", system_margins.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Left_margin")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(system_margins.Left_margin))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(system_margins.Left_margin))
 	case "Right_margin":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", system_margins.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Right_margin")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(system_margins.Right_margin))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(system_margins.Right_margin))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct System_margins", fieldName)
@@ -25659,67 +25659,67 @@ func (tap *Tap) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tap.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tap.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tap.Name))
 	case "Hand":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tap.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Hand")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tap.Hand))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tap.Hand))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tap.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tap.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tap.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tap.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tap.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tap.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tap.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tap.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tap.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tap.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tap.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tap.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tap.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tap.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tap.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tap.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tap.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tap.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tap.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tap.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tap.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tap.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tap.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tap.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tap.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tap.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tap.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tap.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tap.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tap.Placement))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tap.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tap.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tap.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Tap", fieldName)
@@ -25734,12 +25734,12 @@ func (technical *Technical) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", technical.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(technical.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(technical.Name))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", technical.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(technical.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(technical.Id))
 
 	case "Up_bow":
 		var sb strings.Builder
@@ -26064,37 +26064,37 @@ func (text_element_data *Text_element_data) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text_element_data.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text_element_data.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(text_element_data.Name))
 	case "Lang":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text_element_data.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Lang")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text_element_data.Lang))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(text_element_data.Lang))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text_element_data.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text_element_data.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(text_element_data.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text_element_data.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text_element_data.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(text_element_data.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text_element_data.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text_element_data.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(text_element_data.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text_element_data.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text_element_data.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(text_element_data.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text_element_data.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text_element_data.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(text_element_data.Color))
 	case "Underline":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text_element_data.GongGetIdentifier(stage))
@@ -26114,22 +26114,22 @@ func (text_element_data *Text_element_data) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text_element_data.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rotation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text_element_data.Rotation))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(text_element_data.Rotation))
 	case "Letter_spacing":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text_element_data.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Letter_spacing")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text_element_data.Letter_spacing))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(text_element_data.Letter_spacing))
 	case "Dir":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text_element_data.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dir")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text_element_data.Dir))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(text_element_data.Dir))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text_element_data.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text_element_data.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(text_element_data.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Text_element_data", fieldName)
@@ -26144,7 +26144,7 @@ func (tie *Tie) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tie.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tie.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tie.Name))
 	case "Type":
 		if tie.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -26185,12 +26185,12 @@ func (tied *Tied) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Type))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
@@ -26200,87 +26200,87 @@ func (tied *Tied) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Line_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Line_type))
 	case "Dash_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dash_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Dash_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Dash_length))
 	case "Space_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Space_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Space_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Space_length))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Relative_y))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Placement))
 	case "Orientation":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Orientation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Orientation))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Orientation))
 	case "Bezier_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bezier_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Bezier_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Bezier_x))
 	case "Bezier_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bezier_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Bezier_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Bezier_y))
 	case "Bezier_x2":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bezier_x2")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Bezier_x2))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Bezier_x2))
 	case "Bezier_y2":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bezier_y2")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Bezier_y2))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Bezier_y2))
 	case "Bezier_offset":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bezier_offset")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Bezier_offset))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Bezier_offset))
 	case "Bezier_offset2":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bezier_offset2")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Bezier_offset2))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Bezier_offset2))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Color))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tied.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tied.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tied.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Tied", fieldName)
@@ -26295,7 +26295,7 @@ func (time *Time) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Name))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
@@ -26331,57 +26331,57 @@ func (time *Time) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Color))
 	case "Halign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Halign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Halign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Halign))
 	case "Valign":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Valign")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Valign))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Valign))
 	case "Print_object":
 		if time.Print_object.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -26399,22 +26399,22 @@ func (time *Time) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Id))
 	case "Beats":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Beats")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Beats))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Beats))
 	case "Beat_type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Beat_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Beat_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Beat_type))
 	case "Senza_misura":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Senza_misura")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time.Senza_misura))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time.Senza_misura))
 
 	case "Interchangeable":
 		if time.Interchangeable != nil {
@@ -26442,7 +26442,7 @@ func (time_modification *Time_modification) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time_modification.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time_modification.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time_modification.Name))
 	case "Actual_notes":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time_modification.GongGetIdentifier(stage))
@@ -26470,7 +26470,7 @@ func (time_modification *Time_modification) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", time_modification.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Normal_dot")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(time_modification.Normal_dot))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(time_modification.Normal_dot))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Time_modification", fieldName)
@@ -26485,12 +26485,12 @@ func (timpani *Timpani) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", timpani.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(timpani.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(timpani.Name))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", timpani.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(timpani.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(timpani.Smufl))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Timpani", fieldName)
@@ -26505,7 +26505,7 @@ func (transpose *Transpose) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", transpose.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(transpose.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(transpose.Name))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", transpose.GongGetIdentifier(stage))
@@ -26515,7 +26515,7 @@ func (transpose *Transpose) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", transpose.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(transpose.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(transpose.Id))
 	case "Diatonic":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", transpose.GongGetIdentifier(stage))
@@ -26525,7 +26525,7 @@ func (transpose *Transpose) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", transpose.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Chromatic")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(transpose.Chromatic))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(transpose.Chromatic))
 	case "Octave_change":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", transpose.GongGetIdentifier(stage))
@@ -26550,67 +26550,67 @@ func (tremolo *Tremolo) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tremolo.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tremolo.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tremolo.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tremolo.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tremolo.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tremolo.Type))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tremolo.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tremolo.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tremolo.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tremolo.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tremolo.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tremolo.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tremolo.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tremolo.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tremolo.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tremolo.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tremolo.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tremolo.Relative_y))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tremolo.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tremolo.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tremolo.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tremolo.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tremolo.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tremolo.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tremolo.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tremolo.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tremolo.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tremolo.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tremolo.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tremolo.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tremolo.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tremolo.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tremolo.Color))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tremolo.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tremolo.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tremolo.Placement))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tremolo.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tremolo.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tremolo.Smufl))
 	case "EnclosedText":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tremolo.GongGetIdentifier(stage))
@@ -26630,7 +26630,7 @@ func (tuplet *Tuplet) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet.Name))
 	case "Type":
 		if tuplet.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -26666,7 +26666,7 @@ func (tuplet *Tuplet) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Show_number")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet.Show_number))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet.Show_number))
 	case "Show_type":
 		if tuplet.Show_type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -26684,37 +26684,37 @@ func (tuplet *Tuplet) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_shape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet.Line_shape))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet.Line_shape))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet.Relative_y))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet.Placement))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet.Id))
 
 	case "Tuplet_actual":
 		if tuplet.Tuplet_actual != nil {
@@ -26755,32 +26755,32 @@ func (tuplet_dot *Tuplet_dot) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_dot.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_dot.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_dot.Name))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_dot.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_dot.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_dot.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_dot.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_dot.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_dot.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_dot.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_dot.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_dot.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_dot.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_dot.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_dot.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_dot.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_dot.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_dot.Color))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Tuplet_dot", fieldName)
@@ -26795,32 +26795,32 @@ func (tuplet_number *Tuplet_number) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_number.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_number.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_number.Name))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_number.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_number.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_number.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_number.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_number.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_number.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_number.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_number.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_number.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_number.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_number.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_number.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_number.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_number.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_number.Color))
 	case "EnclosedText":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_number.GongGetIdentifier(stage))
@@ -26840,7 +26840,7 @@ func (tuplet_portion *Tuplet_portion) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_portion.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_portion.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_portion.Name))
 
 	case "Tuplet_number":
 		if tuplet_portion.Tuplet_number != nil {
@@ -26891,32 +26891,32 @@ func (tuplet_type *Tuplet_type) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_type.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_type.Name))
 	case "Font_family":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_family")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_type.Font_family))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_type.Font_family))
 	case "Font_style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_type.Font_style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_type.Font_style))
 	case "Font_size":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_size")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_type.Font_size))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_type.Font_size))
 	case "Font_weight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Font_weight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_type.Font_weight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_type.Font_weight))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tuplet_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tuplet_type.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tuplet_type.Color))
 	case "EnclosedText":
 		if tuplet_type.EnclosedText.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -26944,17 +26944,17 @@ func (typed_text *Typed_text) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", typed_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(typed_text.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(typed_text.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", typed_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(typed_text.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(typed_text.Type))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", typed_text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(typed_text.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(typed_text.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Typed_text", fieldName)
@@ -26969,7 +26969,7 @@ func (unpitched *Unpitched) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", unpitched.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(unpitched.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(unpitched.Name))
 	case "Display_step":
 		if unpitched.Display_step.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -27002,17 +27002,17 @@ func (virtual_instrument *Virtual_instrument) GongMarshallField(stage *Stage, fi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", virtual_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(virtual_instrument.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(virtual_instrument.Name))
 	case "Virtual_library":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", virtual_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Virtual_library")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(virtual_instrument.Virtual_library))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(virtual_instrument.Virtual_library))
 	case "Virtual_name":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", virtual_instrument.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Virtual_name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(virtual_instrument.Virtual_name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(virtual_instrument.Virtual_name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Virtual_instrument", fieldName)
@@ -27027,12 +27027,12 @@ func (wait *Wait) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wait.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wait.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wait.Name))
 	case "Player":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wait.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Player")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wait.Player))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wait.Player))
 	case "Time_only":
 		if wait.Time_only.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -27060,7 +27060,7 @@ func (wavy_line *Wavy_line) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wavy_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wavy_line.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wavy_line.Name))
 	case "Type":
 		if wavy_line.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -27083,52 +27083,52 @@ func (wavy_line *Wavy_line) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wavy_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wavy_line.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wavy_line.Smufl))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wavy_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wavy_line.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wavy_line.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wavy_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wavy_line.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wavy_line.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wavy_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wavy_line.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wavy_line.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wavy_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wavy_line.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wavy_line.Relative_y))
 	case "Placement":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wavy_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placement")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wavy_line.Placement))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wavy_line.Placement))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wavy_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wavy_line.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wavy_line.Color))
 	case "Start_note":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wavy_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Start_note")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wavy_line.Start_note))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wavy_line.Start_note))
 	case "Trill_step":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wavy_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Trill_step")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wavy_line.Trill_step))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wavy_line.Trill_step))
 	case "Two_note_turn":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wavy_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Two_note_turn")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wavy_line.Two_note_turn))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wavy_line.Two_note_turn))
 	case "Accelerate":
 		if wavy_line.Accelerate.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -27146,17 +27146,17 @@ func (wavy_line *Wavy_line) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wavy_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Beats")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wavy_line.Beats))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wavy_line.Beats))
 	case "Second_beat":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wavy_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Second_beat")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wavy_line.Second_beat))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wavy_line.Second_beat))
 	case "Last_beat":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wavy_line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Last_beat")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wavy_line.Last_beat))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wavy_line.Last_beat))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Wavy_line", fieldName)
@@ -27171,12 +27171,12 @@ func (wedge *Wedge) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wedge.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wedge.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wedge.Name))
 	case "Type":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wedge.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wedge.Type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wedge.Type))
 	case "Number":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wedge.GongGetIdentifier(stage))
@@ -27186,7 +27186,7 @@ func (wedge *Wedge) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wedge.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Spread")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wedge.Spread))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wedge.Spread))
 	case "Niente":
 		if wedge.Niente.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -27204,47 +27204,47 @@ func (wedge *Wedge) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wedge.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Line_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wedge.Line_type))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wedge.Line_type))
 	case "Dash_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wedge.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dash_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wedge.Dash_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wedge.Dash_length))
 	case "Space_length":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wedge.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Space_length")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wedge.Space_length))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wedge.Space_length))
 	case "Default_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wedge.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wedge.Default_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wedge.Default_x))
 	case "Default_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wedge.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wedge.Default_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wedge.Default_y))
 	case "Relative_x":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wedge.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_x")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wedge.Relative_x))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wedge.Relative_x))
 	case "Relative_y":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wedge.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Relative_y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wedge.Relative_y))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wedge.Relative_y))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wedge.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wedge.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wedge.Color))
 	case "Id":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wedge.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Id")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wedge.Id))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wedge.Id))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Wedge", fieldName)
@@ -27259,17 +27259,17 @@ func (wood *Wood) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wood.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wood.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wood.Name))
 	case "Smufl":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wood.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Smufl")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wood.Smufl))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wood.Smufl))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", wood.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(wood.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(wood.EnclosedText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Wood", fieldName)
@@ -27284,17 +27284,17 @@ func (work *Work) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", work.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(work.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(work.Name))
 	case "Work_number":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", work.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Work_number")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(work.Work_number))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(work.Work_number))
 	case "Work_title":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", work.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Work_title")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(work.Work_title))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(work.Work_title))
 
 	case "Opus":
 		if work.Opus != nil {

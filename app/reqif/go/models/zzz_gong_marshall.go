@@ -70,9 +70,9 @@ const SliceOfPointersFieldInitStatement = `
 const TimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
 
-// ToRawStringLiteral formats a string into safe Go source code,
+// __gong__toRawStringLiteral formats a string into safe Go source code,
 // using backticks to preserve newlines and readability.
-func ToRawStringLiteral(s string) string {
+func __gong__toRawStringLiteral(s string) string {
 	// Step 1: Replace every backtick with a closing backtick,
 	// a double-quoted backtick, and an opening backtick.
 	escaped := strings.ReplaceAll(s, "`", "` + \"`\" + `")
@@ -4221,12 +4221,12 @@ func (alternative_id *ALTERNATIVE_ID) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", alternative_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(alternative_id.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(alternative_id.Name))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", alternative_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(alternative_id.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(alternative_id.IDENTIFIER))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ALTERNATIVE_ID", fieldName)
@@ -4241,17 +4241,17 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongMarshallFi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_boolean.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_boolean.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_boolean.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_boolean.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_boolean.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_boolean.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_boolean.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_boolean.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_boolean.IDENTIFIER))
 	case "IS_EDITABLE":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_boolean.GongGetIdentifier(stage))
@@ -4261,12 +4261,12 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongMarshallFi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_boolean.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_boolean.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_boolean.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_boolean.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_boolean.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_boolean.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if attribute_definition_boolean.ALTERNATIVE_ID != nil {
@@ -4320,7 +4320,7 @@ func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rende
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_boolean_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_boolean_rendering.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_boolean_rendering.Name))
 	case "ShowInTable":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_boolean_rendering.GongGetIdentifier(stage))
@@ -4355,17 +4355,17 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongMarshallField(st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_date.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_date.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_date.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_date.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_date.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_date.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_date.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_date.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_date.IDENTIFIER))
 	case "IS_EDITABLE":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_date.GongGetIdentifier(stage))
@@ -4375,12 +4375,12 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongMarshallField(st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_date.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_date.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_date.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_date.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_date.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_date.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if attribute_definition_date.ALTERNATIVE_ID != nil {
@@ -4434,7 +4434,7 @@ func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_date_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_date_rendering.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_date_rendering.Name))
 	case "ShowInTable":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_date_rendering.GongGetIdentifier(stage))
@@ -4469,17 +4469,17 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongMa
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_enumeration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_enumeration.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_enumeration.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_enumeration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_enumeration.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_enumeration.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_enumeration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_enumeration.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_enumeration.IDENTIFIER))
 	case "IS_EDITABLE":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_enumeration.GongGetIdentifier(stage))
@@ -4489,12 +4489,12 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongMa
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_enumeration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_enumeration.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_enumeration.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_enumeration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_enumeration.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_enumeration.LONG_NAME))
 	case "MULTI_VALUED":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_enumeration.GongGetIdentifier(stage))
@@ -4553,7 +4553,7 @@ func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATI
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_enumeration_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_enumeration_rendering.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_enumeration_rendering.Name))
 	case "ShowInTable":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_enumeration_rendering.GongGetIdentifier(stage))
@@ -4588,17 +4588,17 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongMarshallFi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_integer.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_integer.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_integer.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_integer.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_integer.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_integer.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_integer.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_integer.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_integer.IDENTIFIER))
 	case "IS_EDITABLE":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_integer.GongGetIdentifier(stage))
@@ -4608,12 +4608,12 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongMarshallFi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_integer.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_integer.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_integer.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_integer.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_integer.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_integer.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if attribute_definition_integer.ALTERNATIVE_ID != nil {
@@ -4667,7 +4667,7 @@ func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rende
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_integer_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_integer_rendering.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_integer_rendering.Name))
 	case "ShowInTable":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_integer_rendering.GongGetIdentifier(stage))
@@ -4702,17 +4702,17 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongMarshallField(st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_real.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_real.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_real.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_real.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_real.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_real.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_real.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_real.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_real.IDENTIFIER))
 	case "IS_EDITABLE":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_real.GongGetIdentifier(stage))
@@ -4722,12 +4722,12 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongMarshallField(st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_real.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_real.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_real.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_real.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_real.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_real.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if attribute_definition_real.ALTERNATIVE_ID != nil {
@@ -4781,7 +4781,7 @@ func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_real_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_real_rendering.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_real_rendering.Name))
 	case "ShowInTable":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_real_rendering.GongGetIdentifier(stage))
@@ -4816,7 +4816,7 @@ func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) GongMarsha
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_rendering.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_rendering.Name))
 	case "ShowInTable":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_rendering.GongGetIdentifier(stage))
@@ -4851,17 +4851,17 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongMarshallFiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_string.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_string.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_string.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_string.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_string.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_string.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_string.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_string.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_string.IDENTIFIER))
 	case "IS_EDITABLE":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_string.GongGetIdentifier(stage))
@@ -4871,12 +4871,12 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongMarshallFiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_string.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_string.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_string.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_string.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_string.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_string.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if attribute_definition_string.ALTERNATIVE_ID != nil {
@@ -4930,7 +4930,7 @@ func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Renderi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_string_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_string_rendering.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_string_rendering.Name))
 	case "ShowInTable":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_string_rendering.GongGetIdentifier(stage))
@@ -4965,17 +4965,17 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongMarshallField(
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_xhtml.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_xhtml.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_xhtml.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_xhtml.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_xhtml.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_xhtml.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_xhtml.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_xhtml.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_xhtml.IDENTIFIER))
 	case "IS_EDITABLE":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_xhtml.GongGetIdentifier(stage))
@@ -4985,12 +4985,12 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongMarshallField(
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_xhtml.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_xhtml.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_xhtml.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_xhtml.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_xhtml.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_xhtml.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if attribute_definition_xhtml.ALTERNATIVE_ID != nil {
@@ -5044,7 +5044,7 @@ func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_xhtml_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_xhtml_rendering.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_definition_xhtml_rendering.Name))
 	case "ShowInTable":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_definition_xhtml_rendering.GongGetIdentifier(stage))
@@ -5079,7 +5079,7 @@ func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_boolean.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_value_boolean.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_value_boolean.Name))
 	case "THE_VALUE":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_boolean.GongGetIdentifier(stage))
@@ -5112,12 +5112,12 @@ func (attribute_value_date *ATTRIBUTE_VALUE_DATE) GongMarshallField(stage *Stage
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_date.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_value_date.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_value_date.Name))
 	case "THE_VALUE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_date.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "THE_VALUE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_value_date.THE_VALUE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_value_date.THE_VALUE))
 
 	case "DEFINITION":
 		if attribute_value_date.DEFINITION != nil {
@@ -5145,7 +5145,7 @@ func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) GongMarshallFiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_enumeration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_value_enumeration.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_value_enumeration.Name))
 
 	case "DEFINITION":
 		if attribute_value_enumeration.DEFINITION != nil {
@@ -5186,7 +5186,7 @@ func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_integer.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_value_integer.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_value_integer.Name))
 	case "THE_VALUE":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_integer.GongGetIdentifier(stage))
@@ -5219,7 +5219,7 @@ func (attribute_value_real *ATTRIBUTE_VALUE_REAL) GongMarshallField(stage *Stage
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_real.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_value_real.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_value_real.Name))
 	case "THE_VALUE":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_real.GongGetIdentifier(stage))
@@ -5252,12 +5252,12 @@ func (attribute_value_string *ATTRIBUTE_VALUE_STRING) GongMarshallField(stage *S
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_string.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_value_string.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_value_string.Name))
 	case "THE_VALUE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_string.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "THE_VALUE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_value_string.THE_VALUE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_value_string.THE_VALUE))
 
 	case "DEFINITION":
 		if attribute_value_string.DEFINITION != nil {
@@ -5285,7 +5285,7 @@ func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) GongMarshallField(stage *Sta
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_xhtml.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_value_xhtml.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(attribute_value_xhtml.Name))
 	case "IS_SIMPLIFIED":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attribute_value_xhtml.GongGetIdentifier(stage))
@@ -5344,7 +5344,7 @@ func (a_alternative_id *A_ALTERNATIVE_ID) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_alternative_id.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_alternative_id.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_alternative_id.Name))
 
 	case "ALTERNATIVE_ID":
 		if a_alternative_id.ALTERNATIVE_ID != nil {
@@ -5372,12 +5372,12 @@ func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) Go
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_definition_boolean_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_definition_boolean_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_definition_boolean_ref.Name))
 	case "ATTRIBUTE_DEFINITION_BOOLEAN_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_definition_boolean_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ATTRIBUTE_DEFINITION_BOOLEAN_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_definition_boolean_ref.ATTRIBUTE_DEFINITION_BOOLEAN_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_definition_boolean_ref.ATTRIBUTE_DEFINITION_BOOLEAN_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_ATTRIBUTE_DEFINITION_BOOLEAN_REF", fieldName)
@@ -5392,12 +5392,12 @@ func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) GongMars
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_definition_date_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_definition_date_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_definition_date_ref.Name))
 	case "ATTRIBUTE_DEFINITION_DATE_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_definition_date_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ATTRIBUTE_DEFINITION_DATE_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_definition_date_ref.ATTRIBUTE_DEFINITION_DATE_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_definition_date_ref.ATTRIBUTE_DEFINITION_DATE_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_ATTRIBUTE_DEFINITION_DATE_REF", fieldName)
@@ -5412,12 +5412,12 @@ func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_definition_enumeration_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_definition_enumeration_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_definition_enumeration_ref.Name))
 	case "ATTRIBUTE_DEFINITION_ENUMERATION_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_definition_enumeration_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ATTRIBUTE_DEFINITION_ENUMERATION_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_definition_enumeration_ref.ATTRIBUTE_DEFINITION_ENUMERATION_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_definition_enumeration_ref.ATTRIBUTE_DEFINITION_ENUMERATION_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_ATTRIBUTE_DEFINITION_ENUMERATION_REF", fieldName)
@@ -5432,12 +5432,12 @@ func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) Go
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_definition_integer_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_definition_integer_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_definition_integer_ref.Name))
 	case "ATTRIBUTE_DEFINITION_INTEGER_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_definition_integer_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ATTRIBUTE_DEFINITION_INTEGER_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_definition_integer_ref.ATTRIBUTE_DEFINITION_INTEGER_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_definition_integer_ref.ATTRIBUTE_DEFINITION_INTEGER_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_ATTRIBUTE_DEFINITION_INTEGER_REF", fieldName)
@@ -5452,12 +5452,12 @@ func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) GongMars
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_definition_real_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_definition_real_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_definition_real_ref.Name))
 	case "ATTRIBUTE_DEFINITION_REAL_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_definition_real_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ATTRIBUTE_DEFINITION_REAL_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_definition_real_ref.ATTRIBUTE_DEFINITION_REAL_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_definition_real_ref.ATTRIBUTE_DEFINITION_REAL_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_ATTRIBUTE_DEFINITION_REAL_REF", fieldName)
@@ -5472,12 +5472,12 @@ func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) Gong
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_definition_string_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_definition_string_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_definition_string_ref.Name))
 	case "ATTRIBUTE_DEFINITION_STRING_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_definition_string_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ATTRIBUTE_DEFINITION_STRING_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_definition_string_ref.ATTRIBUTE_DEFINITION_STRING_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_definition_string_ref.ATTRIBUTE_DEFINITION_STRING_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_ATTRIBUTE_DEFINITION_STRING_REF", fieldName)
@@ -5492,12 +5492,12 @@ func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongMa
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_definition_xhtml_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_definition_xhtml_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_definition_xhtml_ref.Name))
 	case "ATTRIBUTE_DEFINITION_XHTML_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_definition_xhtml_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ATTRIBUTE_DEFINITION_XHTML_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_definition_xhtml_ref.ATTRIBUTE_DEFINITION_XHTML_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_definition_xhtml_ref.ATTRIBUTE_DEFINITION_XHTML_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_ATTRIBUTE_DEFINITION_XHTML_REF", fieldName)
@@ -5512,7 +5512,7 @@ func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongMarshallField(st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_value_boolean.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_value_boolean.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_value_boolean.Name))
 
 	case "ATTRIBUTE_VALUE_BOOLEAN":
 		var sb strings.Builder
@@ -5537,7 +5537,7 @@ func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) GongMarshallField(stage *S
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_value_date.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_value_date.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_value_date.Name))
 
 	case "ATTRIBUTE_VALUE_DATE":
 		var sb strings.Builder
@@ -5562,7 +5562,7 @@ func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) GongMarshall
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_value_enumeration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_value_enumeration.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_value_enumeration.Name))
 
 	case "ATTRIBUTE_VALUE_ENUMERATION":
 		var sb strings.Builder
@@ -5587,7 +5587,7 @@ func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) GongMarshallField(st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_value_integer.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_value_integer.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_value_integer.Name))
 
 	case "ATTRIBUTE_VALUE_INTEGER":
 		var sb strings.Builder
@@ -5612,7 +5612,7 @@ func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) GongMarshallField(stage *S
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_value_real.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_value_real.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_value_real.Name))
 
 	case "ATTRIBUTE_VALUE_REAL":
 		var sb strings.Builder
@@ -5637,7 +5637,7 @@ func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_value_string.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_value_string.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_value_string.Name))
 
 	case "ATTRIBUTE_VALUE_STRING":
 		var sb strings.Builder
@@ -5662,7 +5662,7 @@ func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_value_xhtml.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_value_xhtml.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_value_xhtml.Name))
 
 	case "ATTRIBUTE_VALUE_XHTML":
 		var sb strings.Builder
@@ -5687,7 +5687,7 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongMarshallField(st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_attribute_value_xhtml_1.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_attribute_value_xhtml_1.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_attribute_value_xhtml_1.Name))
 
 	case "ATTRIBUTE_VALUE_BOOLEAN":
 		var sb strings.Builder
@@ -5772,7 +5772,7 @@ func (a_children *A_CHILDREN) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_children.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_children.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_children.Name))
 
 	case "SPEC_HIERARCHY":
 		var sb strings.Builder
@@ -5797,7 +5797,7 @@ func (a_core_content *A_CORE_CONTENT) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_core_content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_core_content.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_core_content.Name))
 
 	case "REQ_IF_CONTENT":
 		if a_core_content.REQ_IF_CONTENT != nil {
@@ -5825,7 +5825,7 @@ func (a_datatypes *A_DATATYPES) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatypes.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatypes.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatypes.Name))
 
 	case "DATATYPE_DEFINITION_BOOLEAN":
 		var sb strings.Builder
@@ -5910,12 +5910,12 @@ func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) Gong
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatype_definition_boolean_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatype_definition_boolean_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatype_definition_boolean_ref.Name))
 	case "DATATYPE_DEFINITION_BOOLEAN_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatype_definition_boolean_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DATATYPE_DEFINITION_BOOLEAN_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatype_definition_boolean_ref.DATATYPE_DEFINITION_BOOLEAN_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatype_definition_boolean_ref.DATATYPE_DEFINITION_BOOLEAN_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_DATATYPE_DEFINITION_BOOLEAN_REF", fieldName)
@@ -5930,12 +5930,12 @@ func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) GongMarsha
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatype_definition_date_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatype_definition_date_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatype_definition_date_ref.Name))
 	case "DATATYPE_DEFINITION_DATE_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatype_definition_date_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DATATYPE_DEFINITION_DATE_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatype_definition_date_ref.DATATYPE_DEFINITION_DATE_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatype_definition_date_ref.DATATYPE_DEFINITION_DATE_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_DATATYPE_DEFINITION_DATE_REF", fieldName)
@@ -5950,12 +5950,12 @@ func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_R
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatype_definition_enumeration_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatype_definition_enumeration_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatype_definition_enumeration_ref.Name))
 	case "DATATYPE_DEFINITION_ENUMERATION_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatype_definition_enumeration_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DATATYPE_DEFINITION_ENUMERATION_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatype_definition_enumeration_ref.DATATYPE_DEFINITION_ENUMERATION_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatype_definition_enumeration_ref.DATATYPE_DEFINITION_ENUMERATION_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_DATATYPE_DEFINITION_ENUMERATION_REF", fieldName)
@@ -5970,12 +5970,12 @@ func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) Gong
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatype_definition_integer_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatype_definition_integer_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatype_definition_integer_ref.Name))
 	case "DATATYPE_DEFINITION_INTEGER_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatype_definition_integer_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DATATYPE_DEFINITION_INTEGER_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatype_definition_integer_ref.DATATYPE_DEFINITION_INTEGER_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatype_definition_integer_ref.DATATYPE_DEFINITION_INTEGER_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_DATATYPE_DEFINITION_INTEGER_REF", fieldName)
@@ -5990,12 +5990,12 @@ func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) GongMarsha
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatype_definition_real_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatype_definition_real_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatype_definition_real_ref.Name))
 	case "DATATYPE_DEFINITION_REAL_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatype_definition_real_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DATATYPE_DEFINITION_REAL_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatype_definition_real_ref.DATATYPE_DEFINITION_REAL_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatype_definition_real_ref.DATATYPE_DEFINITION_REAL_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_DATATYPE_DEFINITION_REAL_REF", fieldName)
@@ -6010,12 +6010,12 @@ func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) GongMa
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatype_definition_string_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatype_definition_string_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatype_definition_string_ref.Name))
 	case "DATATYPE_DEFINITION_STRING_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatype_definition_string_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DATATYPE_DEFINITION_STRING_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatype_definition_string_ref.DATATYPE_DEFINITION_STRING_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatype_definition_string_ref.DATATYPE_DEFINITION_STRING_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_DATATYPE_DEFINITION_STRING_REF", fieldName)
@@ -6030,12 +6030,12 @@ func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) GongMars
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatype_definition_xhtml_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatype_definition_xhtml_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatype_definition_xhtml_ref.Name))
 	case "DATATYPE_DEFINITION_XHTML_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_datatype_definition_xhtml_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DATATYPE_DEFINITION_XHTML_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_datatype_definition_xhtml_ref.DATATYPE_DEFINITION_XHTML_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_datatype_definition_xhtml_ref.DATATYPE_DEFINITION_XHTML_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_DATATYPE_DEFINITION_XHTML_REF", fieldName)
@@ -6050,42 +6050,42 @@ func (a_editable_atts *A_EDITABLE_ATTS) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_editable_atts.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_editable_atts.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_editable_atts.Name))
 	case "ATTRIBUTE_DEFINITION_BOOLEAN_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_editable_atts.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ATTRIBUTE_DEFINITION_BOOLEAN_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_BOOLEAN_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_BOOLEAN_REF))
 	case "ATTRIBUTE_DEFINITION_DATE_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_editable_atts.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ATTRIBUTE_DEFINITION_DATE_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_DATE_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_DATE_REF))
 	case "ATTRIBUTE_DEFINITION_ENUMERATION_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_editable_atts.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ATTRIBUTE_DEFINITION_ENUMERATION_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_ENUMERATION_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_ENUMERATION_REF))
 	case "ATTRIBUTE_DEFINITION_INTEGER_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_editable_atts.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ATTRIBUTE_DEFINITION_INTEGER_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_INTEGER_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_INTEGER_REF))
 	case "ATTRIBUTE_DEFINITION_REAL_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_editable_atts.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ATTRIBUTE_DEFINITION_REAL_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_REAL_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_REAL_REF))
 	case "ATTRIBUTE_DEFINITION_STRING_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_editable_atts.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ATTRIBUTE_DEFINITION_STRING_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_STRING_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_STRING_REF))
 	case "ATTRIBUTE_DEFINITION_XHTML_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_editable_atts.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ATTRIBUTE_DEFINITION_XHTML_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_XHTML_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_XHTML_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_EDITABLE_ATTS", fieldName)
@@ -6100,12 +6100,12 @@ func (a_enum_value_ref *A_ENUM_VALUE_REF) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_enum_value_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_enum_value_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_enum_value_ref.Name))
 	case "ENUM_VALUE_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_enum_value_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ENUM_VALUE_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_enum_value_ref.ENUM_VALUE_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_enum_value_ref.ENUM_VALUE_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_ENUM_VALUE_REF", fieldName)
@@ -6120,12 +6120,12 @@ func (a_object *A_OBJECT) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_object.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_object.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_object.Name))
 	case "SPEC_OBJECT_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_object.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SPEC_OBJECT_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_object.SPEC_OBJECT_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_object.SPEC_OBJECT_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_OBJECT", fieldName)
@@ -6140,7 +6140,7 @@ func (a_properties *A_PROPERTIES) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_properties.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_properties.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_properties.Name))
 
 	case "EMBEDDED_VALUE":
 		if a_properties.EMBEDDED_VALUE != nil {
@@ -6168,12 +6168,12 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongMarshallField(st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_relation_group_type_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_relation_group_type_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_relation_group_type_ref.Name))
 	case "RELATION_GROUP_TYPE_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_relation_group_type_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RELATION_GROUP_TYPE_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_relation_group_type_ref.RELATION_GROUP_TYPE_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_relation_group_type_ref.RELATION_GROUP_TYPE_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_RELATION_GROUP_TYPE_REF", fieldName)
@@ -6188,12 +6188,12 @@ func (a_source_1 *A_SOURCE_1) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_source_1.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_source_1.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_source_1.Name))
 	case "SPEC_OBJECT_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_source_1.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SPEC_OBJECT_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_source_1.SPEC_OBJECT_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_source_1.SPEC_OBJECT_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_SOURCE_1", fieldName)
@@ -6208,7 +6208,7 @@ func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_source_specification_1.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_source_specification_1.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_source_specification_1.Name))
 	case "SPECIFICATION_REF":
 		if a_source_specification_1.SPECIFICATION_REF.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -6236,7 +6236,7 @@ func (a_specifications *A_SPECIFICATIONS) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_specifications.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_specifications.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_specifications.Name))
 
 	case "SPECIFICATION":
 		var sb strings.Builder
@@ -6261,12 +6261,12 @@ func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_specification_type_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_specification_type_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_specification_type_ref.Name))
 	case "SPECIFICATION_TYPE_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_specification_type_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SPECIFICATION_TYPE_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_specification_type_ref.SPECIFICATION_TYPE_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_specification_type_ref.SPECIFICATION_TYPE_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_SPECIFICATION_TYPE_REF", fieldName)
@@ -6281,7 +6281,7 @@ func (a_specified_values *A_SPECIFIED_VALUES) GongMarshallField(stage *Stage, fi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_specified_values.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_specified_values.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_specified_values.Name))
 
 	case "ENUM_VALUE":
 		var sb strings.Builder
@@ -6306,7 +6306,7 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_spec_attributes.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_spec_attributes.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_spec_attributes.Name))
 
 	case "ATTRIBUTE_DEFINITION_BOOLEAN":
 		var sb strings.Builder
@@ -6391,7 +6391,7 @@ func (a_spec_objects *A_SPEC_OBJECTS) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_spec_objects.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_spec_objects.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_spec_objects.Name))
 
 	case "SPEC_OBJECT":
 		var sb strings.Builder
@@ -6416,12 +6416,12 @@ func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) GongMarshallField(stage *S
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_spec_object_type_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_spec_object_type_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_spec_object_type_ref.Name))
 	case "SPEC_OBJECT_TYPE_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_spec_object_type_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SPEC_OBJECT_TYPE_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_spec_object_type_ref.SPEC_OBJECT_TYPE_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_spec_object_type_ref.SPEC_OBJECT_TYPE_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_SPEC_OBJECT_TYPE_REF", fieldName)
@@ -6436,7 +6436,7 @@ func (a_spec_relations *A_SPEC_RELATIONS) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_spec_relations.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_spec_relations.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_spec_relations.Name))
 
 	case "SPEC_RELATION":
 		var sb strings.Builder
@@ -6461,7 +6461,7 @@ func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) GongMarshallField(stage *S
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_spec_relation_groups.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_spec_relation_groups.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_spec_relation_groups.Name))
 
 	case "RELATION_GROUP":
 		var sb strings.Builder
@@ -6486,12 +6486,12 @@ func (a_spec_relation_ref *A_SPEC_RELATION_REF) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_spec_relation_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_spec_relation_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_spec_relation_ref.Name))
 	case "SPEC_RELATION_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_spec_relation_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SPEC_RELATION_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_spec_relation_ref.SPEC_RELATION_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_spec_relation_ref.SPEC_RELATION_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_SPEC_RELATION_REF", fieldName)
@@ -6506,12 +6506,12 @@ func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_spec_relation_type_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_spec_relation_type_ref.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_spec_relation_type_ref.Name))
 	case "SPEC_RELATION_TYPE_REF":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_spec_relation_type_ref.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SPEC_RELATION_TYPE_REF")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_spec_relation_type_ref.SPEC_RELATION_TYPE_REF))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_spec_relation_type_ref.SPEC_RELATION_TYPE_REF))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct A_SPEC_RELATION_TYPE_REF", fieldName)
@@ -6526,7 +6526,7 @@ func (a_spec_types *A_SPEC_TYPES) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_spec_types.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_spec_types.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_spec_types.Name))
 
 	case "RELATION_GROUP_TYPE":
 		var sb strings.Builder
@@ -6581,7 +6581,7 @@ func (a_the_header *A_THE_HEADER) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_the_header.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_the_header.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_the_header.Name))
 
 	case "REQ_IF_HEADER":
 		if a_the_header.REQ_IF_HEADER != nil {
@@ -6609,7 +6609,7 @@ func (a_tool_extensions *A_TOOL_EXTENSIONS) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a_tool_extensions.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_tool_extensions.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a_tool_extensions.Name))
 
 	case "REQ_IF_TOOL_EXTENSION":
 		var sb strings.Builder
@@ -6634,27 +6634,27 @@ func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) GongMarshallFiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_boolean.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_boolean.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_boolean.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_boolean.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_boolean.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_boolean.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_boolean.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_boolean.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_boolean.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_boolean.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_boolean.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_boolean.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_boolean.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_boolean.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_boolean.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if datatype_definition_boolean.ALTERNATIVE_ID != nil {
@@ -6682,27 +6682,27 @@ func (datatype_definition_date *DATATYPE_DEFINITION_DATE) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_date.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_date.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_date.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_date.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_date.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_date.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_date.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_date.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_date.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_date.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_date.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_date.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_date.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_date.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_date.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if datatype_definition_date.ALTERNATIVE_ID != nil {
@@ -6730,27 +6730,27 @@ func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) GongMars
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_enumeration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_enumeration.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_enumeration.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_enumeration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_enumeration.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_enumeration.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_enumeration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_enumeration.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_enumeration.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_enumeration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_enumeration.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_enumeration.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_enumeration.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_enumeration.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_enumeration.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if datatype_definition_enumeration.ALTERNATIVE_ID != nil {
@@ -6791,27 +6791,27 @@ func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongMarshallFiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_integer.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_integer.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_integer.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_integer.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_integer.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_integer.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_integer.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_integer.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_integer.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_integer.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_integer.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_integer.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_integer.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_integer.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_integer.LONG_NAME))
 	case "MAX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_integer.GongGetIdentifier(stage))
@@ -6849,7 +6849,7 @@ func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_real.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_real.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_real.Name))
 	case "ACCURACY":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_real.GongGetIdentifier(stage))
@@ -6859,22 +6859,22 @@ func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_real.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_real.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_real.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_real.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_real.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_real.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_real.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_real.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_real.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_real.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_real.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_real.LONG_NAME))
 	case "MAX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_real.GongGetIdentifier(stage))
@@ -6912,27 +6912,27 @@ func (datatype_definition_string *DATATYPE_DEFINITION_STRING) GongMarshallField(
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_string.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_string.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_string.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_string.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_string.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_string.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_string.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_string.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_string.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_string.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_string.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_string.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_string.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_string.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_string.LONG_NAME))
 	case "MAX_LENGTH":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_string.GongGetIdentifier(stage))
@@ -6965,27 +6965,27 @@ func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) GongMarshallField(st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_xhtml.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_xhtml.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_xhtml.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_xhtml.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_xhtml.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_xhtml.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_xhtml.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_xhtml.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_xhtml.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_xhtml.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_xhtml.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_xhtml.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", datatype_definition_xhtml.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(datatype_definition_xhtml.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(datatype_definition_xhtml.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if datatype_definition_xhtml.ALTERNATIVE_ID != nil {
@@ -7013,7 +7013,7 @@ func (embedded_value *EMBEDDED_VALUE) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", embedded_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(embedded_value.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(embedded_value.Name))
 	case "KEY":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", embedded_value.GongGetIdentifier(stage))
@@ -7023,7 +7023,7 @@ func (embedded_value *EMBEDDED_VALUE) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", embedded_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OTHER_CONTENT")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(embedded_value.OTHER_CONTENT))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(embedded_value.OTHER_CONTENT))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct EMBEDDED_VALUE", fieldName)
@@ -7038,27 +7038,27 @@ func (enum_value *ENUM_VALUE) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", enum_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(enum_value.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(enum_value.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", enum_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(enum_value.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(enum_value.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", enum_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(enum_value.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(enum_value.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", enum_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(enum_value.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(enum_value.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", enum_value.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(enum_value.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(enum_value.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if enum_value.ALTERNATIVE_ID != nil {
@@ -7099,12 +7099,12 @@ func (embeddedjpgimage *EmbeddedJpgImage) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", embeddedjpgimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(embeddedjpgimage.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(embeddedjpgimage.Name))
 	case "Base64Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", embeddedjpgimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(embeddedjpgimage.Base64Content))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(embeddedjpgimage.Base64Content))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct EmbeddedJpgImage", fieldName)
@@ -7119,12 +7119,12 @@ func (embeddedpngimage *EmbeddedPngImage) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", embeddedpngimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(embeddedpngimage.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(embeddedpngimage.Name))
 	case "Base64Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", embeddedpngimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(embeddedpngimage.Base64Content))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(embeddedpngimage.Base64Content))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct EmbeddedPngImage", fieldName)
@@ -7139,12 +7139,12 @@ func (embeddedsvgimage *EmbeddedSvgImage) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", embeddedsvgimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(embeddedsvgimage.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(embeddedsvgimage.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", embeddedsvgimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(embeddedsvgimage.Content))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(embeddedsvgimage.Content))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct EmbeddedSvgImage", fieldName)
@@ -7159,7 +7159,7 @@ func (kill *Kill) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", kill.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(kill.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(kill.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Kill", fieldName)
@@ -7174,7 +7174,7 @@ func (map_identifier_bool *Map_identifier_bool) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", map_identifier_bool.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(map_identifier_bool.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(map_identifier_bool.Name))
 	case "Value":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", map_identifier_bool.GongGetIdentifier(stage))
@@ -7194,27 +7194,27 @@ func (relation_group *RELATION_GROUP) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", relation_group.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(relation_group.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(relation_group.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", relation_group.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(relation_group.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(relation_group.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", relation_group.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(relation_group.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(relation_group.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", relation_group.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(relation_group.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(relation_group.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", relation_group.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(relation_group.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(relation_group.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if relation_group.ALTERNATIVE_ID != nil {
@@ -7294,27 +7294,27 @@ func (relation_group_type *RELATION_GROUP_TYPE) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", relation_group_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(relation_group_type.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(relation_group_type.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", relation_group_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(relation_group_type.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(relation_group_type.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", relation_group_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(relation_group_type.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(relation_group_type.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", relation_group_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(relation_group_type.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(relation_group_type.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", relation_group_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(relation_group_type.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(relation_group_type.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if relation_group_type.ALTERNATIVE_ID != nil {
@@ -7355,12 +7355,12 @@ func (req_if *REQ_IF) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", req_if.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(req_if.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(req_if.Name))
 	case "Lang":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", req_if.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Lang")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(req_if.Lang))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(req_if.Lang))
 
 	case "THE_HEADER":
 		if req_if.THE_HEADER != nil {
@@ -7414,7 +7414,7 @@ func (req_if_content *REQ_IF_CONTENT) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", req_if_content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(req_if_content.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(req_if_content.Name))
 
 	case "DATATYPES":
 		if req_if_content.DATATYPES != nil {
@@ -7507,47 +7507,47 @@ func (req_if_header *REQ_IF_HEADER) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", req_if_header.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(req_if_header.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(req_if_header.Name))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", req_if_header.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(req_if_header.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(req_if_header.IDENTIFIER))
 	case "COMMENT":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", req_if_header.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "COMMENT")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(req_if_header.COMMENT))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(req_if_header.COMMENT))
 	case "CREATION_TIME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", req_if_header.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CREATION_TIME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(req_if_header.CREATION_TIME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(req_if_header.CREATION_TIME))
 	case "REPOSITORY_ID":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", req_if_header.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "REPOSITORY_ID")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(req_if_header.REPOSITORY_ID))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(req_if_header.REPOSITORY_ID))
 	case "REQ_IF_TOOL_ID":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", req_if_header.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "REQ_IF_TOOL_ID")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(req_if_header.REQ_IF_TOOL_ID))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(req_if_header.REQ_IF_TOOL_ID))
 	case "REQ_IF_VERSION":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", req_if_header.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "REQ_IF_VERSION")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(req_if_header.REQ_IF_VERSION))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(req_if_header.REQ_IF_VERSION))
 	case "SOURCE_TOOL_ID":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", req_if_header.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SOURCE_TOOL_ID")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(req_if_header.SOURCE_TOOL_ID))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(req_if_header.SOURCE_TOOL_ID))
 	case "TITLE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", req_if_header.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TITLE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(req_if_header.TITLE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(req_if_header.TITLE))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct REQ_IF_HEADER", fieldName)
@@ -7562,7 +7562,7 @@ func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) GongMarshallField(stage *Sta
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", req_if_tool_extension.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(req_if_tool_extension.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(req_if_tool_extension.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct REQ_IF_TOOL_EXTENSION", fieldName)
@@ -7577,27 +7577,27 @@ func (specification *SPECIFICATION) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(specification.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(specification.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(specification.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(specification.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(specification.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(specification.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(specification.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(specification.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(specification.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(specification.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if specification.ALTERNATIVE_ID != nil {
@@ -7664,7 +7664,7 @@ func (specification_rendering *SPECIFICATION_Rendering) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(specification_rendering.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(specification_rendering.Name))
 	case "IsNodeExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification_rendering.GongGetIdentifier(stage))
@@ -7694,27 +7694,27 @@ func (specification_type *SPECIFICATION_TYPE) GongMarshallField(stage *Stage, fi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(specification_type.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(specification_type.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(specification_type.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(specification_type.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(specification_type.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(specification_type.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(specification_type.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(specification_type.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", specification_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(specification_type.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(specification_type.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if specification_type.ALTERNATIVE_ID != nil {
@@ -7755,17 +7755,17 @@ func (spec_hierarchy *SPEC_HIERARCHY) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_hierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_hierarchy.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_hierarchy.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_hierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_hierarchy.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_hierarchy.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_hierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_hierarchy.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_hierarchy.IDENTIFIER))
 	case "IS_EDITABLE":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_hierarchy.GongGetIdentifier(stage))
@@ -7780,12 +7780,12 @@ func (spec_hierarchy *SPEC_HIERARCHY) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_hierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_hierarchy.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_hierarchy.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_hierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_hierarchy.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_hierarchy.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if spec_hierarchy.ALTERNATIVE_ID != nil {
@@ -7852,27 +7852,27 @@ func (spec_object *SPEC_OBJECT) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_object.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_object.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_object.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_object.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_object.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_object.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_object.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_object.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_object.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_object.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if spec_object.ALTERNATIVE_ID != nil {
@@ -7926,27 +7926,27 @@ func (spec_object_type *SPEC_OBJECT_TYPE) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_object_type.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_object_type.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_object_type.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_object_type.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_object_type.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_object_type.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_object_type.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_object_type.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_object_type.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_object_type.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if spec_object_type.ALTERNATIVE_ID != nil {
@@ -7987,7 +7987,7 @@ func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) GongMarshallField(
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object_type_rendering.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_object_type_rendering.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_object_type_rendering.Name))
 	case "IsNodeExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_object_type_rendering.GongGetIdentifier(stage))
@@ -8027,27 +8027,27 @@ func (spec_relation *SPEC_RELATION) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_relation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_relation.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_relation.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_relation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_relation.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_relation.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_relation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_relation.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_relation.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_relation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_relation.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_relation.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_relation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_relation.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_relation.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if spec_relation.ALTERNATIVE_ID != nil {
@@ -8127,27 +8127,27 @@ func (spec_relation_type *SPEC_RELATION_TYPE) GongMarshallField(stage *Stage, fi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_relation_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_relation_type.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_relation_type.Name))
 	case "DESC":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_relation_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DESC")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_relation_type.DESC))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_relation_type.DESC))
 	case "IDENTIFIER":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_relation_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IDENTIFIER")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_relation_type.IDENTIFIER))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_relation_type.IDENTIFIER))
 	case "LAST_CHANGE":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_relation_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LAST_CHANGE")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_relation_type.LAST_CHANGE))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_relation_type.LAST_CHANGE))
 	case "LONG_NAME":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", spec_relation_type.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LONG_NAME")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(spec_relation_type.LONG_NAME))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(spec_relation_type.LONG_NAME))
 
 	case "ALTERNATIVE_ID":
 		if spec_relation_type.ALTERNATIVE_ID != nil {
@@ -8188,27 +8188,27 @@ func (staticwebsite *StaticWebSite) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsite.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staticwebsite.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staticwebsite.Name))
 	case "MarkdownContent":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsite.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MarkdownContent")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staticwebsite.MarkdownContent))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staticwebsite.MarkdownContent))
 	case "InputImagesDir":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsite.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InputImagesDir")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staticwebsite.InputImagesDir))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staticwebsite.InputImagesDir))
 	case "OutputStaticWebDir":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsite.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OutputStaticWebDir")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staticwebsite.OutputStaticWebDir))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staticwebsite.OutputStaticWebDir))
 	case "VersionInfo":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsite.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "VersionInfo")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staticwebsite.VersionInfo))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staticwebsite.VersionInfo))
 
 	case "Chapters":
 		var sb strings.Builder
@@ -8233,12 +8233,12 @@ func (staticwebsitechapter *StaticWebSiteChapter) GongMarshallField(stage *Stage
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsitechapter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staticwebsitechapter.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staticwebsitechapter.Name))
 	case "MarkdownContent":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsitechapter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MarkdownContent")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staticwebsitechapter.MarkdownContent))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staticwebsitechapter.MarkdownContent))
 
 	case "Paragraphs":
 		var sb strings.Builder
@@ -8263,12 +8263,12 @@ func (staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) GongMarshallFiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsitegeneratedimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staticwebsitegeneratedimage.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staticwebsitegeneratedimage.Name))
 	case "SourceDirectoryPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsitegeneratedimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SourceDirectoryPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staticwebsitegeneratedimage.SourceDirectoryPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staticwebsitegeneratedimage.SourceDirectoryPath))
 	case "Width":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsitegeneratedimage.GongGetIdentifier(stage))
@@ -8293,12 +8293,12 @@ func (staticwebsiteimage *StaticWebSiteImage) GongMarshallField(stage *Stage, fi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsiteimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staticwebsiteimage.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staticwebsiteimage.Name))
 	case "SourceDirectoryPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsiteimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SourceDirectoryPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staticwebsiteimage.SourceDirectoryPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staticwebsiteimage.SourceDirectoryPath))
 	case "Width":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsiteimage.GongGetIdentifier(stage))
@@ -8323,12 +8323,12 @@ func (staticwebsiteparagraph *StaticWebSiteParagraph) GongMarshallField(stage *S
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsiteparagraph.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staticwebsiteparagraph.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staticwebsiteparagraph.Name))
 	case "LegendMarkdownContent":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", staticwebsiteparagraph.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LegendMarkdownContent")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(staticwebsiteparagraph.LegendMarkdownContent))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(staticwebsiteparagraph.LegendMarkdownContent))
 
 	case "Image":
 		if staticwebsiteparagraph.Image != nil {
@@ -8356,17 +8356,17 @@ func (xhtml_content *XHTML_CONTENT) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", xhtml_content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(xhtml_content.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(xhtml_content.Name))
 	case "EnclosedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", xhtml_content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(xhtml_content.EnclosedText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(xhtml_content.EnclosedText))
 	case "PureText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", xhtml_content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PureText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(xhtml_content.PureText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(xhtml_content.PureText))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct XHTML_CONTENT", fieldName)

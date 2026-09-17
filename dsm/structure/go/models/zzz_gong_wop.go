@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type AllocatedResourceShape_WOP struct {
@@ -15,7 +13,7 @@ type AllocatedResourceShape_WOP struct {
 	Name string
 }
 
-func (from *AllocatedResourceShape) CopyBasicFields(to *AllocatedResourceShape) {
+func (from *AllocatedResourceShape) GongCopyBasicFields(to *AllocatedResourceShape) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -26,7 +24,7 @@ type AllocatedSystemShape_WOP struct {
 	Name string
 }
 
-func (from *AllocatedSystemShape) CopyBasicFields(to *AllocatedSystemShape) {
+func (from *AllocatedSystemShape) GongCopyBasicFields(to *AllocatedSystemShape) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -43,7 +41,7 @@ type ControlFlow_WOP struct {
 	IsExpanded bool
 }
 
-func (from *ControlFlow) CopyBasicFields(to *ControlFlow) {
+func (from *ControlFlow) GongCopyBasicFields(to *ControlFlow) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -69,7 +67,7 @@ type ControlFlowShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ControlFlowShape) CopyBasicFields(to *ControlFlowShape) {
+func (from *ControlFlowShape) GongCopyBasicFields(to *ControlFlowShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -98,7 +96,7 @@ type Data_WOP struct {
 	InverseAppliedScaling float64
 }
 
-func (from *Data) CopyBasicFields(to *Data) {
+func (from *Data) GongCopyBasicFields(to *Data) {
 	// insertion point
 	to.Name = from.Name
 	to.Acronym = from.Acronym
@@ -127,7 +125,7 @@ type DataFlow_WOP struct {
 	Type DataFlowType
 }
 
-func (from *DataFlow) CopyBasicFields(to *DataFlow) {
+func (from *DataFlow) GongCopyBasicFields(to *DataFlow) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -156,7 +154,7 @@ type DataFlowShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *DataFlowShape) CopyBasicFields(to *DataFlowShape) {
+func (from *DataFlowShape) GongCopyBasicFields(to *DataFlowShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -173,7 +171,7 @@ type DataShape_WOP struct {
 	Name string
 }
 
-func (from *DataShape) CopyBasicFields(to *DataShape) {
+func (from *DataShape) GongCopyBasicFields(to *DataShape) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -184,7 +182,7 @@ type DiagramLayerState_WOP struct {
 	Name string
 }
 
-func (from *DiagramLayerState) CopyBasicFields(to *DiagramLayerState) {
+func (from *DiagramLayerState) GongCopyBasicFields(to *DiagramLayerState) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -225,7 +223,7 @@ type DiagramStructure_WOP struct {
 	IsNotesNodeExpanded bool
 }
 
-func (from *DiagramStructure) CopyBasicFields(to *DiagramStructure) {
+func (from *DiagramStructure) GongCopyBasicFields(to *DiagramStructure) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -265,7 +263,7 @@ type ExternalPartShape_WOP struct {
 	TailHeigth float64
 }
 
-func (from *ExternalPartShape) CopyBasicFields(to *ExternalPartShape) {
+func (from *ExternalPartShape) GongCopyBasicFields(to *ExternalPartShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
@@ -283,7 +281,7 @@ type LayerDefinition_WOP struct {
 	Name string
 }
 
-func (from *LayerDefinition) CopyBasicFields(to *LayerDefinition) {
+func (from *LayerDefinition) GongCopyBasicFields(to *LayerDefinition) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -320,7 +318,7 @@ type Library_WOP struct {
 	IsExpandedTmp bool
 }
 
-func (from *Library) CopyBasicFields(to *Library) {
+func (from *Library) GongCopyBasicFields(to *Library) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -354,7 +352,7 @@ type Note_WOP struct {
 	IsPortsNodeExpanded bool
 }
 
-func (from *Note) CopyBasicFields(to *Note) {
+func (from *Note) GongCopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -382,7 +380,7 @@ type NotePartShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NotePartShape) CopyBasicFields(to *NotePartShape) {
+func (from *NotePartShape) GongCopyBasicFields(to *NotePartShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -411,7 +409,7 @@ type NotePortShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NotePortShape) CopyBasicFields(to *NotePortShape) {
+func (from *NotePortShape) GongCopyBasicFields(to *NotePortShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -438,7 +436,7 @@ type NoteShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteShape) CopyBasicFields(to *NoteShape) {
+func (from *NoteShape) GongCopyBasicFields(to *NoteShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -468,7 +466,7 @@ type Part_WOP struct {
 	IsPortsNodeExpanded bool
 }
 
-func (from *Part) CopyBasicFields(to *Part) {
+func (from *Part) GongCopyBasicFields(to *Part) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -514,7 +512,7 @@ type PartAnchoredPath_WOP struct {
 	Transform string
 }
 
-func (from *PartAnchoredPath) CopyBasicFields(to *PartAnchoredPath) {
+func (from *PartAnchoredPath) GongCopyBasicFields(to *PartAnchoredPath) {
 	// insertion point
 	to.Name = from.Name
 	to.Definition = from.Definition
@@ -551,7 +549,7 @@ type PartShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *PartShape) CopyBasicFields(to *PartShape) {
+func (from *PartShape) GongCopyBasicFields(to *PartShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
@@ -574,7 +572,7 @@ type Port_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Port) CopyBasicFields(to *Port) {
+func (from *Port) GongCopyBasicFields(to *Port) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -600,7 +598,7 @@ type PortShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *PortShape) CopyBasicFields(to *PortShape) {
+func (from *PortShape) GongCopyBasicFields(to *PortShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
@@ -629,7 +627,7 @@ type Resource_WOP struct {
 	InverseAppliedScaling float64
 }
 
-func (from *Resource) CopyBasicFields(to *Resource) {
+func (from *Resource) GongCopyBasicFields(to *Resource) {
 	// insertion point
 	to.Name = from.Name
 	to.Acronym = from.Acronym
@@ -646,7 +644,7 @@ type SemanticTag_WOP struct {
 	Name string
 }
 
-func (from *SemanticTag) CopyBasicFields(to *SemanticTag) {
+func (from *SemanticTag) GongCopyBasicFields(to *SemanticTag) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -671,7 +669,7 @@ type System_WOP struct {
 	IsDataFlowsNodeExpanded bool
 }
 
-func (from *System) CopyBasicFields(to *System) {
+func (from *System) GongCopyBasicFields(to *System) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -701,7 +699,7 @@ type SystemShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *SystemShape) CopyBasicFields(to *SystemShape) {
+func (from *SystemShape) GongCopyBasicFields(to *SystemShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded

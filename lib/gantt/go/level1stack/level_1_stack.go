@@ -99,7 +99,7 @@ func NewLevel1StackDelta(
 	}
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -124,13 +124,13 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.Arrow](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Bar](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Gantt](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Group](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Lane](stage)
-	models.SetOrchestratorOnAfterUpdate[models.LaneUse](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Milestone](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.Arrow]()
+	stage.SetOrchestratorOnAfterUpdate[models.Bar]()
+	stage.SetOrchestratorOnAfterUpdate[models.Gantt]()
+	stage.SetOrchestratorOnAfterUpdate[models.Group]()
+	stage.SetOrchestratorOnAfterUpdate[models.Lane]()
+	stage.SetOrchestratorOnAfterUpdate[models.LaneUse]()
+	stage.SetOrchestratorOnAfterUpdate[models.Milestone]()
 
 	return
 }

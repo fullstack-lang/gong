@@ -99,7 +99,7 @@ func NewLevel1StackDelta(
 	}
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -124,22 +124,22 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.Body](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Document](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Docx](stage)
-	models.SetOrchestratorOnAfterUpdate[models.File](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Node](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Paragraph](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ParagraphProperties](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ParagraphStyle](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Rune](stage)
-	models.SetOrchestratorOnAfterUpdate[models.RuneProperties](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Table](stage)
-	models.SetOrchestratorOnAfterUpdate[models.TableColumn](stage)
-	models.SetOrchestratorOnAfterUpdate[models.TableProperties](stage)
-	models.SetOrchestratorOnAfterUpdate[models.TableRow](stage)
-	models.SetOrchestratorOnAfterUpdate[models.TableStyle](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Text](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.Body]()
+	stage.SetOrchestratorOnAfterUpdate[models.Document]()
+	stage.SetOrchestratorOnAfterUpdate[models.Docx]()
+	stage.SetOrchestratorOnAfterUpdate[models.File]()
+	stage.SetOrchestratorOnAfterUpdate[models.Node]()
+	stage.SetOrchestratorOnAfterUpdate[models.Paragraph]()
+	stage.SetOrchestratorOnAfterUpdate[models.ParagraphProperties]()
+	stage.SetOrchestratorOnAfterUpdate[models.ParagraphStyle]()
+	stage.SetOrchestratorOnAfterUpdate[models.Rune]()
+	stage.SetOrchestratorOnAfterUpdate[models.RuneProperties]()
+	stage.SetOrchestratorOnAfterUpdate[models.Table]()
+	stage.SetOrchestratorOnAfterUpdate[models.TableColumn]()
+	stage.SetOrchestratorOnAfterUpdate[models.TableProperties]()
+	stage.SetOrchestratorOnAfterUpdate[models.TableRow]()
+	stage.SetOrchestratorOnAfterUpdate[models.TableStyle]()
+	stage.SetOrchestratorOnAfterUpdate[models.Text]()
 
 	return
 }

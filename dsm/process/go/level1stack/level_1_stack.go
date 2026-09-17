@@ -99,7 +99,7 @@ func NewLevel1StackDelta(
 	}
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -124,27 +124,27 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.AllocatedProcessShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.AllocatedResourceShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ControlFlow](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ControlFlowShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Data](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DataFlow](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DataFlowShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DataShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DiagramProcess](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ExternalParticipantShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Note](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NoteShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NoteTaskShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Participant](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ParticipantShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Process](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ProcessShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Resource](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Task](stage)
-	models.SetOrchestratorOnAfterUpdate[models.TaskShape](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.AllocatedProcessShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.AllocatedResourceShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.ControlFlow]()
+	stage.SetOrchestratorOnAfterUpdate[models.ControlFlowShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Data]()
+	stage.SetOrchestratorOnAfterUpdate[models.DataFlow]()
+	stage.SetOrchestratorOnAfterUpdate[models.DataFlowShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.DataShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.DiagramProcess]()
+	stage.SetOrchestratorOnAfterUpdate[models.ExternalParticipantShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Library]()
+	stage.SetOrchestratorOnAfterUpdate[models.Note]()
+	stage.SetOrchestratorOnAfterUpdate[models.NoteShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.NoteTaskShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Participant]()
+	stage.SetOrchestratorOnAfterUpdate[models.ParticipantShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Process]()
+	stage.SetOrchestratorOnAfterUpdate[models.ProcessShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Resource]()
+	stage.SetOrchestratorOnAfterUpdate[models.Task]()
+	stage.SetOrchestratorOnAfterUpdate[models.TaskShape]()
 
 	return
 }

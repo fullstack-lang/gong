@@ -88,7 +88,7 @@ func ParseAstFromBytes(stage *Stage, input []byte) error {
 		return fmt.Errorf("unable to parse bytes: %w", errParser)
 	}
 
-	return ParseAstFileFromAst(stage, inFile, fset, false)
+	return stage.ParseAstFileFromAst(inFile, fset, false)
 }
 
 func (stager *Stager) processRenderingConf(stageForRenderingConf *Stage) {

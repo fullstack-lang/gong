@@ -49,17 +49,17 @@ func NewStackInstance(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.Button](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Cell](stage)
-	models.SetOrchestratorOnAfterUpdate[models.CellBoolean](stage)
-	models.SetOrchestratorOnAfterUpdate[models.CellFloat64](stage)
-	models.SetOrchestratorOnAfterUpdate[models.CellIcon](stage)
-	models.SetOrchestratorOnAfterUpdate[models.CellInt](stage)
-	models.SetOrchestratorOnAfterUpdate[models.CellString](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DisplayedColumn](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Row](stage)
-	models.SetOrchestratorOnAfterUpdate[models.SVGIcon](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Table](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.Button]()
+	stage.SetOrchestratorOnAfterUpdate[models.Cell]()
+	stage.SetOrchestratorOnAfterUpdate[models.CellBoolean]()
+	stage.SetOrchestratorOnAfterUpdate[models.CellFloat64]()
+	stage.SetOrchestratorOnAfterUpdate[models.CellIcon]()
+	stage.SetOrchestratorOnAfterUpdate[models.CellInt]()
+	stage.SetOrchestratorOnAfterUpdate[models.CellString]()
+	stage.SetOrchestratorOnAfterUpdate[models.DisplayedColumn]()
+	stage.SetOrchestratorOnAfterUpdate[models.Row]()
+	stage.SetOrchestratorOnAfterUpdate[models.SVGIcon]()
+	stage.SetOrchestratorOnAfterUpdate[models.Table]()
 
 	return
 }

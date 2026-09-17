@@ -4,9 +4,7 @@ package y
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Y_WOP struct {
@@ -15,7 +13,7 @@ type Y_WOP struct {
 	Name string
 }
 
-func (from *Y) CopyBasicFields(to *Y) {
+func (from *Y) GongCopyBasicFields(to *Y) {
 	// insertion point
 	to.Name = from.Name
 }

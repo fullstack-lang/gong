@@ -62,68 +62,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Body:
-		ok = stage.IsStagedBody(target)
-
-	case *Document:
-		ok = stage.IsStagedDocument(target)
-
-	case *Docx:
-		ok = stage.IsStagedDocx(target)
-
-	case *File:
-		ok = stage.IsStagedFile(target)
-
-	case *Node:
-		ok = stage.IsStagedNode(target)
-
-	case *Paragraph:
-		ok = stage.IsStagedParagraph(target)
-
-	case *ParagraphProperties:
-		ok = stage.IsStagedParagraphProperties(target)
-
-	case *ParagraphStyle:
-		ok = stage.IsStagedParagraphStyle(target)
-
-	case *Rune:
-		ok = stage.IsStagedRune(target)
-
-	case *RuneProperties:
-		ok = stage.IsStagedRuneProperties(target)
-
-	case *Table:
-		ok = stage.IsStagedTable(target)
-
-	case *TableColumn:
-		ok = stage.IsStagedTableColumn(target)
-
-	case *TableProperties:
-		ok = stage.IsStagedTableProperties(target)
-
-	case *TableRow:
-		ok = stage.IsStagedTableRow(target)
-
-	case *TableStyle:
-		ok = stage.IsStagedTableStyle(target)
-
-	case *Text:
-		ok = stage.IsStagedText(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedBody(body *Body) (ok bool) {
 
@@ -304,7 +242,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchBody(body *Body) {
 
 	// check if instance is already staged
-	if IsStaged(stage, body) {
+	if stage.IsStaged(body) {
 		return
 	}
 
@@ -312,15 +250,15 @@ func (stage *Stage) StageBranchBody(body *Body) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if body.LastParagraph != nil {
-		StageBranch(stage, body.LastParagraph)
+		stage.StageBranch(body.LastParagraph)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _paragraph := range body.Paragraphs {
-		StageBranch(stage, _paragraph)
+		stage.StageBranch(_paragraph)
 	}
 	for _, _table := range body.Tables {
-		StageBranch(stage, _table)
+		stage.StageBranch(_table)
 	}
 
 }
@@ -328,7 +266,7 @@ func (stage *Stage) StageBranchBody(body *Body) {
 func (stage *Stage) StageBranchDocument(document *Document) {
 
 	// check if instance is already staged
-	if IsStaged(stage, document) {
+	if stage.IsStaged(document) {
 		return
 	}
 
@@ -336,13 +274,13 @@ func (stage *Stage) StageBranchDocument(document *Document) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if document.File != nil {
-		StageBranch(stage, document.File)
+		stage.StageBranch(document.File)
 	}
 	if document.Root != nil {
-		StageBranch(stage, document.Root)
+		stage.StageBranch(document.Root)
 	}
 	if document.Body != nil {
-		StageBranch(stage, document.Body)
+		stage.StageBranch(document.Body)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -352,7 +290,7 @@ func (stage *Stage) StageBranchDocument(document *Document) {
 func (stage *Stage) StageBranchDocx(docx *Docx) {
 
 	// check if instance is already staged
-	if IsStaged(stage, docx) {
+	if stage.IsStaged(docx) {
 		return
 	}
 
@@ -360,12 +298,12 @@ func (stage *Stage) StageBranchDocx(docx *Docx) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if docx.Document != nil {
-		StageBranch(stage, docx.Document)
+		stage.StageBranch(docx.Document)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _file := range docx.Files {
-		StageBranch(stage, _file)
+		stage.StageBranch(_file)
 	}
 
 }
@@ -373,7 +311,7 @@ func (stage *Stage) StageBranchDocx(docx *Docx) {
 func (stage *Stage) StageBranchFile(file *File) {
 
 	// check if instance is already staged
-	if IsStaged(stage, file) {
+	if stage.IsStaged(file) {
 		return
 	}
 
@@ -388,7 +326,7 @@ func (stage *Stage) StageBranchFile(file *File) {
 func (stage *Stage) StageBranchNode(node *Node) {
 
 	// check if instance is already staged
-	if IsStaged(stage, node) {
+	if stage.IsStaged(node) {
 		return
 	}
 
@@ -398,7 +336,7 @@ func (stage *Stage) StageBranchNode(node *Node) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _node := range node.Nodes {
-		StageBranch(stage, _node)
+		stage.StageBranch(_node)
 	}
 
 }
@@ -406,7 +344,7 @@ func (stage *Stage) StageBranchNode(node *Node) {
 func (stage *Stage) StageBranchParagraph(paragraph *Paragraph) {
 
 	// check if instance is already staged
-	if IsStaged(stage, paragraph) {
+	if stage.IsStaged(paragraph) {
 		return
 	}
 
@@ -414,27 +352,27 @@ func (stage *Stage) StageBranchParagraph(paragraph *Paragraph) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if paragraph.Node != nil {
-		StageBranch(stage, paragraph.Node)
+		stage.StageBranch(paragraph.Node)
 	}
 	if paragraph.ParagraphProperties != nil {
-		StageBranch(stage, paragraph.ParagraphProperties)
+		stage.StageBranch(paragraph.ParagraphProperties)
 	}
 	if paragraph.Next != nil {
-		StageBranch(stage, paragraph.Next)
+		stage.StageBranch(paragraph.Next)
 	}
 	if paragraph.Previous != nil {
-		StageBranch(stage, paragraph.Previous)
+		stage.StageBranch(paragraph.Previous)
 	}
 	if paragraph.EnclosingBody != nil {
-		StageBranch(stage, paragraph.EnclosingBody)
+		stage.StageBranch(paragraph.EnclosingBody)
 	}
 	if paragraph.EnclosingTableColumn != nil {
-		StageBranch(stage, paragraph.EnclosingTableColumn)
+		stage.StageBranch(paragraph.EnclosingTableColumn)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _rune := range paragraph.Runes {
-		StageBranch(stage, _rune)
+		stage.StageBranch(_rune)
 	}
 
 }
@@ -442,7 +380,7 @@ func (stage *Stage) StageBranchParagraph(paragraph *Paragraph) {
 func (stage *Stage) StageBranchParagraphProperties(paragraphproperties *ParagraphProperties) {
 
 	// check if instance is already staged
-	if IsStaged(stage, paragraphproperties) {
+	if stage.IsStaged(paragraphproperties) {
 		return
 	}
 
@@ -450,10 +388,10 @@ func (stage *Stage) StageBranchParagraphProperties(paragraphproperties *Paragrap
 
 	//insertion point for the staging of instances referenced by pointers
 	if paragraphproperties.ParagraphStyle != nil {
-		StageBranch(stage, paragraphproperties.ParagraphStyle)
+		stage.StageBranch(paragraphproperties.ParagraphStyle)
 	}
 	if paragraphproperties.Node != nil {
-		StageBranch(stage, paragraphproperties.Node)
+		stage.StageBranch(paragraphproperties.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -463,7 +401,7 @@ func (stage *Stage) StageBranchParagraphProperties(paragraphproperties *Paragrap
 func (stage *Stage) StageBranchParagraphStyle(paragraphstyle *ParagraphStyle) {
 
 	// check if instance is already staged
-	if IsStaged(stage, paragraphstyle) {
+	if stage.IsStaged(paragraphstyle) {
 		return
 	}
 
@@ -471,7 +409,7 @@ func (stage *Stage) StageBranchParagraphStyle(paragraphstyle *ParagraphStyle) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if paragraphstyle.Node != nil {
-		StageBranch(stage, paragraphstyle.Node)
+		stage.StageBranch(paragraphstyle.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -481,7 +419,7 @@ func (stage *Stage) StageBranchParagraphStyle(paragraphstyle *ParagraphStyle) {
 func (stage *Stage) StageBranchRune(rune *Rune) {
 
 	// check if instance is already staged
-	if IsStaged(stage, rune) {
+	if stage.IsStaged(rune) {
 		return
 	}
 
@@ -489,16 +427,16 @@ func (stage *Stage) StageBranchRune(rune *Rune) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if rune.Node != nil {
-		StageBranch(stage, rune.Node)
+		stage.StageBranch(rune.Node)
 	}
 	if rune.Text != nil {
-		StageBranch(stage, rune.Text)
+		stage.StageBranch(rune.Text)
 	}
 	if rune.RuneProperties != nil {
-		StageBranch(stage, rune.RuneProperties)
+		stage.StageBranch(rune.RuneProperties)
 	}
 	if rune.EnclosingParagraph != nil {
-		StageBranch(stage, rune.EnclosingParagraph)
+		stage.StageBranch(rune.EnclosingParagraph)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -508,7 +446,7 @@ func (stage *Stage) StageBranchRune(rune *Rune) {
 func (stage *Stage) StageBranchRuneProperties(runeproperties *RuneProperties) {
 
 	// check if instance is already staged
-	if IsStaged(stage, runeproperties) {
+	if stage.IsStaged(runeproperties) {
 		return
 	}
 
@@ -516,7 +454,7 @@ func (stage *Stage) StageBranchRuneProperties(runeproperties *RuneProperties) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if runeproperties.Node != nil {
-		StageBranch(stage, runeproperties.Node)
+		stage.StageBranch(runeproperties.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -526,7 +464,7 @@ func (stage *Stage) StageBranchRuneProperties(runeproperties *RuneProperties) {
 func (stage *Stage) StageBranchTable(table *Table) {
 
 	// check if instance is already staged
-	if IsStaged(stage, table) {
+	if stage.IsStaged(table) {
 		return
 	}
 
@@ -534,15 +472,15 @@ func (stage *Stage) StageBranchTable(table *Table) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if table.Node != nil {
-		StageBranch(stage, table.Node)
+		stage.StageBranch(table.Node)
 	}
 	if table.TableProperties != nil {
-		StageBranch(stage, table.TableProperties)
+		stage.StageBranch(table.TableProperties)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tablerow := range table.TableRows {
-		StageBranch(stage, _tablerow)
+		stage.StageBranch(_tablerow)
 	}
 
 }
@@ -550,7 +488,7 @@ func (stage *Stage) StageBranchTable(table *Table) {
 func (stage *Stage) StageBranchTableColumn(tablecolumn *TableColumn) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tablecolumn) {
+	if stage.IsStaged(tablecolumn) {
 		return
 	}
 
@@ -558,12 +496,12 @@ func (stage *Stage) StageBranchTableColumn(tablecolumn *TableColumn) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if tablecolumn.Node != nil {
-		StageBranch(stage, tablecolumn.Node)
+		stage.StageBranch(tablecolumn.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _paragraph := range tablecolumn.Paragraphs {
-		StageBranch(stage, _paragraph)
+		stage.StageBranch(_paragraph)
 	}
 
 }
@@ -571,7 +509,7 @@ func (stage *Stage) StageBranchTableColumn(tablecolumn *TableColumn) {
 func (stage *Stage) StageBranchTableProperties(tableproperties *TableProperties) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tableproperties) {
+	if stage.IsStaged(tableproperties) {
 		return
 	}
 
@@ -579,10 +517,10 @@ func (stage *Stage) StageBranchTableProperties(tableproperties *TableProperties)
 
 	//insertion point for the staging of instances referenced by pointers
 	if tableproperties.Node != nil {
-		StageBranch(stage, tableproperties.Node)
+		stage.StageBranch(tableproperties.Node)
 	}
 	if tableproperties.TableStyle != nil {
-		StageBranch(stage, tableproperties.TableStyle)
+		stage.StageBranch(tableproperties.TableStyle)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -592,7 +530,7 @@ func (stage *Stage) StageBranchTableProperties(tableproperties *TableProperties)
 func (stage *Stage) StageBranchTableRow(tablerow *TableRow) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tablerow) {
+	if stage.IsStaged(tablerow) {
 		return
 	}
 
@@ -600,12 +538,12 @@ func (stage *Stage) StageBranchTableRow(tablerow *TableRow) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if tablerow.Node != nil {
-		StageBranch(stage, tablerow.Node)
+		stage.StageBranch(tablerow.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tablecolumn := range tablerow.TableColumns {
-		StageBranch(stage, _tablecolumn)
+		stage.StageBranch(_tablecolumn)
 	}
 
 }
@@ -613,7 +551,7 @@ func (stage *Stage) StageBranchTableRow(tablerow *TableRow) {
 func (stage *Stage) StageBranchTableStyle(tablestyle *TableStyle) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tablestyle) {
+	if stage.IsStaged(tablestyle) {
 		return
 	}
 
@@ -621,7 +559,7 @@ func (stage *Stage) StageBranchTableStyle(tablestyle *TableStyle) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if tablestyle.Node != nil {
-		StageBranch(stage, tablestyle.Node)
+		stage.StageBranch(tablestyle.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -631,7 +569,7 @@ func (stage *Stage) StageBranchTableStyle(tablestyle *TableStyle) {
 func (stage *Stage) StageBranchText(text *Text) {
 
 	// check if instance is already staged
-	if IsStaged(stage, text) {
+	if stage.IsStaged(text) {
 		return
 	}
 
@@ -639,21 +577,21 @@ func (stage *Stage) StageBranchText(text *Text) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if text.Node != nil {
-		StageBranch(stage, text.Node)
+		stage.StageBranch(text.Node)
 	}
 	if text.EnclosingRune != nil {
-		StageBranch(stage, text.EnclosingRune)
+		stage.StageBranch(text.EnclosingRune)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -661,67 +599,67 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *Body:
-		toT := CopyBranchBody(mapOrigCopy, fromT)
+		toT := GongCopyBranchBody(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Document:
-		toT := CopyBranchDocument(mapOrigCopy, fromT)
+		toT := GongCopyBranchDocument(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Docx:
-		toT := CopyBranchDocx(mapOrigCopy, fromT)
+		toT := GongCopyBranchDocx(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *File:
-		toT := CopyBranchFile(mapOrigCopy, fromT)
+		toT := GongCopyBranchFile(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Node:
-		toT := CopyBranchNode(mapOrigCopy, fromT)
+		toT := GongCopyBranchNode(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Paragraph:
-		toT := CopyBranchParagraph(mapOrigCopy, fromT)
+		toT := GongCopyBranchParagraph(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ParagraphProperties:
-		toT := CopyBranchParagraphProperties(mapOrigCopy, fromT)
+		toT := GongCopyBranchParagraphProperties(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ParagraphStyle:
-		toT := CopyBranchParagraphStyle(mapOrigCopy, fromT)
+		toT := GongCopyBranchParagraphStyle(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Rune:
-		toT := CopyBranchRune(mapOrigCopy, fromT)
+		toT := GongCopyBranchRune(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *RuneProperties:
-		toT := CopyBranchRuneProperties(mapOrigCopy, fromT)
+		toT := GongCopyBranchRuneProperties(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Table:
-		toT := CopyBranchTable(mapOrigCopy, fromT)
+		toT := GongCopyBranchTable(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TableColumn:
-		toT := CopyBranchTableColumn(mapOrigCopy, fromT)
+		toT := GongCopyBranchTableColumn(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TableProperties:
-		toT := CopyBranchTableProperties(mapOrigCopy, fromT)
+		toT := GongCopyBranchTableProperties(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TableRow:
-		toT := CopyBranchTableRow(mapOrigCopy, fromT)
+		toT := GongCopyBranchTableRow(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TableStyle:
-		toT := CopyBranchTableStyle(mapOrigCopy, fromT)
+		toT := GongCopyBranchTableStyle(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Text:
-		toT := CopyBranchText(mapOrigCopy, fromT)
+		toT := GongCopyBranchText(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -731,7 +669,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchBody(mapOrigCopy map[any]any, bodyFrom *Body) (bodyTo *Body) {
+func GongCopyBranchBody(mapOrigCopy map[any]any, bodyFrom *Body) (bodyTo *Body) {
 
 	// bodyFrom has already been copied
 	if _bodyTo, ok := mapOrigCopy[bodyFrom]; ok {
@@ -741,25 +679,25 @@ func CopyBranchBody(mapOrigCopy map[any]any, bodyFrom *Body) (bodyTo *Body) {
 
 	bodyTo = new(Body)
 	mapOrigCopy[bodyFrom] = bodyTo
-	bodyFrom.CopyBasicFields(bodyTo)
+	bodyFrom.GongCopyBasicFields(bodyTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if bodyFrom.LastParagraph != nil {
-		bodyTo.LastParagraph = CopyBranchParagraph(mapOrigCopy, bodyFrom.LastParagraph)
+		bodyTo.LastParagraph = GongCopyBranchParagraph(mapOrigCopy, bodyFrom.LastParagraph)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _paragraph := range bodyFrom.Paragraphs {
-		bodyTo.Paragraphs = append(bodyTo.Paragraphs, CopyBranchParagraph(mapOrigCopy, _paragraph))
+		bodyTo.Paragraphs = append(bodyTo.Paragraphs, GongCopyBranchParagraph(mapOrigCopy, _paragraph))
 	}
 	for _, _table := range bodyFrom.Tables {
-		bodyTo.Tables = append(bodyTo.Tables, CopyBranchTable(mapOrigCopy, _table))
+		bodyTo.Tables = append(bodyTo.Tables, GongCopyBranchTable(mapOrigCopy, _table))
 	}
 
 	return
 }
 
-func CopyBranchDocument(mapOrigCopy map[any]any, documentFrom *Document) (documentTo *Document) {
+func GongCopyBranchDocument(mapOrigCopy map[any]any, documentFrom *Document) (documentTo *Document) {
 
 	// documentFrom has already been copied
 	if _documentTo, ok := mapOrigCopy[documentFrom]; ok {
@@ -769,17 +707,17 @@ func CopyBranchDocument(mapOrigCopy map[any]any, documentFrom *Document) (docume
 
 	documentTo = new(Document)
 	mapOrigCopy[documentFrom] = documentTo
-	documentFrom.CopyBasicFields(documentTo)
+	documentFrom.GongCopyBasicFields(documentTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if documentFrom.File != nil {
-		documentTo.File = CopyBranchFile(mapOrigCopy, documentFrom.File)
+		documentTo.File = GongCopyBranchFile(mapOrigCopy, documentFrom.File)
 	}
 	if documentFrom.Root != nil {
-		documentTo.Root = CopyBranchNode(mapOrigCopy, documentFrom.Root)
+		documentTo.Root = GongCopyBranchNode(mapOrigCopy, documentFrom.Root)
 	}
 	if documentFrom.Body != nil {
-		documentTo.Body = CopyBranchBody(mapOrigCopy, documentFrom.Body)
+		documentTo.Body = GongCopyBranchBody(mapOrigCopy, documentFrom.Body)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -787,7 +725,7 @@ func CopyBranchDocument(mapOrigCopy map[any]any, documentFrom *Document) (docume
 	return
 }
 
-func CopyBranchDocx(mapOrigCopy map[any]any, docxFrom *Docx) (docxTo *Docx) {
+func GongCopyBranchDocx(mapOrigCopy map[any]any, docxFrom *Docx) (docxTo *Docx) {
 
 	// docxFrom has already been copied
 	if _docxTo, ok := mapOrigCopy[docxFrom]; ok {
@@ -797,22 +735,22 @@ func CopyBranchDocx(mapOrigCopy map[any]any, docxFrom *Docx) (docxTo *Docx) {
 
 	docxTo = new(Docx)
 	mapOrigCopy[docxFrom] = docxTo
-	docxFrom.CopyBasicFields(docxTo)
+	docxFrom.GongCopyBasicFields(docxTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if docxFrom.Document != nil {
-		docxTo.Document = CopyBranchDocument(mapOrigCopy, docxFrom.Document)
+		docxTo.Document = GongCopyBranchDocument(mapOrigCopy, docxFrom.Document)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _file := range docxFrom.Files {
-		docxTo.Files = append(docxTo.Files, CopyBranchFile(mapOrigCopy, _file))
+		docxTo.Files = append(docxTo.Files, GongCopyBranchFile(mapOrigCopy, _file))
 	}
 
 	return
 }
 
-func CopyBranchFile(mapOrigCopy map[any]any, fileFrom *File) (fileTo *File) {
+func GongCopyBranchFile(mapOrigCopy map[any]any, fileFrom *File) (fileTo *File) {
 
 	// fileFrom has already been copied
 	if _fileTo, ok := mapOrigCopy[fileFrom]; ok {
@@ -822,7 +760,7 @@ func CopyBranchFile(mapOrigCopy map[any]any, fileFrom *File) (fileTo *File) {
 
 	fileTo = new(File)
 	mapOrigCopy[fileFrom] = fileTo
-	fileFrom.CopyBasicFields(fileTo)
+	fileFrom.GongCopyBasicFields(fileTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -831,7 +769,7 @@ func CopyBranchFile(mapOrigCopy map[any]any, fileFrom *File) (fileTo *File) {
 	return
 }
 
-func CopyBranchNode(mapOrigCopy map[any]any, nodeFrom *Node) (nodeTo *Node) {
+func GongCopyBranchNode(mapOrigCopy map[any]any, nodeFrom *Node) (nodeTo *Node) {
 
 	// nodeFrom has already been copied
 	if _nodeTo, ok := mapOrigCopy[nodeFrom]; ok {
@@ -841,19 +779,19 @@ func CopyBranchNode(mapOrigCopy map[any]any, nodeFrom *Node) (nodeTo *Node) {
 
 	nodeTo = new(Node)
 	mapOrigCopy[nodeFrom] = nodeTo
-	nodeFrom.CopyBasicFields(nodeTo)
+	nodeFrom.GongCopyBasicFields(nodeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _node := range nodeFrom.Nodes {
-		nodeTo.Nodes = append(nodeTo.Nodes, CopyBranchNode(mapOrigCopy, _node))
+		nodeTo.Nodes = append(nodeTo.Nodes, GongCopyBranchNode(mapOrigCopy, _node))
 	}
 
 	return
 }
 
-func CopyBranchParagraph(mapOrigCopy map[any]any, paragraphFrom *Paragraph) (paragraphTo *Paragraph) {
+func GongCopyBranchParagraph(mapOrigCopy map[any]any, paragraphFrom *Paragraph) (paragraphTo *Paragraph) {
 
 	// paragraphFrom has already been copied
 	if _paragraphTo, ok := mapOrigCopy[paragraphFrom]; ok {
@@ -863,37 +801,37 @@ func CopyBranchParagraph(mapOrigCopy map[any]any, paragraphFrom *Paragraph) (par
 
 	paragraphTo = new(Paragraph)
 	mapOrigCopy[paragraphFrom] = paragraphTo
-	paragraphFrom.CopyBasicFields(paragraphTo)
+	paragraphFrom.GongCopyBasicFields(paragraphTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if paragraphFrom.Node != nil {
-		paragraphTo.Node = CopyBranchNode(mapOrigCopy, paragraphFrom.Node)
+		paragraphTo.Node = GongCopyBranchNode(mapOrigCopy, paragraphFrom.Node)
 	}
 	if paragraphFrom.ParagraphProperties != nil {
-		paragraphTo.ParagraphProperties = CopyBranchParagraphProperties(mapOrigCopy, paragraphFrom.ParagraphProperties)
+		paragraphTo.ParagraphProperties = GongCopyBranchParagraphProperties(mapOrigCopy, paragraphFrom.ParagraphProperties)
 	}
 	if paragraphFrom.Next != nil {
-		paragraphTo.Next = CopyBranchParagraph(mapOrigCopy, paragraphFrom.Next)
+		paragraphTo.Next = GongCopyBranchParagraph(mapOrigCopy, paragraphFrom.Next)
 	}
 	if paragraphFrom.Previous != nil {
-		paragraphTo.Previous = CopyBranchParagraph(mapOrigCopy, paragraphFrom.Previous)
+		paragraphTo.Previous = GongCopyBranchParagraph(mapOrigCopy, paragraphFrom.Previous)
 	}
 	if paragraphFrom.EnclosingBody != nil {
-		paragraphTo.EnclosingBody = CopyBranchBody(mapOrigCopy, paragraphFrom.EnclosingBody)
+		paragraphTo.EnclosingBody = GongCopyBranchBody(mapOrigCopy, paragraphFrom.EnclosingBody)
 	}
 	if paragraphFrom.EnclosingTableColumn != nil {
-		paragraphTo.EnclosingTableColumn = CopyBranchTableColumn(mapOrigCopy, paragraphFrom.EnclosingTableColumn)
+		paragraphTo.EnclosingTableColumn = GongCopyBranchTableColumn(mapOrigCopy, paragraphFrom.EnclosingTableColumn)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _rune := range paragraphFrom.Runes {
-		paragraphTo.Runes = append(paragraphTo.Runes, CopyBranchRune(mapOrigCopy, _rune))
+		paragraphTo.Runes = append(paragraphTo.Runes, GongCopyBranchRune(mapOrigCopy, _rune))
 	}
 
 	return
 }
 
-func CopyBranchParagraphProperties(mapOrigCopy map[any]any, paragraphpropertiesFrom *ParagraphProperties) (paragraphpropertiesTo *ParagraphProperties) {
+func GongCopyBranchParagraphProperties(mapOrigCopy map[any]any, paragraphpropertiesFrom *ParagraphProperties) (paragraphpropertiesTo *ParagraphProperties) {
 
 	// paragraphpropertiesFrom has already been copied
 	if _paragraphpropertiesTo, ok := mapOrigCopy[paragraphpropertiesFrom]; ok {
@@ -903,14 +841,14 @@ func CopyBranchParagraphProperties(mapOrigCopy map[any]any, paragraphpropertiesF
 
 	paragraphpropertiesTo = new(ParagraphProperties)
 	mapOrigCopy[paragraphpropertiesFrom] = paragraphpropertiesTo
-	paragraphpropertiesFrom.CopyBasicFields(paragraphpropertiesTo)
+	paragraphpropertiesFrom.GongCopyBasicFields(paragraphpropertiesTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if paragraphpropertiesFrom.ParagraphStyle != nil {
-		paragraphpropertiesTo.ParagraphStyle = CopyBranchParagraphStyle(mapOrigCopy, paragraphpropertiesFrom.ParagraphStyle)
+		paragraphpropertiesTo.ParagraphStyle = GongCopyBranchParagraphStyle(mapOrigCopy, paragraphpropertiesFrom.ParagraphStyle)
 	}
 	if paragraphpropertiesFrom.Node != nil {
-		paragraphpropertiesTo.Node = CopyBranchNode(mapOrigCopy, paragraphpropertiesFrom.Node)
+		paragraphpropertiesTo.Node = GongCopyBranchNode(mapOrigCopy, paragraphpropertiesFrom.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -918,7 +856,7 @@ func CopyBranchParagraphProperties(mapOrigCopy map[any]any, paragraphpropertiesF
 	return
 }
 
-func CopyBranchParagraphStyle(mapOrigCopy map[any]any, paragraphstyleFrom *ParagraphStyle) (paragraphstyleTo *ParagraphStyle) {
+func GongCopyBranchParagraphStyle(mapOrigCopy map[any]any, paragraphstyleFrom *ParagraphStyle) (paragraphstyleTo *ParagraphStyle) {
 
 	// paragraphstyleFrom has already been copied
 	if _paragraphstyleTo, ok := mapOrigCopy[paragraphstyleFrom]; ok {
@@ -928,11 +866,11 @@ func CopyBranchParagraphStyle(mapOrigCopy map[any]any, paragraphstyleFrom *Parag
 
 	paragraphstyleTo = new(ParagraphStyle)
 	mapOrigCopy[paragraphstyleFrom] = paragraphstyleTo
-	paragraphstyleFrom.CopyBasicFields(paragraphstyleTo)
+	paragraphstyleFrom.GongCopyBasicFields(paragraphstyleTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if paragraphstyleFrom.Node != nil {
-		paragraphstyleTo.Node = CopyBranchNode(mapOrigCopy, paragraphstyleFrom.Node)
+		paragraphstyleTo.Node = GongCopyBranchNode(mapOrigCopy, paragraphstyleFrom.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -940,7 +878,7 @@ func CopyBranchParagraphStyle(mapOrigCopy map[any]any, paragraphstyleFrom *Parag
 	return
 }
 
-func CopyBranchRune(mapOrigCopy map[any]any, runeFrom *Rune) (runeTo *Rune) {
+func GongCopyBranchRune(mapOrigCopy map[any]any, runeFrom *Rune) (runeTo *Rune) {
 
 	// runeFrom has already been copied
 	if _runeTo, ok := mapOrigCopy[runeFrom]; ok {
@@ -950,20 +888,20 @@ func CopyBranchRune(mapOrigCopy map[any]any, runeFrom *Rune) (runeTo *Rune) {
 
 	runeTo = new(Rune)
 	mapOrigCopy[runeFrom] = runeTo
-	runeFrom.CopyBasicFields(runeTo)
+	runeFrom.GongCopyBasicFields(runeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if runeFrom.Node != nil {
-		runeTo.Node = CopyBranchNode(mapOrigCopy, runeFrom.Node)
+		runeTo.Node = GongCopyBranchNode(mapOrigCopy, runeFrom.Node)
 	}
 	if runeFrom.Text != nil {
-		runeTo.Text = CopyBranchText(mapOrigCopy, runeFrom.Text)
+		runeTo.Text = GongCopyBranchText(mapOrigCopy, runeFrom.Text)
 	}
 	if runeFrom.RuneProperties != nil {
-		runeTo.RuneProperties = CopyBranchRuneProperties(mapOrigCopy, runeFrom.RuneProperties)
+		runeTo.RuneProperties = GongCopyBranchRuneProperties(mapOrigCopy, runeFrom.RuneProperties)
 	}
 	if runeFrom.EnclosingParagraph != nil {
-		runeTo.EnclosingParagraph = CopyBranchParagraph(mapOrigCopy, runeFrom.EnclosingParagraph)
+		runeTo.EnclosingParagraph = GongCopyBranchParagraph(mapOrigCopy, runeFrom.EnclosingParagraph)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -971,7 +909,7 @@ func CopyBranchRune(mapOrigCopy map[any]any, runeFrom *Rune) (runeTo *Rune) {
 	return
 }
 
-func CopyBranchRuneProperties(mapOrigCopy map[any]any, runepropertiesFrom *RuneProperties) (runepropertiesTo *RuneProperties) {
+func GongCopyBranchRuneProperties(mapOrigCopy map[any]any, runepropertiesFrom *RuneProperties) (runepropertiesTo *RuneProperties) {
 
 	// runepropertiesFrom has already been copied
 	if _runepropertiesTo, ok := mapOrigCopy[runepropertiesFrom]; ok {
@@ -981,11 +919,11 @@ func CopyBranchRuneProperties(mapOrigCopy map[any]any, runepropertiesFrom *RuneP
 
 	runepropertiesTo = new(RuneProperties)
 	mapOrigCopy[runepropertiesFrom] = runepropertiesTo
-	runepropertiesFrom.CopyBasicFields(runepropertiesTo)
+	runepropertiesFrom.GongCopyBasicFields(runepropertiesTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if runepropertiesFrom.Node != nil {
-		runepropertiesTo.Node = CopyBranchNode(mapOrigCopy, runepropertiesFrom.Node)
+		runepropertiesTo.Node = GongCopyBranchNode(mapOrigCopy, runepropertiesFrom.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -993,7 +931,7 @@ func CopyBranchRuneProperties(mapOrigCopy map[any]any, runepropertiesFrom *RuneP
 	return
 }
 
-func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table) {
+func GongCopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table) {
 
 	// tableFrom has already been copied
 	if _tableTo, ok := mapOrigCopy[tableFrom]; ok {
@@ -1003,25 +941,25 @@ func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table)
 
 	tableTo = new(Table)
 	mapOrigCopy[tableFrom] = tableTo
-	tableFrom.CopyBasicFields(tableTo)
+	tableFrom.GongCopyBasicFields(tableTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if tableFrom.Node != nil {
-		tableTo.Node = CopyBranchNode(mapOrigCopy, tableFrom.Node)
+		tableTo.Node = GongCopyBranchNode(mapOrigCopy, tableFrom.Node)
 	}
 	if tableFrom.TableProperties != nil {
-		tableTo.TableProperties = CopyBranchTableProperties(mapOrigCopy, tableFrom.TableProperties)
+		tableTo.TableProperties = GongCopyBranchTableProperties(mapOrigCopy, tableFrom.TableProperties)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tablerow := range tableFrom.TableRows {
-		tableTo.TableRows = append(tableTo.TableRows, CopyBranchTableRow(mapOrigCopy, _tablerow))
+		tableTo.TableRows = append(tableTo.TableRows, GongCopyBranchTableRow(mapOrigCopy, _tablerow))
 	}
 
 	return
 }
 
-func CopyBranchTableColumn(mapOrigCopy map[any]any, tablecolumnFrom *TableColumn) (tablecolumnTo *TableColumn) {
+func GongCopyBranchTableColumn(mapOrigCopy map[any]any, tablecolumnFrom *TableColumn) (tablecolumnTo *TableColumn) {
 
 	// tablecolumnFrom has already been copied
 	if _tablecolumnTo, ok := mapOrigCopy[tablecolumnFrom]; ok {
@@ -1031,22 +969,22 @@ func CopyBranchTableColumn(mapOrigCopy map[any]any, tablecolumnFrom *TableColumn
 
 	tablecolumnTo = new(TableColumn)
 	mapOrigCopy[tablecolumnFrom] = tablecolumnTo
-	tablecolumnFrom.CopyBasicFields(tablecolumnTo)
+	tablecolumnFrom.GongCopyBasicFields(tablecolumnTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if tablecolumnFrom.Node != nil {
-		tablecolumnTo.Node = CopyBranchNode(mapOrigCopy, tablecolumnFrom.Node)
+		tablecolumnTo.Node = GongCopyBranchNode(mapOrigCopy, tablecolumnFrom.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _paragraph := range tablecolumnFrom.Paragraphs {
-		tablecolumnTo.Paragraphs = append(tablecolumnTo.Paragraphs, CopyBranchParagraph(mapOrigCopy, _paragraph))
+		tablecolumnTo.Paragraphs = append(tablecolumnTo.Paragraphs, GongCopyBranchParagraph(mapOrigCopy, _paragraph))
 	}
 
 	return
 }
 
-func CopyBranchTableProperties(mapOrigCopy map[any]any, tablepropertiesFrom *TableProperties) (tablepropertiesTo *TableProperties) {
+func GongCopyBranchTableProperties(mapOrigCopy map[any]any, tablepropertiesFrom *TableProperties) (tablepropertiesTo *TableProperties) {
 
 	// tablepropertiesFrom has already been copied
 	if _tablepropertiesTo, ok := mapOrigCopy[tablepropertiesFrom]; ok {
@@ -1056,14 +994,14 @@ func CopyBranchTableProperties(mapOrigCopy map[any]any, tablepropertiesFrom *Tab
 
 	tablepropertiesTo = new(TableProperties)
 	mapOrigCopy[tablepropertiesFrom] = tablepropertiesTo
-	tablepropertiesFrom.CopyBasicFields(tablepropertiesTo)
+	tablepropertiesFrom.GongCopyBasicFields(tablepropertiesTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if tablepropertiesFrom.Node != nil {
-		tablepropertiesTo.Node = CopyBranchNode(mapOrigCopy, tablepropertiesFrom.Node)
+		tablepropertiesTo.Node = GongCopyBranchNode(mapOrigCopy, tablepropertiesFrom.Node)
 	}
 	if tablepropertiesFrom.TableStyle != nil {
-		tablepropertiesTo.TableStyle = CopyBranchTableStyle(mapOrigCopy, tablepropertiesFrom.TableStyle)
+		tablepropertiesTo.TableStyle = GongCopyBranchTableStyle(mapOrigCopy, tablepropertiesFrom.TableStyle)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1071,7 +1009,7 @@ func CopyBranchTableProperties(mapOrigCopy map[any]any, tablepropertiesFrom *Tab
 	return
 }
 
-func CopyBranchTableRow(mapOrigCopy map[any]any, tablerowFrom *TableRow) (tablerowTo *TableRow) {
+func GongCopyBranchTableRow(mapOrigCopy map[any]any, tablerowFrom *TableRow) (tablerowTo *TableRow) {
 
 	// tablerowFrom has already been copied
 	if _tablerowTo, ok := mapOrigCopy[tablerowFrom]; ok {
@@ -1081,22 +1019,22 @@ func CopyBranchTableRow(mapOrigCopy map[any]any, tablerowFrom *TableRow) (tabler
 
 	tablerowTo = new(TableRow)
 	mapOrigCopy[tablerowFrom] = tablerowTo
-	tablerowFrom.CopyBasicFields(tablerowTo)
+	tablerowFrom.GongCopyBasicFields(tablerowTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if tablerowFrom.Node != nil {
-		tablerowTo.Node = CopyBranchNode(mapOrigCopy, tablerowFrom.Node)
+		tablerowTo.Node = GongCopyBranchNode(mapOrigCopy, tablerowFrom.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tablecolumn := range tablerowFrom.TableColumns {
-		tablerowTo.TableColumns = append(tablerowTo.TableColumns, CopyBranchTableColumn(mapOrigCopy, _tablecolumn))
+		tablerowTo.TableColumns = append(tablerowTo.TableColumns, GongCopyBranchTableColumn(mapOrigCopy, _tablecolumn))
 	}
 
 	return
 }
 
-func CopyBranchTableStyle(mapOrigCopy map[any]any, tablestyleFrom *TableStyle) (tablestyleTo *TableStyle) {
+func GongCopyBranchTableStyle(mapOrigCopy map[any]any, tablestyleFrom *TableStyle) (tablestyleTo *TableStyle) {
 
 	// tablestyleFrom has already been copied
 	if _tablestyleTo, ok := mapOrigCopy[tablestyleFrom]; ok {
@@ -1106,11 +1044,11 @@ func CopyBranchTableStyle(mapOrigCopy map[any]any, tablestyleFrom *TableStyle) (
 
 	tablestyleTo = new(TableStyle)
 	mapOrigCopy[tablestyleFrom] = tablestyleTo
-	tablestyleFrom.CopyBasicFields(tablestyleTo)
+	tablestyleFrom.GongCopyBasicFields(tablestyleTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if tablestyleFrom.Node != nil {
-		tablestyleTo.Node = CopyBranchNode(mapOrigCopy, tablestyleFrom.Node)
+		tablestyleTo.Node = GongCopyBranchNode(mapOrigCopy, tablestyleFrom.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1118,7 +1056,7 @@ func CopyBranchTableStyle(mapOrigCopy map[any]any, tablestyleFrom *TableStyle) (
 	return
 }
 
-func CopyBranchText(mapOrigCopy map[any]any, textFrom *Text) (textTo *Text) {
+func GongCopyBranchText(mapOrigCopy map[any]any, textFrom *Text) (textTo *Text) {
 
 	// textFrom has already been copied
 	if _textTo, ok := mapOrigCopy[textFrom]; ok {
@@ -1128,14 +1066,14 @@ func CopyBranchText(mapOrigCopy map[any]any, textFrom *Text) (textTo *Text) {
 
 	textTo = new(Text)
 	mapOrigCopy[textFrom] = textTo
-	textFrom.CopyBasicFields(textTo)
+	textFrom.GongCopyBasicFields(textTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if textFrom.Node != nil {
-		textTo.Node = CopyBranchNode(mapOrigCopy, textFrom.Node)
+		textTo.Node = GongCopyBranchNode(mapOrigCopy, textFrom.Node)
 	}
 	if textFrom.EnclosingRune != nil {
-		textTo.EnclosingRune = CopyBranchRune(mapOrigCopy, textFrom.EnclosingRune)
+		textTo.EnclosingRune = GongCopyBranchRune(mapOrigCopy, textFrom.EnclosingRune)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1205,16 +1143,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchBody(body *Body) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, body) {
+	if !stage.IsStaged(body) {
 		return
 	}
 
@@ -1222,15 +1155,15 @@ func (stage *Stage) UnstageBranchBody(body *Body) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if body.LastParagraph != nil {
-		UnstageBranch(stage, body.LastParagraph)
+		stage.UnstageBranch(body.LastParagraph)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _paragraph := range body.Paragraphs {
-		UnstageBranch(stage, _paragraph)
+		stage.UnstageBranch(_paragraph)
 	}
 	for _, _table := range body.Tables {
-		UnstageBranch(stage, _table)
+		stage.UnstageBranch(_table)
 	}
 
 }
@@ -1238,7 +1171,7 @@ func (stage *Stage) UnstageBranchBody(body *Body) {
 func (stage *Stage) UnstageBranchDocument(document *Document) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, document) {
+	if !stage.IsStaged(document) {
 		return
 	}
 
@@ -1246,13 +1179,13 @@ func (stage *Stage) UnstageBranchDocument(document *Document) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if document.File != nil {
-		UnstageBranch(stage, document.File)
+		stage.UnstageBranch(document.File)
 	}
 	if document.Root != nil {
-		UnstageBranch(stage, document.Root)
+		stage.UnstageBranch(document.Root)
 	}
 	if document.Body != nil {
-		UnstageBranch(stage, document.Body)
+		stage.UnstageBranch(document.Body)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1262,7 +1195,7 @@ func (stage *Stage) UnstageBranchDocument(document *Document) {
 func (stage *Stage) UnstageBranchDocx(docx *Docx) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, docx) {
+	if !stage.IsStaged(docx) {
 		return
 	}
 
@@ -1270,12 +1203,12 @@ func (stage *Stage) UnstageBranchDocx(docx *Docx) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if docx.Document != nil {
-		UnstageBranch(stage, docx.Document)
+		stage.UnstageBranch(docx.Document)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _file := range docx.Files {
-		UnstageBranch(stage, _file)
+		stage.UnstageBranch(_file)
 	}
 
 }
@@ -1283,7 +1216,7 @@ func (stage *Stage) UnstageBranchDocx(docx *Docx) {
 func (stage *Stage) UnstageBranchFile(file *File) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, file) {
+	if !stage.IsStaged(file) {
 		return
 	}
 
@@ -1298,7 +1231,7 @@ func (stage *Stage) UnstageBranchFile(file *File) {
 func (stage *Stage) UnstageBranchNode(node *Node) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, node) {
+	if !stage.IsStaged(node) {
 		return
 	}
 
@@ -1308,7 +1241,7 @@ func (stage *Stage) UnstageBranchNode(node *Node) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _node := range node.Nodes {
-		UnstageBranch(stage, _node)
+		stage.UnstageBranch(_node)
 	}
 
 }
@@ -1316,7 +1249,7 @@ func (stage *Stage) UnstageBranchNode(node *Node) {
 func (stage *Stage) UnstageBranchParagraph(paragraph *Paragraph) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, paragraph) {
+	if !stage.IsStaged(paragraph) {
 		return
 	}
 
@@ -1324,27 +1257,27 @@ func (stage *Stage) UnstageBranchParagraph(paragraph *Paragraph) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if paragraph.Node != nil {
-		UnstageBranch(stage, paragraph.Node)
+		stage.UnstageBranch(paragraph.Node)
 	}
 	if paragraph.ParagraphProperties != nil {
-		UnstageBranch(stage, paragraph.ParagraphProperties)
+		stage.UnstageBranch(paragraph.ParagraphProperties)
 	}
 	if paragraph.Next != nil {
-		UnstageBranch(stage, paragraph.Next)
+		stage.UnstageBranch(paragraph.Next)
 	}
 	if paragraph.Previous != nil {
-		UnstageBranch(stage, paragraph.Previous)
+		stage.UnstageBranch(paragraph.Previous)
 	}
 	if paragraph.EnclosingBody != nil {
-		UnstageBranch(stage, paragraph.EnclosingBody)
+		stage.UnstageBranch(paragraph.EnclosingBody)
 	}
 	if paragraph.EnclosingTableColumn != nil {
-		UnstageBranch(stage, paragraph.EnclosingTableColumn)
+		stage.UnstageBranch(paragraph.EnclosingTableColumn)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _rune := range paragraph.Runes {
-		UnstageBranch(stage, _rune)
+		stage.UnstageBranch(_rune)
 	}
 
 }
@@ -1352,7 +1285,7 @@ func (stage *Stage) UnstageBranchParagraph(paragraph *Paragraph) {
 func (stage *Stage) UnstageBranchParagraphProperties(paragraphproperties *ParagraphProperties) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, paragraphproperties) {
+	if !stage.IsStaged(paragraphproperties) {
 		return
 	}
 
@@ -1360,10 +1293,10 @@ func (stage *Stage) UnstageBranchParagraphProperties(paragraphproperties *Paragr
 
 	//insertion point for the staging of instances referenced by pointers
 	if paragraphproperties.ParagraphStyle != nil {
-		UnstageBranch(stage, paragraphproperties.ParagraphStyle)
+		stage.UnstageBranch(paragraphproperties.ParagraphStyle)
 	}
 	if paragraphproperties.Node != nil {
-		UnstageBranch(stage, paragraphproperties.Node)
+		stage.UnstageBranch(paragraphproperties.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1373,7 +1306,7 @@ func (stage *Stage) UnstageBranchParagraphProperties(paragraphproperties *Paragr
 func (stage *Stage) UnstageBranchParagraphStyle(paragraphstyle *ParagraphStyle) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, paragraphstyle) {
+	if !stage.IsStaged(paragraphstyle) {
 		return
 	}
 
@@ -1381,7 +1314,7 @@ func (stage *Stage) UnstageBranchParagraphStyle(paragraphstyle *ParagraphStyle) 
 
 	//insertion point for the staging of instances referenced by pointers
 	if paragraphstyle.Node != nil {
-		UnstageBranch(stage, paragraphstyle.Node)
+		stage.UnstageBranch(paragraphstyle.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1391,7 +1324,7 @@ func (stage *Stage) UnstageBranchParagraphStyle(paragraphstyle *ParagraphStyle) 
 func (stage *Stage) UnstageBranchRune(rune *Rune) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, rune) {
+	if !stage.IsStaged(rune) {
 		return
 	}
 
@@ -1399,16 +1332,16 @@ func (stage *Stage) UnstageBranchRune(rune *Rune) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if rune.Node != nil {
-		UnstageBranch(stage, rune.Node)
+		stage.UnstageBranch(rune.Node)
 	}
 	if rune.Text != nil {
-		UnstageBranch(stage, rune.Text)
+		stage.UnstageBranch(rune.Text)
 	}
 	if rune.RuneProperties != nil {
-		UnstageBranch(stage, rune.RuneProperties)
+		stage.UnstageBranch(rune.RuneProperties)
 	}
 	if rune.EnclosingParagraph != nil {
-		UnstageBranch(stage, rune.EnclosingParagraph)
+		stage.UnstageBranch(rune.EnclosingParagraph)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1418,7 +1351,7 @@ func (stage *Stage) UnstageBranchRune(rune *Rune) {
 func (stage *Stage) UnstageBranchRuneProperties(runeproperties *RuneProperties) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, runeproperties) {
+	if !stage.IsStaged(runeproperties) {
 		return
 	}
 
@@ -1426,7 +1359,7 @@ func (stage *Stage) UnstageBranchRuneProperties(runeproperties *RuneProperties) 
 
 	//insertion point for the staging of instances referenced by pointers
 	if runeproperties.Node != nil {
-		UnstageBranch(stage, runeproperties.Node)
+		stage.UnstageBranch(runeproperties.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1436,7 +1369,7 @@ func (stage *Stage) UnstageBranchRuneProperties(runeproperties *RuneProperties) 
 func (stage *Stage) UnstageBranchTable(table *Table) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, table) {
+	if !stage.IsStaged(table) {
 		return
 	}
 
@@ -1444,15 +1377,15 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if table.Node != nil {
-		UnstageBranch(stage, table.Node)
+		stage.UnstageBranch(table.Node)
 	}
 	if table.TableProperties != nil {
-		UnstageBranch(stage, table.TableProperties)
+		stage.UnstageBranch(table.TableProperties)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tablerow := range table.TableRows {
-		UnstageBranch(stage, _tablerow)
+		stage.UnstageBranch(_tablerow)
 	}
 
 }
@@ -1460,7 +1393,7 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 func (stage *Stage) UnstageBranchTableColumn(tablecolumn *TableColumn) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tablecolumn) {
+	if !stage.IsStaged(tablecolumn) {
 		return
 	}
 
@@ -1468,12 +1401,12 @@ func (stage *Stage) UnstageBranchTableColumn(tablecolumn *TableColumn) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if tablecolumn.Node != nil {
-		UnstageBranch(stage, tablecolumn.Node)
+		stage.UnstageBranch(tablecolumn.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _paragraph := range tablecolumn.Paragraphs {
-		UnstageBranch(stage, _paragraph)
+		stage.UnstageBranch(_paragraph)
 	}
 
 }
@@ -1481,7 +1414,7 @@ func (stage *Stage) UnstageBranchTableColumn(tablecolumn *TableColumn) {
 func (stage *Stage) UnstageBranchTableProperties(tableproperties *TableProperties) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tableproperties) {
+	if !stage.IsStaged(tableproperties) {
 		return
 	}
 
@@ -1489,10 +1422,10 @@ func (stage *Stage) UnstageBranchTableProperties(tableproperties *TablePropertie
 
 	//insertion point for the staging of instances referenced by pointers
 	if tableproperties.Node != nil {
-		UnstageBranch(stage, tableproperties.Node)
+		stage.UnstageBranch(tableproperties.Node)
 	}
 	if tableproperties.TableStyle != nil {
-		UnstageBranch(stage, tableproperties.TableStyle)
+		stage.UnstageBranch(tableproperties.TableStyle)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1502,7 +1435,7 @@ func (stage *Stage) UnstageBranchTableProperties(tableproperties *TablePropertie
 func (stage *Stage) UnstageBranchTableRow(tablerow *TableRow) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tablerow) {
+	if !stage.IsStaged(tablerow) {
 		return
 	}
 
@@ -1510,12 +1443,12 @@ func (stage *Stage) UnstageBranchTableRow(tablerow *TableRow) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if tablerow.Node != nil {
-		UnstageBranch(stage, tablerow.Node)
+		stage.UnstageBranch(tablerow.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _tablecolumn := range tablerow.TableColumns {
-		UnstageBranch(stage, _tablecolumn)
+		stage.UnstageBranch(_tablecolumn)
 	}
 
 }
@@ -1523,7 +1456,7 @@ func (stage *Stage) UnstageBranchTableRow(tablerow *TableRow) {
 func (stage *Stage) UnstageBranchTableStyle(tablestyle *TableStyle) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tablestyle) {
+	if !stage.IsStaged(tablestyle) {
 		return
 	}
 
@@ -1531,7 +1464,7 @@ func (stage *Stage) UnstageBranchTableStyle(tablestyle *TableStyle) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if tablestyle.Node != nil {
-		UnstageBranch(stage, tablestyle.Node)
+		stage.UnstageBranch(tablestyle.Node)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1541,7 +1474,7 @@ func (stage *Stage) UnstageBranchTableStyle(tablestyle *TableStyle) {
 func (stage *Stage) UnstageBranchText(text *Text) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, text) {
+	if !stage.IsStaged(text) {
 		return
 	}
 
@@ -1549,10 +1482,10 @@ func (stage *Stage) UnstageBranchText(text *Text) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if text.Node != nil {
-		UnstageBranch(stage, text.Node)
+		stage.UnstageBranch(text.Node)
 	}
 	if text.EnclosingRune != nil {
-		UnstageBranch(stage, text.EnclosingRune)
+		stage.UnstageBranch(text.EnclosingRune)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2087,7 +2020,7 @@ func (body *Body) GongDiff(stage *Stage, bodyOther *Body) (diffs []string) {
 		}
 	}
 	if ParagraphsDifferent {
-		ops := Diff(stage, body, bodyOther, "Paragraphs", bodyOther.Paragraphs, body.Paragraphs)
+		ops := stage.Diff(body, bodyOther, "Paragraphs", bodyOther.Paragraphs, body.Paragraphs)
 		diffs = append(diffs, ops)
 	}
 	TablesDifferent := false
@@ -2108,7 +2041,7 @@ func (body *Body) GongDiff(stage *Stage, bodyOther *Body) (diffs []string) {
 		}
 	}
 	if TablesDifferent {
-		ops := Diff(stage, body, bodyOther, "Tables", bodyOther.Tables, body.Tables)
+		ops := stage.Diff(body, bodyOther, "Tables", bodyOther.Tables, body.Tables)
 		diffs = append(diffs, ops)
 	}
 	if (body.LastParagraph == nil) != (bodyOther.LastParagraph == nil) {
@@ -2179,7 +2112,7 @@ func (docx *Docx) GongDiff(stage *Stage, docxOther *Docx) (diffs []string) {
 		}
 	}
 	if FilesDifferent {
-		ops := Diff(stage, docx, docxOther, "Files", docxOther.Files, docx.Files)
+		ops := stage.Diff(docx, docxOther, "Files", docxOther.Files, docx.Files)
 		diffs = append(diffs, ops)
 	}
 	if (docx.Document == nil) != (docxOther.Document == nil) {
@@ -2229,7 +2162,7 @@ func (node *Node) GongDiff(stage *Stage, nodeOther *Node) (diffs []string) {
 		}
 	}
 	if NodesDifferent {
-		ops := Diff(stage, node, nodeOther, "Nodes", nodeOther.Nodes, node.Nodes)
+		ops := stage.Diff(node, nodeOther, "Nodes", nodeOther.Nodes, node.Nodes)
 		diffs = append(diffs, ops)
 	}
 
@@ -2278,7 +2211,7 @@ func (paragraph *Paragraph) GongDiff(stage *Stage, paragraphOther *Paragraph) (d
 		}
 	}
 	if RunesDifferent {
-		ops := Diff(stage, paragraph, paragraphOther, "Runes", paragraphOther.Runes, paragraph.Runes)
+		ops := stage.Diff(paragraph, paragraphOther, "Runes", paragraphOther.Runes, paragraph.Runes)
 		diffs = append(diffs, ops)
 	}
 	if paragraph.CollatedText != paragraphOther.CollatedText {
@@ -2482,7 +2415,7 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 		}
 	}
 	if TableRowsDifferent {
-		ops := Diff(stage, table, tableOther, "TableRows", tableOther.TableRows, table.TableRows)
+		ops := stage.Diff(table, tableOther, "TableRows", tableOther.TableRows, table.TableRows)
 		diffs = append(diffs, ops)
 	}
 
@@ -2524,7 +2457,7 @@ func (tablecolumn *TableColumn) GongDiff(stage *Stage, tablecolumnOther *TableCo
 		}
 	}
 	if ParagraphsDifferent {
-		ops := Diff(stage, tablecolumn, tablecolumnOther, "Paragraphs", tablecolumnOther.Paragraphs, tablecolumn.Paragraphs)
+		ops := stage.Diff(tablecolumn, tablecolumnOther, "Paragraphs", tablecolumnOther.Paragraphs, tablecolumn.Paragraphs)
 		diffs = append(diffs, ops)
 	}
 
@@ -2594,7 +2527,7 @@ func (tablerow *TableRow) GongDiff(stage *Stage, tablerowOther *TableRow) (diffs
 		}
 	}
 	if TableColumnsDifferent {
-		ops := Diff(stage, tablerow, tablerowOther, "TableColumns", tablerowOther.TableColumns, tablerow.TableColumns)
+		ops := stage.Diff(tablerow, tablerowOther, "TableColumns", tablerowOther.TableColumns, tablerow.TableColumns)
 		diffs = append(diffs, ops)
 	}
 
@@ -2730,9 +2663,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

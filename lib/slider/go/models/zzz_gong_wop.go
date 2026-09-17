@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Checkbox_WOP struct {
@@ -21,7 +19,7 @@ type Checkbox_WOP struct {
 	LabelForFalse string
 }
 
-func (from *Checkbox) CopyBasicFields(to *Checkbox) {
+func (from *Checkbox) GongCopyBasicFields(to *Checkbox) {
 	// insertion point
 	to.Name = from.Name
 	to.ValueBool = from.ValueBool
@@ -37,7 +35,7 @@ type Group_WOP struct {
 	Percentage float64
 }
 
-func (from *Group) CopyBasicFields(to *Group) {
+func (from *Group) GongCopyBasicFields(to *Group) {
 	// insertion point
 	to.Name = from.Name
 	to.Percentage = from.Percentage
@@ -53,7 +51,7 @@ type Layout_WOP struct {
 	GutterSize float64
 }
 
-func (from *Layout) CopyBasicFields(to *Layout) {
+func (from *Layout) GongCopyBasicFields(to *Layout) {
 	// insertion point
 	to.Name = from.Name
 	to.IsWithCustomGutterSize = from.IsWithCustomGutterSize
@@ -88,7 +86,7 @@ type Slider_WOP struct {
 	IsDisabled bool
 }
 
-func (from *Slider) CopyBasicFields(to *Slider) {
+func (from *Slider) GongCopyBasicFields(to *Slider) {
 	// insertion point
 	to.Name = from.Name
 	to.IsFloat64 = from.IsFloat64

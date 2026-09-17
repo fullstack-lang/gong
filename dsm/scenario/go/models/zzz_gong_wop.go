@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type ActorState_WOP struct {
@@ -25,7 +23,7 @@ type ActorState_WOP struct {
 	IsExpanded bool
 }
 
-func (from *ActorState) CopyBasicFields(to *ActorState) {
+func (from *ActorState) GongCopyBasicFields(to *ActorState) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -51,7 +49,7 @@ type ActorStateShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ActorStateShape) CopyBasicFields(to *ActorStateShape) {
+func (from *ActorStateShape) GongCopyBasicFields(to *ActorStateShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -71,7 +69,7 @@ type ActorStateTransition_WOP struct {
 	IsExpanded bool
 }
 
-func (from *ActorStateTransition) CopyBasicFields(to *ActorStateTransition) {
+func (from *ActorStateTransition) GongCopyBasicFields(to *ActorStateTransition) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -94,7 +92,7 @@ type ActorStateTransitionShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ActorStateTransitionShape) CopyBasicFields(to *ActorStateTransitionShape) {
+func (from *ActorStateTransitionShape) GongCopyBasicFields(to *ActorStateTransitionShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -124,7 +122,7 @@ type Analysis_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Analysis) CopyBasicFields(to *Analysis) {
+func (from *Analysis) GongCopyBasicFields(to *Analysis) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -148,7 +146,7 @@ type ControlPointShape_WOP struct {
 	IsStartShapeTheClosestShape bool
 }
 
-func (from *ControlPointShape) CopyBasicFields(to *ControlPointShape) {
+func (from *ControlPointShape) GongCopyBasicFields(to *ControlPointShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X_Relative = from.X_Relative
@@ -200,7 +198,7 @@ type Diagram_WOP struct {
 	NumberOfYearsBetweenTicks int
 }
 
-func (from *Diagram) CopyBasicFields(to *Diagram) {
+func (from *Diagram) GongCopyBasicFields(to *Diagram) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -234,7 +232,7 @@ type Document_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Document) CopyBasicFields(to *Document) {
+func (from *Document) GongCopyBasicFields(to *Document) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -247,7 +245,7 @@ type DocumentUse_WOP struct {
 	Name string
 }
 
-func (from *DocumentUse) CopyBasicFields(to *DocumentUse) {
+func (from *DocumentUse) GongCopyBasicFields(to *DocumentUse) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -264,7 +262,7 @@ type EvolutionDirection_WOP struct {
 	IsExpanded bool
 }
 
-func (from *EvolutionDirection) CopyBasicFields(to *EvolutionDirection) {
+func (from *EvolutionDirection) GongCopyBasicFields(to *EvolutionDirection) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -288,7 +286,7 @@ type EvolutionDirectionShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *EvolutionDirectionShape) CopyBasicFields(to *EvolutionDirectionShape) {
+func (from *EvolutionDirectionShape) GongCopyBasicFields(to *EvolutionDirectionShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -304,7 +302,7 @@ type Foo_WOP struct {
 	Name string
 }
 
-func (from *Foo) CopyBasicFields(to *Foo) {
+func (from *Foo) GongCopyBasicFields(to *Foo) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -319,7 +317,7 @@ type GeoObject_WOP struct {
 	IsExpanded bool
 }
 
-func (from *GeoObject) CopyBasicFields(to *GeoObject) {
+func (from *GeoObject) GongCopyBasicFields(to *GeoObject) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -332,7 +330,7 @@ type GeoObjectUse_WOP struct {
 	Name string
 }
 
-func (from *GeoObjectUse) CopyBasicFields(to *GeoObjectUse) {
+func (from *GeoObjectUse) GongCopyBasicFields(to *GeoObjectUse) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -347,7 +345,7 @@ type Group_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Group) CopyBasicFields(to *Group) {
+func (from *Group) GongCopyBasicFields(to *Group) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -360,7 +358,7 @@ type GroupUse_WOP struct {
 	Name string
 }
 
-func (from *GroupUse) CopyBasicFields(to *GroupUse) {
+func (from *GroupUse) GongCopyBasicFields(to *GroupUse) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -389,7 +387,7 @@ type Library_WOP struct {
 	IsExpandedTmp bool
 }
 
-func (from *Library) CopyBasicFields(to *Library) {
+func (from *Library) GongCopyBasicFields(to *Library) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -413,7 +411,7 @@ type MapObject_WOP struct {
 	IsExpanded bool
 }
 
-func (from *MapObject) CopyBasicFields(to *MapObject) {
+func (from *MapObject) GongCopyBasicFields(to *MapObject) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -426,7 +424,7 @@ type MapObjectUse_WOP struct {
 	Name string
 }
 
-func (from *MapObjectUse) CopyBasicFields(to *MapObjectUse) {
+func (from *MapObjectUse) GongCopyBasicFields(to *MapObjectUse) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -453,7 +451,7 @@ type Parameter_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Parameter) CopyBasicFields(to *Parameter) {
+func (from *Parameter) GongCopyBasicFields(to *Parameter) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -476,7 +474,7 @@ type ParameterCategory_WOP struct {
 	IsExpanded bool
 }
 
-func (from *ParameterCategory) CopyBasicFields(to *ParameterCategory) {
+func (from *ParameterCategory) GongCopyBasicFields(to *ParameterCategory) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -489,7 +487,7 @@ type ParameterCategoryUse_WOP struct {
 	Name string
 }
 
-func (from *ParameterCategoryUse) CopyBasicFields(to *ParameterCategoryUse) {
+func (from *ParameterCategoryUse) GongCopyBasicFields(to *ParameterCategoryUse) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -514,7 +512,7 @@ type ParameterShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ParameterShape) CopyBasicFields(to *ParameterShape) {
+func (from *ParameterShape) GongCopyBasicFields(to *ParameterShape) {
 	// insertion point
 	to.Name = from.Name
 	to.Direction = from.Direction
@@ -540,7 +538,7 @@ type ParametersAggregate_WOP struct {
 	IsExpanded bool
 }
 
-func (from *ParametersAggregate) CopyBasicFields(to *ParametersAggregate) {
+func (from *ParametersAggregate) GongCopyBasicFields(to *ParametersAggregate) {
 	// insertion point
 	to.Name = from.Name
 	to.Tag = from.Tag
@@ -567,7 +565,7 @@ type ParametersAggregateShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ParametersAggregateShape) CopyBasicFields(to *ParametersAggregateShape) {
+func (from *ParametersAggregateShape) GongCopyBasicFields(to *ParametersAggregateShape) {
 	// insertion point
 	to.Name = from.Name
 	to.Direction = from.Direction
@@ -592,7 +590,7 @@ type Position_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Position) CopyBasicFields(to *Position) {
+func (from *Position) GongCopyBasicFields(to *Position) {
 	// insertion point
 	to.Name = from.Name
 	to.Date = from.Date
@@ -611,7 +609,7 @@ type Repository_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Repository) CopyBasicFields(to *Repository) {
+func (from *Repository) GongCopyBasicFields(to *Repository) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -642,7 +640,7 @@ type Scenario_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Scenario) CopyBasicFields(to *Scenario) {
+func (from *Scenario) GongCopyBasicFields(to *Scenario) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -666,7 +664,7 @@ type User_WOP struct {
 	IsExpanded bool
 }
 
-func (from *User) CopyBasicFields(to *User) {
+func (from *User) GongCopyBasicFields(to *User) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
@@ -679,7 +677,7 @@ type UserUse_WOP struct {
 	Name string
 }
 
-func (from *UserUse) CopyBasicFields(to *UserUse) {
+func (from *UserUse) GongCopyBasicFields(to *UserUse) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -694,7 +692,7 @@ type Workspace_WOP struct {
 	IsExpanded bool
 }
 
-func (from *Workspace) CopyBasicFields(to *Workspace) {
+func (from *Workspace) GongCopyBasicFields(to *Workspace) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix

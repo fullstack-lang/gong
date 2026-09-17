@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Body_WOP struct {
@@ -15,7 +13,7 @@ type Body_WOP struct {
 	Name string
 }
 
-func (from *Body) CopyBasicFields(to *Body) {
+func (from *Body) GongCopyBasicFields(to *Body) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -26,7 +24,7 @@ type Document_WOP struct {
 	Name string
 }
 
-func (from *Document) CopyBasicFields(to *Document) {
+func (from *Document) GongCopyBasicFields(to *Document) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -37,7 +35,7 @@ type Docx_WOP struct {
 	Name string
 }
 
-func (from *Docx) CopyBasicFields(to *Docx) {
+func (from *Docx) GongCopyBasicFields(to *Docx) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -48,7 +46,7 @@ type File_WOP struct {
 	Name string
 }
 
-func (from *File) CopyBasicFields(to *File) {
+func (from *File) GongCopyBasicFields(to *File) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -59,7 +57,7 @@ type Node_WOP struct {
 	Name string
 }
 
-func (from *Node) CopyBasicFields(to *Node) {
+func (from *Node) GongCopyBasicFields(to *Node) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -74,7 +72,7 @@ type Paragraph_WOP struct {
 	CollatedText string
 }
 
-func (from *Paragraph) CopyBasicFields(to *Paragraph) {
+func (from *Paragraph) GongCopyBasicFields(to *Paragraph) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content
@@ -89,7 +87,7 @@ type ParagraphProperties_WOP struct {
 	Content string
 }
 
-func (from *ParagraphProperties) CopyBasicFields(to *ParagraphProperties) {
+func (from *ParagraphProperties) GongCopyBasicFields(to *ParagraphProperties) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content
@@ -105,7 +103,7 @@ type ParagraphStyle_WOP struct {
 	ValAttr string
 }
 
-func (from *ParagraphStyle) CopyBasicFields(to *ParagraphStyle) {
+func (from *ParagraphStyle) GongCopyBasicFields(to *ParagraphStyle) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content
@@ -120,7 +118,7 @@ type Rune_WOP struct {
 	Content string
 }
 
-func (from *Rune) CopyBasicFields(to *Rune) {
+func (from *Rune) GongCopyBasicFields(to *Rune) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content
@@ -140,7 +138,7 @@ type RuneProperties_WOP struct {
 	Content string
 }
 
-func (from *RuneProperties) CopyBasicFields(to *RuneProperties) {
+func (from *RuneProperties) GongCopyBasicFields(to *RuneProperties) {
 	// insertion point
 	to.Name = from.Name
 	to.IsBold = from.IsBold
@@ -157,7 +155,7 @@ type Table_WOP struct {
 	Content string
 }
 
-func (from *Table) CopyBasicFields(to *Table) {
+func (from *Table) GongCopyBasicFields(to *Table) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content
@@ -171,7 +169,7 @@ type TableColumn_WOP struct {
 	Content string
 }
 
-func (from *TableColumn) CopyBasicFields(to *TableColumn) {
+func (from *TableColumn) GongCopyBasicFields(to *TableColumn) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content
@@ -185,7 +183,7 @@ type TableProperties_WOP struct {
 	Content string
 }
 
-func (from *TableProperties) CopyBasicFields(to *TableProperties) {
+func (from *TableProperties) GongCopyBasicFields(to *TableProperties) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content
@@ -199,7 +197,7 @@ type TableRow_WOP struct {
 	Content string
 }
 
-func (from *TableRow) CopyBasicFields(to *TableRow) {
+func (from *TableRow) GongCopyBasicFields(to *TableRow) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content
@@ -215,7 +213,7 @@ type TableStyle_WOP struct {
 	Val string
 }
 
-func (from *TableStyle) CopyBasicFields(to *TableStyle) {
+func (from *TableStyle) GongCopyBasicFields(to *TableStyle) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content
@@ -232,7 +230,7 @@ type Text_WOP struct {
 	PreserveWhiteSpace bool
 }
 
-func (from *Text) CopyBasicFields(to *Text) {
+func (from *Text) GongCopyBasicFields(to *Text) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content

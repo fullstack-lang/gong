@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Button_WOP struct {
@@ -25,7 +23,7 @@ type Button_WOP struct {
 	ToolTipPosition ToolTipPositionEnum
 }
 
-func (from *Button) CopyBasicFields(to *Button) {
+func (from *Button) GongCopyBasicFields(to *Button) {
 	// insertion point
 	to.Name = from.Name
 	to.Icon = from.Icon
@@ -41,7 +39,7 @@ type Cell_WOP struct {
 	Name string
 }
 
-func (from *Cell) CopyBasicFields(to *Cell) {
+func (from *Cell) GongCopyBasicFields(to *Cell) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -54,7 +52,7 @@ type CellBoolean_WOP struct {
 	Value bool
 }
 
-func (from *CellBoolean) CopyBasicFields(to *CellBoolean) {
+func (from *CellBoolean) GongCopyBasicFields(to *CellBoolean) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -68,7 +66,7 @@ type CellFloat64_WOP struct {
 	Value float64
 }
 
-func (from *CellFloat64) CopyBasicFields(to *CellFloat64) {
+func (from *CellFloat64) GongCopyBasicFields(to *CellFloat64) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -86,7 +84,7 @@ type CellIcon_WOP struct {
 	ConfirmationMessage string
 }
 
-func (from *CellIcon) CopyBasicFields(to *CellIcon) {
+func (from *CellIcon) GongCopyBasicFields(to *CellIcon) {
 	// insertion point
 	to.Name = from.Name
 	to.Icon = from.Icon
@@ -102,7 +100,7 @@ type CellInt_WOP struct {
 	Value int
 }
 
-func (from *CellInt) CopyBasicFields(to *CellInt) {
+func (from *CellInt) GongCopyBasicFields(to *CellInt) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -116,7 +114,7 @@ type CellString_WOP struct {
 	Value string
 }
 
-func (from *CellString) CopyBasicFields(to *CellString) {
+func (from *CellString) GongCopyBasicFields(to *CellString) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -128,7 +126,7 @@ type DisplayedColumn_WOP struct {
 	Name string
 }
 
-func (from *DisplayedColumn) CopyBasicFields(to *DisplayedColumn) {
+func (from *DisplayedColumn) GongCopyBasicFields(to *DisplayedColumn) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -141,7 +139,7 @@ type Row_WOP struct {
 	IsChecked bool
 }
 
-func (from *Row) CopyBasicFields(to *Row) {
+func (from *Row) GongCopyBasicFields(to *Row) {
 	// insertion point
 	to.Name = from.Name
 	to.IsChecked = from.IsChecked
@@ -155,7 +153,7 @@ type SVGIcon_WOP struct {
 	SVG string
 }
 
-func (from *SVGIcon) CopyBasicFields(to *SVGIcon) {
+func (from *SVGIcon) GongCopyBasicFields(to *SVGIcon) {
 	// insertion point
 	to.Name = from.Name
 	to.SVG = from.SVG
@@ -191,7 +189,7 @@ type Table_WOP struct {
 	NbOfStickyColumns int
 }
 
-func (from *Table) CopyBasicFields(to *Table) {
+func (from *Table) GongCopyBasicFields(to *Table) {
 	// insertion point
 	to.Name = from.Name
 	to.HasFiltering = from.HasFiltering

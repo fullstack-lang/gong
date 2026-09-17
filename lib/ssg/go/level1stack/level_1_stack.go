@@ -99,7 +99,7 @@ func NewLevel1StackDelta(
 	}
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -124,14 +124,14 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.Chapter](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Content](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DownloadableFile](stage)
-	models.SetOrchestratorOnAfterUpdate[models.JpgImage](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Page](stage)
-	models.SetOrchestratorOnAfterUpdate[models.PngImage](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Section](stage)
-	models.SetOrchestratorOnAfterUpdate[models.SvgImage](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.Chapter]()
+	stage.SetOrchestratorOnAfterUpdate[models.Content]()
+	stage.SetOrchestratorOnAfterUpdate[models.DownloadableFile]()
+	stage.SetOrchestratorOnAfterUpdate[models.JpgImage]()
+	stage.SetOrchestratorOnAfterUpdate[models.Page]()
+	stage.SetOrchestratorOnAfterUpdate[models.PngImage]()
+	stage.SetOrchestratorOnAfterUpdate[models.Section]()
+	stage.SetOrchestratorOnAfterUpdate[models.SvgImage]()
 
 	return
 }

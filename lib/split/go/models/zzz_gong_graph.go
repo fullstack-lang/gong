@@ -74,80 +74,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *AsSplit:
-		ok = stage.IsStagedAsSplit(target)
-
-	case *AsSplitArea:
-		ok = stage.IsStagedAsSplitArea(target)
-
-	case *Button:
-		ok = stage.IsStagedButton(target)
-
-	case *Cursor:
-		ok = stage.IsStagedCursor(target)
-
-	case *FavIcon:
-		ok = stage.IsStagedFavIcon(target)
-
-	case *Form:
-		ok = stage.IsStagedForm(target)
-
-	case *Load:
-		ok = stage.IsStagedLoad(target)
-
-	case *LogoOnTheLeft:
-		ok = stage.IsStagedLogoOnTheLeft(target)
-
-	case *LogoOnTheRight:
-		ok = stage.IsStagedLogoOnTheRight(target)
-
-	case *Markdown:
-		ok = stage.IsStagedMarkdown(target)
-
-	case *Slider:
-		ok = stage.IsStagedSlider(target)
-
-	case *Split:
-		ok = stage.IsStagedSplit(target)
-
-	case *Svg:
-		ok = stage.IsStagedSvg(target)
-
-	case *Table:
-		ok = stage.IsStagedTable(target)
-
-	case *Threejs:
-		ok = stage.IsStagedThreejs(target)
-
-	case *Title:
-		ok = stage.IsStagedTitle(target)
-
-	case *Tone:
-		ok = stage.IsStagedTone(target)
-
-	case *Tree:
-		ok = stage.IsStagedTree(target)
-
-	case *View:
-		ok = stage.IsStagedView(target)
-
-	case *Xlsx:
-		ok = stage.IsStagedXlsx(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedAsSplit(assplit *AsSplit) (ok bool) {
 
@@ -368,7 +294,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchAsSplit(assplit *AsSplit) {
 
 	// check if instance is already staged
-	if IsStaged(stage, assplit) {
+	if stage.IsStaged(assplit) {
 		return
 	}
 
@@ -378,7 +304,7 @@ func (stage *Stage) StageBranchAsSplit(assplit *AsSplit) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplitarea := range assplit.AsSplitAreas {
-		StageBranch(stage, _assplitarea)
+		stage.StageBranch(_assplitarea)
 	}
 
 }
@@ -386,7 +312,7 @@ func (stage *Stage) StageBranchAsSplit(assplit *AsSplit) {
 func (stage *Stage) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 
 	// check if instance is already staged
-	if IsStaged(stage, assplitarea) {
+	if stage.IsStaged(assplitarea) {
 		return
 	}
 
@@ -394,46 +320,46 @@ func (stage *Stage) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if assplitarea.AsSplit != nil {
-		StageBranch(stage, assplitarea.AsSplit)
+		stage.StageBranch(assplitarea.AsSplit)
 	}
 	if assplitarea.Button != nil {
-		StageBranch(stage, assplitarea.Button)
+		stage.StageBranch(assplitarea.Button)
 	}
 	if assplitarea.Cursor != nil {
-		StageBranch(stage, assplitarea.Cursor)
+		stage.StageBranch(assplitarea.Cursor)
 	}
 	if assplitarea.Form != nil {
-		StageBranch(stage, assplitarea.Form)
+		stage.StageBranch(assplitarea.Form)
 	}
 	if assplitarea.Load != nil {
-		StageBranch(stage, assplitarea.Load)
+		stage.StageBranch(assplitarea.Load)
 	}
 	if assplitarea.Markdown != nil {
-		StageBranch(stage, assplitarea.Markdown)
+		stage.StageBranch(assplitarea.Markdown)
 	}
 	if assplitarea.Slider != nil {
-		StageBranch(stage, assplitarea.Slider)
+		stage.StageBranch(assplitarea.Slider)
 	}
 	if assplitarea.Split != nil {
-		StageBranch(stage, assplitarea.Split)
+		stage.StageBranch(assplitarea.Split)
 	}
 	if assplitarea.Svg != nil {
-		StageBranch(stage, assplitarea.Svg)
+		stage.StageBranch(assplitarea.Svg)
 	}
 	if assplitarea.Table != nil {
-		StageBranch(stage, assplitarea.Table)
+		stage.StageBranch(assplitarea.Table)
 	}
 	if assplitarea.Tone != nil {
-		StageBranch(stage, assplitarea.Tone)
+		stage.StageBranch(assplitarea.Tone)
 	}
 	if assplitarea.Tree != nil {
-		StageBranch(stage, assplitarea.Tree)
+		stage.StageBranch(assplitarea.Tree)
 	}
 	if assplitarea.Threejs != nil {
-		StageBranch(stage, assplitarea.Threejs)
+		stage.StageBranch(assplitarea.Threejs)
 	}
 	if assplitarea.Xlsx != nil {
-		StageBranch(stage, assplitarea.Xlsx)
+		stage.StageBranch(assplitarea.Xlsx)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -443,7 +369,7 @@ func (stage *Stage) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 func (stage *Stage) StageBranchButton(button *Button) {
 
 	// check if instance is already staged
-	if IsStaged(stage, button) {
+	if stage.IsStaged(button) {
 		return
 	}
 
@@ -458,7 +384,7 @@ func (stage *Stage) StageBranchButton(button *Button) {
 func (stage *Stage) StageBranchCursor(cursor *Cursor) {
 
 	// check if instance is already staged
-	if IsStaged(stage, cursor) {
+	if stage.IsStaged(cursor) {
 		return
 	}
 
@@ -473,7 +399,7 @@ func (stage *Stage) StageBranchCursor(cursor *Cursor) {
 func (stage *Stage) StageBranchFavIcon(favicon *FavIcon) {
 
 	// check if instance is already staged
-	if IsStaged(stage, favicon) {
+	if stage.IsStaged(favicon) {
 		return
 	}
 
@@ -488,7 +414,7 @@ func (stage *Stage) StageBranchFavIcon(favicon *FavIcon) {
 func (stage *Stage) StageBranchForm(form *Form) {
 
 	// check if instance is already staged
-	if IsStaged(stage, form) {
+	if stage.IsStaged(form) {
 		return
 	}
 
@@ -503,7 +429,7 @@ func (stage *Stage) StageBranchForm(form *Form) {
 func (stage *Stage) StageBranchLoad(load *Load) {
 
 	// check if instance is already staged
-	if IsStaged(stage, load) {
+	if stage.IsStaged(load) {
 		return
 	}
 
@@ -518,7 +444,7 @@ func (stage *Stage) StageBranchLoad(load *Load) {
 func (stage *Stage) StageBranchLogoOnTheLeft(logoontheleft *LogoOnTheLeft) {
 
 	// check if instance is already staged
-	if IsStaged(stage, logoontheleft) {
+	if stage.IsStaged(logoontheleft) {
 		return
 	}
 
@@ -533,7 +459,7 @@ func (stage *Stage) StageBranchLogoOnTheLeft(logoontheleft *LogoOnTheLeft) {
 func (stage *Stage) StageBranchLogoOnTheRight(logoontheright *LogoOnTheRight) {
 
 	// check if instance is already staged
-	if IsStaged(stage, logoontheright) {
+	if stage.IsStaged(logoontheright) {
 		return
 	}
 
@@ -548,7 +474,7 @@ func (stage *Stage) StageBranchLogoOnTheRight(logoontheright *LogoOnTheRight) {
 func (stage *Stage) StageBranchMarkdown(markdown *Markdown) {
 
 	// check if instance is already staged
-	if IsStaged(stage, markdown) {
+	if stage.IsStaged(markdown) {
 		return
 	}
 
@@ -563,7 +489,7 @@ func (stage *Stage) StageBranchMarkdown(markdown *Markdown) {
 func (stage *Stage) StageBranchSlider(slider *Slider) {
 
 	// check if instance is already staged
-	if IsStaged(stage, slider) {
+	if stage.IsStaged(slider) {
 		return
 	}
 
@@ -578,7 +504,7 @@ func (stage *Stage) StageBranchSlider(slider *Slider) {
 func (stage *Stage) StageBranchSplit(split *Split) {
 
 	// check if instance is already staged
-	if IsStaged(stage, split) {
+	if stage.IsStaged(split) {
 		return
 	}
 
@@ -593,7 +519,7 @@ func (stage *Stage) StageBranchSplit(split *Split) {
 func (stage *Stage) StageBranchSvg(svg *Svg) {
 
 	// check if instance is already staged
-	if IsStaged(stage, svg) {
+	if stage.IsStaged(svg) {
 		return
 	}
 
@@ -608,7 +534,7 @@ func (stage *Stage) StageBranchSvg(svg *Svg) {
 func (stage *Stage) StageBranchTable(table *Table) {
 
 	// check if instance is already staged
-	if IsStaged(stage, table) {
+	if stage.IsStaged(table) {
 		return
 	}
 
@@ -623,7 +549,7 @@ func (stage *Stage) StageBranchTable(table *Table) {
 func (stage *Stage) StageBranchThreejs(threejs *Threejs) {
 
 	// check if instance is already staged
-	if IsStaged(stage, threejs) {
+	if stage.IsStaged(threejs) {
 		return
 	}
 
@@ -638,7 +564,7 @@ func (stage *Stage) StageBranchThreejs(threejs *Threejs) {
 func (stage *Stage) StageBranchTitle(title *Title) {
 
 	// check if instance is already staged
-	if IsStaged(stage, title) {
+	if stage.IsStaged(title) {
 		return
 	}
 
@@ -653,7 +579,7 @@ func (stage *Stage) StageBranchTitle(title *Title) {
 func (stage *Stage) StageBranchTone(tone *Tone) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tone) {
+	if stage.IsStaged(tone) {
 		return
 	}
 
@@ -668,7 +594,7 @@ func (stage *Stage) StageBranchTone(tone *Tone) {
 func (stage *Stage) StageBranchTree(tree *Tree) {
 
 	// check if instance is already staged
-	if IsStaged(stage, tree) {
+	if stage.IsStaged(tree) {
 		return
 	}
 
@@ -683,7 +609,7 @@ func (stage *Stage) StageBranchTree(tree *Tree) {
 func (stage *Stage) StageBranchView(view *View) {
 
 	// check if instance is already staged
-	if IsStaged(stage, view) {
+	if stage.IsStaged(view) {
 		return
 	}
 
@@ -693,7 +619,7 @@ func (stage *Stage) StageBranchView(view *View) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplitarea := range view.RootAsSplitAreas {
-		StageBranch(stage, _assplitarea)
+		stage.StageBranch(_assplitarea)
 	}
 
 }
@@ -701,7 +627,7 @@ func (stage *Stage) StageBranchView(view *View) {
 func (stage *Stage) StageBranchXlsx(xlsx *Xlsx) {
 
 	// check if instance is already staged
-	if IsStaged(stage, xlsx) {
+	if stage.IsStaged(xlsx) {
 		return
 	}
 
@@ -713,11 +639,11 @@ func (stage *Stage) StageBranchXlsx(xlsx *Xlsx) {
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -725,83 +651,83 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *AsSplit:
-		toT := CopyBranchAsSplit(mapOrigCopy, fromT)
+		toT := GongCopyBranchAsSplit(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *AsSplitArea:
-		toT := CopyBranchAsSplitArea(mapOrigCopy, fromT)
+		toT := GongCopyBranchAsSplitArea(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Button:
-		toT := CopyBranchButton(mapOrigCopy, fromT)
+		toT := GongCopyBranchButton(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Cursor:
-		toT := CopyBranchCursor(mapOrigCopy, fromT)
+		toT := GongCopyBranchCursor(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *FavIcon:
-		toT := CopyBranchFavIcon(mapOrigCopy, fromT)
+		toT := GongCopyBranchFavIcon(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Form:
-		toT := CopyBranchForm(mapOrigCopy, fromT)
+		toT := GongCopyBranchForm(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Load:
-		toT := CopyBranchLoad(mapOrigCopy, fromT)
+		toT := GongCopyBranchLoad(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *LogoOnTheLeft:
-		toT := CopyBranchLogoOnTheLeft(mapOrigCopy, fromT)
+		toT := GongCopyBranchLogoOnTheLeft(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *LogoOnTheRight:
-		toT := CopyBranchLogoOnTheRight(mapOrigCopy, fromT)
+		toT := GongCopyBranchLogoOnTheRight(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Markdown:
-		toT := CopyBranchMarkdown(mapOrigCopy, fromT)
+		toT := GongCopyBranchMarkdown(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Slider:
-		toT := CopyBranchSlider(mapOrigCopy, fromT)
+		toT := GongCopyBranchSlider(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Split:
-		toT := CopyBranchSplit(mapOrigCopy, fromT)
+		toT := GongCopyBranchSplit(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Svg:
-		toT := CopyBranchSvg(mapOrigCopy, fromT)
+		toT := GongCopyBranchSvg(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Table:
-		toT := CopyBranchTable(mapOrigCopy, fromT)
+		toT := GongCopyBranchTable(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Threejs:
-		toT := CopyBranchThreejs(mapOrigCopy, fromT)
+		toT := GongCopyBranchThreejs(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Title:
-		toT := CopyBranchTitle(mapOrigCopy, fromT)
+		toT := GongCopyBranchTitle(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tone:
-		toT := CopyBranchTone(mapOrigCopy, fromT)
+		toT := GongCopyBranchTone(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tree:
-		toT := CopyBranchTree(mapOrigCopy, fromT)
+		toT := GongCopyBranchTree(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *View:
-		toT := CopyBranchView(mapOrigCopy, fromT)
+		toT := GongCopyBranchView(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Xlsx:
-		toT := CopyBranchXlsx(mapOrigCopy, fromT)
+		toT := GongCopyBranchXlsx(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -811,7 +737,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchAsSplit(mapOrigCopy map[any]any, assplitFrom *AsSplit) (assplitTo *AsSplit) {
+func GongCopyBranchAsSplit(mapOrigCopy map[any]any, assplitFrom *AsSplit) (assplitTo *AsSplit) {
 
 	// assplitFrom has already been copied
 	if _assplitTo, ok := mapOrigCopy[assplitFrom]; ok {
@@ -821,19 +747,19 @@ func CopyBranchAsSplit(mapOrigCopy map[any]any, assplitFrom *AsSplit) (assplitTo
 
 	assplitTo = new(AsSplit)
 	mapOrigCopy[assplitFrom] = assplitTo
-	assplitFrom.CopyBasicFields(assplitTo)
+	assplitFrom.GongCopyBasicFields(assplitTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplitarea := range assplitFrom.AsSplitAreas {
-		assplitTo.AsSplitAreas = append(assplitTo.AsSplitAreas, CopyBranchAsSplitArea(mapOrigCopy, _assplitarea))
+		assplitTo.AsSplitAreas = append(assplitTo.AsSplitAreas, GongCopyBranchAsSplitArea(mapOrigCopy, _assplitarea))
 	}
 
 	return
 }
 
-func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea) (assplitareaTo *AsSplitArea) {
+func GongCopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea) (assplitareaTo *AsSplitArea) {
 
 	// assplitareaFrom has already been copied
 	if _assplitareaTo, ok := mapOrigCopy[assplitareaFrom]; ok {
@@ -843,50 +769,50 @@ func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea
 
 	assplitareaTo = new(AsSplitArea)
 	mapOrigCopy[assplitareaFrom] = assplitareaTo
-	assplitareaFrom.CopyBasicFields(assplitareaTo)
+	assplitareaFrom.GongCopyBasicFields(assplitareaTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if assplitareaFrom.AsSplit != nil {
-		assplitareaTo.AsSplit = CopyBranchAsSplit(mapOrigCopy, assplitareaFrom.AsSplit)
+		assplitareaTo.AsSplit = GongCopyBranchAsSplit(mapOrigCopy, assplitareaFrom.AsSplit)
 	}
 	if assplitareaFrom.Button != nil {
-		assplitareaTo.Button = CopyBranchButton(mapOrigCopy, assplitareaFrom.Button)
+		assplitareaTo.Button = GongCopyBranchButton(mapOrigCopy, assplitareaFrom.Button)
 	}
 	if assplitareaFrom.Cursor != nil {
-		assplitareaTo.Cursor = CopyBranchCursor(mapOrigCopy, assplitareaFrom.Cursor)
+		assplitareaTo.Cursor = GongCopyBranchCursor(mapOrigCopy, assplitareaFrom.Cursor)
 	}
 	if assplitareaFrom.Form != nil {
-		assplitareaTo.Form = CopyBranchForm(mapOrigCopy, assplitareaFrom.Form)
+		assplitareaTo.Form = GongCopyBranchForm(mapOrigCopy, assplitareaFrom.Form)
 	}
 	if assplitareaFrom.Load != nil {
-		assplitareaTo.Load = CopyBranchLoad(mapOrigCopy, assplitareaFrom.Load)
+		assplitareaTo.Load = GongCopyBranchLoad(mapOrigCopy, assplitareaFrom.Load)
 	}
 	if assplitareaFrom.Markdown != nil {
-		assplitareaTo.Markdown = CopyBranchMarkdown(mapOrigCopy, assplitareaFrom.Markdown)
+		assplitareaTo.Markdown = GongCopyBranchMarkdown(mapOrigCopy, assplitareaFrom.Markdown)
 	}
 	if assplitareaFrom.Slider != nil {
-		assplitareaTo.Slider = CopyBranchSlider(mapOrigCopy, assplitareaFrom.Slider)
+		assplitareaTo.Slider = GongCopyBranchSlider(mapOrigCopy, assplitareaFrom.Slider)
 	}
 	if assplitareaFrom.Split != nil {
-		assplitareaTo.Split = CopyBranchSplit(mapOrigCopy, assplitareaFrom.Split)
+		assplitareaTo.Split = GongCopyBranchSplit(mapOrigCopy, assplitareaFrom.Split)
 	}
 	if assplitareaFrom.Svg != nil {
-		assplitareaTo.Svg = CopyBranchSvg(mapOrigCopy, assplitareaFrom.Svg)
+		assplitareaTo.Svg = GongCopyBranchSvg(mapOrigCopy, assplitareaFrom.Svg)
 	}
 	if assplitareaFrom.Table != nil {
-		assplitareaTo.Table = CopyBranchTable(mapOrigCopy, assplitareaFrom.Table)
+		assplitareaTo.Table = GongCopyBranchTable(mapOrigCopy, assplitareaFrom.Table)
 	}
 	if assplitareaFrom.Tone != nil {
-		assplitareaTo.Tone = CopyBranchTone(mapOrigCopy, assplitareaFrom.Tone)
+		assplitareaTo.Tone = GongCopyBranchTone(mapOrigCopy, assplitareaFrom.Tone)
 	}
 	if assplitareaFrom.Tree != nil {
-		assplitareaTo.Tree = CopyBranchTree(mapOrigCopy, assplitareaFrom.Tree)
+		assplitareaTo.Tree = GongCopyBranchTree(mapOrigCopy, assplitareaFrom.Tree)
 	}
 	if assplitareaFrom.Threejs != nil {
-		assplitareaTo.Threejs = CopyBranchThreejs(mapOrigCopy, assplitareaFrom.Threejs)
+		assplitareaTo.Threejs = GongCopyBranchThreejs(mapOrigCopy, assplitareaFrom.Threejs)
 	}
 	if assplitareaFrom.Xlsx != nil {
-		assplitareaTo.Xlsx = CopyBranchXlsx(mapOrigCopy, assplitareaFrom.Xlsx)
+		assplitareaTo.Xlsx = GongCopyBranchXlsx(mapOrigCopy, assplitareaFrom.Xlsx)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -894,7 +820,7 @@ func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea
 	return
 }
 
-func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Button) {
+func GongCopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Button) {
 
 	// buttonFrom has already been copied
 	if _buttonTo, ok := mapOrigCopy[buttonFrom]; ok {
@@ -904,7 +830,7 @@ func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Bu
 
 	buttonTo = new(Button)
 	mapOrigCopy[buttonFrom] = buttonTo
-	buttonFrom.CopyBasicFields(buttonTo)
+	buttonFrom.GongCopyBasicFields(buttonTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -913,7 +839,7 @@ func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Bu
 	return
 }
 
-func CopyBranchCursor(mapOrigCopy map[any]any, cursorFrom *Cursor) (cursorTo *Cursor) {
+func GongCopyBranchCursor(mapOrigCopy map[any]any, cursorFrom *Cursor) (cursorTo *Cursor) {
 
 	// cursorFrom has already been copied
 	if _cursorTo, ok := mapOrigCopy[cursorFrom]; ok {
@@ -923,7 +849,7 @@ func CopyBranchCursor(mapOrigCopy map[any]any, cursorFrom *Cursor) (cursorTo *Cu
 
 	cursorTo = new(Cursor)
 	mapOrigCopy[cursorFrom] = cursorTo
-	cursorFrom.CopyBasicFields(cursorTo)
+	cursorFrom.GongCopyBasicFields(cursorTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -932,7 +858,7 @@ func CopyBranchCursor(mapOrigCopy map[any]any, cursorFrom *Cursor) (cursorTo *Cu
 	return
 }
 
-func CopyBranchFavIcon(mapOrigCopy map[any]any, faviconFrom *FavIcon) (faviconTo *FavIcon) {
+func GongCopyBranchFavIcon(mapOrigCopy map[any]any, faviconFrom *FavIcon) (faviconTo *FavIcon) {
 
 	// faviconFrom has already been copied
 	if _faviconTo, ok := mapOrigCopy[faviconFrom]; ok {
@@ -942,7 +868,7 @@ func CopyBranchFavIcon(mapOrigCopy map[any]any, faviconFrom *FavIcon) (faviconTo
 
 	faviconTo = new(FavIcon)
 	mapOrigCopy[faviconFrom] = faviconTo
-	faviconFrom.CopyBasicFields(faviconTo)
+	faviconFrom.GongCopyBasicFields(faviconTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -951,7 +877,7 @@ func CopyBranchFavIcon(mapOrigCopy map[any]any, faviconFrom *FavIcon) (faviconTo
 	return
 }
 
-func CopyBranchForm(mapOrigCopy map[any]any, formFrom *Form) (formTo *Form) {
+func GongCopyBranchForm(mapOrigCopy map[any]any, formFrom *Form) (formTo *Form) {
 
 	// formFrom has already been copied
 	if _formTo, ok := mapOrigCopy[formFrom]; ok {
@@ -961,7 +887,7 @@ func CopyBranchForm(mapOrigCopy map[any]any, formFrom *Form) (formTo *Form) {
 
 	formTo = new(Form)
 	mapOrigCopy[formFrom] = formTo
-	formFrom.CopyBasicFields(formTo)
+	formFrom.GongCopyBasicFields(formTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -970,7 +896,7 @@ func CopyBranchForm(mapOrigCopy map[any]any, formFrom *Form) (formTo *Form) {
 	return
 }
 
-func CopyBranchLoad(mapOrigCopy map[any]any, loadFrom *Load) (loadTo *Load) {
+func GongCopyBranchLoad(mapOrigCopy map[any]any, loadFrom *Load) (loadTo *Load) {
 
 	// loadFrom has already been copied
 	if _loadTo, ok := mapOrigCopy[loadFrom]; ok {
@@ -980,7 +906,7 @@ func CopyBranchLoad(mapOrigCopy map[any]any, loadFrom *Load) (loadTo *Load) {
 
 	loadTo = new(Load)
 	mapOrigCopy[loadFrom] = loadTo
-	loadFrom.CopyBasicFields(loadTo)
+	loadFrom.GongCopyBasicFields(loadTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -989,7 +915,7 @@ func CopyBranchLoad(mapOrigCopy map[any]any, loadFrom *Load) (loadTo *Load) {
 	return
 }
 
-func CopyBranchLogoOnTheLeft(mapOrigCopy map[any]any, logoontheleftFrom *LogoOnTheLeft) (logoontheleftTo *LogoOnTheLeft) {
+func GongCopyBranchLogoOnTheLeft(mapOrigCopy map[any]any, logoontheleftFrom *LogoOnTheLeft) (logoontheleftTo *LogoOnTheLeft) {
 
 	// logoontheleftFrom has already been copied
 	if _logoontheleftTo, ok := mapOrigCopy[logoontheleftFrom]; ok {
@@ -999,7 +925,7 @@ func CopyBranchLogoOnTheLeft(mapOrigCopy map[any]any, logoontheleftFrom *LogoOnT
 
 	logoontheleftTo = new(LogoOnTheLeft)
 	mapOrigCopy[logoontheleftFrom] = logoontheleftTo
-	logoontheleftFrom.CopyBasicFields(logoontheleftTo)
+	logoontheleftFrom.GongCopyBasicFields(logoontheleftTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1008,7 +934,7 @@ func CopyBranchLogoOnTheLeft(mapOrigCopy map[any]any, logoontheleftFrom *LogoOnT
 	return
 }
 
-func CopyBranchLogoOnTheRight(mapOrigCopy map[any]any, logoontherightFrom *LogoOnTheRight) (logoontherightTo *LogoOnTheRight) {
+func GongCopyBranchLogoOnTheRight(mapOrigCopy map[any]any, logoontherightFrom *LogoOnTheRight) (logoontherightTo *LogoOnTheRight) {
 
 	// logoontherightFrom has already been copied
 	if _logoontherightTo, ok := mapOrigCopy[logoontherightFrom]; ok {
@@ -1018,7 +944,7 @@ func CopyBranchLogoOnTheRight(mapOrigCopy map[any]any, logoontherightFrom *LogoO
 
 	logoontherightTo = new(LogoOnTheRight)
 	mapOrigCopy[logoontherightFrom] = logoontherightTo
-	logoontherightFrom.CopyBasicFields(logoontherightTo)
+	logoontherightFrom.GongCopyBasicFields(logoontherightTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1027,7 +953,7 @@ func CopyBranchLogoOnTheRight(mapOrigCopy map[any]any, logoontherightFrom *LogoO
 	return
 }
 
-func CopyBranchMarkdown(mapOrigCopy map[any]any, markdownFrom *Markdown) (markdownTo *Markdown) {
+func GongCopyBranchMarkdown(mapOrigCopy map[any]any, markdownFrom *Markdown) (markdownTo *Markdown) {
 
 	// markdownFrom has already been copied
 	if _markdownTo, ok := mapOrigCopy[markdownFrom]; ok {
@@ -1037,7 +963,7 @@ func CopyBranchMarkdown(mapOrigCopy map[any]any, markdownFrom *Markdown) (markdo
 
 	markdownTo = new(Markdown)
 	mapOrigCopy[markdownFrom] = markdownTo
-	markdownFrom.CopyBasicFields(markdownTo)
+	markdownFrom.GongCopyBasicFields(markdownTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1046,7 +972,7 @@ func CopyBranchMarkdown(mapOrigCopy map[any]any, markdownFrom *Markdown) (markdo
 	return
 }
 
-func CopyBranchSlider(mapOrigCopy map[any]any, sliderFrom *Slider) (sliderTo *Slider) {
+func GongCopyBranchSlider(mapOrigCopy map[any]any, sliderFrom *Slider) (sliderTo *Slider) {
 
 	// sliderFrom has already been copied
 	if _sliderTo, ok := mapOrigCopy[sliderFrom]; ok {
@@ -1056,7 +982,7 @@ func CopyBranchSlider(mapOrigCopy map[any]any, sliderFrom *Slider) (sliderTo *Sl
 
 	sliderTo = new(Slider)
 	mapOrigCopy[sliderFrom] = sliderTo
-	sliderFrom.CopyBasicFields(sliderTo)
+	sliderFrom.GongCopyBasicFields(sliderTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1065,7 +991,7 @@ func CopyBranchSlider(mapOrigCopy map[any]any, sliderFrom *Slider) (sliderTo *Sl
 	return
 }
 
-func CopyBranchSplit(mapOrigCopy map[any]any, splitFrom *Split) (splitTo *Split) {
+func GongCopyBranchSplit(mapOrigCopy map[any]any, splitFrom *Split) (splitTo *Split) {
 
 	// splitFrom has already been copied
 	if _splitTo, ok := mapOrigCopy[splitFrom]; ok {
@@ -1075,7 +1001,7 @@ func CopyBranchSplit(mapOrigCopy map[any]any, splitFrom *Split) (splitTo *Split)
 
 	splitTo = new(Split)
 	mapOrigCopy[splitFrom] = splitTo
-	splitFrom.CopyBasicFields(splitTo)
+	splitFrom.GongCopyBasicFields(splitTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1084,7 +1010,7 @@ func CopyBranchSplit(mapOrigCopy map[any]any, splitFrom *Split) (splitTo *Split)
 	return
 }
 
-func CopyBranchSvg(mapOrigCopy map[any]any, svgFrom *Svg) (svgTo *Svg) {
+func GongCopyBranchSvg(mapOrigCopy map[any]any, svgFrom *Svg) (svgTo *Svg) {
 
 	// svgFrom has already been copied
 	if _svgTo, ok := mapOrigCopy[svgFrom]; ok {
@@ -1094,7 +1020,7 @@ func CopyBranchSvg(mapOrigCopy map[any]any, svgFrom *Svg) (svgTo *Svg) {
 
 	svgTo = new(Svg)
 	mapOrigCopy[svgFrom] = svgTo
-	svgFrom.CopyBasicFields(svgTo)
+	svgFrom.GongCopyBasicFields(svgTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1103,7 +1029,7 @@ func CopyBranchSvg(mapOrigCopy map[any]any, svgFrom *Svg) (svgTo *Svg) {
 	return
 }
 
-func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table) {
+func GongCopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table) {
 
 	// tableFrom has already been copied
 	if _tableTo, ok := mapOrigCopy[tableFrom]; ok {
@@ -1113,7 +1039,7 @@ func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table)
 
 	tableTo = new(Table)
 	mapOrigCopy[tableFrom] = tableTo
-	tableFrom.CopyBasicFields(tableTo)
+	tableFrom.GongCopyBasicFields(tableTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1122,7 +1048,7 @@ func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table)
 	return
 }
 
-func CopyBranchThreejs(mapOrigCopy map[any]any, threejsFrom *Threejs) (threejsTo *Threejs) {
+func GongCopyBranchThreejs(mapOrigCopy map[any]any, threejsFrom *Threejs) (threejsTo *Threejs) {
 
 	// threejsFrom has already been copied
 	if _threejsTo, ok := mapOrigCopy[threejsFrom]; ok {
@@ -1132,7 +1058,7 @@ func CopyBranchThreejs(mapOrigCopy map[any]any, threejsFrom *Threejs) (threejsTo
 
 	threejsTo = new(Threejs)
 	mapOrigCopy[threejsFrom] = threejsTo
-	threejsFrom.CopyBasicFields(threejsTo)
+	threejsFrom.GongCopyBasicFields(threejsTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1141,7 +1067,7 @@ func CopyBranchThreejs(mapOrigCopy map[any]any, threejsFrom *Threejs) (threejsTo
 	return
 }
 
-func CopyBranchTitle(mapOrigCopy map[any]any, titleFrom *Title) (titleTo *Title) {
+func GongCopyBranchTitle(mapOrigCopy map[any]any, titleFrom *Title) (titleTo *Title) {
 
 	// titleFrom has already been copied
 	if _titleTo, ok := mapOrigCopy[titleFrom]; ok {
@@ -1151,7 +1077,7 @@ func CopyBranchTitle(mapOrigCopy map[any]any, titleFrom *Title) (titleTo *Title)
 
 	titleTo = new(Title)
 	mapOrigCopy[titleFrom] = titleTo
-	titleFrom.CopyBasicFields(titleTo)
+	titleFrom.GongCopyBasicFields(titleTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1160,7 +1086,7 @@ func CopyBranchTitle(mapOrigCopy map[any]any, titleFrom *Title) (titleTo *Title)
 	return
 }
 
-func CopyBranchTone(mapOrigCopy map[any]any, toneFrom *Tone) (toneTo *Tone) {
+func GongCopyBranchTone(mapOrigCopy map[any]any, toneFrom *Tone) (toneTo *Tone) {
 
 	// toneFrom has already been copied
 	if _toneTo, ok := mapOrigCopy[toneFrom]; ok {
@@ -1170,7 +1096,7 @@ func CopyBranchTone(mapOrigCopy map[any]any, toneFrom *Tone) (toneTo *Tone) {
 
 	toneTo = new(Tone)
 	mapOrigCopy[toneFrom] = toneTo
-	toneFrom.CopyBasicFields(toneTo)
+	toneFrom.GongCopyBasicFields(toneTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1179,7 +1105,7 @@ func CopyBranchTone(mapOrigCopy map[any]any, toneFrom *Tone) (toneTo *Tone) {
 	return
 }
 
-func CopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo *Tree) {
+func GongCopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo *Tree) {
 
 	// treeFrom has already been copied
 	if _treeTo, ok := mapOrigCopy[treeFrom]; ok {
@@ -1189,7 +1115,7 @@ func CopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo *Tree) {
 
 	treeTo = new(Tree)
 	mapOrigCopy[treeFrom] = treeTo
-	treeFrom.CopyBasicFields(treeTo)
+	treeFrom.GongCopyBasicFields(treeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1198,7 +1124,7 @@ func CopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo *Tree) {
 	return
 }
 
-func CopyBranchView(mapOrigCopy map[any]any, viewFrom *View) (viewTo *View) {
+func GongCopyBranchView(mapOrigCopy map[any]any, viewFrom *View) (viewTo *View) {
 
 	// viewFrom has already been copied
 	if _viewTo, ok := mapOrigCopy[viewFrom]; ok {
@@ -1208,19 +1134,19 @@ func CopyBranchView(mapOrigCopy map[any]any, viewFrom *View) (viewTo *View) {
 
 	viewTo = new(View)
 	mapOrigCopy[viewFrom] = viewTo
-	viewFrom.CopyBasicFields(viewTo)
+	viewFrom.GongCopyBasicFields(viewTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplitarea := range viewFrom.RootAsSplitAreas {
-		viewTo.RootAsSplitAreas = append(viewTo.RootAsSplitAreas, CopyBranchAsSplitArea(mapOrigCopy, _assplitarea))
+		viewTo.RootAsSplitAreas = append(viewTo.RootAsSplitAreas, GongCopyBranchAsSplitArea(mapOrigCopy, _assplitarea))
 	}
 
 	return
 }
 
-func CopyBranchXlsx(mapOrigCopy map[any]any, xlsxFrom *Xlsx) (xlsxTo *Xlsx) {
+func GongCopyBranchXlsx(mapOrigCopy map[any]any, xlsxFrom *Xlsx) (xlsxTo *Xlsx) {
 
 	// xlsxFrom has already been copied
 	if _xlsxTo, ok := mapOrigCopy[xlsxFrom]; ok {
@@ -1230,7 +1156,7 @@ func CopyBranchXlsx(mapOrigCopy map[any]any, xlsxFrom *Xlsx) (xlsxTo *Xlsx) {
 
 	xlsxTo = new(Xlsx)
 	mapOrigCopy[xlsxFrom] = xlsxTo
-	xlsxFrom.CopyBasicFields(xlsxTo)
+	xlsxFrom.GongCopyBasicFields(xlsxTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1313,16 +1239,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchAsSplit(assplit *AsSplit) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, assplit) {
+	if !stage.IsStaged(assplit) {
 		return
 	}
 
@@ -1332,7 +1253,7 @@ func (stage *Stage) UnstageBranchAsSplit(assplit *AsSplit) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplitarea := range assplit.AsSplitAreas {
-		UnstageBranch(stage, _assplitarea)
+		stage.UnstageBranch(_assplitarea)
 	}
 
 }
@@ -1340,7 +1261,7 @@ func (stage *Stage) UnstageBranchAsSplit(assplit *AsSplit) {
 func (stage *Stage) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, assplitarea) {
+	if !stage.IsStaged(assplitarea) {
 		return
 	}
 
@@ -1348,46 +1269,46 @@ func (stage *Stage) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if assplitarea.AsSplit != nil {
-		UnstageBranch(stage, assplitarea.AsSplit)
+		stage.UnstageBranch(assplitarea.AsSplit)
 	}
 	if assplitarea.Button != nil {
-		UnstageBranch(stage, assplitarea.Button)
+		stage.UnstageBranch(assplitarea.Button)
 	}
 	if assplitarea.Cursor != nil {
-		UnstageBranch(stage, assplitarea.Cursor)
+		stage.UnstageBranch(assplitarea.Cursor)
 	}
 	if assplitarea.Form != nil {
-		UnstageBranch(stage, assplitarea.Form)
+		stage.UnstageBranch(assplitarea.Form)
 	}
 	if assplitarea.Load != nil {
-		UnstageBranch(stage, assplitarea.Load)
+		stage.UnstageBranch(assplitarea.Load)
 	}
 	if assplitarea.Markdown != nil {
-		UnstageBranch(stage, assplitarea.Markdown)
+		stage.UnstageBranch(assplitarea.Markdown)
 	}
 	if assplitarea.Slider != nil {
-		UnstageBranch(stage, assplitarea.Slider)
+		stage.UnstageBranch(assplitarea.Slider)
 	}
 	if assplitarea.Split != nil {
-		UnstageBranch(stage, assplitarea.Split)
+		stage.UnstageBranch(assplitarea.Split)
 	}
 	if assplitarea.Svg != nil {
-		UnstageBranch(stage, assplitarea.Svg)
+		stage.UnstageBranch(assplitarea.Svg)
 	}
 	if assplitarea.Table != nil {
-		UnstageBranch(stage, assplitarea.Table)
+		stage.UnstageBranch(assplitarea.Table)
 	}
 	if assplitarea.Tone != nil {
-		UnstageBranch(stage, assplitarea.Tone)
+		stage.UnstageBranch(assplitarea.Tone)
 	}
 	if assplitarea.Tree != nil {
-		UnstageBranch(stage, assplitarea.Tree)
+		stage.UnstageBranch(assplitarea.Tree)
 	}
 	if assplitarea.Threejs != nil {
-		UnstageBranch(stage, assplitarea.Threejs)
+		stage.UnstageBranch(assplitarea.Threejs)
 	}
 	if assplitarea.Xlsx != nil {
-		UnstageBranch(stage, assplitarea.Xlsx)
+		stage.UnstageBranch(assplitarea.Xlsx)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1397,7 +1318,7 @@ func (stage *Stage) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, button) {
+	if !stage.IsStaged(button) {
 		return
 	}
 
@@ -1412,7 +1333,7 @@ func (stage *Stage) UnstageBranchButton(button *Button) {
 func (stage *Stage) UnstageBranchCursor(cursor *Cursor) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, cursor) {
+	if !stage.IsStaged(cursor) {
 		return
 	}
 
@@ -1427,7 +1348,7 @@ func (stage *Stage) UnstageBranchCursor(cursor *Cursor) {
 func (stage *Stage) UnstageBranchFavIcon(favicon *FavIcon) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, favicon) {
+	if !stage.IsStaged(favicon) {
 		return
 	}
 
@@ -1442,7 +1363,7 @@ func (stage *Stage) UnstageBranchFavIcon(favicon *FavIcon) {
 func (stage *Stage) UnstageBranchForm(form *Form) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, form) {
+	if !stage.IsStaged(form) {
 		return
 	}
 
@@ -1457,7 +1378,7 @@ func (stage *Stage) UnstageBranchForm(form *Form) {
 func (stage *Stage) UnstageBranchLoad(load *Load) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, load) {
+	if !stage.IsStaged(load) {
 		return
 	}
 
@@ -1472,7 +1393,7 @@ func (stage *Stage) UnstageBranchLoad(load *Load) {
 func (stage *Stage) UnstageBranchLogoOnTheLeft(logoontheleft *LogoOnTheLeft) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, logoontheleft) {
+	if !stage.IsStaged(logoontheleft) {
 		return
 	}
 
@@ -1487,7 +1408,7 @@ func (stage *Stage) UnstageBranchLogoOnTheLeft(logoontheleft *LogoOnTheLeft) {
 func (stage *Stage) UnstageBranchLogoOnTheRight(logoontheright *LogoOnTheRight) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, logoontheright) {
+	if !stage.IsStaged(logoontheright) {
 		return
 	}
 
@@ -1502,7 +1423,7 @@ func (stage *Stage) UnstageBranchLogoOnTheRight(logoontheright *LogoOnTheRight) 
 func (stage *Stage) UnstageBranchMarkdown(markdown *Markdown) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, markdown) {
+	if !stage.IsStaged(markdown) {
 		return
 	}
 
@@ -1517,7 +1438,7 @@ func (stage *Stage) UnstageBranchMarkdown(markdown *Markdown) {
 func (stage *Stage) UnstageBranchSlider(slider *Slider) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, slider) {
+	if !stage.IsStaged(slider) {
 		return
 	}
 
@@ -1532,7 +1453,7 @@ func (stage *Stage) UnstageBranchSlider(slider *Slider) {
 func (stage *Stage) UnstageBranchSplit(split *Split) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, split) {
+	if !stage.IsStaged(split) {
 		return
 	}
 
@@ -1547,7 +1468,7 @@ func (stage *Stage) UnstageBranchSplit(split *Split) {
 func (stage *Stage) UnstageBranchSvg(svg *Svg) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, svg) {
+	if !stage.IsStaged(svg) {
 		return
 	}
 
@@ -1562,7 +1483,7 @@ func (stage *Stage) UnstageBranchSvg(svg *Svg) {
 func (stage *Stage) UnstageBranchTable(table *Table) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, table) {
+	if !stage.IsStaged(table) {
 		return
 	}
 
@@ -1577,7 +1498,7 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 func (stage *Stage) UnstageBranchThreejs(threejs *Threejs) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, threejs) {
+	if !stage.IsStaged(threejs) {
 		return
 	}
 
@@ -1592,7 +1513,7 @@ func (stage *Stage) UnstageBranchThreejs(threejs *Threejs) {
 func (stage *Stage) UnstageBranchTitle(title *Title) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, title) {
+	if !stage.IsStaged(title) {
 		return
 	}
 
@@ -1607,7 +1528,7 @@ func (stage *Stage) UnstageBranchTitle(title *Title) {
 func (stage *Stage) UnstageBranchTone(tone *Tone) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tone) {
+	if !stage.IsStaged(tone) {
 		return
 	}
 
@@ -1622,7 +1543,7 @@ func (stage *Stage) UnstageBranchTone(tone *Tone) {
 func (stage *Stage) UnstageBranchTree(tree *Tree) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, tree) {
+	if !stage.IsStaged(tree) {
 		return
 	}
 
@@ -1637,7 +1558,7 @@ func (stage *Stage) UnstageBranchTree(tree *Tree) {
 func (stage *Stage) UnstageBranchView(view *View) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, view) {
+	if !stage.IsStaged(view) {
 		return
 	}
 
@@ -1647,7 +1568,7 @@ func (stage *Stage) UnstageBranchView(view *View) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplitarea := range view.RootAsSplitAreas {
-		UnstageBranch(stage, _assplitarea)
+		stage.UnstageBranch(_assplitarea)
 	}
 
 }
@@ -1655,7 +1576,7 @@ func (stage *Stage) UnstageBranchView(view *View) {
 func (stage *Stage) UnstageBranchXlsx(xlsx *Xlsx) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, xlsx) {
+	if !stage.IsStaged(xlsx) {
 		return
 	}
 
@@ -2046,7 +1967,7 @@ func (assplit *AsSplit) GongDiff(stage *Stage, assplitOther *AsSplit) (diffs []s
 		}
 	}
 	if AsSplitAreasDifferent {
-		ops := Diff(stage, assplit, assplitOther, "AsSplitAreas", assplitOther.AsSplitAreas, assplit.AsSplitAreas)
+		ops := stage.Diff(assplit, assplitOther, "AsSplitAreas", assplitOther.AsSplitAreas, assplit.AsSplitAreas)
 		diffs = append(diffs, ops)
 	}
 	if assplit.IsSizeInPixel != assplitOther.IsSizeInPixel {
@@ -2453,7 +2374,7 @@ func (view *View) GongDiff(stage *Stage, viewOther *View) (diffs []string) {
 		}
 	}
 	if RootAsSplitAreasDifferent {
-		ops := Diff(stage, view, viewOther, "RootAsSplitAreas", viewOther.RootAsSplitAreas, view.RootAsSplitAreas)
+		ops := stage.Diff(view, viewOther, "RootAsSplitAreas", viewOther.RootAsSplitAreas, view.RootAsSplitAreas)
 		diffs = append(diffs, ops)
 	}
 	if view.IsSelectedView != viewOther.IsSelectedView {
@@ -2566,9 +2487,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

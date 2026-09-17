@@ -118,10 +118,10 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // in a marshalling file
 // insertion point per named struct{{` + string(rune(GongSliceMarshallDeclaration)) + `}}
 // insertion point for unstaging{{` + string(rune(GongSliceMarshallUnstaging)) + `}}
-func IntToLetters(number int32) (letters string) {
+func GongIntToLetters(number int32) (letters string) {
 	number--
 	if firstLetter := number / 26; firstLetter > 0 {
-		letters += IntToLetters(firstLetter)
+		letters += GongIntToLetters(firstLetter)
 		letters += string('A' + number%26)
 	} else {
 		letters += string('A' + number)
@@ -130,8 +130,8 @@ func IntToLetters(number int32) (letters string) {
 	return
 }
 
-// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
-func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+// GongGenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 1. Create a deterministic hash from the inputs using SHA-256
 	h := sha256.New()
 
@@ -200,7 +200,7 @@ map[GongSliceGongstructInsertionId]string{
 	GongSliceGongCopy: `
 func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 	newInstance := new({{Structname}})
-	{{structname}}.CopyBasicFields(newInstance)
+	{{structname}}.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 `,
@@ -211,7 +211,7 @@ func ({{structname}} *{{Structname}}) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer({{structname}}), uint64(stage.GetOrder({{structname}})))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer({{structname}}), uint64(stage.GetOrder({{structname}})))
 	return
 }
 `,
@@ -319,7 +319,7 @@ func ({{structname}} *{{Structname}}) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral({{structname}}.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral({{structname}}.Name))
 	return
 }
 `,

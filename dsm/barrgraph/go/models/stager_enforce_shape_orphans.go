@@ -10,7 +10,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 
 	// remove orphean movement shapes
 	{
-		rm := GetSliceOfPointersReverseMap[Diagram, MovementShape](GetAssociationName[Diagram]().MovementShapes[0].Name, stager.stage)
+		rm := stager.stage.GetSliceOfPointersReverseMap[Diagram, MovementShape](GongGetAssociationName[Diagram]().MovementShapes[0].Name)
 		for _, shape := range stager.stage.GetInstancesSorted[*MovementShape]() {
 			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
@@ -28,7 +28,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 		}
 	}
 	{
-		rm := GetSliceOfPointersReverseMap[Diagram, ArtistShape](GetAssociationName[Diagram]().ArtistShapes[0].Name, stager.stage)
+		rm := stager.stage.GetSliceOfPointersReverseMap[Diagram, ArtistShape](GongGetAssociationName[Diagram]().ArtistShapes[0].Name)
 		for _, shape := range stager.stage.GetInstancesSorted[*ArtistShape]() {
 			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
@@ -46,7 +46,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 		}
 	}
 	{
-		rm := GetSliceOfPointersReverseMap[Diagram, ArtefactTypeShape](GetAssociationName[Diagram]().ArtefactTypeShapes[0].Name, stager.stage)
+		rm := stager.stage.GetSliceOfPointersReverseMap[Diagram, ArtefactTypeShape](GongGetAssociationName[Diagram]().ArtefactTypeShapes[0].Name)
 		for _, shape := range stager.stage.GetInstancesSorted[*ArtefactTypeShape]() {
 			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
@@ -64,7 +64,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 		}
 	}
 	{
-		rm := GetSliceOfPointersReverseMap[Diagram, InfluenceShape](GetAssociationName[Diagram]().InfluenceShapes[0].Name, stager.stage)
+		rm := stager.stage.GetSliceOfPointersReverseMap[Diagram, InfluenceShape](GongGetAssociationName[Diagram]().InfluenceShapes[0].Name)
 		for _, shape := range stager.stage.GetInstancesSorted[*InfluenceShape]() {
 			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
@@ -82,7 +82,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 		}
 	}
 	{
-		rm := GetSliceOfPointersReverseMap[InfluenceShape, ControlPointShape](GetAssociationName[InfluenceShape]().ControlPointShapes[0].Name, stager.stage)
+		rm := stager.stage.GetSliceOfPointersReverseMap[InfluenceShape, ControlPointShape](GongGetAssociationName[InfluenceShape]().ControlPointShapes[0].Name)
 		for _, shape := range stager.stage.GetInstancesSorted[*ControlPointShape]() {
 			if _, ok := rm[shape]; !ok {
 				shape.Unstage(stager.stage)

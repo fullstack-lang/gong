@@ -245,7 +245,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 		decl = GongIdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
 		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral({{structname}}.Name))
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral({{structname}}.Name))
 		identifiersDecl += decl
 
 		// Initialisation of values{{ValuesInitialization}}
@@ -324,7 +324,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 
 	ModelGongNamedStructSortedOrderInstances: `
 	case *{{Structname}}:
-		tmp := getStructInstancesByOrder(stage.{{Structname}}s, stage.{{Structname}}_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.{{Structname}}s, stage.{{Structname}}_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -484,7 +484,7 @@ map[GongFilePerStructSubTemplateId]string{
 	GongFileFieldSubTmplStringValueBasicFieldIntDuration: `
 	case "{{FieldName}}":
 		if math.Abs({{structname}}.{{FieldName}}.Hours()) >= 24 {
-			days := __Gong__Abs(int(int({{structname}}.{{FieldName}}.Hours()) / 24))
+			days := __gong__abs(int(int({{structname}}.{{FieldName}}.Hours()) / 24))
 			months := int(days / 31)
 			days = days - months*31
 

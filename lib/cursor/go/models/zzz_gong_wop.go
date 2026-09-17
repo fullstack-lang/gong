@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Cursor_WOP struct {
@@ -43,7 +41,7 @@ type Cursor_WOP struct {
 	IsPlaying bool
 }
 
-func (from *Cursor) CopyBasicFields(to *Cursor) {
+func (from *Cursor) GongCopyBasicFields(to *Cursor) {
 	// insertion point
 	to.Name = from.Name
 	to.StartX = from.StartX

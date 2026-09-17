@@ -22,11 +22,6 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 	return
 }
 
-// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
-	return stage.CleanSlice(slice)
-}
-
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
 func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
@@ -42,11 +37,6 @@ func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bo
 	return
 }
 
-// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	return stage.CleanPointer(element)
-}
-
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by ActorState
 func (actorstate *ActorState) GongClean(stage *Stage) (modified bool) {
@@ -59,38 +49,38 @@ func (actorstate *ActorState) GongClean(stage *Stage) (modified bool) {
 func (actorstateshape *ActorStateShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &actorstateshape.ActorState) || modified
+	modified = stage.CleanPointer(&actorstateshape.ActorState) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by ActorStateTransition
 func (actorstatetransition *ActorStateTransition) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &actorstatetransition.Justifications) || modified
+	modified = stage.CleanSlice(&actorstatetransition.Justifications) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &actorstatetransition.StartState) || modified
-	modified = GongCleanPointer(stage, &actorstatetransition.EndState) || modified
+	modified = stage.CleanPointer(&actorstatetransition.StartState) || modified
+	modified = stage.CleanPointer(&actorstatetransition.EndState) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by ActorStateTransitionShape
 func (actorstatetransitionshape *ActorStateTransitionShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &actorstatetransitionshape.ControlPointShapes) || modified
+	modified = stage.CleanSlice(&actorstatetransitionshape.ControlPointShapes) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &actorstatetransitionshape.ActorStateTransition) || modified
-	modified = GongCleanPointer(stage, &actorstatetransitionshape.Start) || modified
-	modified = GongCleanPointer(stage, &actorstatetransitionshape.End) || modified
+	modified = stage.CleanPointer(&actorstatetransitionshape.ActorStateTransition) || modified
+	modified = stage.CleanPointer(&actorstatetransitionshape.Start) || modified
+	modified = stage.CleanPointer(&actorstatetransitionshape.End) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Analysis
 func (analysis *Analysis) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &analysis.Scenarios) || modified
-	modified = GongCleanSlice(stage, &analysis.GroupUse) || modified
-	modified = GongCleanSlice(stage, &analysis.GeoObjectUse) || modified
-	modified = GongCleanSlice(stage, &analysis.MapUse) || modified
+	modified = stage.CleanSlice(&analysis.Scenarios) || modified
+	modified = stage.CleanSlice(&analysis.GroupUse) || modified
+	modified = stage.CleanSlice(&analysis.GeoObjectUse) || modified
+	modified = stage.CleanSlice(&analysis.MapUse) || modified
 	// insertion point per field
 	return
 }
@@ -105,16 +95,16 @@ func (controlpointshape *ControlPointShape) GongClean(stage *Stage) (modified bo
 // Clean garbage collect unstaged instances that are referenced by Diagram
 func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &diagram.EvolutionDirectionShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.EvolutionDirectionsWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.ActorStateShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.ActorStatesWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.ParameterShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.ParametersWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.ScenarioParameterShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.ParametersAggregatesWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.ActorStateTransitionShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.ActorStateTransitionsWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagram.EvolutionDirectionShapes) || modified
+	modified = stage.CleanSlice(&diagram.EvolutionDirectionsWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagram.ActorStateShapes) || modified
+	modified = stage.CleanSlice(&diagram.ActorStatesWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagram.ParameterShapes) || modified
+	modified = stage.CleanSlice(&diagram.ParametersWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagram.ScenarioParameterShapes) || modified
+	modified = stage.CleanSlice(&diagram.ParametersAggregatesWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagram.ActorStateTransitionShapes) || modified
+	modified = stage.CleanSlice(&diagram.ActorStateTransitionsWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }
@@ -122,7 +112,7 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Document
 func (document *Document) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &document.GeoObjectUse) || modified
+	modified = stage.CleanSlice(&document.GeoObjectUse) || modified
 	// insertion point per field
 	return
 }
@@ -131,7 +121,7 @@ func (document *Document) GongClean(stage *Stage) (modified bool) {
 func (documentuse *DocumentUse) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &documentuse.Document) || modified
+	modified = stage.CleanPointer(&documentuse.Document) || modified
 	return
 }
 
@@ -146,7 +136,7 @@ func (evolutiondirection *EvolutionDirection) GongClean(stage *Stage) (modified 
 func (evolutiondirectionshape *EvolutionDirectionShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &evolutiondirectionshape.EvolutionDirection) || modified
+	modified = stage.CleanPointer(&evolutiondirectionshape.EvolutionDirection) || modified
 	return
 }
 
@@ -168,14 +158,14 @@ func (geoobject *GeoObject) GongClean(stage *Stage) (modified bool) {
 func (geoobjectuse *GeoObjectUse) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &geoobjectuse.GeoObject) || modified
+	modified = stage.CleanPointer(&geoobjectuse.GeoObject) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Group
 func (group *Group) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &group.UserUse) || modified
+	modified = stage.CleanSlice(&group.UserUse) || modified
 	// insertion point per field
 	return
 }
@@ -184,16 +174,16 @@ func (group *Group) GongClean(stage *Stage) (modified bool) {
 func (groupuse *GroupUse) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &groupuse.Group) || modified
+	modified = stage.CleanPointer(&groupuse.Group) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Library
 func (library *Library) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &library.Analyses) || modified
-	modified = GongCleanSlice(stage, &library.SubLibraries) || modified
-	modified = GongCleanSlice(stage, &library.SubLibrariesWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&library.Analyses) || modified
+	modified = stage.CleanSlice(&library.SubLibraries) || modified
+	modified = stage.CleanSlice(&library.SubLibrariesWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }
@@ -209,16 +199,16 @@ func (mapobject *MapObject) GongClean(stage *Stage) (modified bool) {
 func (mapobjectuse *MapObjectUse) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &mapobjectuse.Map) || modified
+	modified = stage.CleanPointer(&mapobjectuse.Map) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Parameter
 func (parameter *Parameter) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &parameter.GroupUse) || modified
-	modified = GongCleanSlice(stage, &parameter.DocumentUse) || modified
-	modified = GongCleanSlice(stage, &parameter.GeoObjectUse) || modified
+	modified = stage.CleanSlice(&parameter.GroupUse) || modified
+	modified = stage.CleanSlice(&parameter.DocumentUse) || modified
+	modified = stage.CleanSlice(&parameter.GeoObjectUse) || modified
 	// insertion point per field
 	return
 }
@@ -226,7 +216,7 @@ func (parameter *Parameter) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by ParameterCategory
 func (parametercategory *ParameterCategory) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &parametercategory.ParameterUse) || modified
+	modified = stage.CleanSlice(&parametercategory.ParameterUse) || modified
 	// insertion point per field
 	return
 }
@@ -235,7 +225,7 @@ func (parametercategory *ParameterCategory) GongClean(stage *Stage) (modified bo
 func (parametercategoryuse *ParameterCategoryUse) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &parametercategoryuse.ParameterCategory) || modified
+	modified = stage.CleanPointer(&parametercategoryuse.ParameterCategory) || modified
 	return
 }
 
@@ -243,14 +233,14 @@ func (parametercategoryuse *ParameterCategoryUse) GongClean(stage *Stage) (modif
 func (parametershape *ParameterShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &parametershape.Parameter) || modified
+	modified = stage.CleanPointer(&parametershape.Parameter) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by ParametersAggregate
 func (parametersaggregate *ParametersAggregate) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &parametersaggregate.Parameters) || modified
+	modified = stage.CleanSlice(&parametersaggregate.Parameters) || modified
 	// insertion point per field
 	return
 }
@@ -259,7 +249,7 @@ func (parametersaggregate *ParametersAggregate) GongClean(stage *Stage) (modifie
 func (parametersaggregateshape *ParametersAggregateShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &parametersaggregateshape.ScenarioParameter) || modified
+	modified = stage.CleanPointer(&parametersaggregateshape.ScenarioParameter) || modified
 	return
 }
 
@@ -273,8 +263,8 @@ func (position *Position) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Repository
 func (repository *Repository) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &repository.ParameterUse) || modified
-	modified = GongCleanSlice(stage, &repository.GroupUse) || modified
+	modified = stage.CleanSlice(&repository.ParameterUse) || modified
+	modified = stage.CleanSlice(&repository.GroupUse) || modified
 	// insertion point per field
 	return
 }
@@ -282,12 +272,12 @@ func (repository *Repository) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Scenario
 func (scenario *Scenario) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &scenario.Diagrams) || modified
-	modified = GongCleanSlice(stage, &scenario.ActorStates) || modified
-	modified = GongCleanSlice(stage, &scenario.ActorStateTransitions) || modified
-	modified = GongCleanSlice(stage, &scenario.EvolutionDirections) || modified
-	modified = GongCleanSlice(stage, &scenario.Parameters) || modified
-	modified = GongCleanSlice(stage, &scenario.ParametersAggretates) || modified
+	modified = stage.CleanSlice(&scenario.Diagrams) || modified
+	modified = stage.CleanSlice(&scenario.ActorStates) || modified
+	modified = stage.CleanSlice(&scenario.ActorStateTransitions) || modified
+	modified = stage.CleanSlice(&scenario.EvolutionDirections) || modified
+	modified = stage.CleanSlice(&scenario.Parameters) || modified
+	modified = stage.CleanSlice(&scenario.ParametersAggretates) || modified
 	// insertion point per field
 	return
 }
@@ -303,7 +293,7 @@ func (user *User) GongClean(stage *Stage) (modified bool) {
 func (useruse *UserUse) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &useruse.User) || modified
+	modified = stage.CleanPointer(&useruse.User) || modified
 	return
 }
 
@@ -311,12 +301,12 @@ func (useruse *UserUse) GongClean(stage *Stage) (modified bool) {
 func (workspace *Workspace) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &workspace.SelectedDiagram) || modified
-	modified = GongCleanPointer(stage, &workspace.Default_EvolutionDirectionShape) || modified
-	modified = GongCleanPointer(stage, &workspace.Default_ParameterShape) || modified
-	modified = GongCleanPointer(stage, &workspace.Default_ScenarioParameterShape) || modified
-	modified = GongCleanPointer(stage, &workspace.Default_ActorStateShape) || modified
-	modified = GongCleanPointer(stage, &workspace.Default_ActorStateTransitionShape) || modified
+	modified = stage.CleanPointer(&workspace.SelectedDiagram) || modified
+	modified = stage.CleanPointer(&workspace.Default_EvolutionDirectionShape) || modified
+	modified = stage.CleanPointer(&workspace.Default_ParameterShape) || modified
+	modified = stage.CleanPointer(&workspace.Default_ScenarioParameterShape) || modified
+	modified = stage.CleanPointer(&workspace.Default_ActorStateShape) || modified
+	modified = stage.CleanPointer(&workspace.Default_ActorStateTransitionShape) || modified
 	return
 }
 

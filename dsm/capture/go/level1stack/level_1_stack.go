@@ -99,7 +99,7 @@ func NewLevel1StackDelta(
 	}
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -124,35 +124,35 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.AnalysisNeed](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Concept](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ConceptShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Concern](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ConcernCompositionShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ConcernInputShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ConcernOutputShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ConcernShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ControlPointShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Deliverable](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DeliverableCompositionShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DeliverableConceptShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DeliverableShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Diagram](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DiagramShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Note](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NoteDeliverableShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NoteShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NoteStakeholderShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NoteTaskShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Requirement](stage)
-	models.SetOrchestratorOnAfterUpdate[models.RequirementShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Stakeholder](stage)
-	models.SetOrchestratorOnAfterUpdate[models.StakeholderCompositionShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.StakeholderConcernShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.StakeholderShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.SupportLevel](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Tool](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.AnalysisNeed]()
+	stage.SetOrchestratorOnAfterUpdate[models.Concept]()
+	stage.SetOrchestratorOnAfterUpdate[models.ConceptShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Concern]()
+	stage.SetOrchestratorOnAfterUpdate[models.ConcernCompositionShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.ConcernInputShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.ConcernOutputShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.ConcernShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.ControlPointShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Deliverable]()
+	stage.SetOrchestratorOnAfterUpdate[models.DeliverableCompositionShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.DeliverableConceptShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.DeliverableShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Diagram]()
+	stage.SetOrchestratorOnAfterUpdate[models.DiagramShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Library]()
+	stage.SetOrchestratorOnAfterUpdate[models.Note]()
+	stage.SetOrchestratorOnAfterUpdate[models.NoteDeliverableShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.NoteShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.NoteStakeholderShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.NoteTaskShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Requirement]()
+	stage.SetOrchestratorOnAfterUpdate[models.RequirementShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Stakeholder]()
+	stage.SetOrchestratorOnAfterUpdate[models.StakeholderCompositionShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.StakeholderConcernShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.StakeholderShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.SupportLevel]()
+	stage.SetOrchestratorOnAfterUpdate[models.Tool]()
 
 	return
 }

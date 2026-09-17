@@ -99,7 +99,7 @@ func NewLevel1StackDelta(
 	}
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -124,15 +124,15 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.AttributeShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Classdiagram](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DiagramPackage](stage)
-	models.SetOrchestratorOnAfterUpdate[models.GongEnumShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.GongEnumValueShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.GongNoteLinkShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.GongNoteShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.GongStructShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.LinkShape](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.AttributeShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Classdiagram]()
+	stage.SetOrchestratorOnAfterUpdate[models.DiagramPackage]()
+	stage.SetOrchestratorOnAfterUpdate[models.GongEnumShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.GongEnumValueShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.GongNoteLinkShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.GongNoteShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.GongStructShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.LinkShape]()
 
 	return
 }

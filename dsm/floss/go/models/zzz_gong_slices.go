@@ -367,73 +367,73 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 // insertion point per named struct
 func (compareanalysis *CompareAnalysis) GongCopy() GongstructIF {
 	newInstance := new(CompareAnalysis)
-	compareanalysis.CopyBasicFields(newInstance)
+	compareanalysis.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (complexity *Complexity) GongCopy() GongstructIF {
 	newInstance := new(Complexity)
-	complexity.CopyBasicFields(newInstance)
+	complexity.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (diagramflossequation *DiagramFlossEquation) GongCopy() GongstructIF {
 	newInstance := new(DiagramFlossEquation)
-	diagramflossequation.CopyBasicFields(newInstance)
+	diagramflossequation.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (effort *Effort) GongCopy() GongstructIF {
 	newInstance := new(Effort)
-	effort.CopyBasicFields(newInstance)
+	effort.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (library *Library) GongCopy() GongstructIF {
 	newInstance := new(Library)
-	library.CopyBasicFields(newInstance)
+	library.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (note *Note) GongCopy() GongstructIF {
 	newInstance := new(Note)
-	note.CopyBasicFields(newInstance)
+	note.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (notecomplexityshape *NoteComplexityShape) GongCopy() GongstructIF {
 	newInstance := new(NoteComplexityShape)
-	notecomplexityshape.CopyBasicFields(newInstance)
+	notecomplexityshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (noteeffortshape *NoteEffortShape) GongCopy() GongstructIF {
 	newInstance := new(NoteEffortShape)
-	noteeffortshape.CopyBasicFields(newInstance)
+	noteeffortshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (noteperformanceshape *NotePerformanceShape) GongCopy() GongstructIF {
 	newInstance := new(NotePerformanceShape)
-	noteperformanceshape.CopyBasicFields(newInstance)
+	noteperformanceshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (noteshape *NoteShape) GongCopy() GongstructIF {
 	newInstance := new(NoteShape)
-	noteshape.CopyBasicFields(newInstance)
+	noteshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (performance *Performance) GongCopy() GongstructIF {
 	newInstance := new(Performance)
-	performance.CopyBasicFields(newInstance)
+	performance.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (system *System) GongCopy() GongstructIF {
 	newInstance := new(System)
-	system.CopyBasicFields(newInstance)
+	system.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -444,7 +444,7 @@ func (compareanalysis *CompareAnalysis) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(compareanalysis), uint64(stage.GetOrder(compareanalysis)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(compareanalysis), uint64(stage.GetOrder(compareanalysis)))
 	return
 }
 
@@ -454,7 +454,7 @@ func (complexity *Complexity) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(complexity), uint64(stage.GetOrder(complexity)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(complexity), uint64(stage.GetOrder(complexity)))
 	return
 }
 
@@ -464,7 +464,7 @@ func (diagramflossequation *DiagramFlossEquation) GongGetUUID(stage *Stage) (uui
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagramflossequation), uint64(stage.GetOrder(diagramflossequation)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(diagramflossequation), uint64(stage.GetOrder(diagramflossequation)))
 	return
 }
 
@@ -474,7 +474,7 @@ func (effort *Effort) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(effort), uint64(stage.GetOrder(effort)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(effort), uint64(stage.GetOrder(effort)))
 	return
 }
 
@@ -484,7 +484,7 @@ func (library *Library) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(library), uint64(stage.GetOrder(library)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(library), uint64(stage.GetOrder(library)))
 	return
 }
 
@@ -494,7 +494,7 @@ func (note *Note) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(note), uint64(stage.GetOrder(note)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(note), uint64(stage.GetOrder(note)))
 	return
 }
 
@@ -504,7 +504,7 @@ func (notecomplexityshape *NoteComplexityShape) GongGetUUID(stage *Stage) (uuid 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(notecomplexityshape), uint64(stage.GetOrder(notecomplexityshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(notecomplexityshape), uint64(stage.GetOrder(notecomplexityshape)))
 	return
 }
 
@@ -514,7 +514,7 @@ func (noteeffortshape *NoteEffortShape) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(noteeffortshape), uint64(stage.GetOrder(noteeffortshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(noteeffortshape), uint64(stage.GetOrder(noteeffortshape)))
 	return
 }
 
@@ -524,7 +524,7 @@ func (noteperformanceshape *NotePerformanceShape) GongGetUUID(stage *Stage) (uui
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(noteperformanceshape), uint64(stage.GetOrder(noteperformanceshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(noteperformanceshape), uint64(stage.GetOrder(noteperformanceshape)))
 	return
 }
 
@@ -534,7 +534,7 @@ func (noteshape *NoteShape) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(noteshape), uint64(stage.GetOrder(noteshape)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(noteshape), uint64(stage.GetOrder(noteshape)))
 	return
 }
 
@@ -544,7 +544,7 @@ func (performance *Performance) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(performance), uint64(stage.GetOrder(performance)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(performance), uint64(stage.GetOrder(performance)))
 	return
 }
 
@@ -554,7 +554,7 @@ func (system *System) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(system), uint64(stage.GetOrder(system)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(system), uint64(stage.GetOrder(system)))
 	return
 }
 
@@ -1726,7 +1726,7 @@ func (compareanalysis *CompareAnalysis) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CompareAnalysis")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(compareanalysis.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(compareanalysis.Name))
 	return
 }
 
@@ -1734,7 +1734,7 @@ func (complexity *Complexity) GongMarshallIdentifier(stage *Stage) (decl string)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", complexity.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Complexity")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(complexity.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(complexity.Name))
 	return
 }
 
@@ -1742,7 +1742,7 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallIdentifier(stage *
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DiagramFlossEquation")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramflossequation.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(diagramflossequation.Name))
 	return
 }
 
@@ -1750,7 +1750,7 @@ func (effort *Effort) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", effort.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Effort")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(effort.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(effort.Name))
 	return
 }
 
@@ -1758,7 +1758,7 @@ func (library *Library) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Library")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(library.Name))
 	return
 }
 
@@ -1766,7 +1766,7 @@ func (note *Note) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Note")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Name))
 	return
 }
 
@@ -1774,7 +1774,7 @@ func (notecomplexityshape *NoteComplexityShape) GongMarshallIdentifier(stage *St
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteComplexityShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notecomplexityshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(notecomplexityshape.Name))
 	return
 }
 
@@ -1782,7 +1782,7 @@ func (noteeffortshape *NoteEffortShape) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteEffortShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteeffortshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(noteeffortshape.Name))
 	return
 }
 
@@ -1790,7 +1790,7 @@ func (noteperformanceshape *NotePerformanceShape) GongMarshallIdentifier(stage *
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NotePerformanceShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteperformanceshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(noteperformanceshape.Name))
 	return
 }
 
@@ -1798,7 +1798,7 @@ func (noteshape *NoteShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(noteshape.Name))
 	return
 }
 
@@ -1806,7 +1806,7 @@ func (performance *Performance) GongMarshallIdentifier(stage *Stage) (decl strin
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", performance.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Performance")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(performance.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(performance.Name))
 	return
 }
 
@@ -1814,7 +1814,7 @@ func (system *System) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", system.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "System")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(system.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(system.Name))
 	return
 }
 
@@ -1891,10 +1891,10 @@ func (system *System) GongMarshallUnstaging(stage *Stage) (decl string) {
 	return
 }
 
-func IntToLetters(number int32) (letters string) {
+func GongIntToLetters(number int32) (letters string) {
 	number--
 	if firstLetter := number / 26; firstLetter > 0 {
-		letters += IntToLetters(firstLetter)
+		letters += GongIntToLetters(firstLetter)
 		letters += string('A' + number%26)
 	} else {
 		letters += string('A' + number)
@@ -1903,8 +1903,8 @@ func IntToLetters(number int32) (letters string) {
 	return
 }
 
-// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
-func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+// GongGenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 1. Create a deterministic hash from the inputs using SHA-256
 	h := sha256.New()
 

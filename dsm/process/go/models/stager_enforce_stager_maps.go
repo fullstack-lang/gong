@@ -55,8 +55,8 @@ func (stager *Stager) enforceStagerMaps() {
 		}
 	}
 
-	stager.rm_Data_DataFlows = GetSliceOfPointersReverseMap[DataFlow, Data](GetAssociationName[DataFlow]().Datas[0].Name, stager.stage)
-	stager.rm_Resource_Participants = GetSliceOfPointersReverseMap[Participant, Resource](GetAssociationName[Participant]().Resources[0].Name, stager.stage)
+	stager.rm_Data_DataFlows = stager.stage.GetSliceOfPointersReverseMap[DataFlow, Data](GongGetAssociationName[DataFlow]().Datas[0].Name)
+	stager.rm_Resource_Participants = stager.stage.GetSliceOfPointersReverseMap[Participant, Resource](GongGetAssociationName[Participant]().Resources[0].Name)
 }
 
 // updateMapElementDiagrams is a helper function to update the map of abstract elements to their shapes for a given diagram

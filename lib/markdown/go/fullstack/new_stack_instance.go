@@ -49,10 +49,10 @@ func NewStackInstance(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.Content](stage)
-	models.SetOrchestratorOnAfterUpdate[models.JpgImage](stage)
-	models.SetOrchestratorOnAfterUpdate[models.PngImage](stage)
-	models.SetOrchestratorOnAfterUpdate[models.SvgImage](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.Content]()
+	stage.SetOrchestratorOnAfterUpdate[models.JpgImage]()
+	stage.SetOrchestratorOnAfterUpdate[models.PngImage]()
+	stage.SetOrchestratorOnAfterUpdate[models.SvgImage]()
 
 	return
 }

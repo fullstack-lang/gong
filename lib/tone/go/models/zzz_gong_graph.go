@@ -23,29 +23,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Freqency:
-		ok = stage.IsStagedFreqency(target)
-
-	case *Note:
-		ok = stage.IsStagedNote(target)
-
-	case *Player:
-		ok = stage.IsStagedPlayer(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedFreqency(freqency *Freqency) (ok bool) {
 
@@ -96,7 +73,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchFreqency(freqency *Freqency) {
 
 	// check if instance is already staged
-	if IsStaged(stage, freqency) {
+	if stage.IsStaged(freqency) {
 		return
 	}
 
@@ -111,7 +88,7 @@ func (stage *Stage) StageBranchFreqency(freqency *Freqency) {
 func (stage *Stage) StageBranchNote(note *Note) {
 
 	// check if instance is already staged
-	if IsStaged(stage, note) {
+	if stage.IsStaged(note) {
 		return
 	}
 
@@ -121,7 +98,7 @@ func (stage *Stage) StageBranchNote(note *Note) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _freqency := range note.Frequencies {
-		StageBranch(stage, _freqency)
+		stage.StageBranch(_freqency)
 	}
 
 }
@@ -129,7 +106,7 @@ func (stage *Stage) StageBranchNote(note *Note) {
 func (stage *Stage) StageBranchPlayer(player *Player) {
 
 	// check if instance is already staged
-	if IsStaged(stage, player) {
+	if stage.IsStaged(player) {
 		return
 	}
 
@@ -141,11 +118,11 @@ func (stage *Stage) StageBranchPlayer(player *Player) {
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -153,15 +130,15 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *Freqency:
-		toT := CopyBranchFreqency(mapOrigCopy, fromT)
+		toT := GongCopyBranchFreqency(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Note:
-		toT := CopyBranchNote(mapOrigCopy, fromT)
+		toT := GongCopyBranchNote(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Player:
-		toT := CopyBranchPlayer(mapOrigCopy, fromT)
+		toT := GongCopyBranchPlayer(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -171,7 +148,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchFreqency(mapOrigCopy map[any]any, freqencyFrom *Freqency) (freqencyTo *Freqency) {
+func GongCopyBranchFreqency(mapOrigCopy map[any]any, freqencyFrom *Freqency) (freqencyTo *Freqency) {
 
 	// freqencyFrom has already been copied
 	if _freqencyTo, ok := mapOrigCopy[freqencyFrom]; ok {
@@ -181,7 +158,7 @@ func CopyBranchFreqency(mapOrigCopy map[any]any, freqencyFrom *Freqency) (freqen
 
 	freqencyTo = new(Freqency)
 	mapOrigCopy[freqencyFrom] = freqencyTo
-	freqencyFrom.CopyBasicFields(freqencyTo)
+	freqencyFrom.GongCopyBasicFields(freqencyTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -190,7 +167,7 @@ func CopyBranchFreqency(mapOrigCopy map[any]any, freqencyFrom *Freqency) (freqen
 	return
 }
 
-func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
+func GongCopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 
 	// noteFrom has already been copied
 	if _noteTo, ok := mapOrigCopy[noteFrom]; ok {
@@ -200,19 +177,19 @@ func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 
 	noteTo = new(Note)
 	mapOrigCopy[noteFrom] = noteTo
-	noteFrom.CopyBasicFields(noteTo)
+	noteFrom.GongCopyBasicFields(noteTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _freqency := range noteFrom.Frequencies {
-		noteTo.Frequencies = append(noteTo.Frequencies, CopyBranchFreqency(mapOrigCopy, _freqency))
+		noteTo.Frequencies = append(noteTo.Frequencies, GongCopyBranchFreqency(mapOrigCopy, _freqency))
 	}
 
 	return
 }
 
-func CopyBranchPlayer(mapOrigCopy map[any]any, playerFrom *Player) (playerTo *Player) {
+func GongCopyBranchPlayer(mapOrigCopy map[any]any, playerFrom *Player) (playerTo *Player) {
 
 	// playerFrom has already been copied
 	if _playerTo, ok := mapOrigCopy[playerFrom]; ok {
@@ -222,7 +199,7 @@ func CopyBranchPlayer(mapOrigCopy map[any]any, playerFrom *Player) (playerTo *Pl
 
 	playerTo = new(Player)
 	mapOrigCopy[playerFrom] = playerTo
-	playerFrom.CopyBasicFields(playerTo)
+	playerFrom.GongCopyBasicFields(playerTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -254,16 +231,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchFreqency(freqency *Freqency) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, freqency) {
+	if !stage.IsStaged(freqency) {
 		return
 	}
 
@@ -278,7 +250,7 @@ func (stage *Stage) UnstageBranchFreqency(freqency *Freqency) {
 func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, note) {
+	if !stage.IsStaged(note) {
 		return
 	}
 
@@ -288,7 +260,7 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _freqency := range note.Frequencies {
-		UnstageBranch(stage, _freqency)
+		stage.UnstageBranch(_freqency)
 	}
 
 }
@@ -296,7 +268,7 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 func (stage *Stage) UnstageBranchPlayer(player *Player) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, player) {
+	if !stage.IsStaged(player) {
 		return
 	}
 
@@ -388,7 +360,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if FrequenciesDifferent {
-		ops := Diff(stage, note, noteOther, "Frequencies", noteOther.Frequencies, note.Frequencies)
+		ops := stage.Diff(note, noteOther, "Frequencies", noteOther.Frequencies, note.Frequencies)
 		diffs = append(diffs, ops)
 	}
 	if note.Start != noteOther.Start {
@@ -495,9 +467,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

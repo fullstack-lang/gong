@@ -143,67 +143,67 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 // insertion point per named struct
 func (button *Button) GongCopy() GongstructIF {
 	newInstance := new(Button)
-	button.CopyBasicFields(newInstance)
+	button.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (cell *Cell) GongCopy() GongstructIF {
 	newInstance := new(Cell)
-	cell.CopyBasicFields(newInstance)
+	cell.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (cellboolean *CellBoolean) GongCopy() GongstructIF {
 	newInstance := new(CellBoolean)
-	cellboolean.CopyBasicFields(newInstance)
+	cellboolean.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (cellfloat64 *CellFloat64) GongCopy() GongstructIF {
 	newInstance := new(CellFloat64)
-	cellfloat64.CopyBasicFields(newInstance)
+	cellfloat64.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (cellicon *CellIcon) GongCopy() GongstructIF {
 	newInstance := new(CellIcon)
-	cellicon.CopyBasicFields(newInstance)
+	cellicon.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (cellint *CellInt) GongCopy() GongstructIF {
 	newInstance := new(CellInt)
-	cellint.CopyBasicFields(newInstance)
+	cellint.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (cellstring *CellString) GongCopy() GongstructIF {
 	newInstance := new(CellString)
-	cellstring.CopyBasicFields(newInstance)
+	cellstring.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (displayedcolumn *DisplayedColumn) GongCopy() GongstructIF {
 	newInstance := new(DisplayedColumn)
-	displayedcolumn.CopyBasicFields(newInstance)
+	displayedcolumn.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (row *Row) GongCopy() GongstructIF {
 	newInstance := new(Row)
-	row.CopyBasicFields(newInstance)
+	row.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (svgicon *SVGIcon) GongCopy() GongstructIF {
 	newInstance := new(SVGIcon)
-	svgicon.CopyBasicFields(newInstance)
+	svgicon.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
 func (table *Table) GongCopy() GongstructIF {
 	newInstance := new(Table)
-	table.CopyBasicFields(newInstance)
+	table.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -214,7 +214,7 @@ func (button *Button) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(button), uint64(stage.GetOrder(button)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(button), uint64(stage.GetOrder(button)))
 	return
 }
 
@@ -224,7 +224,7 @@ func (cell *Cell) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cell), uint64(stage.GetOrder(cell)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(cell), uint64(stage.GetOrder(cell)))
 	return
 }
 
@@ -234,7 +234,7 @@ func (cellboolean *CellBoolean) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellboolean), uint64(stage.GetOrder(cellboolean)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(cellboolean), uint64(stage.GetOrder(cellboolean)))
 	return
 }
 
@@ -244,7 +244,7 @@ func (cellfloat64 *CellFloat64) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellfloat64), uint64(stage.GetOrder(cellfloat64)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(cellfloat64), uint64(stage.GetOrder(cellfloat64)))
 	return
 }
 
@@ -254,7 +254,7 @@ func (cellicon *CellIcon) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellicon), uint64(stage.GetOrder(cellicon)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(cellicon), uint64(stage.GetOrder(cellicon)))
 	return
 }
 
@@ -264,7 +264,7 @@ func (cellint *CellInt) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellint), uint64(stage.GetOrder(cellint)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(cellint), uint64(stage.GetOrder(cellint)))
 	return
 }
 
@@ -274,7 +274,7 @@ func (cellstring *CellString) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellstring), uint64(stage.GetOrder(cellstring)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(cellstring), uint64(stage.GetOrder(cellstring)))
 	return
 }
 
@@ -284,7 +284,7 @@ func (displayedcolumn *DisplayedColumn) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(displayedcolumn), uint64(stage.GetOrder(displayedcolumn)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(displayedcolumn), uint64(stage.GetOrder(displayedcolumn)))
 	return
 }
 
@@ -294,7 +294,7 @@ func (row *Row) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(row), uint64(stage.GetOrder(row)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(row), uint64(stage.GetOrder(row)))
 	return
 }
 
@@ -304,7 +304,7 @@ func (svgicon *SVGIcon) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svgicon), uint64(stage.GetOrder(svgicon)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(svgicon), uint64(stage.GetOrder(svgicon)))
 	return
 }
 
@@ -314,7 +314,7 @@ func (table *Table) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(table), uint64(stage.GetOrder(table)))
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(table), uint64(stage.GetOrder(table)))
 	return
 }
 
@@ -1395,7 +1395,7 @@ func (button *Button) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Button")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(button.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(button.Name))
 	return
 }
 
@@ -1403,7 +1403,7 @@ func (cell *Cell) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cell.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Cell")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cell.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cell.Name))
 	return
 }
 
@@ -1411,7 +1411,7 @@ func (cellboolean *CellBoolean) GongMarshallIdentifier(stage *Stage) (decl strin
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellboolean.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellBoolean")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cellboolean.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cellboolean.Name))
 	return
 }
 
@@ -1419,7 +1419,7 @@ func (cellfloat64 *CellFloat64) GongMarshallIdentifier(stage *Stage) (decl strin
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellfloat64.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellFloat64")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cellfloat64.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cellfloat64.Name))
 	return
 }
 
@@ -1427,7 +1427,7 @@ func (cellicon *CellIcon) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellicon.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellIcon")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cellicon.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cellicon.Name))
 	return
 }
 
@@ -1435,7 +1435,7 @@ func (cellint *CellInt) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellint.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellInt")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cellint.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cellint.Name))
 	return
 }
 
@@ -1443,7 +1443,7 @@ func (cellstring *CellString) GongMarshallIdentifier(stage *Stage) (decl string)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellstring.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellString")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cellstring.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cellstring.Name))
 	return
 }
 
@@ -1451,7 +1451,7 @@ func (displayedcolumn *DisplayedColumn) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayedcolumn.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DisplayedColumn")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(displayedcolumn.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(displayedcolumn.Name))
 	return
 }
 
@@ -1459,7 +1459,7 @@ func (row *Row) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", row.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Row")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(row.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(row.Name))
 	return
 }
 
@@ -1467,7 +1467,7 @@ func (svgicon *SVGIcon) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SVGIcon")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svgicon.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svgicon.Name))
 	return
 }
 
@@ -1475,7 +1475,7 @@ func (table *Table) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", table.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Table")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(table.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(table.Name))
 	return
 }
 
@@ -1546,10 +1546,10 @@ func (table *Table) GongMarshallUnstaging(stage *Stage) (decl string) {
 	return
 }
 
-func IntToLetters(number int32) (letters string) {
+func GongIntToLetters(number int32) (letters string) {
 	number--
 	if firstLetter := number / 26; firstLetter > 0 {
-		letters += IntToLetters(firstLetter)
+		letters += GongIntToLetters(firstLetter)
 		letters += string('A' + number%26)
 	} else {
 		letters += string('A' + number)
@@ -1558,8 +1558,8 @@ func IntToLetters(number int32) (letters string) {
 	return
 }
 
-// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
-func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+// GongGenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GongGenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
 	// 1. Create a deterministic hash from the inputs using SHA-256
 	h := sha256.New()
 

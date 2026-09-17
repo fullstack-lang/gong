@@ -23,29 +23,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *A:
-		ok = stage.IsStagedA(target)
-
-	case *B:
-		ok = stage.IsStagedB(target)
-
-	case *C:
-		ok = stage.IsStagedC(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedA(a *A) (ok bool) {
 
@@ -96,7 +73,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchA(a *A) {
 
 	// check if instance is already staged
-	if IsStaged(stage, a) {
+	if stage.IsStaged(a) {
 		return
 	}
 
@@ -104,12 +81,12 @@ func (stage *Stage) StageBranchA(a *A) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if a.B != nil {
-		StageBranch(stage, a.B)
+		stage.StageBranch(a.B)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _b := range a.Bs {
-		StageBranch(stage, _b)
+		stage.StageBranch(_b)
 	}
 
 }
@@ -117,7 +94,7 @@ func (stage *Stage) StageBranchA(a *A) {
 func (stage *Stage) StageBranchB(b *B) {
 
 	// check if instance is already staged
-	if IsStaged(stage, b) {
+	if stage.IsStaged(b) {
 		return
 	}
 
@@ -132,7 +109,7 @@ func (stage *Stage) StageBranchB(b *B) {
 func (stage *Stage) StageBranchC(c *C) {
 
 	// check if instance is already staged
-	if IsStaged(stage, c) {
+	if stage.IsStaged(c) {
 		return
 	}
 
@@ -144,11 +121,11 @@ func (stage *Stage) StageBranchC(c *C) {
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -156,15 +133,15 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *A:
-		toT := CopyBranchA(mapOrigCopy, fromT)
+		toT := GongCopyBranchA(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *B:
-		toT := CopyBranchB(mapOrigCopy, fromT)
+		toT := GongCopyBranchB(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *C:
-		toT := CopyBranchC(mapOrigCopy, fromT)
+		toT := GongCopyBranchC(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -174,7 +151,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchA(mapOrigCopy map[any]any, aFrom *A) (aTo *A) {
+func GongCopyBranchA(mapOrigCopy map[any]any, aFrom *A) (aTo *A) {
 
 	// aFrom has already been copied
 	if _aTo, ok := mapOrigCopy[aFrom]; ok {
@@ -184,22 +161,22 @@ func CopyBranchA(mapOrigCopy map[any]any, aFrom *A) (aTo *A) {
 
 	aTo = new(A)
 	mapOrigCopy[aFrom] = aTo
-	aFrom.CopyBasicFields(aTo)
+	aFrom.GongCopyBasicFields(aTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if aFrom.B != nil {
-		aTo.B = CopyBranchB(mapOrigCopy, aFrom.B)
+		aTo.B = GongCopyBranchB(mapOrigCopy, aFrom.B)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _b := range aFrom.Bs {
-		aTo.Bs = append(aTo.Bs, CopyBranchB(mapOrigCopy, _b))
+		aTo.Bs = append(aTo.Bs, GongCopyBranchB(mapOrigCopy, _b))
 	}
 
 	return
 }
 
-func CopyBranchB(mapOrigCopy map[any]any, bFrom *B) (bTo *B) {
+func GongCopyBranchB(mapOrigCopy map[any]any, bFrom *B) (bTo *B) {
 
 	// bFrom has already been copied
 	if _bTo, ok := mapOrigCopy[bFrom]; ok {
@@ -209,7 +186,7 @@ func CopyBranchB(mapOrigCopy map[any]any, bFrom *B) (bTo *B) {
 
 	bTo = new(B)
 	mapOrigCopy[bFrom] = bTo
-	bFrom.CopyBasicFields(bTo)
+	bFrom.GongCopyBasicFields(bTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -218,7 +195,7 @@ func CopyBranchB(mapOrigCopy map[any]any, bFrom *B) (bTo *B) {
 	return
 }
 
-func CopyBranchC(mapOrigCopy map[any]any, cFrom *C) (cTo *C) {
+func GongCopyBranchC(mapOrigCopy map[any]any, cFrom *C) (cTo *C) {
 
 	// cFrom has already been copied
 	if _cTo, ok := mapOrigCopy[cFrom]; ok {
@@ -228,7 +205,7 @@ func CopyBranchC(mapOrigCopy map[any]any, cFrom *C) (cTo *C) {
 
 	cTo = new(C)
 	mapOrigCopy[cFrom] = cTo
-	cFrom.CopyBasicFields(cTo)
+	cFrom.GongCopyBasicFields(cTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -260,16 +237,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchA(a *A) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, a) {
+	if !stage.IsStaged(a) {
 		return
 	}
 
@@ -277,12 +249,12 @@ func (stage *Stage) UnstageBranchA(a *A) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if a.B != nil {
-		UnstageBranch(stage, a.B)
+		stage.UnstageBranch(a.B)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _b := range a.Bs {
-		UnstageBranch(stage, _b)
+		stage.UnstageBranch(_b)
 	}
 
 }
@@ -290,7 +262,7 @@ func (stage *Stage) UnstageBranchA(a *A) {
 func (stage *Stage) UnstageBranchB(b *B) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, b) {
+	if !stage.IsStaged(b) {
 		return
 	}
 
@@ -305,7 +277,7 @@ func (stage *Stage) UnstageBranchB(b *B) {
 func (stage *Stage) UnstageBranchC(c *C) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, c) {
+	if !stage.IsStaged(c) {
 		return
 	}
 
@@ -420,7 +392,7 @@ func (a *A) GongDiff(stage *Stage, aOther *A) (diffs []string) {
 		}
 	}
 	if BsDifferent {
-		ops := Diff(stage, a, aOther, "Bs", aOther.Bs, a.Bs)
+		ops := stage.Diff(a, aOther, "Bs", aOther.Bs, a.Bs)
 		diffs = append(diffs, ops)
 	}
 	if a.UUID != aOther.UUID {
@@ -526,9 +498,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

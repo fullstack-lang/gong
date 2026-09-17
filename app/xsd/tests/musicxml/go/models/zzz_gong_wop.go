@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type A_directive_WOP struct {
@@ -37,7 +35,7 @@ type A_directive_WOP struct {
 	EnclosedText string
 }
 
-func (from *A_directive) CopyBasicFields(to *A_directive) {
+func (from *A_directive) GongCopyBasicFields(to *A_directive) {
 	// insertion point
 	to.Name = from.Name
 	to.Lang = from.Lang
@@ -71,7 +69,7 @@ type A_measure_WOP struct {
 	Id string
 }
 
-func (from *A_measure) CopyBasicFields(to *A_measure) {
+func (from *A_measure) GongCopyBasicFields(to *A_measure) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -100,7 +98,7 @@ type A_measure_1_WOP struct {
 	Id string
 }
 
-func (from *A_measure_1) CopyBasicFields(to *A_measure_1) {
+func (from *A_measure_1) GongCopyBasicFields(to *A_measure_1) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -119,7 +117,7 @@ type A_part_WOP struct {
 	Id string
 }
 
-func (from *A_part) CopyBasicFields(to *A_part) {
+func (from *A_part) GongCopyBasicFields(to *A_part) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -133,7 +131,7 @@ type A_part_1_WOP struct {
 	Id string
 }
 
-func (from *A_part_1) CopyBasicFields(to *A_part_1) {
+func (from *A_part_1) GongCopyBasicFields(to *A_part_1) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -177,7 +175,7 @@ type Accidental_WOP struct {
 	EnclosedText string
 }
 
-func (from *Accidental) CopyBasicFields(to *Accidental) {
+func (from *Accidental) GongCopyBasicFields(to *Accidental) {
 	// insertion point
 	to.Name = from.Name
 	to.Cautionary = from.Cautionary
@@ -236,7 +234,7 @@ type Accidental_mark_WOP struct {
 	EnclosedText Enum_Accidental_value
 }
 
-func (from *Accidental_mark) CopyBasicFields(to *Accidental_mark) {
+func (from *Accidental_mark) GongCopyBasicFields(to *Accidental_mark) {
 	// insertion point
 	to.Name = from.Name
 	to.Smufl = from.Smufl
@@ -311,7 +309,7 @@ type Accidental_text_WOP struct {
 	EnclosedText Enum_Accidental_value
 }
 
-func (from *Accidental_text) CopyBasicFields(to *Accidental_text) {
+func (from *Accidental_text) GongCopyBasicFields(to *Accidental_text) {
 	// insertion point
 	to.Name = from.Name
 	to.Smufl = from.Smufl
@@ -354,7 +352,7 @@ type Accord_WOP struct {
 	Tuning_octave int
 }
 
-func (from *Accord) CopyBasicFields(to *Accord) {
+func (from *Accord) GongCopyBasicFields(to *Accord) {
 	// insertion point
 	to.Name = from.Name
 	to.String = from.String
@@ -399,7 +397,7 @@ type Accordion_registration_WOP struct {
 	Accordion_low string
 }
 
-func (from *Accordion_registration) CopyBasicFields(to *Accordion_registration) {
+func (from *Accordion_registration) GongCopyBasicFields(to *Accordion_registration) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -425,7 +423,7 @@ type Appearance_WOP struct {
 	Name string
 }
 
-func (from *Appearance) CopyBasicFields(to *Appearance) {
+func (from *Appearance) GongCopyBasicFields(to *Appearance) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -456,7 +454,7 @@ type Arpeggiate_WOP struct {
 	Id string
 }
 
-func (from *Arpeggiate) CopyBasicFields(to *Arpeggiate) {
+func (from *Arpeggiate) GongCopyBasicFields(to *Arpeggiate) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -507,7 +505,7 @@ type Arrow_WOP struct {
 	Circular_arrow string
 }
 
-func (from *Arrow) CopyBasicFields(to *Arrow) {
+func (from *Arrow) GongCopyBasicFields(to *Arrow) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -535,7 +533,7 @@ type Articulations_WOP struct {
 	Id string
 }
 
-func (from *Articulations) CopyBasicFields(to *Articulations) {
+func (from *Articulations) GongCopyBasicFields(to *Articulations) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -553,7 +551,7 @@ type Assess_WOP struct {
 	Time_only string
 }
 
-func (from *Assess) CopyBasicFields(to *Assess) {
+func (from *Assess) GongCopyBasicFields(to *Assess) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -573,7 +571,7 @@ type Attributes_WOP struct {
 	Instruments int
 }
 
-func (from *Attributes) CopyBasicFields(to *Attributes) {
+func (from *Attributes) GongCopyBasicFields(to *Attributes) {
 	// insertion point
 	to.Name = from.Name
 	to.Divisions = from.Divisions
@@ -589,7 +587,7 @@ type Backup_WOP struct {
 	Duration string
 }
 
-func (from *Backup) CopyBasicFields(to *Backup) {
+func (from *Backup) GongCopyBasicFields(to *Backup) {
 	// insertion point
 	to.Name = from.Name
 	to.Duration = from.Duration
@@ -605,7 +603,7 @@ type Bar_style_color_WOP struct {
 	EnclosedText string
 }
 
-func (from *Bar_style_color) CopyBasicFields(to *Bar_style_color) {
+func (from *Bar_style_color) GongCopyBasicFields(to *Bar_style_color) {
 	// insertion point
 	to.Name = from.Name
 	to.Color = from.Color
@@ -628,7 +626,7 @@ type Barline_WOP struct {
 	Id string
 }
 
-func (from *Barline) CopyBasicFields(to *Barline) {
+func (from *Barline) GongCopyBasicFields(to *Barline) {
 	// insertion point
 	to.Name = from.Name
 	to.Location = from.Location
@@ -648,7 +646,7 @@ type Barre_WOP struct {
 	Color string
 }
 
-func (from *Barre) CopyBasicFields(to *Barre) {
+func (from *Barre) GongCopyBasicFields(to *Barre) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -663,7 +661,7 @@ type Bass_WOP struct {
 	Arrangement string
 }
 
-func (from *Bass) CopyBasicFields(to *Bass) {
+func (from *Bass) GongCopyBasicFields(to *Bass) {
 	// insertion point
 	to.Name = from.Name
 	to.Arrangement = from.Arrangement
@@ -697,7 +695,7 @@ type Bass_step_WOP struct {
 	EnclosedText string
 }
 
-func (from *Bass_step) CopyBasicFields(to *Bass_step) {
+func (from *Bass_step) GongCopyBasicFields(to *Bass_step) {
 	// insertion point
 	to.Name = from.Name
 	to.Text = from.Text
@@ -731,7 +729,7 @@ type Beam_WOP struct {
 	EnclosedText string
 }
 
-func (from *Beam) CopyBasicFields(to *Beam) {
+func (from *Beam) GongCopyBasicFields(to *Beam) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -760,7 +758,7 @@ type Beat_repeat_WOP struct {
 	Except_voice string
 }
 
-func (from *Beat_repeat) CopyBasicFields(to *Beat_repeat) {
+func (from *Beat_repeat) GongCopyBasicFields(to *Beat_repeat) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -781,7 +779,7 @@ type Beat_unit_tied_WOP struct {
 	Beat_unit_dot string
 }
 
-func (from *Beat_unit_tied) CopyBasicFields(to *Beat_unit_tied) {
+func (from *Beat_unit_tied) GongCopyBasicFields(to *Beat_unit_tied) {
 	// insertion point
 	to.Name = from.Name
 	to.Beat_unit = from.Beat_unit
@@ -798,7 +796,7 @@ type Beater_WOP struct {
 	EnclosedText string
 }
 
-func (from *Beater) CopyBasicFields(to *Beater) {
+func (from *Beater) GongCopyBasicFields(to *Beater) {
 	// insertion point
 	to.Name = from.Name
 	to.Tip = from.Tip
@@ -843,7 +841,7 @@ type Bend_WOP struct {
 	Pre_bend string
 }
 
-func (from *Bend) CopyBasicFields(to *Bend) {
+func (from *Bend) GongCopyBasicFields(to *Bend) {
 	// insertion point
 	to.Name = from.Name
 	to.Shape = from.Shape
@@ -878,7 +876,7 @@ type Bookmark_WOP struct {
 	Position int
 }
 
-func (from *Bookmark) CopyBasicFields(to *Bookmark) {
+func (from *Bookmark) GongCopyBasicFields(to *Bookmark) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -919,7 +917,7 @@ type Bracket_WOP struct {
 	Id string
 }
 
-func (from *Bracket) CopyBasicFields(to *Bracket) {
+func (from *Bracket) GongCopyBasicFields(to *Bracket) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -965,7 +963,7 @@ type Breath_mark_WOP struct {
 	EnclosedText string
 }
 
-func (from *Breath_mark) CopyBasicFields(to *Breath_mark) {
+func (from *Breath_mark) GongCopyBasicFields(to *Breath_mark) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -1009,7 +1007,7 @@ type Caesura_WOP struct {
 	EnclosedText string
 }
 
-func (from *Caesura) CopyBasicFields(to *Caesura) {
+func (from *Caesura) GongCopyBasicFields(to *Caesura) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -1035,7 +1033,7 @@ type Cancel_WOP struct {
 	EnclosedText int
 }
 
-func (from *Cancel) CopyBasicFields(to *Cancel) {
+func (from *Cancel) GongCopyBasicFields(to *Cancel) {
 	// insertion point
 	to.Name = from.Name
 	to.Location = from.Location
@@ -1084,7 +1082,7 @@ type Clef_WOP struct {
 	Clef_octave_change int
 }
 
-func (from *Clef) CopyBasicFields(to *Clef) {
+func (from *Clef) GongCopyBasicFields(to *Clef) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -1139,7 +1137,7 @@ type Coda_WOP struct {
 	Id string
 }
 
-func (from *Coda) CopyBasicFields(to *Coda) {
+func (from *Coda) GongCopyBasicFields(to *Coda) {
 	// insertion point
 	to.Name = from.Name
 	to.Smufl = from.Smufl
@@ -1169,7 +1167,7 @@ type Credit_WOP struct {
 	Credit_type string
 }
 
-func (from *Credit) CopyBasicFields(to *Credit) {
+func (from *Credit) GongCopyBasicFields(to *Credit) {
 	// insertion point
 	to.Name = from.Name
 	to.Page = from.Page
@@ -1203,7 +1201,7 @@ type Dashes_WOP struct {
 	Id string
 }
 
-func (from *Dashes) CopyBasicFields(to *Dashes) {
+func (from *Dashes) GongCopyBasicFields(to *Dashes) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -1226,7 +1224,7 @@ type Defaults_WOP struct {
 	Concert_score string
 }
 
-func (from *Defaults) CopyBasicFields(to *Defaults) {
+func (from *Defaults) GongCopyBasicFields(to *Defaults) {
 	// insertion point
 	to.Name = from.Name
 	to.Concert_score = from.Concert_score
@@ -1240,7 +1238,7 @@ type Degree_WOP struct {
 	Print_object Enum_Yes_no
 }
 
-func (from *Degree) CopyBasicFields(to *Degree) {
+func (from *Degree) GongCopyBasicFields(to *Degree) {
 	// insertion point
 	to.Name = from.Name
 	to.Print_object = from.Print_object
@@ -1274,7 +1272,7 @@ type Degree_alter_WOP struct {
 	EnclosedText string
 }
 
-func (from *Degree_alter) CopyBasicFields(to *Degree_alter) {
+func (from *Degree_alter) GongCopyBasicFields(to *Degree_alter) {
 	// insertion point
 	to.Name = from.Name
 	to.Plus_minus = from.Plus_minus
@@ -1318,7 +1316,7 @@ type Degree_type_WOP struct {
 	EnclosedText string
 }
 
-func (from *Degree_type) CopyBasicFields(to *Degree_type) {
+func (from *Degree_type) GongCopyBasicFields(to *Degree_type) {
 	// insertion point
 	to.Name = from.Name
 	to.Text = from.Text
@@ -1364,7 +1362,7 @@ type Degree_value_WOP struct {
 	EnclosedText int
 }
 
-func (from *Degree_value) CopyBasicFields(to *Degree_value) {
+func (from *Degree_value) GongCopyBasicFields(to *Degree_value) {
 	// insertion point
 	to.Name = from.Name
 	to.Symbol = from.Symbol
@@ -1399,7 +1397,7 @@ type Direction_WOP struct {
 	Staff int
 }
 
-func (from *Direction) CopyBasicFields(to *Direction) {
+func (from *Direction) GongCopyBasicFields(to *Direction) {
 	// insertion point
 	to.Name = from.Name
 	to.Placement = from.Placement
@@ -1418,7 +1416,7 @@ type Direction_type_WOP struct {
 	Id string
 }
 
-func (from *Direction_type) CopyBasicFields(to *Direction_type) {
+func (from *Direction_type) GongCopyBasicFields(to *Direction_type) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -1434,7 +1432,7 @@ type Distance_WOP struct {
 	EnclosedText string
 }
 
-func (from *Distance) CopyBasicFields(to *Distance) {
+func (from *Distance) GongCopyBasicFields(to *Distance) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -1449,7 +1447,7 @@ type Double_WOP struct {
 	Above Enum_Yes_no
 }
 
-func (from *Double) CopyBasicFields(to *Double) {
+func (from *Double) GongCopyBasicFields(to *Double) {
 	// insertion point
 	to.Name = from.Name
 	to.Above = from.Above
@@ -1547,7 +1545,7 @@ type Dynamics_WOP struct {
 	Sfzp string
 }
 
-func (from *Dynamics) CopyBasicFields(to *Dynamics) {
+func (from *Dynamics) GongCopyBasicFields(to *Dynamics) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -1605,7 +1603,7 @@ type Effect_WOP struct {
 	EnclosedText string
 }
 
-func (from *Effect) CopyBasicFields(to *Effect) {
+func (from *Effect) GongCopyBasicFields(to *Effect) {
 	// insertion point
 	to.Name = from.Name
 	to.Smufl = from.Smufl
@@ -1632,7 +1630,7 @@ type Elision_WOP struct {
 	EnclosedText string
 }
 
-func (from *Elision) CopyBasicFields(to *Elision) {
+func (from *Elision) GongCopyBasicFields(to *Elision) {
 	// insertion point
 	to.Name = from.Name
 	to.Smufl = from.Smufl
@@ -1650,7 +1648,7 @@ type Empty_WOP struct {
 	Name string
 }
 
-func (from *Empty) CopyBasicFields(to *Empty) {
+func (from *Empty) GongCopyBasicFields(to *Empty) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -1669,7 +1667,7 @@ type Empty_font_WOP struct {
 	Font_weight string
 }
 
-func (from *Empty_font) CopyBasicFields(to *Empty_font) {
+func (from *Empty_font) GongCopyBasicFields(to *Empty_font) {
 	// insertion point
 	to.Name = from.Name
 	to.Font_family = from.Font_family
@@ -1714,7 +1712,7 @@ type Empty_line_WOP struct {
 	Placement string
 }
 
-func (from *Empty_line) CopyBasicFields(to *Empty_line) {
+func (from *Empty_line) GongCopyBasicFields(to *Empty_line) {
 	// insertion point
 	to.Name = from.Name
 	to.Line_shape = from.Line_shape
@@ -1760,7 +1758,7 @@ type Empty_placement_WOP struct {
 	Placement string
 }
 
-func (from *Empty_placement) CopyBasicFields(to *Empty_placement) {
+func (from *Empty_placement) GongCopyBasicFields(to *Empty_placement) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -1803,7 +1801,7 @@ type Empty_placement_smufl_WOP struct {
 	Smufl string
 }
 
-func (from *Empty_placement_smufl) CopyBasicFields(to *Empty_placement_smufl) {
+func (from *Empty_placement_smufl) GongCopyBasicFields(to *Empty_placement_smufl) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -1849,7 +1847,7 @@ type Empty_print_object_style_align_WOP struct {
 	Valign string
 }
 
-func (from *Empty_print_object_style_align) CopyBasicFields(to *Empty_print_object_style_align) {
+func (from *Empty_print_object_style_align) GongCopyBasicFields(to *Empty_print_object_style_align) {
 	// insertion point
 	to.Name = from.Name
 	to.Print_object = from.Print_object
@@ -1890,7 +1888,7 @@ type Empty_print_style_WOP struct {
 	Color string
 }
 
-func (from *Empty_print_style) CopyBasicFields(to *Empty_print_style) {
+func (from *Empty_print_style) GongCopyBasicFields(to *Empty_print_style) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -1932,7 +1930,7 @@ type Empty_print_style_align_WOP struct {
 	Valign string
 }
 
-func (from *Empty_print_style_align) CopyBasicFields(to *Empty_print_style_align) {
+func (from *Empty_print_style_align) GongCopyBasicFields(to *Empty_print_style_align) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -1978,7 +1976,7 @@ type Empty_print_style_align_id_WOP struct {
 	Id string
 }
 
-func (from *Empty_print_style_align_id) CopyBasicFields(to *Empty_print_style_align_id) {
+func (from *Empty_print_style_align_id) GongCopyBasicFields(to *Empty_print_style_align_id) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -2035,7 +2033,7 @@ type Empty_trill_sound_WOP struct {
 	Last_beat string
 }
 
-func (from *Empty_trill_sound) CopyBasicFields(to *Empty_trill_sound) {
+func (from *Empty_trill_sound) GongCopyBasicFields(to *Empty_trill_sound) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -2067,7 +2065,7 @@ type Encoding_WOP struct {
 	Encoding_description string
 }
 
-func (from *Encoding) CopyBasicFields(to *Encoding) {
+func (from *Encoding) GongCopyBasicFields(to *Encoding) {
 	// insertion point
 	to.Name = from.Name
 	to.Software = from.Software
@@ -2114,7 +2112,7 @@ type Ending_WOP struct {
 	EnclosedText string
 }
 
-func (from *Ending) CopyBasicFields(to *Ending) {
+func (from *Ending) GongCopyBasicFields(to *Ending) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -2154,7 +2152,7 @@ type Extend_WOP struct {
 	Color string
 }
 
-func (from *Extend) CopyBasicFields(to *Extend) {
+func (from *Extend) GongCopyBasicFields(to *Extend) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -2175,7 +2173,7 @@ type Feature_WOP struct {
 	EnclosedText string
 }
 
-func (from *Feature) CopyBasicFields(to *Feature) {
+func (from *Feature) GongCopyBasicFields(to *Feature) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -2212,7 +2210,7 @@ type Fermata_WOP struct {
 	EnclosedText string
 }
 
-func (from *Fermata) CopyBasicFields(to *Fermata) {
+func (from *Fermata) GongCopyBasicFields(to *Fermata) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -2235,7 +2233,7 @@ type Figure_WOP struct {
 	Name string
 }
 
-func (from *Figure) CopyBasicFields(to *Figure) {
+func (from *Figure) GongCopyBasicFields(to *Figure) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -2284,7 +2282,7 @@ type Figured_bass_WOP struct {
 	Duration string
 }
 
-func (from *Figured_bass) CopyBasicFields(to *Figured_bass) {
+func (from *Figured_bass) GongCopyBasicFields(to *Figured_bass) {
 	// insertion point
 	to.Name = from.Name
 	to.Parentheses = from.Parentheses
@@ -2340,7 +2338,7 @@ type Fingering_WOP struct {
 	EnclosedText string
 }
 
-func (from *Fingering) CopyBasicFields(to *Fingering) {
+func (from *Fingering) GongCopyBasicFields(to *Fingering) {
 	// insertion point
 	to.Name = from.Name
 	to.Substitution = from.Substitution
@@ -2370,7 +2368,7 @@ type First_fret_WOP struct {
 	EnclosedText int
 }
 
-func (from *First_fret) CopyBasicFields(to *First_fret) {
+func (from *First_fret) GongCopyBasicFields(to *First_fret) {
 	// insertion point
 	to.Name = from.Name
 	to.Text = from.Text
@@ -2388,7 +2386,7 @@ type For_part_WOP struct {
 	Id string
 }
 
-func (from *For_part) CopyBasicFields(to *For_part) {
+func (from *For_part) GongCopyBasicFields(to *For_part) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -2443,7 +2441,7 @@ type Formatted_symbol_WOP struct {
 	EnclosedText string
 }
 
-func (from *Formatted_symbol) CopyBasicFields(to *Formatted_symbol) {
+func (from *Formatted_symbol) GongCopyBasicFields(to *Formatted_symbol) {
 	// insertion point
 	to.Name = from.Name
 	to.Justify = from.Justify
@@ -2519,7 +2517,7 @@ type Formatted_symbol_id_WOP struct {
 	EnclosedText string
 }
 
-func (from *Formatted_symbol_id) CopyBasicFields(to *Formatted_symbol_id) {
+func (from *Formatted_symbol_id) GongCopyBasicFields(to *Formatted_symbol_id) {
 	// insertion point
 	to.Name = from.Name
 	to.Justify = from.Justify
@@ -2598,7 +2596,7 @@ type Formatted_text_WOP struct {
 	EnclosedText string
 }
 
-func (from *Formatted_text) CopyBasicFields(to *Formatted_text) {
+func (from *Formatted_text) GongCopyBasicFields(to *Formatted_text) {
 	// insertion point
 	to.Name = from.Name
 	to.Lang = from.Lang
@@ -2680,7 +2678,7 @@ type Formatted_text_id_WOP struct {
 	EnclosedText string
 }
 
-func (from *Formatted_text_id) CopyBasicFields(to *Formatted_text_id) {
+func (from *Formatted_text_id) GongCopyBasicFields(to *Formatted_text_id) {
 	// insertion point
 	to.Name = from.Name
 	to.Lang = from.Lang
@@ -2721,7 +2719,7 @@ type Forward_WOP struct {
 	Staff int
 }
 
-func (from *Forward) CopyBasicFields(to *Forward) {
+func (from *Forward) GongCopyBasicFields(to *Forward) {
 	// insertion point
 	to.Name = from.Name
 	to.Duration = from.Duration
@@ -2761,7 +2759,7 @@ type Frame_WOP struct {
 	Frame_frets int
 }
 
-func (from *Frame) CopyBasicFields(to *Frame) {
+func (from *Frame) GongCopyBasicFields(to *Frame) {
 	// insertion point
 	to.Name = from.Name
 	to.Height = from.Height
@@ -2785,7 +2783,7 @@ type Frame_note_WOP struct {
 	Name string
 }
 
-func (from *Frame_note) CopyBasicFields(to *Frame_note) {
+func (from *Frame_note) GongCopyBasicFields(to *Frame_note) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -2808,7 +2806,7 @@ type Fret_WOP struct {
 	EnclosedText int
 }
 
-func (from *Fret) CopyBasicFields(to *Fret) {
+func (from *Fret) GongCopyBasicFields(to *Fret) {
 	// insertion point
 	to.Name = from.Name
 	to.Font_family = from.Font_family
@@ -2829,7 +2827,7 @@ type Glass_WOP struct {
 	EnclosedText string
 }
 
-func (from *Glass) CopyBasicFields(to *Glass) {
+func (from *Glass) GongCopyBasicFields(to *Glass) {
 	// insertion point
 	to.Name = from.Name
 	to.Smufl = from.Smufl
@@ -2874,7 +2872,7 @@ type Glissando_WOP struct {
 	EnclosedText string
 }
 
-func (from *Glissando) CopyBasicFields(to *Glissando) {
+func (from *Glissando) GongCopyBasicFields(to *Glissando) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -2905,7 +2903,7 @@ type Glyph_WOP struct {
 	EnclosedText string
 }
 
-func (from *Glyph) CopyBasicFields(to *Glyph) {
+func (from *Glyph) GongCopyBasicFields(to *Glyph) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -2926,7 +2924,7 @@ type Grace_WOP struct {
 	Slash Enum_Yes_no
 }
 
-func (from *Grace) CopyBasicFields(to *Grace) {
+func (from *Grace) GongCopyBasicFields(to *Grace) {
 	// insertion point
 	to.Name = from.Name
 	to.Steal_time_previous = from.Steal_time_previous
@@ -2945,7 +2943,7 @@ type Group_barline_WOP struct {
 	EnclosedText string
 }
 
-func (from *Group_barline) CopyBasicFields(to *Group_barline) {
+func (from *Group_barline) GongCopyBasicFields(to *Group_barline) {
 	// insertion point
 	to.Name = from.Name
 	to.Color = from.Color
@@ -2980,7 +2978,7 @@ type Group_name_WOP struct {
 	EnclosedText string
 }
 
-func (from *Group_name) CopyBasicFields(to *Group_name) {
+func (from *Group_name) GongCopyBasicFields(to *Group_name) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -3014,7 +3012,7 @@ type Group_symbol_WOP struct {
 	EnclosedText string
 }
 
-func (from *Group_symbol) CopyBasicFields(to *Group_symbol) {
+func (from *Group_symbol) GongCopyBasicFields(to *Group_symbol) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -3039,7 +3037,7 @@ type Grouping_WOP struct {
 	Id string
 }
 
-func (from *Grouping) CopyBasicFields(to *Grouping) {
+func (from *Grouping) GongCopyBasicFields(to *Grouping) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -3080,7 +3078,7 @@ type Hammer_on_pull_off_WOP struct {
 	EnclosedText string
 }
 
-func (from *Hammer_on_pull_off) CopyBasicFields(to *Hammer_on_pull_off) {
+func (from *Hammer_on_pull_off) GongCopyBasicFields(to *Hammer_on_pull_off) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -3126,7 +3124,7 @@ type Handbell_WOP struct {
 	EnclosedText string
 }
 
-func (from *Handbell) CopyBasicFields(to *Handbell) {
+func (from *Handbell) GongCopyBasicFields(to *Handbell) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -3152,7 +3150,7 @@ type Harmon_closed_WOP struct {
 	EnclosedText string
 }
 
-func (from *Harmon_closed) CopyBasicFields(to *Harmon_closed) {
+func (from *Harmon_closed) GongCopyBasicFields(to *Harmon_closed) {
 	// insertion point
 	to.Name = from.Name
 	to.Location = from.Location
@@ -3185,7 +3183,7 @@ type Harmon_mute_WOP struct {
 	Placement string
 }
 
-func (from *Harmon_mute) CopyBasicFields(to *Harmon_mute) {
+func (from *Harmon_mute) GongCopyBasicFields(to *Harmon_mute) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -3238,7 +3236,7 @@ type Harmonic_WOP struct {
 	Sounding_pitch string
 }
 
-func (from *Harmonic) CopyBasicFields(to *Harmonic) {
+func (from *Harmonic) GongCopyBasicFields(to *Harmonic) {
 	// insertion point
 	to.Name = from.Name
 	to.Print_object = from.Print_object
@@ -3299,7 +3297,7 @@ type Harmony_WOP struct {
 	Staff int
 }
 
-func (from *Harmony) CopyBasicFields(to *Harmony) {
+func (from *Harmony) GongCopyBasicFields(to *Harmony) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -3351,7 +3349,7 @@ type Harmony_alter_WOP struct {
 	EnclosedText string
 }
 
-func (from *Harmony_alter) CopyBasicFields(to *Harmony_alter) {
+func (from *Harmony_alter) GongCopyBasicFields(to *Harmony_alter) {
 	// insertion point
 	to.Name = from.Name
 	to.Location = from.Location
@@ -3398,7 +3396,7 @@ type Harp_pedals_WOP struct {
 	Id string
 }
 
-func (from *Harp_pedals) CopyBasicFields(to *Harp_pedals) {
+func (from *Harp_pedals) GongCopyBasicFields(to *Harp_pedals) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -3421,7 +3419,7 @@ type Heel_toe_WOP struct {
 	Name string
 }
 
-func (from *Heel_toe) CopyBasicFields(to *Heel_toe) {
+func (from *Heel_toe) GongCopyBasicFields(to *Heel_toe) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -3456,7 +3454,7 @@ type Hole_WOP struct {
 	Hole_shape string
 }
 
-func (from *Hole) CopyBasicFields(to *Hole) {
+func (from *Hole) GongCopyBasicFields(to *Hole) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -3483,7 +3481,7 @@ type Hole_closed_WOP struct {
 	EnclosedText string
 }
 
-func (from *Hole_closed) CopyBasicFields(to *Hole_closed) {
+func (from *Hole_closed) GongCopyBasicFields(to *Hole_closed) {
 	// insertion point
 	to.Name = from.Name
 	to.Location = from.Location
@@ -3532,7 +3530,7 @@ type Horizontal_turn_WOP struct {
 	Last_beat string
 }
 
-func (from *Horizontal_turn) CopyBasicFields(to *Horizontal_turn) {
+func (from *Horizontal_turn) GongCopyBasicFields(to *Horizontal_turn) {
 	// insertion point
 	to.Name = from.Name
 	to.Slash = from.Slash
@@ -3563,7 +3561,7 @@ type Identification_WOP struct {
 	Source string
 }
 
-func (from *Identification) CopyBasicFields(to *Identification) {
+func (from *Identification) GongCopyBasicFields(to *Identification) {
 	// insertion point
 	to.Name = from.Name
 	to.Source = from.Source
@@ -3597,7 +3595,7 @@ type Image_WOP struct {
 	Id string
 }
 
-func (from *Image) CopyBasicFields(to *Image) {
+func (from *Image) GongCopyBasicFields(to *Image) {
 	// insertion point
 	to.Name = from.Name
 	to.Source = from.Source
@@ -3621,7 +3619,7 @@ type Instrument_WOP struct {
 	Id string
 }
 
-func (from *Instrument) CopyBasicFields(to *Instrument) {
+func (from *Instrument) GongCopyBasicFields(to *Instrument) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -3641,7 +3639,7 @@ type Instrument_change_WOP struct {
 	Ensemble string
 }
 
-func (from *Instrument_change) CopyBasicFields(to *Instrument_change) {
+func (from *Instrument_change) GongCopyBasicFields(to *Instrument_change) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -3658,7 +3656,7 @@ type Instrument_link_WOP struct {
 	Id string
 }
 
-func (from *Instrument_link) CopyBasicFields(to *Instrument_link) {
+func (from *Instrument_link) GongCopyBasicFields(to *Instrument_link) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -3680,7 +3678,7 @@ type Interchangeable_WOP struct {
 	Beat_type string
 }
 
-func (from *Interchangeable) CopyBasicFields(to *Interchangeable) {
+func (from *Interchangeable) GongCopyBasicFields(to *Interchangeable) {
 	// insertion point
 	to.Name = from.Name
 	to.Symbol = from.Symbol
@@ -3718,7 +3716,7 @@ type Inversion_WOP struct {
 	EnclosedText int
 }
 
-func (from *Inversion) CopyBasicFields(to *Inversion) {
+func (from *Inversion) GongCopyBasicFields(to *Inversion) {
 	// insertion point
 	to.Name = from.Name
 	to.Text = from.Text
@@ -3772,7 +3770,7 @@ type Key_WOP struct {
 	Key_alter string
 }
 
-func (from *Key) CopyBasicFields(to *Key) {
+func (from *Key) GongCopyBasicFields(to *Key) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -3803,7 +3801,7 @@ type Key_accidental_WOP struct {
 	EnclosedText Enum_Accidental_value
 }
 
-func (from *Key_accidental) CopyBasicFields(to *Key_accidental) {
+func (from *Key_accidental) GongCopyBasicFields(to *Key_accidental) {
 	// insertion point
 	to.Name = from.Name
 	to.Smufl = from.Smufl
@@ -3822,7 +3820,7 @@ type Key_octave_WOP struct {
 	EnclosedText int
 }
 
-func (from *Key_octave) CopyBasicFields(to *Key_octave) {
+func (from *Key_octave) GongCopyBasicFields(to *Key_octave) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -3870,7 +3868,7 @@ type Kind_WOP struct {
 	EnclosedText string
 }
 
-func (from *Kind) CopyBasicFields(to *Kind) {
+func (from *Kind) GongCopyBasicFields(to *Kind) {
 	// insertion point
 	to.Name = from.Name
 	to.Use_symbols = from.Use_symbols
@@ -3910,7 +3908,7 @@ type Level_WOP struct {
 	EnclosedText string
 }
 
-func (from *Level) CopyBasicFields(to *Level) {
+func (from *Level) GongCopyBasicFields(to *Level) {
 	// insertion point
 	to.Name = from.Name
 	to.Reference = from.Reference
@@ -3937,7 +3935,7 @@ type Line_detail_WOP struct {
 	Print_object Enum_Yes_no
 }
 
-func (from *Line_detail) CopyBasicFields(to *Line_detail) {
+func (from *Line_detail) GongCopyBasicFields(to *Line_detail) {
 	// insertion point
 	to.Name = from.Name
 	to.Line = from.Line
@@ -3957,7 +3955,7 @@ type Line_width_WOP struct {
 	EnclosedText string
 }
 
-func (from *Line_width) CopyBasicFields(to *Line_width) {
+func (from *Line_width) GongCopyBasicFields(to *Line_width) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -3996,7 +3994,7 @@ type Link_WOP struct {
 	Relative_y string
 }
 
-func (from *Link) CopyBasicFields(to *Link) {
+func (from *Link) GongCopyBasicFields(to *Link) {
 	// insertion point
 	to.Name = from.Name
 	to.NameXSD = from.NameXSD
@@ -4020,7 +4018,7 @@ type Listen_WOP struct {
 	Name string
 }
 
-func (from *Listen) CopyBasicFields(to *Listen) {
+func (from *Listen) GongCopyBasicFields(to *Listen) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -4031,7 +4029,7 @@ type Listening_WOP struct {
 	Name string
 }
 
-func (from *Listening) CopyBasicFields(to *Listening) {
+func (from *Listening) GongCopyBasicFields(to *Listening) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -4076,7 +4074,7 @@ type Lyric_WOP struct {
 	End_paragraph string
 }
 
-func (from *Lyric) CopyBasicFields(to *Lyric) {
+func (from *Lyric) GongCopyBasicFields(to *Lyric) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -4116,7 +4114,7 @@ type Lyric_font_WOP struct {
 	Font_weight string
 }
 
-func (from *Lyric_font) CopyBasicFields(to *Lyric_font) {
+func (from *Lyric_font) GongCopyBasicFields(to *Lyric_font) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -4139,7 +4137,7 @@ type Lyric_language_WOP struct {
 	Lang string
 }
 
-func (from *Lyric_language) CopyBasicFields(to *Lyric_language) {
+func (from *Lyric_language) GongCopyBasicFields(to *Lyric_language) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -4155,7 +4153,7 @@ type Measure_layout_WOP struct {
 	Measure_distance string
 }
 
-func (from *Measure_layout) CopyBasicFields(to *Measure_layout) {
+func (from *Measure_layout) GongCopyBasicFields(to *Measure_layout) {
 	// insertion point
 	to.Name = from.Name
 	to.Measure_distance = from.Measure_distance
@@ -4199,7 +4197,7 @@ type Measure_numbering_WOP struct {
 	EnclosedText string
 }
 
-func (from *Measure_numbering) CopyBasicFields(to *Measure_numbering) {
+func (from *Measure_numbering) GongCopyBasicFields(to *Measure_numbering) {
 	// insertion point
 	to.Name = from.Name
 	to.System = from.System
@@ -4232,7 +4230,7 @@ type Measure_repeat_WOP struct {
 	EnclosedText string
 }
 
-func (from *Measure_repeat) CopyBasicFields(to *Measure_repeat) {
+func (from *Measure_repeat) GongCopyBasicFields(to *Measure_repeat) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -4260,7 +4258,7 @@ type Measure_style_WOP struct {
 	Id string
 }
 
-func (from *Measure_style) CopyBasicFields(to *Measure_style) {
+func (from *Measure_style) GongCopyBasicFields(to *Measure_style) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -4282,7 +4280,7 @@ type Membrane_WOP struct {
 	EnclosedText string
 }
 
-func (from *Membrane) CopyBasicFields(to *Membrane) {
+func (from *Membrane) GongCopyBasicFields(to *Membrane) {
 	// insertion point
 	to.Name = from.Name
 	to.Smufl = from.Smufl
@@ -4299,7 +4297,7 @@ type Metal_WOP struct {
 	EnclosedText string
 }
 
-func (from *Metal) CopyBasicFields(to *Metal) {
+func (from *Metal) GongCopyBasicFields(to *Metal) {
 	// insertion point
 	to.Name = from.Name
 	to.Smufl = from.Smufl
@@ -4350,7 +4348,7 @@ type Metronome_WOP struct {
 	Metronome_relation string
 }
 
-func (from *Metronome) CopyBasicFields(to *Metronome) {
+func (from *Metronome) GongCopyBasicFields(to *Metronome) {
 	// insertion point
 	to.Name = from.Name
 	to.Parentheses = from.Parentheses
@@ -4384,7 +4382,7 @@ type Metronome_beam_WOP struct {
 	EnclosedText Enum_Beam_value
 }
 
-func (from *Metronome_beam) CopyBasicFields(to *Metronome_beam) {
+func (from *Metronome_beam) GongCopyBasicFields(to *Metronome_beam) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -4401,7 +4399,7 @@ type Metronome_note_WOP struct {
 	Metronome_dot string
 }
 
-func (from *Metronome_note) CopyBasicFields(to *Metronome_note) {
+func (from *Metronome_note) GongCopyBasicFields(to *Metronome_note) {
 	// insertion point
 	to.Name = from.Name
 	to.Metronome_type = from.Metronome_type
@@ -4416,7 +4414,7 @@ type Metronome_tied_WOP struct {
 	Type Enum_Start_stop
 }
 
-func (from *Metronome_tied) CopyBasicFields(to *Metronome_tied) {
+func (from *Metronome_tied) GongCopyBasicFields(to *Metronome_tied) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -4428,7 +4426,7 @@ type Metronome_tuplet_WOP struct {
 	Name string
 }
 
-func (from *Metronome_tuplet) CopyBasicFields(to *Metronome_tuplet) {
+func (from *Metronome_tuplet) GongCopyBasicFields(to *Metronome_tuplet) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -4445,7 +4443,7 @@ type Midi_device_WOP struct {
 	EnclosedText string
 }
 
-func (from *Midi_device) CopyBasicFields(to *Midi_device) {
+func (from *Midi_device) GongCopyBasicFields(to *Midi_device) {
 	// insertion point
 	to.Name = from.Name
 	to.Port = from.Port
@@ -4477,7 +4475,7 @@ type Midi_instrument_WOP struct {
 	Elevation string
 }
 
-func (from *Midi_instrument) CopyBasicFields(to *Midi_instrument) {
+func (from *Midi_instrument) GongCopyBasicFields(to *Midi_instrument) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -4497,7 +4495,7 @@ type Miscellaneous_WOP struct {
 	Name string
 }
 
-func (from *Miscellaneous) CopyBasicFields(to *Miscellaneous) {
+func (from *Miscellaneous) GongCopyBasicFields(to *Miscellaneous) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -4512,7 +4510,7 @@ type Miscellaneous_field_WOP struct {
 	EnclosedText string
 }
 
-func (from *Miscellaneous_field) CopyBasicFields(to *Miscellaneous_field) {
+func (from *Miscellaneous_field) GongCopyBasicFields(to *Miscellaneous_field) {
 	// insertion point
 	to.Name = from.Name
 	to.NameXSD = from.NameXSD
@@ -4525,7 +4523,7 @@ type Mordent_WOP struct {
 	Name string
 }
 
-func (from *Mordent) CopyBasicFields(to *Mordent) {
+func (from *Mordent) GongCopyBasicFields(to *Mordent) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -4540,7 +4538,7 @@ type Multiple_rest_WOP struct {
 	EnclosedText int
 }
 
-func (from *Multiple_rest) CopyBasicFields(to *Multiple_rest) {
+func (from *Multiple_rest) GongCopyBasicFields(to *Multiple_rest) {
 	// insertion point
 	to.Name = from.Name
 	to.Use_symbols = from.Use_symbols
@@ -4555,7 +4553,7 @@ type Name_display_WOP struct {
 	Print_object Enum_Yes_no
 }
 
-func (from *Name_display) CopyBasicFields(to *Name_display) {
+func (from *Name_display) GongCopyBasicFields(to *Name_display) {
 	// insertion point
 	to.Name = from.Name
 	to.Print_object = from.Print_object
@@ -4585,7 +4583,7 @@ type Non_arpeggiate_WOP struct {
 	Id string
 }
 
-func (from *Non_arpeggiate) CopyBasicFields(to *Non_arpeggiate) {
+func (from *Non_arpeggiate) GongCopyBasicFields(to *Non_arpeggiate) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -4609,7 +4607,7 @@ type Notations_WOP struct {
 	Id string
 }
 
-func (from *Notations) CopyBasicFields(to *Notations) {
+func (from *Notations) GongCopyBasicFields(to *Notations) {
 	// insertion point
 	to.Name = from.Name
 	to.Print_object = from.Print_object
@@ -4674,7 +4672,7 @@ type Note_WOP struct {
 	Staff int
 }
 
-func (from *Note) CopyBasicFields(to *Note) {
+func (from *Note) GongCopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
 	to.Print_leger = from.Print_leger
@@ -4715,7 +4713,7 @@ type Note_size_WOP struct {
 	EnclosedText string
 }
 
-func (from *Note_size) CopyBasicFields(to *Note_size) {
+func (from *Note_size) GongCopyBasicFields(to *Note_size) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -4732,7 +4730,7 @@ type Note_type_WOP struct {
 	EnclosedText Enum_Note_type_value
 }
 
-func (from *Note_type) CopyBasicFields(to *Note_type) {
+func (from *Note_type) GongCopyBasicFields(to *Note_type) {
 	// insertion point
 	to.Name = from.Name
 	to.Size = from.Size
@@ -4763,7 +4761,7 @@ type Notehead_WOP struct {
 	EnclosedText string
 }
 
-func (from *Notehead) CopyBasicFields(to *Notehead) {
+func (from *Notehead) GongCopyBasicFields(to *Notehead) {
 	// insertion point
 	to.Name = from.Name
 	to.Filled = from.Filled
@@ -4783,7 +4781,7 @@ type Notehead_text_WOP struct {
 	Name string
 }
 
-func (from *Notehead_text) CopyBasicFields(to *Notehead_text) {
+func (from *Notehead_text) GongCopyBasicFields(to *Notehead_text) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -4794,7 +4792,7 @@ type Numeral_WOP struct {
 	Name string
 }
 
-func (from *Numeral) CopyBasicFields(to *Numeral) {
+func (from *Numeral) GongCopyBasicFields(to *Numeral) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -4811,7 +4809,7 @@ type Numeral_key_WOP struct {
 	Numeral_mode string
 }
 
-func (from *Numeral_key) CopyBasicFields(to *Numeral_key) {
+func (from *Numeral_key) GongCopyBasicFields(to *Numeral_key) {
 	// insertion point
 	to.Name = from.Name
 	to.Print_object = from.Print_object
@@ -4847,7 +4845,7 @@ type Numeral_root_WOP struct {
 	EnclosedText int
 }
 
-func (from *Numeral_root) CopyBasicFields(to *Numeral_root) {
+func (from *Numeral_root) GongCopyBasicFields(to *Numeral_root) {
 	// insertion point
 	to.Name = from.Name
 	to.Text = from.Text
@@ -4899,7 +4897,7 @@ type Octave_shift_WOP struct {
 	Id string
 }
 
-func (from *Octave_shift) CopyBasicFields(to *Octave_shift) {
+func (from *Octave_shift) GongCopyBasicFields(to *Octave_shift) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -4929,7 +4927,7 @@ type Offset_WOP struct {
 	EnclosedText string
 }
 
-func (from *Offset) CopyBasicFields(to *Offset) {
+func (from *Offset) GongCopyBasicFields(to *Offset) {
 	// insertion point
 	to.Name = from.Name
 	to.Sound = from.Sound
@@ -4954,7 +4952,7 @@ type Opus_WOP struct {
 	Actuate string
 }
 
-func (from *Opus) CopyBasicFields(to *Opus) {
+func (from *Opus) GongCopyBasicFields(to *Opus) {
 	// insertion point
 	to.Name = from.Name
 	to.Href = from.Href
@@ -4973,7 +4971,7 @@ type Ornaments_WOP struct {
 	Id string
 }
 
-func (from *Ornaments) CopyBasicFields(to *Ornaments) {
+func (from *Ornaments) GongCopyBasicFields(to *Ornaments) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -4989,7 +4987,7 @@ type Other_appearance_WOP struct {
 	EnclosedText string
 }
 
-func (from *Other_appearance) CopyBasicFields(to *Other_appearance) {
+func (from *Other_appearance) GongCopyBasicFields(to *Other_appearance) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -5032,7 +5030,7 @@ type Other_direction_WOP struct {
 	EnclosedText string
 }
 
-func (from *Other_direction) CopyBasicFields(to *Other_direction) {
+func (from *Other_direction) GongCopyBasicFields(to *Other_direction) {
 	// insertion point
 	to.Name = from.Name
 	to.Print_object = from.Print_object
@@ -5066,7 +5064,7 @@ type Other_listening_WOP struct {
 	EnclosedText string
 }
 
-func (from *Other_listening) CopyBasicFields(to *Other_listening) {
+func (from *Other_listening) GongCopyBasicFields(to *Other_listening) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -5113,7 +5111,7 @@ type Other_notation_WOP struct {
 	EnclosedText string
 }
 
-func (from *Other_notation) CopyBasicFields(to *Other_notation) {
+func (from *Other_notation) GongCopyBasicFields(to *Other_notation) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -5164,7 +5162,7 @@ type Other_placement_text_WOP struct {
 	EnclosedText string
 }
 
-func (from *Other_placement_text) CopyBasicFields(to *Other_placement_text) {
+func (from *Other_placement_text) GongCopyBasicFields(to *Other_placement_text) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -5191,7 +5189,7 @@ type Other_play_WOP struct {
 	EnclosedText string
 }
 
-func (from *Other_play) CopyBasicFields(to *Other_play) {
+func (from *Other_play) GongCopyBasicFields(to *Other_play) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -5208,7 +5206,7 @@ type Other_text_WOP struct {
 	EnclosedText string
 }
 
-func (from *Other_text) CopyBasicFields(to *Other_text) {
+func (from *Other_text) GongCopyBasicFields(to *Other_text) {
 	// insertion point
 	to.Name = from.Name
 	to.Smufl = from.Smufl
@@ -5225,7 +5223,7 @@ type Page_layout_WOP struct {
 	Page_width string
 }
 
-func (from *Page_layout) CopyBasicFields(to *Page_layout) {
+func (from *Page_layout) GongCopyBasicFields(to *Page_layout) {
 	// insertion point
 	to.Name = from.Name
 	to.Page_height = from.Page_height
@@ -5248,7 +5246,7 @@ type Page_margins_WOP struct {
 	Bottom_margin string
 }
 
-func (from *Page_margins) CopyBasicFields(to *Page_margins) {
+func (from *Page_margins) GongCopyBasicFields(to *Page_margins) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -5270,7 +5268,7 @@ type Part_clef_WOP struct {
 	Clef_octave_change int
 }
 
-func (from *Part_clef) CopyBasicFields(to *Part_clef) {
+func (from *Part_clef) GongCopyBasicFields(to *Part_clef) {
 	// insertion point
 	to.Name = from.Name
 	to.Sign = from.Sign
@@ -5290,7 +5288,7 @@ type Part_group_WOP struct {
 	Group_time string
 }
 
-func (from *Part_group) CopyBasicFields(to *Part_group) {
+func (from *Part_group) GongCopyBasicFields(to *Part_group) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -5318,7 +5316,7 @@ type Part_link_WOP struct {
 	Group_link string
 }
 
-func (from *Part_link) CopyBasicFields(to *Part_link) {
+func (from *Part_link) GongCopyBasicFields(to *Part_link) {
 	// insertion point
 	to.Name = from.Name
 	to.Href = from.Href
@@ -5336,7 +5334,7 @@ type Part_list_WOP struct {
 	Name string
 }
 
-func (from *Part_list) CopyBasicFields(to *Part_list) {
+func (from *Part_list) GongCopyBasicFields(to *Part_list) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -5371,7 +5369,7 @@ type Part_name_WOP struct {
 	EnclosedText string
 }
 
-func (from *Part_name) CopyBasicFields(to *Part_name) {
+func (from *Part_name) GongCopyBasicFields(to *Part_name) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -5410,7 +5408,7 @@ type Part_symbol_WOP struct {
 	EnclosedText Enum_Group_symbol_value
 }
 
-func (from *Part_symbol) CopyBasicFields(to *Part_symbol) {
+func (from *Part_symbol) GongCopyBasicFields(to *Part_symbol) {
 	// insertion point
 	to.Name = from.Name
 	to.Top_staff = from.Top_staff
@@ -5437,7 +5435,7 @@ type Part_transpose_WOP struct {
 	Double float64
 }
 
-func (from *Part_transpose) CopyBasicFields(to *Part_transpose) {
+func (from *Part_transpose) GongCopyBasicFields(to *Part_transpose) {
 	// insertion point
 	to.Name = from.Name
 	to.Diatonic = from.Diatonic
@@ -5486,7 +5484,7 @@ type Pedal_WOP struct {
 	Id string
 }
 
-func (from *Pedal) CopyBasicFields(to *Pedal) {
+func (from *Pedal) GongCopyBasicFields(to *Pedal) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -5518,7 +5516,7 @@ type Pedal_tuning_WOP struct {
 	Pedal_alter string
 }
 
-func (from *Pedal_tuning) CopyBasicFields(to *Pedal_tuning) {
+func (from *Pedal_tuning) GongCopyBasicFields(to *Pedal_tuning) {
 	// insertion point
 	to.Name = from.Name
 	to.Pedal_step = from.Pedal_step
@@ -5541,7 +5539,7 @@ type Per_minute_WOP struct {
 	EnclosedText string
 }
 
-func (from *Per_minute) CopyBasicFields(to *Per_minute) {
+func (from *Per_minute) GongCopyBasicFields(to *Per_minute) {
 	// insertion point
 	to.Name = from.Name
 	to.Font_family = from.Font_family
@@ -5585,7 +5583,7 @@ type Percussion_WOP struct {
 	Stick_location string
 }
 
-func (from *Percussion) CopyBasicFields(to *Percussion) {
+func (from *Percussion) GongCopyBasicFields(to *Percussion) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -5616,7 +5614,7 @@ type Pitch_WOP struct {
 	Octave int
 }
 
-func (from *Pitch) CopyBasicFields(to *Pitch) {
+func (from *Pitch) GongCopyBasicFields(to *Pitch) {
 	// insertion point
 	to.Name = from.Name
 	to.Step = from.Step
@@ -5634,7 +5632,7 @@ type Pitched_WOP struct {
 	EnclosedText string
 }
 
-func (from *Pitched) CopyBasicFields(to *Pitched) {
+func (from *Pitched) GongCopyBasicFields(to *Pitched) {
 	// insertion point
 	to.Name = from.Name
 	to.Smufl = from.Smufl
@@ -5669,7 +5667,7 @@ type Placement_text_WOP struct {
 	EnclosedText string
 }
 
-func (from *Placement_text) CopyBasicFields(to *Placement_text) {
+func (from *Placement_text) GongCopyBasicFields(to *Placement_text) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -5699,7 +5697,7 @@ type Play_WOP struct {
 	Semi_pitched string
 }
 
-func (from *Play) CopyBasicFields(to *Play) {
+func (from *Play) GongCopyBasicFields(to *Play) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -5718,7 +5716,7 @@ type Player_WOP struct {
 	Player_name string
 }
 
-func (from *Player) CopyBasicFields(to *Player) {
+func (from *Player) GongCopyBasicFields(to *Player) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -5761,7 +5759,7 @@ type Principal_voice_WOP struct {
 	EnclosedText string
 }
 
-func (from *Principal_voice) CopyBasicFields(to *Principal_voice) {
+func (from *Principal_voice) GongCopyBasicFields(to *Principal_voice) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -5799,7 +5797,7 @@ type Print_WOP struct {
 	Id string
 }
 
-func (from *Print) CopyBasicFields(to *Print) {
+func (from *Print) GongCopyBasicFields(to *Print) {
 	// insertion point
 	to.Name = from.Name
 	to.Staff_spacing = from.Staff_spacing
@@ -5816,7 +5814,7 @@ type Release_WOP struct {
 	Name string
 }
 
-func (from *Release) CopyBasicFields(to *Release) {
+func (from *Release) GongCopyBasicFields(to *Release) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -5835,7 +5833,7 @@ type Repeat_WOP struct {
 	Winged string
 }
 
-func (from *Repeat) CopyBasicFields(to *Repeat) {
+func (from *Repeat) GongCopyBasicFields(to *Repeat) {
 	// insertion point
 	to.Name = from.Name
 	to.Direction = from.Direction
@@ -5856,7 +5854,7 @@ type Rest_WOP struct {
 	Display_octave int
 }
 
-func (from *Rest) CopyBasicFields(to *Rest) {
+func (from *Rest) GongCopyBasicFields(to *Rest) {
 	// insertion point
 	to.Name = from.Name
 	to.Measure = from.Measure
@@ -5870,7 +5868,7 @@ type Root_WOP struct {
 	Name string
 }
 
-func (from *Root) CopyBasicFields(to *Root) {
+func (from *Root) GongCopyBasicFields(to *Root) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -5903,7 +5901,7 @@ type Root_step_WOP struct {
 	EnclosedText Enum_Step
 }
 
-func (from *Root_step) CopyBasicFields(to *Root_step) {
+func (from *Root_step) GongCopyBasicFields(to *Root_step) {
 	// insertion point
 	to.Name = from.Name
 	to.Text = from.Text
@@ -5929,7 +5927,7 @@ type Scaling_WOP struct {
 	Tenths string
 }
 
-func (from *Scaling) CopyBasicFields(to *Scaling) {
+func (from *Scaling) GongCopyBasicFields(to *Scaling) {
 	// insertion point
 	to.Name = from.Name
 	to.Millimeters = from.Millimeters
@@ -5944,7 +5942,7 @@ type Scordatura_WOP struct {
 	Id string
 }
 
-func (from *Scordatura) CopyBasicFields(to *Scordatura) {
+func (from *Scordatura) GongCopyBasicFields(to *Scordatura) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -5968,7 +5966,7 @@ type Score_instrument_WOP struct {
 	Ensemble string
 }
 
-func (from *Score_instrument) CopyBasicFields(to *Score_instrument) {
+func (from *Score_instrument) GongCopyBasicFields(to *Score_instrument) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -5989,7 +5987,7 @@ type Score_part_WOP struct {
 	Group string
 }
 
-func (from *Score_part) CopyBasicFields(to *Score_part) {
+func (from *Score_part) GongCopyBasicFields(to *Score_part) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -6008,7 +6006,7 @@ type Score_partwise_WOP struct {
 	Movement_title string
 }
 
-func (from *Score_partwise) CopyBasicFields(to *Score_partwise) {
+func (from *Score_partwise) GongCopyBasicFields(to *Score_partwise) {
 	// insertion point
 	to.Name = from.Name
 	to.Version = from.Version
@@ -6028,7 +6026,7 @@ type Score_timewise_WOP struct {
 	Movement_title string
 }
 
-func (from *Score_timewise) CopyBasicFields(to *Score_timewise) {
+func (from *Score_timewise) GongCopyBasicFields(to *Score_timewise) {
 	// insertion point
 	to.Name = from.Name
 	to.Version = from.Version
@@ -6068,7 +6066,7 @@ type Segno_WOP struct {
 	Id string
 }
 
-func (from *Segno) CopyBasicFields(to *Segno) {
+func (from *Segno) GongCopyBasicFields(to *Segno) {
 	// insertion point
 	to.Name = from.Name
 	to.Smufl = from.Smufl
@@ -6104,7 +6102,7 @@ type Slash_WOP struct {
 	Except_voice string
 }
 
-func (from *Slash) CopyBasicFields(to *Slash) {
+func (from *Slash) GongCopyBasicFields(to *Slash) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -6161,7 +6159,7 @@ type Slide_WOP struct {
 	EnclosedText string
 }
 
-func (from *Slide) CopyBasicFields(to *Slide) {
+func (from *Slide) GongCopyBasicFields(to *Slide) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -6230,7 +6228,7 @@ type Slur_WOP struct {
 	Id string
 }
 
-func (from *Slur) CopyBasicFields(to *Slur) {
+func (from *Slur) GongCopyBasicFields(to *Slur) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -6296,7 +6294,7 @@ type Sound_WOP struct {
 	Id string
 }
 
-func (from *Sound) CopyBasicFields(to *Sound) {
+func (from *Sound) GongCopyBasicFields(to *Sound) {
 	// insertion point
 	to.Name = from.Name
 	to.Tempo = from.Tempo
@@ -6339,7 +6337,7 @@ type Staff_details_WOP struct {
 	Capo int
 }
 
-func (from *Staff_details) CopyBasicFields(to *Staff_details) {
+func (from *Staff_details) GongCopyBasicFields(to *Staff_details) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -6383,7 +6381,7 @@ type Staff_divide_WOP struct {
 	Id string
 }
 
-func (from *Staff_divide) CopyBasicFields(to *Staff_divide) {
+func (from *Staff_divide) GongCopyBasicFields(to *Staff_divide) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -6411,7 +6409,7 @@ type Staff_layout_WOP struct {
 	Staff_distance string
 }
 
-func (from *Staff_layout) CopyBasicFields(to *Staff_layout) {
+func (from *Staff_layout) GongCopyBasicFields(to *Staff_layout) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -6428,7 +6426,7 @@ type Staff_size_WOP struct {
 	EnclosedText string
 }
 
-func (from *Staff_size) CopyBasicFields(to *Staff_size) {
+func (from *Staff_size) GongCopyBasicFields(to *Staff_size) {
 	// insertion point
 	to.Name = from.Name
 	to.Scaling = from.Scaling
@@ -6449,7 +6447,7 @@ type Staff_tuning_WOP struct {
 	Tuning_octave int
 }
 
-func (from *Staff_tuning) CopyBasicFields(to *Staff_tuning) {
+func (from *Staff_tuning) GongCopyBasicFields(to *Staff_tuning) {
 	// insertion point
 	to.Name = from.Name
 	to.Line = from.Line
@@ -6476,7 +6474,7 @@ type Stem_WOP struct {
 	EnclosedText string
 }
 
-func (from *Stem) CopyBasicFields(to *Stem) {
+func (from *Stem) GongCopyBasicFields(to *Stem) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -6503,7 +6501,7 @@ type Stick_WOP struct {
 	Stick_material string
 }
 
-func (from *Stick) CopyBasicFields(to *Stick) {
+func (from *Stick) GongCopyBasicFields(to *Stick) {
 	// insertion point
 	to.Name = from.Name
 	to.Tip = from.Tip
@@ -6545,7 +6543,7 @@ type String_mute_WOP struct {
 	Id string
 }
 
-func (from *String_mute) CopyBasicFields(to *String_mute) {
+func (from *String_mute) GongCopyBasicFields(to *String_mute) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -6591,7 +6589,7 @@ type String_type_WOP struct {
 	EnclosedText int
 }
 
-func (from *String_type) CopyBasicFields(to *String_type) {
+func (from *String_type) GongCopyBasicFields(to *String_type) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -6613,7 +6611,7 @@ type Strong_accent_WOP struct {
 	Name string
 }
 
-func (from *Strong_accent) CopyBasicFields(to *Strong_accent) {
+func (from *Strong_accent) GongCopyBasicFields(to *Strong_accent) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -6644,7 +6642,7 @@ type Style_text_WOP struct {
 	EnclosedText string
 }
 
-func (from *Style_text) CopyBasicFields(to *Style_text) {
+func (from *Style_text) GongCopyBasicFields(to *Style_text) {
 	// insertion point
 	to.Name = from.Name
 	to.Default_x = from.Default_x
@@ -6673,7 +6671,7 @@ type Supports_WOP struct {
 	Value string
 }
 
-func (from *Supports) CopyBasicFields(to *Supports) {
+func (from *Supports) GongCopyBasicFields(to *Supports) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -6698,7 +6696,7 @@ type Swing_WOP struct {
 	Swing_style string
 }
 
-func (from *Swing) CopyBasicFields(to *Swing) {
+func (from *Swing) GongCopyBasicFields(to *Swing) {
 	// insertion point
 	to.Name = from.Name
 	to.Straight = from.Straight
@@ -6722,7 +6720,7 @@ type Sync_WOP struct {
 	Time_only Enum_Time_only
 }
 
-func (from *Sync) CopyBasicFields(to *Sync) {
+func (from *Sync) GongCopyBasicFields(to *Sync) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -6737,7 +6735,7 @@ type System_dividers_WOP struct {
 	Name string
 }
 
-func (from *System_dividers) CopyBasicFields(to *System_dividers) {
+func (from *System_dividers) GongCopyBasicFields(to *System_dividers) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -6752,7 +6750,7 @@ type System_layout_WOP struct {
 	Top_system_distance string
 }
 
-func (from *System_layout) CopyBasicFields(to *System_layout) {
+func (from *System_layout) GongCopyBasicFields(to *System_layout) {
 	// insertion point
 	to.Name = from.Name
 	to.System_distance = from.System_distance
@@ -6769,7 +6767,7 @@ type System_margins_WOP struct {
 	Right_margin string
 }
 
-func (from *System_margins) CopyBasicFields(to *System_margins) {
+func (from *System_margins) GongCopyBasicFields(to *System_margins) {
 	// insertion point
 	to.Name = from.Name
 	to.Left_margin = from.Left_margin
@@ -6806,7 +6804,7 @@ type Tap_WOP struct {
 	EnclosedText string
 }
 
-func (from *Tap) CopyBasicFields(to *Tap) {
+func (from *Tap) GongCopyBasicFields(to *Tap) {
 	// insertion point
 	to.Name = from.Name
 	to.Hand = from.Hand
@@ -6831,7 +6829,7 @@ type Technical_WOP struct {
 	Id string
 }
 
-func (from *Technical) CopyBasicFields(to *Technical) {
+func (from *Technical) GongCopyBasicFields(to *Technical) {
 	// insertion point
 	to.Name = from.Name
 	to.Id = from.Id
@@ -6869,7 +6867,7 @@ type Text_element_data_WOP struct {
 	EnclosedText string
 }
 
-func (from *Text_element_data) CopyBasicFields(to *Text_element_data) {
+func (from *Text_element_data) GongCopyBasicFields(to *Text_element_data) {
 	// insertion point
 	to.Name = from.Name
 	to.Lang = from.Lang
@@ -6897,7 +6895,7 @@ type Tie_WOP struct {
 	Time_only Enum_Time_only
 }
 
-func (from *Tie) CopyBasicFields(to *Tie) {
+func (from *Tie) GongCopyBasicFields(to *Tie) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -6948,7 +6946,7 @@ type Tied_WOP struct {
 	Id string
 }
 
-func (from *Tied) CopyBasicFields(to *Tied) {
+func (from *Tied) GongCopyBasicFields(to *Tied) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -7016,7 +7014,7 @@ type Time_WOP struct {
 	Senza_misura string
 }
 
-func (from *Time) CopyBasicFields(to *Time) {
+func (from *Time) GongCopyBasicFields(to *Time) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -7054,7 +7052,7 @@ type Time_modification_WOP struct {
 	Normal_dot string
 }
 
-func (from *Time_modification) CopyBasicFields(to *Time_modification) {
+func (from *Time_modification) GongCopyBasicFields(to *Time_modification) {
 	// insertion point
 	to.Name = from.Name
 	to.Actual_notes = from.Actual_notes
@@ -7071,7 +7069,7 @@ type Timpani_WOP struct {
 	Smufl string
 }
 
-func (from *Timpani) CopyBasicFields(to *Timpani) {
+func (from *Timpani) GongCopyBasicFields(to *Timpani) {
 	// insertion point
 	to.Name = from.Name
 	to.Smufl = from.Smufl
@@ -7095,7 +7093,7 @@ type Transpose_WOP struct {
 	Double float64
 }
 
-func (from *Transpose) CopyBasicFields(to *Transpose) {
+func (from *Transpose) GongCopyBasicFields(to *Transpose) {
 	// insertion point
 	to.Name = from.Name
 	to.Number = from.Number
@@ -7138,7 +7136,7 @@ type Tremolo_WOP struct {
 	EnclosedText int
 }
 
-func (from *Tremolo) CopyBasicFields(to *Tremolo) {
+func (from *Tremolo) GongCopyBasicFields(to *Tremolo) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -7186,7 +7184,7 @@ type Tuplet_WOP struct {
 	Id string
 }
 
-func (from *Tuplet) CopyBasicFields(to *Tuplet) {
+func (from *Tuplet) GongCopyBasicFields(to *Tuplet) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -7219,7 +7217,7 @@ type Tuplet_dot_WOP struct {
 	Color string
 }
 
-func (from *Tuplet_dot) CopyBasicFields(to *Tuplet_dot) {
+func (from *Tuplet_dot) GongCopyBasicFields(to *Tuplet_dot) {
 	// insertion point
 	to.Name = from.Name
 	to.Font_family = from.Font_family
@@ -7247,7 +7245,7 @@ type Tuplet_number_WOP struct {
 	EnclosedText int
 }
 
-func (from *Tuplet_number) CopyBasicFields(to *Tuplet_number) {
+func (from *Tuplet_number) GongCopyBasicFields(to *Tuplet_number) {
 	// insertion point
 	to.Name = from.Name
 	to.Font_family = from.Font_family
@@ -7264,7 +7262,7 @@ type Tuplet_portion_WOP struct {
 	Name string
 }
 
-func (from *Tuplet_portion) CopyBasicFields(to *Tuplet_portion) {
+func (from *Tuplet_portion) GongCopyBasicFields(to *Tuplet_portion) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -7287,7 +7285,7 @@ type Tuplet_type_WOP struct {
 	EnclosedText Enum_Note_type_value
 }
 
-func (from *Tuplet_type) CopyBasicFields(to *Tuplet_type) {
+func (from *Tuplet_type) GongCopyBasicFields(to *Tuplet_type) {
 	// insertion point
 	to.Name = from.Name
 	to.Font_family = from.Font_family
@@ -7308,7 +7306,7 @@ type Typed_text_WOP struct {
 	EnclosedText string
 }
 
-func (from *Typed_text) CopyBasicFields(to *Typed_text) {
+func (from *Typed_text) GongCopyBasicFields(to *Typed_text) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -7325,7 +7323,7 @@ type Unpitched_WOP struct {
 	Display_octave int
 }
 
-func (from *Unpitched) CopyBasicFields(to *Unpitched) {
+func (from *Unpitched) GongCopyBasicFields(to *Unpitched) {
 	// insertion point
 	to.Name = from.Name
 	to.Display_step = from.Display_step
@@ -7342,7 +7340,7 @@ type Virtual_instrument_WOP struct {
 	Virtual_name string
 }
 
-func (from *Virtual_instrument) CopyBasicFields(to *Virtual_instrument) {
+func (from *Virtual_instrument) GongCopyBasicFields(to *Virtual_instrument) {
 	// insertion point
 	to.Name = from.Name
 	to.Virtual_library = from.Virtual_library
@@ -7359,7 +7357,7 @@ type Wait_WOP struct {
 	Time_only Enum_Time_only
 }
 
-func (from *Wait) CopyBasicFields(to *Wait) {
+func (from *Wait) GongCopyBasicFields(to *Wait) {
 	// insertion point
 	to.Name = from.Name
 	to.Player = from.Player
@@ -7404,7 +7402,7 @@ type Wavy_line_WOP struct {
 	Last_beat string
 }
 
-func (from *Wavy_line) CopyBasicFields(to *Wavy_line) {
+func (from *Wavy_line) GongCopyBasicFields(to *Wavy_line) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -7457,7 +7455,7 @@ type Wedge_WOP struct {
 	Id string
 }
 
-func (from *Wedge) CopyBasicFields(to *Wedge) {
+func (from *Wedge) GongCopyBasicFields(to *Wedge) {
 	// insertion point
 	to.Name = from.Name
 	to.Type = from.Type
@@ -7485,7 +7483,7 @@ type Wood_WOP struct {
 	EnclosedText string
 }
 
-func (from *Wood) CopyBasicFields(to *Wood) {
+func (from *Wood) GongCopyBasicFields(to *Wood) {
 	// insertion point
 	to.Name = from.Name
 	to.Smufl = from.Smufl
@@ -7502,7 +7500,7 @@ type Work_WOP struct {
 	Work_title string
 }
 
-func (from *Work) CopyBasicFields(to *Work) {
+func (from *Work) GongCopyBasicFields(to *Work) {
 	// insertion point
 	to.Name = from.Name
 	to.Work_number = from.Work_number

@@ -56,7 +56,7 @@ type Classdiagram struct {
 // DuplicateDiagram generates a new diagram with duplicated shapes
 func (classdiagram *Classdiagram) DuplicateDiagram() (newClassdiagram *Classdiagram) {
 
-	newClassdiagram = CopyBranch(classdiagram)
+	newClassdiagram = GongCopyBranch(classdiagram)
 
 	// All fields, including boolean ...IsExpanded and string ...NodeExpansion JSON strings,
 	// are copied by CopyBranch.

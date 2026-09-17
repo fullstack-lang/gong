@@ -467,7 +467,7 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 }
 
 func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
-	rm := GetSliceOfPointersReverseMap[Participant, Task](GetAssociationName[Participant]().Tasks[0].Name, stager.stage)
+	rm := stager.stage.GetSliceOfPointersReverseMap[Participant, Task](GongGetAssociationName[Participant]().Tasks[0].Name)
 
 	diagramProcess.map_Task_Rect = make(map[*Task]*svg.Rect)
 	for _, taskShape := range diagramProcess.Task_Shapes {

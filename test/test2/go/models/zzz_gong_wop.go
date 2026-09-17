@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type A_WOP struct {
@@ -23,7 +21,7 @@ type A_WOP struct {
 	Zorgh string
 }
 
-func (from *A) CopyBasicFields(to *A) {
+func (from *A) GongCopyBasicFields(to *A) {
 	// insertion point
 	to.Name = from.Name
 	to.NumberField = from.NumberField
@@ -38,7 +36,7 @@ type B_WOP struct {
 	Name string
 }
 
-func (from *B) CopyBasicFields(to *B) {
+func (from *B) GongCopyBasicFields(to *B) {
 	// insertion point
 	to.Name = from.Name
 }

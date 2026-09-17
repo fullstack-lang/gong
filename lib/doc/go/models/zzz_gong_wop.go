@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type AttributeShape_WOP struct {
@@ -23,7 +21,7 @@ type AttributeShape_WOP struct {
 	Fieldtypename string
 }
 
-func (from *AttributeShape) CopyBasicFields(to *AttributeShape) {
+func (from *AttributeShape) GongCopyBasicFields(to *AttributeShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IdentifierMeta = from.IdentifierMeta
@@ -64,7 +62,7 @@ type Classdiagram_WOP struct {
 	NodeGongNoteNodeExpansion string
 }
 
-func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
+func (from *Classdiagram) GongCopyBasicFields(to *Classdiagram) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -94,7 +92,7 @@ type DiagramPackage_WOP struct {
 	AbsolutePathToDiagramPackage string
 }
 
-func (from *DiagramPackage) CopyBasicFields(to *DiagramPackage) {
+func (from *DiagramPackage) GongCopyBasicFields(to *DiagramPackage) {
 	// insertion point
 	to.Name = from.Name
 	to.Path = from.Path
@@ -122,7 +120,7 @@ type GongEnumShape_WOP struct {
 	IsExpanded bool
 }
 
-func (from *GongEnumShape) CopyBasicFields(to *GongEnumShape) {
+func (from *GongEnumShape) GongCopyBasicFields(to *GongEnumShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -142,7 +140,7 @@ type GongEnumValueShape_WOP struct {
 	IdentifierMeta any
 }
 
-func (from *GongEnumValueShape) CopyBasicFields(to *GongEnumValueShape) {
+func (from *GongEnumValueShape) GongCopyBasicFields(to *GongEnumValueShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IdentifierMeta = from.IdentifierMeta
@@ -158,7 +156,7 @@ type GongNoteLinkShape_WOP struct {
 	Type NoteShapeLinkType
 }
 
-func (from *GongNoteLinkShape) CopyBasicFields(to *GongNoteLinkShape) {
+func (from *GongNoteLinkShape) GongCopyBasicFields(to *GongNoteLinkShape) {
 	// insertion point
 	to.Name = from.Name
 	to.Identifier = from.Identifier
@@ -191,7 +189,7 @@ type GongNoteShape_WOP struct {
 	IsExpanded bool
 }
 
-func (from *GongNoteShape) CopyBasicFields(to *GongNoteShape) {
+func (from *GongNoteShape) GongCopyBasicFields(to *GongNoteShape) {
 	// insertion point
 	to.Name = from.Name
 	to.Identifier = from.Identifier
@@ -226,7 +224,7 @@ type GongStructShape_WOP struct {
 	IsSelected bool
 }
 
-func (from *GongStructShape) CopyBasicFields(to *GongStructShape) {
+func (from *GongStructShape) GongCopyBasicFields(to *GongStructShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -278,7 +276,7 @@ type LinkShape_WOP struct {
 	CornerOffsetRatio float64
 }
 
-func (from *LinkShape) CopyBasicFields(to *LinkShape) {
+func (from *LinkShape) GongCopyBasicFields(to *LinkShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IdentifierMeta = from.IdentifierMeta

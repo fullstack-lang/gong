@@ -300,7 +300,7 @@ func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
 	if errParser != nil {
 		return fmt.Errorf("Unable to parse: %w", errParser)
 	}
-	errParse := models.ParseAstFileFromAst(proxy.probe.stageOfInterest, inFile, fset, false)
+	errParse := proxy.probe.stageOfInterest.ParseAstFileFromAst(inFile, fset, false)
 	if errParse != nil {
 		return errParse
 	}
@@ -427,7 +427,7 @@ func (probe *Probe) ExportStageExcel() {
 
 	fileToDownload.Name = time.Now().Format("20060102 1504 ") + cleanFileName
 
-	excelBytes, err := models.SerializeStageAsBytes(probe.stageOfInterest, false)
+	excelBytes, err := probe.stageOfInterest.SerializeStageAsBytes(false)
 	if err != nil {
 		probe.AddNotification(time.Now(), "Error serializing stage: "+err.Error())
 		probe.CommitNotificationTable()

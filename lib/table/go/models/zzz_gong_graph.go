@@ -47,53 +47,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Button:
-		ok = stage.IsStagedButton(target)
-
-	case *Cell:
-		ok = stage.IsStagedCell(target)
-
-	case *CellBoolean:
-		ok = stage.IsStagedCellBoolean(target)
-
-	case *CellFloat64:
-		ok = stage.IsStagedCellFloat64(target)
-
-	case *CellIcon:
-		ok = stage.IsStagedCellIcon(target)
-
-	case *CellInt:
-		ok = stage.IsStagedCellInt(target)
-
-	case *CellString:
-		ok = stage.IsStagedCellString(target)
-
-	case *DisplayedColumn:
-		ok = stage.IsStagedDisplayedColumn(target)
-
-	case *Row:
-		ok = stage.IsStagedRow(target)
-
-	case *SVGIcon:
-		ok = stage.IsStagedSVGIcon(target)
-
-	case *Table:
-		ok = stage.IsStagedTable(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
 
@@ -224,7 +177,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchButton(button *Button) {
 
 	// check if instance is already staged
-	if IsStaged(stage, button) {
+	if stage.IsStaged(button) {
 		return
 	}
 
@@ -232,7 +185,7 @@ func (stage *Stage) StageBranchButton(button *Button) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if button.SVGIcon != nil {
-		StageBranch(stage, button.SVGIcon)
+		stage.StageBranch(button.SVGIcon)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -242,7 +195,7 @@ func (stage *Stage) StageBranchButton(button *Button) {
 func (stage *Stage) StageBranchCell(cell *Cell) {
 
 	// check if instance is already staged
-	if IsStaged(stage, cell) {
+	if stage.IsStaged(cell) {
 		return
 	}
 
@@ -250,19 +203,19 @@ func (stage *Stage) StageBranchCell(cell *Cell) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if cell.CellString != nil {
-		StageBranch(stage, cell.CellString)
+		stage.StageBranch(cell.CellString)
 	}
 	if cell.CellFloat64 != nil {
-		StageBranch(stage, cell.CellFloat64)
+		stage.StageBranch(cell.CellFloat64)
 	}
 	if cell.CellInt != nil {
-		StageBranch(stage, cell.CellInt)
+		stage.StageBranch(cell.CellInt)
 	}
 	if cell.CellBool != nil {
-		StageBranch(stage, cell.CellBool)
+		stage.StageBranch(cell.CellBool)
 	}
 	if cell.CellIcon != nil {
-		StageBranch(stage, cell.CellIcon)
+		stage.StageBranch(cell.CellIcon)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -272,7 +225,7 @@ func (stage *Stage) StageBranchCell(cell *Cell) {
 func (stage *Stage) StageBranchCellBoolean(cellboolean *CellBoolean) {
 
 	// check if instance is already staged
-	if IsStaged(stage, cellboolean) {
+	if stage.IsStaged(cellboolean) {
 		return
 	}
 
@@ -287,7 +240,7 @@ func (stage *Stage) StageBranchCellBoolean(cellboolean *CellBoolean) {
 func (stage *Stage) StageBranchCellFloat64(cellfloat64 *CellFloat64) {
 
 	// check if instance is already staged
-	if IsStaged(stage, cellfloat64) {
+	if stage.IsStaged(cellfloat64) {
 		return
 	}
 
@@ -302,7 +255,7 @@ func (stage *Stage) StageBranchCellFloat64(cellfloat64 *CellFloat64) {
 func (stage *Stage) StageBranchCellIcon(cellicon *CellIcon) {
 
 	// check if instance is already staged
-	if IsStaged(stage, cellicon) {
+	if stage.IsStaged(cellicon) {
 		return
 	}
 
@@ -317,7 +270,7 @@ func (stage *Stage) StageBranchCellIcon(cellicon *CellIcon) {
 func (stage *Stage) StageBranchCellInt(cellint *CellInt) {
 
 	// check if instance is already staged
-	if IsStaged(stage, cellint) {
+	if stage.IsStaged(cellint) {
 		return
 	}
 
@@ -332,7 +285,7 @@ func (stage *Stage) StageBranchCellInt(cellint *CellInt) {
 func (stage *Stage) StageBranchCellString(cellstring *CellString) {
 
 	// check if instance is already staged
-	if IsStaged(stage, cellstring) {
+	if stage.IsStaged(cellstring) {
 		return
 	}
 
@@ -347,7 +300,7 @@ func (stage *Stage) StageBranchCellString(cellstring *CellString) {
 func (stage *Stage) StageBranchDisplayedColumn(displayedcolumn *DisplayedColumn) {
 
 	// check if instance is already staged
-	if IsStaged(stage, displayedcolumn) {
+	if stage.IsStaged(displayedcolumn) {
 		return
 	}
 
@@ -362,7 +315,7 @@ func (stage *Stage) StageBranchDisplayedColumn(displayedcolumn *DisplayedColumn)
 func (stage *Stage) StageBranchRow(row *Row) {
 
 	// check if instance is already staged
-	if IsStaged(stage, row) {
+	if stage.IsStaged(row) {
 		return
 	}
 
@@ -372,7 +325,7 @@ func (stage *Stage) StageBranchRow(row *Row) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _cell := range row.Cells {
-		StageBranch(stage, _cell)
+		stage.StageBranch(_cell)
 	}
 
 }
@@ -380,7 +333,7 @@ func (stage *Stage) StageBranchRow(row *Row) {
 func (stage *Stage) StageBranchSVGIcon(svgicon *SVGIcon) {
 
 	// check if instance is already staged
-	if IsStaged(stage, svgicon) {
+	if stage.IsStaged(svgicon) {
 		return
 	}
 
@@ -395,7 +348,7 @@ func (stage *Stage) StageBranchSVGIcon(svgicon *SVGIcon) {
 func (stage *Stage) StageBranchTable(table *Table) {
 
 	// check if instance is already staged
-	if IsStaged(stage, table) {
+	if stage.IsStaged(table) {
 		return
 	}
 
@@ -405,25 +358,25 @@ func (stage *Stage) StageBranchTable(table *Table) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _displayedcolumn := range table.DisplayedColumns {
-		StageBranch(stage, _displayedcolumn)
+		stage.StageBranch(_displayedcolumn)
 	}
 	for _, _row := range table.Rows {
-		StageBranch(stage, _row)
+		stage.StageBranch(_row)
 	}
 	for _, _row := range table.RowsSelectedForBulkDelete {
-		StageBranch(stage, _row)
+		stage.StageBranch(_row)
 	}
 	for _, _button := range table.Buttons {
-		StageBranch(stage, _button)
+		stage.StageBranch(_button)
 	}
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -431,47 +384,47 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *Button:
-		toT := CopyBranchButton(mapOrigCopy, fromT)
+		toT := GongCopyBranchButton(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Cell:
-		toT := CopyBranchCell(mapOrigCopy, fromT)
+		toT := GongCopyBranchCell(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *CellBoolean:
-		toT := CopyBranchCellBoolean(mapOrigCopy, fromT)
+		toT := GongCopyBranchCellBoolean(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *CellFloat64:
-		toT := CopyBranchCellFloat64(mapOrigCopy, fromT)
+		toT := GongCopyBranchCellFloat64(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *CellIcon:
-		toT := CopyBranchCellIcon(mapOrigCopy, fromT)
+		toT := GongCopyBranchCellIcon(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *CellInt:
-		toT := CopyBranchCellInt(mapOrigCopy, fromT)
+		toT := GongCopyBranchCellInt(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *CellString:
-		toT := CopyBranchCellString(mapOrigCopy, fromT)
+		toT := GongCopyBranchCellString(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *DisplayedColumn:
-		toT := CopyBranchDisplayedColumn(mapOrigCopy, fromT)
+		toT := GongCopyBranchDisplayedColumn(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Row:
-		toT := CopyBranchRow(mapOrigCopy, fromT)
+		toT := GongCopyBranchRow(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *SVGIcon:
-		toT := CopyBranchSVGIcon(mapOrigCopy, fromT)
+		toT := GongCopyBranchSVGIcon(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Table:
-		toT := CopyBranchTable(mapOrigCopy, fromT)
+		toT := GongCopyBranchTable(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -481,7 +434,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Button) {
+func GongCopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Button) {
 
 	// buttonFrom has already been copied
 	if _buttonTo, ok := mapOrigCopy[buttonFrom]; ok {
@@ -491,11 +444,11 @@ func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Bu
 
 	buttonTo = new(Button)
 	mapOrigCopy[buttonFrom] = buttonTo
-	buttonFrom.CopyBasicFields(buttonTo)
+	buttonFrom.GongCopyBasicFields(buttonTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if buttonFrom.SVGIcon != nil {
-		buttonTo.SVGIcon = CopyBranchSVGIcon(mapOrigCopy, buttonFrom.SVGIcon)
+		buttonTo.SVGIcon = GongCopyBranchSVGIcon(mapOrigCopy, buttonFrom.SVGIcon)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -503,7 +456,7 @@ func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Bu
 	return
 }
 
-func CopyBranchCell(mapOrigCopy map[any]any, cellFrom *Cell) (cellTo *Cell) {
+func GongCopyBranchCell(mapOrigCopy map[any]any, cellFrom *Cell) (cellTo *Cell) {
 
 	// cellFrom has already been copied
 	if _cellTo, ok := mapOrigCopy[cellFrom]; ok {
@@ -513,23 +466,23 @@ func CopyBranchCell(mapOrigCopy map[any]any, cellFrom *Cell) (cellTo *Cell) {
 
 	cellTo = new(Cell)
 	mapOrigCopy[cellFrom] = cellTo
-	cellFrom.CopyBasicFields(cellTo)
+	cellFrom.GongCopyBasicFields(cellTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if cellFrom.CellString != nil {
-		cellTo.CellString = CopyBranchCellString(mapOrigCopy, cellFrom.CellString)
+		cellTo.CellString = GongCopyBranchCellString(mapOrigCopy, cellFrom.CellString)
 	}
 	if cellFrom.CellFloat64 != nil {
-		cellTo.CellFloat64 = CopyBranchCellFloat64(mapOrigCopy, cellFrom.CellFloat64)
+		cellTo.CellFloat64 = GongCopyBranchCellFloat64(mapOrigCopy, cellFrom.CellFloat64)
 	}
 	if cellFrom.CellInt != nil {
-		cellTo.CellInt = CopyBranchCellInt(mapOrigCopy, cellFrom.CellInt)
+		cellTo.CellInt = GongCopyBranchCellInt(mapOrigCopy, cellFrom.CellInt)
 	}
 	if cellFrom.CellBool != nil {
-		cellTo.CellBool = CopyBranchCellBoolean(mapOrigCopy, cellFrom.CellBool)
+		cellTo.CellBool = GongCopyBranchCellBoolean(mapOrigCopy, cellFrom.CellBool)
 	}
 	if cellFrom.CellIcon != nil {
-		cellTo.CellIcon = CopyBranchCellIcon(mapOrigCopy, cellFrom.CellIcon)
+		cellTo.CellIcon = GongCopyBranchCellIcon(mapOrigCopy, cellFrom.CellIcon)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -537,7 +490,7 @@ func CopyBranchCell(mapOrigCopy map[any]any, cellFrom *Cell) (cellTo *Cell) {
 	return
 }
 
-func CopyBranchCellBoolean(mapOrigCopy map[any]any, cellbooleanFrom *CellBoolean) (cellbooleanTo *CellBoolean) {
+func GongCopyBranchCellBoolean(mapOrigCopy map[any]any, cellbooleanFrom *CellBoolean) (cellbooleanTo *CellBoolean) {
 
 	// cellbooleanFrom has already been copied
 	if _cellbooleanTo, ok := mapOrigCopy[cellbooleanFrom]; ok {
@@ -547,7 +500,7 @@ func CopyBranchCellBoolean(mapOrigCopy map[any]any, cellbooleanFrom *CellBoolean
 
 	cellbooleanTo = new(CellBoolean)
 	mapOrigCopy[cellbooleanFrom] = cellbooleanTo
-	cellbooleanFrom.CopyBasicFields(cellbooleanTo)
+	cellbooleanFrom.GongCopyBasicFields(cellbooleanTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -556,7 +509,7 @@ func CopyBranchCellBoolean(mapOrigCopy map[any]any, cellbooleanFrom *CellBoolean
 	return
 }
 
-func CopyBranchCellFloat64(mapOrigCopy map[any]any, cellfloat64From *CellFloat64) (cellfloat64To *CellFloat64) {
+func GongCopyBranchCellFloat64(mapOrigCopy map[any]any, cellfloat64From *CellFloat64) (cellfloat64To *CellFloat64) {
 
 	// cellfloat64From has already been copied
 	if _cellfloat64To, ok := mapOrigCopy[cellfloat64From]; ok {
@@ -566,7 +519,7 @@ func CopyBranchCellFloat64(mapOrigCopy map[any]any, cellfloat64From *CellFloat64
 
 	cellfloat64To = new(CellFloat64)
 	mapOrigCopy[cellfloat64From] = cellfloat64To
-	cellfloat64From.CopyBasicFields(cellfloat64To)
+	cellfloat64From.GongCopyBasicFields(cellfloat64To)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -575,7 +528,7 @@ func CopyBranchCellFloat64(mapOrigCopy map[any]any, cellfloat64From *CellFloat64
 	return
 }
 
-func CopyBranchCellIcon(mapOrigCopy map[any]any, celliconFrom *CellIcon) (celliconTo *CellIcon) {
+func GongCopyBranchCellIcon(mapOrigCopy map[any]any, celliconFrom *CellIcon) (celliconTo *CellIcon) {
 
 	// celliconFrom has already been copied
 	if _celliconTo, ok := mapOrigCopy[celliconFrom]; ok {
@@ -585,7 +538,7 @@ func CopyBranchCellIcon(mapOrigCopy map[any]any, celliconFrom *CellIcon) (cellic
 
 	celliconTo = new(CellIcon)
 	mapOrigCopy[celliconFrom] = celliconTo
-	celliconFrom.CopyBasicFields(celliconTo)
+	celliconFrom.GongCopyBasicFields(celliconTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -594,7 +547,7 @@ func CopyBranchCellIcon(mapOrigCopy map[any]any, celliconFrom *CellIcon) (cellic
 	return
 }
 
-func CopyBranchCellInt(mapOrigCopy map[any]any, cellintFrom *CellInt) (cellintTo *CellInt) {
+func GongCopyBranchCellInt(mapOrigCopy map[any]any, cellintFrom *CellInt) (cellintTo *CellInt) {
 
 	// cellintFrom has already been copied
 	if _cellintTo, ok := mapOrigCopy[cellintFrom]; ok {
@@ -604,7 +557,7 @@ func CopyBranchCellInt(mapOrigCopy map[any]any, cellintFrom *CellInt) (cellintTo
 
 	cellintTo = new(CellInt)
 	mapOrigCopy[cellintFrom] = cellintTo
-	cellintFrom.CopyBasicFields(cellintTo)
+	cellintFrom.GongCopyBasicFields(cellintTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -613,7 +566,7 @@ func CopyBranchCellInt(mapOrigCopy map[any]any, cellintFrom *CellInt) (cellintTo
 	return
 }
 
-func CopyBranchCellString(mapOrigCopy map[any]any, cellstringFrom *CellString) (cellstringTo *CellString) {
+func GongCopyBranchCellString(mapOrigCopy map[any]any, cellstringFrom *CellString) (cellstringTo *CellString) {
 
 	// cellstringFrom has already been copied
 	if _cellstringTo, ok := mapOrigCopy[cellstringFrom]; ok {
@@ -623,7 +576,7 @@ func CopyBranchCellString(mapOrigCopy map[any]any, cellstringFrom *CellString) (
 
 	cellstringTo = new(CellString)
 	mapOrigCopy[cellstringFrom] = cellstringTo
-	cellstringFrom.CopyBasicFields(cellstringTo)
+	cellstringFrom.GongCopyBasicFields(cellstringTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -632,7 +585,7 @@ func CopyBranchCellString(mapOrigCopy map[any]any, cellstringFrom *CellString) (
 	return
 }
 
-func CopyBranchDisplayedColumn(mapOrigCopy map[any]any, displayedcolumnFrom *DisplayedColumn) (displayedcolumnTo *DisplayedColumn) {
+func GongCopyBranchDisplayedColumn(mapOrigCopy map[any]any, displayedcolumnFrom *DisplayedColumn) (displayedcolumnTo *DisplayedColumn) {
 
 	// displayedcolumnFrom has already been copied
 	if _displayedcolumnTo, ok := mapOrigCopy[displayedcolumnFrom]; ok {
@@ -642,7 +595,7 @@ func CopyBranchDisplayedColumn(mapOrigCopy map[any]any, displayedcolumnFrom *Dis
 
 	displayedcolumnTo = new(DisplayedColumn)
 	mapOrigCopy[displayedcolumnFrom] = displayedcolumnTo
-	displayedcolumnFrom.CopyBasicFields(displayedcolumnTo)
+	displayedcolumnFrom.GongCopyBasicFields(displayedcolumnTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -651,7 +604,7 @@ func CopyBranchDisplayedColumn(mapOrigCopy map[any]any, displayedcolumnFrom *Dis
 	return
 }
 
-func CopyBranchRow(mapOrigCopy map[any]any, rowFrom *Row) (rowTo *Row) {
+func GongCopyBranchRow(mapOrigCopy map[any]any, rowFrom *Row) (rowTo *Row) {
 
 	// rowFrom has already been copied
 	if _rowTo, ok := mapOrigCopy[rowFrom]; ok {
@@ -661,19 +614,19 @@ func CopyBranchRow(mapOrigCopy map[any]any, rowFrom *Row) (rowTo *Row) {
 
 	rowTo = new(Row)
 	mapOrigCopy[rowFrom] = rowTo
-	rowFrom.CopyBasicFields(rowTo)
+	rowFrom.GongCopyBasicFields(rowTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _cell := range rowFrom.Cells {
-		rowTo.Cells = append(rowTo.Cells, CopyBranchCell(mapOrigCopy, _cell))
+		rowTo.Cells = append(rowTo.Cells, GongCopyBranchCell(mapOrigCopy, _cell))
 	}
 
 	return
 }
 
-func CopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo *SVGIcon) {
+func GongCopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo *SVGIcon) {
 
 	// svgiconFrom has already been copied
 	if _svgiconTo, ok := mapOrigCopy[svgiconFrom]; ok {
@@ -683,7 +636,7 @@ func CopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo
 
 	svgiconTo = new(SVGIcon)
 	mapOrigCopy[svgiconFrom] = svgiconTo
-	svgiconFrom.CopyBasicFields(svgiconTo)
+	svgiconFrom.GongCopyBasicFields(svgiconTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -692,7 +645,7 @@ func CopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo
 	return
 }
 
-func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table) {
+func GongCopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table) {
 
 	// tableFrom has already been copied
 	if _tableTo, ok := mapOrigCopy[tableFrom]; ok {
@@ -702,22 +655,22 @@ func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table)
 
 	tableTo = new(Table)
 	mapOrigCopy[tableFrom] = tableTo
-	tableFrom.CopyBasicFields(tableTo)
+	tableFrom.GongCopyBasicFields(tableTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _displayedcolumn := range tableFrom.DisplayedColumns {
-		tableTo.DisplayedColumns = append(tableTo.DisplayedColumns, CopyBranchDisplayedColumn(mapOrigCopy, _displayedcolumn))
+		tableTo.DisplayedColumns = append(tableTo.DisplayedColumns, GongCopyBranchDisplayedColumn(mapOrigCopy, _displayedcolumn))
 	}
 	for _, _row := range tableFrom.Rows {
-		tableTo.Rows = append(tableTo.Rows, CopyBranchRow(mapOrigCopy, _row))
+		tableTo.Rows = append(tableTo.Rows, GongCopyBranchRow(mapOrigCopy, _row))
 	}
 	for _, _row := range tableFrom.RowsSelectedForBulkDelete {
-		tableTo.RowsSelectedForBulkDelete = append(tableTo.RowsSelectedForBulkDelete, CopyBranchRow(mapOrigCopy, _row))
+		tableTo.RowsSelectedForBulkDelete = append(tableTo.RowsSelectedForBulkDelete, GongCopyBranchRow(mapOrigCopy, _row))
 	}
 	for _, _button := range tableFrom.Buttons {
-		tableTo.Buttons = append(tableTo.Buttons, CopyBranchButton(mapOrigCopy, _button))
+		tableTo.Buttons = append(tableTo.Buttons, GongCopyBranchButton(mapOrigCopy, _button))
 	}
 
 	return
@@ -770,16 +723,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, button) {
+	if !stage.IsStaged(button) {
 		return
 	}
 
@@ -787,7 +735,7 @@ func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if button.SVGIcon != nil {
-		UnstageBranch(stage, button.SVGIcon)
+		stage.UnstageBranch(button.SVGIcon)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -797,7 +745,7 @@ func (stage *Stage) UnstageBranchButton(button *Button) {
 func (stage *Stage) UnstageBranchCell(cell *Cell) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, cell) {
+	if !stage.IsStaged(cell) {
 		return
 	}
 
@@ -805,19 +753,19 @@ func (stage *Stage) UnstageBranchCell(cell *Cell) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if cell.CellString != nil {
-		UnstageBranch(stage, cell.CellString)
+		stage.UnstageBranch(cell.CellString)
 	}
 	if cell.CellFloat64 != nil {
-		UnstageBranch(stage, cell.CellFloat64)
+		stage.UnstageBranch(cell.CellFloat64)
 	}
 	if cell.CellInt != nil {
-		UnstageBranch(stage, cell.CellInt)
+		stage.UnstageBranch(cell.CellInt)
 	}
 	if cell.CellBool != nil {
-		UnstageBranch(stage, cell.CellBool)
+		stage.UnstageBranch(cell.CellBool)
 	}
 	if cell.CellIcon != nil {
-		UnstageBranch(stage, cell.CellIcon)
+		stage.UnstageBranch(cell.CellIcon)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -827,7 +775,7 @@ func (stage *Stage) UnstageBranchCell(cell *Cell) {
 func (stage *Stage) UnstageBranchCellBoolean(cellboolean *CellBoolean) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, cellboolean) {
+	if !stage.IsStaged(cellboolean) {
 		return
 	}
 
@@ -842,7 +790,7 @@ func (stage *Stage) UnstageBranchCellBoolean(cellboolean *CellBoolean) {
 func (stage *Stage) UnstageBranchCellFloat64(cellfloat64 *CellFloat64) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, cellfloat64) {
+	if !stage.IsStaged(cellfloat64) {
 		return
 	}
 
@@ -857,7 +805,7 @@ func (stage *Stage) UnstageBranchCellFloat64(cellfloat64 *CellFloat64) {
 func (stage *Stage) UnstageBranchCellIcon(cellicon *CellIcon) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, cellicon) {
+	if !stage.IsStaged(cellicon) {
 		return
 	}
 
@@ -872,7 +820,7 @@ func (stage *Stage) UnstageBranchCellIcon(cellicon *CellIcon) {
 func (stage *Stage) UnstageBranchCellInt(cellint *CellInt) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, cellint) {
+	if !stage.IsStaged(cellint) {
 		return
 	}
 
@@ -887,7 +835,7 @@ func (stage *Stage) UnstageBranchCellInt(cellint *CellInt) {
 func (stage *Stage) UnstageBranchCellString(cellstring *CellString) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, cellstring) {
+	if !stage.IsStaged(cellstring) {
 		return
 	}
 
@@ -902,7 +850,7 @@ func (stage *Stage) UnstageBranchCellString(cellstring *CellString) {
 func (stage *Stage) UnstageBranchDisplayedColumn(displayedcolumn *DisplayedColumn) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, displayedcolumn) {
+	if !stage.IsStaged(displayedcolumn) {
 		return
 	}
 
@@ -917,7 +865,7 @@ func (stage *Stage) UnstageBranchDisplayedColumn(displayedcolumn *DisplayedColum
 func (stage *Stage) UnstageBranchRow(row *Row) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, row) {
+	if !stage.IsStaged(row) {
 		return
 	}
 
@@ -927,7 +875,7 @@ func (stage *Stage) UnstageBranchRow(row *Row) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _cell := range row.Cells {
-		UnstageBranch(stage, _cell)
+		stage.UnstageBranch(_cell)
 	}
 
 }
@@ -935,7 +883,7 @@ func (stage *Stage) UnstageBranchRow(row *Row) {
 func (stage *Stage) UnstageBranchSVGIcon(svgicon *SVGIcon) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, svgicon) {
+	if !stage.IsStaged(svgicon) {
 		return
 	}
 
@@ -950,7 +898,7 @@ func (stage *Stage) UnstageBranchSVGIcon(svgicon *SVGIcon) {
 func (stage *Stage) UnstageBranchTable(table *Table) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, table) {
+	if !stage.IsStaged(table) {
 		return
 	}
 
@@ -960,16 +908,16 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _displayedcolumn := range table.DisplayedColumns {
-		UnstageBranch(stage, _displayedcolumn)
+		stage.UnstageBranch(_displayedcolumn)
 	}
 	for _, _row := range table.Rows {
-		UnstageBranch(stage, _row)
+		stage.UnstageBranch(_row)
 	}
 	for _, _row := range table.RowsSelectedForBulkDelete {
-		UnstageBranch(stage, _row)
+		stage.UnstageBranch(_row)
 	}
 	for _, _button := range table.Buttons {
-		UnstageBranch(stage, _button)
+		stage.UnstageBranch(_button)
 	}
 
 }
@@ -1387,7 +1335,7 @@ func (row *Row) GongDiff(stage *Stage, rowOther *Row) (diffs []string) {
 		}
 	}
 	if CellsDifferent {
-		ops := Diff(stage, row, rowOther, "Cells", rowOther.Cells, row.Cells)
+		ops := stage.Diff(row, rowOther, "Cells", rowOther.Cells, row.Cells)
 		diffs = append(diffs, ops)
 	}
 	if row.IsChecked != rowOther.IsChecked {
@@ -1436,7 +1384,7 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 		}
 	}
 	if DisplayedColumnsDifferent {
-		ops := Diff(stage, table, tableOther, "DisplayedColumns", tableOther.DisplayedColumns, table.DisplayedColumns)
+		ops := stage.Diff(table, tableOther, "DisplayedColumns", tableOther.DisplayedColumns, table.DisplayedColumns)
 		diffs = append(diffs, ops)
 	}
 	RowsDifferent := false
@@ -1457,7 +1405,7 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 		}
 	}
 	if RowsDifferent {
-		ops := Diff(stage, table, tableOther, "Rows", tableOther.Rows, table.Rows)
+		ops := stage.Diff(table, tableOther, "Rows", tableOther.Rows, table.Rows)
 		diffs = append(diffs, ops)
 	}
 	if table.HasFiltering != tableOther.HasFiltering {
@@ -1502,7 +1450,7 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 		}
 	}
 	if RowsSelectedForBulkDeleteDifferent {
-		ops := Diff(stage, table, tableOther, "RowsSelectedForBulkDelete", tableOther.RowsSelectedForBulkDelete, table.RowsSelectedForBulkDelete)
+		ops := stage.Diff(table, tableOther, "RowsSelectedForBulkDelete", tableOther.RowsSelectedForBulkDelete, table.RowsSelectedForBulkDelete)
 		diffs = append(diffs, ops)
 	}
 	if table.CanDragDropRows != tableOther.CanDragDropRows {
@@ -1535,7 +1483,7 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 		}
 	}
 	if ButtonsDifferent {
-		ops := Diff(stage, table, tableOther, "Buttons", tableOther.Buttons, table.Buttons)
+		ops := stage.Diff(table, tableOther, "Buttons", tableOther.Buttons, table.Buttons)
 		diffs = append(diffs, ops)
 	}
 
@@ -1616,9 +1564,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

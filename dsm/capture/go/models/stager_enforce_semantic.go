@@ -40,7 +40,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stager.enforceOwningLibraryAndObjects()
 	stager.enforceDiagramMaps()
 	stager.enforceParentAssociation()
-	stager.map_Concern_Stakeholder = GetSliceOfPointersReverseMap[Stakeholder, Concern](GetAssociationName[Stakeholder]().Concerns[0].Name, stager.stage)
+	stager.map_Concern_Stakeholder = stager.stage.GetSliceOfPointersReverseMap[Stakeholder, Concern](GongGetAssociationName[Stakeholder]().Concerns[0].Name)
 
 	if needCommit {
 		stager.probeForm.CommitNotificationTable()

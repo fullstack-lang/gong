@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type CheckBox_WOP struct {
@@ -17,7 +15,7 @@ type CheckBox_WOP struct {
 	Value bool
 }
 
-func (from *CheckBox) CopyBasicFields(to *CheckBox) {
+func (from *CheckBox) GongCopyBasicFields(to *CheckBox) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -37,7 +35,7 @@ type FormDiv_WOP struct {
 	IsAEndAccordionGroup bool
 }
 
-func (from *FormDiv) CopyBasicFields(to *FormDiv) {
+func (from *FormDiv) GongCopyBasicFields(to *FormDiv) {
 	// insertion point
 	to.Name = from.Name
 	to.IsADivider = from.IsADivider
@@ -66,7 +64,7 @@ type FormEditAssocButton_WOP struct {
 	MatTooltipShowDelay string
 }
 
-func (from *FormEditAssocButton) CopyBasicFields(to *FormEditAssocButton) {
+func (from *FormEditAssocButton) GongCopyBasicFields(to *FormEditAssocButton) {
 	// insertion point
 	to.Name = from.Name
 	to.Label = from.Label
@@ -98,7 +96,7 @@ type FormField_WOP struct {
 	BespokeHeightPx int
 }
 
-func (from *FormField) CopyBasicFields(to *FormField) {
+func (from *FormField) GongCopyBasicFields(to *FormField) {
 	// insertion point
 	to.Name = from.Name
 	to.InputTypeEnum = from.InputTypeEnum
@@ -118,7 +116,7 @@ type FormFieldDate_WOP struct {
 	Value time.Time
 }
 
-func (from *FormFieldDate) CopyBasicFields(to *FormFieldDate) {
+func (from *FormFieldDate) GongCopyBasicFields(to *FormFieldDate) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -132,7 +130,7 @@ type FormFieldDateTime_WOP struct {
 	Value time.Time
 }
 
-func (from *FormFieldDateTime) CopyBasicFields(to *FormFieldDateTime) {
+func (from *FormFieldDateTime) GongCopyBasicFields(to *FormFieldDateTime) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -154,7 +152,7 @@ type FormFieldFloat64_WOP struct {
 	MaxValue float64
 }
 
-func (from *FormFieldFloat64) CopyBasicFields(to *FormFieldFloat64) {
+func (from *FormFieldFloat64) GongCopyBasicFields(to *FormFieldFloat64) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -180,7 +178,7 @@ type FormFieldInt_WOP struct {
 	MaxValue int
 }
 
-func (from *FormFieldInt) CopyBasicFields(to *FormFieldInt) {
+func (from *FormFieldInt) GongCopyBasicFields(to *FormFieldInt) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -200,7 +198,7 @@ type FormFieldSelect_WOP struct {
 	PreserveInitialOrder bool
 }
 
-func (from *FormFieldSelect) CopyBasicFields(to *FormFieldSelect) {
+func (from *FormFieldSelect) GongCopyBasicFields(to *FormFieldSelect) {
 	// insertion point
 	to.Name = from.Name
 	to.CanBeEmpty = from.CanBeEmpty
@@ -217,7 +215,7 @@ type FormFieldString_WOP struct {
 	IsTextArea bool
 }
 
-func (from *FormFieldString) CopyBasicFields(to *FormFieldString) {
+func (from *FormFieldString) GongCopyBasicFields(to *FormFieldString) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -234,7 +232,7 @@ type FormFieldTime_WOP struct {
 	Step float64
 }
 
-func (from *FormFieldTime) CopyBasicFields(to *FormFieldTime) {
+func (from *FormFieldTime) GongCopyBasicFields(to *FormFieldTime) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -255,7 +253,7 @@ type FormGroup_WOP struct {
 	HasSuppressButtonBeenPressed bool
 }
 
-func (from *FormGroup) CopyBasicFields(to *FormGroup) {
+func (from *FormGroup) GongCopyBasicFields(to *FormGroup) {
 	// insertion point
 	to.Name = from.Name
 	to.Label = from.Label
@@ -278,7 +276,7 @@ type FormSortAssocButton_WOP struct {
 	MatTooltipShowDelay string
 }
 
-func (from *FormSortAssocButton) CopyBasicFields(to *FormSortAssocButton) {
+func (from *FormSortAssocButton) GongCopyBasicFields(to *FormSortAssocButton) {
 	// insertion point
 	to.Name = from.Name
 	to.Label = from.Label
@@ -293,7 +291,7 @@ type Option_WOP struct {
 	Name string
 }
 
-func (from *Option) CopyBasicFields(to *Option) {
+func (from *Option) GongCopyBasicFields(to *Option) {
 	// insertion point
 	to.Name = from.Name
 }

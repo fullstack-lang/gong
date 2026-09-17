@@ -4,7 +4,7 @@ import "time"
 
 func (stager *Stager) enforceASystemDiagramHasItsOwningSystem() (needCommit bool) {
 
-	rm := GetSliceOfPointersReverseMap[System, DiagramStructure](GetAssociationName[System]().DiagramStructures[0].Name, stager.stage)
+	rm := stager.stage.GetSliceOfPointersReverseMap[System, DiagramStructure](GongGetAssociationName[System]().DiagramStructures[0].Name)
 
 	for diagramStructure := range *stager.stage.GetInstancesSet[*DiagramStructure]() {
 

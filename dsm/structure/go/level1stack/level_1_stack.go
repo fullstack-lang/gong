@@ -99,7 +99,7 @@ func NewLevel1StackDelta(
 	}
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+		err := stage.ParseAstFile(unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -124,32 +124,32 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.AllocatedResourceShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.AllocatedSystemShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ControlFlow](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ControlFlowShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Data](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DataFlow](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DataFlowShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DataShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DiagramLayerState](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DiagramStructure](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ExternalPartShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.LayerDefinition](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Note](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NotePartShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NotePortShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NoteShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Part](stage)
-	models.SetOrchestratorOnAfterUpdate[models.PartAnchoredPath](stage)
-	models.SetOrchestratorOnAfterUpdate[models.PartShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Port](stage)
-	models.SetOrchestratorOnAfterUpdate[models.PortShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Resource](stage)
-	models.SetOrchestratorOnAfterUpdate[models.SemanticTag](stage)
-	models.SetOrchestratorOnAfterUpdate[models.System](stage)
-	models.SetOrchestratorOnAfterUpdate[models.SystemShape](stage)
+	stage.SetOrchestratorOnAfterUpdate[models.AllocatedResourceShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.AllocatedSystemShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.ControlFlow]()
+	stage.SetOrchestratorOnAfterUpdate[models.ControlFlowShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Data]()
+	stage.SetOrchestratorOnAfterUpdate[models.DataFlow]()
+	stage.SetOrchestratorOnAfterUpdate[models.DataFlowShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.DataShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.DiagramLayerState]()
+	stage.SetOrchestratorOnAfterUpdate[models.DiagramStructure]()
+	stage.SetOrchestratorOnAfterUpdate[models.ExternalPartShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.LayerDefinition]()
+	stage.SetOrchestratorOnAfterUpdate[models.Library]()
+	stage.SetOrchestratorOnAfterUpdate[models.Note]()
+	stage.SetOrchestratorOnAfterUpdate[models.NotePartShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.NotePortShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.NoteShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Part]()
+	stage.SetOrchestratorOnAfterUpdate[models.PartAnchoredPath]()
+	stage.SetOrchestratorOnAfterUpdate[models.PartShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Port]()
+	stage.SetOrchestratorOnAfterUpdate[models.PortShape]()
+	stage.SetOrchestratorOnAfterUpdate[models.Resource]()
+	stage.SetOrchestratorOnAfterUpdate[models.SemanticTag]()
+	stage.SetOrchestratorOnAfterUpdate[models.System]()
+	stage.SetOrchestratorOnAfterUpdate[models.SystemShape]()
 
 	return
 }

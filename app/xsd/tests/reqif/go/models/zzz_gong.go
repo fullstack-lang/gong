@@ -16,8 +16,8 @@ import (
 
 // can be used for
 //
-//	days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
-func __Gong__Abs(x int) int {
+//	days := __gong__abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
+func __gong__abs(x int) int {
 	if x < 0 {
 		return -x
 	}
@@ -25,7 +25,7 @@ func __Gong__Abs(x int) int {
 }
 
 var (
-	_ = __Gong__Abs
+	_ = __gong__abs
 	_ = strings.Clone("")
 )
 
@@ -84,14 +84,10 @@ var (
 )
 
 // needed to avoid when fmt package is not needed by generated code
-var __dummy__fmt_variable fmt.Scanner
-
-var _ = __dummy__fmt_variable
+var _ = fmt.Sprintf
 
 // idem for math package when not need by generated code
-var __dummy_math_variable = math.E
-
-var _ = __dummy_math_variable
+var _ = math.E
 
 // swagger:ignore
 type __void any
@@ -1575,7 +1571,7 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	// UX
 	stage.commitsBehind++
 	stage.isApplyingBackwardCommit = true
-	err := GongParseAstString(stage, commitToApply, true)
+	err := stage.ParseAstString(commitToApply, true)
 	stage.isApplyingBackwardCommit = false
 	if err != nil {
 		log.Println("error during ApplyBackwardCommit: ", err)
@@ -1615,7 +1611,7 @@ func (stage *Stage) ApplyForwardCommit() error {
 	// UX
 	stage.commitsBehind--
 	stage.isApplyingForwardCommit = true
-	err := GongParseAstString(stage, commitToApply, true)
+	err := stage.ParseAstString(commitToApply, true)
 	stage.isApplyingForwardCommit = false
 	if err != nil {
 		log.Println("error during ApplyForwardCommit: ", err)
@@ -3257,7 +3253,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	switch any(t).(type) {
 	// insertion point for case
 	case *ALTERNATIVE_ID:
-		tmp := getStructInstancesByOrder(stage.ALTERNATIVE_IDs, stage.ALTERNATIVE_ID_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ALTERNATIVE_IDs, stage.ALTERNATIVE_ID_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3271,7 +3267,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_DEFINITION_BOOLEAN:
-		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_BOOLEANs, stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_BOOLEANs, stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3285,7 +3281,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_DEFINITION_DATE:
-		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_DATEs, stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_DATEs, stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3299,7 +3295,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_DEFINITION_ENUMERATION:
-		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_ENUMERATIONs, stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_ENUMERATIONs, stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3313,7 +3309,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_DEFINITION_INTEGER:
-		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_INTEGERs, stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_INTEGERs, stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3327,7 +3323,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_DEFINITION_REAL:
-		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_REALs, stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_REALs, stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3341,7 +3337,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_DEFINITION_STRING:
-		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_STRINGs, stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_STRINGs, stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3355,7 +3351,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_DEFINITION_XHTML:
-		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_XHTMLs, stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_XHTMLs, stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3369,7 +3365,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_VALUE_BOOLEAN:
-		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_BOOLEANs, stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_BOOLEANs, stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3383,7 +3379,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_VALUE_DATE:
-		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_DATEs, stage.ATTRIBUTE_VALUE_DATE_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_DATEs, stage.ATTRIBUTE_VALUE_DATE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3397,7 +3393,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_VALUE_ENUMERATION:
-		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_ENUMERATIONs, stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_ENUMERATIONs, stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3411,7 +3407,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_VALUE_INTEGER:
-		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_INTEGERs, stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_INTEGERs, stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3425,7 +3421,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_VALUE_REAL:
-		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_REALs, stage.ATTRIBUTE_VALUE_REAL_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_REALs, stage.ATTRIBUTE_VALUE_REAL_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3439,7 +3435,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_VALUE_STRING:
-		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_STRINGs, stage.ATTRIBUTE_VALUE_STRING_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_STRINGs, stage.ATTRIBUTE_VALUE_STRING_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3453,7 +3449,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_VALUE_XHTML:
-		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_XHTMLs, stage.ATTRIBUTE_VALUE_XHTML_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_XHTMLs, stage.ATTRIBUTE_VALUE_XHTML_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3467,7 +3463,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ALTERNATIVE_ID:
-		tmp := getStructInstancesByOrder(stage.A_ALTERNATIVE_IDs, stage.A_ALTERNATIVE_ID_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ALTERNATIVE_IDs, stage.A_ALTERNATIVE_ID_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3481,7 +3477,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs, stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs, stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3495,7 +3491,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_DATE_REFs, stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_DATE_REFs, stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3509,7 +3505,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs, stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs, stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3523,7 +3519,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs, stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs, stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3537,7 +3533,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_REAL_REFs, stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_REAL_REFs, stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3551,7 +3547,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_STRING_REFs, stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_STRING_REFs, stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3565,7 +3561,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs, stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs, stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3579,7 +3575,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_BOOLEAN:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_BOOLEANs, stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_BOOLEANs, stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3593,7 +3589,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_DATE:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_DATEs, stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_DATEs, stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3607,7 +3603,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_ENUMERATION:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_ENUMERATIONs, stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_ENUMERATIONs, stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3621,7 +3617,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_INTEGER:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_INTEGERs, stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_INTEGERs, stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3635,7 +3631,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_REAL:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_REALs, stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_REALs, stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3649,7 +3645,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_STRING:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_STRINGs, stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_STRINGs, stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3663,7 +3659,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_XHTML:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_XHTMLs, stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_XHTMLs, stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3677,7 +3673,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_XHTML_1:
-		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_XHTML_1s, stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_XHTML_1s, stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3691,7 +3687,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_CHILDREN:
-		tmp := getStructInstancesByOrder(stage.A_CHILDRENs, stage.A_CHILDREN_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_CHILDRENs, stage.A_CHILDREN_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3705,7 +3701,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_CORE_CONTENT:
-		tmp := getStructInstancesByOrder(stage.A_CORE_CONTENTs, stage.A_CORE_CONTENT_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_CORE_CONTENTs, stage.A_CORE_CONTENT_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3719,7 +3715,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPES:
-		tmp := getStructInstancesByOrder(stage.A_DATATYPESs, stage.A_DATATYPES_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_DATATYPESs, stage.A_DATATYPES_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3733,7 +3729,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		tmp := getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs, stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs, stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3747,7 +3743,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPE_DEFINITION_DATE_REF:
-		tmp := getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_DATE_REFs, stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_DATE_REFs, stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3761,7 +3757,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		tmp := getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs, stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs, stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3775,7 +3771,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPE_DEFINITION_INTEGER_REF:
-		tmp := getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_INTEGER_REFs, stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_INTEGER_REFs, stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3789,7 +3785,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPE_DEFINITION_REAL_REF:
-		tmp := getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_REAL_REFs, stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_REAL_REFs, stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3803,7 +3799,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPE_DEFINITION_STRING_REF:
-		tmp := getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_STRING_REFs, stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_STRING_REFs, stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3817,7 +3813,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPE_DEFINITION_XHTML_REF:
-		tmp := getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_XHTML_REFs, stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_XHTML_REFs, stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3831,7 +3827,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_EDITABLE_ATTS:
-		tmp := getStructInstancesByOrder(stage.A_EDITABLE_ATTSs, stage.A_EDITABLE_ATTS_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_EDITABLE_ATTSs, stage.A_EDITABLE_ATTS_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3845,7 +3841,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ENUM_VALUE_REF:
-		tmp := getStructInstancesByOrder(stage.A_ENUM_VALUE_REFs, stage.A_ENUM_VALUE_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_ENUM_VALUE_REFs, stage.A_ENUM_VALUE_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3859,7 +3855,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_OBJECT:
-		tmp := getStructInstancesByOrder(stage.A_OBJECTs, stage.A_OBJECT_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_OBJECTs, stage.A_OBJECT_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3873,7 +3869,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_PROPERTIES:
-		tmp := getStructInstancesByOrder(stage.A_PROPERTIESs, stage.A_PROPERTIES_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_PROPERTIESs, stage.A_PROPERTIES_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3887,7 +3883,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_RELATION_GROUP_TYPE_REF:
-		tmp := getStructInstancesByOrder(stage.A_RELATION_GROUP_TYPE_REFs, stage.A_RELATION_GROUP_TYPE_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_RELATION_GROUP_TYPE_REFs, stage.A_RELATION_GROUP_TYPE_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3901,7 +3897,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SOURCE_1:
-		tmp := getStructInstancesByOrder(stage.A_SOURCE_1s, stage.A_SOURCE_1_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_SOURCE_1s, stage.A_SOURCE_1_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3915,7 +3911,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SOURCE_SPECIFICATION_1:
-		tmp := getStructInstancesByOrder(stage.A_SOURCE_SPECIFICATION_1s, stage.A_SOURCE_SPECIFICATION_1_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_SOURCE_SPECIFICATION_1s, stage.A_SOURCE_SPECIFICATION_1_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3929,7 +3925,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPECIFICATIONS:
-		tmp := getStructInstancesByOrder(stage.A_SPECIFICATIONSs, stage.A_SPECIFICATIONS_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_SPECIFICATIONSs, stage.A_SPECIFICATIONS_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3943,7 +3939,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPECIFICATION_TYPE_REF:
-		tmp := getStructInstancesByOrder(stage.A_SPECIFICATION_TYPE_REFs, stage.A_SPECIFICATION_TYPE_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_SPECIFICATION_TYPE_REFs, stage.A_SPECIFICATION_TYPE_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3957,7 +3953,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPECIFIED_VALUES:
-		tmp := getStructInstancesByOrder(stage.A_SPECIFIED_VALUESs, stage.A_SPECIFIED_VALUES_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_SPECIFIED_VALUESs, stage.A_SPECIFIED_VALUES_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3971,7 +3967,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_ATTRIBUTES:
-		tmp := getStructInstancesByOrder(stage.A_SPEC_ATTRIBUTESs, stage.A_SPEC_ATTRIBUTES_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_SPEC_ATTRIBUTESs, stage.A_SPEC_ATTRIBUTES_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3985,7 +3981,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_OBJECTS:
-		tmp := getStructInstancesByOrder(stage.A_SPEC_OBJECTSs, stage.A_SPEC_OBJECTS_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_SPEC_OBJECTSs, stage.A_SPEC_OBJECTS_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3999,7 +3995,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_OBJECT_TYPE_REF:
-		tmp := getStructInstancesByOrder(stage.A_SPEC_OBJECT_TYPE_REFs, stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_SPEC_OBJECT_TYPE_REFs, stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4013,7 +4009,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_RELATIONS:
-		tmp := getStructInstancesByOrder(stage.A_SPEC_RELATIONSs, stage.A_SPEC_RELATIONS_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_SPEC_RELATIONSs, stage.A_SPEC_RELATIONS_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4027,7 +4023,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_RELATION_GROUPS:
-		tmp := getStructInstancesByOrder(stage.A_SPEC_RELATION_GROUPSs, stage.A_SPEC_RELATION_GROUPS_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_SPEC_RELATION_GROUPSs, stage.A_SPEC_RELATION_GROUPS_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4041,7 +4037,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_RELATION_REF:
-		tmp := getStructInstancesByOrder(stage.A_SPEC_RELATION_REFs, stage.A_SPEC_RELATION_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_SPEC_RELATION_REFs, stage.A_SPEC_RELATION_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4055,7 +4051,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_RELATION_TYPE_REF:
-		tmp := getStructInstancesByOrder(stage.A_SPEC_RELATION_TYPE_REFs, stage.A_SPEC_RELATION_TYPE_REF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_SPEC_RELATION_TYPE_REFs, stage.A_SPEC_RELATION_TYPE_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4069,7 +4065,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_TYPES:
-		tmp := getStructInstancesByOrder(stage.A_SPEC_TYPESs, stage.A_SPEC_TYPES_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_SPEC_TYPESs, stage.A_SPEC_TYPES_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4083,7 +4079,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_THE_HEADER:
-		tmp := getStructInstancesByOrder(stage.A_THE_HEADERs, stage.A_THE_HEADER_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_THE_HEADERs, stage.A_THE_HEADER_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4097,7 +4093,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_TOOL_EXTENSIONS:
-		tmp := getStructInstancesByOrder(stage.A_TOOL_EXTENSIONSs, stage.A_TOOL_EXTENSIONS_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.A_TOOL_EXTENSIONSs, stage.A_TOOL_EXTENSIONS_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4111,7 +4107,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DATATYPE_DEFINITION_BOOLEAN:
-		tmp := getStructInstancesByOrder(stage.DATATYPE_DEFINITION_BOOLEANs, stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_BOOLEANs, stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4125,7 +4121,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DATATYPE_DEFINITION_DATE:
-		tmp := getStructInstancesByOrder(stage.DATATYPE_DEFINITION_DATEs, stage.DATATYPE_DEFINITION_DATE_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_DATEs, stage.DATATYPE_DEFINITION_DATE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4139,7 +4135,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DATATYPE_DEFINITION_ENUMERATION:
-		tmp := getStructInstancesByOrder(stage.DATATYPE_DEFINITION_ENUMERATIONs, stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_ENUMERATIONs, stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4153,7 +4149,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DATATYPE_DEFINITION_INTEGER:
-		tmp := getStructInstancesByOrder(stage.DATATYPE_DEFINITION_INTEGERs, stage.DATATYPE_DEFINITION_INTEGER_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_INTEGERs, stage.DATATYPE_DEFINITION_INTEGER_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4167,7 +4163,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DATATYPE_DEFINITION_REAL:
-		tmp := getStructInstancesByOrder(stage.DATATYPE_DEFINITION_REALs, stage.DATATYPE_DEFINITION_REAL_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_REALs, stage.DATATYPE_DEFINITION_REAL_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4181,7 +4177,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DATATYPE_DEFINITION_STRING:
-		tmp := getStructInstancesByOrder(stage.DATATYPE_DEFINITION_STRINGs, stage.DATATYPE_DEFINITION_STRING_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_STRINGs, stage.DATATYPE_DEFINITION_STRING_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4195,7 +4191,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DATATYPE_DEFINITION_XHTML:
-		tmp := getStructInstancesByOrder(stage.DATATYPE_DEFINITION_XHTMLs, stage.DATATYPE_DEFINITION_XHTML_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.DATATYPE_DEFINITION_XHTMLs, stage.DATATYPE_DEFINITION_XHTML_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4209,7 +4205,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *EMBEDDED_VALUE:
-		tmp := getStructInstancesByOrder(stage.EMBEDDED_VALUEs, stage.EMBEDDED_VALUE_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.EMBEDDED_VALUEs, stage.EMBEDDED_VALUE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4223,7 +4219,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ENUM_VALUE:
-		tmp := getStructInstancesByOrder(stage.ENUM_VALUEs, stage.ENUM_VALUE_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.ENUM_VALUEs, stage.ENUM_VALUE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4237,7 +4233,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *RELATION_GROUP:
-		tmp := getStructInstancesByOrder(stage.RELATION_GROUPs, stage.RELATION_GROUP_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.RELATION_GROUPs, stage.RELATION_GROUP_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4251,7 +4247,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *RELATION_GROUP_TYPE:
-		tmp := getStructInstancesByOrder(stage.RELATION_GROUP_TYPEs, stage.RELATION_GROUP_TYPE_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.RELATION_GROUP_TYPEs, stage.RELATION_GROUP_TYPE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4265,7 +4261,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *REQ_IF:
-		tmp := getStructInstancesByOrder(stage.REQ_IFs, stage.REQ_IF_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.REQ_IFs, stage.REQ_IF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4279,7 +4275,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *REQ_IF_CONTENT:
-		tmp := getStructInstancesByOrder(stage.REQ_IF_CONTENTs, stage.REQ_IF_CONTENT_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.REQ_IF_CONTENTs, stage.REQ_IF_CONTENT_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4293,7 +4289,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *REQ_IF_HEADER:
-		tmp := getStructInstancesByOrder(stage.REQ_IF_HEADERs, stage.REQ_IF_HEADER_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.REQ_IF_HEADERs, stage.REQ_IF_HEADER_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4307,7 +4303,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *REQ_IF_TOOL_EXTENSION:
-		tmp := getStructInstancesByOrder(stage.REQ_IF_TOOL_EXTENSIONs, stage.REQ_IF_TOOL_EXTENSION_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.REQ_IF_TOOL_EXTENSIONs, stage.REQ_IF_TOOL_EXTENSION_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4321,7 +4317,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SPECIFICATION:
-		tmp := getStructInstancesByOrder(stage.SPECIFICATIONs, stage.SPECIFICATION_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.SPECIFICATIONs, stage.SPECIFICATION_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4335,7 +4331,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SPECIFICATION_TYPE:
-		tmp := getStructInstancesByOrder(stage.SPECIFICATION_TYPEs, stage.SPECIFICATION_TYPE_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.SPECIFICATION_TYPEs, stage.SPECIFICATION_TYPE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4349,7 +4345,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SPEC_HIERARCHY:
-		tmp := getStructInstancesByOrder(stage.SPEC_HIERARCHYs, stage.SPEC_HIERARCHY_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.SPEC_HIERARCHYs, stage.SPEC_HIERARCHY_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4363,7 +4359,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SPEC_OBJECT:
-		tmp := getStructInstancesByOrder(stage.SPEC_OBJECTs, stage.SPEC_OBJECT_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.SPEC_OBJECTs, stage.SPEC_OBJECT_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4377,7 +4373,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SPEC_OBJECT_TYPE:
-		tmp := getStructInstancesByOrder(stage.SPEC_OBJECT_TYPEs, stage.SPEC_OBJECT_TYPE_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.SPEC_OBJECT_TYPEs, stage.SPEC_OBJECT_TYPE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4391,7 +4387,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SPEC_RELATION:
-		tmp := getStructInstancesByOrder(stage.SPEC_RELATIONs, stage.SPEC_RELATION_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.SPEC_RELATIONs, stage.SPEC_RELATION_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4405,7 +4401,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SPEC_RELATION_TYPE:
-		tmp := getStructInstancesByOrder(stage.SPEC_RELATION_TYPEs, stage.SPEC_RELATION_TYPE_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.SPEC_RELATION_TYPEs, stage.SPEC_RELATION_TYPE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4419,7 +4415,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *XHTML_CONTENT:
-		tmp := getStructInstancesByOrder(stage.XHTML_CONTENTs, stage.XHTML_CONTENT_stagedOrder)
+		tmp := __gong__getStructInstancesByOrder(stage.XHTML_CONTENTs, stage.XHTML_CONTENT_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4437,7 +4433,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	return
 }
 
-func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+func __gong__getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -13600,15 +13596,15 @@ type PointerToGongstruct interface {
 	comparable
 }
 
-func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
+func GongCompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
+func GongSortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
 	}
-	slices.SortFunc(sortedSlice, CompareGongstructByName)
+	slices.SortFunc(sortedSlice, GongCompareGongstructByName)
 
 	return
 }
@@ -13616,7 +13612,7 @@ func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedS
 // GetInstancesSorted is the Stage method returning sorted instances of a gongstruct.
 func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T) {
 	set := stage.GetInstancesSet[T]()
-	sortedSlice = SortGongstructSetByName(*set)
+	sortedSlice = GongSortGongstructSetByName(*set)
 
 	return
 }
@@ -13979,11 +13975,11 @@ func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct
 	}
 }
 
-// GetAssociationName is a generic function that returns an instance of Type
+// GongGetAssociationName is a generic function that returns an instance of Type
 // where each association is filled with an instance whose name is the name of the association
 //
 // This function can be handy for generating navigation function that are refactorable
-func GetAssociationName[Type Gongstruct]() *Type {
+func GongGetAssociationName[Type Gongstruct]() *Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -17163,14 +17159,9 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
-// GetSliceOfPointersReverseMap is a backward-compatible package-level forwarder.
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
-	return stage.GetSliceOfPointersReverseMap[Start, End](fieldname)
-}
-
-// GetPointerToGongstructName returns the name of the Gongstruct
+// GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
-func GetPointerToGongstructName[Type GongstructIF]() (res string) {
+func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -17347,12 +17338,16 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 	return res
 }
 
+func GetPointerToGongstructName[Type GongstructIF]() (res string) {
+	return GongGetPointerToGongstructName[Type]()
+}
+
 type ReverseField struct {
 	GongstructName string
 	Fieldname      string
 }
 
-func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
+func GongGetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	res = make([]ReverseField, 0)
 
 	var ret Type
@@ -17731,6 +17726,10 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 	}
 	return
+}
+
+func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
+	return GongGetReverseFields[Type]()
 }
 
 // insertion point for get fields header method
@@ -19913,10 +19912,14 @@ func (xhtml_content *XHTML_CONTENT) GongGetFieldHeaders() (res []GongFieldHeader
 	return
 }
 
-// GetFieldsFromPointer return the array of the fields
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+// GongGetFieldsFromPointer return the array of the fields
+func GongGetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 	var ret Type
 	return ret.GongGetFieldHeaders()
+}
+
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+	return GongGetFieldsFromPointer[Type]()
 }
 
 type GongFieldValueType string
@@ -21977,11 +21980,14 @@ func (xhtml_content *XHTML_CONTENT) GongGetFieldValue(fieldName string, stage *S
 	return
 }
 
-func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
+func (stage *Stage) GetFieldStringValueFromPointer(instance GongstructIF, fieldName string) (res GongFieldValue) {
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
 }
 
+func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
+	return stage.GetFieldStringValueFromPointer(instance, fieldName)
+}
 
 // insertion point for generic get gongstruct name
 func (alternative_id *ALTERNATIVE_ID) GongGetGongstructName() string {
@@ -22320,9 +22326,13 @@ func (xhtml_content *XHTML_CONTENT) GongGetGongstructName() string {
 	return "XHTML_CONTENT"
 }
 
-func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+func GongGetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()
 	return
+}
+
+func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+	return GongGetGongstructNameFromPointer(instance)
 }
 
 func (stage *Stage) ResetMapStrings() {

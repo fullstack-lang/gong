@@ -36,7 +36,7 @@ func TestMarshallAndUnmarshallEmbeddedName(t *testing.T) {
 		t.Fatalf("failed to parse marshalled code: %v", err)
 	}
 
-	err = ParseAstFileFromAst(newStage, file, fset, false)
+	err = newStage.ParseAstFileFromAst(file, fset, false)
 	if err != nil {
 		t.Fatalf("ParseAstFileFromAst failed: %v", err)
 	}
@@ -56,9 +56,9 @@ func TestMarshallAndUnmarshallEmbeddedName(t *testing.T) {
 }
 
 func TestGetAssociationNameWithPromotedFields(t *testing.T) {
-	dstruct := GetAssociationName[Dstruct]()
+	dstruct := GongGetAssociationName[Dstruct]()
 	if dstruct == nil {
-		t.Fatal("GetAssociationName[Dstruct]() returned nil")
+		t.Fatal("GongGetAssociationName[Dstruct]() returned nil")
 	}
 
 	if dstruct.Gstruct == nil {

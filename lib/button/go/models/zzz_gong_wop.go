@@ -4,9 +4,7 @@ package models
 import "time"
 
 // to avoid compile error if no time field is present
-var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
-
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+var _ = time.Hour
 
 // insertion point
 type Button_WOP struct {
@@ -33,7 +31,7 @@ type Button_WOP struct {
 	ToolTipPosition ToolTipPositionEnum
 }
 
-func (from *Button) CopyBasicFields(to *Button) {
+func (from *Button) GongCopyBasicFields(to *Button) {
 	// insertion point
 	to.Name = from.Name
 	to.Label = from.Label
@@ -61,7 +59,7 @@ type ButtonToggle_WOP struct {
 	IsChecked bool
 }
 
-func (from *ButtonToggle) CopyBasicFields(to *ButtonToggle) {
+func (from *ButtonToggle) GongCopyBasicFields(to *ButtonToggle) {
 	// insertion point
 	to.Name = from.Name
 	to.Label = from.Label
@@ -80,7 +78,7 @@ type Group_WOP struct {
 	NbColumns int
 }
 
-func (from *Group) CopyBasicFields(to *Group) {
+func (from *Group) GongCopyBasicFields(to *Group) {
 	// insertion point
 	to.Name = from.Name
 	to.Percentage = from.Percentage
@@ -97,7 +95,7 @@ type GroupToogle_WOP struct {
 	IsSingleSelector bool
 }
 
-func (from *GroupToogle) CopyBasicFields(to *GroupToogle) {
+func (from *GroupToogle) GongCopyBasicFields(to *GroupToogle) {
 	// insertion point
 	to.Name = from.Name
 	to.Percentage = from.Percentage
@@ -110,7 +108,7 @@ type Layout_WOP struct {
 	Name string
 }
 
-func (from *Layout) CopyBasicFields(to *Layout) {
+func (from *Layout) GongCopyBasicFields(to *Layout) {
 	// insertion point
 	to.Name = from.Name
 }

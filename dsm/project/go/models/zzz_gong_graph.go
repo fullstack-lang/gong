@@ -80,86 +80,6 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 	return
 }
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
-	return stage.IsStaged(instance)
-}
-
-func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Diagram:
-		ok = stage.IsStagedDiagram(target)
-
-	case *Library:
-		ok = stage.IsStagedLibrary(target)
-
-	case *Note:
-		ok = stage.IsStagedNote(target)
-
-	case *NoteProductShape:
-		ok = stage.IsStagedNoteProductShape(target)
-
-	case *NoteResourceShape:
-		ok = stage.IsStagedNoteResourceShape(target)
-
-	case *NoteShape:
-		ok = stage.IsStagedNoteShape(target)
-
-	case *NoteTaskShape:
-		ok = stage.IsStagedNoteTaskShape(target)
-
-	case *Product:
-		ok = stage.IsStagedProduct(target)
-
-	case *ProductCompositionShape:
-		ok = stage.IsStagedProductCompositionShape(target)
-
-	case *ProductShape:
-		ok = stage.IsStagedProductShape(target)
-
-	case *Resource:
-		ok = stage.IsStagedResource(target)
-
-	case *ResourceCompositionShape:
-		ok = stage.IsStagedResourceCompositionShape(target)
-
-	case *ResourceShape:
-		ok = stage.IsStagedResourceShape(target)
-
-	case *ResourceTaskShape:
-		ok = stage.IsStagedResourceTaskShape(target)
-
-	case *Task:
-		ok = stage.IsStagedTask(target)
-
-	case *TaskCompositionShape:
-		ok = stage.IsStagedTaskCompositionShape(target)
-
-	case *TaskGroup:
-		ok = stage.IsStagedTaskGroup(target)
-
-	case *TaskGroupShape:
-		ok = stage.IsStagedTaskGroupShape(target)
-
-	case *TaskInputShape:
-		ok = stage.IsStagedTaskInputShape(target)
-
-	case *TaskOutputShape:
-		ok = stage.IsStagedTaskOutputShape(target)
-
-	case *TaskPredecessorShape:
-		ok = stage.IsStagedTaskPredecessorShape(target)
-
-	case *TaskShape:
-		ok = stage.IsStagedTaskShape(target)
-
-	default:
-		_ = target
-	}
-	return
-}
-
 // insertion point for stage per struct
 func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
 
@@ -400,7 +320,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
-	if IsStaged(stage, diagram) {
+	if stage.IsStaged(diagram) {
 		return
 	}
 
@@ -410,73 +330,73 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _productshape := range diagram.Product_Shapes {
-		StageBranch(stage, _productshape)
+		stage.StageBranch(_productshape)
 	}
 	for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
-		StageBranch(stage, _product)
+		stage.StageBranch(_product)
 	}
 	for _, _productcompositionshape := range diagram.ProductComposition_Shapes {
-		StageBranch(stage, _productcompositionshape)
+		stage.StageBranch(_productcompositionshape)
 	}
 	for _, _taskshape := range diagram.Task_Shapes {
-		StageBranch(stage, _taskshape)
+		stage.StageBranch(_taskshape)
 	}
 	for _, _task := range diagram.TasksWhoseNodeIsExpanded {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 	for _, _task := range diagram.TasksWhoseInputNodeIsExpanded {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 	for _, _task := range diagram.TasksWhoseOutputNodeIsExpanded {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 	for _, _task := range diagram.TasksWhosePredecessorNodeIsExpanded {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 	for _, _taskgroupshape := range diagram.TaskGroupShapes {
-		StageBranch(stage, _taskgroupshape)
+		stage.StageBranch(_taskgroupshape)
 	}
 	for _, _taskgroup := range diagram.TaskGroupsWhoseNodeIsExpanded {
-		StageBranch(stage, _taskgroup)
+		stage.StageBranch(_taskgroup)
 	}
 	for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
-		StageBranch(stage, _taskcompositionshape)
+		stage.StageBranch(_taskcompositionshape)
 	}
 	for _, _taskinputshape := range diagram.TaskInputShapes {
-		StageBranch(stage, _taskinputshape)
+		stage.StageBranch(_taskinputshape)
 	}
 	for _, _taskoutputshape := range diagram.TaskOutputShapes {
-		StageBranch(stage, _taskoutputshape)
+		stage.StageBranch(_taskoutputshape)
 	}
 	for _, _taskpredecessorshape := range diagram.TaskPredecessorShapes {
-		StageBranch(stage, _taskpredecessorshape)
+		stage.StageBranch(_taskpredecessorshape)
 	}
 	for _, _noteshape := range diagram.Note_Shapes {
-		StageBranch(stage, _noteshape)
+		stage.StageBranch(_noteshape)
 	}
 	for _, _note := range diagram.NotesWhoseNodeIsExpanded {
-		StageBranch(stage, _note)
+		stage.StageBranch(_note)
 	}
 	for _, _noteproductshape := range diagram.NoteProductShapes {
-		StageBranch(stage, _noteproductshape)
+		stage.StageBranch(_noteproductshape)
 	}
 	for _, _notetaskshape := range diagram.NoteTaskShapes {
-		StageBranch(stage, _notetaskshape)
+		stage.StageBranch(_notetaskshape)
 	}
 	for _, _noteresourceshape := range diagram.NoteResourceShapes {
-		StageBranch(stage, _noteresourceshape)
+		stage.StageBranch(_noteresourceshape)
 	}
 	for _, _resourceshape := range diagram.Resource_Shapes {
-		StageBranch(stage, _resourceshape)
+		stage.StageBranch(_resourceshape)
 	}
 	for _, _resource := range diagram.ResourcesWhoseNodeIsExpanded {
-		StageBranch(stage, _resource)
+		stage.StageBranch(_resource)
 	}
 	for _, _resourcecompositionshape := range diagram.ResourceComposition_Shapes {
-		StageBranch(stage, _resourcecompositionshape)
+		stage.StageBranch(_resourcecompositionshape)
 	}
 	for _, _resourcetaskshape := range diagram.ResourceTaskShapes {
-		StageBranch(stage, _resourcetaskshape)
+		stage.StageBranch(_resourcetaskshape)
 	}
 
 }
@@ -484,7 +404,7 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
-	if IsStaged(stage, library) {
+	if stage.IsStaged(library) {
 		return
 	}
 
@@ -494,25 +414,25 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _library := range library.SubLibraries {
-		StageBranch(stage, _library)
+		stage.StageBranch(_library)
 	}
 	for _, _product := range library.RootProducts {
-		StageBranch(stage, _product)
+		stage.StageBranch(_product)
 	}
 	for _, _task := range library.RootTasks {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 	for _, _taskgroup := range library.RootTaskGroups {
-		StageBranch(stage, _taskgroup)
+		stage.StageBranch(_taskgroup)
 	}
 	for _, _resource := range library.RootResources {
-		StageBranch(stage, _resource)
+		stage.StageBranch(_resource)
 	}
 	for _, _note := range library.Notes {
-		StageBranch(stage, _note)
+		stage.StageBranch(_note)
 	}
 	for _, _diagram := range library.Diagrams {
-		StageBranch(stage, _diagram)
+		stage.StageBranch(_diagram)
 	}
 
 }
@@ -520,7 +440,7 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 func (stage *Stage) StageBranchNote(note *Note) {
 
 	// check if instance is already staged
-	if IsStaged(stage, note) {
+	if stage.IsStaged(note) {
 		return
 	}
 
@@ -530,13 +450,13 @@ func (stage *Stage) StageBranchNote(note *Note) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range note.Products {
-		StageBranch(stage, _product)
+		stage.StageBranch(_product)
 	}
 	for _, _task := range note.Tasks {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 	for _, _resource := range note.Resources {
-		StageBranch(stage, _resource)
+		stage.StageBranch(_resource)
 	}
 
 }
@@ -544,7 +464,7 @@ func (stage *Stage) StageBranchNote(note *Note) {
 func (stage *Stage) StageBranchNoteProductShape(noteproductshape *NoteProductShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, noteproductshape) {
+	if stage.IsStaged(noteproductshape) {
 		return
 	}
 
@@ -552,10 +472,10 @@ func (stage *Stage) StageBranchNoteProductShape(noteproductshape *NoteProductSha
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteproductshape.Note != nil {
-		StageBranch(stage, noteproductshape.Note)
+		stage.StageBranch(noteproductshape.Note)
 	}
 	if noteproductshape.Product != nil {
-		StageBranch(stage, noteproductshape.Product)
+		stage.StageBranch(noteproductshape.Product)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -565,7 +485,7 @@ func (stage *Stage) StageBranchNoteProductShape(noteproductshape *NoteProductSha
 func (stage *Stage) StageBranchNoteResourceShape(noteresourceshape *NoteResourceShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, noteresourceshape) {
+	if stage.IsStaged(noteresourceshape) {
 		return
 	}
 
@@ -573,10 +493,10 @@ func (stage *Stage) StageBranchNoteResourceShape(noteresourceshape *NoteResource
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteresourceshape.Note != nil {
-		StageBranch(stage, noteresourceshape.Note)
+		stage.StageBranch(noteresourceshape.Note)
 	}
 	if noteresourceshape.Resource != nil {
-		StageBranch(stage, noteresourceshape.Resource)
+		stage.StageBranch(noteresourceshape.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -586,7 +506,7 @@ func (stage *Stage) StageBranchNoteResourceShape(noteresourceshape *NoteResource
 func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, noteshape) {
+	if stage.IsStaged(noteshape) {
 		return
 	}
 
@@ -594,7 +514,7 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshape.Note != nil {
-		StageBranch(stage, noteshape.Note)
+		stage.StageBranch(noteshape.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -604,7 +524,7 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, notetaskshape) {
+	if stage.IsStaged(notetaskshape) {
 		return
 	}
 
@@ -612,10 +532,10 @@ func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if notetaskshape.Note != nil {
-		StageBranch(stage, notetaskshape.Note)
+		stage.StageBranch(notetaskshape.Note)
 	}
 	if notetaskshape.Task != nil {
-		StageBranch(stage, notetaskshape.Task)
+		stage.StageBranch(notetaskshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -625,7 +545,7 @@ func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 func (stage *Stage) StageBranchProduct(product *Product) {
 
 	// check if instance is already staged
-	if IsStaged(stage, product) {
+	if stage.IsStaged(product) {
 		return
 	}
 
@@ -633,12 +553,12 @@ func (stage *Stage) StageBranchProduct(product *Product) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if product.ReferencedProduct != nil {
-		StageBranch(stage, product.ReferencedProduct)
+		stage.StageBranch(product.ReferencedProduct)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range product.SubProducts {
-		StageBranch(stage, _product)
+		stage.StageBranch(_product)
 	}
 
 }
@@ -646,7 +566,7 @@ func (stage *Stage) StageBranchProduct(product *Product) {
 func (stage *Stage) StageBranchProductCompositionShape(productcompositionshape *ProductCompositionShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, productcompositionshape) {
+	if stage.IsStaged(productcompositionshape) {
 		return
 	}
 
@@ -654,7 +574,7 @@ func (stage *Stage) StageBranchProductCompositionShape(productcompositionshape *
 
 	//insertion point for the staging of instances referenced by pointers
 	if productcompositionshape.Product != nil {
-		StageBranch(stage, productcompositionshape.Product)
+		stage.StageBranch(productcompositionshape.Product)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -664,7 +584,7 @@ func (stage *Stage) StageBranchProductCompositionShape(productcompositionshape *
 func (stage *Stage) StageBranchProductShape(productshape *ProductShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, productshape) {
+	if stage.IsStaged(productshape) {
 		return
 	}
 
@@ -672,7 +592,7 @@ func (stage *Stage) StageBranchProductShape(productshape *ProductShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if productshape.Product != nil {
-		StageBranch(stage, productshape.Product)
+		stage.StageBranch(productshape.Product)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -682,7 +602,7 @@ func (stage *Stage) StageBranchProductShape(productshape *ProductShape) {
 func (stage *Stage) StageBranchResource(resource *Resource) {
 
 	// check if instance is already staged
-	if IsStaged(stage, resource) {
+	if stage.IsStaged(resource) {
 		return
 	}
 
@@ -690,15 +610,15 @@ func (stage *Stage) StageBranchResource(resource *Resource) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if resource.ReferencedResource != nil {
-		StageBranch(stage, resource.ReferencedResource)
+		stage.StageBranch(resource.ReferencedResource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range resource.Tasks {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 	for _, _resource := range resource.SubResources {
-		StageBranch(stage, _resource)
+		stage.StageBranch(_resource)
 	}
 
 }
@@ -706,7 +626,7 @@ func (stage *Stage) StageBranchResource(resource *Resource) {
 func (stage *Stage) StageBranchResourceCompositionShape(resourcecompositionshape *ResourceCompositionShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, resourcecompositionshape) {
+	if stage.IsStaged(resourcecompositionshape) {
 		return
 	}
 
@@ -714,7 +634,7 @@ func (stage *Stage) StageBranchResourceCompositionShape(resourcecompositionshape
 
 	//insertion point for the staging of instances referenced by pointers
 	if resourcecompositionshape.Resource != nil {
-		StageBranch(stage, resourcecompositionshape.Resource)
+		stage.StageBranch(resourcecompositionshape.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -724,7 +644,7 @@ func (stage *Stage) StageBranchResourceCompositionShape(resourcecompositionshape
 func (stage *Stage) StageBranchResourceShape(resourceshape *ResourceShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, resourceshape) {
+	if stage.IsStaged(resourceshape) {
 		return
 	}
 
@@ -732,7 +652,7 @@ func (stage *Stage) StageBranchResourceShape(resourceshape *ResourceShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if resourceshape.Resource != nil {
-		StageBranch(stage, resourceshape.Resource)
+		stage.StageBranch(resourceshape.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -742,7 +662,7 @@ func (stage *Stage) StageBranchResourceShape(resourceshape *ResourceShape) {
 func (stage *Stage) StageBranchResourceTaskShape(resourcetaskshape *ResourceTaskShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, resourcetaskshape) {
+	if stage.IsStaged(resourcetaskshape) {
 		return
 	}
 
@@ -750,10 +670,10 @@ func (stage *Stage) StageBranchResourceTaskShape(resourcetaskshape *ResourceTask
 
 	//insertion point for the staging of instances referenced by pointers
 	if resourcetaskshape.Resource != nil {
-		StageBranch(stage, resourcetaskshape.Resource)
+		stage.StageBranch(resourcetaskshape.Resource)
 	}
 	if resourcetaskshape.Task != nil {
-		StageBranch(stage, resourcetaskshape.Task)
+		stage.StageBranch(resourcetaskshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -763,7 +683,7 @@ func (stage *Stage) StageBranchResourceTaskShape(resourcetaskshape *ResourceTask
 func (stage *Stage) StageBranchTask(task *Task) {
 
 	// check if instance is already staged
-	if IsStaged(stage, task) {
+	if stage.IsStaged(task) {
 		return
 	}
 
@@ -771,24 +691,24 @@ func (stage *Stage) StageBranchTask(task *Task) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if task.ReferencedTask != nil {
-		StageBranch(stage, task.ReferencedTask)
+		stage.StageBranch(task.ReferencedTask)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range task.Predecessors {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 	for _, _product := range task.Inputs {
-		StageBranch(stage, _product)
+		stage.StageBranch(_product)
 	}
 	for _, _product := range task.Outputs {
-		StageBranch(stage, _product)
+		stage.StageBranch(_product)
 	}
 	for _, _task := range task.SubTasks {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 	for _, _taskgroup := range task.TaskGroupsToDisplay {
-		StageBranch(stage, _taskgroup)
+		stage.StageBranch(_taskgroup)
 	}
 
 }
@@ -796,7 +716,7 @@ func (stage *Stage) StageBranchTask(task *Task) {
 func (stage *Stage) StageBranchTaskCompositionShape(taskcompositionshape *TaskCompositionShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, taskcompositionshape) {
+	if stage.IsStaged(taskcompositionshape) {
 		return
 	}
 
@@ -804,7 +724,7 @@ func (stage *Stage) StageBranchTaskCompositionShape(taskcompositionshape *TaskCo
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskcompositionshape.Task != nil {
-		StageBranch(stage, taskcompositionshape.Task)
+		stage.StageBranch(taskcompositionshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -814,7 +734,7 @@ func (stage *Stage) StageBranchTaskCompositionShape(taskcompositionshape *TaskCo
 func (stage *Stage) StageBranchTaskGroup(taskgroup *TaskGroup) {
 
 	// check if instance is already staged
-	if IsStaged(stage, taskgroup) {
+	if stage.IsStaged(taskgroup) {
 		return
 	}
 
@@ -824,7 +744,7 @@ func (stage *Stage) StageBranchTaskGroup(taskgroup *TaskGroup) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range taskgroup.Tasks {
-		StageBranch(stage, _task)
+		stage.StageBranch(_task)
 	}
 
 }
@@ -832,7 +752,7 @@ func (stage *Stage) StageBranchTaskGroup(taskgroup *TaskGroup) {
 func (stage *Stage) StageBranchTaskGroupShape(taskgroupshape *TaskGroupShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, taskgroupshape) {
+	if stage.IsStaged(taskgroupshape) {
 		return
 	}
 
@@ -840,7 +760,7 @@ func (stage *Stage) StageBranchTaskGroupShape(taskgroupshape *TaskGroupShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskgroupshape.TaskGroup != nil {
-		StageBranch(stage, taskgroupshape.TaskGroup)
+		stage.StageBranch(taskgroupshape.TaskGroup)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -850,7 +770,7 @@ func (stage *Stage) StageBranchTaskGroupShape(taskgroupshape *TaskGroupShape) {
 func (stage *Stage) StageBranchTaskInputShape(taskinputshape *TaskInputShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, taskinputshape) {
+	if stage.IsStaged(taskinputshape) {
 		return
 	}
 
@@ -858,10 +778,10 @@ func (stage *Stage) StageBranchTaskInputShape(taskinputshape *TaskInputShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskinputshape.Product != nil {
-		StageBranch(stage, taskinputshape.Product)
+		stage.StageBranch(taskinputshape.Product)
 	}
 	if taskinputshape.Task != nil {
-		StageBranch(stage, taskinputshape.Task)
+		stage.StageBranch(taskinputshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -871,7 +791,7 @@ func (stage *Stage) StageBranchTaskInputShape(taskinputshape *TaskInputShape) {
 func (stage *Stage) StageBranchTaskOutputShape(taskoutputshape *TaskOutputShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, taskoutputshape) {
+	if stage.IsStaged(taskoutputshape) {
 		return
 	}
 
@@ -879,10 +799,10 @@ func (stage *Stage) StageBranchTaskOutputShape(taskoutputshape *TaskOutputShape)
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskoutputshape.Task != nil {
-		StageBranch(stage, taskoutputshape.Task)
+		stage.StageBranch(taskoutputshape.Task)
 	}
 	if taskoutputshape.Product != nil {
-		StageBranch(stage, taskoutputshape.Product)
+		stage.StageBranch(taskoutputshape.Product)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -892,7 +812,7 @@ func (stage *Stage) StageBranchTaskOutputShape(taskoutputshape *TaskOutputShape)
 func (stage *Stage) StageBranchTaskPredecessorShape(taskpredecessorshape *TaskPredecessorShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, taskpredecessorshape) {
+	if stage.IsStaged(taskpredecessorshape) {
 		return
 	}
 
@@ -900,10 +820,10 @@ func (stage *Stage) StageBranchTaskPredecessorShape(taskpredecessorshape *TaskPr
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskpredecessorshape.Predecessor != nil {
-		StageBranch(stage, taskpredecessorshape.Predecessor)
+		stage.StageBranch(taskpredecessorshape.Predecessor)
 	}
 	if taskpredecessorshape.Task != nil {
-		StageBranch(stage, taskpredecessorshape.Task)
+		stage.StageBranch(taskpredecessorshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -913,7 +833,7 @@ func (stage *Stage) StageBranchTaskPredecessorShape(taskpredecessorshape *TaskPr
 func (stage *Stage) StageBranchTaskShape(taskshape *TaskShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, taskshape) {
+	if stage.IsStaged(taskshape) {
 		return
 	}
 
@@ -921,18 +841,18 @@ func (stage *Stage) StageBranchTaskShape(taskshape *TaskShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskshape.Task != nil {
-		StageBranch(stage, taskshape.Task)
+		stage.StageBranch(taskshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
-// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
@@ -940,91 +860,91 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *Diagram:
-		toT := CopyBranchDiagram(mapOrigCopy, fromT)
+		toT := GongCopyBranchDiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Library:
-		toT := CopyBranchLibrary(mapOrigCopy, fromT)
+		toT := GongCopyBranchLibrary(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Note:
-		toT := CopyBranchNote(mapOrigCopy, fromT)
+		toT := GongCopyBranchNote(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteProductShape:
-		toT := CopyBranchNoteProductShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteProductShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteResourceShape:
-		toT := CopyBranchNoteResourceShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteResourceShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteShape:
-		toT := CopyBranchNoteShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NoteTaskShape:
-		toT := CopyBranchNoteTaskShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchNoteTaskShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Product:
-		toT := CopyBranchProduct(mapOrigCopy, fromT)
+		toT := GongCopyBranchProduct(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ProductCompositionShape:
-		toT := CopyBranchProductCompositionShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchProductCompositionShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ProductShape:
-		toT := CopyBranchProductShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchProductShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Resource:
-		toT := CopyBranchResource(mapOrigCopy, fromT)
+		toT := GongCopyBranchResource(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ResourceCompositionShape:
-		toT := CopyBranchResourceCompositionShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchResourceCompositionShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ResourceShape:
-		toT := CopyBranchResourceShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchResourceShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ResourceTaskShape:
-		toT := CopyBranchResourceTaskShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchResourceTaskShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Task:
-		toT := CopyBranchTask(mapOrigCopy, fromT)
+		toT := GongCopyBranchTask(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TaskCompositionShape:
-		toT := CopyBranchTaskCompositionShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchTaskCompositionShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TaskGroup:
-		toT := CopyBranchTaskGroup(mapOrigCopy, fromT)
+		toT := GongCopyBranchTaskGroup(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TaskGroupShape:
-		toT := CopyBranchTaskGroupShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchTaskGroupShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TaskInputShape:
-		toT := CopyBranchTaskInputShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchTaskInputShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TaskOutputShape:
-		toT := CopyBranchTaskOutputShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchTaskOutputShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TaskPredecessorShape:
-		toT := CopyBranchTaskPredecessorShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchTaskPredecessorShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TaskShape:
-		toT := CopyBranchTaskShape(mapOrigCopy, fromT)
+		toT := GongCopyBranchTaskShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -1034,7 +954,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
+func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
 
 	// diagramFrom has already been copied
 	if _diagramTo, ok := mapOrigCopy[diagramFrom]; ok {
@@ -1044,85 +964,85 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 
 	diagramTo = new(Diagram)
 	mapOrigCopy[diagramFrom] = diagramTo
-	diagramFrom.CopyBasicFields(diagramTo)
+	diagramFrom.GongCopyBasicFields(diagramTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _productshape := range diagramFrom.Product_Shapes {
-		diagramTo.Product_Shapes = append(diagramTo.Product_Shapes, CopyBranchProductShape(mapOrigCopy, _productshape))
+		diagramTo.Product_Shapes = append(diagramTo.Product_Shapes, GongCopyBranchProductShape(mapOrigCopy, _productshape))
 	}
 	for _, _product := range diagramFrom.ProductsWhoseNodeIsExpanded {
-		diagramTo.ProductsWhoseNodeIsExpanded = append(diagramTo.ProductsWhoseNodeIsExpanded, CopyBranchProduct(mapOrigCopy, _product))
+		diagramTo.ProductsWhoseNodeIsExpanded = append(diagramTo.ProductsWhoseNodeIsExpanded, GongCopyBranchProduct(mapOrigCopy, _product))
 	}
 	for _, _productcompositionshape := range diagramFrom.ProductComposition_Shapes {
-		diagramTo.ProductComposition_Shapes = append(diagramTo.ProductComposition_Shapes, CopyBranchProductCompositionShape(mapOrigCopy, _productcompositionshape))
+		diagramTo.ProductComposition_Shapes = append(diagramTo.ProductComposition_Shapes, GongCopyBranchProductCompositionShape(mapOrigCopy, _productcompositionshape))
 	}
 	for _, _taskshape := range diagramFrom.Task_Shapes {
-		diagramTo.Task_Shapes = append(diagramTo.Task_Shapes, CopyBranchTaskShape(mapOrigCopy, _taskshape))
+		diagramTo.Task_Shapes = append(diagramTo.Task_Shapes, GongCopyBranchTaskShape(mapOrigCopy, _taskshape))
 	}
 	for _, _task := range diagramFrom.TasksWhoseNodeIsExpanded {
-		diagramTo.TasksWhoseNodeIsExpanded = append(diagramTo.TasksWhoseNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+		diagramTo.TasksWhoseNodeIsExpanded = append(diagramTo.TasksWhoseNodeIsExpanded, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _task := range diagramFrom.TasksWhoseInputNodeIsExpanded {
-		diagramTo.TasksWhoseInputNodeIsExpanded = append(diagramTo.TasksWhoseInputNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+		diagramTo.TasksWhoseInputNodeIsExpanded = append(diagramTo.TasksWhoseInputNodeIsExpanded, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _task := range diagramFrom.TasksWhoseOutputNodeIsExpanded {
-		diagramTo.TasksWhoseOutputNodeIsExpanded = append(diagramTo.TasksWhoseOutputNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+		diagramTo.TasksWhoseOutputNodeIsExpanded = append(diagramTo.TasksWhoseOutputNodeIsExpanded, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _task := range diagramFrom.TasksWhosePredecessorNodeIsExpanded {
-		diagramTo.TasksWhosePredecessorNodeIsExpanded = append(diagramTo.TasksWhosePredecessorNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+		diagramTo.TasksWhosePredecessorNodeIsExpanded = append(diagramTo.TasksWhosePredecessorNodeIsExpanded, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _taskgroupshape := range diagramFrom.TaskGroupShapes {
-		diagramTo.TaskGroupShapes = append(diagramTo.TaskGroupShapes, CopyBranchTaskGroupShape(mapOrigCopy, _taskgroupshape))
+		diagramTo.TaskGroupShapes = append(diagramTo.TaskGroupShapes, GongCopyBranchTaskGroupShape(mapOrigCopy, _taskgroupshape))
 	}
 	for _, _taskgroup := range diagramFrom.TaskGroupsWhoseNodeIsExpanded {
-		diagramTo.TaskGroupsWhoseNodeIsExpanded = append(diagramTo.TaskGroupsWhoseNodeIsExpanded, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
+		diagramTo.TaskGroupsWhoseNodeIsExpanded = append(diagramTo.TaskGroupsWhoseNodeIsExpanded, GongCopyBranchTaskGroup(mapOrigCopy, _taskgroup))
 	}
 	for _, _taskcompositionshape := range diagramFrom.TaskComposition_Shapes {
-		diagramTo.TaskComposition_Shapes = append(diagramTo.TaskComposition_Shapes, CopyBranchTaskCompositionShape(mapOrigCopy, _taskcompositionshape))
+		diagramTo.TaskComposition_Shapes = append(diagramTo.TaskComposition_Shapes, GongCopyBranchTaskCompositionShape(mapOrigCopy, _taskcompositionshape))
 	}
 	for _, _taskinputshape := range diagramFrom.TaskInputShapes {
-		diagramTo.TaskInputShapes = append(diagramTo.TaskInputShapes, CopyBranchTaskInputShape(mapOrigCopy, _taskinputshape))
+		diagramTo.TaskInputShapes = append(diagramTo.TaskInputShapes, GongCopyBranchTaskInputShape(mapOrigCopy, _taskinputshape))
 	}
 	for _, _taskoutputshape := range diagramFrom.TaskOutputShapes {
-		diagramTo.TaskOutputShapes = append(diagramTo.TaskOutputShapes, CopyBranchTaskOutputShape(mapOrigCopy, _taskoutputshape))
+		diagramTo.TaskOutputShapes = append(diagramTo.TaskOutputShapes, GongCopyBranchTaskOutputShape(mapOrigCopy, _taskoutputshape))
 	}
 	for _, _taskpredecessorshape := range diagramFrom.TaskPredecessorShapes {
-		diagramTo.TaskPredecessorShapes = append(diagramTo.TaskPredecessorShapes, CopyBranchTaskPredecessorShape(mapOrigCopy, _taskpredecessorshape))
+		diagramTo.TaskPredecessorShapes = append(diagramTo.TaskPredecessorShapes, GongCopyBranchTaskPredecessorShape(mapOrigCopy, _taskpredecessorshape))
 	}
 	for _, _noteshape := range diagramFrom.Note_Shapes {
-		diagramTo.Note_Shapes = append(diagramTo.Note_Shapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
+		diagramTo.Note_Shapes = append(diagramTo.Note_Shapes, GongCopyBranchNoteShape(mapOrigCopy, _noteshape))
 	}
 	for _, _note := range diagramFrom.NotesWhoseNodeIsExpanded {
-		diagramTo.NotesWhoseNodeIsExpanded = append(diagramTo.NotesWhoseNodeIsExpanded, CopyBranchNote(mapOrigCopy, _note))
+		diagramTo.NotesWhoseNodeIsExpanded = append(diagramTo.NotesWhoseNodeIsExpanded, GongCopyBranchNote(mapOrigCopy, _note))
 	}
 	for _, _noteproductshape := range diagramFrom.NoteProductShapes {
-		diagramTo.NoteProductShapes = append(diagramTo.NoteProductShapes, CopyBranchNoteProductShape(mapOrigCopy, _noteproductshape))
+		diagramTo.NoteProductShapes = append(diagramTo.NoteProductShapes, GongCopyBranchNoteProductShape(mapOrigCopy, _noteproductshape))
 	}
 	for _, _notetaskshape := range diagramFrom.NoteTaskShapes {
-		diagramTo.NoteTaskShapes = append(diagramTo.NoteTaskShapes, CopyBranchNoteTaskShape(mapOrigCopy, _notetaskshape))
+		diagramTo.NoteTaskShapes = append(diagramTo.NoteTaskShapes, GongCopyBranchNoteTaskShape(mapOrigCopy, _notetaskshape))
 	}
 	for _, _noteresourceshape := range diagramFrom.NoteResourceShapes {
-		diagramTo.NoteResourceShapes = append(diagramTo.NoteResourceShapes, CopyBranchNoteResourceShape(mapOrigCopy, _noteresourceshape))
+		diagramTo.NoteResourceShapes = append(diagramTo.NoteResourceShapes, GongCopyBranchNoteResourceShape(mapOrigCopy, _noteresourceshape))
 	}
 	for _, _resourceshape := range diagramFrom.Resource_Shapes {
-		diagramTo.Resource_Shapes = append(diagramTo.Resource_Shapes, CopyBranchResourceShape(mapOrigCopy, _resourceshape))
+		diagramTo.Resource_Shapes = append(diagramTo.Resource_Shapes, GongCopyBranchResourceShape(mapOrigCopy, _resourceshape))
 	}
 	for _, _resource := range diagramFrom.ResourcesWhoseNodeIsExpanded {
-		diagramTo.ResourcesWhoseNodeIsExpanded = append(diagramTo.ResourcesWhoseNodeIsExpanded, CopyBranchResource(mapOrigCopy, _resource))
+		diagramTo.ResourcesWhoseNodeIsExpanded = append(diagramTo.ResourcesWhoseNodeIsExpanded, GongCopyBranchResource(mapOrigCopy, _resource))
 	}
 	for _, _resourcecompositionshape := range diagramFrom.ResourceComposition_Shapes {
-		diagramTo.ResourceComposition_Shapes = append(diagramTo.ResourceComposition_Shapes, CopyBranchResourceCompositionShape(mapOrigCopy, _resourcecompositionshape))
+		diagramTo.ResourceComposition_Shapes = append(diagramTo.ResourceComposition_Shapes, GongCopyBranchResourceCompositionShape(mapOrigCopy, _resourcecompositionshape))
 	}
 	for _, _resourcetaskshape := range diagramFrom.ResourceTaskShapes {
-		diagramTo.ResourceTaskShapes = append(diagramTo.ResourceTaskShapes, CopyBranchResourceTaskShape(mapOrigCopy, _resourcetaskshape))
+		diagramTo.ResourceTaskShapes = append(diagramTo.ResourceTaskShapes, GongCopyBranchResourceTaskShape(mapOrigCopy, _resourcetaskshape))
 	}
 
 	return
 }
 
-func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
+func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
 
 	// libraryFrom has already been copied
 	if _libraryTo, ok := mapOrigCopy[libraryFrom]; ok {
@@ -1132,37 +1052,37 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 
 	libraryTo = new(Library)
 	mapOrigCopy[libraryFrom] = libraryTo
-	libraryFrom.CopyBasicFields(libraryTo)
+	libraryFrom.GongCopyBasicFields(libraryTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _library := range libraryFrom.SubLibraries {
-		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
+		libraryTo.SubLibraries = append(libraryTo.SubLibraries, GongCopyBranchLibrary(mapOrigCopy, _library))
 	}
 	for _, _product := range libraryFrom.RootProducts {
-		libraryTo.RootProducts = append(libraryTo.RootProducts, CopyBranchProduct(mapOrigCopy, _product))
+		libraryTo.RootProducts = append(libraryTo.RootProducts, GongCopyBranchProduct(mapOrigCopy, _product))
 	}
 	for _, _task := range libraryFrom.RootTasks {
-		libraryTo.RootTasks = append(libraryTo.RootTasks, CopyBranchTask(mapOrigCopy, _task))
+		libraryTo.RootTasks = append(libraryTo.RootTasks, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _taskgroup := range libraryFrom.RootTaskGroups {
-		libraryTo.RootTaskGroups = append(libraryTo.RootTaskGroups, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
+		libraryTo.RootTaskGroups = append(libraryTo.RootTaskGroups, GongCopyBranchTaskGroup(mapOrigCopy, _taskgroup))
 	}
 	for _, _resource := range libraryFrom.RootResources {
-		libraryTo.RootResources = append(libraryTo.RootResources, CopyBranchResource(mapOrigCopy, _resource))
+		libraryTo.RootResources = append(libraryTo.RootResources, GongCopyBranchResource(mapOrigCopy, _resource))
 	}
 	for _, _note := range libraryFrom.Notes {
-		libraryTo.Notes = append(libraryTo.Notes, CopyBranchNote(mapOrigCopy, _note))
+		libraryTo.Notes = append(libraryTo.Notes, GongCopyBranchNote(mapOrigCopy, _note))
 	}
 	for _, _diagram := range libraryFrom.Diagrams {
-		libraryTo.Diagrams = append(libraryTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
+		libraryTo.Diagrams = append(libraryTo.Diagrams, GongCopyBranchDiagram(mapOrigCopy, _diagram))
 	}
 
 	return
 }
 
-func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
+func GongCopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 
 	// noteFrom has already been copied
 	if _noteTo, ok := mapOrigCopy[noteFrom]; ok {
@@ -1172,25 +1092,25 @@ func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 
 	noteTo = new(Note)
 	mapOrigCopy[noteFrom] = noteTo
-	noteFrom.CopyBasicFields(noteTo)
+	noteFrom.GongCopyBasicFields(noteTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range noteFrom.Products {
-		noteTo.Products = append(noteTo.Products, CopyBranchProduct(mapOrigCopy, _product))
+		noteTo.Products = append(noteTo.Products, GongCopyBranchProduct(mapOrigCopy, _product))
 	}
 	for _, _task := range noteFrom.Tasks {
-		noteTo.Tasks = append(noteTo.Tasks, CopyBranchTask(mapOrigCopy, _task))
+		noteTo.Tasks = append(noteTo.Tasks, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _resource := range noteFrom.Resources {
-		noteTo.Resources = append(noteTo.Resources, CopyBranchResource(mapOrigCopy, _resource))
+		noteTo.Resources = append(noteTo.Resources, GongCopyBranchResource(mapOrigCopy, _resource))
 	}
 
 	return
 }
 
-func CopyBranchNoteProductShape(mapOrigCopy map[any]any, noteproductshapeFrom *NoteProductShape) (noteproductshapeTo *NoteProductShape) {
+func GongCopyBranchNoteProductShape(mapOrigCopy map[any]any, noteproductshapeFrom *NoteProductShape) (noteproductshapeTo *NoteProductShape) {
 
 	// noteproductshapeFrom has already been copied
 	if _noteproductshapeTo, ok := mapOrigCopy[noteproductshapeFrom]; ok {
@@ -1200,14 +1120,14 @@ func CopyBranchNoteProductShape(mapOrigCopy map[any]any, noteproductshapeFrom *N
 
 	noteproductshapeTo = new(NoteProductShape)
 	mapOrigCopy[noteproductshapeFrom] = noteproductshapeTo
-	noteproductshapeFrom.CopyBasicFields(noteproductshapeTo)
+	noteproductshapeFrom.GongCopyBasicFields(noteproductshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteproductshapeFrom.Note != nil {
-		noteproductshapeTo.Note = CopyBranchNote(mapOrigCopy, noteproductshapeFrom.Note)
+		noteproductshapeTo.Note = GongCopyBranchNote(mapOrigCopy, noteproductshapeFrom.Note)
 	}
 	if noteproductshapeFrom.Product != nil {
-		noteproductshapeTo.Product = CopyBranchProduct(mapOrigCopy, noteproductshapeFrom.Product)
+		noteproductshapeTo.Product = GongCopyBranchProduct(mapOrigCopy, noteproductshapeFrom.Product)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1215,7 +1135,7 @@ func CopyBranchNoteProductShape(mapOrigCopy map[any]any, noteproductshapeFrom *N
 	return
 }
 
-func CopyBranchNoteResourceShape(mapOrigCopy map[any]any, noteresourceshapeFrom *NoteResourceShape) (noteresourceshapeTo *NoteResourceShape) {
+func GongCopyBranchNoteResourceShape(mapOrigCopy map[any]any, noteresourceshapeFrom *NoteResourceShape) (noteresourceshapeTo *NoteResourceShape) {
 
 	// noteresourceshapeFrom has already been copied
 	if _noteresourceshapeTo, ok := mapOrigCopy[noteresourceshapeFrom]; ok {
@@ -1225,14 +1145,14 @@ func CopyBranchNoteResourceShape(mapOrigCopy map[any]any, noteresourceshapeFrom 
 
 	noteresourceshapeTo = new(NoteResourceShape)
 	mapOrigCopy[noteresourceshapeFrom] = noteresourceshapeTo
-	noteresourceshapeFrom.CopyBasicFields(noteresourceshapeTo)
+	noteresourceshapeFrom.GongCopyBasicFields(noteresourceshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteresourceshapeFrom.Note != nil {
-		noteresourceshapeTo.Note = CopyBranchNote(mapOrigCopy, noteresourceshapeFrom.Note)
+		noteresourceshapeTo.Note = GongCopyBranchNote(mapOrigCopy, noteresourceshapeFrom.Note)
 	}
 	if noteresourceshapeFrom.Resource != nil {
-		noteresourceshapeTo.Resource = CopyBranchResource(mapOrigCopy, noteresourceshapeFrom.Resource)
+		noteresourceshapeTo.Resource = GongCopyBranchResource(mapOrigCopy, noteresourceshapeFrom.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1240,7 +1160,7 @@ func CopyBranchNoteResourceShape(mapOrigCopy map[any]any, noteresourceshapeFrom 
 	return
 }
 
-func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
+func GongCopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
 
 	// noteshapeFrom has already been copied
 	if _noteshapeTo, ok := mapOrigCopy[noteshapeFrom]; ok {
@@ -1250,11 +1170,11 @@ func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (not
 
 	noteshapeTo = new(NoteShape)
 	mapOrigCopy[noteshapeFrom] = noteshapeTo
-	noteshapeFrom.CopyBasicFields(noteshapeTo)
+	noteshapeFrom.GongCopyBasicFields(noteshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshapeFrom.Note != nil {
-		noteshapeTo.Note = CopyBranchNote(mapOrigCopy, noteshapeFrom.Note)
+		noteshapeTo.Note = GongCopyBranchNote(mapOrigCopy, noteshapeFrom.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1262,7 +1182,7 @@ func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (not
 	return
 }
 
-func CopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *NoteTaskShape) (notetaskshapeTo *NoteTaskShape) {
+func GongCopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *NoteTaskShape) (notetaskshapeTo *NoteTaskShape) {
 
 	// notetaskshapeFrom has already been copied
 	if _notetaskshapeTo, ok := mapOrigCopy[notetaskshapeFrom]; ok {
@@ -1272,14 +1192,14 @@ func CopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *NoteTas
 
 	notetaskshapeTo = new(NoteTaskShape)
 	mapOrigCopy[notetaskshapeFrom] = notetaskshapeTo
-	notetaskshapeFrom.CopyBasicFields(notetaskshapeTo)
+	notetaskshapeFrom.GongCopyBasicFields(notetaskshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if notetaskshapeFrom.Note != nil {
-		notetaskshapeTo.Note = CopyBranchNote(mapOrigCopy, notetaskshapeFrom.Note)
+		notetaskshapeTo.Note = GongCopyBranchNote(mapOrigCopy, notetaskshapeFrom.Note)
 	}
 	if notetaskshapeFrom.Task != nil {
-		notetaskshapeTo.Task = CopyBranchTask(mapOrigCopy, notetaskshapeFrom.Task)
+		notetaskshapeTo.Task = GongCopyBranchTask(mapOrigCopy, notetaskshapeFrom.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1287,7 +1207,7 @@ func CopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *NoteTas
 	return
 }
 
-func CopyBranchProduct(mapOrigCopy map[any]any, productFrom *Product) (productTo *Product) {
+func GongCopyBranchProduct(mapOrigCopy map[any]any, productFrom *Product) (productTo *Product) {
 
 	// productFrom has already been copied
 	if _productTo, ok := mapOrigCopy[productFrom]; ok {
@@ -1297,22 +1217,22 @@ func CopyBranchProduct(mapOrigCopy map[any]any, productFrom *Product) (productTo
 
 	productTo = new(Product)
 	mapOrigCopy[productFrom] = productTo
-	productFrom.CopyBasicFields(productTo)
+	productFrom.GongCopyBasicFields(productTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if productFrom.ReferencedProduct != nil {
-		productTo.ReferencedProduct = CopyBranchProduct(mapOrigCopy, productFrom.ReferencedProduct)
+		productTo.ReferencedProduct = GongCopyBranchProduct(mapOrigCopy, productFrom.ReferencedProduct)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range productFrom.SubProducts {
-		productTo.SubProducts = append(productTo.SubProducts, CopyBranchProduct(mapOrigCopy, _product))
+		productTo.SubProducts = append(productTo.SubProducts, GongCopyBranchProduct(mapOrigCopy, _product))
 	}
 
 	return
 }
 
-func CopyBranchProductCompositionShape(mapOrigCopy map[any]any, productcompositionshapeFrom *ProductCompositionShape) (productcompositionshapeTo *ProductCompositionShape) {
+func GongCopyBranchProductCompositionShape(mapOrigCopy map[any]any, productcompositionshapeFrom *ProductCompositionShape) (productcompositionshapeTo *ProductCompositionShape) {
 
 	// productcompositionshapeFrom has already been copied
 	if _productcompositionshapeTo, ok := mapOrigCopy[productcompositionshapeFrom]; ok {
@@ -1322,11 +1242,11 @@ func CopyBranchProductCompositionShape(mapOrigCopy map[any]any, productcompositi
 
 	productcompositionshapeTo = new(ProductCompositionShape)
 	mapOrigCopy[productcompositionshapeFrom] = productcompositionshapeTo
-	productcompositionshapeFrom.CopyBasicFields(productcompositionshapeTo)
+	productcompositionshapeFrom.GongCopyBasicFields(productcompositionshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if productcompositionshapeFrom.Product != nil {
-		productcompositionshapeTo.Product = CopyBranchProduct(mapOrigCopy, productcompositionshapeFrom.Product)
+		productcompositionshapeTo.Product = GongCopyBranchProduct(mapOrigCopy, productcompositionshapeFrom.Product)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1334,7 +1254,7 @@ func CopyBranchProductCompositionShape(mapOrigCopy map[any]any, productcompositi
 	return
 }
 
-func CopyBranchProductShape(mapOrigCopy map[any]any, productshapeFrom *ProductShape) (productshapeTo *ProductShape) {
+func GongCopyBranchProductShape(mapOrigCopy map[any]any, productshapeFrom *ProductShape) (productshapeTo *ProductShape) {
 
 	// productshapeFrom has already been copied
 	if _productshapeTo, ok := mapOrigCopy[productshapeFrom]; ok {
@@ -1344,11 +1264,11 @@ func CopyBranchProductShape(mapOrigCopy map[any]any, productshapeFrom *ProductSh
 
 	productshapeTo = new(ProductShape)
 	mapOrigCopy[productshapeFrom] = productshapeTo
-	productshapeFrom.CopyBasicFields(productshapeTo)
+	productshapeFrom.GongCopyBasicFields(productshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if productshapeFrom.Product != nil {
-		productshapeTo.Product = CopyBranchProduct(mapOrigCopy, productshapeFrom.Product)
+		productshapeTo.Product = GongCopyBranchProduct(mapOrigCopy, productshapeFrom.Product)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1356,7 +1276,7 @@ func CopyBranchProductShape(mapOrigCopy map[any]any, productshapeFrom *ProductSh
 	return
 }
 
-func CopyBranchResource(mapOrigCopy map[any]any, resourceFrom *Resource) (resourceTo *Resource) {
+func GongCopyBranchResource(mapOrigCopy map[any]any, resourceFrom *Resource) (resourceTo *Resource) {
 
 	// resourceFrom has already been copied
 	if _resourceTo, ok := mapOrigCopy[resourceFrom]; ok {
@@ -1366,25 +1286,25 @@ func CopyBranchResource(mapOrigCopy map[any]any, resourceFrom *Resource) (resour
 
 	resourceTo = new(Resource)
 	mapOrigCopy[resourceFrom] = resourceTo
-	resourceFrom.CopyBasicFields(resourceTo)
+	resourceFrom.GongCopyBasicFields(resourceTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if resourceFrom.ReferencedResource != nil {
-		resourceTo.ReferencedResource = CopyBranchResource(mapOrigCopy, resourceFrom.ReferencedResource)
+		resourceTo.ReferencedResource = GongCopyBranchResource(mapOrigCopy, resourceFrom.ReferencedResource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range resourceFrom.Tasks {
-		resourceTo.Tasks = append(resourceTo.Tasks, CopyBranchTask(mapOrigCopy, _task))
+		resourceTo.Tasks = append(resourceTo.Tasks, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _resource := range resourceFrom.SubResources {
-		resourceTo.SubResources = append(resourceTo.SubResources, CopyBranchResource(mapOrigCopy, _resource))
+		resourceTo.SubResources = append(resourceTo.SubResources, GongCopyBranchResource(mapOrigCopy, _resource))
 	}
 
 	return
 }
 
-func CopyBranchResourceCompositionShape(mapOrigCopy map[any]any, resourcecompositionshapeFrom *ResourceCompositionShape) (resourcecompositionshapeTo *ResourceCompositionShape) {
+func GongCopyBranchResourceCompositionShape(mapOrigCopy map[any]any, resourcecompositionshapeFrom *ResourceCompositionShape) (resourcecompositionshapeTo *ResourceCompositionShape) {
 
 	// resourcecompositionshapeFrom has already been copied
 	if _resourcecompositionshapeTo, ok := mapOrigCopy[resourcecompositionshapeFrom]; ok {
@@ -1394,11 +1314,11 @@ func CopyBranchResourceCompositionShape(mapOrigCopy map[any]any, resourcecomposi
 
 	resourcecompositionshapeTo = new(ResourceCompositionShape)
 	mapOrigCopy[resourcecompositionshapeFrom] = resourcecompositionshapeTo
-	resourcecompositionshapeFrom.CopyBasicFields(resourcecompositionshapeTo)
+	resourcecompositionshapeFrom.GongCopyBasicFields(resourcecompositionshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if resourcecompositionshapeFrom.Resource != nil {
-		resourcecompositionshapeTo.Resource = CopyBranchResource(mapOrigCopy, resourcecompositionshapeFrom.Resource)
+		resourcecompositionshapeTo.Resource = GongCopyBranchResource(mapOrigCopy, resourcecompositionshapeFrom.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1406,7 +1326,7 @@ func CopyBranchResourceCompositionShape(mapOrigCopy map[any]any, resourcecomposi
 	return
 }
 
-func CopyBranchResourceShape(mapOrigCopy map[any]any, resourceshapeFrom *ResourceShape) (resourceshapeTo *ResourceShape) {
+func GongCopyBranchResourceShape(mapOrigCopy map[any]any, resourceshapeFrom *ResourceShape) (resourceshapeTo *ResourceShape) {
 
 	// resourceshapeFrom has already been copied
 	if _resourceshapeTo, ok := mapOrigCopy[resourceshapeFrom]; ok {
@@ -1416,11 +1336,11 @@ func CopyBranchResourceShape(mapOrigCopy map[any]any, resourceshapeFrom *Resourc
 
 	resourceshapeTo = new(ResourceShape)
 	mapOrigCopy[resourceshapeFrom] = resourceshapeTo
-	resourceshapeFrom.CopyBasicFields(resourceshapeTo)
+	resourceshapeFrom.GongCopyBasicFields(resourceshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if resourceshapeFrom.Resource != nil {
-		resourceshapeTo.Resource = CopyBranchResource(mapOrigCopy, resourceshapeFrom.Resource)
+		resourceshapeTo.Resource = GongCopyBranchResource(mapOrigCopy, resourceshapeFrom.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1428,7 +1348,7 @@ func CopyBranchResourceShape(mapOrigCopy map[any]any, resourceshapeFrom *Resourc
 	return
 }
 
-func CopyBranchResourceTaskShape(mapOrigCopy map[any]any, resourcetaskshapeFrom *ResourceTaskShape) (resourcetaskshapeTo *ResourceTaskShape) {
+func GongCopyBranchResourceTaskShape(mapOrigCopy map[any]any, resourcetaskshapeFrom *ResourceTaskShape) (resourcetaskshapeTo *ResourceTaskShape) {
 
 	// resourcetaskshapeFrom has already been copied
 	if _resourcetaskshapeTo, ok := mapOrigCopy[resourcetaskshapeFrom]; ok {
@@ -1438,14 +1358,14 @@ func CopyBranchResourceTaskShape(mapOrigCopy map[any]any, resourcetaskshapeFrom 
 
 	resourcetaskshapeTo = new(ResourceTaskShape)
 	mapOrigCopy[resourcetaskshapeFrom] = resourcetaskshapeTo
-	resourcetaskshapeFrom.CopyBasicFields(resourcetaskshapeTo)
+	resourcetaskshapeFrom.GongCopyBasicFields(resourcetaskshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if resourcetaskshapeFrom.Resource != nil {
-		resourcetaskshapeTo.Resource = CopyBranchResource(mapOrigCopy, resourcetaskshapeFrom.Resource)
+		resourcetaskshapeTo.Resource = GongCopyBranchResource(mapOrigCopy, resourcetaskshapeFrom.Resource)
 	}
 	if resourcetaskshapeFrom.Task != nil {
-		resourcetaskshapeTo.Task = CopyBranchTask(mapOrigCopy, resourcetaskshapeFrom.Task)
+		resourcetaskshapeTo.Task = GongCopyBranchTask(mapOrigCopy, resourcetaskshapeFrom.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1453,7 +1373,7 @@ func CopyBranchResourceTaskShape(mapOrigCopy map[any]any, resourcetaskshapeFrom 
 	return
 }
 
-func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
+func GongCopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 
 	// taskFrom has already been copied
 	if _taskTo, ok := mapOrigCopy[taskFrom]; ok {
@@ -1463,34 +1383,34 @@ func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 
 	taskTo = new(Task)
 	mapOrigCopy[taskFrom] = taskTo
-	taskFrom.CopyBasicFields(taskTo)
+	taskFrom.GongCopyBasicFields(taskTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskFrom.ReferencedTask != nil {
-		taskTo.ReferencedTask = CopyBranchTask(mapOrigCopy, taskFrom.ReferencedTask)
+		taskTo.ReferencedTask = GongCopyBranchTask(mapOrigCopy, taskFrom.ReferencedTask)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range taskFrom.Predecessors {
-		taskTo.Predecessors = append(taskTo.Predecessors, CopyBranchTask(mapOrigCopy, _task))
+		taskTo.Predecessors = append(taskTo.Predecessors, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _product := range taskFrom.Inputs {
-		taskTo.Inputs = append(taskTo.Inputs, CopyBranchProduct(mapOrigCopy, _product))
+		taskTo.Inputs = append(taskTo.Inputs, GongCopyBranchProduct(mapOrigCopy, _product))
 	}
 	for _, _product := range taskFrom.Outputs {
-		taskTo.Outputs = append(taskTo.Outputs, CopyBranchProduct(mapOrigCopy, _product))
+		taskTo.Outputs = append(taskTo.Outputs, GongCopyBranchProduct(mapOrigCopy, _product))
 	}
 	for _, _task := range taskFrom.SubTasks {
-		taskTo.SubTasks = append(taskTo.SubTasks, CopyBranchTask(mapOrigCopy, _task))
+		taskTo.SubTasks = append(taskTo.SubTasks, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _taskgroup := range taskFrom.TaskGroupsToDisplay {
-		taskTo.TaskGroupsToDisplay = append(taskTo.TaskGroupsToDisplay, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
+		taskTo.TaskGroupsToDisplay = append(taskTo.TaskGroupsToDisplay, GongCopyBranchTaskGroup(mapOrigCopy, _taskgroup))
 	}
 
 	return
 }
 
-func CopyBranchTaskCompositionShape(mapOrigCopy map[any]any, taskcompositionshapeFrom *TaskCompositionShape) (taskcompositionshapeTo *TaskCompositionShape) {
+func GongCopyBranchTaskCompositionShape(mapOrigCopy map[any]any, taskcompositionshapeFrom *TaskCompositionShape) (taskcompositionshapeTo *TaskCompositionShape) {
 
 	// taskcompositionshapeFrom has already been copied
 	if _taskcompositionshapeTo, ok := mapOrigCopy[taskcompositionshapeFrom]; ok {
@@ -1500,11 +1420,11 @@ func CopyBranchTaskCompositionShape(mapOrigCopy map[any]any, taskcompositionshap
 
 	taskcompositionshapeTo = new(TaskCompositionShape)
 	mapOrigCopy[taskcompositionshapeFrom] = taskcompositionshapeTo
-	taskcompositionshapeFrom.CopyBasicFields(taskcompositionshapeTo)
+	taskcompositionshapeFrom.GongCopyBasicFields(taskcompositionshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskcompositionshapeFrom.Task != nil {
-		taskcompositionshapeTo.Task = CopyBranchTask(mapOrigCopy, taskcompositionshapeFrom.Task)
+		taskcompositionshapeTo.Task = GongCopyBranchTask(mapOrigCopy, taskcompositionshapeFrom.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1512,7 +1432,7 @@ func CopyBranchTaskCompositionShape(mapOrigCopy map[any]any, taskcompositionshap
 	return
 }
 
-func CopyBranchTaskGroup(mapOrigCopy map[any]any, taskgroupFrom *TaskGroup) (taskgroupTo *TaskGroup) {
+func GongCopyBranchTaskGroup(mapOrigCopy map[any]any, taskgroupFrom *TaskGroup) (taskgroupTo *TaskGroup) {
 
 	// taskgroupFrom has already been copied
 	if _taskgroupTo, ok := mapOrigCopy[taskgroupFrom]; ok {
@@ -1522,19 +1442,19 @@ func CopyBranchTaskGroup(mapOrigCopy map[any]any, taskgroupFrom *TaskGroup) (tas
 
 	taskgroupTo = new(TaskGroup)
 	mapOrigCopy[taskgroupFrom] = taskgroupTo
-	taskgroupFrom.CopyBasicFields(taskgroupTo)
+	taskgroupFrom.GongCopyBasicFields(taskgroupTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range taskgroupFrom.Tasks {
-		taskgroupTo.Tasks = append(taskgroupTo.Tasks, CopyBranchTask(mapOrigCopy, _task))
+		taskgroupTo.Tasks = append(taskgroupTo.Tasks, GongCopyBranchTask(mapOrigCopy, _task))
 	}
 
 	return
 }
 
-func CopyBranchTaskGroupShape(mapOrigCopy map[any]any, taskgroupshapeFrom *TaskGroupShape) (taskgroupshapeTo *TaskGroupShape) {
+func GongCopyBranchTaskGroupShape(mapOrigCopy map[any]any, taskgroupshapeFrom *TaskGroupShape) (taskgroupshapeTo *TaskGroupShape) {
 
 	// taskgroupshapeFrom has already been copied
 	if _taskgroupshapeTo, ok := mapOrigCopy[taskgroupshapeFrom]; ok {
@@ -1544,11 +1464,11 @@ func CopyBranchTaskGroupShape(mapOrigCopy map[any]any, taskgroupshapeFrom *TaskG
 
 	taskgroupshapeTo = new(TaskGroupShape)
 	mapOrigCopy[taskgroupshapeFrom] = taskgroupshapeTo
-	taskgroupshapeFrom.CopyBasicFields(taskgroupshapeTo)
+	taskgroupshapeFrom.GongCopyBasicFields(taskgroupshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskgroupshapeFrom.TaskGroup != nil {
-		taskgroupshapeTo.TaskGroup = CopyBranchTaskGroup(mapOrigCopy, taskgroupshapeFrom.TaskGroup)
+		taskgroupshapeTo.TaskGroup = GongCopyBranchTaskGroup(mapOrigCopy, taskgroupshapeFrom.TaskGroup)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1556,7 +1476,7 @@ func CopyBranchTaskGroupShape(mapOrigCopy map[any]any, taskgroupshapeFrom *TaskG
 	return
 }
 
-func CopyBranchTaskInputShape(mapOrigCopy map[any]any, taskinputshapeFrom *TaskInputShape) (taskinputshapeTo *TaskInputShape) {
+func GongCopyBranchTaskInputShape(mapOrigCopy map[any]any, taskinputshapeFrom *TaskInputShape) (taskinputshapeTo *TaskInputShape) {
 
 	// taskinputshapeFrom has already been copied
 	if _taskinputshapeTo, ok := mapOrigCopy[taskinputshapeFrom]; ok {
@@ -1566,14 +1486,14 @@ func CopyBranchTaskInputShape(mapOrigCopy map[any]any, taskinputshapeFrom *TaskI
 
 	taskinputshapeTo = new(TaskInputShape)
 	mapOrigCopy[taskinputshapeFrom] = taskinputshapeTo
-	taskinputshapeFrom.CopyBasicFields(taskinputshapeTo)
+	taskinputshapeFrom.GongCopyBasicFields(taskinputshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskinputshapeFrom.Product != nil {
-		taskinputshapeTo.Product = CopyBranchProduct(mapOrigCopy, taskinputshapeFrom.Product)
+		taskinputshapeTo.Product = GongCopyBranchProduct(mapOrigCopy, taskinputshapeFrom.Product)
 	}
 	if taskinputshapeFrom.Task != nil {
-		taskinputshapeTo.Task = CopyBranchTask(mapOrigCopy, taskinputshapeFrom.Task)
+		taskinputshapeTo.Task = GongCopyBranchTask(mapOrigCopy, taskinputshapeFrom.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1581,7 +1501,7 @@ func CopyBranchTaskInputShape(mapOrigCopy map[any]any, taskinputshapeFrom *TaskI
 	return
 }
 
-func CopyBranchTaskOutputShape(mapOrigCopy map[any]any, taskoutputshapeFrom *TaskOutputShape) (taskoutputshapeTo *TaskOutputShape) {
+func GongCopyBranchTaskOutputShape(mapOrigCopy map[any]any, taskoutputshapeFrom *TaskOutputShape) (taskoutputshapeTo *TaskOutputShape) {
 
 	// taskoutputshapeFrom has already been copied
 	if _taskoutputshapeTo, ok := mapOrigCopy[taskoutputshapeFrom]; ok {
@@ -1591,14 +1511,14 @@ func CopyBranchTaskOutputShape(mapOrigCopy map[any]any, taskoutputshapeFrom *Tas
 
 	taskoutputshapeTo = new(TaskOutputShape)
 	mapOrigCopy[taskoutputshapeFrom] = taskoutputshapeTo
-	taskoutputshapeFrom.CopyBasicFields(taskoutputshapeTo)
+	taskoutputshapeFrom.GongCopyBasicFields(taskoutputshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskoutputshapeFrom.Task != nil {
-		taskoutputshapeTo.Task = CopyBranchTask(mapOrigCopy, taskoutputshapeFrom.Task)
+		taskoutputshapeTo.Task = GongCopyBranchTask(mapOrigCopy, taskoutputshapeFrom.Task)
 	}
 	if taskoutputshapeFrom.Product != nil {
-		taskoutputshapeTo.Product = CopyBranchProduct(mapOrigCopy, taskoutputshapeFrom.Product)
+		taskoutputshapeTo.Product = GongCopyBranchProduct(mapOrigCopy, taskoutputshapeFrom.Product)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1606,7 +1526,7 @@ func CopyBranchTaskOutputShape(mapOrigCopy map[any]any, taskoutputshapeFrom *Tas
 	return
 }
 
-func CopyBranchTaskPredecessorShape(mapOrigCopy map[any]any, taskpredecessorshapeFrom *TaskPredecessorShape) (taskpredecessorshapeTo *TaskPredecessorShape) {
+func GongCopyBranchTaskPredecessorShape(mapOrigCopy map[any]any, taskpredecessorshapeFrom *TaskPredecessorShape) (taskpredecessorshapeTo *TaskPredecessorShape) {
 
 	// taskpredecessorshapeFrom has already been copied
 	if _taskpredecessorshapeTo, ok := mapOrigCopy[taskpredecessorshapeFrom]; ok {
@@ -1616,14 +1536,14 @@ func CopyBranchTaskPredecessorShape(mapOrigCopy map[any]any, taskpredecessorshap
 
 	taskpredecessorshapeTo = new(TaskPredecessorShape)
 	mapOrigCopy[taskpredecessorshapeFrom] = taskpredecessorshapeTo
-	taskpredecessorshapeFrom.CopyBasicFields(taskpredecessorshapeTo)
+	taskpredecessorshapeFrom.GongCopyBasicFields(taskpredecessorshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskpredecessorshapeFrom.Predecessor != nil {
-		taskpredecessorshapeTo.Predecessor = CopyBranchTask(mapOrigCopy, taskpredecessorshapeFrom.Predecessor)
+		taskpredecessorshapeTo.Predecessor = GongCopyBranchTask(mapOrigCopy, taskpredecessorshapeFrom.Predecessor)
 	}
 	if taskpredecessorshapeFrom.Task != nil {
-		taskpredecessorshapeTo.Task = CopyBranchTask(mapOrigCopy, taskpredecessorshapeFrom.Task)
+		taskpredecessorshapeTo.Task = GongCopyBranchTask(mapOrigCopy, taskpredecessorshapeFrom.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1631,7 +1551,7 @@ func CopyBranchTaskPredecessorShape(mapOrigCopy map[any]any, taskpredecessorshap
 	return
 }
 
-func CopyBranchTaskShape(mapOrigCopy map[any]any, taskshapeFrom *TaskShape) (taskshapeTo *TaskShape) {
+func GongCopyBranchTaskShape(mapOrigCopy map[any]any, taskshapeFrom *TaskShape) (taskshapeTo *TaskShape) {
 
 	// taskshapeFrom has already been copied
 	if _taskshapeTo, ok := mapOrigCopy[taskshapeFrom]; ok {
@@ -1641,11 +1561,11 @@ func CopyBranchTaskShape(mapOrigCopy map[any]any, taskshapeFrom *TaskShape) (tas
 
 	taskshapeTo = new(TaskShape)
 	mapOrigCopy[taskshapeFrom] = taskshapeTo
-	taskshapeFrom.CopyBasicFields(taskshapeTo)
+	taskshapeFrom.GongCopyBasicFields(taskshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskshapeFrom.Task != nil {
-		taskshapeTo.Task = CopyBranchTask(mapOrigCopy, taskshapeFrom.Task)
+		taskshapeTo.Task = GongCopyBranchTask(mapOrigCopy, taskshapeFrom.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1733,16 +1653,11 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 	}
 }
 
-// UnstageBranch is a backward-compatible package-level forwarder.
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
-	stage.UnstageBranch(instance)
-}
-
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, diagram) {
+	if !stage.IsStaged(diagram) {
 		return
 	}
 
@@ -1752,73 +1667,73 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _productshape := range diagram.Product_Shapes {
-		UnstageBranch(stage, _productshape)
+		stage.UnstageBranch(_productshape)
 	}
 	for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _product)
+		stage.UnstageBranch(_product)
 	}
 	for _, _productcompositionshape := range diagram.ProductComposition_Shapes {
-		UnstageBranch(stage, _productcompositionshape)
+		stage.UnstageBranch(_productcompositionshape)
 	}
 	for _, _taskshape := range diagram.Task_Shapes {
-		UnstageBranch(stage, _taskshape)
+		stage.UnstageBranch(_taskshape)
 	}
 	for _, _task := range diagram.TasksWhoseNodeIsExpanded {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 	for _, _task := range diagram.TasksWhoseInputNodeIsExpanded {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 	for _, _task := range diagram.TasksWhoseOutputNodeIsExpanded {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 	for _, _task := range diagram.TasksWhosePredecessorNodeIsExpanded {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 	for _, _taskgroupshape := range diagram.TaskGroupShapes {
-		UnstageBranch(stage, _taskgroupshape)
+		stage.UnstageBranch(_taskgroupshape)
 	}
 	for _, _taskgroup := range diagram.TaskGroupsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _taskgroup)
+		stage.UnstageBranch(_taskgroup)
 	}
 	for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
-		UnstageBranch(stage, _taskcompositionshape)
+		stage.UnstageBranch(_taskcompositionshape)
 	}
 	for _, _taskinputshape := range diagram.TaskInputShapes {
-		UnstageBranch(stage, _taskinputshape)
+		stage.UnstageBranch(_taskinputshape)
 	}
 	for _, _taskoutputshape := range diagram.TaskOutputShapes {
-		UnstageBranch(stage, _taskoutputshape)
+		stage.UnstageBranch(_taskoutputshape)
 	}
 	for _, _taskpredecessorshape := range diagram.TaskPredecessorShapes {
-		UnstageBranch(stage, _taskpredecessorshape)
+		stage.UnstageBranch(_taskpredecessorshape)
 	}
 	for _, _noteshape := range diagram.Note_Shapes {
-		UnstageBranch(stage, _noteshape)
+		stage.UnstageBranch(_noteshape)
 	}
 	for _, _note := range diagram.NotesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _note)
+		stage.UnstageBranch(_note)
 	}
 	for _, _noteproductshape := range diagram.NoteProductShapes {
-		UnstageBranch(stage, _noteproductshape)
+		stage.UnstageBranch(_noteproductshape)
 	}
 	for _, _notetaskshape := range diagram.NoteTaskShapes {
-		UnstageBranch(stage, _notetaskshape)
+		stage.UnstageBranch(_notetaskshape)
 	}
 	for _, _noteresourceshape := range diagram.NoteResourceShapes {
-		UnstageBranch(stage, _noteresourceshape)
+		stage.UnstageBranch(_noteresourceshape)
 	}
 	for _, _resourceshape := range diagram.Resource_Shapes {
-		UnstageBranch(stage, _resourceshape)
+		stage.UnstageBranch(_resourceshape)
 	}
 	for _, _resource := range diagram.ResourcesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _resource)
+		stage.UnstageBranch(_resource)
 	}
 	for _, _resourcecompositionshape := range diagram.ResourceComposition_Shapes {
-		UnstageBranch(stage, _resourcecompositionshape)
+		stage.UnstageBranch(_resourcecompositionshape)
 	}
 	for _, _resourcetaskshape := range diagram.ResourceTaskShapes {
-		UnstageBranch(stage, _resourcetaskshape)
+		stage.UnstageBranch(_resourcetaskshape)
 	}
 
 }
@@ -1826,7 +1741,7 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, library) {
+	if !stage.IsStaged(library) {
 		return
 	}
 
@@ -1836,25 +1751,25 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _library := range library.SubLibraries {
-		UnstageBranch(stage, _library)
+		stage.UnstageBranch(_library)
 	}
 	for _, _product := range library.RootProducts {
-		UnstageBranch(stage, _product)
+		stage.UnstageBranch(_product)
 	}
 	for _, _task := range library.RootTasks {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 	for _, _taskgroup := range library.RootTaskGroups {
-		UnstageBranch(stage, _taskgroup)
+		stage.UnstageBranch(_taskgroup)
 	}
 	for _, _resource := range library.RootResources {
-		UnstageBranch(stage, _resource)
+		stage.UnstageBranch(_resource)
 	}
 	for _, _note := range library.Notes {
-		UnstageBranch(stage, _note)
+		stage.UnstageBranch(_note)
 	}
 	for _, _diagram := range library.Diagrams {
-		UnstageBranch(stage, _diagram)
+		stage.UnstageBranch(_diagram)
 	}
 
 }
@@ -1862,7 +1777,7 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, note) {
+	if !stage.IsStaged(note) {
 		return
 	}
 
@@ -1872,13 +1787,13 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range note.Products {
-		UnstageBranch(stage, _product)
+		stage.UnstageBranch(_product)
 	}
 	for _, _task := range note.Tasks {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 	for _, _resource := range note.Resources {
-		UnstageBranch(stage, _resource)
+		stage.UnstageBranch(_resource)
 	}
 
 }
@@ -1886,7 +1801,7 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 func (stage *Stage) UnstageBranchNoteProductShape(noteproductshape *NoteProductShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, noteproductshape) {
+	if !stage.IsStaged(noteproductshape) {
 		return
 	}
 
@@ -1894,10 +1809,10 @@ func (stage *Stage) UnstageBranchNoteProductShape(noteproductshape *NoteProductS
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteproductshape.Note != nil {
-		UnstageBranch(stage, noteproductshape.Note)
+		stage.UnstageBranch(noteproductshape.Note)
 	}
 	if noteproductshape.Product != nil {
-		UnstageBranch(stage, noteproductshape.Product)
+		stage.UnstageBranch(noteproductshape.Product)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1907,7 +1822,7 @@ func (stage *Stage) UnstageBranchNoteProductShape(noteproductshape *NoteProductS
 func (stage *Stage) UnstageBranchNoteResourceShape(noteresourceshape *NoteResourceShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, noteresourceshape) {
+	if !stage.IsStaged(noteresourceshape) {
 		return
 	}
 
@@ -1915,10 +1830,10 @@ func (stage *Stage) UnstageBranchNoteResourceShape(noteresourceshape *NoteResour
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteresourceshape.Note != nil {
-		UnstageBranch(stage, noteresourceshape.Note)
+		stage.UnstageBranch(noteresourceshape.Note)
 	}
 	if noteresourceshape.Resource != nil {
-		UnstageBranch(stage, noteresourceshape.Resource)
+		stage.UnstageBranch(noteresourceshape.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1928,7 +1843,7 @@ func (stage *Stage) UnstageBranchNoteResourceShape(noteresourceshape *NoteResour
 func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, noteshape) {
+	if !stage.IsStaged(noteshape) {
 		return
 	}
 
@@ -1936,7 +1851,7 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if noteshape.Note != nil {
-		UnstageBranch(stage, noteshape.Note)
+		stage.UnstageBranch(noteshape.Note)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1946,7 +1861,7 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, notetaskshape) {
+	if !stage.IsStaged(notetaskshape) {
 		return
 	}
 
@@ -1954,10 +1869,10 @@ func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if notetaskshape.Note != nil {
-		UnstageBranch(stage, notetaskshape.Note)
+		stage.UnstageBranch(notetaskshape.Note)
 	}
 	if notetaskshape.Task != nil {
-		UnstageBranch(stage, notetaskshape.Task)
+		stage.UnstageBranch(notetaskshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1967,7 +1882,7 @@ func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 func (stage *Stage) UnstageBranchProduct(product *Product) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, product) {
+	if !stage.IsStaged(product) {
 		return
 	}
 
@@ -1975,12 +1890,12 @@ func (stage *Stage) UnstageBranchProduct(product *Product) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if product.ReferencedProduct != nil {
-		UnstageBranch(stage, product.ReferencedProduct)
+		stage.UnstageBranch(product.ReferencedProduct)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range product.SubProducts {
-		UnstageBranch(stage, _product)
+		stage.UnstageBranch(_product)
 	}
 
 }
@@ -1988,7 +1903,7 @@ func (stage *Stage) UnstageBranchProduct(product *Product) {
 func (stage *Stage) UnstageBranchProductCompositionShape(productcompositionshape *ProductCompositionShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, productcompositionshape) {
+	if !stage.IsStaged(productcompositionshape) {
 		return
 	}
 
@@ -1996,7 +1911,7 @@ func (stage *Stage) UnstageBranchProductCompositionShape(productcompositionshape
 
 	//insertion point for the staging of instances referenced by pointers
 	if productcompositionshape.Product != nil {
-		UnstageBranch(stage, productcompositionshape.Product)
+		stage.UnstageBranch(productcompositionshape.Product)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2006,7 +1921,7 @@ func (stage *Stage) UnstageBranchProductCompositionShape(productcompositionshape
 func (stage *Stage) UnstageBranchProductShape(productshape *ProductShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, productshape) {
+	if !stage.IsStaged(productshape) {
 		return
 	}
 
@@ -2014,7 +1929,7 @@ func (stage *Stage) UnstageBranchProductShape(productshape *ProductShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if productshape.Product != nil {
-		UnstageBranch(stage, productshape.Product)
+		stage.UnstageBranch(productshape.Product)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2024,7 +1939,7 @@ func (stage *Stage) UnstageBranchProductShape(productshape *ProductShape) {
 func (stage *Stage) UnstageBranchResource(resource *Resource) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, resource) {
+	if !stage.IsStaged(resource) {
 		return
 	}
 
@@ -2032,15 +1947,15 @@ func (stage *Stage) UnstageBranchResource(resource *Resource) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if resource.ReferencedResource != nil {
-		UnstageBranch(stage, resource.ReferencedResource)
+		stage.UnstageBranch(resource.ReferencedResource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range resource.Tasks {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 	for _, _resource := range resource.SubResources {
-		UnstageBranch(stage, _resource)
+		stage.UnstageBranch(_resource)
 	}
 
 }
@@ -2048,7 +1963,7 @@ func (stage *Stage) UnstageBranchResource(resource *Resource) {
 func (stage *Stage) UnstageBranchResourceCompositionShape(resourcecompositionshape *ResourceCompositionShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, resourcecompositionshape) {
+	if !stage.IsStaged(resourcecompositionshape) {
 		return
 	}
 
@@ -2056,7 +1971,7 @@ func (stage *Stage) UnstageBranchResourceCompositionShape(resourcecompositionsha
 
 	//insertion point for the staging of instances referenced by pointers
 	if resourcecompositionshape.Resource != nil {
-		UnstageBranch(stage, resourcecompositionshape.Resource)
+		stage.UnstageBranch(resourcecompositionshape.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2066,7 +1981,7 @@ func (stage *Stage) UnstageBranchResourceCompositionShape(resourcecompositionsha
 func (stage *Stage) UnstageBranchResourceShape(resourceshape *ResourceShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, resourceshape) {
+	if !stage.IsStaged(resourceshape) {
 		return
 	}
 
@@ -2074,7 +1989,7 @@ func (stage *Stage) UnstageBranchResourceShape(resourceshape *ResourceShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if resourceshape.Resource != nil {
-		UnstageBranch(stage, resourceshape.Resource)
+		stage.UnstageBranch(resourceshape.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2084,7 +1999,7 @@ func (stage *Stage) UnstageBranchResourceShape(resourceshape *ResourceShape) {
 func (stage *Stage) UnstageBranchResourceTaskShape(resourcetaskshape *ResourceTaskShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, resourcetaskshape) {
+	if !stage.IsStaged(resourcetaskshape) {
 		return
 	}
 
@@ -2092,10 +2007,10 @@ func (stage *Stage) UnstageBranchResourceTaskShape(resourcetaskshape *ResourceTa
 
 	//insertion point for the staging of instances referenced by pointers
 	if resourcetaskshape.Resource != nil {
-		UnstageBranch(stage, resourcetaskshape.Resource)
+		stage.UnstageBranch(resourcetaskshape.Resource)
 	}
 	if resourcetaskshape.Task != nil {
-		UnstageBranch(stage, resourcetaskshape.Task)
+		stage.UnstageBranch(resourcetaskshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2105,7 +2020,7 @@ func (stage *Stage) UnstageBranchResourceTaskShape(resourcetaskshape *ResourceTa
 func (stage *Stage) UnstageBranchTask(task *Task) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, task) {
+	if !stage.IsStaged(task) {
 		return
 	}
 
@@ -2113,24 +2028,24 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if task.ReferencedTask != nil {
-		UnstageBranch(stage, task.ReferencedTask)
+		stage.UnstageBranch(task.ReferencedTask)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range task.Predecessors {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 	for _, _product := range task.Inputs {
-		UnstageBranch(stage, _product)
+		stage.UnstageBranch(_product)
 	}
 	for _, _product := range task.Outputs {
-		UnstageBranch(stage, _product)
+		stage.UnstageBranch(_product)
 	}
 	for _, _task := range task.SubTasks {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 	for _, _taskgroup := range task.TaskGroupsToDisplay {
-		UnstageBranch(stage, _taskgroup)
+		stage.UnstageBranch(_taskgroup)
 	}
 
 }
@@ -2138,7 +2053,7 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 func (stage *Stage) UnstageBranchTaskCompositionShape(taskcompositionshape *TaskCompositionShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, taskcompositionshape) {
+	if !stage.IsStaged(taskcompositionshape) {
 		return
 	}
 
@@ -2146,7 +2061,7 @@ func (stage *Stage) UnstageBranchTaskCompositionShape(taskcompositionshape *Task
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskcompositionshape.Task != nil {
-		UnstageBranch(stage, taskcompositionshape.Task)
+		stage.UnstageBranch(taskcompositionshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2156,7 +2071,7 @@ func (stage *Stage) UnstageBranchTaskCompositionShape(taskcompositionshape *Task
 func (stage *Stage) UnstageBranchTaskGroup(taskgroup *TaskGroup) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, taskgroup) {
+	if !stage.IsStaged(taskgroup) {
 		return
 	}
 
@@ -2166,7 +2081,7 @@ func (stage *Stage) UnstageBranchTaskGroup(taskgroup *TaskGroup) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range taskgroup.Tasks {
-		UnstageBranch(stage, _task)
+		stage.UnstageBranch(_task)
 	}
 
 }
@@ -2174,7 +2089,7 @@ func (stage *Stage) UnstageBranchTaskGroup(taskgroup *TaskGroup) {
 func (stage *Stage) UnstageBranchTaskGroupShape(taskgroupshape *TaskGroupShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, taskgroupshape) {
+	if !stage.IsStaged(taskgroupshape) {
 		return
 	}
 
@@ -2182,7 +2097,7 @@ func (stage *Stage) UnstageBranchTaskGroupShape(taskgroupshape *TaskGroupShape) 
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskgroupshape.TaskGroup != nil {
-		UnstageBranch(stage, taskgroupshape.TaskGroup)
+		stage.UnstageBranch(taskgroupshape.TaskGroup)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2192,7 +2107,7 @@ func (stage *Stage) UnstageBranchTaskGroupShape(taskgroupshape *TaskGroupShape) 
 func (stage *Stage) UnstageBranchTaskInputShape(taskinputshape *TaskInputShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, taskinputshape) {
+	if !stage.IsStaged(taskinputshape) {
 		return
 	}
 
@@ -2200,10 +2115,10 @@ func (stage *Stage) UnstageBranchTaskInputShape(taskinputshape *TaskInputShape) 
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskinputshape.Product != nil {
-		UnstageBranch(stage, taskinputshape.Product)
+		stage.UnstageBranch(taskinputshape.Product)
 	}
 	if taskinputshape.Task != nil {
-		UnstageBranch(stage, taskinputshape.Task)
+		stage.UnstageBranch(taskinputshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2213,7 +2128,7 @@ func (stage *Stage) UnstageBranchTaskInputShape(taskinputshape *TaskInputShape) 
 func (stage *Stage) UnstageBranchTaskOutputShape(taskoutputshape *TaskOutputShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, taskoutputshape) {
+	if !stage.IsStaged(taskoutputshape) {
 		return
 	}
 
@@ -2221,10 +2136,10 @@ func (stage *Stage) UnstageBranchTaskOutputShape(taskoutputshape *TaskOutputShap
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskoutputshape.Task != nil {
-		UnstageBranch(stage, taskoutputshape.Task)
+		stage.UnstageBranch(taskoutputshape.Task)
 	}
 	if taskoutputshape.Product != nil {
-		UnstageBranch(stage, taskoutputshape.Product)
+		stage.UnstageBranch(taskoutputshape.Product)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2234,7 +2149,7 @@ func (stage *Stage) UnstageBranchTaskOutputShape(taskoutputshape *TaskOutputShap
 func (stage *Stage) UnstageBranchTaskPredecessorShape(taskpredecessorshape *TaskPredecessorShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, taskpredecessorshape) {
+	if !stage.IsStaged(taskpredecessorshape) {
 		return
 	}
 
@@ -2242,10 +2157,10 @@ func (stage *Stage) UnstageBranchTaskPredecessorShape(taskpredecessorshape *Task
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskpredecessorshape.Predecessor != nil {
-		UnstageBranch(stage, taskpredecessorshape.Predecessor)
+		stage.UnstageBranch(taskpredecessorshape.Predecessor)
 	}
 	if taskpredecessorshape.Task != nil {
-		UnstageBranch(stage, taskpredecessorshape.Task)
+		stage.UnstageBranch(taskpredecessorshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2255,7 +2170,7 @@ func (stage *Stage) UnstageBranchTaskPredecessorShape(taskpredecessorshape *Task
 func (stage *Stage) UnstageBranchTaskShape(taskshape *TaskShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, taskshape) {
+	if !stage.IsStaged(taskshape) {
 		return
 	}
 
@@ -2263,7 +2178,7 @@ func (stage *Stage) UnstageBranchTaskShape(taskshape *TaskShape) {
 
 	//insertion point for the staging of instances referenced by pointers
 	if taskshape.Task != nil {
-		UnstageBranch(stage, taskshape.Task)
+		stage.UnstageBranch(taskshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -3322,7 +3237,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Product_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Product_Shapes", diagramOther.Product_Shapes, diagram.Product_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "Product_Shapes", diagramOther.Product_Shapes, diagram.Product_Shapes)
 		diffs = append(diffs, ops)
 	}
 	ProductsWhoseNodeIsExpandedDifferent := false
@@ -3343,7 +3258,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ProductsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ProductsWhoseNodeIsExpanded", diagramOther.ProductsWhoseNodeIsExpanded, diagram.ProductsWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "ProductsWhoseNodeIsExpanded", diagramOther.ProductsWhoseNodeIsExpanded, diagram.ProductsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsPBSNodeExpanded != diagramOther.IsPBSNodeExpanded {
@@ -3367,7 +3282,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ProductComposition_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ProductComposition_Shapes", diagramOther.ProductComposition_Shapes, diagram.ProductComposition_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "ProductComposition_Shapes", diagramOther.ProductComposition_Shapes, diagram.ProductComposition_Shapes)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsWBSNodeExpanded != diagramOther.IsWBSNodeExpanded {
@@ -3391,7 +3306,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Task_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Task_Shapes", diagramOther.Task_Shapes, diagram.Task_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "Task_Shapes", diagramOther.Task_Shapes, diagram.Task_Shapes)
 		diffs = append(diffs, ops)
 	}
 	TasksWhoseNodeIsExpandedDifferent := false
@@ -3412,7 +3327,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TasksWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TasksWhoseNodeIsExpanded", diagramOther.TasksWhoseNodeIsExpanded, diagram.TasksWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "TasksWhoseNodeIsExpanded", diagramOther.TasksWhoseNodeIsExpanded, diagram.TasksWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	TasksWhoseInputNodeIsExpandedDifferent := false
@@ -3433,7 +3348,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TasksWhoseInputNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TasksWhoseInputNodeIsExpanded", diagramOther.TasksWhoseInputNodeIsExpanded, diagram.TasksWhoseInputNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "TasksWhoseInputNodeIsExpanded", diagramOther.TasksWhoseInputNodeIsExpanded, diagram.TasksWhoseInputNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	TasksWhoseOutputNodeIsExpandedDifferent := false
@@ -3454,7 +3369,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TasksWhoseOutputNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TasksWhoseOutputNodeIsExpanded", diagramOther.TasksWhoseOutputNodeIsExpanded, diagram.TasksWhoseOutputNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "TasksWhoseOutputNodeIsExpanded", diagramOther.TasksWhoseOutputNodeIsExpanded, diagram.TasksWhoseOutputNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	TasksWhosePredecessorNodeIsExpandedDifferent := false
@@ -3475,7 +3390,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TasksWhosePredecessorNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TasksWhosePredecessorNodeIsExpanded", diagramOther.TasksWhosePredecessorNodeIsExpanded, diagram.TasksWhosePredecessorNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "TasksWhosePredecessorNodeIsExpanded", diagramOther.TasksWhosePredecessorNodeIsExpanded, diagram.TasksWhosePredecessorNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsTaskGroupsNodeExpanded != diagramOther.IsTaskGroupsNodeExpanded {
@@ -3499,7 +3414,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskGroupShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TaskGroupShapes", diagramOther.TaskGroupShapes, diagram.TaskGroupShapes)
+		ops := stage.Diff(diagram, diagramOther, "TaskGroupShapes", diagramOther.TaskGroupShapes, diagram.TaskGroupShapes)
 		diffs = append(diffs, ops)
 	}
 	TaskGroupsWhoseNodeIsExpandedDifferent := false
@@ -3520,7 +3435,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskGroupsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TaskGroupsWhoseNodeIsExpanded", diagramOther.TaskGroupsWhoseNodeIsExpanded, diagram.TaskGroupsWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "TaskGroupsWhoseNodeIsExpanded", diagramOther.TaskGroupsWhoseNodeIsExpanded, diagram.TaskGroupsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	TaskComposition_ShapesDifferent := false
@@ -3541,7 +3456,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskComposition_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TaskComposition_Shapes", diagramOther.TaskComposition_Shapes, diagram.TaskComposition_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "TaskComposition_Shapes", diagramOther.TaskComposition_Shapes, diagram.TaskComposition_Shapes)
 		diffs = append(diffs, ops)
 	}
 	TaskInputShapesDifferent := false
@@ -3562,7 +3477,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskInputShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TaskInputShapes", diagramOther.TaskInputShapes, diagram.TaskInputShapes)
+		ops := stage.Diff(diagram, diagramOther, "TaskInputShapes", diagramOther.TaskInputShapes, diagram.TaskInputShapes)
 		diffs = append(diffs, ops)
 	}
 	TaskOutputShapesDifferent := false
@@ -3583,7 +3498,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskOutputShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TaskOutputShapes", diagramOther.TaskOutputShapes, diagram.TaskOutputShapes)
+		ops := stage.Diff(diagram, diagramOther, "TaskOutputShapes", diagramOther.TaskOutputShapes, diagram.TaskOutputShapes)
 		diffs = append(diffs, ops)
 	}
 	TaskPredecessorShapesDifferent := false
@@ -3604,7 +3519,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskPredecessorShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TaskPredecessorShapes", diagramOther.TaskPredecessorShapes, diagram.TaskPredecessorShapes)
+		ops := stage.Diff(diagram, diagramOther, "TaskPredecessorShapes", diagramOther.TaskPredecessorShapes, diagram.TaskPredecessorShapes)
 		diffs = append(diffs, ops)
 	}
 	Note_ShapesDifferent := false
@@ -3625,7 +3540,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Note_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Note_Shapes", diagramOther.Note_Shapes, diagram.Note_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "Note_Shapes", diagramOther.Note_Shapes, diagram.Note_Shapes)
 		diffs = append(diffs, ops)
 	}
 	NotesWhoseNodeIsExpandedDifferent := false
@@ -3646,7 +3561,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NotesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "NotesWhoseNodeIsExpanded", diagramOther.NotesWhoseNodeIsExpanded, diagram.NotesWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "NotesWhoseNodeIsExpanded", diagramOther.NotesWhoseNodeIsExpanded, diagram.NotesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsNotesNodeExpanded != diagramOther.IsNotesNodeExpanded {
@@ -3670,7 +3585,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteProductShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "NoteProductShapes", diagramOther.NoteProductShapes, diagram.NoteProductShapes)
+		ops := stage.Diff(diagram, diagramOther, "NoteProductShapes", diagramOther.NoteProductShapes, diagram.NoteProductShapes)
 		diffs = append(diffs, ops)
 	}
 	NoteTaskShapesDifferent := false
@@ -3691,7 +3606,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteTaskShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "NoteTaskShapes", diagramOther.NoteTaskShapes, diagram.NoteTaskShapes)
+		ops := stage.Diff(diagram, diagramOther, "NoteTaskShapes", diagramOther.NoteTaskShapes, diagram.NoteTaskShapes)
 		diffs = append(diffs, ops)
 	}
 	NoteResourceShapesDifferent := false
@@ -3712,7 +3627,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteResourceShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "NoteResourceShapes", diagramOther.NoteResourceShapes, diagram.NoteResourceShapes)
+		ops := stage.Diff(diagram, diagramOther, "NoteResourceShapes", diagramOther.NoteResourceShapes, diagram.NoteResourceShapes)
 		diffs = append(diffs, ops)
 	}
 	Resource_ShapesDifferent := false
@@ -3733,7 +3648,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Resource_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Resource_Shapes", diagramOther.Resource_Shapes, diagram.Resource_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "Resource_Shapes", diagramOther.Resource_Shapes, diagram.Resource_Shapes)
 		diffs = append(diffs, ops)
 	}
 	ResourcesWhoseNodeIsExpandedDifferent := false
@@ -3754,7 +3669,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ResourcesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ResourcesWhoseNodeIsExpanded", diagramOther.ResourcesWhoseNodeIsExpanded, diagram.ResourcesWhoseNodeIsExpanded)
+		ops := stage.Diff(diagram, diagramOther, "ResourcesWhoseNodeIsExpanded", diagramOther.ResourcesWhoseNodeIsExpanded, diagram.ResourcesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsResourcesNodeExpanded != diagramOther.IsResourcesNodeExpanded {
@@ -3778,7 +3693,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ResourceComposition_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ResourceComposition_Shapes", diagramOther.ResourceComposition_Shapes, diagram.ResourceComposition_Shapes)
+		ops := stage.Diff(diagram, diagramOther, "ResourceComposition_Shapes", diagramOther.ResourceComposition_Shapes, diagram.ResourceComposition_Shapes)
 		diffs = append(diffs, ops)
 	}
 	ResourceTaskShapesDifferent := false
@@ -3799,7 +3714,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ResourceTaskShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ResourceTaskShapes", diagramOther.ResourceTaskShapes, diagram.ResourceTaskShapes)
+		ops := stage.Diff(diagram, diagramOther, "ResourceTaskShapes", diagramOther.ResourceTaskShapes, diagram.ResourceTaskShapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -3831,7 +3746,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if SubLibrariesDifferent {
-		ops := Diff(stage, library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
+		ops := stage.Diff(library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
 		diffs = append(diffs, ops)
 	}
 	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
@@ -3867,7 +3782,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootProductsDifferent {
-		ops := Diff(stage, library, libraryOther, "RootProducts", libraryOther.RootProducts, library.RootProducts)
+		ops := stage.Diff(library, libraryOther, "RootProducts", libraryOther.RootProducts, library.RootProducts)
 		diffs = append(diffs, ops)
 	}
 	RootTasksDifferent := false
@@ -3888,7 +3803,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootTasksDifferent {
-		ops := Diff(stage, library, libraryOther, "RootTasks", libraryOther.RootTasks, library.RootTasks)
+		ops := stage.Diff(library, libraryOther, "RootTasks", libraryOther.RootTasks, library.RootTasks)
 		diffs = append(diffs, ops)
 	}
 	RootTaskGroupsDifferent := false
@@ -3909,7 +3824,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootTaskGroupsDifferent {
-		ops := Diff(stage, library, libraryOther, "RootTaskGroups", libraryOther.RootTaskGroups, library.RootTaskGroups)
+		ops := stage.Diff(library, libraryOther, "RootTaskGroups", libraryOther.RootTaskGroups, library.RootTaskGroups)
 		diffs = append(diffs, ops)
 	}
 	RootResourcesDifferent := false
@@ -3930,7 +3845,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootResourcesDifferent {
-		ops := Diff(stage, library, libraryOther, "RootResources", libraryOther.RootResources, library.RootResources)
+		ops := stage.Diff(library, libraryOther, "RootResources", libraryOther.RootResources, library.RootResources)
 		diffs = append(diffs, ops)
 	}
 	NotesDifferent := false
@@ -3951,7 +3866,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if NotesDifferent {
-		ops := Diff(stage, library, libraryOther, "Notes", libraryOther.Notes, library.Notes)
+		ops := stage.Diff(library, libraryOther, "Notes", libraryOther.Notes, library.Notes)
 		diffs = append(diffs, ops)
 	}
 	DiagramsDifferent := false
@@ -3972,7 +3887,7 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if DiagramsDifferent {
-		ops := Diff(stage, library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
+		ops := stage.Diff(library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
 		diffs = append(diffs, ops)
 	}
 
@@ -4013,7 +3928,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if ProductsDifferent {
-		ops := Diff(stage, note, noteOther, "Products", noteOther.Products, note.Products)
+		ops := stage.Diff(note, noteOther, "Products", noteOther.Products, note.Products)
 		diffs = append(diffs, ops)
 	}
 	TasksDifferent := false
@@ -4034,7 +3949,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if TasksDifferent {
-		ops := Diff(stage, note, noteOther, "Tasks", noteOther.Tasks, note.Tasks)
+		ops := stage.Diff(note, noteOther, "Tasks", noteOther.Tasks, note.Tasks)
 		diffs = append(diffs, ops)
 	}
 	ResourcesDifferent := false
@@ -4055,7 +3970,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if ResourcesDifferent {
-		ops := Diff(stage, note, noteOther, "Resources", noteOther.Resources, note.Resources)
+		ops := stage.Diff(note, noteOther, "Resources", noteOther.Resources, note.Resources)
 		diffs = append(diffs, ops)
 	}
 
@@ -4258,7 +4173,7 @@ func (product *Product) GongDiff(stage *Stage, productOther *Product) (diffs []s
 		}
 	}
 	if SubProductsDifferent {
-		ops := Diff(stage, product, productOther, "SubProducts", productOther.SubProducts, product.SubProducts)
+		ops := stage.Diff(product, productOther, "SubProducts", productOther.SubProducts, product.SubProducts)
 		diffs = append(diffs, ops)
 	}
 	if product.IsProducersNodeExpanded != productOther.IsProducersNodeExpanded {
@@ -4393,7 +4308,7 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 		}
 	}
 	if TasksDifferent {
-		ops := Diff(stage, resource, resourceOther, "Tasks", resourceOther.Tasks, resource.Tasks)
+		ops := stage.Diff(resource, resourceOther, "Tasks", resourceOther.Tasks, resource.Tasks)
 		diffs = append(diffs, ops)
 	}
 	SubResourcesDifferent := false
@@ -4414,7 +4329,7 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 		}
 	}
 	if SubResourcesDifferent {
-		ops := Diff(stage, resource, resourceOther, "SubResources", resourceOther.SubResources, resource.SubResources)
+		ops := stage.Diff(resource, resourceOther, "SubResources", resourceOther.SubResources, resource.SubResources)
 		diffs = append(diffs, ops)
 	}
 	if resource.ComputedPrefix != resourceOther.ComputedPrefix {
@@ -4592,7 +4507,7 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		}
 	}
 	if PredecessorsDifferent {
-		ops := Diff(stage, task, taskOther, "Predecessors", taskOther.Predecessors, task.Predecessors)
+		ops := stage.Diff(task, taskOther, "Predecessors", taskOther.Predecessors, task.Predecessors)
 		diffs = append(diffs, ops)
 	}
 	if task.IsStartDateComputedFromPredecessors != taskOther.IsStartDateComputedFromPredecessors {
@@ -4637,7 +4552,7 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		}
 	}
 	if InputsDifferent {
-		ops := Diff(stage, task, taskOther, "Inputs", taskOther.Inputs, task.Inputs)
+		ops := stage.Diff(task, taskOther, "Inputs", taskOther.Inputs, task.Inputs)
 		diffs = append(diffs, ops)
 	}
 	OutputsDifferent := false
@@ -4658,7 +4573,7 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		}
 	}
 	if OutputsDifferent {
-		ops := Diff(stage, task, taskOther, "Outputs", taskOther.Outputs, task.Outputs)
+		ops := stage.Diff(task, taskOther, "Outputs", taskOther.Outputs, task.Outputs)
 		diffs = append(diffs, ops)
 	}
 	SubTasksDifferent := false
@@ -4679,7 +4594,7 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		}
 	}
 	if SubTasksDifferent {
-		ops := Diff(stage, task, taskOther, "SubTasks", taskOther.SubTasks, task.SubTasks)
+		ops := stage.Diff(task, taskOther, "SubTasks", taskOther.SubTasks, task.SubTasks)
 		diffs = append(diffs, ops)
 	}
 	if task.IsWithCompletion != taskOther.IsWithCompletion {
@@ -4709,7 +4624,7 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		}
 	}
 	if TaskGroupsToDisplayDifferent {
-		ops := Diff(stage, task, taskOther, "TaskGroupsToDisplay", taskOther.TaskGroupsToDisplay, task.TaskGroupsToDisplay)
+		ops := stage.Diff(task, taskOther, "TaskGroupsToDisplay", taskOther.TaskGroupsToDisplay, task.TaskGroupsToDisplay)
 		diffs = append(diffs, ops)
 	}
 	if task.TextPosition != taskOther.TextPosition {
@@ -4817,7 +4732,7 @@ func (taskgroup *TaskGroup) GongDiff(stage *Stage, taskgroupOther *TaskGroup) (d
 		}
 	}
 	if TasksDifferent {
-		ops := Diff(stage, taskgroup, taskgroupOther, "Tasks", taskgroupOther.Tasks, taskgroup.Tasks)
+		ops := stage.Diff(taskgroup, taskgroupOther, "Tasks", taskgroupOther.Tasks, taskgroup.Tasks)
 		diffs = append(diffs, ops)
 	}
 
@@ -5102,9 +5017,4 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	}
 
 	return ops
-}
-
-// Diff is a backward-compatible package-level forwarder to stage.Diff.
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }
