@@ -248,13 +248,22 @@ var portableCmd = &cobra.Command{
 		fileProtocolPatch := `
 <script>
   if (window.location.protocol === 'file:') {
+    let currentState = history.state;
+    try {
+      Object.defineProperty(history, 'state', {
+        get: function() { return currentState; },
+        configurable: true
+      });
+    } catch (e) {}
     const originalReplaceState = history.replaceState;
     history.replaceState = function(state, title, url) {
-      try { originalReplaceState.call(this, state, title, window.location.href); } catch (e) {}
+      currentState = state;
+      try { originalReplaceState.call(this, state, title); } catch (e) {}
     };
     const originalPushState = history.pushState;
     history.pushState = function(state, title, url) {
-      try { originalPushState.call(this, state, title, window.location.href); } catch (e) {}
+      currentState = state;
+      try { originalPushState.call(this, state, title); } catch (e) {}
     };
   }
 </script>

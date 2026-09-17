@@ -315,71 +315,54 @@ export class FrontRepoService {
 				})
 			}
 
-			// Offline mode handling: Listen to the global event
-			if (isOfflineMode) {
-				console.log("github.com/fullstack-lang/gong/lib/button/go; Offline mode detected. Skipping WebSocket connection.")
+			// 3. Connection Loop
+			const attemptConnection = (retries: number): void => {
+				// console.log("github.com/fullstack-lang/gong/lib/button/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
 
-				window.addEventListener('message', (event) => {
-					if (event.data && event.data.type === 'STAGE_UPDATE') {
-						console.log("github.com/fullstack-lang/gong/lib/button/go; Received STAGE_UPDATE message.")
-						processData(JSON.stringify(event.data.data))
+				// A. WASM OFFLINE MODE (Check if Go is ready)
+				if ((window as any).openWasmSocket) {
+					// console.log("github.com/fullstack-lang/gong/lib/button/go; attemptConnection: openWasmSocket exists, calling it");
+					(window as any).openWasmSocket("github.com/fullstack-lang/gong/lib/button/go", Name, processData);
+					return;
+				}
+
+				// B. WAITING FOR WASM
+				if (isOfflineMode && retries > 0) {
+					// console.log("github.com/fullstack-lang/gong/lib/button/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
+					setTimeout(() => attemptConnection(retries - 1), 100);
+					return;
+				}
+
+				// C. STANDARD SERVER MODE
+				if (!isOfflineMode) {
+					// console.log("github.com/fullstack-lang/gong/lib/button/go; attemptConnection: STANDARD SERVER MODE. url =", url)
+					socket = new WebSocket(url)
+					socket.onopen = (event) => {
+						// console.log("github.com/fullstack-lang/gong/lib/button/go; WebSocket: onopen", event)
 					}
-				})
-
-				return () => {
-					console.log("github.com/fullstack-lang/gong/lib/button/go; Cleaning up offline message listener.")
-				}
-			}
-
-			// Fallback: If not offline, create normal WebSocket
-			const attemptConnection = () => {
-				// Offline check inside attemptConnection: if window.openWasmSocket is available, use it!
-				if (typeof window !== 'undefined' && (window as any).openWasmSocket) {
-					(window as any).openWasmSocket('github.com/fullstack-lang/gong/lib/button/go', Name, (data: any) => {
-						processData(data)
-					})
-					return
-				}
-
-				if (isOfflineMode && retryCount > 0) {
-					console.log("github.com/fullstack-lang/gong/lib/button/go; Waiting for wasm socket provider...")
-					setTimeout(() => attemptConnection(), 100)
-					return
-				}
-
-				if (isOfflineMode) {
+					socket.onmessage = event => {
+						// console.log("github.com/fullstack-lang/gong/lib/button/go; WebSocket: onmessage")
+						processData(event.data)
+					}
+					socket.onerror = event => {
+						console.error("github.com/fullstack-lang/gong/lib/button/go WebSocket: onerror", event)
+						observer.error(event)
+					}
+					socket.onclose = (event) => {
+						// console.log("github.com/fullstack-lang/gong/lib/button/go; WebSocket: onclose", event)
+						observer.complete()
+					}
+				} else {
 					console.error("github.com/fullstack-lang/gong/lib/button/go, attemptConnection: Offline mode detected, but WASM backend failed to load.")
-					observer.error("Offline mode detected, but WASM backend failed to load.")
-					return
+					observer.error("Offline mode detected, but WASM backend failed to load.");
 				}
+			};
 
-				socket = new WebSocket(url)
+			attemptConnection(50);
 
-				socket.onopen = () => {
-					// console.log("github.com/fullstack-lang/gong/lib/button/go; WebSocket connection opened successfully:", url)
-				}
-
-				socket.onmessage = (event) => {
-					// console.log("github.com/fullstack-lang/gong/lib/button/go; WebSocket message received:", event.data)
-					processData(event.data)
-				}
-
-				socket.onerror = (error) => {
-					console.error("github.com/fullstack-lang/gong/lib/button/go WebSocket: onerror", error)
-					observer.error(error)
-				}
-
-				socket.onclose = (event) => {
-					// console.log("github.com/fullstack-lang/gong/lib/button/go; WebSocket connection closed:", event)
-					observer.complete()
-				}
-			}
-
-			let retryCount = 10
-			attemptConnection()
-
+			// Teardown logic: Called when the last subscriber unsubscribes.
 			return () => {
-				// console.log("github.com/fullstack-lang/gong/lib/button/go; Cleaning up WebSocket connection")
+				this.webSocketConnections.delete(Name) // Remove from cache
 				if (socket) {
 					socket.close()
 				}

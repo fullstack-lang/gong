@@ -155,27 +155,22 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		NoteShape, *NoteShape, // CT, PCT (Concrete Shape)
 		NoteProductShape, *NoteProductShape, // ACT, PACT (Association Shape)
 	]{
-		ItemAndShapeButtonConfiguration: ItemAndShapeButtonConfiguration[
-			Note, *Note, // AT, PAT (Added Element)
-			Note, *Note, // ParentAT, PParentAT (Parent Element)
-			NoteShape, *NoteShape, // CT, PCT (Concrete Shape)
-		]{
-			ItemButtonConfiguration: ItemButtonConfiguration[
-				Note, *Note, // AT, PAT (Added Element)
-				Note, *Note, // ParentAT, PParentAT (Parent Element)
-			]{
-				parentNode:                         diagramNode,
-				sliceForNewAddedItem:               &library.Notes,
-				isParentNodeExpandedByAddOperation: true,
-				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-				parentNodeExpansionBooleanValue:    &diagram.IsNotesNodeExpanded,
-				IsButtonInMenu:                     true,
-			},
-			receivingDiagram:      diagram,
-			sliceForNewAddedShape: &diagram.Note_Shapes,
-		},
+		// Promoted fields from ItemButtonConfiguration
+		parentNode:                         diagramNode,
+		sliceForNewAddedItem:               &library.Notes,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &diagram.IsNotesNodeExpanded,
+		IsButtonInMenu:                     true,
+
+		// Promoted fields from ItemAndShapeButtonConfiguration
+		receivingDiagram:      diagram,
+		sliceForNewAddedShape: &diagram.Note_Shapes,
+
+		// Native field of ItemShapeAndLinkButtonConfiguration
 		sliceForNewCompositionShapes: &diagram.NoteProductShapes,
 	}
+
 	callbacksNotes := addCreateItemShapeAndLinkButton(stager, confNotes)
 	callbacksNotes.OnBeforeCommit = func() {
 		diagram.IsNotesNodeExpanded = true
@@ -188,26 +183,16 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		ResourceShape, *ResourceShape, // CT, PCT (Concrete Shape)
 		ResourceTaskShape, *ResourceTaskShape, // ACT, PACT (Association Shape)
 	]{
-		ItemAndShapeButtonConfiguration: ItemAndShapeButtonConfiguration[
-			Resource, *Resource, // AT, PAT (Added Element)
-			Resource, *Resource, // ParentAT, PParentAT (Parent Element)
-			ResourceShape, *ResourceShape, // CT, PCT (Concrete Shape)
-		]{
-			ItemButtonConfiguration: ItemButtonConfiguration[
-				Resource, *Resource, // AT, PAT (Added Element)
-				Resource, *Resource, // ParentAT, PParentAT (Parent Element)
-			]{
-				parentNode:                         diagramNode,
-				sliceForNewAddedItem:               &library.RootResources,
-				isParentNodeExpandedByAddOperation: true,
-				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-				parentNodeExpansionBooleanValue:    &diagram.IsResourcesNodeExpanded,
-				IsButtonInMenu:                     true,
-			},
-			receivingDiagram:      diagram,
-			sliceForNewAddedShape: &diagram.Resource_Shapes,
-		},
-		sliceForNewCompositionShapes: &diagram.ResourceTaskShapes,
+
+		parentNode:                         diagramNode,
+		sliceForNewAddedItem:               &library.RootResources,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &diagram.IsResourcesNodeExpanded,
+		IsButtonInMenu:                     true,
+		receivingDiagram:                   diagram,
+		sliceForNewAddedShape:              &diagram.Resource_Shapes,
+		sliceForNewCompositionShapes:       &diagram.ResourceTaskShapes,
 	}
 	callbacksRBS := addCreateItemShapeAndLinkButton(stager, confRBS)
 	callbacksRBS.OnBeforeCommit = func() {
@@ -220,19 +205,14 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		Library, *Library, // ParentAT, PParentAT (Parent Element)
 		TaskGroupShape, *TaskGroupShape, // CT, PCT (Concrete Shape)
 	]{
-		ItemButtonConfiguration: ItemButtonConfiguration[
-			TaskGroup, *TaskGroup, // AT, PAT (Added Element)
-			Library, *Library, // ParentAT, PParentAT (Parent Element)
-		]{
-			parentNode:                         diagramNode,
-			sliceForNewAddedItem:               &library.RootTaskGroups,
-			isParentNodeExpandedByAddOperation: true,
-			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-			parentNodeExpansionBooleanValue:    &diagram.IsTaskGroupsNodeExpanded,
-			IsButtonInMenu:                     true,
-		},
-		receivingDiagram:      diagram,
-		sliceForNewAddedShape: &diagram.TaskGroupShapes,
+		parentNode:                         diagramNode,
+		sliceForNewAddedItem:               &library.RootTaskGroups,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &diagram.IsTaskGroupsNodeExpanded,
+		IsButtonInMenu:                     true,
+		receivingDiagram:                   diagram,
+		sliceForNewAddedShape:              &diagram.TaskGroupShapes,
 	}
 	callbacksTaskGroups := addCreateItemAndShapeButton(stager, confTaskGroups)
 	callbacksTaskGroups.OnBeforeCommit = func() {
@@ -251,26 +231,16 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		TaskShape, *TaskShape, // CT, PCT (Concrete Shape)
 		TaskCompositionShape, *TaskCompositionShape, // ACT, PACT (Association Shape)
 	]{
-		ItemAndShapeButtonConfiguration: ItemAndShapeButtonConfiguration[
-			Task, *Task, // AT, PAT (Added Element)
-			Task, *Task, // ParentAT, PParentAT (Parent Element)
-			TaskShape, *TaskShape, // CT, PCT (Concrete Shape)
-		]{
-			ItemButtonConfiguration: ItemButtonConfiguration[
-				Task, *Task, // AT, PAT (Added Element)
-				Task, *Task, // ParentAT, PParentAT (Parent Element)
-			]{
-				parentNode:                         diagramNode,
-				sliceForNewAddedItem:               &library.RootTasks,
-				isParentNodeExpandedByAddOperation: true,
-				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-				parentNodeExpansionBooleanValue:    &diagram.IsWBSNodeExpanded,
-				IsButtonInMenu:                     true,
-			},
-			receivingDiagram:      diagram,
-			sliceForNewAddedShape: &diagram.Task_Shapes,
-		},
-		sliceForNewCompositionShapes: &diagram.TaskComposition_Shapes,
+
+		parentNode:                         diagramNode,
+		sliceForNewAddedItem:               &library.RootTasks,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &diagram.IsWBSNodeExpanded,
+		IsButtonInMenu:                     true,
+		receivingDiagram:                   diagram,
+		sliceForNewAddedShape:              &diagram.Task_Shapes,
+		sliceForNewCompositionShapes:       &diagram.TaskComposition_Shapes,
 	}
 	callbacksWBS := addCreateItemShapeAndLinkButton(stager, confWBS)
 	callbacksWBS.OnBeforeCommit = func() {
@@ -284,26 +254,16 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		ProductShape, *ProductShape, // CT, PCT (Concrete Shape)
 		ProductCompositionShape, *ProductCompositionShape, // ACT, PACT (Association Shape)
 	]{
-		ItemAndShapeButtonConfiguration: ItemAndShapeButtonConfiguration[
-			Product, *Product, // AT, PAT (Added Element)
-			Product, *Product, // ParentAT, PParentAT (Parent Element)
-			ProductShape, *ProductShape, // CT, PCT (Concrete Shape)
-		]{
-			ItemButtonConfiguration: ItemButtonConfiguration[
-				Product, *Product, // AT, PAT (Added Element)
-				Product, *Product, // ParentAT, PParentAT (Parent Element)
-			]{
-				parentNode:                         diagramNode,
-				sliceForNewAddedItem:               &library.RootProducts,
-				isParentNodeExpandedByAddOperation: true,
-				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-				parentNodeExpansionBooleanValue:    &diagram.IsPBSNodeExpanded,
-				IsButtonInMenu:                     true,
-			},
-			receivingDiagram:      diagram,
-			sliceForNewAddedShape: &diagram.Product_Shapes,
-		},
-		sliceForNewCompositionShapes: &diagram.ProductComposition_Shapes,
+
+		parentNode:                         diagramNode,
+		sliceForNewAddedItem:               &library.RootProducts,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &diagram.IsPBSNodeExpanded,
+		IsButtonInMenu:                     true,
+		receivingDiagram:                   diagram,
+		sliceForNewAddedShape:              &diagram.Product_Shapes,
+		sliceForNewCompositionShapes:       &diagram.ProductComposition_Shapes,
 	}
 	callbacksPBS := addCreateItemShapeAndLinkButton(stager, confPBS)
 	callbacksPBS.OnBeforeCommit = func() {
@@ -433,24 +393,14 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 				*NoteProductShape, NoteProductShape, // ACT, ACT_
 				*Diagram, // DiagramType
 			]{
-				TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
-					*Note, Note, // AT, AT_
-					*NoteShape, NoteShape, // CT, CT_
-					*Diagram, // DiagramType
-				]{
-					TreeNodeConfiguration: TreeNodeConfiguration[
-						*Note, Note, // AT, AT_
-						*Diagram, // DiagramType
-					]{
-						diagram:                     diagram,
-						parentNode:                  notesNode,
-						element:                     note,
-						parentElement:               (*Note)(nil),
-						elementsWhoseNodeIsExpanded: &diagram.NotesWhoseNodeIsExpanded,
-					},
-					shapes:    &diagram.Note_Shapes,
-					shapesMap: diagram.map_Note_NoteShape,
-				},
+
+				diagram:                      diagram,
+				parentNode:                   notesNode,
+				element:                      note,
+				parentElement:                (*Note)(nil),
+				elementsWhoseNodeIsExpanded:  &diagram.NotesWhoseNodeIsExpanded,
+				shapes:                       &diagram.Note_Shapes,
+				shapesMap:                    diagram.map_Note_NoteShape,
 				map_Element_CompositionShape: dummyMap,
 				compositionShapes:            dummySlice,
 			}
