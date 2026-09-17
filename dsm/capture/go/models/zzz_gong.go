@@ -6914,6 +6914,90 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
+// GongNewInstance creates a new instance of the Gongstruct
+func GongNewInstance[Type GongstructPtr]() (res Type) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic new instance
+	case *AnalysisNeed:
+		res = any(new(AnalysisNeed)).(Type)
+	case *Concept:
+		res = any(new(Concept)).(Type)
+	case *ConceptShape:
+		res = any(new(ConceptShape)).(Type)
+	case *Concern:
+		res = any(new(Concern)).(Type)
+	case *ConcernCompositionShape:
+		res = any(new(ConcernCompositionShape)).(Type)
+	case *ConcernInputShape:
+		res = any(new(ConcernInputShape)).(Type)
+	case *ConcernOutputShape:
+		res = any(new(ConcernOutputShape)).(Type)
+	case *ConcernShape:
+		res = any(new(ConcernShape)).(Type)
+	case *ControlPointShape:
+		res = any(new(ControlPointShape)).(Type)
+	case *Deliverable:
+		res = any(new(Deliverable)).(Type)
+	case *DeliverableCompositionShape:
+		res = any(new(DeliverableCompositionShape)).(Type)
+	case *DeliverableConceptShape:
+		res = any(new(DeliverableConceptShape)).(Type)
+	case *DeliverableShape:
+		res = any(new(DeliverableShape)).(Type)
+	case *Diagram:
+		res = any(new(Diagram)).(Type)
+	case *DiagramShape:
+		res = any(new(DiagramShape)).(Type)
+	case *Library:
+		res = any(new(Library)).(Type)
+	case *Note:
+		res = any(new(Note)).(Type)
+	case *NoteDeliverableShape:
+		res = any(new(NoteDeliverableShape)).(Type)
+	case *NoteShape:
+		res = any(new(NoteShape)).(Type)
+	case *NoteStakeholderShape:
+		res = any(new(NoteStakeholderShape)).(Type)
+	case *NoteTaskShape:
+		res = any(new(NoteTaskShape)).(Type)
+	case *Requirement:
+		res = any(new(Requirement)).(Type)
+	case *RequirementShape:
+		res = any(new(RequirementShape)).(Type)
+	case *Stakeholder:
+		res = any(new(Stakeholder)).(Type)
+	case *StakeholderCompositionShape:
+		res = any(new(StakeholderCompositionShape)).(Type)
+	case *StakeholderConcernShape:
+		res = any(new(StakeholderConcernShape)).(Type)
+	case *StakeholderShape:
+		res = any(new(StakeholderShape)).(Type)
+	case *SupportLevel:
+		res = any(new(SupportLevel)).(Type)
+	case *Tool:
+		res = any(new(Tool)).(Type)
+	}
+	return res
+}
+
+func NewInstance[Type GongstructPtr]() (res Type) {
+	return GongNewInstance[Type]()
+}
+
+func (stage *Stage) GongNewInstance[Type GongstructPtr]() (res Type) {
+	res = GongNewInstance[Type]()
+	if any(res) != nil {
+		res.StageVoid(stage)
+	}
+	return res
+}
+
+func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
+	return stage.GongNewInstance[Type]()
+}
+
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {

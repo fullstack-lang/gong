@@ -41,17 +41,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Books, *models.BookType](
-				"Books",
-				"Book",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Books) []*models.BookType {
-					return owner.Book
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Books",
+			"Book",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Books) []*models.BookType {
+				return owner.Book
+			})
 
 	case *models.Books:
 		// insertion point
@@ -82,17 +80,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.BookType, *models.Credit](
-				"BookType",
-				"Credit",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.BookType) []*models.Credit {
-					return owner.Credit
-				})
-		}
+		AssociationReverseSliceToForm(
+			"BookType",
+			"Credit",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.BookType) []*models.Credit {
+				return owner.Credit
+			})
 
 	case *models.Link:
 		// insertion point
@@ -107,17 +103,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Credit, *models.Link](
-				"Credit",
-				"Link",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Credit) []*models.Link {
-					return owner.Link
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Credit",
+			"Link",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Credit) []*models.Link {
+				return owner.Link
+			})
 
 	default:
 		_ = instanceWithInferedType

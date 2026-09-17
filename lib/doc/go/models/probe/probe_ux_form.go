@@ -14,60 +14,11 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *AttributeShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "AttributeShape", true)
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.attributeshape, probe)
-			}
-		case *ClassdiagramFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Classdiagram", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.classdiagram, probe)
-			}
-		case *DiagramPackageFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "DiagramPackage", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.diagrampackage, probe)
-			}
-		case *GongEnumShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "GongEnumShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.gongenumshape, probe)
-			}
-		case *GongEnumValueShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "GongEnumValueShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.gongenumvalueshape, probe)
-			}
-		case *GongNoteLinkShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "GongNoteLinkShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.gongnotelinkshape, probe)
-			}
-		case *GongNoteShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "GongNoteShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.gongnoteshape, probe)
-			}
-		case *GongStructShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "GongStructShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.gongstructshape, probe)
-			}
-		case *LinkShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "LinkShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.linkshape, probe)
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

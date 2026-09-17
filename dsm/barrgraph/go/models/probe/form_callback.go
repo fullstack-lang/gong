@@ -18,1982 +18,793 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 
 var _ = log.Panicf
 
+type FormCallbackIF interface {
+	GetCreationMode() bool
+	GetInstance() any
+	GetGongstructName() string
+	OnSave()
+}
+
+type FormCallback[T models.PointerToGongstruct] struct {
+	Instance     T
+	CreationMode bool
+	probe        *Probe
+	formGroup    *form.FormGroup
+	saveFields   func(instance T, probe *Probe, formGroup *form.FormGroup)
+}
+
+func NewFormCallback[T models.PointerToGongstruct](
+	instance T,
+	probe *Probe,
+	formGroup *form.FormGroup,
+	saveFields func(instance T, probe *Probe, formGroup *form.FormGroup),
+) *FormCallback[T] {
+	return &FormCallback[T]{
+		Instance:     instance,
+		CreationMode: any(instance) == nil,
+		probe:        probe,
+		formGroup:    formGroup,
+		saveFields:   saveFields,
+	}
+}
+
+func (cb *FormCallback[T]) GetCreationMode() bool     { return cb.CreationMode }
+func (cb *FormCallback[T]) GetInstance() any           { return cb.Instance }
+func (cb *FormCallback[T]) GetGongstructName() string { return models.GetPointerToGongstructName[T]() }
+
+func (cb *FormCallback[T]) OnSave() {
+	cb.probe.stageOfInterest.Lock()
+	defer cb.probe.stageOfInterest.Unlock()
+
+	cb.probe.formStage.Checkout()
+
+	if any(cb.Instance) == nil {
+		cb.Instance = cb.probe.stageOfInterest.GongNewInstance[T]()
+	}
+
+	cb.saveFields(cb.Instance, cb.probe, cb.formGroup)
+
+	if cb.formGroup.HasSuppressButtonBeenPressed {
+		cb.Instance.UnstageVoid(cb.probe.stageOfInterest)
+	}
+
+	cb.probe.stageOfInterest.Commit()
+	updateProbeTable[T](cb.probe)
+
+	if cb.CreationMode || cb.formGroup.HasSuppressButtonBeenPressed {
+		cb.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(cb.probe.formStage)
+		newFormGroup.OnSave = NewFormCallback[T](
+			*new(T),
+			cb.probe,
+			newFormGroup,
+			cb.saveFields,
+		)
+		newInstance := models.GongNewInstance[T]()
+		FillUpForm(newInstance, newFormGroup, cb.probe)
+		cb.probe.formStage.Commit()
+	}
+
+	cb.probe.ux_tree()
+}
+
 // insertion point
 func __gong__New__ArtefactTypeFormCallback(
-	artefacttype *models.ArtefactType,
+	_instance *models.ArtefactType,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (artefacttypeFormCallback *ArtefactTypeFormCallback) {
-	artefacttypeFormCallback = new(ArtefactTypeFormCallback)
-	artefacttypeFormCallback.probe = probe
-	artefacttypeFormCallback.artefacttype = artefacttype
-	artefacttypeFormCallback.formGroup = formGroup
-
-	artefacttypeFormCallback.CreationMode = (artefacttype == nil)
-
-	return
+) (artefacttypeFormCallback *FormCallback[*models.ArtefactType]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveArtefactTypeFields,
+	)
 }
 
-type ArtefactTypeFormCallback struct {
-	artefacttype *models.ArtefactType
+type ArtefactTypeFormCallback = FormCallback[*models.ArtefactType]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (artefacttypeFormCallback *ArtefactTypeFormCallback) OnSave() {
-	artefacttypeFormCallback.probe.stageOfInterest.Lock()
-	defer artefacttypeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("ArtefactTypeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	artefacttypeFormCallback.probe.formStage.Checkout()
-
-	if artefacttypeFormCallback.artefacttype == nil {
-		artefacttypeFormCallback.artefacttype = new(models.ArtefactType).Stage(artefacttypeFormCallback.probe.stageOfInterest)
-	}
-	artefacttype_ := artefacttypeFormCallback.artefacttype
-	_ = artefacttype_
-
-	for _, formDiv := range artefacttypeFormCallback.formGroup.FormDivs {
+func saveArtefactTypeFields(
+	_instance *models.ArtefactType,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(artefacttype_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(artefacttype_.ComputedPrefix), formDiv)
+			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(artefacttype_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if artefacttypeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		artefacttype_.Unstage(artefacttypeFormCallback.probe.stageOfInterest)
-	}
-
-	artefacttypeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.ArtefactType](
-		artefacttypeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if artefacttypeFormCallback.CreationMode || artefacttypeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		artefacttypeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(artefacttypeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ArtefactTypeFormCallback(
-			nil,
-			artefacttypeFormCallback.probe,
-			newFormGroup,
-		)
-		artefacttype := new(models.ArtefactType)
-		FillUpForm(artefacttype, newFormGroup, artefacttypeFormCallback.probe)
-		artefacttypeFormCallback.probe.formStage.Commit()
-	}
-
-	artefacttypeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__ArtefactTypeShapeFormCallback(
-	artefacttypeshape *models.ArtefactTypeShape,
+	_instance *models.ArtefactTypeShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (artefacttypeshapeFormCallback *ArtefactTypeShapeFormCallback) {
-	artefacttypeshapeFormCallback = new(ArtefactTypeShapeFormCallback)
-	artefacttypeshapeFormCallback.probe = probe
-	artefacttypeshapeFormCallback.artefacttypeshape = artefacttypeshape
-	artefacttypeshapeFormCallback.formGroup = formGroup
-
-	artefacttypeshapeFormCallback.CreationMode = (artefacttypeshape == nil)
-
-	return
+) (artefacttypeshapeFormCallback *FormCallback[*models.ArtefactTypeShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveArtefactTypeShapeFields,
+	)
 }
 
-type ArtefactTypeShapeFormCallback struct {
-	artefacttypeshape *models.ArtefactTypeShape
+type ArtefactTypeShapeFormCallback = FormCallback[*models.ArtefactTypeShape]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (artefacttypeshapeFormCallback *ArtefactTypeShapeFormCallback) OnSave() {
-	artefacttypeshapeFormCallback.probe.stageOfInterest.Lock()
-	defer artefacttypeshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("ArtefactTypeShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	artefacttypeshapeFormCallback.probe.formStage.Checkout()
-
-	if artefacttypeshapeFormCallback.artefacttypeshape == nil {
-		artefacttypeshapeFormCallback.artefacttypeshape = new(models.ArtefactTypeShape).Stage(artefacttypeshapeFormCallback.probe.stageOfInterest)
-	}
-	artefacttypeshape_ := artefacttypeshapeFormCallback.artefacttypeshape
-	_ = artefacttypeshape_
-
-	for _, formDiv := range artefacttypeshapeFormCallback.formGroup.FormDivs {
+func saveArtefactTypeShapeFields(
+	_instance *models.ArtefactTypeShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(artefacttypeshape_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "ArtefactType":
-			FormDivSelectFieldToField(&(artefacttypeshape_.ArtefactType), artefacttypeshapeFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.ArtefactType), probe.stageOfInterest, formDiv)
 		case "X":
-			FormDivBasicFieldToField(&(artefacttypeshape_.X), formDiv)
+			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
-			FormDivBasicFieldToField(&(artefacttypeshape_.Y), formDiv)
+			FormDivBasicFieldToField(&(_instance.Y), formDiv)
 		case "Width":
-			FormDivBasicFieldToField(&(artefacttypeshape_.Width), formDiv)
+			FormDivBasicFieldToField(&(_instance.Width), formDiv)
 		case "Height":
-			FormDivBasicFieldToField(&(artefacttypeshape_.Height), formDiv)
+			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
-			FormDivBasicFieldToField(&(artefacttypeshape_.IsHidden), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
 		case "Diagram:ArtefactTypeShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](artefacttypeshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Diagram instances and update their ArtefactTypeShapes slice
-			for _diagram := range *artefacttypeshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Diagram]() {
-				id := artefacttypeshapeFormCallback.probe.stageOfInterest.GetOrder(_diagram)
-				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure artefacttypeshape_ is in _diagram.ArtefactTypeShapes
-					found := false
-					for _, _b := range _diagram.ArtefactTypeShapes {
-						if _b == artefacttypeshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_diagram.ArtefactTypeShapes = append(_diagram.ArtefactTypeShapes, artefacttypeshape_)
-						artefacttypeshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ArtefactTypeShapes", &_diagram.ArtefactTypeShapes)
-					}
-				} else {
-					// ensure artefacttypeshape_ is NOT in _diagram.ArtefactTypeShapes
-					idx := slices.Index(_diagram.ArtefactTypeShapes, artefacttypeshape_)
-					if idx != -1 {
-						_diagram.ArtefactTypeShapes = slices.Delete(_diagram.ArtefactTypeShapes, idx, idx+1)
-						artefacttypeshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ArtefactTypeShapes", &_diagram.ArtefactTypeShapes)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ArtefactTypeShapes", func(owner *models.Diagram) *[]*models.ArtefactTypeShape { return &owner.ArtefactTypeShapes })
 		}
 	}
-
-	// manage the suppress operation
-	if artefacttypeshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		artefacttypeshape_.Unstage(artefacttypeshapeFormCallback.probe.stageOfInterest)
-	}
-
-	artefacttypeshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.ArtefactTypeShape](
-		artefacttypeshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if artefacttypeshapeFormCallback.CreationMode || artefacttypeshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		artefacttypeshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(artefacttypeshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ArtefactTypeShapeFormCallback(
-			nil,
-			artefacttypeshapeFormCallback.probe,
-			newFormGroup,
-		)
-		artefacttypeshape := new(models.ArtefactTypeShape)
-		FillUpForm(artefacttypeshape, newFormGroup, artefacttypeshapeFormCallback.probe)
-		artefacttypeshapeFormCallback.probe.formStage.Commit()
-	}
-
-	artefacttypeshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__ArtistFormCallback(
-	artist *models.Artist,
+	_instance *models.Artist,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (artistFormCallback *ArtistFormCallback) {
-	artistFormCallback = new(ArtistFormCallback)
-	artistFormCallback.probe = probe
-	artistFormCallback.artist = artist
-	artistFormCallback.formGroup = formGroup
-
-	artistFormCallback.CreationMode = (artist == nil)
-
-	return
+) (artistFormCallback *FormCallback[*models.Artist]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveArtistFields,
+	)
 }
 
-type ArtistFormCallback struct {
-	artist *models.Artist
+type ArtistFormCallback = FormCallback[*models.Artist]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (artistFormCallback *ArtistFormCallback) OnSave() {
-	artistFormCallback.probe.stageOfInterest.Lock()
-	defer artistFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("ArtistFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	artistFormCallback.probe.formStage.Checkout()
-
-	if artistFormCallback.artist == nil {
-		artistFormCallback.artist = new(models.Artist).Stage(artistFormCallback.probe.stageOfInterest)
-	}
-	artist_ := artistFormCallback.artist
-	_ = artist_
-
-	for _, formDiv := range artistFormCallback.formGroup.FormDivs {
+func saveArtistFields(
+	_instance *models.Artist,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(artist_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(artist_.ComputedPrefix), formDiv)
+			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(artist_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		case "IsDead":
-			FormDivBasicFieldToField(&(artist_.IsDead), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsDead), formDiv)
 		case "DateOfDeath":
-			FormDivTimeFieldToField(&(artist_.DateOfDeath), formDiv, false)
+			FormDivTimeFieldToField(&(_instance.DateOfDeath), formDiv, false)
 		case "Place":
-			FormDivSelectFieldToField(&(artist_.Place), artistFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.Place), probe.stageOfInterest, formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if artistFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		artist_.Unstage(artistFormCallback.probe.stageOfInterest)
-	}
-
-	artistFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Artist](
-		artistFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if artistFormCallback.CreationMode || artistFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		artistFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(artistFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ArtistFormCallback(
-			nil,
-			artistFormCallback.probe,
-			newFormGroup,
-		)
-		artist := new(models.Artist)
-		FillUpForm(artist, newFormGroup, artistFormCallback.probe)
-		artistFormCallback.probe.formStage.Commit()
-	}
-
-	artistFormCallback.probe.ux_tree()
 }
+
 func __gong__New__ArtistShapeFormCallback(
-	artistshape *models.ArtistShape,
+	_instance *models.ArtistShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (artistshapeFormCallback *ArtistShapeFormCallback) {
-	artistshapeFormCallback = new(ArtistShapeFormCallback)
-	artistshapeFormCallback.probe = probe
-	artistshapeFormCallback.artistshape = artistshape
-	artistshapeFormCallback.formGroup = formGroup
-
-	artistshapeFormCallback.CreationMode = (artistshape == nil)
-
-	return
+) (artistshapeFormCallback *FormCallback[*models.ArtistShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveArtistShapeFields,
+	)
 }
 
-type ArtistShapeFormCallback struct {
-	artistshape *models.ArtistShape
+type ArtistShapeFormCallback = FormCallback[*models.ArtistShape]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (artistshapeFormCallback *ArtistShapeFormCallback) OnSave() {
-	artistshapeFormCallback.probe.stageOfInterest.Lock()
-	defer artistshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("ArtistShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	artistshapeFormCallback.probe.formStage.Checkout()
-
-	if artistshapeFormCallback.artistshape == nil {
-		artistshapeFormCallback.artistshape = new(models.ArtistShape).Stage(artistshapeFormCallback.probe.stageOfInterest)
-	}
-	artistshape_ := artistshapeFormCallback.artistshape
-	_ = artistshape_
-
-	for _, formDiv := range artistshapeFormCallback.formGroup.FormDivs {
+func saveArtistShapeFields(
+	_instance *models.ArtistShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(artistshape_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Artist":
-			FormDivSelectFieldToField(&(artistshape_.Artist), artistshapeFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.Artist), probe.stageOfInterest, formDiv)
 		case "X":
-			FormDivBasicFieldToField(&(artistshape_.X), formDiv)
+			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
-			FormDivBasicFieldToField(&(artistshape_.Y), formDiv)
+			FormDivBasicFieldToField(&(_instance.Y), formDiv)
 		case "Width":
-			FormDivBasicFieldToField(&(artistshape_.Width), formDiv)
+			FormDivBasicFieldToField(&(_instance.Width), formDiv)
 		case "Height":
-			FormDivBasicFieldToField(&(artistshape_.Height), formDiv)
+			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
-			FormDivBasicFieldToField(&(artistshape_.IsHidden), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
 		case "ImagePng_X":
-			FormDivBasicFieldToField(&(artistshape_.ImagePng_X), formDiv)
+			FormDivBasicFieldToField(&(_instance.ImagePng_X), formDiv)
 		case "ImagePng_Y":
-			FormDivBasicFieldToField(&(artistshape_.ImagePng_Y), formDiv)
+			FormDivBasicFieldToField(&(_instance.ImagePng_Y), formDiv)
 		case "ImagePng_Width":
-			FormDivBasicFieldToField(&(artistshape_.ImagePng_Width), formDiv)
+			FormDivBasicFieldToField(&(_instance.ImagePng_Width), formDiv)
 		case "ImagePng_Height":
-			FormDivBasicFieldToField(&(artistshape_.ImagePng_Height), formDiv)
+			FormDivBasicFieldToField(&(_instance.ImagePng_Height), formDiv)
 		case "ImagePng_X_Offset":
-			FormDivBasicFieldToField(&(artistshape_.ImagePng_X_Offset), formDiv)
+			FormDivBasicFieldToField(&(_instance.ImagePng_X_Offset), formDiv)
 		case "ImagePng_Y_Offset":
-			FormDivBasicFieldToField(&(artistshape_.ImagePng_Y_Offset), formDiv)
+			FormDivBasicFieldToField(&(_instance.ImagePng_Y_Offset), formDiv)
 		case "ImagePng_RectAnchorType":
-			FormDivEnumStringFieldToField(&(artistshape_.ImagePng_RectAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.ImagePng_RectAnchorType), formDiv)
 		case "ImagePngBase64Content":
-			FormDivBasicFieldToField(&(artistshape_.ImagePngBase64Content), formDiv)
+			FormDivBasicFieldToField(&(_instance.ImagePngBase64Content), formDiv)
 		case "Diagram:ArtistShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](artistshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Diagram instances and update their ArtistShapes slice
-			for _diagram := range *artistshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Diagram]() {
-				id := artistshapeFormCallback.probe.stageOfInterest.GetOrder(_diagram)
-				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure artistshape_ is in _diagram.ArtistShapes
-					found := false
-					for _, _b := range _diagram.ArtistShapes {
-						if _b == artistshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_diagram.ArtistShapes = append(_diagram.ArtistShapes, artistshape_)
-						artistshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ArtistShapes", &_diagram.ArtistShapes)
-					}
-				} else {
-					// ensure artistshape_ is NOT in _diagram.ArtistShapes
-					idx := slices.Index(_diagram.ArtistShapes, artistshape_)
-					if idx != -1 {
-						_diagram.ArtistShapes = slices.Delete(_diagram.ArtistShapes, idx, idx+1)
-						artistshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ArtistShapes", &_diagram.ArtistShapes)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ArtistShapes", func(owner *models.Diagram) *[]*models.ArtistShape { return &owner.ArtistShapes })
 		}
 	}
-
-	// manage the suppress operation
-	if artistshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		artistshape_.Unstage(artistshapeFormCallback.probe.stageOfInterest)
-	}
-
-	artistshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.ArtistShape](
-		artistshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if artistshapeFormCallback.CreationMode || artistshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		artistshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(artistshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ArtistShapeFormCallback(
-			nil,
-			artistshapeFormCallback.probe,
-			newFormGroup,
-		)
-		artistshape := new(models.ArtistShape)
-		FillUpForm(artistshape, newFormGroup, artistshapeFormCallback.probe)
-		artistshapeFormCallback.probe.formStage.Commit()
-	}
-
-	artistshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__ControlPointShapeFormCallback(
-	controlpointshape *models.ControlPointShape,
+	_instance *models.ControlPointShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (controlpointshapeFormCallback *ControlPointShapeFormCallback) {
-	controlpointshapeFormCallback = new(ControlPointShapeFormCallback)
-	controlpointshapeFormCallback.probe = probe
-	controlpointshapeFormCallback.controlpointshape = controlpointshape
-	controlpointshapeFormCallback.formGroup = formGroup
-
-	controlpointshapeFormCallback.CreationMode = (controlpointshape == nil)
-
-	return
+) (controlpointshapeFormCallback *FormCallback[*models.ControlPointShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveControlPointShapeFields,
+	)
 }
 
-type ControlPointShapeFormCallback struct {
-	controlpointshape *models.ControlPointShape
+type ControlPointShapeFormCallback = FormCallback[*models.ControlPointShape]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (controlpointshapeFormCallback *ControlPointShapeFormCallback) OnSave() {
-	controlpointshapeFormCallback.probe.stageOfInterest.Lock()
-	defer controlpointshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("ControlPointShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	controlpointshapeFormCallback.probe.formStage.Checkout()
-
-	if controlpointshapeFormCallback.controlpointshape == nil {
-		controlpointshapeFormCallback.controlpointshape = new(models.ControlPointShape).Stage(controlpointshapeFormCallback.probe.stageOfInterest)
-	}
-	controlpointshape_ := controlpointshapeFormCallback.controlpointshape
-	_ = controlpointshape_
-
-	for _, formDiv := range controlpointshapeFormCallback.formGroup.FormDivs {
+func saveControlPointShapeFields(
+	_instance *models.ControlPointShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(controlpointshape_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "X_Relative":
-			FormDivBasicFieldToField(&(controlpointshape_.X_Relative), formDiv)
+			FormDivBasicFieldToField(&(_instance.X_Relative), formDiv)
 		case "Y_Relative":
-			FormDivBasicFieldToField(&(controlpointshape_.Y_Relative), formDiv)
+			FormDivBasicFieldToField(&(_instance.Y_Relative), formDiv)
 		case "IsStartShapeTheClosestShape":
-			FormDivBasicFieldToField(&(controlpointshape_.IsStartShapeTheClosestShape), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsStartShapeTheClosestShape), formDiv)
 		case "InfluenceShape:ControlPointShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the InfluenceShape instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target InfluenceShape instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.InfluenceShape](controlpointshapeFormCallback.probe.stageOfInterest)
-			targetInfluenceShapeIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetInfluenceShapeIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all InfluenceShape instances and update their ControlPointShapes slice
-			for _influenceshape := range *controlpointshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.InfluenceShape]() {
-				id := controlpointshapeFormCallback.probe.stageOfInterest.GetOrder(_influenceshape)
-				
-				// if InfluenceShape is selected
-				if targetInfluenceShapeIDs[id] {
-					// ensure controlpointshape_ is in _influenceshape.ControlPointShapes
-					found := false
-					for _, _b := range _influenceshape.ControlPointShapes {
-						if _b == controlpointshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_influenceshape.ControlPointShapes = append(_influenceshape.ControlPointShapes, controlpointshape_)
-						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_influenceshape, "ControlPointShapes", &_influenceshape.ControlPointShapes)
-					}
-				} else {
-					// ensure controlpointshape_ is NOT in _influenceshape.ControlPointShapes
-					idx := slices.Index(_influenceshape.ControlPointShapes, controlpointshape_)
-					if idx != -1 {
-						_influenceshape.ControlPointShapes = slices.Delete(_influenceshape.ControlPointShapes, idx, idx+1)
-						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_influenceshape, "ControlPointShapes", &_influenceshape.ControlPointShapes)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlPointShapes", func(owner *models.InfluenceShape) *[]*models.ControlPointShape { return &owner.ControlPointShapes })
 		}
 	}
-
-	// manage the suppress operation
-	if controlpointshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		controlpointshape_.Unstage(controlpointshapeFormCallback.probe.stageOfInterest)
-	}
-
-	controlpointshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.ControlPointShape](
-		controlpointshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if controlpointshapeFormCallback.CreationMode || controlpointshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		controlpointshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(controlpointshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ControlPointShapeFormCallback(
-			nil,
-			controlpointshapeFormCallback.probe,
-			newFormGroup,
-		)
-		controlpointshape := new(models.ControlPointShape)
-		FillUpForm(controlpointshape, newFormGroup, controlpointshapeFormCallback.probe)
-		controlpointshapeFormCallback.probe.formStage.Commit()
-	}
-
-	controlpointshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__DeskFormCallback(
-	desk *models.Desk,
+	_instance *models.Desk,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (deskFormCallback *DeskFormCallback) {
-	deskFormCallback = new(DeskFormCallback)
-	deskFormCallback.probe = probe
-	deskFormCallback.desk = desk
-	deskFormCallback.formGroup = formGroup
-
-	deskFormCallback.CreationMode = (desk == nil)
-
-	return
+) (deskFormCallback *FormCallback[*models.Desk]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveDeskFields,
+	)
 }
 
-type DeskFormCallback struct {
-	desk *models.Desk
+type DeskFormCallback = FormCallback[*models.Desk]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (deskFormCallback *DeskFormCallback) OnSave() {
-	deskFormCallback.probe.stageOfInterest.Lock()
-	defer deskFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("DeskFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	deskFormCallback.probe.formStage.Checkout()
-
-	if deskFormCallback.desk == nil {
-		deskFormCallback.desk = new(models.Desk).Stage(deskFormCallback.probe.stageOfInterest)
-	}
-	desk_ := deskFormCallback.desk
-	_ = desk_
-
-	for _, formDiv := range deskFormCallback.formGroup.FormDivs {
+func saveDeskFields(
+	_instance *models.Desk,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(desk_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "SelectedDiagram":
-			FormDivSelectFieldToField(&(desk_.SelectedDiagram), deskFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.SelectedDiagram), probe.stageOfInterest, formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if deskFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		desk_.Unstage(deskFormCallback.probe.stageOfInterest)
-	}
-
-	deskFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Desk](
-		deskFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if deskFormCallback.CreationMode || deskFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		deskFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(deskFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__DeskFormCallback(
-			nil,
-			deskFormCallback.probe,
-			newFormGroup,
-		)
-		desk := new(models.Desk)
-		FillUpForm(desk, newFormGroup, deskFormCallback.probe)
-		deskFormCallback.probe.formStage.Commit()
-	}
-
-	deskFormCallback.probe.ux_tree()
 }
+
 func __gong__New__DiagramFormCallback(
-	diagram *models.Diagram,
+	_instance *models.Diagram,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (diagramFormCallback *DiagramFormCallback) {
-	diagramFormCallback = new(DiagramFormCallback)
-	diagramFormCallback.probe = probe
-	diagramFormCallback.diagram = diagram
-	diagramFormCallback.formGroup = formGroup
-
-	diagramFormCallback.CreationMode = (diagram == nil)
-
-	return
+) (diagramFormCallback *FormCallback[*models.Diagram]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveDiagramFields,
+	)
 }
 
-type DiagramFormCallback struct {
-	diagram *models.Diagram
+type DiagramFormCallback = FormCallback[*models.Diagram]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (diagramFormCallback *DiagramFormCallback) OnSave() {
-	diagramFormCallback.probe.stageOfInterest.Lock()
-	defer diagramFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("DiagramFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	diagramFormCallback.probe.formStage.Checkout()
-
-	if diagramFormCallback.diagram == nil {
-		diagramFormCallback.diagram = new(models.Diagram).Stage(diagramFormCallback.probe.stageOfInterest)
-	}
-	diagram_ := diagramFormCallback.diagram
-	_ = diagram_
-
-	for _, formDiv := range diagramFormCallback.formGroup.FormDivs {
+func saveDiagramFields(
+	_instance *models.Diagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(diagram_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
+			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		case "IsChecked":
-			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsChecked), formDiv)
 		case "MovementShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *diagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.MovementShape]()
-			instanceSlice := make([]*models.MovementShape, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.MovementShape)
-
-			for instance := range instanceSet {
-				id := diagramFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.MovementShape](diagramFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			diagram_.MovementShapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "MovementShapes", &diagram_.MovementShapes)
-
+			FormDivSliceOfPointersToField(_instance, "MovementShapes", &(_instance.MovementShapes), formDiv, probe)
 		case "ArtefactTypeShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *diagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ArtefactTypeShape]()
-			instanceSlice := make([]*models.ArtefactTypeShape, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.ArtefactTypeShape)
-
-			for instance := range instanceSet {
-				id := diagramFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ArtefactTypeShape](diagramFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			diagram_.ArtefactTypeShapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ArtefactTypeShapes", &diagram_.ArtefactTypeShapes)
-
+			FormDivSliceOfPointersToField(_instance, "ArtefactTypeShapes", &(_instance.ArtefactTypeShapes), formDiv, probe)
 		case "ArtistShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *diagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ArtistShape]()
-			instanceSlice := make([]*models.ArtistShape, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.ArtistShape)
-
-			for instance := range instanceSet {
-				id := diagramFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ArtistShape](diagramFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			diagram_.ArtistShapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ArtistShapes", &diagram_.ArtistShapes)
-
+			FormDivSliceOfPointersToField(_instance, "ArtistShapes", &(_instance.ArtistShapes), formDiv, probe)
 		case "InfluenceShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *diagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.InfluenceShape]()
-			instanceSlice := make([]*models.InfluenceShape, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.InfluenceShape)
-
-			for instance := range instanceSet {
-				id := diagramFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.InfluenceShape](diagramFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			diagram_.InfluenceShapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "InfluenceShapes", &diagram_.InfluenceShapes)
-
+			FormDivSliceOfPointersToField(_instance, "InfluenceShapes", &(_instance.InfluenceShapes), formDiv, probe)
 		case "IsEditable":
-			FormDivBasicFieldToField(&(diagram_.IsEditable), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsEditable), formDiv)
 		case "IsNodeExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsNodeExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsNodeExpanded), formDiv)
 		case "IsMovementCategoryNodeExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsMovementCategoryNodeExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsMovementCategoryNodeExpanded), formDiv)
 		case "IsArtefactTypeCategoryNodeExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsArtefactTypeCategoryNodeExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsArtefactTypeCategoryNodeExpanded), formDiv)
 		case "IsArtistCategoryNodeExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsArtistCategoryNodeExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsArtistCategoryNodeExpanded), formDiv)
 		case "IsInfluenceCategoryNodeExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsInfluenceCategoryNodeExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsInfluenceCategoryNodeExpanded), formDiv)
 		case "IsMovementCategoryHidden":
-			FormDivBasicFieldToField(&(diagram_.IsMovementCategoryHidden), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsMovementCategoryHidden), formDiv)
 		case "IsArtefactTypeCategoryHidden":
-			FormDivBasicFieldToField(&(diagram_.IsArtefactTypeCategoryHidden), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsArtefactTypeCategoryHidden), formDiv)
 		case "IsArtistCategoryHidden":
-			FormDivBasicFieldToField(&(diagram_.IsArtistCategoryHidden), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsArtistCategoryHidden), formDiv)
 		case "IsInfluenceCategoryHidden":
-			FormDivBasicFieldToField(&(diagram_.IsInfluenceCategoryHidden), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsInfluenceCategoryHidden), formDiv)
 		case "StartDate":
-			FormDivTimeFieldToField(&(diagram_.StartDate), formDiv, false)
+			FormDivTimeFieldToField(&(_instance.StartDate), formDiv, false)
 		case "EndDate":
-			FormDivTimeFieldToField(&(diagram_.EndDate), formDiv, false)
+			FormDivTimeFieldToField(&(_instance.EndDate), formDiv, false)
 		case "NbYearsForIntervals":
-			FormDivBasicFieldToField(&(diagram_.NbYearsForIntervals), formDiv)
+			FormDivBasicFieldToField(&(_instance.NbYearsForIntervals), formDiv)
 		case "XMargin":
-			FormDivBasicFieldToField(&(diagram_.XMargin), formDiv)
+			FormDivBasicFieldToField(&(_instance.XMargin), formDiv)
 		case "YMargin":
-			FormDivBasicFieldToField(&(diagram_.YMargin), formDiv)
+			FormDivBasicFieldToField(&(_instance.YMargin), formDiv)
 		case "Height":
-			FormDivBasicFieldToField(&(diagram_.Height), formDiv)
+			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "NextVerticalDateXMargin":
-			FormDivBasicFieldToField(&(diagram_.NextVerticalDateXMargin), formDiv)
+			FormDivBasicFieldToField(&(_instance.NextVerticalDateXMargin), formDiv)
 		case "RedColorCode":
-			FormDivBasicFieldToField(&(diagram_.RedColorCode), formDiv)
+			FormDivBasicFieldToField(&(_instance.RedColorCode), formDiv)
 		case "BackgroundGreyColorCode":
-			FormDivBasicFieldToField(&(diagram_.BackgroundGreyColorCode), formDiv)
+			FormDivBasicFieldToField(&(_instance.BackgroundGreyColorCode), formDiv)
 		case "GrayColorCode":
-			FormDivBasicFieldToField(&(diagram_.GrayColorCode), formDiv)
+			FormDivBasicFieldToField(&(_instance.GrayColorCode), formDiv)
 		case "BottomBoxYOffset":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxYOffset), formDiv)
+			FormDivBasicFieldToField(&(_instance.BottomBoxYOffset), formDiv)
 		case "BottomBoxWidth":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxWidth), formDiv)
+			FormDivBasicFieldToField(&(_instance.BottomBoxWidth), formDiv)
 		case "BottomBoxHeigth":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxHeigth), formDiv)
+			FormDivBasicFieldToField(&(_instance.BottomBoxHeigth), formDiv)
 		case "BottomBoxFontSize":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxFontSize), formDiv)
+			FormDivBasicFieldToField(&(_instance.BottomBoxFontSize), formDiv)
 		case "BottomBoxFontWeigth":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxFontWeigth), formDiv)
+			FormDivBasicFieldToField(&(_instance.BottomBoxFontWeigth), formDiv)
 		case "BottomBoxFontFamily":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxFontFamily), formDiv)
+			FormDivBasicFieldToField(&(_instance.BottomBoxFontFamily), formDiv)
 		case "BottomBoxLetterSpacing":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxLetterSpacing), formDiv)
+			FormDivBasicFieldToField(&(_instance.BottomBoxLetterSpacing), formDiv)
 		case "BottomBoxLetterColorCode":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxLetterColorCode), formDiv)
+			FormDivBasicFieldToField(&(_instance.BottomBoxLetterColorCode), formDiv)
 		case "MovementRectAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.MovementRectAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.MovementRectAnchorType), formDiv)
 		case "MovementTextAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.MovementTextAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.MovementTextAnchorType), formDiv)
 		case "MovementDominantBaselineType":
-			FormDivEnumStringFieldToField(&(diagram_.MovementDominantBaselineType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.MovementDominantBaselineType), formDiv)
 		case "MovementFontSize":
-			FormDivBasicFieldToField(&(diagram_.MovementFontSize), formDiv)
+			FormDivBasicFieldToField(&(_instance.MovementFontSize), formDiv)
 		case "MajorMovementFontSize":
-			FormDivBasicFieldToField(&(diagram_.MajorMovementFontSize), formDiv)
+			FormDivBasicFieldToField(&(_instance.MajorMovementFontSize), formDiv)
 		case "MinorMovementFontSize":
-			FormDivBasicFieldToField(&(diagram_.MinorMovementFontSize), formDiv)
+			FormDivBasicFieldToField(&(_instance.MinorMovementFontSize), formDiv)
 		case "MovementFontWeigth":
-			FormDivBasicFieldToField(&(diagram_.MovementFontWeigth), formDiv)
+			FormDivBasicFieldToField(&(_instance.MovementFontWeigth), formDiv)
 		case "MovementFontFamily":
-			FormDivBasicFieldToField(&(diagram_.MovementFontFamily), formDiv)
+			FormDivBasicFieldToField(&(_instance.MovementFontFamily), formDiv)
 		case "MovementLetterSpacing":
-			FormDivBasicFieldToField(&(diagram_.MovementLetterSpacing), formDiv)
+			FormDivBasicFieldToField(&(_instance.MovementLetterSpacing), formDiv)
 		case "AbstractMovementFontSize":
-			FormDivBasicFieldToField(&(diagram_.AbstractMovementFontSize), formDiv)
+			FormDivBasicFieldToField(&(_instance.AbstractMovementFontSize), formDiv)
 		case "AbstractMovementRectAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.AbstractMovementRectAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.AbstractMovementRectAnchorType), formDiv)
 		case "AbstractMovementTextAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.AbstractMovementTextAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.AbstractMovementTextAnchorType), formDiv)
 		case "AbstractDominantBaselineType":
-			FormDivEnumStringFieldToField(&(diagram_.AbstractDominantBaselineType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.AbstractDominantBaselineType), formDiv)
 		case "MovementDateRectAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.MovementDateRectAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.MovementDateRectAnchorType), formDiv)
 		case "MovementDateTextAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.MovementDateTextAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.MovementDateTextAnchorType), formDiv)
 		case "MovementDateTextDominantBaselineType":
-			FormDivEnumStringFieldToField(&(diagram_.MovementDateTextDominantBaselineType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.MovementDateTextDominantBaselineType), formDiv)
 		case "MovementDateAndPlacesFontSize":
-			FormDivBasicFieldToField(&(diagram_.MovementDateAndPlacesFontSize), formDiv)
+			FormDivBasicFieldToField(&(_instance.MovementDateAndPlacesFontSize), formDiv)
 		case "MovementDateAndPlacesFontWeigth":
-			FormDivBasicFieldToField(&(diagram_.MovementDateAndPlacesFontWeigth), formDiv)
+			FormDivBasicFieldToField(&(_instance.MovementDateAndPlacesFontWeigth), formDiv)
 		case "MovementDateAndPlacesFontFamily":
-			FormDivBasicFieldToField(&(diagram_.MovementDateAndPlacesFontFamily), formDiv)
+			FormDivBasicFieldToField(&(_instance.MovementDateAndPlacesFontFamily), formDiv)
 		case "MovementDateAndPlacesLetterSpacing":
-			FormDivBasicFieldToField(&(diagram_.MovementDateAndPlacesLetterSpacing), formDiv)
+			FormDivBasicFieldToField(&(_instance.MovementDateAndPlacesLetterSpacing), formDiv)
 		case "MovementBelowArcY_Offset":
-			FormDivBasicFieldToField(&(diagram_.MovementBelowArcY_Offset), formDiv)
+			FormDivBasicFieldToField(&(_instance.MovementBelowArcY_Offset), formDiv)
 		case "MovementBelowArcY_OffsetPerPlace":
-			FormDivBasicFieldToField(&(diagram_.MovementBelowArcY_OffsetPerPlace), formDiv)
+			FormDivBasicFieldToField(&(_instance.MovementBelowArcY_OffsetPerPlace), formDiv)
 		case "MovementPlacesRectAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.MovementPlacesRectAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.MovementPlacesRectAnchorType), formDiv)
 		case "MovementPlacesTextAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.MovementPlacesTextAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.MovementPlacesTextAnchorType), formDiv)
 		case "MovementPlacesDominantBaselineType":
-			FormDivEnumStringFieldToField(&(diagram_.MovementPlacesDominantBaselineType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.MovementPlacesDominantBaselineType), formDiv)
 		case "ArtefactTypeFontSize":
-			FormDivBasicFieldToField(&(diagram_.ArtefactTypeFontSize), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArtefactTypeFontSize), formDiv)
 		case "ArtefactTypeFontWeigth":
-			FormDivBasicFieldToField(&(diagram_.ArtefactTypeFontWeigth), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArtefactTypeFontWeigth), formDiv)
 		case "ArtefactTypeFontFamily":
-			FormDivBasicFieldToField(&(diagram_.ArtefactTypeFontFamily), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArtefactTypeFontFamily), formDiv)
 		case "ArtefactTypeLetterSpacing":
-			FormDivBasicFieldToField(&(diagram_.ArtefactTypeLetterSpacing), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArtefactTypeLetterSpacing), formDiv)
 		case "ArtefactTypeRectAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtefactTypeRectAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.ArtefactTypeRectAnchorType), formDiv)
 		case "ArtefactDominantBaselineType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtefactDominantBaselineType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.ArtefactDominantBaselineType), formDiv)
 		case "ArtefactTypeStrokeWidth":
-			FormDivBasicFieldToField(&(diagram_.ArtefactTypeStrokeWidth), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArtefactTypeStrokeWidth), formDiv)
 		case "ArtistRectAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtistRectAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.ArtistRectAnchorType), formDiv)
 		case "ArtistTextAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtistTextAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.ArtistTextAnchorType), formDiv)
 		case "ArtistDominantBaselineType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtistDominantBaselineType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.ArtistDominantBaselineType), formDiv)
 		case "ArtistFontSize":
-			FormDivBasicFieldToField(&(diagram_.ArtistFontSize), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArtistFontSize), formDiv)
 		case "MajorArtistFontSize":
-			FormDivBasicFieldToField(&(diagram_.MajorArtistFontSize), formDiv)
+			FormDivBasicFieldToField(&(_instance.MajorArtistFontSize), formDiv)
 		case "MinorArtistFontSize":
-			FormDivBasicFieldToField(&(diagram_.MinorArtistFontSize), formDiv)
+			FormDivBasicFieldToField(&(_instance.MinorArtistFontSize), formDiv)
 		case "ArtistFontWeigth":
-			FormDivBasicFieldToField(&(diagram_.ArtistFontWeigth), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArtistFontWeigth), formDiv)
 		case "ArtistFontFamily":
-			FormDivBasicFieldToField(&(diagram_.ArtistFontFamily), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArtistFontFamily), formDiv)
 		case "ArtistLetterSpacing":
-			FormDivBasicFieldToField(&(diagram_.ArtistLetterSpacing), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArtistLetterSpacing), formDiv)
 		case "ArtistDateRectAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtistDateRectAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.ArtistDateRectAnchorType), formDiv)
 		case "ArtistDateTextAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtistDateTextAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.ArtistDateTextAnchorType), formDiv)
 		case "ArtistDateDominantBaselineType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtistDateDominantBaselineType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.ArtistDateDominantBaselineType), formDiv)
 		case "ArtistDateAndPlacesFontSize":
-			FormDivBasicFieldToField(&(diagram_.ArtistDateAndPlacesFontSize), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArtistDateAndPlacesFontSize), formDiv)
 		case "ArtistDateAndPlacesFontWeigth":
-			FormDivBasicFieldToField(&(diagram_.ArtistDateAndPlacesFontWeigth), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArtistDateAndPlacesFontWeigth), formDiv)
 		case "ArtistDateAndPlacesFontFamily":
-			FormDivBasicFieldToField(&(diagram_.ArtistDateAndPlacesFontFamily), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArtistDateAndPlacesFontFamily), formDiv)
 		case "ArtistDateAndPlacesLetterSpacing":
-			FormDivBasicFieldToField(&(diagram_.ArtistDateAndPlacesLetterSpacing), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArtistDateAndPlacesLetterSpacing), formDiv)
 		case "ArtistPlacesRectAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtistPlacesRectAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.ArtistPlacesRectAnchorType), formDiv)
 		case "ArtistPlacesTextAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtistPlacesTextAnchorType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.ArtistPlacesTextAnchorType), formDiv)
 		case "ArtistPlacesDominantBaselineType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtistPlacesDominantBaselineType), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.ArtistPlacesDominantBaselineType), formDiv)
 		case "InfluenceArrowSize":
-			FormDivBasicFieldToField(&(diagram_.InfluenceArrowSize), formDiv)
+			FormDivBasicFieldToField(&(_instance.InfluenceArrowSize), formDiv)
 		case "InfluenceArrowStartOffset":
-			FormDivBasicFieldToField(&(diagram_.InfluenceArrowStartOffset), formDiv)
+			FormDivBasicFieldToField(&(_instance.InfluenceArrowStartOffset), formDiv)
 		case "InfluenceArrowEndOffset":
-			FormDivBasicFieldToField(&(diagram_.InfluenceArrowEndOffset), formDiv)
+			FormDivBasicFieldToField(&(_instance.InfluenceArrowEndOffset), formDiv)
 		case "InfluenceCornerRadius":
-			FormDivBasicFieldToField(&(diagram_.InfluenceCornerRadius), formDiv)
+			FormDivBasicFieldToField(&(_instance.InfluenceCornerRadius), formDiv)
 		case "InfluenceDashedLinePattern":
-			FormDivBasicFieldToField(&(diagram_.InfluenceDashedLinePattern), formDiv)
+			FormDivBasicFieldToField(&(_instance.InfluenceDashedLinePattern), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if diagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		diagram_.Unstage(diagramFormCallback.probe.stageOfInterest)
-	}
-
-	diagramFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Diagram](
-		diagramFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if diagramFormCallback.CreationMode || diagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		diagramFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(diagramFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__DiagramFormCallback(
-			nil,
-			diagramFormCallback.probe,
-			newFormGroup,
-		)
-		diagram := new(models.Diagram)
-		FillUpForm(diagram, newFormGroup, diagramFormCallback.probe)
-		diagramFormCallback.probe.formStage.Commit()
-	}
-
-	diagramFormCallback.probe.ux_tree()
 }
+
 func __gong__New__InfluenceFormCallback(
-	influence *models.Influence,
+	_instance *models.Influence,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (influenceFormCallback *InfluenceFormCallback) {
-	influenceFormCallback = new(InfluenceFormCallback)
-	influenceFormCallback.probe = probe
-	influenceFormCallback.influence = influence
-	influenceFormCallback.formGroup = formGroup
-
-	influenceFormCallback.CreationMode = (influence == nil)
-
-	return
+) (influenceFormCallback *FormCallback[*models.Influence]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveInfluenceFields,
+	)
 }
 
-type InfluenceFormCallback struct {
-	influence *models.Influence
+type InfluenceFormCallback = FormCallback[*models.Influence]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (influenceFormCallback *InfluenceFormCallback) OnSave() {
-	influenceFormCallback.probe.stageOfInterest.Lock()
-	defer influenceFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("InfluenceFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	influenceFormCallback.probe.formStage.Checkout()
-
-	if influenceFormCallback.influence == nil {
-		influenceFormCallback.influence = new(models.Influence).Stage(influenceFormCallback.probe.stageOfInterest)
-	}
-	influence_ := influenceFormCallback.influence
-	_ = influence_
-
-	for _, formDiv := range influenceFormCallback.formGroup.FormDivs {
+func saveInfluenceFields(
+	_instance *models.Influence,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(influence_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(influence_.ComputedPrefix), formDiv)
+			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(influence_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		case "SourceMovement":
-			FormDivSelectFieldToField(&(influence_.SourceMovement), influenceFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.SourceMovement), probe.stageOfInterest, formDiv)
 		case "SourceArtefactType":
-			FormDivSelectFieldToField(&(influence_.SourceArtefactType), influenceFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.SourceArtefactType), probe.stageOfInterest, formDiv)
 		case "SourceArtist":
-			FormDivSelectFieldToField(&(influence_.SourceArtist), influenceFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.SourceArtist), probe.stageOfInterest, formDiv)
 		case "TargetMovement":
-			FormDivSelectFieldToField(&(influence_.TargetMovement), influenceFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.TargetMovement), probe.stageOfInterest, formDiv)
 		case "TargetArtefactType":
-			FormDivSelectFieldToField(&(influence_.TargetArtefactType), influenceFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.TargetArtefactType), probe.stageOfInterest, formDiv)
 		case "TargetArtist":
-			FormDivSelectFieldToField(&(influence_.TargetArtist), influenceFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.TargetArtist), probe.stageOfInterest, formDiv)
 		case "IsHypothtical":
-			FormDivBasicFieldToField(&(influence_.IsHypothtical), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsHypothtical), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if influenceFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		influence_.Unstage(influenceFormCallback.probe.stageOfInterest)
-	}
-
-	influenceFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Influence](
-		influenceFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if influenceFormCallback.CreationMode || influenceFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		influenceFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(influenceFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__InfluenceFormCallback(
-			nil,
-			influenceFormCallback.probe,
-			newFormGroup,
-		)
-		influence := new(models.Influence)
-		FillUpForm(influence, newFormGroup, influenceFormCallback.probe)
-		influenceFormCallback.probe.formStage.Commit()
-	}
-
-	influenceFormCallback.probe.ux_tree()
 }
+
 func __gong__New__InfluenceShapeFormCallback(
-	influenceshape *models.InfluenceShape,
+	_instance *models.InfluenceShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (influenceshapeFormCallback *InfluenceShapeFormCallback) {
-	influenceshapeFormCallback = new(InfluenceShapeFormCallback)
-	influenceshapeFormCallback.probe = probe
-	influenceshapeFormCallback.influenceshape = influenceshape
-	influenceshapeFormCallback.formGroup = formGroup
-
-	influenceshapeFormCallback.CreationMode = (influenceshape == nil)
-
-	return
+) (influenceshapeFormCallback *FormCallback[*models.InfluenceShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveInfluenceShapeFields,
+	)
 }
 
-type InfluenceShapeFormCallback struct {
-	influenceshape *models.InfluenceShape
+type InfluenceShapeFormCallback = FormCallback[*models.InfluenceShape]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (influenceshapeFormCallback *InfluenceShapeFormCallback) OnSave() {
-	influenceshapeFormCallback.probe.stageOfInterest.Lock()
-	defer influenceshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("InfluenceShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	influenceshapeFormCallback.probe.formStage.Checkout()
-
-	if influenceshapeFormCallback.influenceshape == nil {
-		influenceshapeFormCallback.influenceshape = new(models.InfluenceShape).Stage(influenceshapeFormCallback.probe.stageOfInterest)
-	}
-	influenceshape_ := influenceshapeFormCallback.influenceshape
-	_ = influenceshape_
-
-	for _, formDiv := range influenceshapeFormCallback.formGroup.FormDivs {
+func saveInfluenceShapeFields(
+	_instance *models.InfluenceShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(influenceshape_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Influence":
-			FormDivSelectFieldToField(&(influenceshape_.Influence), influenceshapeFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.Influence), probe.stageOfInterest, formDiv)
 		case "IsHidden":
-			FormDivBasicFieldToField(&(influenceshape_.IsHidden), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
 		case "ControlPointShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *influenceshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ControlPointShape]()
-			instanceSlice := make([]*models.ControlPointShape, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.ControlPointShape)
-
-			for instance := range instanceSet {
-				id := influenceshapeFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ControlPointShape](influenceshapeFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			influenceshape_.ControlPointShapes = instanceSlice
-			influenceshapeFormCallback.probe.UpdateSliceOfPointersCallback(influenceshape_, "ControlPointShapes", &influenceshape_.ControlPointShapes)
-
+			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
 		case "Diagram:InfluenceShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](influenceshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Diagram instances and update their InfluenceShapes slice
-			for _diagram := range *influenceshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Diagram]() {
-				id := influenceshapeFormCallback.probe.stageOfInterest.GetOrder(_diagram)
-				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure influenceshape_ is in _diagram.InfluenceShapes
-					found := false
-					for _, _b := range _diagram.InfluenceShapes {
-						if _b == influenceshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_diagram.InfluenceShapes = append(_diagram.InfluenceShapes, influenceshape_)
-						influenceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "InfluenceShapes", &_diagram.InfluenceShapes)
-					}
-				} else {
-					// ensure influenceshape_ is NOT in _diagram.InfluenceShapes
-					idx := slices.Index(_diagram.InfluenceShapes, influenceshape_)
-					if idx != -1 {
-						_diagram.InfluenceShapes = slices.Delete(_diagram.InfluenceShapes, idx, idx+1)
-						influenceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "InfluenceShapes", &_diagram.InfluenceShapes)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "InfluenceShapes", func(owner *models.Diagram) *[]*models.InfluenceShape { return &owner.InfluenceShapes })
 		}
 	}
-
-	// manage the suppress operation
-	if influenceshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		influenceshape_.Unstage(influenceshapeFormCallback.probe.stageOfInterest)
-	}
-
-	influenceshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.InfluenceShape](
-		influenceshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if influenceshapeFormCallback.CreationMode || influenceshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		influenceshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(influenceshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__InfluenceShapeFormCallback(
-			nil,
-			influenceshapeFormCallback.probe,
-			newFormGroup,
-		)
-		influenceshape := new(models.InfluenceShape)
-		FillUpForm(influenceshape, newFormGroup, influenceshapeFormCallback.probe)
-		influenceshapeFormCallback.probe.formStage.Commit()
-	}
-
-	influenceshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__LibraryFormCallback(
-	library *models.Library,
+	_instance *models.Library,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (libraryFormCallback *LibraryFormCallback) {
-	libraryFormCallback = new(LibraryFormCallback)
-	libraryFormCallback.probe = probe
-	libraryFormCallback.library = library
-	libraryFormCallback.formGroup = formGroup
-
-	libraryFormCallback.CreationMode = (library == nil)
-
-	return
+) (libraryFormCallback *FormCallback[*models.Library]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveLibraryFields,
+	)
 }
 
-type LibraryFormCallback struct {
-	library *models.Library
+type LibraryFormCallback = FormCallback[*models.Library]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (libraryFormCallback *LibraryFormCallback) OnSave() {
-	libraryFormCallback.probe.stageOfInterest.Lock()
-	defer libraryFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("LibraryFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	libraryFormCallback.probe.formStage.Checkout()
-
-	if libraryFormCallback.library == nil {
-		libraryFormCallback.library = new(models.Library).Stage(libraryFormCallback.probe.stageOfInterest)
-	}
-	library_ := libraryFormCallback.library
-	_ = library_
-
-	for _, formDiv := range libraryFormCallback.formGroup.FormDivs {
+func saveLibraryFields(
+	_instance *models.Library,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(library_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Description":
-			FormDivBasicFieldToField(&(library_.Description), formDiv)
+			FormDivBasicFieldToField(&(_instance.Description), formDiv)
 		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
+			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		case "IsRootLibrary":
-			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsRootLibrary), formDiv)
 		case "SubLibraries":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *libraryFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Library]()
-			instanceSlice := make([]*models.Library, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Library)
-
-			for instance := range instanceSet {
-				id := libraryFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Library](libraryFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			library_.SubLibraries = instanceSlice
-			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "SubLibraries", &library_.SubLibraries)
-
+			FormDivSliceOfPointersToField(_instance, "SubLibraries", &(_instance.SubLibraries), formDiv, probe)
 		case "IsSubLibrariesNodeExpanded":
-			FormDivBasicFieldToField(&(library_.IsSubLibrariesNodeExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsSubLibrariesNodeExpanded), formDiv)
 		case "SubLibrariesWhoseNodeIsExpanded":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *libraryFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Library]()
-			instanceSlice := make([]*models.Library, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Library)
-
-			for instance := range instanceSet {
-				id := libraryFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Library](libraryFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			library_.SubLibrariesWhoseNodeIsExpanded = instanceSlice
-			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "SubLibrariesWhoseNodeIsExpanded", &library_.SubLibrariesWhoseNodeIsExpanded)
-
+			FormDivSliceOfPointersToField(_instance, "SubLibrariesWhoseNodeIsExpanded", &(_instance.SubLibrariesWhoseNodeIsExpanded), formDiv, probe)
 		case "NbPixPerCharacter":
-			FormDivBasicFieldToField(&(library_.NbPixPerCharacter), formDiv)
+			FormDivBasicFieldToField(&(_instance.NbPixPerCharacter), formDiv)
 		case "LogoSVGFile":
-			FormDivBasicFieldToField(&(library_.LogoSVGFile), formDiv)
+			FormDivBasicFieldToField(&(_instance.LogoSVGFile), formDiv)
 		case "IsExpandedTmp":
-			FormDivBasicFieldToField(&(library_.IsExpandedTmp), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsExpandedTmp), formDiv)
 		case "Library:SubLibraries":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Library instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Library](libraryFormCallback.probe.stageOfInterest)
-			targetLibraryIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetLibraryIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Library instances and update their SubLibraries slice
-			for _library := range *libraryFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Library]() {
-				id := libraryFormCallback.probe.stageOfInterest.GetOrder(_library)
-				
-				// if Library is selected
-				if targetLibraryIDs[id] {
-					// ensure library_ is in _library.SubLibraries
-					found := false
-					for _, _b := range _library.SubLibraries {
-						if _b == library_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_library.SubLibraries = append(_library.SubLibraries, library_)
-						libraryFormCallback.probe.UpdateSliceOfPointersCallback(_library, "SubLibraries", &_library.SubLibraries)
-					}
-				} else {
-					// ensure library_ is NOT in _library.SubLibraries
-					idx := slices.Index(_library.SubLibraries, library_)
-					if idx != -1 {
-						_library.SubLibraries = slices.Delete(_library.SubLibraries, idx, idx+1)
-						libraryFormCallback.probe.UpdateSliceOfPointersCallback(_library, "SubLibraries", &_library.SubLibraries)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SubLibraries", func(owner *models.Library) *[]*models.Library { return &owner.SubLibraries })
 		case "Library:SubLibrariesWhoseNodeIsExpanded":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Library instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Library](libraryFormCallback.probe.stageOfInterest)
-			targetLibraryIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetLibraryIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Library instances and update their SubLibrariesWhoseNodeIsExpanded slice
-			for _library := range *libraryFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Library]() {
-				id := libraryFormCallback.probe.stageOfInterest.GetOrder(_library)
-				
-				// if Library is selected
-				if targetLibraryIDs[id] {
-					// ensure library_ is in _library.SubLibrariesWhoseNodeIsExpanded
-					found := false
-					for _, _b := range _library.SubLibrariesWhoseNodeIsExpanded {
-						if _b == library_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_library.SubLibrariesWhoseNodeIsExpanded = append(_library.SubLibrariesWhoseNodeIsExpanded, library_)
-						libraryFormCallback.probe.UpdateSliceOfPointersCallback(_library, "SubLibrariesWhoseNodeIsExpanded", &_library.SubLibrariesWhoseNodeIsExpanded)
-					}
-				} else {
-					// ensure library_ is NOT in _library.SubLibrariesWhoseNodeIsExpanded
-					idx := slices.Index(_library.SubLibrariesWhoseNodeIsExpanded, library_)
-					if idx != -1 {
-						_library.SubLibrariesWhoseNodeIsExpanded = slices.Delete(_library.SubLibrariesWhoseNodeIsExpanded, idx, idx+1)
-						libraryFormCallback.probe.UpdateSliceOfPointersCallback(_library, "SubLibrariesWhoseNodeIsExpanded", &_library.SubLibrariesWhoseNodeIsExpanded)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SubLibrariesWhoseNodeIsExpanded", func(owner *models.Library) *[]*models.Library { return &owner.SubLibrariesWhoseNodeIsExpanded })
 		}
 	}
-
-	// manage the suppress operation
-	if libraryFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		library_.Unstage(libraryFormCallback.probe.stageOfInterest)
-	}
-
-	libraryFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Library](
-		libraryFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if libraryFormCallback.CreationMode || libraryFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		libraryFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(libraryFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__LibraryFormCallback(
-			nil,
-			libraryFormCallback.probe,
-			newFormGroup,
-		)
-		library := new(models.Library)
-		FillUpForm(library, newFormGroup, libraryFormCallback.probe)
-		libraryFormCallback.probe.formStage.Commit()
-	}
-
-	libraryFormCallback.probe.ux_tree()
 }
+
 func __gong__New__MovementFormCallback(
-	movement *models.Movement,
+	_instance *models.Movement,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (movementFormCallback *MovementFormCallback) {
-	movementFormCallback = new(MovementFormCallback)
-	movementFormCallback.probe = probe
-	movementFormCallback.movement = movement
-	movementFormCallback.formGroup = formGroup
-
-	movementFormCallback.CreationMode = (movement == nil)
-
-	return
+) (movementFormCallback *FormCallback[*models.Movement]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveMovementFields,
+	)
 }
 
-type MovementFormCallback struct {
-	movement *models.Movement
+type MovementFormCallback = FormCallback[*models.Movement]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (movementFormCallback *MovementFormCallback) OnSave() {
-	movementFormCallback.probe.stageOfInterest.Lock()
-	defer movementFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("MovementFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	movementFormCallback.probe.formStage.Checkout()
-
-	if movementFormCallback.movement == nil {
-		movementFormCallback.movement = new(models.Movement).Stage(movementFormCallback.probe.stageOfInterest)
-	}
-	movement_ := movementFormCallback.movement
-	_ = movement_
-
-	for _, formDiv := range movementFormCallback.formGroup.FormDivs {
+func saveMovementFields(
+	_instance *models.Movement,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(movement_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(movement_.ComputedPrefix), formDiv)
+			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(movement_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		case "Date":
-			FormDivTimeFieldToField(&(movement_.Date), formDiv, false)
+			FormDivTimeFieldToField(&(_instance.Date), formDiv, false)
 		case "HideDate":
-			FormDivBasicFieldToField(&(movement_.HideDate), formDiv)
+			FormDivBasicFieldToField(&(_instance.HideDate), formDiv)
 		case "Places":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *movementFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Place]()
-			instanceSlice := make([]*models.Place, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Place)
-
-			for instance := range instanceSet {
-				id := movementFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Place](movementFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			movement_.Places = instanceSlice
-			movementFormCallback.probe.UpdateSliceOfPointersCallback(movement_, "Places", &movement_.Places)
-
+			FormDivSliceOfPointersToField(_instance, "Places", &(_instance.Places), formDiv, probe)
 		case "HasTaxonomicFilter":
-			FormDivBasicFieldToField(&(movement_.HasTaxonomicFilter), formDiv)
+			FormDivBasicFieldToField(&(_instance.HasTaxonomicFilter), formDiv)
 		case "TaxonomicFilter":
-			FormDivBasicFieldToField(&(movement_.TaxonomicFilter), formDiv)
+			FormDivBasicFieldToField(&(_instance.TaxonomicFilter), formDiv)
 		case "IsFeatured":
-			FormDivBasicFieldToField(&(movement_.IsFeatured), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsFeatured), formDiv)
 		case "FeaturePrefix":
-			FormDivBasicFieldToField(&(movement_.FeaturePrefix), formDiv)
+			FormDivBasicFieldToField(&(_instance.FeaturePrefix), formDiv)
 		case "IsMajor":
-			FormDivBasicFieldToField(&(movement_.IsMajor), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsMajor), formDiv)
 		case "IsMinor":
-			FormDivBasicFieldToField(&(movement_.IsMinor), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsMinor), formDiv)
 		case "AdditionnalName":
-			FormDivBasicFieldToField(&(movement_.AdditionnalName), formDiv)
+			FormDivBasicFieldToField(&(_instance.AdditionnalName), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if movementFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		movement_.Unstage(movementFormCallback.probe.stageOfInterest)
-	}
-
-	movementFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Movement](
-		movementFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if movementFormCallback.CreationMode || movementFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		movementFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(movementFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__MovementFormCallback(
-			nil,
-			movementFormCallback.probe,
-			newFormGroup,
-		)
-		movement := new(models.Movement)
-		FillUpForm(movement, newFormGroup, movementFormCallback.probe)
-		movementFormCallback.probe.formStage.Commit()
-	}
-
-	movementFormCallback.probe.ux_tree()
 }
+
 func __gong__New__MovementShapeFormCallback(
-	movementshape *models.MovementShape,
+	_instance *models.MovementShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (movementshapeFormCallback *MovementShapeFormCallback) {
-	movementshapeFormCallback = new(MovementShapeFormCallback)
-	movementshapeFormCallback.probe = probe
-	movementshapeFormCallback.movementshape = movementshape
-	movementshapeFormCallback.formGroup = formGroup
-
-	movementshapeFormCallback.CreationMode = (movementshape == nil)
-
-	return
+) (movementshapeFormCallback *FormCallback[*models.MovementShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveMovementShapeFields,
+	)
 }
 
-type MovementShapeFormCallback struct {
-	movementshape *models.MovementShape
+type MovementShapeFormCallback = FormCallback[*models.MovementShape]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (movementshapeFormCallback *MovementShapeFormCallback) OnSave() {
-	movementshapeFormCallback.probe.stageOfInterest.Lock()
-	defer movementshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("MovementShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	movementshapeFormCallback.probe.formStage.Checkout()
-
-	if movementshapeFormCallback.movementshape == nil {
-		movementshapeFormCallback.movementshape = new(models.MovementShape).Stage(movementshapeFormCallback.probe.stageOfInterest)
-	}
-	movementshape_ := movementshapeFormCallback.movementshape
-	_ = movementshape_
-
-	for _, formDiv := range movementshapeFormCallback.formGroup.FormDivs {
+func saveMovementShapeFields(
+	_instance *models.MovementShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(movementshape_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Movement":
-			FormDivSelectFieldToField(&(movementshape_.Movement), movementshapeFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.Movement), probe.stageOfInterest, formDiv)
 		case "X":
-			FormDivBasicFieldToField(&(movementshape_.X), formDiv)
+			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
-			FormDivBasicFieldToField(&(movementshape_.Y), formDiv)
+			FormDivBasicFieldToField(&(_instance.Y), formDiv)
 		case "Width":
-			FormDivBasicFieldToField(&(movementshape_.Width), formDiv)
+			FormDivBasicFieldToField(&(_instance.Width), formDiv)
 		case "Height":
-			FormDivBasicFieldToField(&(movementshape_.Height), formDiv)
+			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
-			FormDivBasicFieldToField(&(movementshape_.IsHidden), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
 		case "Diagram:MovementShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](movementshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Diagram instances and update their MovementShapes slice
-			for _diagram := range *movementshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Diagram]() {
-				id := movementshapeFormCallback.probe.stageOfInterest.GetOrder(_diagram)
-				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure movementshape_ is in _diagram.MovementShapes
-					found := false
-					for _, _b := range _diagram.MovementShapes {
-						if _b == movementshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_diagram.MovementShapes = append(_diagram.MovementShapes, movementshape_)
-						movementshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "MovementShapes", &_diagram.MovementShapes)
-					}
-				} else {
-					// ensure movementshape_ is NOT in _diagram.MovementShapes
-					idx := slices.Index(_diagram.MovementShapes, movementshape_)
-					if idx != -1 {
-						_diagram.MovementShapes = slices.Delete(_diagram.MovementShapes, idx, idx+1)
-						movementshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "MovementShapes", &_diagram.MovementShapes)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "MovementShapes", func(owner *models.Diagram) *[]*models.MovementShape { return &owner.MovementShapes })
 		}
 	}
-
-	// manage the suppress operation
-	if movementshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		movementshape_.Unstage(movementshapeFormCallback.probe.stageOfInterest)
-	}
-
-	movementshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.MovementShape](
-		movementshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if movementshapeFormCallback.CreationMode || movementshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		movementshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(movementshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__MovementShapeFormCallback(
-			nil,
-			movementshapeFormCallback.probe,
-			newFormGroup,
-		)
-		movementshape := new(models.MovementShape)
-		FillUpForm(movementshape, newFormGroup, movementshapeFormCallback.probe)
-		movementshapeFormCallback.probe.formStage.Commit()
-	}
-
-	movementshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__PlaceFormCallback(
-	place *models.Place,
+	_instance *models.Place,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (placeFormCallback *PlaceFormCallback) {
-	placeFormCallback = new(PlaceFormCallback)
-	placeFormCallback.probe = probe
-	placeFormCallback.place = place
-	placeFormCallback.formGroup = formGroup
-
-	placeFormCallback.CreationMode = (place == nil)
-
-	return
+) (placeFormCallback *FormCallback[*models.Place]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		savePlaceFields,
+	)
 }
 
-type PlaceFormCallback struct {
-	place *models.Place
+type PlaceFormCallback = FormCallback[*models.Place]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (placeFormCallback *PlaceFormCallback) OnSave() {
-	placeFormCallback.probe.stageOfInterest.Lock()
-	defer placeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("PlaceFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	placeFormCallback.probe.formStage.Checkout()
-
-	if placeFormCallback.place == nil {
-		placeFormCallback.place = new(models.Place).Stage(placeFormCallback.probe.stageOfInterest)
-	}
-	place_ := placeFormCallback.place
-	_ = place_
-
-	for _, formDiv := range placeFormCallback.formGroup.FormDivs {
+func savePlaceFields(
+	_instance *models.Place,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(place_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Movement:Places":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Movement instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Movement instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Movement](placeFormCallback.probe.stageOfInterest)
-			targetMovementIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetMovementIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Movement instances and update their Places slice
-			for _movement := range *placeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Movement]() {
-				id := placeFormCallback.probe.stageOfInterest.GetOrder(_movement)
-				
-				// if Movement is selected
-				if targetMovementIDs[id] {
-					// ensure place_ is in _movement.Places
-					found := false
-					for _, _b := range _movement.Places {
-						if _b == place_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_movement.Places = append(_movement.Places, place_)
-						placeFormCallback.probe.UpdateSliceOfPointersCallback(_movement, "Places", &_movement.Places)
-					}
-				} else {
-					// ensure place_ is NOT in _movement.Places
-					idx := slices.Index(_movement.Places, place_)
-					if idx != -1 {
-						_movement.Places = slices.Delete(_movement.Places, idx, idx+1)
-						placeFormCallback.probe.UpdateSliceOfPointersCallback(_movement, "Places", &_movement.Places)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Places", func(owner *models.Movement) *[]*models.Place { return &owner.Places })
 		}
 	}
-
-	// manage the suppress operation
-	if placeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		place_.Unstage(placeFormCallback.probe.stageOfInterest)
-	}
-
-	placeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Place](
-		placeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if placeFormCallback.CreationMode || placeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		placeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(placeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__PlaceFormCallback(
-			nil,
-			placeFormCallback.probe,
-			newFormGroup,
-		)
-		place := new(models.Place)
-		FillUpForm(place, newFormGroup, placeFormCallback.probe)
-		placeFormCallback.probe.formStage.Commit()
-	}
-
-	placeFormCallback.probe.ux_tree()
 }
+

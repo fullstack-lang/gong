@@ -32,17 +32,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Gantt, *models.Arrow](
-				"Gantt",
-				"Arrows",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Gantt) []*models.Arrow {
-					return owner.Arrows
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Gantt",
+			"Arrows",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Gantt) []*models.Arrow {
+				return owner.Arrows
+			})
 
 	case *models.Bar:
 		// insertion point
@@ -69,17 +67,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Lane, *models.Bar](
-				"Lane",
-				"Bars",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Lane) []*models.Bar {
-					return owner.Bars
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Lane",
+			"Bars",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Lane) []*models.Bar {
+				return owner.Bars
+			})
 
 	case *models.Gantt:
 		// insertion point
@@ -153,17 +149,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Gantt, *models.Group](
-				"Gantt",
-				"Groups",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Gantt) []*models.Group {
-					return owner.Groups
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Gantt",
+			"Groups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Gantt) []*models.Group {
+				return owner.Groups
+			})
 
 	case *models.Lane:
 		// insertion point
@@ -177,39 +171,33 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Gantt, *models.Lane](
-				"Gantt",
-				"Lanes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Gantt) []*models.Lane {
-					return owner.Lanes
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Group, *models.Lane](
-				"Group",
-				"GroupLanes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Group) []*models.Lane {
-					return owner.GroupLanes
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Milestone, *models.Lane](
-				"Milestone",
-				"LanesToDisplay",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Milestone) []*models.Lane {
-					return owner.LanesToDisplay
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Gantt",
+			"Lanes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Gantt) []*models.Lane {
+				return owner.Lanes
+			})
+		AssociationReverseSliceToForm(
+			"Group",
+			"GroupLanes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Group) []*models.Lane {
+				return owner.GroupLanes
+			})
+		AssociationReverseSliceToForm(
+			"Milestone",
+			"LanesToDisplay",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Milestone) []*models.Lane {
+				return owner.LanesToDisplay
+			})
 
 	case *models.LaneUse:
 		// insertion point
@@ -236,17 +224,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Gantt, *models.Milestone](
-				"Gantt",
-				"Milestones",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Gantt) []*models.Milestone {
-					return owner.Milestones
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Gantt",
+			"Milestones",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Gantt) []*models.Milestone {
+				return owner.Milestones
+			})
 
 	default:
 		_ = instanceWithInferedType

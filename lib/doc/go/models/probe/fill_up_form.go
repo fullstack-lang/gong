@@ -32,17 +32,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.GongStructShape, *models.AttributeShape](
-				"GongStructShape",
-				"AttributeShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.GongStructShape) []*models.AttributeShape {
-					return owner.AttributeShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"GongStructShape",
+			"AttributeShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.GongStructShape) []*models.AttributeShape {
+				return owner.AttributeShapes
+			})
 
 	case *models.Classdiagram:
 		// insertion point
@@ -82,17 +80,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramPackage, *models.Classdiagram](
-				"DiagramPackage",
-				"Classdiagrams",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramPackage) []*models.Classdiagram {
-					return owner.Classdiagrams
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramPackage",
+			"Classdiagrams",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramPackage) []*models.Classdiagram {
+				return owner.Classdiagrams
+			})
 
 	case *models.DiagramPackage:
 		// insertion point
@@ -134,17 +130,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Classdiagram, *models.GongEnumShape](
-				"Classdiagram",
-				"GongEnumShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Classdiagram) []*models.GongEnumShape {
-					return owner.GongEnumShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Classdiagram",
+			"GongEnumShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Classdiagram) []*models.GongEnumShape {
+				return owner.GongEnumShapes
+			})
 
 	case *models.GongEnumValueShape:
 		// insertion point
@@ -155,17 +149,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.GongEnumShape, *models.GongEnumValueShape](
-				"GongEnumShape",
-				"GongEnumValueShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.GongEnumShape) []*models.GongEnumValueShape {
-					return owner.GongEnumValueShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"GongEnumShape",
+			"GongEnumValueShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.GongEnumShape) []*models.GongEnumValueShape {
+				return owner.GongEnumValueShapes
+			})
 
 	case *models.GongNoteLinkShape:
 		// insertion point
@@ -179,17 +171,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.GongNoteShape, *models.GongNoteLinkShape](
-				"GongNoteShape",
-				"GongNoteLinkShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.GongNoteShape) []*models.GongNoteLinkShape {
-					return owner.GongNoteLinkShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"GongNoteShape",
+			"GongNoteLinkShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.GongNoteShape) []*models.GongNoteLinkShape {
+				return owner.GongNoteLinkShapes
+			})
 
 	case *models.GongNoteShape:
 		// insertion point
@@ -221,17 +211,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Classdiagram, *models.GongNoteShape](
-				"Classdiagram",
-				"GongNoteShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Classdiagram) []*models.GongNoteShape {
-					return owner.GongNoteShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Classdiagram",
+			"GongNoteShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Classdiagram) []*models.GongNoteShape {
+				return owner.GongNoteShapes
+			})
 
 	case *models.GongStructShape:
 		// insertion point
@@ -256,17 +244,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Classdiagram, *models.GongStructShape](
-				"Classdiagram",
-				"GongStructShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Classdiagram) []*models.GongStructShape {
-					return owner.GongStructShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Classdiagram",
+			"GongStructShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Classdiagram) []*models.GongStructShape {
+				return owner.GongStructShapes
+			})
 
 	case *models.LinkShape:
 		// insertion point
@@ -303,17 +289,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.GongStructShape, *models.LinkShape](
-				"GongStructShape",
-				"LinkShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.GongStructShape) []*models.LinkShape {
-					return owner.LinkShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"GongStructShape",
+			"LinkShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.GongStructShape) []*models.LinkShape {
+				return owner.LinkShapes
+			})
 
 	default:
 		_ = instanceWithInferedType

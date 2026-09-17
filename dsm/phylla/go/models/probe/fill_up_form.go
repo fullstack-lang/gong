@@ -44,17 +44,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.ArcNormalVectorShapeGrid, *models.ArcNormalVectorShape](
-				"ArcNormalVectorShapeGrid",
-				"ArcNormalVectorShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ArcNormalVectorShapeGrid) []*models.ArcNormalVectorShape {
-					return owner.ArcNormalVectorShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"ArcNormalVectorShapeGrid",
+			"ArcNormalVectorShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ArcNormalVectorShapeGrid) []*models.ArcNormalVectorShape {
+				return owner.ArcNormalVectorShapes
+			})
 
 	case *models.ArcNormalVectorShapeGrid:
 		// insertion point
@@ -100,17 +98,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.BaseVectorShapeGrid, *models.BaseVectorShape](
-				"BaseVectorShapeGrid",
-				"BaseVectorShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.BaseVectorShapeGrid) []*models.BaseVectorShape {
-					return owner.BaseVectorShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"BaseVectorShapeGrid",
+			"BaseVectorShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.BaseVectorShapeGrid) []*models.BaseVectorShape {
+				return owner.BaseVectorShapes
+			})
 
 	case *models.BaseVectorShapeGrid:
 		// insertion point
@@ -190,17 +186,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Clock2DDiagram](
-				"PlantAbstract",
-				"Clock2DDiagrams",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PlantAbstract) []*models.Clock2DDiagram {
-					return owner.Clock2DDiagrams
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PlantAbstract",
+			"Clock2DDiagrams",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PlantAbstract) []*models.Clock2DDiagram {
+				return owner.Clock2DDiagrams
+			})
 
 	case *models.Clock3DDiagram:
 		// insertion point
@@ -230,17 +224,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Clock3DDiagram](
-				"PlantAbstract",
-				"Clock3DDiagrams",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PlantAbstract) []*models.Clock3DDiagram {
-					return owner.Clock3DDiagrams
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PlantAbstract",
+			"Clock3DDiagrams",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PlantAbstract) []*models.Clock3DDiagram {
+				return owner.Clock3DDiagrams
+			})
 
 	case *models.ClockAbstract:
 		// insertion point
@@ -313,17 +305,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.EndArcShapeGrid, *models.EndArcShape](
-				"EndArcShapeGrid",
-				"EndArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.EndArcShapeGrid) []*models.EndArcShape {
-					return owner.EndArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"EndArcShapeGrid",
+			"EndArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.EndArcShapeGrid) []*models.EndArcShape {
+				return owner.EndArcShapes
+			})
 
 	case *models.EndArcShapeGrid:
 		// insertion point
@@ -363,17 +353,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.EndHalfwayArcShapeGrid, *models.EndHalfwayArcShape](
-				"EndHalfwayArcShapeGrid",
-				"EndHalfwayArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.EndHalfwayArcShapeGrid) []*models.EndHalfwayArcShape {
-					return owner.EndHalfwayArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"EndHalfwayArcShapeGrid",
+			"EndHalfwayArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.EndHalfwayArcShapeGrid) []*models.EndHalfwayArcShape {
+				return owner.EndHalfwayArcShapes
+			})
 
 	case *models.EndHalfwayArcShapeGrid:
 		// insertion point
@@ -535,17 +523,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.GrowthCurve2DRibbon, *models.GrowthCurve2DRibbonEndShape](
-				"GrowthCurve2DRibbon",
-				"GrowthCurve2DRibbonEndShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.GrowthCurve2DRibbon) []*models.GrowthCurve2DRibbonEndShape {
-					return owner.GrowthCurve2DRibbonEndShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"GrowthCurve2DRibbon",
+			"GrowthCurve2DRibbonEndShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.GrowthCurve2DRibbon) []*models.GrowthCurve2DRibbonEndShape {
+				return owner.GrowthCurve2DRibbonEndShapes
+			})
 
 	case *models.GrowthCurve2DRibbonStartShape:
 		// insertion point
@@ -592,17 +578,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.GrowthCurve2DRibbon, *models.GrowthCurve2DRibbonStartShape](
-				"GrowthCurve2DRibbon",
-				"GrowthCurve2DRibbonStartShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.GrowthCurve2DRibbon) []*models.GrowthCurve2DRibbonStartShape {
-					return owner.GrowthCurve2DRibbonStartShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"GrowthCurve2DRibbon",
+			"GrowthCurve2DRibbonStartShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.GrowthCurve2DRibbon) []*models.GrowthCurve2DRibbonStartShape {
+				return owner.GrowthCurve2DRibbonStartShapes
+			})
 
 	case *models.GrowthCurveRhombusGridShape:
 		// insertion point
@@ -628,17 +612,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.GrowthCurveRhombusGridShape, *models.GrowthCurveRhombusShape](
-				"GrowthCurveRhombusGridShape",
-				"GrowthCurveRhombusShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.GrowthCurveRhombusGridShape) []*models.GrowthCurveRhombusShape {
-					return owner.GrowthCurveRhombusShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"GrowthCurveRhombusGridShape",
+			"GrowthCurveRhombusShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.GrowthCurveRhombusGridShape) []*models.GrowthCurveRhombusShape {
+				return owner.GrowthCurveRhombusShapes
+			})
 
 	case *models.GrowthVectorShape:
 		// insertion point
@@ -678,17 +660,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.InitialRhombusGridShape, *models.InitialRhombusShape](
-				"InitialRhombusGridShape",
-				"InitialRhombusShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.InitialRhombusGridShape) []*models.InitialRhombusShape {
-					return owner.InitialRhombusShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"InitialRhombusGridShape",
+			"InitialRhombusShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.InitialRhombusGridShape) []*models.InitialRhombusShape {
+				return owner.InitialRhombusShapes
+			})
 
 	case *models.Key3DShape:
 		// insertion point
@@ -759,17 +739,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.Library](
-				"Library",
-				"SubLibraries",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.Library {
-					return owner.SubLibraries
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Library",
+			"SubLibraries",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.Library {
+				return owner.SubLibraries
+			})
 
 	case *models.MidArcVectorShape:
 		// insertion point
@@ -788,17 +766,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.MidArcVectorShapeGrid, *models.MidArcVectorShape](
-				"MidArcVectorShapeGrid",
-				"MidArcVectorShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.MidArcVectorShapeGrid) []*models.MidArcVectorShape {
-					return owner.MidArcVectorShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"MidArcVectorShapeGrid",
+			"MidArcVectorShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.MidArcVectorShapeGrid) []*models.MidArcVectorShape {
+				return owner.MidArcVectorShapes
+			})
 
 	case *models.MidArcVectorShapeGrid:
 		// insertion point
@@ -960,17 +936,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PartiallyGrowthCurve2DRibbon, *models.PartiallyGrowthCurve2DRibbonEndShape](
-				"PartiallyGrowthCurve2DRibbon",
-				"PartiallyGrowthCurve2DRibbonEndShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PartiallyGrowthCurve2DRibbon) []*models.PartiallyGrowthCurve2DRibbonEndShape {
-					return owner.PartiallyGrowthCurve2DRibbonEndShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PartiallyGrowthCurve2DRibbon",
+			"PartiallyGrowthCurve2DRibbonEndShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PartiallyGrowthCurve2DRibbon) []*models.PartiallyGrowthCurve2DRibbonEndShape {
+				return owner.PartiallyGrowthCurve2DRibbonEndShapes
+			})
 
 	case *models.PartiallyGrowthCurve2DRibbonStartShape:
 		// insertion point
@@ -1017,17 +991,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PartiallyGrowthCurve2DRibbon, *models.PartiallyGrowthCurve2DRibbonStartShape](
-				"PartiallyGrowthCurve2DRibbon",
-				"PartiallyGrowthCurve2DRibbonStartShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PartiallyGrowthCurve2DRibbon) []*models.PartiallyGrowthCurve2DRibbonStartShape {
-					return owner.PartiallyGrowthCurve2DRibbonStartShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PartiallyGrowthCurve2DRibbon",
+			"PartiallyGrowthCurve2DRibbonStartShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PartiallyGrowthCurve2DRibbon) []*models.PartiallyGrowthCurve2DRibbonStartShape {
+				return owner.PartiallyGrowthCurve2DRibbonStartShapes
+			})
 
 	case *models.PartiallyGrowthCurve2DTrajectory:
 		// insertion point
@@ -1057,17 +1029,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PartiallyGrowthCurve2DTrajectoryP1P2, *models.PartiallyGrowthCurve2DTrajectoryP1CurveShape](
-				"PartiallyGrowthCurve2DTrajectoryP1P2",
-				"P1CurveShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape {
-					return owner.P1CurveShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PartiallyGrowthCurve2DTrajectoryP1P2",
+			"P1CurveShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape {
+				return owner.P1CurveShapes
+			})
 
 	case *models.PartiallyGrowthCurve2DTrajectoryP1P2:
 		// insertion point
@@ -1101,17 +1071,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PartiallyGrowthCurve2DTrajectoryP1P2, *models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape](
-				"PartiallyGrowthCurve2DTrajectoryP1P2",
-				"P1P2PairLineShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape {
-					return owner.P1P2PairLineShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PartiallyGrowthCurve2DTrajectoryP1P2",
+			"P1P2PairLineShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape {
+				return owner.P1P2PairLineShapes
+			})
 
 	case *models.PartiallyGrowthCurve2DTrajectoryP1PointShape:
 		// insertion point
@@ -1126,17 +1094,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PartiallyGrowthCurve2DTrajectoryP1P2, *models.PartiallyGrowthCurve2DTrajectoryP1PointShape](
-				"PartiallyGrowthCurve2DTrajectoryP1P2",
-				"P1PointShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP1PointShape {
-					return owner.P1PointShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PartiallyGrowthCurve2DTrajectoryP1P2",
+			"P1PointShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP1PointShape {
+				return owner.P1PointShapes
+			})
 
 	case *models.PartiallyGrowthCurve2DTrajectoryP2CurveShape:
 		// insertion point
@@ -1155,17 +1121,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PartiallyGrowthCurve2DTrajectoryP1P2, *models.PartiallyGrowthCurve2DTrajectoryP2CurveShape](
-				"PartiallyGrowthCurve2DTrajectoryP1P2",
-				"P2CurveShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape {
-					return owner.P2CurveShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PartiallyGrowthCurve2DTrajectoryP1P2",
+			"P2CurveShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape {
+				return owner.P2CurveShapes
+			})
 
 	case *models.PartiallyGrowthCurve2DTrajectoryP2PointShape:
 		// insertion point
@@ -1180,17 +1144,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PartiallyGrowthCurve2DTrajectoryP1P2, *models.PartiallyGrowthCurve2DTrajectoryP2PointShape](
-				"PartiallyGrowthCurve2DTrajectoryP1P2",
-				"P2PointShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP2PointShape {
-					return owner.P2PointShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PartiallyGrowthCurve2DTrajectoryP1P2",
+			"P2PointShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP2PointShape {
+				return owner.P2PointShapes
+			})
 
 	case *models.PartiallyGrowthCurve2DTrajectoryShape:
 		// insertion point
@@ -1209,17 +1171,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PartiallyGrowthCurve2DTrajectory, *models.PartiallyGrowthCurve2DTrajectoryShape](
-				"PartiallyGrowthCurve2DTrajectory",
-				"PartiallyGrowthCurve2DTrajectoryShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PartiallyGrowthCurve2DTrajectory) []*models.PartiallyGrowthCurve2DTrajectoryShape {
-					return owner.PartiallyGrowthCurve2DTrajectoryShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PartiallyGrowthCurve2DTrajectory",
+			"PartiallyGrowthCurve2DTrajectoryShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PartiallyGrowthCurve2DTrajectory) []*models.PartiallyGrowthCurve2DTrajectoryShape {
+				return owner.PartiallyGrowthCurve2DTrajectoryShapes
+			})
 
 	case *models.PartiallyRotatedSeatBottomCurveShape:
 		// insertion point
@@ -1268,17 +1228,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PerpendicularVectorGrid, *models.PerpendicularVector](
-				"PerpendicularVectorGrid",
-				"PerpendicularVectors",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PerpendicularVectorGrid) []*models.PerpendicularVector {
-					return owner.PerpendicularVectors
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PerpendicularVectorGrid",
+			"PerpendicularVectors",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PerpendicularVectorGrid) []*models.PerpendicularVector {
+				return owner.PerpendicularVectors
+			})
 
 	case *models.PerpendicularVectorGrid:
 		// insertion point
@@ -1319,17 +1277,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PerpendicularVectorGridHalfway, *models.PerpendicularVectorHalfway](
-				"PerpendicularVectorGridHalfway",
-				"PerpendicularVectorHalfways",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PerpendicularVectorGridHalfway) []*models.PerpendicularVectorHalfway {
-					return owner.PerpendicularVectorHalfways
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PerpendicularVectorGridHalfway",
+			"PerpendicularVectorHalfways",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PerpendicularVectorGridHalfway) []*models.PerpendicularVectorHalfway {
+				return owner.PerpendicularVectorHalfways
+			})
 
 	case *models.Plant2DDiagram:
 		// insertion point
@@ -1396,17 +1352,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Plant2DDiagram](
-				"PlantAbstract",
-				"Plant2DDiagrams",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PlantAbstract) []*models.Plant2DDiagram {
-					return owner.Plant2DDiagrams
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PlantAbstract",
+			"Plant2DDiagrams",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PlantAbstract) []*models.Plant2DDiagram {
+				return owner.Plant2DDiagrams
+			})
 
 	case *models.Plant3DDiagram:
 		// insertion point
@@ -1445,17 +1399,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Plant3DDiagram](
-				"PlantAbstract",
-				"Plant3DDiagrams",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PlantAbstract) []*models.Plant3DDiagram {
-					return owner.Plant3DDiagrams
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PlantAbstract",
+			"Plant3DDiagrams",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PlantAbstract) []*models.Plant3DDiagram {
+				return owner.Plant3DDiagrams
+			})
 
 	case *models.PlantAbstract:
 		// insertion point
@@ -1523,17 +1475,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.PlantAbstract](
-				"Library",
-				"Plants",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.PlantAbstract {
-					return owner.Plants
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Library",
+			"Plants",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.PlantAbstract {
+				return owner.Plants
+			})
 
 	case *models.PlantCircumferenceShape:
 		// insertion point
@@ -1655,17 +1605,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.RotatedRhombusGridShape, *models.RotatedRhombusShape](
-				"RotatedRhombusGridShape",
-				"RotatedRhombusShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.RotatedRhombusGridShape) []*models.RotatedRhombusShape {
-					return owner.RotatedRhombusShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"RotatedRhombusGridShape",
+			"RotatedRhombusShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.RotatedRhombusGridShape) []*models.RotatedRhombusShape {
+				return owner.RotatedRhombusShapes
+			})
 
 	case *models.RotatedSampledPoints3DShape:
 		// insertion point
@@ -1764,17 +1712,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.ShiftedBottomTopStartArcShapeGrid, *models.ShiftedBottomTopStartArcShape](
-				"ShiftedBottomTopStartArcShapeGrid",
-				"ShiftedBottomTopStartArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ShiftedBottomTopStartArcShapeGrid) []*models.ShiftedBottomTopStartArcShape {
-					return owner.ShiftedBottomTopStartArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"ShiftedBottomTopStartArcShapeGrid",
+			"ShiftedBottomTopStartArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ShiftedBottomTopStartArcShapeGrid) []*models.ShiftedBottomTopStartArcShape {
+				return owner.ShiftedBottomTopStartArcShapes
+			})
 
 	case *models.ShiftedBottomTopStartArcShapeGrid:
 		// insertion point
@@ -1844,17 +1790,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.ShiftedLeftGrowthCurve2DRibbon, *models.ShiftedLeftGrowthCurve2DRibbonEndShape](
-				"ShiftedLeftGrowthCurve2DRibbon",
-				"ShiftedLeftGrowthCurve2DRibbonEndShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ShiftedLeftGrowthCurve2DRibbon) []*models.ShiftedLeftGrowthCurve2DRibbonEndShape {
-					return owner.ShiftedLeftGrowthCurve2DRibbonEndShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"ShiftedLeftGrowthCurve2DRibbon",
+			"ShiftedLeftGrowthCurve2DRibbonEndShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ShiftedLeftGrowthCurve2DRibbon) []*models.ShiftedLeftGrowthCurve2DRibbonEndShape {
+				return owner.ShiftedLeftGrowthCurve2DRibbonEndShapes
+			})
 
 	case *models.ShiftedLeftGrowthCurve2DRibbonStartShape:
 		// insertion point
@@ -1901,17 +1845,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.ShiftedLeftGrowthCurve2DRibbon, *models.ShiftedLeftGrowthCurve2DRibbonStartShape](
-				"ShiftedLeftGrowthCurve2DRibbon",
-				"ShiftedLeftGrowthCurve2DRibbonStartShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ShiftedLeftGrowthCurve2DRibbon) []*models.ShiftedLeftGrowthCurve2DRibbonStartShape {
-					return owner.ShiftedLeftGrowthCurve2DRibbonStartShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"ShiftedLeftGrowthCurve2DRibbon",
+			"ShiftedLeftGrowthCurve2DRibbonStartShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ShiftedLeftGrowthCurve2DRibbon) []*models.ShiftedLeftGrowthCurve2DRibbonStartShape {
+				return owner.ShiftedLeftGrowthCurve2DRibbonStartShapes
+			})
 
 	case *models.ShiftedLeftPartiallyGrowthCurve2DRibbon:
 		// insertion point
@@ -1970,17 +1912,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.ShiftedLeftPartiallyGrowthCurve2DRibbon, *models.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape](
-				"ShiftedLeftPartiallyGrowthCurve2DRibbon",
-				"ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ShiftedLeftPartiallyGrowthCurve2DRibbon) []*models.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape {
-					return owner.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"ShiftedLeftPartiallyGrowthCurve2DRibbon",
+			"ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ShiftedLeftPartiallyGrowthCurve2DRibbon) []*models.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape {
+				return owner.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes
+			})
 
 	case *models.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
 		// insertion point
@@ -2027,17 +1967,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.ShiftedLeftPartiallyGrowthCurve2DRibbon, *models.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape](
-				"ShiftedLeftPartiallyGrowthCurve2DRibbon",
-				"ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ShiftedLeftPartiallyGrowthCurve2DRibbon) []*models.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape {
-					return owner.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"ShiftedLeftPartiallyGrowthCurve2DRibbon",
+			"ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ShiftedLeftPartiallyGrowthCurve2DRibbon) []*models.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape {
+				return owner.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes
+			})
 
 	case *models.ShiftedLeftStackGrowthCurveEndArcShape:
 		// insertion point
@@ -2066,17 +2004,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.ShiftedLeftStackOfGrowthCurve, *models.ShiftedLeftStackGrowthCurveEndArcShape](
-				"ShiftedLeftStackOfGrowthCurve",
-				"ShiftedLeftStackGrowthCurveEndArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ShiftedLeftStackOfGrowthCurve) []*models.ShiftedLeftStackGrowthCurveEndArcShape {
-					return owner.ShiftedLeftStackGrowthCurveEndArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"ShiftedLeftStackOfGrowthCurve",
+			"ShiftedLeftStackGrowthCurveEndArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ShiftedLeftStackOfGrowthCurve) []*models.ShiftedLeftStackGrowthCurveEndArcShape {
+				return owner.ShiftedLeftStackGrowthCurveEndArcShapes
+			})
 
 	case *models.ShiftedLeftStackGrowthCurveStartArcShape:
 		// insertion point
@@ -2105,17 +2041,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.ShiftedLeftStackOfGrowthCurve, *models.ShiftedLeftStackGrowthCurveStartArcShape](
-				"ShiftedLeftStackOfGrowthCurve",
-				"ShiftedLeftStackGrowthCurveStartArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ShiftedLeftStackOfGrowthCurve) []*models.ShiftedLeftStackGrowthCurveStartArcShape {
-					return owner.ShiftedLeftStackGrowthCurveStartArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"ShiftedLeftStackOfGrowthCurve",
+			"ShiftedLeftStackGrowthCurveStartArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ShiftedLeftStackOfGrowthCurve) []*models.ShiftedLeftStackGrowthCurveStartArcShape {
+				return owner.ShiftedLeftStackGrowthCurveStartArcShapes
+			})
 
 	case *models.ShiftedLeftStackNormalVector:
 		// insertion point
@@ -2134,17 +2068,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.ShiftedLeftStackOfNormalVector, *models.ShiftedLeftStackNormalVector](
-				"ShiftedLeftStackOfNormalVector",
-				"ShiftedLeftStackNormalVectors",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ShiftedLeftStackOfNormalVector) []*models.ShiftedLeftStackNormalVector {
-					return owner.ShiftedLeftStackNormalVectors
-				})
-		}
+		AssociationReverseSliceToForm(
+			"ShiftedLeftStackOfNormalVector",
+			"ShiftedLeftStackNormalVectors",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ShiftedLeftStackOfNormalVector) []*models.ShiftedLeftStackNormalVector {
+				return owner.ShiftedLeftStackNormalVectors
+			})
 
 	case *models.ShiftedLeftStackOfGrowthCurve:
 		// insertion point
@@ -2226,17 +2158,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.ShiftedRightGrowthCurve2DRibbon, *models.ShiftedRightGrowthCurve2DRibbonEndShape](
-				"ShiftedRightGrowthCurve2DRibbon",
-				"ShiftedRightGrowthCurve2DRibbonEndShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ShiftedRightGrowthCurve2DRibbon) []*models.ShiftedRightGrowthCurve2DRibbonEndShape {
-					return owner.ShiftedRightGrowthCurve2DRibbonEndShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"ShiftedRightGrowthCurve2DRibbon",
+			"ShiftedRightGrowthCurve2DRibbonEndShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ShiftedRightGrowthCurve2DRibbon) []*models.ShiftedRightGrowthCurve2DRibbonEndShape {
+				return owner.ShiftedRightGrowthCurve2DRibbonEndShapes
+			})
 
 	case *models.ShiftedRightGrowthCurve2DRibbonStartShape:
 		// insertion point
@@ -2283,17 +2213,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.ShiftedRightGrowthCurve2DRibbon, *models.ShiftedRightGrowthCurve2DRibbonStartShape](
-				"ShiftedRightGrowthCurve2DRibbon",
-				"ShiftedRightGrowthCurve2DRibbonStartShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ShiftedRightGrowthCurve2DRibbon) []*models.ShiftedRightGrowthCurve2DRibbonStartShape {
-					return owner.ShiftedRightGrowthCurve2DRibbonStartShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"ShiftedRightGrowthCurve2DRibbon",
+			"ShiftedRightGrowthCurve2DRibbonStartShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ShiftedRightGrowthCurve2DRibbon) []*models.ShiftedRightGrowthCurve2DRibbonStartShape {
+				return owner.ShiftedRightGrowthCurve2DRibbonStartShapes
+			})
 
 	case *models.StackGrowthCurve2DEndHalfwayArcShape:
 		// insertion point
@@ -2322,17 +2250,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.StackOfGrowthCurve2D, *models.StackGrowthCurve2DEndHalfwayArcShape](
-				"StackOfGrowthCurve2D",
-				"StackGrowthCurve2DEndHalfwayArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.StackOfGrowthCurve2D) []*models.StackGrowthCurve2DEndHalfwayArcShape {
-					return owner.StackGrowthCurve2DEndHalfwayArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"StackOfGrowthCurve2D",
+			"StackGrowthCurve2DEndHalfwayArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.StackOfGrowthCurve2D) []*models.StackGrowthCurve2DEndHalfwayArcShape {
+				return owner.StackGrowthCurve2DEndHalfwayArcShapes
+			})
 
 	case *models.StackGrowthCurve2DRibbonEndShape:
 		// insertion point
@@ -2379,17 +2305,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.StackOfGrowthCurve2DRibbon, *models.StackGrowthCurve2DRibbonEndShape](
-				"StackOfGrowthCurve2DRibbon",
-				"StackGrowthCurve2DRibbonEndShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.StackOfGrowthCurve2DRibbon) []*models.StackGrowthCurve2DRibbonEndShape {
-					return owner.StackGrowthCurve2DRibbonEndShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"StackOfGrowthCurve2DRibbon",
+			"StackGrowthCurve2DRibbonEndShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.StackOfGrowthCurve2DRibbon) []*models.StackGrowthCurve2DRibbonEndShape {
+				return owner.StackGrowthCurve2DRibbonEndShapes
+			})
 
 	case *models.StackGrowthCurve2DRibbonStartShape:
 		// insertion point
@@ -2436,17 +2360,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.StackOfGrowthCurve2DRibbon, *models.StackGrowthCurve2DRibbonStartShape](
-				"StackOfGrowthCurve2DRibbon",
-				"StackGrowthCurve2DRibbonStartShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.StackOfGrowthCurve2DRibbon) []*models.StackGrowthCurve2DRibbonStartShape {
-					return owner.StackGrowthCurve2DRibbonStartShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"StackOfGrowthCurve2DRibbon",
+			"StackGrowthCurve2DRibbonStartShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.StackOfGrowthCurve2DRibbon) []*models.StackGrowthCurve2DRibbonStartShape {
+				return owner.StackGrowthCurve2DRibbonStartShapes
+			})
 
 	case *models.StackGrowthCurve2DStartHalfwayArcShape:
 		// insertion point
@@ -2475,17 +2397,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.StackOfGrowthCurve2D, *models.StackGrowthCurve2DStartHalfwayArcShape](
-				"StackOfGrowthCurve2D",
-				"StackGrowthCurve2DStartHalfwayArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.StackOfGrowthCurve2D) []*models.StackGrowthCurve2DStartHalfwayArcShape {
-					return owner.StackGrowthCurve2DStartHalfwayArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"StackOfGrowthCurve2D",
+			"StackGrowthCurve2DStartHalfwayArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.StackOfGrowthCurve2D) []*models.StackGrowthCurve2DStartHalfwayArcShape {
+				return owner.StackGrowthCurve2DStartHalfwayArcShapes
+			})
 
 	case *models.StackOfGrowthCurve2D:
 		// insertion point
@@ -2582,17 +2502,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.StackOfRotatedGrowthCurve2D, *models.StackRotatedGrowthCurve2DEndArcShape](
-				"StackOfRotatedGrowthCurve2D",
-				"StackRotatedGrowthCurve2DEndArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.StackOfRotatedGrowthCurve2D) []*models.StackRotatedGrowthCurve2DEndArcShape {
-					return owner.StackRotatedGrowthCurve2DEndArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"StackOfRotatedGrowthCurve2D",
+			"StackRotatedGrowthCurve2DEndArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.StackOfRotatedGrowthCurve2D) []*models.StackRotatedGrowthCurve2DEndArcShape {
+				return owner.StackRotatedGrowthCurve2DEndArcShapes
+			})
 
 	case *models.StackRotatedGrowthCurve2DRibbonEndShape:
 		// insertion point
@@ -2639,17 +2557,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.StackOfRotatedGrowthCurve2DRibbon, *models.StackRotatedGrowthCurve2DRibbonEndShape](
-				"StackOfRotatedGrowthCurve2DRibbon",
-				"StackRotatedGrowthCurve2DRibbonEndShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.StackOfRotatedGrowthCurve2DRibbon) []*models.StackRotatedGrowthCurve2DRibbonEndShape {
-					return owner.StackRotatedGrowthCurve2DRibbonEndShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"StackOfRotatedGrowthCurve2DRibbon",
+			"StackRotatedGrowthCurve2DRibbonEndShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.StackOfRotatedGrowthCurve2DRibbon) []*models.StackRotatedGrowthCurve2DRibbonEndShape {
+				return owner.StackRotatedGrowthCurve2DRibbonEndShapes
+			})
 
 	case *models.StackRotatedGrowthCurve2DRibbonStartShape:
 		// insertion point
@@ -2696,17 +2612,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.StackOfRotatedGrowthCurve2DRibbon, *models.StackRotatedGrowthCurve2DRibbonStartShape](
-				"StackOfRotatedGrowthCurve2DRibbon",
-				"StackRotatedGrowthCurve2DRibbonStartShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.StackOfRotatedGrowthCurve2DRibbon) []*models.StackRotatedGrowthCurve2DRibbonStartShape {
-					return owner.StackRotatedGrowthCurve2DRibbonStartShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"StackOfRotatedGrowthCurve2DRibbon",
+			"StackRotatedGrowthCurve2DRibbonStartShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.StackOfRotatedGrowthCurve2DRibbon) []*models.StackRotatedGrowthCurve2DRibbonStartShape {
+				return owner.StackRotatedGrowthCurve2DRibbonStartShapes
+			})
 
 	case *models.StackRotatedGrowthCurve2DStartArcShape:
 		// insertion point
@@ -2735,17 +2649,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.StackOfRotatedGrowthCurve2D, *models.StackRotatedGrowthCurve2DStartArcShape](
-				"StackOfRotatedGrowthCurve2D",
-				"StackRotatedGrowthCurve2DStartArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.StackOfRotatedGrowthCurve2D) []*models.StackRotatedGrowthCurve2DStartArcShape {
-					return owner.StackRotatedGrowthCurve2DStartArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"StackOfRotatedGrowthCurve2D",
+			"StackRotatedGrowthCurve2DStartArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.StackOfRotatedGrowthCurve2D) []*models.StackRotatedGrowthCurve2DStartArcShape {
+				return owner.StackRotatedGrowthCurve2DStartArcShapes
+			})
 
 	case *models.StartArcShape:
 		// insertion point
@@ -2774,17 +2686,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.StartArcShapeGrid, *models.StartArcShape](
-				"StartArcShapeGrid",
-				"StartArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.StartArcShapeGrid) []*models.StartArcShape {
-					return owner.StartArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"StartArcShapeGrid",
+			"StartArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.StartArcShapeGrid) []*models.StartArcShape {
+				return owner.StartArcShapes
+			})
 
 	case *models.StartArcShapeGrid:
 		// insertion point
@@ -2824,17 +2734,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.StartHalfwayArcShapeGrid, *models.StartHalfwayArcShape](
-				"StartHalfwayArcShapeGrid",
-				"StartHalfwayArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.StartHalfwayArcShapeGrid) []*models.StartHalfwayArcShape {
-					return owner.StartHalfwayArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"StartHalfwayArcShapeGrid",
+			"StartHalfwayArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.StartHalfwayArcShapeGrid) []*models.StartHalfwayArcShape {
+				return owner.StartHalfwayArcShapes
+			})
 
 	case *models.StartHalfwayArcShapeGrid:
 		// insertion point
@@ -2878,17 +2786,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Stool2DDiagram](
-				"PlantAbstract",
-				"Stool2DDiagrams",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PlantAbstract) []*models.Stool2DDiagram {
-					return owner.Stool2DDiagrams
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PlantAbstract",
+			"Stool2DDiagrams",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PlantAbstract) []*models.Stool2DDiagram {
+				return owner.Stool2DDiagrams
+			})
 
 	case *models.Stool3DDiagram:
 		// insertion point
@@ -2960,17 +2866,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Stool3DDiagram](
-				"PlantAbstract",
-				"Stool3DDiagrams",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PlantAbstract) []*models.Stool3DDiagram {
-					return owner.Stool3DDiagrams
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PlantAbstract",
+			"Stool3DDiagrams",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PlantAbstract) []*models.Stool3DDiagram {
+				return owner.Stool3DDiagrams
+			})
 
 	case *models.StoolAbstract:
 		// insertion point
@@ -3039,17 +2943,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.TopEndArcShapeGrid, *models.TopEndArcShape](
-				"TopEndArcShapeGrid",
-				"TopEndArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.TopEndArcShapeGrid) []*models.TopEndArcShape {
-					return owner.TopEndArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"TopEndArcShapeGrid",
+			"TopEndArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.TopEndArcShapeGrid) []*models.TopEndArcShape {
+				return owner.TopEndArcShapes
+			})
 
 	case *models.TopEndArcShapeGrid:
 		// insertion point
@@ -3089,17 +2991,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.TopEndHalfwayArcShapeGrid, *models.TopEndHalfwayArcShape](
-				"TopEndHalfwayArcShapeGrid",
-				"TopEndHalfwayArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.TopEndHalfwayArcShapeGrid) []*models.TopEndHalfwayArcShape {
-					return owner.TopEndHalfwayArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"TopEndHalfwayArcShapeGrid",
+			"TopEndHalfwayArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.TopEndHalfwayArcShapeGrid) []*models.TopEndHalfwayArcShape {
+				return owner.TopEndHalfwayArcShapes
+			})
 
 	case *models.TopEndHalfwayArcShapeGrid:
 		// insertion point
@@ -3141,17 +3041,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.TopMidArcVectorShapeGrid, *models.TopMidArcVectorShape](
-				"TopMidArcVectorShapeGrid",
-				"TopMidArcVectorShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.TopMidArcVectorShapeGrid) []*models.TopMidArcVectorShape {
-					return owner.TopMidArcVectorShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"TopMidArcVectorShapeGrid",
+			"TopMidArcVectorShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.TopMidArcVectorShapeGrid) []*models.TopMidArcVectorShape {
+				return owner.TopMidArcVectorShapes
+			})
 
 	case *models.TopMidArcVectorShapeGrid:
 		// insertion point
@@ -3191,17 +3089,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.TopStackOfGrowthCurve2D, *models.TopStackGrowthCurve2DEndHalfwayArcShape](
-				"TopStackOfGrowthCurve2D",
-				"TopStackGrowthCurve2DEndHalfwayArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.TopStackOfGrowthCurve2D) []*models.TopStackGrowthCurve2DEndHalfwayArcShape {
-					return owner.TopStackGrowthCurve2DEndHalfwayArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"TopStackOfGrowthCurve2D",
+			"TopStackGrowthCurve2DEndHalfwayArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.TopStackOfGrowthCurve2D) []*models.TopStackGrowthCurve2DEndHalfwayArcShape {
+				return owner.TopStackGrowthCurve2DEndHalfwayArcShapes
+			})
 
 	case *models.TopStackGrowthCurve2DStartHalfwayArcShape:
 		// insertion point
@@ -3230,17 +3126,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.TopStackOfGrowthCurve2D, *models.TopStackGrowthCurve2DStartHalfwayArcShape](
-				"TopStackOfGrowthCurve2D",
-				"TopStackGrowthCurve2DStartHalfwayArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.TopStackOfGrowthCurve2D) []*models.TopStackGrowthCurve2DStartHalfwayArcShape {
-					return owner.TopStackGrowthCurve2DStartHalfwayArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"TopStackOfGrowthCurve2D",
+			"TopStackGrowthCurve2DStartHalfwayArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.TopStackOfGrowthCurve2D) []*models.TopStackGrowthCurve2DStartHalfwayArcShape {
+				return owner.TopStackGrowthCurve2DStartHalfwayArcShapes
+			})
 
 	case *models.TopStackOfGrowthCurve2D:
 		// insertion point
@@ -3293,17 +3187,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.TopStackOfRotatedGrowthCurve2D, *models.TopStackOfRotatedGrowthCurve2DEndArcShape](
-				"TopStackOfRotatedGrowthCurve2D",
-				"TopStackOfRotatedGrowthCurve2DEndArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.TopStackOfRotatedGrowthCurve2D) []*models.TopStackOfRotatedGrowthCurve2DEndArcShape {
-					return owner.TopStackOfRotatedGrowthCurve2DEndArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"TopStackOfRotatedGrowthCurve2D",
+			"TopStackOfRotatedGrowthCurve2DEndArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.TopStackOfRotatedGrowthCurve2D) []*models.TopStackOfRotatedGrowthCurve2DEndArcShape {
+				return owner.TopStackOfRotatedGrowthCurve2DEndArcShapes
+			})
 
 	case *models.TopStackOfRotatedGrowthCurve2DStartArcShape:
 		// insertion point
@@ -3332,17 +3224,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.TopStackOfRotatedGrowthCurve2D, *models.TopStackOfRotatedGrowthCurve2DStartArcShape](
-				"TopStackOfRotatedGrowthCurve2D",
-				"TopStackOfRotatedGrowthCurve2DStartArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.TopStackOfRotatedGrowthCurve2D) []*models.TopStackOfRotatedGrowthCurve2DStartArcShape {
-					return owner.TopStackOfRotatedGrowthCurve2DStartArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"TopStackOfRotatedGrowthCurve2D",
+			"TopStackOfRotatedGrowthCurve2DStartArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.TopStackOfRotatedGrowthCurve2D) []*models.TopStackOfRotatedGrowthCurve2DStartArcShape {
+				return owner.TopStackOfRotatedGrowthCurve2DStartArcShapes
+			})
 
 	case *models.TopStartArcShape:
 		// insertion point
@@ -3371,17 +3261,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.TopStartArcShapeGrid, *models.TopStartArcShape](
-				"TopStartArcShapeGrid",
-				"TopStartArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.TopStartArcShapeGrid) []*models.TopStartArcShape {
-					return owner.TopStartArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"TopStartArcShapeGrid",
+			"TopStartArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.TopStartArcShapeGrid) []*models.TopStartArcShape {
+				return owner.TopStartArcShapes
+			})
 
 	case *models.TopStartArcShapeGrid:
 		// insertion point
@@ -3421,17 +3309,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.TopStartHalfwayArcShapeGrid, *models.TopStartHalfwayArcShape](
-				"TopStartHalfwayArcShapeGrid",
-				"TopStartHalfwayArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.TopStartHalfwayArcShapeGrid) []*models.TopStartHalfwayArcShape {
-					return owner.TopStartHalfwayArcShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"TopStartHalfwayArcShapeGrid",
+			"TopStartHalfwayArcShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.TopStartHalfwayArcShapeGrid) []*models.TopStartHalfwayArcShape {
+				return owner.TopStartHalfwayArcShapes
+			})
 
 	case *models.TopStartHalfwayArcShapeGrid:
 		// insertion point
@@ -3531,17 +3417,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PlantAbstract, *models.TubeVase3DDiagram](
-				"PlantAbstract",
-				"TubeVase3DDiagrams",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PlantAbstract) []*models.TubeVase3DDiagram {
-					return owner.TubeVase3DDiagrams
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PlantAbstract",
+			"TubeVase3DDiagrams",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PlantAbstract) []*models.TubeVase3DDiagram {
+				return owner.TubeVase3DDiagrams
+			})
 
 	case *models.TubeVaseAbstract:
 		// insertion point
@@ -3702,17 +3586,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Vase2DDiagram](
-				"PlantAbstract",
-				"Vase2DDiagrams",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.PlantAbstract) []*models.Vase2DDiagram {
-					return owner.Vase2DDiagrams
-				})
-		}
+		AssociationReverseSliceToForm(
+			"PlantAbstract",
+			"Vase2DDiagrams",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PlantAbstract) []*models.Vase2DDiagram {
+				return owner.Vase2DDiagrams
+			})
 
 	case *models.VerticalTorusStackShape:
 		// insertion point

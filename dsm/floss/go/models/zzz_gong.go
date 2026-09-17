@@ -3413,6 +3413,56 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
+// GongNewInstance creates a new instance of the Gongstruct
+func GongNewInstance[Type GongstructPtr]() (res Type) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic new instance
+	case *CompareAnalysis:
+		res = any(new(CompareAnalysis)).(Type)
+	case *Complexity:
+		res = any(new(Complexity)).(Type)
+	case *DiagramFlossEquation:
+		res = any(new(DiagramFlossEquation)).(Type)
+	case *Effort:
+		res = any(new(Effort)).(Type)
+	case *Library:
+		res = any(new(Library)).(Type)
+	case *Note:
+		res = any(new(Note)).(Type)
+	case *NoteComplexityShape:
+		res = any(new(NoteComplexityShape)).(Type)
+	case *NoteEffortShape:
+		res = any(new(NoteEffortShape)).(Type)
+	case *NotePerformanceShape:
+		res = any(new(NotePerformanceShape)).(Type)
+	case *NoteShape:
+		res = any(new(NoteShape)).(Type)
+	case *Performance:
+		res = any(new(Performance)).(Type)
+	case *System:
+		res = any(new(System)).(Type)
+	}
+	return res
+}
+
+func NewInstance[Type GongstructPtr]() (res Type) {
+	return GongNewInstance[Type]()
+}
+
+func (stage *Stage) GongNewInstance[Type GongstructPtr]() (res Type) {
+	res = GongNewInstance[Type]()
+	if any(res) != nil {
+		res.StageVoid(stage)
+	}
+	return res
+}
+
+func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
+	return stage.GongNewInstance[Type]()
+}
+
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {

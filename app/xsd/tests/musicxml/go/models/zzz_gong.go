@@ -45352,6 +45352,494 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
+// GongNewInstance creates a new instance of the Gongstruct
+func GongNewInstance[Type GongstructPtr]() (res Type) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic new instance
+	case *A_directive:
+		res = any(new(A_directive)).(Type)
+	case *A_measure:
+		res = any(new(A_measure)).(Type)
+	case *A_measure_1:
+		res = any(new(A_measure_1)).(Type)
+	case *A_part:
+		res = any(new(A_part)).(Type)
+	case *A_part_1:
+		res = any(new(A_part_1)).(Type)
+	case *Accidental:
+		res = any(new(Accidental)).(Type)
+	case *Accidental_mark:
+		res = any(new(Accidental_mark)).(Type)
+	case *Accidental_text:
+		res = any(new(Accidental_text)).(Type)
+	case *Accord:
+		res = any(new(Accord)).(Type)
+	case *Accordion_registration:
+		res = any(new(Accordion_registration)).(Type)
+	case *Appearance:
+		res = any(new(Appearance)).(Type)
+	case *Arpeggiate:
+		res = any(new(Arpeggiate)).(Type)
+	case *Arrow:
+		res = any(new(Arrow)).(Type)
+	case *Articulations:
+		res = any(new(Articulations)).(Type)
+	case *Assess:
+		res = any(new(Assess)).(Type)
+	case *Attributes:
+		res = any(new(Attributes)).(Type)
+	case *Backup:
+		res = any(new(Backup)).(Type)
+	case *Bar_style_color:
+		res = any(new(Bar_style_color)).(Type)
+	case *Barline:
+		res = any(new(Barline)).(Type)
+	case *Barre:
+		res = any(new(Barre)).(Type)
+	case *Bass:
+		res = any(new(Bass)).(Type)
+	case *Bass_step:
+		res = any(new(Bass_step)).(Type)
+	case *Beam:
+		res = any(new(Beam)).(Type)
+	case *Beat_repeat:
+		res = any(new(Beat_repeat)).(Type)
+	case *Beat_unit_tied:
+		res = any(new(Beat_unit_tied)).(Type)
+	case *Beater:
+		res = any(new(Beater)).(Type)
+	case *Bend:
+		res = any(new(Bend)).(Type)
+	case *Bookmark:
+		res = any(new(Bookmark)).(Type)
+	case *Bracket:
+		res = any(new(Bracket)).(Type)
+	case *Breath_mark:
+		res = any(new(Breath_mark)).(Type)
+	case *Caesura:
+		res = any(new(Caesura)).(Type)
+	case *Cancel:
+		res = any(new(Cancel)).(Type)
+	case *Clef:
+		res = any(new(Clef)).(Type)
+	case *Coda:
+		res = any(new(Coda)).(Type)
+	case *Credit:
+		res = any(new(Credit)).(Type)
+	case *Dashes:
+		res = any(new(Dashes)).(Type)
+	case *Defaults:
+		res = any(new(Defaults)).(Type)
+	case *Degree:
+		res = any(new(Degree)).(Type)
+	case *Degree_alter:
+		res = any(new(Degree_alter)).(Type)
+	case *Degree_type:
+		res = any(new(Degree_type)).(Type)
+	case *Degree_value:
+		res = any(new(Degree_value)).(Type)
+	case *Direction:
+		res = any(new(Direction)).(Type)
+	case *Direction_type:
+		res = any(new(Direction_type)).(Type)
+	case *Distance:
+		res = any(new(Distance)).(Type)
+	case *Double:
+		res = any(new(Double)).(Type)
+	case *Dynamics:
+		res = any(new(Dynamics)).(Type)
+	case *Effect:
+		res = any(new(Effect)).(Type)
+	case *Elision:
+		res = any(new(Elision)).(Type)
+	case *Empty:
+		res = any(new(Empty)).(Type)
+	case *Empty_font:
+		res = any(new(Empty_font)).(Type)
+	case *Empty_line:
+		res = any(new(Empty_line)).(Type)
+	case *Empty_placement:
+		res = any(new(Empty_placement)).(Type)
+	case *Empty_placement_smufl:
+		res = any(new(Empty_placement_smufl)).(Type)
+	case *Empty_print_object_style_align:
+		res = any(new(Empty_print_object_style_align)).(Type)
+	case *Empty_print_style:
+		res = any(new(Empty_print_style)).(Type)
+	case *Empty_print_style_align:
+		res = any(new(Empty_print_style_align)).(Type)
+	case *Empty_print_style_align_id:
+		res = any(new(Empty_print_style_align_id)).(Type)
+	case *Empty_trill_sound:
+		res = any(new(Empty_trill_sound)).(Type)
+	case *Encoding:
+		res = any(new(Encoding)).(Type)
+	case *Ending:
+		res = any(new(Ending)).(Type)
+	case *Extend:
+		res = any(new(Extend)).(Type)
+	case *Feature:
+		res = any(new(Feature)).(Type)
+	case *Fermata:
+		res = any(new(Fermata)).(Type)
+	case *Figure:
+		res = any(new(Figure)).(Type)
+	case *Figured_bass:
+		res = any(new(Figured_bass)).(Type)
+	case *Fingering:
+		res = any(new(Fingering)).(Type)
+	case *First_fret:
+		res = any(new(First_fret)).(Type)
+	case *For_part:
+		res = any(new(For_part)).(Type)
+	case *Formatted_symbol:
+		res = any(new(Formatted_symbol)).(Type)
+	case *Formatted_symbol_id:
+		res = any(new(Formatted_symbol_id)).(Type)
+	case *Formatted_text:
+		res = any(new(Formatted_text)).(Type)
+	case *Formatted_text_id:
+		res = any(new(Formatted_text_id)).(Type)
+	case *Forward:
+		res = any(new(Forward)).(Type)
+	case *Frame:
+		res = any(new(Frame)).(Type)
+	case *Frame_note:
+		res = any(new(Frame_note)).(Type)
+	case *Fret:
+		res = any(new(Fret)).(Type)
+	case *Glass:
+		res = any(new(Glass)).(Type)
+	case *Glissando:
+		res = any(new(Glissando)).(Type)
+	case *Glyph:
+		res = any(new(Glyph)).(Type)
+	case *Grace:
+		res = any(new(Grace)).(Type)
+	case *Group_barline:
+		res = any(new(Group_barline)).(Type)
+	case *Group_name:
+		res = any(new(Group_name)).(Type)
+	case *Group_symbol:
+		res = any(new(Group_symbol)).(Type)
+	case *Grouping:
+		res = any(new(Grouping)).(Type)
+	case *Hammer_on_pull_off:
+		res = any(new(Hammer_on_pull_off)).(Type)
+	case *Handbell:
+		res = any(new(Handbell)).(Type)
+	case *Harmon_closed:
+		res = any(new(Harmon_closed)).(Type)
+	case *Harmon_mute:
+		res = any(new(Harmon_mute)).(Type)
+	case *Harmonic:
+		res = any(new(Harmonic)).(Type)
+	case *Harmony:
+		res = any(new(Harmony)).(Type)
+	case *Harmony_alter:
+		res = any(new(Harmony_alter)).(Type)
+	case *Harp_pedals:
+		res = any(new(Harp_pedals)).(Type)
+	case *Heel_toe:
+		res = any(new(Heel_toe)).(Type)
+	case *Hole:
+		res = any(new(Hole)).(Type)
+	case *Hole_closed:
+		res = any(new(Hole_closed)).(Type)
+	case *Horizontal_turn:
+		res = any(new(Horizontal_turn)).(Type)
+	case *Identification:
+		res = any(new(Identification)).(Type)
+	case *Image:
+		res = any(new(Image)).(Type)
+	case *Instrument:
+		res = any(new(Instrument)).(Type)
+	case *Instrument_change:
+		res = any(new(Instrument_change)).(Type)
+	case *Instrument_link:
+		res = any(new(Instrument_link)).(Type)
+	case *Interchangeable:
+		res = any(new(Interchangeable)).(Type)
+	case *Inversion:
+		res = any(new(Inversion)).(Type)
+	case *Key:
+		res = any(new(Key)).(Type)
+	case *Key_accidental:
+		res = any(new(Key_accidental)).(Type)
+	case *Key_octave:
+		res = any(new(Key_octave)).(Type)
+	case *Kind:
+		res = any(new(Kind)).(Type)
+	case *Level:
+		res = any(new(Level)).(Type)
+	case *Line_detail:
+		res = any(new(Line_detail)).(Type)
+	case *Line_width:
+		res = any(new(Line_width)).(Type)
+	case *Link:
+		res = any(new(Link)).(Type)
+	case *Listen:
+		res = any(new(Listen)).(Type)
+	case *Listening:
+		res = any(new(Listening)).(Type)
+	case *Lyric:
+		res = any(new(Lyric)).(Type)
+	case *Lyric_font:
+		res = any(new(Lyric_font)).(Type)
+	case *Lyric_language:
+		res = any(new(Lyric_language)).(Type)
+	case *Measure_layout:
+		res = any(new(Measure_layout)).(Type)
+	case *Measure_numbering:
+		res = any(new(Measure_numbering)).(Type)
+	case *Measure_repeat:
+		res = any(new(Measure_repeat)).(Type)
+	case *Measure_style:
+		res = any(new(Measure_style)).(Type)
+	case *Membrane:
+		res = any(new(Membrane)).(Type)
+	case *Metal:
+		res = any(new(Metal)).(Type)
+	case *Metronome:
+		res = any(new(Metronome)).(Type)
+	case *Metronome_beam:
+		res = any(new(Metronome_beam)).(Type)
+	case *Metronome_note:
+		res = any(new(Metronome_note)).(Type)
+	case *Metronome_tied:
+		res = any(new(Metronome_tied)).(Type)
+	case *Metronome_tuplet:
+		res = any(new(Metronome_tuplet)).(Type)
+	case *Midi_device:
+		res = any(new(Midi_device)).(Type)
+	case *Midi_instrument:
+		res = any(new(Midi_instrument)).(Type)
+	case *Miscellaneous:
+		res = any(new(Miscellaneous)).(Type)
+	case *Miscellaneous_field:
+		res = any(new(Miscellaneous_field)).(Type)
+	case *Mordent:
+		res = any(new(Mordent)).(Type)
+	case *Multiple_rest:
+		res = any(new(Multiple_rest)).(Type)
+	case *Name_display:
+		res = any(new(Name_display)).(Type)
+	case *Non_arpeggiate:
+		res = any(new(Non_arpeggiate)).(Type)
+	case *Notations:
+		res = any(new(Notations)).(Type)
+	case *Note:
+		res = any(new(Note)).(Type)
+	case *Note_size:
+		res = any(new(Note_size)).(Type)
+	case *Note_type:
+		res = any(new(Note_type)).(Type)
+	case *Notehead:
+		res = any(new(Notehead)).(Type)
+	case *Notehead_text:
+		res = any(new(Notehead_text)).(Type)
+	case *Numeral:
+		res = any(new(Numeral)).(Type)
+	case *Numeral_key:
+		res = any(new(Numeral_key)).(Type)
+	case *Numeral_root:
+		res = any(new(Numeral_root)).(Type)
+	case *Octave_shift:
+		res = any(new(Octave_shift)).(Type)
+	case *Offset:
+		res = any(new(Offset)).(Type)
+	case *Opus:
+		res = any(new(Opus)).(Type)
+	case *Ornaments:
+		res = any(new(Ornaments)).(Type)
+	case *Other_appearance:
+		res = any(new(Other_appearance)).(Type)
+	case *Other_direction:
+		res = any(new(Other_direction)).(Type)
+	case *Other_listening:
+		res = any(new(Other_listening)).(Type)
+	case *Other_notation:
+		res = any(new(Other_notation)).(Type)
+	case *Other_placement_text:
+		res = any(new(Other_placement_text)).(Type)
+	case *Other_play:
+		res = any(new(Other_play)).(Type)
+	case *Other_text:
+		res = any(new(Other_text)).(Type)
+	case *Page_layout:
+		res = any(new(Page_layout)).(Type)
+	case *Page_margins:
+		res = any(new(Page_margins)).(Type)
+	case *Part_clef:
+		res = any(new(Part_clef)).(Type)
+	case *Part_group:
+		res = any(new(Part_group)).(Type)
+	case *Part_link:
+		res = any(new(Part_link)).(Type)
+	case *Part_list:
+		res = any(new(Part_list)).(Type)
+	case *Part_name:
+		res = any(new(Part_name)).(Type)
+	case *Part_symbol:
+		res = any(new(Part_symbol)).(Type)
+	case *Part_transpose:
+		res = any(new(Part_transpose)).(Type)
+	case *Pedal:
+		res = any(new(Pedal)).(Type)
+	case *Pedal_tuning:
+		res = any(new(Pedal_tuning)).(Type)
+	case *Per_minute:
+		res = any(new(Per_minute)).(Type)
+	case *Percussion:
+		res = any(new(Percussion)).(Type)
+	case *Pitch:
+		res = any(new(Pitch)).(Type)
+	case *Pitched:
+		res = any(new(Pitched)).(Type)
+	case *Placement_text:
+		res = any(new(Placement_text)).(Type)
+	case *Play:
+		res = any(new(Play)).(Type)
+	case *Player:
+		res = any(new(Player)).(Type)
+	case *Principal_voice:
+		res = any(new(Principal_voice)).(Type)
+	case *Print:
+		res = any(new(Print)).(Type)
+	case *Release:
+		res = any(new(Release)).(Type)
+	case *Repeat:
+		res = any(new(Repeat)).(Type)
+	case *Rest:
+		res = any(new(Rest)).(Type)
+	case *Root:
+		res = any(new(Root)).(Type)
+	case *Root_step:
+		res = any(new(Root_step)).(Type)
+	case *Scaling:
+		res = any(new(Scaling)).(Type)
+	case *Scordatura:
+		res = any(new(Scordatura)).(Type)
+	case *Score_instrument:
+		res = any(new(Score_instrument)).(Type)
+	case *Score_part:
+		res = any(new(Score_part)).(Type)
+	case *Score_partwise:
+		res = any(new(Score_partwise)).(Type)
+	case *Score_timewise:
+		res = any(new(Score_timewise)).(Type)
+	case *Segno:
+		res = any(new(Segno)).(Type)
+	case *Slash:
+		res = any(new(Slash)).(Type)
+	case *Slide:
+		res = any(new(Slide)).(Type)
+	case *Slur:
+		res = any(new(Slur)).(Type)
+	case *Sound:
+		res = any(new(Sound)).(Type)
+	case *Staff_details:
+		res = any(new(Staff_details)).(Type)
+	case *Staff_divide:
+		res = any(new(Staff_divide)).(Type)
+	case *Staff_layout:
+		res = any(new(Staff_layout)).(Type)
+	case *Staff_size:
+		res = any(new(Staff_size)).(Type)
+	case *Staff_tuning:
+		res = any(new(Staff_tuning)).(Type)
+	case *Stem:
+		res = any(new(Stem)).(Type)
+	case *Stick:
+		res = any(new(Stick)).(Type)
+	case *String_mute:
+		res = any(new(String_mute)).(Type)
+	case *String_type:
+		res = any(new(String_type)).(Type)
+	case *Strong_accent:
+		res = any(new(Strong_accent)).(Type)
+	case *Style_text:
+		res = any(new(Style_text)).(Type)
+	case *Supports:
+		res = any(new(Supports)).(Type)
+	case *Swing:
+		res = any(new(Swing)).(Type)
+	case *Sync:
+		res = any(new(Sync)).(Type)
+	case *System_dividers:
+		res = any(new(System_dividers)).(Type)
+	case *System_layout:
+		res = any(new(System_layout)).(Type)
+	case *System_margins:
+		res = any(new(System_margins)).(Type)
+	case *Tap:
+		res = any(new(Tap)).(Type)
+	case *Technical:
+		res = any(new(Technical)).(Type)
+	case *Text_element_data:
+		res = any(new(Text_element_data)).(Type)
+	case *Tie:
+		res = any(new(Tie)).(Type)
+	case *Tied:
+		res = any(new(Tied)).(Type)
+	case *Time:
+		res = any(new(Time)).(Type)
+	case *Time_modification:
+		res = any(new(Time_modification)).(Type)
+	case *Timpani:
+		res = any(new(Timpani)).(Type)
+	case *Transpose:
+		res = any(new(Transpose)).(Type)
+	case *Tremolo:
+		res = any(new(Tremolo)).(Type)
+	case *Tuplet:
+		res = any(new(Tuplet)).(Type)
+	case *Tuplet_dot:
+		res = any(new(Tuplet_dot)).(Type)
+	case *Tuplet_number:
+		res = any(new(Tuplet_number)).(Type)
+	case *Tuplet_portion:
+		res = any(new(Tuplet_portion)).(Type)
+	case *Tuplet_type:
+		res = any(new(Tuplet_type)).(Type)
+	case *Typed_text:
+		res = any(new(Typed_text)).(Type)
+	case *Unpitched:
+		res = any(new(Unpitched)).(Type)
+	case *Virtual_instrument:
+		res = any(new(Virtual_instrument)).(Type)
+	case *Wait:
+		res = any(new(Wait)).(Type)
+	case *Wavy_line:
+		res = any(new(Wavy_line)).(Type)
+	case *Wedge:
+		res = any(new(Wedge)).(Type)
+	case *Wood:
+		res = any(new(Wood)).(Type)
+	case *Work:
+		res = any(new(Work)).(Type)
+	}
+	return res
+}
+
+func NewInstance[Type GongstructPtr]() (res Type) {
+	return GongNewInstance[Type]()
+}
+
+func (stage *Stage) GongNewInstance[Type GongstructPtr]() (res Type) {
+	res = GongNewInstance[Type]()
+	if any(res) != nil {
+		res.StageVoid(stage)
+	}
+	return res
+}
+
+func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
+	return stage.GongNewInstance[Type]()
+}
+
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {

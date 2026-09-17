@@ -18,1536 +18,610 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 
 var _ = log.Panicf
 
+type FormCallbackIF interface {
+	GetCreationMode() bool
+	GetInstance() any
+	GetGongstructName() string
+	OnSave()
+}
+
+type FormCallback[T models.PointerToGongstruct] struct {
+	Instance     T
+	CreationMode bool
+	probe        *Probe
+	formGroup    *form.FormGroup
+	saveFields   func(instance T, probe *Probe, formGroup *form.FormGroup)
+}
+
+func NewFormCallback[T models.PointerToGongstruct](
+	instance T,
+	probe *Probe,
+	formGroup *form.FormGroup,
+	saveFields func(instance T, probe *Probe, formGroup *form.FormGroup),
+) *FormCallback[T] {
+	return &FormCallback[T]{
+		Instance:     instance,
+		CreationMode: any(instance) == nil,
+		probe:        probe,
+		formGroup:    formGroup,
+		saveFields:   saveFields,
+	}
+}
+
+func (cb *FormCallback[T]) GetCreationMode() bool     { return cb.CreationMode }
+func (cb *FormCallback[T]) GetInstance() any           { return cb.Instance }
+func (cb *FormCallback[T]) GetGongstructName() string { return models.GetPointerToGongstructName[T]() }
+
+func (cb *FormCallback[T]) OnSave() {
+	cb.probe.stageOfInterest.Lock()
+	defer cb.probe.stageOfInterest.Unlock()
+
+	cb.probe.formStage.Checkout()
+
+	if any(cb.Instance) == nil {
+		cb.Instance = cb.probe.stageOfInterest.GongNewInstance[T]()
+	}
+
+	cb.saveFields(cb.Instance, cb.probe, cb.formGroup)
+
+	if cb.formGroup.HasSuppressButtonBeenPressed {
+		cb.Instance.UnstageVoid(cb.probe.stageOfInterest)
+	}
+
+	cb.probe.stageOfInterest.Commit()
+	updateProbeTable[T](cb.probe)
+
+	if cb.CreationMode || cb.formGroup.HasSuppressButtonBeenPressed {
+		cb.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(cb.probe.formStage)
+		newFormGroup.OnSave = NewFormCallback[T](
+			*new(T),
+			cb.probe,
+			newFormGroup,
+			cb.saveFields,
+		)
+		newInstance := models.GongNewInstance[T]()
+		FillUpForm(newInstance, newFormGroup, cb.probe)
+		cb.probe.formStage.Commit()
+	}
+
+	cb.probe.ux_tree()
+}
+
 // insertion point
 func __gong__New__CheckBoxFormCallback(
-	checkbox *models.CheckBox,
+	_instance *models.CheckBox,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (checkboxFormCallback *CheckBoxFormCallback) {
-	checkboxFormCallback = new(CheckBoxFormCallback)
-	checkboxFormCallback.probe = probe
-	checkboxFormCallback.checkbox = checkbox
-	checkboxFormCallback.formGroup = formGroup
-
-	checkboxFormCallback.CreationMode = (checkbox == nil)
-
-	return
+) (checkboxFormCallback *FormCallback[*models.CheckBox]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveCheckBoxFields,
+	)
 }
 
-type CheckBoxFormCallback struct {
-	checkbox *models.CheckBox
+type CheckBoxFormCallback = FormCallback[*models.CheckBox]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (checkboxFormCallback *CheckBoxFormCallback) OnSave() {
-	checkboxFormCallback.probe.stageOfInterest.Lock()
-	defer checkboxFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("CheckBoxFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	checkboxFormCallback.probe.formStage.Checkout()
-
-	if checkboxFormCallback.checkbox == nil {
-		checkboxFormCallback.checkbox = new(models.CheckBox).Stage(checkboxFormCallback.probe.stageOfInterest)
-	}
-	checkbox_ := checkboxFormCallback.checkbox
-	_ = checkbox_
-
-	for _, formDiv := range checkboxFormCallback.formGroup.FormDivs {
+func saveCheckBoxFields(
+	_instance *models.CheckBox,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(checkbox_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Value":
-			FormDivBasicFieldToField(&(checkbox_.Value), formDiv)
+			FormDivBasicFieldToField(&(_instance.Value), formDiv)
 		case "FormDiv:CheckBoxs":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the FormDiv instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target FormDiv instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.FormDiv](checkboxFormCallback.probe.stageOfInterest)
-			targetFormDivIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetFormDivIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all FormDiv instances and update their CheckBoxs slice
-			for _formdiv := range *checkboxFormCallback.probe.stageOfInterest.GetInstancesSet[*models.FormDiv]() {
-				id := checkboxFormCallback.probe.stageOfInterest.GetOrder(_formdiv)
-				
-				// if FormDiv is selected
-				if targetFormDivIDs[id] {
-					// ensure checkbox_ is in _formdiv.CheckBoxs
-					found := false
-					for _, _b := range _formdiv.CheckBoxs {
-						if _b == checkbox_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_formdiv.CheckBoxs = append(_formdiv.CheckBoxs, checkbox_)
-						checkboxFormCallback.probe.UpdateSliceOfPointersCallback(_formdiv, "CheckBoxs", &_formdiv.CheckBoxs)
-					}
-				} else {
-					// ensure checkbox_ is NOT in _formdiv.CheckBoxs
-					idx := slices.Index(_formdiv.CheckBoxs, checkbox_)
-					if idx != -1 {
-						_formdiv.CheckBoxs = slices.Delete(_formdiv.CheckBoxs, idx, idx+1)
-						checkboxFormCallback.probe.UpdateSliceOfPointersCallback(_formdiv, "CheckBoxs", &_formdiv.CheckBoxs)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "CheckBoxs", func(owner *models.FormDiv) *[]*models.CheckBox { return &owner.CheckBoxs })
 		}
 	}
-
-	// manage the suppress operation
-	if checkboxFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		checkbox_.Unstage(checkboxFormCallback.probe.stageOfInterest)
-	}
-
-	checkboxFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.CheckBox](
-		checkboxFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if checkboxFormCallback.CreationMode || checkboxFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		checkboxFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(checkboxFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__CheckBoxFormCallback(
-			nil,
-			checkboxFormCallback.probe,
-			newFormGroup,
-		)
-		checkbox := new(models.CheckBox)
-		FillUpForm(checkbox, newFormGroup, checkboxFormCallback.probe)
-		checkboxFormCallback.probe.formStage.Commit()
-	}
-
-	checkboxFormCallback.probe.ux_tree()
 }
+
 func __gong__New__FormDivFormCallback(
-	formdiv *models.FormDiv,
+	_instance *models.FormDiv,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (formdivFormCallback *FormDivFormCallback) {
-	formdivFormCallback = new(FormDivFormCallback)
-	formdivFormCallback.probe = probe
-	formdivFormCallback.formdiv = formdiv
-	formdivFormCallback.formGroup = formGroup
-
-	formdivFormCallback.CreationMode = (formdiv == nil)
-
-	return
+) (formdivFormCallback *FormCallback[*models.FormDiv]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveFormDivFields,
+	)
 }
 
-type FormDivFormCallback struct {
-	formdiv *models.FormDiv
+type FormDivFormCallback = FormCallback[*models.FormDiv]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (formdivFormCallback *FormDivFormCallback) OnSave() {
-	formdivFormCallback.probe.stageOfInterest.Lock()
-	defer formdivFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("FormDivFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	formdivFormCallback.probe.formStage.Checkout()
-
-	if formdivFormCallback.formdiv == nil {
-		formdivFormCallback.formdiv = new(models.FormDiv).Stage(formdivFormCallback.probe.stageOfInterest)
-	}
-	formdiv_ := formdivFormCallback.formdiv
-	_ = formdiv_
-
-	for _, formDiv := range formdivFormCallback.formGroup.FormDivs {
+func saveFormDivFields(
+	_instance *models.FormDiv,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(formdiv_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "FormFields":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *formdivFormCallback.probe.stageOfInterest.GetInstancesSet[*models.FormField]()
-			instanceSlice := make([]*models.FormField, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.FormField)
-
-			for instance := range instanceSet {
-				id := formdivFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.FormField](formdivFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			formdiv_.FormFields = instanceSlice
-			formdivFormCallback.probe.UpdateSliceOfPointersCallback(formdiv_, "FormFields", &formdiv_.FormFields)
-
+			FormDivSliceOfPointersToField(_instance, "FormFields", &(_instance.FormFields), formDiv, probe)
 		case "CheckBoxs":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *formdivFormCallback.probe.stageOfInterest.GetInstancesSet[*models.CheckBox]()
-			instanceSlice := make([]*models.CheckBox, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.CheckBox)
-
-			for instance := range instanceSet {
-				id := formdivFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.CheckBox](formdivFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			formdiv_.CheckBoxs = instanceSlice
-			formdivFormCallback.probe.UpdateSliceOfPointersCallback(formdiv_, "CheckBoxs", &formdiv_.CheckBoxs)
-
+			FormDivSliceOfPointersToField(_instance, "CheckBoxs", &(_instance.CheckBoxs), formDiv, probe)
 		case "FormEditAssocButton":
-			FormDivSelectFieldToField(&(formdiv_.FormEditAssocButton), formdivFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.FormEditAssocButton), probe.stageOfInterest, formDiv)
 		case "FormSortAssocButton":
-			FormDivSelectFieldToField(&(formdiv_.FormSortAssocButton), formdivFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.FormSortAssocButton), probe.stageOfInterest, formDiv)
 		case "IsADivider":
-			FormDivBasicFieldToField(&(formdiv_.IsADivider), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsADivider), formDiv)
 		case "IsAStartAccordionGroup":
-			FormDivBasicFieldToField(&(formdiv_.IsAStartAccordionGroup), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsAStartAccordionGroup), formDiv)
 		case "AccordionGroupName":
-			FormDivBasicFieldToField(&(formdiv_.AccordionGroupName), formDiv)
+			FormDivBasicFieldToField(&(_instance.AccordionGroupName), formDiv)
 		case "IsAEndAccordionGroup":
-			FormDivBasicFieldToField(&(formdiv_.IsAEndAccordionGroup), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsAEndAccordionGroup), formDiv)
 		case "FormGroup:FormDivs":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the FormGroup instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target FormGroup instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.FormGroup](formdivFormCallback.probe.stageOfInterest)
-			targetFormGroupIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetFormGroupIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all FormGroup instances and update their FormDivs slice
-			for _formgroup := range *formdivFormCallback.probe.stageOfInterest.GetInstancesSet[*models.FormGroup]() {
-				id := formdivFormCallback.probe.stageOfInterest.GetOrder(_formgroup)
-				
-				// if FormGroup is selected
-				if targetFormGroupIDs[id] {
-					// ensure formdiv_ is in _formgroup.FormDivs
-					found := false
-					for _, _b := range _formgroup.FormDivs {
-						if _b == formdiv_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_formgroup.FormDivs = append(_formgroup.FormDivs, formdiv_)
-						formdivFormCallback.probe.UpdateSliceOfPointersCallback(_formgroup, "FormDivs", &_formgroup.FormDivs)
-					}
-				} else {
-					// ensure formdiv_ is NOT in _formgroup.FormDivs
-					idx := slices.Index(_formgroup.FormDivs, formdiv_)
-					if idx != -1 {
-						_formgroup.FormDivs = slices.Delete(_formgroup.FormDivs, idx, idx+1)
-						formdivFormCallback.probe.UpdateSliceOfPointersCallback(_formgroup, "FormDivs", &_formgroup.FormDivs)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "FormDivs", func(owner *models.FormGroup) *[]*models.FormDiv { return &owner.FormDivs })
 		}
 	}
-
-	// manage the suppress operation
-	if formdivFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formdiv_.Unstage(formdivFormCallback.probe.stageOfInterest)
-	}
-
-	formdivFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.FormDiv](
-		formdivFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if formdivFormCallback.CreationMode || formdivFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formdivFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(formdivFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__FormDivFormCallback(
-			nil,
-			formdivFormCallback.probe,
-			newFormGroup,
-		)
-		formdiv := new(models.FormDiv)
-		FillUpForm(formdiv, newFormGroup, formdivFormCallback.probe)
-		formdivFormCallback.probe.formStage.Commit()
-	}
-
-	formdivFormCallback.probe.ux_tree()
 }
+
 func __gong__New__FormEditAssocButtonFormCallback(
-	formeditassocbutton *models.FormEditAssocButton,
+	_instance *models.FormEditAssocButton,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (formeditassocbuttonFormCallback *FormEditAssocButtonFormCallback) {
-	formeditassocbuttonFormCallback = new(FormEditAssocButtonFormCallback)
-	formeditassocbuttonFormCallback.probe = probe
-	formeditassocbuttonFormCallback.formeditassocbutton = formeditassocbutton
-	formeditassocbuttonFormCallback.formGroup = formGroup
-
-	formeditassocbuttonFormCallback.CreationMode = (formeditassocbutton == nil)
-
-	return
+) (formeditassocbuttonFormCallback *FormCallback[*models.FormEditAssocButton]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveFormEditAssocButtonFields,
+	)
 }
 
-type FormEditAssocButtonFormCallback struct {
-	formeditassocbutton *models.FormEditAssocButton
+type FormEditAssocButtonFormCallback = FormCallback[*models.FormEditAssocButton]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (formeditassocbuttonFormCallback *FormEditAssocButtonFormCallback) OnSave() {
-	formeditassocbuttonFormCallback.probe.stageOfInterest.Lock()
-	defer formeditassocbuttonFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("FormEditAssocButtonFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	formeditassocbuttonFormCallback.probe.formStage.Checkout()
-
-	if formeditassocbuttonFormCallback.formeditassocbutton == nil {
-		formeditassocbuttonFormCallback.formeditassocbutton = new(models.FormEditAssocButton).Stage(formeditassocbuttonFormCallback.probe.stageOfInterest)
-	}
-	formeditassocbutton_ := formeditassocbuttonFormCallback.formeditassocbutton
-	_ = formeditassocbutton_
-
-	for _, formDiv := range formeditassocbuttonFormCallback.formGroup.FormDivs {
+func saveFormEditAssocButtonFields(
+	_instance *models.FormEditAssocButton,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(formeditassocbutton_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Label":
-			FormDivBasicFieldToField(&(formeditassocbutton_.Label), formDiv)
+			FormDivBasicFieldToField(&(_instance.Label), formDiv)
 		case "AssociationStorage":
-			FormDivBasicFieldToField(&(formeditassocbutton_.AssociationStorage), formDiv)
+			FormDivBasicFieldToField(&(_instance.AssociationStorage), formDiv)
 		case "HasChanged":
-			FormDivBasicFieldToField(&(formeditassocbutton_.HasChanged), formDiv)
+			FormDivBasicFieldToField(&(_instance.HasChanged), formDiv)
 		case "IsForSavePurpose":
-			FormDivBasicFieldToField(&(formeditassocbutton_.IsForSavePurpose), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsForSavePurpose), formDiv)
 		case "HasToolTip":
-			FormDivBasicFieldToField(&(formeditassocbutton_.HasToolTip), formDiv)
+			FormDivBasicFieldToField(&(_instance.HasToolTip), formDiv)
 		case "ToolTipText":
-			FormDivBasicFieldToField(&(formeditassocbutton_.ToolTipText), formDiv)
+			FormDivBasicFieldToField(&(_instance.ToolTipText), formDiv)
 		case "MatTooltipShowDelay":
-			FormDivBasicFieldToField(&(formeditassocbutton_.MatTooltipShowDelay), formDiv)
+			FormDivBasicFieldToField(&(_instance.MatTooltipShowDelay), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if formeditassocbuttonFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formeditassocbutton_.Unstage(formeditassocbuttonFormCallback.probe.stageOfInterest)
-	}
-
-	formeditassocbuttonFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.FormEditAssocButton](
-		formeditassocbuttonFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if formeditassocbuttonFormCallback.CreationMode || formeditassocbuttonFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formeditassocbuttonFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(formeditassocbuttonFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__FormEditAssocButtonFormCallback(
-			nil,
-			formeditassocbuttonFormCallback.probe,
-			newFormGroup,
-		)
-		formeditassocbutton := new(models.FormEditAssocButton)
-		FillUpForm(formeditassocbutton, newFormGroup, formeditassocbuttonFormCallback.probe)
-		formeditassocbuttonFormCallback.probe.formStage.Commit()
-	}
-
-	formeditassocbuttonFormCallback.probe.ux_tree()
 }
+
 func __gong__New__FormFieldFormCallback(
-	formfield *models.FormField,
+	_instance *models.FormField,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (formfieldFormCallback *FormFieldFormCallback) {
-	formfieldFormCallback = new(FormFieldFormCallback)
-	formfieldFormCallback.probe = probe
-	formfieldFormCallback.formfield = formfield
-	formfieldFormCallback.formGroup = formGroup
-
-	formfieldFormCallback.CreationMode = (formfield == nil)
-
-	return
+) (formfieldFormCallback *FormCallback[*models.FormField]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveFormFieldFields,
+	)
 }
 
-type FormFieldFormCallback struct {
-	formfield *models.FormField
+type FormFieldFormCallback = FormCallback[*models.FormField]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (formfieldFormCallback *FormFieldFormCallback) OnSave() {
-	formfieldFormCallback.probe.stageOfInterest.Lock()
-	defer formfieldFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("FormFieldFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	formfieldFormCallback.probe.formStage.Checkout()
-
-	if formfieldFormCallback.formfield == nil {
-		formfieldFormCallback.formfield = new(models.FormField).Stage(formfieldFormCallback.probe.stageOfInterest)
-	}
-	formfield_ := formfieldFormCallback.formfield
-	_ = formfield_
-
-	for _, formDiv := range formfieldFormCallback.formGroup.FormDivs {
+func saveFormFieldFields(
+	_instance *models.FormField,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(formfield_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "InputTypeEnum":
-			FormDivEnumStringFieldToField(&(formfield_.InputTypeEnum), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.InputTypeEnum), formDiv)
 		case "Label":
-			FormDivBasicFieldToField(&(formfield_.Label), formDiv)
+			FormDivBasicFieldToField(&(_instance.Label), formDiv)
 		case "Placeholder":
-			FormDivBasicFieldToField(&(formfield_.Placeholder), formDiv)
+			FormDivBasicFieldToField(&(_instance.Placeholder), formDiv)
 		case "FormFieldString":
-			FormDivSelectFieldToField(&(formfield_.FormFieldString), formfieldFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.FormFieldString), probe.stageOfInterest, formDiv)
 		case "FormFieldFloat64":
-			FormDivSelectFieldToField(&(formfield_.FormFieldFloat64), formfieldFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.FormFieldFloat64), probe.stageOfInterest, formDiv)
 		case "FormFieldInt":
-			FormDivSelectFieldToField(&(formfield_.FormFieldInt), formfieldFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.FormFieldInt), probe.stageOfInterest, formDiv)
 		case "FormFieldDate":
-			FormDivSelectFieldToField(&(formfield_.FormFieldDate), formfieldFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.FormFieldDate), probe.stageOfInterest, formDiv)
 		case "FormFieldTime":
-			FormDivSelectFieldToField(&(formfield_.FormFieldTime), formfieldFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.FormFieldTime), probe.stageOfInterest, formDiv)
 		case "FormFieldDateTime":
-			FormDivSelectFieldToField(&(formfield_.FormFieldDateTime), formfieldFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.FormFieldDateTime), probe.stageOfInterest, formDiv)
 		case "FormFieldSelect":
-			FormDivSelectFieldToField(&(formfield_.FormFieldSelect), formfieldFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.FormFieldSelect), probe.stageOfInterest, formDiv)
 		case "HasBespokeWidth":
-			FormDivBasicFieldToField(&(formfield_.HasBespokeWidth), formDiv)
+			FormDivBasicFieldToField(&(_instance.HasBespokeWidth), formDiv)
 		case "BespokeWidthPx":
-			FormDivBasicFieldToField(&(formfield_.BespokeWidthPx), formDiv)
+			FormDivBasicFieldToField(&(_instance.BespokeWidthPx), formDiv)
 		case "HasBespokeHeight":
-			FormDivBasicFieldToField(&(formfield_.HasBespokeHeight), formDiv)
+			FormDivBasicFieldToField(&(_instance.HasBespokeHeight), formDiv)
 		case "BespokeHeightPx":
-			FormDivBasicFieldToField(&(formfield_.BespokeHeightPx), formDiv)
+			FormDivBasicFieldToField(&(_instance.BespokeHeightPx), formDiv)
 		case "FormDiv:FormFields":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the FormDiv instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target FormDiv instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.FormDiv](formfieldFormCallback.probe.stageOfInterest)
-			targetFormDivIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetFormDivIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all FormDiv instances and update their FormFields slice
-			for _formdiv := range *formfieldFormCallback.probe.stageOfInterest.GetInstancesSet[*models.FormDiv]() {
-				id := formfieldFormCallback.probe.stageOfInterest.GetOrder(_formdiv)
-				
-				// if FormDiv is selected
-				if targetFormDivIDs[id] {
-					// ensure formfield_ is in _formdiv.FormFields
-					found := false
-					for _, _b := range _formdiv.FormFields {
-						if _b == formfield_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_formdiv.FormFields = append(_formdiv.FormFields, formfield_)
-						formfieldFormCallback.probe.UpdateSliceOfPointersCallback(_formdiv, "FormFields", &_formdiv.FormFields)
-					}
-				} else {
-					// ensure formfield_ is NOT in _formdiv.FormFields
-					idx := slices.Index(_formdiv.FormFields, formfield_)
-					if idx != -1 {
-						_formdiv.FormFields = slices.Delete(_formdiv.FormFields, idx, idx+1)
-						formfieldFormCallback.probe.UpdateSliceOfPointersCallback(_formdiv, "FormFields", &_formdiv.FormFields)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "FormFields", func(owner *models.FormDiv) *[]*models.FormField { return &owner.FormFields })
 		}
 	}
-
-	// manage the suppress operation
-	if formfieldFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfield_.Unstage(formfieldFormCallback.probe.stageOfInterest)
-	}
-
-	formfieldFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.FormField](
-		formfieldFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if formfieldFormCallback.CreationMode || formfieldFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfieldFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(formfieldFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__FormFieldFormCallback(
-			nil,
-			formfieldFormCallback.probe,
-			newFormGroup,
-		)
-		formfield := new(models.FormField)
-		FillUpForm(formfield, newFormGroup, formfieldFormCallback.probe)
-		formfieldFormCallback.probe.formStage.Commit()
-	}
-
-	formfieldFormCallback.probe.ux_tree()
 }
+
 func __gong__New__FormFieldDateFormCallback(
-	formfielddate *models.FormFieldDate,
+	_instance *models.FormFieldDate,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (formfielddateFormCallback *FormFieldDateFormCallback) {
-	formfielddateFormCallback = new(FormFieldDateFormCallback)
-	formfielddateFormCallback.probe = probe
-	formfielddateFormCallback.formfielddate = formfielddate
-	formfielddateFormCallback.formGroup = formGroup
-
-	formfielddateFormCallback.CreationMode = (formfielddate == nil)
-
-	return
+) (formfielddateFormCallback *FormCallback[*models.FormFieldDate]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveFormFieldDateFields,
+	)
 }
 
-type FormFieldDateFormCallback struct {
-	formfielddate *models.FormFieldDate
+type FormFieldDateFormCallback = FormCallback[*models.FormFieldDate]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (formfielddateFormCallback *FormFieldDateFormCallback) OnSave() {
-	formfielddateFormCallback.probe.stageOfInterest.Lock()
-	defer formfielddateFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("FormFieldDateFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	formfielddateFormCallback.probe.formStage.Checkout()
-
-	if formfielddateFormCallback.formfielddate == nil {
-		formfielddateFormCallback.formfielddate = new(models.FormFieldDate).Stage(formfielddateFormCallback.probe.stageOfInterest)
-	}
-	formfielddate_ := formfielddateFormCallback.formfielddate
-	_ = formfielddate_
-
-	for _, formDiv := range formfielddateFormCallback.formGroup.FormDivs {
+func saveFormFieldDateFields(
+	_instance *models.FormFieldDate,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(formfielddate_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Value":
-			FormDivTimeFieldToField(&(formfielddate_.Value), formDiv, false)
+			FormDivTimeFieldToField(&(_instance.Value), formDiv, false)
 		}
 	}
-
-	// manage the suppress operation
-	if formfielddateFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfielddate_.Unstage(formfielddateFormCallback.probe.stageOfInterest)
-	}
-
-	formfielddateFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.FormFieldDate](
-		formfielddateFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if formfielddateFormCallback.CreationMode || formfielddateFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfielddateFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(formfielddateFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__FormFieldDateFormCallback(
-			nil,
-			formfielddateFormCallback.probe,
-			newFormGroup,
-		)
-		formfielddate := new(models.FormFieldDate)
-		FillUpForm(formfielddate, newFormGroup, formfielddateFormCallback.probe)
-		formfielddateFormCallback.probe.formStage.Commit()
-	}
-
-	formfielddateFormCallback.probe.ux_tree()
 }
+
 func __gong__New__FormFieldDateTimeFormCallback(
-	formfielddatetime *models.FormFieldDateTime,
+	_instance *models.FormFieldDateTime,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (formfielddatetimeFormCallback *FormFieldDateTimeFormCallback) {
-	formfielddatetimeFormCallback = new(FormFieldDateTimeFormCallback)
-	formfielddatetimeFormCallback.probe = probe
-	formfielddatetimeFormCallback.formfielddatetime = formfielddatetime
-	formfielddatetimeFormCallback.formGroup = formGroup
-
-	formfielddatetimeFormCallback.CreationMode = (formfielddatetime == nil)
-
-	return
+) (formfielddatetimeFormCallback *FormCallback[*models.FormFieldDateTime]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveFormFieldDateTimeFields,
+	)
 }
 
-type FormFieldDateTimeFormCallback struct {
-	formfielddatetime *models.FormFieldDateTime
+type FormFieldDateTimeFormCallback = FormCallback[*models.FormFieldDateTime]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (formfielddatetimeFormCallback *FormFieldDateTimeFormCallback) OnSave() {
-	formfielddatetimeFormCallback.probe.stageOfInterest.Lock()
-	defer formfielddatetimeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("FormFieldDateTimeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	formfielddatetimeFormCallback.probe.formStage.Checkout()
-
-	if formfielddatetimeFormCallback.formfielddatetime == nil {
-		formfielddatetimeFormCallback.formfielddatetime = new(models.FormFieldDateTime).Stage(formfielddatetimeFormCallback.probe.stageOfInterest)
-	}
-	formfielddatetime_ := formfielddatetimeFormCallback.formfielddatetime
-	_ = formfielddatetime_
-
-	for _, formDiv := range formfielddatetimeFormCallback.formGroup.FormDivs {
+func saveFormFieldDateTimeFields(
+	_instance *models.FormFieldDateTime,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(formfielddatetime_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Value":
-			FormDivTimeFieldToField(&(formfielddatetime_.Value), formDiv, false)
+			FormDivTimeFieldToField(&(_instance.Value), formDiv, false)
 		}
 	}
-
-	// manage the suppress operation
-	if formfielddatetimeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfielddatetime_.Unstage(formfielddatetimeFormCallback.probe.stageOfInterest)
-	}
-
-	formfielddatetimeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.FormFieldDateTime](
-		formfielddatetimeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if formfielddatetimeFormCallback.CreationMode || formfielddatetimeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfielddatetimeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(formfielddatetimeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__FormFieldDateTimeFormCallback(
-			nil,
-			formfielddatetimeFormCallback.probe,
-			newFormGroup,
-		)
-		formfielddatetime := new(models.FormFieldDateTime)
-		FillUpForm(formfielddatetime, newFormGroup, formfielddatetimeFormCallback.probe)
-		formfielddatetimeFormCallback.probe.formStage.Commit()
-	}
-
-	formfielddatetimeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__FormFieldFloat64FormCallback(
-	formfieldfloat64 *models.FormFieldFloat64,
+	_instance *models.FormFieldFloat64,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (formfieldfloat64FormCallback *FormFieldFloat64FormCallback) {
-	formfieldfloat64FormCallback = new(FormFieldFloat64FormCallback)
-	formfieldfloat64FormCallback.probe = probe
-	formfieldfloat64FormCallback.formfieldfloat64 = formfieldfloat64
-	formfieldfloat64FormCallback.formGroup = formGroup
-
-	formfieldfloat64FormCallback.CreationMode = (formfieldfloat64 == nil)
-
-	return
+) (formfieldfloat64FormCallback *FormCallback[*models.FormFieldFloat64]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveFormFieldFloat64Fields,
+	)
 }
 
-type FormFieldFloat64FormCallback struct {
-	formfieldfloat64 *models.FormFieldFloat64
+type FormFieldFloat64FormCallback = FormCallback[*models.FormFieldFloat64]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (formfieldfloat64FormCallback *FormFieldFloat64FormCallback) OnSave() {
-	formfieldfloat64FormCallback.probe.stageOfInterest.Lock()
-	defer formfieldfloat64FormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("FormFieldFloat64FormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	formfieldfloat64FormCallback.probe.formStage.Checkout()
-
-	if formfieldfloat64FormCallback.formfieldfloat64 == nil {
-		formfieldfloat64FormCallback.formfieldfloat64 = new(models.FormFieldFloat64).Stage(formfieldfloat64FormCallback.probe.stageOfInterest)
-	}
-	formfieldfloat64_ := formfieldfloat64FormCallback.formfieldfloat64
-	_ = formfieldfloat64_
-
-	for _, formDiv := range formfieldfloat64FormCallback.formGroup.FormDivs {
+func saveFormFieldFloat64Fields(
+	_instance *models.FormFieldFloat64,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(formfieldfloat64_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Value":
-			FormDivBasicFieldToField(&(formfieldfloat64_.Value), formDiv)
+			FormDivBasicFieldToField(&(_instance.Value), formDiv)
 		case "HasMinValidator":
-			FormDivBasicFieldToField(&(formfieldfloat64_.HasMinValidator), formDiv)
+			FormDivBasicFieldToField(&(_instance.HasMinValidator), formDiv)
 		case "MinValue":
-			FormDivBasicFieldToField(&(formfieldfloat64_.MinValue), formDiv)
+			FormDivBasicFieldToField(&(_instance.MinValue), formDiv)
 		case "HasMaxValidator":
-			FormDivBasicFieldToField(&(formfieldfloat64_.HasMaxValidator), formDiv)
+			FormDivBasicFieldToField(&(_instance.HasMaxValidator), formDiv)
 		case "MaxValue":
-			FormDivBasicFieldToField(&(formfieldfloat64_.MaxValue), formDiv)
+			FormDivBasicFieldToField(&(_instance.MaxValue), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if formfieldfloat64FormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfieldfloat64_.Unstage(formfieldfloat64FormCallback.probe.stageOfInterest)
-	}
-
-	formfieldfloat64FormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.FormFieldFloat64](
-		formfieldfloat64FormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if formfieldfloat64FormCallback.CreationMode || formfieldfloat64FormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfieldfloat64FormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(formfieldfloat64FormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__FormFieldFloat64FormCallback(
-			nil,
-			formfieldfloat64FormCallback.probe,
-			newFormGroup,
-		)
-		formfieldfloat64 := new(models.FormFieldFloat64)
-		FillUpForm(formfieldfloat64, newFormGroup, formfieldfloat64FormCallback.probe)
-		formfieldfloat64FormCallback.probe.formStage.Commit()
-	}
-
-	formfieldfloat64FormCallback.probe.ux_tree()
 }
+
 func __gong__New__FormFieldIntFormCallback(
-	formfieldint *models.FormFieldInt,
+	_instance *models.FormFieldInt,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (formfieldintFormCallback *FormFieldIntFormCallback) {
-	formfieldintFormCallback = new(FormFieldIntFormCallback)
-	formfieldintFormCallback.probe = probe
-	formfieldintFormCallback.formfieldint = formfieldint
-	formfieldintFormCallback.formGroup = formGroup
-
-	formfieldintFormCallback.CreationMode = (formfieldint == nil)
-
-	return
+) (formfieldintFormCallback *FormCallback[*models.FormFieldInt]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveFormFieldIntFields,
+	)
 }
 
-type FormFieldIntFormCallback struct {
-	formfieldint *models.FormFieldInt
+type FormFieldIntFormCallback = FormCallback[*models.FormFieldInt]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (formfieldintFormCallback *FormFieldIntFormCallback) OnSave() {
-	formfieldintFormCallback.probe.stageOfInterest.Lock()
-	defer formfieldintFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("FormFieldIntFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	formfieldintFormCallback.probe.formStage.Checkout()
-
-	if formfieldintFormCallback.formfieldint == nil {
-		formfieldintFormCallback.formfieldint = new(models.FormFieldInt).Stage(formfieldintFormCallback.probe.stageOfInterest)
-	}
-	formfieldint_ := formfieldintFormCallback.formfieldint
-	_ = formfieldint_
-
-	for _, formDiv := range formfieldintFormCallback.formGroup.FormDivs {
+func saveFormFieldIntFields(
+	_instance *models.FormFieldInt,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(formfieldint_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Value":
-			FormDivBasicFieldToField(&(formfieldint_.Value), formDiv)
+			FormDivBasicFieldToField(&(_instance.Value), formDiv)
 		case "HasMinValidator":
-			FormDivBasicFieldToField(&(formfieldint_.HasMinValidator), formDiv)
+			FormDivBasicFieldToField(&(_instance.HasMinValidator), formDiv)
 		case "MinValue":
-			FormDivBasicFieldToField(&(formfieldint_.MinValue), formDiv)
+			FormDivBasicFieldToField(&(_instance.MinValue), formDiv)
 		case "HasMaxValidator":
-			FormDivBasicFieldToField(&(formfieldint_.HasMaxValidator), formDiv)
+			FormDivBasicFieldToField(&(_instance.HasMaxValidator), formDiv)
 		case "MaxValue":
-			FormDivBasicFieldToField(&(formfieldint_.MaxValue), formDiv)
+			FormDivBasicFieldToField(&(_instance.MaxValue), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if formfieldintFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfieldint_.Unstage(formfieldintFormCallback.probe.stageOfInterest)
-	}
-
-	formfieldintFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.FormFieldInt](
-		formfieldintFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if formfieldintFormCallback.CreationMode || formfieldintFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfieldintFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(formfieldintFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__FormFieldIntFormCallback(
-			nil,
-			formfieldintFormCallback.probe,
-			newFormGroup,
-		)
-		formfieldint := new(models.FormFieldInt)
-		FillUpForm(formfieldint, newFormGroup, formfieldintFormCallback.probe)
-		formfieldintFormCallback.probe.formStage.Commit()
-	}
-
-	formfieldintFormCallback.probe.ux_tree()
 }
+
 func __gong__New__FormFieldSelectFormCallback(
-	formfieldselect *models.FormFieldSelect,
+	_instance *models.FormFieldSelect,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (formfieldselectFormCallback *FormFieldSelectFormCallback) {
-	formfieldselectFormCallback = new(FormFieldSelectFormCallback)
-	formfieldselectFormCallback.probe = probe
-	formfieldselectFormCallback.formfieldselect = formfieldselect
-	formfieldselectFormCallback.formGroup = formGroup
-
-	formfieldselectFormCallback.CreationMode = (formfieldselect == nil)
-
-	return
+) (formfieldselectFormCallback *FormCallback[*models.FormFieldSelect]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveFormFieldSelectFields,
+	)
 }
 
-type FormFieldSelectFormCallback struct {
-	formfieldselect *models.FormFieldSelect
+type FormFieldSelectFormCallback = FormCallback[*models.FormFieldSelect]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (formfieldselectFormCallback *FormFieldSelectFormCallback) OnSave() {
-	formfieldselectFormCallback.probe.stageOfInterest.Lock()
-	defer formfieldselectFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("FormFieldSelectFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	formfieldselectFormCallback.probe.formStage.Checkout()
-
-	if formfieldselectFormCallback.formfieldselect == nil {
-		formfieldselectFormCallback.formfieldselect = new(models.FormFieldSelect).Stage(formfieldselectFormCallback.probe.stageOfInterest)
-	}
-	formfieldselect_ := formfieldselectFormCallback.formfieldselect
-	_ = formfieldselect_
-
-	for _, formDiv := range formfieldselectFormCallback.formGroup.FormDivs {
+func saveFormFieldSelectFields(
+	_instance *models.FormFieldSelect,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(formfieldselect_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Value":
-			FormDivSelectFieldToField(&(formfieldselect_.Value), formfieldselectFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.Value), probe.stageOfInterest, formDiv)
 		case "Options":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *formfieldselectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Option]()
-			instanceSlice := make([]*models.Option, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Option)
-
-			for instance := range instanceSet {
-				id := formfieldselectFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Option](formfieldselectFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			formfieldselect_.Options = instanceSlice
-			formfieldselectFormCallback.probe.UpdateSliceOfPointersCallback(formfieldselect_, "Options", &formfieldselect_.Options)
-
+			FormDivSliceOfPointersToField(_instance, "Options", &(_instance.Options), formDiv, probe)
 		case "CanBeEmpty":
-			FormDivBasicFieldToField(&(formfieldselect_.CanBeEmpty), formDiv)
+			FormDivBasicFieldToField(&(_instance.CanBeEmpty), formDiv)
 		case "PreserveInitialOrder":
-			FormDivBasicFieldToField(&(formfieldselect_.PreserveInitialOrder), formDiv)
+			FormDivBasicFieldToField(&(_instance.PreserveInitialOrder), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if formfieldselectFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfieldselect_.Unstage(formfieldselectFormCallback.probe.stageOfInterest)
-	}
-
-	formfieldselectFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.FormFieldSelect](
-		formfieldselectFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if formfieldselectFormCallback.CreationMode || formfieldselectFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfieldselectFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(formfieldselectFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__FormFieldSelectFormCallback(
-			nil,
-			formfieldselectFormCallback.probe,
-			newFormGroup,
-		)
-		formfieldselect := new(models.FormFieldSelect)
-		FillUpForm(formfieldselect, newFormGroup, formfieldselectFormCallback.probe)
-		formfieldselectFormCallback.probe.formStage.Commit()
-	}
-
-	formfieldselectFormCallback.probe.ux_tree()
 }
+
 func __gong__New__FormFieldStringFormCallback(
-	formfieldstring *models.FormFieldString,
+	_instance *models.FormFieldString,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (formfieldstringFormCallback *FormFieldStringFormCallback) {
-	formfieldstringFormCallback = new(FormFieldStringFormCallback)
-	formfieldstringFormCallback.probe = probe
-	formfieldstringFormCallback.formfieldstring = formfieldstring
-	formfieldstringFormCallback.formGroup = formGroup
-
-	formfieldstringFormCallback.CreationMode = (formfieldstring == nil)
-
-	return
+) (formfieldstringFormCallback *FormCallback[*models.FormFieldString]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveFormFieldStringFields,
+	)
 }
 
-type FormFieldStringFormCallback struct {
-	formfieldstring *models.FormFieldString
+type FormFieldStringFormCallback = FormCallback[*models.FormFieldString]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (formfieldstringFormCallback *FormFieldStringFormCallback) OnSave() {
-	formfieldstringFormCallback.probe.stageOfInterest.Lock()
-	defer formfieldstringFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("FormFieldStringFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	formfieldstringFormCallback.probe.formStage.Checkout()
-
-	if formfieldstringFormCallback.formfieldstring == nil {
-		formfieldstringFormCallback.formfieldstring = new(models.FormFieldString).Stage(formfieldstringFormCallback.probe.stageOfInterest)
-	}
-	formfieldstring_ := formfieldstringFormCallback.formfieldstring
-	_ = formfieldstring_
-
-	for _, formDiv := range formfieldstringFormCallback.formGroup.FormDivs {
+func saveFormFieldStringFields(
+	_instance *models.FormFieldString,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(formfieldstring_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Value":
-			FormDivBasicFieldToField(&(formfieldstring_.Value), formDiv)
+			FormDivBasicFieldToField(&(_instance.Value), formDiv)
 		case "IsTextArea":
-			FormDivBasicFieldToField(&(formfieldstring_.IsTextArea), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsTextArea), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if formfieldstringFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfieldstring_.Unstage(formfieldstringFormCallback.probe.stageOfInterest)
-	}
-
-	formfieldstringFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.FormFieldString](
-		formfieldstringFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if formfieldstringFormCallback.CreationMode || formfieldstringFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfieldstringFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(formfieldstringFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__FormFieldStringFormCallback(
-			nil,
-			formfieldstringFormCallback.probe,
-			newFormGroup,
-		)
-		formfieldstring := new(models.FormFieldString)
-		FillUpForm(formfieldstring, newFormGroup, formfieldstringFormCallback.probe)
-		formfieldstringFormCallback.probe.formStage.Commit()
-	}
-
-	formfieldstringFormCallback.probe.ux_tree()
 }
+
 func __gong__New__FormFieldTimeFormCallback(
-	formfieldtime *models.FormFieldTime,
+	_instance *models.FormFieldTime,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (formfieldtimeFormCallback *FormFieldTimeFormCallback) {
-	formfieldtimeFormCallback = new(FormFieldTimeFormCallback)
-	formfieldtimeFormCallback.probe = probe
-	formfieldtimeFormCallback.formfieldtime = formfieldtime
-	formfieldtimeFormCallback.formGroup = formGroup
-
-	formfieldtimeFormCallback.CreationMode = (formfieldtime == nil)
-
-	return
+) (formfieldtimeFormCallback *FormCallback[*models.FormFieldTime]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveFormFieldTimeFields,
+	)
 }
 
-type FormFieldTimeFormCallback struct {
-	formfieldtime *models.FormFieldTime
+type FormFieldTimeFormCallback = FormCallback[*models.FormFieldTime]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (formfieldtimeFormCallback *FormFieldTimeFormCallback) OnSave() {
-	formfieldtimeFormCallback.probe.stageOfInterest.Lock()
-	defer formfieldtimeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("FormFieldTimeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	formfieldtimeFormCallback.probe.formStage.Checkout()
-
-	if formfieldtimeFormCallback.formfieldtime == nil {
-		formfieldtimeFormCallback.formfieldtime = new(models.FormFieldTime).Stage(formfieldtimeFormCallback.probe.stageOfInterest)
-	}
-	formfieldtime_ := formfieldtimeFormCallback.formfieldtime
-	_ = formfieldtime_
-
-	for _, formDiv := range formfieldtimeFormCallback.formGroup.FormDivs {
+func saveFormFieldTimeFields(
+	_instance *models.FormFieldTime,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(formfieldtime_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Value":
-			FormDivTimeFieldToField(&(formfieldtime_.Value), formDiv, false)
+			FormDivTimeFieldToField(&(_instance.Value), formDiv, false)
 		case "Step":
-			FormDivBasicFieldToField(&(formfieldtime_.Step), formDiv)
+			FormDivBasicFieldToField(&(_instance.Step), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if formfieldtimeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfieldtime_.Unstage(formfieldtimeFormCallback.probe.stageOfInterest)
-	}
-
-	formfieldtimeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.FormFieldTime](
-		formfieldtimeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if formfieldtimeFormCallback.CreationMode || formfieldtimeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formfieldtimeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(formfieldtimeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__FormFieldTimeFormCallback(
-			nil,
-			formfieldtimeFormCallback.probe,
-			newFormGroup,
-		)
-		formfieldtime := new(models.FormFieldTime)
-		FillUpForm(formfieldtime, newFormGroup, formfieldtimeFormCallback.probe)
-		formfieldtimeFormCallback.probe.formStage.Commit()
-	}
-
-	formfieldtimeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__FormGroupFormCallback(
-	formgroup *models.FormGroup,
+	_instance *models.FormGroup,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (formgroupFormCallback *FormGroupFormCallback) {
-	formgroupFormCallback = new(FormGroupFormCallback)
-	formgroupFormCallback.probe = probe
-	formgroupFormCallback.formgroup = formgroup
-	formgroupFormCallback.formGroup = formGroup
-
-	formgroupFormCallback.CreationMode = (formgroup == nil)
-
-	return
+) (formgroupFormCallback *FormCallback[*models.FormGroup]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveFormGroupFields,
+	)
 }
 
-type FormGroupFormCallback struct {
-	formgroup *models.FormGroup
+type FormGroupFormCallback = FormCallback[*models.FormGroup]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (formgroupFormCallback *FormGroupFormCallback) OnSave() {
-	formgroupFormCallback.probe.stageOfInterest.Lock()
-	defer formgroupFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("FormGroupFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	formgroupFormCallback.probe.formStage.Checkout()
-
-	if formgroupFormCallback.formgroup == nil {
-		formgroupFormCallback.formgroup = new(models.FormGroup).Stage(formgroupFormCallback.probe.stageOfInterest)
-	}
-	formgroup_ := formgroupFormCallback.formgroup
-	_ = formgroup_
-
-	for _, formDiv := range formgroupFormCallback.formGroup.FormDivs {
+func saveFormGroupFields(
+	_instance *models.FormGroup,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(formgroup_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Label":
-			FormDivBasicFieldToField(&(formgroup_.Label), formDiv)
+			FormDivBasicFieldToField(&(_instance.Label), formDiv)
 		case "TypeLabel":
-			FormDivBasicFieldToField(&(formgroup_.TypeLabel), formDiv)
+			FormDivBasicFieldToField(&(_instance.TypeLabel), formDiv)
 		case "FormDivs":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *formgroupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.FormDiv]()
-			instanceSlice := make([]*models.FormDiv, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.FormDiv)
-
-			for instance := range instanceSet {
-				id := formgroupFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.FormDiv](formgroupFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			formgroup_.FormDivs = instanceSlice
-			formgroupFormCallback.probe.UpdateSliceOfPointersCallback(formgroup_, "FormDivs", &formgroup_.FormDivs)
-
+			FormDivSliceOfPointersToField(_instance, "FormDivs", &(_instance.FormDivs), formDiv, probe)
 		case "HasSuppressButton":
-			FormDivBasicFieldToField(&(formgroup_.HasSuppressButton), formDiv)
+			FormDivBasicFieldToField(&(_instance.HasSuppressButton), formDiv)
 		case "HasSuppressButtonBeenPressed":
-			FormDivBasicFieldToField(&(formgroup_.HasSuppressButtonBeenPressed), formDiv)
+			FormDivBasicFieldToField(&(_instance.HasSuppressButtonBeenPressed), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if formgroupFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formgroup_.Unstage(formgroupFormCallback.probe.stageOfInterest)
-	}
-
-	formgroupFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.FormGroup](
-		formgroupFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if formgroupFormCallback.CreationMode || formgroupFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formgroupFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(formgroupFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__FormGroupFormCallback(
-			nil,
-			formgroupFormCallback.probe,
-			newFormGroup,
-		)
-		formgroup := new(models.FormGroup)
-		FillUpForm(formgroup, newFormGroup, formgroupFormCallback.probe)
-		formgroupFormCallback.probe.formStage.Commit()
-	}
-
-	formgroupFormCallback.probe.ux_tree()
 }
+
 func __gong__New__FormSortAssocButtonFormCallback(
-	formsortassocbutton *models.FormSortAssocButton,
+	_instance *models.FormSortAssocButton,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (formsortassocbuttonFormCallback *FormSortAssocButtonFormCallback) {
-	formsortassocbuttonFormCallback = new(FormSortAssocButtonFormCallback)
-	formsortassocbuttonFormCallback.probe = probe
-	formsortassocbuttonFormCallback.formsortassocbutton = formsortassocbutton
-	formsortassocbuttonFormCallback.formGroup = formGroup
-
-	formsortassocbuttonFormCallback.CreationMode = (formsortassocbutton == nil)
-
-	return
+) (formsortassocbuttonFormCallback *FormCallback[*models.FormSortAssocButton]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveFormSortAssocButtonFields,
+	)
 }
 
-type FormSortAssocButtonFormCallback struct {
-	formsortassocbutton *models.FormSortAssocButton
+type FormSortAssocButtonFormCallback = FormCallback[*models.FormSortAssocButton]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (formsortassocbuttonFormCallback *FormSortAssocButtonFormCallback) OnSave() {
-	formsortassocbuttonFormCallback.probe.stageOfInterest.Lock()
-	defer formsortassocbuttonFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("FormSortAssocButtonFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	formsortassocbuttonFormCallback.probe.formStage.Checkout()
-
-	if formsortassocbuttonFormCallback.formsortassocbutton == nil {
-		formsortassocbuttonFormCallback.formsortassocbutton = new(models.FormSortAssocButton).Stage(formsortassocbuttonFormCallback.probe.stageOfInterest)
-	}
-	formsortassocbutton_ := formsortassocbuttonFormCallback.formsortassocbutton
-	_ = formsortassocbutton_
-
-	for _, formDiv := range formsortassocbuttonFormCallback.formGroup.FormDivs {
+func saveFormSortAssocButtonFields(
+	_instance *models.FormSortAssocButton,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(formsortassocbutton_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Label":
-			FormDivBasicFieldToField(&(formsortassocbutton_.Label), formDiv)
+			FormDivBasicFieldToField(&(_instance.Label), formDiv)
 		case "HasToolTip":
-			FormDivBasicFieldToField(&(formsortassocbutton_.HasToolTip), formDiv)
+			FormDivBasicFieldToField(&(_instance.HasToolTip), formDiv)
 		case "ToolTipText":
-			FormDivBasicFieldToField(&(formsortassocbutton_.ToolTipText), formDiv)
+			FormDivBasicFieldToField(&(_instance.ToolTipText), formDiv)
 		case "MatTooltipShowDelay":
-			FormDivBasicFieldToField(&(formsortassocbutton_.MatTooltipShowDelay), formDiv)
+			FormDivBasicFieldToField(&(_instance.MatTooltipShowDelay), formDiv)
 		case "FormEditAssocButton":
-			FormDivSelectFieldToField(&(formsortassocbutton_.FormEditAssocButton), formsortassocbuttonFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.FormEditAssocButton), probe.stageOfInterest, formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if formsortassocbuttonFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formsortassocbutton_.Unstage(formsortassocbuttonFormCallback.probe.stageOfInterest)
-	}
-
-	formsortassocbuttonFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.FormSortAssocButton](
-		formsortassocbuttonFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if formsortassocbuttonFormCallback.CreationMode || formsortassocbuttonFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		formsortassocbuttonFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(formsortassocbuttonFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__FormSortAssocButtonFormCallback(
-			nil,
-			formsortassocbuttonFormCallback.probe,
-			newFormGroup,
-		)
-		formsortassocbutton := new(models.FormSortAssocButton)
-		FillUpForm(formsortassocbutton, newFormGroup, formsortassocbuttonFormCallback.probe)
-		formsortassocbuttonFormCallback.probe.formStage.Commit()
-	}
-
-	formsortassocbuttonFormCallback.probe.ux_tree()
 }
+
 func __gong__New__OptionFormCallback(
-	option *models.Option,
+	_instance *models.Option,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (optionFormCallback *OptionFormCallback) {
-	optionFormCallback = new(OptionFormCallback)
-	optionFormCallback.probe = probe
-	optionFormCallback.option = option
-	optionFormCallback.formGroup = formGroup
-
-	optionFormCallback.CreationMode = (option == nil)
-
-	return
+) (optionFormCallback *FormCallback[*models.Option]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveOptionFields,
+	)
 }
 
-type OptionFormCallback struct {
-	option *models.Option
+type OptionFormCallback = FormCallback[*models.Option]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (optionFormCallback *OptionFormCallback) OnSave() {
-	optionFormCallback.probe.stageOfInterest.Lock()
-	defer optionFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("OptionFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	optionFormCallback.probe.formStage.Checkout()
-
-	if optionFormCallback.option == nil {
-		optionFormCallback.option = new(models.Option).Stage(optionFormCallback.probe.stageOfInterest)
-	}
-	option_ := optionFormCallback.option
-	_ = option_
-
-	for _, formDiv := range optionFormCallback.formGroup.FormDivs {
+func saveOptionFields(
+	_instance *models.Option,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(option_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "FormFieldSelect:Options":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the FormFieldSelect instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target FormFieldSelect instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.FormFieldSelect](optionFormCallback.probe.stageOfInterest)
-			targetFormFieldSelectIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetFormFieldSelectIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all FormFieldSelect instances and update their Options slice
-			for _formfieldselect := range *optionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.FormFieldSelect]() {
-				id := optionFormCallback.probe.stageOfInterest.GetOrder(_formfieldselect)
-				
-				// if FormFieldSelect is selected
-				if targetFormFieldSelectIDs[id] {
-					// ensure option_ is in _formfieldselect.Options
-					found := false
-					for _, _b := range _formfieldselect.Options {
-						if _b == option_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_formfieldselect.Options = append(_formfieldselect.Options, option_)
-						optionFormCallback.probe.UpdateSliceOfPointersCallback(_formfieldselect, "Options", &_formfieldselect.Options)
-					}
-				} else {
-					// ensure option_ is NOT in _formfieldselect.Options
-					idx := slices.Index(_formfieldselect.Options, option_)
-					if idx != -1 {
-						_formfieldselect.Options = slices.Delete(_formfieldselect.Options, idx, idx+1)
-						optionFormCallback.probe.UpdateSliceOfPointersCallback(_formfieldselect, "Options", &_formfieldselect.Options)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Options", func(owner *models.FormFieldSelect) *[]*models.Option { return &owner.Options })
 		}
 	}
-
-	// manage the suppress operation
-	if optionFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		option_.Unstage(optionFormCallback.probe.stageOfInterest)
-	}
-
-	optionFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Option](
-		optionFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if optionFormCallback.CreationMode || optionFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		optionFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(optionFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__OptionFormCallback(
-			nil,
-			optionFormCallback.probe,
-			newFormGroup,
-		)
-		option := new(models.Option)
-		FillUpForm(option, newFormGroup, optionFormCallback.probe)
-		optionFormCallback.probe.formStage.Commit()
-	}
-
-	optionFormCallback.probe.ux_tree()
 }
+

@@ -16,7 +16,12 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point{{` + string(rune(FillUpFormFromGongstructNameSwitchCase1)) + `}}
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
+			} else {
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
+			}
 		}
 	}
 }
@@ -68,11 +73,5 @@ map[string]string{
 		{{structname}} := new(models.{{Structname}})
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm({{structname}}, formGroup, probe)`,
-	string(rune(FillUpFormFromGongstructNameSwitchCase1)): `
-		case *{{Structname}}FormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "{{Structname}}", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.{{structname}}, probe)
-			}`,
+	string(rune(FillUpFormFromGongstructNameSwitchCase1)): "",
 }

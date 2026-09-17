@@ -14,42 +14,11 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *CommandFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Command", true)
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.command, probe)
-			}
-		case *DummyAgentFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "DummyAgent", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.dummyagent, probe)
-			}
-		case *EngineFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Engine", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.engine, probe)
-			}
-		case *EventFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Event", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.event, probe)
-			}
-		case *StatusFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Status", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.status, probe)
-			}
-		case *UpdateStateFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "UpdateState", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.updatestate, probe)
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

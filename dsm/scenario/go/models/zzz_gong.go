@@ -6828,6 +6828,94 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
+// GongNewInstance creates a new instance of the Gongstruct
+func GongNewInstance[Type GongstructPtr]() (res Type) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic new instance
+	case *ActorState:
+		res = any(new(ActorState)).(Type)
+	case *ActorStateShape:
+		res = any(new(ActorStateShape)).(Type)
+	case *ActorStateTransition:
+		res = any(new(ActorStateTransition)).(Type)
+	case *ActorStateTransitionShape:
+		res = any(new(ActorStateTransitionShape)).(Type)
+	case *Analysis:
+		res = any(new(Analysis)).(Type)
+	case *ControlPointShape:
+		res = any(new(ControlPointShape)).(Type)
+	case *Diagram:
+		res = any(new(Diagram)).(Type)
+	case *Document:
+		res = any(new(Document)).(Type)
+	case *DocumentUse:
+		res = any(new(DocumentUse)).(Type)
+	case *EvolutionDirection:
+		res = any(new(EvolutionDirection)).(Type)
+	case *EvolutionDirectionShape:
+		res = any(new(EvolutionDirectionShape)).(Type)
+	case *Foo:
+		res = any(new(Foo)).(Type)
+	case *GeoObject:
+		res = any(new(GeoObject)).(Type)
+	case *GeoObjectUse:
+		res = any(new(GeoObjectUse)).(Type)
+	case *Group:
+		res = any(new(Group)).(Type)
+	case *GroupUse:
+		res = any(new(GroupUse)).(Type)
+	case *Library:
+		res = any(new(Library)).(Type)
+	case *MapObject:
+		res = any(new(MapObject)).(Type)
+	case *MapObjectUse:
+		res = any(new(MapObjectUse)).(Type)
+	case *Parameter:
+		res = any(new(Parameter)).(Type)
+	case *ParameterCategory:
+		res = any(new(ParameterCategory)).(Type)
+	case *ParameterCategoryUse:
+		res = any(new(ParameterCategoryUse)).(Type)
+	case *ParameterShape:
+		res = any(new(ParameterShape)).(Type)
+	case *ParametersAggregate:
+		res = any(new(ParametersAggregate)).(Type)
+	case *ParametersAggregateShape:
+		res = any(new(ParametersAggregateShape)).(Type)
+	case *Position:
+		res = any(new(Position)).(Type)
+	case *Repository:
+		res = any(new(Repository)).(Type)
+	case *Scenario:
+		res = any(new(Scenario)).(Type)
+	case *User:
+		res = any(new(User)).(Type)
+	case *UserUse:
+		res = any(new(UserUse)).(Type)
+	case *Workspace:
+		res = any(new(Workspace)).(Type)
+	}
+	return res
+}
+
+func NewInstance[Type GongstructPtr]() (res Type) {
+	return GongNewInstance[Type]()
+}
+
+func (stage *Stage) GongNewInstance[Type GongstructPtr]() (res Type) {
+	res = GongNewInstance[Type]()
+	if any(res) != nil {
+		res.StageVoid(stage)
+	}
+	return res
+}
+
+func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
+	return stage.GongNewInstance[Type]()
+}
+
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {

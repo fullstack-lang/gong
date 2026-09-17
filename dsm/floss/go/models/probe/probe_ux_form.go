@@ -14,78 +14,11 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *CompareAnalysisFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "CompareAnalysis", true)
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.compareanalysis, probe)
-			}
-		case *ComplexityFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Complexity", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.complexity, probe)
-			}
-		case *DiagramFlossEquationFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "DiagramFlossEquation", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.diagramflossequation, probe)
-			}
-		case *EffortFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Effort", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.effort, probe)
-			}
-		case *LibraryFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Library", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.library, probe)
-			}
-		case *NoteFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Note", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.note, probe)
-			}
-		case *NoteComplexityShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "NoteComplexityShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.notecomplexityshape, probe)
-			}
-		case *NoteEffortShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "NoteEffortShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.noteeffortshape, probe)
-			}
-		case *NotePerformanceShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "NotePerformanceShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.noteperformanceshape, probe)
-			}
-		case *NoteShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "NoteShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.noteshape, probe)
-			}
-		case *PerformanceFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Performance", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.performance, probe)
-			}
-		case *SystemFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "System", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.system, probe)
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

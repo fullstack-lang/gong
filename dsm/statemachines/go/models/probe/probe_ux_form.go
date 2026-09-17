@@ -14,114 +14,11 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *ActionFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Action", true)
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.action, probe)
-			}
-		case *ActivitiesFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Activities", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.activities, probe)
-			}
-		case *DiagramFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Diagram", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.diagram, probe)
-			}
-		case *GuardFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Guard", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.guard, probe)
-			}
-		case *KillFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Kill", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.kill, probe)
-			}
-		case *LibraryFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Library", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.library, probe)
-			}
-		case *MessageFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Message", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.message, probe)
-			}
-		case *MessageTypeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "MessageType", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.messagetype, probe)
-			}
-		case *NoteFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Note", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.note, probe)
-			}
-		case *NoteShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "NoteShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.noteshape, probe)
-			}
-		case *NoteStateShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "NoteStateShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.notestateshape, probe)
-			}
-		case *ObjectFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Object", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.object, probe)
-			}
-		case *RoleFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Role", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.role, probe)
-			}
-		case *StateFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "State", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.state, probe)
-			}
-		case *StateMachineFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "StateMachine", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.statemachine, probe)
-			}
-		case *StateShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "StateShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.stateshape, probe)
-			}
-		case *TransitionFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Transition", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.transition, probe)
-			}
-		case *Transition_ShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Transition_Shape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.transition_shape, probe)
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

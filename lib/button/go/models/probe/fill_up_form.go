@@ -40,17 +40,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Group, *models.Button](
-				"Group",
-				"Buttons",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Group) []*models.Button {
-					return owner.Buttons
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Group",
+			"Buttons",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Group) []*models.Button {
+				return owner.Buttons
+			})
 
 	case *models.ButtonToggle:
 		// insertion point
@@ -69,17 +67,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.GroupToogle, *models.ButtonToggle](
-				"GroupToogle",
-				"ButtonToggles",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.GroupToogle) []*models.ButtonToggle {
-					return owner.ButtonToggles
-				})
-		}
+		AssociationReverseSliceToForm(
+			"GroupToogle",
+			"ButtonToggles",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.GroupToogle) []*models.ButtonToggle {
+				return owner.ButtonToggles
+			})
 
 	case *models.Group:
 		// insertion point
@@ -95,17 +91,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Layout, *models.Group](
-				"Layout",
-				"Groups",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Layout) []*models.Group {
-					return owner.Groups
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Layout",
+			"Groups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Layout) []*models.Group {
+				return owner.Groups
+			})
 
 	case *models.GroupToogle:
 		// insertion point
@@ -121,17 +115,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Layout, *models.GroupToogle](
-				"Layout",
-				"GroupToogles",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Layout) []*models.GroupToogle {
-					return owner.GroupToogles
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Layout",
+			"GroupToogles",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Layout) []*models.GroupToogle {
+				return owner.GroupToogles
+			})
 
 	case *models.Layout:
 		// insertion point

@@ -3405,6 +3405,60 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
+// GongNewInstance creates a new instance of the Gongstruct
+func GongNewInstance[Type GongstructPtr]() (res Type) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic new instance
+	case *CheckBox:
+		res = any(new(CheckBox)).(Type)
+	case *FormDiv:
+		res = any(new(FormDiv)).(Type)
+	case *FormEditAssocButton:
+		res = any(new(FormEditAssocButton)).(Type)
+	case *FormField:
+		res = any(new(FormField)).(Type)
+	case *FormFieldDate:
+		res = any(new(FormFieldDate)).(Type)
+	case *FormFieldDateTime:
+		res = any(new(FormFieldDateTime)).(Type)
+	case *FormFieldFloat64:
+		res = any(new(FormFieldFloat64)).(Type)
+	case *FormFieldInt:
+		res = any(new(FormFieldInt)).(Type)
+	case *FormFieldSelect:
+		res = any(new(FormFieldSelect)).(Type)
+	case *FormFieldString:
+		res = any(new(FormFieldString)).(Type)
+	case *FormFieldTime:
+		res = any(new(FormFieldTime)).(Type)
+	case *FormGroup:
+		res = any(new(FormGroup)).(Type)
+	case *FormSortAssocButton:
+		res = any(new(FormSortAssocButton)).(Type)
+	case *Option:
+		res = any(new(Option)).(Type)
+	}
+	return res
+}
+
+func NewInstance[Type GongstructPtr]() (res Type) {
+	return GongNewInstance[Type]()
+}
+
+func (stage *Stage) GongNewInstance[Type GongstructPtr]() (res Type) {
+	res = GongNewInstance[Type]()
+	if any(res) != nil {
+		res.StageVoid(stage)
+	}
+	return res
+}
+
+func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
+	return stage.GongNewInstance[Type]()
+}
+
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {

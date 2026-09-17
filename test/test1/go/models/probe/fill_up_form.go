@@ -67,17 +67,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Astruct, *models.Astruct](
-				"Astruct",
-				"Anarrayofa",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Astruct) []*models.Astruct {
-					return owner.Anarrayofa
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Astruct",
+			"Anarrayofa",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Astruct) []*models.Astruct {
+				return owner.Anarrayofa
+			})
 
 	case *models.AstructBstruct2Use:
 		// insertion point
@@ -89,17 +87,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Astruct, *models.AstructBstruct2Use](
-				"Astruct",
-				"Anarrayofb2Use",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Astruct) []*models.AstructBstruct2Use {
-					return owner.Anarrayofb2Use
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Astruct",
+			"Anarrayofb2Use",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Astruct) []*models.AstructBstruct2Use {
+				return owner.Anarrayofb2Use
+			})
 
 	case *models.AstructBstructUse:
 		// insertion point
@@ -111,17 +107,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Astruct, *models.AstructBstructUse](
-				"Astruct",
-				"AnarrayofbUse",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Astruct) []*models.AstructBstructUse {
-					return owner.AnarrayofbUse
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Astruct",
+			"AnarrayofbUse",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Astruct) []*models.AstructBstructUse {
+				return owner.AnarrayofbUse
+			})
 
 	case *models.Bstruct:
 		// insertion point
@@ -138,39 +132,33 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Astruct, *models.Bstruct](
-				"Astruct",
-				"Anarrayofb",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Astruct) []*models.Bstruct {
-					return owner.Anarrayofb
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Astruct, *models.Bstruct](
-				"Astruct",
-				"Anotherarrayofb",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Astruct) []*models.Bstruct {
-					return owner.Anotherarrayofb
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Dstruct, *models.Bstruct](
-				"Dstruct",
-				"Anarrayofb",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Dstruct) []*models.Bstruct {
-					return owner.Anarrayofb
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Astruct",
+			"Anarrayofb",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Astruct) []*models.Bstruct {
+				return owner.Anarrayofb
+			})
+		AssociationReverseSliceToForm(
+			"Astruct",
+			"Anotherarrayofb",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Astruct) []*models.Bstruct {
+				return owner.Anotherarrayofb
+			})
+		AssociationReverseSliceToForm(
+			"Dstruct",
+			"Anarrayofb",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Dstruct) []*models.Bstruct {
+				return owner.Anarrayofb
+			})
 
 	case *models.Dstruct:
 		// insertion point
@@ -184,17 +172,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Astruct, *models.Dstruct](
-				"Astruct",
-				"Dstruct4s",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Astruct) []*models.Dstruct {
-					return owner.Dstruct4s
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Astruct",
+			"Dstruct4s",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Astruct) []*models.Dstruct {
+				return owner.Dstruct4s
+			})
 
 	case *models.F0123456789012345678901234567890:
 		// insertion point
@@ -223,17 +209,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Dstruct, *models.Gstruct](
-				"Dstruct",
-				"Gstructs",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Dstruct) []*models.Gstruct {
-					return owner.Gstructs
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Dstruct",
+			"Gstructs",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Dstruct) []*models.Gstruct {
+				return owner.Gstructs
+			})
 
 	default:
 		_ = instanceWithInferedType

@@ -38,6 +38,7 @@ const (
 	ModelGongStructInsertionGenericReversePointerAssociationsMaps
 	ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps
 
+	ModelGongStructInsertionGenericNewInstance
 	ModelGongStructInsertionGenericPointerToGongstructName
 	ModelGongStructInsertionGenericGetSetFunctions
 	ModelGongStructInsertionGenericGetMapFunctions
@@ -279,6 +280,10 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 		switch fieldname {
 		// insertion point for per direct association field{{fieldReverseSliceOfPointersAssociationMapCode}}
 		}`,
+
+	ModelGongStructInsertionGenericNewInstance: `
+	case *{{Structname}}:
+		res = any(new({{Structname}})).(Type)`,
 
 	ModelGongStructInsertionGenericPointerToGongstructName: `
 	case *{{Structname}}:

@@ -163,17 +163,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Canvas, *models.DirectionalLight](
-				"Canvas",
-				"DirectionalLights",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Canvas) []*models.DirectionalLight {
-					return owner.DirectionalLights
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Canvas",
+			"DirectionalLights",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Canvas) []*models.DirectionalLight {
+				return owner.DirectionalLights
+			})
 
 	case *models.ExtrudeGeometry:
 		// insertion point
@@ -214,17 +212,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Canvas, *models.Mesh](
-				"Canvas",
-				"Meshs",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Canvas) []*models.Mesh {
-					return owner.Meshs
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Canvas",
+			"Meshs",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Canvas) []*models.Mesh {
+				return owner.Meshs
+			})
 
 	case *models.MeshMaterialBasic:
 		// insertion point
@@ -346,17 +342,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.BufferGeometry, *models.Triangle](
-				"BufferGeometry",
-				"Faces",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.BufferGeometry) []*models.Triangle {
-					return owner.Faces
-				})
-		}
+		AssociationReverseSliceToForm(
+			"BufferGeometry",
+			"Faces",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.BufferGeometry) []*models.Triangle {
+				return owner.Faces
+			})
 
 	case *models.TubeGeometry:
 		// insertion point
@@ -390,17 +384,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Shape, *models.Vector2](
-				"Shape",
-				"Points",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Shape) []*models.Vector2 {
-					return owner.Points
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Shape",
+			"Points",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Shape) []*models.Vector2 {
+				return owner.Points
+			})
 
 	case *models.Vector3:
 		// insertion point
@@ -417,28 +409,24 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.BufferGeometry, *models.Vector3](
-				"BufferGeometry",
-				"Vertices",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.BufferGeometry) []*models.Vector3 {
-					return owner.Vertices
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Curve, *models.Vector3](
-				"Curve",
-				"Points",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Curve) []*models.Vector3 {
-					return owner.Points
-				})
-		}
+		AssociationReverseSliceToForm(
+			"BufferGeometry",
+			"Vertices",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.BufferGeometry) []*models.Vector3 {
+				return owner.Vertices
+			})
+		AssociationReverseSliceToForm(
+			"Curve",
+			"Points",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Curve) []*models.Vector3 {
+				return owner.Points
+			})
 
 	default:
 		_ = instanceWithInferedType

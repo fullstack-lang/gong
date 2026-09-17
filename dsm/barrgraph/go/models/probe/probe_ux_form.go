@@ -14,84 +14,11 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *ArtefactTypeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "ArtefactType", true)
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.artefacttype, probe)
-			}
-		case *ArtefactTypeShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "ArtefactTypeShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.artefacttypeshape, probe)
-			}
-		case *ArtistFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Artist", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.artist, probe)
-			}
-		case *ArtistShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "ArtistShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.artistshape, probe)
-			}
-		case *ControlPointShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "ControlPointShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.controlpointshape, probe)
-			}
-		case *DeskFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Desk", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.desk, probe)
-			}
-		case *DiagramFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Diagram", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.diagram, probe)
-			}
-		case *InfluenceFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Influence", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.influence, probe)
-			}
-		case *InfluenceShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "InfluenceShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.influenceshape, probe)
-			}
-		case *LibraryFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Library", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.library, probe)
-			}
-		case *MovementFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Movement", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.movement, probe)
-			}
-		case *MovementShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "MovementShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.movementshape, probe)
-			}
-		case *PlaceFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Place", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.place, probe)
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

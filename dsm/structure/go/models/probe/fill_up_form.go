@@ -28,17 +28,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.AllocatedResourceShape](
-				"DiagramStructure",
-				"AllocatedResourceShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.AllocatedResourceShape {
-					return owner.AllocatedResourceShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"AllocatedResourceShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.AllocatedResourceShape {
+				return owner.AllocatedResourceShapes
+			})
 
 	case *models.AllocatedSystemShape:
 		// insertion point
@@ -51,17 +49,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.AllocatedSystemShape](
-				"DiagramStructure",
-				"AllocatedSystemShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.AllocatedSystemShape {
-					return owner.AllocatedSystemShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"AllocatedSystemShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.AllocatedSystemShape {
+				return owner.AllocatedSystemShapes
+			})
 
 	case *models.ControlFlow:
 		// insertion point
@@ -80,28 +76,24 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.ControlFlow](
-				"DiagramStructure",
-				"ControlFlowsWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.ControlFlow {
-					return owner.ControlFlowsWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Part, *models.ControlFlow](
-				"Part",
-				"ControlFlows",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Part) []*models.ControlFlow {
-					return owner.ControlFlows
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"ControlFlowsWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.ControlFlow {
+				return owner.ControlFlowsWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Part",
+			"ControlFlows",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Part) []*models.ControlFlow {
+				return owner.ControlFlows
+			})
 
 	case *models.ControlFlowShape:
 		// insertion point
@@ -123,17 +115,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.ControlFlowShape](
-				"DiagramStructure",
-				"ControlFlow_Shapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.ControlFlowShape {
-					return owner.ControlFlow_Shapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"ControlFlow_Shapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.ControlFlowShape {
+				return owner.ControlFlow_Shapes
+			})
 
 	case *models.Data:
 		// insertion point
@@ -156,50 +146,42 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DataFlow, *models.Data](
-				"DataFlow",
-				"Datas",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DataFlow) []*models.Data {
-					return owner.Datas
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.Data](
-				"DiagramStructure",
-				"DatasWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.Data {
-					return owner.DatasWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.Data](
-				"Library",
-				"RootDatas",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.Data {
-					return owner.RootDatas
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.Data](
-				"Library",
-				"DatasWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.Data {
-					return owner.DatasWhoseNodeIsExpanded
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DataFlow",
+			"Datas",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DataFlow) []*models.Data {
+				return owner.Datas
+			})
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"DatasWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.Data {
+				return owner.DatasWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"RootDatas",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.Data {
+				return owner.RootDatas
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"DatasWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.Data {
+				return owner.DatasWhoseNodeIsExpanded
+			})
 
 	case *models.DataFlow:
 		// insertion point
@@ -225,61 +207,51 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.DataFlow](
-				"DiagramStructure",
-				"DataFlowsWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.DataFlow {
-					return owner.DataFlowsWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.DataFlow](
-				"DiagramStructure",
-				"DataFlowsWhoseDataNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.DataFlow {
-					return owner.DataFlowsWhoseDataNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.DataFlow](
-				"Library",
-				"RootDataFlows",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.DataFlow {
-					return owner.RootDataFlows
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.DataFlow](
-				"Library",
-				"DataFlowsWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.DataFlow {
-					return owner.DataFlowsWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.System, *models.DataFlow](
-				"System",
-				"DataFlows",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.System) []*models.DataFlow {
-					return owner.DataFlows
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"DataFlowsWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.DataFlow {
+				return owner.DataFlowsWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"DataFlowsWhoseDataNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.DataFlow {
+				return owner.DataFlowsWhoseDataNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"RootDataFlows",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.DataFlow {
+				return owner.RootDataFlows
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"DataFlowsWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.DataFlow {
+				return owner.DataFlowsWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"System",
+			"DataFlows",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.System) []*models.DataFlow {
+				return owner.DataFlows
+			})
 
 	case *models.DataFlowShape:
 		// insertion point
@@ -301,17 +273,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.DataFlowShape](
-				"DiagramStructure",
-				"DataFlow_Shapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.DataFlowShape {
-					return owner.DataFlow_Shapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"DataFlow_Shapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.DataFlowShape {
+				return owner.DataFlow_Shapes
+			})
 
 	case *models.DataShape:
 		// insertion point
@@ -324,17 +294,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.DataShape](
-				"DiagramStructure",
-				"Data_Shapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.DataShape {
-					return owner.Data_Shapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"Data_Shapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.DataShape {
+				return owner.Data_Shapes
+			})
 
 	case *models.DiagramLayerState:
 		// insertion point
@@ -412,28 +380,24 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.System, *models.DiagramStructure](
-				"System",
-				"DiagramStructures",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.System) []*models.DiagramStructure {
-					return owner.DiagramStructures
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.System, *models.DiagramStructure](
-				"System",
-				"DiagramStructureWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.System) []*models.DiagramStructure {
-					return owner.DiagramStructureWhoseNodeIsExpanded
-				})
-		}
+		AssociationReverseSliceToForm(
+			"System",
+			"DiagramStructures",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.System) []*models.DiagramStructure {
+				return owner.DiagramStructures
+			})
+		AssociationReverseSliceToForm(
+			"System",
+			"DiagramStructureWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.System) []*models.DiagramStructure {
+				return owner.DiagramStructureWhoseNodeIsExpanded
+			})
 
 	case *models.ExternalPartShape:
 		// insertion point
@@ -459,17 +423,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.ExternalPartShape](
-				"DiagramStructure",
-				"ExternalPart_Shapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.ExternalPartShape {
-					return owner.ExternalPart_Shapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"ExternalPart_Shapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.ExternalPartShape {
+				return owner.ExternalPart_Shapes
+			})
 
 	case *models.LayerDefinition:
 		// insertion point
@@ -530,28 +492,24 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.Library](
-				"Library",
-				"SubLibraries",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.Library {
-					return owner.SubLibraries
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.Library](
-				"Library",
-				"SubLibrariesWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.Library {
-					return owner.SubLibrariesWhoseNodeIsExpanded
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Library",
+			"SubLibraries",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.Library {
+				return owner.SubLibraries
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"SubLibrariesWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.Library {
+				return owner.SubLibrariesWhoseNodeIsExpanded
+			})
 
 	case *models.Note:
 		// insertion point
@@ -574,39 +532,33 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.Note](
-				"DiagramStructure",
-				"NotesWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.Note {
-					return owner.NotesWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.Note](
-				"Library",
-				"RootNotes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.Note {
-					return owner.RootNotes
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.Note](
-				"Library",
-				"NotesWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.Note {
-					return owner.NotesWhoseNodeIsExpanded
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"NotesWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.Note {
+				return owner.NotesWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"RootNotes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.Note {
+				return owner.RootNotes
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"NotesWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.Note {
+				return owner.NotesWhoseNodeIsExpanded
+			})
 
 	case *models.NotePartShape:
 		// insertion point
@@ -629,17 +581,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.NotePartShape](
-				"DiagramStructure",
-				"NotePartShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.NotePartShape {
-					return owner.NotePartShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"NotePartShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.NotePartShape {
+				return owner.NotePartShapes
+			})
 
 	case *models.NotePortShape:
 		// insertion point
@@ -662,17 +612,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.NotePortShape](
-				"DiagramStructure",
-				"NotePortShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.NotePortShape {
-					return owner.NotePortShapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"NotePortShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.NotePortShape {
+				return owner.NotePortShapes
+			})
 
 	case *models.NoteShape:
 		// insertion point
@@ -694,17 +642,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.NoteShape](
-				"DiagramStructure",
-				"Note_Shapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.NoteShape {
-					return owner.Note_Shapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"Note_Shapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.NoteShape {
+				return owner.Note_Shapes
+			})
 
 	case *models.Part:
 		// insertion point
@@ -737,127 +683,105 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.Part](
-				"DiagramStructure",
-				"PartWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.Part {
-					return owner.PartWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.Part](
-				"DiagramStructure",
-				"ExternalPartWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.Part {
-					return owner.ExternalPartWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.Part](
-				"DiagramStructure",
-				"ExternalPartsWhoseOutDataFlowsNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.Part {
-					return owner.ExternalPartsWhoseOutDataFlowsNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.Part](
-				"DiagramStructure",
-				"ExternalPartsWhoseInDataFlowsNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.Part {
-					return owner.ExternalPartsWhoseInDataFlowsNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.Part](
-				"Library",
-				"PartsWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.Part {
-					return owner.PartsWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Note, *models.Part](
-				"Note",
-				"Parts",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Note) []*models.Part {
-					return owner.Parts
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.SemanticTag, *models.Part](
-				"SemanticTag",
-				"Parts",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.SemanticTag) []*models.Part {
-					return owner.Parts
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.System, *models.Part](
-				"System",
-				"Parts",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.System) []*models.Part {
-					return owner.Parts
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.System, *models.Part](
-				"System",
-				"PartWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.System) []*models.Part {
-					return owner.PartWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.System, *models.Part](
-				"System",
-				"ExternalParts",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.System) []*models.Part {
-					return owner.ExternalParts
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.System, *models.Part](
-				"System",
-				"ExternalPartWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.System) []*models.Part {
-					return owner.ExternalPartWhoseNodeIsExpanded
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"PartWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.Part {
+				return owner.PartWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"ExternalPartWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.Part {
+				return owner.ExternalPartWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"ExternalPartsWhoseOutDataFlowsNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.Part {
+				return owner.ExternalPartsWhoseOutDataFlowsNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"ExternalPartsWhoseInDataFlowsNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.Part {
+				return owner.ExternalPartsWhoseInDataFlowsNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"PartsWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.Part {
+				return owner.PartsWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Note",
+			"Parts",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Note) []*models.Part {
+				return owner.Parts
+			})
+		AssociationReverseSliceToForm(
+			"SemanticTag",
+			"Parts",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.SemanticTag) []*models.Part {
+				return owner.Parts
+			})
+		AssociationReverseSliceToForm(
+			"System",
+			"Parts",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.System) []*models.Part {
+				return owner.Parts
+			})
+		AssociationReverseSliceToForm(
+			"System",
+			"PartWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.System) []*models.Part {
+				return owner.PartWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"System",
+			"ExternalParts",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.System) []*models.Part {
+				return owner.ExternalParts
+			})
+		AssociationReverseSliceToForm(
+			"System",
+			"ExternalPartWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.System) []*models.Part {
+				return owner.ExternalPartWhoseNodeIsExpanded
+			})
 
 	case *models.PartAnchoredPath:
 		// insertion point
@@ -895,17 +819,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Part, *models.PartAnchoredPath](
-				"Part",
-				"PartAnchoredPath",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Part) []*models.PartAnchoredPath {
-					return owner.PartAnchoredPath
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Part",
+			"PartAnchoredPath",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Part) []*models.PartAnchoredPath {
+				return owner.PartAnchoredPath
+			})
 
 	case *models.PartShape:
 		// insertion point
@@ -929,17 +851,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.PartShape](
-				"DiagramStructure",
-				"Part_Shapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.PartShape {
-					return owner.Part_Shapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"Part_Shapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.PartShape {
+				return owner.Part_Shapes
+			})
 
 	case *models.Port:
 		// insertion point
@@ -956,83 +876,69 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.Port](
-				"DiagramStructure",
-				"PortsWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.Port {
-					return owner.PortsWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Note, *models.Port](
-				"Note",
-				"Ports",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Note) []*models.Port {
-					return owner.Ports
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Part, *models.Port](
-				"Part",
-				"Ports",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Part) []*models.Port {
-					return owner.Ports
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Part, *models.Port](
-				"Part",
-				"PortWhoseOutControlFlowsNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Part) []*models.Port {
-					return owner.PortWhoseOutControlFlowsNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Part, *models.Port](
-				"Part",
-				"PortWhoseInControlFlowsNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Part) []*models.Port {
-					return owner.PortWhoseInControlFlowsNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Part, *models.Port](
-				"Part",
-				"PortWhoseOutDataFlowsNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Part) []*models.Port {
-					return owner.PortWhoseOutDataFlowsNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Part, *models.Port](
-				"Part",
-				"PortWhoseInDataFlowsNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Part) []*models.Port {
-					return owner.PortWhoseInDataFlowsNodeIsExpanded
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"PortsWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.Port {
+				return owner.PortsWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Note",
+			"Ports",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Note) []*models.Port {
+				return owner.Ports
+			})
+		AssociationReverseSliceToForm(
+			"Part",
+			"Ports",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Part) []*models.Port {
+				return owner.Ports
+			})
+		AssociationReverseSliceToForm(
+			"Part",
+			"PortWhoseOutControlFlowsNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Part) []*models.Port {
+				return owner.PortWhoseOutControlFlowsNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Part",
+			"PortWhoseInControlFlowsNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Part) []*models.Port {
+				return owner.PortWhoseInControlFlowsNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Part",
+			"PortWhoseOutDataFlowsNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Part) []*models.Port {
+				return owner.PortWhoseOutDataFlowsNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Part",
+			"PortWhoseInDataFlowsNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Part) []*models.Port {
+				return owner.PortWhoseInDataFlowsNodeIsExpanded
+			})
 
 	case *models.PortShape:
 		// insertion point
@@ -1056,17 +962,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.PortShape](
-				"DiagramStructure",
-				"Port_Shapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.PortShape {
-					return owner.Port_Shapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"Port_Shapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.PortShape {
+				return owner.Port_Shapes
+			})
 
 	case *models.Resource:
 		// insertion point
@@ -1089,39 +993,33 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.Resource](
-				"DiagramStructure",
-				"AllocatedResourcesWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.Resource {
-					return owner.AllocatedResourcesWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.Resource](
-				"Library",
-				"RootResources",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.Resource {
-					return owner.RootResources
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.Resource](
-				"Library",
-				"ResourcesWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.Resource {
-					return owner.ResourcesWhoseNodeIsExpanded
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"AllocatedResourcesWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.Resource {
+				return owner.AllocatedResourcesWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"RootResources",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.Resource {
+				return owner.RootResources
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"ResourcesWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.Resource {
+				return owner.ResourcesWhoseNodeIsExpanded
+			})
 
 	case *models.SemanticTag:
 		// insertion point
@@ -1133,17 +1031,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.LayerDefinition, *models.SemanticTag](
-				"LayerDefinition",
-				"Query",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.LayerDefinition) []*models.SemanticTag {
-					return owner.Query
-				})
-		}
+		AssociationReverseSliceToForm(
+			"LayerDefinition",
+			"Query",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.LayerDefinition) []*models.SemanticTag {
+				return owner.Query
+			})
 
 	case *models.System:
 		// insertion point
@@ -1176,61 +1072,51 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.System](
-				"DiagramStructure",
-				"SystemsWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.System {
-					return owner.SystemsWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.System](
-				"DiagramStructure",
-				"AllocatedSystemesWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.System {
-					return owner.AllocatedSystemesWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.System](
-				"Library",
-				"RootSystemes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.System {
-					return owner.RootSystemes
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.System](
-				"Library",
-				"SystemsWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.System {
-					return owner.SystemsWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.System, *models.System](
-				"System",
-				"SubSystemes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.System) []*models.System {
-					return owner.SubSystemes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"SystemsWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.System {
+				return owner.SystemsWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"AllocatedSystemesWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.System {
+				return owner.AllocatedSystemesWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"RootSystemes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.System {
+				return owner.RootSystemes
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"SystemsWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.System {
+				return owner.SystemsWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"System",
+			"SubSystemes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.System) []*models.System {
+				return owner.SubSystemes
+			})
 
 	case *models.SystemShape:
 		// insertion point
@@ -1254,17 +1140,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.DiagramStructure, *models.SystemShape](
-				"DiagramStructure",
-				"System_Shapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.DiagramStructure) []*models.SystemShape {
-					return owner.System_Shapes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"System_Shapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.SystemShape {
+				return owner.System_Shapes
+			})
 
 	default:
 		_ = instanceWithInferedType

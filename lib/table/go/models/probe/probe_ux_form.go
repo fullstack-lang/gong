@@ -14,72 +14,11 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *ButtonFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Button", true)
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.button, probe)
-			}
-		case *CellFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Cell", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.cell, probe)
-			}
-		case *CellBooleanFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "CellBoolean", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.cellboolean, probe)
-			}
-		case *CellFloat64FormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "CellFloat64", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.cellfloat64, probe)
-			}
-		case *CellIconFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "CellIcon", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.cellicon, probe)
-			}
-		case *CellIntFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "CellInt", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.cellint, probe)
-			}
-		case *CellStringFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "CellString", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.cellstring, probe)
-			}
-		case *DisplayedColumnFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "DisplayedColumn", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.displayedcolumn, probe)
-			}
-		case *RowFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Row", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.row, probe)
-			}
-		case *SVGIconFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "SVGIcon", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.svgicon, probe)
-			}
-		case *TableFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Table", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.table, probe)
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

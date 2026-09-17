@@ -38,116 +38,96 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Circle, *models.Animate](
-				"Circle",
-				"Animations",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Circle) []*models.Animate {
-					return owner.Animations
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Ellipse, *models.Animate](
-				"Ellipse",
-				"Animates",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Ellipse) []*models.Animate {
-					return owner.Animates
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Line, *models.Animate](
-				"Line",
-				"Animates",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Line) []*models.Animate {
-					return owner.Animates
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.LinkAnchoredText, *models.Animate](
-				"LinkAnchoredText",
-				"Animates",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.LinkAnchoredText) []*models.Animate {
-					return owner.Animates
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Path, *models.Animate](
-				"Path",
-				"Animates",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Path) []*models.Animate {
-					return owner.Animates
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Polygone, *models.Animate](
-				"Polygone",
-				"Animates",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Polygone) []*models.Animate {
-					return owner.Animates
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Polyline, *models.Animate](
-				"Polyline",
-				"Animates",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Polyline) []*models.Animate {
-					return owner.Animates
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Rect, *models.Animate](
-				"Rect",
-				"Animations",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Rect) []*models.Animate {
-					return owner.Animations
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.RectAnchoredText, *models.Animate](
-				"RectAnchoredText",
-				"Animates",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.RectAnchoredText) []*models.Animate {
-					return owner.Animates
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Text, *models.Animate](
-				"Text",
-				"Animates",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Text) []*models.Animate {
-					return owner.Animates
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Circle",
+			"Animations",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Circle) []*models.Animate {
+				return owner.Animations
+			})
+		AssociationReverseSliceToForm(
+			"Ellipse",
+			"Animates",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Ellipse) []*models.Animate {
+				return owner.Animates
+			})
+		AssociationReverseSliceToForm(
+			"Line",
+			"Animates",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Line) []*models.Animate {
+				return owner.Animates
+			})
+		AssociationReverseSliceToForm(
+			"LinkAnchoredText",
+			"Animates",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.LinkAnchoredText) []*models.Animate {
+				return owner.Animates
+			})
+		AssociationReverseSliceToForm(
+			"Path",
+			"Animates",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Path) []*models.Animate {
+				return owner.Animates
+			})
+		AssociationReverseSliceToForm(
+			"Polygone",
+			"Animates",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Polygone) []*models.Animate {
+				return owner.Animates
+			})
+		AssociationReverseSliceToForm(
+			"Polyline",
+			"Animates",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Polyline) []*models.Animate {
+				return owner.Animates
+			})
+		AssociationReverseSliceToForm(
+			"Rect",
+			"Animations",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Rect) []*models.Animate {
+				return owner.Animations
+			})
+		AssociationReverseSliceToForm(
+			"RectAnchoredText",
+			"Animates",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.RectAnchoredText) []*models.Animate {
+				return owner.Animates
+			})
+		AssociationReverseSliceToForm(
+			"Text",
+			"Animates",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Text) []*models.Animate {
+				return owner.Animates
+			})
 
 	case *models.Circle:
 		// insertion point
@@ -181,17 +161,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Layer, *models.Circle](
-				"Layer",
-				"Circles",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Layer) []*models.Circle {
-					return owner.Circles
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Layer",
+			"Circles",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Layer) []*models.Circle {
+				return owner.Circles
+			})
 
 	case *models.Condition:
 		// insertion point
@@ -202,28 +180,24 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Rect, *models.Condition](
-				"Rect",
-				"HoveringTrigger",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Rect) []*models.Condition {
-					return owner.HoveringTrigger
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Rect, *models.Condition](
-				"Rect",
-				"DisplayConditions",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Rect) []*models.Condition {
-					return owner.DisplayConditions
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Rect",
+			"HoveringTrigger",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Rect) []*models.Condition {
+				return owner.HoveringTrigger
+			})
+		AssociationReverseSliceToForm(
+			"Rect",
+			"DisplayConditions",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Rect) []*models.Condition {
+				return owner.DisplayConditions
+			})
 
 	case *models.ControlPoint:
 		// insertion point
@@ -239,17 +213,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Link, *models.ControlPoint](
-				"Link",
-				"ControlPoints",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Link) []*models.ControlPoint {
-					return owner.ControlPoints
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Link",
+			"ControlPoints",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Link) []*models.ControlPoint {
+				return owner.ControlPoints
+			})
 
 	case *models.Ellipse:
 		// insertion point
@@ -285,17 +257,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Layer, *models.Ellipse](
-				"Layer",
-				"Ellipses",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Layer) []*models.Ellipse {
-					return owner.Ellipses
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Layer",
+			"Ellipses",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Layer) []*models.Ellipse {
+				return owner.Ellipses
+			})
 
 	case *models.FileToDownload:
 		// insertion point
@@ -328,17 +298,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.SVG, *models.Layer](
-				"SVG",
-				"Layers",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.SVG) []*models.Layer {
-					return owner.Layers
-				})
-		}
+		AssociationReverseSliceToForm(
+			"SVG",
+			"Layers",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.SVG) []*models.Layer {
+				return owner.Layers
+			})
 
 	case *models.Line:
 		// insertion point
@@ -378,17 +346,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Layer, *models.Line](
-				"Layer",
-				"Lines",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Layer) []*models.Line {
-					return owner.Lines
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Layer",
+			"Lines",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Layer) []*models.Line {
+				return owner.Lines
+			})
 
 	case *models.Link:
 		// insertion point
@@ -456,17 +422,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Layer, *models.Link](
-				"Layer",
-				"Links",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Layer) []*models.Link {
-					return owner.Links
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Layer",
+			"Links",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Layer) []*models.Link {
+				return owner.Links
+			})
 
 	case *models.LinkAnchoredPath:
 		// insertion point
@@ -503,39 +467,33 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Link, *models.LinkAnchoredPath](
-				"Link",
-				"PathAtArrowStart",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Link) []*models.LinkAnchoredPath {
-					return owner.PathAtArrowStart
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Link, *models.LinkAnchoredPath](
-				"Link",
-				"PathAtArrowEnd",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Link) []*models.LinkAnchoredPath {
-					return owner.PathAtArrowEnd
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Link, *models.LinkAnchoredPath](
-				"Link",
-				"PathAtCorner",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Link) []*models.LinkAnchoredPath {
-					return owner.PathAtCorner
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Link",
+			"PathAtArrowStart",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Link) []*models.LinkAnchoredPath {
+				return owner.PathAtArrowStart
+			})
+		AssociationReverseSliceToForm(
+			"Link",
+			"PathAtArrowEnd",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Link) []*models.LinkAnchoredPath {
+				return owner.PathAtArrowEnd
+			})
+		AssociationReverseSliceToForm(
+			"Link",
+			"PathAtCorner",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Link) []*models.LinkAnchoredPath {
+				return owner.PathAtCorner
+			})
 
 	case *models.LinkAnchoredText:
 		// insertion point
@@ -583,39 +541,33 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Link, *models.LinkAnchoredText](
-				"Link",
-				"TextAtArrowStart",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Link) []*models.LinkAnchoredText {
-					return owner.TextAtArrowStart
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Link, *models.LinkAnchoredText](
-				"Link",
-				"TextAtArrowEnd",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Link) []*models.LinkAnchoredText {
-					return owner.TextAtArrowEnd
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Link, *models.LinkAnchoredText](
-				"Link",
-				"TextAtCorner",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Link) []*models.LinkAnchoredText {
-					return owner.TextAtCorner
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Link",
+			"TextAtArrowStart",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Link) []*models.LinkAnchoredText {
+				return owner.TextAtArrowStart
+			})
+		AssociationReverseSliceToForm(
+			"Link",
+			"TextAtArrowEnd",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Link) []*models.LinkAnchoredText {
+				return owner.TextAtArrowEnd
+			})
+		AssociationReverseSliceToForm(
+			"Link",
+			"TextAtCorner",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Link) []*models.LinkAnchoredText {
+				return owner.TextAtCorner
+			})
 
 	case *models.Path:
 		// insertion point
@@ -645,17 +597,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Layer, *models.Path](
-				"Layer",
-				"Paths",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Layer) []*models.Path {
-					return owner.Paths
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Layer",
+			"Paths",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Layer) []*models.Path {
+				return owner.Paths
+			})
 
 	case *models.Point:
 		// insertion point
@@ -699,17 +649,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Layer, *models.Polygone](
-				"Layer",
-				"Polygones",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Layer) []*models.Polygone {
-					return owner.Polygones
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Layer",
+			"Polygones",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Layer) []*models.Polygone {
+				return owner.Polygones
+			})
 
 	case *models.Polyline:
 		// insertion point
@@ -739,17 +687,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Layer, *models.Polyline](
-				"Layer",
-				"Polylines",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Layer) []*models.Polyline {
-					return owner.Polylines
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Layer",
+			"Polylines",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Layer) []*models.Polyline {
+				return owner.Polylines
+			})
 
 	case *models.Rect:
 		// insertion point
@@ -846,39 +792,33 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Layer, *models.Rect](
-				"Layer",
-				"Rects",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Layer) []*models.Rect {
-					return owner.Rects
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Rect, *models.Rect](
-				"Rect",
-				"Peers",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Rect) []*models.Rect {
-					return owner.Peers
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Rect, *models.Rect](
-				"Rect",
-				"Obstacles",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Rect) []*models.Rect {
-					return owner.Obstacles
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Layer",
+			"Rects",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Layer) []*models.Rect {
+				return owner.Rects
+			})
+		AssociationReverseSliceToForm(
+			"Rect",
+			"Peers",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Rect) []*models.Rect {
+				return owner.Peers
+			})
+		AssociationReverseSliceToForm(
+			"Rect",
+			"Obstacles",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Rect) []*models.Rect {
+				return owner.Obstacles
+			})
 
 	case *models.RectAnchoredPath:
 		// insertion point
@@ -916,17 +856,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Rect, *models.RectAnchoredPath](
-				"Rect",
-				"RectAnchoredPaths",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Rect) []*models.RectAnchoredPath {
-					return owner.RectAnchoredPaths
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Rect",
+			"RectAnchoredPaths",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Rect) []*models.RectAnchoredPath {
+				return owner.RectAnchoredPaths
+			})
 
 	case *models.RectAnchoredPngImage:
 		// insertion point
@@ -954,17 +892,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Rect, *models.RectAnchoredPngImage](
-				"Rect",
-				"RectAnchoredPngImages",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Rect) []*models.RectAnchoredPngImage {
-					return owner.RectAnchoredPngImages
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Rect",
+			"RectAnchoredPngImages",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Rect) []*models.RectAnchoredPngImage {
+				return owner.RectAnchoredPngImages
+			})
 
 	case *models.RectAnchoredRect:
 		// insertion point
@@ -1014,17 +950,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Rect, *models.RectAnchoredRect](
-				"Rect",
-				"RectAnchoredRects",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Rect) []*models.RectAnchoredRect {
-					return owner.RectAnchoredRects
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Rect",
+			"RectAnchoredRects",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Rect) []*models.RectAnchoredRect {
+				return owner.RectAnchoredRects
+			})
 
 	case *models.RectAnchoredText:
 		// insertion point
@@ -1076,17 +1010,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Rect, *models.RectAnchoredText](
-				"Rect",
-				"RectAnchoredTexts",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Rect) []*models.RectAnchoredText {
-					return owner.RectAnchoredTexts
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Rect",
+			"RectAnchoredTexts",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Rect) []*models.RectAnchoredText {
+				return owner.RectAnchoredTexts
+			})
 
 	case *models.RectLinkLink:
 		// insertion point
@@ -1117,17 +1049,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Layer, *models.RectLinkLink](
-				"Layer",
-				"RectLinkLinks",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Layer) []*models.RectLinkLink {
-					return owner.RectLinkLinks
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Layer",
+			"RectLinkLinks",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Layer) []*models.RectLinkLink {
+				return owner.RectLinkLinks
+			})
 
 	case *models.SVG:
 		// insertion point
@@ -1222,17 +1152,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Layer, *models.Text](
-				"Layer",
-				"Texts",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Layer) []*models.Text {
-					return owner.Texts
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Layer",
+			"Texts",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Layer) []*models.Text {
+				return owner.Texts
+			})
 
 	default:
 		_ = instanceWithInferedType

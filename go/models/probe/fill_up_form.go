@@ -60,17 +60,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.GongStruct, *models.GongBasicField](
-				"GongStruct",
-				"GongBasicFields",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.GongStruct) []*models.GongBasicField {
-					return owner.GongBasicFields
-				})
-		}
+		AssociationReverseSliceToForm(
+			"GongStruct",
+			"GongBasicFields",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.GongStruct) []*models.GongBasicField {
+				return owner.GongBasicFields
+			})
 
 	case *models.GongEnum:
 		// insertion point
@@ -95,17 +93,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.GongEnum, *models.GongEnumValue](
-				"GongEnum",
-				"GongEnumValues",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.GongEnum) []*models.GongEnumValue {
-					return owner.GongEnumValues
-				})
-		}
+		AssociationReverseSliceToForm(
+			"GongEnum",
+			"GongEnumValues",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.GongEnum) []*models.GongEnumValue {
+				return owner.GongEnumValues
+			})
 
 	case *models.GongLink:
 		// insertion point
@@ -120,17 +116,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.GongNote, *models.GongLink](
-				"GongNote",
-				"Links",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.GongNote) []*models.GongLink {
-					return owner.Links
-				})
-		}
+		AssociationReverseSliceToForm(
+			"GongNote",
+			"Links",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.GongNote) []*models.GongLink {
+				return owner.Links
+			})
 
 	case *models.GongNote:
 		// insertion point
@@ -199,17 +193,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.GongStruct, *models.GongTimeField](
-				"GongStruct",
-				"GongTimeFields",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.GongStruct) []*models.GongTimeField {
-					return owner.GongTimeFields
-				})
-		}
+		AssociationReverseSliceToForm(
+			"GongStruct",
+			"GongTimeFields",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.GongStruct) []*models.GongTimeField {
+				return owner.GongTimeFields
+			})
 
 	case *models.MetaReference:
 		// insertion point
@@ -298,17 +290,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.GongStruct, *models.PointerToGongStructField](
-				"GongStruct",
-				"PointerToGongStructFields",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.GongStruct) []*models.PointerToGongStructField {
-					return owner.PointerToGongStructFields
-				})
-		}
+		AssociationReverseSliceToForm(
+			"GongStruct",
+			"PointerToGongStructFields",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.GongStruct) []*models.PointerToGongStructField {
+				return owner.PointerToGongStructFields
+			})
 
 	case *models.SliceOfPointerToGongStructField:
 		// insertion point
@@ -339,17 +329,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.GongStruct, *models.SliceOfPointerToGongStructField](
-				"GongStruct",
-				"SliceOfPointerToGongStructFields",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.GongStruct) []*models.SliceOfPointerToGongStructField {
-					return owner.SliceOfPointerToGongStructFields
-				})
-		}
+		AssociationReverseSliceToForm(
+			"GongStruct",
+			"SliceOfPointerToGongStructFields",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.GongStruct) []*models.SliceOfPointerToGongStructField {
+				return owner.SliceOfPointerToGongStructFields
+			})
 
 	default:
 		_ = instanceWithInferedType

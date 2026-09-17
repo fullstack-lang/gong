@@ -18,510 +18,288 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 
 var _ = log.Panicf
 
-// insertion point
-func __gong__New__CommandFormCallback(
-	command *models.Command,
+type FormCallbackIF interface {
+	GetCreationMode() bool
+	GetInstance() any
+	GetGongstructName() string
+	OnSave()
+}
+
+type FormCallback[T models.PointerToGongstruct] struct {
+	Instance     T
+	CreationMode bool
+	probe        *Probe
+	formGroup    *form.FormGroup
+	saveFields   func(instance T, probe *Probe, formGroup *form.FormGroup)
+}
+
+func NewFormCallback[T models.PointerToGongstruct](
+	instance T,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (commandFormCallback *CommandFormCallback) {
-	commandFormCallback = new(CommandFormCallback)
-	commandFormCallback.probe = probe
-	commandFormCallback.command = command
-	commandFormCallback.formGroup = formGroup
-
-	commandFormCallback.CreationMode = (command == nil)
-
-	return
-}
-
-type CommandFormCallback struct {
-	command *models.Command
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (commandFormCallback *CommandFormCallback) OnSave() {
-	commandFormCallback.probe.stageOfInterest.Lock()
-	defer commandFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("CommandFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	commandFormCallback.probe.formStage.Checkout()
-
-	if commandFormCallback.command == nil {
-		commandFormCallback.command = new(models.Command).Stage(commandFormCallback.probe.stageOfInterest)
+	saveFields func(instance T, probe *Probe, formGroup *form.FormGroup),
+) *FormCallback[T] {
+	return &FormCallback[T]{
+		Instance:     instance,
+		CreationMode: any(instance) == nil,
+		probe:        probe,
+		formGroup:    formGroup,
+		saveFields:   saveFields,
 	}
-	command_ := commandFormCallback.command
-	_ = command_
+}
 
-	for _, formDiv := range commandFormCallback.formGroup.FormDivs {
+func (cb *FormCallback[T]) GetCreationMode() bool     { return cb.CreationMode }
+func (cb *FormCallback[T]) GetInstance() any           { return cb.Instance }
+func (cb *FormCallback[T]) GetGongstructName() string { return models.GetPointerToGongstructName[T]() }
+
+func (cb *FormCallback[T]) OnSave() {
+	cb.probe.stageOfInterest.Lock()
+	defer cb.probe.stageOfInterest.Unlock()
+
+	cb.probe.formStage.Checkout()
+
+	if any(cb.Instance) == nil {
+		cb.Instance = cb.probe.stageOfInterest.GongNewInstance[T]()
+	}
+
+	cb.saveFields(cb.Instance, cb.probe, cb.formGroup)
+
+	if cb.formGroup.HasSuppressButtonBeenPressed {
+		cb.Instance.UnstageVoid(cb.probe.stageOfInterest)
+	}
+
+	cb.probe.stageOfInterest.Commit()
+	updateProbeTable[T](cb.probe)
+
+	if cb.CreationMode || cb.formGroup.HasSuppressButtonBeenPressed {
+		cb.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(cb.probe.formStage)
+		newFormGroup.OnSave = NewFormCallback[T](
+			*new(T),
+			cb.probe,
+			newFormGroup,
+			cb.saveFields,
+		)
+		newInstance := models.GongNewInstance[T]()
+		FillUpForm(newInstance, newFormGroup, cb.probe)
+		cb.probe.formStage.Commit()
+	}
+
+	cb.probe.ux_tree()
+}
+
+// insertion point
+func __gong__New__CommandFormCallback(
+	_instance *models.Command,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (commandFormCallback *FormCallback[*models.Command]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveCommandFields,
+	)
+}
+
+type CommandFormCallback = FormCallback[*models.Command]
+
+func saveCommandFields(
+	_instance *models.Command,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(command_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Command":
-			FormDivEnumStringFieldToField(&(command_.Command), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.Command), formDiv)
 		case "CommandDate":
-			FormDivBasicFieldToField(&(command_.CommandDate), formDiv)
+			FormDivBasicFieldToField(&(_instance.CommandDate), formDiv)
 		case "Engine":
-			FormDivSelectFieldToField(&(command_.Engine), commandFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.Engine), probe.stageOfInterest, formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if commandFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		command_.Unstage(commandFormCallback.probe.stageOfInterest)
-	}
-
-	commandFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Command](
-		commandFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if commandFormCallback.CreationMode || commandFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		commandFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(commandFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__CommandFormCallback(
-			nil,
-			commandFormCallback.probe,
-			newFormGroup,
-		)
-		command := new(models.Command)
-		FillUpForm(command, newFormGroup, commandFormCallback.probe)
-		commandFormCallback.probe.formStage.Commit()
-	}
-
-	commandFormCallback.probe.ux_tree()
 }
+
 func __gong__New__DummyAgentFormCallback(
-	dummyagent *models.DummyAgent,
+	_instance *models.DummyAgent,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (dummyagentFormCallback *DummyAgentFormCallback) {
-	dummyagentFormCallback = new(DummyAgentFormCallback)
-	dummyagentFormCallback.probe = probe
-	dummyagentFormCallback.dummyagent = dummyagent
-	dummyagentFormCallback.formGroup = formGroup
-
-	dummyagentFormCallback.CreationMode = (dummyagent == nil)
-
-	return
+) (dummyagentFormCallback *FormCallback[*models.DummyAgent]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveDummyAgentFields,
+	)
 }
 
-type DummyAgentFormCallback struct {
-	dummyagent *models.DummyAgent
+type DummyAgentFormCallback = FormCallback[*models.DummyAgent]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (dummyagentFormCallback *DummyAgentFormCallback) OnSave() {
-	dummyagentFormCallback.probe.stageOfInterest.Lock()
-	defer dummyagentFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("DummyAgentFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	dummyagentFormCallback.probe.formStage.Checkout()
-
-	if dummyagentFormCallback.dummyagent == nil {
-		dummyagentFormCallback.dummyagent = new(models.DummyAgent).Stage(dummyagentFormCallback.probe.stageOfInterest)
-	}
-	dummyagent_ := dummyagentFormCallback.dummyagent
-	_ = dummyagent_
-
-	for _, formDiv := range dummyagentFormCallback.formGroup.FormDivs {
+func saveDummyAgentFields(
+	_instance *models.DummyAgent,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "TechName":
-			FormDivBasicFieldToField(&(dummyagent_.TechName), formDiv)
+			FormDivBasicFieldToField(&(_instance.TechName), formDiv)
 		case "Name":
-			FormDivBasicFieldToField(&(dummyagent_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if dummyagentFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		dummyagent_.Unstage(dummyagentFormCallback.probe.stageOfInterest)
-	}
-
-	dummyagentFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.DummyAgent](
-		dummyagentFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if dummyagentFormCallback.CreationMode || dummyagentFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		dummyagentFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(dummyagentFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__DummyAgentFormCallback(
-			nil,
-			dummyagentFormCallback.probe,
-			newFormGroup,
-		)
-		dummyagent := new(models.DummyAgent)
-		FillUpForm(dummyagent, newFormGroup, dummyagentFormCallback.probe)
-		dummyagentFormCallback.probe.formStage.Commit()
-	}
-
-	dummyagentFormCallback.probe.ux_tree()
 }
+
 func __gong__New__EngineFormCallback(
-	engine *models.Engine,
+	_instance *models.Engine,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (engineFormCallback *EngineFormCallback) {
-	engineFormCallback = new(EngineFormCallback)
-	engineFormCallback.probe = probe
-	engineFormCallback.engine = engine
-	engineFormCallback.formGroup = formGroup
-
-	engineFormCallback.CreationMode = (engine == nil)
-
-	return
+) (engineFormCallback *FormCallback[*models.Engine]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveEngineFields,
+	)
 }
 
-type EngineFormCallback struct {
-	engine *models.Engine
+type EngineFormCallback = FormCallback[*models.Engine]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (engineFormCallback *EngineFormCallback) OnSave() {
-	engineFormCallback.probe.stageOfInterest.Lock()
-	defer engineFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("EngineFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	engineFormCallback.probe.formStage.Checkout()
-
-	if engineFormCallback.engine == nil {
-		engineFormCallback.engine = new(models.Engine).Stage(engineFormCallback.probe.stageOfInterest)
-	}
-	engine_ := engineFormCallback.engine
-	_ = engine_
-
-	for _, formDiv := range engineFormCallback.formGroup.FormDivs {
+func saveEngineFields(
+	_instance *models.Engine,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(engine_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "EndTime":
-			FormDivBasicFieldToField(&(engine_.EndTime), formDiv)
+			FormDivBasicFieldToField(&(_instance.EndTime), formDiv)
 		case "CurrentTime":
-			FormDivBasicFieldToField(&(engine_.CurrentTime), formDiv)
+			FormDivBasicFieldToField(&(_instance.CurrentTime), formDiv)
 		case "DisplayFormat":
-			FormDivBasicFieldToField(&(engine_.DisplayFormat), formDiv)
+			FormDivBasicFieldToField(&(_instance.DisplayFormat), formDiv)
 		case "SecondsSinceStart":
-			FormDivBasicFieldToField(&(engine_.SecondsSinceStart), formDiv)
+			FormDivBasicFieldToField(&(_instance.SecondsSinceStart), formDiv)
 		case "Fired":
-			FormDivBasicFieldToField(&(engine_.Fired), formDiv)
+			FormDivBasicFieldToField(&(_instance.Fired), formDiv)
 		case "ControlMode":
-			FormDivEnumStringFieldToField(&(engine_.ControlMode), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.ControlMode), formDiv)
 		case "State":
-			FormDivEnumStringFieldToField(&(engine_.State), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.State), formDiv)
 		case "Speed":
-			FormDivBasicFieldToField(&(engine_.Speed), formDiv)
+			FormDivBasicFieldToField(&(_instance.Speed), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if engineFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		engine_.Unstage(engineFormCallback.probe.stageOfInterest)
-	}
-
-	engineFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Engine](
-		engineFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if engineFormCallback.CreationMode || engineFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		engineFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(engineFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__EngineFormCallback(
-			nil,
-			engineFormCallback.probe,
-			newFormGroup,
-		)
-		engine := new(models.Engine)
-		FillUpForm(engine, newFormGroup, engineFormCallback.probe)
-		engineFormCallback.probe.formStage.Commit()
-	}
-
-	engineFormCallback.probe.ux_tree()
 }
+
 func __gong__New__EventFormCallback(
-	event *models.Event,
+	_instance *models.Event,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (eventFormCallback *EventFormCallback) {
-	eventFormCallback = new(EventFormCallback)
-	eventFormCallback.probe = probe
-	eventFormCallback.event = event
-	eventFormCallback.formGroup = formGroup
-
-	eventFormCallback.CreationMode = (event == nil)
-
-	return
+) (eventFormCallback *FormCallback[*models.Event]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveEventFields,
+	)
 }
 
-type EventFormCallback struct {
-	event *models.Event
+type EventFormCallback = FormCallback[*models.Event]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (eventFormCallback *EventFormCallback) OnSave() {
-	eventFormCallback.probe.stageOfInterest.Lock()
-	defer eventFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("EventFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	eventFormCallback.probe.formStage.Checkout()
-
-	if eventFormCallback.event == nil {
-		eventFormCallback.event = new(models.Event).Stage(eventFormCallback.probe.stageOfInterest)
-	}
-	event_ := eventFormCallback.event
-	_ = event_
-
-	for _, formDiv := range eventFormCallback.formGroup.FormDivs {
+func saveEventFields(
+	_instance *models.Event,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(event_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Duration":
-			FormDivBasicFieldToField(&(event_.Duration), formDiv)
+			FormDivBasicFieldToField(&(_instance.Duration), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if eventFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		event_.Unstage(eventFormCallback.probe.stageOfInterest)
-	}
-
-	eventFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Event](
-		eventFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if eventFormCallback.CreationMode || eventFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		eventFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(eventFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__EventFormCallback(
-			nil,
-			eventFormCallback.probe,
-			newFormGroup,
-		)
-		event := new(models.Event)
-		FillUpForm(event, newFormGroup, eventFormCallback.probe)
-		eventFormCallback.probe.formStage.Commit()
-	}
-
-	eventFormCallback.probe.ux_tree()
 }
+
 func __gong__New__StatusFormCallback(
-	status *models.Status,
+	_instance *models.Status,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (statusFormCallback *StatusFormCallback) {
-	statusFormCallback = new(StatusFormCallback)
-	statusFormCallback.probe = probe
-	statusFormCallback.status = status
-	statusFormCallback.formGroup = formGroup
-
-	statusFormCallback.CreationMode = (status == nil)
-
-	return
+) (statusFormCallback *FormCallback[*models.Status]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveStatusFields,
+	)
 }
 
-type StatusFormCallback struct {
-	status *models.Status
+type StatusFormCallback = FormCallback[*models.Status]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (statusFormCallback *StatusFormCallback) OnSave() {
-	statusFormCallback.probe.stageOfInterest.Lock()
-	defer statusFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("StatusFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	statusFormCallback.probe.formStage.Checkout()
-
-	if statusFormCallback.status == nil {
-		statusFormCallback.status = new(models.Status).Stage(statusFormCallback.probe.stageOfInterest)
-	}
-	status_ := statusFormCallback.status
-	_ = status_
-
-	for _, formDiv := range statusFormCallback.formGroup.FormDivs {
+func saveStatusFields(
+	_instance *models.Status,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(status_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "CurrentCommand":
-			FormDivEnumStringFieldToField(&(status_.CurrentCommand), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.CurrentCommand), formDiv)
 		case "CompletionDate":
-			FormDivBasicFieldToField(&(status_.CompletionDate), formDiv)
+			FormDivBasicFieldToField(&(_instance.CompletionDate), formDiv)
 		case "CurrentSpeedCommand":
-			FormDivEnumStringFieldToField(&(status_.CurrentSpeedCommand), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.CurrentSpeedCommand), formDiv)
 		case "SpeedCommandCompletionDate":
-			FormDivBasicFieldToField(&(status_.SpeedCommandCompletionDate), formDiv)
+			FormDivBasicFieldToField(&(_instance.SpeedCommandCompletionDate), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if statusFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		status_.Unstage(statusFormCallback.probe.stageOfInterest)
-	}
-
-	statusFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Status](
-		statusFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if statusFormCallback.CreationMode || statusFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		statusFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(statusFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__StatusFormCallback(
-			nil,
-			statusFormCallback.probe,
-			newFormGroup,
-		)
-		status := new(models.Status)
-		FillUpForm(status, newFormGroup, statusFormCallback.probe)
-		statusFormCallback.probe.formStage.Commit()
-	}
-
-	statusFormCallback.probe.ux_tree()
 }
+
 func __gong__New__UpdateStateFormCallback(
-	updatestate *models.UpdateState,
+	_instance *models.UpdateState,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (updatestateFormCallback *UpdateStateFormCallback) {
-	updatestateFormCallback = new(UpdateStateFormCallback)
-	updatestateFormCallback.probe = probe
-	updatestateFormCallback.updatestate = updatestate
-	updatestateFormCallback.formGroup = formGroup
-
-	updatestateFormCallback.CreationMode = (updatestate == nil)
-
-	return
+) (updatestateFormCallback *FormCallback[*models.UpdateState]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveUpdateStateFields,
+	)
 }
 
-type UpdateStateFormCallback struct {
-	updatestate *models.UpdateState
+type UpdateStateFormCallback = FormCallback[*models.UpdateState]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (updatestateFormCallback *UpdateStateFormCallback) OnSave() {
-	updatestateFormCallback.probe.stageOfInterest.Lock()
-	defer updatestateFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("UpdateStateFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	updatestateFormCallback.probe.formStage.Checkout()
-
-	if updatestateFormCallback.updatestate == nil {
-		updatestateFormCallback.updatestate = new(models.UpdateState).Stage(updatestateFormCallback.probe.stageOfInterest)
-	}
-	updatestate_ := updatestateFormCallback.updatestate
-	_ = updatestate_
-
-	for _, formDiv := range updatestateFormCallback.formGroup.FormDivs {
+func saveUpdateStateFields(
+	_instance *models.UpdateState,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(updatestate_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Duration":
-			FormDivBasicFieldToField(&(updatestate_.Duration), formDiv)
+			FormDivBasicFieldToField(&(_instance.Duration), formDiv)
 		case "Period":
-			FormDivBasicFieldToField(&(updatestate_.Period), formDiv)
+			FormDivBasicFieldToField(&(_instance.Period), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if updatestateFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		updatestate_.Unstage(updatestateFormCallback.probe.stageOfInterest)
-	}
-
-	updatestateFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.UpdateState](
-		updatestateFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if updatestateFormCallback.CreationMode || updatestateFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		updatestateFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(updatestateFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__UpdateStateFormCallback(
-			nil,
-			updatestateFormCallback.probe,
-			newFormGroup,
-		)
-		updatestate := new(models.UpdateState)
-		FillUpForm(updatestate, newFormGroup, updatestateFormCallback.probe)
-		updatestateFormCallback.probe.formStage.Commit()
-	}
-
-	updatestateFormCallback.probe.ux_tree()
 }
+

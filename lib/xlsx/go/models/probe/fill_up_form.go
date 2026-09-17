@@ -42,28 +42,24 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.XLRow, *models.XLCell](
-				"XLRow",
-				"Cells",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.XLRow) []*models.XLCell {
-					return owner.Cells
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.XLSheet, *models.XLCell](
-				"XLSheet",
-				"SheetCells",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.XLSheet) []*models.XLCell {
-					return owner.SheetCells
-				})
-		}
+		AssociationReverseSliceToForm(
+			"XLRow",
+			"Cells",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.XLRow) []*models.XLCell {
+				return owner.Cells
+			})
+		AssociationReverseSliceToForm(
+			"XLSheet",
+			"SheetCells",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.XLSheet) []*models.XLCell {
+				return owner.SheetCells
+			})
 
 	case *models.XLFile:
 		// insertion point
@@ -90,17 +86,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.XLSheet, *models.XLRow](
-				"XLSheet",
-				"Rows",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.XLSheet) []*models.XLRow {
-					return owner.Rows
-				})
-		}
+		AssociationReverseSliceToForm(
+			"XLSheet",
+			"Rows",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.XLSheet) []*models.XLRow {
+				return owner.Rows
+			})
 
 	case *models.XLSheet:
 		// insertion point
@@ -119,17 +113,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.XLFile, *models.XLSheet](
-				"XLFile",
-				"Sheets",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.XLFile) []*models.XLSheet {
-					return owner.Sheets
-				})
-		}
+		AssociationReverseSliceToForm(
+			"XLFile",
+			"Sheets",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.XLFile) []*models.XLSheet {
+				return owner.Sheets
+			})
 
 	default:
 		_ = instanceWithInferedType

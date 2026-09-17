@@ -5441,6 +5441,80 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
+// GongNewInstance creates a new instance of the Gongstruct
+func GongNewInstance[Type GongstructPtr]() (res Type) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic new instance
+	case *Animate:
+		res = any(new(Animate)).(Type)
+	case *Circle:
+		res = any(new(Circle)).(Type)
+	case *Condition:
+		res = any(new(Condition)).(Type)
+	case *ControlPoint:
+		res = any(new(ControlPoint)).(Type)
+	case *Ellipse:
+		res = any(new(Ellipse)).(Type)
+	case *FileToDownload:
+		res = any(new(FileToDownload)).(Type)
+	case *Layer:
+		res = any(new(Layer)).(Type)
+	case *Line:
+		res = any(new(Line)).(Type)
+	case *Link:
+		res = any(new(Link)).(Type)
+	case *LinkAnchoredPath:
+		res = any(new(LinkAnchoredPath)).(Type)
+	case *LinkAnchoredText:
+		res = any(new(LinkAnchoredText)).(Type)
+	case *Path:
+		res = any(new(Path)).(Type)
+	case *Point:
+		res = any(new(Point)).(Type)
+	case *Polygone:
+		res = any(new(Polygone)).(Type)
+	case *Polyline:
+		res = any(new(Polyline)).(Type)
+	case *Rect:
+		res = any(new(Rect)).(Type)
+	case *RectAnchoredPath:
+		res = any(new(RectAnchoredPath)).(Type)
+	case *RectAnchoredPngImage:
+		res = any(new(RectAnchoredPngImage)).(Type)
+	case *RectAnchoredRect:
+		res = any(new(RectAnchoredRect)).(Type)
+	case *RectAnchoredText:
+		res = any(new(RectAnchoredText)).(Type)
+	case *RectLinkLink:
+		res = any(new(RectLinkLink)).(Type)
+	case *SVG:
+		res = any(new(SVG)).(Type)
+	case *SvgText:
+		res = any(new(SvgText)).(Type)
+	case *Text:
+		res = any(new(Text)).(Type)
+	}
+	return res
+}
+
+func NewInstance[Type GongstructPtr]() (res Type) {
+	return GongNewInstance[Type]()
+}
+
+func (stage *Stage) GongNewInstance[Type GongstructPtr]() (res Type) {
+	res = GongNewInstance[Type]()
+	if any(res) != nil {
+		res.StageVoid(stage)
+	}
+	return res
+}
+
+func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
+	return stage.GongNewInstance[Type]()
+}
+
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {

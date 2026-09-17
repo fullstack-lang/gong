@@ -4452,6 +4452,72 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
+// GongNewInstance creates a new instance of the Gongstruct
+func GongNewInstance[Type GongstructPtr]() (res Type) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic new instance
+	case *AsSplit:
+		res = any(new(AsSplit)).(Type)
+	case *AsSplitArea:
+		res = any(new(AsSplitArea)).(Type)
+	case *Button:
+		res = any(new(Button)).(Type)
+	case *Cursor:
+		res = any(new(Cursor)).(Type)
+	case *FavIcon:
+		res = any(new(FavIcon)).(Type)
+	case *Form:
+		res = any(new(Form)).(Type)
+	case *Load:
+		res = any(new(Load)).(Type)
+	case *LogoOnTheLeft:
+		res = any(new(LogoOnTheLeft)).(Type)
+	case *LogoOnTheRight:
+		res = any(new(LogoOnTheRight)).(Type)
+	case *Markdown:
+		res = any(new(Markdown)).(Type)
+	case *Slider:
+		res = any(new(Slider)).(Type)
+	case *Split:
+		res = any(new(Split)).(Type)
+	case *Svg:
+		res = any(new(Svg)).(Type)
+	case *Table:
+		res = any(new(Table)).(Type)
+	case *Threejs:
+		res = any(new(Threejs)).(Type)
+	case *Title:
+		res = any(new(Title)).(Type)
+	case *Tone:
+		res = any(new(Tone)).(Type)
+	case *Tree:
+		res = any(new(Tree)).(Type)
+	case *View:
+		res = any(new(View)).(Type)
+	case *Xlsx:
+		res = any(new(Xlsx)).(Type)
+	}
+	return res
+}
+
+func NewInstance[Type GongstructPtr]() (res Type) {
+	return GongNewInstance[Type]()
+}
+
+func (stage *Stage) GongNewInstance[Type GongstructPtr]() (res Type) {
+	res = GongNewInstance[Type]()
+	if any(res) != nil {
+		res.StageVoid(stage)
+	}
+	return res
+}
+
+func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
+	return stage.GongNewInstance[Type]()
+}
+
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {

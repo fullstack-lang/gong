@@ -28083,6 +28083,324 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
+// GongNewInstance creates a new instance of the Gongstruct
+func GongNewInstance[Type GongstructPtr]() (res Type) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic new instance
+	case *Angle0Shape:
+		res = any(new(Angle0Shape)).(Type)
+	case *ArcNormalVectorShape:
+		res = any(new(ArcNormalVectorShape)).(Type)
+	case *ArcNormalVectorShapeGrid:
+		res = any(new(ArcNormalVectorShapeGrid)).(Type)
+	case *AxesShape:
+		res = any(new(AxesShape)).(Type)
+	case *BaseVectorShape:
+		res = any(new(BaseVectorShape)).(Type)
+	case *BaseVectorShapeGrid:
+		res = any(new(BaseVectorShapeGrid)).(Type)
+	case *ChosenP1P2PairShape:
+		res = any(new(ChosenP1P2PairShape)).(Type)
+	case *CircleGridShape:
+		res = any(new(CircleGridShape)).(Type)
+	case *Circumference3DShape:
+		res = any(new(Circumference3DShape)).(Type)
+	case *Clock2DDiagram:
+		res = any(new(Clock2DDiagram)).(Type)
+	case *Clock3DDiagram:
+		res = any(new(Clock3DDiagram)).(Type)
+	case *ClockAbstract:
+		res = any(new(ClockAbstract)).(Type)
+	case *ClockTopCurveShape:
+		res = any(new(ClockTopCurveShape)).(Type)
+	case *CutLine3DShape:
+		res = any(new(CutLine3DShape)).(Type)
+	case *EndArcShape:
+		res = any(new(EndArcShape)).(Type)
+	case *EndArcShapeGrid:
+		res = any(new(EndArcShapeGrid)).(Type)
+	case *EndHalfwayArcShape:
+		res = any(new(EndHalfwayArcShape)).(Type)
+	case *EndHalfwayArcShapeGrid:
+		res = any(new(EndHalfwayArcShapeGrid)).(Type)
+	case *ExplanationTextShape:
+		res = any(new(ExplanationTextShape)).(Type)
+	case *Eye3DShape:
+		res = any(new(Eye3DShape)).(Type)
+	case *EyeCornersSampledPoints3DShape:
+		res = any(new(EyeCornersSampledPoints3DShape)).(Type)
+	case *EyeSampledPoints3DShape:
+		res = any(new(EyeSampledPoints3DShape)).(Type)
+	case *EyeSeatBottomCurveShape:
+		res = any(new(EyeSeatBottomCurveShape)).(Type)
+	case *EyeStoolBottomCurveShape:
+		res = any(new(EyeStoolBottomCurveShape)).(Type)
+	case *EyeVolume3DShape:
+		res = any(new(EyeVolume3DShape)).(Type)
+	case *GridPathShape:
+		res = any(new(GridPathShape)).(Type)
+	case *GrowthCurve2D:
+		res = any(new(GrowthCurve2D)).(Type)
+	case *GrowthCurve2DRibbon:
+		res = any(new(GrowthCurve2DRibbon)).(Type)
+	case *GrowthCurve2DRibbonEndShape:
+		res = any(new(GrowthCurve2DRibbonEndShape)).(Type)
+	case *GrowthCurve2DRibbonStartShape:
+		res = any(new(GrowthCurve2DRibbonStartShape)).(Type)
+	case *GrowthCurveRhombusGridShape:
+		res = any(new(GrowthCurveRhombusGridShape)).(Type)
+	case *GrowthCurveRhombusShape:
+		res = any(new(GrowthCurveRhombusShape)).(Type)
+	case *GrowthVectorShape:
+		res = any(new(GrowthVectorShape)).(Type)
+	case *InitialRhombusGridShape:
+		res = any(new(InitialRhombusGridShape)).(Type)
+	case *InitialRhombusShape:
+		res = any(new(InitialRhombusShape)).(Type)
+	case *Key3DShape:
+		res = any(new(Key3DShape)).(Type)
+	case *KeyHole3DShape:
+		res = any(new(KeyHole3DShape)).(Type)
+	case *KeyHoleShape:
+		res = any(new(KeyHoleShape)).(Type)
+	case *Leaves3DShape:
+		res = any(new(Leaves3DShape)).(Type)
+	case *Library:
+		res = any(new(Library)).(Type)
+	case *MidArcVectorShape:
+		res = any(new(MidArcVectorShape)).(Type)
+	case *MidArcVectorShapeGrid:
+		res = any(new(MidArcVectorShapeGrid)).(Type)
+	case *MusicAbstract:
+		res = any(new(MusicAbstract)).(Type)
+	case *OriginalPoints3DShape:
+		res = any(new(OriginalPoints3DShape)).(Type)
+	case *ParastichyMCurves3DShape:
+		res = any(new(ParastichyMCurves3DShape)).(Type)
+	case *ParastichyNCurves3DShape:
+		res = any(new(ParastichyNCurves3DShape)).(Type)
+	case *PartiallyGrowthCurve2DRibbon:
+		res = any(new(PartiallyGrowthCurve2DRibbon)).(Type)
+	case *PartiallyGrowthCurve2DRibbonEndShape:
+		res = any(new(PartiallyGrowthCurve2DRibbonEndShape)).(Type)
+	case *PartiallyGrowthCurve2DRibbonStartShape:
+		res = any(new(PartiallyGrowthCurve2DRibbonStartShape)).(Type)
+	case *PartiallyGrowthCurve2DTrajectory:
+		res = any(new(PartiallyGrowthCurve2DTrajectory)).(Type)
+	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		res = any(new(PartiallyGrowthCurve2DTrajectoryP1CurveShape)).(Type)
+	case *PartiallyGrowthCurve2DTrajectoryP1P2:
+		res = any(new(PartiallyGrowthCurve2DTrajectoryP1P2)).(Type)
+	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		res = any(new(PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)).(Type)
+	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		res = any(new(PartiallyGrowthCurve2DTrajectoryP1PointShape)).(Type)
+	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		res = any(new(PartiallyGrowthCurve2DTrajectoryP2CurveShape)).(Type)
+	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		res = any(new(PartiallyGrowthCurve2DTrajectoryP2PointShape)).(Type)
+	case *PartiallyGrowthCurve2DTrajectoryShape:
+		res = any(new(PartiallyGrowthCurve2DTrajectoryShape)).(Type)
+	case *PartiallyRotatedSeatBottomCurveShape:
+		res = any(new(PartiallyRotatedSeatBottomCurveShape)).(Type)
+	case *PartiallyRotatedSeatTopCurveShape:
+		res = any(new(PartiallyRotatedSeatTopCurveShape)).(Type)
+	case *PartiallyRotatedTorusShape:
+		res = any(new(PartiallyRotatedTorusShape)).(Type)
+	case *PerpendicularVector:
+		res = any(new(PerpendicularVector)).(Type)
+	case *PerpendicularVectorGrid:
+		res = any(new(PerpendicularVectorGrid)).(Type)
+	case *PerpendicularVectorGridHalfway:
+		res = any(new(PerpendicularVectorGridHalfway)).(Type)
+	case *PerpendicularVectorHalfway:
+		res = any(new(PerpendicularVectorHalfway)).(Type)
+	case *Plant2DDiagram:
+		res = any(new(Plant2DDiagram)).(Type)
+	case *Plant3DDiagram:
+		res = any(new(Plant3DDiagram)).(Type)
+	case *PlantAbstract:
+		res = any(new(PlantAbstract)).(Type)
+	case *PlantCircumferenceShape:
+		res = any(new(PlantCircumferenceShape)).(Type)
+	case *PointsAndLines3DShape:
+		res = any(new(PointsAndLines3DShape)).(Type)
+	case *PxShape:
+		res = any(new(PxShape)).(Type)
+	case *Rendered3DShape:
+		res = any(new(Rendered3DShape)).(Type)
+	case *RhombusShape:
+		res = any(new(RhombusShape)).(Type)
+	case *RhombusStuff:
+		res = any(new(RhombusStuff)).(Type)
+	case *RotatedRhombusGridShape:
+		res = any(new(RotatedRhombusGridShape)).(Type)
+	case *RotatedRhombusShape:
+		res = any(new(RotatedRhombusShape)).(Type)
+	case *RotatedSampledPoints3DShape:
+		res = any(new(RotatedSampledPoints3DShape)).(Type)
+	case *RotatedSeatAndLegs3DShape:
+		res = any(new(RotatedSeatAndLegs3DShape)).(Type)
+	case *SampledPoints3DShape:
+		res = any(new(SampledPoints3DShape)).(Type)
+	case *Seat3DShape:
+		res = any(new(Seat3DShape)).(Type)
+	case *SeatAndLegs3DShape:
+		res = any(new(SeatAndLegs3DShape)).(Type)
+	case *SeatBottomCurveShape:
+		res = any(new(SeatBottomCurveShape)).(Type)
+	case *SeatTopCurveShape:
+		res = any(new(SeatTopCurveShape)).(Type)
+	case *ShiftedBottomTopStartArcShape:
+		res = any(new(ShiftedBottomTopStartArcShape)).(Type)
+	case *ShiftedBottomTopStartArcShapeGrid:
+		res = any(new(ShiftedBottomTopStartArcShapeGrid)).(Type)
+	case *ShiftedLeftGrowthCurve2DRibbon:
+		res = any(new(ShiftedLeftGrowthCurve2DRibbon)).(Type)
+	case *ShiftedLeftGrowthCurve2DRibbonEndShape:
+		res = any(new(ShiftedLeftGrowthCurve2DRibbonEndShape)).(Type)
+	case *ShiftedLeftGrowthCurve2DRibbonStartShape:
+		res = any(new(ShiftedLeftGrowthCurve2DRibbonStartShape)).(Type)
+	case *ShiftedLeftPartiallyGrowthCurve2DRibbon:
+		res = any(new(ShiftedLeftPartiallyGrowthCurve2DRibbon)).(Type)
+	case *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
+		res = any(new(ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape)).(Type)
+	case *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
+		res = any(new(ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape)).(Type)
+	case *ShiftedLeftStackGrowthCurveEndArcShape:
+		res = any(new(ShiftedLeftStackGrowthCurveEndArcShape)).(Type)
+	case *ShiftedLeftStackGrowthCurveStartArcShape:
+		res = any(new(ShiftedLeftStackGrowthCurveStartArcShape)).(Type)
+	case *ShiftedLeftStackNormalVector:
+		res = any(new(ShiftedLeftStackNormalVector)).(Type)
+	case *ShiftedLeftStackOfGrowthCurve:
+		res = any(new(ShiftedLeftStackOfGrowthCurve)).(Type)
+	case *ShiftedLeftStackOfNormalVector:
+		res = any(new(ShiftedLeftStackOfNormalVector)).(Type)
+	case *ShiftedRightGrowthCurve2DRibbon:
+		res = any(new(ShiftedRightGrowthCurve2DRibbon)).(Type)
+	case *ShiftedRightGrowthCurve2DRibbonEndShape:
+		res = any(new(ShiftedRightGrowthCurve2DRibbonEndShape)).(Type)
+	case *ShiftedRightGrowthCurve2DRibbonStartShape:
+		res = any(new(ShiftedRightGrowthCurve2DRibbonStartShape)).(Type)
+	case *StackGrowthCurve2DEndHalfwayArcShape:
+		res = any(new(StackGrowthCurve2DEndHalfwayArcShape)).(Type)
+	case *StackGrowthCurve2DRibbonEndShape:
+		res = any(new(StackGrowthCurve2DRibbonEndShape)).(Type)
+	case *StackGrowthCurve2DRibbonStartShape:
+		res = any(new(StackGrowthCurve2DRibbonStartShape)).(Type)
+	case *StackGrowthCurve2DStartHalfwayArcShape:
+		res = any(new(StackGrowthCurve2DStartHalfwayArcShape)).(Type)
+	case *StackOfGrowthCurve2D:
+		res = any(new(StackOfGrowthCurve2D)).(Type)
+	case *StackOfGrowthCurve2DByGrowthVector:
+		res = any(new(StackOfGrowthCurve2DByGrowthVector)).(Type)
+	case *StackOfGrowthCurve2DRibbon:
+		res = any(new(StackOfGrowthCurve2DRibbon)).(Type)
+	case *StackOfPartiallyRotatedTorusShape:
+		res = any(new(StackOfPartiallyRotatedTorusShape)).(Type)
+	case *StackOfRotatedGrowthCurve2D:
+		res = any(new(StackOfRotatedGrowthCurve2D)).(Type)
+	case *StackOfRotatedGrowthCurve2DRibbon:
+		res = any(new(StackOfRotatedGrowthCurve2DRibbon)).(Type)
+	case *StackRotatedGrowthCurve2DEndArcShape:
+		res = any(new(StackRotatedGrowthCurve2DEndArcShape)).(Type)
+	case *StackRotatedGrowthCurve2DRibbonEndShape:
+		res = any(new(StackRotatedGrowthCurve2DRibbonEndShape)).(Type)
+	case *StackRotatedGrowthCurve2DRibbonStartShape:
+		res = any(new(StackRotatedGrowthCurve2DRibbonStartShape)).(Type)
+	case *StackRotatedGrowthCurve2DStartArcShape:
+		res = any(new(StackRotatedGrowthCurve2DStartArcShape)).(Type)
+	case *StartArcShape:
+		res = any(new(StartArcShape)).(Type)
+	case *StartArcShapeGrid:
+		res = any(new(StartArcShapeGrid)).(Type)
+	case *StartHalfwayArcShape:
+		res = any(new(StartHalfwayArcShape)).(Type)
+	case *StartHalfwayArcShapeGrid:
+		res = any(new(StartHalfwayArcShapeGrid)).(Type)
+	case *StemCylinder3DShape:
+		res = any(new(StemCylinder3DShape)).(Type)
+	case *Stool2DDiagram:
+		res = any(new(Stool2DDiagram)).(Type)
+	case *Stool3DDiagram:
+		res = any(new(Stool3DDiagram)).(Type)
+	case *StoolAbstract:
+		res = any(new(StoolAbstract)).(Type)
+	case *TiledFloor3DShape:
+		res = any(new(TiledFloor3DShape)).(Type)
+	case *TopEndArcShape:
+		res = any(new(TopEndArcShape)).(Type)
+	case *TopEndArcShapeGrid:
+		res = any(new(TopEndArcShapeGrid)).(Type)
+	case *TopEndHalfwayArcShape:
+		res = any(new(TopEndHalfwayArcShape)).(Type)
+	case *TopEndHalfwayArcShapeGrid:
+		res = any(new(TopEndHalfwayArcShapeGrid)).(Type)
+	case *TopGrowthCurve2D:
+		res = any(new(TopGrowthCurve2D)).(Type)
+	case *TopMidArcVectorShape:
+		res = any(new(TopMidArcVectorShape)).(Type)
+	case *TopMidArcVectorShapeGrid:
+		res = any(new(TopMidArcVectorShapeGrid)).(Type)
+	case *TopStackGrowthCurve2DEndHalfwayArcShape:
+		res = any(new(TopStackGrowthCurve2DEndHalfwayArcShape)).(Type)
+	case *TopStackGrowthCurve2DStartHalfwayArcShape:
+		res = any(new(TopStackGrowthCurve2DStartHalfwayArcShape)).(Type)
+	case *TopStackOfGrowthCurve2D:
+		res = any(new(TopStackOfGrowthCurve2D)).(Type)
+	case *TopStackOfRotatedGrowthCurve2D:
+		res = any(new(TopStackOfRotatedGrowthCurve2D)).(Type)
+	case *TopStackOfRotatedGrowthCurve2DEndArcShape:
+		res = any(new(TopStackOfRotatedGrowthCurve2DEndArcShape)).(Type)
+	case *TopStackOfRotatedGrowthCurve2DStartArcShape:
+		res = any(new(TopStackOfRotatedGrowthCurve2DStartArcShape)).(Type)
+	case *TopStartArcShape:
+		res = any(new(TopStartArcShape)).(Type)
+	case *TopStartArcShapeGrid:
+		res = any(new(TopStartArcShapeGrid)).(Type)
+	case *TopStartHalfwayArcShape:
+		res = any(new(TopStartHalfwayArcShape)).(Type)
+	case *TopStartHalfwayArcShapeGrid:
+		res = any(new(TopStartHalfwayArcShapeGrid)).(Type)
+	case *Torus3DShape:
+		res = any(new(Torus3DShape)).(Type)
+	case *TorusEdge3DShape:
+		res = any(new(TorusEdge3DShape)).(Type)
+	case *TorusStackShape:
+		res = any(new(TorusStackShape)).(Type)
+	case *TubeVase3DDiagram:
+		res = any(new(TubeVase3DDiagram)).(Type)
+	case *TubeVaseAbstract:
+		res = any(new(TubeVaseAbstract)).(Type)
+	case *Vase2DDiagram:
+		res = any(new(Vase2DDiagram)).(Type)
+	case *VerticalTorusStackShape:
+		res = any(new(VerticalTorusStackShape)).(Type)
+	case *VolumeKey3DShape:
+		res = any(new(VolumeKey3DShape)).(Type)
+	}
+	return res
+}
+
+func NewInstance[Type GongstructPtr]() (res Type) {
+	return GongNewInstance[Type]()
+}
+
+func (stage *Stage) GongNewInstance[Type GongstructPtr]() (res Type) {
+	res = GongNewInstance[Type]()
+	if any(res) != nil {
+		res.StageVoid(stage)
+	}
+	return res
+}
+
+func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
+	return stage.GongNewInstance[Type]()
+}
+
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {

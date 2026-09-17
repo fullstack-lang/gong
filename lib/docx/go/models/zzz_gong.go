@@ -4114,6 +4114,64 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
+// GongNewInstance creates a new instance of the Gongstruct
+func GongNewInstance[Type GongstructPtr]() (res Type) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic new instance
+	case *Body:
+		res = any(new(Body)).(Type)
+	case *Document:
+		res = any(new(Document)).(Type)
+	case *Docx:
+		res = any(new(Docx)).(Type)
+	case *File:
+		res = any(new(File)).(Type)
+	case *Node:
+		res = any(new(Node)).(Type)
+	case *Paragraph:
+		res = any(new(Paragraph)).(Type)
+	case *ParagraphProperties:
+		res = any(new(ParagraphProperties)).(Type)
+	case *ParagraphStyle:
+		res = any(new(ParagraphStyle)).(Type)
+	case *Rune:
+		res = any(new(Rune)).(Type)
+	case *RuneProperties:
+		res = any(new(RuneProperties)).(Type)
+	case *Table:
+		res = any(new(Table)).(Type)
+	case *TableColumn:
+		res = any(new(TableColumn)).(Type)
+	case *TableProperties:
+		res = any(new(TableProperties)).(Type)
+	case *TableRow:
+		res = any(new(TableRow)).(Type)
+	case *TableStyle:
+		res = any(new(TableStyle)).(Type)
+	case *Text:
+		res = any(new(Text)).(Type)
+	}
+	return res
+}
+
+func NewInstance[Type GongstructPtr]() (res Type) {
+	return GongNewInstance[Type]()
+}
+
+func (stage *Stage) GongNewInstance[Type GongstructPtr]() (res Type) {
+	res = GongNewInstance[Type]()
+	if any(res) != nil {
+		res.StageVoid(stage)
+	}
+	return res
+}
+
+func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
+	return stage.GongNewInstance[Type]()
+}
+
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {

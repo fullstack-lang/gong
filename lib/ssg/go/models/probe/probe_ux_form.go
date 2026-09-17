@@ -14,54 +14,11 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *ChapterFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Chapter", true)
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.chapter, probe)
-			}
-		case *ContentFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Content", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.content, probe)
-			}
-		case *DownloadableFileFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "DownloadableFile", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.downloadablefile, probe)
-			}
-		case *JpgImageFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "JpgImage", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.jpgimage, probe)
-			}
-		case *PageFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Page", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.page, probe)
-			}
-		case *PngImageFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "PngImage", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.pngimage, probe)
-			}
-		case *SectionFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Section", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.section, probe)
-			}
-		case *SvgImageFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "SvgImage", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.svgimage, probe)
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

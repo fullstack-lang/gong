@@ -17023,6 +17023,200 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
+// GongNewInstance creates a new instance of the Gongstruct
+func GongNewInstance[Type GongstructPtr]() (res Type) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic new instance
+	case *ALTERNATIVE_ID:
+		res = any(new(ALTERNATIVE_ID)).(Type)
+	case *ATTRIBUTE_DEFINITION_BOOLEAN:
+		res = any(new(ATTRIBUTE_DEFINITION_BOOLEAN)).(Type)
+	case *ATTRIBUTE_DEFINITION_DATE:
+		res = any(new(ATTRIBUTE_DEFINITION_DATE)).(Type)
+	case *ATTRIBUTE_DEFINITION_ENUMERATION:
+		res = any(new(ATTRIBUTE_DEFINITION_ENUMERATION)).(Type)
+	case *ATTRIBUTE_DEFINITION_INTEGER:
+		res = any(new(ATTRIBUTE_DEFINITION_INTEGER)).(Type)
+	case *ATTRIBUTE_DEFINITION_REAL:
+		res = any(new(ATTRIBUTE_DEFINITION_REAL)).(Type)
+	case *ATTRIBUTE_DEFINITION_STRING:
+		res = any(new(ATTRIBUTE_DEFINITION_STRING)).(Type)
+	case *ATTRIBUTE_DEFINITION_XHTML:
+		res = any(new(ATTRIBUTE_DEFINITION_XHTML)).(Type)
+	case *ATTRIBUTE_VALUE_BOOLEAN:
+		res = any(new(ATTRIBUTE_VALUE_BOOLEAN)).(Type)
+	case *ATTRIBUTE_VALUE_DATE:
+		res = any(new(ATTRIBUTE_VALUE_DATE)).(Type)
+	case *ATTRIBUTE_VALUE_ENUMERATION:
+		res = any(new(ATTRIBUTE_VALUE_ENUMERATION)).(Type)
+	case *ATTRIBUTE_VALUE_INTEGER:
+		res = any(new(ATTRIBUTE_VALUE_INTEGER)).(Type)
+	case *ATTRIBUTE_VALUE_REAL:
+		res = any(new(ATTRIBUTE_VALUE_REAL)).(Type)
+	case *ATTRIBUTE_VALUE_STRING:
+		res = any(new(ATTRIBUTE_VALUE_STRING)).(Type)
+	case *ATTRIBUTE_VALUE_XHTML:
+		res = any(new(ATTRIBUTE_VALUE_XHTML)).(Type)
+	case *A_ALTERNATIVE_ID:
+		res = any(new(A_ALTERNATIVE_ID)).(Type)
+	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
+		res = any(new(A_ATTRIBUTE_DEFINITION_BOOLEAN_REF)).(Type)
+	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
+		res = any(new(A_ATTRIBUTE_DEFINITION_DATE_REF)).(Type)
+	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
+		res = any(new(A_ATTRIBUTE_DEFINITION_ENUMERATION_REF)).(Type)
+	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
+		res = any(new(A_ATTRIBUTE_DEFINITION_INTEGER_REF)).(Type)
+	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
+		res = any(new(A_ATTRIBUTE_DEFINITION_REAL_REF)).(Type)
+	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
+		res = any(new(A_ATTRIBUTE_DEFINITION_STRING_REF)).(Type)
+	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
+		res = any(new(A_ATTRIBUTE_DEFINITION_XHTML_REF)).(Type)
+	case *A_ATTRIBUTE_VALUE_BOOLEAN:
+		res = any(new(A_ATTRIBUTE_VALUE_BOOLEAN)).(Type)
+	case *A_ATTRIBUTE_VALUE_DATE:
+		res = any(new(A_ATTRIBUTE_VALUE_DATE)).(Type)
+	case *A_ATTRIBUTE_VALUE_ENUMERATION:
+		res = any(new(A_ATTRIBUTE_VALUE_ENUMERATION)).(Type)
+	case *A_ATTRIBUTE_VALUE_INTEGER:
+		res = any(new(A_ATTRIBUTE_VALUE_INTEGER)).(Type)
+	case *A_ATTRIBUTE_VALUE_REAL:
+		res = any(new(A_ATTRIBUTE_VALUE_REAL)).(Type)
+	case *A_ATTRIBUTE_VALUE_STRING:
+		res = any(new(A_ATTRIBUTE_VALUE_STRING)).(Type)
+	case *A_ATTRIBUTE_VALUE_XHTML:
+		res = any(new(A_ATTRIBUTE_VALUE_XHTML)).(Type)
+	case *A_ATTRIBUTE_VALUE_XHTML_1:
+		res = any(new(A_ATTRIBUTE_VALUE_XHTML_1)).(Type)
+	case *A_CHILDREN:
+		res = any(new(A_CHILDREN)).(Type)
+	case *A_CORE_CONTENT:
+		res = any(new(A_CORE_CONTENT)).(Type)
+	case *A_DATATYPES:
+		res = any(new(A_DATATYPES)).(Type)
+	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
+		res = any(new(A_DATATYPE_DEFINITION_BOOLEAN_REF)).(Type)
+	case *A_DATATYPE_DEFINITION_DATE_REF:
+		res = any(new(A_DATATYPE_DEFINITION_DATE_REF)).(Type)
+	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
+		res = any(new(A_DATATYPE_DEFINITION_ENUMERATION_REF)).(Type)
+	case *A_DATATYPE_DEFINITION_INTEGER_REF:
+		res = any(new(A_DATATYPE_DEFINITION_INTEGER_REF)).(Type)
+	case *A_DATATYPE_DEFINITION_REAL_REF:
+		res = any(new(A_DATATYPE_DEFINITION_REAL_REF)).(Type)
+	case *A_DATATYPE_DEFINITION_STRING_REF:
+		res = any(new(A_DATATYPE_DEFINITION_STRING_REF)).(Type)
+	case *A_DATATYPE_DEFINITION_XHTML_REF:
+		res = any(new(A_DATATYPE_DEFINITION_XHTML_REF)).(Type)
+	case *A_EDITABLE_ATTS:
+		res = any(new(A_EDITABLE_ATTS)).(Type)
+	case *A_ENUM_VALUE_REF:
+		res = any(new(A_ENUM_VALUE_REF)).(Type)
+	case *A_OBJECT:
+		res = any(new(A_OBJECT)).(Type)
+	case *A_PROPERTIES:
+		res = any(new(A_PROPERTIES)).(Type)
+	case *A_RELATION_GROUP_TYPE_REF:
+		res = any(new(A_RELATION_GROUP_TYPE_REF)).(Type)
+	case *A_SOURCE_1:
+		res = any(new(A_SOURCE_1)).(Type)
+	case *A_SOURCE_SPECIFICATION_1:
+		res = any(new(A_SOURCE_SPECIFICATION_1)).(Type)
+	case *A_SPECIFICATIONS:
+		res = any(new(A_SPECIFICATIONS)).(Type)
+	case *A_SPECIFICATION_TYPE_REF:
+		res = any(new(A_SPECIFICATION_TYPE_REF)).(Type)
+	case *A_SPECIFIED_VALUES:
+		res = any(new(A_SPECIFIED_VALUES)).(Type)
+	case *A_SPEC_ATTRIBUTES:
+		res = any(new(A_SPEC_ATTRIBUTES)).(Type)
+	case *A_SPEC_OBJECTS:
+		res = any(new(A_SPEC_OBJECTS)).(Type)
+	case *A_SPEC_OBJECT_TYPE_REF:
+		res = any(new(A_SPEC_OBJECT_TYPE_REF)).(Type)
+	case *A_SPEC_RELATIONS:
+		res = any(new(A_SPEC_RELATIONS)).(Type)
+	case *A_SPEC_RELATION_GROUPS:
+		res = any(new(A_SPEC_RELATION_GROUPS)).(Type)
+	case *A_SPEC_RELATION_REF:
+		res = any(new(A_SPEC_RELATION_REF)).(Type)
+	case *A_SPEC_RELATION_TYPE_REF:
+		res = any(new(A_SPEC_RELATION_TYPE_REF)).(Type)
+	case *A_SPEC_TYPES:
+		res = any(new(A_SPEC_TYPES)).(Type)
+	case *A_THE_HEADER:
+		res = any(new(A_THE_HEADER)).(Type)
+	case *A_TOOL_EXTENSIONS:
+		res = any(new(A_TOOL_EXTENSIONS)).(Type)
+	case *DATATYPE_DEFINITION_BOOLEAN:
+		res = any(new(DATATYPE_DEFINITION_BOOLEAN)).(Type)
+	case *DATATYPE_DEFINITION_DATE:
+		res = any(new(DATATYPE_DEFINITION_DATE)).(Type)
+	case *DATATYPE_DEFINITION_ENUMERATION:
+		res = any(new(DATATYPE_DEFINITION_ENUMERATION)).(Type)
+	case *DATATYPE_DEFINITION_INTEGER:
+		res = any(new(DATATYPE_DEFINITION_INTEGER)).(Type)
+	case *DATATYPE_DEFINITION_REAL:
+		res = any(new(DATATYPE_DEFINITION_REAL)).(Type)
+	case *DATATYPE_DEFINITION_STRING:
+		res = any(new(DATATYPE_DEFINITION_STRING)).(Type)
+	case *DATATYPE_DEFINITION_XHTML:
+		res = any(new(DATATYPE_DEFINITION_XHTML)).(Type)
+	case *EMBEDDED_VALUE:
+		res = any(new(EMBEDDED_VALUE)).(Type)
+	case *ENUM_VALUE:
+		res = any(new(ENUM_VALUE)).(Type)
+	case *RELATION_GROUP:
+		res = any(new(RELATION_GROUP)).(Type)
+	case *RELATION_GROUP_TYPE:
+		res = any(new(RELATION_GROUP_TYPE)).(Type)
+	case *REQ_IF:
+		res = any(new(REQ_IF)).(Type)
+	case *REQ_IF_CONTENT:
+		res = any(new(REQ_IF_CONTENT)).(Type)
+	case *REQ_IF_HEADER:
+		res = any(new(REQ_IF_HEADER)).(Type)
+	case *REQ_IF_TOOL_EXTENSION:
+		res = any(new(REQ_IF_TOOL_EXTENSION)).(Type)
+	case *SPECIFICATION:
+		res = any(new(SPECIFICATION)).(Type)
+	case *SPECIFICATION_TYPE:
+		res = any(new(SPECIFICATION_TYPE)).(Type)
+	case *SPEC_HIERARCHY:
+		res = any(new(SPEC_HIERARCHY)).(Type)
+	case *SPEC_OBJECT:
+		res = any(new(SPEC_OBJECT)).(Type)
+	case *SPEC_OBJECT_TYPE:
+		res = any(new(SPEC_OBJECT_TYPE)).(Type)
+	case *SPEC_RELATION:
+		res = any(new(SPEC_RELATION)).(Type)
+	case *SPEC_RELATION_TYPE:
+		res = any(new(SPEC_RELATION_TYPE)).(Type)
+	case *XHTML_CONTENT:
+		res = any(new(XHTML_CONTENT)).(Type)
+	}
+	return res
+}
+
+func NewInstance[Type GongstructPtr]() (res Type) {
+	return GongNewInstance[Type]()
+}
+
+func (stage *Stage) GongNewInstance[Type GongstructPtr]() (res Type) {
+	res = GongNewInstance[Type]()
+	if any(res) != nil {
+		res.StageVoid(stage)
+	}
+	return res
+}
+
+func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
+	return stage.GongNewInstance[Type]()
+}
+
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {

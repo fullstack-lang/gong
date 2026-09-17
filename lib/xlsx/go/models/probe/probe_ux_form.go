@@ -14,36 +14,11 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *DisplaySelectionFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "DisplaySelection", true)
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.displayselection, probe)
-			}
-		case *XLCellFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "XLCell", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.xlcell, probe)
-			}
-		case *XLFileFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "XLFile", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.xlfile, probe)
-			}
-		case *XLRowFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "XLRow", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.xlrow, probe)
-			}
-		case *XLSheetFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "XLSheet", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.xlsheet, probe)
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

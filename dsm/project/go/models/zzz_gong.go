@@ -5479,6 +5479,76 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
+// GongNewInstance creates a new instance of the Gongstruct
+func GongNewInstance[Type GongstructPtr]() (res Type) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic new instance
+	case *Diagram:
+		res = any(new(Diagram)).(Type)
+	case *Library:
+		res = any(new(Library)).(Type)
+	case *Note:
+		res = any(new(Note)).(Type)
+	case *NoteProductShape:
+		res = any(new(NoteProductShape)).(Type)
+	case *NoteResourceShape:
+		res = any(new(NoteResourceShape)).(Type)
+	case *NoteShape:
+		res = any(new(NoteShape)).(Type)
+	case *NoteTaskShape:
+		res = any(new(NoteTaskShape)).(Type)
+	case *Product:
+		res = any(new(Product)).(Type)
+	case *ProductCompositionShape:
+		res = any(new(ProductCompositionShape)).(Type)
+	case *ProductShape:
+		res = any(new(ProductShape)).(Type)
+	case *Resource:
+		res = any(new(Resource)).(Type)
+	case *ResourceCompositionShape:
+		res = any(new(ResourceCompositionShape)).(Type)
+	case *ResourceShape:
+		res = any(new(ResourceShape)).(Type)
+	case *ResourceTaskShape:
+		res = any(new(ResourceTaskShape)).(Type)
+	case *Task:
+		res = any(new(Task)).(Type)
+	case *TaskCompositionShape:
+		res = any(new(TaskCompositionShape)).(Type)
+	case *TaskGroup:
+		res = any(new(TaskGroup)).(Type)
+	case *TaskGroupShape:
+		res = any(new(TaskGroupShape)).(Type)
+	case *TaskInputShape:
+		res = any(new(TaskInputShape)).(Type)
+	case *TaskOutputShape:
+		res = any(new(TaskOutputShape)).(Type)
+	case *TaskPredecessorShape:
+		res = any(new(TaskPredecessorShape)).(Type)
+	case *TaskShape:
+		res = any(new(TaskShape)).(Type)
+	}
+	return res
+}
+
+func NewInstance[Type GongstructPtr]() (res Type) {
+	return GongNewInstance[Type]()
+}
+
+func (stage *Stage) GongNewInstance[Type GongstructPtr]() (res Type) {
+	res = GongNewInstance[Type]()
+	if any(res) != nil {
+		res.StageVoid(stage)
+	}
+	return res
+}
+
+func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
+	return stage.GongNewInstance[Type]()
+}
+
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {

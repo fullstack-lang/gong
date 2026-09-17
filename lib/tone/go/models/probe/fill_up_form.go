@@ -26,17 +26,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Note, *models.Freqency](
-				"Note",
-				"Frequencies",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Note) []*models.Freqency {
-					return owner.Frequencies
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Note",
+			"Frequencies",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Note) []*models.Freqency {
+				return owner.Frequencies
+			})
 
 	case *models.Note:
 		// insertion point

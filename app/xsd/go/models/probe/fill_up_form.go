@@ -42,72 +42,60 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.All, *models.All](
-				"All",
-				"Alls",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.All) []*models.All {
-					return owner.Alls
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Choice, *models.All](
-				"Choice",
-				"Alls",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Choice) []*models.All {
-					return owner.Alls
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.ComplexType, *models.All](
-				"ComplexType",
-				"Alls",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ComplexType) []*models.All {
-					return owner.Alls
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Extension, *models.All](
-				"Extension",
-				"Alls",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Extension) []*models.All {
-					return owner.Alls
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Group, *models.All](
-				"Group",
-				"Alls",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Group) []*models.All {
-					return owner.Alls
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Sequence, *models.All](
-				"Sequence",
-				"Alls",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Sequence) []*models.All {
-					return owner.Alls
-				})
-		}
+		AssociationReverseSliceToForm(
+			"All",
+			"Alls",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.All) []*models.All {
+				return owner.Alls
+			})
+		AssociationReverseSliceToForm(
+			"Choice",
+			"Alls",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Choice) []*models.All {
+				return owner.Alls
+			})
+		AssociationReverseSliceToForm(
+			"ComplexType",
+			"Alls",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ComplexType) []*models.All {
+				return owner.Alls
+			})
+		AssociationReverseSliceToForm(
+			"Extension",
+			"Alls",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Extension) []*models.All {
+				return owner.Alls
+			})
+		AssociationReverseSliceToForm(
+			"Group",
+			"Alls",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Group) []*models.All {
+				return owner.Alls
+			})
+		AssociationReverseSliceToForm(
+			"Sequence",
+			"Alls",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Sequence) []*models.All {
+				return owner.Alls
+			})
 
 	case *models.Annotation:
 		// insertion point
@@ -154,39 +142,33 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.AttributeGroup, *models.Attribute](
-				"AttributeGroup",
-				"Attributes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.AttributeGroup) []*models.Attribute {
-					return owner.Attributes
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.ComplexType, *models.Attribute](
-				"ComplexType",
-				"Attributes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ComplexType) []*models.Attribute {
-					return owner.Attributes
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Extension, *models.Attribute](
-				"Extension",
-				"Attributes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Extension) []*models.Attribute {
-					return owner.Attributes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"AttributeGroup",
+			"Attributes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.AttributeGroup) []*models.Attribute {
+				return owner.Attributes
+			})
+		AssociationReverseSliceToForm(
+			"ComplexType",
+			"Attributes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ComplexType) []*models.Attribute {
+				return owner.Attributes
+			})
+		AssociationReverseSliceToForm(
+			"Extension",
+			"Attributes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Extension) []*models.Attribute {
+				return owner.Attributes
+			})
 
 	case *models.AttributeGroup:
 		// insertion point
@@ -212,50 +194,42 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.AttributeGroup, *models.AttributeGroup](
-				"AttributeGroup",
-				"AttributeGroups",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.AttributeGroup) []*models.AttributeGroup {
-					return owner.AttributeGroups
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.ComplexType, *models.AttributeGroup](
-				"ComplexType",
-				"AttributeGroups",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ComplexType) []*models.AttributeGroup {
-					return owner.AttributeGroups
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Extension, *models.AttributeGroup](
-				"Extension",
-				"AttributeGroups",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Extension) []*models.AttributeGroup {
-					return owner.AttributeGroups
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Schema, *models.AttributeGroup](
-				"Schema",
-				"AttributeGroups",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Schema) []*models.AttributeGroup {
-					return owner.AttributeGroups
-				})
-		}
+		AssociationReverseSliceToForm(
+			"AttributeGroup",
+			"AttributeGroups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.AttributeGroup) []*models.AttributeGroup {
+				return owner.AttributeGroups
+			})
+		AssociationReverseSliceToForm(
+			"ComplexType",
+			"AttributeGroups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ComplexType) []*models.AttributeGroup {
+				return owner.AttributeGroups
+			})
+		AssociationReverseSliceToForm(
+			"Extension",
+			"AttributeGroups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Extension) []*models.AttributeGroup {
+				return owner.AttributeGroups
+			})
+		AssociationReverseSliceToForm(
+			"Schema",
+			"AttributeGroups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Schema) []*models.AttributeGroup {
+				return owner.AttributeGroups
+			})
 
 	case *models.Choice:
 		// insertion point
@@ -284,72 +258,60 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.All, *models.Choice](
-				"All",
-				"Choices",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.All) []*models.Choice {
-					return owner.Choices
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Choice, *models.Choice](
-				"Choice",
-				"Choices",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Choice) []*models.Choice {
-					return owner.Choices
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.ComplexType, *models.Choice](
-				"ComplexType",
-				"Choices",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ComplexType) []*models.Choice {
-					return owner.Choices
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Extension, *models.Choice](
-				"Extension",
-				"Choices",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Extension) []*models.Choice {
-					return owner.Choices
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Group, *models.Choice](
-				"Group",
-				"Choices",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Group) []*models.Choice {
-					return owner.Choices
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Sequence, *models.Choice](
-				"Sequence",
-				"Choices",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Sequence) []*models.Choice {
-					return owner.Choices
-				})
-		}
+		AssociationReverseSliceToForm(
+			"All",
+			"Choices",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.All) []*models.Choice {
+				return owner.Choices
+			})
+		AssociationReverseSliceToForm(
+			"Choice",
+			"Choices",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Choice) []*models.Choice {
+				return owner.Choices
+			})
+		AssociationReverseSliceToForm(
+			"ComplexType",
+			"Choices",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ComplexType) []*models.Choice {
+				return owner.Choices
+			})
+		AssociationReverseSliceToForm(
+			"Extension",
+			"Choices",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Extension) []*models.Choice {
+				return owner.Choices
+			})
+		AssociationReverseSliceToForm(
+			"Group",
+			"Choices",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Group) []*models.Choice {
+				return owner.Choices
+			})
+		AssociationReverseSliceToForm(
+			"Sequence",
+			"Choices",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Sequence) []*models.Choice {
+				return owner.Choices
+			})
 
 	case *models.ComplexContent:
 		// insertion point
@@ -402,17 +364,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Schema, *models.ComplexType](
-				"Schema",
-				"ComplexTypes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Schema) []*models.ComplexType {
-					return owner.ComplexTypes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Schema",
+			"ComplexTypes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Schema) []*models.ComplexType {
+				return owner.ComplexTypes
+			})
 
 	case *models.Documentation:
 		// insertion point
@@ -429,17 +389,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Annotation, *models.Documentation](
-				"Annotation",
-				"Documentations",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Annotation) []*models.Documentation {
-					return owner.Documentations
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Annotation",
+			"Documentations",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Annotation) []*models.Documentation {
+				return owner.Documentations
+			})
 
 	case *models.Element:
 		// insertion point
@@ -488,83 +446,69 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.All, *models.Element](
-				"All",
-				"Elements",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.All) []*models.Element {
-					return owner.Elements
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Choice, *models.Element](
-				"Choice",
-				"Elements",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Choice) []*models.Element {
-					return owner.Elements
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.ComplexType, *models.Element](
-				"ComplexType",
-				"Elements",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ComplexType) []*models.Element {
-					return owner.Elements
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Extension, *models.Element](
-				"Extension",
-				"Elements",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Extension) []*models.Element {
-					return owner.Elements
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Group, *models.Element](
-				"Group",
-				"Elements",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Group) []*models.Element {
-					return owner.Elements
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Schema, *models.Element](
-				"Schema",
-				"Elements",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Schema) []*models.Element {
-					return owner.Elements
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Sequence, *models.Element](
-				"Sequence",
-				"Elements",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Sequence) []*models.Element {
-					return owner.Elements
-				})
-		}
+		AssociationReverseSliceToForm(
+			"All",
+			"Elements",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.All) []*models.Element {
+				return owner.Elements
+			})
+		AssociationReverseSliceToForm(
+			"Choice",
+			"Elements",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Choice) []*models.Element {
+				return owner.Elements
+			})
+		AssociationReverseSliceToForm(
+			"ComplexType",
+			"Elements",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ComplexType) []*models.Element {
+				return owner.Elements
+			})
+		AssociationReverseSliceToForm(
+			"Extension",
+			"Elements",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Extension) []*models.Element {
+				return owner.Elements
+			})
+		AssociationReverseSliceToForm(
+			"Group",
+			"Elements",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Group) []*models.Element {
+				return owner.Elements
+			})
+		AssociationReverseSliceToForm(
+			"Schema",
+			"Elements",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Schema) []*models.Element {
+				return owner.Elements
+			})
+		AssociationReverseSliceToForm(
+			"Sequence",
+			"Elements",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Sequence) []*models.Element {
+				return owner.Elements
+			})
 
 	case *models.Enumeration:
 		// insertion point
@@ -578,17 +522,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Restriction, *models.Enumeration](
-				"Restriction",
-				"Enumerations",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Restriction) []*models.Enumeration {
-					return owner.Enumerations
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Restriction",
+			"Enumerations",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Restriction) []*models.Enumeration {
+				return owner.Enumerations
+			})
 
 	case *models.Extension:
 		// insertion point
@@ -657,94 +599,78 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.All, *models.Group](
-				"All",
-				"Groups",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.All) []*models.Group {
-					return owner.Groups
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Choice, *models.Group](
-				"Choice",
-				"Groups",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Choice) []*models.Group {
-					return owner.Groups
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.ComplexType, *models.Group](
-				"ComplexType",
-				"Groups",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ComplexType) []*models.Group {
-					return owner.Groups
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Element, *models.Group](
-				"Element",
-				"Groups",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Element) []*models.Group {
-					return owner.Groups
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Extension, *models.Group](
-				"Extension",
-				"Groups",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Extension) []*models.Group {
-					return owner.Groups
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Group, *models.Group](
-				"Group",
-				"Groups",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Group) []*models.Group {
-					return owner.Groups
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Schema, *models.Group](
-				"Schema",
-				"Groups",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Schema) []*models.Group {
-					return owner.Groups
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Sequence, *models.Group](
-				"Sequence",
-				"Groups",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Sequence) []*models.Group {
-					return owner.Groups
-				})
-		}
+		AssociationReverseSliceToForm(
+			"All",
+			"Groups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.All) []*models.Group {
+				return owner.Groups
+			})
+		AssociationReverseSliceToForm(
+			"Choice",
+			"Groups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Choice) []*models.Group {
+				return owner.Groups
+			})
+		AssociationReverseSliceToForm(
+			"ComplexType",
+			"Groups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ComplexType) []*models.Group {
+				return owner.Groups
+			})
+		AssociationReverseSliceToForm(
+			"Element",
+			"Groups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Element) []*models.Group {
+				return owner.Groups
+			})
+		AssociationReverseSliceToForm(
+			"Extension",
+			"Groups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Extension) []*models.Group {
+				return owner.Groups
+			})
+		AssociationReverseSliceToForm(
+			"Group",
+			"Groups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Group) []*models.Group {
+				return owner.Groups
+			})
+		AssociationReverseSliceToForm(
+			"Schema",
+			"Groups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Schema) []*models.Group {
+				return owner.Groups
+			})
+		AssociationReverseSliceToForm(
+			"Sequence",
+			"Groups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Sequence) []*models.Group {
+				return owner.Groups
+			})
 
 	case *models.Length:
 		// insertion point
@@ -893,72 +819,60 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.All, *models.Sequence](
-				"All",
-				"Sequences",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.All) []*models.Sequence {
-					return owner.Sequences
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Choice, *models.Sequence](
-				"Choice",
-				"Sequences",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Choice) []*models.Sequence {
-					return owner.Sequences
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.ComplexType, *models.Sequence](
-				"ComplexType",
-				"Sequences",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.ComplexType) []*models.Sequence {
-					return owner.Sequences
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Extension, *models.Sequence](
-				"Extension",
-				"Sequences",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Extension) []*models.Sequence {
-					return owner.Sequences
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Group, *models.Sequence](
-				"Group",
-				"Sequences",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Group) []*models.Sequence {
-					return owner.Sequences
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Sequence, *models.Sequence](
-				"Sequence",
-				"Sequences",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Sequence) []*models.Sequence {
-					return owner.Sequences
-				})
-		}
+		AssociationReverseSliceToForm(
+			"All",
+			"Sequences",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.All) []*models.Sequence {
+				return owner.Sequences
+			})
+		AssociationReverseSliceToForm(
+			"Choice",
+			"Sequences",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Choice) []*models.Sequence {
+				return owner.Sequences
+			})
+		AssociationReverseSliceToForm(
+			"ComplexType",
+			"Sequences",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ComplexType) []*models.Sequence {
+				return owner.Sequences
+			})
+		AssociationReverseSliceToForm(
+			"Extension",
+			"Sequences",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Extension) []*models.Sequence {
+				return owner.Sequences
+			})
+		AssociationReverseSliceToForm(
+			"Group",
+			"Sequences",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Group) []*models.Sequence {
+				return owner.Sequences
+			})
+		AssociationReverseSliceToForm(
+			"Sequence",
+			"Sequences",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Sequence) []*models.Sequence {
+				return owner.Sequences
+			})
 
 	case *models.SimpleContent:
 		// insertion point
@@ -990,17 +904,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Schema, *models.SimpleType](
-				"Schema",
-				"SimpleTypes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Schema) []*models.SimpleType {
-					return owner.SimpleTypes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Schema",
+			"SimpleTypes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Schema) []*models.SimpleType {
+				return owner.SimpleTypes
+			})
 
 	case *models.TotalDigit:
 		// insertion point

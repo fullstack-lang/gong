@@ -14,36 +14,11 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *ButtonFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Button", true)
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.button, probe)
-			}
-		case *ButtonToggleFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "ButtonToggle", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.buttontoggle, probe)
-			}
-		case *GroupFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Group", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.group, probe)
-			}
-		case *GroupToogleFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "GroupToogle", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.grouptoogle, probe)
-			}
-		case *LayoutFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Layout", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.layout, probe)
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

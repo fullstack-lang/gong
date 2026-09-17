@@ -18,1480 +18,487 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 
 var _ = log.Panicf
 
+type FormCallbackIF interface {
+	GetCreationMode() bool
+	GetInstance() any
+	GetGongstructName() string
+	OnSave()
+}
+
+type FormCallback[T models.PointerToGongstruct] struct {
+	Instance     T
+	CreationMode bool
+	probe        *Probe
+	formGroup    *form.FormGroup
+	saveFields   func(instance T, probe *Probe, formGroup *form.FormGroup)
+}
+
+func NewFormCallback[T models.PointerToGongstruct](
+	instance T,
+	probe *Probe,
+	formGroup *form.FormGroup,
+	saveFields func(instance T, probe *Probe, formGroup *form.FormGroup),
+) *FormCallback[T] {
+	return &FormCallback[T]{
+		Instance:     instance,
+		CreationMode: any(instance) == nil,
+		probe:        probe,
+		formGroup:    formGroup,
+		saveFields:   saveFields,
+	}
+}
+
+func (cb *FormCallback[T]) GetCreationMode() bool     { return cb.CreationMode }
+func (cb *FormCallback[T]) GetInstance() any           { return cb.Instance }
+func (cb *FormCallback[T]) GetGongstructName() string { return models.GetPointerToGongstructName[T]() }
+
+func (cb *FormCallback[T]) OnSave() {
+	cb.probe.stageOfInterest.Lock()
+	defer cb.probe.stageOfInterest.Unlock()
+
+	cb.probe.formStage.Checkout()
+
+	if any(cb.Instance) == nil {
+		cb.Instance = cb.probe.stageOfInterest.GongNewInstance[T]()
+	}
+
+	cb.saveFields(cb.Instance, cb.probe, cb.formGroup)
+
+	if cb.formGroup.HasSuppressButtonBeenPressed {
+		cb.Instance.UnstageVoid(cb.probe.stageOfInterest)
+	}
+
+	cb.probe.stageOfInterest.Commit()
+	updateProbeTable[T](cb.probe)
+
+	if cb.CreationMode || cb.formGroup.HasSuppressButtonBeenPressed {
+		cb.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(cb.probe.formStage)
+		newFormGroup.OnSave = NewFormCallback[T](
+			*new(T),
+			cb.probe,
+			newFormGroup,
+			cb.saveFields,
+		)
+		newInstance := models.GongNewInstance[T]()
+		FillUpForm(newInstance, newFormGroup, cb.probe)
+		cb.probe.formStage.Commit()
+	}
+
+	cb.probe.ux_tree()
+}
+
 // insertion point
 func __gong__New__AttributeShapeFormCallback(
-	attributeshape *models.AttributeShape,
+	_instance *models.AttributeShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (attributeshapeFormCallback *AttributeShapeFormCallback) {
-	attributeshapeFormCallback = new(AttributeShapeFormCallback)
-	attributeshapeFormCallback.probe = probe
-	attributeshapeFormCallback.attributeshape = attributeshape
-	attributeshapeFormCallback.formGroup = formGroup
-
-	attributeshapeFormCallback.CreationMode = (attributeshape == nil)
-
-	return
+) (attributeshapeFormCallback *FormCallback[*models.AttributeShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveAttributeShapeFields,
+	)
 }
 
-type AttributeShapeFormCallback struct {
-	attributeshape *models.AttributeShape
+type AttributeShapeFormCallback = FormCallback[*models.AttributeShape]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (attributeshapeFormCallback *AttributeShapeFormCallback) OnSave() {
-	attributeshapeFormCallback.probe.stageOfInterest.Lock()
-	defer attributeshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("AttributeShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	attributeshapeFormCallback.probe.formStage.Checkout()
-
-	if attributeshapeFormCallback.attributeshape == nil {
-		attributeshapeFormCallback.attributeshape = new(models.AttributeShape).Stage(attributeshapeFormCallback.probe.stageOfInterest)
-	}
-	attributeshape_ := attributeshapeFormCallback.attributeshape
-	_ = attributeshape_
-
-	for _, formDiv := range attributeshapeFormCallback.formGroup.FormDivs {
+func saveAttributeShapeFields(
+	_instance *models.AttributeShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(attributeshape_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "FieldTypeAsString":
-			FormDivBasicFieldToField(&(attributeshape_.FieldTypeAsString), formDiv)
+			FormDivBasicFieldToField(&(_instance.FieldTypeAsString), formDiv)
 		case "Structname":
-			FormDivBasicFieldToField(&(attributeshape_.Structname), formDiv)
+			FormDivBasicFieldToField(&(_instance.Structname), formDiv)
 		case "Fieldtypename":
-			FormDivBasicFieldToField(&(attributeshape_.Fieldtypename), formDiv)
+			FormDivBasicFieldToField(&(_instance.Fieldtypename), formDiv)
 		case "GongStructShape:AttributeShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the GongStructShape instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target GongStructShape instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.GongStructShape](attributeshapeFormCallback.probe.stageOfInterest)
-			targetGongStructShapeIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetGongStructShapeIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all GongStructShape instances and update their AttributeShapes slice
-			for _gongstructshape := range *attributeshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GongStructShape]() {
-				id := attributeshapeFormCallback.probe.stageOfInterest.GetOrder(_gongstructshape)
-				
-				// if GongStructShape is selected
-				if targetGongStructShapeIDs[id] {
-					// ensure attributeshape_ is in _gongstructshape.AttributeShapes
-					found := false
-					for _, _b := range _gongstructshape.AttributeShapes {
-						if _b == attributeshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_gongstructshape.AttributeShapes = append(_gongstructshape.AttributeShapes, attributeshape_)
-						attributeshapeFormCallback.probe.UpdateSliceOfPointersCallback(_gongstructshape, "AttributeShapes", &_gongstructshape.AttributeShapes)
-					}
-				} else {
-					// ensure attributeshape_ is NOT in _gongstructshape.AttributeShapes
-					idx := slices.Index(_gongstructshape.AttributeShapes, attributeshape_)
-					if idx != -1 {
-						_gongstructshape.AttributeShapes = slices.Delete(_gongstructshape.AttributeShapes, idx, idx+1)
-						attributeshapeFormCallback.probe.UpdateSliceOfPointersCallback(_gongstructshape, "AttributeShapes", &_gongstructshape.AttributeShapes)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "AttributeShapes", func(owner *models.GongStructShape) *[]*models.AttributeShape { return &owner.AttributeShapes })
 		}
 	}
-
-	// manage the suppress operation
-	if attributeshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		attributeshape_.Unstage(attributeshapeFormCallback.probe.stageOfInterest)
-	}
-
-	attributeshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.AttributeShape](
-		attributeshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if attributeshapeFormCallback.CreationMode || attributeshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		attributeshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(attributeshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__AttributeShapeFormCallback(
-			nil,
-			attributeshapeFormCallback.probe,
-			newFormGroup,
-		)
-		attributeshape := new(models.AttributeShape)
-		FillUpForm(attributeshape, newFormGroup, attributeshapeFormCallback.probe)
-		attributeshapeFormCallback.probe.formStage.Commit()
-	}
-
-	attributeshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__ClassdiagramFormCallback(
-	classdiagram *models.Classdiagram,
+	_instance *models.Classdiagram,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (classdiagramFormCallback *ClassdiagramFormCallback) {
-	classdiagramFormCallback = new(ClassdiagramFormCallback)
-	classdiagramFormCallback.probe = probe
-	classdiagramFormCallback.classdiagram = classdiagram
-	classdiagramFormCallback.formGroup = formGroup
-
-	classdiagramFormCallback.CreationMode = (classdiagram == nil)
-
-	return
+) (classdiagramFormCallback *FormCallback[*models.Classdiagram]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveClassdiagramFields,
+	)
 }
 
-type ClassdiagramFormCallback struct {
-	classdiagram *models.Classdiagram
+type ClassdiagramFormCallback = FormCallback[*models.Classdiagram]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
-	classdiagramFormCallback.probe.stageOfInterest.Lock()
-	defer classdiagramFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("ClassdiagramFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	classdiagramFormCallback.probe.formStage.Checkout()
-
-	if classdiagramFormCallback.classdiagram == nil {
-		classdiagramFormCallback.classdiagram = new(models.Classdiagram).Stage(classdiagramFormCallback.probe.stageOfInterest)
-	}
-	classdiagram_ := classdiagramFormCallback.classdiagram
-	_ = classdiagram_
-
-	for _, formDiv := range classdiagramFormCallback.formGroup.FormDivs {
+func saveClassdiagramFields(
+	_instance *models.Classdiagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(classdiagram_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Description":
-			FormDivBasicFieldToField(&(classdiagram_.Description), formDiv)
+			FormDivBasicFieldToField(&(_instance.Description), formDiv)
 		case "IsIncludedInStaticWebSite":
-			FormDivBasicFieldToField(&(classdiagram_.IsIncludedInStaticWebSite), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsIncludedInStaticWebSite), formDiv)
 		case "GongStructShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *classdiagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GongStructShape]()
-			instanceSlice := make([]*models.GongStructShape, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.GongStructShape)
-
-			for instance := range instanceSet {
-				id := classdiagramFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.GongStructShape](classdiagramFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			classdiagram_.GongStructShapes = instanceSlice
-			classdiagramFormCallback.probe.UpdateSliceOfPointersCallback(classdiagram_, "GongStructShapes", &classdiagram_.GongStructShapes)
-
+			FormDivSliceOfPointersToField(_instance, "GongStructShapes", &(_instance.GongStructShapes), formDiv, probe)
 		case "GongEnumShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *classdiagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GongEnumShape]()
-			instanceSlice := make([]*models.GongEnumShape, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.GongEnumShape)
-
-			for instance := range instanceSet {
-				id := classdiagramFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.GongEnumShape](classdiagramFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			classdiagram_.GongEnumShapes = instanceSlice
-			classdiagramFormCallback.probe.UpdateSliceOfPointersCallback(classdiagram_, "GongEnumShapes", &classdiagram_.GongEnumShapes)
-
+			FormDivSliceOfPointersToField(_instance, "GongEnumShapes", &(_instance.GongEnumShapes), formDiv, probe)
 		case "GongNoteShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *classdiagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GongNoteShape]()
-			instanceSlice := make([]*models.GongNoteShape, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.GongNoteShape)
-
-			for instance := range instanceSet {
-				id := classdiagramFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.GongNoteShape](classdiagramFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			classdiagram_.GongNoteShapes = instanceSlice
-			classdiagramFormCallback.probe.UpdateSliceOfPointersCallback(classdiagram_, "GongNoteShapes", &classdiagram_.GongNoteShapes)
-
+			FormDivSliceOfPointersToField(_instance, "GongNoteShapes", &(_instance.GongNoteShapes), formDiv, probe)
 		case "ShowNbInstances":
-			FormDivBasicFieldToField(&(classdiagram_.ShowNbInstances), formDiv)
+			FormDivBasicFieldToField(&(_instance.ShowNbInstances), formDiv)
 		case "ShowMultiplicity":
-			FormDivBasicFieldToField(&(classdiagram_.ShowMultiplicity), formDiv)
+			FormDivBasicFieldToField(&(_instance.ShowMultiplicity), formDiv)
 		case "ShowLinkNames":
-			FormDivBasicFieldToField(&(classdiagram_.ShowLinkNames), formDiv)
+			FormDivBasicFieldToField(&(_instance.ShowLinkNames), formDiv)
 		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(classdiagram_.IsInRenameMode), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsInRenameMode), formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(classdiagram_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		case "NodeGongStructsIsExpanded":
-			FormDivBasicFieldToField(&(classdiagram_.NodeGongStructsIsExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.NodeGongStructsIsExpanded), formDiv)
 		case "NodeGongStructNodeExpansion":
-			FormDivBasicFieldToField(&(classdiagram_.NodeGongStructNodeExpansion), formDiv)
+			FormDivBasicFieldToField(&(_instance.NodeGongStructNodeExpansion), formDiv)
 		case "NodeGongEnumsIsExpanded":
-			FormDivBasicFieldToField(&(classdiagram_.NodeGongEnumsIsExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.NodeGongEnumsIsExpanded), formDiv)
 		case "NodeGongEnumNodeExpansion":
-			FormDivBasicFieldToField(&(classdiagram_.NodeGongEnumNodeExpansion), formDiv)
+			FormDivBasicFieldToField(&(_instance.NodeGongEnumNodeExpansion), formDiv)
 		case "NodeGongNotesIsExpanded":
-			FormDivBasicFieldToField(&(classdiagram_.NodeGongNotesIsExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.NodeGongNotesIsExpanded), formDiv)
 		case "NodeGongNoteNodeExpansion":
-			FormDivBasicFieldToField(&(classdiagram_.NodeGongNoteNodeExpansion), formDiv)
+			FormDivBasicFieldToField(&(_instance.NodeGongNoteNodeExpansion), formDiv)
 		case "DiagramPackage:Classdiagrams":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramPackage instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target DiagramPackage instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramPackage](classdiagramFormCallback.probe.stageOfInterest)
-			targetDiagramPackageIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramPackageIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all DiagramPackage instances and update their Classdiagrams slice
-			for _diagrampackage := range *classdiagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.DiagramPackage]() {
-				id := classdiagramFormCallback.probe.stageOfInterest.GetOrder(_diagrampackage)
-				
-				// if DiagramPackage is selected
-				if targetDiagramPackageIDs[id] {
-					// ensure classdiagram_ is in _diagrampackage.Classdiagrams
-					found := false
-					for _, _b := range _diagrampackage.Classdiagrams {
-						if _b == classdiagram_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_diagrampackage.Classdiagrams = append(_diagrampackage.Classdiagrams, classdiagram_)
-						classdiagramFormCallback.probe.UpdateSliceOfPointersCallback(_diagrampackage, "Classdiagrams", &_diagrampackage.Classdiagrams)
-					}
-				} else {
-					// ensure classdiagram_ is NOT in _diagrampackage.Classdiagrams
-					idx := slices.Index(_diagrampackage.Classdiagrams, classdiagram_)
-					if idx != -1 {
-						_diagrampackage.Classdiagrams = slices.Delete(_diagrampackage.Classdiagrams, idx, idx+1)
-						classdiagramFormCallback.probe.UpdateSliceOfPointersCallback(_diagrampackage, "Classdiagrams", &_diagrampackage.Classdiagrams)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Classdiagrams", func(owner *models.DiagramPackage) *[]*models.Classdiagram { return &owner.Classdiagrams })
 		}
 	}
-
-	// manage the suppress operation
-	if classdiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		classdiagram_.Unstage(classdiagramFormCallback.probe.stageOfInterest)
-	}
-
-	classdiagramFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Classdiagram](
-		classdiagramFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if classdiagramFormCallback.CreationMode || classdiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		classdiagramFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(classdiagramFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ClassdiagramFormCallback(
-			nil,
-			classdiagramFormCallback.probe,
-			newFormGroup,
-		)
-		classdiagram := new(models.Classdiagram)
-		FillUpForm(classdiagram, newFormGroup, classdiagramFormCallback.probe)
-		classdiagramFormCallback.probe.formStage.Commit()
-	}
-
-	classdiagramFormCallback.probe.ux_tree()
 }
+
 func __gong__New__DiagramPackageFormCallback(
-	diagrampackage *models.DiagramPackage,
+	_instance *models.DiagramPackage,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (diagrampackageFormCallback *DiagramPackageFormCallback) {
-	diagrampackageFormCallback = new(DiagramPackageFormCallback)
-	diagrampackageFormCallback.probe = probe
-	diagrampackageFormCallback.diagrampackage = diagrampackage
-	diagrampackageFormCallback.formGroup = formGroup
-
-	diagrampackageFormCallback.CreationMode = (diagrampackage == nil)
-
-	return
+) (diagrampackageFormCallback *FormCallback[*models.DiagramPackage]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveDiagramPackageFields,
+	)
 }
 
-type DiagramPackageFormCallback struct {
-	diagrampackage *models.DiagramPackage
+type DiagramPackageFormCallback = FormCallback[*models.DiagramPackage]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
-	diagrampackageFormCallback.probe.stageOfInterest.Lock()
-	defer diagrampackageFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("DiagramPackageFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	diagrampackageFormCallback.probe.formStage.Checkout()
-
-	if diagrampackageFormCallback.diagrampackage == nil {
-		diagrampackageFormCallback.diagrampackage = new(models.DiagramPackage).Stage(diagrampackageFormCallback.probe.stageOfInterest)
-	}
-	diagrampackage_ := diagrampackageFormCallback.diagrampackage
-	_ = diagrampackage_
-
-	for _, formDiv := range diagrampackageFormCallback.formGroup.FormDivs {
+func saveDiagramPackageFields(
+	_instance *models.DiagramPackage,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(diagrampackage_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Path":
-			FormDivBasicFieldToField(&(diagrampackage_.Path), formDiv)
+			FormDivBasicFieldToField(&(_instance.Path), formDiv)
 		case "GongModelPath":
-			FormDivBasicFieldToField(&(diagrampackage_.GongModelPath), formDiv)
+			FormDivBasicFieldToField(&(_instance.GongModelPath), formDiv)
 		case "Classdiagrams":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *diagrampackageFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Classdiagram]()
-			instanceSlice := make([]*models.Classdiagram, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Classdiagram)
-
-			for instance := range instanceSet {
-				id := diagrampackageFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Classdiagram](diagrampackageFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			diagrampackage_.Classdiagrams = instanceSlice
-			diagrampackageFormCallback.probe.UpdateSliceOfPointersCallback(diagrampackage_, "Classdiagrams", &diagrampackage_.Classdiagrams)
-
+			FormDivSliceOfPointersToField(_instance, "Classdiagrams", &(_instance.Classdiagrams), formDiv, probe)
 		case "SelectedClassdiagram":
-			FormDivSelectFieldToField(&(diagrampackage_.SelectedClassdiagram), diagrampackageFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.SelectedClassdiagram), probe.stageOfInterest, formDiv)
 		case "AbsolutePathToDiagramPackage":
-			FormDivBasicFieldToField(&(diagrampackage_.AbsolutePathToDiagramPackage), formDiv)
+			FormDivBasicFieldToField(&(_instance.AbsolutePathToDiagramPackage), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if diagrampackageFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		diagrampackage_.Unstage(diagrampackageFormCallback.probe.stageOfInterest)
-	}
-
-	diagrampackageFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.DiagramPackage](
-		diagrampackageFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if diagrampackageFormCallback.CreationMode || diagrampackageFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		diagrampackageFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(diagrampackageFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__DiagramPackageFormCallback(
-			nil,
-			diagrampackageFormCallback.probe,
-			newFormGroup,
-		)
-		diagrampackage := new(models.DiagramPackage)
-		FillUpForm(diagrampackage, newFormGroup, diagrampackageFormCallback.probe)
-		diagrampackageFormCallback.probe.formStage.Commit()
-	}
-
-	diagrampackageFormCallback.probe.ux_tree()
 }
+
 func __gong__New__GongEnumShapeFormCallback(
-	gongenumshape *models.GongEnumShape,
+	_instance *models.GongEnumShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (gongenumshapeFormCallback *GongEnumShapeFormCallback) {
-	gongenumshapeFormCallback = new(GongEnumShapeFormCallback)
-	gongenumshapeFormCallback.probe = probe
-	gongenumshapeFormCallback.gongenumshape = gongenumshape
-	gongenumshapeFormCallback.formGroup = formGroup
-
-	gongenumshapeFormCallback.CreationMode = (gongenumshape == nil)
-
-	return
+) (gongenumshapeFormCallback *FormCallback[*models.GongEnumShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveGongEnumShapeFields,
+	)
 }
 
-type GongEnumShapeFormCallback struct {
-	gongenumshape *models.GongEnumShape
+type GongEnumShapeFormCallback = FormCallback[*models.GongEnumShape]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
-	gongenumshapeFormCallback.probe.stageOfInterest.Lock()
-	defer gongenumshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("GongEnumShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	gongenumshapeFormCallback.probe.formStage.Checkout()
-
-	if gongenumshapeFormCallback.gongenumshape == nil {
-		gongenumshapeFormCallback.gongenumshape = new(models.GongEnumShape).Stage(gongenumshapeFormCallback.probe.stageOfInterest)
-	}
-	gongenumshape_ := gongenumshapeFormCallback.gongenumshape
-	_ = gongenumshape_
-
-	for _, formDiv := range gongenumshapeFormCallback.formGroup.FormDivs {
+func saveGongEnumShapeFields(
+	_instance *models.GongEnumShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(gongenumshape_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "X":
-			FormDivBasicFieldToField(&(gongenumshape_.X), formDiv)
+			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
-			FormDivBasicFieldToField(&(gongenumshape_.Y), formDiv)
+			FormDivBasicFieldToField(&(_instance.Y), formDiv)
 		case "Width":
-			FormDivBasicFieldToField(&(gongenumshape_.Width), formDiv)
+			FormDivBasicFieldToField(&(_instance.Width), formDiv)
 		case "Height":
-			FormDivBasicFieldToField(&(gongenumshape_.Height), formDiv)
+			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
-			FormDivBasicFieldToField(&(gongenumshape_.IsHidden), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
 		case "GongEnumValueShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *gongenumshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GongEnumValueShape]()
-			instanceSlice := make([]*models.GongEnumValueShape, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.GongEnumValueShape)
-
-			for instance := range instanceSet {
-				id := gongenumshapeFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.GongEnumValueShape](gongenumshapeFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			gongenumshape_.GongEnumValueShapes = instanceSlice
-			gongenumshapeFormCallback.probe.UpdateSliceOfPointersCallback(gongenumshape_, "GongEnumValueShapes", &gongenumshape_.GongEnumValueShapes)
-
+			FormDivSliceOfPointersToField(_instance, "GongEnumValueShapes", &(_instance.GongEnumValueShapes), formDiv, probe)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(gongenumshape_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		case "Classdiagram:GongEnumShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Classdiagram instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Classdiagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Classdiagram](gongenumshapeFormCallback.probe.stageOfInterest)
-			targetClassdiagramIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetClassdiagramIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Classdiagram instances and update their GongEnumShapes slice
-			for _classdiagram := range *gongenumshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Classdiagram]() {
-				id := gongenumshapeFormCallback.probe.stageOfInterest.GetOrder(_classdiagram)
-				
-				// if Classdiagram is selected
-				if targetClassdiagramIDs[id] {
-					// ensure gongenumshape_ is in _classdiagram.GongEnumShapes
-					found := false
-					for _, _b := range _classdiagram.GongEnumShapes {
-						if _b == gongenumshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_classdiagram.GongEnumShapes = append(_classdiagram.GongEnumShapes, gongenumshape_)
-						gongenumshapeFormCallback.probe.UpdateSliceOfPointersCallback(_classdiagram, "GongEnumShapes", &_classdiagram.GongEnumShapes)
-					}
-				} else {
-					// ensure gongenumshape_ is NOT in _classdiagram.GongEnumShapes
-					idx := slices.Index(_classdiagram.GongEnumShapes, gongenumshape_)
-					if idx != -1 {
-						_classdiagram.GongEnumShapes = slices.Delete(_classdiagram.GongEnumShapes, idx, idx+1)
-						gongenumshapeFormCallback.probe.UpdateSliceOfPointersCallback(_classdiagram, "GongEnumShapes", &_classdiagram.GongEnumShapes)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "GongEnumShapes", func(owner *models.Classdiagram) *[]*models.GongEnumShape { return &owner.GongEnumShapes })
 		}
 	}
-
-	// manage the suppress operation
-	if gongenumshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		gongenumshape_.Unstage(gongenumshapeFormCallback.probe.stageOfInterest)
-	}
-
-	gongenumshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.GongEnumShape](
-		gongenumshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if gongenumshapeFormCallback.CreationMode || gongenumshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		gongenumshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(gongenumshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__GongEnumShapeFormCallback(
-			nil,
-			gongenumshapeFormCallback.probe,
-			newFormGroup,
-		)
-		gongenumshape := new(models.GongEnumShape)
-		FillUpForm(gongenumshape, newFormGroup, gongenumshapeFormCallback.probe)
-		gongenumshapeFormCallback.probe.formStage.Commit()
-	}
-
-	gongenumshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__GongEnumValueShapeFormCallback(
-	gongenumvalueshape *models.GongEnumValueShape,
+	_instance *models.GongEnumValueShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) {
-	gongenumvalueshapeFormCallback = new(GongEnumValueShapeFormCallback)
-	gongenumvalueshapeFormCallback.probe = probe
-	gongenumvalueshapeFormCallback.gongenumvalueshape = gongenumvalueshape
-	gongenumvalueshapeFormCallback.formGroup = formGroup
-
-	gongenumvalueshapeFormCallback.CreationMode = (gongenumvalueshape == nil)
-
-	return
+) (gongenumvalueshapeFormCallback *FormCallback[*models.GongEnumValueShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveGongEnumValueShapeFields,
+	)
 }
 
-type GongEnumValueShapeFormCallback struct {
-	gongenumvalueshape *models.GongEnumValueShape
+type GongEnumValueShapeFormCallback = FormCallback[*models.GongEnumValueShape]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) OnSave() {
-	gongenumvalueshapeFormCallback.probe.stageOfInterest.Lock()
-	defer gongenumvalueshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("GongEnumValueShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	gongenumvalueshapeFormCallback.probe.formStage.Checkout()
-
-	if gongenumvalueshapeFormCallback.gongenumvalueshape == nil {
-		gongenumvalueshapeFormCallback.gongenumvalueshape = new(models.GongEnumValueShape).Stage(gongenumvalueshapeFormCallback.probe.stageOfInterest)
-	}
-	gongenumvalueshape_ := gongenumvalueshapeFormCallback.gongenumvalueshape
-	_ = gongenumvalueshape_
-
-	for _, formDiv := range gongenumvalueshapeFormCallback.formGroup.FormDivs {
+func saveGongEnumValueShapeFields(
+	_instance *models.GongEnumValueShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(gongenumvalueshape_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "GongEnumShape:GongEnumValueShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the GongEnumShape instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target GongEnumShape instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.GongEnumShape](gongenumvalueshapeFormCallback.probe.stageOfInterest)
-			targetGongEnumShapeIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetGongEnumShapeIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all GongEnumShape instances and update their GongEnumValueShapes slice
-			for _gongenumshape := range *gongenumvalueshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GongEnumShape]() {
-				id := gongenumvalueshapeFormCallback.probe.stageOfInterest.GetOrder(_gongenumshape)
-				
-				// if GongEnumShape is selected
-				if targetGongEnumShapeIDs[id] {
-					// ensure gongenumvalueshape_ is in _gongenumshape.GongEnumValueShapes
-					found := false
-					for _, _b := range _gongenumshape.GongEnumValueShapes {
-						if _b == gongenumvalueshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_gongenumshape.GongEnumValueShapes = append(_gongenumshape.GongEnumValueShapes, gongenumvalueshape_)
-						gongenumvalueshapeFormCallback.probe.UpdateSliceOfPointersCallback(_gongenumshape, "GongEnumValueShapes", &_gongenumshape.GongEnumValueShapes)
-					}
-				} else {
-					// ensure gongenumvalueshape_ is NOT in _gongenumshape.GongEnumValueShapes
-					idx := slices.Index(_gongenumshape.GongEnumValueShapes, gongenumvalueshape_)
-					if idx != -1 {
-						_gongenumshape.GongEnumValueShapes = slices.Delete(_gongenumshape.GongEnumValueShapes, idx, idx+1)
-						gongenumvalueshapeFormCallback.probe.UpdateSliceOfPointersCallback(_gongenumshape, "GongEnumValueShapes", &_gongenumshape.GongEnumValueShapes)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "GongEnumValueShapes", func(owner *models.GongEnumShape) *[]*models.GongEnumValueShape { return &owner.GongEnumValueShapes })
 		}
 	}
-
-	// manage the suppress operation
-	if gongenumvalueshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		gongenumvalueshape_.Unstage(gongenumvalueshapeFormCallback.probe.stageOfInterest)
-	}
-
-	gongenumvalueshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.GongEnumValueShape](
-		gongenumvalueshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if gongenumvalueshapeFormCallback.CreationMode || gongenumvalueshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		gongenumvalueshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(gongenumvalueshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__GongEnumValueShapeFormCallback(
-			nil,
-			gongenumvalueshapeFormCallback.probe,
-			newFormGroup,
-		)
-		gongenumvalueshape := new(models.GongEnumValueShape)
-		FillUpForm(gongenumvalueshape, newFormGroup, gongenumvalueshapeFormCallback.probe)
-		gongenumvalueshapeFormCallback.probe.formStage.Commit()
-	}
-
-	gongenumvalueshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__GongNoteLinkShapeFormCallback(
-	gongnotelinkshape *models.GongNoteLinkShape,
+	_instance *models.GongNoteLinkShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (gongnotelinkshapeFormCallback *GongNoteLinkShapeFormCallback) {
-	gongnotelinkshapeFormCallback = new(GongNoteLinkShapeFormCallback)
-	gongnotelinkshapeFormCallback.probe = probe
-	gongnotelinkshapeFormCallback.gongnotelinkshape = gongnotelinkshape
-	gongnotelinkshapeFormCallback.formGroup = formGroup
-
-	gongnotelinkshapeFormCallback.CreationMode = (gongnotelinkshape == nil)
-
-	return
+) (gongnotelinkshapeFormCallback *FormCallback[*models.GongNoteLinkShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveGongNoteLinkShapeFields,
+	)
 }
 
-type GongNoteLinkShapeFormCallback struct {
-	gongnotelinkshape *models.GongNoteLinkShape
+type GongNoteLinkShapeFormCallback = FormCallback[*models.GongNoteLinkShape]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (gongnotelinkshapeFormCallback *GongNoteLinkShapeFormCallback) OnSave() {
-	gongnotelinkshapeFormCallback.probe.stageOfInterest.Lock()
-	defer gongnotelinkshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("GongNoteLinkShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	gongnotelinkshapeFormCallback.probe.formStage.Checkout()
-
-	if gongnotelinkshapeFormCallback.gongnotelinkshape == nil {
-		gongnotelinkshapeFormCallback.gongnotelinkshape = new(models.GongNoteLinkShape).Stage(gongnotelinkshapeFormCallback.probe.stageOfInterest)
-	}
-	gongnotelinkshape_ := gongnotelinkshapeFormCallback.gongnotelinkshape
-	_ = gongnotelinkshape_
-
-	for _, formDiv := range gongnotelinkshapeFormCallback.formGroup.FormDivs {
+func saveGongNoteLinkShapeFields(
+	_instance *models.GongNoteLinkShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(gongnotelinkshape_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Identifier":
-			FormDivBasicFieldToField(&(gongnotelinkshape_.Identifier), formDiv)
+			FormDivBasicFieldToField(&(_instance.Identifier), formDiv)
 		case "Type":
-			FormDivEnumStringFieldToField(&(gongnotelinkshape_.Type), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.Type), formDiv)
 		case "GongNoteShape:GongNoteLinkShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the GongNoteShape instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target GongNoteShape instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.GongNoteShape](gongnotelinkshapeFormCallback.probe.stageOfInterest)
-			targetGongNoteShapeIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetGongNoteShapeIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all GongNoteShape instances and update their GongNoteLinkShapes slice
-			for _gongnoteshape := range *gongnotelinkshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GongNoteShape]() {
-				id := gongnotelinkshapeFormCallback.probe.stageOfInterest.GetOrder(_gongnoteshape)
-				
-				// if GongNoteShape is selected
-				if targetGongNoteShapeIDs[id] {
-					// ensure gongnotelinkshape_ is in _gongnoteshape.GongNoteLinkShapes
-					found := false
-					for _, _b := range _gongnoteshape.GongNoteLinkShapes {
-						if _b == gongnotelinkshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_gongnoteshape.GongNoteLinkShapes = append(_gongnoteshape.GongNoteLinkShapes, gongnotelinkshape_)
-						gongnotelinkshapeFormCallback.probe.UpdateSliceOfPointersCallback(_gongnoteshape, "GongNoteLinkShapes", &_gongnoteshape.GongNoteLinkShapes)
-					}
-				} else {
-					// ensure gongnotelinkshape_ is NOT in _gongnoteshape.GongNoteLinkShapes
-					idx := slices.Index(_gongnoteshape.GongNoteLinkShapes, gongnotelinkshape_)
-					if idx != -1 {
-						_gongnoteshape.GongNoteLinkShapes = slices.Delete(_gongnoteshape.GongNoteLinkShapes, idx, idx+1)
-						gongnotelinkshapeFormCallback.probe.UpdateSliceOfPointersCallback(_gongnoteshape, "GongNoteLinkShapes", &_gongnoteshape.GongNoteLinkShapes)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "GongNoteLinkShapes", func(owner *models.GongNoteShape) *[]*models.GongNoteLinkShape { return &owner.GongNoteLinkShapes })
 		}
 	}
-
-	// manage the suppress operation
-	if gongnotelinkshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		gongnotelinkshape_.Unstage(gongnotelinkshapeFormCallback.probe.stageOfInterest)
-	}
-
-	gongnotelinkshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.GongNoteLinkShape](
-		gongnotelinkshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if gongnotelinkshapeFormCallback.CreationMode || gongnotelinkshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		gongnotelinkshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(gongnotelinkshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__GongNoteLinkShapeFormCallback(
-			nil,
-			gongnotelinkshapeFormCallback.probe,
-			newFormGroup,
-		)
-		gongnotelinkshape := new(models.GongNoteLinkShape)
-		FillUpForm(gongnotelinkshape, newFormGroup, gongnotelinkshapeFormCallback.probe)
-		gongnotelinkshapeFormCallback.probe.formStage.Commit()
-	}
-
-	gongnotelinkshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__GongNoteShapeFormCallback(
-	gongnoteshape *models.GongNoteShape,
+	_instance *models.GongNoteShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (gongnoteshapeFormCallback *GongNoteShapeFormCallback) {
-	gongnoteshapeFormCallback = new(GongNoteShapeFormCallback)
-	gongnoteshapeFormCallback.probe = probe
-	gongnoteshapeFormCallback.gongnoteshape = gongnoteshape
-	gongnoteshapeFormCallback.formGroup = formGroup
-
-	gongnoteshapeFormCallback.CreationMode = (gongnoteshape == nil)
-
-	return
+) (gongnoteshapeFormCallback *FormCallback[*models.GongNoteShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveGongNoteShapeFields,
+	)
 }
 
-type GongNoteShapeFormCallback struct {
-	gongnoteshape *models.GongNoteShape
+type GongNoteShapeFormCallback = FormCallback[*models.GongNoteShape]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
-	gongnoteshapeFormCallback.probe.stageOfInterest.Lock()
-	defer gongnoteshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("GongNoteShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	gongnoteshapeFormCallback.probe.formStage.Checkout()
-
-	if gongnoteshapeFormCallback.gongnoteshape == nil {
-		gongnoteshapeFormCallback.gongnoteshape = new(models.GongNoteShape).Stage(gongnoteshapeFormCallback.probe.stageOfInterest)
-	}
-	gongnoteshape_ := gongnoteshapeFormCallback.gongnoteshape
-	_ = gongnoteshape_
-
-	for _, formDiv := range gongnoteshapeFormCallback.formGroup.FormDivs {
+func saveGongNoteShapeFields(
+	_instance *models.GongNoteShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(gongnoteshape_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Identifier":
-			FormDivBasicFieldToField(&(gongnoteshape_.Identifier), formDiv)
+			FormDivBasicFieldToField(&(_instance.Identifier), formDiv)
 		case "Body":
-			FormDivBasicFieldToField(&(gongnoteshape_.Body), formDiv)
+			FormDivBasicFieldToField(&(_instance.Body), formDiv)
 		case "BodyHTML":
-			FormDivBasicFieldToField(&(gongnoteshape_.BodyHTML), formDiv)
+			FormDivBasicFieldToField(&(_instance.BodyHTML), formDiv)
 		case "X":
-			FormDivBasicFieldToField(&(gongnoteshape_.X), formDiv)
+			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
-			FormDivBasicFieldToField(&(gongnoteshape_.Y), formDiv)
+			FormDivBasicFieldToField(&(_instance.Y), formDiv)
 		case "Width":
-			FormDivBasicFieldToField(&(gongnoteshape_.Width), formDiv)
+			FormDivBasicFieldToField(&(_instance.Width), formDiv)
 		case "Height":
-			FormDivBasicFieldToField(&(gongnoteshape_.Height), formDiv)
+			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
-			FormDivBasicFieldToField(&(gongnoteshape_.IsHidden), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
 		case "Matched":
-			FormDivBasicFieldToField(&(gongnoteshape_.Matched), formDiv)
+			FormDivBasicFieldToField(&(_instance.Matched), formDiv)
 		case "GongNoteLinkShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *gongnoteshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GongNoteLinkShape]()
-			instanceSlice := make([]*models.GongNoteLinkShape, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.GongNoteLinkShape)
-
-			for instance := range instanceSet {
-				id := gongnoteshapeFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.GongNoteLinkShape](gongnoteshapeFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			gongnoteshape_.GongNoteLinkShapes = instanceSlice
-			gongnoteshapeFormCallback.probe.UpdateSliceOfPointersCallback(gongnoteshape_, "GongNoteLinkShapes", &gongnoteshape_.GongNoteLinkShapes)
-
+			FormDivSliceOfPointersToField(_instance, "GongNoteLinkShapes", &(_instance.GongNoteLinkShapes), formDiv, probe)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(gongnoteshape_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		case "Classdiagram:GongNoteShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Classdiagram instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Classdiagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Classdiagram](gongnoteshapeFormCallback.probe.stageOfInterest)
-			targetClassdiagramIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetClassdiagramIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Classdiagram instances and update their GongNoteShapes slice
-			for _classdiagram := range *gongnoteshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Classdiagram]() {
-				id := gongnoteshapeFormCallback.probe.stageOfInterest.GetOrder(_classdiagram)
-				
-				// if Classdiagram is selected
-				if targetClassdiagramIDs[id] {
-					// ensure gongnoteshape_ is in _classdiagram.GongNoteShapes
-					found := false
-					for _, _b := range _classdiagram.GongNoteShapes {
-						if _b == gongnoteshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_classdiagram.GongNoteShapes = append(_classdiagram.GongNoteShapes, gongnoteshape_)
-						gongnoteshapeFormCallback.probe.UpdateSliceOfPointersCallback(_classdiagram, "GongNoteShapes", &_classdiagram.GongNoteShapes)
-					}
-				} else {
-					// ensure gongnoteshape_ is NOT in _classdiagram.GongNoteShapes
-					idx := slices.Index(_classdiagram.GongNoteShapes, gongnoteshape_)
-					if idx != -1 {
-						_classdiagram.GongNoteShapes = slices.Delete(_classdiagram.GongNoteShapes, idx, idx+1)
-						gongnoteshapeFormCallback.probe.UpdateSliceOfPointersCallback(_classdiagram, "GongNoteShapes", &_classdiagram.GongNoteShapes)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "GongNoteShapes", func(owner *models.Classdiagram) *[]*models.GongNoteShape { return &owner.GongNoteShapes })
 		}
 	}
-
-	// manage the suppress operation
-	if gongnoteshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		gongnoteshape_.Unstage(gongnoteshapeFormCallback.probe.stageOfInterest)
-	}
-
-	gongnoteshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.GongNoteShape](
-		gongnoteshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if gongnoteshapeFormCallback.CreationMode || gongnoteshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		gongnoteshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(gongnoteshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__GongNoteShapeFormCallback(
-			nil,
-			gongnoteshapeFormCallback.probe,
-			newFormGroup,
-		)
-		gongnoteshape := new(models.GongNoteShape)
-		FillUpForm(gongnoteshape, newFormGroup, gongnoteshapeFormCallback.probe)
-		gongnoteshapeFormCallback.probe.formStage.Commit()
-	}
-
-	gongnoteshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__GongStructShapeFormCallback(
-	gongstructshape *models.GongStructShape,
+	_instance *models.GongStructShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (gongstructshapeFormCallback *GongStructShapeFormCallback) {
-	gongstructshapeFormCallback = new(GongStructShapeFormCallback)
-	gongstructshapeFormCallback.probe = probe
-	gongstructshapeFormCallback.gongstructshape = gongstructshape
-	gongstructshapeFormCallback.formGroup = formGroup
-
-	gongstructshapeFormCallback.CreationMode = (gongstructshape == nil)
-
-	return
+) (gongstructshapeFormCallback *FormCallback[*models.GongStructShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveGongStructShapeFields,
+	)
 }
 
-type GongStructShapeFormCallback struct {
-	gongstructshape *models.GongStructShape
+type GongStructShapeFormCallback = FormCallback[*models.GongStructShape]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
-	gongstructshapeFormCallback.probe.stageOfInterest.Lock()
-	defer gongstructshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("GongStructShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	gongstructshapeFormCallback.probe.formStage.Checkout()
-
-	if gongstructshapeFormCallback.gongstructshape == nil {
-		gongstructshapeFormCallback.gongstructshape = new(models.GongStructShape).Stage(gongstructshapeFormCallback.probe.stageOfInterest)
-	}
-	gongstructshape_ := gongstructshapeFormCallback.gongstructshape
-	_ = gongstructshape_
-
-	for _, formDiv := range gongstructshapeFormCallback.formGroup.FormDivs {
+func saveGongStructShapeFields(
+	_instance *models.GongStructShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(gongstructshape_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "X":
-			FormDivBasicFieldToField(&(gongstructshape_.X), formDiv)
+			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
-			FormDivBasicFieldToField(&(gongstructshape_.Y), formDiv)
+			FormDivBasicFieldToField(&(_instance.Y), formDiv)
 		case "Width":
-			FormDivBasicFieldToField(&(gongstructshape_.Width), formDiv)
+			FormDivBasicFieldToField(&(_instance.Width), formDiv)
 		case "Height":
-			FormDivBasicFieldToField(&(gongstructshape_.Height), formDiv)
+			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "IsHidden":
-			FormDivBasicFieldToField(&(gongstructshape_.IsHidden), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
 		case "AttributeShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *gongstructshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.AttributeShape]()
-			instanceSlice := make([]*models.AttributeShape, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.AttributeShape)
-
-			for instance := range instanceSet {
-				id := gongstructshapeFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.AttributeShape](gongstructshapeFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			gongstructshape_.AttributeShapes = instanceSlice
-			gongstructshapeFormCallback.probe.UpdateSliceOfPointersCallback(gongstructshape_, "AttributeShapes", &gongstructshape_.AttributeShapes)
-
+			FormDivSliceOfPointersToField(_instance, "AttributeShapes", &(_instance.AttributeShapes), formDiv, probe)
 		case "LinkShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *gongstructshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.LinkShape]()
-			instanceSlice := make([]*models.LinkShape, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.LinkShape)
-
-			for instance := range instanceSet {
-				id := gongstructshapeFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.LinkShape](gongstructshapeFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			gongstructshape_.LinkShapes = instanceSlice
-			gongstructshapeFormCallback.probe.UpdateSliceOfPointersCallback(gongstructshape_, "LinkShapes", &gongstructshape_.LinkShapes)
-
+			FormDivSliceOfPointersToField(_instance, "LinkShapes", &(_instance.LinkShapes), formDiv, probe)
 		case "IsSelected":
-			FormDivBasicFieldToField(&(gongstructshape_.IsSelected), formDiv)
+			FormDivBasicFieldToField(&(_instance.IsSelected), formDiv)
 		case "Classdiagram:GongStructShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Classdiagram instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Classdiagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Classdiagram](gongstructshapeFormCallback.probe.stageOfInterest)
-			targetClassdiagramIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetClassdiagramIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Classdiagram instances and update their GongStructShapes slice
-			for _classdiagram := range *gongstructshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Classdiagram]() {
-				id := gongstructshapeFormCallback.probe.stageOfInterest.GetOrder(_classdiagram)
-				
-				// if Classdiagram is selected
-				if targetClassdiagramIDs[id] {
-					// ensure gongstructshape_ is in _classdiagram.GongStructShapes
-					found := false
-					for _, _b := range _classdiagram.GongStructShapes {
-						if _b == gongstructshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_classdiagram.GongStructShapes = append(_classdiagram.GongStructShapes, gongstructshape_)
-						gongstructshapeFormCallback.probe.UpdateSliceOfPointersCallback(_classdiagram, "GongStructShapes", &_classdiagram.GongStructShapes)
-					}
-				} else {
-					// ensure gongstructshape_ is NOT in _classdiagram.GongStructShapes
-					idx := slices.Index(_classdiagram.GongStructShapes, gongstructshape_)
-					if idx != -1 {
-						_classdiagram.GongStructShapes = slices.Delete(_classdiagram.GongStructShapes, idx, idx+1)
-						gongstructshapeFormCallback.probe.UpdateSliceOfPointersCallback(_classdiagram, "GongStructShapes", &_classdiagram.GongStructShapes)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "GongStructShapes", func(owner *models.Classdiagram) *[]*models.GongStructShape { return &owner.GongStructShapes })
 		}
 	}
-
-	// manage the suppress operation
-	if gongstructshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		gongstructshape_.Unstage(gongstructshapeFormCallback.probe.stageOfInterest)
-	}
-
-	gongstructshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.GongStructShape](
-		gongstructshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if gongstructshapeFormCallback.CreationMode || gongstructshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		gongstructshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(gongstructshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__GongStructShapeFormCallback(
-			nil,
-			gongstructshapeFormCallback.probe,
-			newFormGroup,
-		)
-		gongstructshape := new(models.GongStructShape)
-		FillUpForm(gongstructshape, newFormGroup, gongstructshapeFormCallback.probe)
-		gongstructshapeFormCallback.probe.formStage.Commit()
-	}
-
-	gongstructshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__LinkShapeFormCallback(
-	linkshape *models.LinkShape,
+	_instance *models.LinkShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (linkshapeFormCallback *LinkShapeFormCallback) {
-	linkshapeFormCallback = new(LinkShapeFormCallback)
-	linkshapeFormCallback.probe = probe
-	linkshapeFormCallback.linkshape = linkshape
-	linkshapeFormCallback.formGroup = formGroup
-
-	linkshapeFormCallback.CreationMode = (linkshape == nil)
-
-	return
+) (linkshapeFormCallback *FormCallback[*models.LinkShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveLinkShapeFields,
+	)
 }
 
-type LinkShapeFormCallback struct {
-	linkshape *models.LinkShape
+type LinkShapeFormCallback = FormCallback[*models.LinkShape]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
-	linkshapeFormCallback.probe.stageOfInterest.Lock()
-	defer linkshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("LinkShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	linkshapeFormCallback.probe.formStage.Checkout()
-
-	if linkshapeFormCallback.linkshape == nil {
-		linkshapeFormCallback.linkshape = new(models.LinkShape).Stage(linkshapeFormCallback.probe.stageOfInterest)
-	}
-	linkshape_ := linkshapeFormCallback.linkshape
-	_ = linkshape_
-
-	for _, formDiv := range linkshapeFormCallback.formGroup.FormDivs {
+func saveLinkShapeFields(
+	_instance *models.LinkShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(linkshape_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "FieldOffsetX":
-			FormDivBasicFieldToField(&(linkshape_.FieldOffsetX), formDiv)
+			FormDivBasicFieldToField(&(_instance.FieldOffsetX), formDiv)
 		case "FieldOffsetY":
-			FormDivBasicFieldToField(&(linkshape_.FieldOffsetY), formDiv)
+			FormDivBasicFieldToField(&(_instance.FieldOffsetY), formDiv)
 		case "TargetMultiplicity":
-			FormDivEnumStringFieldToField(&(linkshape_.TargetMultiplicity), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.TargetMultiplicity), formDiv)
 		case "TargetMultiplicityOffsetX":
-			FormDivBasicFieldToField(&(linkshape_.TargetMultiplicityOffsetX), formDiv)
+			FormDivBasicFieldToField(&(_instance.TargetMultiplicityOffsetX), formDiv)
 		case "TargetMultiplicityOffsetY":
-			FormDivBasicFieldToField(&(linkshape_.TargetMultiplicityOffsetY), formDiv)
+			FormDivBasicFieldToField(&(_instance.TargetMultiplicityOffsetY), formDiv)
 		case "SourceMultiplicity":
-			FormDivEnumStringFieldToField(&(linkshape_.SourceMultiplicity), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.SourceMultiplicity), formDiv)
 		case "SourceMultiplicityOffsetX":
-			FormDivBasicFieldToField(&(linkshape_.SourceMultiplicityOffsetX), formDiv)
+			FormDivBasicFieldToField(&(_instance.SourceMultiplicityOffsetX), formDiv)
 		case "SourceMultiplicityOffsetY":
-			FormDivBasicFieldToField(&(linkshape_.SourceMultiplicityOffsetY), formDiv)
+			FormDivBasicFieldToField(&(_instance.SourceMultiplicityOffsetY), formDiv)
 		case "X":
-			FormDivBasicFieldToField(&(linkshape_.X), formDiv)
+			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
-			FormDivBasicFieldToField(&(linkshape_.Y), formDiv)
+			FormDivBasicFieldToField(&(_instance.Y), formDiv)
 		case "StartOrientation":
-			FormDivEnumStringFieldToField(&(linkshape_.StartOrientation), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.StartOrientation), formDiv)
 		case "StartRatio":
-			FormDivBasicFieldToField(&(linkshape_.StartRatio), formDiv)
+			FormDivBasicFieldToField(&(_instance.StartRatio), formDiv)
 		case "EndOrientation":
-			FormDivEnumStringFieldToField(&(linkshape_.EndOrientation), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.EndOrientation), formDiv)
 		case "EndRatio":
-			FormDivBasicFieldToField(&(linkshape_.EndRatio), formDiv)
+			FormDivBasicFieldToField(&(_instance.EndRatio), formDiv)
 		case "CornerOffsetRatio":
-			FormDivBasicFieldToField(&(linkshape_.CornerOffsetRatio), formDiv)
+			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
 		case "GongStructShape:LinkShapes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the GongStructShape instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target GongStructShape instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.GongStructShape](linkshapeFormCallback.probe.stageOfInterest)
-			targetGongStructShapeIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetGongStructShapeIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all GongStructShape instances and update their LinkShapes slice
-			for _gongstructshape := range *linkshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GongStructShape]() {
-				id := linkshapeFormCallback.probe.stageOfInterest.GetOrder(_gongstructshape)
-				
-				// if GongStructShape is selected
-				if targetGongStructShapeIDs[id] {
-					// ensure linkshape_ is in _gongstructshape.LinkShapes
-					found := false
-					for _, _b := range _gongstructshape.LinkShapes {
-						if _b == linkshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_gongstructshape.LinkShapes = append(_gongstructshape.LinkShapes, linkshape_)
-						linkshapeFormCallback.probe.UpdateSliceOfPointersCallback(_gongstructshape, "LinkShapes", &_gongstructshape.LinkShapes)
-					}
-				} else {
-					// ensure linkshape_ is NOT in _gongstructshape.LinkShapes
-					idx := slices.Index(_gongstructshape.LinkShapes, linkshape_)
-					if idx != -1 {
-						_gongstructshape.LinkShapes = slices.Delete(_gongstructshape.LinkShapes, idx, idx+1)
-						linkshapeFormCallback.probe.UpdateSliceOfPointersCallback(_gongstructshape, "LinkShapes", &_gongstructshape.LinkShapes)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "LinkShapes", func(owner *models.GongStructShape) *[]*models.LinkShape { return &owner.LinkShapes })
 		}
 	}
-
-	// manage the suppress operation
-	if linkshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		linkshape_.Unstage(linkshapeFormCallback.probe.stageOfInterest)
-	}
-
-	linkshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.LinkShape](
-		linkshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if linkshapeFormCallback.CreationMode || linkshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		linkshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(linkshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__LinkShapeFormCallback(
-			nil,
-			linkshapeFormCallback.probe,
-			newFormGroup,
-		)
-		linkshape := new(models.LinkShape)
-		FillUpForm(linkshape, newFormGroup, linkshapeFormCallback.probe)
-		linkshapeFormCallback.probe.formStage.Commit()
-	}
-
-	linkshapeFormCallback.probe.ux_tree()
 }
+

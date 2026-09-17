@@ -40,28 +40,24 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Menu, *models.Button](
-				"Menu",
-				"Buttons",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Menu) []*models.Button {
-					return owner.Buttons
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Node, *models.Button](
-				"Node",
-				"Buttons",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Node) []*models.Button {
-					return owner.Buttons
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Menu",
+			"Buttons",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Menu) []*models.Button {
+				return owner.Buttons
+			})
+		AssociationReverseSliceToForm(
+			"Node",
+			"Buttons",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Node) []*models.Button {
+				return owner.Buttons
+			})
 
 	case *models.Menu:
 		// insertion point
@@ -135,28 +131,24 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Node, *models.Node](
-				"Node",
-				"Children",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Node) []*models.Node {
-					return owner.Children
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Tree, *models.Node](
-				"Tree",
-				"RootNodes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Tree) []*models.Node {
-					return owner.RootNodes
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Node",
+			"Children",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Node) []*models.Node {
+				return owner.Children
+			})
+		AssociationReverseSliceToForm(
+			"Tree",
+			"RootNodes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Tree) []*models.Node {
+				return owner.RootNodes
+			})
 
 	case *models.SVGIcon:
 		// insertion point

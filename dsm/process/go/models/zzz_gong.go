@@ -5409,6 +5409,74 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
+// GongNewInstance creates a new instance of the Gongstruct
+func GongNewInstance[Type GongstructPtr]() (res Type) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic new instance
+	case *AllocatedProcessShape:
+		res = any(new(AllocatedProcessShape)).(Type)
+	case *AllocatedResourceShape:
+		res = any(new(AllocatedResourceShape)).(Type)
+	case *ControlFlow:
+		res = any(new(ControlFlow)).(Type)
+	case *ControlFlowShape:
+		res = any(new(ControlFlowShape)).(Type)
+	case *Data:
+		res = any(new(Data)).(Type)
+	case *DataFlow:
+		res = any(new(DataFlow)).(Type)
+	case *DataFlowShape:
+		res = any(new(DataFlowShape)).(Type)
+	case *DataShape:
+		res = any(new(DataShape)).(Type)
+	case *DiagramProcess:
+		res = any(new(DiagramProcess)).(Type)
+	case *ExternalParticipantShape:
+		res = any(new(ExternalParticipantShape)).(Type)
+	case *Library:
+		res = any(new(Library)).(Type)
+	case *Note:
+		res = any(new(Note)).(Type)
+	case *NoteShape:
+		res = any(new(NoteShape)).(Type)
+	case *NoteTaskShape:
+		res = any(new(NoteTaskShape)).(Type)
+	case *Participant:
+		res = any(new(Participant)).(Type)
+	case *ParticipantShape:
+		res = any(new(ParticipantShape)).(Type)
+	case *Process:
+		res = any(new(Process)).(Type)
+	case *ProcessShape:
+		res = any(new(ProcessShape)).(Type)
+	case *Resource:
+		res = any(new(Resource)).(Type)
+	case *Task:
+		res = any(new(Task)).(Type)
+	case *TaskShape:
+		res = any(new(TaskShape)).(Type)
+	}
+	return res
+}
+
+func NewInstance[Type GongstructPtr]() (res Type) {
+	return GongNewInstance[Type]()
+}
+
+func (stage *Stage) GongNewInstance[Type GongstructPtr]() (res Type) {
+	res = GongNewInstance[Type]()
+	if any(res) != nil {
+		res.StageVoid(stage)
+	}
+	return res
+}
+
+func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
+	return stage.GongNewInstance[Type]()
+}
+
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {

@@ -31,28 +31,24 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Chapter, *models.Chapter](
-				"Chapter",
-				"SubChapters",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Chapter) []*models.Chapter {
-					return owner.SubChapters
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Content, *models.Chapter](
-				"Content",
-				"Chapters",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Content) []*models.Chapter {
-					return owner.Chapters
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Chapter",
+			"SubChapters",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Chapter) []*models.Chapter {
+				return owner.SubChapters
+			})
+		AssociationReverseSliceToForm(
+			"Content",
+			"Chapters",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Content) []*models.Chapter {
+				return owner.Chapters
+			})
 
 	case *models.Content:
 		// insertion point
@@ -122,17 +118,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Chapter, *models.Page](
-				"Chapter",
-				"Pages",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Chapter) []*models.Page {
-					return owner.Pages
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Chapter",
+			"Pages",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Chapter) []*models.Page {
+				return owner.Pages
+			})
 
 	case *models.PngImage:
 		// insertion point
@@ -165,28 +159,24 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Chapter, *models.Section](
-				"Chapter",
-				"Sections",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Chapter) []*models.Section {
-					return owner.Sections
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Page, *models.Section](
-				"Page",
-				"Sections",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Page) []*models.Section {
-					return owner.Sections
-				})
-		}
+		AssociationReverseSliceToForm(
+			"Chapter",
+			"Sections",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Chapter) []*models.Section {
+				return owner.Sections
+			})
+		AssociationReverseSliceToForm(
+			"Page",
+			"Sections",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Page) []*models.Section {
+				return owner.Sections
+			})
 
 	case *models.SvgImage:
 		// insertion point

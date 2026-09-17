@@ -34,7 +34,79 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 
 var _ = log.Panicf
 
-// insertion point{{` + string(rune(FillUpTreeStructCase)) + `}}
+type FormCallbackIF interface {
+	GetCreationMode() bool
+	GetInstance() any
+	GetGongstructName() string
+	OnSave()
+}
+
+type FormCallback[T models.PointerToGongstruct] struct {
+	Instance     T
+	CreationMode bool
+	probe        *Probe
+	formGroup    *form.FormGroup
+	saveFields   func(instance T, probe *Probe, formGroup *form.FormGroup)
+}
+
+func NewFormCallback[T models.PointerToGongstruct](
+	instance T,
+	probe *Probe,
+	formGroup *form.FormGroup,
+	saveFields func(instance T, probe *Probe, formGroup *form.FormGroup),
+) *FormCallback[T] {
+	return &FormCallback[T]{
+		Instance:     instance,
+		CreationMode: any(instance) == nil,
+		probe:        probe,
+		formGroup:    formGroup,
+		saveFields:   saveFields,
+	}
+}
+
+func (cb *FormCallback[T]) GetCreationMode() bool     { return cb.CreationMode }
+func (cb *FormCallback[T]) GetInstance() any           { return cb.Instance }
+func (cb *FormCallback[T]) GetGongstructName() string { return models.GetPointerToGongstructName[T]() }
+
+func (cb *FormCallback[T]) OnSave() {
+	cb.probe.stageOfInterest.Lock()
+	defer cb.probe.stageOfInterest.Unlock()
+
+	cb.probe.formStage.Checkout()
+
+	if any(cb.Instance) == nil {
+		cb.Instance = cb.probe.stageOfInterest.GongNewInstance[T]()
+	}
+
+	cb.saveFields(cb.Instance, cb.probe, cb.formGroup)
+
+	if cb.formGroup.HasSuppressButtonBeenPressed {
+		cb.Instance.UnstageVoid(cb.probe.stageOfInterest)
+	}
+
+	cb.probe.stageOfInterest.Commit()
+	updateProbeTable[T](cb.probe)
+
+	if cb.CreationMode || cb.formGroup.HasSuppressButtonBeenPressed {
+		cb.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(cb.probe.formStage)
+		newFormGroup.OnSave = NewFormCallback[T](
+			*new(T),
+			cb.probe,
+			newFormGroup,
+			cb.saveFields,
+		)
+		newInstance := models.GongNewInstance[T]()
+		FillUpForm(newInstance, newFormGroup, cb.probe)
+		cb.probe.formStage.Commit()
+	}
+
+	cb.probe.ux_tree()
+}
+
+// insertion point{{` + string(rune(FormCallbackPerGongstructCode)) + `}}
 `
 
 type FormCallbackGongstructInsertionId int
@@ -48,81 +120,32 @@ var FormCallbackGongstructSubTemplateCode map[FormCallbackGongstructInsertionId]
 map[FormCallbackGongstructInsertionId]string{
 	FormCallbackPerGongstructCode: `
 func __gong__New__{{Structname}}FormCallback(
-	{{structname}} *models.{{Structname}},
+	_instance *models.{{Structname}},
 	probe *Probe,
 	formGroup *form.FormGroup,
-) ({{structname}}FormCallback *{{Structname}}FormCallback) {
-	{{structname}}FormCallback = new({{Structname}}FormCallback)
-	{{structname}}FormCallback.probe = probe
-	{{structname}}FormCallback.{{structname}} = {{structname}}
-	{{structname}}FormCallback.formGroup = formGroup
-
-	{{structname}}FormCallback.CreationMode = ({{structname}} == nil)
-
-	return
+) ({{structname}}FormCallback *FormCallback[*models.{{Structname}}]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		save{{Structname}}Fields,
+	)
 }
 
-type {{Structname}}FormCallback struct {
-	{{structname}} *models.{{Structname}}
+type {{Structname}}FormCallback = FormCallback[*models.{{Structname}}]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
-	{{structname}}FormCallback.probe.stageOfInterest.Lock()
-	defer {{structname}}FormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("{{Structname}}FormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	{{structname}}FormCallback.probe.formStage.Checkout()
-
-	if {{structname}}FormCallback.{{structname}} == nil {
-		{{structname}}FormCallback.{{structname}} = new(models.{{Structname}}).Stage({{structname}}FormCallback.probe.stageOfInterest)
-	}
-	{{structname}}_ := {{structname}}FormCallback.{{structname}}
-	_ = {{structname}}_
-
-	for _, formDiv := range {{structname}}FormCallback.formGroup.FormDivs {
+func save{{Structname}}Fields(
+	_instance *models.{{Structname}},
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field{{fieldToFormCode}}
 		}
 	}
-
-	// manage the suppress operation
-	if {{structname}}FormCallback.formGroup.HasSuppressButtonBeenPressed {
-		{{structname}}_.Unstage({{structname}}FormCallback.probe.stageOfInterest)
-	}
-
-	{{structname}}FormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.{{Structname}}](
-		{{structname}}FormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if {{structname}}FormCallback.CreationMode || {{structname}}FormCallback.formGroup.HasSuppressButtonBeenPressed {
-		{{structname}}FormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage({{structname}}FormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__{{Structname}}FormCallback(
-			nil,
-			{{structname}}FormCallback.probe,
-			newFormGroup,
-		)
-		{{structname}} := new(models.{{Structname}})
-		FillUpForm({{structname}}, newFormGroup, {{structname}}FormCallback.probe)
-		{{structname}}FormCallback.probe.formStage.Commit()
-	}
-
-	{{structname}}FormCallback.probe.ux_tree()
-}`,
+}
+`,
 }
 
 type FormCallbackSubTemplateId int
@@ -142,103 +165,25 @@ map[FormCallbackSubTemplateId]string{
 
 	FormCallbackSubTmplBasicField: `
 		case "{{FieldName}}":
-			FormDivBasicFieldToField(&({{structname}}_.{{FieldName}}), formDiv)`,
+			FormDivBasicFieldToField(&(_instance.{{FieldName}}), formDiv)`,
 	FormCallbackSubTmplTimeField: `
 		case "{{FieldName}}":
-			FormDivTimeFieldToField(&({{structname}}_.{{FieldName}}), formDiv, {{isTimeFormOnly}})`,
+			FormDivTimeFieldToField(&(_instance.{{FieldName}}), formDiv, {{isTimeFormOnly}})`,
 	FormCallbackSubTmplBasicFieldEnumString: `
 		case "{{FieldName}}":
-			FormDivEnumStringFieldToField(&({{structname}}_.{{FieldName}}), formDiv)`,
+			FormDivEnumStringFieldToField(&(_instance.{{FieldName}}), formDiv)`,
 	FormCallbackSubTmplBasicFieldEnumInt: `
 		case "{{FieldName}}":
-			FormDivEnumIntFieldToField(&({{structname}}_.{{FieldName}}), formDiv)`,
+			FormDivEnumIntFieldToField(&(_instance.{{FieldName}}), formDiv)`,
 	FormCallbackSubTmplPointerToStruct: `
 		case "{{FieldName}}":
-			FormDivSelectFieldToField(&({{structname}}_.{{FieldName}}), {{structname}}FormCallback.probe.stageOfInterest, formDiv)`,
+			FormDivSelectFieldToField(&(_instance.{{FieldName}}), probe.stageOfInterest, formDiv)`,
 	FormCallbackSubTmplSliceOfPointers: `
 		case "{{FieldName}}":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *{{structname}}FormCallback.probe.stageOfInterest.GetInstancesSet[*models.{{AssocStructName}}]()
-			instanceSlice := make([]*models.{{AssocStructName}}, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.{{AssocStructName}})
-
-			for instance := range instanceSet {
-				id := {{structname}}FormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.{{AssocStructName}}]({{structname}}FormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			{{structname}}_.{{FieldName}} = instanceSlice
-			{{structname}}FormCallback.probe.UpdateSliceOfPointersCallback({{structname}}_, "{{FieldName}}", &{{structname}}_.{{FieldName}})
-`,
+			FormDivSliceOfPointersToField(_instance, "{{FieldName}}", &(_instance.{{FieldName}}), formDiv, probe)`,
 	FormCallbackSubTmplSliceOfPointersReversePointer: `
 		case "{{AssocStructName}}:{{FieldName}}":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the {{AssocStructName}} instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target {{AssocStructName}} instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.{{AssocStructName}}]({{structname}}FormCallback.probe.stageOfInterest)
-			target{{AssocStructName}}IDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					target{{AssocStructName}}IDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all {{AssocStructName}} instances and update their {{FieldName}} slice
-			for _{{assocStructName}} := range *{{structname}}FormCallback.probe.stageOfInterest.GetInstancesSet[*models.{{AssocStructName}}]() {
-				id := {{structname}}FormCallback.probe.stageOfInterest.GetOrder(_{{assocStructName}})
-				
-				// if {{AssocStructName}} is selected
-				if target{{AssocStructName}}IDs[id] {
-					// ensure {{structname}}_ is in _{{assocStructName}}.{{FieldName}}
-					found := false
-					for _, _b := range _{{assocStructName}}.{{FieldName}} {
-						if _b == {{structname}}_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_{{assocStructName}}.{{FieldName}} = append(_{{assocStructName}}.{{FieldName}}, {{structname}}_)
-						{{structname}}FormCallback.probe.UpdateSliceOfPointersCallback(_{{assocStructName}}, "{{FieldName}}", &_{{assocStructName}}.{{FieldName}})
-					}
-				} else {
-					// ensure {{structname}}_ is NOT in _{{assocStructName}}.{{FieldName}}
-					idx := slices.Index(_{{assocStructName}}.{{FieldName}}, {{structname}}_)
-					if idx != -1 {
-						_{{assocStructName}}.{{FieldName}} = slices.Delete(_{{assocStructName}}.{{FieldName}}, idx, idx+1)
-						{{structname}}FormCallback.probe.UpdateSliceOfPointersCallback(_{{assocStructName}}, "{{FieldName}}", &_{{assocStructName}}.{{FieldName}})
-					}
-				}
-			}`,
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "{{FieldName}}", func(owner *models.{{AssocStructName}}) *[]*models.{{Structname}} { return &owner.{{FieldName}} })`,
 }
 
 func CodeGeneratorModelFormCallback(

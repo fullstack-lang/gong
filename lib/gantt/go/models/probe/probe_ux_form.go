@@ -14,48 +14,11 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *ArrowFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Arrow", true)
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.arrow, probe)
-			}
-		case *BarFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Bar", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.bar, probe)
-			}
-		case *GanttFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Gantt", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.gantt, probe)
-			}
-		case *GroupFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Group", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.group, probe)
-			}
-		case *LaneFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Lane", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.lane, probe)
-			}
-		case *LaneUseFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "LaneUse", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.laneuse, probe)
-			}
-		case *MilestoneFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Milestone", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.milestone, probe)
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

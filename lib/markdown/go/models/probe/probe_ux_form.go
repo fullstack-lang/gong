@@ -14,30 +14,11 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *ContentFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Content", true)
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.content, probe)
-			}
-		case *JpgImageFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "JpgImage", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.jpgimage, probe)
-			}
-		case *PngImageFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "PngImage", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.pngimage, probe)
-			}
-		case *SvgImageFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "SvgImage", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.svgimage, probe)
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

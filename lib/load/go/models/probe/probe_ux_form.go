@@ -14,24 +14,11 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *FileToDownloadFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "FileToDownload", true)
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.filetodownload, probe)
-			}
-		case *FileToUploadFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "FileToUpload", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.filetoupload, probe)
-			}
-		case *MessageFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Message", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.message, probe)
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

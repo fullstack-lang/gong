@@ -4519,6 +4519,72 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	return nil
 }
 
+// GongNewInstance creates a new instance of the Gongstruct
+func GongNewInstance[Type GongstructPtr]() (res Type) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic new instance
+	case *AmbiantLight:
+		res = any(new(AmbiantLight)).(Type)
+	case *BoxGeometry:
+		res = any(new(BoxGeometry)).(Type)
+	case *BufferGeometry:
+		res = any(new(BufferGeometry)).(Type)
+	case *Camera:
+		res = any(new(Camera)).(Type)
+	case *Canvas:
+		res = any(new(Canvas)).(Type)
+	case *Curve:
+		res = any(new(Curve)).(Type)
+	case *CylinderGeometry:
+		res = any(new(CylinderGeometry)).(Type)
+	case *DirectionalLight:
+		res = any(new(DirectionalLight)).(Type)
+	case *ExtrudeGeometry:
+		res = any(new(ExtrudeGeometry)).(Type)
+	case *Mesh:
+		res = any(new(Mesh)).(Type)
+	case *MeshMaterialBasic:
+		res = any(new(MeshMaterialBasic)).(Type)
+	case *MeshPhysicalMaterial:
+		res = any(new(MeshPhysicalMaterial)).(Type)
+	case *PlaneGeometry:
+		res = any(new(PlaneGeometry)).(Type)
+	case *Shape:
+		res = any(new(Shape)).(Type)
+	case *SphereGeometry:
+		res = any(new(SphereGeometry)).(Type)
+	case *TorusGeometry:
+		res = any(new(TorusGeometry)).(Type)
+	case *Triangle:
+		res = any(new(Triangle)).(Type)
+	case *TubeGeometry:
+		res = any(new(TubeGeometry)).(Type)
+	case *Vector2:
+		res = any(new(Vector2)).(Type)
+	case *Vector3:
+		res = any(new(Vector3)).(Type)
+	}
+	return res
+}
+
+func NewInstance[Type GongstructPtr]() (res Type) {
+	return GongNewInstance[Type]()
+}
+
+func (stage *Stage) GongNewInstance[Type GongstructPtr]() (res Type) {
+	res = GongNewInstance[Type]()
+	if any(res) != nil {
+		res.StageVoid(stage)
+	}
+	return res
+}
+
+func (stage *Stage) NewInstance[Type GongstructPtr]() (res Type) {
+	return stage.GongNewInstance[Type]()
+}
+
 // GongGetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {

@@ -88,17 +88,15 @@ map[ButtonImplSubTemplateId]string{
 	ButtonImplSubTmplSliceOfPointersField: `
 		AssociationSliceToForm("{{FieldName}}", instanceWithInferedType, &instanceWithInferedType.{{FieldName}}, formGroup, probe)`,
 	ButtonImplSubTmplSliceOfPointersReversePointer: `
-		{
-			AssociationReverseSliceToForm[*models.{{AssocStructName}}, *models.{{Structname}}](
-				"{{AssocStructName}}",
-				"{{FieldName}}",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.{{AssocStructName}}) []*models.{{Structname}} {
-					return owner.{{FieldName}}
-				})
-		}`,
+		AssociationReverseSliceToForm(
+			"{{AssocStructName}}",
+			"{{FieldName}}",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.{{AssocStructName}}) []*models.{{Structname}} {
+				return owner.{{FieldName}}
+			})`,
 	ButtonImplSubTmplAccordionStart: `
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
 			Name:       "",

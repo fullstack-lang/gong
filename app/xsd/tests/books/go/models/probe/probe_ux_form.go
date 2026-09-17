@@ -14,30 +14,11 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *BookTypeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "BookType", true)
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.booktype, probe)
-			}
-		case *BooksFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Books", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.books, probe)
-			}
-		case *CreditFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Credit", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.credit, probe)
-			}
-		case *LinkFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Link", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.link, probe)
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

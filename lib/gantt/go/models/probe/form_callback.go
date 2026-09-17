@@ -18,1204 +18,387 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 
 var _ = log.Panicf
 
+type FormCallbackIF interface {
+	GetCreationMode() bool
+	GetInstance() any
+	GetGongstructName() string
+	OnSave()
+}
+
+type FormCallback[T models.PointerToGongstruct] struct {
+	Instance     T
+	CreationMode bool
+	probe        *Probe
+	formGroup    *form.FormGroup
+	saveFields   func(instance T, probe *Probe, formGroup *form.FormGroup)
+}
+
+func NewFormCallback[T models.PointerToGongstruct](
+	instance T,
+	probe *Probe,
+	formGroup *form.FormGroup,
+	saveFields func(instance T, probe *Probe, formGroup *form.FormGroup),
+) *FormCallback[T] {
+	return &FormCallback[T]{
+		Instance:     instance,
+		CreationMode: any(instance) == nil,
+		probe:        probe,
+		formGroup:    formGroup,
+		saveFields:   saveFields,
+	}
+}
+
+func (cb *FormCallback[T]) GetCreationMode() bool     { return cb.CreationMode }
+func (cb *FormCallback[T]) GetInstance() any           { return cb.Instance }
+func (cb *FormCallback[T]) GetGongstructName() string { return models.GetPointerToGongstructName[T]() }
+
+func (cb *FormCallback[T]) OnSave() {
+	cb.probe.stageOfInterest.Lock()
+	defer cb.probe.stageOfInterest.Unlock()
+
+	cb.probe.formStage.Checkout()
+
+	if any(cb.Instance) == nil {
+		cb.Instance = cb.probe.stageOfInterest.GongNewInstance[T]()
+	}
+
+	cb.saveFields(cb.Instance, cb.probe, cb.formGroup)
+
+	if cb.formGroup.HasSuppressButtonBeenPressed {
+		cb.Instance.UnstageVoid(cb.probe.stageOfInterest)
+	}
+
+	cb.probe.stageOfInterest.Commit()
+	updateProbeTable[T](cb.probe)
+
+	if cb.CreationMode || cb.formGroup.HasSuppressButtonBeenPressed {
+		cb.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(cb.probe.formStage)
+		newFormGroup.OnSave = NewFormCallback[T](
+			*new(T),
+			cb.probe,
+			newFormGroup,
+			cb.saveFields,
+		)
+		newInstance := models.GongNewInstance[T]()
+		FillUpForm(newInstance, newFormGroup, cb.probe)
+		cb.probe.formStage.Commit()
+	}
+
+	cb.probe.ux_tree()
+}
+
 // insertion point
 func __gong__New__ArrowFormCallback(
-	arrow *models.Arrow,
+	_instance *models.Arrow,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (arrowFormCallback *ArrowFormCallback) {
-	arrowFormCallback = new(ArrowFormCallback)
-	arrowFormCallback.probe = probe
-	arrowFormCallback.arrow = arrow
-	arrowFormCallback.formGroup = formGroup
-
-	arrowFormCallback.CreationMode = (arrow == nil)
-
-	return
+) (arrowFormCallback *FormCallback[*models.Arrow]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveArrowFields,
+	)
 }
 
-type ArrowFormCallback struct {
-	arrow *models.Arrow
+type ArrowFormCallback = FormCallback[*models.Arrow]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (arrowFormCallback *ArrowFormCallback) OnSave() {
-	arrowFormCallback.probe.stageOfInterest.Lock()
-	defer arrowFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("ArrowFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	arrowFormCallback.probe.formStage.Checkout()
-
-	if arrowFormCallback.arrow == nil {
-		arrowFormCallback.arrow = new(models.Arrow).Stage(arrowFormCallback.probe.stageOfInterest)
-	}
-	arrow_ := arrowFormCallback.arrow
-	_ = arrow_
-
-	for _, formDiv := range arrowFormCallback.formGroup.FormDivs {
+func saveArrowFields(
+	_instance *models.Arrow,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(arrow_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "From":
-			FormDivSelectFieldToField(&(arrow_.From), arrowFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.From), probe.stageOfInterest, formDiv)
 		case "To":
-			FormDivSelectFieldToField(&(arrow_.To), arrowFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.To), probe.stageOfInterest, formDiv)
 		case "OptionnalColor":
-			FormDivBasicFieldToField(&(arrow_.OptionnalColor), formDiv)
+			FormDivBasicFieldToField(&(_instance.OptionnalColor), formDiv)
 		case "OptionnalStroke":
-			FormDivBasicFieldToField(&(arrow_.OptionnalStroke), formDiv)
+			FormDivBasicFieldToField(&(_instance.OptionnalStroke), formDiv)
 		case "Gantt:Arrows":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Gantt instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Gantt instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Gantt](arrowFormCallback.probe.stageOfInterest)
-			targetGanttIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetGanttIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Gantt instances and update their Arrows slice
-			for _gantt := range *arrowFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Gantt]() {
-				id := arrowFormCallback.probe.stageOfInterest.GetOrder(_gantt)
-				
-				// if Gantt is selected
-				if targetGanttIDs[id] {
-					// ensure arrow_ is in _gantt.Arrows
-					found := false
-					for _, _b := range _gantt.Arrows {
-						if _b == arrow_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_gantt.Arrows = append(_gantt.Arrows, arrow_)
-						arrowFormCallback.probe.UpdateSliceOfPointersCallback(_gantt, "Arrows", &_gantt.Arrows)
-					}
-				} else {
-					// ensure arrow_ is NOT in _gantt.Arrows
-					idx := slices.Index(_gantt.Arrows, arrow_)
-					if idx != -1 {
-						_gantt.Arrows = slices.Delete(_gantt.Arrows, idx, idx+1)
-						arrowFormCallback.probe.UpdateSliceOfPointersCallback(_gantt, "Arrows", &_gantt.Arrows)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Arrows", func(owner *models.Gantt) *[]*models.Arrow { return &owner.Arrows })
 		}
 	}
-
-	// manage the suppress operation
-	if arrowFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		arrow_.Unstage(arrowFormCallback.probe.stageOfInterest)
-	}
-
-	arrowFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Arrow](
-		arrowFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if arrowFormCallback.CreationMode || arrowFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		arrowFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(arrowFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ArrowFormCallback(
-			nil,
-			arrowFormCallback.probe,
-			newFormGroup,
-		)
-		arrow := new(models.Arrow)
-		FillUpForm(arrow, newFormGroup, arrowFormCallback.probe)
-		arrowFormCallback.probe.formStage.Commit()
-	}
-
-	arrowFormCallback.probe.ux_tree()
 }
+
 func __gong__New__BarFormCallback(
-	bar *models.Bar,
+	_instance *models.Bar,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (barFormCallback *BarFormCallback) {
-	barFormCallback = new(BarFormCallback)
-	barFormCallback.probe = probe
-	barFormCallback.bar = bar
-	barFormCallback.formGroup = formGroup
-
-	barFormCallback.CreationMode = (bar == nil)
-
-	return
+) (barFormCallback *FormCallback[*models.Bar]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveBarFields,
+	)
 }
 
-type BarFormCallback struct {
-	bar *models.Bar
+type BarFormCallback = FormCallback[*models.Bar]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (barFormCallback *BarFormCallback) OnSave() {
-	barFormCallback.probe.stageOfInterest.Lock()
-	defer barFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("BarFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	barFormCallback.probe.formStage.Checkout()
-
-	if barFormCallback.bar == nil {
-		barFormCallback.bar = new(models.Bar).Stage(barFormCallback.probe.stageOfInterest)
-	}
-	bar_ := barFormCallback.bar
-	_ = bar_
-
-	for _, formDiv := range barFormCallback.formGroup.FormDivs {
+func saveBarFields(
+	_instance *models.Bar,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(bar_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Start":
-			FormDivTimeFieldToField(&(bar_.Start), formDiv, false)
+			FormDivTimeFieldToField(&(_instance.Start), formDiv, false)
 		case "End":
-			FormDivTimeFieldToField(&(bar_.End), formDiv, false)
+			FormDivTimeFieldToField(&(_instance.End), formDiv, false)
 		case "ComputedDuration":
-			FormDivBasicFieldToField(&(bar_.ComputedDuration), formDiv)
+			FormDivBasicFieldToField(&(_instance.ComputedDuration), formDiv)
 		case "OptionnalColor":
-			FormDivBasicFieldToField(&(bar_.OptionnalColor), formDiv)
+			FormDivBasicFieldToField(&(_instance.OptionnalColor), formDiv)
 		case "OptionnalStroke":
-			FormDivBasicFieldToField(&(bar_.OptionnalStroke), formDiv)
+			FormDivBasicFieldToField(&(_instance.OptionnalStroke), formDiv)
 		case "FillOpacity":
-			FormDivBasicFieldToField(&(bar_.FillOpacity), formDiv)
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
 		case "StrokeWidth":
-			FormDivBasicFieldToField(&(bar_.StrokeWidth), formDiv)
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
 		case "StrokeDashArray":
-			FormDivBasicFieldToField(&(bar_.StrokeDashArray), formDiv)
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
 		case "Lane:Bars":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Lane instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Lane instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Lane](barFormCallback.probe.stageOfInterest)
-			targetLaneIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetLaneIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Lane instances and update their Bars slice
-			for _lane := range *barFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Lane]() {
-				id := barFormCallback.probe.stageOfInterest.GetOrder(_lane)
-				
-				// if Lane is selected
-				if targetLaneIDs[id] {
-					// ensure bar_ is in _lane.Bars
-					found := false
-					for _, _b := range _lane.Bars {
-						if _b == bar_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_lane.Bars = append(_lane.Bars, bar_)
-						barFormCallback.probe.UpdateSliceOfPointersCallback(_lane, "Bars", &_lane.Bars)
-					}
-				} else {
-					// ensure bar_ is NOT in _lane.Bars
-					idx := slices.Index(_lane.Bars, bar_)
-					if idx != -1 {
-						_lane.Bars = slices.Delete(_lane.Bars, idx, idx+1)
-						barFormCallback.probe.UpdateSliceOfPointersCallback(_lane, "Bars", &_lane.Bars)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Bars", func(owner *models.Lane) *[]*models.Bar { return &owner.Bars })
 		}
 	}
-
-	// manage the suppress operation
-	if barFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		bar_.Unstage(barFormCallback.probe.stageOfInterest)
-	}
-
-	barFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Bar](
-		barFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if barFormCallback.CreationMode || barFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		barFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(barFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__BarFormCallback(
-			nil,
-			barFormCallback.probe,
-			newFormGroup,
-		)
-		bar := new(models.Bar)
-		FillUpForm(bar, newFormGroup, barFormCallback.probe)
-		barFormCallback.probe.formStage.Commit()
-	}
-
-	barFormCallback.probe.ux_tree()
 }
+
 func __gong__New__GanttFormCallback(
-	gantt *models.Gantt,
+	_instance *models.Gantt,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (ganttFormCallback *GanttFormCallback) {
-	ganttFormCallback = new(GanttFormCallback)
-	ganttFormCallback.probe = probe
-	ganttFormCallback.gantt = gantt
-	ganttFormCallback.formGroup = formGroup
-
-	ganttFormCallback.CreationMode = (gantt == nil)
-
-	return
+) (ganttFormCallback *FormCallback[*models.Gantt]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveGanttFields,
+	)
 }
 
-type GanttFormCallback struct {
-	gantt *models.Gantt
+type GanttFormCallback = FormCallback[*models.Gantt]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (ganttFormCallback *GanttFormCallback) OnSave() {
-	ganttFormCallback.probe.stageOfInterest.Lock()
-	defer ganttFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("GanttFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	ganttFormCallback.probe.formStage.Checkout()
-
-	if ganttFormCallback.gantt == nil {
-		ganttFormCallback.gantt = new(models.Gantt).Stage(ganttFormCallback.probe.stageOfInterest)
-	}
-	gantt_ := ganttFormCallback.gantt
-	_ = gantt_
-
-	for _, formDiv := range ganttFormCallback.formGroup.FormDivs {
+func saveGanttFields(
+	_instance *models.Gantt,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(gantt_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "ComputedStart":
-			FormDivTimeFieldToField(&(gantt_.ComputedStart), formDiv, false)
+			FormDivTimeFieldToField(&(_instance.ComputedStart), formDiv, false)
 		case "ComputedEnd":
-			FormDivTimeFieldToField(&(gantt_.ComputedEnd), formDiv, false)
+			FormDivTimeFieldToField(&(_instance.ComputedEnd), formDiv, false)
 		case "ComputedDuration":
-			FormDivBasicFieldToField(&(gantt_.ComputedDuration), formDiv)
+			FormDivBasicFieldToField(&(_instance.ComputedDuration), formDiv)
 		case "UseManualStartAndEndDates":
-			FormDivBasicFieldToField(&(gantt_.UseManualStartAndEndDates), formDiv)
+			FormDivBasicFieldToField(&(_instance.UseManualStartAndEndDates), formDiv)
 		case "ManualStart":
-			FormDivTimeFieldToField(&(gantt_.ManualStart), formDiv, false)
+			FormDivTimeFieldToField(&(_instance.ManualStart), formDiv, false)
 		case "ManualEnd":
-			FormDivTimeFieldToField(&(gantt_.ManualEnd), formDiv, false)
+			FormDivTimeFieldToField(&(_instance.ManualEnd), formDiv, false)
 		case "LaneHeight":
-			FormDivBasicFieldToField(&(gantt_.LaneHeight), formDiv)
+			FormDivBasicFieldToField(&(_instance.LaneHeight), formDiv)
 		case "RatioBarToLaneHeight":
-			FormDivBasicFieldToField(&(gantt_.RatioBarToLaneHeight), formDiv)
+			FormDivBasicFieldToField(&(_instance.RatioBarToLaneHeight), formDiv)
 		case "YTopMargin":
-			FormDivBasicFieldToField(&(gantt_.YTopMargin), formDiv)
+			FormDivBasicFieldToField(&(_instance.YTopMargin), formDiv)
 		case "XLeftText":
-			FormDivBasicFieldToField(&(gantt_.XLeftText), formDiv)
+			FormDivBasicFieldToField(&(_instance.XLeftText), formDiv)
 		case "TextHeight":
-			FormDivBasicFieldToField(&(gantt_.TextHeight), formDiv)
+			FormDivBasicFieldToField(&(_instance.TextHeight), formDiv)
 		case "XLeftLanes":
-			FormDivBasicFieldToField(&(gantt_.XLeftLanes), formDiv)
+			FormDivBasicFieldToField(&(_instance.XLeftLanes), formDiv)
 		case "XRightMargin":
-			FormDivBasicFieldToField(&(gantt_.XRightMargin), formDiv)
+			FormDivBasicFieldToField(&(_instance.XRightMargin), formDiv)
 		case "ArrowLengthToTheRightOfStartBar":
-			FormDivBasicFieldToField(&(gantt_.ArrowLengthToTheRightOfStartBar), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArrowLengthToTheRightOfStartBar), formDiv)
 		case "ArrowTipLenght":
-			FormDivBasicFieldToField(&(gantt_.ArrowTipLenght), formDiv)
+			FormDivBasicFieldToField(&(_instance.ArrowTipLenght), formDiv)
 		case "TimeLine_Color":
-			FormDivBasicFieldToField(&(gantt_.TimeLine_Color), formDiv)
+			FormDivBasicFieldToField(&(_instance.TimeLine_Color), formDiv)
 		case "TimeLine_FillOpacity":
-			FormDivBasicFieldToField(&(gantt_.TimeLine_FillOpacity), formDiv)
+			FormDivBasicFieldToField(&(_instance.TimeLine_FillOpacity), formDiv)
 		case "TimeLine_Stroke":
-			FormDivBasicFieldToField(&(gantt_.TimeLine_Stroke), formDiv)
+			FormDivBasicFieldToField(&(_instance.TimeLine_Stroke), formDiv)
 		case "TimeLine_StrokeWidth":
-			FormDivBasicFieldToField(&(gantt_.TimeLine_StrokeWidth), formDiv)
+			FormDivBasicFieldToField(&(_instance.TimeLine_StrokeWidth), formDiv)
 		case "Group_Stroke":
-			FormDivBasicFieldToField(&(gantt_.Group_Stroke), formDiv)
+			FormDivBasicFieldToField(&(_instance.Group_Stroke), formDiv)
 		case "Group_StrokeWidth":
-			FormDivBasicFieldToField(&(gantt_.Group_StrokeWidth), formDiv)
+			FormDivBasicFieldToField(&(_instance.Group_StrokeWidth), formDiv)
 		case "Group_StrokeDashArray":
-			FormDivBasicFieldToField(&(gantt_.Group_StrokeDashArray), formDiv)
+			FormDivBasicFieldToField(&(_instance.Group_StrokeDashArray), formDiv)
 		case "DateYOffset":
-			FormDivBasicFieldToField(&(gantt_.DateYOffset), formDiv)
+			FormDivBasicFieldToField(&(_instance.DateYOffset), formDiv)
 		case "AlignOnStartEndOnYearStart":
-			FormDivBasicFieldToField(&(gantt_.AlignOnStartEndOnYearStart), formDiv)
+			FormDivBasicFieldToField(&(_instance.AlignOnStartEndOnYearStart), formDiv)
 		case "Lanes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *ganttFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Lane]()
-			instanceSlice := make([]*models.Lane, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Lane)
-
-			for instance := range instanceSet {
-				id := ganttFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Lane](ganttFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			gantt_.Lanes = instanceSlice
-			ganttFormCallback.probe.UpdateSliceOfPointersCallback(gantt_, "Lanes", &gantt_.Lanes)
-
+			FormDivSliceOfPointersToField(_instance, "Lanes", &(_instance.Lanes), formDiv, probe)
 		case "Milestones":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *ganttFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Milestone]()
-			instanceSlice := make([]*models.Milestone, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Milestone)
-
-			for instance := range instanceSet {
-				id := ganttFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Milestone](ganttFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			gantt_.Milestones = instanceSlice
-			ganttFormCallback.probe.UpdateSliceOfPointersCallback(gantt_, "Milestones", &gantt_.Milestones)
-
+			FormDivSliceOfPointersToField(_instance, "Milestones", &(_instance.Milestones), formDiv, probe)
 		case "Groups":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *ganttFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]()
-			instanceSlice := make([]*models.Group, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Group)
-
-			for instance := range instanceSet {
-				id := ganttFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Group](ganttFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			gantt_.Groups = instanceSlice
-			ganttFormCallback.probe.UpdateSliceOfPointersCallback(gantt_, "Groups", &gantt_.Groups)
-
+			FormDivSliceOfPointersToField(_instance, "Groups", &(_instance.Groups), formDiv, probe)
 		case "Arrows":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *ganttFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Arrow]()
-			instanceSlice := make([]*models.Arrow, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Arrow)
-
-			for instance := range instanceSet {
-				id := ganttFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Arrow](ganttFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			gantt_.Arrows = instanceSlice
-			ganttFormCallback.probe.UpdateSliceOfPointersCallback(gantt_, "Arrows", &gantt_.Arrows)
-
+			FormDivSliceOfPointersToField(_instance, "Arrows", &(_instance.Arrows), formDiv, probe)
 		}
 	}
-
-	// manage the suppress operation
-	if ganttFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		gantt_.Unstage(ganttFormCallback.probe.stageOfInterest)
-	}
-
-	ganttFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Gantt](
-		ganttFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if ganttFormCallback.CreationMode || ganttFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		ganttFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(ganttFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__GanttFormCallback(
-			nil,
-			ganttFormCallback.probe,
-			newFormGroup,
-		)
-		gantt := new(models.Gantt)
-		FillUpForm(gantt, newFormGroup, ganttFormCallback.probe)
-		ganttFormCallback.probe.formStage.Commit()
-	}
-
-	ganttFormCallback.probe.ux_tree()
 }
+
 func __gong__New__GroupFormCallback(
-	group *models.Group,
+	_instance *models.Group,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (groupFormCallback *GroupFormCallback) {
-	groupFormCallback = new(GroupFormCallback)
-	groupFormCallback.probe = probe
-	groupFormCallback.group = group
-	groupFormCallback.formGroup = formGroup
-
-	groupFormCallback.CreationMode = (group == nil)
-
-	return
+) (groupFormCallback *FormCallback[*models.Group]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveGroupFields,
+	)
 }
 
-type GroupFormCallback struct {
-	group *models.Group
+type GroupFormCallback = FormCallback[*models.Group]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (groupFormCallback *GroupFormCallback) OnSave() {
-	groupFormCallback.probe.stageOfInterest.Lock()
-	defer groupFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("GroupFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	groupFormCallback.probe.formStage.Checkout()
-
-	if groupFormCallback.group == nil {
-		groupFormCallback.group = new(models.Group).Stage(groupFormCallback.probe.stageOfInterest)
-	}
-	group_ := groupFormCallback.group
-	_ = group_
-
-	for _, formDiv := range groupFormCallback.formGroup.FormDivs {
+func saveGroupFields(
+	_instance *models.Group,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(group_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "GroupLanes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Lane]()
-			instanceSlice := make([]*models.Lane, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Lane)
-
-			for instance := range instanceSet {
-				id := groupFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Lane](groupFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			group_.GroupLanes = instanceSlice
-			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "GroupLanes", &group_.GroupLanes)
-
+			FormDivSliceOfPointersToField(_instance, "GroupLanes", &(_instance.GroupLanes), formDiv, probe)
 		case "Gantt:Groups":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Gantt instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Gantt instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Gantt](groupFormCallback.probe.stageOfInterest)
-			targetGanttIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetGanttIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Gantt instances and update their Groups slice
-			for _gantt := range *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Gantt]() {
-				id := groupFormCallback.probe.stageOfInterest.GetOrder(_gantt)
-				
-				// if Gantt is selected
-				if targetGanttIDs[id] {
-					// ensure group_ is in _gantt.Groups
-					found := false
-					for _, _b := range _gantt.Groups {
-						if _b == group_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_gantt.Groups = append(_gantt.Groups, group_)
-						groupFormCallback.probe.UpdateSliceOfPointersCallback(_gantt, "Groups", &_gantt.Groups)
-					}
-				} else {
-					// ensure group_ is NOT in _gantt.Groups
-					idx := slices.Index(_gantt.Groups, group_)
-					if idx != -1 {
-						_gantt.Groups = slices.Delete(_gantt.Groups, idx, idx+1)
-						groupFormCallback.probe.UpdateSliceOfPointersCallback(_gantt, "Groups", &_gantt.Groups)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Groups", func(owner *models.Gantt) *[]*models.Group { return &owner.Groups })
 		}
 	}
-
-	// manage the suppress operation
-	if groupFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		group_.Unstage(groupFormCallback.probe.stageOfInterest)
-	}
-
-	groupFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Group](
-		groupFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if groupFormCallback.CreationMode || groupFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		groupFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(groupFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__GroupFormCallback(
-			nil,
-			groupFormCallback.probe,
-			newFormGroup,
-		)
-		group := new(models.Group)
-		FillUpForm(group, newFormGroup, groupFormCallback.probe)
-		groupFormCallback.probe.formStage.Commit()
-	}
-
-	groupFormCallback.probe.ux_tree()
 }
+
 func __gong__New__LaneFormCallback(
-	lane *models.Lane,
+	_instance *models.Lane,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (laneFormCallback *LaneFormCallback) {
-	laneFormCallback = new(LaneFormCallback)
-	laneFormCallback.probe = probe
-	laneFormCallback.lane = lane
-	laneFormCallback.formGroup = formGroup
-
-	laneFormCallback.CreationMode = (lane == nil)
-
-	return
+) (laneFormCallback *FormCallback[*models.Lane]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveLaneFields,
+	)
 }
 
-type LaneFormCallback struct {
-	lane *models.Lane
+type LaneFormCallback = FormCallback[*models.Lane]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (laneFormCallback *LaneFormCallback) OnSave() {
-	laneFormCallback.probe.stageOfInterest.Lock()
-	defer laneFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("LaneFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	laneFormCallback.probe.formStage.Checkout()
-
-	if laneFormCallback.lane == nil {
-		laneFormCallback.lane = new(models.Lane).Stage(laneFormCallback.probe.stageOfInterest)
-	}
-	lane_ := laneFormCallback.lane
-	_ = lane_
-
-	for _, formDiv := range laneFormCallback.formGroup.FormDivs {
+func saveLaneFields(
+	_instance *models.Lane,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(lane_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Order":
-			FormDivBasicFieldToField(&(lane_.Order), formDiv)
+			FormDivBasicFieldToField(&(_instance.Order), formDiv)
 		case "Bars":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *laneFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Bar]()
-			instanceSlice := make([]*models.Bar, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Bar)
-
-			for instance := range instanceSet {
-				id := laneFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Bar](laneFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			lane_.Bars = instanceSlice
-			laneFormCallback.probe.UpdateSliceOfPointersCallback(lane_, "Bars", &lane_.Bars)
-
+			FormDivSliceOfPointersToField(_instance, "Bars", &(_instance.Bars), formDiv, probe)
 		case "Gantt:Lanes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Gantt instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Gantt instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Gantt](laneFormCallback.probe.stageOfInterest)
-			targetGanttIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetGanttIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Gantt instances and update their Lanes slice
-			for _gantt := range *laneFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Gantt]() {
-				id := laneFormCallback.probe.stageOfInterest.GetOrder(_gantt)
-				
-				// if Gantt is selected
-				if targetGanttIDs[id] {
-					// ensure lane_ is in _gantt.Lanes
-					found := false
-					for _, _b := range _gantt.Lanes {
-						if _b == lane_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_gantt.Lanes = append(_gantt.Lanes, lane_)
-						laneFormCallback.probe.UpdateSliceOfPointersCallback(_gantt, "Lanes", &_gantt.Lanes)
-					}
-				} else {
-					// ensure lane_ is NOT in _gantt.Lanes
-					idx := slices.Index(_gantt.Lanes, lane_)
-					if idx != -1 {
-						_gantt.Lanes = slices.Delete(_gantt.Lanes, idx, idx+1)
-						laneFormCallback.probe.UpdateSliceOfPointersCallback(_gantt, "Lanes", &_gantt.Lanes)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Lanes", func(owner *models.Gantt) *[]*models.Lane { return &owner.Lanes })
 		case "Group:GroupLanes":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Group instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Group instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Group](laneFormCallback.probe.stageOfInterest)
-			targetGroupIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetGroupIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Group instances and update their GroupLanes slice
-			for _group := range *laneFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]() {
-				id := laneFormCallback.probe.stageOfInterest.GetOrder(_group)
-				
-				// if Group is selected
-				if targetGroupIDs[id] {
-					// ensure lane_ is in _group.GroupLanes
-					found := false
-					for _, _b := range _group.GroupLanes {
-						if _b == lane_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_group.GroupLanes = append(_group.GroupLanes, lane_)
-						laneFormCallback.probe.UpdateSliceOfPointersCallback(_group, "GroupLanes", &_group.GroupLanes)
-					}
-				} else {
-					// ensure lane_ is NOT in _group.GroupLanes
-					idx := slices.Index(_group.GroupLanes, lane_)
-					if idx != -1 {
-						_group.GroupLanes = slices.Delete(_group.GroupLanes, idx, idx+1)
-						laneFormCallback.probe.UpdateSliceOfPointersCallback(_group, "GroupLanes", &_group.GroupLanes)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "GroupLanes", func(owner *models.Group) *[]*models.Lane { return &owner.GroupLanes })
 		case "Milestone:LanesToDisplay":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Milestone instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Milestone instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Milestone](laneFormCallback.probe.stageOfInterest)
-			targetMilestoneIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetMilestoneIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Milestone instances and update their LanesToDisplay slice
-			for _milestone := range *laneFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Milestone]() {
-				id := laneFormCallback.probe.stageOfInterest.GetOrder(_milestone)
-				
-				// if Milestone is selected
-				if targetMilestoneIDs[id] {
-					// ensure lane_ is in _milestone.LanesToDisplay
-					found := false
-					for _, _b := range _milestone.LanesToDisplay {
-						if _b == lane_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_milestone.LanesToDisplay = append(_milestone.LanesToDisplay, lane_)
-						laneFormCallback.probe.UpdateSliceOfPointersCallback(_milestone, "LanesToDisplay", &_milestone.LanesToDisplay)
-					}
-				} else {
-					// ensure lane_ is NOT in _milestone.LanesToDisplay
-					idx := slices.Index(_milestone.LanesToDisplay, lane_)
-					if idx != -1 {
-						_milestone.LanesToDisplay = slices.Delete(_milestone.LanesToDisplay, idx, idx+1)
-						laneFormCallback.probe.UpdateSliceOfPointersCallback(_milestone, "LanesToDisplay", &_milestone.LanesToDisplay)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "LanesToDisplay", func(owner *models.Milestone) *[]*models.Lane { return &owner.LanesToDisplay })
 		}
 	}
-
-	// manage the suppress operation
-	if laneFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		lane_.Unstage(laneFormCallback.probe.stageOfInterest)
-	}
-
-	laneFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Lane](
-		laneFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if laneFormCallback.CreationMode || laneFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		laneFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(laneFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__LaneFormCallback(
-			nil,
-			laneFormCallback.probe,
-			newFormGroup,
-		)
-		lane := new(models.Lane)
-		FillUpForm(lane, newFormGroup, laneFormCallback.probe)
-		laneFormCallback.probe.formStage.Commit()
-	}
-
-	laneFormCallback.probe.ux_tree()
 }
+
 func __gong__New__LaneUseFormCallback(
-	laneuse *models.LaneUse,
+	_instance *models.LaneUse,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (laneuseFormCallback *LaneUseFormCallback) {
-	laneuseFormCallback = new(LaneUseFormCallback)
-	laneuseFormCallback.probe = probe
-	laneuseFormCallback.laneuse = laneuse
-	laneuseFormCallback.formGroup = formGroup
-
-	laneuseFormCallback.CreationMode = (laneuse == nil)
-
-	return
+) (laneuseFormCallback *FormCallback[*models.LaneUse]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveLaneUseFields,
+	)
 }
 
-type LaneUseFormCallback struct {
-	laneuse *models.LaneUse
+type LaneUseFormCallback = FormCallback[*models.LaneUse]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (laneuseFormCallback *LaneUseFormCallback) OnSave() {
-	laneuseFormCallback.probe.stageOfInterest.Lock()
-	defer laneuseFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("LaneUseFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	laneuseFormCallback.probe.formStage.Checkout()
-
-	if laneuseFormCallback.laneuse == nil {
-		laneuseFormCallback.laneuse = new(models.LaneUse).Stage(laneuseFormCallback.probe.stageOfInterest)
-	}
-	laneuse_ := laneuseFormCallback.laneuse
-	_ = laneuse_
-
-	for _, formDiv := range laneuseFormCallback.formGroup.FormDivs {
+func saveLaneUseFields(
+	_instance *models.LaneUse,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(laneuse_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Lane":
-			FormDivSelectFieldToField(&(laneuse_.Lane), laneuseFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(_instance.Lane), probe.stageOfInterest, formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if laneuseFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		laneuse_.Unstage(laneuseFormCallback.probe.stageOfInterest)
-	}
-
-	laneuseFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.LaneUse](
-		laneuseFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if laneuseFormCallback.CreationMode || laneuseFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		laneuseFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(laneuseFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__LaneUseFormCallback(
-			nil,
-			laneuseFormCallback.probe,
-			newFormGroup,
-		)
-		laneuse := new(models.LaneUse)
-		FillUpForm(laneuse, newFormGroup, laneuseFormCallback.probe)
-		laneuseFormCallback.probe.formStage.Commit()
-	}
-
-	laneuseFormCallback.probe.ux_tree()
 }
+
 func __gong__New__MilestoneFormCallback(
-	milestone *models.Milestone,
+	_instance *models.Milestone,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (milestoneFormCallback *MilestoneFormCallback) {
-	milestoneFormCallback = new(MilestoneFormCallback)
-	milestoneFormCallback.probe = probe
-	milestoneFormCallback.milestone = milestone
-	milestoneFormCallback.formGroup = formGroup
-
-	milestoneFormCallback.CreationMode = (milestone == nil)
-
-	return
+) (milestoneFormCallback *FormCallback[*models.Milestone]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveMilestoneFields,
+	)
 }
 
-type MilestoneFormCallback struct {
-	milestone *models.Milestone
+type MilestoneFormCallback = FormCallback[*models.Milestone]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
-	milestoneFormCallback.probe.stageOfInterest.Lock()
-	defer milestoneFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("MilestoneFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	milestoneFormCallback.probe.formStage.Checkout()
-
-	if milestoneFormCallback.milestone == nil {
-		milestoneFormCallback.milestone = new(models.Milestone).Stage(milestoneFormCallback.probe.stageOfInterest)
-	}
-	milestone_ := milestoneFormCallback.milestone
-	_ = milestone_
-
-	for _, formDiv := range milestoneFormCallback.formGroup.FormDivs {
+func saveMilestoneFields(
+	_instance *models.Milestone,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(milestone_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Date":
-			FormDivTimeFieldToField(&(milestone_.Date), formDiv, false)
+			FormDivTimeFieldToField(&(_instance.Date), formDiv, false)
 		case "DisplayVerticalBar":
-			FormDivBasicFieldToField(&(milestone_.DisplayVerticalBar), formDiv)
+			FormDivBasicFieldToField(&(_instance.DisplayVerticalBar), formDiv)
 		case "LanesToDisplay":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *milestoneFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Lane]()
-			instanceSlice := make([]*models.Lane, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Lane)
-
-			for instance := range instanceSet {
-				id := milestoneFormCallback.probe.stageOfInterest.GetOrder(
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Lane](milestoneFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			milestone_.LanesToDisplay = instanceSlice
-			milestoneFormCallback.probe.UpdateSliceOfPointersCallback(milestone_, "LanesToDisplay", &milestone_.LanesToDisplay)
-
+			FormDivSliceOfPointersToField(_instance, "LanesToDisplay", &(_instance.LanesToDisplay), formDiv, probe)
 		case "Gantt:Milestones":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Gantt instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Gantt instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Gantt](milestoneFormCallback.probe.stageOfInterest)
-			targetGanttIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetGanttIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Gantt instances and update their Milestones slice
-			for _gantt := range *milestoneFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Gantt]() {
-				id := milestoneFormCallback.probe.stageOfInterest.GetOrder(_gantt)
-				
-				// if Gantt is selected
-				if targetGanttIDs[id] {
-					// ensure milestone_ is in _gantt.Milestones
-					found := false
-					for _, _b := range _gantt.Milestones {
-						if _b == milestone_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_gantt.Milestones = append(_gantt.Milestones, milestone_)
-						milestoneFormCallback.probe.UpdateSliceOfPointersCallback(_gantt, "Milestones", &_gantt.Milestones)
-					}
-				} else {
-					// ensure milestone_ is NOT in _gantt.Milestones
-					idx := slices.Index(_gantt.Milestones, milestone_)
-					if idx != -1 {
-						_gantt.Milestones = slices.Delete(_gantt.Milestones, idx, idx+1)
-						milestoneFormCallback.probe.UpdateSliceOfPointersCallback(_gantt, "Milestones", &_gantt.Milestones)
-					}
-				}
-			}
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Milestones", func(owner *models.Gantt) *[]*models.Milestone { return &owner.Milestones })
 		}
 	}
-
-	// manage the suppress operation
-	if milestoneFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		milestone_.Unstage(milestoneFormCallback.probe.stageOfInterest)
-	}
-
-	milestoneFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Milestone](
-		milestoneFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if milestoneFormCallback.CreationMode || milestoneFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		milestoneFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(milestoneFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__MilestoneFormCallback(
-			nil,
-			milestoneFormCallback.probe,
-			newFormGroup,
-		)
-		milestone := new(models.Milestone)
-		FillUpForm(milestone, newFormGroup, milestoneFormCallback.probe)
-		milestoneFormCallback.probe.formStage.Commit()
-	}
-
-	milestoneFormCallback.probe.ux_tree()
 }
+

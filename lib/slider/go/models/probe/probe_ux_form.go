@@ -14,30 +14,11 @@ func (probe *Probe) ux_form() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *CheckboxFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Checkbox", true)
+		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
+			if onSave.GetCreationMode() {
+				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.checkbox, probe)
-			}
-		case *GroupFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Group", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.group, probe)
-			}
-		case *LayoutFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Layout", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.layout, probe)
-			}
-		case *SliderFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Slider", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.slider, probe)
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

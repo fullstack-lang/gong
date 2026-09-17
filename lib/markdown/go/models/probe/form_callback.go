@@ -18,324 +18,200 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 
 var _ = log.Panicf
 
+type FormCallbackIF interface {
+	GetCreationMode() bool
+	GetInstance() any
+	GetGongstructName() string
+	OnSave()
+}
+
+type FormCallback[T models.PointerToGongstruct] struct {
+	Instance     T
+	CreationMode bool
+	probe        *Probe
+	formGroup    *form.FormGroup
+	saveFields   func(instance T, probe *Probe, formGroup *form.FormGroup)
+}
+
+func NewFormCallback[T models.PointerToGongstruct](
+	instance T,
+	probe *Probe,
+	formGroup *form.FormGroup,
+	saveFields func(instance T, probe *Probe, formGroup *form.FormGroup),
+) *FormCallback[T] {
+	return &FormCallback[T]{
+		Instance:     instance,
+		CreationMode: any(instance) == nil,
+		probe:        probe,
+		formGroup:    formGroup,
+		saveFields:   saveFields,
+	}
+}
+
+func (cb *FormCallback[T]) GetCreationMode() bool     { return cb.CreationMode }
+func (cb *FormCallback[T]) GetInstance() any           { return cb.Instance }
+func (cb *FormCallback[T]) GetGongstructName() string { return models.GetPointerToGongstructName[T]() }
+
+func (cb *FormCallback[T]) OnSave() {
+	cb.probe.stageOfInterest.Lock()
+	defer cb.probe.stageOfInterest.Unlock()
+
+	cb.probe.formStage.Checkout()
+
+	if any(cb.Instance) == nil {
+		cb.Instance = cb.probe.stageOfInterest.GongNewInstance[T]()
+	}
+
+	cb.saveFields(cb.Instance, cb.probe, cb.formGroup)
+
+	if cb.formGroup.HasSuppressButtonBeenPressed {
+		cb.Instance.UnstageVoid(cb.probe.stageOfInterest)
+	}
+
+	cb.probe.stageOfInterest.Commit()
+	updateProbeTable[T](cb.probe)
+
+	if cb.CreationMode || cb.formGroup.HasSuppressButtonBeenPressed {
+		cb.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(cb.probe.formStage)
+		newFormGroup.OnSave = NewFormCallback[T](
+			*new(T),
+			cb.probe,
+			newFormGroup,
+			cb.saveFields,
+		)
+		newInstance := models.GongNewInstance[T]()
+		FillUpForm(newInstance, newFormGroup, cb.probe)
+		cb.probe.formStage.Commit()
+	}
+
+	cb.probe.ux_tree()
+}
+
 // insertion point
 func __gong__New__ContentFormCallback(
-	content *models.Content,
+	_instance *models.Content,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (contentFormCallback *ContentFormCallback) {
-	contentFormCallback = new(ContentFormCallback)
-	contentFormCallback.probe = probe
-	contentFormCallback.content = content
-	contentFormCallback.formGroup = formGroup
-
-	contentFormCallback.CreationMode = (content == nil)
-
-	return
+) (contentFormCallback *FormCallback[*models.Content]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveContentFields,
+	)
 }
 
-type ContentFormCallback struct {
-	content *models.Content
+type ContentFormCallback = FormCallback[*models.Content]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (contentFormCallback *ContentFormCallback) OnSave() {
-	contentFormCallback.probe.stageOfInterest.Lock()
-	defer contentFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("ContentFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	contentFormCallback.probe.formStage.Checkout()
-
-	if contentFormCallback.content == nil {
-		contentFormCallback.content = new(models.Content).Stage(contentFormCallback.probe.stageOfInterest)
-	}
-	content_ := contentFormCallback.content
-	_ = content_
-
-	for _, formDiv := range contentFormCallback.formGroup.FormDivs {
+func saveContentFields(
+	_instance *models.Content,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(content_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Content":
-			FormDivBasicFieldToField(&(content_.Content), formDiv)
+			FormDivBasicFieldToField(&(_instance.Content), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if contentFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		content_.Unstage(contentFormCallback.probe.stageOfInterest)
-	}
-
-	contentFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Content](
-		contentFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if contentFormCallback.CreationMode || contentFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		contentFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(contentFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ContentFormCallback(
-			nil,
-			contentFormCallback.probe,
-			newFormGroup,
-		)
-		content := new(models.Content)
-		FillUpForm(content, newFormGroup, contentFormCallback.probe)
-		contentFormCallback.probe.formStage.Commit()
-	}
-
-	contentFormCallback.probe.ux_tree()
 }
+
 func __gong__New__JpgImageFormCallback(
-	jpgimage *models.JpgImage,
+	_instance *models.JpgImage,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (jpgimageFormCallback *JpgImageFormCallback) {
-	jpgimageFormCallback = new(JpgImageFormCallback)
-	jpgimageFormCallback.probe = probe
-	jpgimageFormCallback.jpgimage = jpgimage
-	jpgimageFormCallback.formGroup = formGroup
-
-	jpgimageFormCallback.CreationMode = (jpgimage == nil)
-
-	return
+) (jpgimageFormCallback *FormCallback[*models.JpgImage]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveJpgImageFields,
+	)
 }
 
-type JpgImageFormCallback struct {
-	jpgimage *models.JpgImage
+type JpgImageFormCallback = FormCallback[*models.JpgImage]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (jpgimageFormCallback *JpgImageFormCallback) OnSave() {
-	jpgimageFormCallback.probe.stageOfInterest.Lock()
-	defer jpgimageFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("JpgImageFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	jpgimageFormCallback.probe.formStage.Checkout()
-
-	if jpgimageFormCallback.jpgimage == nil {
-		jpgimageFormCallback.jpgimage = new(models.JpgImage).Stage(jpgimageFormCallback.probe.stageOfInterest)
-	}
-	jpgimage_ := jpgimageFormCallback.jpgimage
-	_ = jpgimage_
-
-	for _, formDiv := range jpgimageFormCallback.formGroup.FormDivs {
+func saveJpgImageFields(
+	_instance *models.JpgImage,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(jpgimage_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Base64Content":
-			FormDivBasicFieldToField(&(jpgimage_.Base64Content), formDiv)
+			FormDivBasicFieldToField(&(_instance.Base64Content), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if jpgimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		jpgimage_.Unstage(jpgimageFormCallback.probe.stageOfInterest)
-	}
-
-	jpgimageFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.JpgImage](
-		jpgimageFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if jpgimageFormCallback.CreationMode || jpgimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		jpgimageFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(jpgimageFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__JpgImageFormCallback(
-			nil,
-			jpgimageFormCallback.probe,
-			newFormGroup,
-		)
-		jpgimage := new(models.JpgImage)
-		FillUpForm(jpgimage, newFormGroup, jpgimageFormCallback.probe)
-		jpgimageFormCallback.probe.formStage.Commit()
-	}
-
-	jpgimageFormCallback.probe.ux_tree()
 }
+
 func __gong__New__PngImageFormCallback(
-	pngimage *models.PngImage,
+	_instance *models.PngImage,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (pngimageFormCallback *PngImageFormCallback) {
-	pngimageFormCallback = new(PngImageFormCallback)
-	pngimageFormCallback.probe = probe
-	pngimageFormCallback.pngimage = pngimage
-	pngimageFormCallback.formGroup = formGroup
-
-	pngimageFormCallback.CreationMode = (pngimage == nil)
-
-	return
+) (pngimageFormCallback *FormCallback[*models.PngImage]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		savePngImageFields,
+	)
 }
 
-type PngImageFormCallback struct {
-	pngimage *models.PngImage
+type PngImageFormCallback = FormCallback[*models.PngImage]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (pngimageFormCallback *PngImageFormCallback) OnSave() {
-	pngimageFormCallback.probe.stageOfInterest.Lock()
-	defer pngimageFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("PngImageFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	pngimageFormCallback.probe.formStage.Checkout()
-
-	if pngimageFormCallback.pngimage == nil {
-		pngimageFormCallback.pngimage = new(models.PngImage).Stage(pngimageFormCallback.probe.stageOfInterest)
-	}
-	pngimage_ := pngimageFormCallback.pngimage
-	_ = pngimage_
-
-	for _, formDiv := range pngimageFormCallback.formGroup.FormDivs {
+func savePngImageFields(
+	_instance *models.PngImage,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(pngimage_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Base64Content":
-			FormDivBasicFieldToField(&(pngimage_.Base64Content), formDiv)
+			FormDivBasicFieldToField(&(_instance.Base64Content), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if pngimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		pngimage_.Unstage(pngimageFormCallback.probe.stageOfInterest)
-	}
-
-	pngimageFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.PngImage](
-		pngimageFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if pngimageFormCallback.CreationMode || pngimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		pngimageFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(pngimageFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__PngImageFormCallback(
-			nil,
-			pngimageFormCallback.probe,
-			newFormGroup,
-		)
-		pngimage := new(models.PngImage)
-		FillUpForm(pngimage, newFormGroup, pngimageFormCallback.probe)
-		pngimageFormCallback.probe.formStage.Commit()
-	}
-
-	pngimageFormCallback.probe.ux_tree()
 }
+
 func __gong__New__SvgImageFormCallback(
-	svgimage *models.SvgImage,
+	_instance *models.SvgImage,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (svgimageFormCallback *SvgImageFormCallback) {
-	svgimageFormCallback = new(SvgImageFormCallback)
-	svgimageFormCallback.probe = probe
-	svgimageFormCallback.svgimage = svgimage
-	svgimageFormCallback.formGroup = formGroup
-
-	svgimageFormCallback.CreationMode = (svgimage == nil)
-
-	return
+) (svgimageFormCallback *FormCallback[*models.SvgImage]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveSvgImageFields,
+	)
 }
 
-type SvgImageFormCallback struct {
-	svgimage *models.SvgImage
+type SvgImageFormCallback = FormCallback[*models.SvgImage]
 
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (svgimageFormCallback *SvgImageFormCallback) OnSave() {
-	svgimageFormCallback.probe.stageOfInterest.Lock()
-	defer svgimageFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("SvgImageFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	svgimageFormCallback.probe.formStage.Checkout()
-
-	if svgimageFormCallback.svgimage == nil {
-		svgimageFormCallback.svgimage = new(models.SvgImage).Stage(svgimageFormCallback.probe.stageOfInterest)
-	}
-	svgimage_ := svgimageFormCallback.svgimage
-	_ = svgimage_
-
-	for _, formDiv := range svgimageFormCallback.formGroup.FormDivs {
+func saveSvgImageFields(
+	_instance *models.SvgImage,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(svgimage_.Name), formDiv)
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Content":
-			FormDivBasicFieldToField(&(svgimage_.Content), formDiv)
+			FormDivBasicFieldToField(&(_instance.Content), formDiv)
 		}
 	}
-
-	// manage the suppress operation
-	if svgimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		svgimage_.Unstage(svgimageFormCallback.probe.stageOfInterest)
-	}
-
-	svgimageFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.SvgImage](
-		svgimageFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if svgimageFormCallback.CreationMode || svgimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		svgimageFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(svgimageFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__SvgImageFormCallback(
-			nil,
-			svgimageFormCallback.probe,
-			newFormGroup,
-		)
-		svgimage := new(models.SvgImage)
-		FillUpForm(svgimage, newFormGroup, svgimageFormCallback.probe)
-		svgimageFormCallback.probe.formStage.Commit()
-	}
-
-	svgimageFormCallback.probe.ux_tree()
 }
+
