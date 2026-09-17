@@ -33,6 +33,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	skipStager bool,
 	stackHeight int,
 	withProbe bool,
+	skipNonUpdateFromControllers bool,
 ) {
 	// generate main.go if absent
 	{
@@ -357,12 +358,17 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		// for the replacement of the of the first bar in the Gongstruct Type def
 		orm.ReplaceInFile("../orm/get_instance_db_from_instance.go", "	 | ", "	")
 
+		controllersSubTemplate := controllers.ControllersRegistrationsSubTemplate
+		if skipNonUpdateFromControllers {
+			controllersSubTemplate = controllers.ControllersRegistrationsUpdateOnlySubTemplate
+		}
+
 		gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 			modelPkg,
 			modelPkg.Name,
 			modelPkg.PkgPath,
 			filepath.Join(pkgPath, "../controllers/register_controllers.go"),
-			controllers.ControllersRegisterTemplate, controllers.ControllersRegistrationsSubTemplate)
+			controllers.ControllersRegisterTemplate, controllersSubTemplate)
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
@@ -402,7 +408,8 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 			modelPkg,
 			modelPkg.Name,
 			modelPkg.PkgPath,
-			modelPkg.ControllersPkgGenPath)
+			modelPkg.ControllersPkgGenPath,
+			skipNonUpdateFromControllers)
 	}
 
 	gong_models.SimpleCodeGenerator(modelPkg,

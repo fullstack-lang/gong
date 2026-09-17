@@ -26177,7 +26177,18 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if NoteDifferent {
-		ops := stage.Diff(a_measure, a_measureOther, "Note", a_measureOther.Note, a_measure.Note)
+		ops := stage.Diff(
+			a_measure,
+			"Note",
+			len(a_measureOther.Note),
+			len(a_measure.Note),
+			func(i, j int) bool {
+				return a_measureOther.Note[i] == a_measure.Note[j]
+			},
+			func(j int) string {
+				return a_measure.Note[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	BackupDifferent := false
@@ -26198,7 +26209,18 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if BackupDifferent {
-		ops := stage.Diff(a_measure, a_measureOther, "Backup", a_measureOther.Backup, a_measure.Backup)
+		ops := stage.Diff(
+			a_measure,
+			"Backup",
+			len(a_measureOther.Backup),
+			len(a_measure.Backup),
+			func(i, j int) bool {
+				return a_measureOther.Backup[i] == a_measure.Backup[j]
+			},
+			func(j int) string {
+				return a_measure.Backup[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ForwardDifferent := false
@@ -26219,7 +26241,18 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if ForwardDifferent {
-		ops := stage.Diff(a_measure, a_measureOther, "Forward", a_measureOther.Forward, a_measure.Forward)
+		ops := stage.Diff(
+			a_measure,
+			"Forward",
+			len(a_measureOther.Forward),
+			len(a_measure.Forward),
+			func(i, j int) bool {
+				return a_measureOther.Forward[i] == a_measure.Forward[j]
+			},
+			func(j int) string {
+				return a_measure.Forward[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DirectionDifferent := false
@@ -26240,7 +26273,18 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if DirectionDifferent {
-		ops := stage.Diff(a_measure, a_measureOther, "Direction", a_measureOther.Direction, a_measure.Direction)
+		ops := stage.Diff(
+			a_measure,
+			"Direction",
+			len(a_measureOther.Direction),
+			len(a_measure.Direction),
+			func(i, j int) bool {
+				return a_measureOther.Direction[i] == a_measure.Direction[j]
+			},
+			func(j int) string {
+				return a_measure.Direction[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AttributesDifferent := false
@@ -26261,7 +26305,18 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if AttributesDifferent {
-		ops := stage.Diff(a_measure, a_measureOther, "Attributes", a_measureOther.Attributes, a_measure.Attributes)
+		ops := stage.Diff(
+			a_measure,
+			"Attributes",
+			len(a_measureOther.Attributes),
+			len(a_measure.Attributes),
+			func(i, j int) bool {
+				return a_measureOther.Attributes[i] == a_measure.Attributes[j]
+			},
+			func(j int) string {
+				return a_measure.Attributes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	HarmonyDifferent := false
@@ -26282,7 +26337,18 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if HarmonyDifferent {
-		ops := stage.Diff(a_measure, a_measureOther, "Harmony", a_measureOther.Harmony, a_measure.Harmony)
+		ops := stage.Diff(
+			a_measure,
+			"Harmony",
+			len(a_measureOther.Harmony),
+			len(a_measure.Harmony),
+			func(i, j int) bool {
+				return a_measureOther.Harmony[i] == a_measure.Harmony[j]
+			},
+			func(j int) string {
+				return a_measure.Harmony[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Figured_bassDifferent := false
@@ -26303,7 +26369,18 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if Figured_bassDifferent {
-		ops := stage.Diff(a_measure, a_measureOther, "Figured_bass", a_measureOther.Figured_bass, a_measure.Figured_bass)
+		ops := stage.Diff(
+			a_measure,
+			"Figured_bass",
+			len(a_measureOther.Figured_bass),
+			len(a_measure.Figured_bass),
+			func(i, j int) bool {
+				return a_measureOther.Figured_bass[i] == a_measure.Figured_bass[j]
+			},
+			func(j int) string {
+				return a_measure.Figured_bass[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	PrintDifferent := false
@@ -26324,7 +26401,18 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if PrintDifferent {
-		ops := stage.Diff(a_measure, a_measureOther, "Print", a_measureOther.Print, a_measure.Print)
+		ops := stage.Diff(
+			a_measure,
+			"Print",
+			len(a_measureOther.Print),
+			len(a_measure.Print),
+			func(i, j int) bool {
+				return a_measureOther.Print[i] == a_measure.Print[j]
+			},
+			func(j int) string {
+				return a_measure.Print[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SoundDifferent := false
@@ -26345,7 +26433,18 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if SoundDifferent {
-		ops := stage.Diff(a_measure, a_measureOther, "Sound", a_measureOther.Sound, a_measure.Sound)
+		ops := stage.Diff(
+			a_measure,
+			"Sound",
+			len(a_measureOther.Sound),
+			len(a_measure.Sound),
+			func(i, j int) bool {
+				return a_measureOther.Sound[i] == a_measure.Sound[j]
+			},
+			func(j int) string {
+				return a_measure.Sound[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ListeningDifferent := false
@@ -26366,7 +26465,18 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if ListeningDifferent {
-		ops := stage.Diff(a_measure, a_measureOther, "Listening", a_measureOther.Listening, a_measure.Listening)
+		ops := stage.Diff(
+			a_measure,
+			"Listening",
+			len(a_measureOther.Listening),
+			len(a_measure.Listening),
+			func(i, j int) bool {
+				return a_measureOther.Listening[i] == a_measure.Listening[j]
+			},
+			func(j int) string {
+				return a_measure.Listening[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	BarlineDifferent := false
@@ -26387,7 +26497,18 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if BarlineDifferent {
-		ops := stage.Diff(a_measure, a_measureOther, "Barline", a_measureOther.Barline, a_measure.Barline)
+		ops := stage.Diff(
+			a_measure,
+			"Barline",
+			len(a_measureOther.Barline),
+			len(a_measure.Barline),
+			func(i, j int) bool {
+				return a_measureOther.Barline[i] == a_measure.Barline[j]
+			},
+			func(j int) string {
+				return a_measure.Barline[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GroupingDifferent := false
@@ -26408,7 +26529,18 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if GroupingDifferent {
-		ops := stage.Diff(a_measure, a_measureOther, "Grouping", a_measureOther.Grouping, a_measure.Grouping)
+		ops := stage.Diff(
+			a_measure,
+			"Grouping",
+			len(a_measureOther.Grouping),
+			len(a_measure.Grouping),
+			func(i, j int) bool {
+				return a_measureOther.Grouping[i] == a_measure.Grouping[j]
+			},
+			func(j int) string {
+				return a_measure.Grouping[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	LinkDifferent := false
@@ -26429,7 +26561,18 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if LinkDifferent {
-		ops := stage.Diff(a_measure, a_measureOther, "Link", a_measureOther.Link, a_measure.Link)
+		ops := stage.Diff(
+			a_measure,
+			"Link",
+			len(a_measureOther.Link),
+			len(a_measure.Link),
+			func(i, j int) bool {
+				return a_measureOther.Link[i] == a_measure.Link[j]
+			},
+			func(j int) string {
+				return a_measure.Link[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	BookmarkDifferent := false
@@ -26450,7 +26593,18 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 		}
 	}
 	if BookmarkDifferent {
-		ops := stage.Diff(a_measure, a_measureOther, "Bookmark", a_measureOther.Bookmark, a_measure.Bookmark)
+		ops := stage.Diff(
+			a_measure,
+			"Bookmark",
+			len(a_measureOther.Bookmark),
+			len(a_measure.Bookmark),
+			func(i, j int) bool {
+				return a_measureOther.Bookmark[i] == a_measure.Bookmark[j]
+			},
+			func(j int) string {
+				return a_measure.Bookmark[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -26500,7 +26654,18 @@ func (a_measure_1 *A_measure_1) GongDiff(stage *Stage, a_measure_1Other *A_measu
 		}
 	}
 	if PartDifferent {
-		ops := stage.Diff(a_measure_1, a_measure_1Other, "Part", a_measure_1Other.Part, a_measure_1.Part)
+		ops := stage.Diff(
+			a_measure_1,
+			"Part",
+			len(a_measure_1Other.Part),
+			len(a_measure_1.Part),
+			func(i, j int) bool {
+				return a_measure_1Other.Part[i] == a_measure_1.Part[j]
+			},
+			func(j int) string {
+				return a_measure_1.Part[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -26535,7 +26700,18 @@ func (a_part *A_part) GongDiff(stage *Stage, a_partOther *A_part) (diffs []strin
 		}
 	}
 	if MeasureDifferent {
-		ops := stage.Diff(a_part, a_partOther, "Measure", a_partOther.Measure, a_part.Measure)
+		ops := stage.Diff(
+			a_part,
+			"Measure",
+			len(a_partOther.Measure),
+			len(a_part.Measure),
+			func(i, j int) bool {
+				return a_partOther.Measure[i] == a_part.Measure[j]
+			},
+			func(j int) string {
+				return a_part.Measure[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -26570,7 +26746,18 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if NoteDifferent {
-		ops := stage.Diff(a_part_1, a_part_1Other, "Note", a_part_1Other.Note, a_part_1.Note)
+		ops := stage.Diff(
+			a_part_1,
+			"Note",
+			len(a_part_1Other.Note),
+			len(a_part_1.Note),
+			func(i, j int) bool {
+				return a_part_1Other.Note[i] == a_part_1.Note[j]
+			},
+			func(j int) string {
+				return a_part_1.Note[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	BackupDifferent := false
@@ -26591,7 +26778,18 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if BackupDifferent {
-		ops := stage.Diff(a_part_1, a_part_1Other, "Backup", a_part_1Other.Backup, a_part_1.Backup)
+		ops := stage.Diff(
+			a_part_1,
+			"Backup",
+			len(a_part_1Other.Backup),
+			len(a_part_1.Backup),
+			func(i, j int) bool {
+				return a_part_1Other.Backup[i] == a_part_1.Backup[j]
+			},
+			func(j int) string {
+				return a_part_1.Backup[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ForwardDifferent := false
@@ -26612,7 +26810,18 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if ForwardDifferent {
-		ops := stage.Diff(a_part_1, a_part_1Other, "Forward", a_part_1Other.Forward, a_part_1.Forward)
+		ops := stage.Diff(
+			a_part_1,
+			"Forward",
+			len(a_part_1Other.Forward),
+			len(a_part_1.Forward),
+			func(i, j int) bool {
+				return a_part_1Other.Forward[i] == a_part_1.Forward[j]
+			},
+			func(j int) string {
+				return a_part_1.Forward[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DirectionDifferent := false
@@ -26633,7 +26842,18 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if DirectionDifferent {
-		ops := stage.Diff(a_part_1, a_part_1Other, "Direction", a_part_1Other.Direction, a_part_1.Direction)
+		ops := stage.Diff(
+			a_part_1,
+			"Direction",
+			len(a_part_1Other.Direction),
+			len(a_part_1.Direction),
+			func(i, j int) bool {
+				return a_part_1Other.Direction[i] == a_part_1.Direction[j]
+			},
+			func(j int) string {
+				return a_part_1.Direction[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AttributesDifferent := false
@@ -26654,7 +26874,18 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if AttributesDifferent {
-		ops := stage.Diff(a_part_1, a_part_1Other, "Attributes", a_part_1Other.Attributes, a_part_1.Attributes)
+		ops := stage.Diff(
+			a_part_1,
+			"Attributes",
+			len(a_part_1Other.Attributes),
+			len(a_part_1.Attributes),
+			func(i, j int) bool {
+				return a_part_1Other.Attributes[i] == a_part_1.Attributes[j]
+			},
+			func(j int) string {
+				return a_part_1.Attributes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	HarmonyDifferent := false
@@ -26675,7 +26906,18 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if HarmonyDifferent {
-		ops := stage.Diff(a_part_1, a_part_1Other, "Harmony", a_part_1Other.Harmony, a_part_1.Harmony)
+		ops := stage.Diff(
+			a_part_1,
+			"Harmony",
+			len(a_part_1Other.Harmony),
+			len(a_part_1.Harmony),
+			func(i, j int) bool {
+				return a_part_1Other.Harmony[i] == a_part_1.Harmony[j]
+			},
+			func(j int) string {
+				return a_part_1.Harmony[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Figured_bassDifferent := false
@@ -26696,7 +26938,18 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if Figured_bassDifferent {
-		ops := stage.Diff(a_part_1, a_part_1Other, "Figured_bass", a_part_1Other.Figured_bass, a_part_1.Figured_bass)
+		ops := stage.Diff(
+			a_part_1,
+			"Figured_bass",
+			len(a_part_1Other.Figured_bass),
+			len(a_part_1.Figured_bass),
+			func(i, j int) bool {
+				return a_part_1Other.Figured_bass[i] == a_part_1.Figured_bass[j]
+			},
+			func(j int) string {
+				return a_part_1.Figured_bass[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	PrintDifferent := false
@@ -26717,7 +26970,18 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if PrintDifferent {
-		ops := stage.Diff(a_part_1, a_part_1Other, "Print", a_part_1Other.Print, a_part_1.Print)
+		ops := stage.Diff(
+			a_part_1,
+			"Print",
+			len(a_part_1Other.Print),
+			len(a_part_1.Print),
+			func(i, j int) bool {
+				return a_part_1Other.Print[i] == a_part_1.Print[j]
+			},
+			func(j int) string {
+				return a_part_1.Print[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SoundDifferent := false
@@ -26738,7 +27002,18 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if SoundDifferent {
-		ops := stage.Diff(a_part_1, a_part_1Other, "Sound", a_part_1Other.Sound, a_part_1.Sound)
+		ops := stage.Diff(
+			a_part_1,
+			"Sound",
+			len(a_part_1Other.Sound),
+			len(a_part_1.Sound),
+			func(i, j int) bool {
+				return a_part_1Other.Sound[i] == a_part_1.Sound[j]
+			},
+			func(j int) string {
+				return a_part_1.Sound[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ListeningDifferent := false
@@ -26759,7 +27034,18 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if ListeningDifferent {
-		ops := stage.Diff(a_part_1, a_part_1Other, "Listening", a_part_1Other.Listening, a_part_1.Listening)
+		ops := stage.Diff(
+			a_part_1,
+			"Listening",
+			len(a_part_1Other.Listening),
+			len(a_part_1.Listening),
+			func(i, j int) bool {
+				return a_part_1Other.Listening[i] == a_part_1.Listening[j]
+			},
+			func(j int) string {
+				return a_part_1.Listening[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	BarlineDifferent := false
@@ -26780,7 +27066,18 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if BarlineDifferent {
-		ops := stage.Diff(a_part_1, a_part_1Other, "Barline", a_part_1Other.Barline, a_part_1.Barline)
+		ops := stage.Diff(
+			a_part_1,
+			"Barline",
+			len(a_part_1Other.Barline),
+			len(a_part_1.Barline),
+			func(i, j int) bool {
+				return a_part_1Other.Barline[i] == a_part_1.Barline[j]
+			},
+			func(j int) string {
+				return a_part_1.Barline[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GroupingDifferent := false
@@ -26801,7 +27098,18 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if GroupingDifferent {
-		ops := stage.Diff(a_part_1, a_part_1Other, "Grouping", a_part_1Other.Grouping, a_part_1.Grouping)
+		ops := stage.Diff(
+			a_part_1,
+			"Grouping",
+			len(a_part_1Other.Grouping),
+			len(a_part_1.Grouping),
+			func(i, j int) bool {
+				return a_part_1Other.Grouping[i] == a_part_1.Grouping[j]
+			},
+			func(j int) string {
+				return a_part_1.Grouping[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	LinkDifferent := false
@@ -26822,7 +27130,18 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if LinkDifferent {
-		ops := stage.Diff(a_part_1, a_part_1Other, "Link", a_part_1Other.Link, a_part_1.Link)
+		ops := stage.Diff(
+			a_part_1,
+			"Link",
+			len(a_part_1Other.Link),
+			len(a_part_1.Link),
+			func(i, j int) bool {
+				return a_part_1Other.Link[i] == a_part_1.Link[j]
+			},
+			func(j int) string {
+				return a_part_1.Link[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	BookmarkDifferent := false
@@ -26843,7 +27162,18 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 		}
 	}
 	if BookmarkDifferent {
-		ops := stage.Diff(a_part_1, a_part_1Other, "Bookmark", a_part_1Other.Bookmark, a_part_1.Bookmark)
+		ops := stage.Diff(
+			a_part_1,
+			"Bookmark",
+			len(a_part_1Other.Bookmark),
+			len(a_part_1.Bookmark),
+			func(i, j int) bool {
+				return a_part_1Other.Bookmark[i] == a_part_1.Bookmark[j]
+			},
+			func(j int) string {
+				return a_part_1.Bookmark[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -27155,7 +27485,18 @@ func (appearance *Appearance) GongDiff(stage *Stage, appearanceOther *Appearance
 		}
 	}
 	if Line_widthDifferent {
-		ops := stage.Diff(appearance, appearanceOther, "Line_width", appearanceOther.Line_width, appearance.Line_width)
+		ops := stage.Diff(
+			appearance,
+			"Line_width",
+			len(appearanceOther.Line_width),
+			len(appearance.Line_width),
+			func(i, j int) bool {
+				return appearanceOther.Line_width[i] == appearance.Line_width[j]
+			},
+			func(j int) string {
+				return appearance.Line_width[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Note_sizeDifferent := false
@@ -27176,7 +27517,18 @@ func (appearance *Appearance) GongDiff(stage *Stage, appearanceOther *Appearance
 		}
 	}
 	if Note_sizeDifferent {
-		ops := stage.Diff(appearance, appearanceOther, "Note_size", appearanceOther.Note_size, appearance.Note_size)
+		ops := stage.Diff(
+			appearance,
+			"Note_size",
+			len(appearanceOther.Note_size),
+			len(appearance.Note_size),
+			func(i, j int) bool {
+				return appearanceOther.Note_size[i] == appearance.Note_size[j]
+			},
+			func(j int) string {
+				return appearance.Note_size[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DistanceDifferent := false
@@ -27197,7 +27549,18 @@ func (appearance *Appearance) GongDiff(stage *Stage, appearanceOther *Appearance
 		}
 	}
 	if DistanceDifferent {
-		ops := stage.Diff(appearance, appearanceOther, "Distance", appearanceOther.Distance, appearance.Distance)
+		ops := stage.Diff(
+			appearance,
+			"Distance",
+			len(appearanceOther.Distance),
+			len(appearance.Distance),
+			func(i, j int) bool {
+				return appearanceOther.Distance[i] == appearance.Distance[j]
+			},
+			func(j int) string {
+				return appearance.Distance[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GlyphDifferent := false
@@ -27218,7 +27581,18 @@ func (appearance *Appearance) GongDiff(stage *Stage, appearanceOther *Appearance
 		}
 	}
 	if GlyphDifferent {
-		ops := stage.Diff(appearance, appearanceOther, "Glyph", appearanceOther.Glyph, appearance.Glyph)
+		ops := stage.Diff(
+			appearance,
+			"Glyph",
+			len(appearanceOther.Glyph),
+			len(appearance.Glyph),
+			func(i, j int) bool {
+				return appearanceOther.Glyph[i] == appearance.Glyph[j]
+			},
+			func(j int) string {
+				return appearance.Glyph[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Other_appearanceDifferent := false
@@ -27239,7 +27613,18 @@ func (appearance *Appearance) GongDiff(stage *Stage, appearanceOther *Appearance
 		}
 	}
 	if Other_appearanceDifferent {
-		ops := stage.Diff(appearance, appearanceOther, "Other_appearance", appearanceOther.Other_appearance, appearance.Other_appearance)
+		ops := stage.Diff(
+			appearance,
+			"Other_appearance",
+			len(appearanceOther.Other_appearance),
+			len(appearance.Other_appearance),
+			func(i, j int) bool {
+				return appearanceOther.Other_appearance[i] == appearance.Other_appearance[j]
+			},
+			func(j int) string {
+				return appearance.Other_appearance[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -27371,7 +27756,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if AccentDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Accent", articulationsOther.Accent, articulations.Accent)
+		ops := stage.Diff(
+			articulations,
+			"Accent",
+			len(articulationsOther.Accent),
+			len(articulations.Accent),
+			func(i, j int) bool {
+				return articulationsOther.Accent[i] == articulations.Accent[j]
+			},
+			func(j int) string {
+				return articulations.Accent[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Strong_accentDifferent := false
@@ -27392,7 +27788,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if Strong_accentDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Strong_accent", articulationsOther.Strong_accent, articulations.Strong_accent)
+		ops := stage.Diff(
+			articulations,
+			"Strong_accent",
+			len(articulationsOther.Strong_accent),
+			len(articulations.Strong_accent),
+			func(i, j int) bool {
+				return articulationsOther.Strong_accent[i] == articulations.Strong_accent[j]
+			},
+			func(j int) string {
+				return articulations.Strong_accent[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	StaccatoDifferent := false
@@ -27413,7 +27820,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if StaccatoDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Staccato", articulationsOther.Staccato, articulations.Staccato)
+		ops := stage.Diff(
+			articulations,
+			"Staccato",
+			len(articulationsOther.Staccato),
+			len(articulations.Staccato),
+			func(i, j int) bool {
+				return articulationsOther.Staccato[i] == articulations.Staccato[j]
+			},
+			func(j int) string {
+				return articulations.Staccato[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TenutoDifferent := false
@@ -27434,7 +27852,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if TenutoDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Tenuto", articulationsOther.Tenuto, articulations.Tenuto)
+		ops := stage.Diff(
+			articulations,
+			"Tenuto",
+			len(articulationsOther.Tenuto),
+			len(articulations.Tenuto),
+			func(i, j int) bool {
+				return articulationsOther.Tenuto[i] == articulations.Tenuto[j]
+			},
+			func(j int) string {
+				return articulations.Tenuto[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Detached_legatoDifferent := false
@@ -27455,7 +27884,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if Detached_legatoDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Detached_legato", articulationsOther.Detached_legato, articulations.Detached_legato)
+		ops := stage.Diff(
+			articulations,
+			"Detached_legato",
+			len(articulationsOther.Detached_legato),
+			len(articulations.Detached_legato),
+			func(i, j int) bool {
+				return articulationsOther.Detached_legato[i] == articulations.Detached_legato[j]
+			},
+			func(j int) string {
+				return articulations.Detached_legato[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	StaccatissimoDifferent := false
@@ -27476,7 +27916,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if StaccatissimoDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Staccatissimo", articulationsOther.Staccatissimo, articulations.Staccatissimo)
+		ops := stage.Diff(
+			articulations,
+			"Staccatissimo",
+			len(articulationsOther.Staccatissimo),
+			len(articulations.Staccatissimo),
+			func(i, j int) bool {
+				return articulationsOther.Staccatissimo[i] == articulations.Staccatissimo[j]
+			},
+			func(j int) string {
+				return articulations.Staccatissimo[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SpiccatoDifferent := false
@@ -27497,7 +27948,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if SpiccatoDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Spiccato", articulationsOther.Spiccato, articulations.Spiccato)
+		ops := stage.Diff(
+			articulations,
+			"Spiccato",
+			len(articulationsOther.Spiccato),
+			len(articulations.Spiccato),
+			func(i, j int) bool {
+				return articulationsOther.Spiccato[i] == articulations.Spiccato[j]
+			},
+			func(j int) string {
+				return articulations.Spiccato[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ScoopDifferent := false
@@ -27518,7 +27980,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if ScoopDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Scoop", articulationsOther.Scoop, articulations.Scoop)
+		ops := stage.Diff(
+			articulations,
+			"Scoop",
+			len(articulationsOther.Scoop),
+			len(articulations.Scoop),
+			func(i, j int) bool {
+				return articulationsOther.Scoop[i] == articulations.Scoop[j]
+			},
+			func(j int) string {
+				return articulations.Scoop[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	PlopDifferent := false
@@ -27539,7 +28012,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if PlopDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Plop", articulationsOther.Plop, articulations.Plop)
+		ops := stage.Diff(
+			articulations,
+			"Plop",
+			len(articulationsOther.Plop),
+			len(articulations.Plop),
+			func(i, j int) bool {
+				return articulationsOther.Plop[i] == articulations.Plop[j]
+			},
+			func(j int) string {
+				return articulations.Plop[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DoitDifferent := false
@@ -27560,7 +28044,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if DoitDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Doit", articulationsOther.Doit, articulations.Doit)
+		ops := stage.Diff(
+			articulations,
+			"Doit",
+			len(articulationsOther.Doit),
+			len(articulations.Doit),
+			func(i, j int) bool {
+				return articulationsOther.Doit[i] == articulations.Doit[j]
+			},
+			func(j int) string {
+				return articulations.Doit[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	FalloffDifferent := false
@@ -27581,7 +28076,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if FalloffDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Falloff", articulationsOther.Falloff, articulations.Falloff)
+		ops := stage.Diff(
+			articulations,
+			"Falloff",
+			len(articulationsOther.Falloff),
+			len(articulations.Falloff),
+			func(i, j int) bool {
+				return articulationsOther.Falloff[i] == articulations.Falloff[j]
+			},
+			func(j int) string {
+				return articulations.Falloff[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Breath_markDifferent := false
@@ -27602,7 +28108,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if Breath_markDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Breath_mark", articulationsOther.Breath_mark, articulations.Breath_mark)
+		ops := stage.Diff(
+			articulations,
+			"Breath_mark",
+			len(articulationsOther.Breath_mark),
+			len(articulations.Breath_mark),
+			func(i, j int) bool {
+				return articulationsOther.Breath_mark[i] == articulations.Breath_mark[j]
+			},
+			func(j int) string {
+				return articulations.Breath_mark[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	CaesuraDifferent := false
@@ -27623,7 +28140,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if CaesuraDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Caesura", articulationsOther.Caesura, articulations.Caesura)
+		ops := stage.Diff(
+			articulations,
+			"Caesura",
+			len(articulationsOther.Caesura),
+			len(articulations.Caesura),
+			func(i, j int) bool {
+				return articulationsOther.Caesura[i] == articulations.Caesura[j]
+			},
+			func(j int) string {
+				return articulations.Caesura[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	StressDifferent := false
@@ -27644,7 +28172,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if StressDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Stress", articulationsOther.Stress, articulations.Stress)
+		ops := stage.Diff(
+			articulations,
+			"Stress",
+			len(articulationsOther.Stress),
+			len(articulations.Stress),
+			func(i, j int) bool {
+				return articulationsOther.Stress[i] == articulations.Stress[j]
+			},
+			func(j int) string {
+				return articulations.Stress[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	UnstressDifferent := false
@@ -27665,7 +28204,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if UnstressDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Unstress", articulationsOther.Unstress, articulations.Unstress)
+		ops := stage.Diff(
+			articulations,
+			"Unstress",
+			len(articulationsOther.Unstress),
+			len(articulations.Unstress),
+			func(i, j int) bool {
+				return articulationsOther.Unstress[i] == articulations.Unstress[j]
+			},
+			func(j int) string {
+				return articulations.Unstress[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Soft_accentDifferent := false
@@ -27686,7 +28236,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if Soft_accentDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Soft_accent", articulationsOther.Soft_accent, articulations.Soft_accent)
+		ops := stage.Diff(
+			articulations,
+			"Soft_accent",
+			len(articulationsOther.Soft_accent),
+			len(articulations.Soft_accent),
+			func(i, j int) bool {
+				return articulationsOther.Soft_accent[i] == articulations.Soft_accent[j]
+			},
+			func(j int) string {
+				return articulations.Soft_accent[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Other_articulationDifferent := false
@@ -27707,7 +28268,18 @@ func (articulations *Articulations) GongDiff(stage *Stage, articulationsOther *A
 		}
 	}
 	if Other_articulationDifferent {
-		ops := stage.Diff(articulations, articulationsOther, "Other_articulation", articulationsOther.Other_articulation, articulations.Other_articulation)
+		ops := stage.Diff(
+			articulations,
+			"Other_articulation",
+			len(articulationsOther.Other_articulation),
+			len(articulations.Other_articulation),
+			func(i, j int) bool {
+				return articulationsOther.Other_articulation[i] == articulations.Other_articulation[j]
+			},
+			func(j int) string {
+				return articulations.Other_articulation[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -27776,7 +28348,18 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if KeyDifferent {
-		ops := stage.Diff(attributes, attributesOther, "Key", attributesOther.Key, attributes.Key)
+		ops := stage.Diff(
+			attributes,
+			"Key",
+			len(attributesOther.Key),
+			len(attributes.Key),
+			func(i, j int) bool {
+				return attributesOther.Key[i] == attributes.Key[j]
+			},
+			func(j int) string {
+				return attributes.Key[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TimeDifferent := false
@@ -27797,7 +28380,18 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if TimeDifferent {
-		ops := stage.Diff(attributes, attributesOther, "Time", attributesOther.Time, attributes.Time)
+		ops := stage.Diff(
+			attributes,
+			"Time",
+			len(attributesOther.Time),
+			len(attributes.Time),
+			func(i, j int) bool {
+				return attributesOther.Time[i] == attributes.Time[j]
+			},
+			func(j int) string {
+				return attributes.Time[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if attributes.Staves != attributesOther.Staves {
@@ -27831,7 +28425,18 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if ClefDifferent {
-		ops := stage.Diff(attributes, attributesOther, "Clef", attributesOther.Clef, attributes.Clef)
+		ops := stage.Diff(
+			attributes,
+			"Clef",
+			len(attributesOther.Clef),
+			len(attributes.Clef),
+			func(i, j int) bool {
+				return attributesOther.Clef[i] == attributes.Clef[j]
+			},
+			func(j int) string {
+				return attributes.Clef[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Staff_detailsDifferent := false
@@ -27852,7 +28457,18 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if Staff_detailsDifferent {
-		ops := stage.Diff(attributes, attributesOther, "Staff_details", attributesOther.Staff_details, attributes.Staff_details)
+		ops := stage.Diff(
+			attributes,
+			"Staff_details",
+			len(attributesOther.Staff_details),
+			len(attributes.Staff_details),
+			func(i, j int) bool {
+				return attributesOther.Staff_details[i] == attributes.Staff_details[j]
+			},
+			func(j int) string {
+				return attributes.Staff_details[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TransposeDifferent := false
@@ -27873,7 +28489,18 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if TransposeDifferent {
-		ops := stage.Diff(attributes, attributesOther, "Transpose", attributesOther.Transpose, attributes.Transpose)
+		ops := stage.Diff(
+			attributes,
+			"Transpose",
+			len(attributesOther.Transpose),
+			len(attributes.Transpose),
+			func(i, j int) bool {
+				return attributesOther.Transpose[i] == attributes.Transpose[j]
+			},
+			func(j int) string {
+				return attributes.Transpose[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	For_partDifferent := false
@@ -27894,7 +28521,18 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if For_partDifferent {
-		ops := stage.Diff(attributes, attributesOther, "For_part", attributesOther.For_part, attributes.For_part)
+		ops := stage.Diff(
+			attributes,
+			"For_part",
+			len(attributesOther.For_part),
+			len(attributes.For_part),
+			func(i, j int) bool {
+				return attributesOther.For_part[i] == attributes.For_part[j]
+			},
+			func(j int) string {
+				return attributes.For_part[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DirectiveDifferent := false
@@ -27915,7 +28553,18 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if DirectiveDifferent {
-		ops := stage.Diff(attributes, attributesOther, "Directive", attributesOther.Directive, attributes.Directive)
+		ops := stage.Diff(
+			attributes,
+			"Directive",
+			len(attributesOther.Directive),
+			len(attributes.Directive),
+			func(i, j int) bool {
+				return attributesOther.Directive[i] == attributes.Directive[j]
+			},
+			func(j int) string {
+				return attributes.Directive[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Measure_styleDifferent := false
@@ -27936,7 +28585,18 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 		}
 	}
 	if Measure_styleDifferent {
-		ops := stage.Diff(attributes, attributesOther, "Measure_style", attributesOther.Measure_style, attributes.Measure_style)
+		ops := stage.Diff(
+			attributes,
+			"Measure_style",
+			len(attributesOther.Measure_style),
+			len(attributes.Measure_style),
+			func(i, j int) bool {
+				return attributesOther.Measure_style[i] == attributes.Measure_style[j]
+			},
+			func(j int) string {
+				return attributes.Measure_style[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -28672,7 +29332,18 @@ func (credit *Credit) GongDiff(stage *Stage, creditOther *Credit) (diffs []strin
 		}
 	}
 	if LinkDifferent {
-		ops := stage.Diff(credit, creditOther, "Link", creditOther.Link, credit.Link)
+		ops := stage.Diff(
+			credit,
+			"Link",
+			len(creditOther.Link),
+			len(credit.Link),
+			func(i, j int) bool {
+				return creditOther.Link[i] == credit.Link[j]
+			},
+			func(j int) string {
+				return credit.Link[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	BookmarkDifferent := false
@@ -28693,7 +29364,18 @@ func (credit *Credit) GongDiff(stage *Stage, creditOther *Credit) (diffs []strin
 		}
 	}
 	if BookmarkDifferent {
-		ops := stage.Diff(credit, creditOther, "Bookmark", creditOther.Bookmark, credit.Bookmark)
+		ops := stage.Diff(
+			credit,
+			"Bookmark",
+			len(creditOther.Bookmark),
+			len(credit.Bookmark),
+			func(i, j int) bool {
+				return creditOther.Bookmark[i] == credit.Bookmark[j]
+			},
+			func(j int) string {
+				return credit.Bookmark[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Credit_wordsDifferent := false
@@ -28714,7 +29396,18 @@ func (credit *Credit) GongDiff(stage *Stage, creditOther *Credit) (diffs []strin
 		}
 	}
 	if Credit_wordsDifferent {
-		ops := stage.Diff(credit, creditOther, "Credit_words", creditOther.Credit_words, credit.Credit_words)
+		ops := stage.Diff(
+			credit,
+			"Credit_words",
+			len(creditOther.Credit_words),
+			len(credit.Credit_words),
+			func(i, j int) bool {
+				return creditOther.Credit_words[i] == credit.Credit_words[j]
+			},
+			func(j int) string {
+				return credit.Credit_words[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Credit_symbolDifferent := false
@@ -28735,7 +29428,18 @@ func (credit *Credit) GongDiff(stage *Stage, creditOther *Credit) (diffs []strin
 		}
 	}
 	if Credit_symbolDifferent {
-		ops := stage.Diff(credit, creditOther, "Credit_symbol", creditOther.Credit_symbol, credit.Credit_symbol)
+		ops := stage.Diff(
+			credit,
+			"Credit_symbol",
+			len(creditOther.Credit_symbol),
+			len(credit.Credit_symbol),
+			func(i, j int) bool {
+				return creditOther.Credit_symbol[i] == credit.Credit_symbol[j]
+			},
+			func(j int) string {
+				return credit.Credit_symbol[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -28832,7 +29536,18 @@ func (defaults *Defaults) GongDiff(stage *Stage, defaultsOther *Defaults) (diffs
 		}
 	}
 	if Staff_layoutDifferent {
-		ops := stage.Diff(defaults, defaultsOther, "Staff_layout", defaultsOther.Staff_layout, defaults.Staff_layout)
+		ops := stage.Diff(
+			defaults,
+			"Staff_layout",
+			len(defaultsOther.Staff_layout),
+			len(defaults.Staff_layout),
+			func(i, j int) bool {
+				return defaultsOther.Staff_layout[i] == defaults.Staff_layout[j]
+			},
+			func(j int) string {
+				return defaults.Staff_layout[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (defaults.Appearance == nil) != (defaultsOther.Appearance == nil) {
@@ -28874,7 +29589,18 @@ func (defaults *Defaults) GongDiff(stage *Stage, defaultsOther *Defaults) (diffs
 		}
 	}
 	if Lyric_fontDifferent {
-		ops := stage.Diff(defaults, defaultsOther, "Lyric_font", defaultsOther.Lyric_font, defaults.Lyric_font)
+		ops := stage.Diff(
+			defaults,
+			"Lyric_font",
+			len(defaultsOther.Lyric_font),
+			len(defaults.Lyric_font),
+			func(i, j int) bool {
+				return defaultsOther.Lyric_font[i] == defaults.Lyric_font[j]
+			},
+			func(j int) string {
+				return defaults.Lyric_font[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Lyric_languageDifferent := false
@@ -28895,7 +29621,18 @@ func (defaults *Defaults) GongDiff(stage *Stage, defaultsOther *Defaults) (diffs
 		}
 	}
 	if Lyric_languageDifferent {
-		ops := stage.Diff(defaults, defaultsOther, "Lyric_language", defaultsOther.Lyric_language, defaults.Lyric_language)
+		ops := stage.Diff(
+			defaults,
+			"Lyric_language",
+			len(defaultsOther.Lyric_language),
+			len(defaults.Lyric_language),
+			func(i, j int) bool {
+				return defaultsOther.Lyric_language[i] == defaults.Lyric_language[j]
+			},
+			func(j int) string {
+				return defaults.Lyric_language[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -29109,7 +29846,18 @@ func (direction *Direction) GongDiff(stage *Stage, directionOther *Direction) (d
 		}
 	}
 	if Direction_typeDifferent {
-		ops := stage.Diff(direction, directionOther, "Direction_type", directionOther.Direction_type, direction.Direction_type)
+		ops := stage.Diff(
+			direction,
+			"Direction_type",
+			len(directionOther.Direction_type),
+			len(direction.Direction_type),
+			func(i, j int) bool {
+				return directionOther.Direction_type[i] == direction.Direction_type[j]
+			},
+			func(j int) string {
+				return direction.Direction_type[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (direction.Offset == nil) != (directionOther.Offset == nil) {
@@ -29185,7 +29933,18 @@ func (direction_type *Direction_type) GongDiff(stage *Stage, direction_typeOther
 		}
 	}
 	if RehearsalDifferent {
-		ops := stage.Diff(direction_type, direction_typeOther, "Rehearsal", direction_typeOther.Rehearsal, direction_type.Rehearsal)
+		ops := stage.Diff(
+			direction_type,
+			"Rehearsal",
+			len(direction_typeOther.Rehearsal),
+			len(direction_type.Rehearsal),
+			func(i, j int) bool {
+				return direction_typeOther.Rehearsal[i] == direction_type.Rehearsal[j]
+			},
+			func(j int) string {
+				return direction_type.Rehearsal[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SegnoDifferent := false
@@ -29206,7 +29965,18 @@ func (direction_type *Direction_type) GongDiff(stage *Stage, direction_typeOther
 		}
 	}
 	if SegnoDifferent {
-		ops := stage.Diff(direction_type, direction_typeOther, "Segno", direction_typeOther.Segno, direction_type.Segno)
+		ops := stage.Diff(
+			direction_type,
+			"Segno",
+			len(direction_typeOther.Segno),
+			len(direction_type.Segno),
+			func(i, j int) bool {
+				return direction_typeOther.Segno[i] == direction_type.Segno[j]
+			},
+			func(j int) string {
+				return direction_type.Segno[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	CodaDifferent := false
@@ -29227,7 +29997,18 @@ func (direction_type *Direction_type) GongDiff(stage *Stage, direction_typeOther
 		}
 	}
 	if CodaDifferent {
-		ops := stage.Diff(direction_type, direction_typeOther, "Coda", direction_typeOther.Coda, direction_type.Coda)
+		ops := stage.Diff(
+			direction_type,
+			"Coda",
+			len(direction_typeOther.Coda),
+			len(direction_type.Coda),
+			func(i, j int) bool {
+				return direction_typeOther.Coda[i] == direction_type.Coda[j]
+			},
+			func(j int) string {
+				return direction_type.Coda[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	WordsDifferent := false
@@ -29248,7 +30029,18 @@ func (direction_type *Direction_type) GongDiff(stage *Stage, direction_typeOther
 		}
 	}
 	if WordsDifferent {
-		ops := stage.Diff(direction_type, direction_typeOther, "Words", direction_typeOther.Words, direction_type.Words)
+		ops := stage.Diff(
+			direction_type,
+			"Words",
+			len(direction_typeOther.Words),
+			len(direction_type.Words),
+			func(i, j int) bool {
+				return direction_typeOther.Words[i] == direction_type.Words[j]
+			},
+			func(j int) string {
+				return direction_type.Words[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SymbolDifferent := false
@@ -29269,7 +30061,18 @@ func (direction_type *Direction_type) GongDiff(stage *Stage, direction_typeOther
 		}
 	}
 	if SymbolDifferent {
-		ops := stage.Diff(direction_type, direction_typeOther, "Symbol", direction_typeOther.Symbol, direction_type.Symbol)
+		ops := stage.Diff(
+			direction_type,
+			"Symbol",
+			len(direction_typeOther.Symbol),
+			len(direction_type.Symbol),
+			func(i, j int) bool {
+				return direction_typeOther.Symbol[i] == direction_type.Symbol[j]
+			},
+			func(j int) string {
+				return direction_type.Symbol[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (direction_type.Wedge == nil) != (direction_typeOther.Wedge == nil) {
@@ -29297,7 +30100,18 @@ func (direction_type *Direction_type) GongDiff(stage *Stage, direction_typeOther
 		}
 	}
 	if DynamicsDifferent {
-		ops := stage.Diff(direction_type, direction_typeOther, "Dynamics", direction_typeOther.Dynamics, direction_type.Dynamics)
+		ops := stage.Diff(
+			direction_type,
+			"Dynamics",
+			len(direction_typeOther.Dynamics),
+			len(direction_type.Dynamics),
+			func(i, j int) bool {
+				return direction_typeOther.Dynamics[i] == direction_type.Dynamics[j]
+			},
+			func(j int) string {
+				return direction_type.Dynamics[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (direction_type.Dashes == nil) != (direction_typeOther.Dashes == nil) {
@@ -29409,7 +30223,18 @@ func (direction_type *Direction_type) GongDiff(stage *Stage, direction_typeOther
 		}
 	}
 	if PercussionDifferent {
-		ops := stage.Diff(direction_type, direction_typeOther, "Percussion", direction_typeOther.Percussion, direction_type.Percussion)
+		ops := stage.Diff(
+			direction_type,
+			"Percussion",
+			len(direction_typeOther.Percussion),
+			len(direction_type.Percussion),
+			func(i, j int) bool {
+				return direction_typeOther.Percussion[i] == direction_type.Percussion[j]
+			},
+			func(j int) string {
+				return direction_type.Percussion[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (direction_type.Accordion_registration == nil) != (direction_typeOther.Accordion_registration == nil) {
@@ -29622,7 +30447,18 @@ func (dynamics *Dynamics) GongDiff(stage *Stage, dynamicsOther *Dynamics) (diffs
 		}
 	}
 	if Other_dynamicsDifferent {
-		ops := stage.Diff(dynamics, dynamicsOther, "Other_dynamics", dynamicsOther.Other_dynamics, dynamics.Other_dynamics)
+		ops := stage.Diff(
+			dynamics,
+			"Other_dynamics",
+			len(dynamicsOther.Other_dynamics),
+			len(dynamics.Other_dynamics),
+			func(i, j int) bool {
+				return dynamicsOther.Other_dynamics[i] == dynamics.Other_dynamics[j]
+			},
+			func(j int) string {
+				return dynamics.Other_dynamics[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -30116,7 +30952,18 @@ func (encoding *Encoding) GongDiff(stage *Stage, encodingOther *Encoding) (diffs
 		}
 	}
 	if EncoderDifferent {
-		ops := stage.Diff(encoding, encodingOther, "Encoder", encodingOther.Encoder, encoding.Encoder)
+		ops := stage.Diff(
+			encoding,
+			"Encoder",
+			len(encodingOther.Encoder),
+			len(encoding.Encoder),
+			func(i, j int) bool {
+				return encodingOther.Encoder[i] == encoding.Encoder[j]
+			},
+			func(j int) string {
+				return encoding.Encoder[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if encoding.Software != encodingOther.Software {
@@ -30143,7 +30990,18 @@ func (encoding *Encoding) GongDiff(stage *Stage, encodingOther *Encoding) (diffs
 		}
 	}
 	if SupportsDifferent {
-		ops := stage.Diff(encoding, encodingOther, "Supports", encodingOther.Supports, encoding.Supports)
+		ops := stage.Diff(
+			encoding,
+			"Supports",
+			len(encodingOther.Supports),
+			len(encoding.Supports),
+			func(i, j int) bool {
+				return encodingOther.Supports[i] == encoding.Supports[j]
+			},
+			func(j int) string {
+				return encoding.Supports[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -30437,7 +31295,18 @@ func (figured_bass *Figured_bass) GongDiff(stage *Stage, figured_bassOther *Figu
 		}
 	}
 	if FigureDifferent {
-		ops := stage.Diff(figured_bass, figured_bassOther, "Figure", figured_bassOther.Figure, figured_bass.Figure)
+		ops := stage.Diff(
+			figured_bass,
+			"Figure",
+			len(figured_bassOther.Figure),
+			len(figured_bass.Figure),
+			func(i, j int) bool {
+				return figured_bassOther.Figure[i] == figured_bass.Figure[j]
+			},
+			func(j int) string {
+				return figured_bass.Figure[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if figured_bass.Duration != figured_bassOther.Duration {
@@ -30981,7 +31850,18 @@ func (frame *Frame) GongDiff(stage *Stage, frameOther *Frame) (diffs []string) {
 		}
 	}
 	if Frame_noteDifferent {
-		ops := stage.Diff(frame, frameOther, "Frame_note", frameOther.Frame_note, frame.Frame_note)
+		ops := stage.Diff(
+			frame,
+			"Frame_note",
+			len(frameOther.Frame_note),
+			len(frame.Frame_note),
+			func(i, j int) bool {
+				return frameOther.Frame_note[i] == frame.Frame_note[j]
+			},
+			func(j int) string {
+				return frame.Frame_note[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -31299,7 +32179,18 @@ func (grouping *Grouping) GongDiff(stage *Stage, groupingOther *Grouping) (diffs
 		}
 	}
 	if FeatureDifferent {
-		ops := stage.Diff(grouping, groupingOther, "Feature", groupingOther.Feature, grouping.Feature)
+		ops := stage.Diff(
+			grouping,
+			"Feature",
+			len(groupingOther.Feature),
+			len(grouping.Feature),
+			func(i, j int) bool {
+				return groupingOther.Feature[i] == grouping.Feature[j]
+			},
+			func(j int) string {
+				return grouping.Feature[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -31639,7 +32530,18 @@ func (harmony *Harmony) GongDiff(stage *Stage, harmonyOther *Harmony) (diffs []s
 		}
 	}
 	if DegreeDifferent {
-		ops := stage.Diff(harmony, harmonyOther, "Degree", harmonyOther.Degree, harmony.Degree)
+		ops := stage.Diff(
+			harmony,
+			"Degree",
+			len(harmonyOther.Degree),
+			len(harmony.Degree),
+			func(i, j int) bool {
+				return harmonyOther.Degree[i] == harmony.Degree[j]
+			},
+			func(j int) string {
+				return harmony.Degree[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (harmony.Frame == nil) != (harmonyOther.Frame == nil) {
@@ -31785,7 +32687,18 @@ func (harp_pedals *Harp_pedals) GongDiff(stage *Stage, harp_pedalsOther *Harp_pe
 		}
 	}
 	if Pedal_tuningDifferent {
-		ops := stage.Diff(harp_pedals, harp_pedalsOther, "Pedal_tuning", harp_pedalsOther.Pedal_tuning, harp_pedals.Pedal_tuning)
+		ops := stage.Diff(
+			harp_pedals,
+			"Pedal_tuning",
+			len(harp_pedalsOther.Pedal_tuning),
+			len(harp_pedals.Pedal_tuning),
+			func(i, j int) bool {
+				return harp_pedalsOther.Pedal_tuning[i] == harp_pedals.Pedal_tuning[j]
+			},
+			func(j int) string {
+				return harp_pedals.Pedal_tuning[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -31964,7 +32877,18 @@ func (identification *Identification) GongDiff(stage *Stage, identificationOther
 		}
 	}
 	if CreatorDifferent {
-		ops := stage.Diff(identification, identificationOther, "Creator", identificationOther.Creator, identification.Creator)
+		ops := stage.Diff(
+			identification,
+			"Creator",
+			len(identificationOther.Creator),
+			len(identification.Creator),
+			func(i, j int) bool {
+				return identificationOther.Creator[i] == identification.Creator[j]
+			},
+			func(j int) string {
+				return identification.Creator[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	RightsDifferent := false
@@ -31985,7 +32909,18 @@ func (identification *Identification) GongDiff(stage *Stage, identificationOther
 		}
 	}
 	if RightsDifferent {
-		ops := stage.Diff(identification, identificationOther, "Rights", identificationOther.Rights, identification.Rights)
+		ops := stage.Diff(
+			identification,
+			"Rights",
+			len(identificationOther.Rights),
+			len(identification.Rights),
+			func(i, j int) bool {
+				return identificationOther.Rights[i] == identification.Rights[j]
+			},
+			func(j int) string {
+				return identification.Rights[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (identification.Encoding == nil) != (identificationOther.Encoding == nil) {
@@ -32016,7 +32951,18 @@ func (identification *Identification) GongDiff(stage *Stage, identificationOther
 		}
 	}
 	if RelationDifferent {
-		ops := stage.Diff(identification, identificationOther, "Relation", identificationOther.Relation, identification.Relation)
+		ops := stage.Diff(
+			identification,
+			"Relation",
+			len(identificationOther.Relation),
+			len(identification.Relation),
+			func(i, j int) bool {
+				return identificationOther.Relation[i] == identification.Relation[j]
+			},
+			func(j int) string {
+				return identification.Relation[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (identification.Miscellaneous == nil) != (identificationOther.Miscellaneous == nil) {
@@ -32289,7 +33235,18 @@ func (key *Key) GongDiff(stage *Stage, keyOther *Key) (diffs []string) {
 		}
 	}
 	if Key_octaveDifferent {
-		ops := stage.Diff(key, keyOther, "Key_octave", keyOther.Key_octave, key.Key_octave)
+		ops := stage.Diff(
+			key,
+			"Key_octave",
+			len(keyOther.Key_octave),
+			len(key.Key_octave),
+			func(i, j int) bool {
+				return keyOther.Key_octave[i] == key.Key_octave[j]
+			},
+			func(j int) string {
+				return key.Key_octave[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -32542,7 +33499,18 @@ func (listen *Listen) GongDiff(stage *Stage, listenOther *Listen) (diffs []strin
 		}
 	}
 	if AssessDifferent {
-		ops := stage.Diff(listen, listenOther, "Assess", listenOther.Assess, listen.Assess)
+		ops := stage.Diff(
+			listen,
+			"Assess",
+			len(listenOther.Assess),
+			len(listen.Assess),
+			func(i, j int) bool {
+				return listenOther.Assess[i] == listen.Assess[j]
+			},
+			func(j int) string {
+				return listen.Assess[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	WaitDifferent := false
@@ -32563,7 +33531,18 @@ func (listen *Listen) GongDiff(stage *Stage, listenOther *Listen) (diffs []strin
 		}
 	}
 	if WaitDifferent {
-		ops := stage.Diff(listen, listenOther, "Wait", listenOther.Wait, listen.Wait)
+		ops := stage.Diff(
+			listen,
+			"Wait",
+			len(listenOther.Wait),
+			len(listen.Wait),
+			func(i, j int) bool {
+				return listenOther.Wait[i] == listen.Wait[j]
+			},
+			func(j int) string {
+				return listen.Wait[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Other_listenDifferent := false
@@ -32584,7 +33563,18 @@ func (listen *Listen) GongDiff(stage *Stage, listenOther *Listen) (diffs []strin
 		}
 	}
 	if Other_listenDifferent {
-		ops := stage.Diff(listen, listenOther, "Other_listen", listenOther.Other_listen, listen.Other_listen)
+		ops := stage.Diff(
+			listen,
+			"Other_listen",
+			len(listenOther.Other_listen),
+			len(listen.Other_listen),
+			func(i, j int) bool {
+				return listenOther.Other_listen[i] == listen.Other_listen[j]
+			},
+			func(j int) string {
+				return listen.Other_listen[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -32616,7 +33606,18 @@ func (listening *Listening) GongDiff(stage *Stage, listeningOther *Listening) (d
 		}
 	}
 	if SyncDifferent {
-		ops := stage.Diff(listening, listeningOther, "Sync", listeningOther.Sync, listening.Sync)
+		ops := stage.Diff(
+			listening,
+			"Sync",
+			len(listeningOther.Sync),
+			len(listening.Sync),
+			func(i, j int) bool {
+				return listeningOther.Sync[i] == listening.Sync[j]
+			},
+			func(j int) string {
+				return listening.Sync[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Other_listeningDifferent := false
@@ -32637,7 +33638,18 @@ func (listening *Listening) GongDiff(stage *Stage, listeningOther *Listening) (d
 		}
 	}
 	if Other_listeningDifferent {
-		ops := stage.Diff(listening, listeningOther, "Other_listening", listeningOther.Other_listening, listening.Other_listening)
+		ops := stage.Diff(
+			listening,
+			"Other_listening",
+			len(listeningOther.Other_listening),
+			len(listening.Other_listening),
+			func(i, j int) bool {
+				return listeningOther.Other_listening[i] == listening.Other_listening[j]
+			},
+			func(j int) string {
+				return listening.Other_listening[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (listening.Offset == nil) != (listeningOther.Offset == nil) {
@@ -32712,7 +33724,18 @@ func (lyric *Lyric) GongDiff(stage *Stage, lyricOther *Lyric) (diffs []string) {
 		}
 	}
 	if ElisionDifferent {
-		ops := stage.Diff(lyric, lyricOther, "Elision", lyricOther.Elision, lyric.Elision)
+		ops := stage.Diff(
+			lyric,
+			"Elision",
+			len(lyricOther.Elision),
+			len(lyric.Elision),
+			func(i, j int) bool {
+				return lyricOther.Elision[i] == lyric.Elision[j]
+			},
+			func(j int) string {
+				return lyric.Elision[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if lyric.Syllabic != lyricOther.Syllabic {
@@ -32736,7 +33759,18 @@ func (lyric *Lyric) GongDiff(stage *Stage, lyricOther *Lyric) (diffs []string) {
 		}
 	}
 	if TextDifferent {
-		ops := stage.Diff(lyric, lyricOther, "Text", lyricOther.Text, lyric.Text)
+		ops := stage.Diff(
+			lyric,
+			"Text",
+			len(lyricOther.Text),
+			len(lyric.Text),
+			func(i, j int) bool {
+				return lyricOther.Text[i] == lyric.Text[j]
+			},
+			func(j int) string {
+				return lyric.Text[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (lyric.Extend == nil) != (lyricOther.Extend == nil) {
@@ -33095,7 +34129,18 @@ func (metronome *Metronome) GongDiff(stage *Stage, metronomeOther *Metronome) (d
 		}
 	}
 	if Beat_unit_tiedDifferent {
-		ops := stage.Diff(metronome, metronomeOther, "Beat_unit_tied", metronomeOther.Beat_unit_tied, metronome.Beat_unit_tied)
+		ops := stage.Diff(
+			metronome,
+			"Beat_unit_tied",
+			len(metronomeOther.Beat_unit_tied),
+			len(metronome.Beat_unit_tied),
+			func(i, j int) bool {
+				return metronomeOther.Beat_unit_tied[i] == metronome.Beat_unit_tied[j]
+			},
+			func(j int) string {
+				return metronome.Beat_unit_tied[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if metronome.Metronome_arrows != metronomeOther.Metronome_arrows {
@@ -33122,7 +34167,18 @@ func (metronome *Metronome) GongDiff(stage *Stage, metronomeOther *Metronome) (d
 		}
 	}
 	if Metronome_noteDifferent {
-		ops := stage.Diff(metronome, metronomeOther, "Metronome_note", metronomeOther.Metronome_note, metronome.Metronome_note)
+		ops := stage.Diff(
+			metronome,
+			"Metronome_note",
+			len(metronomeOther.Metronome_note),
+			len(metronome.Metronome_note),
+			func(i, j int) bool {
+				return metronomeOther.Metronome_note[i] == metronome.Metronome_note[j]
+			},
+			func(j int) string {
+				return metronome.Metronome_note[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -33177,7 +34233,18 @@ func (metronome_note *Metronome_note) GongDiff(stage *Stage, metronome_noteOther
 		}
 	}
 	if Metronome_beamDifferent {
-		ops := stage.Diff(metronome_note, metronome_noteOther, "Metronome_beam", metronome_noteOther.Metronome_beam, metronome_note.Metronome_beam)
+		ops := stage.Diff(
+			metronome_note,
+			"Metronome_beam",
+			len(metronome_noteOther.Metronome_beam),
+			len(metronome_note.Metronome_beam),
+			func(i, j int) bool {
+				return metronome_noteOther.Metronome_beam[i] == metronome_note.Metronome_beam[j]
+			},
+			func(j int) string {
+				return metronome_note.Metronome_beam[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (metronome_note.Metronome_tied == nil) != (metronome_noteOther.Metronome_tied == nil) {
@@ -33306,7 +34373,18 @@ func (miscellaneous *Miscellaneous) GongDiff(stage *Stage, miscellaneousOther *M
 		}
 	}
 	if Miscellaneous_fieldDifferent {
-		ops := stage.Diff(miscellaneous, miscellaneousOther, "Miscellaneous_field", miscellaneousOther.Miscellaneous_field, miscellaneous.Miscellaneous_field)
+		ops := stage.Diff(
+			miscellaneous,
+			"Miscellaneous_field",
+			len(miscellaneousOther.Miscellaneous_field),
+			len(miscellaneous.Miscellaneous_field),
+			func(i, j int) bool {
+				return miscellaneousOther.Miscellaneous_field[i] == miscellaneous.Miscellaneous_field[j]
+			},
+			func(j int) string {
+				return miscellaneous.Miscellaneous_field[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -33386,7 +34464,18 @@ func (name_display *Name_display) GongDiff(stage *Stage, name_displayOther *Name
 		}
 	}
 	if Display_textDifferent {
-		ops := stage.Diff(name_display, name_displayOther, "Display_text", name_displayOther.Display_text, name_display.Display_text)
+		ops := stage.Diff(
+			name_display,
+			"Display_text",
+			len(name_displayOther.Display_text),
+			len(name_display.Display_text),
+			func(i, j int) bool {
+				return name_displayOther.Display_text[i] == name_display.Display_text[j]
+			},
+			func(j int) string {
+				return name_display.Display_text[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Accidental_textDifferent := false
@@ -33407,7 +34496,18 @@ func (name_display *Name_display) GongDiff(stage *Stage, name_displayOther *Name
 		}
 	}
 	if Accidental_textDifferent {
-		ops := stage.Diff(name_display, name_displayOther, "Accidental_text", name_displayOther.Accidental_text, name_display.Accidental_text)
+		ops := stage.Diff(
+			name_display,
+			"Accidental_text",
+			len(name_displayOther.Accidental_text),
+			len(name_display.Accidental_text),
+			func(i, j int) bool {
+				return name_displayOther.Accidental_text[i] == name_display.Accidental_text[j]
+			},
+			func(j int) string {
+				return name_display.Accidental_text[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -33497,7 +34597,18 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if TiedDifferent {
-		ops := stage.Diff(notations, notationsOther, "Tied", notationsOther.Tied, notations.Tied)
+		ops := stage.Diff(
+			notations,
+			"Tied",
+			len(notationsOther.Tied),
+			len(notations.Tied),
+			func(i, j int) bool {
+				return notationsOther.Tied[i] == notations.Tied[j]
+			},
+			func(j int) string {
+				return notations.Tied[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SlurDifferent := false
@@ -33518,7 +34629,18 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if SlurDifferent {
-		ops := stage.Diff(notations, notationsOther, "Slur", notationsOther.Slur, notations.Slur)
+		ops := stage.Diff(
+			notations,
+			"Slur",
+			len(notationsOther.Slur),
+			len(notations.Slur),
+			func(i, j int) bool {
+				return notationsOther.Slur[i] == notations.Slur[j]
+			},
+			func(j int) string {
+				return notations.Slur[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TupletDifferent := false
@@ -33539,7 +34661,18 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if TupletDifferent {
-		ops := stage.Diff(notations, notationsOther, "Tuplet", notationsOther.Tuplet, notations.Tuplet)
+		ops := stage.Diff(
+			notations,
+			"Tuplet",
+			len(notationsOther.Tuplet),
+			len(notations.Tuplet),
+			func(i, j int) bool {
+				return notationsOther.Tuplet[i] == notations.Tuplet[j]
+			},
+			func(j int) string {
+				return notations.Tuplet[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GlissandoDifferent := false
@@ -33560,7 +34693,18 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if GlissandoDifferent {
-		ops := stage.Diff(notations, notationsOther, "Glissando", notationsOther.Glissando, notations.Glissando)
+		ops := stage.Diff(
+			notations,
+			"Glissando",
+			len(notationsOther.Glissando),
+			len(notations.Glissando),
+			func(i, j int) bool {
+				return notationsOther.Glissando[i] == notations.Glissando[j]
+			},
+			func(j int) string {
+				return notations.Glissando[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SlideDifferent := false
@@ -33581,7 +34725,18 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if SlideDifferent {
-		ops := stage.Diff(notations, notationsOther, "Slide", notationsOther.Slide, notations.Slide)
+		ops := stage.Diff(
+			notations,
+			"Slide",
+			len(notationsOther.Slide),
+			len(notations.Slide),
+			func(i, j int) bool {
+				return notationsOther.Slide[i] == notations.Slide[j]
+			},
+			func(j int) string {
+				return notations.Slide[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	OrnamentsDifferent := false
@@ -33602,7 +34757,18 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if OrnamentsDifferent {
-		ops := stage.Diff(notations, notationsOther, "Ornaments", notationsOther.Ornaments, notations.Ornaments)
+		ops := stage.Diff(
+			notations,
+			"Ornaments",
+			len(notationsOther.Ornaments),
+			len(notations.Ornaments),
+			func(i, j int) bool {
+				return notationsOther.Ornaments[i] == notations.Ornaments[j]
+			},
+			func(j int) string {
+				return notations.Ornaments[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TechnicalDifferent := false
@@ -33623,7 +34789,18 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if TechnicalDifferent {
-		ops := stage.Diff(notations, notationsOther, "Technical", notationsOther.Technical, notations.Technical)
+		ops := stage.Diff(
+			notations,
+			"Technical",
+			len(notationsOther.Technical),
+			len(notations.Technical),
+			func(i, j int) bool {
+				return notationsOther.Technical[i] == notations.Technical[j]
+			},
+			func(j int) string {
+				return notations.Technical[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ArticulationsDifferent := false
@@ -33644,7 +34821,18 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if ArticulationsDifferent {
-		ops := stage.Diff(notations, notationsOther, "Articulations", notationsOther.Articulations, notations.Articulations)
+		ops := stage.Diff(
+			notations,
+			"Articulations",
+			len(notationsOther.Articulations),
+			len(notations.Articulations),
+			func(i, j int) bool {
+				return notationsOther.Articulations[i] == notations.Articulations[j]
+			},
+			func(j int) string {
+				return notations.Articulations[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DynamicsDifferent := false
@@ -33665,7 +34853,18 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if DynamicsDifferent {
-		ops := stage.Diff(notations, notationsOther, "Dynamics", notationsOther.Dynamics, notations.Dynamics)
+		ops := stage.Diff(
+			notations,
+			"Dynamics",
+			len(notationsOther.Dynamics),
+			len(notations.Dynamics),
+			func(i, j int) bool {
+				return notationsOther.Dynamics[i] == notations.Dynamics[j]
+			},
+			func(j int) string {
+				return notations.Dynamics[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	FermataDifferent := false
@@ -33686,7 +34885,18 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if FermataDifferent {
-		ops := stage.Diff(notations, notationsOther, "Fermata", notationsOther.Fermata, notations.Fermata)
+		ops := stage.Diff(
+			notations,
+			"Fermata",
+			len(notationsOther.Fermata),
+			len(notations.Fermata),
+			func(i, j int) bool {
+				return notationsOther.Fermata[i] == notations.Fermata[j]
+			},
+			func(j int) string {
+				return notations.Fermata[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ArpeggiateDifferent := false
@@ -33707,7 +34917,18 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if ArpeggiateDifferent {
-		ops := stage.Diff(notations, notationsOther, "Arpeggiate", notationsOther.Arpeggiate, notations.Arpeggiate)
+		ops := stage.Diff(
+			notations,
+			"Arpeggiate",
+			len(notationsOther.Arpeggiate),
+			len(notations.Arpeggiate),
+			func(i, j int) bool {
+				return notationsOther.Arpeggiate[i] == notations.Arpeggiate[j]
+			},
+			func(j int) string {
+				return notations.Arpeggiate[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Non_arpeggiateDifferent := false
@@ -33728,7 +34949,18 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if Non_arpeggiateDifferent {
-		ops := stage.Diff(notations, notationsOther, "Non_arpeggiate", notationsOther.Non_arpeggiate, notations.Non_arpeggiate)
+		ops := stage.Diff(
+			notations,
+			"Non_arpeggiate",
+			len(notationsOther.Non_arpeggiate),
+			len(notations.Non_arpeggiate),
+			func(i, j int) bool {
+				return notationsOther.Non_arpeggiate[i] == notations.Non_arpeggiate[j]
+			},
+			func(j int) string {
+				return notations.Non_arpeggiate[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Accidental_markDifferent := false
@@ -33749,7 +34981,18 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if Accidental_markDifferent {
-		ops := stage.Diff(notations, notationsOther, "Accidental_mark", notationsOther.Accidental_mark, notations.Accidental_mark)
+		ops := stage.Diff(
+			notations,
+			"Accidental_mark",
+			len(notationsOther.Accidental_mark),
+			len(notations.Accidental_mark),
+			func(i, j int) bool {
+				return notationsOther.Accidental_mark[i] == notations.Accidental_mark[j]
+			},
+			func(j int) string {
+				return notations.Accidental_mark[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Other_notationDifferent := false
@@ -33770,7 +35013,18 @@ func (notations *Notations) GongDiff(stage *Stage, notationsOther *Notations) (d
 		}
 	}
 	if Other_notationDifferent {
-		ops := stage.Diff(notations, notationsOther, "Other_notation", notationsOther.Other_notation, notations.Other_notation)
+		ops := stage.Diff(
+			notations,
+			"Other_notation",
+			len(notationsOther.Other_notation),
+			len(notations.Other_notation),
+			func(i, j int) bool {
+				return notationsOther.Other_notation[i] == notations.Other_notation[j]
+			},
+			func(j int) string {
+				return notations.Other_notation[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -33909,7 +35163,18 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if InstrumentDifferent {
-		ops := stage.Diff(note, noteOther, "Instrument", noteOther.Instrument, note.Instrument)
+		ops := stage.Diff(
+			note,
+			"Instrument",
+			len(noteOther.Instrument),
+			len(note.Instrument),
+			func(i, j int) bool {
+				return noteOther.Instrument[i] == note.Instrument[j]
+			},
+			func(j int) string {
+				return note.Instrument[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (note.Footnote == nil) != (noteOther.Footnote == nil) {
@@ -33954,7 +35219,18 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if DotDifferent {
-		ops := stage.Diff(note, noteOther, "Dot", noteOther.Dot, note.Dot)
+		ops := stage.Diff(
+			note,
+			"Dot",
+			len(noteOther.Dot),
+			len(note.Dot),
+			func(i, j int) bool {
+				return noteOther.Dot[i] == note.Dot[j]
+			},
+			func(j int) string {
+				return note.Dot[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (note.Accidental == nil) != (noteOther.Accidental == nil) {
@@ -34020,7 +35296,18 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if NotationsDifferent {
-		ops := stage.Diff(note, noteOther, "Notations", noteOther.Notations, note.Notations)
+		ops := stage.Diff(
+			note,
+			"Notations",
+			len(noteOther.Notations),
+			len(note.Notations),
+			func(i, j int) bool {
+				return noteOther.Notations[i] == note.Notations[j]
+			},
+			func(j int) string {
+				return note.Notations[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	LyricDifferent := false
@@ -34041,7 +35328,18 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if LyricDifferent {
-		ops := stage.Diff(note, noteOther, "Lyric", noteOther.Lyric, note.Lyric)
+		ops := stage.Diff(
+			note,
+			"Lyric",
+			len(noteOther.Lyric),
+			len(note.Lyric),
+			func(i, j int) bool {
+				return noteOther.Lyric[i] == note.Lyric[j]
+			},
+			func(j int) string {
+				return note.Lyric[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (note.Play == nil) != (noteOther.Play == nil) {
@@ -34159,7 +35457,18 @@ func (notehead_text *Notehead_text) GongDiff(stage *Stage, notehead_textOther *N
 		}
 	}
 	if Display_textDifferent {
-		ops := stage.Diff(notehead_text, notehead_textOther, "Display_text", notehead_textOther.Display_text, notehead_text.Display_text)
+		ops := stage.Diff(
+			notehead_text,
+			"Display_text",
+			len(notehead_textOther.Display_text),
+			len(notehead_text.Display_text),
+			func(i, j int) bool {
+				return notehead_textOther.Display_text[i] == notehead_text.Display_text[j]
+			},
+			func(j int) string {
+				return notehead_text.Display_text[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Accidental_textDifferent := false
@@ -34180,7 +35489,18 @@ func (notehead_text *Notehead_text) GongDiff(stage *Stage, notehead_textOther *N
 		}
 	}
 	if Accidental_textDifferent {
-		ops := stage.Diff(notehead_text, notehead_textOther, "Accidental_text", notehead_textOther.Accidental_text, notehead_text.Accidental_text)
+		ops := stage.Diff(
+			notehead_text,
+			"Accidental_text",
+			len(notehead_textOther.Accidental_text),
+			len(notehead_text.Accidental_text),
+			func(i, j int) bool {
+				return notehead_textOther.Accidental_text[i] == notehead_text.Accidental_text[j]
+			},
+			func(j int) string {
+				return notehead_text.Accidental_text[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -34413,7 +35733,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Trill_markDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Trill_mark", ornamentsOther.Trill_mark, ornaments.Trill_mark)
+		ops := stage.Diff(
+			ornaments,
+			"Trill_mark",
+			len(ornamentsOther.Trill_mark),
+			len(ornaments.Trill_mark),
+			func(i, j int) bool {
+				return ornamentsOther.Trill_mark[i] == ornaments.Trill_mark[j]
+			},
+			func(j int) string {
+				return ornaments.Trill_mark[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TurnDifferent := false
@@ -34434,7 +35765,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if TurnDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Turn", ornamentsOther.Turn, ornaments.Turn)
+		ops := stage.Diff(
+			ornaments,
+			"Turn",
+			len(ornamentsOther.Turn),
+			len(ornaments.Turn),
+			func(i, j int) bool {
+				return ornamentsOther.Turn[i] == ornaments.Turn[j]
+			},
+			func(j int) string {
+				return ornaments.Turn[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Delayed_turnDifferent := false
@@ -34455,7 +35797,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Delayed_turnDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Delayed_turn", ornamentsOther.Delayed_turn, ornaments.Delayed_turn)
+		ops := stage.Diff(
+			ornaments,
+			"Delayed_turn",
+			len(ornamentsOther.Delayed_turn),
+			len(ornaments.Delayed_turn),
+			func(i, j int) bool {
+				return ornamentsOther.Delayed_turn[i] == ornaments.Delayed_turn[j]
+			},
+			func(j int) string {
+				return ornaments.Delayed_turn[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Inverted_turnDifferent := false
@@ -34476,7 +35829,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Inverted_turnDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Inverted_turn", ornamentsOther.Inverted_turn, ornaments.Inverted_turn)
+		ops := stage.Diff(
+			ornaments,
+			"Inverted_turn",
+			len(ornamentsOther.Inverted_turn),
+			len(ornaments.Inverted_turn),
+			func(i, j int) bool {
+				return ornamentsOther.Inverted_turn[i] == ornaments.Inverted_turn[j]
+			},
+			func(j int) string {
+				return ornaments.Inverted_turn[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Delayed_inverted_turnDifferent := false
@@ -34497,7 +35861,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Delayed_inverted_turnDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Delayed_inverted_turn", ornamentsOther.Delayed_inverted_turn, ornaments.Delayed_inverted_turn)
+		ops := stage.Diff(
+			ornaments,
+			"Delayed_inverted_turn",
+			len(ornamentsOther.Delayed_inverted_turn),
+			len(ornaments.Delayed_inverted_turn),
+			func(i, j int) bool {
+				return ornamentsOther.Delayed_inverted_turn[i] == ornaments.Delayed_inverted_turn[j]
+			},
+			func(j int) string {
+				return ornaments.Delayed_inverted_turn[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Vertical_turnDifferent := false
@@ -34518,7 +35893,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Vertical_turnDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Vertical_turn", ornamentsOther.Vertical_turn, ornaments.Vertical_turn)
+		ops := stage.Diff(
+			ornaments,
+			"Vertical_turn",
+			len(ornamentsOther.Vertical_turn),
+			len(ornaments.Vertical_turn),
+			func(i, j int) bool {
+				return ornamentsOther.Vertical_turn[i] == ornaments.Vertical_turn[j]
+			},
+			func(j int) string {
+				return ornaments.Vertical_turn[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Inverted_vertical_turnDifferent := false
@@ -34539,7 +35925,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Inverted_vertical_turnDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Inverted_vertical_turn", ornamentsOther.Inverted_vertical_turn, ornaments.Inverted_vertical_turn)
+		ops := stage.Diff(
+			ornaments,
+			"Inverted_vertical_turn",
+			len(ornamentsOther.Inverted_vertical_turn),
+			len(ornaments.Inverted_vertical_turn),
+			func(i, j int) bool {
+				return ornamentsOther.Inverted_vertical_turn[i] == ornaments.Inverted_vertical_turn[j]
+			},
+			func(j int) string {
+				return ornaments.Inverted_vertical_turn[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ShakeDifferent := false
@@ -34560,7 +35957,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if ShakeDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Shake", ornamentsOther.Shake, ornaments.Shake)
+		ops := stage.Diff(
+			ornaments,
+			"Shake",
+			len(ornamentsOther.Shake),
+			len(ornaments.Shake),
+			func(i, j int) bool {
+				return ornamentsOther.Shake[i] == ornaments.Shake[j]
+			},
+			func(j int) string {
+				return ornaments.Shake[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Wavy_lineDifferent := false
@@ -34581,7 +35989,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Wavy_lineDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Wavy_line", ornamentsOther.Wavy_line, ornaments.Wavy_line)
+		ops := stage.Diff(
+			ornaments,
+			"Wavy_line",
+			len(ornamentsOther.Wavy_line),
+			len(ornaments.Wavy_line),
+			func(i, j int) bool {
+				return ornamentsOther.Wavy_line[i] == ornaments.Wavy_line[j]
+			},
+			func(j int) string {
+				return ornaments.Wavy_line[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	MordentDifferent := false
@@ -34602,7 +36021,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if MordentDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Mordent", ornamentsOther.Mordent, ornaments.Mordent)
+		ops := stage.Diff(
+			ornaments,
+			"Mordent",
+			len(ornamentsOther.Mordent),
+			len(ornaments.Mordent),
+			func(i, j int) bool {
+				return ornamentsOther.Mordent[i] == ornaments.Mordent[j]
+			},
+			func(j int) string {
+				return ornaments.Mordent[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Inverted_mordentDifferent := false
@@ -34623,7 +36053,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Inverted_mordentDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Inverted_mordent", ornamentsOther.Inverted_mordent, ornaments.Inverted_mordent)
+		ops := stage.Diff(
+			ornaments,
+			"Inverted_mordent",
+			len(ornamentsOther.Inverted_mordent),
+			len(ornaments.Inverted_mordent),
+			func(i, j int) bool {
+				return ornamentsOther.Inverted_mordent[i] == ornaments.Inverted_mordent[j]
+			},
+			func(j int) string {
+				return ornaments.Inverted_mordent[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SchleiferDifferent := false
@@ -34644,7 +36085,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if SchleiferDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Schleifer", ornamentsOther.Schleifer, ornaments.Schleifer)
+		ops := stage.Diff(
+			ornaments,
+			"Schleifer",
+			len(ornamentsOther.Schleifer),
+			len(ornaments.Schleifer),
+			func(i, j int) bool {
+				return ornamentsOther.Schleifer[i] == ornaments.Schleifer[j]
+			},
+			func(j int) string {
+				return ornaments.Schleifer[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TremoloDifferent := false
@@ -34665,7 +36117,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if TremoloDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Tremolo", ornamentsOther.Tremolo, ornaments.Tremolo)
+		ops := stage.Diff(
+			ornaments,
+			"Tremolo",
+			len(ornamentsOther.Tremolo),
+			len(ornaments.Tremolo),
+			func(i, j int) bool {
+				return ornamentsOther.Tremolo[i] == ornaments.Tremolo[j]
+			},
+			func(j int) string {
+				return ornaments.Tremolo[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	HaydnDifferent := false
@@ -34686,7 +36149,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if HaydnDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Haydn", ornamentsOther.Haydn, ornaments.Haydn)
+		ops := stage.Diff(
+			ornaments,
+			"Haydn",
+			len(ornamentsOther.Haydn),
+			len(ornaments.Haydn),
+			func(i, j int) bool {
+				return ornamentsOther.Haydn[i] == ornaments.Haydn[j]
+			},
+			func(j int) string {
+				return ornaments.Haydn[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Other_ornamentDifferent := false
@@ -34707,7 +36181,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Other_ornamentDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Other_ornament", ornamentsOther.Other_ornament, ornaments.Other_ornament)
+		ops := stage.Diff(
+			ornaments,
+			"Other_ornament",
+			len(ornamentsOther.Other_ornament),
+			len(ornaments.Other_ornament),
+			func(i, j int) bool {
+				return ornamentsOther.Other_ornament[i] == ornaments.Other_ornament[j]
+			},
+			func(j int) string {
+				return ornaments.Other_ornament[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Accidental_markDifferent := false
@@ -34728,7 +36213,18 @@ func (ornaments *Ornaments) GongDiff(stage *Stage, ornamentsOther *Ornaments) (d
 		}
 	}
 	if Accidental_markDifferent {
-		ops := stage.Diff(ornaments, ornamentsOther, "Accidental_mark", ornamentsOther.Accidental_mark, ornaments.Accidental_mark)
+		ops := stage.Diff(
+			ornaments,
+			"Accidental_mark",
+			len(ornamentsOther.Accidental_mark),
+			len(ornaments.Accidental_mark),
+			func(i, j int) bool {
+				return ornamentsOther.Accidental_mark[i] == ornaments.Accidental_mark[j]
+			},
+			func(j int) string {
+				return ornaments.Accidental_mark[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -35160,7 +36656,18 @@ func (part_link *Part_link) GongDiff(stage *Stage, part_linkOther *Part_link) (d
 		}
 	}
 	if Instrument_linkDifferent {
-		ops := stage.Diff(part_link, part_linkOther, "Instrument_link", part_linkOther.Instrument_link, part_link.Instrument_link)
+		ops := stage.Diff(
+			part_link,
+			"Instrument_link",
+			len(part_linkOther.Instrument_link),
+			len(part_link.Instrument_link),
+			func(i, j int) bool {
+				return part_linkOther.Instrument_link[i] == part_link.Instrument_link[j]
+			},
+			func(j int) string {
+				return part_link.Instrument_link[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if part_link.Group_link != part_linkOther.Group_link {
@@ -35646,7 +37153,18 @@ func (play *Play) GongDiff(stage *Stage, playOther *Play) (diffs []string) {
 		}
 	}
 	if Other_playDifferent {
-		ops := stage.Diff(play, playOther, "Other_play", playOther.Other_play, play.Other_play)
+		ops := stage.Diff(
+			play,
+			"Other_play",
+			len(playOther.Other_play),
+			len(play.Other_play),
+			func(i, j int) bool {
+				return playOther.Other_play[i] == play.Other_play[j]
+			},
+			func(j int) string {
+				return play.Other_play[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -35783,7 +37301,18 @@ func (print *Print) GongDiff(stage *Stage, printOther *Print) (diffs []string) {
 		}
 	}
 	if Staff_layoutDifferent {
-		ops := stage.Diff(print, printOther, "Staff_layout", printOther.Staff_layout, print.Staff_layout)
+		ops := stage.Diff(
+			print,
+			"Staff_layout",
+			len(printOther.Staff_layout),
+			len(print.Staff_layout),
+			func(i, j int) bool {
+				return printOther.Staff_layout[i] == print.Staff_layout[j]
+			},
+			func(j int) string {
+				return print.Staff_layout[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (print.Measure_layout == nil) != (printOther.Measure_layout == nil) {
@@ -35986,7 +37515,18 @@ func (scordatura *Scordatura) GongDiff(stage *Stage, scordaturaOther *Scordatura
 		}
 	}
 	if AccordDifferent {
-		ops := stage.Diff(scordatura, scordaturaOther, "Accord", scordaturaOther.Accord, scordatura.Accord)
+		ops := stage.Diff(
+			scordatura,
+			"Accord",
+			len(scordaturaOther.Accord),
+			len(scordatura.Accord),
+			func(i, j int) bool {
+				return scordaturaOther.Accord[i] == scordatura.Accord[j]
+			},
+			func(j int) string {
+				return scordatura.Accord[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -36064,7 +37604,18 @@ func (score_part *Score_part) GongDiff(stage *Stage, score_partOther *Score_part
 		}
 	}
 	if Part_linkDifferent {
-		ops := stage.Diff(score_part, score_partOther, "Part_link", score_partOther.Part_link, score_part.Part_link)
+		ops := stage.Diff(
+			score_part,
+			"Part_link",
+			len(score_partOther.Part_link),
+			len(score_part.Part_link),
+			func(i, j int) bool {
+				return score_partOther.Part_link[i] == score_part.Part_link[j]
+			},
+			func(j int) string {
+				return score_part.Part_link[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (score_part.Part_name == nil) != (score_partOther.Part_name == nil) {
@@ -36116,7 +37667,18 @@ func (score_part *Score_part) GongDiff(stage *Stage, score_partOther *Score_part
 		}
 	}
 	if Score_instrumentDifferent {
-		ops := stage.Diff(score_part, score_partOther, "Score_instrument", score_partOther.Score_instrument, score_part.Score_instrument)
+		ops := stage.Diff(
+			score_part,
+			"Score_instrument",
+			len(score_partOther.Score_instrument),
+			len(score_part.Score_instrument),
+			func(i, j int) bool {
+				return score_partOther.Score_instrument[i] == score_part.Score_instrument[j]
+			},
+			func(j int) string {
+				return score_part.Score_instrument[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	PlayerDifferent := false
@@ -36137,7 +37699,18 @@ func (score_part *Score_part) GongDiff(stage *Stage, score_partOther *Score_part
 		}
 	}
 	if PlayerDifferent {
-		ops := stage.Diff(score_part, score_partOther, "Player", score_partOther.Player, score_part.Player)
+		ops := stage.Diff(
+			score_part,
+			"Player",
+			len(score_partOther.Player),
+			len(score_part.Player),
+			func(i, j int) bool {
+				return score_partOther.Player[i] == score_part.Player[j]
+			},
+			func(j int) string {
+				return score_part.Player[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Midi_deviceDifferent := false
@@ -36158,7 +37731,18 @@ func (score_part *Score_part) GongDiff(stage *Stage, score_partOther *Score_part
 		}
 	}
 	if Midi_deviceDifferent {
-		ops := stage.Diff(score_part, score_partOther, "Midi_device", score_partOther.Midi_device, score_part.Midi_device)
+		ops := stage.Diff(
+			score_part,
+			"Midi_device",
+			len(score_partOther.Midi_device),
+			len(score_part.Midi_device),
+			func(i, j int) bool {
+				return score_partOther.Midi_device[i] == score_part.Midi_device[j]
+			},
+			func(j int) string {
+				return score_part.Midi_device[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Midi_instrumentDifferent := false
@@ -36179,7 +37763,18 @@ func (score_part *Score_part) GongDiff(stage *Stage, score_partOther *Score_part
 		}
 	}
 	if Midi_instrumentDifferent {
-		ops := stage.Diff(score_part, score_partOther, "Midi_instrument", score_partOther.Midi_instrument, score_part.Midi_instrument)
+		ops := stage.Diff(
+			score_part,
+			"Midi_instrument",
+			len(score_partOther.Midi_instrument),
+			len(score_part.Midi_instrument),
+			func(i, j int) bool {
+				return score_partOther.Midi_instrument[i] == score_part.Midi_instrument[j]
+			},
+			func(j int) string {
+				return score_part.Midi_instrument[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -36241,7 +37836,18 @@ func (score_partwise *Score_partwise) GongDiff(stage *Stage, score_partwiseOther
 		}
 	}
 	if CreditDifferent {
-		ops := stage.Diff(score_partwise, score_partwiseOther, "Credit", score_partwiseOther.Credit, score_partwise.Credit)
+		ops := stage.Diff(
+			score_partwise,
+			"Credit",
+			len(score_partwiseOther.Credit),
+			len(score_partwise.Credit),
+			func(i, j int) bool {
+				return score_partwiseOther.Credit[i] == score_partwise.Credit[j]
+			},
+			func(j int) string {
+				return score_partwise.Credit[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (score_partwise.Part_list == nil) != (score_partwiseOther.Part_list == nil) {
@@ -36269,7 +37875,18 @@ func (score_partwise *Score_partwise) GongDiff(stage *Stage, score_partwiseOther
 		}
 	}
 	if PartDifferent {
-		ops := stage.Diff(score_partwise, score_partwiseOther, "Part", score_partwiseOther.Part, score_partwise.Part)
+		ops := stage.Diff(
+			score_partwise,
+			"Part",
+			len(score_partwiseOther.Part),
+			len(score_partwise.Part),
+			func(i, j int) bool {
+				return score_partwiseOther.Part[i] == score_partwise.Part[j]
+			},
+			func(j int) string {
+				return score_partwise.Part[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -36331,7 +37948,18 @@ func (score_timewise *Score_timewise) GongDiff(stage *Stage, score_timewiseOther
 		}
 	}
 	if CreditDifferent {
-		ops := stage.Diff(score_timewise, score_timewiseOther, "Credit", score_timewiseOther.Credit, score_timewise.Credit)
+		ops := stage.Diff(
+			score_timewise,
+			"Credit",
+			len(score_timewiseOther.Credit),
+			len(score_timewise.Credit),
+			func(i, j int) bool {
+				return score_timewiseOther.Credit[i] == score_timewise.Credit[j]
+			},
+			func(j int) string {
+				return score_timewise.Credit[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (score_timewise.Part_list == nil) != (score_timewiseOther.Part_list == nil) {
@@ -36359,7 +37987,18 @@ func (score_timewise *Score_timewise) GongDiff(stage *Stage, score_timewiseOther
 		}
 	}
 	if MeasureDifferent {
-		ops := stage.Diff(score_timewise, score_timewiseOther, "Measure", score_timewiseOther.Measure, score_timewise.Measure)
+		ops := stage.Diff(
+			score_timewise,
+			"Measure",
+			len(score_timewiseOther.Measure),
+			len(score_timewise.Measure),
+			func(i, j int) bool {
+				return score_timewiseOther.Measure[i] == score_timewise.Measure[j]
+			},
+			func(j int) string {
+				return score_timewise.Measure[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -36663,7 +38302,18 @@ func (sound *Sound) GongDiff(stage *Stage, soundOther *Sound) (diffs []string) {
 		}
 	}
 	if Instrument_changeDifferent {
-		ops := stage.Diff(sound, soundOther, "Instrument_change", soundOther.Instrument_change, sound.Instrument_change)
+		ops := stage.Diff(
+			sound,
+			"Instrument_change",
+			len(soundOther.Instrument_change),
+			len(sound.Instrument_change),
+			func(i, j int) bool {
+				return soundOther.Instrument_change[i] == sound.Instrument_change[j]
+			},
+			func(j int) string {
+				return sound.Instrument_change[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Midi_deviceDifferent := false
@@ -36684,7 +38334,18 @@ func (sound *Sound) GongDiff(stage *Stage, soundOther *Sound) (diffs []string) {
 		}
 	}
 	if Midi_deviceDifferent {
-		ops := stage.Diff(sound, soundOther, "Midi_device", soundOther.Midi_device, sound.Midi_device)
+		ops := stage.Diff(
+			sound,
+			"Midi_device",
+			len(soundOther.Midi_device),
+			len(sound.Midi_device),
+			func(i, j int) bool {
+				return soundOther.Midi_device[i] == sound.Midi_device[j]
+			},
+			func(j int) string {
+				return sound.Midi_device[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Midi_instrumentDifferent := false
@@ -36705,7 +38366,18 @@ func (sound *Sound) GongDiff(stage *Stage, soundOther *Sound) (diffs []string) {
 		}
 	}
 	if Midi_instrumentDifferent {
-		ops := stage.Diff(sound, soundOther, "Midi_instrument", soundOther.Midi_instrument, sound.Midi_instrument)
+		ops := stage.Diff(
+			sound,
+			"Midi_instrument",
+			len(soundOther.Midi_instrument),
+			len(sound.Midi_instrument),
+			func(i, j int) bool {
+				return soundOther.Midi_instrument[i] == sound.Midi_instrument[j]
+			},
+			func(j int) string {
+				return sound.Midi_instrument[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	PlayDifferent := false
@@ -36726,7 +38398,18 @@ func (sound *Sound) GongDiff(stage *Stage, soundOther *Sound) (diffs []string) {
 		}
 	}
 	if PlayDifferent {
-		ops := stage.Diff(sound, soundOther, "Play", soundOther.Play, sound.Play)
+		ops := stage.Diff(
+			sound,
+			"Play",
+			len(soundOther.Play),
+			len(sound.Play),
+			func(i, j int) bool {
+				return soundOther.Play[i] == sound.Play[j]
+			},
+			func(j int) string {
+				return sound.Play[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (sound.Swing == nil) != (soundOther.Swing == nil) {
@@ -36790,7 +38473,18 @@ func (staff_details *Staff_details) GongDiff(stage *Stage, staff_detailsOther *S
 		}
 	}
 	if Line_detailDifferent {
-		ops := stage.Diff(staff_details, staff_detailsOther, "Line_detail", staff_detailsOther.Line_detail, staff_details.Line_detail)
+		ops := stage.Diff(
+			staff_details,
+			"Line_detail",
+			len(staff_detailsOther.Line_detail),
+			len(staff_details.Line_detail),
+			func(i, j int) bool {
+				return staff_detailsOther.Line_detail[i] == staff_details.Line_detail[j]
+			},
+			func(j int) string {
+				return staff_details.Line_detail[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Staff_tuningDifferent := false
@@ -36811,7 +38505,18 @@ func (staff_details *Staff_details) GongDiff(stage *Stage, staff_detailsOther *S
 		}
 	}
 	if Staff_tuningDifferent {
-		ops := stage.Diff(staff_details, staff_detailsOther, "Staff_tuning", staff_detailsOther.Staff_tuning, staff_details.Staff_tuning)
+		ops := stage.Diff(
+			staff_details,
+			"Staff_tuning",
+			len(staff_detailsOther.Staff_tuning),
+			len(staff_details.Staff_tuning),
+			func(i, j int) bool {
+				return staff_detailsOther.Staff_tuning[i] == staff_details.Staff_tuning[j]
+			},
+			func(j int) string {
+				return staff_details.Staff_tuning[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if staff_details.Capo != staff_detailsOther.Capo {
@@ -37356,7 +39061,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Up_bowDifferent {
-		ops := stage.Diff(technical, technicalOther, "Up_bow", technicalOther.Up_bow, technical.Up_bow)
+		ops := stage.Diff(
+			technical,
+			"Up_bow",
+			len(technicalOther.Up_bow),
+			len(technical.Up_bow),
+			func(i, j int) bool {
+				return technicalOther.Up_bow[i] == technical.Up_bow[j]
+			},
+			func(j int) string {
+				return technical.Up_bow[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Down_bowDifferent := false
@@ -37377,7 +39093,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Down_bowDifferent {
-		ops := stage.Diff(technical, technicalOther, "Down_bow", technicalOther.Down_bow, technical.Down_bow)
+		ops := stage.Diff(
+			technical,
+			"Down_bow",
+			len(technicalOther.Down_bow),
+			len(technical.Down_bow),
+			func(i, j int) bool {
+				return technicalOther.Down_bow[i] == technical.Down_bow[j]
+			},
+			func(j int) string {
+				return technical.Down_bow[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	HarmonicDifferent := false
@@ -37398,7 +39125,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if HarmonicDifferent {
-		ops := stage.Diff(technical, technicalOther, "Harmonic", technicalOther.Harmonic, technical.Harmonic)
+		ops := stage.Diff(
+			technical,
+			"Harmonic",
+			len(technicalOther.Harmonic),
+			len(technical.Harmonic),
+			func(i, j int) bool {
+				return technicalOther.Harmonic[i] == technical.Harmonic[j]
+			},
+			func(j int) string {
+				return technical.Harmonic[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Open_stringDifferent := false
@@ -37419,7 +39157,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Open_stringDifferent {
-		ops := stage.Diff(technical, technicalOther, "Open_string", technicalOther.Open_string, technical.Open_string)
+		ops := stage.Diff(
+			technical,
+			"Open_string",
+			len(technicalOther.Open_string),
+			len(technical.Open_string),
+			func(i, j int) bool {
+				return technicalOther.Open_string[i] == technical.Open_string[j]
+			},
+			func(j int) string {
+				return technical.Open_string[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Thumb_positionDifferent := false
@@ -37440,7 +39189,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Thumb_positionDifferent {
-		ops := stage.Diff(technical, technicalOther, "Thumb_position", technicalOther.Thumb_position, technical.Thumb_position)
+		ops := stage.Diff(
+			technical,
+			"Thumb_position",
+			len(technicalOther.Thumb_position),
+			len(technical.Thumb_position),
+			func(i, j int) bool {
+				return technicalOther.Thumb_position[i] == technical.Thumb_position[j]
+			},
+			func(j int) string {
+				return technical.Thumb_position[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	FingeringDifferent := false
@@ -37461,7 +39221,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if FingeringDifferent {
-		ops := stage.Diff(technical, technicalOther, "Fingering", technicalOther.Fingering, technical.Fingering)
+		ops := stage.Diff(
+			technical,
+			"Fingering",
+			len(technicalOther.Fingering),
+			len(technical.Fingering),
+			func(i, j int) bool {
+				return technicalOther.Fingering[i] == technical.Fingering[j]
+			},
+			func(j int) string {
+				return technical.Fingering[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	PluckDifferent := false
@@ -37482,7 +39253,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if PluckDifferent {
-		ops := stage.Diff(technical, technicalOther, "Pluck", technicalOther.Pluck, technical.Pluck)
+		ops := stage.Diff(
+			technical,
+			"Pluck",
+			len(technicalOther.Pluck),
+			len(technical.Pluck),
+			func(i, j int) bool {
+				return technicalOther.Pluck[i] == technical.Pluck[j]
+			},
+			func(j int) string {
+				return technical.Pluck[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Double_tongueDifferent := false
@@ -37503,7 +39285,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Double_tongueDifferent {
-		ops := stage.Diff(technical, technicalOther, "Double_tongue", technicalOther.Double_tongue, technical.Double_tongue)
+		ops := stage.Diff(
+			technical,
+			"Double_tongue",
+			len(technicalOther.Double_tongue),
+			len(technical.Double_tongue),
+			func(i, j int) bool {
+				return technicalOther.Double_tongue[i] == technical.Double_tongue[j]
+			},
+			func(j int) string {
+				return technical.Double_tongue[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Triple_tongueDifferent := false
@@ -37524,7 +39317,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Triple_tongueDifferent {
-		ops := stage.Diff(technical, technicalOther, "Triple_tongue", technicalOther.Triple_tongue, technical.Triple_tongue)
+		ops := stage.Diff(
+			technical,
+			"Triple_tongue",
+			len(technicalOther.Triple_tongue),
+			len(technical.Triple_tongue),
+			func(i, j int) bool {
+				return technicalOther.Triple_tongue[i] == technical.Triple_tongue[j]
+			},
+			func(j int) string {
+				return technical.Triple_tongue[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	StoppedDifferent := false
@@ -37545,7 +39349,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if StoppedDifferent {
-		ops := stage.Diff(technical, technicalOther, "Stopped", technicalOther.Stopped, technical.Stopped)
+		ops := stage.Diff(
+			technical,
+			"Stopped",
+			len(technicalOther.Stopped),
+			len(technical.Stopped),
+			func(i, j int) bool {
+				return technicalOther.Stopped[i] == technical.Stopped[j]
+			},
+			func(j int) string {
+				return technical.Stopped[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Snap_pizzicatoDifferent := false
@@ -37566,7 +39381,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Snap_pizzicatoDifferent {
-		ops := stage.Diff(technical, technicalOther, "Snap_pizzicato", technicalOther.Snap_pizzicato, technical.Snap_pizzicato)
+		ops := stage.Diff(
+			technical,
+			"Snap_pizzicato",
+			len(technicalOther.Snap_pizzicato),
+			len(technical.Snap_pizzicato),
+			func(i, j int) bool {
+				return technicalOther.Snap_pizzicato[i] == technical.Snap_pizzicato[j]
+			},
+			func(j int) string {
+				return technical.Snap_pizzicato[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	FretDifferent := false
@@ -37587,7 +39413,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if FretDifferent {
-		ops := stage.Diff(technical, technicalOther, "Fret", technicalOther.Fret, technical.Fret)
+		ops := stage.Diff(
+			technical,
+			"Fret",
+			len(technicalOther.Fret),
+			len(technical.Fret),
+			func(i, j int) bool {
+				return technicalOther.Fret[i] == technical.Fret[j]
+			},
+			func(j int) string {
+				return technical.Fret[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	StringDifferent := false
@@ -37608,7 +39445,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if StringDifferent {
-		ops := stage.Diff(technical, technicalOther, "String", technicalOther.String, technical.String)
+		ops := stage.Diff(
+			technical,
+			"String",
+			len(technicalOther.String),
+			len(technical.String),
+			func(i, j int) bool {
+				return technicalOther.String[i] == technical.String[j]
+			},
+			func(j int) string {
+				return technical.String[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Hammer_onDifferent := false
@@ -37629,7 +39477,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Hammer_onDifferent {
-		ops := stage.Diff(technical, technicalOther, "Hammer_on", technicalOther.Hammer_on, technical.Hammer_on)
+		ops := stage.Diff(
+			technical,
+			"Hammer_on",
+			len(technicalOther.Hammer_on),
+			len(technical.Hammer_on),
+			func(i, j int) bool {
+				return technicalOther.Hammer_on[i] == technical.Hammer_on[j]
+			},
+			func(j int) string {
+				return technical.Hammer_on[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Pull_offDifferent := false
@@ -37650,7 +39509,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Pull_offDifferent {
-		ops := stage.Diff(technical, technicalOther, "Pull_off", technicalOther.Pull_off, technical.Pull_off)
+		ops := stage.Diff(
+			technical,
+			"Pull_off",
+			len(technicalOther.Pull_off),
+			len(technical.Pull_off),
+			func(i, j int) bool {
+				return technicalOther.Pull_off[i] == technical.Pull_off[j]
+			},
+			func(j int) string {
+				return technical.Pull_off[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	BendDifferent := false
@@ -37671,7 +39541,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if BendDifferent {
-		ops := stage.Diff(technical, technicalOther, "Bend", technicalOther.Bend, technical.Bend)
+		ops := stage.Diff(
+			technical,
+			"Bend",
+			len(technicalOther.Bend),
+			len(technical.Bend),
+			func(i, j int) bool {
+				return technicalOther.Bend[i] == technical.Bend[j]
+			},
+			func(j int) string {
+				return technical.Bend[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TapDifferent := false
@@ -37692,7 +39573,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if TapDifferent {
-		ops := stage.Diff(technical, technicalOther, "Tap", technicalOther.Tap, technical.Tap)
+		ops := stage.Diff(
+			technical,
+			"Tap",
+			len(technicalOther.Tap),
+			len(technical.Tap),
+			func(i, j int) bool {
+				return technicalOther.Tap[i] == technical.Tap[j]
+			},
+			func(j int) string {
+				return technical.Tap[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	HeelDifferent := false
@@ -37713,7 +39605,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if HeelDifferent {
-		ops := stage.Diff(technical, technicalOther, "Heel", technicalOther.Heel, technical.Heel)
+		ops := stage.Diff(
+			technical,
+			"Heel",
+			len(technicalOther.Heel),
+			len(technical.Heel),
+			func(i, j int) bool {
+				return technicalOther.Heel[i] == technical.Heel[j]
+			},
+			func(j int) string {
+				return technical.Heel[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ToeDifferent := false
@@ -37734,7 +39637,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if ToeDifferent {
-		ops := stage.Diff(technical, technicalOther, "Toe", technicalOther.Toe, technical.Toe)
+		ops := stage.Diff(
+			technical,
+			"Toe",
+			len(technicalOther.Toe),
+			len(technical.Toe),
+			func(i, j int) bool {
+				return technicalOther.Toe[i] == technical.Toe[j]
+			},
+			func(j int) string {
+				return technical.Toe[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	FingernailsDifferent := false
@@ -37755,7 +39669,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if FingernailsDifferent {
-		ops := stage.Diff(technical, technicalOther, "Fingernails", technicalOther.Fingernails, technical.Fingernails)
+		ops := stage.Diff(
+			technical,
+			"Fingernails",
+			len(technicalOther.Fingernails),
+			len(technical.Fingernails),
+			func(i, j int) bool {
+				return technicalOther.Fingernails[i] == technical.Fingernails[j]
+			},
+			func(j int) string {
+				return technical.Fingernails[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	HoleDifferent := false
@@ -37776,7 +39701,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if HoleDifferent {
-		ops := stage.Diff(technical, technicalOther, "Hole", technicalOther.Hole, technical.Hole)
+		ops := stage.Diff(
+			technical,
+			"Hole",
+			len(technicalOther.Hole),
+			len(technical.Hole),
+			func(i, j int) bool {
+				return technicalOther.Hole[i] == technical.Hole[j]
+			},
+			func(j int) string {
+				return technical.Hole[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ArrowDifferent := false
@@ -37797,7 +39733,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if ArrowDifferent {
-		ops := stage.Diff(technical, technicalOther, "Arrow", technicalOther.Arrow, technical.Arrow)
+		ops := stage.Diff(
+			technical,
+			"Arrow",
+			len(technicalOther.Arrow),
+			len(technical.Arrow),
+			func(i, j int) bool {
+				return technicalOther.Arrow[i] == technical.Arrow[j]
+			},
+			func(j int) string {
+				return technical.Arrow[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	HandbellDifferent := false
@@ -37818,7 +39765,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if HandbellDifferent {
-		ops := stage.Diff(technical, technicalOther, "Handbell", technicalOther.Handbell, technical.Handbell)
+		ops := stage.Diff(
+			technical,
+			"Handbell",
+			len(technicalOther.Handbell),
+			len(technical.Handbell),
+			func(i, j int) bool {
+				return technicalOther.Handbell[i] == technical.Handbell[j]
+			},
+			func(j int) string {
+				return technical.Handbell[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Brass_bendDifferent := false
@@ -37839,7 +39797,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Brass_bendDifferent {
-		ops := stage.Diff(technical, technicalOther, "Brass_bend", technicalOther.Brass_bend, technical.Brass_bend)
+		ops := stage.Diff(
+			technical,
+			"Brass_bend",
+			len(technicalOther.Brass_bend),
+			len(technical.Brass_bend),
+			func(i, j int) bool {
+				return technicalOther.Brass_bend[i] == technical.Brass_bend[j]
+			},
+			func(j int) string {
+				return technical.Brass_bend[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	FlipDifferent := false
@@ -37860,7 +39829,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if FlipDifferent {
-		ops := stage.Diff(technical, technicalOther, "Flip", technicalOther.Flip, technical.Flip)
+		ops := stage.Diff(
+			technical,
+			"Flip",
+			len(technicalOther.Flip),
+			len(technical.Flip),
+			func(i, j int) bool {
+				return technicalOther.Flip[i] == technical.Flip[j]
+			},
+			func(j int) string {
+				return technical.Flip[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SmearDifferent := false
@@ -37881,7 +39861,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if SmearDifferent {
-		ops := stage.Diff(technical, technicalOther, "Smear", technicalOther.Smear, technical.Smear)
+		ops := stage.Diff(
+			technical,
+			"Smear",
+			len(technicalOther.Smear),
+			len(technical.Smear),
+			func(i, j int) bool {
+				return technicalOther.Smear[i] == technical.Smear[j]
+			},
+			func(j int) string {
+				return technical.Smear[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	OpenDifferent := false
@@ -37902,7 +39893,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if OpenDifferent {
-		ops := stage.Diff(technical, technicalOther, "Open", technicalOther.Open, technical.Open)
+		ops := stage.Diff(
+			technical,
+			"Open",
+			len(technicalOther.Open),
+			len(technical.Open),
+			func(i, j int) bool {
+				return technicalOther.Open[i] == technical.Open[j]
+			},
+			func(j int) string {
+				return technical.Open[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Half_mutedDifferent := false
@@ -37923,7 +39925,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Half_mutedDifferent {
-		ops := stage.Diff(technical, technicalOther, "Half_muted", technicalOther.Half_muted, technical.Half_muted)
+		ops := stage.Diff(
+			technical,
+			"Half_muted",
+			len(technicalOther.Half_muted),
+			len(technical.Half_muted),
+			func(i, j int) bool {
+				return technicalOther.Half_muted[i] == technical.Half_muted[j]
+			},
+			func(j int) string {
+				return technical.Half_muted[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Harmon_muteDifferent := false
@@ -37944,7 +39957,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Harmon_muteDifferent {
-		ops := stage.Diff(technical, technicalOther, "Harmon_mute", technicalOther.Harmon_mute, technical.Harmon_mute)
+		ops := stage.Diff(
+			technical,
+			"Harmon_mute",
+			len(technicalOther.Harmon_mute),
+			len(technical.Harmon_mute),
+			func(i, j int) bool {
+				return technicalOther.Harmon_mute[i] == technical.Harmon_mute[j]
+			},
+			func(j int) string {
+				return technical.Harmon_mute[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GolpeDifferent := false
@@ -37965,7 +39989,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if GolpeDifferent {
-		ops := stage.Diff(technical, technicalOther, "Golpe", technicalOther.Golpe, technical.Golpe)
+		ops := stage.Diff(
+			technical,
+			"Golpe",
+			len(technicalOther.Golpe),
+			len(technical.Golpe),
+			func(i, j int) bool {
+				return technicalOther.Golpe[i] == technical.Golpe[j]
+			},
+			func(j int) string {
+				return technical.Golpe[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Other_technicalDifferent := false
@@ -37986,7 +40021,18 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 		}
 	}
 	if Other_technicalDifferent {
-		ops := stage.Diff(technical, technicalOther, "Other_technical", technicalOther.Other_technical, technical.Other_technical)
+		ops := stage.Diff(
+			technical,
+			"Other_technical",
+			len(technicalOther.Other_technical),
+			len(technical.Other_technical),
+			func(i, j int) bool {
+				return technicalOther.Other_technical[i] == technical.Other_technical[j]
+			},
+			func(j int) string {
+				return technical.Other_technical[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -38474,7 +40520,18 @@ func (tuplet_portion *Tuplet_portion) GongDiff(stage *Stage, tuplet_portionOther
 		}
 	}
 	if Tuplet_dotDifferent {
-		ops := stage.Diff(tuplet_portion, tuplet_portionOther, "Tuplet_dot", tuplet_portionOther.Tuplet_dot, tuplet_portion.Tuplet_dot)
+		ops := stage.Diff(
+			tuplet_portion,
+			"Tuplet_dot",
+			len(tuplet_portionOther.Tuplet_dot),
+			len(tuplet_portion.Tuplet_dot),
+			func(i, j int) bool {
+				return tuplet_portionOther.Tuplet_dot[i] == tuplet_portion.Tuplet_dot[j]
+			},
+			func(j int) string {
+				return tuplet_portion.Tuplet_dot[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -38729,8 +40786,14 @@ func (work *Work) GongDiff(stage *Stage, workOther *Work) (diffs []string) {
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -38741,7 +40804,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -38759,7 +40822,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -38782,22 +40845,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

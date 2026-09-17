@@ -427,8 +427,151 @@ func (controller *Controller) Delete{{Structname}}(w http.ResponseWriter, r *htt
 }
 `
 
+const controllersUpdateOnlyTmpl = `// generated code - do not edit
+package controllers
+
+import (
+	"encoding/json"
+	"log"
+	"net/http"
+	"sync"
+	"time"
+
+	"{{PkgPathRoot}}/models"
+	"{{PkgPathRoot}}/orm"
+)
+
+// declaration in order to justify use of the models import
+var __{{Structname}}__dummysDeclaration__ models.{{Structname}}
+var _ = __{{Structname}}__dummysDeclaration__
+var __{{Structname}}_time__dummyDeclaration time.Duration
+var _ = __{{Structname}}_time__dummyDeclaration
+
+var mutex{{Structname}} sync.Mutex
+
+// An {{Structname}}ID parameter model.
+//
+// This is used for operations that want the ID of an order in the path
+// swagger:parameters update{{Structname}}
+type {{Structname}}ID struct {
+	// The ID of the order
+	//
+	// in: path
+	// required: true
+	ID int64
+}
+
+// {{Structname}}Input is a schema that can validate the user’s
+// input to prevent us from getting invalid data
+// swagger:parameters update{{Structname}}
+type {{Structname}}Input struct {
+	// The {{Structname}} to submit or modify
+	// in: body
+	{{Structname}} *orm.{{Structname}}API
+}
+
+// Update{{Structname}}
+//
+// swagger:route PATCH /{{structname}}s/{ID} {{structname}}s update{{Structname}}
+//
+// # Update a {{structname}}
+//
+// Responses:
+// default: genericError
+//
+//	200: {{structname}}DBResponse
+func (controller *Controller) Update{{Structname}}(w http.ResponseWriter, r *http.Request) {
+
+	mutex{{Structname}}.Lock()
+	defer mutex{{Structname}}.Unlock()
+
+	_values := r.URL.Query()
+	stackPath := ""
+	if len(_values) >= 1 {
+		_nameValues := _values["Name"]
+		if len(_nameValues) == 1 {
+			stackPath = _nameValues[0]
+		}
+	}
+
+	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		message := "PATCH Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\"\n"
+
+		message += "Availabe stack names are:\n"
+		for k := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+
+		log.Panic(message)
+	}
+	db := backRepo.BackRepo{{Structname}}.GetDB()
+
+	// Validate input
+	var input orm.{{Structname}}API
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
+		log.Println(err.Error())
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
+		return
+	}
+
+	// Get model if exist
+	var {{structname}}DB orm.{{Structname}}DB
+
+	// fetch the {{structname}}
+	_, err := db.First(&{{structname}}DB, r.PathValue("id"))
+
+	if err != nil {
+		var returnError GenericError
+		returnError.Body.Code = http.StatusBadRequest
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
+		return
+	}
+
+	// update
+	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}_WOP(&input.{{Structname}}_WOP)
+	{{structname}}DB.{{Structname}}PointersEncoding = input.{{Structname}}PointersEncoding
+
+	db, _ = db.Model(&{{structname}}DB)
+	_, err = db.Updates(&{{structname}}DB)
+	if err != nil {
+		var returnError GenericError
+		returnError.Body.Code = http.StatusBadRequest
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
+		return
+	}
+
+	// get an instance (not staged) from DB instance, and call callback function
+	{{structname}}New := new(models.{{Structname}})
+	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}}New)
+
+	// redeem pointers
+	{{structname}}DB.DecodePointers(backRepo, {{structname}}New)
+
+	// get stage instance from DB instance, and call callback function
+	{{structname}}Old := backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr[{{structname}}DB.ID]
+	if {{structname}}Old != nil {
+		backRepo.GetStage().OnAfterUpdateFromFront({{structname}}Old, {{structname}}New)
+	}
+
+	// an UPDATE generates a back repo commit increase
+	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
+	backRepo.IncrementPushFromFrontNb()
+
+	// return status OK with the marshalling of the the {{structname}}DB
+	writeJSON(w, http.StatusOK, {{structname}}DB)
+}
+`
+
 // insertion points
 type ControllerFileInsertionPoint int
+
 
 const (
 	ControllerFileGetsInsertion ControllerFileInsertionPoint = iota
@@ -635,7 +778,8 @@ func MultiCodeGeneratorControllers(
 	modelPkg *models.ModelPkg,
 	pkgName string,
 	pkgGoPath string,
-	dirPath string) {
+	dirPath string,
+	skipNonUpdate bool) {
 
 	// have alphabetical order generation
 	structList := []*models.GongStruct{}
@@ -659,6 +803,10 @@ func MultiCodeGeneratorControllers(
 		}
 
 		codeGO := controllersTmpl
+		if skipNonUpdate {
+			codeGO = controllersUpdateOnlyTmpl
+		}
+
 
 		for _, field := range _struct.Fields {
 			switch field := field.(type) {

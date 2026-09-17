@@ -2181,7 +2181,18 @@ func (buffergeometry *BufferGeometry) GongDiff(stage *Stage, buffergeometryOther
 		}
 	}
 	if VerticesDifferent {
-		ops := stage.Diff(buffergeometry, buffergeometryOther, "Vertices", buffergeometryOther.Vertices, buffergeometry.Vertices)
+		ops := stage.Diff(
+			buffergeometry,
+			"Vertices",
+			len(buffergeometryOther.Vertices),
+			len(buffergeometry.Vertices),
+			func(i, j int) bool {
+				return buffergeometryOther.Vertices[i] == buffergeometry.Vertices[j]
+			},
+			func(j int) string {
+				return buffergeometry.Vertices[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	FacesDifferent := false
@@ -2202,7 +2213,18 @@ func (buffergeometry *BufferGeometry) GongDiff(stage *Stage, buffergeometryOther
 		}
 	}
 	if FacesDifferent {
-		ops := stage.Diff(buffergeometry, buffergeometryOther, "Faces", buffergeometryOther.Faces, buffergeometry.Faces)
+		ops := stage.Diff(
+			buffergeometry,
+			"Faces",
+			len(buffergeometryOther.Faces),
+			len(buffergeometry.Faces),
+			func(i, j int) bool {
+				return buffergeometryOther.Faces[i] == buffergeometry.Faces[j]
+			},
+			func(j int) string {
+				return buffergeometry.Faces[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -2266,7 +2288,18 @@ func (canvas *Canvas) GongDiff(stage *Stage, canvasOther *Canvas) (diffs []strin
 		}
 	}
 	if DirectionalLightsDifferent {
-		ops := stage.Diff(canvas, canvasOther, "DirectionalLights", canvasOther.DirectionalLights, canvas.DirectionalLights)
+		ops := stage.Diff(
+			canvas,
+			"DirectionalLights",
+			len(canvasOther.DirectionalLights),
+			len(canvas.DirectionalLights),
+			func(i, j int) bool {
+				return canvasOther.DirectionalLights[i] == canvas.DirectionalLights[j]
+			},
+			func(j int) string {
+				return canvas.DirectionalLights[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (canvas.AmbiantLight == nil) != (canvasOther.AmbiantLight == nil) {
@@ -2294,7 +2327,18 @@ func (canvas *Canvas) GongDiff(stage *Stage, canvasOther *Canvas) (diffs []strin
 		}
 	}
 	if MeshsDifferent {
-		ops := stage.Diff(canvas, canvasOther, "Meshs", canvasOther.Meshs, canvas.Meshs)
+		ops := stage.Diff(
+			canvas,
+			"Meshs",
+			len(canvasOther.Meshs),
+			len(canvas.Meshs),
+			func(i, j int) bool {
+				return canvasOther.Meshs[i] == canvas.Meshs[j]
+			},
+			func(j int) string {
+				return canvas.Meshs[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (canvas.Camera == nil) != (canvasOther.Camera == nil) {
@@ -2342,7 +2386,18 @@ func (curve *Curve) GongDiff(stage *Stage, curveOther *Curve) (diffs []string) {
 		}
 	}
 	if PointsDifferent {
-		ops := stage.Diff(curve, curveOther, "Points", curveOther.Points, curve.Points)
+		ops := stage.Diff(
+			curve,
+			"Points",
+			len(curveOther.Points),
+			len(curve.Points),
+			func(i, j int) bool {
+				return curveOther.Points[i] == curve.Points[j]
+			},
+			func(j int) string {
+				return curve.Points[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -2616,7 +2671,18 @@ func (shape *Shape) GongDiff(stage *Stage, shapeOther *Shape) (diffs []string) {
 		}
 	}
 	if PointsDifferent {
-		ops := stage.Diff(shape, shapeOther, "Points", shapeOther.Points, shape.Points)
+		ops := stage.Diff(
+			shape,
+			"Points",
+			len(shapeOther.Points),
+			len(shape.Points),
+			func(i, j int) bool {
+				return shapeOther.Points[i] == shape.Points[j]
+			},
+			func(j int) string {
+				return shape.Points[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -2769,8 +2835,14 @@ func (vector3 *Vector3) GongDiff(stage *Stage, vector3Other *Vector3) (diffs []s
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -2781,7 +2853,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -2799,7 +2871,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -2822,22 +2894,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

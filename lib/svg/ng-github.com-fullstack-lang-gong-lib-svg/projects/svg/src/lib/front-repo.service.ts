@@ -2,105 +2,81 @@
 import { Injectable, NgZone } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
+import { Observable, BehaviorSubject, of } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
 
 // insertion point sub template for services imports
 import { AnimateAPI } from './animate-api'
 import { Animate, CopyAnimateAPIToAnimate } from './animate'
-import { AnimateService } from './animate.service'
 
 import { CircleAPI } from './circle-api'
 import { Circle, CopyCircleAPIToCircle } from './circle'
-import { CircleService } from './circle.service'
 
 import { ConditionAPI } from './condition-api'
 import { Condition, CopyConditionAPIToCondition } from './condition'
-import { ConditionService } from './condition.service'
 
 import { ControlPointAPI } from './controlpoint-api'
 import { ControlPoint, CopyControlPointAPIToControlPoint } from './controlpoint'
-import { ControlPointService } from './controlpoint.service'
 
 import { EllipseAPI } from './ellipse-api'
 import { Ellipse, CopyEllipseAPIToEllipse } from './ellipse'
-import { EllipseService } from './ellipse.service'
 
 import { FileToDownloadAPI } from './filetodownload-api'
 import { FileToDownload, CopyFileToDownloadAPIToFileToDownload } from './filetodownload'
-import { FileToDownloadService } from './filetodownload.service'
 
 import { LayerAPI } from './layer-api'
 import { Layer, CopyLayerAPIToLayer } from './layer'
-import { LayerService } from './layer.service'
 
 import { LineAPI } from './line-api'
 import { Line, CopyLineAPIToLine } from './line'
-import { LineService } from './line.service'
 
 import { LinkAPI } from './link-api'
 import { Link, CopyLinkAPIToLink } from './link'
-import { LinkService } from './link.service'
 
 import { LinkAnchoredPathAPI } from './linkanchoredpath-api'
 import { LinkAnchoredPath, CopyLinkAnchoredPathAPIToLinkAnchoredPath } from './linkanchoredpath'
-import { LinkAnchoredPathService } from './linkanchoredpath.service'
 
 import { LinkAnchoredTextAPI } from './linkanchoredtext-api'
 import { LinkAnchoredText, CopyLinkAnchoredTextAPIToLinkAnchoredText } from './linkanchoredtext'
-import { LinkAnchoredTextService } from './linkanchoredtext.service'
 
 import { PathAPI } from './path-api'
 import { Path, CopyPathAPIToPath } from './path'
-import { PathService } from './path.service'
 
 import { PointAPI } from './point-api'
 import { Point, CopyPointAPIToPoint } from './point'
-import { PointService } from './point.service'
 
 import { PolygoneAPI } from './polygone-api'
 import { Polygone, CopyPolygoneAPIToPolygone } from './polygone'
-import { PolygoneService } from './polygone.service'
 
 import { PolylineAPI } from './polyline-api'
 import { Polyline, CopyPolylineAPIToPolyline } from './polyline'
-import { PolylineService } from './polyline.service'
 
 import { RectAPI } from './rect-api'
 import { Rect, CopyRectAPIToRect } from './rect'
-import { RectService } from './rect.service'
 
 import { RectAnchoredPathAPI } from './rectanchoredpath-api'
 import { RectAnchoredPath, CopyRectAnchoredPathAPIToRectAnchoredPath } from './rectanchoredpath'
-import { RectAnchoredPathService } from './rectanchoredpath.service'
 
 import { RectAnchoredPngImageAPI } from './rectanchoredpngimage-api'
 import { RectAnchoredPngImage, CopyRectAnchoredPngImageAPIToRectAnchoredPngImage } from './rectanchoredpngimage'
-import { RectAnchoredPngImageService } from './rectanchoredpngimage.service'
 
 import { RectAnchoredRectAPI } from './rectanchoredrect-api'
 import { RectAnchoredRect, CopyRectAnchoredRectAPIToRectAnchoredRect } from './rectanchoredrect'
-import { RectAnchoredRectService } from './rectanchoredrect.service'
 
 import { RectAnchoredTextAPI } from './rectanchoredtext-api'
 import { RectAnchoredText, CopyRectAnchoredTextAPIToRectAnchoredText } from './rectanchoredtext'
-import { RectAnchoredTextService } from './rectanchoredtext.service'
 
 import { RectLinkLinkAPI } from './rectlinklink-api'
 import { RectLinkLink, CopyRectLinkLinkAPIToRectLinkLink } from './rectlinklink'
-import { RectLinkLinkService } from './rectlinklink.service'
 
 import { SVGAPI } from './svg-api'
 import { SVG, CopySVGAPIToSVG } from './svg'
-import { SVGService } from './svg.service'
 
 import { SvgTextAPI } from './svgtext-api'
 import { SvgText, CopySvgTextAPIToSvgText } from './svgtext'
-import { SvgTextService } from './svgtext.service'
 
 import { TextAPI } from './text-api'
 import { Text, CopyTextAPIToText } from './text'
-import { TextService } from './text.service'
 
 
 import { BackRepoData } from './back-repo-data'
@@ -364,709 +340,15 @@ export class FrontRepoService {
 
 	constructor(
 		private http: HttpClient,
-		private ngZone: NgZone, // insertion point sub template 
-		private animateService: AnimateService,
-		private circleService: CircleService,
-		private conditionService: ConditionService,
-		private controlpointService: ControlPointService,
-		private ellipseService: EllipseService,
-		private filetodownloadService: FileToDownloadService,
-		private layerService: LayerService,
-		private lineService: LineService,
-		private linkService: LinkService,
-		private linkanchoredpathService: LinkAnchoredPathService,
-		private linkanchoredtextService: LinkAnchoredTextService,
-		private pathService: PathService,
-		private pointService: PointService,
-		private polygoneService: PolygoneService,
-		private polylineService: PolylineService,
-		private rectService: RectService,
-		private rectanchoredpathService: RectAnchoredPathService,
-		private rectanchoredpngimageService: RectAnchoredPngImageService,
-		private rectanchoredrectService: RectAnchoredRectService,
-		private rectanchoredtextService: RectAnchoredTextService,
-		private rectlinklinkService: RectLinkLinkService,
-		private svgService: SVGService,
-		private svgtextService: SvgTextService,
-		private textService: TextService,
+		private ngZone: NgZone,
 	) { }
 
-	// postService provides a post function for each struct name
-	postService(structName: string, instanceToBePosted: any) {
-		let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
-		let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
-
-		servicePostFunction(instanceToBePosted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("post")
-			}
-		)
-	}
-
-	// deleteService provides a delete function for each struct name
-	deleteService(structName: string, instanceToBeDeleted: any) {
-		let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
-		let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
-
-		serviceDeleteFunction(instanceToBeDeleted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("delete")
-			}
-		)
-	}
-
-	// typing of observable can be messy in typescript. Therefore, one force the type
-	observableFrontRepo!: [
-		Observable<null>, // see below for the of(null) observable
-		// insertion point sub template 
-		Observable<AnimateAPI[]>,
-		Observable<CircleAPI[]>,
-		Observable<ConditionAPI[]>,
-		Observable<ControlPointAPI[]>,
-		Observable<EllipseAPI[]>,
-		Observable<FileToDownloadAPI[]>,
-		Observable<LayerAPI[]>,
-		Observable<LineAPI[]>,
-		Observable<LinkAPI[]>,
-		Observable<LinkAnchoredPathAPI[]>,
-		Observable<LinkAnchoredTextAPI[]>,
-		Observable<PathAPI[]>,
-		Observable<PointAPI[]>,
-		Observable<PolygoneAPI[]>,
-		Observable<PolylineAPI[]>,
-		Observable<RectAPI[]>,
-		Observable<RectAnchoredPathAPI[]>,
-		Observable<RectAnchoredPngImageAPI[]>,
-		Observable<RectAnchoredRectAPI[]>,
-		Observable<RectAnchoredTextAPI[]>,
-		Observable<RectLinkLinkAPI[]>,
-		Observable<SVGAPI[]>,
-		Observable<SvgTextAPI[]>,
-		Observable<TextAPI[]>,
-	]
-
 	//
-	// pull performs a GET on all struct of the stack and redeem association pointers 
+	// pull returns the FrontRepo Observable
 	//
-	// This is an observable. Therefore, the control flow forks with
-	// - pull() return immediatly the observable
-	// - the observable observer, if it subscribe, is called when all GET calls are performs
 	pull(Name: string = ""): Observable<FrontRepo> {
-
 		this.Name = Name
-
-		this.observableFrontRepo = [
-			of(null), // see above for justification
-			// insertion point sub template
-			this.animateService.getAnimates(this.Name, this.frontRepo),
-			this.circleService.getCircles(this.Name, this.frontRepo),
-			this.conditionService.getConditions(this.Name, this.frontRepo),
-			this.controlpointService.getControlPoints(this.Name, this.frontRepo),
-			this.ellipseService.getEllipses(this.Name, this.frontRepo),
-			this.filetodownloadService.getFileToDownloads(this.Name, this.frontRepo),
-			this.layerService.getLayers(this.Name, this.frontRepo),
-			this.lineService.getLines(this.Name, this.frontRepo),
-			this.linkService.getLinks(this.Name, this.frontRepo),
-			this.linkanchoredpathService.getLinkAnchoredPaths(this.Name, this.frontRepo),
-			this.linkanchoredtextService.getLinkAnchoredTexts(this.Name, this.frontRepo),
-			this.pathService.getPaths(this.Name, this.frontRepo),
-			this.pointService.getPoints(this.Name, this.frontRepo),
-			this.polygoneService.getPolygones(this.Name, this.frontRepo),
-			this.polylineService.getPolylines(this.Name, this.frontRepo),
-			this.rectService.getRects(this.Name, this.frontRepo),
-			this.rectanchoredpathService.getRectAnchoredPaths(this.Name, this.frontRepo),
-			this.rectanchoredpngimageService.getRectAnchoredPngImages(this.Name, this.frontRepo),
-			this.rectanchoredrectService.getRectAnchoredRects(this.Name, this.frontRepo),
-			this.rectanchoredtextService.getRectAnchoredTexts(this.Name, this.frontRepo),
-			this.rectlinklinkService.getRectLinkLinks(this.Name, this.frontRepo),
-			this.svgService.getSVGs(this.Name, this.frontRepo),
-			this.svgtextService.getSvgTexts(this.Name, this.frontRepo),
-			this.textService.getTexts(this.Name, this.frontRepo),
-		]
-
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest(
-					this.observableFrontRepo
-				).subscribe(
-					([
-						___of_null, // see above for the explanation about of
-						// insertion point sub template for declarations 
-						animates_,
-						circles_,
-						conditions_,
-						controlpoints_,
-						ellipses_,
-						filetodownloads_,
-						layers_,
-						lines_,
-						links_,
-						linkanchoredpaths_,
-						linkanchoredtexts_,
-						paths_,
-						points_,
-						polygones_,
-						polylines_,
-						rects_,
-						rectanchoredpaths_,
-						rectanchoredpngimages_,
-						rectanchoredrects_,
-						rectanchoredtexts_,
-						rectlinklinks_,
-						svgs_,
-						svgtexts_,
-						texts_,
-					]) => {
-						let _this = this
-						// Typing can be messy with many items. Therefore, type casting is necessary here
-						// insertion point sub template for type casting 
-						var animates: AnimateAPI[]
-						animates = animates_ as AnimateAPI[]
-						var circles: CircleAPI[]
-						circles = circles_ as CircleAPI[]
-						var conditions: ConditionAPI[]
-						conditions = conditions_ as ConditionAPI[]
-						var controlpoints: ControlPointAPI[]
-						controlpoints = controlpoints_ as ControlPointAPI[]
-						var ellipses: EllipseAPI[]
-						ellipses = ellipses_ as EllipseAPI[]
-						var filetodownloads: FileToDownloadAPI[]
-						filetodownloads = filetodownloads_ as FileToDownloadAPI[]
-						var layers: LayerAPI[]
-						layers = layers_ as LayerAPI[]
-						var lines: LineAPI[]
-						lines = lines_ as LineAPI[]
-						var links: LinkAPI[]
-						links = links_ as LinkAPI[]
-						var linkanchoredpaths: LinkAnchoredPathAPI[]
-						linkanchoredpaths = linkanchoredpaths_ as LinkAnchoredPathAPI[]
-						var linkanchoredtexts: LinkAnchoredTextAPI[]
-						linkanchoredtexts = linkanchoredtexts_ as LinkAnchoredTextAPI[]
-						var paths: PathAPI[]
-						paths = paths_ as PathAPI[]
-						var points: PointAPI[]
-						points = points_ as PointAPI[]
-						var polygones: PolygoneAPI[]
-						polygones = polygones_ as PolygoneAPI[]
-						var polylines: PolylineAPI[]
-						polylines = polylines_ as PolylineAPI[]
-						var rects: RectAPI[]
-						rects = rects_ as RectAPI[]
-						var rectanchoredpaths: RectAnchoredPathAPI[]
-						rectanchoredpaths = rectanchoredpaths_ as RectAnchoredPathAPI[]
-						var rectanchoredpngimages: RectAnchoredPngImageAPI[]
-						rectanchoredpngimages = rectanchoredpngimages_ as RectAnchoredPngImageAPI[]
-						var rectanchoredrects: RectAnchoredRectAPI[]
-						rectanchoredrects = rectanchoredrects_ as RectAnchoredRectAPI[]
-						var rectanchoredtexts: RectAnchoredTextAPI[]
-						rectanchoredtexts = rectanchoredtexts_ as RectAnchoredTextAPI[]
-						var rectlinklinks: RectLinkLinkAPI[]
-						rectlinklinks = rectlinklinks_ as RectLinkLinkAPI[]
-						var svgs: SVGAPI[]
-						svgs = svgs_ as SVGAPI[]
-						var svgtexts: SvgTextAPI[]
-						svgtexts = svgtexts_ as SvgTextAPI[]
-						var texts: TextAPI[]
-						texts = texts_ as TextAPI[]
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template for init 
-						// init the arrays
-						this.frontRepo.array_Animates = []
-						this.frontRepo.map_ID_Animate.clear()
-
-						animates.forEach(
-							animateAPI => {
-								let animate = new Animate
-								this.frontRepo.array_Animates.push(animate)
-								this.frontRepo.map_ID_Animate.set(animateAPI.ID, animate)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Circles = []
-						this.frontRepo.map_ID_Circle.clear()
-
-						circles.forEach(
-							circleAPI => {
-								let circle = new Circle
-								this.frontRepo.array_Circles.push(circle)
-								this.frontRepo.map_ID_Circle.set(circleAPI.ID, circle)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Conditions = []
-						this.frontRepo.map_ID_Condition.clear()
-
-						conditions.forEach(
-							conditionAPI => {
-								let condition = new Condition
-								this.frontRepo.array_Conditions.push(condition)
-								this.frontRepo.map_ID_Condition.set(conditionAPI.ID, condition)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_ControlPoints = []
-						this.frontRepo.map_ID_ControlPoint.clear()
-
-						controlpoints.forEach(
-							controlpointAPI => {
-								let controlpoint = new ControlPoint
-								this.frontRepo.array_ControlPoints.push(controlpoint)
-								this.frontRepo.map_ID_ControlPoint.set(controlpointAPI.ID, controlpoint)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Ellipses = []
-						this.frontRepo.map_ID_Ellipse.clear()
-
-						ellipses.forEach(
-							ellipseAPI => {
-								let ellipse = new Ellipse
-								this.frontRepo.array_Ellipses.push(ellipse)
-								this.frontRepo.map_ID_Ellipse.set(ellipseAPI.ID, ellipse)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FileToDownloads = []
-						this.frontRepo.map_ID_FileToDownload.clear()
-
-						filetodownloads.forEach(
-							filetodownloadAPI => {
-								let filetodownload = new FileToDownload
-								this.frontRepo.array_FileToDownloads.push(filetodownload)
-								this.frontRepo.map_ID_FileToDownload.set(filetodownloadAPI.ID, filetodownload)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Layers = []
-						this.frontRepo.map_ID_Layer.clear()
-
-						layers.forEach(
-							layerAPI => {
-								let layer = new Layer
-								this.frontRepo.array_Layers.push(layer)
-								this.frontRepo.map_ID_Layer.set(layerAPI.ID, layer)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Lines = []
-						this.frontRepo.map_ID_Line.clear()
-
-						lines.forEach(
-							lineAPI => {
-								let line = new Line
-								this.frontRepo.array_Lines.push(line)
-								this.frontRepo.map_ID_Line.set(lineAPI.ID, line)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Links = []
-						this.frontRepo.map_ID_Link.clear()
-
-						links.forEach(
-							linkAPI => {
-								let link = new Link
-								this.frontRepo.array_Links.push(link)
-								this.frontRepo.map_ID_Link.set(linkAPI.ID, link)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_LinkAnchoredPaths = []
-						this.frontRepo.map_ID_LinkAnchoredPath.clear()
-
-						linkanchoredpaths.forEach(
-							linkanchoredpathAPI => {
-								let linkanchoredpath = new LinkAnchoredPath
-								this.frontRepo.array_LinkAnchoredPaths.push(linkanchoredpath)
-								this.frontRepo.map_ID_LinkAnchoredPath.set(linkanchoredpathAPI.ID, linkanchoredpath)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_LinkAnchoredTexts = []
-						this.frontRepo.map_ID_LinkAnchoredText.clear()
-
-						linkanchoredtexts.forEach(
-							linkanchoredtextAPI => {
-								let linkanchoredtext = new LinkAnchoredText
-								this.frontRepo.array_LinkAnchoredTexts.push(linkanchoredtext)
-								this.frontRepo.map_ID_LinkAnchoredText.set(linkanchoredtextAPI.ID, linkanchoredtext)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Paths = []
-						this.frontRepo.map_ID_Path.clear()
-
-						paths.forEach(
-							pathAPI => {
-								let path = new Path
-								this.frontRepo.array_Paths.push(path)
-								this.frontRepo.map_ID_Path.set(pathAPI.ID, path)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Points = []
-						this.frontRepo.map_ID_Point.clear()
-
-						points.forEach(
-							pointAPI => {
-								let point = new Point
-								this.frontRepo.array_Points.push(point)
-								this.frontRepo.map_ID_Point.set(pointAPI.ID, point)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Polygones = []
-						this.frontRepo.map_ID_Polygone.clear()
-
-						polygones.forEach(
-							polygoneAPI => {
-								let polygone = new Polygone
-								this.frontRepo.array_Polygones.push(polygone)
-								this.frontRepo.map_ID_Polygone.set(polygoneAPI.ID, polygone)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Polylines = []
-						this.frontRepo.map_ID_Polyline.clear()
-
-						polylines.forEach(
-							polylineAPI => {
-								let polyline = new Polyline
-								this.frontRepo.array_Polylines.push(polyline)
-								this.frontRepo.map_ID_Polyline.set(polylineAPI.ID, polyline)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Rects = []
-						this.frontRepo.map_ID_Rect.clear()
-
-						rects.forEach(
-							rectAPI => {
-								let rect = new Rect
-								this.frontRepo.array_Rects.push(rect)
-								this.frontRepo.map_ID_Rect.set(rectAPI.ID, rect)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_RectAnchoredPaths = []
-						this.frontRepo.map_ID_RectAnchoredPath.clear()
-
-						rectanchoredpaths.forEach(
-							rectanchoredpathAPI => {
-								let rectanchoredpath = new RectAnchoredPath
-								this.frontRepo.array_RectAnchoredPaths.push(rectanchoredpath)
-								this.frontRepo.map_ID_RectAnchoredPath.set(rectanchoredpathAPI.ID, rectanchoredpath)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_RectAnchoredPngImages = []
-						this.frontRepo.map_ID_RectAnchoredPngImage.clear()
-
-						rectanchoredpngimages.forEach(
-							rectanchoredpngimageAPI => {
-								let rectanchoredpngimage = new RectAnchoredPngImage
-								this.frontRepo.array_RectAnchoredPngImages.push(rectanchoredpngimage)
-								this.frontRepo.map_ID_RectAnchoredPngImage.set(rectanchoredpngimageAPI.ID, rectanchoredpngimage)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_RectAnchoredRects = []
-						this.frontRepo.map_ID_RectAnchoredRect.clear()
-
-						rectanchoredrects.forEach(
-							rectanchoredrectAPI => {
-								let rectanchoredrect = new RectAnchoredRect
-								this.frontRepo.array_RectAnchoredRects.push(rectanchoredrect)
-								this.frontRepo.map_ID_RectAnchoredRect.set(rectanchoredrectAPI.ID, rectanchoredrect)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_RectAnchoredTexts = []
-						this.frontRepo.map_ID_RectAnchoredText.clear()
-
-						rectanchoredtexts.forEach(
-							rectanchoredtextAPI => {
-								let rectanchoredtext = new RectAnchoredText
-								this.frontRepo.array_RectAnchoredTexts.push(rectanchoredtext)
-								this.frontRepo.map_ID_RectAnchoredText.set(rectanchoredtextAPI.ID, rectanchoredtext)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_RectLinkLinks = []
-						this.frontRepo.map_ID_RectLinkLink.clear()
-
-						rectlinklinks.forEach(
-							rectlinklinkAPI => {
-								let rectlinklink = new RectLinkLink
-								this.frontRepo.array_RectLinkLinks.push(rectlinklink)
-								this.frontRepo.map_ID_RectLinkLink.set(rectlinklinkAPI.ID, rectlinklink)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_SVGs = []
-						this.frontRepo.map_ID_SVG.clear()
-
-						svgs.forEach(
-							svgAPI => {
-								let svg = new SVG
-								this.frontRepo.array_SVGs.push(svg)
-								this.frontRepo.map_ID_SVG.set(svgAPI.ID, svg)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_SvgTexts = []
-						this.frontRepo.map_ID_SvgText.clear()
-
-						svgtexts.forEach(
-							svgtextAPI => {
-								let svgtext = new SvgText
-								this.frontRepo.array_SvgTexts.push(svgtext)
-								this.frontRepo.map_ID_SvgText.set(svgtextAPI.ID, svgtext)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Texts = []
-						this.frontRepo.map_ID_Text.clear()
-
-						texts.forEach(
-							textAPI => {
-								let text = new Text
-								this.frontRepo.array_Texts.push(text)
-								this.frontRepo.map_ID_Text.set(textAPI.ID, text)
-							}
-						)
-
-
-						// 
-						// Second Step: reddeem front objects
-						// insertion point sub template for redeem 
-						// fill up front objects
-						animates.forEach(
-							animateAPI => {
-								let animate = this.frontRepo.map_ID_Animate.get(animateAPI.ID)
-								CopyAnimateAPIToAnimate(animateAPI, animate!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						circles.forEach(
-							circleAPI => {
-								let circle = this.frontRepo.map_ID_Circle.get(circleAPI.ID)
-								CopyCircleAPIToCircle(circleAPI, circle!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						conditions.forEach(
-							conditionAPI => {
-								let condition = this.frontRepo.map_ID_Condition.get(conditionAPI.ID)
-								CopyConditionAPIToCondition(conditionAPI, condition!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						controlpoints.forEach(
-							controlpointAPI => {
-								let controlpoint = this.frontRepo.map_ID_ControlPoint.get(controlpointAPI.ID)
-								CopyControlPointAPIToControlPoint(controlpointAPI, controlpoint!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						ellipses.forEach(
-							ellipseAPI => {
-								let ellipse = this.frontRepo.map_ID_Ellipse.get(ellipseAPI.ID)
-								CopyEllipseAPIToEllipse(ellipseAPI, ellipse!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						filetodownloads.forEach(
-							filetodownloadAPI => {
-								let filetodownload = this.frontRepo.map_ID_FileToDownload.get(filetodownloadAPI.ID)
-								CopyFileToDownloadAPIToFileToDownload(filetodownloadAPI, filetodownload!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						layers.forEach(
-							layerAPI => {
-								let layer = this.frontRepo.map_ID_Layer.get(layerAPI.ID)
-								CopyLayerAPIToLayer(layerAPI, layer!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						lines.forEach(
-							lineAPI => {
-								let line = this.frontRepo.map_ID_Line.get(lineAPI.ID)
-								CopyLineAPIToLine(lineAPI, line!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						links.forEach(
-							linkAPI => {
-								let link = this.frontRepo.map_ID_Link.get(linkAPI.ID)
-								CopyLinkAPIToLink(linkAPI, link!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						linkanchoredpaths.forEach(
-							linkanchoredpathAPI => {
-								let linkanchoredpath = this.frontRepo.map_ID_LinkAnchoredPath.get(linkanchoredpathAPI.ID)
-								CopyLinkAnchoredPathAPIToLinkAnchoredPath(linkanchoredpathAPI, linkanchoredpath!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						linkanchoredtexts.forEach(
-							linkanchoredtextAPI => {
-								let linkanchoredtext = this.frontRepo.map_ID_LinkAnchoredText.get(linkanchoredtextAPI.ID)
-								CopyLinkAnchoredTextAPIToLinkAnchoredText(linkanchoredtextAPI, linkanchoredtext!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						paths.forEach(
-							pathAPI => {
-								let path = this.frontRepo.map_ID_Path.get(pathAPI.ID)
-								CopyPathAPIToPath(pathAPI, path!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						points.forEach(
-							pointAPI => {
-								let point = this.frontRepo.map_ID_Point.get(pointAPI.ID)
-								CopyPointAPIToPoint(pointAPI, point!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						polygones.forEach(
-							polygoneAPI => {
-								let polygone = this.frontRepo.map_ID_Polygone.get(polygoneAPI.ID)
-								CopyPolygoneAPIToPolygone(polygoneAPI, polygone!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						polylines.forEach(
-							polylineAPI => {
-								let polyline = this.frontRepo.map_ID_Polyline.get(polylineAPI.ID)
-								CopyPolylineAPIToPolyline(polylineAPI, polyline!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						rects.forEach(
-							rectAPI => {
-								let rect = this.frontRepo.map_ID_Rect.get(rectAPI.ID)
-								CopyRectAPIToRect(rectAPI, rect!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						rectanchoredpaths.forEach(
-							rectanchoredpathAPI => {
-								let rectanchoredpath = this.frontRepo.map_ID_RectAnchoredPath.get(rectanchoredpathAPI.ID)
-								CopyRectAnchoredPathAPIToRectAnchoredPath(rectanchoredpathAPI, rectanchoredpath!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						rectanchoredpngimages.forEach(
-							rectanchoredpngimageAPI => {
-								let rectanchoredpngimage = this.frontRepo.map_ID_RectAnchoredPngImage.get(rectanchoredpngimageAPI.ID)
-								CopyRectAnchoredPngImageAPIToRectAnchoredPngImage(rectanchoredpngimageAPI, rectanchoredpngimage!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						rectanchoredrects.forEach(
-							rectanchoredrectAPI => {
-								let rectanchoredrect = this.frontRepo.map_ID_RectAnchoredRect.get(rectanchoredrectAPI.ID)
-								CopyRectAnchoredRectAPIToRectAnchoredRect(rectanchoredrectAPI, rectanchoredrect!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						rectanchoredtexts.forEach(
-							rectanchoredtextAPI => {
-								let rectanchoredtext = this.frontRepo.map_ID_RectAnchoredText.get(rectanchoredtextAPI.ID)
-								CopyRectAnchoredTextAPIToRectAnchoredText(rectanchoredtextAPI, rectanchoredtext!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						rectlinklinks.forEach(
-							rectlinklinkAPI => {
-								let rectlinklink = this.frontRepo.map_ID_RectLinkLink.get(rectlinklinkAPI.ID)
-								CopyRectLinkLinkAPIToRectLinkLink(rectlinklinkAPI, rectlinklink!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						svgs.forEach(
-							svgAPI => {
-								let svg = this.frontRepo.map_ID_SVG.get(svgAPI.ID)
-								CopySVGAPIToSVG(svgAPI, svg!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						svgtexts.forEach(
-							svgtextAPI => {
-								let svgtext = this.frontRepo.map_ID_SvgText.get(svgtextAPI.ID)
-								CopySvgTextAPIToSvgText(svgtextAPI, svgtext!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						texts.forEach(
-							textAPI => {
-								let text = this.frontRepo.map_ID_Text.get(textAPI.ID)
-								CopyTextAPIToText(textAPI, text!, this.frontRepo)
-							}
-						)
-
-
-						// hand over control flow to observer
-						this.ngZone.run(() => {
-							observer.next(this.frontRepo)
-						})
-					}
-				)
-			}
-		)
+		return of(this.frontRepo)
 	}
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
@@ -1603,54 +885,71 @@ export class FrontRepoService {
 				})
 			}
 
-			// 3. Connection Loop
-			const attemptConnection = (retries: number): void => {
-				// console.log("github.com/fullstack-lang/gong/lib/svg/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+			// Offline mode handling: Listen to the global event
+			if (isOfflineMode) {
+				console.log("github.com/fullstack-lang/gong/lib/svg/go; Offline mode detected. Skipping WebSocket connection.")
 
-				// A. WASM OFFLINE MODE (Check if Go is ready)
-				if ((window as any).openWasmSocket) {
-					// console.log("github.com/fullstack-lang/gong/lib/svg/go; attemptConnection: openWasmSocket exists, calling it");
-					(window as any).openWasmSocket("github.com/fullstack-lang/gong/lib/svg/go", Name, processData);
-					return;
+				window.addEventListener('message', (event) => {
+					if (event.data && event.data.type === 'STAGE_UPDATE') {
+						console.log("github.com/fullstack-lang/gong/lib/svg/go; Received STAGE_UPDATE message.")
+						processData(JSON.stringify(event.data.data))
+					}
+				})
+
+				return () => {
+					console.log("github.com/fullstack-lang/gong/lib/svg/go; Cleaning up offline message listener.")
+				}
+			}
+
+			// Fallback: If not offline, create normal WebSocket
+			const attemptConnection = () => {
+				// Offline check inside attemptConnection: if window.openWasmSocket is available, use it!
+				if (typeof window !== 'undefined' && (window as any).openWasmSocket) {
+					(window as any).openWasmSocket('github.com/fullstack-lang/gong/lib/svg/go', Name, (data: any) => {
+						processData(data)
+					})
+					return
 				}
 
-				// B. WAITING FOR WASM
-				if (isOfflineMode && retries > 0) {
-					// console.log("github.com/fullstack-lang/gong/lib/svg/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
-					setTimeout(() => attemptConnection(retries - 1), 100);
-					return;
+				if (isOfflineMode && retryCount > 0) {
+					console.log("github.com/fullstack-lang/gong/lib/svg/go; Waiting for wasm socket provider...")
+					setTimeout(() => attemptConnection(), 100)
+					return
 				}
 
-				// C. STANDARD SERVER MODE
-				if (!isOfflineMode) {
-					// console.log("github.com/fullstack-lang/gong/lib/svg/go; attemptConnection: STANDARD SERVER MODE. url =", url)
-					socket = new WebSocket(url)
-					socket.onopen = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/svg/go; WebSocket: onopen", event)
-					}
-					socket.onmessage = event => {
-						// console.log("github.com/fullstack-lang/gong/lib/svg/go; WebSocket: onmessage")
-						processData(event.data)
-					}
-					socket.onerror = event => {
-						console.error("github.com/fullstack-lang/gong/lib/svg/go WebSocket: onerror", event)
-						observer.error(event)
-					}
-					socket.onclose = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/svg/go; WebSocket: onclose", event)
-						observer.complete()
-					}
-				} else {
+				if (isOfflineMode) {
 					console.error("github.com/fullstack-lang/gong/lib/svg/go, attemptConnection: Offline mode detected, but WASM backend failed to load.")
-					observer.error("Offline mode detected, but WASM backend failed to load.");
+					observer.error("Offline mode detected, but WASM backend failed to load.")
+					return
 				}
-			};
 
-			attemptConnection(50);
+				socket = new WebSocket(url)
 
-			// Teardown logic: Called when the last subscriber unsubscribes.
+				socket.onopen = () => {
+					// console.log("github.com/fullstack-lang/gong/lib/svg/go; WebSocket connection opened successfully:", url)
+				}
+
+				socket.onmessage = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/svg/go; WebSocket message received:", event.data)
+					processData(event.data)
+				}
+
+				socket.onerror = (error) => {
+					console.error("github.com/fullstack-lang/gong/lib/svg/go WebSocket: onerror", error)
+					observer.error(error)
+				}
+
+				socket.onclose = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/svg/go; WebSocket connection closed:", event)
+					observer.complete()
+				}
+			}
+
+			let retryCount = 10
+			attemptConnection()
+
 			return () => {
-				this.webSocketConnections.delete(Name) // Remove from cache
+				// console.log("github.com/fullstack-lang/gong/lib/svg/go; Cleaning up WebSocket connection")
 				if (socket) {
 					socket.close()
 				}

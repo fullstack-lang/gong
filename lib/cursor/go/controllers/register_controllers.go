@@ -54,12 +54,8 @@ type ValidationError struct {
 func registerControllers(mux *http.ServeMux) {
 	base := "/api/github.com/fullstack-lang/gong/lib/cursor/go/v1"
 
-	mux.HandleFunc("GET " + base + "/cursors", GetController().GetCursors)
-	mux.HandleFunc("GET " + base + "/cursors/{id}", GetController().GetCursor)
-	mux.HandleFunc("POST " + base + "/cursors", GetController().PostCursor)
 	mux.HandleFunc("PATCH " + base + "/cursors/{id}", GetController().UpdateCursor)
 	mux.HandleFunc("PUT " + base + "/cursors/{id}", GetController().UpdateCursor)
-	mux.HandleFunc("DELETE " + base + "/cursors/{id}", GetController().DeleteCursor)
 
 	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)

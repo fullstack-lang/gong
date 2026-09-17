@@ -2043,7 +2043,18 @@ func (assplit *AsSplit) GongDiff(stage *Stage, assplitOther *AsSplit) (diffs []s
 		}
 	}
 	if AsSplitAreasDifferent {
-		ops := stage.Diff(assplit, assplitOther, "AsSplitAreas", assplitOther.AsSplitAreas, assplit.AsSplitAreas)
+		ops := stage.Diff(
+			assplit,
+			"AsSplitAreas",
+			len(assplitOther.AsSplitAreas),
+			len(assplit.AsSplitAreas),
+			func(i, j int) bool {
+				return assplitOther.AsSplitAreas[i] == assplit.AsSplitAreas[j]
+			},
+			func(j int) string {
+				return assplit.AsSplitAreas[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if assplit.IsSizeInPixel != assplitOther.IsSizeInPixel {
@@ -2450,7 +2461,18 @@ func (view *View) GongDiff(stage *Stage, viewOther *View) (diffs []string) {
 		}
 	}
 	if RootAsSplitAreasDifferent {
-		ops := stage.Diff(view, viewOther, "RootAsSplitAreas", viewOther.RootAsSplitAreas, view.RootAsSplitAreas)
+		ops := stage.Diff(
+			view,
+			"RootAsSplitAreas",
+			len(viewOther.RootAsSplitAreas),
+			len(view.RootAsSplitAreas),
+			func(i, j int) bool {
+				return viewOther.RootAsSplitAreas[i] == view.RootAsSplitAreas[j]
+			},
+			func(j int) string {
+				return view.RootAsSplitAreas[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if view.IsSelectedView != viewOther.IsSelectedView {
@@ -2490,8 +2512,14 @@ func (xlsx *Xlsx) GongDiff(stage *Stage, xlsxOther *Xlsx) (diffs []string) {
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -2502,7 +2530,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -2520,7 +2548,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -2543,22 +2571,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

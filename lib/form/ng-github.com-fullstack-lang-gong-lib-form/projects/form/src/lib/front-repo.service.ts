@@ -2,65 +2,51 @@
 import { Injectable, NgZone } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
+import { Observable, BehaviorSubject, of } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
 
 // insertion point sub template for services imports
 import { CheckBoxAPI } from './checkbox-api'
 import { CheckBox, CopyCheckBoxAPIToCheckBox } from './checkbox'
-import { CheckBoxService } from './checkbox.service'
 
 import { FormDivAPI } from './formdiv-api'
 import { FormDiv, CopyFormDivAPIToFormDiv } from './formdiv'
-import { FormDivService } from './formdiv.service'
 
 import { FormEditAssocButtonAPI } from './formeditassocbutton-api'
 import { FormEditAssocButton, CopyFormEditAssocButtonAPIToFormEditAssocButton } from './formeditassocbutton'
-import { FormEditAssocButtonService } from './formeditassocbutton.service'
 
 import { FormFieldAPI } from './formfield-api'
 import { FormField, CopyFormFieldAPIToFormField } from './formfield'
-import { FormFieldService } from './formfield.service'
 
 import { FormFieldDateAPI } from './formfielddate-api'
 import { FormFieldDate, CopyFormFieldDateAPIToFormFieldDate } from './formfielddate'
-import { FormFieldDateService } from './formfielddate.service'
 
 import { FormFieldDateTimeAPI } from './formfielddatetime-api'
 import { FormFieldDateTime, CopyFormFieldDateTimeAPIToFormFieldDateTime } from './formfielddatetime'
-import { FormFieldDateTimeService } from './formfielddatetime.service'
 
 import { FormFieldFloat64API } from './formfieldfloat64-api'
 import { FormFieldFloat64, CopyFormFieldFloat64APIToFormFieldFloat64 } from './formfieldfloat64'
-import { FormFieldFloat64Service } from './formfieldfloat64.service'
 
 import { FormFieldIntAPI } from './formfieldint-api'
 import { FormFieldInt, CopyFormFieldIntAPIToFormFieldInt } from './formfieldint'
-import { FormFieldIntService } from './formfieldint.service'
 
 import { FormFieldSelectAPI } from './formfieldselect-api'
 import { FormFieldSelect, CopyFormFieldSelectAPIToFormFieldSelect } from './formfieldselect'
-import { FormFieldSelectService } from './formfieldselect.service'
 
 import { FormFieldStringAPI } from './formfieldstring-api'
 import { FormFieldString, CopyFormFieldStringAPIToFormFieldString } from './formfieldstring'
-import { FormFieldStringService } from './formfieldstring.service'
 
 import { FormFieldTimeAPI } from './formfieldtime-api'
 import { FormFieldTime, CopyFormFieldTimeAPIToFormFieldTime } from './formfieldtime'
-import { FormFieldTimeService } from './formfieldtime.service'
 
 import { FormGroupAPI } from './formgroup-api'
 import { FormGroup, CopyFormGroupAPIToFormGroup } from './formgroup'
-import { FormGroupService } from './formgroup.service'
 
 import { FormSortAssocButtonAPI } from './formsortassocbutton-api'
 import { FormSortAssocButton, CopyFormSortAssocButtonAPIToFormSortAssocButton } from './formsortassocbutton'
-import { FormSortAssocButtonService } from './formsortassocbutton.service'
 
 import { OptionAPI } from './option-api'
 import { Option, CopyOptionAPIToOption } from './option'
-import { OptionService } from './option.service'
 
 
 import { BackRepoData } from './back-repo-data'
@@ -254,449 +240,15 @@ export class FrontRepoService {
 
 	constructor(
 		private http: HttpClient,
-		private ngZone: NgZone, // insertion point sub template 
-		private checkboxService: CheckBoxService,
-		private formdivService: FormDivService,
-		private formeditassocbuttonService: FormEditAssocButtonService,
-		private formfieldService: FormFieldService,
-		private formfielddateService: FormFieldDateService,
-		private formfielddatetimeService: FormFieldDateTimeService,
-		private formfieldfloat64Service: FormFieldFloat64Service,
-		private formfieldintService: FormFieldIntService,
-		private formfieldselectService: FormFieldSelectService,
-		private formfieldstringService: FormFieldStringService,
-		private formfieldtimeService: FormFieldTimeService,
-		private formgroupService: FormGroupService,
-		private formsortassocbuttonService: FormSortAssocButtonService,
-		private optionService: OptionService,
+		private ngZone: NgZone,
 	) { }
 
-	// postService provides a post function for each struct name
-	postService(structName: string, instanceToBePosted: any) {
-		let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
-		let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
-
-		servicePostFunction(instanceToBePosted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("post")
-			}
-		)
-	}
-
-	// deleteService provides a delete function for each struct name
-	deleteService(structName: string, instanceToBeDeleted: any) {
-		let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
-		let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
-
-		serviceDeleteFunction(instanceToBeDeleted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("delete")
-			}
-		)
-	}
-
-	// typing of observable can be messy in typescript. Therefore, one force the type
-	observableFrontRepo!: [
-		Observable<null>, // see below for the of(null) observable
-		// insertion point sub template 
-		Observable<CheckBoxAPI[]>,
-		Observable<FormDivAPI[]>,
-		Observable<FormEditAssocButtonAPI[]>,
-		Observable<FormFieldAPI[]>,
-		Observable<FormFieldDateAPI[]>,
-		Observable<FormFieldDateTimeAPI[]>,
-		Observable<FormFieldFloat64API[]>,
-		Observable<FormFieldIntAPI[]>,
-		Observable<FormFieldSelectAPI[]>,
-		Observable<FormFieldStringAPI[]>,
-		Observable<FormFieldTimeAPI[]>,
-		Observable<FormGroupAPI[]>,
-		Observable<FormSortAssocButtonAPI[]>,
-		Observable<OptionAPI[]>,
-	]
-
 	//
-	// pull performs a GET on all struct of the stack and redeem association pointers 
+	// pull returns the FrontRepo Observable
 	//
-	// This is an observable. Therefore, the control flow forks with
-	// - pull() return immediatly the observable
-	// - the observable observer, if it subscribe, is called when all GET calls are performs
 	pull(Name: string = ""): Observable<FrontRepo> {
-
 		this.Name = Name
-
-		this.observableFrontRepo = [
-			of(null), // see above for justification
-			// insertion point sub template
-			this.checkboxService.getCheckBoxs(this.Name, this.frontRepo),
-			this.formdivService.getFormDivs(this.Name, this.frontRepo),
-			this.formeditassocbuttonService.getFormEditAssocButtons(this.Name, this.frontRepo),
-			this.formfieldService.getFormFields(this.Name, this.frontRepo),
-			this.formfielddateService.getFormFieldDates(this.Name, this.frontRepo),
-			this.formfielddatetimeService.getFormFieldDateTimes(this.Name, this.frontRepo),
-			this.formfieldfloat64Service.getFormFieldFloat64s(this.Name, this.frontRepo),
-			this.formfieldintService.getFormFieldInts(this.Name, this.frontRepo),
-			this.formfieldselectService.getFormFieldSelects(this.Name, this.frontRepo),
-			this.formfieldstringService.getFormFieldStrings(this.Name, this.frontRepo),
-			this.formfieldtimeService.getFormFieldTimes(this.Name, this.frontRepo),
-			this.formgroupService.getFormGroups(this.Name, this.frontRepo),
-			this.formsortassocbuttonService.getFormSortAssocButtons(this.Name, this.frontRepo),
-			this.optionService.getOptions(this.Name, this.frontRepo),
-		]
-
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest(
-					this.observableFrontRepo
-				).subscribe(
-					([
-						___of_null, // see above for the explanation about of
-						// insertion point sub template for declarations 
-						checkboxs_,
-						formdivs_,
-						formeditassocbuttons_,
-						formfields_,
-						formfielddates_,
-						formfielddatetimes_,
-						formfieldfloat64s_,
-						formfieldints_,
-						formfieldselects_,
-						formfieldstrings_,
-						formfieldtimes_,
-						formgroups_,
-						formsortassocbuttons_,
-						options_,
-					]) => {
-						let _this = this
-						// Typing can be messy with many items. Therefore, type casting is necessary here
-						// insertion point sub template for type casting 
-						var checkboxs: CheckBoxAPI[]
-						checkboxs = checkboxs_ as CheckBoxAPI[]
-						var formdivs: FormDivAPI[]
-						formdivs = formdivs_ as FormDivAPI[]
-						var formeditassocbuttons: FormEditAssocButtonAPI[]
-						formeditassocbuttons = formeditassocbuttons_ as FormEditAssocButtonAPI[]
-						var formfields: FormFieldAPI[]
-						formfields = formfields_ as FormFieldAPI[]
-						var formfielddates: FormFieldDateAPI[]
-						formfielddates = formfielddates_ as FormFieldDateAPI[]
-						var formfielddatetimes: FormFieldDateTimeAPI[]
-						formfielddatetimes = formfielddatetimes_ as FormFieldDateTimeAPI[]
-						var formfieldfloat64s: FormFieldFloat64API[]
-						formfieldfloat64s = formfieldfloat64s_ as FormFieldFloat64API[]
-						var formfieldints: FormFieldIntAPI[]
-						formfieldints = formfieldints_ as FormFieldIntAPI[]
-						var formfieldselects: FormFieldSelectAPI[]
-						formfieldselects = formfieldselects_ as FormFieldSelectAPI[]
-						var formfieldstrings: FormFieldStringAPI[]
-						formfieldstrings = formfieldstrings_ as FormFieldStringAPI[]
-						var formfieldtimes: FormFieldTimeAPI[]
-						formfieldtimes = formfieldtimes_ as FormFieldTimeAPI[]
-						var formgroups: FormGroupAPI[]
-						formgroups = formgroups_ as FormGroupAPI[]
-						var formsortassocbuttons: FormSortAssocButtonAPI[]
-						formsortassocbuttons = formsortassocbuttons_ as FormSortAssocButtonAPI[]
-						var options: OptionAPI[]
-						options = options_ as OptionAPI[]
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template for init 
-						// init the arrays
-						this.frontRepo.array_CheckBoxs = []
-						this.frontRepo.map_ID_CheckBox.clear()
-
-						checkboxs.forEach(
-							checkboxAPI => {
-								let checkbox = new CheckBox
-								this.frontRepo.array_CheckBoxs.push(checkbox)
-								this.frontRepo.map_ID_CheckBox.set(checkboxAPI.ID, checkbox)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FormDivs = []
-						this.frontRepo.map_ID_FormDiv.clear()
-
-						formdivs.forEach(
-							formdivAPI => {
-								let formdiv = new FormDiv
-								this.frontRepo.array_FormDivs.push(formdiv)
-								this.frontRepo.map_ID_FormDiv.set(formdivAPI.ID, formdiv)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FormEditAssocButtons = []
-						this.frontRepo.map_ID_FormEditAssocButton.clear()
-
-						formeditassocbuttons.forEach(
-							formeditassocbuttonAPI => {
-								let formeditassocbutton = new FormEditAssocButton
-								this.frontRepo.array_FormEditAssocButtons.push(formeditassocbutton)
-								this.frontRepo.map_ID_FormEditAssocButton.set(formeditassocbuttonAPI.ID, formeditassocbutton)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FormFields = []
-						this.frontRepo.map_ID_FormField.clear()
-
-						formfields.forEach(
-							formfieldAPI => {
-								let formfield = new FormField
-								this.frontRepo.array_FormFields.push(formfield)
-								this.frontRepo.map_ID_FormField.set(formfieldAPI.ID, formfield)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FormFieldDates = []
-						this.frontRepo.map_ID_FormFieldDate.clear()
-
-						formfielddates.forEach(
-							formfielddateAPI => {
-								let formfielddate = new FormFieldDate
-								this.frontRepo.array_FormFieldDates.push(formfielddate)
-								this.frontRepo.map_ID_FormFieldDate.set(formfielddateAPI.ID, formfielddate)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FormFieldDateTimes = []
-						this.frontRepo.map_ID_FormFieldDateTime.clear()
-
-						formfielddatetimes.forEach(
-							formfielddatetimeAPI => {
-								let formfielddatetime = new FormFieldDateTime
-								this.frontRepo.array_FormFieldDateTimes.push(formfielddatetime)
-								this.frontRepo.map_ID_FormFieldDateTime.set(formfielddatetimeAPI.ID, formfielddatetime)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FormFieldFloat64s = []
-						this.frontRepo.map_ID_FormFieldFloat64.clear()
-
-						formfieldfloat64s.forEach(
-							formfieldfloat64API => {
-								let formfieldfloat64 = new FormFieldFloat64
-								this.frontRepo.array_FormFieldFloat64s.push(formfieldfloat64)
-								this.frontRepo.map_ID_FormFieldFloat64.set(formfieldfloat64API.ID, formfieldfloat64)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FormFieldInts = []
-						this.frontRepo.map_ID_FormFieldInt.clear()
-
-						formfieldints.forEach(
-							formfieldintAPI => {
-								let formfieldint = new FormFieldInt
-								this.frontRepo.array_FormFieldInts.push(formfieldint)
-								this.frontRepo.map_ID_FormFieldInt.set(formfieldintAPI.ID, formfieldint)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FormFieldSelects = []
-						this.frontRepo.map_ID_FormFieldSelect.clear()
-
-						formfieldselects.forEach(
-							formfieldselectAPI => {
-								let formfieldselect = new FormFieldSelect
-								this.frontRepo.array_FormFieldSelects.push(formfieldselect)
-								this.frontRepo.map_ID_FormFieldSelect.set(formfieldselectAPI.ID, formfieldselect)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FormFieldStrings = []
-						this.frontRepo.map_ID_FormFieldString.clear()
-
-						formfieldstrings.forEach(
-							formfieldstringAPI => {
-								let formfieldstring = new FormFieldString
-								this.frontRepo.array_FormFieldStrings.push(formfieldstring)
-								this.frontRepo.map_ID_FormFieldString.set(formfieldstringAPI.ID, formfieldstring)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FormFieldTimes = []
-						this.frontRepo.map_ID_FormFieldTime.clear()
-
-						formfieldtimes.forEach(
-							formfieldtimeAPI => {
-								let formfieldtime = new FormFieldTime
-								this.frontRepo.array_FormFieldTimes.push(formfieldtime)
-								this.frontRepo.map_ID_FormFieldTime.set(formfieldtimeAPI.ID, formfieldtime)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FormGroups = []
-						this.frontRepo.map_ID_FormGroup.clear()
-
-						formgroups.forEach(
-							formgroupAPI => {
-								let formgroup = new FormGroup
-								this.frontRepo.array_FormGroups.push(formgroup)
-								this.frontRepo.map_ID_FormGroup.set(formgroupAPI.ID, formgroup)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FormSortAssocButtons = []
-						this.frontRepo.map_ID_FormSortAssocButton.clear()
-
-						formsortassocbuttons.forEach(
-							formsortassocbuttonAPI => {
-								let formsortassocbutton = new FormSortAssocButton
-								this.frontRepo.array_FormSortAssocButtons.push(formsortassocbutton)
-								this.frontRepo.map_ID_FormSortAssocButton.set(formsortassocbuttonAPI.ID, formsortassocbutton)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Options = []
-						this.frontRepo.map_ID_Option.clear()
-
-						options.forEach(
-							optionAPI => {
-								let option = new Option
-								this.frontRepo.array_Options.push(option)
-								this.frontRepo.map_ID_Option.set(optionAPI.ID, option)
-							}
-						)
-
-
-						// 
-						// Second Step: reddeem front objects
-						// insertion point sub template for redeem 
-						// fill up front objects
-						checkboxs.forEach(
-							checkboxAPI => {
-								let checkbox = this.frontRepo.map_ID_CheckBox.get(checkboxAPI.ID)
-								CopyCheckBoxAPIToCheckBox(checkboxAPI, checkbox!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						formdivs.forEach(
-							formdivAPI => {
-								let formdiv = this.frontRepo.map_ID_FormDiv.get(formdivAPI.ID)
-								CopyFormDivAPIToFormDiv(formdivAPI, formdiv!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						formeditassocbuttons.forEach(
-							formeditassocbuttonAPI => {
-								let formeditassocbutton = this.frontRepo.map_ID_FormEditAssocButton.get(formeditassocbuttonAPI.ID)
-								CopyFormEditAssocButtonAPIToFormEditAssocButton(formeditassocbuttonAPI, formeditassocbutton!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						formfields.forEach(
-							formfieldAPI => {
-								let formfield = this.frontRepo.map_ID_FormField.get(formfieldAPI.ID)
-								CopyFormFieldAPIToFormField(formfieldAPI, formfield!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						formfielddates.forEach(
-							formfielddateAPI => {
-								let formfielddate = this.frontRepo.map_ID_FormFieldDate.get(formfielddateAPI.ID)
-								CopyFormFieldDateAPIToFormFieldDate(formfielddateAPI, formfielddate!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						formfielddatetimes.forEach(
-							formfielddatetimeAPI => {
-								let formfielddatetime = this.frontRepo.map_ID_FormFieldDateTime.get(formfielddatetimeAPI.ID)
-								CopyFormFieldDateTimeAPIToFormFieldDateTime(formfielddatetimeAPI, formfielddatetime!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						formfieldfloat64s.forEach(
-							formfieldfloat64API => {
-								let formfieldfloat64 = this.frontRepo.map_ID_FormFieldFloat64.get(formfieldfloat64API.ID)
-								CopyFormFieldFloat64APIToFormFieldFloat64(formfieldfloat64API, formfieldfloat64!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						formfieldints.forEach(
-							formfieldintAPI => {
-								let formfieldint = this.frontRepo.map_ID_FormFieldInt.get(formfieldintAPI.ID)
-								CopyFormFieldIntAPIToFormFieldInt(formfieldintAPI, formfieldint!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						formfieldselects.forEach(
-							formfieldselectAPI => {
-								let formfieldselect = this.frontRepo.map_ID_FormFieldSelect.get(formfieldselectAPI.ID)
-								CopyFormFieldSelectAPIToFormFieldSelect(formfieldselectAPI, formfieldselect!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						formfieldstrings.forEach(
-							formfieldstringAPI => {
-								let formfieldstring = this.frontRepo.map_ID_FormFieldString.get(formfieldstringAPI.ID)
-								CopyFormFieldStringAPIToFormFieldString(formfieldstringAPI, formfieldstring!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						formfieldtimes.forEach(
-							formfieldtimeAPI => {
-								let formfieldtime = this.frontRepo.map_ID_FormFieldTime.get(formfieldtimeAPI.ID)
-								CopyFormFieldTimeAPIToFormFieldTime(formfieldtimeAPI, formfieldtime!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						formgroups.forEach(
-							formgroupAPI => {
-								let formgroup = this.frontRepo.map_ID_FormGroup.get(formgroupAPI.ID)
-								CopyFormGroupAPIToFormGroup(formgroupAPI, formgroup!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						formsortassocbuttons.forEach(
-							formsortassocbuttonAPI => {
-								let formsortassocbutton = this.frontRepo.map_ID_FormSortAssocButton.get(formsortassocbuttonAPI.ID)
-								CopyFormSortAssocButtonAPIToFormSortAssocButton(formsortassocbuttonAPI, formsortassocbutton!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						options.forEach(
-							optionAPI => {
-								let option = this.frontRepo.map_ID_Option.get(optionAPI.ID)
-								CopyOptionAPIToOption(optionAPI, option!, this.frontRepo)
-							}
-						)
-
-
-						// hand over control flow to observer
-						this.ngZone.run(() => {
-							observer.next(this.frontRepo)
-						})
-					}
-				)
-			}
-		)
+		return of(this.frontRepo)
 	}
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
@@ -1033,54 +585,71 @@ export class FrontRepoService {
 				})
 			}
 
-			// 3. Connection Loop
-			const attemptConnection = (retries: number): void => {
-				// console.log("github.com/fullstack-lang/gong/lib/form/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+			// Offline mode handling: Listen to the global event
+			if (isOfflineMode) {
+				console.log("github.com/fullstack-lang/gong/lib/form/go; Offline mode detected. Skipping WebSocket connection.")
 
-				// A. WASM OFFLINE MODE (Check if Go is ready)
-				if ((window as any).openWasmSocket) {
-					// console.log("github.com/fullstack-lang/gong/lib/form/go; attemptConnection: openWasmSocket exists, calling it");
-					(window as any).openWasmSocket("github.com/fullstack-lang/gong/lib/form/go", Name, processData);
-					return;
+				window.addEventListener('message', (event) => {
+					if (event.data && event.data.type === 'STAGE_UPDATE') {
+						console.log("github.com/fullstack-lang/gong/lib/form/go; Received STAGE_UPDATE message.")
+						processData(JSON.stringify(event.data.data))
+					}
+				})
+
+				return () => {
+					console.log("github.com/fullstack-lang/gong/lib/form/go; Cleaning up offline message listener.")
+				}
+			}
+
+			// Fallback: If not offline, create normal WebSocket
+			const attemptConnection = () => {
+				// Offline check inside attemptConnection: if window.openWasmSocket is available, use it!
+				if (typeof window !== 'undefined' && (window as any).openWasmSocket) {
+					(window as any).openWasmSocket('github.com/fullstack-lang/gong/lib/form/go', Name, (data: any) => {
+						processData(data)
+					})
+					return
 				}
 
-				// B. WAITING FOR WASM
-				if (isOfflineMode && retries > 0) {
-					// console.log("github.com/fullstack-lang/gong/lib/form/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
-					setTimeout(() => attemptConnection(retries - 1), 100);
-					return;
+				if (isOfflineMode && retryCount > 0) {
+					console.log("github.com/fullstack-lang/gong/lib/form/go; Waiting for wasm socket provider...")
+					setTimeout(() => attemptConnection(), 100)
+					return
 				}
 
-				// C. STANDARD SERVER MODE
-				if (!isOfflineMode) {
-					// console.log("github.com/fullstack-lang/gong/lib/form/go; attemptConnection: STANDARD SERVER MODE. url =", url)
-					socket = new WebSocket(url)
-					socket.onopen = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/form/go; WebSocket: onopen", event)
-					}
-					socket.onmessage = event => {
-						// console.log("github.com/fullstack-lang/gong/lib/form/go; WebSocket: onmessage")
-						processData(event.data)
-					}
-					socket.onerror = event => {
-						console.error("github.com/fullstack-lang/gong/lib/form/go WebSocket: onerror", event)
-						observer.error(event)
-					}
-					socket.onclose = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/form/go; WebSocket: onclose", event)
-						observer.complete()
-					}
-				} else {
+				if (isOfflineMode) {
 					console.error("github.com/fullstack-lang/gong/lib/form/go, attemptConnection: Offline mode detected, but WASM backend failed to load.")
-					observer.error("Offline mode detected, but WASM backend failed to load.");
+					observer.error("Offline mode detected, but WASM backend failed to load.")
+					return
 				}
-			};
 
-			attemptConnection(50);
+				socket = new WebSocket(url)
 
-			// Teardown logic: Called when the last subscriber unsubscribes.
+				socket.onopen = () => {
+					// console.log("github.com/fullstack-lang/gong/lib/form/go; WebSocket connection opened successfully:", url)
+				}
+
+				socket.onmessage = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/form/go; WebSocket message received:", event.data)
+					processData(event.data)
+				}
+
+				socket.onerror = (error) => {
+					console.error("github.com/fullstack-lang/gong/lib/form/go WebSocket: onerror", error)
+					observer.error(error)
+				}
+
+				socket.onclose = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/form/go; WebSocket connection closed:", event)
+					observer.complete()
+				}
+			}
+
+			let retryCount = 10
+			attemptConnection()
+
 			return () => {
-				this.webSocketConnections.delete(Name) // Remove from cache
+				// console.log("github.com/fullstack-lang/gong/lib/form/go; Cleaning up WebSocket connection")
 				if (socket) {
 					socket.close()
 				}

@@ -54,33 +54,17 @@ type ValidationError struct {
 func registerControllers(mux *http.ServeMux) {
 	base := "/api/github.com/fullstack-lang/gong/lib/slider/go/v1"
 
-	mux.HandleFunc("GET " + base + "/checkboxs", GetController().GetCheckboxs)
-	mux.HandleFunc("GET " + base + "/checkboxs/{id}", GetController().GetCheckbox)
-	mux.HandleFunc("POST " + base + "/checkboxs", GetController().PostCheckbox)
 	mux.HandleFunc("PATCH " + base + "/checkboxs/{id}", GetController().UpdateCheckbox)
 	mux.HandleFunc("PUT " + base + "/checkboxs/{id}", GetController().UpdateCheckbox)
-	mux.HandleFunc("DELETE " + base + "/checkboxs/{id}", GetController().DeleteCheckbox)
 
-	mux.HandleFunc("GET " + base + "/groups", GetController().GetGroups)
-	mux.HandleFunc("GET " + base + "/groups/{id}", GetController().GetGroup)
-	mux.HandleFunc("POST " + base + "/groups", GetController().PostGroup)
 	mux.HandleFunc("PATCH " + base + "/groups/{id}", GetController().UpdateGroup)
 	mux.HandleFunc("PUT " + base + "/groups/{id}", GetController().UpdateGroup)
-	mux.HandleFunc("DELETE " + base + "/groups/{id}", GetController().DeleteGroup)
 
-	mux.HandleFunc("GET " + base + "/layouts", GetController().GetLayouts)
-	mux.HandleFunc("GET " + base + "/layouts/{id}", GetController().GetLayout)
-	mux.HandleFunc("POST " + base + "/layouts", GetController().PostLayout)
 	mux.HandleFunc("PATCH " + base + "/layouts/{id}", GetController().UpdateLayout)
 	mux.HandleFunc("PUT " + base + "/layouts/{id}", GetController().UpdateLayout)
-	mux.HandleFunc("DELETE " + base + "/layouts/{id}", GetController().DeleteLayout)
 
-	mux.HandleFunc("GET " + base + "/sliders", GetController().GetSliders)
-	mux.HandleFunc("GET " + base + "/sliders/{id}", GetController().GetSlider)
-	mux.HandleFunc("POST " + base + "/sliders", GetController().PostSlider)
 	mux.HandleFunc("PATCH " + base + "/sliders/{id}", GetController().UpdateSlider)
 	mux.HandleFunc("PUT " + base + "/sliders/{id}", GetController().UpdateSlider)
-	mux.HandleFunc("DELETE " + base + "/sliders/{id}", GetController().DeleteSlider)
 
 	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)

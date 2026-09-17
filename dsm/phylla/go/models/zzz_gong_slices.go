@@ -3458,6 +3458,88 @@ func (volumekey3dshape *VolumeKey3DShape) GongGetUUID(stage *Stage) (uuid string
 	return
 }
 
+
+type GongstructDiffable[T any] interface {
+	PointerToGongstruct
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallUnstaging(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+	GongReconstructPointersFromInstances(stage *Stage)
+	GongDiff(stage *Stage, other T) []string
+}
+
+func computeCommitsForType[T GongstructDiffable[T]](
+	stage *Stage,
+	stagedInstances map[T]struct{},
+	stagedOrder map[T]uint,
+	referenceInstances map[T]T,
+	referenceOrder *map[T]uint,
+	instancesMap map[T]T,
+	newInstancesSlice *[]string,
+	fieldsEditSlice *[]string,
+	deletedInstancesSlice *[]string,
+	newInstancesReverseSlice *[]string,
+	fieldsEditReverseSlice *[]string,
+	deletedInstancesReverseSlice *[]string,
+	lenNewInstances *int,
+	lenDeletedInstances *int,
+	lenModifiedInstances *int,
+) {
+	var newInstances []T
+	var deletedInstances []T
+
+	// parse all staged instances and check if they have a reference
+	for instance := range stagedInstances {
+		if ref, ok := referenceInstances[instance]; !ok {
+			newInstances = append(newInstances, instance)
+			*newInstancesSlice = append(*newInstancesSlice, instance.GongMarshallIdentifier(stage))
+			if *referenceOrder == nil {
+				*referenceOrder = make(map[T]uint)
+			}
+			(*referenceOrder)[instance] = stagedOrder[instance]
+			*newInstancesReverseSlice = append(*newInstancesReverseSlice, instance.GongMarshallUnstaging(stage))
+			fieldInitializers, pointersInitializations := instance.GongMarshallAllFields(stage)
+			*fieldsEditSlice = append(*fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stagedOrder[ref] = stagedOrder[instance]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := instance.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, instance)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if instance.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", instance.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				*fieldsEditSlice = append(*fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					*fieldsEditReverseSlice = append(*fieldsEditReverseSlice, reverseDiff)
+				}
+				*lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range referenceInstances {
+		instance := instancesMap[ref] // get the instance corresponding to the reference
+		if _, ok := stagedInstances[instance]; !ok { // if the instance is not staged anymore, it means it has been unstaged
+			deletedInstances = append(deletedInstances, ref)
+			*deletedInstancesSlice = append(*deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			*deletedInstancesReverseSlice = append(*deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			*fieldsEditReverseSlice = append(*fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	*lenNewInstances += len(newInstances)
+	*lenDeletedInstances += len(deletedInstances)
+}
+
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int
@@ -3476,1326 +3558,414 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	stage.Clean()
 
 	// insertion point per named struct
-	var angle0shapes_newInstances []*Angle0Shape
-	var angle0shapes_deletedInstances []*Angle0Shape
-
-	// parse all staged instances and check if they have a reference
-	for angle0shape := range stage.Angle0Shapes {
-		if ref, ok := stage.Angle0Shapes_reference[angle0shape]; !ok {
-			angle0shapes_newInstances = append(angle0shapes_newInstances, angle0shape)
-			newInstancesSlice = append(newInstancesSlice, angle0shape.GongMarshallIdentifier(stage))
-			if stage.Angle0Shapes_referenceOrder == nil {
-				stage.Angle0Shapes_referenceOrder = make(map[*Angle0Shape]uint)
-			}
-			stage.Angle0Shapes_referenceOrder[angle0shape] = stage.Angle0Shape_stagedOrder[angle0shape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, angle0shape.GongMarshallUnstaging(stage))
-			// delete(stage.Angle0Shapes_referenceOrder, angle0shape)
-			fieldInitializers, pointersInitializations := angle0shape.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Angle0Shape_stagedOrder[ref] = stage.Angle0Shape_stagedOrder[angle0shape]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := angle0shape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, angle0shape)
-			// delete(stage.Angle0Shape_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if angle0shape.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", angle0shape.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Angle0Shapes_reference {
-		instance := stage.Angle0Shapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Angle0Shapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			angle0shapes_deletedInstances = append(angle0shapes_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(angle0shapes_newInstances)
-	lenDeletedInstances += len(angle0shapes_deletedInstances)
-	var circumference3dshapes_newInstances []*Circumference3DShape
-	var circumference3dshapes_deletedInstances []*Circumference3DShape
-
-	// parse all staged instances and check if they have a reference
-	for circumference3dshape := range stage.Circumference3DShapes {
-		if ref, ok := stage.Circumference3DShapes_reference[circumference3dshape]; !ok {
-			circumference3dshapes_newInstances = append(circumference3dshapes_newInstances, circumference3dshape)
-			newInstancesSlice = append(newInstancesSlice, circumference3dshape.GongMarshallIdentifier(stage))
-			if stage.Circumference3DShapes_referenceOrder == nil {
-				stage.Circumference3DShapes_referenceOrder = make(map[*Circumference3DShape]uint)
-			}
-			stage.Circumference3DShapes_referenceOrder[circumference3dshape] = stage.Circumference3DShape_stagedOrder[circumference3dshape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, circumference3dshape.GongMarshallUnstaging(stage))
-			// delete(stage.Circumference3DShapes_referenceOrder, circumference3dshape)
-			fieldInitializers, pointersInitializations := circumference3dshape.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Circumference3DShape_stagedOrder[ref] = stage.Circumference3DShape_stagedOrder[circumference3dshape]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := circumference3dshape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, circumference3dshape)
-			// delete(stage.Circumference3DShape_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if circumference3dshape.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", circumference3dshape.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Circumference3DShapes_reference {
-		instance := stage.Circumference3DShapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Circumference3DShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			circumference3dshapes_deletedInstances = append(circumference3dshapes_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(circumference3dshapes_newInstances)
-	lenDeletedInstances += len(circumference3dshapes_deletedInstances)
-	var clock2ddiagrams_newInstances []*Clock2DDiagram
-	var clock2ddiagrams_deletedInstances []*Clock2DDiagram
-
-	// parse all staged instances and check if they have a reference
-	for clock2ddiagram := range stage.Clock2DDiagrams {
-		if ref, ok := stage.Clock2DDiagrams_reference[clock2ddiagram]; !ok {
-			clock2ddiagrams_newInstances = append(clock2ddiagrams_newInstances, clock2ddiagram)
-			newInstancesSlice = append(newInstancesSlice, clock2ddiagram.GongMarshallIdentifier(stage))
-			if stage.Clock2DDiagrams_referenceOrder == nil {
-				stage.Clock2DDiagrams_referenceOrder = make(map[*Clock2DDiagram]uint)
-			}
-			stage.Clock2DDiagrams_referenceOrder[clock2ddiagram] = stage.Clock2DDiagram_stagedOrder[clock2ddiagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, clock2ddiagram.GongMarshallUnstaging(stage))
-			// delete(stage.Clock2DDiagrams_referenceOrder, clock2ddiagram)
-			fieldInitializers, pointersInitializations := clock2ddiagram.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Clock2DDiagram_stagedOrder[ref] = stage.Clock2DDiagram_stagedOrder[clock2ddiagram]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := clock2ddiagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, clock2ddiagram)
-			// delete(stage.Clock2DDiagram_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if clock2ddiagram.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", clock2ddiagram.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Clock2DDiagrams_reference {
-		instance := stage.Clock2DDiagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Clock2DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			clock2ddiagrams_deletedInstances = append(clock2ddiagrams_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(clock2ddiagrams_newInstances)
-	lenDeletedInstances += len(clock2ddiagrams_deletedInstances)
-	var clock3ddiagrams_newInstances []*Clock3DDiagram
-	var clock3ddiagrams_deletedInstances []*Clock3DDiagram
-
-	// parse all staged instances and check if they have a reference
-	for clock3ddiagram := range stage.Clock3DDiagrams {
-		if ref, ok := stage.Clock3DDiagrams_reference[clock3ddiagram]; !ok {
-			clock3ddiagrams_newInstances = append(clock3ddiagrams_newInstances, clock3ddiagram)
-			newInstancesSlice = append(newInstancesSlice, clock3ddiagram.GongMarshallIdentifier(stage))
-			if stage.Clock3DDiagrams_referenceOrder == nil {
-				stage.Clock3DDiagrams_referenceOrder = make(map[*Clock3DDiagram]uint)
-			}
-			stage.Clock3DDiagrams_referenceOrder[clock3ddiagram] = stage.Clock3DDiagram_stagedOrder[clock3ddiagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, clock3ddiagram.GongMarshallUnstaging(stage))
-			// delete(stage.Clock3DDiagrams_referenceOrder, clock3ddiagram)
-			fieldInitializers, pointersInitializations := clock3ddiagram.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Clock3DDiagram_stagedOrder[ref] = stage.Clock3DDiagram_stagedOrder[clock3ddiagram]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := clock3ddiagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, clock3ddiagram)
-			// delete(stage.Clock3DDiagram_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if clock3ddiagram.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", clock3ddiagram.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Clock3DDiagrams_reference {
-		instance := stage.Clock3DDiagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Clock3DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			clock3ddiagrams_deletedInstances = append(clock3ddiagrams_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(clock3ddiagrams_newInstances)
-	lenDeletedInstances += len(clock3ddiagrams_deletedInstances)
-	var clockabstracts_newInstances []*ClockAbstract
-	var clockabstracts_deletedInstances []*ClockAbstract
-
-	// parse all staged instances and check if they have a reference
-	for clockabstract := range stage.ClockAbstracts {
-		if ref, ok := stage.ClockAbstracts_reference[clockabstract]; !ok {
-			clockabstracts_newInstances = append(clockabstracts_newInstances, clockabstract)
-			newInstancesSlice = append(newInstancesSlice, clockabstract.GongMarshallIdentifier(stage))
-			if stage.ClockAbstracts_referenceOrder == nil {
-				stage.ClockAbstracts_referenceOrder = make(map[*ClockAbstract]uint)
-			}
-			stage.ClockAbstracts_referenceOrder[clockabstract] = stage.ClockAbstract_stagedOrder[clockabstract]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, clockabstract.GongMarshallUnstaging(stage))
-			// delete(stage.ClockAbstracts_referenceOrder, clockabstract)
-			fieldInitializers, pointersInitializations := clockabstract.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ClockAbstract_stagedOrder[ref] = stage.ClockAbstract_stagedOrder[clockabstract]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := clockabstract.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, clockabstract)
-			// delete(stage.ClockAbstract_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if clockabstract.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", clockabstract.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ClockAbstracts_reference {
-		instance := stage.ClockAbstracts_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ClockAbstracts[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			clockabstracts_deletedInstances = append(clockabstracts_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(clockabstracts_newInstances)
-	lenDeletedInstances += len(clockabstracts_deletedInstances)
-	var cutline3dshapes_newInstances []*CutLine3DShape
-	var cutline3dshapes_deletedInstances []*CutLine3DShape
-
-	// parse all staged instances and check if they have a reference
-	for cutline3dshape := range stage.CutLine3DShapes {
-		if ref, ok := stage.CutLine3DShapes_reference[cutline3dshape]; !ok {
-			cutline3dshapes_newInstances = append(cutline3dshapes_newInstances, cutline3dshape)
-			newInstancesSlice = append(newInstancesSlice, cutline3dshape.GongMarshallIdentifier(stage))
-			if stage.CutLine3DShapes_referenceOrder == nil {
-				stage.CutLine3DShapes_referenceOrder = make(map[*CutLine3DShape]uint)
-			}
-			stage.CutLine3DShapes_referenceOrder[cutline3dshape] = stage.CutLine3DShape_stagedOrder[cutline3dshape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, cutline3dshape.GongMarshallUnstaging(stage))
-			// delete(stage.CutLine3DShapes_referenceOrder, cutline3dshape)
-			fieldInitializers, pointersInitializations := cutline3dshape.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.CutLine3DShape_stagedOrder[ref] = stage.CutLine3DShape_stagedOrder[cutline3dshape]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := cutline3dshape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, cutline3dshape)
-			// delete(stage.CutLine3DShape_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if cutline3dshape.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", cutline3dshape.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.CutLine3DShapes_reference {
-		instance := stage.CutLine3DShapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.CutLine3DShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			cutline3dshapes_deletedInstances = append(cutline3dshapes_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(cutline3dshapes_newInstances)
-	lenDeletedInstances += len(cutline3dshapes_deletedInstances)
-	var leaves3dshapes_newInstances []*Leaves3DShape
-	var leaves3dshapes_deletedInstances []*Leaves3DShape
-
-	// parse all staged instances and check if they have a reference
-	for leaves3dshape := range stage.Leaves3DShapes {
-		if ref, ok := stage.Leaves3DShapes_reference[leaves3dshape]; !ok {
-			leaves3dshapes_newInstances = append(leaves3dshapes_newInstances, leaves3dshape)
-			newInstancesSlice = append(newInstancesSlice, leaves3dshape.GongMarshallIdentifier(stage))
-			if stage.Leaves3DShapes_referenceOrder == nil {
-				stage.Leaves3DShapes_referenceOrder = make(map[*Leaves3DShape]uint)
-			}
-			stage.Leaves3DShapes_referenceOrder[leaves3dshape] = stage.Leaves3DShape_stagedOrder[leaves3dshape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, leaves3dshape.GongMarshallUnstaging(stage))
-			// delete(stage.Leaves3DShapes_referenceOrder, leaves3dshape)
-			fieldInitializers, pointersInitializations := leaves3dshape.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Leaves3DShape_stagedOrder[ref] = stage.Leaves3DShape_stagedOrder[leaves3dshape]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := leaves3dshape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, leaves3dshape)
-			// delete(stage.Leaves3DShape_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if leaves3dshape.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", leaves3dshape.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Leaves3DShapes_reference {
-		instance := stage.Leaves3DShapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Leaves3DShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			leaves3dshapes_deletedInstances = append(leaves3dshapes_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(leaves3dshapes_newInstances)
-	lenDeletedInstances += len(leaves3dshapes_deletedInstances)
-	var librarys_newInstances []*Library
-	var librarys_deletedInstances []*Library
-
-	// parse all staged instances and check if they have a reference
-	for library := range stage.Librarys {
-		if ref, ok := stage.Librarys_reference[library]; !ok {
-			librarys_newInstances = append(librarys_newInstances, library)
-			newInstancesSlice = append(newInstancesSlice, library.GongMarshallIdentifier(stage))
-			if stage.Librarys_referenceOrder == nil {
-				stage.Librarys_referenceOrder = make(map[*Library]uint)
-			}
-			stage.Librarys_referenceOrder[library] = stage.Library_stagedOrder[library]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, library.GongMarshallUnstaging(stage))
-			// delete(stage.Librarys_referenceOrder, library)
-			fieldInitializers, pointersInitializations := library.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Library_stagedOrder[ref] = stage.Library_stagedOrder[library]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := library.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, library)
-			// delete(stage.Library_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if library.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", library.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Librarys_reference {
-		instance := stage.Librarys_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Librarys[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			librarys_deletedInstances = append(librarys_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(librarys_newInstances)
-	lenDeletedInstances += len(librarys_deletedInstances)
-	var musicabstracts_newInstances []*MusicAbstract
-	var musicabstracts_deletedInstances []*MusicAbstract
-
-	// parse all staged instances and check if they have a reference
-	for musicabstract := range stage.MusicAbstracts {
-		if ref, ok := stage.MusicAbstracts_reference[musicabstract]; !ok {
-			musicabstracts_newInstances = append(musicabstracts_newInstances, musicabstract)
-			newInstancesSlice = append(newInstancesSlice, musicabstract.GongMarshallIdentifier(stage))
-			if stage.MusicAbstracts_referenceOrder == nil {
-				stage.MusicAbstracts_referenceOrder = make(map[*MusicAbstract]uint)
-			}
-			stage.MusicAbstracts_referenceOrder[musicabstract] = stage.MusicAbstract_stagedOrder[musicabstract]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, musicabstract.GongMarshallUnstaging(stage))
-			// delete(stage.MusicAbstracts_referenceOrder, musicabstract)
-			fieldInitializers, pointersInitializations := musicabstract.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.MusicAbstract_stagedOrder[ref] = stage.MusicAbstract_stagedOrder[musicabstract]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := musicabstract.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, musicabstract)
-			// delete(stage.MusicAbstract_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if musicabstract.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", musicabstract.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.MusicAbstracts_reference {
-		instance := stage.MusicAbstracts_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.MusicAbstracts[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			musicabstracts_deletedInstances = append(musicabstracts_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(musicabstracts_newInstances)
-	lenDeletedInstances += len(musicabstracts_deletedInstances)
-	var originalpoints3dshapes_newInstances []*OriginalPoints3DShape
-	var originalpoints3dshapes_deletedInstances []*OriginalPoints3DShape
-
-	// parse all staged instances and check if they have a reference
-	for originalpoints3dshape := range stage.OriginalPoints3DShapes {
-		if ref, ok := stage.OriginalPoints3DShapes_reference[originalpoints3dshape]; !ok {
-			originalpoints3dshapes_newInstances = append(originalpoints3dshapes_newInstances, originalpoints3dshape)
-			newInstancesSlice = append(newInstancesSlice, originalpoints3dshape.GongMarshallIdentifier(stage))
-			if stage.OriginalPoints3DShapes_referenceOrder == nil {
-				stage.OriginalPoints3DShapes_referenceOrder = make(map[*OriginalPoints3DShape]uint)
-			}
-			stage.OriginalPoints3DShapes_referenceOrder[originalpoints3dshape] = stage.OriginalPoints3DShape_stagedOrder[originalpoints3dshape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, originalpoints3dshape.GongMarshallUnstaging(stage))
-			// delete(stage.OriginalPoints3DShapes_referenceOrder, originalpoints3dshape)
-			fieldInitializers, pointersInitializations := originalpoints3dshape.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.OriginalPoints3DShape_stagedOrder[ref] = stage.OriginalPoints3DShape_stagedOrder[originalpoints3dshape]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := originalpoints3dshape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, originalpoints3dshape)
-			// delete(stage.OriginalPoints3DShape_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if originalpoints3dshape.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", originalpoints3dshape.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.OriginalPoints3DShapes_reference {
-		instance := stage.OriginalPoints3DShapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.OriginalPoints3DShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			originalpoints3dshapes_deletedInstances = append(originalpoints3dshapes_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(originalpoints3dshapes_newInstances)
-	lenDeletedInstances += len(originalpoints3dshapes_deletedInstances)
-	var parastichymcurves3dshapes_newInstances []*ParastichyMCurves3DShape
-	var parastichymcurves3dshapes_deletedInstances []*ParastichyMCurves3DShape
-
-	// parse all staged instances and check if they have a reference
-	for parastichymcurves3dshape := range stage.ParastichyMCurves3DShapes {
-		if ref, ok := stage.ParastichyMCurves3DShapes_reference[parastichymcurves3dshape]; !ok {
-			parastichymcurves3dshapes_newInstances = append(parastichymcurves3dshapes_newInstances, parastichymcurves3dshape)
-			newInstancesSlice = append(newInstancesSlice, parastichymcurves3dshape.GongMarshallIdentifier(stage))
-			if stage.ParastichyMCurves3DShapes_referenceOrder == nil {
-				stage.ParastichyMCurves3DShapes_referenceOrder = make(map[*ParastichyMCurves3DShape]uint)
-			}
-			stage.ParastichyMCurves3DShapes_referenceOrder[parastichymcurves3dshape] = stage.ParastichyMCurves3DShape_stagedOrder[parastichymcurves3dshape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, parastichymcurves3dshape.GongMarshallUnstaging(stage))
-			// delete(stage.ParastichyMCurves3DShapes_referenceOrder, parastichymcurves3dshape)
-			fieldInitializers, pointersInitializations := parastichymcurves3dshape.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ParastichyMCurves3DShape_stagedOrder[ref] = stage.ParastichyMCurves3DShape_stagedOrder[parastichymcurves3dshape]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := parastichymcurves3dshape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, parastichymcurves3dshape)
-			// delete(stage.ParastichyMCurves3DShape_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if parastichymcurves3dshape.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", parastichymcurves3dshape.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ParastichyMCurves3DShapes_reference {
-		instance := stage.ParastichyMCurves3DShapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ParastichyMCurves3DShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			parastichymcurves3dshapes_deletedInstances = append(parastichymcurves3dshapes_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(parastichymcurves3dshapes_newInstances)
-	lenDeletedInstances += len(parastichymcurves3dshapes_deletedInstances)
-	var parastichyncurves3dshapes_newInstances []*ParastichyNCurves3DShape
-	var parastichyncurves3dshapes_deletedInstances []*ParastichyNCurves3DShape
-
-	// parse all staged instances and check if they have a reference
-	for parastichyncurves3dshape := range stage.ParastichyNCurves3DShapes {
-		if ref, ok := stage.ParastichyNCurves3DShapes_reference[parastichyncurves3dshape]; !ok {
-			parastichyncurves3dshapes_newInstances = append(parastichyncurves3dshapes_newInstances, parastichyncurves3dshape)
-			newInstancesSlice = append(newInstancesSlice, parastichyncurves3dshape.GongMarshallIdentifier(stage))
-			if stage.ParastichyNCurves3DShapes_referenceOrder == nil {
-				stage.ParastichyNCurves3DShapes_referenceOrder = make(map[*ParastichyNCurves3DShape]uint)
-			}
-			stage.ParastichyNCurves3DShapes_referenceOrder[parastichyncurves3dshape] = stage.ParastichyNCurves3DShape_stagedOrder[parastichyncurves3dshape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, parastichyncurves3dshape.GongMarshallUnstaging(stage))
-			// delete(stage.ParastichyNCurves3DShapes_referenceOrder, parastichyncurves3dshape)
-			fieldInitializers, pointersInitializations := parastichyncurves3dshape.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ParastichyNCurves3DShape_stagedOrder[ref] = stage.ParastichyNCurves3DShape_stagedOrder[parastichyncurves3dshape]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := parastichyncurves3dshape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, parastichyncurves3dshape)
-			// delete(stage.ParastichyNCurves3DShape_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if parastichyncurves3dshape.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", parastichyncurves3dshape.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ParastichyNCurves3DShapes_reference {
-		instance := stage.ParastichyNCurves3DShapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ParastichyNCurves3DShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			parastichyncurves3dshapes_deletedInstances = append(parastichyncurves3dshapes_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(parastichyncurves3dshapes_newInstances)
-	lenDeletedInstances += len(parastichyncurves3dshapes_deletedInstances)
-	var plant2ddiagrams_newInstances []*Plant2DDiagram
-	var plant2ddiagrams_deletedInstances []*Plant2DDiagram
-
-	// parse all staged instances and check if they have a reference
-	for plant2ddiagram := range stage.Plant2DDiagrams {
-		if ref, ok := stage.Plant2DDiagrams_reference[plant2ddiagram]; !ok {
-			plant2ddiagrams_newInstances = append(plant2ddiagrams_newInstances, plant2ddiagram)
-			newInstancesSlice = append(newInstancesSlice, plant2ddiagram.GongMarshallIdentifier(stage))
-			if stage.Plant2DDiagrams_referenceOrder == nil {
-				stage.Plant2DDiagrams_referenceOrder = make(map[*Plant2DDiagram]uint)
-			}
-			stage.Plant2DDiagrams_referenceOrder[plant2ddiagram] = stage.Plant2DDiagram_stagedOrder[plant2ddiagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, plant2ddiagram.GongMarshallUnstaging(stage))
-			// delete(stage.Plant2DDiagrams_referenceOrder, plant2ddiagram)
-			fieldInitializers, pointersInitializations := plant2ddiagram.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Plant2DDiagram_stagedOrder[ref] = stage.Plant2DDiagram_stagedOrder[plant2ddiagram]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := plant2ddiagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, plant2ddiagram)
-			// delete(stage.Plant2DDiagram_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if plant2ddiagram.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", plant2ddiagram.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Plant2DDiagrams_reference {
-		instance := stage.Plant2DDiagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Plant2DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			plant2ddiagrams_deletedInstances = append(plant2ddiagrams_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(plant2ddiagrams_newInstances)
-	lenDeletedInstances += len(plant2ddiagrams_deletedInstances)
-	var plant3ddiagrams_newInstances []*Plant3DDiagram
-	var plant3ddiagrams_deletedInstances []*Plant3DDiagram
-
-	// parse all staged instances and check if they have a reference
-	for plant3ddiagram := range stage.Plant3DDiagrams {
-		if ref, ok := stage.Plant3DDiagrams_reference[plant3ddiagram]; !ok {
-			plant3ddiagrams_newInstances = append(plant3ddiagrams_newInstances, plant3ddiagram)
-			newInstancesSlice = append(newInstancesSlice, plant3ddiagram.GongMarshallIdentifier(stage))
-			if stage.Plant3DDiagrams_referenceOrder == nil {
-				stage.Plant3DDiagrams_referenceOrder = make(map[*Plant3DDiagram]uint)
-			}
-			stage.Plant3DDiagrams_referenceOrder[plant3ddiagram] = stage.Plant3DDiagram_stagedOrder[plant3ddiagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, plant3ddiagram.GongMarshallUnstaging(stage))
-			// delete(stage.Plant3DDiagrams_referenceOrder, plant3ddiagram)
-			fieldInitializers, pointersInitializations := plant3ddiagram.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Plant3DDiagram_stagedOrder[ref] = stage.Plant3DDiagram_stagedOrder[plant3ddiagram]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := plant3ddiagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, plant3ddiagram)
-			// delete(stage.Plant3DDiagram_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if plant3ddiagram.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", plant3ddiagram.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Plant3DDiagrams_reference {
-		instance := stage.Plant3DDiagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Plant3DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			plant3ddiagrams_deletedInstances = append(plant3ddiagrams_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(plant3ddiagrams_newInstances)
-	lenDeletedInstances += len(plant3ddiagrams_deletedInstances)
-	var plantabstracts_newInstances []*PlantAbstract
-	var plantabstracts_deletedInstances []*PlantAbstract
-
-	// parse all staged instances and check if they have a reference
-	for plantabstract := range stage.PlantAbstracts {
-		if ref, ok := stage.PlantAbstracts_reference[plantabstract]; !ok {
-			plantabstracts_newInstances = append(plantabstracts_newInstances, plantabstract)
-			newInstancesSlice = append(newInstancesSlice, plantabstract.GongMarshallIdentifier(stage))
-			if stage.PlantAbstracts_referenceOrder == nil {
-				stage.PlantAbstracts_referenceOrder = make(map[*PlantAbstract]uint)
-			}
-			stage.PlantAbstracts_referenceOrder[plantabstract] = stage.PlantAbstract_stagedOrder[plantabstract]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, plantabstract.GongMarshallUnstaging(stage))
-			// delete(stage.PlantAbstracts_referenceOrder, plantabstract)
-			fieldInitializers, pointersInitializations := plantabstract.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.PlantAbstract_stagedOrder[ref] = stage.PlantAbstract_stagedOrder[plantabstract]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := plantabstract.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, plantabstract)
-			// delete(stage.PlantAbstract_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if plantabstract.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", plantabstract.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.PlantAbstracts_reference {
-		instance := stage.PlantAbstracts_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.PlantAbstracts[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			plantabstracts_deletedInstances = append(plantabstracts_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(plantabstracts_newInstances)
-	lenDeletedInstances += len(plantabstracts_deletedInstances)
-	var rendered3dshapes_newInstances []*Rendered3DShape
-	var rendered3dshapes_deletedInstances []*Rendered3DShape
-
-	// parse all staged instances and check if they have a reference
-	for rendered3dshape := range stage.Rendered3DShapes {
-		if ref, ok := stage.Rendered3DShapes_reference[rendered3dshape]; !ok {
-			rendered3dshapes_newInstances = append(rendered3dshapes_newInstances, rendered3dshape)
-			newInstancesSlice = append(newInstancesSlice, rendered3dshape.GongMarshallIdentifier(stage))
-			if stage.Rendered3DShapes_referenceOrder == nil {
-				stage.Rendered3DShapes_referenceOrder = make(map[*Rendered3DShape]uint)
-			}
-			stage.Rendered3DShapes_referenceOrder[rendered3dshape] = stage.Rendered3DShape_stagedOrder[rendered3dshape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, rendered3dshape.GongMarshallUnstaging(stage))
-			// delete(stage.Rendered3DShapes_referenceOrder, rendered3dshape)
-			fieldInitializers, pointersInitializations := rendered3dshape.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Rendered3DShape_stagedOrder[ref] = stage.Rendered3DShape_stagedOrder[rendered3dshape]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := rendered3dshape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, rendered3dshape)
-			// delete(stage.Rendered3DShape_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if rendered3dshape.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", rendered3dshape.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Rendered3DShapes_reference {
-		instance := stage.Rendered3DShapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Rendered3DShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			rendered3dshapes_deletedInstances = append(rendered3dshapes_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(rendered3dshapes_newInstances)
-	lenDeletedInstances += len(rendered3dshapes_deletedInstances)
-	var sampledpoints3dshapes_newInstances []*SampledPoints3DShape
-	var sampledpoints3dshapes_deletedInstances []*SampledPoints3DShape
-
-	// parse all staged instances and check if they have a reference
-	for sampledpoints3dshape := range stage.SampledPoints3DShapes {
-		if ref, ok := stage.SampledPoints3DShapes_reference[sampledpoints3dshape]; !ok {
-			sampledpoints3dshapes_newInstances = append(sampledpoints3dshapes_newInstances, sampledpoints3dshape)
-			newInstancesSlice = append(newInstancesSlice, sampledpoints3dshape.GongMarshallIdentifier(stage))
-			if stage.SampledPoints3DShapes_referenceOrder == nil {
-				stage.SampledPoints3DShapes_referenceOrder = make(map[*SampledPoints3DShape]uint)
-			}
-			stage.SampledPoints3DShapes_referenceOrder[sampledpoints3dshape] = stage.SampledPoints3DShape_stagedOrder[sampledpoints3dshape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, sampledpoints3dshape.GongMarshallUnstaging(stage))
-			// delete(stage.SampledPoints3DShapes_referenceOrder, sampledpoints3dshape)
-			fieldInitializers, pointersInitializations := sampledpoints3dshape.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.SampledPoints3DShape_stagedOrder[ref] = stage.SampledPoints3DShape_stagedOrder[sampledpoints3dshape]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := sampledpoints3dshape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, sampledpoints3dshape)
-			// delete(stage.SampledPoints3DShape_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if sampledpoints3dshape.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", sampledpoints3dshape.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.SampledPoints3DShapes_reference {
-		instance := stage.SampledPoints3DShapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.SampledPoints3DShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			sampledpoints3dshapes_deletedInstances = append(sampledpoints3dshapes_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(sampledpoints3dshapes_newInstances)
-	lenDeletedInstances += len(sampledpoints3dshapes_deletedInstances)
-	var stemcylinder3dshapes_newInstances []*StemCylinder3DShape
-	var stemcylinder3dshapes_deletedInstances []*StemCylinder3DShape
-
-	// parse all staged instances and check if they have a reference
-	for stemcylinder3dshape := range stage.StemCylinder3DShapes {
-		if ref, ok := stage.StemCylinder3DShapes_reference[stemcylinder3dshape]; !ok {
-			stemcylinder3dshapes_newInstances = append(stemcylinder3dshapes_newInstances, stemcylinder3dshape)
-			newInstancesSlice = append(newInstancesSlice, stemcylinder3dshape.GongMarshallIdentifier(stage))
-			if stage.StemCylinder3DShapes_referenceOrder == nil {
-				stage.StemCylinder3DShapes_referenceOrder = make(map[*StemCylinder3DShape]uint)
-			}
-			stage.StemCylinder3DShapes_referenceOrder[stemcylinder3dshape] = stage.StemCylinder3DShape_stagedOrder[stemcylinder3dshape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, stemcylinder3dshape.GongMarshallUnstaging(stage))
-			// delete(stage.StemCylinder3DShapes_referenceOrder, stemcylinder3dshape)
-			fieldInitializers, pointersInitializations := stemcylinder3dshape.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.StemCylinder3DShape_stagedOrder[ref] = stage.StemCylinder3DShape_stagedOrder[stemcylinder3dshape]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := stemcylinder3dshape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, stemcylinder3dshape)
-			// delete(stage.StemCylinder3DShape_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if stemcylinder3dshape.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", stemcylinder3dshape.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.StemCylinder3DShapes_reference {
-		instance := stage.StemCylinder3DShapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.StemCylinder3DShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			stemcylinder3dshapes_deletedInstances = append(stemcylinder3dshapes_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(stemcylinder3dshapes_newInstances)
-	lenDeletedInstances += len(stemcylinder3dshapes_deletedInstances)
-	var stool2ddiagrams_newInstances []*Stool2DDiagram
-	var stool2ddiagrams_deletedInstances []*Stool2DDiagram
-
-	// parse all staged instances and check if they have a reference
-	for stool2ddiagram := range stage.Stool2DDiagrams {
-		if ref, ok := stage.Stool2DDiagrams_reference[stool2ddiagram]; !ok {
-			stool2ddiagrams_newInstances = append(stool2ddiagrams_newInstances, stool2ddiagram)
-			newInstancesSlice = append(newInstancesSlice, stool2ddiagram.GongMarshallIdentifier(stage))
-			if stage.Stool2DDiagrams_referenceOrder == nil {
-				stage.Stool2DDiagrams_referenceOrder = make(map[*Stool2DDiagram]uint)
-			}
-			stage.Stool2DDiagrams_referenceOrder[stool2ddiagram] = stage.Stool2DDiagram_stagedOrder[stool2ddiagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, stool2ddiagram.GongMarshallUnstaging(stage))
-			// delete(stage.Stool2DDiagrams_referenceOrder, stool2ddiagram)
-			fieldInitializers, pointersInitializations := stool2ddiagram.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Stool2DDiagram_stagedOrder[ref] = stage.Stool2DDiagram_stagedOrder[stool2ddiagram]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := stool2ddiagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, stool2ddiagram)
-			// delete(stage.Stool2DDiagram_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if stool2ddiagram.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", stool2ddiagram.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Stool2DDiagrams_reference {
-		instance := stage.Stool2DDiagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Stool2DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			stool2ddiagrams_deletedInstances = append(stool2ddiagrams_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(stool2ddiagrams_newInstances)
-	lenDeletedInstances += len(stool2ddiagrams_deletedInstances)
-	var stool3ddiagrams_newInstances []*Stool3DDiagram
-	var stool3ddiagrams_deletedInstances []*Stool3DDiagram
-
-	// parse all staged instances and check if they have a reference
-	for stool3ddiagram := range stage.Stool3DDiagrams {
-		if ref, ok := stage.Stool3DDiagrams_reference[stool3ddiagram]; !ok {
-			stool3ddiagrams_newInstances = append(stool3ddiagrams_newInstances, stool3ddiagram)
-			newInstancesSlice = append(newInstancesSlice, stool3ddiagram.GongMarshallIdentifier(stage))
-			if stage.Stool3DDiagrams_referenceOrder == nil {
-				stage.Stool3DDiagrams_referenceOrder = make(map[*Stool3DDiagram]uint)
-			}
-			stage.Stool3DDiagrams_referenceOrder[stool3ddiagram] = stage.Stool3DDiagram_stagedOrder[stool3ddiagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, stool3ddiagram.GongMarshallUnstaging(stage))
-			// delete(stage.Stool3DDiagrams_referenceOrder, stool3ddiagram)
-			fieldInitializers, pointersInitializations := stool3ddiagram.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Stool3DDiagram_stagedOrder[ref] = stage.Stool3DDiagram_stagedOrder[stool3ddiagram]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := stool3ddiagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, stool3ddiagram)
-			// delete(stage.Stool3DDiagram_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if stool3ddiagram.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", stool3ddiagram.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Stool3DDiagrams_reference {
-		instance := stage.Stool3DDiagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Stool3DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			stool3ddiagrams_deletedInstances = append(stool3ddiagrams_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(stool3ddiagrams_newInstances)
-	lenDeletedInstances += len(stool3ddiagrams_deletedInstances)
-	var stoolabstracts_newInstances []*StoolAbstract
-	var stoolabstracts_deletedInstances []*StoolAbstract
-
-	// parse all staged instances and check if they have a reference
-	for stoolabstract := range stage.StoolAbstracts {
-		if ref, ok := stage.StoolAbstracts_reference[stoolabstract]; !ok {
-			stoolabstracts_newInstances = append(stoolabstracts_newInstances, stoolabstract)
-			newInstancesSlice = append(newInstancesSlice, stoolabstract.GongMarshallIdentifier(stage))
-			if stage.StoolAbstracts_referenceOrder == nil {
-				stage.StoolAbstracts_referenceOrder = make(map[*StoolAbstract]uint)
-			}
-			stage.StoolAbstracts_referenceOrder[stoolabstract] = stage.StoolAbstract_stagedOrder[stoolabstract]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, stoolabstract.GongMarshallUnstaging(stage))
-			// delete(stage.StoolAbstracts_referenceOrder, stoolabstract)
-			fieldInitializers, pointersInitializations := stoolabstract.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.StoolAbstract_stagedOrder[ref] = stage.StoolAbstract_stagedOrder[stoolabstract]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := stoolabstract.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, stoolabstract)
-			// delete(stage.StoolAbstract_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if stoolabstract.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", stoolabstract.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.StoolAbstracts_reference {
-		instance := stage.StoolAbstracts_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.StoolAbstracts[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			stoolabstracts_deletedInstances = append(stoolabstracts_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(stoolabstracts_newInstances)
-	lenDeletedInstances += len(stoolabstracts_deletedInstances)
-	var tubevase3ddiagrams_newInstances []*TubeVase3DDiagram
-	var tubevase3ddiagrams_deletedInstances []*TubeVase3DDiagram
-
-	// parse all staged instances and check if they have a reference
-	for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
-		if ref, ok := stage.TubeVase3DDiagrams_reference[tubevase3ddiagram]; !ok {
-			tubevase3ddiagrams_newInstances = append(tubevase3ddiagrams_newInstances, tubevase3ddiagram)
-			newInstancesSlice = append(newInstancesSlice, tubevase3ddiagram.GongMarshallIdentifier(stage))
-			if stage.TubeVase3DDiagrams_referenceOrder == nil {
-				stage.TubeVase3DDiagrams_referenceOrder = make(map[*TubeVase3DDiagram]uint)
-			}
-			stage.TubeVase3DDiagrams_referenceOrder[tubevase3ddiagram] = stage.TubeVase3DDiagram_stagedOrder[tubevase3ddiagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, tubevase3ddiagram.GongMarshallUnstaging(stage))
-			// delete(stage.TubeVase3DDiagrams_referenceOrder, tubevase3ddiagram)
-			fieldInitializers, pointersInitializations := tubevase3ddiagram.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.TubeVase3DDiagram_stagedOrder[ref] = stage.TubeVase3DDiagram_stagedOrder[tubevase3ddiagram]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := tubevase3ddiagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, tubevase3ddiagram)
-			// delete(stage.TubeVase3DDiagram_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if tubevase3ddiagram.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", tubevase3ddiagram.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.TubeVase3DDiagrams_reference {
-		instance := stage.TubeVase3DDiagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.TubeVase3DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			tubevase3ddiagrams_deletedInstances = append(tubevase3ddiagrams_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(tubevase3ddiagrams_newInstances)
-	lenDeletedInstances += len(tubevase3ddiagrams_deletedInstances)
-	var tubevaseabstracts_newInstances []*TubeVaseAbstract
-	var tubevaseabstracts_deletedInstances []*TubeVaseAbstract
-
-	// parse all staged instances and check if they have a reference
-	for tubevaseabstract := range stage.TubeVaseAbstracts {
-		if ref, ok := stage.TubeVaseAbstracts_reference[tubevaseabstract]; !ok {
-			tubevaseabstracts_newInstances = append(tubevaseabstracts_newInstances, tubevaseabstract)
-			newInstancesSlice = append(newInstancesSlice, tubevaseabstract.GongMarshallIdentifier(stage))
-			if stage.TubeVaseAbstracts_referenceOrder == nil {
-				stage.TubeVaseAbstracts_referenceOrder = make(map[*TubeVaseAbstract]uint)
-			}
-			stage.TubeVaseAbstracts_referenceOrder[tubevaseabstract] = stage.TubeVaseAbstract_stagedOrder[tubevaseabstract]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, tubevaseabstract.GongMarshallUnstaging(stage))
-			// delete(stage.TubeVaseAbstracts_referenceOrder, tubevaseabstract)
-			fieldInitializers, pointersInitializations := tubevaseabstract.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.TubeVaseAbstract_stagedOrder[ref] = stage.TubeVaseAbstract_stagedOrder[tubevaseabstract]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := tubevaseabstract.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, tubevaseabstract)
-			// delete(stage.TubeVaseAbstract_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if tubevaseabstract.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", tubevaseabstract.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.TubeVaseAbstracts_reference {
-		instance := stage.TubeVaseAbstracts_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.TubeVaseAbstracts[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			tubevaseabstracts_deletedInstances = append(tubevaseabstracts_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(tubevaseabstracts_newInstances)
-	lenDeletedInstances += len(tubevaseabstracts_deletedInstances)
-	var vase2ddiagrams_newInstances []*Vase2DDiagram
-	var vase2ddiagrams_deletedInstances []*Vase2DDiagram
-
-	// parse all staged instances and check if they have a reference
-	for vase2ddiagram := range stage.Vase2DDiagrams {
-		if ref, ok := stage.Vase2DDiagrams_reference[vase2ddiagram]; !ok {
-			vase2ddiagrams_newInstances = append(vase2ddiagrams_newInstances, vase2ddiagram)
-			newInstancesSlice = append(newInstancesSlice, vase2ddiagram.GongMarshallIdentifier(stage))
-			if stage.Vase2DDiagrams_referenceOrder == nil {
-				stage.Vase2DDiagrams_referenceOrder = make(map[*Vase2DDiagram]uint)
-			}
-			stage.Vase2DDiagrams_referenceOrder[vase2ddiagram] = stage.Vase2DDiagram_stagedOrder[vase2ddiagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, vase2ddiagram.GongMarshallUnstaging(stage))
-			// delete(stage.Vase2DDiagrams_referenceOrder, vase2ddiagram)
-			fieldInitializers, pointersInitializations := vase2ddiagram.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Vase2DDiagram_stagedOrder[ref] = stage.Vase2DDiagram_stagedOrder[vase2ddiagram]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := vase2ddiagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, vase2ddiagram)
-			// delete(stage.Vase2DDiagram_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if vase2ddiagram.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", vase2ddiagram.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Vase2DDiagrams_reference {
-		instance := stage.Vase2DDiagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Vase2DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			vase2ddiagrams_deletedInstances = append(vase2ddiagrams_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(vase2ddiagrams_newInstances)
-	lenDeletedInstances += len(vase2ddiagrams_deletedInstances)
+	computeCommitsForType(
+		stage,
+		stage.Angle0Shapes,
+		stage.Angle0Shape_stagedOrder,
+		stage.Angle0Shapes_reference,
+		&stage.Angle0Shapes_referenceOrder,
+		stage.Angle0Shapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.Circumference3DShapes,
+		stage.Circumference3DShape_stagedOrder,
+		stage.Circumference3DShapes_reference,
+		&stage.Circumference3DShapes_referenceOrder,
+		stage.Circumference3DShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.Clock2DDiagrams,
+		stage.Clock2DDiagram_stagedOrder,
+		stage.Clock2DDiagrams_reference,
+		&stage.Clock2DDiagrams_referenceOrder,
+		stage.Clock2DDiagrams_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.Clock3DDiagrams,
+		stage.Clock3DDiagram_stagedOrder,
+		stage.Clock3DDiagrams_reference,
+		&stage.Clock3DDiagrams_referenceOrder,
+		stage.Clock3DDiagrams_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ClockAbstracts,
+		stage.ClockAbstract_stagedOrder,
+		stage.ClockAbstracts_reference,
+		&stage.ClockAbstracts_referenceOrder,
+		stage.ClockAbstracts_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.CutLine3DShapes,
+		stage.CutLine3DShape_stagedOrder,
+		stage.CutLine3DShapes_reference,
+		&stage.CutLine3DShapes_referenceOrder,
+		stage.CutLine3DShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.Leaves3DShapes,
+		stage.Leaves3DShape_stagedOrder,
+		stage.Leaves3DShapes_reference,
+		&stage.Leaves3DShapes_referenceOrder,
+		stage.Leaves3DShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.Librarys,
+		stage.Library_stagedOrder,
+		stage.Librarys_reference,
+		&stage.Librarys_referenceOrder,
+		stage.Librarys_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.MusicAbstracts,
+		stage.MusicAbstract_stagedOrder,
+		stage.MusicAbstracts_reference,
+		&stage.MusicAbstracts_referenceOrder,
+		stage.MusicAbstracts_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.OriginalPoints3DShapes,
+		stage.OriginalPoints3DShape_stagedOrder,
+		stage.OriginalPoints3DShapes_reference,
+		&stage.OriginalPoints3DShapes_referenceOrder,
+		stage.OriginalPoints3DShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ParastichyMCurves3DShapes,
+		stage.ParastichyMCurves3DShape_stagedOrder,
+		stage.ParastichyMCurves3DShapes_reference,
+		&stage.ParastichyMCurves3DShapes_referenceOrder,
+		stage.ParastichyMCurves3DShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ParastichyNCurves3DShapes,
+		stage.ParastichyNCurves3DShape_stagedOrder,
+		stage.ParastichyNCurves3DShapes_reference,
+		&stage.ParastichyNCurves3DShapes_referenceOrder,
+		stage.ParastichyNCurves3DShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.Plant2DDiagrams,
+		stage.Plant2DDiagram_stagedOrder,
+		stage.Plant2DDiagrams_reference,
+		&stage.Plant2DDiagrams_referenceOrder,
+		stage.Plant2DDiagrams_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.Plant3DDiagrams,
+		stage.Plant3DDiagram_stagedOrder,
+		stage.Plant3DDiagrams_reference,
+		&stage.Plant3DDiagrams_referenceOrder,
+		stage.Plant3DDiagrams_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.PlantAbstracts,
+		stage.PlantAbstract_stagedOrder,
+		stage.PlantAbstracts_reference,
+		&stage.PlantAbstracts_referenceOrder,
+		stage.PlantAbstracts_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.Rendered3DShapes,
+		stage.Rendered3DShape_stagedOrder,
+		stage.Rendered3DShapes_reference,
+		&stage.Rendered3DShapes_referenceOrder,
+		stage.Rendered3DShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.SampledPoints3DShapes,
+		stage.SampledPoints3DShape_stagedOrder,
+		stage.SampledPoints3DShapes_reference,
+		&stage.SampledPoints3DShapes_referenceOrder,
+		stage.SampledPoints3DShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.StemCylinder3DShapes,
+		stage.StemCylinder3DShape_stagedOrder,
+		stage.StemCylinder3DShapes_reference,
+		&stage.StemCylinder3DShapes_referenceOrder,
+		stage.StemCylinder3DShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.Stool2DDiagrams,
+		stage.Stool2DDiagram_stagedOrder,
+		stage.Stool2DDiagrams_reference,
+		&stage.Stool2DDiagrams_referenceOrder,
+		stage.Stool2DDiagrams_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.Stool3DDiagrams,
+		stage.Stool3DDiagram_stagedOrder,
+		stage.Stool3DDiagrams_reference,
+		&stage.Stool3DDiagrams_referenceOrder,
+		stage.Stool3DDiagrams_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.StoolAbstracts,
+		stage.StoolAbstract_stagedOrder,
+		stage.StoolAbstracts_reference,
+		&stage.StoolAbstracts_referenceOrder,
+		stage.StoolAbstracts_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.TubeVase3DDiagrams,
+		stage.TubeVase3DDiagram_stagedOrder,
+		stage.TubeVase3DDiagrams_reference,
+		&stage.TubeVase3DDiagrams_referenceOrder,
+		stage.TubeVase3DDiagrams_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.TubeVaseAbstracts,
+		stage.TubeVaseAbstract_stagedOrder,
+		stage.TubeVaseAbstracts_reference,
+		&stage.TubeVaseAbstracts_referenceOrder,
+		stage.TubeVaseAbstracts_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.Vase2DDiagrams,
+		stage.Vase2DDiagram_stagedOrder,
+		stage.Vase2DDiagrams_reference,
+		&stage.Vase2DDiagrams_referenceOrder,
+		stage.Vase2DDiagrams_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 

@@ -2,29 +2,24 @@
 import { Injectable, NgZone } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
+import { Observable, BehaviorSubject, of } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
 
 // insertion point sub template for services imports
 import { ButtonAPI } from './button-api'
 import { Button, CopyButtonAPIToButton } from './button'
-import { ButtonService } from './button.service'
 
 import { MenuAPI } from './menu-api'
 import { Menu, CopyMenuAPIToMenu } from './menu'
-import { MenuService } from './menu.service'
 
 import { NodeAPI } from './node-api'
 import { Node, CopyNodeAPIToNode } from './node'
-import { NodeService } from './node.service'
 
 import { SVGIconAPI } from './svgicon-api'
 import { SVGIcon, CopySVGIconAPIToSVGIcon } from './svgicon'
-import { SVGIconService } from './svgicon.service'
 
 import { TreeAPI } from './tree-api'
 import { Tree, CopyTreeAPIToTree } from './tree'
-import { TreeService } from './tree.service'
 
 
 import { BackRepoData } from './back-repo-data'
@@ -155,215 +150,15 @@ export class FrontRepoService {
 
 	constructor(
 		private http: HttpClient,
-		private ngZone: NgZone, // insertion point sub template 
-		private buttonService: ButtonService,
-		private menuService: MenuService,
-		private nodeService: NodeService,
-		private svgiconService: SVGIconService,
-		private treeService: TreeService,
+		private ngZone: NgZone,
 	) { }
 
-	// postService provides a post function for each struct name
-	postService(structName: string, instanceToBePosted: any) {
-		let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
-		let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
-
-		servicePostFunction(instanceToBePosted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("post")
-			}
-		)
-	}
-
-	// deleteService provides a delete function for each struct name
-	deleteService(structName: string, instanceToBeDeleted: any) {
-		let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
-		let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
-
-		serviceDeleteFunction(instanceToBeDeleted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("delete")
-			}
-		)
-	}
-
-	// typing of observable can be messy in typescript. Therefore, one force the type
-	observableFrontRepo!: [
-		Observable<null>, // see below for the of(null) observable
-		// insertion point sub template 
-		Observable<ButtonAPI[]>,
-		Observable<MenuAPI[]>,
-		Observable<NodeAPI[]>,
-		Observable<SVGIconAPI[]>,
-		Observable<TreeAPI[]>,
-	]
-
 	//
-	// pull performs a GET on all struct of the stack and redeem association pointers 
+	// pull returns the FrontRepo Observable
 	//
-	// This is an observable. Therefore, the control flow forks with
-	// - pull() return immediatly the observable
-	// - the observable observer, if it subscribe, is called when all GET calls are performs
 	pull(Name: string = ""): Observable<FrontRepo> {
-
 		this.Name = Name
-
-		this.observableFrontRepo = [
-			of(null), // see above for justification
-			// insertion point sub template
-			this.buttonService.getButtons(this.Name, this.frontRepo),
-			this.menuService.getMenus(this.Name, this.frontRepo),
-			this.nodeService.getNodes(this.Name, this.frontRepo),
-			this.svgiconService.getSVGIcons(this.Name, this.frontRepo),
-			this.treeService.getTrees(this.Name, this.frontRepo),
-		]
-
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest(
-					this.observableFrontRepo
-				).subscribe(
-					([
-						___of_null, // see above for the explanation about of
-						// insertion point sub template for declarations 
-						buttons_,
-						menus_,
-						nodes_,
-						svgicons_,
-						trees_,
-					]) => {
-						let _this = this
-						// Typing can be messy with many items. Therefore, type casting is necessary here
-						// insertion point sub template for type casting 
-						var buttons: ButtonAPI[]
-						buttons = buttons_ as ButtonAPI[]
-						var menus: MenuAPI[]
-						menus = menus_ as MenuAPI[]
-						var nodes: NodeAPI[]
-						nodes = nodes_ as NodeAPI[]
-						var svgicons: SVGIconAPI[]
-						svgicons = svgicons_ as SVGIconAPI[]
-						var trees: TreeAPI[]
-						trees = trees_ as TreeAPI[]
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template for init 
-						// init the arrays
-						this.frontRepo.array_Buttons = []
-						this.frontRepo.map_ID_Button.clear()
-
-						buttons.forEach(
-							buttonAPI => {
-								let button = new Button
-								this.frontRepo.array_Buttons.push(button)
-								this.frontRepo.map_ID_Button.set(buttonAPI.ID, button)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Menus = []
-						this.frontRepo.map_ID_Menu.clear()
-
-						menus.forEach(
-							menuAPI => {
-								let menu = new Menu
-								this.frontRepo.array_Menus.push(menu)
-								this.frontRepo.map_ID_Menu.set(menuAPI.ID, menu)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Nodes = []
-						this.frontRepo.map_ID_Node.clear()
-
-						nodes.forEach(
-							nodeAPI => {
-								let node = new Node
-								this.frontRepo.array_Nodes.push(node)
-								this.frontRepo.map_ID_Node.set(nodeAPI.ID, node)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_SVGIcons = []
-						this.frontRepo.map_ID_SVGIcon.clear()
-
-						svgicons.forEach(
-							svgiconAPI => {
-								let svgicon = new SVGIcon
-								this.frontRepo.array_SVGIcons.push(svgicon)
-								this.frontRepo.map_ID_SVGIcon.set(svgiconAPI.ID, svgicon)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Trees = []
-						this.frontRepo.map_ID_Tree.clear()
-
-						trees.forEach(
-							treeAPI => {
-								let tree = new Tree
-								this.frontRepo.array_Trees.push(tree)
-								this.frontRepo.map_ID_Tree.set(treeAPI.ID, tree)
-							}
-						)
-
-
-						// 
-						// Second Step: reddeem front objects
-						// insertion point sub template for redeem 
-						// fill up front objects
-						buttons.forEach(
-							buttonAPI => {
-								let button = this.frontRepo.map_ID_Button.get(buttonAPI.ID)
-								CopyButtonAPIToButton(buttonAPI, button!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						menus.forEach(
-							menuAPI => {
-								let menu = this.frontRepo.map_ID_Menu.get(menuAPI.ID)
-								CopyMenuAPIToMenu(menuAPI, menu!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						nodes.forEach(
-							nodeAPI => {
-								let node = this.frontRepo.map_ID_Node.get(nodeAPI.ID)
-								CopyNodeAPIToNode(nodeAPI, node!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						svgicons.forEach(
-							svgiconAPI => {
-								let svgicon = this.frontRepo.map_ID_SVGIcon.get(svgiconAPI.ID)
-								CopySVGIconAPIToSVGIcon(svgiconAPI, svgicon!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						trees.forEach(
-							treeAPI => {
-								let tree = this.frontRepo.map_ID_Tree.get(treeAPI.ID)
-								CopyTreeAPIToTree(treeAPI, tree!, this.frontRepo)
-							}
-						)
-
-
-						// hand over control flow to observer
-						this.ngZone.run(() => {
-							observer.next(this.frontRepo)
-						})
-					}
-				)
-			}
-		)
+		return of(this.frontRepo)
 	}
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
@@ -520,54 +315,71 @@ export class FrontRepoService {
 				})
 			}
 
-			// 3. Connection Loop
-			const attemptConnection = (retries: number): void => {
-				// console.log("github.com/fullstack-lang/gong/lib/tree/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+			// Offline mode handling: Listen to the global event
+			if (isOfflineMode) {
+				console.log("github.com/fullstack-lang/gong/lib/tree/go; Offline mode detected. Skipping WebSocket connection.")
 
-				// A. WASM OFFLINE MODE (Check if Go is ready)
-				if ((window as any).openWasmSocket) {
-					// console.log("github.com/fullstack-lang/gong/lib/tree/go; attemptConnection: openWasmSocket exists, calling it");
-					(window as any).openWasmSocket("github.com/fullstack-lang/gong/lib/tree/go", Name, processData);
-					return;
+				window.addEventListener('message', (event) => {
+					if (event.data && event.data.type === 'STAGE_UPDATE') {
+						console.log("github.com/fullstack-lang/gong/lib/tree/go; Received STAGE_UPDATE message.")
+						processData(JSON.stringify(event.data.data))
+					}
+				})
+
+				return () => {
+					console.log("github.com/fullstack-lang/gong/lib/tree/go; Cleaning up offline message listener.")
+				}
+			}
+
+			// Fallback: If not offline, create normal WebSocket
+			const attemptConnection = () => {
+				// Offline check inside attemptConnection: if window.openWasmSocket is available, use it!
+				if (typeof window !== 'undefined' && (window as any).openWasmSocket) {
+					(window as any).openWasmSocket('github.com/fullstack-lang/gong/lib/tree/go', Name, (data: any) => {
+						processData(data)
+					})
+					return
 				}
 
-				// B. WAITING FOR WASM
-				if (isOfflineMode && retries > 0) {
-					// console.log("github.com/fullstack-lang/gong/lib/tree/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
-					setTimeout(() => attemptConnection(retries - 1), 100);
-					return;
+				if (isOfflineMode && retryCount > 0) {
+					console.log("github.com/fullstack-lang/gong/lib/tree/go; Waiting for wasm socket provider...")
+					setTimeout(() => attemptConnection(), 100)
+					return
 				}
 
-				// C. STANDARD SERVER MODE
-				if (!isOfflineMode) {
-					// console.log("github.com/fullstack-lang/gong/lib/tree/go; attemptConnection: STANDARD SERVER MODE. url =", url)
-					socket = new WebSocket(url)
-					socket.onopen = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/tree/go; WebSocket: onopen", event)
-					}
-					socket.onmessage = event => {
-						// console.log("github.com/fullstack-lang/gong/lib/tree/go; WebSocket: onmessage")
-						processData(event.data)
-					}
-					socket.onerror = event => {
-						console.error("github.com/fullstack-lang/gong/lib/tree/go WebSocket: onerror", event)
-						observer.error(event)
-					}
-					socket.onclose = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/tree/go; WebSocket: onclose", event)
-						observer.complete()
-					}
-				} else {
+				if (isOfflineMode) {
 					console.error("github.com/fullstack-lang/gong/lib/tree/go, attemptConnection: Offline mode detected, but WASM backend failed to load.")
-					observer.error("Offline mode detected, but WASM backend failed to load.");
+					observer.error("Offline mode detected, but WASM backend failed to load.")
+					return
 				}
-			};
 
-			attemptConnection(50);
+				socket = new WebSocket(url)
 
-			// Teardown logic: Called when the last subscriber unsubscribes.
+				socket.onopen = () => {
+					// console.log("github.com/fullstack-lang/gong/lib/tree/go; WebSocket connection opened successfully:", url)
+				}
+
+				socket.onmessage = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/tree/go; WebSocket message received:", event.data)
+					processData(event.data)
+				}
+
+				socket.onerror = (error) => {
+					console.error("github.com/fullstack-lang/gong/lib/tree/go WebSocket: onerror", error)
+					observer.error(error)
+				}
+
+				socket.onclose = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/tree/go; WebSocket connection closed:", event)
+					observer.complete()
+				}
+			}
+
+			let retryCount = 10
+			attemptConnection()
+
 			return () => {
-				this.webSocketConnections.delete(Name) // Remove from cache
+				// console.log("github.com/fullstack-lang/gong/lib/tree/go; Cleaning up WebSocket connection")
 				if (socket) {
 					socket.close()
 				}

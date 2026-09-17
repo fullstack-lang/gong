@@ -54,26 +54,14 @@ type ValidationError struct {
 func registerControllers(mux *http.ServeMux) {
 	base := "/api/github.com/fullstack-lang/gong/lib/load/go/v1"
 
-	mux.HandleFunc("GET " + base + "/filetodownloads", GetController().GetFileToDownloads)
-	mux.HandleFunc("GET " + base + "/filetodownloads/{id}", GetController().GetFileToDownload)
-	mux.HandleFunc("POST " + base + "/filetodownloads", GetController().PostFileToDownload)
 	mux.HandleFunc("PATCH " + base + "/filetodownloads/{id}", GetController().UpdateFileToDownload)
 	mux.HandleFunc("PUT " + base + "/filetodownloads/{id}", GetController().UpdateFileToDownload)
-	mux.HandleFunc("DELETE " + base + "/filetodownloads/{id}", GetController().DeleteFileToDownload)
 
-	mux.HandleFunc("GET " + base + "/filetouploads", GetController().GetFileToUploads)
-	mux.HandleFunc("GET " + base + "/filetouploads/{id}", GetController().GetFileToUpload)
-	mux.HandleFunc("POST " + base + "/filetouploads", GetController().PostFileToUpload)
 	mux.HandleFunc("PATCH " + base + "/filetouploads/{id}", GetController().UpdateFileToUpload)
 	mux.HandleFunc("PUT " + base + "/filetouploads/{id}", GetController().UpdateFileToUpload)
-	mux.HandleFunc("DELETE " + base + "/filetouploads/{id}", GetController().DeleteFileToUpload)
 
-	mux.HandleFunc("GET " + base + "/messages", GetController().GetMessages)
-	mux.HandleFunc("GET " + base + "/messages/{id}", GetController().GetMessage)
-	mux.HandleFunc("POST " + base + "/messages", GetController().PostMessage)
 	mux.HandleFunc("PATCH " + base + "/messages/{id}", GetController().UpdateMessage)
 	mux.HandleFunc("PUT " + base + "/messages/{id}", GetController().UpdateMessage)
-	mux.HandleFunc("DELETE " + base + "/messages/{id}", GetController().DeleteMessage)
 
 	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)

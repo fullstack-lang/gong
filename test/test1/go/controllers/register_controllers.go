@@ -54,54 +54,26 @@ type ValidationError struct {
 func registerControllers(mux *http.ServeMux) {
 	base := "/api/github.com/fullstack-lang/gong/test/test1/go/v1"
 
-	mux.HandleFunc("GET " + base + "/astructs", GetController().GetAstructs)
-	mux.HandleFunc("GET " + base + "/astructs/{id}", GetController().GetAstruct)
-	mux.HandleFunc("POST " + base + "/astructs", GetController().PostAstruct)
 	mux.HandleFunc("PATCH " + base + "/astructs/{id}", GetController().UpdateAstruct)
 	mux.HandleFunc("PUT " + base + "/astructs/{id}", GetController().UpdateAstruct)
-	mux.HandleFunc("DELETE " + base + "/astructs/{id}", GetController().DeleteAstruct)
 
-	mux.HandleFunc("GET " + base + "/astructbstruct2uses", GetController().GetAstructBstruct2Uses)
-	mux.HandleFunc("GET " + base + "/astructbstruct2uses/{id}", GetController().GetAstructBstruct2Use)
-	mux.HandleFunc("POST " + base + "/astructbstruct2uses", GetController().PostAstructBstruct2Use)
 	mux.HandleFunc("PATCH " + base + "/astructbstruct2uses/{id}", GetController().UpdateAstructBstruct2Use)
 	mux.HandleFunc("PUT " + base + "/astructbstruct2uses/{id}", GetController().UpdateAstructBstruct2Use)
-	mux.HandleFunc("DELETE " + base + "/astructbstruct2uses/{id}", GetController().DeleteAstructBstruct2Use)
 
-	mux.HandleFunc("GET " + base + "/astructbstructuses", GetController().GetAstructBstructUses)
-	mux.HandleFunc("GET " + base + "/astructbstructuses/{id}", GetController().GetAstructBstructUse)
-	mux.HandleFunc("POST " + base + "/astructbstructuses", GetController().PostAstructBstructUse)
 	mux.HandleFunc("PATCH " + base + "/astructbstructuses/{id}", GetController().UpdateAstructBstructUse)
 	mux.HandleFunc("PUT " + base + "/astructbstructuses/{id}", GetController().UpdateAstructBstructUse)
-	mux.HandleFunc("DELETE " + base + "/astructbstructuses/{id}", GetController().DeleteAstructBstructUse)
 
-	mux.HandleFunc("GET " + base + "/bstructs", GetController().GetBstructs)
-	mux.HandleFunc("GET " + base + "/bstructs/{id}", GetController().GetBstruct)
-	mux.HandleFunc("POST " + base + "/bstructs", GetController().PostBstruct)
 	mux.HandleFunc("PATCH " + base + "/bstructs/{id}", GetController().UpdateBstruct)
 	mux.HandleFunc("PUT " + base + "/bstructs/{id}", GetController().UpdateBstruct)
-	mux.HandleFunc("DELETE " + base + "/bstructs/{id}", GetController().DeleteBstruct)
 
-	mux.HandleFunc("GET " + base + "/dstructs", GetController().GetDstructs)
-	mux.HandleFunc("GET " + base + "/dstructs/{id}", GetController().GetDstruct)
-	mux.HandleFunc("POST " + base + "/dstructs", GetController().PostDstruct)
 	mux.HandleFunc("PATCH " + base + "/dstructs/{id}", GetController().UpdateDstruct)
 	mux.HandleFunc("PUT " + base + "/dstructs/{id}", GetController().UpdateDstruct)
-	mux.HandleFunc("DELETE " + base + "/dstructs/{id}", GetController().DeleteDstruct)
 
-	mux.HandleFunc("GET " + base + "/f0123456789012345678901234567890s", GetController().GetF0123456789012345678901234567890s)
-	mux.HandleFunc("GET " + base + "/f0123456789012345678901234567890s/{id}", GetController().GetF0123456789012345678901234567890)
-	mux.HandleFunc("POST " + base + "/f0123456789012345678901234567890s", GetController().PostF0123456789012345678901234567890)
 	mux.HandleFunc("PATCH " + base + "/f0123456789012345678901234567890s/{id}", GetController().UpdateF0123456789012345678901234567890)
 	mux.HandleFunc("PUT " + base + "/f0123456789012345678901234567890s/{id}", GetController().UpdateF0123456789012345678901234567890)
-	mux.HandleFunc("DELETE " + base + "/f0123456789012345678901234567890s/{id}", GetController().DeleteF0123456789012345678901234567890)
 
-	mux.HandleFunc("GET " + base + "/gstructs", GetController().GetGstructs)
-	mux.HandleFunc("GET " + base + "/gstructs/{id}", GetController().GetGstruct)
-	mux.HandleFunc("POST " + base + "/gstructs", GetController().PostGstruct)
 	mux.HandleFunc("PATCH " + base + "/gstructs/{id}", GetController().UpdateGstruct)
 	mux.HandleFunc("PUT " + base + "/gstructs/{id}", GetController().UpdateGstruct)
-	mux.HandleFunc("DELETE " + base + "/gstructs/{id}", GetController().DeleteGstruct)
 
 	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)

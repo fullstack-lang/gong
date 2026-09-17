@@ -501,7 +501,18 @@ func (booktype *BookType) GongDiff(stage *Stage, booktypeOther *BookType) (diffs
 		}
 	}
 	if CreditDifferent {
-		ops := stage.Diff(booktype, booktypeOther, "Credit", booktypeOther.Credit, booktype.Credit)
+		ops := stage.Diff(
+			booktype,
+			"Credit",
+			len(booktypeOther.Credit),
+			len(booktype.Credit),
+			func(i, j int) bool {
+				return booktypeOther.Credit[i] == booktype.Credit[j]
+			},
+			func(j int) string {
+				return booktype.Credit[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -533,7 +544,18 @@ func (books *Books) GongDiff(stage *Stage, booksOther *Books) (diffs []string) {
 		}
 	}
 	if BookDifferent {
-		ops := stage.Diff(books, booksOther, "Book", booksOther.Book, books.Book)
+		ops := stage.Diff(
+			books,
+			"Book",
+			len(booksOther.Book),
+			len(books.Book),
+			func(i, j int) bool {
+				return booksOther.Book[i] == books.Book[j]
+			},
+			func(j int) string {
+				return books.Book[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -571,7 +593,18 @@ func (credit *Credit) GongDiff(stage *Stage, creditOther *Credit) (diffs []strin
 		}
 	}
 	if LinkDifferent {
-		ops := stage.Diff(credit, creditOther, "Link", creditOther.Link, credit.Link)
+		ops := stage.Diff(
+			credit,
+			"Link",
+			len(creditOther.Link),
+			len(credit.Link),
+			func(i, j int) bool {
+				return creditOther.Link[i] == credit.Link[j]
+			},
+			func(j int) string {
+				return credit.Link[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if credit.Credit_words != creditOther.Credit_words {
@@ -602,8 +635,14 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -614,7 +653,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -632,7 +671,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -655,22 +694,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

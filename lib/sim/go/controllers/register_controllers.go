@@ -54,47 +54,23 @@ type ValidationError struct {
 func registerControllers(mux *http.ServeMux) {
 	base := "/api/github.com/fullstack-lang/gong/lib/sim/go/v1"
 
-	mux.HandleFunc("GET " + base + "/commands", GetController().GetCommands)
-	mux.HandleFunc("GET " + base + "/commands/{id}", GetController().GetCommand)
-	mux.HandleFunc("POST " + base + "/commands", GetController().PostCommand)
 	mux.HandleFunc("PATCH " + base + "/commands/{id}", GetController().UpdateCommand)
 	mux.HandleFunc("PUT " + base + "/commands/{id}", GetController().UpdateCommand)
-	mux.HandleFunc("DELETE " + base + "/commands/{id}", GetController().DeleteCommand)
 
-	mux.HandleFunc("GET " + base + "/dummyagents", GetController().GetDummyAgents)
-	mux.HandleFunc("GET " + base + "/dummyagents/{id}", GetController().GetDummyAgent)
-	mux.HandleFunc("POST " + base + "/dummyagents", GetController().PostDummyAgent)
 	mux.HandleFunc("PATCH " + base + "/dummyagents/{id}", GetController().UpdateDummyAgent)
 	mux.HandleFunc("PUT " + base + "/dummyagents/{id}", GetController().UpdateDummyAgent)
-	mux.HandleFunc("DELETE " + base + "/dummyagents/{id}", GetController().DeleteDummyAgent)
 
-	mux.HandleFunc("GET " + base + "/engines", GetController().GetEngines)
-	mux.HandleFunc("GET " + base + "/engines/{id}", GetController().GetEngine)
-	mux.HandleFunc("POST " + base + "/engines", GetController().PostEngine)
 	mux.HandleFunc("PATCH " + base + "/engines/{id}", GetController().UpdateEngine)
 	mux.HandleFunc("PUT " + base + "/engines/{id}", GetController().UpdateEngine)
-	mux.HandleFunc("DELETE " + base + "/engines/{id}", GetController().DeleteEngine)
 
-	mux.HandleFunc("GET " + base + "/events", GetController().GetEvents)
-	mux.HandleFunc("GET " + base + "/events/{id}", GetController().GetEvent)
-	mux.HandleFunc("POST " + base + "/events", GetController().PostEvent)
 	mux.HandleFunc("PATCH " + base + "/events/{id}", GetController().UpdateEvent)
 	mux.HandleFunc("PUT " + base + "/events/{id}", GetController().UpdateEvent)
-	mux.HandleFunc("DELETE " + base + "/events/{id}", GetController().DeleteEvent)
 
-	mux.HandleFunc("GET " + base + "/statuss", GetController().GetStatuss)
-	mux.HandleFunc("GET " + base + "/statuss/{id}", GetController().GetStatus)
-	mux.HandleFunc("POST " + base + "/statuss", GetController().PostStatus)
 	mux.HandleFunc("PATCH " + base + "/statuss/{id}", GetController().UpdateStatus)
 	mux.HandleFunc("PUT " + base + "/statuss/{id}", GetController().UpdateStatus)
-	mux.HandleFunc("DELETE " + base + "/statuss/{id}", GetController().DeleteStatus)
 
-	mux.HandleFunc("GET " + base + "/updatestates", GetController().GetUpdateStates)
-	mux.HandleFunc("GET " + base + "/updatestates/{id}", GetController().GetUpdateState)
-	mux.HandleFunc("POST " + base + "/updatestates", GetController().PostUpdateState)
 	mux.HandleFunc("PATCH " + base + "/updatestates/{id}", GetController().UpdateUpdateState)
 	mux.HandleFunc("PUT " + base + "/updatestates/{id}", GetController().UpdateUpdateState)
-	mux.HandleFunc("DELETE " + base + "/updatestates/{id}", GetController().DeleteUpdateState)
 
 	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)

@@ -54,40 +54,20 @@ type ValidationError struct {
 func registerControllers(mux *http.ServeMux) {
 	base := "/api/github.com/fullstack-lang/gong/lib/tree/go/v1"
 
-	mux.HandleFunc("GET " + base + "/buttons", GetController().GetButtons)
-	mux.HandleFunc("GET " + base + "/buttons/{id}", GetController().GetButton)
-	mux.HandleFunc("POST " + base + "/buttons", GetController().PostButton)
 	mux.HandleFunc("PATCH " + base + "/buttons/{id}", GetController().UpdateButton)
 	mux.HandleFunc("PUT " + base + "/buttons/{id}", GetController().UpdateButton)
-	mux.HandleFunc("DELETE " + base + "/buttons/{id}", GetController().DeleteButton)
 
-	mux.HandleFunc("GET " + base + "/menus", GetController().GetMenus)
-	mux.HandleFunc("GET " + base + "/menus/{id}", GetController().GetMenu)
-	mux.HandleFunc("POST " + base + "/menus", GetController().PostMenu)
 	mux.HandleFunc("PATCH " + base + "/menus/{id}", GetController().UpdateMenu)
 	mux.HandleFunc("PUT " + base + "/menus/{id}", GetController().UpdateMenu)
-	mux.HandleFunc("DELETE " + base + "/menus/{id}", GetController().DeleteMenu)
 
-	mux.HandleFunc("GET " + base + "/nodes", GetController().GetNodes)
-	mux.HandleFunc("GET " + base + "/nodes/{id}", GetController().GetNode)
-	mux.HandleFunc("POST " + base + "/nodes", GetController().PostNode)
 	mux.HandleFunc("PATCH " + base + "/nodes/{id}", GetController().UpdateNode)
 	mux.HandleFunc("PUT " + base + "/nodes/{id}", GetController().UpdateNode)
-	mux.HandleFunc("DELETE " + base + "/nodes/{id}", GetController().DeleteNode)
 
-	mux.HandleFunc("GET " + base + "/svgicons", GetController().GetSVGIcons)
-	mux.HandleFunc("GET " + base + "/svgicons/{id}", GetController().GetSVGIcon)
-	mux.HandleFunc("POST " + base + "/svgicons", GetController().PostSVGIcon)
 	mux.HandleFunc("PATCH " + base + "/svgicons/{id}", GetController().UpdateSVGIcon)
 	mux.HandleFunc("PUT " + base + "/svgicons/{id}", GetController().UpdateSVGIcon)
-	mux.HandleFunc("DELETE " + base + "/svgicons/{id}", GetController().DeleteSVGIcon)
 
-	mux.HandleFunc("GET " + base + "/trees", GetController().GetTrees)
-	mux.HandleFunc("GET " + base + "/trees/{id}", GetController().GetTree)
-	mux.HandleFunc("POST " + base + "/trees", GetController().PostTree)
 	mux.HandleFunc("PATCH " + base + "/trees/{id}", GetController().UpdateTree)
 	mux.HandleFunc("PUT " + base + "/trees/{id}", GetController().UpdateTree)
-	mux.HandleFunc("DELETE " + base + "/trees/{id}", GetController().DeleteTree)
 
 	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)

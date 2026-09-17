@@ -3024,7 +3024,18 @@ func (circle *Circle) GongDiff(stage *Stage, circleOther *Circle) (diffs []strin
 		}
 	}
 	if AnimationsDifferent {
-		ops := stage.Diff(circle, circleOther, "Animations", circleOther.Animations, circle.Animations)
+		ops := stage.Diff(
+			circle,
+			"Animations",
+			len(circleOther.Animations),
+			len(circle.Animations),
+			func(i, j int) bool {
+				return circleOther.Animations[i] == circle.Animations[j]
+			},
+			func(j int) string {
+				return circle.Animations[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -3127,7 +3138,18 @@ func (ellipse *Ellipse) GongDiff(stage *Stage, ellipseOther *Ellipse) (diffs []s
 		}
 	}
 	if AnimatesDifferent {
-		ops := stage.Diff(ellipse, ellipseOther, "Animates", ellipseOther.Animates, ellipse.Animates)
+		ops := stage.Diff(
+			ellipse,
+			"Animates",
+			len(ellipseOther.Animates),
+			len(ellipse.Animates),
+			func(i, j int) bool {
+				return ellipseOther.Animates[i] == ellipse.Animates[j]
+			},
+			func(j int) string {
+				return ellipse.Animates[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -3173,7 +3195,18 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if RectsDifferent {
-		ops := stage.Diff(layer, layerOther, "Rects", layerOther.Rects, layer.Rects)
+		ops := stage.Diff(
+			layer,
+			"Rects",
+			len(layerOther.Rects),
+			len(layer.Rects),
+			func(i, j int) bool {
+				return layerOther.Rects[i] == layer.Rects[j]
+			},
+			func(j int) string {
+				return layer.Rects[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TextsDifferent := false
@@ -3194,7 +3227,18 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if TextsDifferent {
-		ops := stage.Diff(layer, layerOther, "Texts", layerOther.Texts, layer.Texts)
+		ops := stage.Diff(
+			layer,
+			"Texts",
+			len(layerOther.Texts),
+			len(layer.Texts),
+			func(i, j int) bool {
+				return layerOther.Texts[i] == layer.Texts[j]
+			},
+			func(j int) string {
+				return layer.Texts[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	CirclesDifferent := false
@@ -3215,7 +3259,18 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if CirclesDifferent {
-		ops := stage.Diff(layer, layerOther, "Circles", layerOther.Circles, layer.Circles)
+		ops := stage.Diff(
+			layer,
+			"Circles",
+			len(layerOther.Circles),
+			len(layer.Circles),
+			func(i, j int) bool {
+				return layerOther.Circles[i] == layer.Circles[j]
+			},
+			func(j int) string {
+				return layer.Circles[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	LinesDifferent := false
@@ -3236,7 +3291,18 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if LinesDifferent {
-		ops := stage.Diff(layer, layerOther, "Lines", layerOther.Lines, layer.Lines)
+		ops := stage.Diff(
+			layer,
+			"Lines",
+			len(layerOther.Lines),
+			len(layer.Lines),
+			func(i, j int) bool {
+				return layerOther.Lines[i] == layer.Lines[j]
+			},
+			func(j int) string {
+				return layer.Lines[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	EllipsesDifferent := false
@@ -3257,7 +3323,18 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if EllipsesDifferent {
-		ops := stage.Diff(layer, layerOther, "Ellipses", layerOther.Ellipses, layer.Ellipses)
+		ops := stage.Diff(
+			layer,
+			"Ellipses",
+			len(layerOther.Ellipses),
+			len(layer.Ellipses),
+			func(i, j int) bool {
+				return layerOther.Ellipses[i] == layer.Ellipses[j]
+			},
+			func(j int) string {
+				return layer.Ellipses[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	PolylinesDifferent := false
@@ -3278,7 +3355,18 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if PolylinesDifferent {
-		ops := stage.Diff(layer, layerOther, "Polylines", layerOther.Polylines, layer.Polylines)
+		ops := stage.Diff(
+			layer,
+			"Polylines",
+			len(layerOther.Polylines),
+			len(layer.Polylines),
+			func(i, j int) bool {
+				return layerOther.Polylines[i] == layer.Polylines[j]
+			},
+			func(j int) string {
+				return layer.Polylines[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	PolygonesDifferent := false
@@ -3299,7 +3387,18 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if PolygonesDifferent {
-		ops := stage.Diff(layer, layerOther, "Polygones", layerOther.Polygones, layer.Polygones)
+		ops := stage.Diff(
+			layer,
+			"Polygones",
+			len(layerOther.Polygones),
+			len(layer.Polygones),
+			func(i, j int) bool {
+				return layerOther.Polygones[i] == layer.Polygones[j]
+			},
+			func(j int) string {
+				return layer.Polygones[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	PathsDifferent := false
@@ -3320,7 +3419,18 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if PathsDifferent {
-		ops := stage.Diff(layer, layerOther, "Paths", layerOther.Paths, layer.Paths)
+		ops := stage.Diff(
+			layer,
+			"Paths",
+			len(layerOther.Paths),
+			len(layer.Paths),
+			func(i, j int) bool {
+				return layerOther.Paths[i] == layer.Paths[j]
+			},
+			func(j int) string {
+				return layer.Paths[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	LinksDifferent := false
@@ -3341,7 +3451,18 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if LinksDifferent {
-		ops := stage.Diff(layer, layerOther, "Links", layerOther.Links, layer.Links)
+		ops := stage.Diff(
+			layer,
+			"Links",
+			len(layerOther.Links),
+			len(layer.Links),
+			func(i, j int) bool {
+				return layerOther.Links[i] == layer.Links[j]
+			},
+			func(j int) string {
+				return layer.Links[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	RectLinkLinksDifferent := false
@@ -3362,7 +3483,18 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if RectLinkLinksDifferent {
-		ops := stage.Diff(layer, layerOther, "RectLinkLinks", layerOther.RectLinkLinks, layer.RectLinkLinks)
+		ops := stage.Diff(
+			layer,
+			"RectLinkLinks",
+			len(layerOther.RectLinkLinks),
+			len(layer.RectLinkLinks),
+			func(i, j int) bool {
+				return layerOther.RectLinkLinks[i] == layer.RectLinkLinks[j]
+			},
+			func(j int) string {
+				return layer.RectLinkLinks[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -3430,7 +3562,18 @@ func (line *Line) GongDiff(stage *Stage, lineOther *Line) (diffs []string) {
 		}
 	}
 	if AnimatesDifferent {
-		ops := stage.Diff(line, lineOther, "Animates", lineOther.Animates, line.Animates)
+		ops := stage.Diff(
+			line,
+			"Animates",
+			len(lineOther.Animates),
+			len(line.Animates),
+			func(i, j int) bool {
+				return lineOther.Animates[i] == line.Animates[j]
+			},
+			func(j int) string {
+				return line.Animates[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if line.MouseClickX != lineOther.MouseClickX {
@@ -3530,7 +3673,18 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 		}
 	}
 	if TextAtArrowStartDifferent {
-		ops := stage.Diff(link, linkOther, "TextAtArrowStart", linkOther.TextAtArrowStart, link.TextAtArrowStart)
+		ops := stage.Diff(
+			link,
+			"TextAtArrowStart",
+			len(linkOther.TextAtArrowStart),
+			len(link.TextAtArrowStart),
+			func(i, j int) bool {
+				return linkOther.TextAtArrowStart[i] == link.TextAtArrowStart[j]
+			},
+			func(j int) string {
+				return link.TextAtArrowStart[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TextAtArrowEndDifferent := false
@@ -3551,7 +3705,18 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 		}
 	}
 	if TextAtArrowEndDifferent {
-		ops := stage.Diff(link, linkOther, "TextAtArrowEnd", linkOther.TextAtArrowEnd, link.TextAtArrowEnd)
+		ops := stage.Diff(
+			link,
+			"TextAtArrowEnd",
+			len(linkOther.TextAtArrowEnd),
+			len(link.TextAtArrowEnd),
+			func(i, j int) bool {
+				return linkOther.TextAtArrowEnd[i] == link.TextAtArrowEnd[j]
+			},
+			func(j int) string {
+				return link.TextAtArrowEnd[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TextAtCornerDifferent := false
@@ -3572,7 +3737,18 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 		}
 	}
 	if TextAtCornerDifferent {
-		ops := stage.Diff(link, linkOther, "TextAtCorner", linkOther.TextAtCorner, link.TextAtCorner)
+		ops := stage.Diff(
+			link,
+			"TextAtCorner",
+			len(linkOther.TextAtCorner),
+			len(link.TextAtCorner),
+			func(i, j int) bool {
+				return linkOther.TextAtCorner[i] == link.TextAtCorner[j]
+			},
+			func(j int) string {
+				return link.TextAtCorner[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	PathAtArrowStartDifferent := false
@@ -3593,7 +3769,18 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 		}
 	}
 	if PathAtArrowStartDifferent {
-		ops := stage.Diff(link, linkOther, "PathAtArrowStart", linkOther.PathAtArrowStart, link.PathAtArrowStart)
+		ops := stage.Diff(
+			link,
+			"PathAtArrowStart",
+			len(linkOther.PathAtArrowStart),
+			len(link.PathAtArrowStart),
+			func(i, j int) bool {
+				return linkOther.PathAtArrowStart[i] == link.PathAtArrowStart[j]
+			},
+			func(j int) string {
+				return link.PathAtArrowStart[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	PathAtArrowEndDifferent := false
@@ -3614,7 +3801,18 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 		}
 	}
 	if PathAtArrowEndDifferent {
-		ops := stage.Diff(link, linkOther, "PathAtArrowEnd", linkOther.PathAtArrowEnd, link.PathAtArrowEnd)
+		ops := stage.Diff(
+			link,
+			"PathAtArrowEnd",
+			len(linkOther.PathAtArrowEnd),
+			len(link.PathAtArrowEnd),
+			func(i, j int) bool {
+				return linkOther.PathAtArrowEnd[i] == link.PathAtArrowEnd[j]
+			},
+			func(j int) string {
+				return link.PathAtArrowEnd[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	PathAtCornerDifferent := false
@@ -3635,7 +3833,18 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 		}
 	}
 	if PathAtCornerDifferent {
-		ops := stage.Diff(link, linkOther, "PathAtCorner", linkOther.PathAtCorner, link.PathAtCorner)
+		ops := stage.Diff(
+			link,
+			"PathAtCorner",
+			len(linkOther.PathAtCorner),
+			len(link.PathAtCorner),
+			func(i, j int) bool {
+				return linkOther.PathAtCorner[i] == link.PathAtCorner[j]
+			},
+			func(j int) string {
+				return link.PathAtCorner[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ControlPointsDifferent := false
@@ -3656,7 +3865,18 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 		}
 	}
 	if ControlPointsDifferent {
-		ops := stage.Diff(link, linkOther, "ControlPoints", linkOther.ControlPoints, link.ControlPoints)
+		ops := stage.Diff(
+			link,
+			"ControlPoints",
+			len(linkOther.ControlPoints),
+			len(link.ControlPoints),
+			func(i, j int) bool {
+				return linkOther.ControlPoints[i] == link.ControlPoints[j]
+			},
+			func(j int) string {
+				return link.ControlPoints[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if link.Color != linkOther.Color {
@@ -3828,7 +4048,18 @@ func (linkanchoredtext *LinkAnchoredText) GongDiff(stage *Stage, linkanchoredtex
 		}
 	}
 	if AnimatesDifferent {
-		ops := stage.Diff(linkanchoredtext, linkanchoredtextOther, "Animates", linkanchoredtextOther.Animates, linkanchoredtext.Animates)
+		ops := stage.Diff(
+			linkanchoredtext,
+			"Animates",
+			len(linkanchoredtextOther.Animates),
+			len(linkanchoredtext.Animates),
+			func(i, j int) bool {
+				return linkanchoredtextOther.Animates[i] == linkanchoredtext.Animates[j]
+			},
+			func(j int) string {
+				return linkanchoredtext.Animates[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -3887,7 +4118,18 @@ func (path *Path) GongDiff(stage *Stage, pathOther *Path) (diffs []string) {
 		}
 	}
 	if AnimatesDifferent {
-		ops := stage.Diff(path, pathOther, "Animates", pathOther.Animates, path.Animates)
+		ops := stage.Diff(
+			path,
+			"Animates",
+			len(pathOther.Animates),
+			len(path.Animates),
+			func(i, j int) bool {
+				return pathOther.Animates[i] == path.Animates[j]
+			},
+			func(j int) string {
+				return path.Animates[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -3963,7 +4205,18 @@ func (polygone *Polygone) GongDiff(stage *Stage, polygoneOther *Polygone) (diffs
 		}
 	}
 	if AnimatesDifferent {
-		ops := stage.Diff(polygone, polygoneOther, "Animates", polygoneOther.Animates, polygone.Animates)
+		ops := stage.Diff(
+			polygone,
+			"Animates",
+			len(polygoneOther.Animates),
+			len(polygone.Animates),
+			func(i, j int) bool {
+				return polygoneOther.Animates[i] == polygone.Animates[j]
+			},
+			func(j int) string {
+				return polygone.Animates[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4022,7 +4275,18 @@ func (polyline *Polyline) GongDiff(stage *Stage, polylineOther *Polyline) (diffs
 		}
 	}
 	if AnimatesDifferent {
-		ops := stage.Diff(polyline, polylineOther, "Animates", polylineOther.Animates, polyline.Animates)
+		ops := stage.Diff(
+			polyline,
+			"Animates",
+			len(polylineOther.Animates),
+			len(polyline.Animates),
+			func(i, j int) bool {
+				return polylineOther.Animates[i] == polyline.Animates[j]
+			},
+			func(j int) string {
+				return polyline.Animates[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4069,7 +4333,18 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if PeersDifferent {
-		ops := stage.Diff(rect, rectOther, "Peers", rectOther.Peers, rect.Peers)
+		ops := stage.Diff(
+			rect,
+			"Peers",
+			len(rectOther.Peers),
+			len(rect.Peers),
+			func(i, j int) bool {
+				return rectOther.Peers[i] == rect.Peers[j]
+			},
+			func(j int) string {
+				return rect.Peers[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (rect.EnclosingRect == nil) != (rectOther.EnclosingRect == nil) {
@@ -4097,7 +4372,18 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if ObstaclesDifferent {
-		ops := stage.Diff(rect, rectOther, "Obstacles", rectOther.Obstacles, rect.Obstacles)
+		ops := stage.Diff(
+			rect,
+			"Obstacles",
+			len(rectOther.Obstacles),
+			len(rect.Obstacles),
+			func(i, j int) bool {
+				return rectOther.Obstacles[i] == rect.Obstacles[j]
+			},
+			func(j int) string {
+				return rect.Obstacles[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (rect.AnchoredTo == nil) != (rectOther.AnchoredTo == nil) {
@@ -4149,7 +4435,18 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if HoveringTriggerDifferent {
-		ops := stage.Diff(rect, rectOther, "HoveringTrigger", rectOther.HoveringTrigger, rect.HoveringTrigger)
+		ops := stage.Diff(
+			rect,
+			"HoveringTrigger",
+			len(rectOther.HoveringTrigger),
+			len(rect.HoveringTrigger),
+			func(i, j int) bool {
+				return rectOther.HoveringTrigger[i] == rect.HoveringTrigger[j]
+			},
+			func(j int) string {
+				return rect.HoveringTrigger[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DisplayConditionsDifferent := false
@@ -4170,7 +4467,18 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if DisplayConditionsDifferent {
-		ops := stage.Diff(rect, rectOther, "DisplayConditions", rectOther.DisplayConditions, rect.DisplayConditions)
+		ops := stage.Diff(
+			rect,
+			"DisplayConditions",
+			len(rectOther.DisplayConditions),
+			len(rect.DisplayConditions),
+			func(i, j int) bool {
+				return rectOther.DisplayConditions[i] == rect.DisplayConditions[j]
+			},
+			func(j int) string {
+				return rect.DisplayConditions[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AnimationsDifferent := false
@@ -4191,7 +4499,18 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if AnimationsDifferent {
-		ops := stage.Diff(rect, rectOther, "Animations", rectOther.Animations, rect.Animations)
+		ops := stage.Diff(
+			rect,
+			"Animations",
+			len(rectOther.Animations),
+			len(rect.Animations),
+			func(i, j int) bool {
+				return rectOther.Animations[i] == rect.Animations[j]
+			},
+			func(j int) string {
+				return rect.Animations[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if rect.IsSelectable != rectOther.IsSelectable {
@@ -4251,7 +4570,18 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if RectAnchoredTextsDifferent {
-		ops := stage.Diff(rect, rectOther, "RectAnchoredTexts", rectOther.RectAnchoredTexts, rect.RectAnchoredTexts)
+		ops := stage.Diff(
+			rect,
+			"RectAnchoredTexts",
+			len(rectOther.RectAnchoredTexts),
+			len(rect.RectAnchoredTexts),
+			func(i, j int) bool {
+				return rectOther.RectAnchoredTexts[i] == rect.RectAnchoredTexts[j]
+			},
+			func(j int) string {
+				return rect.RectAnchoredTexts[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	RectAnchoredRectsDifferent := false
@@ -4272,7 +4602,18 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if RectAnchoredRectsDifferent {
-		ops := stage.Diff(rect, rectOther, "RectAnchoredRects", rectOther.RectAnchoredRects, rect.RectAnchoredRects)
+		ops := stage.Diff(
+			rect,
+			"RectAnchoredRects",
+			len(rectOther.RectAnchoredRects),
+			len(rect.RectAnchoredRects),
+			func(i, j int) bool {
+				return rectOther.RectAnchoredRects[i] == rect.RectAnchoredRects[j]
+			},
+			func(j int) string {
+				return rect.RectAnchoredRects[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	RectAnchoredPathsDifferent := false
@@ -4293,7 +4634,18 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if RectAnchoredPathsDifferent {
-		ops := stage.Diff(rect, rectOther, "RectAnchoredPaths", rectOther.RectAnchoredPaths, rect.RectAnchoredPaths)
+		ops := stage.Diff(
+			rect,
+			"RectAnchoredPaths",
+			len(rectOther.RectAnchoredPaths),
+			len(rect.RectAnchoredPaths),
+			func(i, j int) bool {
+				return rectOther.RectAnchoredPaths[i] == rect.RectAnchoredPaths[j]
+			},
+			func(j int) string {
+				return rect.RectAnchoredPaths[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	RectAnchoredPngImagesDifferent := false
@@ -4314,7 +4666,18 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if RectAnchoredPngImagesDifferent {
-		ops := stage.Diff(rect, rectOther, "RectAnchoredPngImages", rectOther.RectAnchoredPngImages, rect.RectAnchoredPngImages)
+		ops := stage.Diff(
+			rect,
+			"RectAnchoredPngImages",
+			len(rectOther.RectAnchoredPngImages),
+			len(rect.RectAnchoredPngImages),
+			func(i, j int) bool {
+				return rectOther.RectAnchoredPngImages[i] == rect.RectAnchoredPngImages[j]
+			},
+			func(j int) string {
+				return rect.RectAnchoredPngImages[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if rect.ChangeColorWhenHovered != rectOther.ChangeColorWhenHovered {
@@ -4610,7 +4973,18 @@ func (rectanchoredtext *RectAnchoredText) GongDiff(stage *Stage, rectanchoredtex
 		}
 	}
 	if AnimatesDifferent {
-		ops := stage.Diff(rectanchoredtext, rectanchoredtextOther, "Animates", rectanchoredtextOther.Animates, rectanchoredtext.Animates)
+		ops := stage.Diff(
+			rectanchoredtext,
+			"Animates",
+			len(rectanchoredtextOther.Animates),
+			len(rectanchoredtext.Animates),
+			func(i, j int) bool {
+				return rectanchoredtextOther.Animates[i] == rectanchoredtext.Animates[j]
+			},
+			func(j int) string {
+				return rectanchoredtext.Animates[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if rectanchoredtext.URLPath != rectanchoredtextOther.URLPath {
@@ -4700,7 +5074,18 @@ func (svg *SVG) GongDiff(stage *Stage, svgOther *SVG) (diffs []string) {
 		}
 	}
 	if LayersDifferent {
-		ops := stage.Diff(svg, svgOther, "Layers", svgOther.Layers, svg.Layers)
+		ops := stage.Diff(
+			svg,
+			"Layers",
+			len(svgOther.Layers),
+			len(svg.Layers),
+			func(i, j int) bool {
+				return svgOther.Layers[i] == svg.Layers[j]
+			},
+			func(j int) string {
+				return svg.Layers[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if svg.DrawingState != svgOther.DrawingState {
@@ -4850,7 +5235,18 @@ func (text *Text) GongDiff(stage *Stage, textOther *Text) (diffs []string) {
 		}
 	}
 	if AnimatesDifferent {
-		ops := stage.Diff(text, textOther, "Animates", textOther.Animates, text.Animates)
+		ops := stage.Diff(
+			text,
+			"Animates",
+			len(textOther.Animates),
+			len(text.Animates),
+			func(i, j int) bool {
+				return textOther.Animates[i] == text.Animates[j]
+			},
+			func(j int) string {
+				return text.Animates[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4858,8 +5254,14 @@ func (text *Text) GongDiff(stage *Stage, textOther *Text) (diffs []string) {
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -4870,7 +5272,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -4888,7 +5290,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -4911,22 +5313,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

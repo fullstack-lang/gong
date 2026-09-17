@@ -365,3 +365,12 @@ map[string]string{
 	mux.HandleFunc("DELETE " + base + "/{{structname}}s/{id}", GetController().Delete{{Structname}})
 `,
 }
+
+var ControllersRegistrationsUpdateOnlySubTemplate map[string]string = // new line
+map[string]string{
+	string(rune(ControllersDeclaration)): `
+	mux.HandleFunc("PATCH " + base + "/{{structname}}s/{id}", GetController().Update{{Structname}})
+	mux.HandleFunc("PUT " + base + "/{{structname}}s/{id}", GetController().Update{{Structname}})
+`,
+}
+

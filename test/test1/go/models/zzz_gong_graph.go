@@ -1055,7 +1055,18 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if AnarrayofbDifferent {
-		ops := stage.Diff(astruct, astructOther, "Anarrayofb", astructOther.Anarrayofb, astruct.Anarrayofb)
+		ops := stage.Diff(
+			astruct,
+			"Anarrayofb",
+			len(astructOther.Anarrayofb),
+			len(astruct.Anarrayofb),
+			func(i, j int) bool {
+				return astructOther.Anarrayofb[i] == astruct.Anarrayofb[j]
+			},
+			func(j int) string {
+				return astruct.Anarrayofb[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (astruct.Anotherassociationtob_2 == nil) != (astructOther.Anotherassociationtob_2 == nil) {
@@ -1152,7 +1163,18 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if Dstruct4sDifferent {
-		ops := stage.Diff(astruct, astructOther, "Dstruct4s", astructOther.Dstruct4s, astruct.Dstruct4s)
+		ops := stage.Diff(
+			astruct,
+			"Dstruct4s",
+			len(astructOther.Dstruct4s),
+			len(astruct.Dstruct4s),
+			func(i, j int) bool {
+				return astructOther.Dstruct4s[i] == astruct.Dstruct4s[j]
+			},
+			func(j int) string {
+				return astruct.Dstruct4s[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if astruct.Floatfield != astructOther.Floatfield {
@@ -1185,7 +1207,18 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if AnarrayofaDifferent {
-		ops := stage.Diff(astruct, astructOther, "Anarrayofa", astructOther.Anarrayofa, astruct.Anarrayofa)
+		ops := stage.Diff(
+			astruct,
+			"Anarrayofa",
+			len(astructOther.Anarrayofa),
+			len(astruct.Anarrayofa),
+			func(i, j int) bool {
+				return astructOther.Anarrayofa[i] == astruct.Anarrayofa[j]
+			},
+			func(j int) string {
+				return astruct.Anarrayofa[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AnotherarrayofbDifferent := false
@@ -1206,7 +1239,18 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if AnotherarrayofbDifferent {
-		ops := stage.Diff(astruct, astructOther, "Anotherarrayofb", astructOther.Anotherarrayofb, astruct.Anotherarrayofb)
+		ops := stage.Diff(
+			astruct,
+			"Anotherarrayofb",
+			len(astructOther.Anotherarrayofb),
+			len(astruct.Anotherarrayofb),
+			func(i, j int) bool {
+				return astructOther.Anotherarrayofb[i] == astruct.Anotherarrayofb[j]
+			},
+			func(j int) string {
+				return astruct.Anotherarrayofb[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AnarrayofbUseDifferent := false
@@ -1227,7 +1271,18 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if AnarrayofbUseDifferent {
-		ops := stage.Diff(astruct, astructOther, "AnarrayofbUse", astructOther.AnarrayofbUse, astruct.AnarrayofbUse)
+		ops := stage.Diff(
+			astruct,
+			"AnarrayofbUse",
+			len(astructOther.AnarrayofbUse),
+			len(astruct.AnarrayofbUse),
+			func(i, j int) bool {
+				return astructOther.AnarrayofbUse[i] == astruct.AnarrayofbUse[j]
+			},
+			func(j int) string {
+				return astruct.AnarrayofbUse[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Anarrayofb2UseDifferent := false
@@ -1248,7 +1303,18 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if Anarrayofb2UseDifferent {
-		ops := stage.Diff(astruct, astructOther, "Anarrayofb2Use", astructOther.Anarrayofb2Use, astruct.Anarrayofb2Use)
+		ops := stage.Diff(
+			astruct,
+			"Anarrayofb2Use",
+			len(astructOther.Anarrayofb2Use),
+			len(astruct.Anarrayofb2Use),
+			func(i, j int) bool {
+				return astructOther.Anarrayofb2Use[i] == astruct.Anarrayofb2Use[j]
+			},
+			func(j int) string {
+				return astruct.Anarrayofb2Use[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (astruct.AnAstruct == nil) != (astructOther.AnAstruct == nil) {
@@ -1349,7 +1415,18 @@ func (dstruct *Dstruct) GongDiff(stage *Stage, dstructOther *Dstruct) (diffs []s
 		}
 	}
 	if AnarrayofbDifferent {
-		ops := stage.Diff(dstruct, dstructOther, "Anarrayofb", dstructOther.Anarrayofb, dstruct.Anarrayofb)
+		ops := stage.Diff(
+			dstruct,
+			"Anarrayofb",
+			len(dstructOther.Anarrayofb),
+			len(dstruct.Anarrayofb),
+			func(i, j int) bool {
+				return dstructOther.Anarrayofb[i] == dstruct.Anarrayofb[j]
+			},
+			func(j int) string {
+				return dstruct.Anarrayofb[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (dstruct.Gstruct == nil) != (dstructOther.Gstruct == nil) {
@@ -1377,7 +1454,18 @@ func (dstruct *Dstruct) GongDiff(stage *Stage, dstructOther *Dstruct) (diffs []s
 		}
 	}
 	if GstructsDifferent {
-		ops := stage.Diff(dstruct, dstructOther, "Gstructs", dstructOther.Gstructs, dstruct.Gstructs)
+		ops := stage.Diff(
+			dstruct,
+			"Gstructs",
+			len(dstructOther.Gstructs),
+			len(dstruct.Gstructs),
+			func(i, j int) bool {
+				return dstructOther.Gstructs[i] == dstruct.Gstructs[j]
+			},
+			func(j int) string {
+				return dstruct.Gstructs[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -1419,8 +1507,14 @@ func (gstruct *Gstruct) GongDiff(stage *Stage, gstructOther *Gstruct) (diffs []s
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -1431,7 +1525,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -1449,7 +1543,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -1472,22 +1566,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

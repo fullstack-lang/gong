@@ -2,21 +2,18 @@
 import { Injectable, NgZone } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
+import { Observable, BehaviorSubject, of } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
 
 // insertion point sub template for services imports
 import { FileToDownloadAPI } from './filetodownload-api'
 import { FileToDownload, CopyFileToDownloadAPIToFileToDownload } from './filetodownload'
-import { FileToDownloadService } from './filetodownload.service'
 
 import { FileToUploadAPI } from './filetoupload-api'
 import { FileToUpload, CopyFileToUploadAPIToFileToUpload } from './filetoupload'
-import { FileToUploadService } from './filetoupload.service'
 
 import { MessageAPI } from './message-api'
 import { Message, CopyMessageAPIToMessage } from './message'
-import { MessageService } from './message.service'
 
 
 import { BackRepoData } from './back-repo-data'
@@ -133,163 +130,15 @@ export class FrontRepoService {
 
 	constructor(
 		private http: HttpClient,
-		private ngZone: NgZone, // insertion point sub template 
-		private filetodownloadService: FileToDownloadService,
-		private filetouploadService: FileToUploadService,
-		private messageService: MessageService,
+		private ngZone: NgZone,
 	) { }
 
-	// postService provides a post function for each struct name
-	postService(structName: string, instanceToBePosted: any) {
-		let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
-		let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
-
-		servicePostFunction(instanceToBePosted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("post")
-			}
-		)
-	}
-
-	// deleteService provides a delete function for each struct name
-	deleteService(structName: string, instanceToBeDeleted: any) {
-		let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
-		let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
-
-		serviceDeleteFunction(instanceToBeDeleted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("delete")
-			}
-		)
-	}
-
-	// typing of observable can be messy in typescript. Therefore, one force the type
-	observableFrontRepo!: [
-		Observable<null>, // see below for the of(null) observable
-		// insertion point sub template 
-		Observable<FileToDownloadAPI[]>,
-		Observable<FileToUploadAPI[]>,
-		Observable<MessageAPI[]>,
-	]
-
 	//
-	// pull performs a GET on all struct of the stack and redeem association pointers 
+	// pull returns the FrontRepo Observable
 	//
-	// This is an observable. Therefore, the control flow forks with
-	// - pull() return immediatly the observable
-	// - the observable observer, if it subscribe, is called when all GET calls are performs
 	pull(Name: string = ""): Observable<FrontRepo> {
-
 		this.Name = Name
-
-		this.observableFrontRepo = [
-			of(null), // see above for justification
-			// insertion point sub template
-			this.filetodownloadService.getFileToDownloads(this.Name, this.frontRepo),
-			this.filetouploadService.getFileToUploads(this.Name, this.frontRepo),
-			this.messageService.getMessages(this.Name, this.frontRepo),
-		]
-
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest(
-					this.observableFrontRepo
-				).subscribe(
-					([
-						___of_null, // see above for the explanation about of
-						// insertion point sub template for declarations 
-						filetodownloads_,
-						filetouploads_,
-						messages_,
-					]) => {
-						let _this = this
-						// Typing can be messy with many items. Therefore, type casting is necessary here
-						// insertion point sub template for type casting 
-						var filetodownloads: FileToDownloadAPI[]
-						filetodownloads = filetodownloads_ as FileToDownloadAPI[]
-						var filetouploads: FileToUploadAPI[]
-						filetouploads = filetouploads_ as FileToUploadAPI[]
-						var messages: MessageAPI[]
-						messages = messages_ as MessageAPI[]
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template for init 
-						// init the arrays
-						this.frontRepo.array_FileToDownloads = []
-						this.frontRepo.map_ID_FileToDownload.clear()
-
-						filetodownloads.forEach(
-							filetodownloadAPI => {
-								let filetodownload = new FileToDownload
-								this.frontRepo.array_FileToDownloads.push(filetodownload)
-								this.frontRepo.map_ID_FileToDownload.set(filetodownloadAPI.ID, filetodownload)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FileToUploads = []
-						this.frontRepo.map_ID_FileToUpload.clear()
-
-						filetouploads.forEach(
-							filetouploadAPI => {
-								let filetoupload = new FileToUpload
-								this.frontRepo.array_FileToUploads.push(filetoupload)
-								this.frontRepo.map_ID_FileToUpload.set(filetouploadAPI.ID, filetoupload)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Messages = []
-						this.frontRepo.map_ID_Message.clear()
-
-						messages.forEach(
-							messageAPI => {
-								let message = new Message
-								this.frontRepo.array_Messages.push(message)
-								this.frontRepo.map_ID_Message.set(messageAPI.ID, message)
-							}
-						)
-
-
-						// 
-						// Second Step: reddeem front objects
-						// insertion point sub template for redeem 
-						// fill up front objects
-						filetodownloads.forEach(
-							filetodownloadAPI => {
-								let filetodownload = this.frontRepo.map_ID_FileToDownload.get(filetodownloadAPI.ID)
-								CopyFileToDownloadAPIToFileToDownload(filetodownloadAPI, filetodownload!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						filetouploads.forEach(
-							filetouploadAPI => {
-								let filetoupload = this.frontRepo.map_ID_FileToUpload.get(filetouploadAPI.ID)
-								CopyFileToUploadAPIToFileToUpload(filetouploadAPI, filetoupload!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						messages.forEach(
-							messageAPI => {
-								let message = this.frontRepo.map_ID_Message.get(messageAPI.ID)
-								CopyMessageAPIToMessage(messageAPI, message!, this.frontRepo)
-							}
-						)
-
-
-						// hand over control flow to observer
-						this.ngZone.run(() => {
-							observer.next(this.frontRepo)
-						})
-					}
-				)
-			}
-		)
+		return of(this.frontRepo)
 	}
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
@@ -406,54 +255,71 @@ export class FrontRepoService {
 				})
 			}
 
-			// 3. Connection Loop
-			const attemptConnection = (retries: number): void => {
-				// console.log("github.com/fullstack-lang/gong/lib/load/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+			// Offline mode handling: Listen to the global event
+			if (isOfflineMode) {
+				console.log("github.com/fullstack-lang/gong/lib/load/go; Offline mode detected. Skipping WebSocket connection.")
 
-				// A. WASM OFFLINE MODE (Check if Go is ready)
-				if ((window as any).openWasmSocket) {
-					// console.log("github.com/fullstack-lang/gong/lib/load/go; attemptConnection: openWasmSocket exists, calling it");
-					(window as any).openWasmSocket("github.com/fullstack-lang/gong/lib/load/go", Name, processData);
-					return;
+				window.addEventListener('message', (event) => {
+					if (event.data && event.data.type === 'STAGE_UPDATE') {
+						console.log("github.com/fullstack-lang/gong/lib/load/go; Received STAGE_UPDATE message.")
+						processData(JSON.stringify(event.data.data))
+					}
+				})
+
+				return () => {
+					console.log("github.com/fullstack-lang/gong/lib/load/go; Cleaning up offline message listener.")
+				}
+			}
+
+			// Fallback: If not offline, create normal WebSocket
+			const attemptConnection = () => {
+				// Offline check inside attemptConnection: if window.openWasmSocket is available, use it!
+				if (typeof window !== 'undefined' && (window as any).openWasmSocket) {
+					(window as any).openWasmSocket('github.com/fullstack-lang/gong/lib/load/go', Name, (data: any) => {
+						processData(data)
+					})
+					return
 				}
 
-				// B. WAITING FOR WASM
-				if (isOfflineMode && retries > 0) {
-					// console.log("github.com/fullstack-lang/gong/lib/load/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
-					setTimeout(() => attemptConnection(retries - 1), 100);
-					return;
+				if (isOfflineMode && retryCount > 0) {
+					console.log("github.com/fullstack-lang/gong/lib/load/go; Waiting for wasm socket provider...")
+					setTimeout(() => attemptConnection(), 100)
+					return
 				}
 
-				// C. STANDARD SERVER MODE
-				if (!isOfflineMode) {
-					// console.log("github.com/fullstack-lang/gong/lib/load/go; attemptConnection: STANDARD SERVER MODE. url =", url)
-					socket = new WebSocket(url)
-					socket.onopen = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/load/go; WebSocket: onopen", event)
-					}
-					socket.onmessage = event => {
-						// console.log("github.com/fullstack-lang/gong/lib/load/go; WebSocket: onmessage")
-						processData(event.data)
-					}
-					socket.onerror = event => {
-						console.error("github.com/fullstack-lang/gong/lib/load/go WebSocket: onerror", event)
-						observer.error(event)
-					}
-					socket.onclose = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/load/go; WebSocket: onclose", event)
-						observer.complete()
-					}
-				} else {
+				if (isOfflineMode) {
 					console.error("github.com/fullstack-lang/gong/lib/load/go, attemptConnection: Offline mode detected, but WASM backend failed to load.")
-					observer.error("Offline mode detected, but WASM backend failed to load.");
+					observer.error("Offline mode detected, but WASM backend failed to load.")
+					return
 				}
-			};
 
-			attemptConnection(50);
+				socket = new WebSocket(url)
 
-			// Teardown logic: Called when the last subscriber unsubscribes.
+				socket.onopen = () => {
+					// console.log("github.com/fullstack-lang/gong/lib/load/go; WebSocket connection opened successfully:", url)
+				}
+
+				socket.onmessage = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/load/go; WebSocket message received:", event.data)
+					processData(event.data)
+				}
+
+				socket.onerror = (error) => {
+					console.error("github.com/fullstack-lang/gong/lib/load/go WebSocket: onerror", error)
+					observer.error(error)
+				}
+
+				socket.onclose = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/load/go; WebSocket connection closed:", event)
+					observer.complete()
+				}
+			}
+
+			let retryCount = 10
+			attemptConnection()
+
 			return () => {
-				this.webSocketConnections.delete(Name) // Remove from cache
+				// console.log("github.com/fullstack-lang/gong/lib/load/go; Cleaning up WebSocket connection")
 				if (socket) {
 					socket.close()
 				}

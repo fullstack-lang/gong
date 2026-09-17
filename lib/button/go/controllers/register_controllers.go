@@ -54,40 +54,20 @@ type ValidationError struct {
 func registerControllers(mux *http.ServeMux) {
 	base := "/api/github.com/fullstack-lang/gong/lib/button/go/v1"
 
-	mux.HandleFunc("GET " + base + "/buttons", GetController().GetButtons)
-	mux.HandleFunc("GET " + base + "/buttons/{id}", GetController().GetButton)
-	mux.HandleFunc("POST " + base + "/buttons", GetController().PostButton)
 	mux.HandleFunc("PATCH " + base + "/buttons/{id}", GetController().UpdateButton)
 	mux.HandleFunc("PUT " + base + "/buttons/{id}", GetController().UpdateButton)
-	mux.HandleFunc("DELETE " + base + "/buttons/{id}", GetController().DeleteButton)
 
-	mux.HandleFunc("GET " + base + "/buttontoggles", GetController().GetButtonToggles)
-	mux.HandleFunc("GET " + base + "/buttontoggles/{id}", GetController().GetButtonToggle)
-	mux.HandleFunc("POST " + base + "/buttontoggles", GetController().PostButtonToggle)
 	mux.HandleFunc("PATCH " + base + "/buttontoggles/{id}", GetController().UpdateButtonToggle)
 	mux.HandleFunc("PUT " + base + "/buttontoggles/{id}", GetController().UpdateButtonToggle)
-	mux.HandleFunc("DELETE " + base + "/buttontoggles/{id}", GetController().DeleteButtonToggle)
 
-	mux.HandleFunc("GET " + base + "/groups", GetController().GetGroups)
-	mux.HandleFunc("GET " + base + "/groups/{id}", GetController().GetGroup)
-	mux.HandleFunc("POST " + base + "/groups", GetController().PostGroup)
 	mux.HandleFunc("PATCH " + base + "/groups/{id}", GetController().UpdateGroup)
 	mux.HandleFunc("PUT " + base + "/groups/{id}", GetController().UpdateGroup)
-	mux.HandleFunc("DELETE " + base + "/groups/{id}", GetController().DeleteGroup)
 
-	mux.HandleFunc("GET " + base + "/grouptoogles", GetController().GetGroupToogles)
-	mux.HandleFunc("GET " + base + "/grouptoogles/{id}", GetController().GetGroupToogle)
-	mux.HandleFunc("POST " + base + "/grouptoogles", GetController().PostGroupToogle)
 	mux.HandleFunc("PATCH " + base + "/grouptoogles/{id}", GetController().UpdateGroupToogle)
 	mux.HandleFunc("PUT " + base + "/grouptoogles/{id}", GetController().UpdateGroupToogle)
-	mux.HandleFunc("DELETE " + base + "/grouptoogles/{id}", GetController().DeleteGroupToogle)
 
-	mux.HandleFunc("GET " + base + "/layouts", GetController().GetLayouts)
-	mux.HandleFunc("GET " + base + "/layouts/{id}", GetController().GetLayout)
-	mux.HandleFunc("POST " + base + "/layouts", GetController().PostLayout)
 	mux.HandleFunc("PATCH " + base + "/layouts/{id}", GetController().UpdateLayout)
 	mux.HandleFunc("PUT " + base + "/layouts/{id}", GetController().UpdateLayout)
-	mux.HandleFunc("DELETE " + base + "/layouts/{id}", GetController().DeleteLayout)
 
 	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)

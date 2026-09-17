@@ -2,53 +2,42 @@
 import { Injectable, NgZone } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
+import { Observable, BehaviorSubject, of } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
 
 // insertion point sub template for services imports
 import { ButtonAPI } from './button-api'
 import { Button, CopyButtonAPIToButton } from './button'
-import { ButtonService } from './button.service'
 
 import { CellAPI } from './cell-api'
 import { Cell, CopyCellAPIToCell } from './cell'
-import { CellService } from './cell.service'
 
 import { CellBooleanAPI } from './cellboolean-api'
 import { CellBoolean, CopyCellBooleanAPIToCellBoolean } from './cellboolean'
-import { CellBooleanService } from './cellboolean.service'
 
 import { CellFloat64API } from './cellfloat64-api'
 import { CellFloat64, CopyCellFloat64APIToCellFloat64 } from './cellfloat64'
-import { CellFloat64Service } from './cellfloat64.service'
 
 import { CellIconAPI } from './cellicon-api'
 import { CellIcon, CopyCellIconAPIToCellIcon } from './cellicon'
-import { CellIconService } from './cellicon.service'
 
 import { CellIntAPI } from './cellint-api'
 import { CellInt, CopyCellIntAPIToCellInt } from './cellint'
-import { CellIntService } from './cellint.service'
 
 import { CellStringAPI } from './cellstring-api'
 import { CellString, CopyCellStringAPIToCellString } from './cellstring'
-import { CellStringService } from './cellstring.service'
 
 import { DisplayedColumnAPI } from './displayedcolumn-api'
 import { DisplayedColumn, CopyDisplayedColumnAPIToDisplayedColumn } from './displayedcolumn'
-import { DisplayedColumnService } from './displayedcolumn.service'
 
 import { RowAPI } from './row-api'
 import { Row, CopyRowAPIToRow } from './row'
-import { RowService } from './row.service'
 
 import { SVGIconAPI } from './svgicon-api'
 import { SVGIcon, CopySVGIconAPIToSVGIcon } from './svgicon'
-import { SVGIconService } from './svgicon.service'
 
 import { TableAPI } from './table-api'
 import { Table, CopyTableAPIToTable } from './table'
-import { TableService } from './table.service'
 
 
 import { BackRepoData } from './back-repo-data'
@@ -221,371 +210,15 @@ export class FrontRepoService {
 
 	constructor(
 		private http: HttpClient,
-		private ngZone: NgZone, // insertion point sub template 
-		private buttonService: ButtonService,
-		private cellService: CellService,
-		private cellbooleanService: CellBooleanService,
-		private cellfloat64Service: CellFloat64Service,
-		private celliconService: CellIconService,
-		private cellintService: CellIntService,
-		private cellstringService: CellStringService,
-		private displayedcolumnService: DisplayedColumnService,
-		private rowService: RowService,
-		private svgiconService: SVGIconService,
-		private tableService: TableService,
+		private ngZone: NgZone,
 	) { }
 
-	// postService provides a post function for each struct name
-	postService(structName: string, instanceToBePosted: any) {
-		let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
-		let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
-
-		servicePostFunction(instanceToBePosted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("post")
-			}
-		)
-	}
-
-	// deleteService provides a delete function for each struct name
-	deleteService(structName: string, instanceToBeDeleted: any) {
-		let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
-		let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
-
-		serviceDeleteFunction(instanceToBeDeleted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("delete")
-			}
-		)
-	}
-
-	// typing of observable can be messy in typescript. Therefore, one force the type
-	observableFrontRepo!: [
-		Observable<null>, // see below for the of(null) observable
-		// insertion point sub template 
-		Observable<ButtonAPI[]>,
-		Observable<CellAPI[]>,
-		Observable<CellBooleanAPI[]>,
-		Observable<CellFloat64API[]>,
-		Observable<CellIconAPI[]>,
-		Observable<CellIntAPI[]>,
-		Observable<CellStringAPI[]>,
-		Observable<DisplayedColumnAPI[]>,
-		Observable<RowAPI[]>,
-		Observable<SVGIconAPI[]>,
-		Observable<TableAPI[]>,
-	]
-
 	//
-	// pull performs a GET on all struct of the stack and redeem association pointers 
+	// pull returns the FrontRepo Observable
 	//
-	// This is an observable. Therefore, the control flow forks with
-	// - pull() return immediatly the observable
-	// - the observable observer, if it subscribe, is called when all GET calls are performs
 	pull(Name: string = ""): Observable<FrontRepo> {
-
 		this.Name = Name
-
-		this.observableFrontRepo = [
-			of(null), // see above for justification
-			// insertion point sub template
-			this.buttonService.getButtons(this.Name, this.frontRepo),
-			this.cellService.getCells(this.Name, this.frontRepo),
-			this.cellbooleanService.getCellBooleans(this.Name, this.frontRepo),
-			this.cellfloat64Service.getCellFloat64s(this.Name, this.frontRepo),
-			this.celliconService.getCellIcons(this.Name, this.frontRepo),
-			this.cellintService.getCellInts(this.Name, this.frontRepo),
-			this.cellstringService.getCellStrings(this.Name, this.frontRepo),
-			this.displayedcolumnService.getDisplayedColumns(this.Name, this.frontRepo),
-			this.rowService.getRows(this.Name, this.frontRepo),
-			this.svgiconService.getSVGIcons(this.Name, this.frontRepo),
-			this.tableService.getTables(this.Name, this.frontRepo),
-		]
-
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest(
-					this.observableFrontRepo
-				).subscribe(
-					([
-						___of_null, // see above for the explanation about of
-						// insertion point sub template for declarations 
-						buttons_,
-						cells_,
-						cellbooleans_,
-						cellfloat64s_,
-						cellicons_,
-						cellints_,
-						cellstrings_,
-						displayedcolumns_,
-						rows_,
-						svgicons_,
-						tables_,
-					]) => {
-						let _this = this
-						// Typing can be messy with many items. Therefore, type casting is necessary here
-						// insertion point sub template for type casting 
-						var buttons: ButtonAPI[]
-						buttons = buttons_ as ButtonAPI[]
-						var cells: CellAPI[]
-						cells = cells_ as CellAPI[]
-						var cellbooleans: CellBooleanAPI[]
-						cellbooleans = cellbooleans_ as CellBooleanAPI[]
-						var cellfloat64s: CellFloat64API[]
-						cellfloat64s = cellfloat64s_ as CellFloat64API[]
-						var cellicons: CellIconAPI[]
-						cellicons = cellicons_ as CellIconAPI[]
-						var cellints: CellIntAPI[]
-						cellints = cellints_ as CellIntAPI[]
-						var cellstrings: CellStringAPI[]
-						cellstrings = cellstrings_ as CellStringAPI[]
-						var displayedcolumns: DisplayedColumnAPI[]
-						displayedcolumns = displayedcolumns_ as DisplayedColumnAPI[]
-						var rows: RowAPI[]
-						rows = rows_ as RowAPI[]
-						var svgicons: SVGIconAPI[]
-						svgicons = svgicons_ as SVGIconAPI[]
-						var tables: TableAPI[]
-						tables = tables_ as TableAPI[]
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template for init 
-						// init the arrays
-						this.frontRepo.array_Buttons = []
-						this.frontRepo.map_ID_Button.clear()
-
-						buttons.forEach(
-							buttonAPI => {
-								let button = new Button
-								this.frontRepo.array_Buttons.push(button)
-								this.frontRepo.map_ID_Button.set(buttonAPI.ID, button)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Cells = []
-						this.frontRepo.map_ID_Cell.clear()
-
-						cells.forEach(
-							cellAPI => {
-								let cell = new Cell
-								this.frontRepo.array_Cells.push(cell)
-								this.frontRepo.map_ID_Cell.set(cellAPI.ID, cell)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_CellBooleans = []
-						this.frontRepo.map_ID_CellBoolean.clear()
-
-						cellbooleans.forEach(
-							cellbooleanAPI => {
-								let cellboolean = new CellBoolean
-								this.frontRepo.array_CellBooleans.push(cellboolean)
-								this.frontRepo.map_ID_CellBoolean.set(cellbooleanAPI.ID, cellboolean)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_CellFloat64s = []
-						this.frontRepo.map_ID_CellFloat64.clear()
-
-						cellfloat64s.forEach(
-							cellfloat64API => {
-								let cellfloat64 = new CellFloat64
-								this.frontRepo.array_CellFloat64s.push(cellfloat64)
-								this.frontRepo.map_ID_CellFloat64.set(cellfloat64API.ID, cellfloat64)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_CellIcons = []
-						this.frontRepo.map_ID_CellIcon.clear()
-
-						cellicons.forEach(
-							celliconAPI => {
-								let cellicon = new CellIcon
-								this.frontRepo.array_CellIcons.push(cellicon)
-								this.frontRepo.map_ID_CellIcon.set(celliconAPI.ID, cellicon)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_CellInts = []
-						this.frontRepo.map_ID_CellInt.clear()
-
-						cellints.forEach(
-							cellintAPI => {
-								let cellint = new CellInt
-								this.frontRepo.array_CellInts.push(cellint)
-								this.frontRepo.map_ID_CellInt.set(cellintAPI.ID, cellint)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_CellStrings = []
-						this.frontRepo.map_ID_CellString.clear()
-
-						cellstrings.forEach(
-							cellstringAPI => {
-								let cellstring = new CellString
-								this.frontRepo.array_CellStrings.push(cellstring)
-								this.frontRepo.map_ID_CellString.set(cellstringAPI.ID, cellstring)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_DisplayedColumns = []
-						this.frontRepo.map_ID_DisplayedColumn.clear()
-
-						displayedcolumns.forEach(
-							displayedcolumnAPI => {
-								let displayedcolumn = new DisplayedColumn
-								this.frontRepo.array_DisplayedColumns.push(displayedcolumn)
-								this.frontRepo.map_ID_DisplayedColumn.set(displayedcolumnAPI.ID, displayedcolumn)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Rows = []
-						this.frontRepo.map_ID_Row.clear()
-
-						rows.forEach(
-							rowAPI => {
-								let row = new Row
-								this.frontRepo.array_Rows.push(row)
-								this.frontRepo.map_ID_Row.set(rowAPI.ID, row)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_SVGIcons = []
-						this.frontRepo.map_ID_SVGIcon.clear()
-
-						svgicons.forEach(
-							svgiconAPI => {
-								let svgicon = new SVGIcon
-								this.frontRepo.array_SVGIcons.push(svgicon)
-								this.frontRepo.map_ID_SVGIcon.set(svgiconAPI.ID, svgicon)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Tables = []
-						this.frontRepo.map_ID_Table.clear()
-
-						tables.forEach(
-							tableAPI => {
-								let table = new Table
-								this.frontRepo.array_Tables.push(table)
-								this.frontRepo.map_ID_Table.set(tableAPI.ID, table)
-							}
-						)
-
-
-						// 
-						// Second Step: reddeem front objects
-						// insertion point sub template for redeem 
-						// fill up front objects
-						buttons.forEach(
-							buttonAPI => {
-								let button = this.frontRepo.map_ID_Button.get(buttonAPI.ID)
-								CopyButtonAPIToButton(buttonAPI, button!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						cells.forEach(
-							cellAPI => {
-								let cell = this.frontRepo.map_ID_Cell.get(cellAPI.ID)
-								CopyCellAPIToCell(cellAPI, cell!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						cellbooleans.forEach(
-							cellbooleanAPI => {
-								let cellboolean = this.frontRepo.map_ID_CellBoolean.get(cellbooleanAPI.ID)
-								CopyCellBooleanAPIToCellBoolean(cellbooleanAPI, cellboolean!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						cellfloat64s.forEach(
-							cellfloat64API => {
-								let cellfloat64 = this.frontRepo.map_ID_CellFloat64.get(cellfloat64API.ID)
-								CopyCellFloat64APIToCellFloat64(cellfloat64API, cellfloat64!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						cellicons.forEach(
-							celliconAPI => {
-								let cellicon = this.frontRepo.map_ID_CellIcon.get(celliconAPI.ID)
-								CopyCellIconAPIToCellIcon(celliconAPI, cellicon!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						cellints.forEach(
-							cellintAPI => {
-								let cellint = this.frontRepo.map_ID_CellInt.get(cellintAPI.ID)
-								CopyCellIntAPIToCellInt(cellintAPI, cellint!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						cellstrings.forEach(
-							cellstringAPI => {
-								let cellstring = this.frontRepo.map_ID_CellString.get(cellstringAPI.ID)
-								CopyCellStringAPIToCellString(cellstringAPI, cellstring!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						displayedcolumns.forEach(
-							displayedcolumnAPI => {
-								let displayedcolumn = this.frontRepo.map_ID_DisplayedColumn.get(displayedcolumnAPI.ID)
-								CopyDisplayedColumnAPIToDisplayedColumn(displayedcolumnAPI, displayedcolumn!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						rows.forEach(
-							rowAPI => {
-								let row = this.frontRepo.map_ID_Row.get(rowAPI.ID)
-								CopyRowAPIToRow(rowAPI, row!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						svgicons.forEach(
-							svgiconAPI => {
-								let svgicon = this.frontRepo.map_ID_SVGIcon.get(svgiconAPI.ID)
-								CopySVGIconAPIToSVGIcon(svgiconAPI, svgicon!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						tables.forEach(
-							tableAPI => {
-								let table = this.frontRepo.map_ID_Table.get(tableAPI.ID)
-								CopyTableAPIToTable(tableAPI, table!, this.frontRepo)
-							}
-						)
-
-
-						// hand over control flow to observer
-						this.ngZone.run(() => {
-							observer.next(this.frontRepo)
-						})
-					}
-				)
-			}
-		)
+		return of(this.frontRepo)
 	}
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
@@ -862,54 +495,71 @@ export class FrontRepoService {
 				})
 			}
 
-			// 3. Connection Loop
-			const attemptConnection = (retries: number): void => {
-				// console.log("github.com/fullstack-lang/gong/lib/table/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+			// Offline mode handling: Listen to the global event
+			if (isOfflineMode) {
+				console.log("github.com/fullstack-lang/gong/lib/table/go; Offline mode detected. Skipping WebSocket connection.")
 
-				// A. WASM OFFLINE MODE (Check if Go is ready)
-				if ((window as any).openWasmSocket) {
-					// console.log("github.com/fullstack-lang/gong/lib/table/go; attemptConnection: openWasmSocket exists, calling it");
-					(window as any).openWasmSocket("github.com/fullstack-lang/gong/lib/table/go", Name, processData);
-					return;
+				window.addEventListener('message', (event) => {
+					if (event.data && event.data.type === 'STAGE_UPDATE') {
+						console.log("github.com/fullstack-lang/gong/lib/table/go; Received STAGE_UPDATE message.")
+						processData(JSON.stringify(event.data.data))
+					}
+				})
+
+				return () => {
+					console.log("github.com/fullstack-lang/gong/lib/table/go; Cleaning up offline message listener.")
+				}
+			}
+
+			// Fallback: If not offline, create normal WebSocket
+			const attemptConnection = () => {
+				// Offline check inside attemptConnection: if window.openWasmSocket is available, use it!
+				if (typeof window !== 'undefined' && (window as any).openWasmSocket) {
+					(window as any).openWasmSocket('github.com/fullstack-lang/gong/lib/table/go', Name, (data: any) => {
+						processData(data)
+					})
+					return
 				}
 
-				// B. WAITING FOR WASM
-				if (isOfflineMode && retries > 0) {
-					// console.log("github.com/fullstack-lang/gong/lib/table/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
-					setTimeout(() => attemptConnection(retries - 1), 100);
-					return;
+				if (isOfflineMode && retryCount > 0) {
+					console.log("github.com/fullstack-lang/gong/lib/table/go; Waiting for wasm socket provider...")
+					setTimeout(() => attemptConnection(), 100)
+					return
 				}
 
-				// C. STANDARD SERVER MODE
-				if (!isOfflineMode) {
-					// console.log("github.com/fullstack-lang/gong/lib/table/go; attemptConnection: STANDARD SERVER MODE. url =", url)
-					socket = new WebSocket(url)
-					socket.onopen = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/table/go; WebSocket: onopen", event)
-					}
-					socket.onmessage = event => {
-						// console.log("github.com/fullstack-lang/gong/lib/table/go; WebSocket: onmessage")
-						processData(event.data)
-					}
-					socket.onerror = event => {
-						console.error("github.com/fullstack-lang/gong/lib/table/go WebSocket: onerror", event)
-						observer.error(event)
-					}
-					socket.onclose = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/table/go; WebSocket: onclose", event)
-						observer.complete()
-					}
-				} else {
+				if (isOfflineMode) {
 					console.error("github.com/fullstack-lang/gong/lib/table/go, attemptConnection: Offline mode detected, but WASM backend failed to load.")
-					observer.error("Offline mode detected, but WASM backend failed to load.");
+					observer.error("Offline mode detected, but WASM backend failed to load.")
+					return
 				}
-			};
 
-			attemptConnection(50);
+				socket = new WebSocket(url)
 
-			// Teardown logic: Called when the last subscriber unsubscribes.
+				socket.onopen = () => {
+					// console.log("github.com/fullstack-lang/gong/lib/table/go; WebSocket connection opened successfully:", url)
+				}
+
+				socket.onmessage = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/table/go; WebSocket message received:", event.data)
+					processData(event.data)
+				}
+
+				socket.onerror = (error) => {
+					console.error("github.com/fullstack-lang/gong/lib/table/go WebSocket: onerror", error)
+					observer.error(error)
+				}
+
+				socket.onclose = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/table/go; WebSocket connection closed:", event)
+					observer.complete()
+				}
+			}
+
+			let retryCount = 10
+			attemptConnection()
+
 			return () => {
-				this.webSocketConnections.delete(Name) // Remove from cache
+				// console.log("github.com/fullstack-lang/gong/lib/table/go; Cleaning up WebSocket connection")
 				if (socket) {
 					socket.close()
 				}

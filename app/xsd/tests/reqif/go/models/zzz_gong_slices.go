@@ -2235,6 +2235,88 @@ func (xhtml_content *XHTML_CONTENT) GongGetUUID(stage *Stage) (uuid string) {
 	return
 }
 
+
+type GongstructDiffable[T any] interface {
+	PointerToGongstruct
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallUnstaging(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+	GongReconstructPointersFromInstances(stage *Stage)
+	GongDiff(stage *Stage, other T) []string
+}
+
+func computeCommitsForType[T GongstructDiffable[T]](
+	stage *Stage,
+	stagedInstances map[T]struct{},
+	stagedOrder map[T]uint,
+	referenceInstances map[T]T,
+	referenceOrder *map[T]uint,
+	instancesMap map[T]T,
+	newInstancesSlice *[]string,
+	fieldsEditSlice *[]string,
+	deletedInstancesSlice *[]string,
+	newInstancesReverseSlice *[]string,
+	fieldsEditReverseSlice *[]string,
+	deletedInstancesReverseSlice *[]string,
+	lenNewInstances *int,
+	lenDeletedInstances *int,
+	lenModifiedInstances *int,
+) {
+	var newInstances []T
+	var deletedInstances []T
+
+	// parse all staged instances and check if they have a reference
+	for instance := range stagedInstances {
+		if ref, ok := referenceInstances[instance]; !ok {
+			newInstances = append(newInstances, instance)
+			*newInstancesSlice = append(*newInstancesSlice, instance.GongMarshallIdentifier(stage))
+			if *referenceOrder == nil {
+				*referenceOrder = make(map[T]uint)
+			}
+			(*referenceOrder)[instance] = stagedOrder[instance]
+			*newInstancesReverseSlice = append(*newInstancesReverseSlice, instance.GongMarshallUnstaging(stage))
+			fieldInitializers, pointersInitializations := instance.GongMarshallAllFields(stage)
+			*fieldsEditSlice = append(*fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stagedOrder[ref] = stagedOrder[instance]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := instance.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, instance)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if instance.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", instance.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				*fieldsEditSlice = append(*fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					*fieldsEditReverseSlice = append(*fieldsEditReverseSlice, reverseDiff)
+				}
+				*lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range referenceInstances {
+		instance := instancesMap[ref] // get the instance corresponding to the reference
+		if _, ok := stagedInstances[instance]; !ok { // if the instance is not staged anymore, it means it has been unstaged
+			deletedInstances = append(deletedInstances, ref)
+			*deletedInstancesSlice = append(*deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			*deletedInstancesReverseSlice = append(*deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			*fieldsEditReverseSlice = append(*fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	*lenNewInstances += len(newInstances)
+	*lenDeletedInstances += len(deletedInstances)
+}
+
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int
@@ -2253,4626 +2335,1434 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	stage.Clean()
 
 	// insertion point per named struct
-	var alternative_ids_newInstances []*ALTERNATIVE_ID
-	var alternative_ids_deletedInstances []*ALTERNATIVE_ID
-
-	// parse all staged instances and check if they have a reference
-	for alternative_id := range stage.ALTERNATIVE_IDs {
-		if ref, ok := stage.ALTERNATIVE_IDs_reference[alternative_id]; !ok {
-			alternative_ids_newInstances = append(alternative_ids_newInstances, alternative_id)
-			newInstancesSlice = append(newInstancesSlice, alternative_id.GongMarshallIdentifier(stage))
-			if stage.ALTERNATIVE_IDs_referenceOrder == nil {
-				stage.ALTERNATIVE_IDs_referenceOrder = make(map[*ALTERNATIVE_ID]uint)
-			}
-			stage.ALTERNATIVE_IDs_referenceOrder[alternative_id] = stage.ALTERNATIVE_ID_stagedOrder[alternative_id]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, alternative_id.GongMarshallUnstaging(stage))
-			// delete(stage.ALTERNATIVE_IDs_referenceOrder, alternative_id)
-			fieldInitializers, pointersInitializations := alternative_id.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ALTERNATIVE_ID_stagedOrder[ref] = stage.ALTERNATIVE_ID_stagedOrder[alternative_id]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := alternative_id.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, alternative_id)
-			// delete(stage.ALTERNATIVE_ID_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if alternative_id.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", alternative_id.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ALTERNATIVE_IDs_reference {
-		instance := stage.ALTERNATIVE_IDs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ALTERNATIVE_IDs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			alternative_ids_deletedInstances = append(alternative_ids_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(alternative_ids_newInstances)
-	lenDeletedInstances += len(alternative_ids_deletedInstances)
-	var attribute_definition_booleans_newInstances []*ATTRIBUTE_DEFINITION_BOOLEAN
-	var attribute_definition_booleans_deletedInstances []*ATTRIBUTE_DEFINITION_BOOLEAN
-
-	// parse all staged instances and check if they have a reference
-	for attribute_definition_boolean := range stage.ATTRIBUTE_DEFINITION_BOOLEANs {
-		if ref, ok := stage.ATTRIBUTE_DEFINITION_BOOLEANs_reference[attribute_definition_boolean]; !ok {
-			attribute_definition_booleans_newInstances = append(attribute_definition_booleans_newInstances, attribute_definition_boolean)
-			newInstancesSlice = append(newInstancesSlice, attribute_definition_boolean.GongMarshallIdentifier(stage))
-			if stage.ATTRIBUTE_DEFINITION_BOOLEANs_referenceOrder == nil {
-				stage.ATTRIBUTE_DEFINITION_BOOLEANs_referenceOrder = make(map[*ATTRIBUTE_DEFINITION_BOOLEAN]uint)
-			}
-			stage.ATTRIBUTE_DEFINITION_BOOLEANs_referenceOrder[attribute_definition_boolean] = stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder[attribute_definition_boolean]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, attribute_definition_boolean.GongMarshallUnstaging(stage))
-			// delete(stage.ATTRIBUTE_DEFINITION_BOOLEANs_referenceOrder, attribute_definition_boolean)
-			fieldInitializers, pointersInitializations := attribute_definition_boolean.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder[ref] = stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder[attribute_definition_boolean]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := attribute_definition_boolean.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, attribute_definition_boolean)
-			// delete(stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if attribute_definition_boolean.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_boolean.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ATTRIBUTE_DEFINITION_BOOLEANs_reference {
-		instance := stage.ATTRIBUTE_DEFINITION_BOOLEANs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ATTRIBUTE_DEFINITION_BOOLEANs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			attribute_definition_booleans_deletedInstances = append(attribute_definition_booleans_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(attribute_definition_booleans_newInstances)
-	lenDeletedInstances += len(attribute_definition_booleans_deletedInstances)
-	var attribute_definition_dates_newInstances []*ATTRIBUTE_DEFINITION_DATE
-	var attribute_definition_dates_deletedInstances []*ATTRIBUTE_DEFINITION_DATE
-
-	// parse all staged instances and check if they have a reference
-	for attribute_definition_date := range stage.ATTRIBUTE_DEFINITION_DATEs {
-		if ref, ok := stage.ATTRIBUTE_DEFINITION_DATEs_reference[attribute_definition_date]; !ok {
-			attribute_definition_dates_newInstances = append(attribute_definition_dates_newInstances, attribute_definition_date)
-			newInstancesSlice = append(newInstancesSlice, attribute_definition_date.GongMarshallIdentifier(stage))
-			if stage.ATTRIBUTE_DEFINITION_DATEs_referenceOrder == nil {
-				stage.ATTRIBUTE_DEFINITION_DATEs_referenceOrder = make(map[*ATTRIBUTE_DEFINITION_DATE]uint)
-			}
-			stage.ATTRIBUTE_DEFINITION_DATEs_referenceOrder[attribute_definition_date] = stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder[attribute_definition_date]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, attribute_definition_date.GongMarshallUnstaging(stage))
-			// delete(stage.ATTRIBUTE_DEFINITION_DATEs_referenceOrder, attribute_definition_date)
-			fieldInitializers, pointersInitializations := attribute_definition_date.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder[ref] = stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder[attribute_definition_date]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := attribute_definition_date.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, attribute_definition_date)
-			// delete(stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if attribute_definition_date.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_date.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ATTRIBUTE_DEFINITION_DATEs_reference {
-		instance := stage.ATTRIBUTE_DEFINITION_DATEs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ATTRIBUTE_DEFINITION_DATEs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			attribute_definition_dates_deletedInstances = append(attribute_definition_dates_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(attribute_definition_dates_newInstances)
-	lenDeletedInstances += len(attribute_definition_dates_deletedInstances)
-	var attribute_definition_enumerations_newInstances []*ATTRIBUTE_DEFINITION_ENUMERATION
-	var attribute_definition_enumerations_deletedInstances []*ATTRIBUTE_DEFINITION_ENUMERATION
-
-	// parse all staged instances and check if they have a reference
-	for attribute_definition_enumeration := range stage.ATTRIBUTE_DEFINITION_ENUMERATIONs {
-		if ref, ok := stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_reference[attribute_definition_enumeration]; !ok {
-			attribute_definition_enumerations_newInstances = append(attribute_definition_enumerations_newInstances, attribute_definition_enumeration)
-			newInstancesSlice = append(newInstancesSlice, attribute_definition_enumeration.GongMarshallIdentifier(stage))
-			if stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_referenceOrder == nil {
-				stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_referenceOrder = make(map[*ATTRIBUTE_DEFINITION_ENUMERATION]uint)
-			}
-			stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_referenceOrder[attribute_definition_enumeration] = stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder[attribute_definition_enumeration]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, attribute_definition_enumeration.GongMarshallUnstaging(stage))
-			// delete(stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_referenceOrder, attribute_definition_enumeration)
-			fieldInitializers, pointersInitializations := attribute_definition_enumeration.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder[ref] = stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder[attribute_definition_enumeration]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := attribute_definition_enumeration.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, attribute_definition_enumeration)
-			// delete(stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if attribute_definition_enumeration.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_enumeration.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_reference {
-		instance := stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ATTRIBUTE_DEFINITION_ENUMERATIONs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			attribute_definition_enumerations_deletedInstances = append(attribute_definition_enumerations_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(attribute_definition_enumerations_newInstances)
-	lenDeletedInstances += len(attribute_definition_enumerations_deletedInstances)
-	var attribute_definition_integers_newInstances []*ATTRIBUTE_DEFINITION_INTEGER
-	var attribute_definition_integers_deletedInstances []*ATTRIBUTE_DEFINITION_INTEGER
-
-	// parse all staged instances and check if they have a reference
-	for attribute_definition_integer := range stage.ATTRIBUTE_DEFINITION_INTEGERs {
-		if ref, ok := stage.ATTRIBUTE_DEFINITION_INTEGERs_reference[attribute_definition_integer]; !ok {
-			attribute_definition_integers_newInstances = append(attribute_definition_integers_newInstances, attribute_definition_integer)
-			newInstancesSlice = append(newInstancesSlice, attribute_definition_integer.GongMarshallIdentifier(stage))
-			if stage.ATTRIBUTE_DEFINITION_INTEGERs_referenceOrder == nil {
-				stage.ATTRIBUTE_DEFINITION_INTEGERs_referenceOrder = make(map[*ATTRIBUTE_DEFINITION_INTEGER]uint)
-			}
-			stage.ATTRIBUTE_DEFINITION_INTEGERs_referenceOrder[attribute_definition_integer] = stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder[attribute_definition_integer]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, attribute_definition_integer.GongMarshallUnstaging(stage))
-			// delete(stage.ATTRIBUTE_DEFINITION_INTEGERs_referenceOrder, attribute_definition_integer)
-			fieldInitializers, pointersInitializations := attribute_definition_integer.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder[ref] = stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder[attribute_definition_integer]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := attribute_definition_integer.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, attribute_definition_integer)
-			// delete(stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if attribute_definition_integer.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_integer.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ATTRIBUTE_DEFINITION_INTEGERs_reference {
-		instance := stage.ATTRIBUTE_DEFINITION_INTEGERs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ATTRIBUTE_DEFINITION_INTEGERs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			attribute_definition_integers_deletedInstances = append(attribute_definition_integers_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(attribute_definition_integers_newInstances)
-	lenDeletedInstances += len(attribute_definition_integers_deletedInstances)
-	var attribute_definition_reals_newInstances []*ATTRIBUTE_DEFINITION_REAL
-	var attribute_definition_reals_deletedInstances []*ATTRIBUTE_DEFINITION_REAL
-
-	// parse all staged instances and check if they have a reference
-	for attribute_definition_real := range stage.ATTRIBUTE_DEFINITION_REALs {
-		if ref, ok := stage.ATTRIBUTE_DEFINITION_REALs_reference[attribute_definition_real]; !ok {
-			attribute_definition_reals_newInstances = append(attribute_definition_reals_newInstances, attribute_definition_real)
-			newInstancesSlice = append(newInstancesSlice, attribute_definition_real.GongMarshallIdentifier(stage))
-			if stage.ATTRIBUTE_DEFINITION_REALs_referenceOrder == nil {
-				stage.ATTRIBUTE_DEFINITION_REALs_referenceOrder = make(map[*ATTRIBUTE_DEFINITION_REAL]uint)
-			}
-			stage.ATTRIBUTE_DEFINITION_REALs_referenceOrder[attribute_definition_real] = stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder[attribute_definition_real]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, attribute_definition_real.GongMarshallUnstaging(stage))
-			// delete(stage.ATTRIBUTE_DEFINITION_REALs_referenceOrder, attribute_definition_real)
-			fieldInitializers, pointersInitializations := attribute_definition_real.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder[ref] = stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder[attribute_definition_real]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := attribute_definition_real.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, attribute_definition_real)
-			// delete(stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if attribute_definition_real.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_real.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ATTRIBUTE_DEFINITION_REALs_reference {
-		instance := stage.ATTRIBUTE_DEFINITION_REALs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ATTRIBUTE_DEFINITION_REALs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			attribute_definition_reals_deletedInstances = append(attribute_definition_reals_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(attribute_definition_reals_newInstances)
-	lenDeletedInstances += len(attribute_definition_reals_deletedInstances)
-	var attribute_definition_strings_newInstances []*ATTRIBUTE_DEFINITION_STRING
-	var attribute_definition_strings_deletedInstances []*ATTRIBUTE_DEFINITION_STRING
-
-	// parse all staged instances and check if they have a reference
-	for attribute_definition_string := range stage.ATTRIBUTE_DEFINITION_STRINGs {
-		if ref, ok := stage.ATTRIBUTE_DEFINITION_STRINGs_reference[attribute_definition_string]; !ok {
-			attribute_definition_strings_newInstances = append(attribute_definition_strings_newInstances, attribute_definition_string)
-			newInstancesSlice = append(newInstancesSlice, attribute_definition_string.GongMarshallIdentifier(stage))
-			if stage.ATTRIBUTE_DEFINITION_STRINGs_referenceOrder == nil {
-				stage.ATTRIBUTE_DEFINITION_STRINGs_referenceOrder = make(map[*ATTRIBUTE_DEFINITION_STRING]uint)
-			}
-			stage.ATTRIBUTE_DEFINITION_STRINGs_referenceOrder[attribute_definition_string] = stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder[attribute_definition_string]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, attribute_definition_string.GongMarshallUnstaging(stage))
-			// delete(stage.ATTRIBUTE_DEFINITION_STRINGs_referenceOrder, attribute_definition_string)
-			fieldInitializers, pointersInitializations := attribute_definition_string.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder[ref] = stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder[attribute_definition_string]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := attribute_definition_string.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, attribute_definition_string)
-			// delete(stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if attribute_definition_string.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_string.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ATTRIBUTE_DEFINITION_STRINGs_reference {
-		instance := stage.ATTRIBUTE_DEFINITION_STRINGs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ATTRIBUTE_DEFINITION_STRINGs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			attribute_definition_strings_deletedInstances = append(attribute_definition_strings_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(attribute_definition_strings_newInstances)
-	lenDeletedInstances += len(attribute_definition_strings_deletedInstances)
-	var attribute_definition_xhtmls_newInstances []*ATTRIBUTE_DEFINITION_XHTML
-	var attribute_definition_xhtmls_deletedInstances []*ATTRIBUTE_DEFINITION_XHTML
-
-	// parse all staged instances and check if they have a reference
-	for attribute_definition_xhtml := range stage.ATTRIBUTE_DEFINITION_XHTMLs {
-		if ref, ok := stage.ATTRIBUTE_DEFINITION_XHTMLs_reference[attribute_definition_xhtml]; !ok {
-			attribute_definition_xhtmls_newInstances = append(attribute_definition_xhtmls_newInstances, attribute_definition_xhtml)
-			newInstancesSlice = append(newInstancesSlice, attribute_definition_xhtml.GongMarshallIdentifier(stage))
-			if stage.ATTRIBUTE_DEFINITION_XHTMLs_referenceOrder == nil {
-				stage.ATTRIBUTE_DEFINITION_XHTMLs_referenceOrder = make(map[*ATTRIBUTE_DEFINITION_XHTML]uint)
-			}
-			stage.ATTRIBUTE_DEFINITION_XHTMLs_referenceOrder[attribute_definition_xhtml] = stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder[attribute_definition_xhtml]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, attribute_definition_xhtml.GongMarshallUnstaging(stage))
-			// delete(stage.ATTRIBUTE_DEFINITION_XHTMLs_referenceOrder, attribute_definition_xhtml)
-			fieldInitializers, pointersInitializations := attribute_definition_xhtml.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder[ref] = stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder[attribute_definition_xhtml]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := attribute_definition_xhtml.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, attribute_definition_xhtml)
-			// delete(stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if attribute_definition_xhtml.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_xhtml.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ATTRIBUTE_DEFINITION_XHTMLs_reference {
-		instance := stage.ATTRIBUTE_DEFINITION_XHTMLs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ATTRIBUTE_DEFINITION_XHTMLs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			attribute_definition_xhtmls_deletedInstances = append(attribute_definition_xhtmls_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(attribute_definition_xhtmls_newInstances)
-	lenDeletedInstances += len(attribute_definition_xhtmls_deletedInstances)
-	var attribute_value_booleans_newInstances []*ATTRIBUTE_VALUE_BOOLEAN
-	var attribute_value_booleans_deletedInstances []*ATTRIBUTE_VALUE_BOOLEAN
-
-	// parse all staged instances and check if they have a reference
-	for attribute_value_boolean := range stage.ATTRIBUTE_VALUE_BOOLEANs {
-		if ref, ok := stage.ATTRIBUTE_VALUE_BOOLEANs_reference[attribute_value_boolean]; !ok {
-			attribute_value_booleans_newInstances = append(attribute_value_booleans_newInstances, attribute_value_boolean)
-			newInstancesSlice = append(newInstancesSlice, attribute_value_boolean.GongMarshallIdentifier(stage))
-			if stage.ATTRIBUTE_VALUE_BOOLEANs_referenceOrder == nil {
-				stage.ATTRIBUTE_VALUE_BOOLEANs_referenceOrder = make(map[*ATTRIBUTE_VALUE_BOOLEAN]uint)
-			}
-			stage.ATTRIBUTE_VALUE_BOOLEANs_referenceOrder[attribute_value_boolean] = stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[attribute_value_boolean]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, attribute_value_boolean.GongMarshallUnstaging(stage))
-			// delete(stage.ATTRIBUTE_VALUE_BOOLEANs_referenceOrder, attribute_value_boolean)
-			fieldInitializers, pointersInitializations := attribute_value_boolean.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[ref] = stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[attribute_value_boolean]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := attribute_value_boolean.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, attribute_value_boolean)
-			// delete(stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if attribute_value_boolean.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_boolean.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ATTRIBUTE_VALUE_BOOLEANs_reference {
-		instance := stage.ATTRIBUTE_VALUE_BOOLEANs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ATTRIBUTE_VALUE_BOOLEANs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			attribute_value_booleans_deletedInstances = append(attribute_value_booleans_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(attribute_value_booleans_newInstances)
-	lenDeletedInstances += len(attribute_value_booleans_deletedInstances)
-	var attribute_value_dates_newInstances []*ATTRIBUTE_VALUE_DATE
-	var attribute_value_dates_deletedInstances []*ATTRIBUTE_VALUE_DATE
-
-	// parse all staged instances and check if they have a reference
-	for attribute_value_date := range stage.ATTRIBUTE_VALUE_DATEs {
-		if ref, ok := stage.ATTRIBUTE_VALUE_DATEs_reference[attribute_value_date]; !ok {
-			attribute_value_dates_newInstances = append(attribute_value_dates_newInstances, attribute_value_date)
-			newInstancesSlice = append(newInstancesSlice, attribute_value_date.GongMarshallIdentifier(stage))
-			if stage.ATTRIBUTE_VALUE_DATEs_referenceOrder == nil {
-				stage.ATTRIBUTE_VALUE_DATEs_referenceOrder = make(map[*ATTRIBUTE_VALUE_DATE]uint)
-			}
-			stage.ATTRIBUTE_VALUE_DATEs_referenceOrder[attribute_value_date] = stage.ATTRIBUTE_VALUE_DATE_stagedOrder[attribute_value_date]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, attribute_value_date.GongMarshallUnstaging(stage))
-			// delete(stage.ATTRIBUTE_VALUE_DATEs_referenceOrder, attribute_value_date)
-			fieldInitializers, pointersInitializations := attribute_value_date.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ATTRIBUTE_VALUE_DATE_stagedOrder[ref] = stage.ATTRIBUTE_VALUE_DATE_stagedOrder[attribute_value_date]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := attribute_value_date.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, attribute_value_date)
-			// delete(stage.ATTRIBUTE_VALUE_DATE_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if attribute_value_date.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_date.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ATTRIBUTE_VALUE_DATEs_reference {
-		instance := stage.ATTRIBUTE_VALUE_DATEs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ATTRIBUTE_VALUE_DATEs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			attribute_value_dates_deletedInstances = append(attribute_value_dates_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(attribute_value_dates_newInstances)
-	lenDeletedInstances += len(attribute_value_dates_deletedInstances)
-	var attribute_value_enumerations_newInstances []*ATTRIBUTE_VALUE_ENUMERATION
-	var attribute_value_enumerations_deletedInstances []*ATTRIBUTE_VALUE_ENUMERATION
-
-	// parse all staged instances and check if they have a reference
-	for attribute_value_enumeration := range stage.ATTRIBUTE_VALUE_ENUMERATIONs {
-		if ref, ok := stage.ATTRIBUTE_VALUE_ENUMERATIONs_reference[attribute_value_enumeration]; !ok {
-			attribute_value_enumerations_newInstances = append(attribute_value_enumerations_newInstances, attribute_value_enumeration)
-			newInstancesSlice = append(newInstancesSlice, attribute_value_enumeration.GongMarshallIdentifier(stage))
-			if stage.ATTRIBUTE_VALUE_ENUMERATIONs_referenceOrder == nil {
-				stage.ATTRIBUTE_VALUE_ENUMERATIONs_referenceOrder = make(map[*ATTRIBUTE_VALUE_ENUMERATION]uint)
-			}
-			stage.ATTRIBUTE_VALUE_ENUMERATIONs_referenceOrder[attribute_value_enumeration] = stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[attribute_value_enumeration]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, attribute_value_enumeration.GongMarshallUnstaging(stage))
-			// delete(stage.ATTRIBUTE_VALUE_ENUMERATIONs_referenceOrder, attribute_value_enumeration)
-			fieldInitializers, pointersInitializations := attribute_value_enumeration.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[ref] = stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[attribute_value_enumeration]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := attribute_value_enumeration.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, attribute_value_enumeration)
-			// delete(stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if attribute_value_enumeration.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_enumeration.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ATTRIBUTE_VALUE_ENUMERATIONs_reference {
-		instance := stage.ATTRIBUTE_VALUE_ENUMERATIONs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ATTRIBUTE_VALUE_ENUMERATIONs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			attribute_value_enumerations_deletedInstances = append(attribute_value_enumerations_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(attribute_value_enumerations_newInstances)
-	lenDeletedInstances += len(attribute_value_enumerations_deletedInstances)
-	var attribute_value_integers_newInstances []*ATTRIBUTE_VALUE_INTEGER
-	var attribute_value_integers_deletedInstances []*ATTRIBUTE_VALUE_INTEGER
-
-	// parse all staged instances and check if they have a reference
-	for attribute_value_integer := range stage.ATTRIBUTE_VALUE_INTEGERs {
-		if ref, ok := stage.ATTRIBUTE_VALUE_INTEGERs_reference[attribute_value_integer]; !ok {
-			attribute_value_integers_newInstances = append(attribute_value_integers_newInstances, attribute_value_integer)
-			newInstancesSlice = append(newInstancesSlice, attribute_value_integer.GongMarshallIdentifier(stage))
-			if stage.ATTRIBUTE_VALUE_INTEGERs_referenceOrder == nil {
-				stage.ATTRIBUTE_VALUE_INTEGERs_referenceOrder = make(map[*ATTRIBUTE_VALUE_INTEGER]uint)
-			}
-			stage.ATTRIBUTE_VALUE_INTEGERs_referenceOrder[attribute_value_integer] = stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder[attribute_value_integer]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, attribute_value_integer.GongMarshallUnstaging(stage))
-			// delete(stage.ATTRIBUTE_VALUE_INTEGERs_referenceOrder, attribute_value_integer)
-			fieldInitializers, pointersInitializations := attribute_value_integer.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder[ref] = stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder[attribute_value_integer]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := attribute_value_integer.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, attribute_value_integer)
-			// delete(stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if attribute_value_integer.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_integer.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ATTRIBUTE_VALUE_INTEGERs_reference {
-		instance := stage.ATTRIBUTE_VALUE_INTEGERs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ATTRIBUTE_VALUE_INTEGERs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			attribute_value_integers_deletedInstances = append(attribute_value_integers_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(attribute_value_integers_newInstances)
-	lenDeletedInstances += len(attribute_value_integers_deletedInstances)
-	var attribute_value_reals_newInstances []*ATTRIBUTE_VALUE_REAL
-	var attribute_value_reals_deletedInstances []*ATTRIBUTE_VALUE_REAL
-
-	// parse all staged instances and check if they have a reference
-	for attribute_value_real := range stage.ATTRIBUTE_VALUE_REALs {
-		if ref, ok := stage.ATTRIBUTE_VALUE_REALs_reference[attribute_value_real]; !ok {
-			attribute_value_reals_newInstances = append(attribute_value_reals_newInstances, attribute_value_real)
-			newInstancesSlice = append(newInstancesSlice, attribute_value_real.GongMarshallIdentifier(stage))
-			if stage.ATTRIBUTE_VALUE_REALs_referenceOrder == nil {
-				stage.ATTRIBUTE_VALUE_REALs_referenceOrder = make(map[*ATTRIBUTE_VALUE_REAL]uint)
-			}
-			stage.ATTRIBUTE_VALUE_REALs_referenceOrder[attribute_value_real] = stage.ATTRIBUTE_VALUE_REAL_stagedOrder[attribute_value_real]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, attribute_value_real.GongMarshallUnstaging(stage))
-			// delete(stage.ATTRIBUTE_VALUE_REALs_referenceOrder, attribute_value_real)
-			fieldInitializers, pointersInitializations := attribute_value_real.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ATTRIBUTE_VALUE_REAL_stagedOrder[ref] = stage.ATTRIBUTE_VALUE_REAL_stagedOrder[attribute_value_real]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := attribute_value_real.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, attribute_value_real)
-			// delete(stage.ATTRIBUTE_VALUE_REAL_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if attribute_value_real.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_real.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ATTRIBUTE_VALUE_REALs_reference {
-		instance := stage.ATTRIBUTE_VALUE_REALs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ATTRIBUTE_VALUE_REALs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			attribute_value_reals_deletedInstances = append(attribute_value_reals_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(attribute_value_reals_newInstances)
-	lenDeletedInstances += len(attribute_value_reals_deletedInstances)
-	var attribute_value_strings_newInstances []*ATTRIBUTE_VALUE_STRING
-	var attribute_value_strings_deletedInstances []*ATTRIBUTE_VALUE_STRING
-
-	// parse all staged instances and check if they have a reference
-	for attribute_value_string := range stage.ATTRIBUTE_VALUE_STRINGs {
-		if ref, ok := stage.ATTRIBUTE_VALUE_STRINGs_reference[attribute_value_string]; !ok {
-			attribute_value_strings_newInstances = append(attribute_value_strings_newInstances, attribute_value_string)
-			newInstancesSlice = append(newInstancesSlice, attribute_value_string.GongMarshallIdentifier(stage))
-			if stage.ATTRIBUTE_VALUE_STRINGs_referenceOrder == nil {
-				stage.ATTRIBUTE_VALUE_STRINGs_referenceOrder = make(map[*ATTRIBUTE_VALUE_STRING]uint)
-			}
-			stage.ATTRIBUTE_VALUE_STRINGs_referenceOrder[attribute_value_string] = stage.ATTRIBUTE_VALUE_STRING_stagedOrder[attribute_value_string]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, attribute_value_string.GongMarshallUnstaging(stage))
-			// delete(stage.ATTRIBUTE_VALUE_STRINGs_referenceOrder, attribute_value_string)
-			fieldInitializers, pointersInitializations := attribute_value_string.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ATTRIBUTE_VALUE_STRING_stagedOrder[ref] = stage.ATTRIBUTE_VALUE_STRING_stagedOrder[attribute_value_string]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := attribute_value_string.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, attribute_value_string)
-			// delete(stage.ATTRIBUTE_VALUE_STRING_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if attribute_value_string.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_string.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ATTRIBUTE_VALUE_STRINGs_reference {
-		instance := stage.ATTRIBUTE_VALUE_STRINGs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ATTRIBUTE_VALUE_STRINGs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			attribute_value_strings_deletedInstances = append(attribute_value_strings_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(attribute_value_strings_newInstances)
-	lenDeletedInstances += len(attribute_value_strings_deletedInstances)
-	var attribute_value_xhtmls_newInstances []*ATTRIBUTE_VALUE_XHTML
-	var attribute_value_xhtmls_deletedInstances []*ATTRIBUTE_VALUE_XHTML
-
-	// parse all staged instances and check if they have a reference
-	for attribute_value_xhtml := range stage.ATTRIBUTE_VALUE_XHTMLs {
-		if ref, ok := stage.ATTRIBUTE_VALUE_XHTMLs_reference[attribute_value_xhtml]; !ok {
-			attribute_value_xhtmls_newInstances = append(attribute_value_xhtmls_newInstances, attribute_value_xhtml)
-			newInstancesSlice = append(newInstancesSlice, attribute_value_xhtml.GongMarshallIdentifier(stage))
-			if stage.ATTRIBUTE_VALUE_XHTMLs_referenceOrder == nil {
-				stage.ATTRIBUTE_VALUE_XHTMLs_referenceOrder = make(map[*ATTRIBUTE_VALUE_XHTML]uint)
-			}
-			stage.ATTRIBUTE_VALUE_XHTMLs_referenceOrder[attribute_value_xhtml] = stage.ATTRIBUTE_VALUE_XHTML_stagedOrder[attribute_value_xhtml]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, attribute_value_xhtml.GongMarshallUnstaging(stage))
-			// delete(stage.ATTRIBUTE_VALUE_XHTMLs_referenceOrder, attribute_value_xhtml)
-			fieldInitializers, pointersInitializations := attribute_value_xhtml.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ATTRIBUTE_VALUE_XHTML_stagedOrder[ref] = stage.ATTRIBUTE_VALUE_XHTML_stagedOrder[attribute_value_xhtml]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := attribute_value_xhtml.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, attribute_value_xhtml)
-			// delete(stage.ATTRIBUTE_VALUE_XHTML_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if attribute_value_xhtml.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_xhtml.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ATTRIBUTE_VALUE_XHTMLs_reference {
-		instance := stage.ATTRIBUTE_VALUE_XHTMLs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ATTRIBUTE_VALUE_XHTMLs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			attribute_value_xhtmls_deletedInstances = append(attribute_value_xhtmls_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(attribute_value_xhtmls_newInstances)
-	lenDeletedInstances += len(attribute_value_xhtmls_deletedInstances)
-	var a_alternative_ids_newInstances []*A_ALTERNATIVE_ID
-	var a_alternative_ids_deletedInstances []*A_ALTERNATIVE_ID
-
-	// parse all staged instances and check if they have a reference
-	for a_alternative_id := range stage.A_ALTERNATIVE_IDs {
-		if ref, ok := stage.A_ALTERNATIVE_IDs_reference[a_alternative_id]; !ok {
-			a_alternative_ids_newInstances = append(a_alternative_ids_newInstances, a_alternative_id)
-			newInstancesSlice = append(newInstancesSlice, a_alternative_id.GongMarshallIdentifier(stage))
-			if stage.A_ALTERNATIVE_IDs_referenceOrder == nil {
-				stage.A_ALTERNATIVE_IDs_referenceOrder = make(map[*A_ALTERNATIVE_ID]uint)
-			}
-			stage.A_ALTERNATIVE_IDs_referenceOrder[a_alternative_id] = stage.A_ALTERNATIVE_ID_stagedOrder[a_alternative_id]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_alternative_id.GongMarshallUnstaging(stage))
-			// delete(stage.A_ALTERNATIVE_IDs_referenceOrder, a_alternative_id)
-			fieldInitializers, pointersInitializations := a_alternative_id.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ALTERNATIVE_ID_stagedOrder[ref] = stage.A_ALTERNATIVE_ID_stagedOrder[a_alternative_id]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_alternative_id.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_alternative_id)
-			// delete(stage.A_ALTERNATIVE_ID_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_alternative_id.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_alternative_id.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ALTERNATIVE_IDs_reference {
-		instance := stage.A_ALTERNATIVE_IDs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ALTERNATIVE_IDs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_alternative_ids_deletedInstances = append(a_alternative_ids_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_alternative_ids_newInstances)
-	lenDeletedInstances += len(a_alternative_ids_deletedInstances)
-	var a_attribute_definition_boolean_refs_newInstances []*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF
-	var a_attribute_definition_boolean_refs_deletedInstances []*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_definition_boolean_ref := range stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs {
-		if ref, ok := stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_reference[a_attribute_definition_boolean_ref]; !ok {
-			a_attribute_definition_boolean_refs_newInstances = append(a_attribute_definition_boolean_refs_newInstances, a_attribute_definition_boolean_ref)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_definition_boolean_ref.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_referenceOrder == nil {
-				stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_referenceOrder = make(map[*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]uint)
-			}
-			stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_referenceOrder[a_attribute_definition_boolean_ref] = stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder[a_attribute_definition_boolean_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_definition_boolean_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_referenceOrder, a_attribute_definition_boolean_ref)
-			fieldInitializers, pointersInitializations := a_attribute_definition_boolean_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder[ref] = stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder[a_attribute_definition_boolean_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_definition_boolean_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_definition_boolean_ref)
-			// delete(stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_definition_boolean_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_boolean_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_reference {
-		instance := stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_definition_boolean_refs_deletedInstances = append(a_attribute_definition_boolean_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_definition_boolean_refs_newInstances)
-	lenDeletedInstances += len(a_attribute_definition_boolean_refs_deletedInstances)
-	var a_attribute_definition_date_refs_newInstances []*A_ATTRIBUTE_DEFINITION_DATE_REF
-	var a_attribute_definition_date_refs_deletedInstances []*A_ATTRIBUTE_DEFINITION_DATE_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_definition_date_ref := range stage.A_ATTRIBUTE_DEFINITION_DATE_REFs {
-		if ref, ok := stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_reference[a_attribute_definition_date_ref]; !ok {
-			a_attribute_definition_date_refs_newInstances = append(a_attribute_definition_date_refs_newInstances, a_attribute_definition_date_ref)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_definition_date_ref.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_referenceOrder == nil {
-				stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_referenceOrder = make(map[*A_ATTRIBUTE_DEFINITION_DATE_REF]uint)
-			}
-			stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_referenceOrder[a_attribute_definition_date_ref] = stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder[a_attribute_definition_date_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_definition_date_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_referenceOrder, a_attribute_definition_date_ref)
-			fieldInitializers, pointersInitializations := a_attribute_definition_date_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder[ref] = stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder[a_attribute_definition_date_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_definition_date_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_definition_date_ref)
-			// delete(stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_definition_date_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_date_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_reference {
-		instance := stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_DEFINITION_DATE_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_definition_date_refs_deletedInstances = append(a_attribute_definition_date_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_definition_date_refs_newInstances)
-	lenDeletedInstances += len(a_attribute_definition_date_refs_deletedInstances)
-	var a_attribute_definition_enumeration_refs_newInstances []*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF
-	var a_attribute_definition_enumeration_refs_deletedInstances []*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_definition_enumeration_ref := range stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs {
-		if ref, ok := stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_reference[a_attribute_definition_enumeration_ref]; !ok {
-			a_attribute_definition_enumeration_refs_newInstances = append(a_attribute_definition_enumeration_refs_newInstances, a_attribute_definition_enumeration_ref)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_definition_enumeration_ref.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_referenceOrder == nil {
-				stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_referenceOrder = make(map[*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]uint)
-			}
-			stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_referenceOrder[a_attribute_definition_enumeration_ref] = stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder[a_attribute_definition_enumeration_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_definition_enumeration_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_referenceOrder, a_attribute_definition_enumeration_ref)
-			fieldInitializers, pointersInitializations := a_attribute_definition_enumeration_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder[ref] = stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder[a_attribute_definition_enumeration_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_definition_enumeration_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_definition_enumeration_ref)
-			// delete(stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_definition_enumeration_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_enumeration_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_reference {
-		instance := stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_definition_enumeration_refs_deletedInstances = append(a_attribute_definition_enumeration_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_definition_enumeration_refs_newInstances)
-	lenDeletedInstances += len(a_attribute_definition_enumeration_refs_deletedInstances)
-	var a_attribute_definition_integer_refs_newInstances []*A_ATTRIBUTE_DEFINITION_INTEGER_REF
-	var a_attribute_definition_integer_refs_deletedInstances []*A_ATTRIBUTE_DEFINITION_INTEGER_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_definition_integer_ref := range stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs {
-		if ref, ok := stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_reference[a_attribute_definition_integer_ref]; !ok {
-			a_attribute_definition_integer_refs_newInstances = append(a_attribute_definition_integer_refs_newInstances, a_attribute_definition_integer_ref)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_definition_integer_ref.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_referenceOrder == nil {
-				stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_referenceOrder = make(map[*A_ATTRIBUTE_DEFINITION_INTEGER_REF]uint)
-			}
-			stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_referenceOrder[a_attribute_definition_integer_ref] = stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder[a_attribute_definition_integer_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_definition_integer_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_referenceOrder, a_attribute_definition_integer_ref)
-			fieldInitializers, pointersInitializations := a_attribute_definition_integer_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder[ref] = stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder[a_attribute_definition_integer_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_definition_integer_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_definition_integer_ref)
-			// delete(stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_definition_integer_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_integer_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_reference {
-		instance := stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_definition_integer_refs_deletedInstances = append(a_attribute_definition_integer_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_definition_integer_refs_newInstances)
-	lenDeletedInstances += len(a_attribute_definition_integer_refs_deletedInstances)
-	var a_attribute_definition_real_refs_newInstances []*A_ATTRIBUTE_DEFINITION_REAL_REF
-	var a_attribute_definition_real_refs_deletedInstances []*A_ATTRIBUTE_DEFINITION_REAL_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_definition_real_ref := range stage.A_ATTRIBUTE_DEFINITION_REAL_REFs {
-		if ref, ok := stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_reference[a_attribute_definition_real_ref]; !ok {
-			a_attribute_definition_real_refs_newInstances = append(a_attribute_definition_real_refs_newInstances, a_attribute_definition_real_ref)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_definition_real_ref.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_referenceOrder == nil {
-				stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_referenceOrder = make(map[*A_ATTRIBUTE_DEFINITION_REAL_REF]uint)
-			}
-			stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_referenceOrder[a_attribute_definition_real_ref] = stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder[a_attribute_definition_real_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_definition_real_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_referenceOrder, a_attribute_definition_real_ref)
-			fieldInitializers, pointersInitializations := a_attribute_definition_real_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder[ref] = stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder[a_attribute_definition_real_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_definition_real_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_definition_real_ref)
-			// delete(stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_definition_real_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_real_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_reference {
-		instance := stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_DEFINITION_REAL_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_definition_real_refs_deletedInstances = append(a_attribute_definition_real_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_definition_real_refs_newInstances)
-	lenDeletedInstances += len(a_attribute_definition_real_refs_deletedInstances)
-	var a_attribute_definition_string_refs_newInstances []*A_ATTRIBUTE_DEFINITION_STRING_REF
-	var a_attribute_definition_string_refs_deletedInstances []*A_ATTRIBUTE_DEFINITION_STRING_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_definition_string_ref := range stage.A_ATTRIBUTE_DEFINITION_STRING_REFs {
-		if ref, ok := stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_reference[a_attribute_definition_string_ref]; !ok {
-			a_attribute_definition_string_refs_newInstances = append(a_attribute_definition_string_refs_newInstances, a_attribute_definition_string_ref)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_definition_string_ref.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_referenceOrder == nil {
-				stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_referenceOrder = make(map[*A_ATTRIBUTE_DEFINITION_STRING_REF]uint)
-			}
-			stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_referenceOrder[a_attribute_definition_string_ref] = stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder[a_attribute_definition_string_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_definition_string_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_referenceOrder, a_attribute_definition_string_ref)
-			fieldInitializers, pointersInitializations := a_attribute_definition_string_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder[ref] = stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder[a_attribute_definition_string_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_definition_string_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_definition_string_ref)
-			// delete(stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_definition_string_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_string_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_reference {
-		instance := stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_DEFINITION_STRING_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_definition_string_refs_deletedInstances = append(a_attribute_definition_string_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_definition_string_refs_newInstances)
-	lenDeletedInstances += len(a_attribute_definition_string_refs_deletedInstances)
-	var a_attribute_definition_xhtml_refs_newInstances []*A_ATTRIBUTE_DEFINITION_XHTML_REF
-	var a_attribute_definition_xhtml_refs_deletedInstances []*A_ATTRIBUTE_DEFINITION_XHTML_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_definition_xhtml_ref := range stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs {
-		if ref, ok := stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_reference[a_attribute_definition_xhtml_ref]; !ok {
-			a_attribute_definition_xhtml_refs_newInstances = append(a_attribute_definition_xhtml_refs_newInstances, a_attribute_definition_xhtml_ref)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_definition_xhtml_ref.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_referenceOrder == nil {
-				stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_referenceOrder = make(map[*A_ATTRIBUTE_DEFINITION_XHTML_REF]uint)
-			}
-			stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_referenceOrder[a_attribute_definition_xhtml_ref] = stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder[a_attribute_definition_xhtml_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_definition_xhtml_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_referenceOrder, a_attribute_definition_xhtml_ref)
-			fieldInitializers, pointersInitializations := a_attribute_definition_xhtml_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder[ref] = stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder[a_attribute_definition_xhtml_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_definition_xhtml_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_definition_xhtml_ref)
-			// delete(stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_definition_xhtml_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_xhtml_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_reference {
-		instance := stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_definition_xhtml_refs_deletedInstances = append(a_attribute_definition_xhtml_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_definition_xhtml_refs_newInstances)
-	lenDeletedInstances += len(a_attribute_definition_xhtml_refs_deletedInstances)
-	var a_attribute_value_booleans_newInstances []*A_ATTRIBUTE_VALUE_BOOLEAN
-	var a_attribute_value_booleans_deletedInstances []*A_ATTRIBUTE_VALUE_BOOLEAN
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_value_boolean := range stage.A_ATTRIBUTE_VALUE_BOOLEANs {
-		if ref, ok := stage.A_ATTRIBUTE_VALUE_BOOLEANs_reference[a_attribute_value_boolean]; !ok {
-			a_attribute_value_booleans_newInstances = append(a_attribute_value_booleans_newInstances, a_attribute_value_boolean)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_value_boolean.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_VALUE_BOOLEANs_referenceOrder == nil {
-				stage.A_ATTRIBUTE_VALUE_BOOLEANs_referenceOrder = make(map[*A_ATTRIBUTE_VALUE_BOOLEAN]uint)
-			}
-			stage.A_ATTRIBUTE_VALUE_BOOLEANs_referenceOrder[a_attribute_value_boolean] = stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[a_attribute_value_boolean]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_value_boolean.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_VALUE_BOOLEANs_referenceOrder, a_attribute_value_boolean)
-			fieldInitializers, pointersInitializations := a_attribute_value_boolean.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[ref] = stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[a_attribute_value_boolean]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_value_boolean.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_value_boolean)
-			// delete(stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_value_boolean.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_boolean.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_VALUE_BOOLEANs_reference {
-		instance := stage.A_ATTRIBUTE_VALUE_BOOLEANs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_VALUE_BOOLEANs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_value_booleans_deletedInstances = append(a_attribute_value_booleans_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_value_booleans_newInstances)
-	lenDeletedInstances += len(a_attribute_value_booleans_deletedInstances)
-	var a_attribute_value_dates_newInstances []*A_ATTRIBUTE_VALUE_DATE
-	var a_attribute_value_dates_deletedInstances []*A_ATTRIBUTE_VALUE_DATE
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_value_date := range stage.A_ATTRIBUTE_VALUE_DATEs {
-		if ref, ok := stage.A_ATTRIBUTE_VALUE_DATEs_reference[a_attribute_value_date]; !ok {
-			a_attribute_value_dates_newInstances = append(a_attribute_value_dates_newInstances, a_attribute_value_date)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_value_date.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_VALUE_DATEs_referenceOrder == nil {
-				stage.A_ATTRIBUTE_VALUE_DATEs_referenceOrder = make(map[*A_ATTRIBUTE_VALUE_DATE]uint)
-			}
-			stage.A_ATTRIBUTE_VALUE_DATEs_referenceOrder[a_attribute_value_date] = stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder[a_attribute_value_date]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_value_date.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_VALUE_DATEs_referenceOrder, a_attribute_value_date)
-			fieldInitializers, pointersInitializations := a_attribute_value_date.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder[ref] = stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder[a_attribute_value_date]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_value_date.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_value_date)
-			// delete(stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_value_date.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_date.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_VALUE_DATEs_reference {
-		instance := stage.A_ATTRIBUTE_VALUE_DATEs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_VALUE_DATEs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_value_dates_deletedInstances = append(a_attribute_value_dates_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_value_dates_newInstances)
-	lenDeletedInstances += len(a_attribute_value_dates_deletedInstances)
-	var a_attribute_value_enumerations_newInstances []*A_ATTRIBUTE_VALUE_ENUMERATION
-	var a_attribute_value_enumerations_deletedInstances []*A_ATTRIBUTE_VALUE_ENUMERATION
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_value_enumeration := range stage.A_ATTRIBUTE_VALUE_ENUMERATIONs {
-		if ref, ok := stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_reference[a_attribute_value_enumeration]; !ok {
-			a_attribute_value_enumerations_newInstances = append(a_attribute_value_enumerations_newInstances, a_attribute_value_enumeration)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_value_enumeration.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_referenceOrder == nil {
-				stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_referenceOrder = make(map[*A_ATTRIBUTE_VALUE_ENUMERATION]uint)
-			}
-			stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_referenceOrder[a_attribute_value_enumeration] = stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[a_attribute_value_enumeration]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_value_enumeration.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_referenceOrder, a_attribute_value_enumeration)
-			fieldInitializers, pointersInitializations := a_attribute_value_enumeration.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[ref] = stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[a_attribute_value_enumeration]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_value_enumeration.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_value_enumeration)
-			// delete(stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_value_enumeration.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_enumeration.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_reference {
-		instance := stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_VALUE_ENUMERATIONs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_value_enumerations_deletedInstances = append(a_attribute_value_enumerations_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_value_enumerations_newInstances)
-	lenDeletedInstances += len(a_attribute_value_enumerations_deletedInstances)
-	var a_attribute_value_integers_newInstances []*A_ATTRIBUTE_VALUE_INTEGER
-	var a_attribute_value_integers_deletedInstances []*A_ATTRIBUTE_VALUE_INTEGER
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_value_integer := range stage.A_ATTRIBUTE_VALUE_INTEGERs {
-		if ref, ok := stage.A_ATTRIBUTE_VALUE_INTEGERs_reference[a_attribute_value_integer]; !ok {
-			a_attribute_value_integers_newInstances = append(a_attribute_value_integers_newInstances, a_attribute_value_integer)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_value_integer.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_VALUE_INTEGERs_referenceOrder == nil {
-				stage.A_ATTRIBUTE_VALUE_INTEGERs_referenceOrder = make(map[*A_ATTRIBUTE_VALUE_INTEGER]uint)
-			}
-			stage.A_ATTRIBUTE_VALUE_INTEGERs_referenceOrder[a_attribute_value_integer] = stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder[a_attribute_value_integer]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_value_integer.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_VALUE_INTEGERs_referenceOrder, a_attribute_value_integer)
-			fieldInitializers, pointersInitializations := a_attribute_value_integer.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder[ref] = stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder[a_attribute_value_integer]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_value_integer.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_value_integer)
-			// delete(stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_value_integer.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_integer.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_VALUE_INTEGERs_reference {
-		instance := stage.A_ATTRIBUTE_VALUE_INTEGERs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_VALUE_INTEGERs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_value_integers_deletedInstances = append(a_attribute_value_integers_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_value_integers_newInstances)
-	lenDeletedInstances += len(a_attribute_value_integers_deletedInstances)
-	var a_attribute_value_reals_newInstances []*A_ATTRIBUTE_VALUE_REAL
-	var a_attribute_value_reals_deletedInstances []*A_ATTRIBUTE_VALUE_REAL
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_value_real := range stage.A_ATTRIBUTE_VALUE_REALs {
-		if ref, ok := stage.A_ATTRIBUTE_VALUE_REALs_reference[a_attribute_value_real]; !ok {
-			a_attribute_value_reals_newInstances = append(a_attribute_value_reals_newInstances, a_attribute_value_real)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_value_real.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_VALUE_REALs_referenceOrder == nil {
-				stage.A_ATTRIBUTE_VALUE_REALs_referenceOrder = make(map[*A_ATTRIBUTE_VALUE_REAL]uint)
-			}
-			stage.A_ATTRIBUTE_VALUE_REALs_referenceOrder[a_attribute_value_real] = stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder[a_attribute_value_real]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_value_real.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_VALUE_REALs_referenceOrder, a_attribute_value_real)
-			fieldInitializers, pointersInitializations := a_attribute_value_real.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder[ref] = stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder[a_attribute_value_real]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_value_real.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_value_real)
-			// delete(stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_value_real.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_real.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_VALUE_REALs_reference {
-		instance := stage.A_ATTRIBUTE_VALUE_REALs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_VALUE_REALs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_value_reals_deletedInstances = append(a_attribute_value_reals_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_value_reals_newInstances)
-	lenDeletedInstances += len(a_attribute_value_reals_deletedInstances)
-	var a_attribute_value_strings_newInstances []*A_ATTRIBUTE_VALUE_STRING
-	var a_attribute_value_strings_deletedInstances []*A_ATTRIBUTE_VALUE_STRING
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_value_string := range stage.A_ATTRIBUTE_VALUE_STRINGs {
-		if ref, ok := stage.A_ATTRIBUTE_VALUE_STRINGs_reference[a_attribute_value_string]; !ok {
-			a_attribute_value_strings_newInstances = append(a_attribute_value_strings_newInstances, a_attribute_value_string)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_value_string.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_VALUE_STRINGs_referenceOrder == nil {
-				stage.A_ATTRIBUTE_VALUE_STRINGs_referenceOrder = make(map[*A_ATTRIBUTE_VALUE_STRING]uint)
-			}
-			stage.A_ATTRIBUTE_VALUE_STRINGs_referenceOrder[a_attribute_value_string] = stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder[a_attribute_value_string]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_value_string.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_VALUE_STRINGs_referenceOrder, a_attribute_value_string)
-			fieldInitializers, pointersInitializations := a_attribute_value_string.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder[ref] = stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder[a_attribute_value_string]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_value_string.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_value_string)
-			// delete(stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_value_string.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_string.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_VALUE_STRINGs_reference {
-		instance := stage.A_ATTRIBUTE_VALUE_STRINGs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_VALUE_STRINGs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_value_strings_deletedInstances = append(a_attribute_value_strings_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_value_strings_newInstances)
-	lenDeletedInstances += len(a_attribute_value_strings_deletedInstances)
-	var a_attribute_value_xhtmls_newInstances []*A_ATTRIBUTE_VALUE_XHTML
-	var a_attribute_value_xhtmls_deletedInstances []*A_ATTRIBUTE_VALUE_XHTML
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_value_xhtml := range stage.A_ATTRIBUTE_VALUE_XHTMLs {
-		if ref, ok := stage.A_ATTRIBUTE_VALUE_XHTMLs_reference[a_attribute_value_xhtml]; !ok {
-			a_attribute_value_xhtmls_newInstances = append(a_attribute_value_xhtmls_newInstances, a_attribute_value_xhtml)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_value_xhtml.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_VALUE_XHTMLs_referenceOrder == nil {
-				stage.A_ATTRIBUTE_VALUE_XHTMLs_referenceOrder = make(map[*A_ATTRIBUTE_VALUE_XHTML]uint)
-			}
-			stage.A_ATTRIBUTE_VALUE_XHTMLs_referenceOrder[a_attribute_value_xhtml] = stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder[a_attribute_value_xhtml]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_value_xhtml.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_VALUE_XHTMLs_referenceOrder, a_attribute_value_xhtml)
-			fieldInitializers, pointersInitializations := a_attribute_value_xhtml.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder[ref] = stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder[a_attribute_value_xhtml]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_value_xhtml.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_value_xhtml)
-			// delete(stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_value_xhtml.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_xhtml.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_VALUE_XHTMLs_reference {
-		instance := stage.A_ATTRIBUTE_VALUE_XHTMLs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_VALUE_XHTMLs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_value_xhtmls_deletedInstances = append(a_attribute_value_xhtmls_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_value_xhtmls_newInstances)
-	lenDeletedInstances += len(a_attribute_value_xhtmls_deletedInstances)
-	var a_attribute_value_xhtml_1s_newInstances []*A_ATTRIBUTE_VALUE_XHTML_1
-	var a_attribute_value_xhtml_1s_deletedInstances []*A_ATTRIBUTE_VALUE_XHTML_1
-
-	// parse all staged instances and check if they have a reference
-	for a_attribute_value_xhtml_1 := range stage.A_ATTRIBUTE_VALUE_XHTML_1s {
-		if ref, ok := stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference[a_attribute_value_xhtml_1]; !ok {
-			a_attribute_value_xhtml_1s_newInstances = append(a_attribute_value_xhtml_1s_newInstances, a_attribute_value_xhtml_1)
-			newInstancesSlice = append(newInstancesSlice, a_attribute_value_xhtml_1.GongMarshallIdentifier(stage))
-			if stage.A_ATTRIBUTE_VALUE_XHTML_1s_referenceOrder == nil {
-				stage.A_ATTRIBUTE_VALUE_XHTML_1s_referenceOrder = make(map[*A_ATTRIBUTE_VALUE_XHTML_1]uint)
-			}
-			stage.A_ATTRIBUTE_VALUE_XHTML_1s_referenceOrder[a_attribute_value_xhtml_1] = stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder[a_attribute_value_xhtml_1]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_attribute_value_xhtml_1.GongMarshallUnstaging(stage))
-			// delete(stage.A_ATTRIBUTE_VALUE_XHTML_1s_referenceOrder, a_attribute_value_xhtml_1)
-			fieldInitializers, pointersInitializations := a_attribute_value_xhtml_1.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder[ref] = stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder[a_attribute_value_xhtml_1]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_attribute_value_xhtml_1.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_attribute_value_xhtml_1)
-			// delete(stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_attribute_value_xhtml_1.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_xhtml_1.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference {
-		instance := stage.A_ATTRIBUTE_VALUE_XHTML_1s_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ATTRIBUTE_VALUE_XHTML_1s[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_attribute_value_xhtml_1s_deletedInstances = append(a_attribute_value_xhtml_1s_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_attribute_value_xhtml_1s_newInstances)
-	lenDeletedInstances += len(a_attribute_value_xhtml_1s_deletedInstances)
-	var a_childrens_newInstances []*A_CHILDREN
-	var a_childrens_deletedInstances []*A_CHILDREN
-
-	// parse all staged instances and check if they have a reference
-	for a_children := range stage.A_CHILDRENs {
-		if ref, ok := stage.A_CHILDRENs_reference[a_children]; !ok {
-			a_childrens_newInstances = append(a_childrens_newInstances, a_children)
-			newInstancesSlice = append(newInstancesSlice, a_children.GongMarshallIdentifier(stage))
-			if stage.A_CHILDRENs_referenceOrder == nil {
-				stage.A_CHILDRENs_referenceOrder = make(map[*A_CHILDREN]uint)
-			}
-			stage.A_CHILDRENs_referenceOrder[a_children] = stage.A_CHILDREN_stagedOrder[a_children]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_children.GongMarshallUnstaging(stage))
-			// delete(stage.A_CHILDRENs_referenceOrder, a_children)
-			fieldInitializers, pointersInitializations := a_children.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_CHILDREN_stagedOrder[ref] = stage.A_CHILDREN_stagedOrder[a_children]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_children.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_children)
-			// delete(stage.A_CHILDREN_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_children.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_children.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_CHILDRENs_reference {
-		instance := stage.A_CHILDRENs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_CHILDRENs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_childrens_deletedInstances = append(a_childrens_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_childrens_newInstances)
-	lenDeletedInstances += len(a_childrens_deletedInstances)
-	var a_core_contents_newInstances []*A_CORE_CONTENT
-	var a_core_contents_deletedInstances []*A_CORE_CONTENT
-
-	// parse all staged instances and check if they have a reference
-	for a_core_content := range stage.A_CORE_CONTENTs {
-		if ref, ok := stage.A_CORE_CONTENTs_reference[a_core_content]; !ok {
-			a_core_contents_newInstances = append(a_core_contents_newInstances, a_core_content)
-			newInstancesSlice = append(newInstancesSlice, a_core_content.GongMarshallIdentifier(stage))
-			if stage.A_CORE_CONTENTs_referenceOrder == nil {
-				stage.A_CORE_CONTENTs_referenceOrder = make(map[*A_CORE_CONTENT]uint)
-			}
-			stage.A_CORE_CONTENTs_referenceOrder[a_core_content] = stage.A_CORE_CONTENT_stagedOrder[a_core_content]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_core_content.GongMarshallUnstaging(stage))
-			// delete(stage.A_CORE_CONTENTs_referenceOrder, a_core_content)
-			fieldInitializers, pointersInitializations := a_core_content.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_CORE_CONTENT_stagedOrder[ref] = stage.A_CORE_CONTENT_stagedOrder[a_core_content]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_core_content.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_core_content)
-			// delete(stage.A_CORE_CONTENT_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_core_content.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_core_content.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_CORE_CONTENTs_reference {
-		instance := stage.A_CORE_CONTENTs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_CORE_CONTENTs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_core_contents_deletedInstances = append(a_core_contents_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_core_contents_newInstances)
-	lenDeletedInstances += len(a_core_contents_deletedInstances)
-	var a_datatypess_newInstances []*A_DATATYPES
-	var a_datatypess_deletedInstances []*A_DATATYPES
-
-	// parse all staged instances and check if they have a reference
-	for a_datatypes := range stage.A_DATATYPESs {
-		if ref, ok := stage.A_DATATYPESs_reference[a_datatypes]; !ok {
-			a_datatypess_newInstances = append(a_datatypess_newInstances, a_datatypes)
-			newInstancesSlice = append(newInstancesSlice, a_datatypes.GongMarshallIdentifier(stage))
-			if stage.A_DATATYPESs_referenceOrder == nil {
-				stage.A_DATATYPESs_referenceOrder = make(map[*A_DATATYPES]uint)
-			}
-			stage.A_DATATYPESs_referenceOrder[a_datatypes] = stage.A_DATATYPES_stagedOrder[a_datatypes]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_datatypes.GongMarshallUnstaging(stage))
-			// delete(stage.A_DATATYPESs_referenceOrder, a_datatypes)
-			fieldInitializers, pointersInitializations := a_datatypes.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_DATATYPES_stagedOrder[ref] = stage.A_DATATYPES_stagedOrder[a_datatypes]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_datatypes.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_datatypes)
-			// delete(stage.A_DATATYPES_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_datatypes.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatypes.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_DATATYPESs_reference {
-		instance := stage.A_DATATYPESs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_DATATYPESs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_datatypess_deletedInstances = append(a_datatypess_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_datatypess_newInstances)
-	lenDeletedInstances += len(a_datatypess_deletedInstances)
-	var a_datatype_definition_boolean_refs_newInstances []*A_DATATYPE_DEFINITION_BOOLEAN_REF
-	var a_datatype_definition_boolean_refs_deletedInstances []*A_DATATYPE_DEFINITION_BOOLEAN_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_datatype_definition_boolean_ref := range stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs {
-		if ref, ok := stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_reference[a_datatype_definition_boolean_ref]; !ok {
-			a_datatype_definition_boolean_refs_newInstances = append(a_datatype_definition_boolean_refs_newInstances, a_datatype_definition_boolean_ref)
-			newInstancesSlice = append(newInstancesSlice, a_datatype_definition_boolean_ref.GongMarshallIdentifier(stage))
-			if stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_referenceOrder == nil {
-				stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_referenceOrder = make(map[*A_DATATYPE_DEFINITION_BOOLEAN_REF]uint)
-			}
-			stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_referenceOrder[a_datatype_definition_boolean_ref] = stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder[a_datatype_definition_boolean_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_datatype_definition_boolean_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_referenceOrder, a_datatype_definition_boolean_ref)
-			fieldInitializers, pointersInitializations := a_datatype_definition_boolean_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder[ref] = stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder[a_datatype_definition_boolean_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_datatype_definition_boolean_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_datatype_definition_boolean_ref)
-			// delete(stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_datatype_definition_boolean_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_boolean_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_reference {
-		instance := stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_datatype_definition_boolean_refs_deletedInstances = append(a_datatype_definition_boolean_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_datatype_definition_boolean_refs_newInstances)
-	lenDeletedInstances += len(a_datatype_definition_boolean_refs_deletedInstances)
-	var a_datatype_definition_date_refs_newInstances []*A_DATATYPE_DEFINITION_DATE_REF
-	var a_datatype_definition_date_refs_deletedInstances []*A_DATATYPE_DEFINITION_DATE_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_datatype_definition_date_ref := range stage.A_DATATYPE_DEFINITION_DATE_REFs {
-		if ref, ok := stage.A_DATATYPE_DEFINITION_DATE_REFs_reference[a_datatype_definition_date_ref]; !ok {
-			a_datatype_definition_date_refs_newInstances = append(a_datatype_definition_date_refs_newInstances, a_datatype_definition_date_ref)
-			newInstancesSlice = append(newInstancesSlice, a_datatype_definition_date_ref.GongMarshallIdentifier(stage))
-			if stage.A_DATATYPE_DEFINITION_DATE_REFs_referenceOrder == nil {
-				stage.A_DATATYPE_DEFINITION_DATE_REFs_referenceOrder = make(map[*A_DATATYPE_DEFINITION_DATE_REF]uint)
-			}
-			stage.A_DATATYPE_DEFINITION_DATE_REFs_referenceOrder[a_datatype_definition_date_ref] = stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder[a_datatype_definition_date_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_datatype_definition_date_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_DATATYPE_DEFINITION_DATE_REFs_referenceOrder, a_datatype_definition_date_ref)
-			fieldInitializers, pointersInitializations := a_datatype_definition_date_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder[ref] = stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder[a_datatype_definition_date_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_datatype_definition_date_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_datatype_definition_date_ref)
-			// delete(stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_datatype_definition_date_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_date_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_DATATYPE_DEFINITION_DATE_REFs_reference {
-		instance := stage.A_DATATYPE_DEFINITION_DATE_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_DATATYPE_DEFINITION_DATE_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_datatype_definition_date_refs_deletedInstances = append(a_datatype_definition_date_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_datatype_definition_date_refs_newInstances)
-	lenDeletedInstances += len(a_datatype_definition_date_refs_deletedInstances)
-	var a_datatype_definition_enumeration_refs_newInstances []*A_DATATYPE_DEFINITION_ENUMERATION_REF
-	var a_datatype_definition_enumeration_refs_deletedInstances []*A_DATATYPE_DEFINITION_ENUMERATION_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_datatype_definition_enumeration_ref := range stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs {
-		if ref, ok := stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_reference[a_datatype_definition_enumeration_ref]; !ok {
-			a_datatype_definition_enumeration_refs_newInstances = append(a_datatype_definition_enumeration_refs_newInstances, a_datatype_definition_enumeration_ref)
-			newInstancesSlice = append(newInstancesSlice, a_datatype_definition_enumeration_ref.GongMarshallIdentifier(stage))
-			if stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_referenceOrder == nil {
-				stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_referenceOrder = make(map[*A_DATATYPE_DEFINITION_ENUMERATION_REF]uint)
-			}
-			stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_referenceOrder[a_datatype_definition_enumeration_ref] = stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder[a_datatype_definition_enumeration_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_datatype_definition_enumeration_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_referenceOrder, a_datatype_definition_enumeration_ref)
-			fieldInitializers, pointersInitializations := a_datatype_definition_enumeration_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder[ref] = stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder[a_datatype_definition_enumeration_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_datatype_definition_enumeration_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_datatype_definition_enumeration_ref)
-			// delete(stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_datatype_definition_enumeration_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_enumeration_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_reference {
-		instance := stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_datatype_definition_enumeration_refs_deletedInstances = append(a_datatype_definition_enumeration_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_datatype_definition_enumeration_refs_newInstances)
-	lenDeletedInstances += len(a_datatype_definition_enumeration_refs_deletedInstances)
-	var a_datatype_definition_integer_refs_newInstances []*A_DATATYPE_DEFINITION_INTEGER_REF
-	var a_datatype_definition_integer_refs_deletedInstances []*A_DATATYPE_DEFINITION_INTEGER_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_datatype_definition_integer_ref := range stage.A_DATATYPE_DEFINITION_INTEGER_REFs {
-		if ref, ok := stage.A_DATATYPE_DEFINITION_INTEGER_REFs_reference[a_datatype_definition_integer_ref]; !ok {
-			a_datatype_definition_integer_refs_newInstances = append(a_datatype_definition_integer_refs_newInstances, a_datatype_definition_integer_ref)
-			newInstancesSlice = append(newInstancesSlice, a_datatype_definition_integer_ref.GongMarshallIdentifier(stage))
-			if stage.A_DATATYPE_DEFINITION_INTEGER_REFs_referenceOrder == nil {
-				stage.A_DATATYPE_DEFINITION_INTEGER_REFs_referenceOrder = make(map[*A_DATATYPE_DEFINITION_INTEGER_REF]uint)
-			}
-			stage.A_DATATYPE_DEFINITION_INTEGER_REFs_referenceOrder[a_datatype_definition_integer_ref] = stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder[a_datatype_definition_integer_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_datatype_definition_integer_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_DATATYPE_DEFINITION_INTEGER_REFs_referenceOrder, a_datatype_definition_integer_ref)
-			fieldInitializers, pointersInitializations := a_datatype_definition_integer_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder[ref] = stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder[a_datatype_definition_integer_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_datatype_definition_integer_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_datatype_definition_integer_ref)
-			// delete(stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_datatype_definition_integer_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_integer_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_DATATYPE_DEFINITION_INTEGER_REFs_reference {
-		instance := stage.A_DATATYPE_DEFINITION_INTEGER_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_DATATYPE_DEFINITION_INTEGER_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_datatype_definition_integer_refs_deletedInstances = append(a_datatype_definition_integer_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_datatype_definition_integer_refs_newInstances)
-	lenDeletedInstances += len(a_datatype_definition_integer_refs_deletedInstances)
-	var a_datatype_definition_real_refs_newInstances []*A_DATATYPE_DEFINITION_REAL_REF
-	var a_datatype_definition_real_refs_deletedInstances []*A_DATATYPE_DEFINITION_REAL_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_datatype_definition_real_ref := range stage.A_DATATYPE_DEFINITION_REAL_REFs {
-		if ref, ok := stage.A_DATATYPE_DEFINITION_REAL_REFs_reference[a_datatype_definition_real_ref]; !ok {
-			a_datatype_definition_real_refs_newInstances = append(a_datatype_definition_real_refs_newInstances, a_datatype_definition_real_ref)
-			newInstancesSlice = append(newInstancesSlice, a_datatype_definition_real_ref.GongMarshallIdentifier(stage))
-			if stage.A_DATATYPE_DEFINITION_REAL_REFs_referenceOrder == nil {
-				stage.A_DATATYPE_DEFINITION_REAL_REFs_referenceOrder = make(map[*A_DATATYPE_DEFINITION_REAL_REF]uint)
-			}
-			stage.A_DATATYPE_DEFINITION_REAL_REFs_referenceOrder[a_datatype_definition_real_ref] = stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder[a_datatype_definition_real_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_datatype_definition_real_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_DATATYPE_DEFINITION_REAL_REFs_referenceOrder, a_datatype_definition_real_ref)
-			fieldInitializers, pointersInitializations := a_datatype_definition_real_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder[ref] = stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder[a_datatype_definition_real_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_datatype_definition_real_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_datatype_definition_real_ref)
-			// delete(stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_datatype_definition_real_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_real_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_DATATYPE_DEFINITION_REAL_REFs_reference {
-		instance := stage.A_DATATYPE_DEFINITION_REAL_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_DATATYPE_DEFINITION_REAL_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_datatype_definition_real_refs_deletedInstances = append(a_datatype_definition_real_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_datatype_definition_real_refs_newInstances)
-	lenDeletedInstances += len(a_datatype_definition_real_refs_deletedInstances)
-	var a_datatype_definition_string_refs_newInstances []*A_DATATYPE_DEFINITION_STRING_REF
-	var a_datatype_definition_string_refs_deletedInstances []*A_DATATYPE_DEFINITION_STRING_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_datatype_definition_string_ref := range stage.A_DATATYPE_DEFINITION_STRING_REFs {
-		if ref, ok := stage.A_DATATYPE_DEFINITION_STRING_REFs_reference[a_datatype_definition_string_ref]; !ok {
-			a_datatype_definition_string_refs_newInstances = append(a_datatype_definition_string_refs_newInstances, a_datatype_definition_string_ref)
-			newInstancesSlice = append(newInstancesSlice, a_datatype_definition_string_ref.GongMarshallIdentifier(stage))
-			if stage.A_DATATYPE_DEFINITION_STRING_REFs_referenceOrder == nil {
-				stage.A_DATATYPE_DEFINITION_STRING_REFs_referenceOrder = make(map[*A_DATATYPE_DEFINITION_STRING_REF]uint)
-			}
-			stage.A_DATATYPE_DEFINITION_STRING_REFs_referenceOrder[a_datatype_definition_string_ref] = stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder[a_datatype_definition_string_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_datatype_definition_string_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_DATATYPE_DEFINITION_STRING_REFs_referenceOrder, a_datatype_definition_string_ref)
-			fieldInitializers, pointersInitializations := a_datatype_definition_string_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder[ref] = stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder[a_datatype_definition_string_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_datatype_definition_string_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_datatype_definition_string_ref)
-			// delete(stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_datatype_definition_string_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_string_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_DATATYPE_DEFINITION_STRING_REFs_reference {
-		instance := stage.A_DATATYPE_DEFINITION_STRING_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_DATATYPE_DEFINITION_STRING_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_datatype_definition_string_refs_deletedInstances = append(a_datatype_definition_string_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_datatype_definition_string_refs_newInstances)
-	lenDeletedInstances += len(a_datatype_definition_string_refs_deletedInstances)
-	var a_datatype_definition_xhtml_refs_newInstances []*A_DATATYPE_DEFINITION_XHTML_REF
-	var a_datatype_definition_xhtml_refs_deletedInstances []*A_DATATYPE_DEFINITION_XHTML_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_datatype_definition_xhtml_ref := range stage.A_DATATYPE_DEFINITION_XHTML_REFs {
-		if ref, ok := stage.A_DATATYPE_DEFINITION_XHTML_REFs_reference[a_datatype_definition_xhtml_ref]; !ok {
-			a_datatype_definition_xhtml_refs_newInstances = append(a_datatype_definition_xhtml_refs_newInstances, a_datatype_definition_xhtml_ref)
-			newInstancesSlice = append(newInstancesSlice, a_datatype_definition_xhtml_ref.GongMarshallIdentifier(stage))
-			if stage.A_DATATYPE_DEFINITION_XHTML_REFs_referenceOrder == nil {
-				stage.A_DATATYPE_DEFINITION_XHTML_REFs_referenceOrder = make(map[*A_DATATYPE_DEFINITION_XHTML_REF]uint)
-			}
-			stage.A_DATATYPE_DEFINITION_XHTML_REFs_referenceOrder[a_datatype_definition_xhtml_ref] = stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder[a_datatype_definition_xhtml_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_datatype_definition_xhtml_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_DATATYPE_DEFINITION_XHTML_REFs_referenceOrder, a_datatype_definition_xhtml_ref)
-			fieldInitializers, pointersInitializations := a_datatype_definition_xhtml_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder[ref] = stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder[a_datatype_definition_xhtml_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_datatype_definition_xhtml_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_datatype_definition_xhtml_ref)
-			// delete(stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_datatype_definition_xhtml_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_xhtml_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_DATATYPE_DEFINITION_XHTML_REFs_reference {
-		instance := stage.A_DATATYPE_DEFINITION_XHTML_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_DATATYPE_DEFINITION_XHTML_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_datatype_definition_xhtml_refs_deletedInstances = append(a_datatype_definition_xhtml_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_datatype_definition_xhtml_refs_newInstances)
-	lenDeletedInstances += len(a_datatype_definition_xhtml_refs_deletedInstances)
-	var a_editable_attss_newInstances []*A_EDITABLE_ATTS
-	var a_editable_attss_deletedInstances []*A_EDITABLE_ATTS
-
-	// parse all staged instances and check if they have a reference
-	for a_editable_atts := range stage.A_EDITABLE_ATTSs {
-		if ref, ok := stage.A_EDITABLE_ATTSs_reference[a_editable_atts]; !ok {
-			a_editable_attss_newInstances = append(a_editable_attss_newInstances, a_editable_atts)
-			newInstancesSlice = append(newInstancesSlice, a_editable_atts.GongMarshallIdentifier(stage))
-			if stage.A_EDITABLE_ATTSs_referenceOrder == nil {
-				stage.A_EDITABLE_ATTSs_referenceOrder = make(map[*A_EDITABLE_ATTS]uint)
-			}
-			stage.A_EDITABLE_ATTSs_referenceOrder[a_editable_atts] = stage.A_EDITABLE_ATTS_stagedOrder[a_editable_atts]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_editable_atts.GongMarshallUnstaging(stage))
-			// delete(stage.A_EDITABLE_ATTSs_referenceOrder, a_editable_atts)
-			fieldInitializers, pointersInitializations := a_editable_atts.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_EDITABLE_ATTS_stagedOrder[ref] = stage.A_EDITABLE_ATTS_stagedOrder[a_editable_atts]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_editable_atts.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_editable_atts)
-			// delete(stage.A_EDITABLE_ATTS_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_editable_atts.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_editable_atts.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_EDITABLE_ATTSs_reference {
-		instance := stage.A_EDITABLE_ATTSs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_EDITABLE_ATTSs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_editable_attss_deletedInstances = append(a_editable_attss_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_editable_attss_newInstances)
-	lenDeletedInstances += len(a_editable_attss_deletedInstances)
-	var a_enum_value_refs_newInstances []*A_ENUM_VALUE_REF
-	var a_enum_value_refs_deletedInstances []*A_ENUM_VALUE_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_enum_value_ref := range stage.A_ENUM_VALUE_REFs {
-		if ref, ok := stage.A_ENUM_VALUE_REFs_reference[a_enum_value_ref]; !ok {
-			a_enum_value_refs_newInstances = append(a_enum_value_refs_newInstances, a_enum_value_ref)
-			newInstancesSlice = append(newInstancesSlice, a_enum_value_ref.GongMarshallIdentifier(stage))
-			if stage.A_ENUM_VALUE_REFs_referenceOrder == nil {
-				stage.A_ENUM_VALUE_REFs_referenceOrder = make(map[*A_ENUM_VALUE_REF]uint)
-			}
-			stage.A_ENUM_VALUE_REFs_referenceOrder[a_enum_value_ref] = stage.A_ENUM_VALUE_REF_stagedOrder[a_enum_value_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_enum_value_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_ENUM_VALUE_REFs_referenceOrder, a_enum_value_ref)
-			fieldInitializers, pointersInitializations := a_enum_value_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_ENUM_VALUE_REF_stagedOrder[ref] = stage.A_ENUM_VALUE_REF_stagedOrder[a_enum_value_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_enum_value_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_enum_value_ref)
-			// delete(stage.A_ENUM_VALUE_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_enum_value_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_enum_value_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_ENUM_VALUE_REFs_reference {
-		instance := stage.A_ENUM_VALUE_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_ENUM_VALUE_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_enum_value_refs_deletedInstances = append(a_enum_value_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_enum_value_refs_newInstances)
-	lenDeletedInstances += len(a_enum_value_refs_deletedInstances)
-	var a_objects_newInstances []*A_OBJECT
-	var a_objects_deletedInstances []*A_OBJECT
-
-	// parse all staged instances and check if they have a reference
-	for a_object := range stage.A_OBJECTs {
-		if ref, ok := stage.A_OBJECTs_reference[a_object]; !ok {
-			a_objects_newInstances = append(a_objects_newInstances, a_object)
-			newInstancesSlice = append(newInstancesSlice, a_object.GongMarshallIdentifier(stage))
-			if stage.A_OBJECTs_referenceOrder == nil {
-				stage.A_OBJECTs_referenceOrder = make(map[*A_OBJECT]uint)
-			}
-			stage.A_OBJECTs_referenceOrder[a_object] = stage.A_OBJECT_stagedOrder[a_object]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_object.GongMarshallUnstaging(stage))
-			// delete(stage.A_OBJECTs_referenceOrder, a_object)
-			fieldInitializers, pointersInitializations := a_object.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_OBJECT_stagedOrder[ref] = stage.A_OBJECT_stagedOrder[a_object]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_object.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_object)
-			// delete(stage.A_OBJECT_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_object.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_object.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_OBJECTs_reference {
-		instance := stage.A_OBJECTs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_OBJECTs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_objects_deletedInstances = append(a_objects_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_objects_newInstances)
-	lenDeletedInstances += len(a_objects_deletedInstances)
-	var a_propertiess_newInstances []*A_PROPERTIES
-	var a_propertiess_deletedInstances []*A_PROPERTIES
-
-	// parse all staged instances and check if they have a reference
-	for a_properties := range stage.A_PROPERTIESs {
-		if ref, ok := stage.A_PROPERTIESs_reference[a_properties]; !ok {
-			a_propertiess_newInstances = append(a_propertiess_newInstances, a_properties)
-			newInstancesSlice = append(newInstancesSlice, a_properties.GongMarshallIdentifier(stage))
-			if stage.A_PROPERTIESs_referenceOrder == nil {
-				stage.A_PROPERTIESs_referenceOrder = make(map[*A_PROPERTIES]uint)
-			}
-			stage.A_PROPERTIESs_referenceOrder[a_properties] = stage.A_PROPERTIES_stagedOrder[a_properties]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_properties.GongMarshallUnstaging(stage))
-			// delete(stage.A_PROPERTIESs_referenceOrder, a_properties)
-			fieldInitializers, pointersInitializations := a_properties.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_PROPERTIES_stagedOrder[ref] = stage.A_PROPERTIES_stagedOrder[a_properties]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_properties.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_properties)
-			// delete(stage.A_PROPERTIES_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_properties.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_properties.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_PROPERTIESs_reference {
-		instance := stage.A_PROPERTIESs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_PROPERTIESs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_propertiess_deletedInstances = append(a_propertiess_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_propertiess_newInstances)
-	lenDeletedInstances += len(a_propertiess_deletedInstances)
-	var a_relation_group_type_refs_newInstances []*A_RELATION_GROUP_TYPE_REF
-	var a_relation_group_type_refs_deletedInstances []*A_RELATION_GROUP_TYPE_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_relation_group_type_ref := range stage.A_RELATION_GROUP_TYPE_REFs {
-		if ref, ok := stage.A_RELATION_GROUP_TYPE_REFs_reference[a_relation_group_type_ref]; !ok {
-			a_relation_group_type_refs_newInstances = append(a_relation_group_type_refs_newInstances, a_relation_group_type_ref)
-			newInstancesSlice = append(newInstancesSlice, a_relation_group_type_ref.GongMarshallIdentifier(stage))
-			if stage.A_RELATION_GROUP_TYPE_REFs_referenceOrder == nil {
-				stage.A_RELATION_GROUP_TYPE_REFs_referenceOrder = make(map[*A_RELATION_GROUP_TYPE_REF]uint)
-			}
-			stage.A_RELATION_GROUP_TYPE_REFs_referenceOrder[a_relation_group_type_ref] = stage.A_RELATION_GROUP_TYPE_REF_stagedOrder[a_relation_group_type_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_relation_group_type_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_RELATION_GROUP_TYPE_REFs_referenceOrder, a_relation_group_type_ref)
-			fieldInitializers, pointersInitializations := a_relation_group_type_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_RELATION_GROUP_TYPE_REF_stagedOrder[ref] = stage.A_RELATION_GROUP_TYPE_REF_stagedOrder[a_relation_group_type_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_relation_group_type_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_relation_group_type_ref)
-			// delete(stage.A_RELATION_GROUP_TYPE_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_relation_group_type_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_relation_group_type_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_RELATION_GROUP_TYPE_REFs_reference {
-		instance := stage.A_RELATION_GROUP_TYPE_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_RELATION_GROUP_TYPE_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_relation_group_type_refs_deletedInstances = append(a_relation_group_type_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_relation_group_type_refs_newInstances)
-	lenDeletedInstances += len(a_relation_group_type_refs_deletedInstances)
-	var a_source_1s_newInstances []*A_SOURCE_1
-	var a_source_1s_deletedInstances []*A_SOURCE_1
-
-	// parse all staged instances and check if they have a reference
-	for a_source_1 := range stage.A_SOURCE_1s {
-		if ref, ok := stage.A_SOURCE_1s_reference[a_source_1]; !ok {
-			a_source_1s_newInstances = append(a_source_1s_newInstances, a_source_1)
-			newInstancesSlice = append(newInstancesSlice, a_source_1.GongMarshallIdentifier(stage))
-			if stage.A_SOURCE_1s_referenceOrder == nil {
-				stage.A_SOURCE_1s_referenceOrder = make(map[*A_SOURCE_1]uint)
-			}
-			stage.A_SOURCE_1s_referenceOrder[a_source_1] = stage.A_SOURCE_1_stagedOrder[a_source_1]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_source_1.GongMarshallUnstaging(stage))
-			// delete(stage.A_SOURCE_1s_referenceOrder, a_source_1)
-			fieldInitializers, pointersInitializations := a_source_1.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_SOURCE_1_stagedOrder[ref] = stage.A_SOURCE_1_stagedOrder[a_source_1]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_source_1.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_source_1)
-			// delete(stage.A_SOURCE_1_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_source_1.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_source_1.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_SOURCE_1s_reference {
-		instance := stage.A_SOURCE_1s_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_SOURCE_1s[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_source_1s_deletedInstances = append(a_source_1s_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_source_1s_newInstances)
-	lenDeletedInstances += len(a_source_1s_deletedInstances)
-	var a_source_specification_1s_newInstances []*A_SOURCE_SPECIFICATION_1
-	var a_source_specification_1s_deletedInstances []*A_SOURCE_SPECIFICATION_1
-
-	// parse all staged instances and check if they have a reference
-	for a_source_specification_1 := range stage.A_SOURCE_SPECIFICATION_1s {
-		if ref, ok := stage.A_SOURCE_SPECIFICATION_1s_reference[a_source_specification_1]; !ok {
-			a_source_specification_1s_newInstances = append(a_source_specification_1s_newInstances, a_source_specification_1)
-			newInstancesSlice = append(newInstancesSlice, a_source_specification_1.GongMarshallIdentifier(stage))
-			if stage.A_SOURCE_SPECIFICATION_1s_referenceOrder == nil {
-				stage.A_SOURCE_SPECIFICATION_1s_referenceOrder = make(map[*A_SOURCE_SPECIFICATION_1]uint)
-			}
-			stage.A_SOURCE_SPECIFICATION_1s_referenceOrder[a_source_specification_1] = stage.A_SOURCE_SPECIFICATION_1_stagedOrder[a_source_specification_1]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_source_specification_1.GongMarshallUnstaging(stage))
-			// delete(stage.A_SOURCE_SPECIFICATION_1s_referenceOrder, a_source_specification_1)
-			fieldInitializers, pointersInitializations := a_source_specification_1.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_SOURCE_SPECIFICATION_1_stagedOrder[ref] = stage.A_SOURCE_SPECIFICATION_1_stagedOrder[a_source_specification_1]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_source_specification_1.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_source_specification_1)
-			// delete(stage.A_SOURCE_SPECIFICATION_1_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_source_specification_1.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_source_specification_1.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_SOURCE_SPECIFICATION_1s_reference {
-		instance := stage.A_SOURCE_SPECIFICATION_1s_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_SOURCE_SPECIFICATION_1s[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_source_specification_1s_deletedInstances = append(a_source_specification_1s_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_source_specification_1s_newInstances)
-	lenDeletedInstances += len(a_source_specification_1s_deletedInstances)
-	var a_specificationss_newInstances []*A_SPECIFICATIONS
-	var a_specificationss_deletedInstances []*A_SPECIFICATIONS
-
-	// parse all staged instances and check if they have a reference
-	for a_specifications := range stage.A_SPECIFICATIONSs {
-		if ref, ok := stage.A_SPECIFICATIONSs_reference[a_specifications]; !ok {
-			a_specificationss_newInstances = append(a_specificationss_newInstances, a_specifications)
-			newInstancesSlice = append(newInstancesSlice, a_specifications.GongMarshallIdentifier(stage))
-			if stage.A_SPECIFICATIONSs_referenceOrder == nil {
-				stage.A_SPECIFICATIONSs_referenceOrder = make(map[*A_SPECIFICATIONS]uint)
-			}
-			stage.A_SPECIFICATIONSs_referenceOrder[a_specifications] = stage.A_SPECIFICATIONS_stagedOrder[a_specifications]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_specifications.GongMarshallUnstaging(stage))
-			// delete(stage.A_SPECIFICATIONSs_referenceOrder, a_specifications)
-			fieldInitializers, pointersInitializations := a_specifications.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_SPECIFICATIONS_stagedOrder[ref] = stage.A_SPECIFICATIONS_stagedOrder[a_specifications]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_specifications.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_specifications)
-			// delete(stage.A_SPECIFICATIONS_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_specifications.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_specifications.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_SPECIFICATIONSs_reference {
-		instance := stage.A_SPECIFICATIONSs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_SPECIFICATIONSs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_specificationss_deletedInstances = append(a_specificationss_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_specificationss_newInstances)
-	lenDeletedInstances += len(a_specificationss_deletedInstances)
-	var a_specification_type_refs_newInstances []*A_SPECIFICATION_TYPE_REF
-	var a_specification_type_refs_deletedInstances []*A_SPECIFICATION_TYPE_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_specification_type_ref := range stage.A_SPECIFICATION_TYPE_REFs {
-		if ref, ok := stage.A_SPECIFICATION_TYPE_REFs_reference[a_specification_type_ref]; !ok {
-			a_specification_type_refs_newInstances = append(a_specification_type_refs_newInstances, a_specification_type_ref)
-			newInstancesSlice = append(newInstancesSlice, a_specification_type_ref.GongMarshallIdentifier(stage))
-			if stage.A_SPECIFICATION_TYPE_REFs_referenceOrder == nil {
-				stage.A_SPECIFICATION_TYPE_REFs_referenceOrder = make(map[*A_SPECIFICATION_TYPE_REF]uint)
-			}
-			stage.A_SPECIFICATION_TYPE_REFs_referenceOrder[a_specification_type_ref] = stage.A_SPECIFICATION_TYPE_REF_stagedOrder[a_specification_type_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_specification_type_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_SPECIFICATION_TYPE_REFs_referenceOrder, a_specification_type_ref)
-			fieldInitializers, pointersInitializations := a_specification_type_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_SPECIFICATION_TYPE_REF_stagedOrder[ref] = stage.A_SPECIFICATION_TYPE_REF_stagedOrder[a_specification_type_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_specification_type_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_specification_type_ref)
-			// delete(stage.A_SPECIFICATION_TYPE_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_specification_type_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_specification_type_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_SPECIFICATION_TYPE_REFs_reference {
-		instance := stage.A_SPECIFICATION_TYPE_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_SPECIFICATION_TYPE_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_specification_type_refs_deletedInstances = append(a_specification_type_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_specification_type_refs_newInstances)
-	lenDeletedInstances += len(a_specification_type_refs_deletedInstances)
-	var a_specified_valuess_newInstances []*A_SPECIFIED_VALUES
-	var a_specified_valuess_deletedInstances []*A_SPECIFIED_VALUES
-
-	// parse all staged instances and check if they have a reference
-	for a_specified_values := range stage.A_SPECIFIED_VALUESs {
-		if ref, ok := stage.A_SPECIFIED_VALUESs_reference[a_specified_values]; !ok {
-			a_specified_valuess_newInstances = append(a_specified_valuess_newInstances, a_specified_values)
-			newInstancesSlice = append(newInstancesSlice, a_specified_values.GongMarshallIdentifier(stage))
-			if stage.A_SPECIFIED_VALUESs_referenceOrder == nil {
-				stage.A_SPECIFIED_VALUESs_referenceOrder = make(map[*A_SPECIFIED_VALUES]uint)
-			}
-			stage.A_SPECIFIED_VALUESs_referenceOrder[a_specified_values] = stage.A_SPECIFIED_VALUES_stagedOrder[a_specified_values]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_specified_values.GongMarshallUnstaging(stage))
-			// delete(stage.A_SPECIFIED_VALUESs_referenceOrder, a_specified_values)
-			fieldInitializers, pointersInitializations := a_specified_values.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_SPECIFIED_VALUES_stagedOrder[ref] = stage.A_SPECIFIED_VALUES_stagedOrder[a_specified_values]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_specified_values.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_specified_values)
-			// delete(stage.A_SPECIFIED_VALUES_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_specified_values.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_specified_values.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_SPECIFIED_VALUESs_reference {
-		instance := stage.A_SPECIFIED_VALUESs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_SPECIFIED_VALUESs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_specified_valuess_deletedInstances = append(a_specified_valuess_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_specified_valuess_newInstances)
-	lenDeletedInstances += len(a_specified_valuess_deletedInstances)
-	var a_spec_attributess_newInstances []*A_SPEC_ATTRIBUTES
-	var a_spec_attributess_deletedInstances []*A_SPEC_ATTRIBUTES
-
-	// parse all staged instances and check if they have a reference
-	for a_spec_attributes := range stage.A_SPEC_ATTRIBUTESs {
-		if ref, ok := stage.A_SPEC_ATTRIBUTESs_reference[a_spec_attributes]; !ok {
-			a_spec_attributess_newInstances = append(a_spec_attributess_newInstances, a_spec_attributes)
-			newInstancesSlice = append(newInstancesSlice, a_spec_attributes.GongMarshallIdentifier(stage))
-			if stage.A_SPEC_ATTRIBUTESs_referenceOrder == nil {
-				stage.A_SPEC_ATTRIBUTESs_referenceOrder = make(map[*A_SPEC_ATTRIBUTES]uint)
-			}
-			stage.A_SPEC_ATTRIBUTESs_referenceOrder[a_spec_attributes] = stage.A_SPEC_ATTRIBUTES_stagedOrder[a_spec_attributes]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_spec_attributes.GongMarshallUnstaging(stage))
-			// delete(stage.A_SPEC_ATTRIBUTESs_referenceOrder, a_spec_attributes)
-			fieldInitializers, pointersInitializations := a_spec_attributes.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_SPEC_ATTRIBUTES_stagedOrder[ref] = stage.A_SPEC_ATTRIBUTES_stagedOrder[a_spec_attributes]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_spec_attributes.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_spec_attributes)
-			// delete(stage.A_SPEC_ATTRIBUTES_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_spec_attributes.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_attributes.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_SPEC_ATTRIBUTESs_reference {
-		instance := stage.A_SPEC_ATTRIBUTESs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_SPEC_ATTRIBUTESs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_spec_attributess_deletedInstances = append(a_spec_attributess_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_spec_attributess_newInstances)
-	lenDeletedInstances += len(a_spec_attributess_deletedInstances)
-	var a_spec_objectss_newInstances []*A_SPEC_OBJECTS
-	var a_spec_objectss_deletedInstances []*A_SPEC_OBJECTS
-
-	// parse all staged instances and check if they have a reference
-	for a_spec_objects := range stage.A_SPEC_OBJECTSs {
-		if ref, ok := stage.A_SPEC_OBJECTSs_reference[a_spec_objects]; !ok {
-			a_spec_objectss_newInstances = append(a_spec_objectss_newInstances, a_spec_objects)
-			newInstancesSlice = append(newInstancesSlice, a_spec_objects.GongMarshallIdentifier(stage))
-			if stage.A_SPEC_OBJECTSs_referenceOrder == nil {
-				stage.A_SPEC_OBJECTSs_referenceOrder = make(map[*A_SPEC_OBJECTS]uint)
-			}
-			stage.A_SPEC_OBJECTSs_referenceOrder[a_spec_objects] = stage.A_SPEC_OBJECTS_stagedOrder[a_spec_objects]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_spec_objects.GongMarshallUnstaging(stage))
-			// delete(stage.A_SPEC_OBJECTSs_referenceOrder, a_spec_objects)
-			fieldInitializers, pointersInitializations := a_spec_objects.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_SPEC_OBJECTS_stagedOrder[ref] = stage.A_SPEC_OBJECTS_stagedOrder[a_spec_objects]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_spec_objects.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_spec_objects)
-			// delete(stage.A_SPEC_OBJECTS_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_spec_objects.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_objects.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_SPEC_OBJECTSs_reference {
-		instance := stage.A_SPEC_OBJECTSs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_SPEC_OBJECTSs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_spec_objectss_deletedInstances = append(a_spec_objectss_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_spec_objectss_newInstances)
-	lenDeletedInstances += len(a_spec_objectss_deletedInstances)
-	var a_spec_object_type_refs_newInstances []*A_SPEC_OBJECT_TYPE_REF
-	var a_spec_object_type_refs_deletedInstances []*A_SPEC_OBJECT_TYPE_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_spec_object_type_ref := range stage.A_SPEC_OBJECT_TYPE_REFs {
-		if ref, ok := stage.A_SPEC_OBJECT_TYPE_REFs_reference[a_spec_object_type_ref]; !ok {
-			a_spec_object_type_refs_newInstances = append(a_spec_object_type_refs_newInstances, a_spec_object_type_ref)
-			newInstancesSlice = append(newInstancesSlice, a_spec_object_type_ref.GongMarshallIdentifier(stage))
-			if stage.A_SPEC_OBJECT_TYPE_REFs_referenceOrder == nil {
-				stage.A_SPEC_OBJECT_TYPE_REFs_referenceOrder = make(map[*A_SPEC_OBJECT_TYPE_REF]uint)
-			}
-			stage.A_SPEC_OBJECT_TYPE_REFs_referenceOrder[a_spec_object_type_ref] = stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder[a_spec_object_type_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_spec_object_type_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_SPEC_OBJECT_TYPE_REFs_referenceOrder, a_spec_object_type_ref)
-			fieldInitializers, pointersInitializations := a_spec_object_type_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder[ref] = stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder[a_spec_object_type_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_spec_object_type_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_spec_object_type_ref)
-			// delete(stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_spec_object_type_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_object_type_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_SPEC_OBJECT_TYPE_REFs_reference {
-		instance := stage.A_SPEC_OBJECT_TYPE_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_SPEC_OBJECT_TYPE_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_spec_object_type_refs_deletedInstances = append(a_spec_object_type_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_spec_object_type_refs_newInstances)
-	lenDeletedInstances += len(a_spec_object_type_refs_deletedInstances)
-	var a_spec_relationss_newInstances []*A_SPEC_RELATIONS
-	var a_spec_relationss_deletedInstances []*A_SPEC_RELATIONS
-
-	// parse all staged instances and check if they have a reference
-	for a_spec_relations := range stage.A_SPEC_RELATIONSs {
-		if ref, ok := stage.A_SPEC_RELATIONSs_reference[a_spec_relations]; !ok {
-			a_spec_relationss_newInstances = append(a_spec_relationss_newInstances, a_spec_relations)
-			newInstancesSlice = append(newInstancesSlice, a_spec_relations.GongMarshallIdentifier(stage))
-			if stage.A_SPEC_RELATIONSs_referenceOrder == nil {
-				stage.A_SPEC_RELATIONSs_referenceOrder = make(map[*A_SPEC_RELATIONS]uint)
-			}
-			stage.A_SPEC_RELATIONSs_referenceOrder[a_spec_relations] = stage.A_SPEC_RELATIONS_stagedOrder[a_spec_relations]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_spec_relations.GongMarshallUnstaging(stage))
-			// delete(stage.A_SPEC_RELATIONSs_referenceOrder, a_spec_relations)
-			fieldInitializers, pointersInitializations := a_spec_relations.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_SPEC_RELATIONS_stagedOrder[ref] = stage.A_SPEC_RELATIONS_stagedOrder[a_spec_relations]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_spec_relations.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_spec_relations)
-			// delete(stage.A_SPEC_RELATIONS_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_spec_relations.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_relations.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_SPEC_RELATIONSs_reference {
-		instance := stage.A_SPEC_RELATIONSs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_SPEC_RELATIONSs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_spec_relationss_deletedInstances = append(a_spec_relationss_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_spec_relationss_newInstances)
-	lenDeletedInstances += len(a_spec_relationss_deletedInstances)
-	var a_spec_relation_groupss_newInstances []*A_SPEC_RELATION_GROUPS
-	var a_spec_relation_groupss_deletedInstances []*A_SPEC_RELATION_GROUPS
-
-	// parse all staged instances and check if they have a reference
-	for a_spec_relation_groups := range stage.A_SPEC_RELATION_GROUPSs {
-		if ref, ok := stage.A_SPEC_RELATION_GROUPSs_reference[a_spec_relation_groups]; !ok {
-			a_spec_relation_groupss_newInstances = append(a_spec_relation_groupss_newInstances, a_spec_relation_groups)
-			newInstancesSlice = append(newInstancesSlice, a_spec_relation_groups.GongMarshallIdentifier(stage))
-			if stage.A_SPEC_RELATION_GROUPSs_referenceOrder == nil {
-				stage.A_SPEC_RELATION_GROUPSs_referenceOrder = make(map[*A_SPEC_RELATION_GROUPS]uint)
-			}
-			stage.A_SPEC_RELATION_GROUPSs_referenceOrder[a_spec_relation_groups] = stage.A_SPEC_RELATION_GROUPS_stagedOrder[a_spec_relation_groups]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_spec_relation_groups.GongMarshallUnstaging(stage))
-			// delete(stage.A_SPEC_RELATION_GROUPSs_referenceOrder, a_spec_relation_groups)
-			fieldInitializers, pointersInitializations := a_spec_relation_groups.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_SPEC_RELATION_GROUPS_stagedOrder[ref] = stage.A_SPEC_RELATION_GROUPS_stagedOrder[a_spec_relation_groups]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_spec_relation_groups.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_spec_relation_groups)
-			// delete(stage.A_SPEC_RELATION_GROUPS_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_spec_relation_groups.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_relation_groups.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_SPEC_RELATION_GROUPSs_reference {
-		instance := stage.A_SPEC_RELATION_GROUPSs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_SPEC_RELATION_GROUPSs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_spec_relation_groupss_deletedInstances = append(a_spec_relation_groupss_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_spec_relation_groupss_newInstances)
-	lenDeletedInstances += len(a_spec_relation_groupss_deletedInstances)
-	var a_spec_relation_refs_newInstances []*A_SPEC_RELATION_REF
-	var a_spec_relation_refs_deletedInstances []*A_SPEC_RELATION_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_spec_relation_ref := range stage.A_SPEC_RELATION_REFs {
-		if ref, ok := stage.A_SPEC_RELATION_REFs_reference[a_spec_relation_ref]; !ok {
-			a_spec_relation_refs_newInstances = append(a_spec_relation_refs_newInstances, a_spec_relation_ref)
-			newInstancesSlice = append(newInstancesSlice, a_spec_relation_ref.GongMarshallIdentifier(stage))
-			if stage.A_SPEC_RELATION_REFs_referenceOrder == nil {
-				stage.A_SPEC_RELATION_REFs_referenceOrder = make(map[*A_SPEC_RELATION_REF]uint)
-			}
-			stage.A_SPEC_RELATION_REFs_referenceOrder[a_spec_relation_ref] = stage.A_SPEC_RELATION_REF_stagedOrder[a_spec_relation_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_spec_relation_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_SPEC_RELATION_REFs_referenceOrder, a_spec_relation_ref)
-			fieldInitializers, pointersInitializations := a_spec_relation_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_SPEC_RELATION_REF_stagedOrder[ref] = stage.A_SPEC_RELATION_REF_stagedOrder[a_spec_relation_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_spec_relation_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_spec_relation_ref)
-			// delete(stage.A_SPEC_RELATION_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_spec_relation_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_relation_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_SPEC_RELATION_REFs_reference {
-		instance := stage.A_SPEC_RELATION_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_SPEC_RELATION_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_spec_relation_refs_deletedInstances = append(a_spec_relation_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_spec_relation_refs_newInstances)
-	lenDeletedInstances += len(a_spec_relation_refs_deletedInstances)
-	var a_spec_relation_type_refs_newInstances []*A_SPEC_RELATION_TYPE_REF
-	var a_spec_relation_type_refs_deletedInstances []*A_SPEC_RELATION_TYPE_REF
-
-	// parse all staged instances and check if they have a reference
-	for a_spec_relation_type_ref := range stage.A_SPEC_RELATION_TYPE_REFs {
-		if ref, ok := stage.A_SPEC_RELATION_TYPE_REFs_reference[a_spec_relation_type_ref]; !ok {
-			a_spec_relation_type_refs_newInstances = append(a_spec_relation_type_refs_newInstances, a_spec_relation_type_ref)
-			newInstancesSlice = append(newInstancesSlice, a_spec_relation_type_ref.GongMarshallIdentifier(stage))
-			if stage.A_SPEC_RELATION_TYPE_REFs_referenceOrder == nil {
-				stage.A_SPEC_RELATION_TYPE_REFs_referenceOrder = make(map[*A_SPEC_RELATION_TYPE_REF]uint)
-			}
-			stage.A_SPEC_RELATION_TYPE_REFs_referenceOrder[a_spec_relation_type_ref] = stage.A_SPEC_RELATION_TYPE_REF_stagedOrder[a_spec_relation_type_ref]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_spec_relation_type_ref.GongMarshallUnstaging(stage))
-			// delete(stage.A_SPEC_RELATION_TYPE_REFs_referenceOrder, a_spec_relation_type_ref)
-			fieldInitializers, pointersInitializations := a_spec_relation_type_ref.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_SPEC_RELATION_TYPE_REF_stagedOrder[ref] = stage.A_SPEC_RELATION_TYPE_REF_stagedOrder[a_spec_relation_type_ref]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_spec_relation_type_ref.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_spec_relation_type_ref)
-			// delete(stage.A_SPEC_RELATION_TYPE_REF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_spec_relation_type_ref.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_relation_type_ref.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_SPEC_RELATION_TYPE_REFs_reference {
-		instance := stage.A_SPEC_RELATION_TYPE_REFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_SPEC_RELATION_TYPE_REFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_spec_relation_type_refs_deletedInstances = append(a_spec_relation_type_refs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_spec_relation_type_refs_newInstances)
-	lenDeletedInstances += len(a_spec_relation_type_refs_deletedInstances)
-	var a_spec_typess_newInstances []*A_SPEC_TYPES
-	var a_spec_typess_deletedInstances []*A_SPEC_TYPES
-
-	// parse all staged instances and check if they have a reference
-	for a_spec_types := range stage.A_SPEC_TYPESs {
-		if ref, ok := stage.A_SPEC_TYPESs_reference[a_spec_types]; !ok {
-			a_spec_typess_newInstances = append(a_spec_typess_newInstances, a_spec_types)
-			newInstancesSlice = append(newInstancesSlice, a_spec_types.GongMarshallIdentifier(stage))
-			if stage.A_SPEC_TYPESs_referenceOrder == nil {
-				stage.A_SPEC_TYPESs_referenceOrder = make(map[*A_SPEC_TYPES]uint)
-			}
-			stage.A_SPEC_TYPESs_referenceOrder[a_spec_types] = stage.A_SPEC_TYPES_stagedOrder[a_spec_types]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_spec_types.GongMarshallUnstaging(stage))
-			// delete(stage.A_SPEC_TYPESs_referenceOrder, a_spec_types)
-			fieldInitializers, pointersInitializations := a_spec_types.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_SPEC_TYPES_stagedOrder[ref] = stage.A_SPEC_TYPES_stagedOrder[a_spec_types]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_spec_types.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_spec_types)
-			// delete(stage.A_SPEC_TYPES_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_spec_types.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_types.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_SPEC_TYPESs_reference {
-		instance := stage.A_SPEC_TYPESs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_SPEC_TYPESs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_spec_typess_deletedInstances = append(a_spec_typess_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_spec_typess_newInstances)
-	lenDeletedInstances += len(a_spec_typess_deletedInstances)
-	var a_the_headers_newInstances []*A_THE_HEADER
-	var a_the_headers_deletedInstances []*A_THE_HEADER
-
-	// parse all staged instances and check if they have a reference
-	for a_the_header := range stage.A_THE_HEADERs {
-		if ref, ok := stage.A_THE_HEADERs_reference[a_the_header]; !ok {
-			a_the_headers_newInstances = append(a_the_headers_newInstances, a_the_header)
-			newInstancesSlice = append(newInstancesSlice, a_the_header.GongMarshallIdentifier(stage))
-			if stage.A_THE_HEADERs_referenceOrder == nil {
-				stage.A_THE_HEADERs_referenceOrder = make(map[*A_THE_HEADER]uint)
-			}
-			stage.A_THE_HEADERs_referenceOrder[a_the_header] = stage.A_THE_HEADER_stagedOrder[a_the_header]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_the_header.GongMarshallUnstaging(stage))
-			// delete(stage.A_THE_HEADERs_referenceOrder, a_the_header)
-			fieldInitializers, pointersInitializations := a_the_header.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_THE_HEADER_stagedOrder[ref] = stage.A_THE_HEADER_stagedOrder[a_the_header]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_the_header.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_the_header)
-			// delete(stage.A_THE_HEADER_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_the_header.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_the_header.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_THE_HEADERs_reference {
-		instance := stage.A_THE_HEADERs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_THE_HEADERs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_the_headers_deletedInstances = append(a_the_headers_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_the_headers_newInstances)
-	lenDeletedInstances += len(a_the_headers_deletedInstances)
-	var a_tool_extensionss_newInstances []*A_TOOL_EXTENSIONS
-	var a_tool_extensionss_deletedInstances []*A_TOOL_EXTENSIONS
-
-	// parse all staged instances and check if they have a reference
-	for a_tool_extensions := range stage.A_TOOL_EXTENSIONSs {
-		if ref, ok := stage.A_TOOL_EXTENSIONSs_reference[a_tool_extensions]; !ok {
-			a_tool_extensionss_newInstances = append(a_tool_extensionss_newInstances, a_tool_extensions)
-			newInstancesSlice = append(newInstancesSlice, a_tool_extensions.GongMarshallIdentifier(stage))
-			if stage.A_TOOL_EXTENSIONSs_referenceOrder == nil {
-				stage.A_TOOL_EXTENSIONSs_referenceOrder = make(map[*A_TOOL_EXTENSIONS]uint)
-			}
-			stage.A_TOOL_EXTENSIONSs_referenceOrder[a_tool_extensions] = stage.A_TOOL_EXTENSIONS_stagedOrder[a_tool_extensions]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_tool_extensions.GongMarshallUnstaging(stage))
-			// delete(stage.A_TOOL_EXTENSIONSs_referenceOrder, a_tool_extensions)
-			fieldInitializers, pointersInitializations := a_tool_extensions.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_TOOL_EXTENSIONS_stagedOrder[ref] = stage.A_TOOL_EXTENSIONS_stagedOrder[a_tool_extensions]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_tool_extensions.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_tool_extensions)
-			// delete(stage.A_TOOL_EXTENSIONS_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if a_tool_extensions.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", a_tool_extensions.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_TOOL_EXTENSIONSs_reference {
-		instance := stage.A_TOOL_EXTENSIONSs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_TOOL_EXTENSIONSs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_tool_extensionss_deletedInstances = append(a_tool_extensionss_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_tool_extensionss_newInstances)
-	lenDeletedInstances += len(a_tool_extensionss_deletedInstances)
-	var datatype_definition_booleans_newInstances []*DATATYPE_DEFINITION_BOOLEAN
-	var datatype_definition_booleans_deletedInstances []*DATATYPE_DEFINITION_BOOLEAN
-
-	// parse all staged instances and check if they have a reference
-	for datatype_definition_boolean := range stage.DATATYPE_DEFINITION_BOOLEANs {
-		if ref, ok := stage.DATATYPE_DEFINITION_BOOLEANs_reference[datatype_definition_boolean]; !ok {
-			datatype_definition_booleans_newInstances = append(datatype_definition_booleans_newInstances, datatype_definition_boolean)
-			newInstancesSlice = append(newInstancesSlice, datatype_definition_boolean.GongMarshallIdentifier(stage))
-			if stage.DATATYPE_DEFINITION_BOOLEANs_referenceOrder == nil {
-				stage.DATATYPE_DEFINITION_BOOLEANs_referenceOrder = make(map[*DATATYPE_DEFINITION_BOOLEAN]uint)
-			}
-			stage.DATATYPE_DEFINITION_BOOLEANs_referenceOrder[datatype_definition_boolean] = stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder[datatype_definition_boolean]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, datatype_definition_boolean.GongMarshallUnstaging(stage))
-			// delete(stage.DATATYPE_DEFINITION_BOOLEANs_referenceOrder, datatype_definition_boolean)
-			fieldInitializers, pointersInitializations := datatype_definition_boolean.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder[ref] = stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder[datatype_definition_boolean]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := datatype_definition_boolean.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, datatype_definition_boolean)
-			// delete(stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if datatype_definition_boolean.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_boolean.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.DATATYPE_DEFINITION_BOOLEANs_reference {
-		instance := stage.DATATYPE_DEFINITION_BOOLEANs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.DATATYPE_DEFINITION_BOOLEANs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			datatype_definition_booleans_deletedInstances = append(datatype_definition_booleans_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(datatype_definition_booleans_newInstances)
-	lenDeletedInstances += len(datatype_definition_booleans_deletedInstances)
-	var datatype_definition_dates_newInstances []*DATATYPE_DEFINITION_DATE
-	var datatype_definition_dates_deletedInstances []*DATATYPE_DEFINITION_DATE
-
-	// parse all staged instances and check if they have a reference
-	for datatype_definition_date := range stage.DATATYPE_DEFINITION_DATEs {
-		if ref, ok := stage.DATATYPE_DEFINITION_DATEs_reference[datatype_definition_date]; !ok {
-			datatype_definition_dates_newInstances = append(datatype_definition_dates_newInstances, datatype_definition_date)
-			newInstancesSlice = append(newInstancesSlice, datatype_definition_date.GongMarshallIdentifier(stage))
-			if stage.DATATYPE_DEFINITION_DATEs_referenceOrder == nil {
-				stage.DATATYPE_DEFINITION_DATEs_referenceOrder = make(map[*DATATYPE_DEFINITION_DATE]uint)
-			}
-			stage.DATATYPE_DEFINITION_DATEs_referenceOrder[datatype_definition_date] = stage.DATATYPE_DEFINITION_DATE_stagedOrder[datatype_definition_date]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, datatype_definition_date.GongMarshallUnstaging(stage))
-			// delete(stage.DATATYPE_DEFINITION_DATEs_referenceOrder, datatype_definition_date)
-			fieldInitializers, pointersInitializations := datatype_definition_date.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.DATATYPE_DEFINITION_DATE_stagedOrder[ref] = stage.DATATYPE_DEFINITION_DATE_stagedOrder[datatype_definition_date]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := datatype_definition_date.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, datatype_definition_date)
-			// delete(stage.DATATYPE_DEFINITION_DATE_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if datatype_definition_date.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_date.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.DATATYPE_DEFINITION_DATEs_reference {
-		instance := stage.DATATYPE_DEFINITION_DATEs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.DATATYPE_DEFINITION_DATEs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			datatype_definition_dates_deletedInstances = append(datatype_definition_dates_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(datatype_definition_dates_newInstances)
-	lenDeletedInstances += len(datatype_definition_dates_deletedInstances)
-	var datatype_definition_enumerations_newInstances []*DATATYPE_DEFINITION_ENUMERATION
-	var datatype_definition_enumerations_deletedInstances []*DATATYPE_DEFINITION_ENUMERATION
-
-	// parse all staged instances and check if they have a reference
-	for datatype_definition_enumeration := range stage.DATATYPE_DEFINITION_ENUMERATIONs {
-		if ref, ok := stage.DATATYPE_DEFINITION_ENUMERATIONs_reference[datatype_definition_enumeration]; !ok {
-			datatype_definition_enumerations_newInstances = append(datatype_definition_enumerations_newInstances, datatype_definition_enumeration)
-			newInstancesSlice = append(newInstancesSlice, datatype_definition_enumeration.GongMarshallIdentifier(stage))
-			if stage.DATATYPE_DEFINITION_ENUMERATIONs_referenceOrder == nil {
-				stage.DATATYPE_DEFINITION_ENUMERATIONs_referenceOrder = make(map[*DATATYPE_DEFINITION_ENUMERATION]uint)
-			}
-			stage.DATATYPE_DEFINITION_ENUMERATIONs_referenceOrder[datatype_definition_enumeration] = stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder[datatype_definition_enumeration]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, datatype_definition_enumeration.GongMarshallUnstaging(stage))
-			// delete(stage.DATATYPE_DEFINITION_ENUMERATIONs_referenceOrder, datatype_definition_enumeration)
-			fieldInitializers, pointersInitializations := datatype_definition_enumeration.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder[ref] = stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder[datatype_definition_enumeration]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := datatype_definition_enumeration.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, datatype_definition_enumeration)
-			// delete(stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if datatype_definition_enumeration.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_enumeration.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.DATATYPE_DEFINITION_ENUMERATIONs_reference {
-		instance := stage.DATATYPE_DEFINITION_ENUMERATIONs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.DATATYPE_DEFINITION_ENUMERATIONs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			datatype_definition_enumerations_deletedInstances = append(datatype_definition_enumerations_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(datatype_definition_enumerations_newInstances)
-	lenDeletedInstances += len(datatype_definition_enumerations_deletedInstances)
-	var datatype_definition_integers_newInstances []*DATATYPE_DEFINITION_INTEGER
-	var datatype_definition_integers_deletedInstances []*DATATYPE_DEFINITION_INTEGER
-
-	// parse all staged instances and check if they have a reference
-	for datatype_definition_integer := range stage.DATATYPE_DEFINITION_INTEGERs {
-		if ref, ok := stage.DATATYPE_DEFINITION_INTEGERs_reference[datatype_definition_integer]; !ok {
-			datatype_definition_integers_newInstances = append(datatype_definition_integers_newInstances, datatype_definition_integer)
-			newInstancesSlice = append(newInstancesSlice, datatype_definition_integer.GongMarshallIdentifier(stage))
-			if stage.DATATYPE_DEFINITION_INTEGERs_referenceOrder == nil {
-				stage.DATATYPE_DEFINITION_INTEGERs_referenceOrder = make(map[*DATATYPE_DEFINITION_INTEGER]uint)
-			}
-			stage.DATATYPE_DEFINITION_INTEGERs_referenceOrder[datatype_definition_integer] = stage.DATATYPE_DEFINITION_INTEGER_stagedOrder[datatype_definition_integer]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, datatype_definition_integer.GongMarshallUnstaging(stage))
-			// delete(stage.DATATYPE_DEFINITION_INTEGERs_referenceOrder, datatype_definition_integer)
-			fieldInitializers, pointersInitializations := datatype_definition_integer.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.DATATYPE_DEFINITION_INTEGER_stagedOrder[ref] = stage.DATATYPE_DEFINITION_INTEGER_stagedOrder[datatype_definition_integer]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := datatype_definition_integer.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, datatype_definition_integer)
-			// delete(stage.DATATYPE_DEFINITION_INTEGER_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if datatype_definition_integer.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_integer.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.DATATYPE_DEFINITION_INTEGERs_reference {
-		instance := stage.DATATYPE_DEFINITION_INTEGERs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.DATATYPE_DEFINITION_INTEGERs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			datatype_definition_integers_deletedInstances = append(datatype_definition_integers_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(datatype_definition_integers_newInstances)
-	lenDeletedInstances += len(datatype_definition_integers_deletedInstances)
-	var datatype_definition_reals_newInstances []*DATATYPE_DEFINITION_REAL
-	var datatype_definition_reals_deletedInstances []*DATATYPE_DEFINITION_REAL
-
-	// parse all staged instances and check if they have a reference
-	for datatype_definition_real := range stage.DATATYPE_DEFINITION_REALs {
-		if ref, ok := stage.DATATYPE_DEFINITION_REALs_reference[datatype_definition_real]; !ok {
-			datatype_definition_reals_newInstances = append(datatype_definition_reals_newInstances, datatype_definition_real)
-			newInstancesSlice = append(newInstancesSlice, datatype_definition_real.GongMarshallIdentifier(stage))
-			if stage.DATATYPE_DEFINITION_REALs_referenceOrder == nil {
-				stage.DATATYPE_DEFINITION_REALs_referenceOrder = make(map[*DATATYPE_DEFINITION_REAL]uint)
-			}
-			stage.DATATYPE_DEFINITION_REALs_referenceOrder[datatype_definition_real] = stage.DATATYPE_DEFINITION_REAL_stagedOrder[datatype_definition_real]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, datatype_definition_real.GongMarshallUnstaging(stage))
-			// delete(stage.DATATYPE_DEFINITION_REALs_referenceOrder, datatype_definition_real)
-			fieldInitializers, pointersInitializations := datatype_definition_real.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.DATATYPE_DEFINITION_REAL_stagedOrder[ref] = stage.DATATYPE_DEFINITION_REAL_stagedOrder[datatype_definition_real]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := datatype_definition_real.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, datatype_definition_real)
-			// delete(stage.DATATYPE_DEFINITION_REAL_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if datatype_definition_real.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_real.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.DATATYPE_DEFINITION_REALs_reference {
-		instance := stage.DATATYPE_DEFINITION_REALs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.DATATYPE_DEFINITION_REALs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			datatype_definition_reals_deletedInstances = append(datatype_definition_reals_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(datatype_definition_reals_newInstances)
-	lenDeletedInstances += len(datatype_definition_reals_deletedInstances)
-	var datatype_definition_strings_newInstances []*DATATYPE_DEFINITION_STRING
-	var datatype_definition_strings_deletedInstances []*DATATYPE_DEFINITION_STRING
-
-	// parse all staged instances and check if they have a reference
-	for datatype_definition_string := range stage.DATATYPE_DEFINITION_STRINGs {
-		if ref, ok := stage.DATATYPE_DEFINITION_STRINGs_reference[datatype_definition_string]; !ok {
-			datatype_definition_strings_newInstances = append(datatype_definition_strings_newInstances, datatype_definition_string)
-			newInstancesSlice = append(newInstancesSlice, datatype_definition_string.GongMarshallIdentifier(stage))
-			if stage.DATATYPE_DEFINITION_STRINGs_referenceOrder == nil {
-				stage.DATATYPE_DEFINITION_STRINGs_referenceOrder = make(map[*DATATYPE_DEFINITION_STRING]uint)
-			}
-			stage.DATATYPE_DEFINITION_STRINGs_referenceOrder[datatype_definition_string] = stage.DATATYPE_DEFINITION_STRING_stagedOrder[datatype_definition_string]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, datatype_definition_string.GongMarshallUnstaging(stage))
-			// delete(stage.DATATYPE_DEFINITION_STRINGs_referenceOrder, datatype_definition_string)
-			fieldInitializers, pointersInitializations := datatype_definition_string.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.DATATYPE_DEFINITION_STRING_stagedOrder[ref] = stage.DATATYPE_DEFINITION_STRING_stagedOrder[datatype_definition_string]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := datatype_definition_string.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, datatype_definition_string)
-			// delete(stage.DATATYPE_DEFINITION_STRING_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if datatype_definition_string.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_string.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.DATATYPE_DEFINITION_STRINGs_reference {
-		instance := stage.DATATYPE_DEFINITION_STRINGs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.DATATYPE_DEFINITION_STRINGs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			datatype_definition_strings_deletedInstances = append(datatype_definition_strings_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(datatype_definition_strings_newInstances)
-	lenDeletedInstances += len(datatype_definition_strings_deletedInstances)
-	var datatype_definition_xhtmls_newInstances []*DATATYPE_DEFINITION_XHTML
-	var datatype_definition_xhtmls_deletedInstances []*DATATYPE_DEFINITION_XHTML
-
-	// parse all staged instances and check if they have a reference
-	for datatype_definition_xhtml := range stage.DATATYPE_DEFINITION_XHTMLs {
-		if ref, ok := stage.DATATYPE_DEFINITION_XHTMLs_reference[datatype_definition_xhtml]; !ok {
-			datatype_definition_xhtmls_newInstances = append(datatype_definition_xhtmls_newInstances, datatype_definition_xhtml)
-			newInstancesSlice = append(newInstancesSlice, datatype_definition_xhtml.GongMarshallIdentifier(stage))
-			if stage.DATATYPE_DEFINITION_XHTMLs_referenceOrder == nil {
-				stage.DATATYPE_DEFINITION_XHTMLs_referenceOrder = make(map[*DATATYPE_DEFINITION_XHTML]uint)
-			}
-			stage.DATATYPE_DEFINITION_XHTMLs_referenceOrder[datatype_definition_xhtml] = stage.DATATYPE_DEFINITION_XHTML_stagedOrder[datatype_definition_xhtml]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, datatype_definition_xhtml.GongMarshallUnstaging(stage))
-			// delete(stage.DATATYPE_DEFINITION_XHTMLs_referenceOrder, datatype_definition_xhtml)
-			fieldInitializers, pointersInitializations := datatype_definition_xhtml.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.DATATYPE_DEFINITION_XHTML_stagedOrder[ref] = stage.DATATYPE_DEFINITION_XHTML_stagedOrder[datatype_definition_xhtml]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := datatype_definition_xhtml.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, datatype_definition_xhtml)
-			// delete(stage.DATATYPE_DEFINITION_XHTML_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if datatype_definition_xhtml.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_xhtml.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.DATATYPE_DEFINITION_XHTMLs_reference {
-		instance := stage.DATATYPE_DEFINITION_XHTMLs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.DATATYPE_DEFINITION_XHTMLs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			datatype_definition_xhtmls_deletedInstances = append(datatype_definition_xhtmls_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(datatype_definition_xhtmls_newInstances)
-	lenDeletedInstances += len(datatype_definition_xhtmls_deletedInstances)
-	var embedded_values_newInstances []*EMBEDDED_VALUE
-	var embedded_values_deletedInstances []*EMBEDDED_VALUE
-
-	// parse all staged instances and check if they have a reference
-	for embedded_value := range stage.EMBEDDED_VALUEs {
-		if ref, ok := stage.EMBEDDED_VALUEs_reference[embedded_value]; !ok {
-			embedded_values_newInstances = append(embedded_values_newInstances, embedded_value)
-			newInstancesSlice = append(newInstancesSlice, embedded_value.GongMarshallIdentifier(stage))
-			if stage.EMBEDDED_VALUEs_referenceOrder == nil {
-				stage.EMBEDDED_VALUEs_referenceOrder = make(map[*EMBEDDED_VALUE]uint)
-			}
-			stage.EMBEDDED_VALUEs_referenceOrder[embedded_value] = stage.EMBEDDED_VALUE_stagedOrder[embedded_value]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, embedded_value.GongMarshallUnstaging(stage))
-			// delete(stage.EMBEDDED_VALUEs_referenceOrder, embedded_value)
-			fieldInitializers, pointersInitializations := embedded_value.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.EMBEDDED_VALUE_stagedOrder[ref] = stage.EMBEDDED_VALUE_stagedOrder[embedded_value]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := embedded_value.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, embedded_value)
-			// delete(stage.EMBEDDED_VALUE_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if embedded_value.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", embedded_value.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.EMBEDDED_VALUEs_reference {
-		instance := stage.EMBEDDED_VALUEs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.EMBEDDED_VALUEs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			embedded_values_deletedInstances = append(embedded_values_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(embedded_values_newInstances)
-	lenDeletedInstances += len(embedded_values_deletedInstances)
-	var enum_values_newInstances []*ENUM_VALUE
-	var enum_values_deletedInstances []*ENUM_VALUE
-
-	// parse all staged instances and check if they have a reference
-	for enum_value := range stage.ENUM_VALUEs {
-		if ref, ok := stage.ENUM_VALUEs_reference[enum_value]; !ok {
-			enum_values_newInstances = append(enum_values_newInstances, enum_value)
-			newInstancesSlice = append(newInstancesSlice, enum_value.GongMarshallIdentifier(stage))
-			if stage.ENUM_VALUEs_referenceOrder == nil {
-				stage.ENUM_VALUEs_referenceOrder = make(map[*ENUM_VALUE]uint)
-			}
-			stage.ENUM_VALUEs_referenceOrder[enum_value] = stage.ENUM_VALUE_stagedOrder[enum_value]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, enum_value.GongMarshallUnstaging(stage))
-			// delete(stage.ENUM_VALUEs_referenceOrder, enum_value)
-			fieldInitializers, pointersInitializations := enum_value.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ENUM_VALUE_stagedOrder[ref] = stage.ENUM_VALUE_stagedOrder[enum_value]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := enum_value.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, enum_value)
-			// delete(stage.ENUM_VALUE_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if enum_value.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", enum_value.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ENUM_VALUEs_reference {
-		instance := stage.ENUM_VALUEs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ENUM_VALUEs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			enum_values_deletedInstances = append(enum_values_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(enum_values_newInstances)
-	lenDeletedInstances += len(enum_values_deletedInstances)
-	var relation_groups_newInstances []*RELATION_GROUP
-	var relation_groups_deletedInstances []*RELATION_GROUP
-
-	// parse all staged instances and check if they have a reference
-	for relation_group := range stage.RELATION_GROUPs {
-		if ref, ok := stage.RELATION_GROUPs_reference[relation_group]; !ok {
-			relation_groups_newInstances = append(relation_groups_newInstances, relation_group)
-			newInstancesSlice = append(newInstancesSlice, relation_group.GongMarshallIdentifier(stage))
-			if stage.RELATION_GROUPs_referenceOrder == nil {
-				stage.RELATION_GROUPs_referenceOrder = make(map[*RELATION_GROUP]uint)
-			}
-			stage.RELATION_GROUPs_referenceOrder[relation_group] = stage.RELATION_GROUP_stagedOrder[relation_group]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, relation_group.GongMarshallUnstaging(stage))
-			// delete(stage.RELATION_GROUPs_referenceOrder, relation_group)
-			fieldInitializers, pointersInitializations := relation_group.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.RELATION_GROUP_stagedOrder[ref] = stage.RELATION_GROUP_stagedOrder[relation_group]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := relation_group.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, relation_group)
-			// delete(stage.RELATION_GROUP_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if relation_group.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", relation_group.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.RELATION_GROUPs_reference {
-		instance := stage.RELATION_GROUPs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.RELATION_GROUPs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			relation_groups_deletedInstances = append(relation_groups_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(relation_groups_newInstances)
-	lenDeletedInstances += len(relation_groups_deletedInstances)
-	var relation_group_types_newInstances []*RELATION_GROUP_TYPE
-	var relation_group_types_deletedInstances []*RELATION_GROUP_TYPE
-
-	// parse all staged instances and check if they have a reference
-	for relation_group_type := range stage.RELATION_GROUP_TYPEs {
-		if ref, ok := stage.RELATION_GROUP_TYPEs_reference[relation_group_type]; !ok {
-			relation_group_types_newInstances = append(relation_group_types_newInstances, relation_group_type)
-			newInstancesSlice = append(newInstancesSlice, relation_group_type.GongMarshallIdentifier(stage))
-			if stage.RELATION_GROUP_TYPEs_referenceOrder == nil {
-				stage.RELATION_GROUP_TYPEs_referenceOrder = make(map[*RELATION_GROUP_TYPE]uint)
-			}
-			stage.RELATION_GROUP_TYPEs_referenceOrder[relation_group_type] = stage.RELATION_GROUP_TYPE_stagedOrder[relation_group_type]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, relation_group_type.GongMarshallUnstaging(stage))
-			// delete(stage.RELATION_GROUP_TYPEs_referenceOrder, relation_group_type)
-			fieldInitializers, pointersInitializations := relation_group_type.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.RELATION_GROUP_TYPE_stagedOrder[ref] = stage.RELATION_GROUP_TYPE_stagedOrder[relation_group_type]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := relation_group_type.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, relation_group_type)
-			// delete(stage.RELATION_GROUP_TYPE_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if relation_group_type.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", relation_group_type.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.RELATION_GROUP_TYPEs_reference {
-		instance := stage.RELATION_GROUP_TYPEs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.RELATION_GROUP_TYPEs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			relation_group_types_deletedInstances = append(relation_group_types_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(relation_group_types_newInstances)
-	lenDeletedInstances += len(relation_group_types_deletedInstances)
-	var req_ifs_newInstances []*REQ_IF
-	var req_ifs_deletedInstances []*REQ_IF
-
-	// parse all staged instances and check if they have a reference
-	for req_if := range stage.REQ_IFs {
-		if ref, ok := stage.REQ_IFs_reference[req_if]; !ok {
-			req_ifs_newInstances = append(req_ifs_newInstances, req_if)
-			newInstancesSlice = append(newInstancesSlice, req_if.GongMarshallIdentifier(stage))
-			if stage.REQ_IFs_referenceOrder == nil {
-				stage.REQ_IFs_referenceOrder = make(map[*REQ_IF]uint)
-			}
-			stage.REQ_IFs_referenceOrder[req_if] = stage.REQ_IF_stagedOrder[req_if]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, req_if.GongMarshallUnstaging(stage))
-			// delete(stage.REQ_IFs_referenceOrder, req_if)
-			fieldInitializers, pointersInitializations := req_if.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.REQ_IF_stagedOrder[ref] = stage.REQ_IF_stagedOrder[req_if]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := req_if.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, req_if)
-			// delete(stage.REQ_IF_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if req_if.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", req_if.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.REQ_IFs_reference {
-		instance := stage.REQ_IFs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.REQ_IFs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			req_ifs_deletedInstances = append(req_ifs_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(req_ifs_newInstances)
-	lenDeletedInstances += len(req_ifs_deletedInstances)
-	var req_if_contents_newInstances []*REQ_IF_CONTENT
-	var req_if_contents_deletedInstances []*REQ_IF_CONTENT
-
-	// parse all staged instances and check if they have a reference
-	for req_if_content := range stage.REQ_IF_CONTENTs {
-		if ref, ok := stage.REQ_IF_CONTENTs_reference[req_if_content]; !ok {
-			req_if_contents_newInstances = append(req_if_contents_newInstances, req_if_content)
-			newInstancesSlice = append(newInstancesSlice, req_if_content.GongMarshallIdentifier(stage))
-			if stage.REQ_IF_CONTENTs_referenceOrder == nil {
-				stage.REQ_IF_CONTENTs_referenceOrder = make(map[*REQ_IF_CONTENT]uint)
-			}
-			stage.REQ_IF_CONTENTs_referenceOrder[req_if_content] = stage.REQ_IF_CONTENT_stagedOrder[req_if_content]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, req_if_content.GongMarshallUnstaging(stage))
-			// delete(stage.REQ_IF_CONTENTs_referenceOrder, req_if_content)
-			fieldInitializers, pointersInitializations := req_if_content.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.REQ_IF_CONTENT_stagedOrder[ref] = stage.REQ_IF_CONTENT_stagedOrder[req_if_content]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := req_if_content.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, req_if_content)
-			// delete(stage.REQ_IF_CONTENT_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if req_if_content.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", req_if_content.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.REQ_IF_CONTENTs_reference {
-		instance := stage.REQ_IF_CONTENTs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.REQ_IF_CONTENTs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			req_if_contents_deletedInstances = append(req_if_contents_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(req_if_contents_newInstances)
-	lenDeletedInstances += len(req_if_contents_deletedInstances)
-	var req_if_headers_newInstances []*REQ_IF_HEADER
-	var req_if_headers_deletedInstances []*REQ_IF_HEADER
-
-	// parse all staged instances and check if they have a reference
-	for req_if_header := range stage.REQ_IF_HEADERs {
-		if ref, ok := stage.REQ_IF_HEADERs_reference[req_if_header]; !ok {
-			req_if_headers_newInstances = append(req_if_headers_newInstances, req_if_header)
-			newInstancesSlice = append(newInstancesSlice, req_if_header.GongMarshallIdentifier(stage))
-			if stage.REQ_IF_HEADERs_referenceOrder == nil {
-				stage.REQ_IF_HEADERs_referenceOrder = make(map[*REQ_IF_HEADER]uint)
-			}
-			stage.REQ_IF_HEADERs_referenceOrder[req_if_header] = stage.REQ_IF_HEADER_stagedOrder[req_if_header]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, req_if_header.GongMarshallUnstaging(stage))
-			// delete(stage.REQ_IF_HEADERs_referenceOrder, req_if_header)
-			fieldInitializers, pointersInitializations := req_if_header.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.REQ_IF_HEADER_stagedOrder[ref] = stage.REQ_IF_HEADER_stagedOrder[req_if_header]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := req_if_header.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, req_if_header)
-			// delete(stage.REQ_IF_HEADER_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if req_if_header.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", req_if_header.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.REQ_IF_HEADERs_reference {
-		instance := stage.REQ_IF_HEADERs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.REQ_IF_HEADERs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			req_if_headers_deletedInstances = append(req_if_headers_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(req_if_headers_newInstances)
-	lenDeletedInstances += len(req_if_headers_deletedInstances)
-	var req_if_tool_extensions_newInstances []*REQ_IF_TOOL_EXTENSION
-	var req_if_tool_extensions_deletedInstances []*REQ_IF_TOOL_EXTENSION
-
-	// parse all staged instances and check if they have a reference
-	for req_if_tool_extension := range stage.REQ_IF_TOOL_EXTENSIONs {
-		if ref, ok := stage.REQ_IF_TOOL_EXTENSIONs_reference[req_if_tool_extension]; !ok {
-			req_if_tool_extensions_newInstances = append(req_if_tool_extensions_newInstances, req_if_tool_extension)
-			newInstancesSlice = append(newInstancesSlice, req_if_tool_extension.GongMarshallIdentifier(stage))
-			if stage.REQ_IF_TOOL_EXTENSIONs_referenceOrder == nil {
-				stage.REQ_IF_TOOL_EXTENSIONs_referenceOrder = make(map[*REQ_IF_TOOL_EXTENSION]uint)
-			}
-			stage.REQ_IF_TOOL_EXTENSIONs_referenceOrder[req_if_tool_extension] = stage.REQ_IF_TOOL_EXTENSION_stagedOrder[req_if_tool_extension]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, req_if_tool_extension.GongMarshallUnstaging(stage))
-			// delete(stage.REQ_IF_TOOL_EXTENSIONs_referenceOrder, req_if_tool_extension)
-			fieldInitializers, pointersInitializations := req_if_tool_extension.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.REQ_IF_TOOL_EXTENSION_stagedOrder[ref] = stage.REQ_IF_TOOL_EXTENSION_stagedOrder[req_if_tool_extension]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := req_if_tool_extension.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, req_if_tool_extension)
-			// delete(stage.REQ_IF_TOOL_EXTENSION_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if req_if_tool_extension.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", req_if_tool_extension.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.REQ_IF_TOOL_EXTENSIONs_reference {
-		instance := stage.REQ_IF_TOOL_EXTENSIONs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.REQ_IF_TOOL_EXTENSIONs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			req_if_tool_extensions_deletedInstances = append(req_if_tool_extensions_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(req_if_tool_extensions_newInstances)
-	lenDeletedInstances += len(req_if_tool_extensions_deletedInstances)
-	var specifications_newInstances []*SPECIFICATION
-	var specifications_deletedInstances []*SPECIFICATION
-
-	// parse all staged instances and check if they have a reference
-	for specification := range stage.SPECIFICATIONs {
-		if ref, ok := stage.SPECIFICATIONs_reference[specification]; !ok {
-			specifications_newInstances = append(specifications_newInstances, specification)
-			newInstancesSlice = append(newInstancesSlice, specification.GongMarshallIdentifier(stage))
-			if stage.SPECIFICATIONs_referenceOrder == nil {
-				stage.SPECIFICATIONs_referenceOrder = make(map[*SPECIFICATION]uint)
-			}
-			stage.SPECIFICATIONs_referenceOrder[specification] = stage.SPECIFICATION_stagedOrder[specification]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, specification.GongMarshallUnstaging(stage))
-			// delete(stage.SPECIFICATIONs_referenceOrder, specification)
-			fieldInitializers, pointersInitializations := specification.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.SPECIFICATION_stagedOrder[ref] = stage.SPECIFICATION_stagedOrder[specification]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := specification.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, specification)
-			// delete(stage.SPECIFICATION_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if specification.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", specification.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.SPECIFICATIONs_reference {
-		instance := stage.SPECIFICATIONs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.SPECIFICATIONs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			specifications_deletedInstances = append(specifications_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(specifications_newInstances)
-	lenDeletedInstances += len(specifications_deletedInstances)
-	var specification_types_newInstances []*SPECIFICATION_TYPE
-	var specification_types_deletedInstances []*SPECIFICATION_TYPE
-
-	// parse all staged instances and check if they have a reference
-	for specification_type := range stage.SPECIFICATION_TYPEs {
-		if ref, ok := stage.SPECIFICATION_TYPEs_reference[specification_type]; !ok {
-			specification_types_newInstances = append(specification_types_newInstances, specification_type)
-			newInstancesSlice = append(newInstancesSlice, specification_type.GongMarshallIdentifier(stage))
-			if stage.SPECIFICATION_TYPEs_referenceOrder == nil {
-				stage.SPECIFICATION_TYPEs_referenceOrder = make(map[*SPECIFICATION_TYPE]uint)
-			}
-			stage.SPECIFICATION_TYPEs_referenceOrder[specification_type] = stage.SPECIFICATION_TYPE_stagedOrder[specification_type]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, specification_type.GongMarshallUnstaging(stage))
-			// delete(stage.SPECIFICATION_TYPEs_referenceOrder, specification_type)
-			fieldInitializers, pointersInitializations := specification_type.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.SPECIFICATION_TYPE_stagedOrder[ref] = stage.SPECIFICATION_TYPE_stagedOrder[specification_type]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := specification_type.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, specification_type)
-			// delete(stage.SPECIFICATION_TYPE_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if specification_type.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", specification_type.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.SPECIFICATION_TYPEs_reference {
-		instance := stage.SPECIFICATION_TYPEs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.SPECIFICATION_TYPEs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			specification_types_deletedInstances = append(specification_types_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(specification_types_newInstances)
-	lenDeletedInstances += len(specification_types_deletedInstances)
-	var spec_hierarchys_newInstances []*SPEC_HIERARCHY
-	var spec_hierarchys_deletedInstances []*SPEC_HIERARCHY
-
-	// parse all staged instances and check if they have a reference
-	for spec_hierarchy := range stage.SPEC_HIERARCHYs {
-		if ref, ok := stage.SPEC_HIERARCHYs_reference[spec_hierarchy]; !ok {
-			spec_hierarchys_newInstances = append(spec_hierarchys_newInstances, spec_hierarchy)
-			newInstancesSlice = append(newInstancesSlice, spec_hierarchy.GongMarshallIdentifier(stage))
-			if stage.SPEC_HIERARCHYs_referenceOrder == nil {
-				stage.SPEC_HIERARCHYs_referenceOrder = make(map[*SPEC_HIERARCHY]uint)
-			}
-			stage.SPEC_HIERARCHYs_referenceOrder[spec_hierarchy] = stage.SPEC_HIERARCHY_stagedOrder[spec_hierarchy]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, spec_hierarchy.GongMarshallUnstaging(stage))
-			// delete(stage.SPEC_HIERARCHYs_referenceOrder, spec_hierarchy)
-			fieldInitializers, pointersInitializations := spec_hierarchy.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.SPEC_HIERARCHY_stagedOrder[ref] = stage.SPEC_HIERARCHY_stagedOrder[spec_hierarchy]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := spec_hierarchy.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, spec_hierarchy)
-			// delete(stage.SPEC_HIERARCHY_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if spec_hierarchy.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", spec_hierarchy.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.SPEC_HIERARCHYs_reference {
-		instance := stage.SPEC_HIERARCHYs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.SPEC_HIERARCHYs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			spec_hierarchys_deletedInstances = append(spec_hierarchys_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(spec_hierarchys_newInstances)
-	lenDeletedInstances += len(spec_hierarchys_deletedInstances)
-	var spec_objects_newInstances []*SPEC_OBJECT
-	var spec_objects_deletedInstances []*SPEC_OBJECT
-
-	// parse all staged instances and check if they have a reference
-	for spec_object := range stage.SPEC_OBJECTs {
-		if ref, ok := stage.SPEC_OBJECTs_reference[spec_object]; !ok {
-			spec_objects_newInstances = append(spec_objects_newInstances, spec_object)
-			newInstancesSlice = append(newInstancesSlice, spec_object.GongMarshallIdentifier(stage))
-			if stage.SPEC_OBJECTs_referenceOrder == nil {
-				stage.SPEC_OBJECTs_referenceOrder = make(map[*SPEC_OBJECT]uint)
-			}
-			stage.SPEC_OBJECTs_referenceOrder[spec_object] = stage.SPEC_OBJECT_stagedOrder[spec_object]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, spec_object.GongMarshallUnstaging(stage))
-			// delete(stage.SPEC_OBJECTs_referenceOrder, spec_object)
-			fieldInitializers, pointersInitializations := spec_object.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.SPEC_OBJECT_stagedOrder[ref] = stage.SPEC_OBJECT_stagedOrder[spec_object]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := spec_object.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, spec_object)
-			// delete(stage.SPEC_OBJECT_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if spec_object.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", spec_object.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.SPEC_OBJECTs_reference {
-		instance := stage.SPEC_OBJECTs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.SPEC_OBJECTs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			spec_objects_deletedInstances = append(spec_objects_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(spec_objects_newInstances)
-	lenDeletedInstances += len(spec_objects_deletedInstances)
-	var spec_object_types_newInstances []*SPEC_OBJECT_TYPE
-	var spec_object_types_deletedInstances []*SPEC_OBJECT_TYPE
-
-	// parse all staged instances and check if they have a reference
-	for spec_object_type := range stage.SPEC_OBJECT_TYPEs {
-		if ref, ok := stage.SPEC_OBJECT_TYPEs_reference[spec_object_type]; !ok {
-			spec_object_types_newInstances = append(spec_object_types_newInstances, spec_object_type)
-			newInstancesSlice = append(newInstancesSlice, spec_object_type.GongMarshallIdentifier(stage))
-			if stage.SPEC_OBJECT_TYPEs_referenceOrder == nil {
-				stage.SPEC_OBJECT_TYPEs_referenceOrder = make(map[*SPEC_OBJECT_TYPE]uint)
-			}
-			stage.SPEC_OBJECT_TYPEs_referenceOrder[spec_object_type] = stage.SPEC_OBJECT_TYPE_stagedOrder[spec_object_type]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, spec_object_type.GongMarshallUnstaging(stage))
-			// delete(stage.SPEC_OBJECT_TYPEs_referenceOrder, spec_object_type)
-			fieldInitializers, pointersInitializations := spec_object_type.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.SPEC_OBJECT_TYPE_stagedOrder[ref] = stage.SPEC_OBJECT_TYPE_stagedOrder[spec_object_type]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := spec_object_type.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, spec_object_type)
-			// delete(stage.SPEC_OBJECT_TYPE_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if spec_object_type.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", spec_object_type.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.SPEC_OBJECT_TYPEs_reference {
-		instance := stage.SPEC_OBJECT_TYPEs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.SPEC_OBJECT_TYPEs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			spec_object_types_deletedInstances = append(spec_object_types_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(spec_object_types_newInstances)
-	lenDeletedInstances += len(spec_object_types_deletedInstances)
-	var spec_relations_newInstances []*SPEC_RELATION
-	var spec_relations_deletedInstances []*SPEC_RELATION
-
-	// parse all staged instances and check if they have a reference
-	for spec_relation := range stage.SPEC_RELATIONs {
-		if ref, ok := stage.SPEC_RELATIONs_reference[spec_relation]; !ok {
-			spec_relations_newInstances = append(spec_relations_newInstances, spec_relation)
-			newInstancesSlice = append(newInstancesSlice, spec_relation.GongMarshallIdentifier(stage))
-			if stage.SPEC_RELATIONs_referenceOrder == nil {
-				stage.SPEC_RELATIONs_referenceOrder = make(map[*SPEC_RELATION]uint)
-			}
-			stage.SPEC_RELATIONs_referenceOrder[spec_relation] = stage.SPEC_RELATION_stagedOrder[spec_relation]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, spec_relation.GongMarshallUnstaging(stage))
-			// delete(stage.SPEC_RELATIONs_referenceOrder, spec_relation)
-			fieldInitializers, pointersInitializations := spec_relation.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.SPEC_RELATION_stagedOrder[ref] = stage.SPEC_RELATION_stagedOrder[spec_relation]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := spec_relation.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, spec_relation)
-			// delete(stage.SPEC_RELATION_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if spec_relation.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", spec_relation.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.SPEC_RELATIONs_reference {
-		instance := stage.SPEC_RELATIONs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.SPEC_RELATIONs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			spec_relations_deletedInstances = append(spec_relations_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(spec_relations_newInstances)
-	lenDeletedInstances += len(spec_relations_deletedInstances)
-	var spec_relation_types_newInstances []*SPEC_RELATION_TYPE
-	var spec_relation_types_deletedInstances []*SPEC_RELATION_TYPE
-
-	// parse all staged instances and check if they have a reference
-	for spec_relation_type := range stage.SPEC_RELATION_TYPEs {
-		if ref, ok := stage.SPEC_RELATION_TYPEs_reference[spec_relation_type]; !ok {
-			spec_relation_types_newInstances = append(spec_relation_types_newInstances, spec_relation_type)
-			newInstancesSlice = append(newInstancesSlice, spec_relation_type.GongMarshallIdentifier(stage))
-			if stage.SPEC_RELATION_TYPEs_referenceOrder == nil {
-				stage.SPEC_RELATION_TYPEs_referenceOrder = make(map[*SPEC_RELATION_TYPE]uint)
-			}
-			stage.SPEC_RELATION_TYPEs_referenceOrder[spec_relation_type] = stage.SPEC_RELATION_TYPE_stagedOrder[spec_relation_type]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, spec_relation_type.GongMarshallUnstaging(stage))
-			// delete(stage.SPEC_RELATION_TYPEs_referenceOrder, spec_relation_type)
-			fieldInitializers, pointersInitializations := spec_relation_type.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.SPEC_RELATION_TYPE_stagedOrder[ref] = stage.SPEC_RELATION_TYPE_stagedOrder[spec_relation_type]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := spec_relation_type.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, spec_relation_type)
-			// delete(stage.SPEC_RELATION_TYPE_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if spec_relation_type.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", spec_relation_type.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.SPEC_RELATION_TYPEs_reference {
-		instance := stage.SPEC_RELATION_TYPEs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.SPEC_RELATION_TYPEs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			spec_relation_types_deletedInstances = append(spec_relation_types_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(spec_relation_types_newInstances)
-	lenDeletedInstances += len(spec_relation_types_deletedInstances)
-	var xhtml_contents_newInstances []*XHTML_CONTENT
-	var xhtml_contents_deletedInstances []*XHTML_CONTENT
-
-	// parse all staged instances and check if they have a reference
-	for xhtml_content := range stage.XHTML_CONTENTs {
-		if ref, ok := stage.XHTML_CONTENTs_reference[xhtml_content]; !ok {
-			xhtml_contents_newInstances = append(xhtml_contents_newInstances, xhtml_content)
-			newInstancesSlice = append(newInstancesSlice, xhtml_content.GongMarshallIdentifier(stage))
-			if stage.XHTML_CONTENTs_referenceOrder == nil {
-				stage.XHTML_CONTENTs_referenceOrder = make(map[*XHTML_CONTENT]uint)
-			}
-			stage.XHTML_CONTENTs_referenceOrder[xhtml_content] = stage.XHTML_CONTENT_stagedOrder[xhtml_content]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, xhtml_content.GongMarshallUnstaging(stage))
-			// delete(stage.XHTML_CONTENTs_referenceOrder, xhtml_content)
-			fieldInitializers, pointersInitializations := xhtml_content.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.XHTML_CONTENT_stagedOrder[ref] = stage.XHTML_CONTENT_stagedOrder[xhtml_content]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := xhtml_content.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, xhtml_content)
-			// delete(stage.XHTML_CONTENT_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if xhtml_content.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", xhtml_content.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.XHTML_CONTENTs_reference {
-		instance := stage.XHTML_CONTENTs_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.XHTML_CONTENTs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			xhtml_contents_deletedInstances = append(xhtml_contents_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(xhtml_contents_newInstances)
-	lenDeletedInstances += len(xhtml_contents_deletedInstances)
+	computeCommitsForType(
+		stage,
+		stage.ALTERNATIVE_IDs,
+		stage.ALTERNATIVE_ID_stagedOrder,
+		stage.ALTERNATIVE_IDs_reference,
+		&stage.ALTERNATIVE_IDs_referenceOrder,
+		stage.ALTERNATIVE_IDs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ATTRIBUTE_DEFINITION_BOOLEANs,
+		stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder,
+		stage.ATTRIBUTE_DEFINITION_BOOLEANs_reference,
+		&stage.ATTRIBUTE_DEFINITION_BOOLEANs_referenceOrder,
+		stage.ATTRIBUTE_DEFINITION_BOOLEANs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ATTRIBUTE_DEFINITION_DATEs,
+		stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder,
+		stage.ATTRIBUTE_DEFINITION_DATEs_reference,
+		&stage.ATTRIBUTE_DEFINITION_DATEs_referenceOrder,
+		stage.ATTRIBUTE_DEFINITION_DATEs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ATTRIBUTE_DEFINITION_ENUMERATIONs,
+		stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder,
+		stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_reference,
+		&stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_referenceOrder,
+		stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ATTRIBUTE_DEFINITION_INTEGERs,
+		stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder,
+		stage.ATTRIBUTE_DEFINITION_INTEGERs_reference,
+		&stage.ATTRIBUTE_DEFINITION_INTEGERs_referenceOrder,
+		stage.ATTRIBUTE_DEFINITION_INTEGERs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ATTRIBUTE_DEFINITION_REALs,
+		stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder,
+		stage.ATTRIBUTE_DEFINITION_REALs_reference,
+		&stage.ATTRIBUTE_DEFINITION_REALs_referenceOrder,
+		stage.ATTRIBUTE_DEFINITION_REALs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ATTRIBUTE_DEFINITION_STRINGs,
+		stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder,
+		stage.ATTRIBUTE_DEFINITION_STRINGs_reference,
+		&stage.ATTRIBUTE_DEFINITION_STRINGs_referenceOrder,
+		stage.ATTRIBUTE_DEFINITION_STRINGs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ATTRIBUTE_DEFINITION_XHTMLs,
+		stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder,
+		stage.ATTRIBUTE_DEFINITION_XHTMLs_reference,
+		&stage.ATTRIBUTE_DEFINITION_XHTMLs_referenceOrder,
+		stage.ATTRIBUTE_DEFINITION_XHTMLs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ATTRIBUTE_VALUE_BOOLEANs,
+		stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder,
+		stage.ATTRIBUTE_VALUE_BOOLEANs_reference,
+		&stage.ATTRIBUTE_VALUE_BOOLEANs_referenceOrder,
+		stage.ATTRIBUTE_VALUE_BOOLEANs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ATTRIBUTE_VALUE_DATEs,
+		stage.ATTRIBUTE_VALUE_DATE_stagedOrder,
+		stage.ATTRIBUTE_VALUE_DATEs_reference,
+		&stage.ATTRIBUTE_VALUE_DATEs_referenceOrder,
+		stage.ATTRIBUTE_VALUE_DATEs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ATTRIBUTE_VALUE_ENUMERATIONs,
+		stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder,
+		stage.ATTRIBUTE_VALUE_ENUMERATIONs_reference,
+		&stage.ATTRIBUTE_VALUE_ENUMERATIONs_referenceOrder,
+		stage.ATTRIBUTE_VALUE_ENUMERATIONs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ATTRIBUTE_VALUE_INTEGERs,
+		stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder,
+		stage.ATTRIBUTE_VALUE_INTEGERs_reference,
+		&stage.ATTRIBUTE_VALUE_INTEGERs_referenceOrder,
+		stage.ATTRIBUTE_VALUE_INTEGERs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ATTRIBUTE_VALUE_REALs,
+		stage.ATTRIBUTE_VALUE_REAL_stagedOrder,
+		stage.ATTRIBUTE_VALUE_REALs_reference,
+		&stage.ATTRIBUTE_VALUE_REALs_referenceOrder,
+		stage.ATTRIBUTE_VALUE_REALs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ATTRIBUTE_VALUE_STRINGs,
+		stage.ATTRIBUTE_VALUE_STRING_stagedOrder,
+		stage.ATTRIBUTE_VALUE_STRINGs_reference,
+		&stage.ATTRIBUTE_VALUE_STRINGs_referenceOrder,
+		stage.ATTRIBUTE_VALUE_STRINGs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ATTRIBUTE_VALUE_XHTMLs,
+		stage.ATTRIBUTE_VALUE_XHTML_stagedOrder,
+		stage.ATTRIBUTE_VALUE_XHTMLs_reference,
+		&stage.ATTRIBUTE_VALUE_XHTMLs_referenceOrder,
+		stage.ATTRIBUTE_VALUE_XHTMLs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ALTERNATIVE_IDs,
+		stage.A_ALTERNATIVE_ID_stagedOrder,
+		stage.A_ALTERNATIVE_IDs_reference,
+		&stage.A_ALTERNATIVE_IDs_referenceOrder,
+		stage.A_ALTERNATIVE_IDs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs,
+		stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder,
+		stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_reference,
+		&stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_referenceOrder,
+		stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_DEFINITION_DATE_REFs,
+		stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder,
+		stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_reference,
+		&stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_referenceOrder,
+		stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs,
+		stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder,
+		stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_reference,
+		&stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_referenceOrder,
+		stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs,
+		stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder,
+		stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_reference,
+		&stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_referenceOrder,
+		stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_DEFINITION_REAL_REFs,
+		stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder,
+		stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_reference,
+		&stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_referenceOrder,
+		stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_DEFINITION_STRING_REFs,
+		stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder,
+		stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_reference,
+		&stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_referenceOrder,
+		stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs,
+		stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder,
+		stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_reference,
+		&stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_referenceOrder,
+		stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_VALUE_BOOLEANs,
+		stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder,
+		stage.A_ATTRIBUTE_VALUE_BOOLEANs_reference,
+		&stage.A_ATTRIBUTE_VALUE_BOOLEANs_referenceOrder,
+		stage.A_ATTRIBUTE_VALUE_BOOLEANs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_VALUE_DATEs,
+		stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder,
+		stage.A_ATTRIBUTE_VALUE_DATEs_reference,
+		&stage.A_ATTRIBUTE_VALUE_DATEs_referenceOrder,
+		stage.A_ATTRIBUTE_VALUE_DATEs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_VALUE_ENUMERATIONs,
+		stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder,
+		stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_reference,
+		&stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_referenceOrder,
+		stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_VALUE_INTEGERs,
+		stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder,
+		stage.A_ATTRIBUTE_VALUE_INTEGERs_reference,
+		&stage.A_ATTRIBUTE_VALUE_INTEGERs_referenceOrder,
+		stage.A_ATTRIBUTE_VALUE_INTEGERs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_VALUE_REALs,
+		stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder,
+		stage.A_ATTRIBUTE_VALUE_REALs_reference,
+		&stage.A_ATTRIBUTE_VALUE_REALs_referenceOrder,
+		stage.A_ATTRIBUTE_VALUE_REALs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_VALUE_STRINGs,
+		stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder,
+		stage.A_ATTRIBUTE_VALUE_STRINGs_reference,
+		&stage.A_ATTRIBUTE_VALUE_STRINGs_referenceOrder,
+		stage.A_ATTRIBUTE_VALUE_STRINGs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_VALUE_XHTMLs,
+		stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder,
+		stage.A_ATTRIBUTE_VALUE_XHTMLs_reference,
+		&stage.A_ATTRIBUTE_VALUE_XHTMLs_referenceOrder,
+		stage.A_ATTRIBUTE_VALUE_XHTMLs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ATTRIBUTE_VALUE_XHTML_1s,
+		stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder,
+		stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference,
+		&stage.A_ATTRIBUTE_VALUE_XHTML_1s_referenceOrder,
+		stage.A_ATTRIBUTE_VALUE_XHTML_1s_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_CHILDRENs,
+		stage.A_CHILDREN_stagedOrder,
+		stage.A_CHILDRENs_reference,
+		&stage.A_CHILDRENs_referenceOrder,
+		stage.A_CHILDRENs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_CORE_CONTENTs,
+		stage.A_CORE_CONTENT_stagedOrder,
+		stage.A_CORE_CONTENTs_reference,
+		&stage.A_CORE_CONTENTs_referenceOrder,
+		stage.A_CORE_CONTENTs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_DATATYPESs,
+		stage.A_DATATYPES_stagedOrder,
+		stage.A_DATATYPESs_reference,
+		&stage.A_DATATYPESs_referenceOrder,
+		stage.A_DATATYPESs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs,
+		stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder,
+		stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_reference,
+		&stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_referenceOrder,
+		stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_DATATYPE_DEFINITION_DATE_REFs,
+		stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder,
+		stage.A_DATATYPE_DEFINITION_DATE_REFs_reference,
+		&stage.A_DATATYPE_DEFINITION_DATE_REFs_referenceOrder,
+		stage.A_DATATYPE_DEFINITION_DATE_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs,
+		stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder,
+		stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_reference,
+		&stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_referenceOrder,
+		stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_DATATYPE_DEFINITION_INTEGER_REFs,
+		stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder,
+		stage.A_DATATYPE_DEFINITION_INTEGER_REFs_reference,
+		&stage.A_DATATYPE_DEFINITION_INTEGER_REFs_referenceOrder,
+		stage.A_DATATYPE_DEFINITION_INTEGER_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_DATATYPE_DEFINITION_REAL_REFs,
+		stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder,
+		stage.A_DATATYPE_DEFINITION_REAL_REFs_reference,
+		&stage.A_DATATYPE_DEFINITION_REAL_REFs_referenceOrder,
+		stage.A_DATATYPE_DEFINITION_REAL_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_DATATYPE_DEFINITION_STRING_REFs,
+		stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder,
+		stage.A_DATATYPE_DEFINITION_STRING_REFs_reference,
+		&stage.A_DATATYPE_DEFINITION_STRING_REFs_referenceOrder,
+		stage.A_DATATYPE_DEFINITION_STRING_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_DATATYPE_DEFINITION_XHTML_REFs,
+		stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder,
+		stage.A_DATATYPE_DEFINITION_XHTML_REFs_reference,
+		&stage.A_DATATYPE_DEFINITION_XHTML_REFs_referenceOrder,
+		stage.A_DATATYPE_DEFINITION_XHTML_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_EDITABLE_ATTSs,
+		stage.A_EDITABLE_ATTS_stagedOrder,
+		stage.A_EDITABLE_ATTSs_reference,
+		&stage.A_EDITABLE_ATTSs_referenceOrder,
+		stage.A_EDITABLE_ATTSs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_ENUM_VALUE_REFs,
+		stage.A_ENUM_VALUE_REF_stagedOrder,
+		stage.A_ENUM_VALUE_REFs_reference,
+		&stage.A_ENUM_VALUE_REFs_referenceOrder,
+		stage.A_ENUM_VALUE_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_OBJECTs,
+		stage.A_OBJECT_stagedOrder,
+		stage.A_OBJECTs_reference,
+		&stage.A_OBJECTs_referenceOrder,
+		stage.A_OBJECTs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_PROPERTIESs,
+		stage.A_PROPERTIES_stagedOrder,
+		stage.A_PROPERTIESs_reference,
+		&stage.A_PROPERTIESs_referenceOrder,
+		stage.A_PROPERTIESs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_RELATION_GROUP_TYPE_REFs,
+		stage.A_RELATION_GROUP_TYPE_REF_stagedOrder,
+		stage.A_RELATION_GROUP_TYPE_REFs_reference,
+		&stage.A_RELATION_GROUP_TYPE_REFs_referenceOrder,
+		stage.A_RELATION_GROUP_TYPE_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_SOURCE_1s,
+		stage.A_SOURCE_1_stagedOrder,
+		stage.A_SOURCE_1s_reference,
+		&stage.A_SOURCE_1s_referenceOrder,
+		stage.A_SOURCE_1s_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_SOURCE_SPECIFICATION_1s,
+		stage.A_SOURCE_SPECIFICATION_1_stagedOrder,
+		stage.A_SOURCE_SPECIFICATION_1s_reference,
+		&stage.A_SOURCE_SPECIFICATION_1s_referenceOrder,
+		stage.A_SOURCE_SPECIFICATION_1s_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_SPECIFICATIONSs,
+		stage.A_SPECIFICATIONS_stagedOrder,
+		stage.A_SPECIFICATIONSs_reference,
+		&stage.A_SPECIFICATIONSs_referenceOrder,
+		stage.A_SPECIFICATIONSs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_SPECIFICATION_TYPE_REFs,
+		stage.A_SPECIFICATION_TYPE_REF_stagedOrder,
+		stage.A_SPECIFICATION_TYPE_REFs_reference,
+		&stage.A_SPECIFICATION_TYPE_REFs_referenceOrder,
+		stage.A_SPECIFICATION_TYPE_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_SPECIFIED_VALUESs,
+		stage.A_SPECIFIED_VALUES_stagedOrder,
+		stage.A_SPECIFIED_VALUESs_reference,
+		&stage.A_SPECIFIED_VALUESs_referenceOrder,
+		stage.A_SPECIFIED_VALUESs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_SPEC_ATTRIBUTESs,
+		stage.A_SPEC_ATTRIBUTES_stagedOrder,
+		stage.A_SPEC_ATTRIBUTESs_reference,
+		&stage.A_SPEC_ATTRIBUTESs_referenceOrder,
+		stage.A_SPEC_ATTRIBUTESs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_SPEC_OBJECTSs,
+		stage.A_SPEC_OBJECTS_stagedOrder,
+		stage.A_SPEC_OBJECTSs_reference,
+		&stage.A_SPEC_OBJECTSs_referenceOrder,
+		stage.A_SPEC_OBJECTSs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_SPEC_OBJECT_TYPE_REFs,
+		stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder,
+		stage.A_SPEC_OBJECT_TYPE_REFs_reference,
+		&stage.A_SPEC_OBJECT_TYPE_REFs_referenceOrder,
+		stage.A_SPEC_OBJECT_TYPE_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_SPEC_RELATIONSs,
+		stage.A_SPEC_RELATIONS_stagedOrder,
+		stage.A_SPEC_RELATIONSs_reference,
+		&stage.A_SPEC_RELATIONSs_referenceOrder,
+		stage.A_SPEC_RELATIONSs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_SPEC_RELATION_GROUPSs,
+		stage.A_SPEC_RELATION_GROUPS_stagedOrder,
+		stage.A_SPEC_RELATION_GROUPSs_reference,
+		&stage.A_SPEC_RELATION_GROUPSs_referenceOrder,
+		stage.A_SPEC_RELATION_GROUPSs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_SPEC_RELATION_REFs,
+		stage.A_SPEC_RELATION_REF_stagedOrder,
+		stage.A_SPEC_RELATION_REFs_reference,
+		&stage.A_SPEC_RELATION_REFs_referenceOrder,
+		stage.A_SPEC_RELATION_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_SPEC_RELATION_TYPE_REFs,
+		stage.A_SPEC_RELATION_TYPE_REF_stagedOrder,
+		stage.A_SPEC_RELATION_TYPE_REFs_reference,
+		&stage.A_SPEC_RELATION_TYPE_REFs_referenceOrder,
+		stage.A_SPEC_RELATION_TYPE_REFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_SPEC_TYPESs,
+		stage.A_SPEC_TYPES_stagedOrder,
+		stage.A_SPEC_TYPESs_reference,
+		&stage.A_SPEC_TYPESs_referenceOrder,
+		stage.A_SPEC_TYPESs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_THE_HEADERs,
+		stage.A_THE_HEADER_stagedOrder,
+		stage.A_THE_HEADERs_reference,
+		&stage.A_THE_HEADERs_referenceOrder,
+		stage.A_THE_HEADERs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.A_TOOL_EXTENSIONSs,
+		stage.A_TOOL_EXTENSIONS_stagedOrder,
+		stage.A_TOOL_EXTENSIONSs_reference,
+		&stage.A_TOOL_EXTENSIONSs_referenceOrder,
+		stage.A_TOOL_EXTENSIONSs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.DATATYPE_DEFINITION_BOOLEANs,
+		stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder,
+		stage.DATATYPE_DEFINITION_BOOLEANs_reference,
+		&stage.DATATYPE_DEFINITION_BOOLEANs_referenceOrder,
+		stage.DATATYPE_DEFINITION_BOOLEANs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.DATATYPE_DEFINITION_DATEs,
+		stage.DATATYPE_DEFINITION_DATE_stagedOrder,
+		stage.DATATYPE_DEFINITION_DATEs_reference,
+		&stage.DATATYPE_DEFINITION_DATEs_referenceOrder,
+		stage.DATATYPE_DEFINITION_DATEs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.DATATYPE_DEFINITION_ENUMERATIONs,
+		stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder,
+		stage.DATATYPE_DEFINITION_ENUMERATIONs_reference,
+		&stage.DATATYPE_DEFINITION_ENUMERATIONs_referenceOrder,
+		stage.DATATYPE_DEFINITION_ENUMERATIONs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.DATATYPE_DEFINITION_INTEGERs,
+		stage.DATATYPE_DEFINITION_INTEGER_stagedOrder,
+		stage.DATATYPE_DEFINITION_INTEGERs_reference,
+		&stage.DATATYPE_DEFINITION_INTEGERs_referenceOrder,
+		stage.DATATYPE_DEFINITION_INTEGERs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.DATATYPE_DEFINITION_REALs,
+		stage.DATATYPE_DEFINITION_REAL_stagedOrder,
+		stage.DATATYPE_DEFINITION_REALs_reference,
+		&stage.DATATYPE_DEFINITION_REALs_referenceOrder,
+		stage.DATATYPE_DEFINITION_REALs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.DATATYPE_DEFINITION_STRINGs,
+		stage.DATATYPE_DEFINITION_STRING_stagedOrder,
+		stage.DATATYPE_DEFINITION_STRINGs_reference,
+		&stage.DATATYPE_DEFINITION_STRINGs_referenceOrder,
+		stage.DATATYPE_DEFINITION_STRINGs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.DATATYPE_DEFINITION_XHTMLs,
+		stage.DATATYPE_DEFINITION_XHTML_stagedOrder,
+		stage.DATATYPE_DEFINITION_XHTMLs_reference,
+		&stage.DATATYPE_DEFINITION_XHTMLs_referenceOrder,
+		stage.DATATYPE_DEFINITION_XHTMLs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.EMBEDDED_VALUEs,
+		stage.EMBEDDED_VALUE_stagedOrder,
+		stage.EMBEDDED_VALUEs_reference,
+		&stage.EMBEDDED_VALUEs_referenceOrder,
+		stage.EMBEDDED_VALUEs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ENUM_VALUEs,
+		stage.ENUM_VALUE_stagedOrder,
+		stage.ENUM_VALUEs_reference,
+		&stage.ENUM_VALUEs_referenceOrder,
+		stage.ENUM_VALUEs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.RELATION_GROUPs,
+		stage.RELATION_GROUP_stagedOrder,
+		stage.RELATION_GROUPs_reference,
+		&stage.RELATION_GROUPs_referenceOrder,
+		stage.RELATION_GROUPs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.RELATION_GROUP_TYPEs,
+		stage.RELATION_GROUP_TYPE_stagedOrder,
+		stage.RELATION_GROUP_TYPEs_reference,
+		&stage.RELATION_GROUP_TYPEs_referenceOrder,
+		stage.RELATION_GROUP_TYPEs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.REQ_IFs,
+		stage.REQ_IF_stagedOrder,
+		stage.REQ_IFs_reference,
+		&stage.REQ_IFs_referenceOrder,
+		stage.REQ_IFs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.REQ_IF_CONTENTs,
+		stage.REQ_IF_CONTENT_stagedOrder,
+		stage.REQ_IF_CONTENTs_reference,
+		&stage.REQ_IF_CONTENTs_referenceOrder,
+		stage.REQ_IF_CONTENTs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.REQ_IF_HEADERs,
+		stage.REQ_IF_HEADER_stagedOrder,
+		stage.REQ_IF_HEADERs_reference,
+		&stage.REQ_IF_HEADERs_referenceOrder,
+		stage.REQ_IF_HEADERs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.REQ_IF_TOOL_EXTENSIONs,
+		stage.REQ_IF_TOOL_EXTENSION_stagedOrder,
+		stage.REQ_IF_TOOL_EXTENSIONs_reference,
+		&stage.REQ_IF_TOOL_EXTENSIONs_referenceOrder,
+		stage.REQ_IF_TOOL_EXTENSIONs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.SPECIFICATIONs,
+		stage.SPECIFICATION_stagedOrder,
+		stage.SPECIFICATIONs_reference,
+		&stage.SPECIFICATIONs_referenceOrder,
+		stage.SPECIFICATIONs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.SPECIFICATION_TYPEs,
+		stage.SPECIFICATION_TYPE_stagedOrder,
+		stage.SPECIFICATION_TYPEs_reference,
+		&stage.SPECIFICATION_TYPEs_referenceOrder,
+		stage.SPECIFICATION_TYPEs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.SPEC_HIERARCHYs,
+		stage.SPEC_HIERARCHY_stagedOrder,
+		stage.SPEC_HIERARCHYs_reference,
+		&stage.SPEC_HIERARCHYs_referenceOrder,
+		stage.SPEC_HIERARCHYs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.SPEC_OBJECTs,
+		stage.SPEC_OBJECT_stagedOrder,
+		stage.SPEC_OBJECTs_reference,
+		&stage.SPEC_OBJECTs_referenceOrder,
+		stage.SPEC_OBJECTs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.SPEC_OBJECT_TYPEs,
+		stage.SPEC_OBJECT_TYPE_stagedOrder,
+		stage.SPEC_OBJECT_TYPEs_reference,
+		&stage.SPEC_OBJECT_TYPEs_referenceOrder,
+		stage.SPEC_OBJECT_TYPEs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.SPEC_RELATIONs,
+		stage.SPEC_RELATION_stagedOrder,
+		stage.SPEC_RELATIONs_reference,
+		&stage.SPEC_RELATIONs_referenceOrder,
+		stage.SPEC_RELATIONs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.SPEC_RELATION_TYPEs,
+		stage.SPEC_RELATION_TYPE_stagedOrder,
+		stage.SPEC_RELATION_TYPEs_reference,
+		&stage.SPEC_RELATION_TYPEs_referenceOrder,
+		stage.SPEC_RELATION_TYPEs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.XHTML_CONTENTs,
+		stage.XHTML_CONTENT_stagedOrder,
+		stage.XHTML_CONTENTs_reference,
+		&stage.XHTML_CONTENTs_referenceOrder,
+		stage.XHTML_CONTENTs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 

@@ -24,90 +24,594 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		stage.SerializeExcelizePointer2[*ALTERNATIVE_ID](f, addIDs)
-		stage.SerializeExcelizePointer2[*ATTRIBUTE_DEFINITION_BOOLEAN](f, addIDs)
-		stage.SerializeExcelizePointer2[*ATTRIBUTE_DEFINITION_DATE](f, addIDs)
-		stage.SerializeExcelizePointer2[*ATTRIBUTE_DEFINITION_ENUMERATION](f, addIDs)
-		stage.SerializeExcelizePointer2[*ATTRIBUTE_DEFINITION_INTEGER](f, addIDs)
-		stage.SerializeExcelizePointer2[*ATTRIBUTE_DEFINITION_REAL](f, addIDs)
-		stage.SerializeExcelizePointer2[*ATTRIBUTE_DEFINITION_STRING](f, addIDs)
-		stage.SerializeExcelizePointer2[*ATTRIBUTE_DEFINITION_XHTML](f, addIDs)
-		stage.SerializeExcelizePointer2[*ATTRIBUTE_VALUE_BOOLEAN](f, addIDs)
-		stage.SerializeExcelizePointer2[*ATTRIBUTE_VALUE_DATE](f, addIDs)
-		stage.SerializeExcelizePointer2[*ATTRIBUTE_VALUE_ENUMERATION](f, addIDs)
-		stage.SerializeExcelizePointer2[*ATTRIBUTE_VALUE_INTEGER](f, addIDs)
-		stage.SerializeExcelizePointer2[*ATTRIBUTE_VALUE_REAL](f, addIDs)
-		stage.SerializeExcelizePointer2[*ATTRIBUTE_VALUE_STRING](f, addIDs)
-		stage.SerializeExcelizePointer2[*ATTRIBUTE_VALUE_XHTML](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ALTERNATIVE_ID](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_DEFINITION_DATE_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_DEFINITION_INTEGER_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_DEFINITION_REAL_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_DEFINITION_STRING_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_DEFINITION_XHTML_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_VALUE_BOOLEAN](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_VALUE_DATE](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_VALUE_ENUMERATION](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_VALUE_INTEGER](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_VALUE_REAL](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_VALUE_STRING](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_VALUE_XHTML](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ATTRIBUTE_VALUE_XHTML_1](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_CHILDREN](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_CORE_CONTENT](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_DATATYPES](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_DATATYPE_DEFINITION_BOOLEAN_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_DATATYPE_DEFINITION_DATE_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_DATATYPE_DEFINITION_ENUMERATION_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_DATATYPE_DEFINITION_INTEGER_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_DATATYPE_DEFINITION_REAL_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_DATATYPE_DEFINITION_STRING_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_DATATYPE_DEFINITION_XHTML_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_EDITABLE_ATTS](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_ENUM_VALUE_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_OBJECT](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_PROPERTIES](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_RELATION_GROUP_TYPE_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_SOURCE_1](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_SOURCE_SPECIFICATION_1](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_SPECIFICATIONS](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_SPECIFICATION_TYPE_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_SPECIFIED_VALUES](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_SPEC_ATTRIBUTES](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_SPEC_OBJECTS](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_SPEC_OBJECT_TYPE_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_SPEC_RELATIONS](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_SPEC_RELATION_GROUPS](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_SPEC_RELATION_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_SPEC_RELATION_TYPE_REF](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_SPEC_TYPES](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_THE_HEADER](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_TOOL_EXTENSIONS](f, addIDs)
-		stage.SerializeExcelizePointer2[*DATATYPE_DEFINITION_BOOLEAN](f, addIDs)
-		stage.SerializeExcelizePointer2[*DATATYPE_DEFINITION_DATE](f, addIDs)
-		stage.SerializeExcelizePointer2[*DATATYPE_DEFINITION_ENUMERATION](f, addIDs)
-		stage.SerializeExcelizePointer2[*DATATYPE_DEFINITION_INTEGER](f, addIDs)
-		stage.SerializeExcelizePointer2[*DATATYPE_DEFINITION_REAL](f, addIDs)
-		stage.SerializeExcelizePointer2[*DATATYPE_DEFINITION_STRING](f, addIDs)
-		stage.SerializeExcelizePointer2[*DATATYPE_DEFINITION_XHTML](f, addIDs)
-		stage.SerializeExcelizePointer2[*EMBEDDED_VALUE](f, addIDs)
-		stage.SerializeExcelizePointer2[*ENUM_VALUE](f, addIDs)
-		stage.SerializeExcelizePointer2[*RELATION_GROUP](f, addIDs)
-		stage.SerializeExcelizePointer2[*RELATION_GROUP_TYPE](f, addIDs)
-		stage.SerializeExcelizePointer2[*REQ_IF](f, addIDs)
-		stage.SerializeExcelizePointer2[*REQ_IF_CONTENT](f, addIDs)
-		stage.SerializeExcelizePointer2[*REQ_IF_HEADER](f, addIDs)
-		stage.SerializeExcelizePointer2[*REQ_IF_TOOL_EXTENSION](f, addIDs)
-		stage.SerializeExcelizePointer2[*SPECIFICATION](f, addIDs)
-		stage.SerializeExcelizePointer2[*SPECIFICATION_TYPE](f, addIDs)
-		stage.SerializeExcelizePointer2[*SPEC_HIERARCHY](f, addIDs)
-		stage.SerializeExcelizePointer2[*SPEC_OBJECT](f, addIDs)
-		stage.SerializeExcelizePointer2[*SPEC_OBJECT_TYPE](f, addIDs)
-		stage.SerializeExcelizePointer2[*SPEC_RELATION](f, addIDs)
-		stage.SerializeExcelizePointer2[*SPEC_RELATION_TYPE](f, addIDs)
-		stage.SerializeExcelizePointer2[*XHTML_CONTENT](f, addIDs)
+		{
+			var instances []GongstructIF
+			for instance := range stage.ALTERNATIVE_IDs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ALTERNATIVE_ID", instances, (*ALTERNATIVE_ID)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ATTRIBUTE_DEFINITION_BOOLEANs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ATTRIBUTE_DEFINITION_BOOLEAN", instances, (*ATTRIBUTE_DEFINITION_BOOLEAN)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ATTRIBUTE_DEFINITION_DATEs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ATTRIBUTE_DEFINITION_DATE", instances, (*ATTRIBUTE_DEFINITION_DATE)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ATTRIBUTE_DEFINITION_ENUMERATIONs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ATTRIBUTE_DEFINITION_ENUMERATION", instances, (*ATTRIBUTE_DEFINITION_ENUMERATION)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ATTRIBUTE_DEFINITION_INTEGERs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ATTRIBUTE_DEFINITION_INTEGER", instances, (*ATTRIBUTE_DEFINITION_INTEGER)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ATTRIBUTE_DEFINITION_REALs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ATTRIBUTE_DEFINITION_REAL", instances, (*ATTRIBUTE_DEFINITION_REAL)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ATTRIBUTE_DEFINITION_STRINGs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ATTRIBUTE_DEFINITION_STRING", instances, (*ATTRIBUTE_DEFINITION_STRING)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ATTRIBUTE_DEFINITION_XHTMLs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ATTRIBUTE_DEFINITION_XHTML", instances, (*ATTRIBUTE_DEFINITION_XHTML)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ATTRIBUTE_VALUE_BOOLEANs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ATTRIBUTE_VALUE_BOOLEAN", instances, (*ATTRIBUTE_VALUE_BOOLEAN)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ATTRIBUTE_VALUE_DATEs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ATTRIBUTE_VALUE_DATE", instances, (*ATTRIBUTE_VALUE_DATE)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ATTRIBUTE_VALUE_ENUMERATIONs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ATTRIBUTE_VALUE_ENUMERATION", instances, (*ATTRIBUTE_VALUE_ENUMERATION)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ATTRIBUTE_VALUE_INTEGERs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ATTRIBUTE_VALUE_INTEGER", instances, (*ATTRIBUTE_VALUE_INTEGER)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ATTRIBUTE_VALUE_REALs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ATTRIBUTE_VALUE_REAL", instances, (*ATTRIBUTE_VALUE_REAL)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ATTRIBUTE_VALUE_STRINGs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ATTRIBUTE_VALUE_STRING", instances, (*ATTRIBUTE_VALUE_STRING)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ATTRIBUTE_VALUE_XHTMLs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ATTRIBUTE_VALUE_XHTML", instances, (*ATTRIBUTE_VALUE_XHTML)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ALTERNATIVE_IDs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ALTERNATIVE_ID", instances, (*A_ALTERNATIVE_ID)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_DEFINITION_BOOLEAN_REF", instances, (*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_DEFINITION_DATE_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_DEFINITION_DATE_REF", instances, (*A_ATTRIBUTE_DEFINITION_DATE_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_DEFINITION_ENUMERATION_REF", instances, (*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_DEFINITION_INTEGER_REF", instances, (*A_ATTRIBUTE_DEFINITION_INTEGER_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_DEFINITION_REAL_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_DEFINITION_REAL_REF", instances, (*A_ATTRIBUTE_DEFINITION_REAL_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_DEFINITION_STRING_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_DEFINITION_STRING_REF", instances, (*A_ATTRIBUTE_DEFINITION_STRING_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_DEFINITION_XHTML_REF", instances, (*A_ATTRIBUTE_DEFINITION_XHTML_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_VALUE_BOOLEANs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_VALUE_BOOLEAN", instances, (*A_ATTRIBUTE_VALUE_BOOLEAN)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_VALUE_DATEs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_VALUE_DATE", instances, (*A_ATTRIBUTE_VALUE_DATE)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_VALUE_ENUMERATIONs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_VALUE_ENUMERATION", instances, (*A_ATTRIBUTE_VALUE_ENUMERATION)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_VALUE_INTEGERs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_VALUE_INTEGER", instances, (*A_ATTRIBUTE_VALUE_INTEGER)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_VALUE_REALs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_VALUE_REAL", instances, (*A_ATTRIBUTE_VALUE_REAL)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_VALUE_STRINGs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_VALUE_STRING", instances, (*A_ATTRIBUTE_VALUE_STRING)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_VALUE_XHTMLs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_VALUE_XHTML", instances, (*A_ATTRIBUTE_VALUE_XHTML)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ATTRIBUTE_VALUE_XHTML_1s {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ATTRIBUTE_VALUE_XHTML_1", instances, (*A_ATTRIBUTE_VALUE_XHTML_1)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_CHILDRENs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_CHILDREN", instances, (*A_CHILDREN)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_CORE_CONTENTs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_CORE_CONTENT", instances, (*A_CORE_CONTENT)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_DATATYPESs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_DATATYPES", instances, (*A_DATATYPES)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_DATATYPE_DEFINITION_BOOLEAN_REF", instances, (*A_DATATYPE_DEFINITION_BOOLEAN_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_DATATYPE_DEFINITION_DATE_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_DATATYPE_DEFINITION_DATE_REF", instances, (*A_DATATYPE_DEFINITION_DATE_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_DATATYPE_DEFINITION_ENUMERATION_REF", instances, (*A_DATATYPE_DEFINITION_ENUMERATION_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_DATATYPE_DEFINITION_INTEGER_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_DATATYPE_DEFINITION_INTEGER_REF", instances, (*A_DATATYPE_DEFINITION_INTEGER_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_DATATYPE_DEFINITION_REAL_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_DATATYPE_DEFINITION_REAL_REF", instances, (*A_DATATYPE_DEFINITION_REAL_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_DATATYPE_DEFINITION_STRING_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_DATATYPE_DEFINITION_STRING_REF", instances, (*A_DATATYPE_DEFINITION_STRING_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_DATATYPE_DEFINITION_XHTML_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_DATATYPE_DEFINITION_XHTML_REF", instances, (*A_DATATYPE_DEFINITION_XHTML_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_EDITABLE_ATTSs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_EDITABLE_ATTS", instances, (*A_EDITABLE_ATTS)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_ENUM_VALUE_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_ENUM_VALUE_REF", instances, (*A_ENUM_VALUE_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_OBJECTs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_OBJECT", instances, (*A_OBJECT)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_PROPERTIESs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_PROPERTIES", instances, (*A_PROPERTIES)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_RELATION_GROUP_TYPE_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_RELATION_GROUP_TYPE_REF", instances, (*A_RELATION_GROUP_TYPE_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_SOURCE_1s {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_SOURCE_1", instances, (*A_SOURCE_1)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_SOURCE_SPECIFICATION_1s {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_SOURCE_SPECIFICATION_1", instances, (*A_SOURCE_SPECIFICATION_1)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_SPECIFICATIONSs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_SPECIFICATIONS", instances, (*A_SPECIFICATIONS)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_SPECIFICATION_TYPE_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_SPECIFICATION_TYPE_REF", instances, (*A_SPECIFICATION_TYPE_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_SPECIFIED_VALUESs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_SPECIFIED_VALUES", instances, (*A_SPECIFIED_VALUES)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_SPEC_ATTRIBUTESs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_SPEC_ATTRIBUTES", instances, (*A_SPEC_ATTRIBUTES)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_SPEC_OBJECTSs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_SPEC_OBJECTS", instances, (*A_SPEC_OBJECTS)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_SPEC_OBJECT_TYPE_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_SPEC_OBJECT_TYPE_REF", instances, (*A_SPEC_OBJECT_TYPE_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_SPEC_RELATIONSs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_SPEC_RELATIONS", instances, (*A_SPEC_RELATIONS)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_SPEC_RELATION_GROUPSs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_SPEC_RELATION_GROUPS", instances, (*A_SPEC_RELATION_GROUPS)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_SPEC_RELATION_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_SPEC_RELATION_REF", instances, (*A_SPEC_RELATION_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_SPEC_RELATION_TYPE_REFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_SPEC_RELATION_TYPE_REF", instances, (*A_SPEC_RELATION_TYPE_REF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_SPEC_TYPESs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_SPEC_TYPES", instances, (*A_SPEC_TYPES)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_THE_HEADERs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_THE_HEADER", instances, (*A_THE_HEADER)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_TOOL_EXTENSIONSs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_TOOL_EXTENSIONS", instances, (*A_TOOL_EXTENSIONS)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DATATYPE_DEFINITION_BOOLEANs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "DATATYPE_DEFINITION_BOOLEAN", instances, (*DATATYPE_DEFINITION_BOOLEAN)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DATATYPE_DEFINITION_DATEs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "DATATYPE_DEFINITION_DATE", instances, (*DATATYPE_DEFINITION_DATE)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DATATYPE_DEFINITION_ENUMERATIONs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "DATATYPE_DEFINITION_ENUMERATION", instances, (*DATATYPE_DEFINITION_ENUMERATION)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DATATYPE_DEFINITION_INTEGERs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "DATATYPE_DEFINITION_INTEGER", instances, (*DATATYPE_DEFINITION_INTEGER)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DATATYPE_DEFINITION_REALs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "DATATYPE_DEFINITION_REAL", instances, (*DATATYPE_DEFINITION_REAL)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DATATYPE_DEFINITION_STRINGs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "DATATYPE_DEFINITION_STRING", instances, (*DATATYPE_DEFINITION_STRING)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DATATYPE_DEFINITION_XHTMLs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "DATATYPE_DEFINITION_XHTML", instances, (*DATATYPE_DEFINITION_XHTML)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EMBEDDED_VALUEs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "EMBEDDED_VALUE", instances, (*EMBEDDED_VALUE)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ENUM_VALUEs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ENUM_VALUE", instances, (*ENUM_VALUE)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RELATION_GROUPs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "RELATION_GROUP", instances, (*RELATION_GROUP)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RELATION_GROUP_TYPEs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "RELATION_GROUP_TYPE", instances, (*RELATION_GROUP_TYPE)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.REQ_IFs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "REQ_IF", instances, (*REQ_IF)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.REQ_IF_CONTENTs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "REQ_IF_CONTENT", instances, (*REQ_IF_CONTENT)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.REQ_IF_HEADERs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "REQ_IF_HEADER", instances, (*REQ_IF_HEADER)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.REQ_IF_TOOL_EXTENSIONs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "REQ_IF_TOOL_EXTENSION", instances, (*REQ_IF_TOOL_EXTENSION)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SPECIFICATIONs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "SPECIFICATION", instances, (*SPECIFICATION)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SPECIFICATION_TYPEs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "SPECIFICATION_TYPE", instances, (*SPECIFICATION_TYPE)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SPEC_HIERARCHYs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "SPEC_HIERARCHY", instances, (*SPEC_HIERARCHY)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SPEC_OBJECTs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "SPEC_OBJECT", instances, (*SPEC_OBJECT)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SPEC_OBJECT_TYPEs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "SPEC_OBJECT_TYPE", instances, (*SPEC_OBJECT_TYPE)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SPEC_RELATIONs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "SPEC_RELATION", instances, (*SPEC_RELATION)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SPEC_RELATION_TYPEs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "SPEC_RELATION_TYPE", instances, (*SPEC_RELATION_TYPE)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.XHTML_CONTENTs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "XHTML_CONTENT", instances, (*XHTML_CONTENT)(nil).GongGetFieldHeaders(), addIDs)
+		}
 	}
 
 	// Create a style with wrap text enabled
@@ -287,33 +791,22 @@ func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, 
 
 }
 
-// SerializeExcelizePointer is the Stage method for Excel serialization.
-func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
-	stage.SerializeExcelizePointer2[Type](f, false)
-}
-
-// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
-func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
-	sheetName := GongGetPointerToGongstructName[Type]()
-
-	sheetName = __gong__shortenString(sheetName)
+// SerializeExcelize is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelize(f *excelize.File, name string, instances []GongstructIF, fields []GongFieldHeader, addIDs bool) {
+	sheetName := __gong__shortenString(name)
 
 	// Create a new sheet.
 	f.NewSheet(sheetName)
 
-	set := *stage.GetInstancesSet[Type]()
-
-	var sortedSlice []Type
-	for key := range set {
-		sortedSlice = append(sortedSlice, key)
-	}
-	slices.SortFunc(sortedSlice, func(a, b Type) int {
+	sortedSlice := make([]GongstructIF, len(instances))
+	copy(sortedSlice, instances)
+	slices.SortFunc(sortedSlice, func(a, b GongstructIF) int {
 		return cmp.Compare(a.GetName(), b.GetName())
 	})
 
 	line := 1
 
-	for index, fieldHeader := range GongGetFieldsFromPointer[Type]() {
+	for index, fieldHeader := range fields {
 		if !addIDs {
 			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(index+1)), line), fieldHeader.Name)
 		} else {
@@ -365,7 +858,7 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 
 		// 3. Add the ID value in column B
 
-		for index, fieldName := range GongGetFieldsFromPointer[Type]() {
+		for index, fieldName := range fields {
 			fieldStringValue := stage.GetFieldStringValueFromPointer(instance, fieldName.Name)
 			if !addIDs {
 				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(index+1)), line), fieldStringValue.GetValueString())
@@ -383,24 +876,20 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 			}
 		}
 	}
+}
 
-	// // Autofit all columns according to their text content
-	// cols, err := f.GetCols(sheetName)
-	// if err != nil {
-	// 	log.Panicln("SerializeExcelize")
-	// }
-	// for idx, col := range cols {
-	// 	largestWidth := 0
-	// 	for _, rowCell := range col {
-	// 		cellWidth := utf8.RuneCountInString(rowCell) + 2 // + 2 for margin
-	// 		if cellWidth > largestWidth {
-	// 			largestWidth = cellWidth
-	// 		}
-	// 	}
-	// 	name, err := excelize.ColumnNumberToName(idx + 1)
-	// 	if err != nil {
-	// 		log.Panicln("SerializeExcelize")
-	// 	}
-	// 	f.SetColWidth(sheetName, name, name, float64(largestWidth))
-	// }
+// SerializeExcelizePointer is the Stage method for Excel serialization.
+func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
+	stage.SerializeExcelizePointer2[Type](f, false)
+}
+
+// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
+	var ret Type
+	set := *stage.GetInstancesSet[Type]()
+	var instances []GongstructIF
+	for key := range set {
+		instances = append(instances, key)
+	}
+	stage.SerializeExcelize(f, ret.GongGetGongstructName(), instances, ret.GongGetFieldHeaders(), addIDs)
 }

@@ -4,319 +4,295 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Diagram:
-		ok = stage.IsStagedDiagram(target)
-
-	case *Library:
-		ok = stage.IsStagedLibrary(target)
-
-	case *Note:
-		ok = stage.IsStagedNote(target)
-
-	case *NoteProductShape:
-		ok = stage.IsStagedNoteProductShape(target)
-
-	case *NoteResourceShape:
-		ok = stage.IsStagedNoteResourceShape(target)
-
-	case *NoteShape:
-		ok = stage.IsStagedNoteShape(target)
-
-	case *NoteTaskShape:
-		ok = stage.IsStagedNoteTaskShape(target)
-
-	case *Product:
-		ok = stage.IsStagedProduct(target)
-
-	case *ProductCompositionShape:
-		ok = stage.IsStagedProductCompositionShape(target)
-
-	case *ProductShape:
-		ok = stage.IsStagedProductShape(target)
-
-	case *Resource:
-		ok = stage.IsStagedResource(target)
-
-	case *ResourceCompositionShape:
-		ok = stage.IsStagedResourceCompositionShape(target)
-
-	case *ResourceShape:
-		ok = stage.IsStagedResourceShape(target)
-
-	case *ResourceTaskShape:
-		ok = stage.IsStagedResourceTaskShape(target)
-
-	case *Task:
-		ok = stage.IsStagedTask(target)
-
-	case *TaskCompositionShape:
-		ok = stage.IsStagedTaskCompositionShape(target)
-
-	case *TaskGroup:
-		ok = stage.IsStagedTaskGroup(target)
-
-	case *TaskGroupShape:
-		ok = stage.IsStagedTaskGroupShape(target)
-
-	case *TaskInputShape:
-		ok = stage.IsStagedTaskInputShape(target)
-
-	case *TaskOutputShape:
-		ok = stage.IsStagedTaskOutputShape(target)
-
-	case *TaskPredecessorShape:
-		ok = stage.IsStagedTaskPredecessorShape(target)
-
-	case *TaskShape:
-		ok = stage.IsStagedTaskShape(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
+func (diagram *Diagram) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Diagrams[diagram]
 
 	return
 }
 
-func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
+
+	return diagram.GongIsStaged(stage)
+}
+
+func (library *Library) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Librarys[library]
 
 	return
 }
 
-func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
+func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+
+	return library.GongIsStaged(stage)
+}
+
+func (note *Note) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Notes[note]
 
 	return
 }
 
-func (stage *Stage) IsStagedNoteProductShape(noteproductshape *NoteProductShape) (ok bool) {
+func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
+
+	return note.GongIsStaged(stage)
+}
+
+func (noteproductshape *NoteProductShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.NoteProductShapes[noteproductshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedNoteResourceShape(noteresourceshape *NoteResourceShape) (ok bool) {
+func (stage *Stage) IsStagedNoteProductShape(noteproductshape *NoteProductShape) (ok bool) {
+
+	return noteproductshape.GongIsStaged(stage)
+}
+
+func (noteresourceshape *NoteResourceShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.NoteResourceShapes[noteresourceshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
+func (stage *Stage) IsStagedNoteResourceShape(noteresourceshape *NoteResourceShape) (ok bool) {
+
+	return noteresourceshape.GongIsStaged(stage)
+}
+
+func (noteshape *NoteShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.NoteShapes[noteshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedNoteTaskShape(notetaskshape *NoteTaskShape) (ok bool) {
+func (stage *Stage) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
+
+	return noteshape.GongIsStaged(stage)
+}
+
+func (notetaskshape *NoteTaskShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.NoteTaskShapes[notetaskshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedProduct(product *Product) (ok bool) {
+func (stage *Stage) IsStagedNoteTaskShape(notetaskshape *NoteTaskShape) (ok bool) {
+
+	return notetaskshape.GongIsStaged(stage)
+}
+
+func (product *Product) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Products[product]
 
 	return
 }
 
-func (stage *Stage) IsStagedProductCompositionShape(productcompositionshape *ProductCompositionShape) (ok bool) {
+func (stage *Stage) IsStagedProduct(product *Product) (ok bool) {
+
+	return product.GongIsStaged(stage)
+}
+
+func (productcompositionshape *ProductCompositionShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ProductCompositionShapes[productcompositionshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedProductShape(productshape *ProductShape) (ok bool) {
+func (stage *Stage) IsStagedProductCompositionShape(productcompositionshape *ProductCompositionShape) (ok bool) {
+
+	return productcompositionshape.GongIsStaged(stage)
+}
+
+func (productshape *ProductShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ProductShapes[productshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedResource(resource *Resource) (ok bool) {
+func (stage *Stage) IsStagedProductShape(productshape *ProductShape) (ok bool) {
+
+	return productshape.GongIsStaged(stage)
+}
+
+func (resource *Resource) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Resources[resource]
 
 	return
 }
 
-func (stage *Stage) IsStagedResourceCompositionShape(resourcecompositionshape *ResourceCompositionShape) (ok bool) {
+func (stage *Stage) IsStagedResource(resource *Resource) (ok bool) {
+
+	return resource.GongIsStaged(stage)
+}
+
+func (resourcecompositionshape *ResourceCompositionShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ResourceCompositionShapes[resourcecompositionshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedResourceShape(resourceshape *ResourceShape) (ok bool) {
+func (stage *Stage) IsStagedResourceCompositionShape(resourcecompositionshape *ResourceCompositionShape) (ok bool) {
+
+	return resourcecompositionshape.GongIsStaged(stage)
+}
+
+func (resourceshape *ResourceShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ResourceShapes[resourceshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedResourceTaskShape(resourcetaskshape *ResourceTaskShape) (ok bool) {
+func (stage *Stage) IsStagedResourceShape(resourceshape *ResourceShape) (ok bool) {
+
+	return resourceshape.GongIsStaged(stage)
+}
+
+func (resourcetaskshape *ResourceTaskShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ResourceTaskShapes[resourcetaskshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTask(task *Task) (ok bool) {
+func (stage *Stage) IsStagedResourceTaskShape(resourcetaskshape *ResourceTaskShape) (ok bool) {
+
+	return resourcetaskshape.GongIsStaged(stage)
+}
+
+func (task *Task) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Tasks[task]
 
 	return
 }
 
-func (stage *Stage) IsStagedTaskCompositionShape(taskcompositionshape *TaskCompositionShape) (ok bool) {
+func (stage *Stage) IsStagedTask(task *Task) (ok bool) {
+
+	return task.GongIsStaged(stage)
+}
+
+func (taskcompositionshape *TaskCompositionShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TaskCompositionShapes[taskcompositionshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTaskGroup(taskgroup *TaskGroup) (ok bool) {
+func (stage *Stage) IsStagedTaskCompositionShape(taskcompositionshape *TaskCompositionShape) (ok bool) {
+
+	return taskcompositionshape.GongIsStaged(stage)
+}
+
+func (taskgroup *TaskGroup) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TaskGroups[taskgroup]
 
 	return
 }
 
-func (stage *Stage) IsStagedTaskGroupShape(taskgroupshape *TaskGroupShape) (ok bool) {
+func (stage *Stage) IsStagedTaskGroup(taskgroup *TaskGroup) (ok bool) {
+
+	return taskgroup.GongIsStaged(stage)
+}
+
+func (taskgroupshape *TaskGroupShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TaskGroupShapes[taskgroupshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTaskInputShape(taskinputshape *TaskInputShape) (ok bool) {
+func (stage *Stage) IsStagedTaskGroupShape(taskgroupshape *TaskGroupShape) (ok bool) {
+
+	return taskgroupshape.GongIsStaged(stage)
+}
+
+func (taskinputshape *TaskInputShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TaskInputShapes[taskinputshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTaskOutputShape(taskoutputshape *TaskOutputShape) (ok bool) {
+func (stage *Stage) IsStagedTaskInputShape(taskinputshape *TaskInputShape) (ok bool) {
+
+	return taskinputshape.GongIsStaged(stage)
+}
+
+func (taskoutputshape *TaskOutputShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TaskOutputShapes[taskoutputshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTaskPredecessorShape(taskpredecessorshape *TaskPredecessorShape) (ok bool) {
+func (stage *Stage) IsStagedTaskOutputShape(taskoutputshape *TaskOutputShape) (ok bool) {
+
+	return taskoutputshape.GongIsStaged(stage)
+}
+
+func (taskpredecessorshape *TaskPredecessorShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TaskPredecessorShapes[taskpredecessorshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTaskShape(taskshape *TaskShape) (ok bool) {
+func (stage *Stage) IsStagedTaskPredecessorShape(taskpredecessorshape *TaskPredecessorShape) (ok bool) {
+
+	return taskpredecessorshape.GongIsStaged(stage)
+}
+
+func (taskshape *TaskShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TaskShapes[taskshape]
 
 	return
 }
 
+func (stage *Stage) IsStagedTaskShape(taskshape *TaskShape) (ok bool) {
+
+	return taskshape.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *Diagram:
-		stage.StageBranchDiagram(target)
-
-	case *Library:
-		stage.StageBranchLibrary(target)
-
-	case *Note:
-		stage.StageBranchNote(target)
-
-	case *NoteProductShape:
-		stage.StageBranchNoteProductShape(target)
-
-	case *NoteResourceShape:
-		stage.StageBranchNoteResourceShape(target)
-
-	case *NoteShape:
-		stage.StageBranchNoteShape(target)
-
-	case *NoteTaskShape:
-		stage.StageBranchNoteTaskShape(target)
-
-	case *Product:
-		stage.StageBranchProduct(target)
-
-	case *ProductCompositionShape:
-		stage.StageBranchProductCompositionShape(target)
-
-	case *ProductShape:
-		stage.StageBranchProductShape(target)
-
-	case *Resource:
-		stage.StageBranchResource(target)
-
-	case *ResourceCompositionShape:
-		stage.StageBranchResourceCompositionShape(target)
-
-	case *ResourceShape:
-		stage.StageBranchResourceShape(target)
-
-	case *ResourceTaskShape:
-		stage.StageBranchResourceTaskShape(target)
-
-	case *Task:
-		stage.StageBranchTask(target)
-
-	case *TaskCompositionShape:
-		stage.StageBranchTaskCompositionShape(target)
-
-	case *TaskGroup:
-		stage.StageBranchTaskGroup(target)
-
-	case *TaskGroupShape:
-		stage.StageBranchTaskGroupShape(target)
-
-	case *TaskInputShape:
-		stage.StageBranchTaskInputShape(target)
-
-	case *TaskOutputShape:
-		stage.StageBranchTaskOutputShape(target)
-
-	case *TaskPredecessorShape:
-		stage.StageBranchTaskPredecessorShape(target)
-
-	case *TaskShape:
-		stage.StageBranchTaskShape(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (diagram *Diagram) GongStageBranch(stage *Stage) {
+	stage.StageBranchDiagram(diagram)
+}
+
 func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
@@ -401,6 +377,10 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 }
 
+func (library *Library) GongStageBranch(stage *Stage) {
+	stage.StageBranchLibrary(library)
+}
+
 func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
@@ -437,6 +417,10 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 
 }
 
+func (note *Note) GongStageBranch(stage *Stage) {
+	stage.StageBranchNote(note)
+}
+
 func (stage *Stage) StageBranchNote(note *Note) {
 
 	// check if instance is already staged
@@ -461,6 +445,10 @@ func (stage *Stage) StageBranchNote(note *Note) {
 
 }
 
+func (noteproductshape *NoteProductShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchNoteProductShape(noteproductshape)
+}
+
 func (stage *Stage) StageBranchNoteProductShape(noteproductshape *NoteProductShape) {
 
 	// check if instance is already staged
@@ -480,6 +468,10 @@ func (stage *Stage) StageBranchNoteProductShape(noteproductshape *NoteProductSha
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (noteresourceshape *NoteResourceShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchNoteResourceShape(noteresourceshape)
 }
 
 func (stage *Stage) StageBranchNoteResourceShape(noteresourceshape *NoteResourceShape) {
@@ -503,6 +495,10 @@ func (stage *Stage) StageBranchNoteResourceShape(noteresourceshape *NoteResource
 
 }
 
+func (noteshape *NoteShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchNoteShape(noteshape)
+}
+
 func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
@@ -519,6 +515,10 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (notetaskshape *NoteTaskShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchNoteTaskShape(notetaskshape)
 }
 
 func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
@@ -542,6 +542,10 @@ func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 }
 
+func (product *Product) GongStageBranch(stage *Stage) {
+	stage.StageBranchProduct(product)
+}
+
 func (stage *Stage) StageBranchProduct(product *Product) {
 
 	// check if instance is already staged
@@ -563,6 +567,10 @@ func (stage *Stage) StageBranchProduct(product *Product) {
 
 }
 
+func (productcompositionshape *ProductCompositionShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchProductCompositionShape(productcompositionshape)
+}
+
 func (stage *Stage) StageBranchProductCompositionShape(productcompositionshape *ProductCompositionShape) {
 
 	// check if instance is already staged
@@ -581,6 +589,10 @@ func (stage *Stage) StageBranchProductCompositionShape(productcompositionshape *
 
 }
 
+func (productshape *ProductShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchProductShape(productshape)
+}
+
 func (stage *Stage) StageBranchProductShape(productshape *ProductShape) {
 
 	// check if instance is already staged
@@ -597,6 +609,10 @@ func (stage *Stage) StageBranchProductShape(productshape *ProductShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (resource *Resource) GongStageBranch(stage *Stage) {
+	stage.StageBranchResource(resource)
 }
 
 func (stage *Stage) StageBranchResource(resource *Resource) {
@@ -623,6 +639,10 @@ func (stage *Stage) StageBranchResource(resource *Resource) {
 
 }
 
+func (resourcecompositionshape *ResourceCompositionShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchResourceCompositionShape(resourcecompositionshape)
+}
+
 func (stage *Stage) StageBranchResourceCompositionShape(resourcecompositionshape *ResourceCompositionShape) {
 
 	// check if instance is already staged
@@ -641,6 +661,10 @@ func (stage *Stage) StageBranchResourceCompositionShape(resourcecompositionshape
 
 }
 
+func (resourceshape *ResourceShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchResourceShape(resourceshape)
+}
+
 func (stage *Stage) StageBranchResourceShape(resourceshape *ResourceShape) {
 
 	// check if instance is already staged
@@ -657,6 +681,10 @@ func (stage *Stage) StageBranchResourceShape(resourceshape *ResourceShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (resourcetaskshape *ResourceTaskShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchResourceTaskShape(resourcetaskshape)
 }
 
 func (stage *Stage) StageBranchResourceTaskShape(resourcetaskshape *ResourceTaskShape) {
@@ -678,6 +706,10 @@ func (stage *Stage) StageBranchResourceTaskShape(resourcetaskshape *ResourceTask
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (task *Task) GongStageBranch(stage *Stage) {
+	stage.StageBranchTask(task)
 }
 
 func (stage *Stage) StageBranchTask(task *Task) {
@@ -713,6 +745,10 @@ func (stage *Stage) StageBranchTask(task *Task) {
 
 }
 
+func (taskcompositionshape *TaskCompositionShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTaskCompositionShape(taskcompositionshape)
+}
+
 func (stage *Stage) StageBranchTaskCompositionShape(taskcompositionshape *TaskCompositionShape) {
 
 	// check if instance is already staged
@@ -729,6 +765,10 @@ func (stage *Stage) StageBranchTaskCompositionShape(taskcompositionshape *TaskCo
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (taskgroup *TaskGroup) GongStageBranch(stage *Stage) {
+	stage.StageBranchTaskGroup(taskgroup)
 }
 
 func (stage *Stage) StageBranchTaskGroup(taskgroup *TaskGroup) {
@@ -749,6 +789,10 @@ func (stage *Stage) StageBranchTaskGroup(taskgroup *TaskGroup) {
 
 }
 
+func (taskgroupshape *TaskGroupShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTaskGroupShape(taskgroupshape)
+}
+
 func (stage *Stage) StageBranchTaskGroupShape(taskgroupshape *TaskGroupShape) {
 
 	// check if instance is already staged
@@ -765,6 +809,10 @@ func (stage *Stage) StageBranchTaskGroupShape(taskgroupshape *TaskGroupShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (taskinputshape *TaskInputShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTaskInputShape(taskinputshape)
 }
 
 func (stage *Stage) StageBranchTaskInputShape(taskinputshape *TaskInputShape) {
@@ -788,6 +836,10 @@ func (stage *Stage) StageBranchTaskInputShape(taskinputshape *TaskInputShape) {
 
 }
 
+func (taskoutputshape *TaskOutputShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTaskOutputShape(taskoutputshape)
+}
+
 func (stage *Stage) StageBranchTaskOutputShape(taskoutputshape *TaskOutputShape) {
 
 	// check if instance is already staged
@@ -809,6 +861,10 @@ func (stage *Stage) StageBranchTaskOutputShape(taskoutputshape *TaskOutputShape)
 
 }
 
+func (taskpredecessorshape *TaskPredecessorShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTaskPredecessorShape(taskpredecessorshape)
+}
+
 func (stage *Stage) StageBranchTaskPredecessorShape(taskpredecessorshape *TaskPredecessorShape) {
 
 	// check if instance is already staged
@@ -828,6 +884,10 @@ func (stage *Stage) StageBranchTaskPredecessorShape(taskpredecessorshape *TaskPr
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (taskshape *TaskShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTaskShape(taskshape)
 }
 
 func (stage *Stage) StageBranchTaskShape(taskshape *TaskShape) {
@@ -1578,82 +1638,22 @@ func GongCopyBranchTaskShape(mapOrigCopy map[any]any, taskshapeFrom *TaskShape) 
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *Diagram:
-		stage.UnstageBranchDiagram(target)
-
-	case *Library:
-		stage.UnstageBranchLibrary(target)
-
-	case *Note:
-		stage.UnstageBranchNote(target)
-
-	case *NoteProductShape:
-		stage.UnstageBranchNoteProductShape(target)
-
-	case *NoteResourceShape:
-		stage.UnstageBranchNoteResourceShape(target)
-
-	case *NoteShape:
-		stage.UnstageBranchNoteShape(target)
-
-	case *NoteTaskShape:
-		stage.UnstageBranchNoteTaskShape(target)
-
-	case *Product:
-		stage.UnstageBranchProduct(target)
-
-	case *ProductCompositionShape:
-		stage.UnstageBranchProductCompositionShape(target)
-
-	case *ProductShape:
-		stage.UnstageBranchProductShape(target)
-
-	case *Resource:
-		stage.UnstageBranchResource(target)
-
-	case *ResourceCompositionShape:
-		stage.UnstageBranchResourceCompositionShape(target)
-
-	case *ResourceShape:
-		stage.UnstageBranchResourceShape(target)
-
-	case *ResourceTaskShape:
-		stage.UnstageBranchResourceTaskShape(target)
-
-	case *Task:
-		stage.UnstageBranchTask(target)
-
-	case *TaskCompositionShape:
-		stage.UnstageBranchTaskCompositionShape(target)
-
-	case *TaskGroup:
-		stage.UnstageBranchTaskGroup(target)
-
-	case *TaskGroupShape:
-		stage.UnstageBranchTaskGroupShape(target)
-
-	case *TaskInputShape:
-		stage.UnstageBranchTaskInputShape(target)
-
-	case *TaskOutputShape:
-		stage.UnstageBranchTaskOutputShape(target)
-
-	case *TaskPredecessorShape:
-		stage.UnstageBranchTaskPredecessorShape(target)
-
-	case *TaskShape:
-		stage.UnstageBranchTaskShape(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (diagram *Diagram) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDiagram(diagram)
+}
+
 func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
@@ -1738,6 +1738,10 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 }
 
+func (library *Library) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLibrary(library)
+}
+
 func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
@@ -1774,6 +1778,10 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 }
 
+func (note *Note) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNote(note)
+}
+
 func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	// check if instance is already staged
@@ -1798,6 +1806,10 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 
 }
 
+func (noteproductshape *NoteProductShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNoteProductShape(noteproductshape)
+}
+
 func (stage *Stage) UnstageBranchNoteProductShape(noteproductshape *NoteProductShape) {
 
 	// check if instance is already staged
@@ -1817,6 +1829,10 @@ func (stage *Stage) UnstageBranchNoteProductShape(noteproductshape *NoteProductS
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (noteresourceshape *NoteResourceShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNoteResourceShape(noteresourceshape)
 }
 
 func (stage *Stage) UnstageBranchNoteResourceShape(noteresourceshape *NoteResourceShape) {
@@ -1840,6 +1856,10 @@ func (stage *Stage) UnstageBranchNoteResourceShape(noteresourceshape *NoteResour
 
 }
 
+func (noteshape *NoteShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNoteShape(noteshape)
+}
+
 func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
@@ -1856,6 +1876,10 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (notetaskshape *NoteTaskShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNoteTaskShape(notetaskshape)
 }
 
 func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
@@ -1879,6 +1903,10 @@ func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 }
 
+func (product *Product) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchProduct(product)
+}
+
 func (stage *Stage) UnstageBranchProduct(product *Product) {
 
 	// check if instance is already staged
@@ -1900,6 +1928,10 @@ func (stage *Stage) UnstageBranchProduct(product *Product) {
 
 }
 
+func (productcompositionshape *ProductCompositionShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchProductCompositionShape(productcompositionshape)
+}
+
 func (stage *Stage) UnstageBranchProductCompositionShape(productcompositionshape *ProductCompositionShape) {
 
 	// check if instance is already staged
@@ -1918,6 +1950,10 @@ func (stage *Stage) UnstageBranchProductCompositionShape(productcompositionshape
 
 }
 
+func (productshape *ProductShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchProductShape(productshape)
+}
+
 func (stage *Stage) UnstageBranchProductShape(productshape *ProductShape) {
 
 	// check if instance is already staged
@@ -1934,6 +1970,10 @@ func (stage *Stage) UnstageBranchProductShape(productshape *ProductShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (resource *Resource) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchResource(resource)
 }
 
 func (stage *Stage) UnstageBranchResource(resource *Resource) {
@@ -1960,6 +2000,10 @@ func (stage *Stage) UnstageBranchResource(resource *Resource) {
 
 }
 
+func (resourcecompositionshape *ResourceCompositionShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchResourceCompositionShape(resourcecompositionshape)
+}
+
 func (stage *Stage) UnstageBranchResourceCompositionShape(resourcecompositionshape *ResourceCompositionShape) {
 
 	// check if instance is already staged
@@ -1978,6 +2022,10 @@ func (stage *Stage) UnstageBranchResourceCompositionShape(resourcecompositionsha
 
 }
 
+func (resourceshape *ResourceShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchResourceShape(resourceshape)
+}
+
 func (stage *Stage) UnstageBranchResourceShape(resourceshape *ResourceShape) {
 
 	// check if instance is already staged
@@ -1994,6 +2042,10 @@ func (stage *Stage) UnstageBranchResourceShape(resourceshape *ResourceShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (resourcetaskshape *ResourceTaskShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchResourceTaskShape(resourcetaskshape)
 }
 
 func (stage *Stage) UnstageBranchResourceTaskShape(resourcetaskshape *ResourceTaskShape) {
@@ -2015,6 +2067,10 @@ func (stage *Stage) UnstageBranchResourceTaskShape(resourcetaskshape *ResourceTa
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (task *Task) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTask(task)
 }
 
 func (stage *Stage) UnstageBranchTask(task *Task) {
@@ -2050,6 +2106,10 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 
 }
 
+func (taskcompositionshape *TaskCompositionShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTaskCompositionShape(taskcompositionshape)
+}
+
 func (stage *Stage) UnstageBranchTaskCompositionShape(taskcompositionshape *TaskCompositionShape) {
 
 	// check if instance is already staged
@@ -2066,6 +2126,10 @@ func (stage *Stage) UnstageBranchTaskCompositionShape(taskcompositionshape *Task
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (taskgroup *TaskGroup) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTaskGroup(taskgroup)
 }
 
 func (stage *Stage) UnstageBranchTaskGroup(taskgroup *TaskGroup) {
@@ -2086,6 +2150,10 @@ func (stage *Stage) UnstageBranchTaskGroup(taskgroup *TaskGroup) {
 
 }
 
+func (taskgroupshape *TaskGroupShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTaskGroupShape(taskgroupshape)
+}
+
 func (stage *Stage) UnstageBranchTaskGroupShape(taskgroupshape *TaskGroupShape) {
 
 	// check if instance is already staged
@@ -2102,6 +2170,10 @@ func (stage *Stage) UnstageBranchTaskGroupShape(taskgroupshape *TaskGroupShape) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (taskinputshape *TaskInputShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTaskInputShape(taskinputshape)
 }
 
 func (stage *Stage) UnstageBranchTaskInputShape(taskinputshape *TaskInputShape) {
@@ -2125,6 +2197,10 @@ func (stage *Stage) UnstageBranchTaskInputShape(taskinputshape *TaskInputShape) 
 
 }
 
+func (taskoutputshape *TaskOutputShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTaskOutputShape(taskoutputshape)
+}
+
 func (stage *Stage) UnstageBranchTaskOutputShape(taskoutputshape *TaskOutputShape) {
 
 	// check if instance is already staged
@@ -2146,6 +2222,10 @@ func (stage *Stage) UnstageBranchTaskOutputShape(taskoutputshape *TaskOutputShap
 
 }
 
+func (taskpredecessorshape *TaskPredecessorShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTaskPredecessorShape(taskpredecessorshape)
+}
+
 func (stage *Stage) UnstageBranchTaskPredecessorShape(taskpredecessorshape *TaskPredecessorShape) {
 
 	// check if instance is already staged
@@ -2165,6 +2245,10 @@ func (stage *Stage) UnstageBranchTaskPredecessorShape(taskpredecessorshape *Task
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (taskshape *TaskShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTaskShape(taskshape)
 }
 
 func (stage *Stage) UnstageBranchTaskShape(taskshape *TaskShape) {
@@ -3237,7 +3321,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Product_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "Product_Shapes", diagramOther.Product_Shapes, diagram.Product_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"Product_Shapes",
+			len(diagramOther.Product_Shapes),
+			len(diagram.Product_Shapes),
+			func(i, j int) bool {
+				return diagramOther.Product_Shapes[i] == diagram.Product_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.Product_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ProductsWhoseNodeIsExpandedDifferent := false
@@ -3258,7 +3353,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ProductsWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ProductsWhoseNodeIsExpanded", diagramOther.ProductsWhoseNodeIsExpanded, diagram.ProductsWhoseNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"ProductsWhoseNodeIsExpanded",
+			len(diagramOther.ProductsWhoseNodeIsExpanded),
+			len(diagram.ProductsWhoseNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.ProductsWhoseNodeIsExpanded[i] == diagram.ProductsWhoseNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.ProductsWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsPBSNodeExpanded != diagramOther.IsPBSNodeExpanded {
@@ -3282,7 +3388,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ProductComposition_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ProductComposition_Shapes", diagramOther.ProductComposition_Shapes, diagram.ProductComposition_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"ProductComposition_Shapes",
+			len(diagramOther.ProductComposition_Shapes),
+			len(diagram.ProductComposition_Shapes),
+			func(i, j int) bool {
+				return diagramOther.ProductComposition_Shapes[i] == diagram.ProductComposition_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.ProductComposition_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsWBSNodeExpanded != diagramOther.IsWBSNodeExpanded {
@@ -3306,7 +3423,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Task_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "Task_Shapes", diagramOther.Task_Shapes, diagram.Task_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"Task_Shapes",
+			len(diagramOther.Task_Shapes),
+			len(diagram.Task_Shapes),
+			func(i, j int) bool {
+				return diagramOther.Task_Shapes[i] == diagram.Task_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.Task_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TasksWhoseNodeIsExpandedDifferent := false
@@ -3327,7 +3455,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TasksWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "TasksWhoseNodeIsExpanded", diagramOther.TasksWhoseNodeIsExpanded, diagram.TasksWhoseNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"TasksWhoseNodeIsExpanded",
+			len(diagramOther.TasksWhoseNodeIsExpanded),
+			len(diagram.TasksWhoseNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.TasksWhoseNodeIsExpanded[i] == diagram.TasksWhoseNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.TasksWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TasksWhoseInputNodeIsExpandedDifferent := false
@@ -3348,7 +3487,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TasksWhoseInputNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "TasksWhoseInputNodeIsExpanded", diagramOther.TasksWhoseInputNodeIsExpanded, diagram.TasksWhoseInputNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"TasksWhoseInputNodeIsExpanded",
+			len(diagramOther.TasksWhoseInputNodeIsExpanded),
+			len(diagram.TasksWhoseInputNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.TasksWhoseInputNodeIsExpanded[i] == diagram.TasksWhoseInputNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.TasksWhoseInputNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TasksWhoseOutputNodeIsExpandedDifferent := false
@@ -3369,7 +3519,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TasksWhoseOutputNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "TasksWhoseOutputNodeIsExpanded", diagramOther.TasksWhoseOutputNodeIsExpanded, diagram.TasksWhoseOutputNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"TasksWhoseOutputNodeIsExpanded",
+			len(diagramOther.TasksWhoseOutputNodeIsExpanded),
+			len(diagram.TasksWhoseOutputNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.TasksWhoseOutputNodeIsExpanded[i] == diagram.TasksWhoseOutputNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.TasksWhoseOutputNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TasksWhosePredecessorNodeIsExpandedDifferent := false
@@ -3390,7 +3551,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TasksWhosePredecessorNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "TasksWhosePredecessorNodeIsExpanded", diagramOther.TasksWhosePredecessorNodeIsExpanded, diagram.TasksWhosePredecessorNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"TasksWhosePredecessorNodeIsExpanded",
+			len(diagramOther.TasksWhosePredecessorNodeIsExpanded),
+			len(diagram.TasksWhosePredecessorNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.TasksWhosePredecessorNodeIsExpanded[i] == diagram.TasksWhosePredecessorNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.TasksWhosePredecessorNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsTaskGroupsNodeExpanded != diagramOther.IsTaskGroupsNodeExpanded {
@@ -3414,7 +3586,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskGroupShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "TaskGroupShapes", diagramOther.TaskGroupShapes, diagram.TaskGroupShapes)
+		ops := stage.Diff(
+			diagram,
+			"TaskGroupShapes",
+			len(diagramOther.TaskGroupShapes),
+			len(diagram.TaskGroupShapes),
+			func(i, j int) bool {
+				return diagramOther.TaskGroupShapes[i] == diagram.TaskGroupShapes[j]
+			},
+			func(j int) string {
+				return diagram.TaskGroupShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TaskGroupsWhoseNodeIsExpandedDifferent := false
@@ -3435,7 +3618,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskGroupsWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "TaskGroupsWhoseNodeIsExpanded", diagramOther.TaskGroupsWhoseNodeIsExpanded, diagram.TaskGroupsWhoseNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"TaskGroupsWhoseNodeIsExpanded",
+			len(diagramOther.TaskGroupsWhoseNodeIsExpanded),
+			len(diagram.TaskGroupsWhoseNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.TaskGroupsWhoseNodeIsExpanded[i] == diagram.TaskGroupsWhoseNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.TaskGroupsWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TaskComposition_ShapesDifferent := false
@@ -3456,7 +3650,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskComposition_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "TaskComposition_Shapes", diagramOther.TaskComposition_Shapes, diagram.TaskComposition_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"TaskComposition_Shapes",
+			len(diagramOther.TaskComposition_Shapes),
+			len(diagram.TaskComposition_Shapes),
+			func(i, j int) bool {
+				return diagramOther.TaskComposition_Shapes[i] == diagram.TaskComposition_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.TaskComposition_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TaskInputShapesDifferent := false
@@ -3477,7 +3682,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskInputShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "TaskInputShapes", diagramOther.TaskInputShapes, diagram.TaskInputShapes)
+		ops := stage.Diff(
+			diagram,
+			"TaskInputShapes",
+			len(diagramOther.TaskInputShapes),
+			len(diagram.TaskInputShapes),
+			func(i, j int) bool {
+				return diagramOther.TaskInputShapes[i] == diagram.TaskInputShapes[j]
+			},
+			func(j int) string {
+				return diagram.TaskInputShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TaskOutputShapesDifferent := false
@@ -3498,7 +3714,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskOutputShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "TaskOutputShapes", diagramOther.TaskOutputShapes, diagram.TaskOutputShapes)
+		ops := stage.Diff(
+			diagram,
+			"TaskOutputShapes",
+			len(diagramOther.TaskOutputShapes),
+			len(diagram.TaskOutputShapes),
+			func(i, j int) bool {
+				return diagramOther.TaskOutputShapes[i] == diagram.TaskOutputShapes[j]
+			},
+			func(j int) string {
+				return diagram.TaskOutputShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TaskPredecessorShapesDifferent := false
@@ -3519,7 +3746,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskPredecessorShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "TaskPredecessorShapes", diagramOther.TaskPredecessorShapes, diagram.TaskPredecessorShapes)
+		ops := stage.Diff(
+			diagram,
+			"TaskPredecessorShapes",
+			len(diagramOther.TaskPredecessorShapes),
+			len(diagram.TaskPredecessorShapes),
+			func(i, j int) bool {
+				return diagramOther.TaskPredecessorShapes[i] == diagram.TaskPredecessorShapes[j]
+			},
+			func(j int) string {
+				return diagram.TaskPredecessorShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Note_ShapesDifferent := false
@@ -3540,7 +3778,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Note_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "Note_Shapes", diagramOther.Note_Shapes, diagram.Note_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"Note_Shapes",
+			len(diagramOther.Note_Shapes),
+			len(diagram.Note_Shapes),
+			func(i, j int) bool {
+				return diagramOther.Note_Shapes[i] == diagram.Note_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.Note_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	NotesWhoseNodeIsExpandedDifferent := false
@@ -3561,7 +3810,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NotesWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "NotesWhoseNodeIsExpanded", diagramOther.NotesWhoseNodeIsExpanded, diagram.NotesWhoseNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"NotesWhoseNodeIsExpanded",
+			len(diagramOther.NotesWhoseNodeIsExpanded),
+			len(diagram.NotesWhoseNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.NotesWhoseNodeIsExpanded[i] == diagram.NotesWhoseNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.NotesWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsNotesNodeExpanded != diagramOther.IsNotesNodeExpanded {
@@ -3585,7 +3845,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteProductShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "NoteProductShapes", diagramOther.NoteProductShapes, diagram.NoteProductShapes)
+		ops := stage.Diff(
+			diagram,
+			"NoteProductShapes",
+			len(diagramOther.NoteProductShapes),
+			len(diagram.NoteProductShapes),
+			func(i, j int) bool {
+				return diagramOther.NoteProductShapes[i] == diagram.NoteProductShapes[j]
+			},
+			func(j int) string {
+				return diagram.NoteProductShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	NoteTaskShapesDifferent := false
@@ -3606,7 +3877,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteTaskShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "NoteTaskShapes", diagramOther.NoteTaskShapes, diagram.NoteTaskShapes)
+		ops := stage.Diff(
+			diagram,
+			"NoteTaskShapes",
+			len(diagramOther.NoteTaskShapes),
+			len(diagram.NoteTaskShapes),
+			func(i, j int) bool {
+				return diagramOther.NoteTaskShapes[i] == diagram.NoteTaskShapes[j]
+			},
+			func(j int) string {
+				return diagram.NoteTaskShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	NoteResourceShapesDifferent := false
@@ -3627,7 +3909,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteResourceShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "NoteResourceShapes", diagramOther.NoteResourceShapes, diagram.NoteResourceShapes)
+		ops := stage.Diff(
+			diagram,
+			"NoteResourceShapes",
+			len(diagramOther.NoteResourceShapes),
+			len(diagram.NoteResourceShapes),
+			func(i, j int) bool {
+				return diagramOther.NoteResourceShapes[i] == diagram.NoteResourceShapes[j]
+			},
+			func(j int) string {
+				return diagram.NoteResourceShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Resource_ShapesDifferent := false
@@ -3648,7 +3941,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Resource_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "Resource_Shapes", diagramOther.Resource_Shapes, diagram.Resource_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"Resource_Shapes",
+			len(diagramOther.Resource_Shapes),
+			len(diagram.Resource_Shapes),
+			func(i, j int) bool {
+				return diagramOther.Resource_Shapes[i] == diagram.Resource_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.Resource_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ResourcesWhoseNodeIsExpandedDifferent := false
@@ -3669,7 +3973,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ResourcesWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ResourcesWhoseNodeIsExpanded", diagramOther.ResourcesWhoseNodeIsExpanded, diagram.ResourcesWhoseNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"ResourcesWhoseNodeIsExpanded",
+			len(diagramOther.ResourcesWhoseNodeIsExpanded),
+			len(diagram.ResourcesWhoseNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.ResourcesWhoseNodeIsExpanded[i] == diagram.ResourcesWhoseNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.ResourcesWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsResourcesNodeExpanded != diagramOther.IsResourcesNodeExpanded {
@@ -3693,7 +4008,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ResourceComposition_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ResourceComposition_Shapes", diagramOther.ResourceComposition_Shapes, diagram.ResourceComposition_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"ResourceComposition_Shapes",
+			len(diagramOther.ResourceComposition_Shapes),
+			len(diagram.ResourceComposition_Shapes),
+			func(i, j int) bool {
+				return diagramOther.ResourceComposition_Shapes[i] == diagram.ResourceComposition_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.ResourceComposition_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ResourceTaskShapesDifferent := false
@@ -3714,7 +4040,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ResourceTaskShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ResourceTaskShapes", diagramOther.ResourceTaskShapes, diagram.ResourceTaskShapes)
+		ops := stage.Diff(
+			diagram,
+			"ResourceTaskShapes",
+			len(diagramOther.ResourceTaskShapes),
+			len(diagram.ResourceTaskShapes),
+			func(i, j int) bool {
+				return diagramOther.ResourceTaskShapes[i] == diagram.ResourceTaskShapes[j]
+			},
+			func(j int) string {
+				return diagram.ResourceTaskShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -3746,7 +4083,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if SubLibrariesDifferent {
-		ops := stage.Diff(library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
+		ops := stage.Diff(
+			library,
+			"SubLibraries",
+			len(libraryOther.SubLibraries),
+			len(library.SubLibraries),
+			func(i, j int) bool {
+				return libraryOther.SubLibraries[i] == library.SubLibraries[j]
+			},
+			func(j int) string {
+				return library.SubLibraries[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
@@ -3782,7 +4130,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootProductsDifferent {
-		ops := stage.Diff(library, libraryOther, "RootProducts", libraryOther.RootProducts, library.RootProducts)
+		ops := stage.Diff(
+			library,
+			"RootProducts",
+			len(libraryOther.RootProducts),
+			len(library.RootProducts),
+			func(i, j int) bool {
+				return libraryOther.RootProducts[i] == library.RootProducts[j]
+			},
+			func(j int) string {
+				return library.RootProducts[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	RootTasksDifferent := false
@@ -3803,7 +4162,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootTasksDifferent {
-		ops := stage.Diff(library, libraryOther, "RootTasks", libraryOther.RootTasks, library.RootTasks)
+		ops := stage.Diff(
+			library,
+			"RootTasks",
+			len(libraryOther.RootTasks),
+			len(library.RootTasks),
+			func(i, j int) bool {
+				return libraryOther.RootTasks[i] == library.RootTasks[j]
+			},
+			func(j int) string {
+				return library.RootTasks[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	RootTaskGroupsDifferent := false
@@ -3824,7 +4194,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootTaskGroupsDifferent {
-		ops := stage.Diff(library, libraryOther, "RootTaskGroups", libraryOther.RootTaskGroups, library.RootTaskGroups)
+		ops := stage.Diff(
+			library,
+			"RootTaskGroups",
+			len(libraryOther.RootTaskGroups),
+			len(library.RootTaskGroups),
+			func(i, j int) bool {
+				return libraryOther.RootTaskGroups[i] == library.RootTaskGroups[j]
+			},
+			func(j int) string {
+				return library.RootTaskGroups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	RootResourcesDifferent := false
@@ -3845,7 +4226,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootResourcesDifferent {
-		ops := stage.Diff(library, libraryOther, "RootResources", libraryOther.RootResources, library.RootResources)
+		ops := stage.Diff(
+			library,
+			"RootResources",
+			len(libraryOther.RootResources),
+			len(library.RootResources),
+			func(i, j int) bool {
+				return libraryOther.RootResources[i] == library.RootResources[j]
+			},
+			func(j int) string {
+				return library.RootResources[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	NotesDifferent := false
@@ -3866,7 +4258,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if NotesDifferent {
-		ops := stage.Diff(library, libraryOther, "Notes", libraryOther.Notes, library.Notes)
+		ops := stage.Diff(
+			library,
+			"Notes",
+			len(libraryOther.Notes),
+			len(library.Notes),
+			func(i, j int) bool {
+				return libraryOther.Notes[i] == library.Notes[j]
+			},
+			func(j int) string {
+				return library.Notes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DiagramsDifferent := false
@@ -3887,7 +4290,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if DiagramsDifferent {
-		ops := stage.Diff(library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
+		ops := stage.Diff(
+			library,
+			"Diagrams",
+			len(libraryOther.Diagrams),
+			len(library.Diagrams),
+			func(i, j int) bool {
+				return libraryOther.Diagrams[i] == library.Diagrams[j]
+			},
+			func(j int) string {
+				return library.Diagrams[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -3928,7 +4342,18 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if ProductsDifferent {
-		ops := stage.Diff(note, noteOther, "Products", noteOther.Products, note.Products)
+		ops := stage.Diff(
+			note,
+			"Products",
+			len(noteOther.Products),
+			len(note.Products),
+			func(i, j int) bool {
+				return noteOther.Products[i] == note.Products[j]
+			},
+			func(j int) string {
+				return note.Products[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TasksDifferent := false
@@ -3949,7 +4374,18 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if TasksDifferent {
-		ops := stage.Diff(note, noteOther, "Tasks", noteOther.Tasks, note.Tasks)
+		ops := stage.Diff(
+			note,
+			"Tasks",
+			len(noteOther.Tasks),
+			len(note.Tasks),
+			func(i, j int) bool {
+				return noteOther.Tasks[i] == note.Tasks[j]
+			},
+			func(j int) string {
+				return note.Tasks[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ResourcesDifferent := false
@@ -3970,7 +4406,18 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if ResourcesDifferent {
-		ops := stage.Diff(note, noteOther, "Resources", noteOther.Resources, note.Resources)
+		ops := stage.Diff(
+			note,
+			"Resources",
+			len(noteOther.Resources),
+			len(note.Resources),
+			func(i, j int) bool {
+				return noteOther.Resources[i] == note.Resources[j]
+			},
+			func(j int) string {
+				return note.Resources[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4173,7 +4620,18 @@ func (product *Product) GongDiff(stage *Stage, productOther *Product) (diffs []s
 		}
 	}
 	if SubProductsDifferent {
-		ops := stage.Diff(product, productOther, "SubProducts", productOther.SubProducts, product.SubProducts)
+		ops := stage.Diff(
+			product,
+			"SubProducts",
+			len(productOther.SubProducts),
+			len(product.SubProducts),
+			func(i, j int) bool {
+				return productOther.SubProducts[i] == product.SubProducts[j]
+			},
+			func(j int) string {
+				return product.SubProducts[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if product.IsProducersNodeExpanded != productOther.IsProducersNodeExpanded {
@@ -4308,7 +4766,18 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 		}
 	}
 	if TasksDifferent {
-		ops := stage.Diff(resource, resourceOther, "Tasks", resourceOther.Tasks, resource.Tasks)
+		ops := stage.Diff(
+			resource,
+			"Tasks",
+			len(resourceOther.Tasks),
+			len(resource.Tasks),
+			func(i, j int) bool {
+				return resourceOther.Tasks[i] == resource.Tasks[j]
+			},
+			func(j int) string {
+				return resource.Tasks[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SubResourcesDifferent := false
@@ -4329,7 +4798,18 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 		}
 	}
 	if SubResourcesDifferent {
-		ops := stage.Diff(resource, resourceOther, "SubResources", resourceOther.SubResources, resource.SubResources)
+		ops := stage.Diff(
+			resource,
+			"SubResources",
+			len(resourceOther.SubResources),
+			len(resource.SubResources),
+			func(i, j int) bool {
+				return resourceOther.SubResources[i] == resource.SubResources[j]
+			},
+			func(j int) string {
+				return resource.SubResources[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if resource.ComputedPrefix != resourceOther.ComputedPrefix {
@@ -4507,7 +4987,18 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		}
 	}
 	if PredecessorsDifferent {
-		ops := stage.Diff(task, taskOther, "Predecessors", taskOther.Predecessors, task.Predecessors)
+		ops := stage.Diff(
+			task,
+			"Predecessors",
+			len(taskOther.Predecessors),
+			len(task.Predecessors),
+			func(i, j int) bool {
+				return taskOther.Predecessors[i] == task.Predecessors[j]
+			},
+			func(j int) string {
+				return task.Predecessors[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if task.IsStartDateComputedFromPredecessors != taskOther.IsStartDateComputedFromPredecessors {
@@ -4552,7 +5043,18 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		}
 	}
 	if InputsDifferent {
-		ops := stage.Diff(task, taskOther, "Inputs", taskOther.Inputs, task.Inputs)
+		ops := stage.Diff(
+			task,
+			"Inputs",
+			len(taskOther.Inputs),
+			len(task.Inputs),
+			func(i, j int) bool {
+				return taskOther.Inputs[i] == task.Inputs[j]
+			},
+			func(j int) string {
+				return task.Inputs[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	OutputsDifferent := false
@@ -4573,7 +5075,18 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		}
 	}
 	if OutputsDifferent {
-		ops := stage.Diff(task, taskOther, "Outputs", taskOther.Outputs, task.Outputs)
+		ops := stage.Diff(
+			task,
+			"Outputs",
+			len(taskOther.Outputs),
+			len(task.Outputs),
+			func(i, j int) bool {
+				return taskOther.Outputs[i] == task.Outputs[j]
+			},
+			func(j int) string {
+				return task.Outputs[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SubTasksDifferent := false
@@ -4594,7 +5107,18 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		}
 	}
 	if SubTasksDifferent {
-		ops := stage.Diff(task, taskOther, "SubTasks", taskOther.SubTasks, task.SubTasks)
+		ops := stage.Diff(
+			task,
+			"SubTasks",
+			len(taskOther.SubTasks),
+			len(task.SubTasks),
+			func(i, j int) bool {
+				return taskOther.SubTasks[i] == task.SubTasks[j]
+			},
+			func(j int) string {
+				return task.SubTasks[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if task.IsWithCompletion != taskOther.IsWithCompletion {
@@ -4624,7 +5148,18 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		}
 	}
 	if TaskGroupsToDisplayDifferent {
-		ops := stage.Diff(task, taskOther, "TaskGroupsToDisplay", taskOther.TaskGroupsToDisplay, task.TaskGroupsToDisplay)
+		ops := stage.Diff(
+			task,
+			"TaskGroupsToDisplay",
+			len(taskOther.TaskGroupsToDisplay),
+			len(task.TaskGroupsToDisplay),
+			func(i, j int) bool {
+				return taskOther.TaskGroupsToDisplay[i] == task.TaskGroupsToDisplay[j]
+			},
+			func(j int) string {
+				return task.TaskGroupsToDisplay[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if task.TextPosition != taskOther.TextPosition {
@@ -4732,7 +5267,18 @@ func (taskgroup *TaskGroup) GongDiff(stage *Stage, taskgroupOther *TaskGroup) (d
 		}
 	}
 	if TasksDifferent {
-		ops := stage.Diff(taskgroup, taskgroupOther, "Tasks", taskgroupOther.Tasks, taskgroup.Tasks)
+		ops := stage.Diff(
+			taskgroup,
+			"Tasks",
+			len(taskgroupOther.Tasks),
+			len(taskgroup.Tasks),
+			func(i, j int) bool {
+				return taskgroupOther.Tasks[i] == taskgroup.Tasks[j]
+			},
+			func(j int) string {
+				return taskgroup.Tasks[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4944,8 +5490,14 @@ func (taskshape *TaskShape) GongDiff(stage *Stage, taskshapeOther *TaskShape) (d
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -4956,7 +5508,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -4974,7 +5526,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -4997,22 +5549,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

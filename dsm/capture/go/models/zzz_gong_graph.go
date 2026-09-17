@@ -4228,7 +4228,18 @@ func (concept *Concept) GongDiff(stage *Stage, conceptOther *Concept) (diffs []s
 		}
 	}
 	if ToolsDifferent {
-		ops := stage.Diff(concept, conceptOther, "Tools", conceptOther.Tools, concept.Tools)
+		ops := stage.Diff(
+			concept,
+			"Tools",
+			len(conceptOther.Tools),
+			len(concept.Tools),
+			func(i, j int) bool {
+				return conceptOther.Tools[i] == concept.Tools[j]
+			},
+			func(j int) string {
+				return concept.Tools[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4311,7 +4322,18 @@ func (concern *Concern) GongDiff(stage *Stage, concernOther *Concern) (diffs []s
 		}
 	}
 	if SubConcernsDifferent {
-		ops := stage.Diff(concern, concernOther, "SubConcerns", concernOther.SubConcerns, concern.SubConcerns)
+		ops := stage.Diff(
+			concern,
+			"SubConcerns",
+			len(concernOther.SubConcerns),
+			len(concern.SubConcerns),
+			func(i, j int) bool {
+				return concernOther.SubConcerns[i] == concern.SubConcerns[j]
+			},
+			func(j int) string {
+				return concern.SubConcerns[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	InputsDifferent := false
@@ -4332,7 +4354,18 @@ func (concern *Concern) GongDiff(stage *Stage, concernOther *Concern) (diffs []s
 		}
 	}
 	if InputsDifferent {
-		ops := stage.Diff(concern, concernOther, "Inputs", concernOther.Inputs, concern.Inputs)
+		ops := stage.Diff(
+			concern,
+			"Inputs",
+			len(concernOther.Inputs),
+			len(concern.Inputs),
+			func(i, j int) bool {
+				return concernOther.Inputs[i] == concern.Inputs[j]
+			},
+			func(j int) string {
+				return concern.Inputs[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if concern.IsInputsNodeExpanded != concernOther.IsInputsNodeExpanded {
@@ -4356,7 +4389,18 @@ func (concern *Concern) GongDiff(stage *Stage, concernOther *Concern) (diffs []s
 		}
 	}
 	if OutputsDifferent {
-		ops := stage.Diff(concern, concernOther, "Outputs", concernOther.Outputs, concern.Outputs)
+		ops := stage.Diff(
+			concern,
+			"Outputs",
+			len(concernOther.Outputs),
+			len(concern.Outputs),
+			func(i, j int) bool {
+				return concernOther.Outputs[i] == concern.Outputs[j]
+			},
+			func(j int) string {
+				return concern.Outputs[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if concern.IsOutputsNodeExpanded != concernOther.IsOutputsNodeExpanded {
@@ -4386,7 +4430,18 @@ func (concern *Concern) GongDiff(stage *Stage, concernOther *Concern) (diffs []s
 		}
 	}
 	if RequirementsDifferent {
-		ops := stage.Diff(concern, concernOther, "Requirements", concernOther.Requirements, concern.Requirements)
+		ops := stage.Diff(
+			concern,
+			"Requirements",
+			len(concernOther.Requirements),
+			len(concern.Requirements),
+			func(i, j int) bool {
+				return concernOther.Requirements[i] == concern.Requirements[j]
+			},
+			func(j int) string {
+				return concern.Requirements[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4443,7 +4498,18 @@ func (concerncompositionshape *ConcernCompositionShape) GongDiff(stage *Stage, c
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := stage.Diff(concerncompositionshape, concerncompositionshapeOther, "ControlPointShapes", concerncompositionshapeOther.ControlPointShapes, concerncompositionshape.ControlPointShapes)
+		ops := stage.Diff(
+			concerncompositionshape,
+			"ControlPointShapes",
+			len(concerncompositionshapeOther.ControlPointShapes),
+			len(concerncompositionshape.ControlPointShapes),
+			func(i, j int) bool {
+				return concerncompositionshapeOther.ControlPointShapes[i] == concerncompositionshape.ControlPointShapes[j]
+			},
+			func(j int) string {
+				return concerncompositionshape.ControlPointShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4507,7 +4573,18 @@ func (concerninputshape *ConcernInputShape) GongDiff(stage *Stage, concerninputs
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := stage.Diff(concerninputshape, concerninputshapeOther, "ControlPointShapes", concerninputshapeOther.ControlPointShapes, concerninputshape.ControlPointShapes)
+		ops := stage.Diff(
+			concerninputshape,
+			"ControlPointShapes",
+			len(concerninputshapeOther.ControlPointShapes),
+			len(concerninputshape.ControlPointShapes),
+			func(i, j int) bool {
+				return concerninputshapeOther.ControlPointShapes[i] == concerninputshape.ControlPointShapes[j]
+			},
+			func(j int) string {
+				return concerninputshape.ControlPointShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4571,7 +4648,18 @@ func (concernoutputshape *ConcernOutputShape) GongDiff(stage *Stage, concernoutp
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := stage.Diff(concernoutputshape, concernoutputshapeOther, "ControlPointShapes", concernoutputshapeOther.ControlPointShapes, concernoutputshape.ControlPointShapes)
+		ops := stage.Diff(
+			concernoutputshape,
+			"ControlPointShapes",
+			len(concernoutputshapeOther.ControlPointShapes),
+			len(concernoutputshape.ControlPointShapes),
+			func(i, j int) bool {
+				return concernoutputshapeOther.ControlPointShapes[i] == concernoutputshape.ControlPointShapes[j]
+			},
+			func(j int) string {
+				return concernoutputshape.ControlPointShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4668,7 +4756,18 @@ func (deliverable *Deliverable) GongDiff(stage *Stage, deliverableOther *Deliver
 		}
 	}
 	if SubDeliverablesDifferent {
-		ops := stage.Diff(deliverable, deliverableOther, "SubDeliverables", deliverableOther.SubDeliverables, deliverable.SubDeliverables)
+		ops := stage.Diff(
+			deliverable,
+			"SubDeliverables",
+			len(deliverableOther.SubDeliverables),
+			len(deliverable.SubDeliverables),
+			func(i, j int) bool {
+				return deliverableOther.SubDeliverables[i] == deliverable.SubDeliverables[j]
+			},
+			func(j int) string {
+				return deliverable.SubDeliverables[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if deliverable.IsProducersNodeExpanded != deliverableOther.IsProducersNodeExpanded {
@@ -4695,7 +4794,18 @@ func (deliverable *Deliverable) GongDiff(stage *Stage, deliverableOther *Deliver
 		}
 	}
 	if ConceptsDifferent {
-		ops := stage.Diff(deliverable, deliverableOther, "Concepts", deliverableOther.Concepts, deliverable.Concepts)
+		ops := stage.Diff(
+			deliverable,
+			"Concepts",
+			len(deliverableOther.Concepts),
+			len(deliverable.Concepts),
+			func(i, j int) bool {
+				return deliverableOther.Concepts[i] == deliverable.Concepts[j]
+			},
+			func(j int) string {
+				return deliverable.Concepts[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4752,7 +4862,18 @@ func (deliverablecompositionshape *DeliverableCompositionShape) GongDiff(stage *
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := stage.Diff(deliverablecompositionshape, deliverablecompositionshapeOther, "ControlPointShapes", deliverablecompositionshapeOther.ControlPointShapes, deliverablecompositionshape.ControlPointShapes)
+		ops := stage.Diff(
+			deliverablecompositionshape,
+			"ControlPointShapes",
+			len(deliverablecompositionshapeOther.ControlPointShapes),
+			len(deliverablecompositionshape.ControlPointShapes),
+			func(i, j int) bool {
+				return deliverablecompositionshapeOther.ControlPointShapes[i] == deliverablecompositionshape.ControlPointShapes[j]
+			},
+			func(j int) string {
+				return deliverablecompositionshape.ControlPointShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4816,7 +4937,18 @@ func (deliverableconceptshape *DeliverableConceptShape) GongDiff(stage *Stage, d
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := stage.Diff(deliverableconceptshape, deliverableconceptshapeOther, "ControlPointShapes", deliverableconceptshapeOther.ControlPointShapes, deliverableconceptshape.ControlPointShapes)
+		ops := stage.Diff(
+			deliverableconceptshape,
+			"ControlPointShapes",
+			len(deliverableconceptshapeOther.ControlPointShapes),
+			len(deliverableconceptshape.ControlPointShapes),
+			func(i, j int) bool {
+				return deliverableconceptshapeOther.ControlPointShapes[i] == deliverableconceptshape.ControlPointShapes[j]
+			},
+			func(j int) string {
+				return deliverableconceptshape.ControlPointShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4911,7 +5043,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernsWhoseRequirementsNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ConcernsWhoseRequirementsNodeIsExpanded", diagramOther.ConcernsWhoseRequirementsNodeIsExpanded, diagram.ConcernsWhoseRequirementsNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"ConcernsWhoseRequirementsNodeIsExpanded",
+			len(diagramOther.ConcernsWhoseRequirementsNodeIsExpanded),
+			len(diagram.ConcernsWhoseRequirementsNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.ConcernsWhoseRequirementsNodeIsExpanded[i] == diagram.ConcernsWhoseRequirementsNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.ConcernsWhoseRequirementsNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsRequirementsNodeExpanded != diagramOther.IsRequirementsNodeExpanded {
@@ -4938,7 +5081,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Deliverable_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "Deliverable_Shapes", diagramOther.Deliverable_Shapes, diagram.Deliverable_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"Deliverable_Shapes",
+			len(diagramOther.Deliverable_Shapes),
+			len(diagram.Deliverable_Shapes),
+			func(i, j int) bool {
+				return diagramOther.Deliverable_Shapes[i] == diagram.Deliverable_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.Deliverable_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DeliverablesWhoseNodeIsExpandedDifferent := false
@@ -4959,7 +5113,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if DeliverablesWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "DeliverablesWhoseNodeIsExpanded", diagramOther.DeliverablesWhoseNodeIsExpanded, diagram.DeliverablesWhoseNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"DeliverablesWhoseNodeIsExpanded",
+			len(diagramOther.DeliverablesWhoseNodeIsExpanded),
+			len(diagram.DeliverablesWhoseNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.DeliverablesWhoseNodeIsExpanded[i] == diagram.DeliverablesWhoseNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.DeliverablesWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DeliverablesWhoseConceptsNodeIsExpandedDifferent := false
@@ -4980,7 +5145,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if DeliverablesWhoseConceptsNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "DeliverablesWhoseConceptsNodeIsExpanded", diagramOther.DeliverablesWhoseConceptsNodeIsExpanded, diagram.DeliverablesWhoseConceptsNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"DeliverablesWhoseConceptsNodeIsExpanded",
+			len(diagramOther.DeliverablesWhoseConceptsNodeIsExpanded),
+			len(diagram.DeliverablesWhoseConceptsNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.DeliverablesWhoseConceptsNodeIsExpanded[i] == diagram.DeliverablesWhoseConceptsNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.DeliverablesWhoseConceptsNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsPBSNodeExpanded != diagramOther.IsPBSNodeExpanded {
@@ -5004,7 +5180,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if DeliverableComposition_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "DeliverableComposition_Shapes", diagramOther.DeliverableComposition_Shapes, diagram.DeliverableComposition_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"DeliverableComposition_Shapes",
+			len(diagramOther.DeliverableComposition_Shapes),
+			len(diagram.DeliverableComposition_Shapes),
+			func(i, j int) bool {
+				return diagramOther.DeliverableComposition_Shapes[i] == diagram.DeliverableComposition_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.DeliverableComposition_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsConcernsNodeExpanded != diagramOther.IsConcernsNodeExpanded {
@@ -5028,7 +5215,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Concern_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "Concern_Shapes", diagramOther.Concern_Shapes, diagram.Concern_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"Concern_Shapes",
+			len(diagramOther.Concern_Shapes),
+			len(diagram.Concern_Shapes),
+			func(i, j int) bool {
+				return diagramOther.Concern_Shapes[i] == diagram.Concern_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.Concern_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ConcernsWhoseNodeIsExpandedDifferent := false
@@ -5049,7 +5247,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernsWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ConcernsWhoseNodeIsExpanded", diagramOther.ConcernsWhoseNodeIsExpanded, diagram.ConcernsWhoseNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"ConcernsWhoseNodeIsExpanded",
+			len(diagramOther.ConcernsWhoseNodeIsExpanded),
+			len(diagram.ConcernsWhoseNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.ConcernsWhoseNodeIsExpanded[i] == diagram.ConcernsWhoseNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.ConcernsWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ConcernsWhoseInputNodeIsExpandedDifferent := false
@@ -5070,7 +5279,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernsWhoseInputNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ConcernsWhoseInputNodeIsExpanded", diagramOther.ConcernsWhoseInputNodeIsExpanded, diagram.ConcernsWhoseInputNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"ConcernsWhoseInputNodeIsExpanded",
+			len(diagramOther.ConcernsWhoseInputNodeIsExpanded),
+			len(diagram.ConcernsWhoseInputNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.ConcernsWhoseInputNodeIsExpanded[i] == diagram.ConcernsWhoseInputNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.ConcernsWhoseInputNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ConcernsWhoseStakeholderNodeIsExpandedDifferent := false
@@ -5091,7 +5311,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernsWhoseStakeholderNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ConcernsWhoseStakeholderNodeIsExpanded", diagramOther.ConcernsWhoseStakeholderNodeIsExpanded, diagram.ConcernsWhoseStakeholderNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"ConcernsWhoseStakeholderNodeIsExpanded",
+			len(diagramOther.ConcernsWhoseStakeholderNodeIsExpanded),
+			len(diagram.ConcernsWhoseStakeholderNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.ConcernsWhoseStakeholderNodeIsExpanded[i] == diagram.ConcernsWhoseStakeholderNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.ConcernsWhoseStakeholderNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ConcernssWhoseOutputNodeIsExpandedDifferent := false
@@ -5112,7 +5343,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernssWhoseOutputNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ConcernssWhoseOutputNodeIsExpanded", diagramOther.ConcernssWhoseOutputNodeIsExpanded, diagram.ConcernssWhoseOutputNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"ConcernssWhoseOutputNodeIsExpanded",
+			len(diagramOther.ConcernssWhoseOutputNodeIsExpanded),
+			len(diagram.ConcernssWhoseOutputNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.ConcernssWhoseOutputNodeIsExpanded[i] == diagram.ConcernssWhoseOutputNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.ConcernssWhoseOutputNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ConcernComposition_ShapesDifferent := false
@@ -5133,7 +5375,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernComposition_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ConcernComposition_Shapes", diagramOther.ConcernComposition_Shapes, diagram.ConcernComposition_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"ConcernComposition_Shapes",
+			len(diagramOther.ConcernComposition_Shapes),
+			len(diagram.ConcernComposition_Shapes),
+			func(i, j int) bool {
+				return diagramOther.ConcernComposition_Shapes[i] == diagram.ConcernComposition_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.ConcernComposition_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ConcernInputShapesDifferent := false
@@ -5154,7 +5407,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernInputShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ConcernInputShapes", diagramOther.ConcernInputShapes, diagram.ConcernInputShapes)
+		ops := stage.Diff(
+			diagram,
+			"ConcernInputShapes",
+			len(diagramOther.ConcernInputShapes),
+			len(diagram.ConcernInputShapes),
+			func(i, j int) bool {
+				return diagramOther.ConcernInputShapes[i] == diagram.ConcernInputShapes[j]
+			},
+			func(j int) string {
+				return diagram.ConcernInputShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ConcernOutputShapesDifferent := false
@@ -5175,7 +5439,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConcernOutputShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ConcernOutputShapes", diagramOther.ConcernOutputShapes, diagram.ConcernOutputShapes)
+		ops := stage.Diff(
+			diagram,
+			"ConcernOutputShapes",
+			len(diagramOther.ConcernOutputShapes),
+			len(diagram.ConcernOutputShapes),
+			func(i, j int) bool {
+				return diagramOther.ConcernOutputShapes[i] == diagram.ConcernOutputShapes[j]
+			},
+			func(j int) string {
+				return diagram.ConcernOutputShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Note_ShapesDifferent := false
@@ -5196,7 +5471,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Note_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "Note_Shapes", diagramOther.Note_Shapes, diagram.Note_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"Note_Shapes",
+			len(diagramOther.Note_Shapes),
+			len(diagram.Note_Shapes),
+			func(i, j int) bool {
+				return diagramOther.Note_Shapes[i] == diagram.Note_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.Note_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	NotesWhoseNodeIsExpandedDifferent := false
@@ -5217,7 +5503,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NotesWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "NotesWhoseNodeIsExpanded", diagramOther.NotesWhoseNodeIsExpanded, diagram.NotesWhoseNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"NotesWhoseNodeIsExpanded",
+			len(diagramOther.NotesWhoseNodeIsExpanded),
+			len(diagram.NotesWhoseNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.NotesWhoseNodeIsExpanded[i] == diagram.NotesWhoseNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.NotesWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsNotesNodeExpanded != diagramOther.IsNotesNodeExpanded {
@@ -5241,7 +5538,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteDeliverableShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "NoteDeliverableShapes", diagramOther.NoteDeliverableShapes, diagram.NoteDeliverableShapes)
+		ops := stage.Diff(
+			diagram,
+			"NoteDeliverableShapes",
+			len(diagramOther.NoteDeliverableShapes),
+			len(diagram.NoteDeliverableShapes),
+			func(i, j int) bool {
+				return diagramOther.NoteDeliverableShapes[i] == diagram.NoteDeliverableShapes[j]
+			},
+			func(j int) string {
+				return diagram.NoteDeliverableShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	NoteTaskShapesDifferent := false
@@ -5262,7 +5570,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteTaskShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "NoteTaskShapes", diagramOther.NoteTaskShapes, diagram.NoteTaskShapes)
+		ops := stage.Diff(
+			diagram,
+			"NoteTaskShapes",
+			len(diagramOther.NoteTaskShapes),
+			len(diagram.NoteTaskShapes),
+			func(i, j int) bool {
+				return diagramOther.NoteTaskShapes[i] == diagram.NoteTaskShapes[j]
+			},
+			func(j int) string {
+				return diagram.NoteTaskShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	NoteResourceShapesDifferent := false
@@ -5283,7 +5602,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteResourceShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "NoteResourceShapes", diagramOther.NoteResourceShapes, diagram.NoteResourceShapes)
+		ops := stage.Diff(
+			diagram,
+			"NoteResourceShapes",
+			len(diagramOther.NoteResourceShapes),
+			len(diagram.NoteResourceShapes),
+			func(i, j int) bool {
+				return diagramOther.NoteResourceShapes[i] == diagram.NoteResourceShapes[j]
+			},
+			func(j int) string {
+				return diagram.NoteResourceShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Stakeholder_ShapesDifferent := false
@@ -5304,7 +5634,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Stakeholder_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "Stakeholder_Shapes", diagramOther.Stakeholder_Shapes, diagram.Stakeholder_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"Stakeholder_Shapes",
+			len(diagramOther.Stakeholder_Shapes),
+			len(diagram.Stakeholder_Shapes),
+			func(i, j int) bool {
+				return diagramOther.Stakeholder_Shapes[i] == diagram.Stakeholder_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.Stakeholder_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ResourcesWhoseNodeIsExpandedDifferent := false
@@ -5325,7 +5666,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ResourcesWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ResourcesWhoseNodeIsExpanded", diagramOther.ResourcesWhoseNodeIsExpanded, diagram.ResourcesWhoseNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"ResourcesWhoseNodeIsExpanded",
+			len(diagramOther.ResourcesWhoseNodeIsExpanded),
+			len(diagram.ResourcesWhoseNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.ResourcesWhoseNodeIsExpanded[i] == diagram.ResourcesWhoseNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.ResourcesWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsStakeholdersNodeExpanded != diagramOther.IsStakeholdersNodeExpanded {
@@ -5349,7 +5701,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ResourceComposition_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ResourceComposition_Shapes", diagramOther.ResourceComposition_Shapes, diagram.ResourceComposition_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"ResourceComposition_Shapes",
+			len(diagramOther.ResourceComposition_Shapes),
+			len(diagram.ResourceComposition_Shapes),
+			func(i, j int) bool {
+				return diagramOther.ResourceComposition_Shapes[i] == diagram.ResourceComposition_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.ResourceComposition_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	StakeholderConcernShapesDifferent := false
@@ -5370,7 +5733,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if StakeholderConcernShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "StakeholderConcernShapes", diagramOther.StakeholderConcernShapes, diagram.StakeholderConcernShapes)
+		ops := stage.Diff(
+			diagram,
+			"StakeholderConcernShapes",
+			len(diagramOther.StakeholderConcernShapes),
+			len(diagram.StakeholderConcernShapes),
+			func(i, j int) bool {
+				return diagramOther.StakeholderConcernShapes[i] == diagram.StakeholderConcernShapes[j]
+			},
+			func(j int) string {
+				return diagram.StakeholderConcernShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Requirement_ShapesDifferent := false
@@ -5391,7 +5765,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Requirement_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "Requirement_Shapes", diagramOther.Requirement_Shapes, diagram.Requirement_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"Requirement_Shapes",
+			len(diagramOther.Requirement_Shapes),
+			len(diagram.Requirement_Shapes),
+			func(i, j int) bool {
+				return diagramOther.Requirement_Shapes[i] == diagram.Requirement_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.Requirement_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	RequirementsWhoseNodeIsExpandedDifferent := false
@@ -5412,7 +5797,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if RequirementsWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "RequirementsWhoseNodeIsExpanded", diagramOther.RequirementsWhoseNodeIsExpanded, diagram.RequirementsWhoseNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"RequirementsWhoseNodeIsExpanded",
+			len(diagramOther.RequirementsWhoseNodeIsExpanded),
+			len(diagram.RequirementsWhoseNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.RequirementsWhoseNodeIsExpanded[i] == diagram.RequirementsWhoseNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.RequirementsWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Concept_ShapesDifferent := false
@@ -5433,7 +5829,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Concept_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "Concept_Shapes", diagramOther.Concept_Shapes, diagram.Concept_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"Concept_Shapes",
+			len(diagramOther.Concept_Shapes),
+			len(diagram.Concept_Shapes),
+			func(i, j int) bool {
+				return diagramOther.Concept_Shapes[i] == diagram.Concept_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.Concept_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ConceptsWhoseNodeIsExpandedDifferent := false
@@ -5454,7 +5861,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConceptsWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ConceptsWhoseNodeIsExpanded", diagramOther.ConceptsWhoseNodeIsExpanded, diagram.ConceptsWhoseNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"ConceptsWhoseNodeIsExpanded",
+			len(diagramOther.ConceptsWhoseNodeIsExpanded),
+			len(diagram.ConceptsWhoseNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.ConceptsWhoseNodeIsExpanded[i] == diagram.ConceptsWhoseNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.ConceptsWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ConceptsWhoseDeliverablesNodeIsExpandedDifferent := false
@@ -5475,7 +5893,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ConceptsWhoseDeliverablesNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "ConceptsWhoseDeliverablesNodeIsExpanded", diagramOther.ConceptsWhoseDeliverablesNodeIsExpanded, diagram.ConceptsWhoseDeliverablesNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"ConceptsWhoseDeliverablesNodeIsExpanded",
+			len(diagramOther.ConceptsWhoseDeliverablesNodeIsExpanded),
+			len(diagram.ConceptsWhoseDeliverablesNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.ConceptsWhoseDeliverablesNodeIsExpanded[i] == diagram.ConceptsWhoseDeliverablesNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.ConceptsWhoseDeliverablesNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DeliverableConceptShapesDifferent := false
@@ -5496,7 +5925,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if DeliverableConceptShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "DeliverableConceptShapes", diagramOther.DeliverableConceptShapes, diagram.DeliverableConceptShapes)
+		ops := stage.Diff(
+			diagram,
+			"DeliverableConceptShapes",
+			len(diagramOther.DeliverableConceptShapes),
+			len(diagram.DeliverableConceptShapes),
+			func(i, j int) bool {
+				return diagramOther.DeliverableConceptShapes[i] == diagram.DeliverableConceptShapes[j]
+			},
+			func(j int) string {
+				return diagram.DeliverableConceptShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	Diagram_ShapesDifferent := false
@@ -5517,7 +5957,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Diagram_ShapesDifferent {
-		ops := stage.Diff(diagram, diagramOther, "Diagram_Shapes", diagramOther.Diagram_Shapes, diagram.Diagram_Shapes)
+		ops := stage.Diff(
+			diagram,
+			"Diagram_Shapes",
+			len(diagramOther.Diagram_Shapes),
+			len(diagram.Diagram_Shapes),
+			func(i, j int) bool {
+				return diagramOther.Diagram_Shapes[i] == diagram.Diagram_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.Diagram_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if diagram.IsDiagramsNodeExpanded != diagramOther.IsDiagramsNodeExpanded {
@@ -5541,7 +5992,18 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if DiagramsWhoseNodeIsExpandedDifferent {
-		ops := stage.Diff(diagram, diagramOther, "DiagramsWhoseNodeIsExpanded", diagramOther.DiagramsWhoseNodeIsExpanded, diagram.DiagramsWhoseNodeIsExpanded)
+		ops := stage.Diff(
+			diagram,
+			"DiagramsWhoseNodeIsExpanded",
+			len(diagramOther.DiagramsWhoseNodeIsExpanded),
+			len(diagram.DiagramsWhoseNodeIsExpanded),
+			func(i, j int) bool {
+				return diagramOther.DiagramsWhoseNodeIsExpanded[i] == diagram.DiagramsWhoseNodeIsExpanded[j]
+			},
+			func(j int) string {
+				return diagram.DiagramsWhoseNodeIsExpanded[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -5618,7 +6080,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootDeliverablesDifferent {
-		ops := stage.Diff(library, libraryOther, "RootDeliverables", libraryOther.RootDeliverables, library.RootDeliverables)
+		ops := stage.Diff(
+			library,
+			"RootDeliverables",
+			len(libraryOther.RootDeliverables),
+			len(library.RootDeliverables),
+			func(i, j int) bool {
+				return libraryOther.RootDeliverables[i] == library.RootDeliverables[j]
+			},
+			func(j int) string {
+				return library.RootDeliverables[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	RootConcernsDifferent := false
@@ -5639,7 +6112,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootConcernsDifferent {
-		ops := stage.Diff(library, libraryOther, "RootConcerns", libraryOther.RootConcerns, library.RootConcerns)
+		ops := stage.Diff(
+			library,
+			"RootConcerns",
+			len(libraryOther.RootConcerns),
+			len(library.RootConcerns),
+			func(i, j int) bool {
+				return libraryOther.RootConcerns[i] == library.RootConcerns[j]
+			},
+			func(j int) string {
+				return library.RootConcerns[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	RootStakeholdersDifferent := false
@@ -5660,7 +6144,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootStakeholdersDifferent {
-		ops := stage.Diff(library, libraryOther, "RootStakeholders", libraryOther.RootStakeholders, library.RootStakeholders)
+		ops := stage.Diff(
+			library,
+			"RootStakeholders",
+			len(libraryOther.RootStakeholders),
+			len(library.RootStakeholders),
+			func(i, j int) bool {
+				return libraryOther.RootStakeholders[i] == library.RootStakeholders[j]
+			},
+			func(j int) string {
+				return library.RootStakeholders[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	RootRequirementsDifferent := false
@@ -5681,7 +6176,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootRequirementsDifferent {
-		ops := stage.Diff(library, libraryOther, "RootRequirements", libraryOther.RootRequirements, library.RootRequirements)
+		ops := stage.Diff(
+			library,
+			"RootRequirements",
+			len(libraryOther.RootRequirements),
+			len(library.RootRequirements),
+			func(i, j int) bool {
+				return libraryOther.RootRequirements[i] == library.RootRequirements[j]
+			},
+			func(j int) string {
+				return library.RootRequirements[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	RootConceptsDifferent := false
@@ -5702,7 +6208,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if RootConceptsDifferent {
-		ops := stage.Diff(library, libraryOther, "RootConcepts", libraryOther.RootConcepts, library.RootConcepts)
+		ops := stage.Diff(
+			library,
+			"RootConcepts",
+			len(libraryOther.RootConcepts),
+			len(library.RootConcepts),
+			func(i, j int) bool {
+				return libraryOther.RootConcepts[i] == library.RootConcepts[j]
+			},
+			func(j int) string {
+				return library.RootConcepts[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AnalysisNeedsDifferent := false
@@ -5723,7 +6240,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if AnalysisNeedsDifferent {
-		ops := stage.Diff(library, libraryOther, "AnalysisNeeds", libraryOther.AnalysisNeeds, library.AnalysisNeeds)
+		ops := stage.Diff(
+			library,
+			"AnalysisNeeds",
+			len(libraryOther.AnalysisNeeds),
+			len(library.AnalysisNeeds),
+			func(i, j int) bool {
+				return libraryOther.AnalysisNeeds[i] == library.AnalysisNeeds[j]
+			},
+			func(j int) string {
+				return library.AnalysisNeeds[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	NotesDifferent := false
@@ -5744,7 +6272,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if NotesDifferent {
-		ops := stage.Diff(library, libraryOther, "Notes", libraryOther.Notes, library.Notes)
+		ops := stage.Diff(
+			library,
+			"Notes",
+			len(libraryOther.Notes),
+			len(library.Notes),
+			func(i, j int) bool {
+				return libraryOther.Notes[i] == library.Notes[j]
+			},
+			func(j int) string {
+				return library.Notes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DiagramsDifferent := false
@@ -5765,7 +6304,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if DiagramsDifferent {
-		ops := stage.Diff(library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
+		ops := stage.Diff(
+			library,
+			"Diagrams",
+			len(libraryOther.Diagrams),
+			len(library.Diagrams),
+			func(i, j int) bool {
+				return libraryOther.Diagrams[i] == library.Diagrams[j]
+			},
+			func(j int) string {
+				return library.Diagrams[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SubLibrariesDifferent := false
@@ -5786,7 +6336,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if SubLibrariesDifferent {
-		ops := stage.Diff(library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
+		ops := stage.Diff(
+			library,
+			"SubLibraries",
+			len(libraryOther.SubLibraries),
+			len(library.SubLibraries),
+			func(i, j int) bool {
+				return libraryOther.SubLibraries[i] == library.SubLibraries[j]
+			},
+			func(j int) string {
+				return library.SubLibraries[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
@@ -5827,7 +6388,18 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if DeliverablesDifferent {
-		ops := stage.Diff(note, noteOther, "Deliverables", noteOther.Deliverables, note.Deliverables)
+		ops := stage.Diff(
+			note,
+			"Deliverables",
+			len(noteOther.Deliverables),
+			len(note.Deliverables),
+			func(i, j int) bool {
+				return noteOther.Deliverables[i] == note.Deliverables[j]
+			},
+			func(j int) string {
+				return note.Deliverables[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TasksDifferent := false
@@ -5848,7 +6420,18 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if TasksDifferent {
-		ops := stage.Diff(note, noteOther, "Tasks", noteOther.Tasks, note.Tasks)
+		ops := stage.Diff(
+			note,
+			"Tasks",
+			len(noteOther.Tasks),
+			len(note.Tasks),
+			func(i, j int) bool {
+				return noteOther.Tasks[i] == note.Tasks[j]
+			},
+			func(j int) string {
+				return note.Tasks[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ResourcesDifferent := false
@@ -5869,7 +6452,18 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if ResourcesDifferent {
-		ops := stage.Diff(note, noteOther, "Resources", noteOther.Resources, note.Resources)
+		ops := stage.Diff(
+			note,
+			"Resources",
+			len(noteOther.Resources),
+			len(note.Resources),
+			func(i, j int) bool {
+				return noteOther.Resources[i] == note.Resources[j]
+			},
+			func(j int) string {
+				return note.Resources[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -5933,7 +6527,18 @@ func (notedeliverableshape *NoteDeliverableShape) GongDiff(stage *Stage, notedel
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := stage.Diff(notedeliverableshape, notedeliverableshapeOther, "ControlPointShapes", notedeliverableshapeOther.ControlPointShapes, notedeliverableshape.ControlPointShapes)
+		ops := stage.Diff(
+			notedeliverableshape,
+			"ControlPointShapes",
+			len(notedeliverableshapeOther.ControlPointShapes),
+			len(notedeliverableshape.ControlPointShapes),
+			func(i, j int) bool {
+				return notedeliverableshapeOther.ControlPointShapes[i] == notedeliverableshape.ControlPointShapes[j]
+			},
+			func(j int) string {
+				return notedeliverableshape.ControlPointShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -6033,7 +6638,18 @@ func (notestakeholdershape *NoteStakeholderShape) GongDiff(stage *Stage, notesta
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := stage.Diff(notestakeholdershape, notestakeholdershapeOther, "ControlPointShapes", notestakeholdershapeOther.ControlPointShapes, notestakeholdershape.ControlPointShapes)
+		ops := stage.Diff(
+			notestakeholdershape,
+			"ControlPointShapes",
+			len(notestakeholdershapeOther.ControlPointShapes),
+			len(notestakeholdershape.ControlPointShapes),
+			func(i, j int) bool {
+				return notestakeholdershapeOther.ControlPointShapes[i] == notestakeholdershape.ControlPointShapes[j]
+			},
+			func(j int) string {
+				return notestakeholdershape.ControlPointShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -6097,7 +6713,18 @@ func (notetaskshape *NoteTaskShape) GongDiff(stage *Stage, notetaskshapeOther *N
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := stage.Diff(notetaskshape, notetaskshapeOther, "ControlPointShapes", notetaskshapeOther.ControlPointShapes, notetaskshape.ControlPointShapes)
+		ops := stage.Diff(
+			notetaskshape,
+			"ControlPointShapes",
+			len(notetaskshapeOther.ControlPointShapes),
+			len(notetaskshape.ControlPointShapes),
+			func(i, j int) bool {
+				return notetaskshapeOther.ControlPointShapes[i] == notetaskshape.ControlPointShapes[j]
+			},
+			func(j int) string {
+				return notetaskshape.ControlPointShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -6135,7 +6762,18 @@ func (requirement *Requirement) GongDiff(stage *Stage, requirementOther *Require
 		}
 	}
 	if SupportLevelsDifferent {
-		ops := stage.Diff(requirement, requirementOther, "SupportLevels", requirementOther.SupportLevels, requirement.SupportLevels)
+		ops := stage.Diff(
+			requirement,
+			"SupportLevels",
+			len(requirementOther.SupportLevels),
+			len(requirement.SupportLevels),
+			func(i, j int) bool {
+				return requirementOther.SupportLevels[i] == requirement.SupportLevels[j]
+			},
+			func(j int) string {
+				return requirement.SupportLevels[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ConceptsDifferent := false
@@ -6156,7 +6794,18 @@ func (requirement *Requirement) GongDiff(stage *Stage, requirementOther *Require
 		}
 	}
 	if ConceptsDifferent {
-		ops := stage.Diff(requirement, requirementOther, "Concepts", requirementOther.Concepts, requirement.Concepts)
+		ops := stage.Diff(
+			requirement,
+			"Concepts",
+			len(requirementOther.Concepts),
+			len(requirement.Concepts),
+			func(i, j int) bool {
+				return requirementOther.Concepts[i] == requirement.Concepts[j]
+			},
+			func(j int) string {
+				return requirement.Concepts[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -6236,7 +6885,18 @@ func (stakeholder *Stakeholder) GongDiff(stage *Stage, stakeholderOther *Stakeho
 		}
 	}
 	if ConcernsDifferent {
-		ops := stage.Diff(stakeholder, stakeholderOther, "Concerns", stakeholderOther.Concerns, stakeholder.Concerns)
+		ops := stage.Diff(
+			stakeholder,
+			"Concerns",
+			len(stakeholderOther.Concerns),
+			len(stakeholder.Concerns),
+			func(i, j int) bool {
+				return stakeholderOther.Concerns[i] == stakeholder.Concerns[j]
+			},
+			func(j int) string {
+				return stakeholder.Concerns[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SubStakeholdersDifferent := false
@@ -6257,7 +6917,18 @@ func (stakeholder *Stakeholder) GongDiff(stage *Stage, stakeholderOther *Stakeho
 		}
 	}
 	if SubStakeholdersDifferent {
-		ops := stage.Diff(stakeholder, stakeholderOther, "SubStakeholders", stakeholderOther.SubStakeholders, stakeholder.SubStakeholders)
+		ops := stage.Diff(
+			stakeholder,
+			"SubStakeholders",
+			len(stakeholderOther.SubStakeholders),
+			len(stakeholder.SubStakeholders),
+			func(i, j int) bool {
+				return stakeholderOther.SubStakeholders[i] == stakeholder.SubStakeholders[j]
+			},
+			func(j int) string {
+				return stakeholder.SubStakeholders[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -6314,7 +6985,18 @@ func (stakeholdercompositionshape *StakeholderCompositionShape) GongDiff(stage *
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := stage.Diff(stakeholdercompositionshape, stakeholdercompositionshapeOther, "ControlPointShapes", stakeholdercompositionshapeOther.ControlPointShapes, stakeholdercompositionshape.ControlPointShapes)
+		ops := stage.Diff(
+			stakeholdercompositionshape,
+			"ControlPointShapes",
+			len(stakeholdercompositionshapeOther.ControlPointShapes),
+			len(stakeholdercompositionshape.ControlPointShapes),
+			func(i, j int) bool {
+				return stakeholdercompositionshapeOther.ControlPointShapes[i] == stakeholdercompositionshape.ControlPointShapes[j]
+			},
+			func(j int) string {
+				return stakeholdercompositionshape.ControlPointShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -6378,7 +7060,18 @@ func (stakeholderconcernshape *StakeholderConcernShape) GongDiff(stage *Stage, s
 		}
 	}
 	if ControlPointShapesDifferent {
-		ops := stage.Diff(stakeholderconcernshape, stakeholderconcernshapeOther, "ControlPointShapes", stakeholderconcernshapeOther.ControlPointShapes, stakeholderconcernshape.ControlPointShapes)
+		ops := stage.Diff(
+			stakeholderconcernshape,
+			"ControlPointShapes",
+			len(stakeholderconcernshapeOther.ControlPointShapes),
+			len(stakeholderconcernshape.ControlPointShapes),
+			func(i, j int) bool {
+				return stakeholderconcernshapeOther.ControlPointShapes[i] == stakeholderconcernshape.ControlPointShapes[j]
+			},
+			func(j int) string {
+				return stakeholderconcernshape.ControlPointShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -6451,8 +7144,14 @@ func (tool *Tool) GongDiff(stage *Stage, toolOther *Tool) (diffs []string) {
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -6463,7 +7162,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -6481,7 +7180,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -6504,22 +7203,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

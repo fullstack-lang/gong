@@ -647,7 +647,18 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if ButtonsDifferent {
-		ops := stage.Diff(group, groupOther, "Buttons", groupOther.Buttons, group.Buttons)
+		ops := stage.Diff(
+			group,
+			"Buttons",
+			len(groupOther.Buttons),
+			len(group.Buttons),
+			func(i, j int) bool {
+				return groupOther.Buttons[i] == group.Buttons[j]
+			},
+			func(j int) string {
+				return group.Buttons[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if group.NbColumns != groupOther.NbColumns {
@@ -685,7 +696,18 @@ func (grouptoogle *GroupToogle) GongDiff(stage *Stage, grouptoogleOther *GroupTo
 		}
 	}
 	if ButtonTogglesDifferent {
-		ops := stage.Diff(grouptoogle, grouptoogleOther, "ButtonToggles", grouptoogleOther.ButtonToggles, grouptoogle.ButtonToggles)
+		ops := stage.Diff(
+			grouptoogle,
+			"ButtonToggles",
+			len(grouptoogleOther.ButtonToggles),
+			len(grouptoogle.ButtonToggles),
+			func(i, j int) bool {
+				return grouptoogleOther.ButtonToggles[i] == grouptoogle.ButtonToggles[j]
+			},
+			func(j int) string {
+				return grouptoogle.ButtonToggles[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if grouptoogle.IsSingleSelector != grouptoogleOther.IsSingleSelector {
@@ -720,7 +742,18 @@ func (layout *Layout) GongDiff(stage *Stage, layoutOther *Layout) (diffs []strin
 		}
 	}
 	if GroupsDifferent {
-		ops := stage.Diff(layout, layoutOther, "Groups", layoutOther.Groups, layout.Groups)
+		ops := stage.Diff(
+			layout,
+			"Groups",
+			len(layoutOther.Groups),
+			len(layout.Groups),
+			func(i, j int) bool {
+				return layoutOther.Groups[i] == layout.Groups[j]
+			},
+			func(j int) string {
+				return layout.Groups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GroupTooglesDifferent := false
@@ -741,7 +774,18 @@ func (layout *Layout) GongDiff(stage *Stage, layoutOther *Layout) (diffs []strin
 		}
 	}
 	if GroupTooglesDifferent {
-		ops := stage.Diff(layout, layoutOther, "GroupToogles", layoutOther.GroupToogles, layout.GroupToogles)
+		ops := stage.Diff(
+			layout,
+			"GroupToogles",
+			len(layoutOther.GroupToogles),
+			len(layout.GroupToogles),
+			func(i, j int) bool {
+				return layoutOther.GroupToogles[i] == layout.GroupToogles[j]
+			},
+			func(j int) string {
+				return layout.GroupToogles[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -749,8 +793,14 @@ func (layout *Layout) GongDiff(stage *Stage, layoutOther *Layout) (diffs []strin
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -761,7 +811,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -779,7 +829,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -802,22 +852,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

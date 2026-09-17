@@ -9961,7 +9961,18 @@ func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongDiff(stage *Stag
 		}
 	}
 	if ATTRIBUTE_VALUE_BOOLEANDifferent {
-		ops := stage.Diff(a_attribute_value_boolean, a_attribute_value_booleanOther, "ATTRIBUTE_VALUE_BOOLEAN", a_attribute_value_booleanOther.ATTRIBUTE_VALUE_BOOLEAN, a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN)
+		ops := stage.Diff(
+			a_attribute_value_boolean,
+			"ATTRIBUTE_VALUE_BOOLEAN",
+			len(a_attribute_value_booleanOther.ATTRIBUTE_VALUE_BOOLEAN),
+			len(a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN),
+			func(i, j int) bool {
+				return a_attribute_value_booleanOther.ATTRIBUTE_VALUE_BOOLEAN[i] == a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN[j]
+			},
+			func(j int) string {
+				return a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -9993,7 +10004,18 @@ func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) GongDiff(stage *Stage, a_a
 		}
 	}
 	if ATTRIBUTE_VALUE_DATEDifferent {
-		ops := stage.Diff(a_attribute_value_date, a_attribute_value_dateOther, "ATTRIBUTE_VALUE_DATE", a_attribute_value_dateOther.ATTRIBUTE_VALUE_DATE, a_attribute_value_date.ATTRIBUTE_VALUE_DATE)
+		ops := stage.Diff(
+			a_attribute_value_date,
+			"ATTRIBUTE_VALUE_DATE",
+			len(a_attribute_value_dateOther.ATTRIBUTE_VALUE_DATE),
+			len(a_attribute_value_date.ATTRIBUTE_VALUE_DATE),
+			func(i, j int) bool {
+				return a_attribute_value_dateOther.ATTRIBUTE_VALUE_DATE[i] == a_attribute_value_date.ATTRIBUTE_VALUE_DATE[j]
+			},
+			func(j int) string {
+				return a_attribute_value_date.ATTRIBUTE_VALUE_DATE[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -10025,7 +10047,18 @@ func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) GongDiff(sta
 		}
 	}
 	if ATTRIBUTE_VALUE_ENUMERATIONDifferent {
-		ops := stage.Diff(a_attribute_value_enumeration, a_attribute_value_enumerationOther, "ATTRIBUTE_VALUE_ENUMERATION", a_attribute_value_enumerationOther.ATTRIBUTE_VALUE_ENUMERATION, a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION)
+		ops := stage.Diff(
+			a_attribute_value_enumeration,
+			"ATTRIBUTE_VALUE_ENUMERATION",
+			len(a_attribute_value_enumerationOther.ATTRIBUTE_VALUE_ENUMERATION),
+			len(a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION),
+			func(i, j int) bool {
+				return a_attribute_value_enumerationOther.ATTRIBUTE_VALUE_ENUMERATION[i] == a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION[j]
+			},
+			func(j int) string {
+				return a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -10057,7 +10090,18 @@ func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) GongDiff(stage *Stag
 		}
 	}
 	if ATTRIBUTE_VALUE_INTEGERDifferent {
-		ops := stage.Diff(a_attribute_value_integer, a_attribute_value_integerOther, "ATTRIBUTE_VALUE_INTEGER", a_attribute_value_integerOther.ATTRIBUTE_VALUE_INTEGER, a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER)
+		ops := stage.Diff(
+			a_attribute_value_integer,
+			"ATTRIBUTE_VALUE_INTEGER",
+			len(a_attribute_value_integerOther.ATTRIBUTE_VALUE_INTEGER),
+			len(a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER),
+			func(i, j int) bool {
+				return a_attribute_value_integerOther.ATTRIBUTE_VALUE_INTEGER[i] == a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER[j]
+			},
+			func(j int) string {
+				return a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -10089,7 +10133,18 @@ func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) GongDiff(stage *Stage, a_a
 		}
 	}
 	if ATTRIBUTE_VALUE_REALDifferent {
-		ops := stage.Diff(a_attribute_value_real, a_attribute_value_realOther, "ATTRIBUTE_VALUE_REAL", a_attribute_value_realOther.ATTRIBUTE_VALUE_REAL, a_attribute_value_real.ATTRIBUTE_VALUE_REAL)
+		ops := stage.Diff(
+			a_attribute_value_real,
+			"ATTRIBUTE_VALUE_REAL",
+			len(a_attribute_value_realOther.ATTRIBUTE_VALUE_REAL),
+			len(a_attribute_value_real.ATTRIBUTE_VALUE_REAL),
+			func(i, j int) bool {
+				return a_attribute_value_realOther.ATTRIBUTE_VALUE_REAL[i] == a_attribute_value_real.ATTRIBUTE_VALUE_REAL[j]
+			},
+			func(j int) string {
+				return a_attribute_value_real.ATTRIBUTE_VALUE_REAL[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -10121,7 +10176,18 @@ func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) GongDiff(stage *Stage,
 		}
 	}
 	if ATTRIBUTE_VALUE_STRINGDifferent {
-		ops := stage.Diff(a_attribute_value_string, a_attribute_value_stringOther, "ATTRIBUTE_VALUE_STRING", a_attribute_value_stringOther.ATTRIBUTE_VALUE_STRING, a_attribute_value_string.ATTRIBUTE_VALUE_STRING)
+		ops := stage.Diff(
+			a_attribute_value_string,
+			"ATTRIBUTE_VALUE_STRING",
+			len(a_attribute_value_stringOther.ATTRIBUTE_VALUE_STRING),
+			len(a_attribute_value_string.ATTRIBUTE_VALUE_STRING),
+			func(i, j int) bool {
+				return a_attribute_value_stringOther.ATTRIBUTE_VALUE_STRING[i] == a_attribute_value_string.ATTRIBUTE_VALUE_STRING[j]
+			},
+			func(j int) string {
+				return a_attribute_value_string.ATTRIBUTE_VALUE_STRING[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -10153,7 +10219,18 @@ func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) GongDiff(stage *Stage, a
 		}
 	}
 	if ATTRIBUTE_VALUE_XHTMLDifferent {
-		ops := stage.Diff(a_attribute_value_xhtml, a_attribute_value_xhtmlOther, "ATTRIBUTE_VALUE_XHTML", a_attribute_value_xhtmlOther.ATTRIBUTE_VALUE_XHTML, a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML)
+		ops := stage.Diff(
+			a_attribute_value_xhtml,
+			"ATTRIBUTE_VALUE_XHTML",
+			len(a_attribute_value_xhtmlOther.ATTRIBUTE_VALUE_XHTML),
+			len(a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML),
+			func(i, j int) bool {
+				return a_attribute_value_xhtmlOther.ATTRIBUTE_VALUE_XHTML[i] == a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML[j]
+			},
+			func(j int) string {
+				return a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -10185,7 +10262,18 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongDiff(stage *Stag
 		}
 	}
 	if ATTRIBUTE_VALUE_BOOLEANDifferent {
-		ops := stage.Diff(a_attribute_value_xhtml_1, a_attribute_value_xhtml_1Other, "ATTRIBUTE_VALUE_BOOLEAN", a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_BOOLEAN, a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN)
+		ops := stage.Diff(
+			a_attribute_value_xhtml_1,
+			"ATTRIBUTE_VALUE_BOOLEAN",
+			len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_BOOLEAN),
+			len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN),
+			func(i, j int) bool {
+				return a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_BOOLEAN[i] == a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN[j]
+			},
+			func(j int) string {
+				return a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ATTRIBUTE_VALUE_DATEDifferent := false
@@ -10206,7 +10294,18 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongDiff(stage *Stag
 		}
 	}
 	if ATTRIBUTE_VALUE_DATEDifferent {
-		ops := stage.Diff(a_attribute_value_xhtml_1, a_attribute_value_xhtml_1Other, "ATTRIBUTE_VALUE_DATE", a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_DATE, a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE)
+		ops := stage.Diff(
+			a_attribute_value_xhtml_1,
+			"ATTRIBUTE_VALUE_DATE",
+			len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_DATE),
+			len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE),
+			func(i, j int) bool {
+				return a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_DATE[i] == a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE[j]
+			},
+			func(j int) string {
+				return a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ATTRIBUTE_VALUE_ENUMERATIONDifferent := false
@@ -10227,7 +10326,18 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongDiff(stage *Stag
 		}
 	}
 	if ATTRIBUTE_VALUE_ENUMERATIONDifferent {
-		ops := stage.Diff(a_attribute_value_xhtml_1, a_attribute_value_xhtml_1Other, "ATTRIBUTE_VALUE_ENUMERATION", a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_ENUMERATION, a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION)
+		ops := stage.Diff(
+			a_attribute_value_xhtml_1,
+			"ATTRIBUTE_VALUE_ENUMERATION",
+			len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_ENUMERATION),
+			len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION),
+			func(i, j int) bool {
+				return a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_ENUMERATION[i] == a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION[j]
+			},
+			func(j int) string {
+				return a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ATTRIBUTE_VALUE_INTEGERDifferent := false
@@ -10248,7 +10358,18 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongDiff(stage *Stag
 		}
 	}
 	if ATTRIBUTE_VALUE_INTEGERDifferent {
-		ops := stage.Diff(a_attribute_value_xhtml_1, a_attribute_value_xhtml_1Other, "ATTRIBUTE_VALUE_INTEGER", a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_INTEGER, a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER)
+		ops := stage.Diff(
+			a_attribute_value_xhtml_1,
+			"ATTRIBUTE_VALUE_INTEGER",
+			len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_INTEGER),
+			len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER),
+			func(i, j int) bool {
+				return a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_INTEGER[i] == a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER[j]
+			},
+			func(j int) string {
+				return a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ATTRIBUTE_VALUE_REALDifferent := false
@@ -10269,7 +10390,18 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongDiff(stage *Stag
 		}
 	}
 	if ATTRIBUTE_VALUE_REALDifferent {
-		ops := stage.Diff(a_attribute_value_xhtml_1, a_attribute_value_xhtml_1Other, "ATTRIBUTE_VALUE_REAL", a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_REAL, a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL)
+		ops := stage.Diff(
+			a_attribute_value_xhtml_1,
+			"ATTRIBUTE_VALUE_REAL",
+			len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_REAL),
+			len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL),
+			func(i, j int) bool {
+				return a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_REAL[i] == a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL[j]
+			},
+			func(j int) string {
+				return a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ATTRIBUTE_VALUE_STRINGDifferent := false
@@ -10290,7 +10422,18 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongDiff(stage *Stag
 		}
 	}
 	if ATTRIBUTE_VALUE_STRINGDifferent {
-		ops := stage.Diff(a_attribute_value_xhtml_1, a_attribute_value_xhtml_1Other, "ATTRIBUTE_VALUE_STRING", a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_STRING, a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING)
+		ops := stage.Diff(
+			a_attribute_value_xhtml_1,
+			"ATTRIBUTE_VALUE_STRING",
+			len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_STRING),
+			len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING),
+			func(i, j int) bool {
+				return a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_STRING[i] == a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING[j]
+			},
+			func(j int) string {
+				return a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ATTRIBUTE_VALUE_XHTMLDifferent := false
@@ -10311,7 +10454,18 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongDiff(stage *Stag
 		}
 	}
 	if ATTRIBUTE_VALUE_XHTMLDifferent {
-		ops := stage.Diff(a_attribute_value_xhtml_1, a_attribute_value_xhtml_1Other, "ATTRIBUTE_VALUE_XHTML", a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_XHTML, a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML)
+		ops := stage.Diff(
+			a_attribute_value_xhtml_1,
+			"ATTRIBUTE_VALUE_XHTML",
+			len(a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_XHTML),
+			len(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML),
+			func(i, j int) bool {
+				return a_attribute_value_xhtml_1Other.ATTRIBUTE_VALUE_XHTML[i] == a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML[j]
+			},
+			func(j int) string {
+				return a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -10343,7 +10497,18 @@ func (a_children *A_CHILDREN) GongDiff(stage *Stage, a_childrenOther *A_CHILDREN
 		}
 	}
 	if SPEC_HIERARCHYDifferent {
-		ops := stage.Diff(a_children, a_childrenOther, "SPEC_HIERARCHY", a_childrenOther.SPEC_HIERARCHY, a_children.SPEC_HIERARCHY)
+		ops := stage.Diff(
+			a_children,
+			"SPEC_HIERARCHY",
+			len(a_childrenOther.SPEC_HIERARCHY),
+			len(a_children.SPEC_HIERARCHY),
+			func(i, j int) bool {
+				return a_childrenOther.SPEC_HIERARCHY[i] == a_children.SPEC_HIERARCHY[j]
+			},
+			func(j int) string {
+				return a_children.SPEC_HIERARCHY[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -10393,7 +10558,18 @@ func (a_datatypes *A_DATATYPES) GongDiff(stage *Stage, a_datatypesOther *A_DATAT
 		}
 	}
 	if DATATYPE_DEFINITION_BOOLEANDifferent {
-		ops := stage.Diff(a_datatypes, a_datatypesOther, "DATATYPE_DEFINITION_BOOLEAN", a_datatypesOther.DATATYPE_DEFINITION_BOOLEAN, a_datatypes.DATATYPE_DEFINITION_BOOLEAN)
+		ops := stage.Diff(
+			a_datatypes,
+			"DATATYPE_DEFINITION_BOOLEAN",
+			len(a_datatypesOther.DATATYPE_DEFINITION_BOOLEAN),
+			len(a_datatypes.DATATYPE_DEFINITION_BOOLEAN),
+			func(i, j int) bool {
+				return a_datatypesOther.DATATYPE_DEFINITION_BOOLEAN[i] == a_datatypes.DATATYPE_DEFINITION_BOOLEAN[j]
+			},
+			func(j int) string {
+				return a_datatypes.DATATYPE_DEFINITION_BOOLEAN[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DATATYPE_DEFINITION_DATEDifferent := false
@@ -10414,7 +10590,18 @@ func (a_datatypes *A_DATATYPES) GongDiff(stage *Stage, a_datatypesOther *A_DATAT
 		}
 	}
 	if DATATYPE_DEFINITION_DATEDifferent {
-		ops := stage.Diff(a_datatypes, a_datatypesOther, "DATATYPE_DEFINITION_DATE", a_datatypesOther.DATATYPE_DEFINITION_DATE, a_datatypes.DATATYPE_DEFINITION_DATE)
+		ops := stage.Diff(
+			a_datatypes,
+			"DATATYPE_DEFINITION_DATE",
+			len(a_datatypesOther.DATATYPE_DEFINITION_DATE),
+			len(a_datatypes.DATATYPE_DEFINITION_DATE),
+			func(i, j int) bool {
+				return a_datatypesOther.DATATYPE_DEFINITION_DATE[i] == a_datatypes.DATATYPE_DEFINITION_DATE[j]
+			},
+			func(j int) string {
+				return a_datatypes.DATATYPE_DEFINITION_DATE[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DATATYPE_DEFINITION_ENUMERATIONDifferent := false
@@ -10435,7 +10622,18 @@ func (a_datatypes *A_DATATYPES) GongDiff(stage *Stage, a_datatypesOther *A_DATAT
 		}
 	}
 	if DATATYPE_DEFINITION_ENUMERATIONDifferent {
-		ops := stage.Diff(a_datatypes, a_datatypesOther, "DATATYPE_DEFINITION_ENUMERATION", a_datatypesOther.DATATYPE_DEFINITION_ENUMERATION, a_datatypes.DATATYPE_DEFINITION_ENUMERATION)
+		ops := stage.Diff(
+			a_datatypes,
+			"DATATYPE_DEFINITION_ENUMERATION",
+			len(a_datatypesOther.DATATYPE_DEFINITION_ENUMERATION),
+			len(a_datatypes.DATATYPE_DEFINITION_ENUMERATION),
+			func(i, j int) bool {
+				return a_datatypesOther.DATATYPE_DEFINITION_ENUMERATION[i] == a_datatypes.DATATYPE_DEFINITION_ENUMERATION[j]
+			},
+			func(j int) string {
+				return a_datatypes.DATATYPE_DEFINITION_ENUMERATION[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DATATYPE_DEFINITION_INTEGERDifferent := false
@@ -10456,7 +10654,18 @@ func (a_datatypes *A_DATATYPES) GongDiff(stage *Stage, a_datatypesOther *A_DATAT
 		}
 	}
 	if DATATYPE_DEFINITION_INTEGERDifferent {
-		ops := stage.Diff(a_datatypes, a_datatypesOther, "DATATYPE_DEFINITION_INTEGER", a_datatypesOther.DATATYPE_DEFINITION_INTEGER, a_datatypes.DATATYPE_DEFINITION_INTEGER)
+		ops := stage.Diff(
+			a_datatypes,
+			"DATATYPE_DEFINITION_INTEGER",
+			len(a_datatypesOther.DATATYPE_DEFINITION_INTEGER),
+			len(a_datatypes.DATATYPE_DEFINITION_INTEGER),
+			func(i, j int) bool {
+				return a_datatypesOther.DATATYPE_DEFINITION_INTEGER[i] == a_datatypes.DATATYPE_DEFINITION_INTEGER[j]
+			},
+			func(j int) string {
+				return a_datatypes.DATATYPE_DEFINITION_INTEGER[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DATATYPE_DEFINITION_REALDifferent := false
@@ -10477,7 +10686,18 @@ func (a_datatypes *A_DATATYPES) GongDiff(stage *Stage, a_datatypesOther *A_DATAT
 		}
 	}
 	if DATATYPE_DEFINITION_REALDifferent {
-		ops := stage.Diff(a_datatypes, a_datatypesOther, "DATATYPE_DEFINITION_REAL", a_datatypesOther.DATATYPE_DEFINITION_REAL, a_datatypes.DATATYPE_DEFINITION_REAL)
+		ops := stage.Diff(
+			a_datatypes,
+			"DATATYPE_DEFINITION_REAL",
+			len(a_datatypesOther.DATATYPE_DEFINITION_REAL),
+			len(a_datatypes.DATATYPE_DEFINITION_REAL),
+			func(i, j int) bool {
+				return a_datatypesOther.DATATYPE_DEFINITION_REAL[i] == a_datatypes.DATATYPE_DEFINITION_REAL[j]
+			},
+			func(j int) string {
+				return a_datatypes.DATATYPE_DEFINITION_REAL[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DATATYPE_DEFINITION_STRINGDifferent := false
@@ -10498,7 +10718,18 @@ func (a_datatypes *A_DATATYPES) GongDiff(stage *Stage, a_datatypesOther *A_DATAT
 		}
 	}
 	if DATATYPE_DEFINITION_STRINGDifferent {
-		ops := stage.Diff(a_datatypes, a_datatypesOther, "DATATYPE_DEFINITION_STRING", a_datatypesOther.DATATYPE_DEFINITION_STRING, a_datatypes.DATATYPE_DEFINITION_STRING)
+		ops := stage.Diff(
+			a_datatypes,
+			"DATATYPE_DEFINITION_STRING",
+			len(a_datatypesOther.DATATYPE_DEFINITION_STRING),
+			len(a_datatypes.DATATYPE_DEFINITION_STRING),
+			func(i, j int) bool {
+				return a_datatypesOther.DATATYPE_DEFINITION_STRING[i] == a_datatypes.DATATYPE_DEFINITION_STRING[j]
+			},
+			func(j int) string {
+				return a_datatypes.DATATYPE_DEFINITION_STRING[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	DATATYPE_DEFINITION_XHTMLDifferent := false
@@ -10519,7 +10750,18 @@ func (a_datatypes *A_DATATYPES) GongDiff(stage *Stage, a_datatypesOther *A_DATAT
 		}
 	}
 	if DATATYPE_DEFINITION_XHTMLDifferent {
-		ops := stage.Diff(a_datatypes, a_datatypesOther, "DATATYPE_DEFINITION_XHTML", a_datatypesOther.DATATYPE_DEFINITION_XHTML, a_datatypes.DATATYPE_DEFINITION_XHTML)
+		ops := stage.Diff(
+			a_datatypes,
+			"DATATYPE_DEFINITION_XHTML",
+			len(a_datatypesOther.DATATYPE_DEFINITION_XHTML),
+			len(a_datatypes.DATATYPE_DEFINITION_XHTML),
+			func(i, j int) bool {
+				return a_datatypesOther.DATATYPE_DEFINITION_XHTML[i] == a_datatypes.DATATYPE_DEFINITION_XHTML[j]
+			},
+			func(j int) string {
+				return a_datatypes.DATATYPE_DEFINITION_XHTML[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -10769,7 +11011,18 @@ func (a_specifications *A_SPECIFICATIONS) GongDiff(stage *Stage, a_specification
 		}
 	}
 	if SPECIFICATIONDifferent {
-		ops := stage.Diff(a_specifications, a_specificationsOther, "SPECIFICATION", a_specificationsOther.SPECIFICATION, a_specifications.SPECIFICATION)
+		ops := stage.Diff(
+			a_specifications,
+			"SPECIFICATION",
+			len(a_specificationsOther.SPECIFICATION),
+			len(a_specifications.SPECIFICATION),
+			func(i, j int) bool {
+				return a_specificationsOther.SPECIFICATION[i] == a_specifications.SPECIFICATION[j]
+			},
+			func(j int) string {
+				return a_specifications.SPECIFICATION[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -10815,7 +11068,18 @@ func (a_specified_values *A_SPECIFIED_VALUES) GongDiff(stage *Stage, a_specified
 		}
 	}
 	if ENUM_VALUEDifferent {
-		ops := stage.Diff(a_specified_values, a_specified_valuesOther, "ENUM_VALUE", a_specified_valuesOther.ENUM_VALUE, a_specified_values.ENUM_VALUE)
+		ops := stage.Diff(
+			a_specified_values,
+			"ENUM_VALUE",
+			len(a_specified_valuesOther.ENUM_VALUE),
+			len(a_specified_values.ENUM_VALUE),
+			func(i, j int) bool {
+				return a_specified_valuesOther.ENUM_VALUE[i] == a_specified_values.ENUM_VALUE[j]
+			},
+			func(j int) string {
+				return a_specified_values.ENUM_VALUE[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -10847,7 +11111,18 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongDiff(stage *Stage, a_spec_attrib
 		}
 	}
 	if ATTRIBUTE_DEFINITION_BOOLEANDifferent {
-		ops := stage.Diff(a_spec_attributes, a_spec_attributesOther, "ATTRIBUTE_DEFINITION_BOOLEAN", a_spec_attributesOther.ATTRIBUTE_DEFINITION_BOOLEAN, a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN)
+		ops := stage.Diff(
+			a_spec_attributes,
+			"ATTRIBUTE_DEFINITION_BOOLEAN",
+			len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_BOOLEAN),
+			len(a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN),
+			func(i, j int) bool {
+				return a_spec_attributesOther.ATTRIBUTE_DEFINITION_BOOLEAN[i] == a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN[j]
+			},
+			func(j int) string {
+				return a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ATTRIBUTE_DEFINITION_DATEDifferent := false
@@ -10868,7 +11143,18 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongDiff(stage *Stage, a_spec_attrib
 		}
 	}
 	if ATTRIBUTE_DEFINITION_DATEDifferent {
-		ops := stage.Diff(a_spec_attributes, a_spec_attributesOther, "ATTRIBUTE_DEFINITION_DATE", a_spec_attributesOther.ATTRIBUTE_DEFINITION_DATE, a_spec_attributes.ATTRIBUTE_DEFINITION_DATE)
+		ops := stage.Diff(
+			a_spec_attributes,
+			"ATTRIBUTE_DEFINITION_DATE",
+			len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_DATE),
+			len(a_spec_attributes.ATTRIBUTE_DEFINITION_DATE),
+			func(i, j int) bool {
+				return a_spec_attributesOther.ATTRIBUTE_DEFINITION_DATE[i] == a_spec_attributes.ATTRIBUTE_DEFINITION_DATE[j]
+			},
+			func(j int) string {
+				return a_spec_attributes.ATTRIBUTE_DEFINITION_DATE[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ATTRIBUTE_DEFINITION_ENUMERATIONDifferent := false
@@ -10889,7 +11175,18 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongDiff(stage *Stage, a_spec_attrib
 		}
 	}
 	if ATTRIBUTE_DEFINITION_ENUMERATIONDifferent {
-		ops := stage.Diff(a_spec_attributes, a_spec_attributesOther, "ATTRIBUTE_DEFINITION_ENUMERATION", a_spec_attributesOther.ATTRIBUTE_DEFINITION_ENUMERATION, a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION)
+		ops := stage.Diff(
+			a_spec_attributes,
+			"ATTRIBUTE_DEFINITION_ENUMERATION",
+			len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_ENUMERATION),
+			len(a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION),
+			func(i, j int) bool {
+				return a_spec_attributesOther.ATTRIBUTE_DEFINITION_ENUMERATION[i] == a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION[j]
+			},
+			func(j int) string {
+				return a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ATTRIBUTE_DEFINITION_INTEGERDifferent := false
@@ -10910,7 +11207,18 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongDiff(stage *Stage, a_spec_attrib
 		}
 	}
 	if ATTRIBUTE_DEFINITION_INTEGERDifferent {
-		ops := stage.Diff(a_spec_attributes, a_spec_attributesOther, "ATTRIBUTE_DEFINITION_INTEGER", a_spec_attributesOther.ATTRIBUTE_DEFINITION_INTEGER, a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER)
+		ops := stage.Diff(
+			a_spec_attributes,
+			"ATTRIBUTE_DEFINITION_INTEGER",
+			len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_INTEGER),
+			len(a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER),
+			func(i, j int) bool {
+				return a_spec_attributesOther.ATTRIBUTE_DEFINITION_INTEGER[i] == a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER[j]
+			},
+			func(j int) string {
+				return a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ATTRIBUTE_DEFINITION_REALDifferent := false
@@ -10931,7 +11239,18 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongDiff(stage *Stage, a_spec_attrib
 		}
 	}
 	if ATTRIBUTE_DEFINITION_REALDifferent {
-		ops := stage.Diff(a_spec_attributes, a_spec_attributesOther, "ATTRIBUTE_DEFINITION_REAL", a_spec_attributesOther.ATTRIBUTE_DEFINITION_REAL, a_spec_attributes.ATTRIBUTE_DEFINITION_REAL)
+		ops := stage.Diff(
+			a_spec_attributes,
+			"ATTRIBUTE_DEFINITION_REAL",
+			len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_REAL),
+			len(a_spec_attributes.ATTRIBUTE_DEFINITION_REAL),
+			func(i, j int) bool {
+				return a_spec_attributesOther.ATTRIBUTE_DEFINITION_REAL[i] == a_spec_attributes.ATTRIBUTE_DEFINITION_REAL[j]
+			},
+			func(j int) string {
+				return a_spec_attributes.ATTRIBUTE_DEFINITION_REAL[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ATTRIBUTE_DEFINITION_STRINGDifferent := false
@@ -10952,7 +11271,18 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongDiff(stage *Stage, a_spec_attrib
 		}
 	}
 	if ATTRIBUTE_DEFINITION_STRINGDifferent {
-		ops := stage.Diff(a_spec_attributes, a_spec_attributesOther, "ATTRIBUTE_DEFINITION_STRING", a_spec_attributesOther.ATTRIBUTE_DEFINITION_STRING, a_spec_attributes.ATTRIBUTE_DEFINITION_STRING)
+		ops := stage.Diff(
+			a_spec_attributes,
+			"ATTRIBUTE_DEFINITION_STRING",
+			len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_STRING),
+			len(a_spec_attributes.ATTRIBUTE_DEFINITION_STRING),
+			func(i, j int) bool {
+				return a_spec_attributesOther.ATTRIBUTE_DEFINITION_STRING[i] == a_spec_attributes.ATTRIBUTE_DEFINITION_STRING[j]
+			},
+			func(j int) string {
+				return a_spec_attributes.ATTRIBUTE_DEFINITION_STRING[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ATTRIBUTE_DEFINITION_XHTMLDifferent := false
@@ -10973,7 +11303,18 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongDiff(stage *Stage, a_spec_attrib
 		}
 	}
 	if ATTRIBUTE_DEFINITION_XHTMLDifferent {
-		ops := stage.Diff(a_spec_attributes, a_spec_attributesOther, "ATTRIBUTE_DEFINITION_XHTML", a_spec_attributesOther.ATTRIBUTE_DEFINITION_XHTML, a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML)
+		ops := stage.Diff(
+			a_spec_attributes,
+			"ATTRIBUTE_DEFINITION_XHTML",
+			len(a_spec_attributesOther.ATTRIBUTE_DEFINITION_XHTML),
+			len(a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML),
+			func(i, j int) bool {
+				return a_spec_attributesOther.ATTRIBUTE_DEFINITION_XHTML[i] == a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML[j]
+			},
+			func(j int) string {
+				return a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -11005,7 +11346,18 @@ func (a_spec_objects *A_SPEC_OBJECTS) GongDiff(stage *Stage, a_spec_objectsOther
 		}
 	}
 	if SPEC_OBJECTDifferent {
-		ops := stage.Diff(a_spec_objects, a_spec_objectsOther, "SPEC_OBJECT", a_spec_objectsOther.SPEC_OBJECT, a_spec_objects.SPEC_OBJECT)
+		ops := stage.Diff(
+			a_spec_objects,
+			"SPEC_OBJECT",
+			len(a_spec_objectsOther.SPEC_OBJECT),
+			len(a_spec_objects.SPEC_OBJECT),
+			func(i, j int) bool {
+				return a_spec_objectsOther.SPEC_OBJECT[i] == a_spec_objects.SPEC_OBJECT[j]
+			},
+			func(j int) string {
+				return a_spec_objects.SPEC_OBJECT[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -11051,7 +11403,18 @@ func (a_spec_relations *A_SPEC_RELATIONS) GongDiff(stage *Stage, a_spec_relation
 		}
 	}
 	if SPEC_RELATIONDifferent {
-		ops := stage.Diff(a_spec_relations, a_spec_relationsOther, "SPEC_RELATION", a_spec_relationsOther.SPEC_RELATION, a_spec_relations.SPEC_RELATION)
+		ops := stage.Diff(
+			a_spec_relations,
+			"SPEC_RELATION",
+			len(a_spec_relationsOther.SPEC_RELATION),
+			len(a_spec_relations.SPEC_RELATION),
+			func(i, j int) bool {
+				return a_spec_relationsOther.SPEC_RELATION[i] == a_spec_relations.SPEC_RELATION[j]
+			},
+			func(j int) string {
+				return a_spec_relations.SPEC_RELATION[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -11083,7 +11446,18 @@ func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) GongDiff(stage *Stage, a_s
 		}
 	}
 	if RELATION_GROUPDifferent {
-		ops := stage.Diff(a_spec_relation_groups, a_spec_relation_groupsOther, "RELATION_GROUP", a_spec_relation_groupsOther.RELATION_GROUP, a_spec_relation_groups.RELATION_GROUP)
+		ops := stage.Diff(
+			a_spec_relation_groups,
+			"RELATION_GROUP",
+			len(a_spec_relation_groupsOther.RELATION_GROUP),
+			len(a_spec_relation_groups.RELATION_GROUP),
+			func(i, j int) bool {
+				return a_spec_relation_groupsOther.RELATION_GROUP[i] == a_spec_relation_groups.RELATION_GROUP[j]
+			},
+			func(j int) string {
+				return a_spec_relation_groups.RELATION_GROUP[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -11143,7 +11517,18 @@ func (a_spec_types *A_SPEC_TYPES) GongDiff(stage *Stage, a_spec_typesOther *A_SP
 		}
 	}
 	if RELATION_GROUP_TYPEDifferent {
-		ops := stage.Diff(a_spec_types, a_spec_typesOther, "RELATION_GROUP_TYPE", a_spec_typesOther.RELATION_GROUP_TYPE, a_spec_types.RELATION_GROUP_TYPE)
+		ops := stage.Diff(
+			a_spec_types,
+			"RELATION_GROUP_TYPE",
+			len(a_spec_typesOther.RELATION_GROUP_TYPE),
+			len(a_spec_types.RELATION_GROUP_TYPE),
+			func(i, j int) bool {
+				return a_spec_typesOther.RELATION_GROUP_TYPE[i] == a_spec_types.RELATION_GROUP_TYPE[j]
+			},
+			func(j int) string {
+				return a_spec_types.RELATION_GROUP_TYPE[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SPEC_OBJECT_TYPEDifferent := false
@@ -11164,7 +11549,18 @@ func (a_spec_types *A_SPEC_TYPES) GongDiff(stage *Stage, a_spec_typesOther *A_SP
 		}
 	}
 	if SPEC_OBJECT_TYPEDifferent {
-		ops := stage.Diff(a_spec_types, a_spec_typesOther, "SPEC_OBJECT_TYPE", a_spec_typesOther.SPEC_OBJECT_TYPE, a_spec_types.SPEC_OBJECT_TYPE)
+		ops := stage.Diff(
+			a_spec_types,
+			"SPEC_OBJECT_TYPE",
+			len(a_spec_typesOther.SPEC_OBJECT_TYPE),
+			len(a_spec_types.SPEC_OBJECT_TYPE),
+			func(i, j int) bool {
+				return a_spec_typesOther.SPEC_OBJECT_TYPE[i] == a_spec_types.SPEC_OBJECT_TYPE[j]
+			},
+			func(j int) string {
+				return a_spec_types.SPEC_OBJECT_TYPE[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SPEC_RELATION_TYPEDifferent := false
@@ -11185,7 +11581,18 @@ func (a_spec_types *A_SPEC_TYPES) GongDiff(stage *Stage, a_spec_typesOther *A_SP
 		}
 	}
 	if SPEC_RELATION_TYPEDifferent {
-		ops := stage.Diff(a_spec_types, a_spec_typesOther, "SPEC_RELATION_TYPE", a_spec_typesOther.SPEC_RELATION_TYPE, a_spec_types.SPEC_RELATION_TYPE)
+		ops := stage.Diff(
+			a_spec_types,
+			"SPEC_RELATION_TYPE",
+			len(a_spec_typesOther.SPEC_RELATION_TYPE),
+			len(a_spec_types.SPEC_RELATION_TYPE),
+			func(i, j int) bool {
+				return a_spec_typesOther.SPEC_RELATION_TYPE[i] == a_spec_types.SPEC_RELATION_TYPE[j]
+			},
+			func(j int) string {
+				return a_spec_types.SPEC_RELATION_TYPE[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SPECIFICATION_TYPEDifferent := false
@@ -11206,7 +11613,18 @@ func (a_spec_types *A_SPEC_TYPES) GongDiff(stage *Stage, a_spec_typesOther *A_SP
 		}
 	}
 	if SPECIFICATION_TYPEDifferent {
-		ops := stage.Diff(a_spec_types, a_spec_typesOther, "SPECIFICATION_TYPE", a_spec_typesOther.SPECIFICATION_TYPE, a_spec_types.SPECIFICATION_TYPE)
+		ops := stage.Diff(
+			a_spec_types,
+			"SPECIFICATION_TYPE",
+			len(a_spec_typesOther.SPECIFICATION_TYPE),
+			len(a_spec_types.SPECIFICATION_TYPE),
+			func(i, j int) bool {
+				return a_spec_typesOther.SPECIFICATION_TYPE[i] == a_spec_types.SPECIFICATION_TYPE[j]
+			},
+			func(j int) string {
+				return a_spec_types.SPECIFICATION_TYPE[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -11256,7 +11674,18 @@ func (a_tool_extensions *A_TOOL_EXTENSIONS) GongDiff(stage *Stage, a_tool_extens
 		}
 	}
 	if REQ_IF_TOOL_EXTENSIONDifferent {
-		ops := stage.Diff(a_tool_extensions, a_tool_extensionsOther, "REQ_IF_TOOL_EXTENSION", a_tool_extensionsOther.REQ_IF_TOOL_EXTENSION, a_tool_extensions.REQ_IF_TOOL_EXTENSION)
+		ops := stage.Diff(
+			a_tool_extensions,
+			"REQ_IF_TOOL_EXTENSION",
+			len(a_tool_extensionsOther.REQ_IF_TOOL_EXTENSION),
+			len(a_tool_extensions.REQ_IF_TOOL_EXTENSION),
+			func(i, j int) bool {
+				return a_tool_extensionsOther.REQ_IF_TOOL_EXTENSION[i] == a_tool_extensions.REQ_IF_TOOL_EXTENSION[j]
+			},
+			func(j int) string {
+				return a_tool_extensions.REQ_IF_TOOL_EXTENSION[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -12117,8 +12546,14 @@ func (xhtml_content *XHTML_CONTENT) GongDiff(stage *Stage, xhtml_contentOther *X
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -12129,7 +12564,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -12147,7 +12582,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -12170,22 +12605,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

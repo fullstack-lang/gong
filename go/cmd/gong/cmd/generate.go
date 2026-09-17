@@ -23,24 +23,25 @@ import (
 )
 
 var (
-	skipSwagger       bool
-	skipNg            bool
-	skipFlutter       bool
-	skipCoder         bool
-	skipSerialize     bool
-	skipNpmWorkspaces bool
-	skipStager        bool
-	level1            bool
-	addr              string
-	run               bool
-	skipGoModCommands bool
-	skipGoBuild       bool
-	skipNpmInstall    bool
-	compileForDebug   bool
-	dbLite            bool
-	stackHeight       int
-	withProbe         bool
-	dsm               bool
+	skipSwagger                  bool
+	skipNg                       bool
+	skipFlutter                  bool
+	skipCoder                    bool
+	skipSerialize                bool
+	skipNpmWorkspaces            bool
+	skipStager                   bool
+	level1                       bool
+	addr                         string
+	run                          bool
+	skipGoModCommands            bool
+	skipGoBuild                  bool
+	skipNpmInstall               bool
+	compileForDebug              bool
+	dbLite                       bool
+	stackHeight                  int
+	withProbe                    bool
+	dsm                          bool
+	skipNonUpdateFromControllers bool
 )
 
 var generateCmd = &cobra.Command{
@@ -378,14 +379,14 @@ var generateCmd = &cobra.Command{
 
 		}
 
-		golang.GeneratesGoCode(modelPkg, pkgPath, skipCoder, dbLite, skipSerialize, skipStager, stackHeight, withProbe)
+		golang.GeneratesGoCode(modelPkg, pkgPath, skipCoder, dbLite, skipSerialize, skipStager, stackHeight, withProbe, skipNonUpdateFromControllers)
 
 		// The copying of yyy files has been moved to the beginning of the command
 
 		// since go mod vendor brings angular dependencies into the vendor directory
 		// the go mod vendor command has to be issued before the ng build command
 		if !skipNg && stackHeight == 4 {
-			angular.GeneratesAngularCode(modelPkg, pkgPath, skipNpmInstall, skipGoModCommands, addr)
+			angular.GeneratesAngularCode(modelPkg, pkgPath, skipNpmInstall, skipGoModCommands, addr, skipNonUpdateFromControllers)
 		}
 
 		if !skipFlutter {
@@ -456,7 +457,7 @@ var generateCmd = &cobra.Command{
 			start := time.Now()
 			var cmd *exec.Cmd
 			if !compileForDebug {
-				cmd = exec.Command("go", "build")
+				cmd = exec.Command("go", "build", "-ldflags", "-s -w")
 			} else {
 				// gcFlags allows for speedup of delve
 				cmd = exec.Command("go", "build", "-gcflags", "-N -l")
@@ -527,4 +528,5 @@ func init() {
 	generateCmd.Flags().IntVarP(&stackHeight, "stack-height", "s", 0, "stack height (0, 1, or 4)")
 	generateCmd.Flags().BoolVarP(&withProbe, "with-probe", "p", true, "generate probe")
 	generateCmd.Flags().BoolVar(&dsm, "dsm", false, "copy zzz_ files from dsm/process/go/models into the target package")
+	generateCmd.Flags().BoolVar(&skipNonUpdateFromControllers, "skipNonUpdateFromControllers", true, "skip generating non-update (GET, POST, DELETE) CRUD operations in controllers and frontend services")
 }

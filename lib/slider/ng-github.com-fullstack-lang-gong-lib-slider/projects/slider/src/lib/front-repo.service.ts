@@ -2,25 +2,21 @@
 import { Injectable, NgZone } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
+import { Observable, BehaviorSubject, of } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
 
 // insertion point sub template for services imports
 import { CheckboxAPI } from './checkbox-api'
 import { Checkbox, CopyCheckboxAPIToCheckbox } from './checkbox'
-import { CheckboxService } from './checkbox.service'
 
 import { GroupAPI } from './group-api'
 import { Group, CopyGroupAPIToGroup } from './group'
-import { GroupService } from './group.service'
 
 import { LayoutAPI } from './layout-api'
 import { Layout, CopyLayoutAPIToLayout } from './layout'
-import { LayoutService } from './layout.service'
 
 import { SliderAPI } from './slider-api'
 import { Slider, CopySliderAPIToSlider } from './slider'
-import { SliderService } from './slider.service'
 
 
 import { BackRepoData } from './back-repo-data'
@@ -144,189 +140,15 @@ export class FrontRepoService {
 
 	constructor(
 		private http: HttpClient,
-		private ngZone: NgZone, // insertion point sub template 
-		private checkboxService: CheckboxService,
-		private groupService: GroupService,
-		private layoutService: LayoutService,
-		private sliderService: SliderService,
+		private ngZone: NgZone,
 	) { }
 
-	// postService provides a post function for each struct name
-	postService(structName: string, instanceToBePosted: any) {
-		let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
-		let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
-
-		servicePostFunction(instanceToBePosted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("post")
-			}
-		)
-	}
-
-	// deleteService provides a delete function for each struct name
-	deleteService(structName: string, instanceToBeDeleted: any) {
-		let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
-		let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
-
-		serviceDeleteFunction(instanceToBeDeleted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("delete")
-			}
-		)
-	}
-
-	// typing of observable can be messy in typescript. Therefore, one force the type
-	observableFrontRepo!: [
-		Observable<null>, // see below for the of(null) observable
-		// insertion point sub template 
-		Observable<CheckboxAPI[]>,
-		Observable<GroupAPI[]>,
-		Observable<LayoutAPI[]>,
-		Observable<SliderAPI[]>,
-	]
-
 	//
-	// pull performs a GET on all struct of the stack and redeem association pointers 
+	// pull returns the FrontRepo Observable
 	//
-	// This is an observable. Therefore, the control flow forks with
-	// - pull() return immediatly the observable
-	// - the observable observer, if it subscribe, is called when all GET calls are performs
 	pull(Name: string = ""): Observable<FrontRepo> {
-
 		this.Name = Name
-
-		this.observableFrontRepo = [
-			of(null), // see above for justification
-			// insertion point sub template
-			this.checkboxService.getCheckboxs(this.Name, this.frontRepo),
-			this.groupService.getGroups(this.Name, this.frontRepo),
-			this.layoutService.getLayouts(this.Name, this.frontRepo),
-			this.sliderService.getSliders(this.Name, this.frontRepo),
-		]
-
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest(
-					this.observableFrontRepo
-				).subscribe(
-					([
-						___of_null, // see above for the explanation about of
-						// insertion point sub template for declarations 
-						checkboxs_,
-						groups_,
-						layouts_,
-						sliders_,
-					]) => {
-						let _this = this
-						// Typing can be messy with many items. Therefore, type casting is necessary here
-						// insertion point sub template for type casting 
-						var checkboxs: CheckboxAPI[]
-						checkboxs = checkboxs_ as CheckboxAPI[]
-						var groups: GroupAPI[]
-						groups = groups_ as GroupAPI[]
-						var layouts: LayoutAPI[]
-						layouts = layouts_ as LayoutAPI[]
-						var sliders: SliderAPI[]
-						sliders = sliders_ as SliderAPI[]
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template for init 
-						// init the arrays
-						this.frontRepo.array_Checkboxs = []
-						this.frontRepo.map_ID_Checkbox.clear()
-
-						checkboxs.forEach(
-							checkboxAPI => {
-								let checkbox = new Checkbox
-								this.frontRepo.array_Checkboxs.push(checkbox)
-								this.frontRepo.map_ID_Checkbox.set(checkboxAPI.ID, checkbox)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Groups = []
-						this.frontRepo.map_ID_Group.clear()
-
-						groups.forEach(
-							groupAPI => {
-								let group = new Group
-								this.frontRepo.array_Groups.push(group)
-								this.frontRepo.map_ID_Group.set(groupAPI.ID, group)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Layouts = []
-						this.frontRepo.map_ID_Layout.clear()
-
-						layouts.forEach(
-							layoutAPI => {
-								let layout = new Layout
-								this.frontRepo.array_Layouts.push(layout)
-								this.frontRepo.map_ID_Layout.set(layoutAPI.ID, layout)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Sliders = []
-						this.frontRepo.map_ID_Slider.clear()
-
-						sliders.forEach(
-							sliderAPI => {
-								let slider = new Slider
-								this.frontRepo.array_Sliders.push(slider)
-								this.frontRepo.map_ID_Slider.set(sliderAPI.ID, slider)
-							}
-						)
-
-
-						// 
-						// Second Step: reddeem front objects
-						// insertion point sub template for redeem 
-						// fill up front objects
-						checkboxs.forEach(
-							checkboxAPI => {
-								let checkbox = this.frontRepo.map_ID_Checkbox.get(checkboxAPI.ID)
-								CopyCheckboxAPIToCheckbox(checkboxAPI, checkbox!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						groups.forEach(
-							groupAPI => {
-								let group = this.frontRepo.map_ID_Group.get(groupAPI.ID)
-								CopyGroupAPIToGroup(groupAPI, group!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						layouts.forEach(
-							layoutAPI => {
-								let layout = this.frontRepo.map_ID_Layout.get(layoutAPI.ID)
-								CopyLayoutAPIToLayout(layoutAPI, layout!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						sliders.forEach(
-							sliderAPI => {
-								let slider = this.frontRepo.map_ID_Slider.get(sliderAPI.ID)
-								CopySliderAPIToSlider(sliderAPI, slider!, this.frontRepo)
-							}
-						)
-
-
-						// hand over control flow to observer
-						this.ngZone.run(() => {
-							observer.next(this.frontRepo)
-						})
-					}
-				)
-			}
-		)
+		return of(this.frontRepo)
 	}
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
@@ -463,54 +285,71 @@ export class FrontRepoService {
 				})
 			}
 
-			// 3. Connection Loop
-			const attemptConnection = (retries: number): void => {
-				// console.log("github.com/fullstack-lang/gong/lib/slider/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+			// Offline mode handling: Listen to the global event
+			if (isOfflineMode) {
+				console.log("github.com/fullstack-lang/gong/lib/slider/go; Offline mode detected. Skipping WebSocket connection.")
 
-				// A. WASM OFFLINE MODE (Check if Go is ready)
-				if ((window as any).openWasmSocket) {
-					// console.log("github.com/fullstack-lang/gong/lib/slider/go; attemptConnection: openWasmSocket exists, calling it");
-					(window as any).openWasmSocket("github.com/fullstack-lang/gong/lib/slider/go", Name, processData);
-					return;
+				window.addEventListener('message', (event) => {
+					if (event.data && event.data.type === 'STAGE_UPDATE') {
+						console.log("github.com/fullstack-lang/gong/lib/slider/go; Received STAGE_UPDATE message.")
+						processData(JSON.stringify(event.data.data))
+					}
+				})
+
+				return () => {
+					console.log("github.com/fullstack-lang/gong/lib/slider/go; Cleaning up offline message listener.")
+				}
+			}
+
+			// Fallback: If not offline, create normal WebSocket
+			const attemptConnection = () => {
+				// Offline check inside attemptConnection: if window.openWasmSocket is available, use it!
+				if (typeof window !== 'undefined' && (window as any).openWasmSocket) {
+					(window as any).openWasmSocket('github.com/fullstack-lang/gong/lib/slider/go', Name, (data: any) => {
+						processData(data)
+					})
+					return
 				}
 
-				// B. WAITING FOR WASM
-				if (isOfflineMode && retries > 0) {
-					// console.log("github.com/fullstack-lang/gong/lib/slider/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
-					setTimeout(() => attemptConnection(retries - 1), 100);
-					return;
+				if (isOfflineMode && retryCount > 0) {
+					console.log("github.com/fullstack-lang/gong/lib/slider/go; Waiting for wasm socket provider...")
+					setTimeout(() => attemptConnection(), 100)
+					return
 				}
 
-				// C. STANDARD SERVER MODE
-				if (!isOfflineMode) {
-					// console.log("github.com/fullstack-lang/gong/lib/slider/go; attemptConnection: STANDARD SERVER MODE. url =", url)
-					socket = new WebSocket(url)
-					socket.onopen = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/slider/go; WebSocket: onopen", event)
-					}
-					socket.onmessage = event => {
-						// console.log("github.com/fullstack-lang/gong/lib/slider/go; WebSocket: onmessage")
-						processData(event.data)
-					}
-					socket.onerror = event => {
-						console.error("github.com/fullstack-lang/gong/lib/slider/go WebSocket: onerror", event)
-						observer.error(event)
-					}
-					socket.onclose = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/slider/go; WebSocket: onclose", event)
-						observer.complete()
-					}
-				} else {
+				if (isOfflineMode) {
 					console.error("github.com/fullstack-lang/gong/lib/slider/go, attemptConnection: Offline mode detected, but WASM backend failed to load.")
-					observer.error("Offline mode detected, but WASM backend failed to load.");
+					observer.error("Offline mode detected, but WASM backend failed to load.")
+					return
 				}
-			};
 
-			attemptConnection(50);
+				socket = new WebSocket(url)
 
-			// Teardown logic: Called when the last subscriber unsubscribes.
+				socket.onopen = () => {
+					// console.log("github.com/fullstack-lang/gong/lib/slider/go; WebSocket connection opened successfully:", url)
+				}
+
+				socket.onmessage = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/slider/go; WebSocket message received:", event.data)
+					processData(event.data)
+				}
+
+				socket.onerror = (error) => {
+					console.error("github.com/fullstack-lang/gong/lib/slider/go WebSocket: onerror", error)
+					observer.error(error)
+				}
+
+				socket.onclose = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/slider/go; WebSocket connection closed:", event)
+					observer.complete()
+				}
+			}
+
+			let retryCount = 10
+			attemptConnection()
+
 			return () => {
-				this.webSocketConnections.delete(Name) // Remove from cache
+				// console.log("github.com/fullstack-lang/gong/lib/slider/go; Cleaning up WebSocket connection")
 				if (socket) {
 					socket.close()
 				}

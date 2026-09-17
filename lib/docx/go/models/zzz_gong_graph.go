@@ -2080,7 +2080,18 @@ func (body *Body) GongDiff(stage *Stage, bodyOther *Body) (diffs []string) {
 		}
 	}
 	if ParagraphsDifferent {
-		ops := stage.Diff(body, bodyOther, "Paragraphs", bodyOther.Paragraphs, body.Paragraphs)
+		ops := stage.Diff(
+			body,
+			"Paragraphs",
+			len(bodyOther.Paragraphs),
+			len(body.Paragraphs),
+			func(i, j int) bool {
+				return bodyOther.Paragraphs[i] == body.Paragraphs[j]
+			},
+			func(j int) string {
+				return body.Paragraphs[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	TablesDifferent := false
@@ -2101,7 +2112,18 @@ func (body *Body) GongDiff(stage *Stage, bodyOther *Body) (diffs []string) {
 		}
 	}
 	if TablesDifferent {
-		ops := stage.Diff(body, bodyOther, "Tables", bodyOther.Tables, body.Tables)
+		ops := stage.Diff(
+			body,
+			"Tables",
+			len(bodyOther.Tables),
+			len(body.Tables),
+			func(i, j int) bool {
+				return bodyOther.Tables[i] == body.Tables[j]
+			},
+			func(j int) string {
+				return body.Tables[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (body.LastParagraph == nil) != (bodyOther.LastParagraph == nil) {
@@ -2172,7 +2194,18 @@ func (docx *Docx) GongDiff(stage *Stage, docxOther *Docx) (diffs []string) {
 		}
 	}
 	if FilesDifferent {
-		ops := stage.Diff(docx, docxOther, "Files", docxOther.Files, docx.Files)
+		ops := stage.Diff(
+			docx,
+			"Files",
+			len(docxOther.Files),
+			len(docx.Files),
+			func(i, j int) bool {
+				return docxOther.Files[i] == docx.Files[j]
+			},
+			func(j int) string {
+				return docx.Files[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (docx.Document == nil) != (docxOther.Document == nil) {
@@ -2222,7 +2255,18 @@ func (node *Node) GongDiff(stage *Stage, nodeOther *Node) (diffs []string) {
 		}
 	}
 	if NodesDifferent {
-		ops := stage.Diff(node, nodeOther, "Nodes", nodeOther.Nodes, node.Nodes)
+		ops := stage.Diff(
+			node,
+			"Nodes",
+			len(nodeOther.Nodes),
+			len(node.Nodes),
+			func(i, j int) bool {
+				return nodeOther.Nodes[i] == node.Nodes[j]
+			},
+			func(j int) string {
+				return node.Nodes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -2271,7 +2315,18 @@ func (paragraph *Paragraph) GongDiff(stage *Stage, paragraphOther *Paragraph) (d
 		}
 	}
 	if RunesDifferent {
-		ops := stage.Diff(paragraph, paragraphOther, "Runes", paragraphOther.Runes, paragraph.Runes)
+		ops := stage.Diff(
+			paragraph,
+			"Runes",
+			len(paragraphOther.Runes),
+			len(paragraph.Runes),
+			func(i, j int) bool {
+				return paragraphOther.Runes[i] == paragraph.Runes[j]
+			},
+			func(j int) string {
+				return paragraph.Runes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if paragraph.CollatedText != paragraphOther.CollatedText {
@@ -2475,7 +2530,18 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 		}
 	}
 	if TableRowsDifferent {
-		ops := stage.Diff(table, tableOther, "TableRows", tableOther.TableRows, table.TableRows)
+		ops := stage.Diff(
+			table,
+			"TableRows",
+			len(tableOther.TableRows),
+			len(table.TableRows),
+			func(i, j int) bool {
+				return tableOther.TableRows[i] == table.TableRows[j]
+			},
+			func(j int) string {
+				return table.TableRows[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -2517,7 +2583,18 @@ func (tablecolumn *TableColumn) GongDiff(stage *Stage, tablecolumnOther *TableCo
 		}
 	}
 	if ParagraphsDifferent {
-		ops := stage.Diff(tablecolumn, tablecolumnOther, "Paragraphs", tablecolumnOther.Paragraphs, tablecolumn.Paragraphs)
+		ops := stage.Diff(
+			tablecolumn,
+			"Paragraphs",
+			len(tablecolumnOther.Paragraphs),
+			len(tablecolumn.Paragraphs),
+			func(i, j int) bool {
+				return tablecolumnOther.Paragraphs[i] == tablecolumn.Paragraphs[j]
+			},
+			func(j int) string {
+				return tablecolumn.Paragraphs[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -2587,7 +2664,18 @@ func (tablerow *TableRow) GongDiff(stage *Stage, tablerowOther *TableRow) (diffs
 		}
 	}
 	if TableColumnsDifferent {
-		ops := stage.Diff(tablerow, tablerowOther, "TableColumns", tablerowOther.TableColumns, tablerow.TableColumns)
+		ops := stage.Diff(
+			tablerow,
+			"TableColumns",
+			len(tablerowOther.TableColumns),
+			len(tablerow.TableColumns),
+			func(i, j int) bool {
+				return tablerowOther.TableColumns[i] == tablerow.TableColumns[j]
+			},
+			func(j int) string {
+				return tablerow.TableColumns[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -2650,8 +2738,14 @@ func (text *Text) GongDiff(stage *Stage, textOther *Text) (diffs []string) {
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -2662,7 +2756,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -2680,7 +2774,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -2703,22 +2797,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

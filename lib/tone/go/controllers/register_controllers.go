@@ -54,26 +54,14 @@ type ValidationError struct {
 func registerControllers(mux *http.ServeMux) {
 	base := "/api/github.com/fullstack-lang/gong/lib/tone/go/v1"
 
-	mux.HandleFunc("GET " + base + "/freqencys", GetController().GetFreqencys)
-	mux.HandleFunc("GET " + base + "/freqencys/{id}", GetController().GetFreqency)
-	mux.HandleFunc("POST " + base + "/freqencys", GetController().PostFreqency)
 	mux.HandleFunc("PATCH " + base + "/freqencys/{id}", GetController().UpdateFreqency)
 	mux.HandleFunc("PUT " + base + "/freqencys/{id}", GetController().UpdateFreqency)
-	mux.HandleFunc("DELETE " + base + "/freqencys/{id}", GetController().DeleteFreqency)
 
-	mux.HandleFunc("GET " + base + "/notes", GetController().GetNotes)
-	mux.HandleFunc("GET " + base + "/notes/{id}", GetController().GetNote)
-	mux.HandleFunc("POST " + base + "/notes", GetController().PostNote)
 	mux.HandleFunc("PATCH " + base + "/notes/{id}", GetController().UpdateNote)
 	mux.HandleFunc("PUT " + base + "/notes/{id}", GetController().UpdateNote)
-	mux.HandleFunc("DELETE " + base + "/notes/{id}", GetController().DeleteNote)
 
-	mux.HandleFunc("GET " + base + "/players", GetController().GetPlayers)
-	mux.HandleFunc("GET " + base + "/players/{id}", GetController().GetPlayer)
-	mux.HandleFunc("POST " + base + "/players", GetController().PostPlayer)
 	mux.HandleFunc("PATCH " + base + "/players/{id}", GetController().UpdatePlayer)
 	mux.HandleFunc("PUT " + base + "/players/{id}", GetController().UpdatePlayer)
-	mux.HandleFunc("DELETE " + base + "/players/{id}", GetController().DeletePlayer)
 
 	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)

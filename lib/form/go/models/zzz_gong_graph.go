@@ -1542,7 +1542,18 @@ func (formdiv *FormDiv) GongDiff(stage *Stage, formdivOther *FormDiv) (diffs []s
 		}
 	}
 	if FormFieldsDifferent {
-		ops := stage.Diff(formdiv, formdivOther, "FormFields", formdivOther.FormFields, formdiv.FormFields)
+		ops := stage.Diff(
+			formdiv,
+			"FormFields",
+			len(formdivOther.FormFields),
+			len(formdiv.FormFields),
+			func(i, j int) bool {
+				return formdivOther.FormFields[i] == formdiv.FormFields[j]
+			},
+			func(j int) string {
+				return formdiv.FormFields[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	CheckBoxsDifferent := false
@@ -1563,7 +1574,18 @@ func (formdiv *FormDiv) GongDiff(stage *Stage, formdivOther *FormDiv) (diffs []s
 		}
 	}
 	if CheckBoxsDifferent {
-		ops := stage.Diff(formdiv, formdivOther, "CheckBoxs", formdivOther.CheckBoxs, formdiv.CheckBoxs)
+		ops := stage.Diff(
+			formdiv,
+			"CheckBoxs",
+			len(formdivOther.CheckBoxs),
+			len(formdiv.CheckBoxs),
+			func(i, j int) bool {
+				return formdivOther.CheckBoxs[i] == formdiv.CheckBoxs[j]
+			},
+			func(j int) string {
+				return formdiv.CheckBoxs[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (formdiv.FormEditAssocButton == nil) != (formdivOther.FormEditAssocButton == nil) {
@@ -1821,7 +1843,18 @@ func (formfieldselect *FormFieldSelect) GongDiff(stage *Stage, formfieldselectOt
 		}
 	}
 	if OptionsDifferent {
-		ops := stage.Diff(formfieldselect, formfieldselectOther, "Options", formfieldselectOther.Options, formfieldselect.Options)
+		ops := stage.Diff(
+			formfieldselect,
+			"Options",
+			len(formfieldselectOther.Options),
+			len(formfieldselect.Options),
+			func(i, j int) bool {
+				return formfieldselectOther.Options[i] == formfieldselect.Options[j]
+			},
+			func(j int) string {
+				return formfieldselect.Options[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if formfieldselect.CanBeEmpty != formfieldselectOther.CanBeEmpty {
@@ -1899,7 +1932,18 @@ func (formgroup *FormGroup) GongDiff(stage *Stage, formgroupOther *FormGroup) (d
 		}
 	}
 	if FormDivsDifferent {
-		ops := stage.Diff(formgroup, formgroupOther, "FormDivs", formgroupOther.FormDivs, formgroup.FormDivs)
+		ops := stage.Diff(
+			formgroup,
+			"FormDivs",
+			len(formgroupOther.FormDivs),
+			len(formgroup.FormDivs),
+			func(i, j int) bool {
+				return formgroupOther.FormDivs[i] == formgroup.FormDivs[j]
+			},
+			func(j int) string {
+				return formgroup.FormDivs[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if formgroup.HasSuppressButton != formgroupOther.HasSuppressButton {
@@ -1954,8 +1998,14 @@ func (option *Option) GongDiff(stage *Stage, optionOther *Option) (diffs []strin
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -1966,7 +2016,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -1984,7 +2034,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -2007,22 +2057,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

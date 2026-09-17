@@ -1042,7 +1042,18 @@ func (classdiagram *Classdiagram) GongDiff(stage *Stage, classdiagramOther *Clas
 		}
 	}
 	if GongStructShapesDifferent {
-		ops := stage.Diff(classdiagram, classdiagramOther, "GongStructShapes", classdiagramOther.GongStructShapes, classdiagram.GongStructShapes)
+		ops := stage.Diff(
+			classdiagram,
+			"GongStructShapes",
+			len(classdiagramOther.GongStructShapes),
+			len(classdiagram.GongStructShapes),
+			func(i, j int) bool {
+				return classdiagramOther.GongStructShapes[i] == classdiagram.GongStructShapes[j]
+			},
+			func(j int) string {
+				return classdiagram.GongStructShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GongEnumShapesDifferent := false
@@ -1063,7 +1074,18 @@ func (classdiagram *Classdiagram) GongDiff(stage *Stage, classdiagramOther *Clas
 		}
 	}
 	if GongEnumShapesDifferent {
-		ops := stage.Diff(classdiagram, classdiagramOther, "GongEnumShapes", classdiagramOther.GongEnumShapes, classdiagram.GongEnumShapes)
+		ops := stage.Diff(
+			classdiagram,
+			"GongEnumShapes",
+			len(classdiagramOther.GongEnumShapes),
+			len(classdiagram.GongEnumShapes),
+			func(i, j int) bool {
+				return classdiagramOther.GongEnumShapes[i] == classdiagram.GongEnumShapes[j]
+			},
+			func(j int) string {
+				return classdiagram.GongEnumShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GongNoteShapesDifferent := false
@@ -1084,7 +1106,18 @@ func (classdiagram *Classdiagram) GongDiff(stage *Stage, classdiagramOther *Clas
 		}
 	}
 	if GongNoteShapesDifferent {
-		ops := stage.Diff(classdiagram, classdiagramOther, "GongNoteShapes", classdiagramOther.GongNoteShapes, classdiagram.GongNoteShapes)
+		ops := stage.Diff(
+			classdiagram,
+			"GongNoteShapes",
+			len(classdiagramOther.GongNoteShapes),
+			len(classdiagram.GongNoteShapes),
+			func(i, j int) bool {
+				return classdiagramOther.GongNoteShapes[i] == classdiagram.GongNoteShapes[j]
+			},
+			func(j int) string {
+				return classdiagram.GongNoteShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if classdiagram.ShowNbInstances != classdiagramOther.ShowNbInstances {
@@ -1155,7 +1188,18 @@ func (diagrampackage *DiagramPackage) GongDiff(stage *Stage, diagrampackageOther
 		}
 	}
 	if ClassdiagramsDifferent {
-		ops := stage.Diff(diagrampackage, diagrampackageOther, "Classdiagrams", diagrampackageOther.Classdiagrams, diagrampackage.Classdiagrams)
+		ops := stage.Diff(
+			diagrampackage,
+			"Classdiagrams",
+			len(diagrampackageOther.Classdiagrams),
+			len(diagrampackage.Classdiagrams),
+			func(i, j int) bool {
+				return diagrampackageOther.Classdiagrams[i] == diagrampackage.Classdiagrams[j]
+			},
+			func(j int) string {
+				return diagrampackage.Classdiagrams[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (diagrampackage.SelectedClassdiagram == nil) != (diagrampackageOther.SelectedClassdiagram == nil) {
@@ -1215,7 +1259,18 @@ func (gongenumshape *GongEnumShape) GongDiff(stage *Stage, gongenumshapeOther *G
 		}
 	}
 	if GongEnumValueShapesDifferent {
-		ops := stage.Diff(gongenumshape, gongenumshapeOther, "GongEnumValueShapes", gongenumshapeOther.GongEnumValueShapes, gongenumshape.GongEnumValueShapes)
+		ops := stage.Diff(
+			gongenumshape,
+			"GongEnumValueShapes",
+			len(gongenumshapeOther.GongEnumValueShapes),
+			len(gongenumshape.GongEnumValueShapes),
+			func(i, j int) bool {
+				return gongenumshapeOther.GongEnumValueShapes[i] == gongenumshape.GongEnumValueShapes[j]
+			},
+			func(j int) string {
+				return gongenumshape.GongEnumValueShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if gongenumshape.IsExpanded != gongenumshapeOther.IsExpanded {
@@ -1308,7 +1363,18 @@ func (gongnoteshape *GongNoteShape) GongDiff(stage *Stage, gongnoteshapeOther *G
 		}
 	}
 	if GongNoteLinkShapesDifferent {
-		ops := stage.Diff(gongnoteshape, gongnoteshapeOther, "GongNoteLinkShapes", gongnoteshapeOther.GongNoteLinkShapes, gongnoteshape.GongNoteLinkShapes)
+		ops := stage.Diff(
+			gongnoteshape,
+			"GongNoteLinkShapes",
+			len(gongnoteshapeOther.GongNoteLinkShapes),
+			len(gongnoteshape.GongNoteLinkShapes),
+			func(i, j int) bool {
+				return gongnoteshapeOther.GongNoteLinkShapes[i] == gongnoteshape.GongNoteLinkShapes[j]
+			},
+			func(j int) string {
+				return gongnoteshape.GongNoteLinkShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if gongnoteshape.IsExpanded != gongnoteshapeOther.IsExpanded {
@@ -1361,7 +1427,18 @@ func (gongstructshape *GongStructShape) GongDiff(stage *Stage, gongstructshapeOt
 		}
 	}
 	if AttributeShapesDifferent {
-		ops := stage.Diff(gongstructshape, gongstructshapeOther, "AttributeShapes", gongstructshapeOther.AttributeShapes, gongstructshape.AttributeShapes)
+		ops := stage.Diff(
+			gongstructshape,
+			"AttributeShapes",
+			len(gongstructshapeOther.AttributeShapes),
+			len(gongstructshape.AttributeShapes),
+			func(i, j int) bool {
+				return gongstructshapeOther.AttributeShapes[i] == gongstructshape.AttributeShapes[j]
+			},
+			func(j int) string {
+				return gongstructshape.AttributeShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	LinkShapesDifferent := false
@@ -1382,7 +1459,18 @@ func (gongstructshape *GongStructShape) GongDiff(stage *Stage, gongstructshapeOt
 		}
 	}
 	if LinkShapesDifferent {
-		ops := stage.Diff(gongstructshape, gongstructshapeOther, "LinkShapes", gongstructshapeOther.LinkShapes, gongstructshape.LinkShapes)
+		ops := stage.Diff(
+			gongstructshape,
+			"LinkShapes",
+			len(gongstructshapeOther.LinkShapes),
+			len(gongstructshape.LinkShapes),
+			func(i, j int) bool {
+				return gongstructshapeOther.LinkShapes[i] == gongstructshape.LinkShapes[j]
+			},
+			func(j int) string {
+				return gongstructshape.LinkShapes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if gongstructshape.IsSelected != gongstructshapeOther.IsSelected {
@@ -1455,8 +1543,14 @@ func (linkshape *LinkShape) GongDiff(stage *Stage, linkshapeOther *LinkShape) (d
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -1467,7 +1561,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -1485,7 +1579,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -1508,22 +1602,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

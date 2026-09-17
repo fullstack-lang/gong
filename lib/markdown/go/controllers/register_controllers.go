@@ -54,33 +54,17 @@ type ValidationError struct {
 func registerControllers(mux *http.ServeMux) {
 	base := "/api/github.com/fullstack-lang/gong/lib/markdown/go/v1"
 
-	mux.HandleFunc("GET " + base + "/contents", GetController().GetContents)
-	mux.HandleFunc("GET " + base + "/contents/{id}", GetController().GetContent)
-	mux.HandleFunc("POST " + base + "/contents", GetController().PostContent)
 	mux.HandleFunc("PATCH " + base + "/contents/{id}", GetController().UpdateContent)
 	mux.HandleFunc("PUT " + base + "/contents/{id}", GetController().UpdateContent)
-	mux.HandleFunc("DELETE " + base + "/contents/{id}", GetController().DeleteContent)
 
-	mux.HandleFunc("GET " + base + "/jpgimages", GetController().GetJpgImages)
-	mux.HandleFunc("GET " + base + "/jpgimages/{id}", GetController().GetJpgImage)
-	mux.HandleFunc("POST " + base + "/jpgimages", GetController().PostJpgImage)
 	mux.HandleFunc("PATCH " + base + "/jpgimages/{id}", GetController().UpdateJpgImage)
 	mux.HandleFunc("PUT " + base + "/jpgimages/{id}", GetController().UpdateJpgImage)
-	mux.HandleFunc("DELETE " + base + "/jpgimages/{id}", GetController().DeleteJpgImage)
 
-	mux.HandleFunc("GET " + base + "/pngimages", GetController().GetPngImages)
-	mux.HandleFunc("GET " + base + "/pngimages/{id}", GetController().GetPngImage)
-	mux.HandleFunc("POST " + base + "/pngimages", GetController().PostPngImage)
 	mux.HandleFunc("PATCH " + base + "/pngimages/{id}", GetController().UpdatePngImage)
 	mux.HandleFunc("PUT " + base + "/pngimages/{id}", GetController().UpdatePngImage)
-	mux.HandleFunc("DELETE " + base + "/pngimages/{id}", GetController().DeletePngImage)
 
-	mux.HandleFunc("GET " + base + "/svgimages", GetController().GetSvgImages)
-	mux.HandleFunc("GET " + base + "/svgimages/{id}", GetController().GetSvgImage)
-	mux.HandleFunc("POST " + base + "/svgimages", GetController().PostSvgImage)
 	mux.HandleFunc("PATCH " + base + "/svgimages/{id}", GetController().UpdateSvgImage)
 	mux.HandleFunc("PUT " + base + "/svgimages/{id}", GetController().UpdateSvgImage)
-	mux.HandleFunc("DELETE " + base + "/svgimages/{id}", GetController().DeleteSvgImage)
 
 	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)

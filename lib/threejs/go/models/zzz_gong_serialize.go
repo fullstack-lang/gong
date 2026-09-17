@@ -24,26 +24,146 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		stage.SerializeExcelizePointer2[*AmbiantLight](f, addIDs)
-		stage.SerializeExcelizePointer2[*BoxGeometry](f, addIDs)
-		stage.SerializeExcelizePointer2[*BufferGeometry](f, addIDs)
-		stage.SerializeExcelizePointer2[*Camera](f, addIDs)
-		stage.SerializeExcelizePointer2[*Canvas](f, addIDs)
-		stage.SerializeExcelizePointer2[*Curve](f, addIDs)
-		stage.SerializeExcelizePointer2[*CylinderGeometry](f, addIDs)
-		stage.SerializeExcelizePointer2[*DirectionalLight](f, addIDs)
-		stage.SerializeExcelizePointer2[*ExtrudeGeometry](f, addIDs)
-		stage.SerializeExcelizePointer2[*Mesh](f, addIDs)
-		stage.SerializeExcelizePointer2[*MeshMaterialBasic](f, addIDs)
-		stage.SerializeExcelizePointer2[*MeshPhysicalMaterial](f, addIDs)
-		stage.SerializeExcelizePointer2[*PlaneGeometry](f, addIDs)
-		stage.SerializeExcelizePointer2[*Shape](f, addIDs)
-		stage.SerializeExcelizePointer2[*SphereGeometry](f, addIDs)
-		stage.SerializeExcelizePointer2[*TorusGeometry](f, addIDs)
-		stage.SerializeExcelizePointer2[*Triangle](f, addIDs)
-		stage.SerializeExcelizePointer2[*TubeGeometry](f, addIDs)
-		stage.SerializeExcelizePointer2[*Vector2](f, addIDs)
-		stage.SerializeExcelizePointer2[*Vector3](f, addIDs)
+		{
+			var instances []GongstructIF
+			for instance := range stage.AmbiantLights {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "AmbiantLight", instances, (*AmbiantLight)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.BoxGeometrys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "BoxGeometry", instances, (*BoxGeometry)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.BufferGeometrys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "BufferGeometry", instances, (*BufferGeometry)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Cameras {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Camera", instances, (*Camera)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Canvass {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Canvas", instances, (*Canvas)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Curves {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Curve", instances, (*Curve)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CylinderGeometrys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "CylinderGeometry", instances, (*CylinderGeometry)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DirectionalLights {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "DirectionalLight", instances, (*DirectionalLight)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ExtrudeGeometrys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ExtrudeGeometry", instances, (*ExtrudeGeometry)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Meshs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Mesh", instances, (*Mesh)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.MeshMaterialBasics {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "MeshMaterialBasic", instances, (*MeshMaterialBasic)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.MeshPhysicalMaterials {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "MeshPhysicalMaterial", instances, (*MeshPhysicalMaterial)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PlaneGeometrys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PlaneGeometry", instances, (*PlaneGeometry)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Shapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Shape", instances, (*Shape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SphereGeometrys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "SphereGeometry", instances, (*SphereGeometry)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TorusGeometrys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TorusGeometry", instances, (*TorusGeometry)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Triangles {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Triangle", instances, (*Triangle)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TubeGeometrys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TubeGeometry", instances, (*TubeGeometry)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Vector2s {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Vector2", instances, (*Vector2)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Vector3s {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Vector3", instances, (*Vector3)(nil).GongGetFieldHeaders(), addIDs)
+		}
 	}
 
 	// Create a style with wrap text enabled
@@ -223,33 +343,22 @@ func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, 
 
 }
 
-// SerializeExcelizePointer is the Stage method for Excel serialization.
-func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
-	stage.SerializeExcelizePointer2[Type](f, false)
-}
-
-// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
-func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
-	sheetName := GongGetPointerToGongstructName[Type]()
-
-	sheetName = __gong__shortenString(sheetName)
+// SerializeExcelize is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelize(f *excelize.File, name string, instances []GongstructIF, fields []GongFieldHeader, addIDs bool) {
+	sheetName := __gong__shortenString(name)
 
 	// Create a new sheet.
 	f.NewSheet(sheetName)
 
-	set := *stage.GetInstancesSet[Type]()
-
-	var sortedSlice []Type
-	for key := range set {
-		sortedSlice = append(sortedSlice, key)
-	}
-	slices.SortFunc(sortedSlice, func(a, b Type) int {
+	sortedSlice := make([]GongstructIF, len(instances))
+	copy(sortedSlice, instances)
+	slices.SortFunc(sortedSlice, func(a, b GongstructIF) int {
 		return cmp.Compare(a.GetName(), b.GetName())
 	})
 
 	line := 1
 
-	for index, fieldHeader := range GongGetFieldsFromPointer[Type]() {
+	for index, fieldHeader := range fields {
 		if !addIDs {
 			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(index+1)), line), fieldHeader.Name)
 		} else {
@@ -301,7 +410,7 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 
 		// 3. Add the ID value in column B
 
-		for index, fieldName := range GongGetFieldsFromPointer[Type]() {
+		for index, fieldName := range fields {
 			fieldStringValue := stage.GetFieldStringValueFromPointer(instance, fieldName.Name)
 			if !addIDs {
 				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(index+1)), line), fieldStringValue.GetValueString())
@@ -319,24 +428,20 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 			}
 		}
 	}
+}
 
-	// // Autofit all columns according to their text content
-	// cols, err := f.GetCols(sheetName)
-	// if err != nil {
-	// 	log.Panicln("SerializeExcelize")
-	// }
-	// for idx, col := range cols {
-	// 	largestWidth := 0
-	// 	for _, rowCell := range col {
-	// 		cellWidth := utf8.RuneCountInString(rowCell) + 2 // + 2 for margin
-	// 		if cellWidth > largestWidth {
-	// 			largestWidth = cellWidth
-	// 		}
-	// 	}
-	// 	name, err := excelize.ColumnNumberToName(idx + 1)
-	// 	if err != nil {
-	// 		log.Panicln("SerializeExcelize")
-	// 	}
-	// 	f.SetColWidth(sheetName, name, name, float64(largestWidth))
-	// }
+// SerializeExcelizePointer is the Stage method for Excel serialization.
+func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
+	stage.SerializeExcelizePointer2[Type](f, false)
+}
+
+// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
+	var ret Type
+	set := *stage.GetInstancesSet[Type]()
+	var instances []GongstructIF
+	for key := range set {
+		instances = append(instances, key)
+	}
+	stage.SerializeExcelize(f, ret.GongGetGongstructName(), instances, ret.GongGetFieldHeaders(), addIDs)
 }

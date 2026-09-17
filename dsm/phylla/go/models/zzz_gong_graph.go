@@ -13500,7 +13500,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if PlantsDifferent {
-		ops := stage.Diff(library, libraryOther, "Plants", libraryOther.Plants, library.Plants)
+		ops := stage.Diff(
+			library,
+			"Plants",
+			len(libraryOther.Plants),
+			len(library.Plants),
+			func(i, j int) bool {
+				return libraryOther.Plants[i] == library.Plants[j]
+			},
+			func(j int) string {
+				return library.Plants[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SubLibrariesDifferent := false
@@ -13521,7 +13532,18 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		}
 	}
 	if SubLibrariesDifferent {
-		ops := stage.Diff(library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
+		ops := stage.Diff(
+			library,
+			"SubLibraries",
+			len(libraryOther.SubLibraries),
+			len(library.SubLibraries),
+			func(i, j int) bool {
+				return libraryOther.SubLibraries[i] == library.SubLibraries[j]
+			},
+			func(j int) string {
+				return library.SubLibraries[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
@@ -14360,7 +14382,18 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 		}
 	}
 	if Plant2DDiagramsDifferent {
-		ops := stage.Diff(plantabstract, plantabstractOther, "Plant2DDiagrams", plantabstractOther.Plant2DDiagrams, plantabstract.Plant2DDiagrams)
+		ops := stage.Diff(
+			plantabstract,
+			"Plant2DDiagrams",
+			len(plantabstractOther.Plant2DDiagrams),
+			len(plantabstract.Plant2DDiagrams),
+			func(i, j int) bool {
+				return plantabstractOther.Plant2DDiagrams[i] == plantabstract.Plant2DDiagrams[j]
+			},
+			func(j int) string {
+				return plantabstract.Plant2DDiagrams[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if plantabstract.IsPlant3DDiagramsNodeExpanded != plantabstractOther.IsPlant3DDiagramsNodeExpanded {
@@ -14384,7 +14417,18 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 		}
 	}
 	if Plant3DDiagramsDifferent {
-		ops := stage.Diff(plantabstract, plantabstractOther, "Plant3DDiagrams", plantabstractOther.Plant3DDiagrams, plantabstract.Plant3DDiagrams)
+		ops := stage.Diff(
+			plantabstract,
+			"Plant3DDiagrams",
+			len(plantabstractOther.Plant3DDiagrams),
+			len(plantabstract.Plant3DDiagrams),
+			func(i, j int) bool {
+				return plantabstractOther.Plant3DDiagrams[i] == plantabstract.Plant3DDiagrams[j]
+			},
+			func(j int) string {
+				return plantabstract.Plant3DDiagrams[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if plantabstract.IsVase2DDiagramsNodeExpanded != plantabstractOther.IsVase2DDiagramsNodeExpanded {
@@ -14408,7 +14452,18 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 		}
 	}
 	if Vase2DDiagramsDifferent {
-		ops := stage.Diff(plantabstract, plantabstractOther, "Vase2DDiagrams", plantabstractOther.Vase2DDiagrams, plantabstract.Vase2DDiagrams)
+		ops := stage.Diff(
+			plantabstract,
+			"Vase2DDiagrams",
+			len(plantabstractOther.Vase2DDiagrams),
+			len(plantabstract.Vase2DDiagrams),
+			func(i, j int) bool {
+				return plantabstractOther.Vase2DDiagrams[i] == plantabstract.Vase2DDiagrams[j]
+			},
+			func(j int) string {
+				return plantabstract.Vase2DDiagrams[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if plantabstract.IsTubeVase3DDiagramsNodeExpanded != plantabstractOther.IsTubeVase3DDiagramsNodeExpanded {
@@ -14432,7 +14487,18 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 		}
 	}
 	if TubeVase3DDiagramsDifferent {
-		ops := stage.Diff(plantabstract, plantabstractOther, "TubeVase3DDiagrams", plantabstractOther.TubeVase3DDiagrams, plantabstract.TubeVase3DDiagrams)
+		ops := stage.Diff(
+			plantabstract,
+			"TubeVase3DDiagrams",
+			len(plantabstractOther.TubeVase3DDiagrams),
+			len(plantabstract.TubeVase3DDiagrams),
+			func(i, j int) bool {
+				return plantabstractOther.TubeVase3DDiagrams[i] == plantabstract.TubeVase3DDiagrams[j]
+			},
+			func(j int) string {
+				return plantabstract.TubeVase3DDiagrams[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if plantabstract.IsStool2DDiagramsNodeExpanded != plantabstractOther.IsStool2DDiagramsNodeExpanded {
@@ -14456,7 +14522,18 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 		}
 	}
 	if Stool2DDiagramsDifferent {
-		ops := stage.Diff(plantabstract, plantabstractOther, "Stool2DDiagrams", plantabstractOther.Stool2DDiagrams, plantabstract.Stool2DDiagrams)
+		ops := stage.Diff(
+			plantabstract,
+			"Stool2DDiagrams",
+			len(plantabstractOther.Stool2DDiagrams),
+			len(plantabstract.Stool2DDiagrams),
+			func(i, j int) bool {
+				return plantabstractOther.Stool2DDiagrams[i] == plantabstract.Stool2DDiagrams[j]
+			},
+			func(j int) string {
+				return plantabstract.Stool2DDiagrams[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if plantabstract.IsStool3DDiagramsNodeExpanded != plantabstractOther.IsStool3DDiagramsNodeExpanded {
@@ -14480,7 +14557,18 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 		}
 	}
 	if Stool3DDiagramsDifferent {
-		ops := stage.Diff(plantabstract, plantabstractOther, "Stool3DDiagrams", plantabstractOther.Stool3DDiagrams, plantabstract.Stool3DDiagrams)
+		ops := stage.Diff(
+			plantabstract,
+			"Stool3DDiagrams",
+			len(plantabstractOther.Stool3DDiagrams),
+			len(plantabstract.Stool3DDiagrams),
+			func(i, j int) bool {
+				return plantabstractOther.Stool3DDiagrams[i] == plantabstract.Stool3DDiagrams[j]
+			},
+			func(j int) string {
+				return plantabstract.Stool3DDiagrams[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if plantabstract.IsClock2DDiagramsNodeExpanded != plantabstractOther.IsClock2DDiagramsNodeExpanded {
@@ -14504,7 +14592,18 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 		}
 	}
 	if Clock2DDiagramsDifferent {
-		ops := stage.Diff(plantabstract, plantabstractOther, "Clock2DDiagrams", plantabstractOther.Clock2DDiagrams, plantabstract.Clock2DDiagrams)
+		ops := stage.Diff(
+			plantabstract,
+			"Clock2DDiagrams",
+			len(plantabstractOther.Clock2DDiagrams),
+			len(plantabstract.Clock2DDiagrams),
+			func(i, j int) bool {
+				return plantabstractOther.Clock2DDiagrams[i] == plantabstract.Clock2DDiagrams[j]
+			},
+			func(j int) string {
+				return plantabstract.Clock2DDiagrams[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if plantabstract.IsClock3DDiagramsNodeExpanded != plantabstractOther.IsClock3DDiagramsNodeExpanded {
@@ -14528,7 +14627,18 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 		}
 	}
 	if Clock3DDiagramsDifferent {
-		ops := stage.Diff(plantabstract, plantabstractOther, "Clock3DDiagrams", plantabstractOther.Clock3DDiagrams, plantabstract.Clock3DDiagrams)
+		ops := stage.Diff(
+			plantabstract,
+			"Clock3DDiagrams",
+			len(plantabstractOther.Clock3DDiagrams),
+			len(plantabstract.Clock3DDiagrams),
+			func(i, j int) bool {
+				return plantabstractOther.Clock3DDiagrams[i] == plantabstract.Clock3DDiagrams[j]
+			},
+			func(j int) string {
+				return plantabstract.Clock3DDiagrams[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -16848,8 +16958,14 @@ func (volumekey3dshape *VolumeKey3DShape) GongDiff(stage *Stage, volumekey3dshap
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -16860,7 +16976,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -16878,7 +16994,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -16901,22 +17017,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

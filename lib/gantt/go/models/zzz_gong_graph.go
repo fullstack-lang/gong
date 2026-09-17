@@ -1001,7 +1001,18 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if LanesDifferent {
-		ops := stage.Diff(gantt, ganttOther, "Lanes", ganttOther.Lanes, gantt.Lanes)
+		ops := stage.Diff(
+			gantt,
+			"Lanes",
+			len(ganttOther.Lanes),
+			len(gantt.Lanes),
+			func(i, j int) bool {
+				return ganttOther.Lanes[i] == gantt.Lanes[j]
+			},
+			func(j int) string {
+				return gantt.Lanes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	MilestonesDifferent := false
@@ -1022,7 +1033,18 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if MilestonesDifferent {
-		ops := stage.Diff(gantt, ganttOther, "Milestones", ganttOther.Milestones, gantt.Milestones)
+		ops := stage.Diff(
+			gantt,
+			"Milestones",
+			len(ganttOther.Milestones),
+			len(gantt.Milestones),
+			func(i, j int) bool {
+				return ganttOther.Milestones[i] == gantt.Milestones[j]
+			},
+			func(j int) string {
+				return gantt.Milestones[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -1043,7 +1065,18 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if GroupsDifferent {
-		ops := stage.Diff(gantt, ganttOther, "Groups", ganttOther.Groups, gantt.Groups)
+		ops := stage.Diff(
+			gantt,
+			"Groups",
+			len(ganttOther.Groups),
+			len(gantt.Groups),
+			func(i, j int) bool {
+				return ganttOther.Groups[i] == gantt.Groups[j]
+			},
+			func(j int) string {
+				return gantt.Groups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ArrowsDifferent := false
@@ -1064,7 +1097,18 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if ArrowsDifferent {
-		ops := stage.Diff(gantt, ganttOther, "Arrows", ganttOther.Arrows, gantt.Arrows)
+		ops := stage.Diff(
+			gantt,
+			"Arrows",
+			len(ganttOther.Arrows),
+			len(gantt.Arrows),
+			func(i, j int) bool {
+				return ganttOther.Arrows[i] == gantt.Arrows[j]
+			},
+			func(j int) string {
+				return gantt.Arrows[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -1096,7 +1140,18 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if GroupLanesDifferent {
-		ops := stage.Diff(group, groupOther, "GroupLanes", groupOther.GroupLanes, group.GroupLanes)
+		ops := stage.Diff(
+			group,
+			"GroupLanes",
+			len(groupOther.GroupLanes),
+			len(group.GroupLanes),
+			func(i, j int) bool {
+				return groupOther.GroupLanes[i] == group.GroupLanes[j]
+			},
+			func(j int) string {
+				return group.GroupLanes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -1131,7 +1186,18 @@ func (lane *Lane) GongDiff(stage *Stage, laneOther *Lane) (diffs []string) {
 		}
 	}
 	if BarsDifferent {
-		ops := stage.Diff(lane, laneOther, "Bars", laneOther.Bars, lane.Bars)
+		ops := stage.Diff(
+			lane,
+			"Bars",
+			len(laneOther.Bars),
+			len(lane.Bars),
+			func(i, j int) bool {
+				return laneOther.Bars[i] == lane.Bars[j]
+			},
+			func(j int) string {
+				return lane.Bars[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -1187,7 +1253,18 @@ func (milestone *Milestone) GongDiff(stage *Stage, milestoneOther *Milestone) (d
 		}
 	}
 	if LanesToDisplayDifferent {
-		ops := stage.Diff(milestone, milestoneOther, "LanesToDisplay", milestoneOther.LanesToDisplay, milestone.LanesToDisplay)
+		ops := stage.Diff(
+			milestone,
+			"LanesToDisplay",
+			len(milestoneOther.LanesToDisplay),
+			len(milestone.LanesToDisplay),
+			func(i, j int) bool {
+				return milestoneOther.LanesToDisplay[i] == milestone.LanesToDisplay[j]
+			},
+			func(j int) string {
+				return milestone.LanesToDisplay[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -1195,8 +1272,14 @@ func (milestone *Milestone) GongDiff(stage *Stage, milestoneOther *Milestone) (d
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -1207,7 +1290,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -1225,7 +1308,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -1248,22 +1331,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 

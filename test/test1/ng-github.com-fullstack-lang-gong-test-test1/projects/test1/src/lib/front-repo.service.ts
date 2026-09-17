@@ -2,33 +2,27 @@
 import { Injectable, NgZone } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
+import { Observable, BehaviorSubject, of } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
 
 // insertion point sub template for services imports
 import { AstructAPI } from './astruct-api'
 import { Astruct, CopyAstructAPIToAstruct } from './astruct'
-import { AstructService } from './astruct.service'
 
 import { AstructBstruct2UseAPI } from './astructbstruct2use-api'
 import { AstructBstruct2Use, CopyAstructBstruct2UseAPIToAstructBstruct2Use } from './astructbstruct2use'
-import { AstructBstruct2UseService } from './astructbstruct2use.service'
 
 import { AstructBstructUseAPI } from './astructbstructuse-api'
 import { AstructBstructUse, CopyAstructBstructUseAPIToAstructBstructUse } from './astructbstructuse'
-import { AstructBstructUseService } from './astructbstructuse.service'
 
 import { BstructAPI } from './bstruct-api'
 import { Bstruct, CopyBstructAPIToBstruct } from './bstruct'
-import { BstructService } from './bstruct.service'
 
 import { DstructAPI } from './dstruct-api'
 import { Dstruct, CopyDstructAPIToDstruct } from './dstruct'
-import { DstructService } from './dstruct.service'
 
 import { GstructAPI } from './gstruct-api'
 import { Gstruct, CopyGstructAPIToGstruct } from './gstruct'
-import { GstructService } from './gstruct.service'
 
 
 import { BackRepoData } from './back-repo-data'
@@ -166,241 +160,15 @@ export class FrontRepoService {
 
 	constructor(
 		private http: HttpClient,
-		private ngZone: NgZone, // insertion point sub template 
-		private astructService: AstructService,
-		private astructbstruct2useService: AstructBstruct2UseService,
-		private astructbstructuseService: AstructBstructUseService,
-		private bstructService: BstructService,
-		private dstructService: DstructService,
-		private gstructService: GstructService,
+		private ngZone: NgZone,
 	) { }
 
-	// postService provides a post function for each struct name
-	postService(structName: string, instanceToBePosted: any) {
-		let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
-		let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
-
-		servicePostFunction(instanceToBePosted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("post")
-			}
-		)
-	}
-
-	// deleteService provides a delete function for each struct name
-	deleteService(structName: string, instanceToBeDeleted: any) {
-		let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
-		let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
-
-		serviceDeleteFunction(instanceToBeDeleted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("delete")
-			}
-		)
-	}
-
-	// typing of observable can be messy in typescript. Therefore, one force the type
-	observableFrontRepo!: [
-		Observable<null>, // see below for the of(null) observable
-		// insertion point sub template 
-		Observable<AstructAPI[]>,
-		Observable<AstructBstruct2UseAPI[]>,
-		Observable<AstructBstructUseAPI[]>,
-		Observable<BstructAPI[]>,
-		Observable<DstructAPI[]>,
-		Observable<GstructAPI[]>,
-	]
-
 	//
-	// pull performs a GET on all struct of the stack and redeem association pointers 
+	// pull returns the FrontRepo Observable
 	//
-	// This is an observable. Therefore, the control flow forks with
-	// - pull() return immediatly the observable
-	// - the observable observer, if it subscribe, is called when all GET calls are performs
 	pull(Name: string = ""): Observable<FrontRepo> {
-
 		this.Name = Name
-
-		this.observableFrontRepo = [
-			of(null), // see above for justification
-			// insertion point sub template
-			this.astructService.getAstructs(this.Name, this.frontRepo),
-			this.astructbstruct2useService.getAstructBstruct2Uses(this.Name, this.frontRepo),
-			this.astructbstructuseService.getAstructBstructUses(this.Name, this.frontRepo),
-			this.bstructService.getBstructs(this.Name, this.frontRepo),
-			this.dstructService.getDstructs(this.Name, this.frontRepo),
-			this.gstructService.getGstructs(this.Name, this.frontRepo),
-		]
-
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest(
-					this.observableFrontRepo
-				).subscribe(
-					([
-						___of_null, // see above for the explanation about of
-						// insertion point sub template for declarations 
-						astructs_,
-						astructbstruct2uses_,
-						astructbstructuses_,
-						bstructs_,
-						dstructs_,
-						gstructs_,
-					]) => {
-						let _this = this
-						// Typing can be messy with many items. Therefore, type casting is necessary here
-						// insertion point sub template for type casting 
-						var astructs: AstructAPI[]
-						astructs = astructs_ as AstructAPI[]
-						var astructbstruct2uses: AstructBstruct2UseAPI[]
-						astructbstruct2uses = astructbstruct2uses_ as AstructBstruct2UseAPI[]
-						var astructbstructuses: AstructBstructUseAPI[]
-						astructbstructuses = astructbstructuses_ as AstructBstructUseAPI[]
-						var bstructs: BstructAPI[]
-						bstructs = bstructs_ as BstructAPI[]
-						var dstructs: DstructAPI[]
-						dstructs = dstructs_ as DstructAPI[]
-						var gstructs: GstructAPI[]
-						gstructs = gstructs_ as GstructAPI[]
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template for init 
-						// init the arrays
-						this.frontRepo.array_Astructs = []
-						this.frontRepo.map_ID_Astruct.clear()
-
-						astructs.forEach(
-							astructAPI => {
-								let astruct = new Astruct
-								this.frontRepo.array_Astructs.push(astruct)
-								this.frontRepo.map_ID_Astruct.set(astructAPI.ID, astruct)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_AstructBstruct2Uses = []
-						this.frontRepo.map_ID_AstructBstruct2Use.clear()
-
-						astructbstruct2uses.forEach(
-							astructbstruct2useAPI => {
-								let astructbstruct2use = new AstructBstruct2Use
-								this.frontRepo.array_AstructBstruct2Uses.push(astructbstruct2use)
-								this.frontRepo.map_ID_AstructBstruct2Use.set(astructbstruct2useAPI.ID, astructbstruct2use)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_AstructBstructUses = []
-						this.frontRepo.map_ID_AstructBstructUse.clear()
-
-						astructbstructuses.forEach(
-							astructbstructuseAPI => {
-								let astructbstructuse = new AstructBstructUse
-								this.frontRepo.array_AstructBstructUses.push(astructbstructuse)
-								this.frontRepo.map_ID_AstructBstructUse.set(astructbstructuseAPI.ID, astructbstructuse)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Bstructs = []
-						this.frontRepo.map_ID_Bstruct.clear()
-
-						bstructs.forEach(
-							bstructAPI => {
-								let bstruct = new Bstruct
-								this.frontRepo.array_Bstructs.push(bstruct)
-								this.frontRepo.map_ID_Bstruct.set(bstructAPI.ID, bstruct)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Dstructs = []
-						this.frontRepo.map_ID_Dstruct.clear()
-
-						dstructs.forEach(
-							dstructAPI => {
-								let dstruct = new Dstruct
-								this.frontRepo.array_Dstructs.push(dstruct)
-								this.frontRepo.map_ID_Dstruct.set(dstructAPI.ID, dstruct)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Gstructs = []
-						this.frontRepo.map_ID_Gstruct.clear()
-
-						gstructs.forEach(
-							gstructAPI => {
-								let gstruct = new Gstruct
-								this.frontRepo.array_Gstructs.push(gstruct)
-								this.frontRepo.map_ID_Gstruct.set(gstructAPI.ID, gstruct)
-							}
-						)
-
-
-						// 
-						// Second Step: reddeem front objects
-						// insertion point sub template for redeem 
-						// fill up front objects
-						astructs.forEach(
-							astructAPI => {
-								let astruct = this.frontRepo.map_ID_Astruct.get(astructAPI.ID)
-								CopyAstructAPIToAstruct(astructAPI, astruct!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						astructbstruct2uses.forEach(
-							astructbstruct2useAPI => {
-								let astructbstruct2use = this.frontRepo.map_ID_AstructBstruct2Use.get(astructbstruct2useAPI.ID)
-								CopyAstructBstruct2UseAPIToAstructBstruct2Use(astructbstruct2useAPI, astructbstruct2use!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						astructbstructuses.forEach(
-							astructbstructuseAPI => {
-								let astructbstructuse = this.frontRepo.map_ID_AstructBstructUse.get(astructbstructuseAPI.ID)
-								CopyAstructBstructUseAPIToAstructBstructUse(astructbstructuseAPI, astructbstructuse!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						bstructs.forEach(
-							bstructAPI => {
-								let bstruct = this.frontRepo.map_ID_Bstruct.get(bstructAPI.ID)
-								CopyBstructAPIToBstruct(bstructAPI, bstruct!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						dstructs.forEach(
-							dstructAPI => {
-								let dstruct = this.frontRepo.map_ID_Dstruct.get(dstructAPI.ID)
-								CopyDstructAPIToDstruct(dstructAPI, dstruct!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						gstructs.forEach(
-							gstructAPI => {
-								let gstruct = this.frontRepo.map_ID_Gstruct.get(gstructAPI.ID)
-								CopyGstructAPIToGstruct(gstructAPI, gstruct!, this.frontRepo)
-							}
-						)
-
-
-						// hand over control flow to observer
-						this.ngZone.run(() => {
-							observer.next(this.frontRepo)
-						})
-					}
-				)
-			}
-		)
+		return of(this.frontRepo)
 	}
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
@@ -577,54 +345,71 @@ export class FrontRepoService {
 				})
 			}
 
-			// 3. Connection Loop
-			const attemptConnection = (retries: number): void => {
-				// console.log("github.com/fullstack-lang/gong/test/test1/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+			// Offline mode handling: Listen to the global event
+			if (isOfflineMode) {
+				console.log("github.com/fullstack-lang/gong/test/test1/go; Offline mode detected. Skipping WebSocket connection.")
 
-				// A. WASM OFFLINE MODE (Check if Go is ready)
-				if ((window as any).openWasmSocket) {
-					// console.log("github.com/fullstack-lang/gong/test/test1/go; attemptConnection: openWasmSocket exists, calling it");
-					(window as any).openWasmSocket("github.com/fullstack-lang/gong/test/test1/go", Name, processData);
-					return;
+				window.addEventListener('message', (event) => {
+					if (event.data && event.data.type === 'STAGE_UPDATE') {
+						console.log("github.com/fullstack-lang/gong/test/test1/go; Received STAGE_UPDATE message.")
+						processData(JSON.stringify(event.data.data))
+					}
+				})
+
+				return () => {
+					console.log("github.com/fullstack-lang/gong/test/test1/go; Cleaning up offline message listener.")
+				}
+			}
+
+			// Fallback: If not offline, create normal WebSocket
+			const attemptConnection = () => {
+				// Offline check inside attemptConnection: if window.openWasmSocket is available, use it!
+				if (typeof window !== 'undefined' && (window as any).openWasmSocket) {
+					(window as any).openWasmSocket('github.com/fullstack-lang/gong/test/test1/go', Name, (data: any) => {
+						processData(data)
+					})
+					return
 				}
 
-				// B. WAITING FOR WASM
-				if (isOfflineMode && retries > 0) {
-					// console.log("github.com/fullstack-lang/gong/test/test1/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
-					setTimeout(() => attemptConnection(retries - 1), 100);
-					return;
+				if (isOfflineMode && retryCount > 0) {
+					console.log("github.com/fullstack-lang/gong/test/test1/go; Waiting for wasm socket provider...")
+					setTimeout(() => attemptConnection(), 100)
+					return
 				}
 
-				// C. STANDARD SERVER MODE
-				if (!isOfflineMode) {
-					// console.log("github.com/fullstack-lang/gong/test/test1/go; attemptConnection: STANDARD SERVER MODE. url =", url)
-					socket = new WebSocket(url)
-					socket.onopen = (event) => {
-						// console.log("github.com/fullstack-lang/gong/test/test1/go; WebSocket: onopen", event)
-					}
-					socket.onmessage = event => {
-						// console.log("github.com/fullstack-lang/gong/test/test1/go; WebSocket: onmessage")
-						processData(event.data)
-					}
-					socket.onerror = event => {
-						console.error("github.com/fullstack-lang/gong/test/test1/go WebSocket: onerror", event)
-						observer.error(event)
-					}
-					socket.onclose = (event) => {
-						// console.log("github.com/fullstack-lang/gong/test/test1/go; WebSocket: onclose", event)
-						observer.complete()
-					}
-				} else {
+				if (isOfflineMode) {
 					console.error("github.com/fullstack-lang/gong/test/test1/go, attemptConnection: Offline mode detected, but WASM backend failed to load.")
-					observer.error("Offline mode detected, but WASM backend failed to load.");
+					observer.error("Offline mode detected, but WASM backend failed to load.")
+					return
 				}
-			};
 
-			attemptConnection(50);
+				socket = new WebSocket(url)
 
-			// Teardown logic: Called when the last subscriber unsubscribes.
+				socket.onopen = () => {
+					// console.log("github.com/fullstack-lang/gong/test/test1/go; WebSocket connection opened successfully:", url)
+				}
+
+				socket.onmessage = (event) => {
+					// console.log("github.com/fullstack-lang/gong/test/test1/go; WebSocket message received:", event.data)
+					processData(event.data)
+				}
+
+				socket.onerror = (error) => {
+					console.error("github.com/fullstack-lang/gong/test/test1/go WebSocket: onerror", error)
+					observer.error(error)
+				}
+
+				socket.onclose = (event) => {
+					// console.log("github.com/fullstack-lang/gong/test/test1/go; WebSocket connection closed:", event)
+					observer.complete()
+				}
+			}
+
+			let retryCount = 10
+			attemptConnection()
+
 			return () => {
-				this.webSocketConnections.delete(Name) // Remove from cache
+				// console.log("github.com/fullstack-lang/gong/test/test1/go; Cleaning up WebSocket connection")
 				if (socket) {
 					socket.close()
 				}

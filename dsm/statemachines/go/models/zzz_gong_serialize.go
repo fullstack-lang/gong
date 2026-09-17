@@ -24,24 +24,132 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		stage.SerializeExcelizePointer2[*Action](f, addIDs)
-		stage.SerializeExcelizePointer2[*Activities](f, addIDs)
-		stage.SerializeExcelizePointer2[*Diagram](f, addIDs)
-		stage.SerializeExcelizePointer2[*Guard](f, addIDs)
-		stage.SerializeExcelizePointer2[*Kill](f, addIDs)
-		stage.SerializeExcelizePointer2[*Library](f, addIDs)
-		stage.SerializeExcelizePointer2[*Message](f, addIDs)
-		stage.SerializeExcelizePointer2[*MessageType](f, addIDs)
-		stage.SerializeExcelizePointer2[*Note](f, addIDs)
-		stage.SerializeExcelizePointer2[*NoteShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*NoteStateShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*Object](f, addIDs)
-		stage.SerializeExcelizePointer2[*Role](f, addIDs)
-		stage.SerializeExcelizePointer2[*State](f, addIDs)
-		stage.SerializeExcelizePointer2[*StateMachine](f, addIDs)
-		stage.SerializeExcelizePointer2[*StateShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*Transition](f, addIDs)
-		stage.SerializeExcelizePointer2[*Transition_Shape](f, addIDs)
+		{
+			var instances []GongstructIF
+			for instance := range stage.Actions {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Action", instances, (*Action)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Activitiess {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Activities", instances, (*Activities)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Diagrams {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Diagram", instances, (*Diagram)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Guards {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Guard", instances, (*Guard)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Kills {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Kill", instances, (*Kill)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Librarys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Library", instances, (*Library)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Messages {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Message", instances, (*Message)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.MessageTypes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "MessageType", instances, (*MessageType)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Notes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Note", instances, (*Note)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.NoteShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "NoteShape", instances, (*NoteShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.NoteStateShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "NoteStateShape", instances, (*NoteStateShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Objects {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Object", instances, (*Object)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Roles {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Role", instances, (*Role)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.States {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "State", instances, (*State)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StateMachines {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StateMachine", instances, (*StateMachine)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StateShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StateShape", instances, (*StateShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Transitions {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Transition", instances, (*Transition)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Transition_Shapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Transition_Shape", instances, (*Transition_Shape)(nil).GongGetFieldHeaders(), addIDs)
+		}
 	}
 
 	// Create a style with wrap text enabled
@@ -221,33 +329,22 @@ func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, 
 
 }
 
-// SerializeExcelizePointer is the Stage method for Excel serialization.
-func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
-	stage.SerializeExcelizePointer2[Type](f, false)
-}
-
-// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
-func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
-	sheetName := GongGetPointerToGongstructName[Type]()
-
-	sheetName = __gong__shortenString(sheetName)
+// SerializeExcelize is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelize(f *excelize.File, name string, instances []GongstructIF, fields []GongFieldHeader, addIDs bool) {
+	sheetName := __gong__shortenString(name)
 
 	// Create a new sheet.
 	f.NewSheet(sheetName)
 
-	set := *stage.GetInstancesSet[Type]()
-
-	var sortedSlice []Type
-	for key := range set {
-		sortedSlice = append(sortedSlice, key)
-	}
-	slices.SortFunc(sortedSlice, func(a, b Type) int {
+	sortedSlice := make([]GongstructIF, len(instances))
+	copy(sortedSlice, instances)
+	slices.SortFunc(sortedSlice, func(a, b GongstructIF) int {
 		return cmp.Compare(a.GetName(), b.GetName())
 	})
 
 	line := 1
 
-	for index, fieldHeader := range GongGetFieldsFromPointer[Type]() {
+	for index, fieldHeader := range fields {
 		if !addIDs {
 			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(index+1)), line), fieldHeader.Name)
 		} else {
@@ -299,7 +396,7 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 
 		// 3. Add the ID value in column B
 
-		for index, fieldName := range GongGetFieldsFromPointer[Type]() {
+		for index, fieldName := range fields {
 			fieldStringValue := stage.GetFieldStringValueFromPointer(instance, fieldName.Name)
 			if !addIDs {
 				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(index+1)), line), fieldStringValue.GetValueString())
@@ -317,24 +414,20 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 			}
 		}
 	}
+}
 
-	// // Autofit all columns according to their text content
-	// cols, err := f.GetCols(sheetName)
-	// if err != nil {
-	// 	log.Panicln("SerializeExcelize")
-	// }
-	// for idx, col := range cols {
-	// 	largestWidth := 0
-	// 	for _, rowCell := range col {
-	// 		cellWidth := utf8.RuneCountInString(rowCell) + 2 // + 2 for margin
-	// 		if cellWidth > largestWidth {
-	// 			largestWidth = cellWidth
-	// 		}
-	// 	}
-	// 	name, err := excelize.ColumnNumberToName(idx + 1)
-	// 	if err != nil {
-	// 		log.Panicln("SerializeExcelize")
-	// 	}
-	// 	f.SetColWidth(sheetName, name, name, float64(largestWidth))
-	// }
+// SerializeExcelizePointer is the Stage method for Excel serialization.
+func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
+	stage.SerializeExcelizePointer2[Type](f, false)
+}
+
+// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
+	var ret Type
+	set := *stage.GetInstancesSet[Type]()
+	var instances []GongstructIF
+	for key := range set {
+		instances = append(instances, key)
+	}
+	stage.SerializeExcelize(f, ret.GongGetGongstructName(), instances, ret.GongGetFieldHeaders(), addIDs)
 }

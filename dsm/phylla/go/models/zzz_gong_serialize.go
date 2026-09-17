@@ -24,152 +24,1028 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		stage.SerializeExcelizePointer2[*Angle0Shape](f, addIDs)
-		stage.SerializeExcelizePointer2[*ArcNormalVectorShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*ArcNormalVectorShapeGrid](f, addIDs)
-		stage.SerializeExcelizePointer2[*AxesShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*BaseVectorShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*BaseVectorShapeGrid](f, addIDs)
-		stage.SerializeExcelizePointer2[*ChosenP1P2PairShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*CircleGridShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*Circumference3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*Clock2DDiagram](f, addIDs)
-		stage.SerializeExcelizePointer2[*Clock3DDiagram](f, addIDs)
-		stage.SerializeExcelizePointer2[*ClockAbstract](f, addIDs)
-		stage.SerializeExcelizePointer2[*ClockTopCurveShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*CutLine3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*EndArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*EndArcShapeGrid](f, addIDs)
-		stage.SerializeExcelizePointer2[*EndHalfwayArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*EndHalfwayArcShapeGrid](f, addIDs)
-		stage.SerializeExcelizePointer2[*ExplanationTextShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*Eye3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*EyeCornersSampledPoints3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*EyeSampledPoints3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*EyeSeatBottomCurveShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*EyeStoolBottomCurveShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*EyeVolume3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*GridPathShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*GrowthCurve2D](f, addIDs)
-		stage.SerializeExcelizePointer2[*GrowthCurve2DRibbon](f, addIDs)
-		stage.SerializeExcelizePointer2[*GrowthCurve2DRibbonEndShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*GrowthCurve2DRibbonStartShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*GrowthCurveRhombusGridShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*GrowthCurveRhombusShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*GrowthVectorShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*InitialRhombusGridShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*InitialRhombusShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*Key3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*KeyHole3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*KeyHoleShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*Leaves3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*Library](f, addIDs)
-		stage.SerializeExcelizePointer2[*MidArcVectorShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*MidArcVectorShapeGrid](f, addIDs)
-		stage.SerializeExcelizePointer2[*MusicAbstract](f, addIDs)
-		stage.SerializeExcelizePointer2[*OriginalPoints3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*ParastichyMCurves3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*ParastichyNCurves3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*PartiallyGrowthCurve2DRibbon](f, addIDs)
-		stage.SerializeExcelizePointer2[*PartiallyGrowthCurve2DRibbonEndShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*PartiallyGrowthCurve2DRibbonStartShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*PartiallyGrowthCurve2DTrajectory](f, addIDs)
-		stage.SerializeExcelizePointer2[*PartiallyGrowthCurve2DTrajectoryP1CurveShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*PartiallyGrowthCurve2DTrajectoryP1P2](f, addIDs)
-		stage.SerializeExcelizePointer2[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*PartiallyGrowthCurve2DTrajectoryP1PointShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*PartiallyGrowthCurve2DTrajectoryP2CurveShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*PartiallyGrowthCurve2DTrajectoryP2PointShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*PartiallyGrowthCurve2DTrajectoryShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*PartiallyRotatedSeatBottomCurveShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*PartiallyRotatedSeatTopCurveShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*PartiallyRotatedTorusShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*PerpendicularVector](f, addIDs)
-		stage.SerializeExcelizePointer2[*PerpendicularVectorGrid](f, addIDs)
-		stage.SerializeExcelizePointer2[*PerpendicularVectorGridHalfway](f, addIDs)
-		stage.SerializeExcelizePointer2[*PerpendicularVectorHalfway](f, addIDs)
-		stage.SerializeExcelizePointer2[*Plant2DDiagram](f, addIDs)
-		stage.SerializeExcelizePointer2[*Plant3DDiagram](f, addIDs)
-		stage.SerializeExcelizePointer2[*PlantAbstract](f, addIDs)
-		stage.SerializeExcelizePointer2[*PlantCircumferenceShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*PointsAndLines3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*PxShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*Rendered3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*RhombusShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*RhombusStuff](f, addIDs)
-		stage.SerializeExcelizePointer2[*RotatedRhombusGridShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*RotatedRhombusShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*RotatedSampledPoints3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*RotatedSeatAndLegs3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*SampledPoints3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*Seat3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*SeatAndLegs3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*SeatBottomCurveShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*SeatTopCurveShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedBottomTopStartArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedBottomTopStartArcShapeGrid](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedLeftGrowthCurve2DRibbon](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedLeftGrowthCurve2DRibbonEndShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedLeftGrowthCurve2DRibbonStartShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedLeftPartiallyGrowthCurve2DRibbon](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedLeftStackGrowthCurveEndArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedLeftStackGrowthCurveStartArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedLeftStackNormalVector](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedLeftStackOfGrowthCurve](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedLeftStackOfNormalVector](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedRightGrowthCurve2DRibbon](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedRightGrowthCurve2DRibbonEndShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*ShiftedRightGrowthCurve2DRibbonStartShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*StackGrowthCurve2DEndHalfwayArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*StackGrowthCurve2DRibbonEndShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*StackGrowthCurve2DRibbonStartShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*StackGrowthCurve2DStartHalfwayArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*StackOfGrowthCurve2D](f, addIDs)
-		stage.SerializeExcelizePointer2[*StackOfGrowthCurve2DByGrowthVector](f, addIDs)
-		stage.SerializeExcelizePointer2[*StackOfGrowthCurve2DRibbon](f, addIDs)
-		stage.SerializeExcelizePointer2[*StackOfPartiallyRotatedTorusShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*StackOfRotatedGrowthCurve2D](f, addIDs)
-		stage.SerializeExcelizePointer2[*StackOfRotatedGrowthCurve2DRibbon](f, addIDs)
-		stage.SerializeExcelizePointer2[*StackRotatedGrowthCurve2DEndArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*StackRotatedGrowthCurve2DRibbonEndShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*StackRotatedGrowthCurve2DRibbonStartShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*StackRotatedGrowthCurve2DStartArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*StartArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*StartArcShapeGrid](f, addIDs)
-		stage.SerializeExcelizePointer2[*StartHalfwayArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*StartHalfwayArcShapeGrid](f, addIDs)
-		stage.SerializeExcelizePointer2[*StemCylinder3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*Stool2DDiagram](f, addIDs)
-		stage.SerializeExcelizePointer2[*Stool3DDiagram](f, addIDs)
-		stage.SerializeExcelizePointer2[*StoolAbstract](f, addIDs)
-		stage.SerializeExcelizePointer2[*TiledFloor3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopEndArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopEndArcShapeGrid](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopEndHalfwayArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopEndHalfwayArcShapeGrid](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopGrowthCurve2D](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopMidArcVectorShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopMidArcVectorShapeGrid](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopStackGrowthCurve2DEndHalfwayArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopStackGrowthCurve2DStartHalfwayArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopStackOfGrowthCurve2D](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopStackOfRotatedGrowthCurve2D](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopStackOfRotatedGrowthCurve2DEndArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopStackOfRotatedGrowthCurve2DStartArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopStartArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopStartArcShapeGrid](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopStartHalfwayArcShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*TopStartHalfwayArcShapeGrid](f, addIDs)
-		stage.SerializeExcelizePointer2[*Torus3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*TorusEdge3DShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*TorusStackShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*TubeVase3DDiagram](f, addIDs)
-		stage.SerializeExcelizePointer2[*TubeVaseAbstract](f, addIDs)
-		stage.SerializeExcelizePointer2[*Vase2DDiagram](f, addIDs)
-		stage.SerializeExcelizePointer2[*VerticalTorusStackShape](f, addIDs)
-		stage.SerializeExcelizePointer2[*VolumeKey3DShape](f, addIDs)
+		{
+			var instances []GongstructIF
+			for instance := range stage.Angle0Shapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Angle0Shape", instances, (*Angle0Shape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ArcNormalVectorShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ArcNormalVectorShape", instances, (*ArcNormalVectorShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ArcNormalVectorShapeGrids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ArcNormalVectorShapeGrid", instances, (*ArcNormalVectorShapeGrid)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.AxesShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "AxesShape", instances, (*AxesShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.BaseVectorShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "BaseVectorShape", instances, (*BaseVectorShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.BaseVectorShapeGrids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "BaseVectorShapeGrid", instances, (*BaseVectorShapeGrid)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ChosenP1P2PairShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ChosenP1P2PairShape", instances, (*ChosenP1P2PairShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CircleGridShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "CircleGridShape", instances, (*CircleGridShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Circumference3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Circumference3DShape", instances, (*Circumference3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Clock2DDiagrams {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Clock2DDiagram", instances, (*Clock2DDiagram)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Clock3DDiagrams {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Clock3DDiagram", instances, (*Clock3DDiagram)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ClockAbstracts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ClockAbstract", instances, (*ClockAbstract)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ClockTopCurveShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ClockTopCurveShape", instances, (*ClockTopCurveShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CutLine3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "CutLine3DShape", instances, (*CutLine3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EndArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "EndArcShape", instances, (*EndArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EndArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "EndArcShapeGrid", instances, (*EndArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EndHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "EndHalfwayArcShape", instances, (*EndHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EndHalfwayArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "EndHalfwayArcShapeGrid", instances, (*EndHalfwayArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ExplanationTextShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ExplanationTextShape", instances, (*ExplanationTextShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Eye3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Eye3DShape", instances, (*Eye3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EyeCornersSampledPoints3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "EyeCornersSampledPoints3DShape", instances, (*EyeCornersSampledPoints3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EyeSampledPoints3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "EyeSampledPoints3DShape", instances, (*EyeSampledPoints3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EyeSeatBottomCurveShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "EyeSeatBottomCurveShape", instances, (*EyeSeatBottomCurveShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EyeStoolBottomCurveShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "EyeStoolBottomCurveShape", instances, (*EyeStoolBottomCurveShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EyeVolume3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "EyeVolume3DShape", instances, (*EyeVolume3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GridPathShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "GridPathShape", instances, (*GridPathShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GrowthCurve2Ds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "GrowthCurve2D", instances, (*GrowthCurve2D)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GrowthCurve2DRibbons {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "GrowthCurve2DRibbon", instances, (*GrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GrowthCurve2DRibbonEndShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "GrowthCurve2DRibbonEndShape", instances, (*GrowthCurve2DRibbonEndShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GrowthCurve2DRibbonStartShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "GrowthCurve2DRibbonStartShape", instances, (*GrowthCurve2DRibbonStartShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GrowthCurveRhombusGridShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "GrowthCurveRhombusGridShape", instances, (*GrowthCurveRhombusGridShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GrowthCurveRhombusShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "GrowthCurveRhombusShape", instances, (*GrowthCurveRhombusShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GrowthVectorShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "GrowthVectorShape", instances, (*GrowthVectorShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.InitialRhombusGridShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "InitialRhombusGridShape", instances, (*InitialRhombusGridShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.InitialRhombusShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "InitialRhombusShape", instances, (*InitialRhombusShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Key3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Key3DShape", instances, (*Key3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.KeyHole3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "KeyHole3DShape", instances, (*KeyHole3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.KeyHoleShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "KeyHoleShape", instances, (*KeyHoleShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Leaves3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Leaves3DShape", instances, (*Leaves3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Librarys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Library", instances, (*Library)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.MidArcVectorShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "MidArcVectorShape", instances, (*MidArcVectorShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.MidArcVectorShapeGrids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "MidArcVectorShapeGrid", instances, (*MidArcVectorShapeGrid)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.MusicAbstracts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "MusicAbstract", instances, (*MusicAbstract)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.OriginalPoints3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "OriginalPoints3DShape", instances, (*OriginalPoints3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ParastichyMCurves3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ParastichyMCurves3DShape", instances, (*ParastichyMCurves3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ParastichyNCurves3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ParastichyNCurves3DShape", instances, (*ParastichyNCurves3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DRibbons {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PartiallyGrowthCurve2DRibbon", instances, (*PartiallyGrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DRibbonEndShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PartiallyGrowthCurve2DRibbonEndShape", instances, (*PartiallyGrowthCurve2DRibbonEndShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DRibbonStartShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PartiallyGrowthCurve2DRibbonStartShape", instances, (*PartiallyGrowthCurve2DRibbonStartShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectorys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PartiallyGrowthCurve2DTrajectory", instances, (*PartiallyGrowthCurve2DTrajectory)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PartiallyGrowthCurve2DTrajectoryP1CurveShape", instances, (*PartiallyGrowthCurve2DTrajectoryP1CurveShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PartiallyGrowthCurve2DTrajectoryP1P2", instances, (*PartiallyGrowthCurve2DTrajectoryP1P2)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape", instances, (*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PartiallyGrowthCurve2DTrajectoryP1PointShape", instances, (*PartiallyGrowthCurve2DTrajectoryP1PointShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PartiallyGrowthCurve2DTrajectoryP2CurveShape", instances, (*PartiallyGrowthCurve2DTrajectoryP2CurveShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PartiallyGrowthCurve2DTrajectoryP2PointShape", instances, (*PartiallyGrowthCurve2DTrajectoryP2PointShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectoryShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PartiallyGrowthCurve2DTrajectoryShape", instances, (*PartiallyGrowthCurve2DTrajectoryShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyRotatedSeatBottomCurveShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PartiallyRotatedSeatBottomCurveShape", instances, (*PartiallyRotatedSeatBottomCurveShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyRotatedSeatTopCurveShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PartiallyRotatedSeatTopCurveShape", instances, (*PartiallyRotatedSeatTopCurveShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyRotatedTorusShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PartiallyRotatedTorusShape", instances, (*PartiallyRotatedTorusShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PerpendicularVectors {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PerpendicularVector", instances, (*PerpendicularVector)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PerpendicularVectorGrids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PerpendicularVectorGrid", instances, (*PerpendicularVectorGrid)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PerpendicularVectorGridHalfways {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PerpendicularVectorGridHalfway", instances, (*PerpendicularVectorGridHalfway)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PerpendicularVectorHalfways {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PerpendicularVectorHalfway", instances, (*PerpendicularVectorHalfway)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Plant2DDiagrams {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Plant2DDiagram", instances, (*Plant2DDiagram)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Plant3DDiagrams {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Plant3DDiagram", instances, (*Plant3DDiagram)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PlantAbstracts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PlantAbstract", instances, (*PlantAbstract)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PlantCircumferenceShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PlantCircumferenceShape", instances, (*PlantCircumferenceShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PointsAndLines3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PointsAndLines3DShape", instances, (*PointsAndLines3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PxShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "PxShape", instances, (*PxShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Rendered3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Rendered3DShape", instances, (*Rendered3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RhombusShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "RhombusShape", instances, (*RhombusShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RhombusStuffs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "RhombusStuff", instances, (*RhombusStuff)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RotatedRhombusGridShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "RotatedRhombusGridShape", instances, (*RotatedRhombusGridShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RotatedRhombusShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "RotatedRhombusShape", instances, (*RotatedRhombusShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RotatedSampledPoints3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "RotatedSampledPoints3DShape", instances, (*RotatedSampledPoints3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RotatedSeatAndLegs3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "RotatedSeatAndLegs3DShape", instances, (*RotatedSeatAndLegs3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SampledPoints3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "SampledPoints3DShape", instances, (*SampledPoints3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Seat3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Seat3DShape", instances, (*Seat3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SeatAndLegs3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "SeatAndLegs3DShape", instances, (*SeatAndLegs3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SeatBottomCurveShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "SeatBottomCurveShape", instances, (*SeatBottomCurveShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SeatTopCurveShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "SeatTopCurveShape", instances, (*SeatTopCurveShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedBottomTopStartArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedBottomTopStartArcShape", instances, (*ShiftedBottomTopStartArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedBottomTopStartArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedBottomTopStartArcShapeGrid", instances, (*ShiftedBottomTopStartArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftGrowthCurve2DRibbons {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedLeftGrowthCurve2DRibbon", instances, (*ShiftedLeftGrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftGrowthCurve2DRibbonEndShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedLeftGrowthCurve2DRibbonEndShape", instances, (*ShiftedLeftGrowthCurve2DRibbonEndShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftGrowthCurve2DRibbonStartShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedLeftGrowthCurve2DRibbonStartShape", instances, (*ShiftedLeftGrowthCurve2DRibbonStartShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbons {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedLeftPartiallyGrowthCurve2DRibbon", instances, (*ShiftedLeftPartiallyGrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape", instances, (*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape", instances, (*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftStackGrowthCurveEndArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedLeftStackGrowthCurveEndArcShape", instances, (*ShiftedLeftStackGrowthCurveEndArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftStackGrowthCurveStartArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedLeftStackGrowthCurveStartArcShape", instances, (*ShiftedLeftStackGrowthCurveStartArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftStackNormalVectors {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedLeftStackNormalVector", instances, (*ShiftedLeftStackNormalVector)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftStackOfGrowthCurves {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedLeftStackOfGrowthCurve", instances, (*ShiftedLeftStackOfGrowthCurve)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftStackOfNormalVectors {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedLeftStackOfNormalVector", instances, (*ShiftedLeftStackOfNormalVector)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedRightGrowthCurve2DRibbons {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedRightGrowthCurve2DRibbon", instances, (*ShiftedRightGrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedRightGrowthCurve2DRibbonEndShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedRightGrowthCurve2DRibbonEndShape", instances, (*ShiftedRightGrowthCurve2DRibbonEndShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedRightGrowthCurve2DRibbonStartShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ShiftedRightGrowthCurve2DRibbonStartShape", instances, (*ShiftedRightGrowthCurve2DRibbonStartShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackGrowthCurve2DEndHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackGrowthCurve2DEndHalfwayArcShape", instances, (*StackGrowthCurve2DEndHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackGrowthCurve2DRibbonEndShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackGrowthCurve2DRibbonEndShape", instances, (*StackGrowthCurve2DRibbonEndShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackGrowthCurve2DRibbonStartShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackGrowthCurve2DRibbonStartShape", instances, (*StackGrowthCurve2DRibbonStartShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackGrowthCurve2DStartHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackGrowthCurve2DStartHalfwayArcShape", instances, (*StackGrowthCurve2DStartHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackOfGrowthCurve2Ds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackOfGrowthCurve2D", instances, (*StackOfGrowthCurve2D)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackOfGrowthCurve2DByGrowthVectors {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackOfGrowthCurve2DByGrowthVector", instances, (*StackOfGrowthCurve2DByGrowthVector)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackOfGrowthCurve2DRibbons {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackOfGrowthCurve2DRibbon", instances, (*StackOfGrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackOfPartiallyRotatedTorusShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackOfPartiallyRotatedTorusShape", instances, (*StackOfPartiallyRotatedTorusShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackOfRotatedGrowthCurve2Ds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackOfRotatedGrowthCurve2D", instances, (*StackOfRotatedGrowthCurve2D)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackOfRotatedGrowthCurve2DRibbons {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackOfRotatedGrowthCurve2DRibbon", instances, (*StackOfRotatedGrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackRotatedGrowthCurve2DEndArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackRotatedGrowthCurve2DEndArcShape", instances, (*StackRotatedGrowthCurve2DEndArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackRotatedGrowthCurve2DRibbonEndShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackRotatedGrowthCurve2DRibbonEndShape", instances, (*StackRotatedGrowthCurve2DRibbonEndShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackRotatedGrowthCurve2DRibbonStartShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackRotatedGrowthCurve2DRibbonStartShape", instances, (*StackRotatedGrowthCurve2DRibbonStartShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackRotatedGrowthCurve2DStartArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StackRotatedGrowthCurve2DStartArcShape", instances, (*StackRotatedGrowthCurve2DStartArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StartArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StartArcShape", instances, (*StartArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StartArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StartArcShapeGrid", instances, (*StartArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StartHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StartHalfwayArcShape", instances, (*StartHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StartHalfwayArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StartHalfwayArcShapeGrid", instances, (*StartHalfwayArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StemCylinder3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StemCylinder3DShape", instances, (*StemCylinder3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Stool2DDiagrams {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Stool2DDiagram", instances, (*Stool2DDiagram)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Stool3DDiagrams {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Stool3DDiagram", instances, (*Stool3DDiagram)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StoolAbstracts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StoolAbstract", instances, (*StoolAbstract)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TiledFloor3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TiledFloor3DShape", instances, (*TiledFloor3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopEndArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopEndArcShape", instances, (*TopEndArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopEndArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopEndArcShapeGrid", instances, (*TopEndArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopEndHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopEndHalfwayArcShape", instances, (*TopEndHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopEndHalfwayArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopEndHalfwayArcShapeGrid", instances, (*TopEndHalfwayArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopGrowthCurve2Ds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopGrowthCurve2D", instances, (*TopGrowthCurve2D)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopMidArcVectorShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopMidArcVectorShape", instances, (*TopMidArcVectorShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopMidArcVectorShapeGrids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopMidArcVectorShapeGrid", instances, (*TopMidArcVectorShapeGrid)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStackGrowthCurve2DEndHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopStackGrowthCurve2DEndHalfwayArcShape", instances, (*TopStackGrowthCurve2DEndHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStackGrowthCurve2DStartHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopStackGrowthCurve2DStartHalfwayArcShape", instances, (*TopStackGrowthCurve2DStartHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStackOfGrowthCurve2Ds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopStackOfGrowthCurve2D", instances, (*TopStackOfGrowthCurve2D)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStackOfRotatedGrowthCurve2Ds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopStackOfRotatedGrowthCurve2D", instances, (*TopStackOfRotatedGrowthCurve2D)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStackOfRotatedGrowthCurve2DEndArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopStackOfRotatedGrowthCurve2DEndArcShape", instances, (*TopStackOfRotatedGrowthCurve2DEndArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStackOfRotatedGrowthCurve2DStartArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopStackOfRotatedGrowthCurve2DStartArcShape", instances, (*TopStackOfRotatedGrowthCurve2DStartArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStartArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopStartArcShape", instances, (*TopStartArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStartArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopStartArcShapeGrid", instances, (*TopStartArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStartHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopStartHalfwayArcShape", instances, (*TopStartHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStartHalfwayArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopStartHalfwayArcShapeGrid", instances, (*TopStartHalfwayArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Torus3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Torus3DShape", instances, (*Torus3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TorusEdge3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TorusEdge3DShape", instances, (*TorusEdge3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TorusStackShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TorusStackShape", instances, (*TorusStackShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TubeVase3DDiagrams {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TubeVase3DDiagram", instances, (*TubeVase3DDiagram)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TubeVaseAbstracts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TubeVaseAbstract", instances, (*TubeVaseAbstract)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Vase2DDiagrams {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Vase2DDiagram", instances, (*Vase2DDiagram)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.VerticalTorusStackShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "VerticalTorusStackShape", instances, (*VerticalTorusStackShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.VolumeKey3DShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "VolumeKey3DShape", instances, (*VolumeKey3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
 	}
 
 	// Create a style with wrap text enabled
@@ -349,33 +1225,22 @@ func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, 
 
 }
 
-// SerializeExcelizePointer is the Stage method for Excel serialization.
-func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
-	stage.SerializeExcelizePointer2[Type](f, false)
-}
-
-// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
-func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
-	sheetName := GongGetPointerToGongstructName[Type]()
-
-	sheetName = __gong__shortenString(sheetName)
+// SerializeExcelize is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelize(f *excelize.File, name string, instances []GongstructIF, fields []GongFieldHeader, addIDs bool) {
+	sheetName := __gong__shortenString(name)
 
 	// Create a new sheet.
 	f.NewSheet(sheetName)
 
-	set := *stage.GetInstancesSet[Type]()
-
-	var sortedSlice []Type
-	for key := range set {
-		sortedSlice = append(sortedSlice, key)
-	}
-	slices.SortFunc(sortedSlice, func(a, b Type) int {
+	sortedSlice := make([]GongstructIF, len(instances))
+	copy(sortedSlice, instances)
+	slices.SortFunc(sortedSlice, func(a, b GongstructIF) int {
 		return cmp.Compare(a.GetName(), b.GetName())
 	})
 
 	line := 1
 
-	for index, fieldHeader := range GongGetFieldsFromPointer[Type]() {
+	for index, fieldHeader := range fields {
 		if !addIDs {
 			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(index+1)), line), fieldHeader.Name)
 		} else {
@@ -427,7 +1292,7 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 
 		// 3. Add the ID value in column B
 
-		for index, fieldName := range GongGetFieldsFromPointer[Type]() {
+		for index, fieldName := range fields {
 			fieldStringValue := stage.GetFieldStringValueFromPointer(instance, fieldName.Name)
 			if !addIDs {
 				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(index+1)), line), fieldStringValue.GetValueString())
@@ -445,24 +1310,20 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 			}
 		}
 	}
+}
 
-	// // Autofit all columns according to their text content
-	// cols, err := f.GetCols(sheetName)
-	// if err != nil {
-	// 	log.Panicln("SerializeExcelize")
-	// }
-	// for idx, col := range cols {
-	// 	largestWidth := 0
-	// 	for _, rowCell := range col {
-	// 		cellWidth := utf8.RuneCountInString(rowCell) + 2 // + 2 for margin
-	// 		if cellWidth > largestWidth {
-	// 			largestWidth = cellWidth
-	// 		}
-	// 	}
-	// 	name, err := excelize.ColumnNumberToName(idx + 1)
-	// 	if err != nil {
-	// 		log.Panicln("SerializeExcelize")
-	// 	}
-	// 	f.SetColWidth(sheetName, name, name, float64(largestWidth))
-	// }
+// SerializeExcelizePointer is the Stage method for Excel serialization.
+func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
+	stage.SerializeExcelizePointer2[Type](f, false)
+}
+
+// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
+	var ret Type
+	set := *stage.GetInstancesSet[Type]()
+	var instances []GongstructIF
+	for key := range set {
+		instances = append(instances, key)
+	}
+	stage.SerializeExcelize(f, ret.GongGetGongstructName(), instances, ret.GongGetFieldHeaders(), addIDs)
 }

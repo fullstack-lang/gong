@@ -20,7 +20,8 @@ func GeneratesAngularCode(modelPkg *gong_models.ModelPkg,
 	pkgPath string,
 	skipNpmInstall bool,
 	skipGoModCommands bool,
-	addr string) {
+	addr string,
+	skipNonUpdate bool) {
 
 	// generate things in ng  lib directory
 	var ngNewWsPerformed bool
@@ -122,7 +123,7 @@ func GeneratesAngularCode(modelPkg *gong_models.ModelPkg,
 
 	MultiCodeGeneratorNgClassAPI(modelPkg)
 
-	MultiCodeGeneratorNgService(modelPkg, addr)
+	MultiCodeGeneratorNgService(modelPkg, addr, skipNonUpdate)
 
 	CodeGeneratorNgCommitNbFromBack(modelPkg, addr)
 
@@ -130,7 +131,7 @@ func GeneratesAngularCode(modelPkg *gong_models.ModelPkg,
 
 	CodeGeneratorNgPushFromFrontNb(modelPkg, addr)
 
-	CodeGeneratorNgFrontRepo(modelPkg)
+	CodeGeneratorNgFrontRepo(modelPkg, skipNonUpdate)
 
 	CodeGeneratorNgEnum(modelPkg)
 

@@ -24,237 +24,1623 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		stage.SerializeExcelizePointer2[*A_directive](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_measure](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_measure_1](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_part](f, addIDs)
-		stage.SerializeExcelizePointer2[*A_part_1](f, addIDs)
-		stage.SerializeExcelizePointer2[*Accidental](f, addIDs)
-		stage.SerializeExcelizePointer2[*Accidental_mark](f, addIDs)
-		stage.SerializeExcelizePointer2[*Accidental_text](f, addIDs)
-		stage.SerializeExcelizePointer2[*Accord](f, addIDs)
-		stage.SerializeExcelizePointer2[*Accordion_registration](f, addIDs)
-		stage.SerializeExcelizePointer2[*Appearance](f, addIDs)
-		stage.SerializeExcelizePointer2[*Arpeggiate](f, addIDs)
-		stage.SerializeExcelizePointer2[*Arrow](f, addIDs)
-		stage.SerializeExcelizePointer2[*Articulations](f, addIDs)
-		stage.SerializeExcelizePointer2[*Assess](f, addIDs)
-		stage.SerializeExcelizePointer2[*Attributes](f, addIDs)
-		stage.SerializeExcelizePointer2[*Backup](f, addIDs)
-		stage.SerializeExcelizePointer2[*Bar_style_color](f, addIDs)
-		stage.SerializeExcelizePointer2[*Barline](f, addIDs)
-		stage.SerializeExcelizePointer2[*Barre](f, addIDs)
-		stage.SerializeExcelizePointer2[*Bass](f, addIDs)
-		stage.SerializeExcelizePointer2[*Bass_step](f, addIDs)
-		stage.SerializeExcelizePointer2[*Beam](f, addIDs)
-		stage.SerializeExcelizePointer2[*Beat_repeat](f, addIDs)
-		stage.SerializeExcelizePointer2[*Beat_unit_tied](f, addIDs)
-		stage.SerializeExcelizePointer2[*Beater](f, addIDs)
-		stage.SerializeExcelizePointer2[*Bend](f, addIDs)
-		stage.SerializeExcelizePointer2[*Bookmark](f, addIDs)
-		stage.SerializeExcelizePointer2[*Bracket](f, addIDs)
-		stage.SerializeExcelizePointer2[*Breath_mark](f, addIDs)
-		stage.SerializeExcelizePointer2[*Caesura](f, addIDs)
-		stage.SerializeExcelizePointer2[*Cancel](f, addIDs)
-		stage.SerializeExcelizePointer2[*Clef](f, addIDs)
-		stage.SerializeExcelizePointer2[*Coda](f, addIDs)
-		stage.SerializeExcelizePointer2[*Credit](f, addIDs)
-		stage.SerializeExcelizePointer2[*Dashes](f, addIDs)
-		stage.SerializeExcelizePointer2[*Defaults](f, addIDs)
-		stage.SerializeExcelizePointer2[*Degree](f, addIDs)
-		stage.SerializeExcelizePointer2[*Degree_alter](f, addIDs)
-		stage.SerializeExcelizePointer2[*Degree_type](f, addIDs)
-		stage.SerializeExcelizePointer2[*Degree_value](f, addIDs)
-		stage.SerializeExcelizePointer2[*Direction](f, addIDs)
-		stage.SerializeExcelizePointer2[*Direction_type](f, addIDs)
-		stage.SerializeExcelizePointer2[*Distance](f, addIDs)
-		stage.SerializeExcelizePointer2[*Double](f, addIDs)
-		stage.SerializeExcelizePointer2[*Dynamics](f, addIDs)
-		stage.SerializeExcelizePointer2[*Effect](f, addIDs)
-		stage.SerializeExcelizePointer2[*Elision](f, addIDs)
-		stage.SerializeExcelizePointer2[*Empty](f, addIDs)
-		stage.SerializeExcelizePointer2[*Empty_font](f, addIDs)
-		stage.SerializeExcelizePointer2[*Empty_line](f, addIDs)
-		stage.SerializeExcelizePointer2[*Empty_placement](f, addIDs)
-		stage.SerializeExcelizePointer2[*Empty_placement_smufl](f, addIDs)
-		stage.SerializeExcelizePointer2[*Empty_print_object_style_align](f, addIDs)
-		stage.SerializeExcelizePointer2[*Empty_print_style](f, addIDs)
-		stage.SerializeExcelizePointer2[*Empty_print_style_align](f, addIDs)
-		stage.SerializeExcelizePointer2[*Empty_print_style_align_id](f, addIDs)
-		stage.SerializeExcelizePointer2[*Empty_trill_sound](f, addIDs)
-		stage.SerializeExcelizePointer2[*Encoding](f, addIDs)
-		stage.SerializeExcelizePointer2[*Ending](f, addIDs)
-		stage.SerializeExcelizePointer2[*Extend](f, addIDs)
-		stage.SerializeExcelizePointer2[*Feature](f, addIDs)
-		stage.SerializeExcelizePointer2[*Fermata](f, addIDs)
-		stage.SerializeExcelizePointer2[*Figure](f, addIDs)
-		stage.SerializeExcelizePointer2[*Figured_bass](f, addIDs)
-		stage.SerializeExcelizePointer2[*Fingering](f, addIDs)
-		stage.SerializeExcelizePointer2[*First_fret](f, addIDs)
-		stage.SerializeExcelizePointer2[*For_part](f, addIDs)
-		stage.SerializeExcelizePointer2[*Formatted_symbol](f, addIDs)
-		stage.SerializeExcelizePointer2[*Formatted_symbol_id](f, addIDs)
-		stage.SerializeExcelizePointer2[*Formatted_text](f, addIDs)
-		stage.SerializeExcelizePointer2[*Formatted_text_id](f, addIDs)
-		stage.SerializeExcelizePointer2[*Forward](f, addIDs)
-		stage.SerializeExcelizePointer2[*Frame](f, addIDs)
-		stage.SerializeExcelizePointer2[*Frame_note](f, addIDs)
-		stage.SerializeExcelizePointer2[*Fret](f, addIDs)
-		stage.SerializeExcelizePointer2[*Glass](f, addIDs)
-		stage.SerializeExcelizePointer2[*Glissando](f, addIDs)
-		stage.SerializeExcelizePointer2[*Glyph](f, addIDs)
-		stage.SerializeExcelizePointer2[*Grace](f, addIDs)
-		stage.SerializeExcelizePointer2[*Group_barline](f, addIDs)
-		stage.SerializeExcelizePointer2[*Group_name](f, addIDs)
-		stage.SerializeExcelizePointer2[*Group_symbol](f, addIDs)
-		stage.SerializeExcelizePointer2[*Grouping](f, addIDs)
-		stage.SerializeExcelizePointer2[*Hammer_on_pull_off](f, addIDs)
-		stage.SerializeExcelizePointer2[*Handbell](f, addIDs)
-		stage.SerializeExcelizePointer2[*Harmon_closed](f, addIDs)
-		stage.SerializeExcelizePointer2[*Harmon_mute](f, addIDs)
-		stage.SerializeExcelizePointer2[*Harmonic](f, addIDs)
-		stage.SerializeExcelizePointer2[*Harmony](f, addIDs)
-		stage.SerializeExcelizePointer2[*Harmony_alter](f, addIDs)
-		stage.SerializeExcelizePointer2[*Harp_pedals](f, addIDs)
-		stage.SerializeExcelizePointer2[*Heel_toe](f, addIDs)
-		stage.SerializeExcelizePointer2[*Hole](f, addIDs)
-		stage.SerializeExcelizePointer2[*Hole_closed](f, addIDs)
-		stage.SerializeExcelizePointer2[*Horizontal_turn](f, addIDs)
-		stage.SerializeExcelizePointer2[*Identification](f, addIDs)
-		stage.SerializeExcelizePointer2[*Image](f, addIDs)
-		stage.SerializeExcelizePointer2[*Instrument](f, addIDs)
-		stage.SerializeExcelizePointer2[*Instrument_change](f, addIDs)
-		stage.SerializeExcelizePointer2[*Instrument_link](f, addIDs)
-		stage.SerializeExcelizePointer2[*Interchangeable](f, addIDs)
-		stage.SerializeExcelizePointer2[*Inversion](f, addIDs)
-		stage.SerializeExcelizePointer2[*Key](f, addIDs)
-		stage.SerializeExcelizePointer2[*Key_accidental](f, addIDs)
-		stage.SerializeExcelizePointer2[*Key_octave](f, addIDs)
-		stage.SerializeExcelizePointer2[*Kind](f, addIDs)
-		stage.SerializeExcelizePointer2[*Level](f, addIDs)
-		stage.SerializeExcelizePointer2[*Line_detail](f, addIDs)
-		stage.SerializeExcelizePointer2[*Line_width](f, addIDs)
-		stage.SerializeExcelizePointer2[*Link](f, addIDs)
-		stage.SerializeExcelizePointer2[*Listen](f, addIDs)
-		stage.SerializeExcelizePointer2[*Listening](f, addIDs)
-		stage.SerializeExcelizePointer2[*Lyric](f, addIDs)
-		stage.SerializeExcelizePointer2[*Lyric_font](f, addIDs)
-		stage.SerializeExcelizePointer2[*Lyric_language](f, addIDs)
-		stage.SerializeExcelizePointer2[*Measure_layout](f, addIDs)
-		stage.SerializeExcelizePointer2[*Measure_numbering](f, addIDs)
-		stage.SerializeExcelizePointer2[*Measure_repeat](f, addIDs)
-		stage.SerializeExcelizePointer2[*Measure_style](f, addIDs)
-		stage.SerializeExcelizePointer2[*Membrane](f, addIDs)
-		stage.SerializeExcelizePointer2[*Metal](f, addIDs)
-		stage.SerializeExcelizePointer2[*Metronome](f, addIDs)
-		stage.SerializeExcelizePointer2[*Metronome_beam](f, addIDs)
-		stage.SerializeExcelizePointer2[*Metronome_note](f, addIDs)
-		stage.SerializeExcelizePointer2[*Metronome_tied](f, addIDs)
-		stage.SerializeExcelizePointer2[*Metronome_tuplet](f, addIDs)
-		stage.SerializeExcelizePointer2[*Midi_device](f, addIDs)
-		stage.SerializeExcelizePointer2[*Midi_instrument](f, addIDs)
-		stage.SerializeExcelizePointer2[*Miscellaneous](f, addIDs)
-		stage.SerializeExcelizePointer2[*Miscellaneous_field](f, addIDs)
-		stage.SerializeExcelizePointer2[*Mordent](f, addIDs)
-		stage.SerializeExcelizePointer2[*Multiple_rest](f, addIDs)
-		stage.SerializeExcelizePointer2[*Name_display](f, addIDs)
-		stage.SerializeExcelizePointer2[*Non_arpeggiate](f, addIDs)
-		stage.SerializeExcelizePointer2[*Notations](f, addIDs)
-		stage.SerializeExcelizePointer2[*Note](f, addIDs)
-		stage.SerializeExcelizePointer2[*Note_size](f, addIDs)
-		stage.SerializeExcelizePointer2[*Note_type](f, addIDs)
-		stage.SerializeExcelizePointer2[*Notehead](f, addIDs)
-		stage.SerializeExcelizePointer2[*Notehead_text](f, addIDs)
-		stage.SerializeExcelizePointer2[*Numeral](f, addIDs)
-		stage.SerializeExcelizePointer2[*Numeral_key](f, addIDs)
-		stage.SerializeExcelizePointer2[*Numeral_root](f, addIDs)
-		stage.SerializeExcelizePointer2[*Octave_shift](f, addIDs)
-		stage.SerializeExcelizePointer2[*Offset](f, addIDs)
-		stage.SerializeExcelizePointer2[*Opus](f, addIDs)
-		stage.SerializeExcelizePointer2[*Ornaments](f, addIDs)
-		stage.SerializeExcelizePointer2[*Other_appearance](f, addIDs)
-		stage.SerializeExcelizePointer2[*Other_direction](f, addIDs)
-		stage.SerializeExcelizePointer2[*Other_listening](f, addIDs)
-		stage.SerializeExcelizePointer2[*Other_notation](f, addIDs)
-		stage.SerializeExcelizePointer2[*Other_placement_text](f, addIDs)
-		stage.SerializeExcelizePointer2[*Other_play](f, addIDs)
-		stage.SerializeExcelizePointer2[*Other_text](f, addIDs)
-		stage.SerializeExcelizePointer2[*Page_layout](f, addIDs)
-		stage.SerializeExcelizePointer2[*Page_margins](f, addIDs)
-		stage.SerializeExcelizePointer2[*Part_clef](f, addIDs)
-		stage.SerializeExcelizePointer2[*Part_group](f, addIDs)
-		stage.SerializeExcelizePointer2[*Part_link](f, addIDs)
-		stage.SerializeExcelizePointer2[*Part_list](f, addIDs)
-		stage.SerializeExcelizePointer2[*Part_name](f, addIDs)
-		stage.SerializeExcelizePointer2[*Part_symbol](f, addIDs)
-		stage.SerializeExcelizePointer2[*Part_transpose](f, addIDs)
-		stage.SerializeExcelizePointer2[*Pedal](f, addIDs)
-		stage.SerializeExcelizePointer2[*Pedal_tuning](f, addIDs)
-		stage.SerializeExcelizePointer2[*Per_minute](f, addIDs)
-		stage.SerializeExcelizePointer2[*Percussion](f, addIDs)
-		stage.SerializeExcelizePointer2[*Pitch](f, addIDs)
-		stage.SerializeExcelizePointer2[*Pitched](f, addIDs)
-		stage.SerializeExcelizePointer2[*Placement_text](f, addIDs)
-		stage.SerializeExcelizePointer2[*Play](f, addIDs)
-		stage.SerializeExcelizePointer2[*Player](f, addIDs)
-		stage.SerializeExcelizePointer2[*Principal_voice](f, addIDs)
-		stage.SerializeExcelizePointer2[*Print](f, addIDs)
-		stage.SerializeExcelizePointer2[*Release](f, addIDs)
-		stage.SerializeExcelizePointer2[*Repeat](f, addIDs)
-		stage.SerializeExcelizePointer2[*Rest](f, addIDs)
-		stage.SerializeExcelizePointer2[*Root](f, addIDs)
-		stage.SerializeExcelizePointer2[*Root_step](f, addIDs)
-		stage.SerializeExcelizePointer2[*Scaling](f, addIDs)
-		stage.SerializeExcelizePointer2[*Scordatura](f, addIDs)
-		stage.SerializeExcelizePointer2[*Score_instrument](f, addIDs)
-		stage.SerializeExcelizePointer2[*Score_part](f, addIDs)
-		stage.SerializeExcelizePointer2[*Score_partwise](f, addIDs)
-		stage.SerializeExcelizePointer2[*Score_timewise](f, addIDs)
-		stage.SerializeExcelizePointer2[*Segno](f, addIDs)
-		stage.SerializeExcelizePointer2[*Slash](f, addIDs)
-		stage.SerializeExcelizePointer2[*Slide](f, addIDs)
-		stage.SerializeExcelizePointer2[*Slur](f, addIDs)
-		stage.SerializeExcelizePointer2[*Sound](f, addIDs)
-		stage.SerializeExcelizePointer2[*Staff_details](f, addIDs)
-		stage.SerializeExcelizePointer2[*Staff_divide](f, addIDs)
-		stage.SerializeExcelizePointer2[*Staff_layout](f, addIDs)
-		stage.SerializeExcelizePointer2[*Staff_size](f, addIDs)
-		stage.SerializeExcelizePointer2[*Staff_tuning](f, addIDs)
-		stage.SerializeExcelizePointer2[*Stem](f, addIDs)
-		stage.SerializeExcelizePointer2[*Stick](f, addIDs)
-		stage.SerializeExcelizePointer2[*String_mute](f, addIDs)
-		stage.SerializeExcelizePointer2[*String_type](f, addIDs)
-		stage.SerializeExcelizePointer2[*Strong_accent](f, addIDs)
-		stage.SerializeExcelizePointer2[*Style_text](f, addIDs)
-		stage.SerializeExcelizePointer2[*Supports](f, addIDs)
-		stage.SerializeExcelizePointer2[*Swing](f, addIDs)
-		stage.SerializeExcelizePointer2[*Sync](f, addIDs)
-		stage.SerializeExcelizePointer2[*System_dividers](f, addIDs)
-		stage.SerializeExcelizePointer2[*System_layout](f, addIDs)
-		stage.SerializeExcelizePointer2[*System_margins](f, addIDs)
-		stage.SerializeExcelizePointer2[*Tap](f, addIDs)
-		stage.SerializeExcelizePointer2[*Technical](f, addIDs)
-		stage.SerializeExcelizePointer2[*Text_element_data](f, addIDs)
-		stage.SerializeExcelizePointer2[*Tie](f, addIDs)
-		stage.SerializeExcelizePointer2[*Tied](f, addIDs)
-		stage.SerializeExcelizePointer2[*Time](f, addIDs)
-		stage.SerializeExcelizePointer2[*Time_modification](f, addIDs)
-		stage.SerializeExcelizePointer2[*Timpani](f, addIDs)
-		stage.SerializeExcelizePointer2[*Transpose](f, addIDs)
-		stage.SerializeExcelizePointer2[*Tremolo](f, addIDs)
-		stage.SerializeExcelizePointer2[*Tuplet](f, addIDs)
-		stage.SerializeExcelizePointer2[*Tuplet_dot](f, addIDs)
-		stage.SerializeExcelizePointer2[*Tuplet_number](f, addIDs)
-		stage.SerializeExcelizePointer2[*Tuplet_portion](f, addIDs)
-		stage.SerializeExcelizePointer2[*Tuplet_type](f, addIDs)
-		stage.SerializeExcelizePointer2[*Typed_text](f, addIDs)
-		stage.SerializeExcelizePointer2[*Unpitched](f, addIDs)
-		stage.SerializeExcelizePointer2[*Virtual_instrument](f, addIDs)
-		stage.SerializeExcelizePointer2[*Wait](f, addIDs)
-		stage.SerializeExcelizePointer2[*Wavy_line](f, addIDs)
-		stage.SerializeExcelizePointer2[*Wedge](f, addIDs)
-		stage.SerializeExcelizePointer2[*Wood](f, addIDs)
-		stage.SerializeExcelizePointer2[*Work](f, addIDs)
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_directives {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_directive", instances, (*A_directive)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_measures {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_measure", instances, (*A_measure)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_measure_1s {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_measure_1", instances, (*A_measure_1)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_parts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_part", instances, (*A_part)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.A_part_1s {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "A_part_1", instances, (*A_part_1)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Accidentals {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Accidental", instances, (*Accidental)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Accidental_marks {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Accidental_mark", instances, (*Accidental_mark)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Accidental_texts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Accidental_text", instances, (*Accidental_text)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Accords {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Accord", instances, (*Accord)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Accordion_registrations {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Accordion_registration", instances, (*Accordion_registration)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Appearances {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Appearance", instances, (*Appearance)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Arpeggiates {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Arpeggiate", instances, (*Arpeggiate)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Arrows {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Arrow", instances, (*Arrow)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Articulationss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Articulations", instances, (*Articulations)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Assesss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Assess", instances, (*Assess)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Attributess {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Attributes", instances, (*Attributes)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Backups {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Backup", instances, (*Backup)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Bar_style_colors {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Bar_style_color", instances, (*Bar_style_color)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Barlines {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Barline", instances, (*Barline)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Barres {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Barre", instances, (*Barre)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Basss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Bass", instances, (*Bass)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Bass_steps {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Bass_step", instances, (*Bass_step)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Beams {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Beam", instances, (*Beam)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Beat_repeats {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Beat_repeat", instances, (*Beat_repeat)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Beat_unit_tieds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Beat_unit_tied", instances, (*Beat_unit_tied)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Beaters {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Beater", instances, (*Beater)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Bends {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Bend", instances, (*Bend)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Bookmarks {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Bookmark", instances, (*Bookmark)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Brackets {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Bracket", instances, (*Bracket)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Breath_marks {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Breath_mark", instances, (*Breath_mark)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Caesuras {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Caesura", instances, (*Caesura)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Cancels {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Cancel", instances, (*Cancel)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Clefs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Clef", instances, (*Clef)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Codas {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Coda", instances, (*Coda)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Credits {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Credit", instances, (*Credit)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Dashess {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Dashes", instances, (*Dashes)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Defaultss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Defaults", instances, (*Defaults)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Degrees {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Degree", instances, (*Degree)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Degree_alters {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Degree_alter", instances, (*Degree_alter)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Degree_types {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Degree_type", instances, (*Degree_type)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Degree_values {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Degree_value", instances, (*Degree_value)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Directions {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Direction", instances, (*Direction)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Direction_types {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Direction_type", instances, (*Direction_type)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Distances {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Distance", instances, (*Distance)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Doubles {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Double", instances, (*Double)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Dynamicss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Dynamics", instances, (*Dynamics)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Effects {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Effect", instances, (*Effect)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Elisions {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Elision", instances, (*Elision)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Emptys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Empty", instances, (*Empty)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Empty_fonts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Empty_font", instances, (*Empty_font)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Empty_lines {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Empty_line", instances, (*Empty_line)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Empty_placements {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Empty_placement", instances, (*Empty_placement)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Empty_placement_smufls {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Empty_placement_smufl", instances, (*Empty_placement_smufl)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Empty_print_object_style_aligns {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Empty_print_object_style_align", instances, (*Empty_print_object_style_align)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Empty_print_styles {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Empty_print_style", instances, (*Empty_print_style)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Empty_print_style_aligns {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Empty_print_style_align", instances, (*Empty_print_style_align)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Empty_print_style_align_ids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Empty_print_style_align_id", instances, (*Empty_print_style_align_id)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Empty_trill_sounds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Empty_trill_sound", instances, (*Empty_trill_sound)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Encodings {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Encoding", instances, (*Encoding)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Endings {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Ending", instances, (*Ending)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Extends {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Extend", instances, (*Extend)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Features {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Feature", instances, (*Feature)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Fermatas {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Fermata", instances, (*Fermata)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Figures {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Figure", instances, (*Figure)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Figured_basss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Figured_bass", instances, (*Figured_bass)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Fingerings {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Fingering", instances, (*Fingering)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.First_frets {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "First_fret", instances, (*First_fret)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.For_parts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "For_part", instances, (*For_part)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Formatted_symbols {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Formatted_symbol", instances, (*Formatted_symbol)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Formatted_symbol_ids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Formatted_symbol_id", instances, (*Formatted_symbol_id)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Formatted_texts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Formatted_text", instances, (*Formatted_text)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Formatted_text_ids {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Formatted_text_id", instances, (*Formatted_text_id)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Forwards {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Forward", instances, (*Forward)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Frames {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Frame", instances, (*Frame)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Frame_notes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Frame_note", instances, (*Frame_note)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Frets {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Fret", instances, (*Fret)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Glasss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Glass", instances, (*Glass)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Glissandos {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Glissando", instances, (*Glissando)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Glyphs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Glyph", instances, (*Glyph)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Graces {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Grace", instances, (*Grace)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Group_barlines {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Group_barline", instances, (*Group_barline)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Group_names {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Group_name", instances, (*Group_name)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Group_symbols {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Group_symbol", instances, (*Group_symbol)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Groupings {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Grouping", instances, (*Grouping)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Hammer_on_pull_offs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Hammer_on_pull_off", instances, (*Hammer_on_pull_off)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Handbells {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Handbell", instances, (*Handbell)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Harmon_closeds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Harmon_closed", instances, (*Harmon_closed)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Harmon_mutes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Harmon_mute", instances, (*Harmon_mute)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Harmonics {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Harmonic", instances, (*Harmonic)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Harmonys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Harmony", instances, (*Harmony)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Harmony_alters {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Harmony_alter", instances, (*Harmony_alter)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Harp_pedalss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Harp_pedals", instances, (*Harp_pedals)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Heel_toes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Heel_toe", instances, (*Heel_toe)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Holes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Hole", instances, (*Hole)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Hole_closeds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Hole_closed", instances, (*Hole_closed)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Horizontal_turns {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Horizontal_turn", instances, (*Horizontal_turn)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Identifications {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Identification", instances, (*Identification)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Images {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Image", instances, (*Image)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Instruments {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Instrument", instances, (*Instrument)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Instrument_changes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Instrument_change", instances, (*Instrument_change)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Instrument_links {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Instrument_link", instances, (*Instrument_link)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Interchangeables {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Interchangeable", instances, (*Interchangeable)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Inversions {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Inversion", instances, (*Inversion)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Keys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Key", instances, (*Key)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Key_accidentals {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Key_accidental", instances, (*Key_accidental)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Key_octaves {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Key_octave", instances, (*Key_octave)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Kinds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Kind", instances, (*Kind)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Levels {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Level", instances, (*Level)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Line_details {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Line_detail", instances, (*Line_detail)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Line_widths {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Line_width", instances, (*Line_width)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Links {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Link", instances, (*Link)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Listens {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Listen", instances, (*Listen)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Listenings {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Listening", instances, (*Listening)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Lyrics {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Lyric", instances, (*Lyric)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Lyric_fonts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Lyric_font", instances, (*Lyric_font)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Lyric_languages {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Lyric_language", instances, (*Lyric_language)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Measure_layouts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Measure_layout", instances, (*Measure_layout)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Measure_numberings {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Measure_numbering", instances, (*Measure_numbering)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Measure_repeats {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Measure_repeat", instances, (*Measure_repeat)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Measure_styles {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Measure_style", instances, (*Measure_style)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Membranes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Membrane", instances, (*Membrane)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Metals {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Metal", instances, (*Metal)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Metronomes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Metronome", instances, (*Metronome)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Metronome_beams {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Metronome_beam", instances, (*Metronome_beam)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Metronome_notes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Metronome_note", instances, (*Metronome_note)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Metronome_tieds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Metronome_tied", instances, (*Metronome_tied)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Metronome_tuplets {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Metronome_tuplet", instances, (*Metronome_tuplet)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Midi_devices {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Midi_device", instances, (*Midi_device)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Midi_instruments {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Midi_instrument", instances, (*Midi_instrument)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Miscellaneouss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Miscellaneous", instances, (*Miscellaneous)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Miscellaneous_fields {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Miscellaneous_field", instances, (*Miscellaneous_field)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Mordents {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Mordent", instances, (*Mordent)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Multiple_rests {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Multiple_rest", instances, (*Multiple_rest)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Name_displays {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Name_display", instances, (*Name_display)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Non_arpeggiates {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Non_arpeggiate", instances, (*Non_arpeggiate)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Notationss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Notations", instances, (*Notations)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Notes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Note", instances, (*Note)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Note_sizes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Note_size", instances, (*Note_size)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Note_types {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Note_type", instances, (*Note_type)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Noteheads {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Notehead", instances, (*Notehead)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Notehead_texts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Notehead_text", instances, (*Notehead_text)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Numerals {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Numeral", instances, (*Numeral)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Numeral_keys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Numeral_key", instances, (*Numeral_key)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Numeral_roots {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Numeral_root", instances, (*Numeral_root)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Octave_shifts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Octave_shift", instances, (*Octave_shift)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Offsets {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Offset", instances, (*Offset)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Opuss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Opus", instances, (*Opus)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Ornamentss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Ornaments", instances, (*Ornaments)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Other_appearances {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Other_appearance", instances, (*Other_appearance)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Other_directions {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Other_direction", instances, (*Other_direction)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Other_listenings {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Other_listening", instances, (*Other_listening)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Other_notations {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Other_notation", instances, (*Other_notation)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Other_placement_texts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Other_placement_text", instances, (*Other_placement_text)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Other_plays {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Other_play", instances, (*Other_play)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Other_texts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Other_text", instances, (*Other_text)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Page_layouts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Page_layout", instances, (*Page_layout)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Page_marginss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Page_margins", instances, (*Page_margins)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Part_clefs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Part_clef", instances, (*Part_clef)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Part_groups {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Part_group", instances, (*Part_group)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Part_links {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Part_link", instances, (*Part_link)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Part_lists {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Part_list", instances, (*Part_list)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Part_names {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Part_name", instances, (*Part_name)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Part_symbols {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Part_symbol", instances, (*Part_symbol)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Part_transposes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Part_transpose", instances, (*Part_transpose)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Pedals {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Pedal", instances, (*Pedal)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Pedal_tunings {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Pedal_tuning", instances, (*Pedal_tuning)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Per_minutes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Per_minute", instances, (*Per_minute)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Percussions {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Percussion", instances, (*Percussion)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Pitchs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Pitch", instances, (*Pitch)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Pitcheds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Pitched", instances, (*Pitched)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Placement_texts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Placement_text", instances, (*Placement_text)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Plays {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Play", instances, (*Play)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Players {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Player", instances, (*Player)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Principal_voices {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Principal_voice", instances, (*Principal_voice)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Prints {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Print", instances, (*Print)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Releases {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Release", instances, (*Release)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Repeats {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Repeat", instances, (*Repeat)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Rests {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Rest", instances, (*Rest)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Roots {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Root", instances, (*Root)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Root_steps {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Root_step", instances, (*Root_step)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Scalings {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Scaling", instances, (*Scaling)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Scordaturas {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Scordatura", instances, (*Scordatura)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Score_instruments {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Score_instrument", instances, (*Score_instrument)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Score_parts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Score_part", instances, (*Score_part)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Score_partwises {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Score_partwise", instances, (*Score_partwise)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Score_timewises {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Score_timewise", instances, (*Score_timewise)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Segnos {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Segno", instances, (*Segno)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Slashs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Slash", instances, (*Slash)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Slides {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Slide", instances, (*Slide)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Slurs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Slur", instances, (*Slur)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Sounds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Sound", instances, (*Sound)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Staff_detailss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Staff_details", instances, (*Staff_details)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Staff_divides {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Staff_divide", instances, (*Staff_divide)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Staff_layouts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Staff_layout", instances, (*Staff_layout)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Staff_sizes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Staff_size", instances, (*Staff_size)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Staff_tunings {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Staff_tuning", instances, (*Staff_tuning)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Stems {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Stem", instances, (*Stem)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Sticks {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Stick", instances, (*Stick)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.String_mutes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "String_mute", instances, (*String_mute)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.String_types {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "String_type", instances, (*String_type)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Strong_accents {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Strong_accent", instances, (*Strong_accent)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Style_texts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Style_text", instances, (*Style_text)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Supportss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Supports", instances, (*Supports)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Swings {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Swing", instances, (*Swing)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Syncs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Sync", instances, (*Sync)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.System_dividerss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "System_dividers", instances, (*System_dividers)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.System_layouts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "System_layout", instances, (*System_layout)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.System_marginss {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "System_margins", instances, (*System_margins)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Taps {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Tap", instances, (*Tap)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Technicals {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Technical", instances, (*Technical)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Text_element_datas {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Text_element_data", instances, (*Text_element_data)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Ties {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Tie", instances, (*Tie)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Tieds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Tied", instances, (*Tied)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Times {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Time", instances, (*Time)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Time_modifications {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Time_modification", instances, (*Time_modification)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Timpanis {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Timpani", instances, (*Timpani)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Transposes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Transpose", instances, (*Transpose)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Tremolos {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Tremolo", instances, (*Tremolo)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Tuplets {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Tuplet", instances, (*Tuplet)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Tuplet_dots {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Tuplet_dot", instances, (*Tuplet_dot)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Tuplet_numbers {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Tuplet_number", instances, (*Tuplet_number)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Tuplet_portions {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Tuplet_portion", instances, (*Tuplet_portion)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Tuplet_types {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Tuplet_type", instances, (*Tuplet_type)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Typed_texts {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Typed_text", instances, (*Typed_text)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Unpitcheds {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Unpitched", instances, (*Unpitched)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Virtual_instruments {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Virtual_instrument", instances, (*Virtual_instrument)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Waits {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Wait", instances, (*Wait)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Wavy_lines {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Wavy_line", instances, (*Wavy_line)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Wedges {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Wedge", instances, (*Wedge)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Woods {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Wood", instances, (*Wood)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Works {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Work", instances, (*Work)(nil).GongGetFieldHeaders(), addIDs)
+		}
 	}
 
 	// Create a style with wrap text enabled
@@ -434,33 +1820,22 @@ func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, 
 
 }
 
-// SerializeExcelizePointer is the Stage method for Excel serialization.
-func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
-	stage.SerializeExcelizePointer2[Type](f, false)
-}
-
-// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
-func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
-	sheetName := GongGetPointerToGongstructName[Type]()
-
-	sheetName = __gong__shortenString(sheetName)
+// SerializeExcelize is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelize(f *excelize.File, name string, instances []GongstructIF, fields []GongFieldHeader, addIDs bool) {
+	sheetName := __gong__shortenString(name)
 
 	// Create a new sheet.
 	f.NewSheet(sheetName)
 
-	set := *stage.GetInstancesSet[Type]()
-
-	var sortedSlice []Type
-	for key := range set {
-		sortedSlice = append(sortedSlice, key)
-	}
-	slices.SortFunc(sortedSlice, func(a, b Type) int {
+	sortedSlice := make([]GongstructIF, len(instances))
+	copy(sortedSlice, instances)
+	slices.SortFunc(sortedSlice, func(a, b GongstructIF) int {
 		return cmp.Compare(a.GetName(), b.GetName())
 	})
 
 	line := 1
 
-	for index, fieldHeader := range GongGetFieldsFromPointer[Type]() {
+	for index, fieldHeader := range fields {
 		if !addIDs {
 			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(index+1)), line), fieldHeader.Name)
 		} else {
@@ -512,7 +1887,7 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 
 		// 3. Add the ID value in column B
 
-		for index, fieldName := range GongGetFieldsFromPointer[Type]() {
+		for index, fieldName := range fields {
 			fieldStringValue := stage.GetFieldStringValueFromPointer(instance, fieldName.Name)
 			if !addIDs {
 				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", GongIntToLetters(int32(index+1)), line), fieldStringValue.GetValueString())
@@ -530,24 +1905,20 @@ func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excel
 			}
 		}
 	}
+}
 
-	// // Autofit all columns according to their text content
-	// cols, err := f.GetCols(sheetName)
-	// if err != nil {
-	// 	log.Panicln("SerializeExcelize")
-	// }
-	// for idx, col := range cols {
-	// 	largestWidth := 0
-	// 	for _, rowCell := range col {
-	// 		cellWidth := utf8.RuneCountInString(rowCell) + 2 // + 2 for margin
-	// 		if cellWidth > largestWidth {
-	// 			largestWidth = cellWidth
-	// 		}
-	// 	}
-	// 	name, err := excelize.ColumnNumberToName(idx + 1)
-	// 	if err != nil {
-	// 		log.Panicln("SerializeExcelize")
-	// 	}
-	// 	f.SetColWidth(sheetName, name, name, float64(largestWidth))
-	// }
+// SerializeExcelizePointer is the Stage method for Excel serialization.
+func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
+	stage.SerializeExcelizePointer2[Type](f, false)
+}
+
+// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
+	var ret Type
+	set := *stage.GetInstancesSet[Type]()
+	var instances []GongstructIF
+	for key := range set {
+		instances = append(instances, key)
+	}
+	stage.SerializeExcelize(f, ret.GongGetGongstructName(), instances, ret.GongGetFieldHeaders(), addIDs)
 }

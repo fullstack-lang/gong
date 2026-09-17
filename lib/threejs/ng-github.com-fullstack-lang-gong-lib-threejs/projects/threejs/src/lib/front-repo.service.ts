@@ -2,89 +2,69 @@
 import { Injectable, NgZone } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
+import { Observable, BehaviorSubject, of } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
 
 // insertion point sub template for services imports
 import { AmbiantLightAPI } from './ambiantlight-api'
 import { AmbiantLight, CopyAmbiantLightAPIToAmbiantLight } from './ambiantlight'
-import { AmbiantLightService } from './ambiantlight.service'
 
 import { BoxGeometryAPI } from './boxgeometry-api'
 import { BoxGeometry, CopyBoxGeometryAPIToBoxGeometry } from './boxgeometry'
-import { BoxGeometryService } from './boxgeometry.service'
 
 import { BufferGeometryAPI } from './buffergeometry-api'
 import { BufferGeometry, CopyBufferGeometryAPIToBufferGeometry } from './buffergeometry'
-import { BufferGeometryService } from './buffergeometry.service'
 
 import { CameraAPI } from './camera-api'
 import { Camera, CopyCameraAPIToCamera } from './camera'
-import { CameraService } from './camera.service'
 
 import { CanvasAPI } from './canvas-api'
 import { Canvas, CopyCanvasAPIToCanvas } from './canvas'
-import { CanvasService } from './canvas.service'
 
 import { CurveAPI } from './curve-api'
 import { Curve, CopyCurveAPIToCurve } from './curve'
-import { CurveService } from './curve.service'
 
 import { CylinderGeometryAPI } from './cylindergeometry-api'
 import { CylinderGeometry, CopyCylinderGeometryAPIToCylinderGeometry } from './cylindergeometry'
-import { CylinderGeometryService } from './cylindergeometry.service'
 
 import { DirectionalLightAPI } from './directionallight-api'
 import { DirectionalLight, CopyDirectionalLightAPIToDirectionalLight } from './directionallight'
-import { DirectionalLightService } from './directionallight.service'
 
 import { ExtrudeGeometryAPI } from './extrudegeometry-api'
 import { ExtrudeGeometry, CopyExtrudeGeometryAPIToExtrudeGeometry } from './extrudegeometry'
-import { ExtrudeGeometryService } from './extrudegeometry.service'
 
 import { MeshAPI } from './mesh-api'
 import { Mesh, CopyMeshAPIToMesh } from './mesh'
-import { MeshService } from './mesh.service'
 
 import { MeshMaterialBasicAPI } from './meshmaterialbasic-api'
 import { MeshMaterialBasic, CopyMeshMaterialBasicAPIToMeshMaterialBasic } from './meshmaterialbasic'
-import { MeshMaterialBasicService } from './meshmaterialbasic.service'
 
 import { MeshPhysicalMaterialAPI } from './meshphysicalmaterial-api'
 import { MeshPhysicalMaterial, CopyMeshPhysicalMaterialAPIToMeshPhysicalMaterial } from './meshphysicalmaterial'
-import { MeshPhysicalMaterialService } from './meshphysicalmaterial.service'
 
 import { PlaneGeometryAPI } from './planegeometry-api'
 import { PlaneGeometry, CopyPlaneGeometryAPIToPlaneGeometry } from './planegeometry'
-import { PlaneGeometryService } from './planegeometry.service'
 
 import { ShapeAPI } from './shape-api'
 import { Shape, CopyShapeAPIToShape } from './shape'
-import { ShapeService } from './shape.service'
 
 import { SphereGeometryAPI } from './spheregeometry-api'
 import { SphereGeometry, CopySphereGeometryAPIToSphereGeometry } from './spheregeometry'
-import { SphereGeometryService } from './spheregeometry.service'
 
 import { TorusGeometryAPI } from './torusgeometry-api'
 import { TorusGeometry, CopyTorusGeometryAPIToTorusGeometry } from './torusgeometry'
-import { TorusGeometryService } from './torusgeometry.service'
 
 import { TriangleAPI } from './triangle-api'
 import { Triangle, CopyTriangleAPIToTriangle } from './triangle'
-import { TriangleService } from './triangle.service'
 
 import { TubeGeometryAPI } from './tubegeometry-api'
 import { TubeGeometry, CopyTubeGeometryAPIToTubeGeometry } from './tubegeometry'
-import { TubeGeometryService } from './tubegeometry.service'
 
 import { Vector2API } from './vector2-api'
 import { Vector2, CopyVector2APIToVector2 } from './vector2'
-import { Vector2Service } from './vector2.service'
 
 import { Vector3API } from './vector3-api'
 import { Vector3, CopyVector3APIToVector3 } from './vector3'
-import { Vector3Service } from './vector3.service'
 
 
 import { BackRepoData } from './back-repo-data'
@@ -320,605 +300,15 @@ export class FrontRepoService {
 
 	constructor(
 		private http: HttpClient,
-		private ngZone: NgZone, // insertion point sub template 
-		private ambiantlightService: AmbiantLightService,
-		private boxgeometryService: BoxGeometryService,
-		private buffergeometryService: BufferGeometryService,
-		private cameraService: CameraService,
-		private canvasService: CanvasService,
-		private curveService: CurveService,
-		private cylindergeometryService: CylinderGeometryService,
-		private directionallightService: DirectionalLightService,
-		private extrudegeometryService: ExtrudeGeometryService,
-		private meshService: MeshService,
-		private meshmaterialbasicService: MeshMaterialBasicService,
-		private meshphysicalmaterialService: MeshPhysicalMaterialService,
-		private planegeometryService: PlaneGeometryService,
-		private shapeService: ShapeService,
-		private spheregeometryService: SphereGeometryService,
-		private torusgeometryService: TorusGeometryService,
-		private triangleService: TriangleService,
-		private tubegeometryService: TubeGeometryService,
-		private vector2Service: Vector2Service,
-		private vector3Service: Vector3Service,
+		private ngZone: NgZone,
 	) { }
 
-	// postService provides a post function for each struct name
-	postService(structName: string, instanceToBePosted: any) {
-		let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
-		let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
-
-		servicePostFunction(instanceToBePosted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("post")
-			}
-		)
-	}
-
-	// deleteService provides a delete function for each struct name
-	deleteService(structName: string, instanceToBeDeleted: any) {
-		let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
-		let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
-
-		serviceDeleteFunction(instanceToBeDeleted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("delete")
-			}
-		)
-	}
-
-	// typing of observable can be messy in typescript. Therefore, one force the type
-	observableFrontRepo!: [
-		Observable<null>, // see below for the of(null) observable
-		// insertion point sub template 
-		Observable<AmbiantLightAPI[]>,
-		Observable<BoxGeometryAPI[]>,
-		Observable<BufferGeometryAPI[]>,
-		Observable<CameraAPI[]>,
-		Observable<CanvasAPI[]>,
-		Observable<CurveAPI[]>,
-		Observable<CylinderGeometryAPI[]>,
-		Observable<DirectionalLightAPI[]>,
-		Observable<ExtrudeGeometryAPI[]>,
-		Observable<MeshAPI[]>,
-		Observable<MeshMaterialBasicAPI[]>,
-		Observable<MeshPhysicalMaterialAPI[]>,
-		Observable<PlaneGeometryAPI[]>,
-		Observable<ShapeAPI[]>,
-		Observable<SphereGeometryAPI[]>,
-		Observable<TorusGeometryAPI[]>,
-		Observable<TriangleAPI[]>,
-		Observable<TubeGeometryAPI[]>,
-		Observable<Vector2API[]>,
-		Observable<Vector3API[]>,
-	]
-
 	//
-	// pull performs a GET on all struct of the stack and redeem association pointers 
+	// pull returns the FrontRepo Observable
 	//
-	// This is an observable. Therefore, the control flow forks with
-	// - pull() return immediatly the observable
-	// - the observable observer, if it subscribe, is called when all GET calls are performs
 	pull(Name: string = ""): Observable<FrontRepo> {
-
 		this.Name = Name
-
-		this.observableFrontRepo = [
-			of(null), // see above for justification
-			// insertion point sub template
-			this.ambiantlightService.getAmbiantLights(this.Name, this.frontRepo),
-			this.boxgeometryService.getBoxGeometrys(this.Name, this.frontRepo),
-			this.buffergeometryService.getBufferGeometrys(this.Name, this.frontRepo),
-			this.cameraService.getCameras(this.Name, this.frontRepo),
-			this.canvasService.getCanvass(this.Name, this.frontRepo),
-			this.curveService.getCurves(this.Name, this.frontRepo),
-			this.cylindergeometryService.getCylinderGeometrys(this.Name, this.frontRepo),
-			this.directionallightService.getDirectionalLights(this.Name, this.frontRepo),
-			this.extrudegeometryService.getExtrudeGeometrys(this.Name, this.frontRepo),
-			this.meshService.getMeshs(this.Name, this.frontRepo),
-			this.meshmaterialbasicService.getMeshMaterialBasics(this.Name, this.frontRepo),
-			this.meshphysicalmaterialService.getMeshPhysicalMaterials(this.Name, this.frontRepo),
-			this.planegeometryService.getPlaneGeometrys(this.Name, this.frontRepo),
-			this.shapeService.getShapes(this.Name, this.frontRepo),
-			this.spheregeometryService.getSphereGeometrys(this.Name, this.frontRepo),
-			this.torusgeometryService.getTorusGeometrys(this.Name, this.frontRepo),
-			this.triangleService.getTriangles(this.Name, this.frontRepo),
-			this.tubegeometryService.getTubeGeometrys(this.Name, this.frontRepo),
-			this.vector2Service.getVector2s(this.Name, this.frontRepo),
-			this.vector3Service.getVector3s(this.Name, this.frontRepo),
-		]
-
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest(
-					this.observableFrontRepo
-				).subscribe(
-					([
-						___of_null, // see above for the explanation about of
-						// insertion point sub template for declarations 
-						ambiantlights_,
-						boxgeometrys_,
-						buffergeometrys_,
-						cameras_,
-						canvass_,
-						curves_,
-						cylindergeometrys_,
-						directionallights_,
-						extrudegeometrys_,
-						meshs_,
-						meshmaterialbasics_,
-						meshphysicalmaterials_,
-						planegeometrys_,
-						shapes_,
-						spheregeometrys_,
-						torusgeometrys_,
-						triangles_,
-						tubegeometrys_,
-						vector2s_,
-						vector3s_,
-					]) => {
-						let _this = this
-						// Typing can be messy with many items. Therefore, type casting is necessary here
-						// insertion point sub template for type casting 
-						var ambiantlights: AmbiantLightAPI[]
-						ambiantlights = ambiantlights_ as AmbiantLightAPI[]
-						var boxgeometrys: BoxGeometryAPI[]
-						boxgeometrys = boxgeometrys_ as BoxGeometryAPI[]
-						var buffergeometrys: BufferGeometryAPI[]
-						buffergeometrys = buffergeometrys_ as BufferGeometryAPI[]
-						var cameras: CameraAPI[]
-						cameras = cameras_ as CameraAPI[]
-						var canvass: CanvasAPI[]
-						canvass = canvass_ as CanvasAPI[]
-						var curves: CurveAPI[]
-						curves = curves_ as CurveAPI[]
-						var cylindergeometrys: CylinderGeometryAPI[]
-						cylindergeometrys = cylindergeometrys_ as CylinderGeometryAPI[]
-						var directionallights: DirectionalLightAPI[]
-						directionallights = directionallights_ as DirectionalLightAPI[]
-						var extrudegeometrys: ExtrudeGeometryAPI[]
-						extrudegeometrys = extrudegeometrys_ as ExtrudeGeometryAPI[]
-						var meshs: MeshAPI[]
-						meshs = meshs_ as MeshAPI[]
-						var meshmaterialbasics: MeshMaterialBasicAPI[]
-						meshmaterialbasics = meshmaterialbasics_ as MeshMaterialBasicAPI[]
-						var meshphysicalmaterials: MeshPhysicalMaterialAPI[]
-						meshphysicalmaterials = meshphysicalmaterials_ as MeshPhysicalMaterialAPI[]
-						var planegeometrys: PlaneGeometryAPI[]
-						planegeometrys = planegeometrys_ as PlaneGeometryAPI[]
-						var shapes: ShapeAPI[]
-						shapes = shapes_ as ShapeAPI[]
-						var spheregeometrys: SphereGeometryAPI[]
-						spheregeometrys = spheregeometrys_ as SphereGeometryAPI[]
-						var torusgeometrys: TorusGeometryAPI[]
-						torusgeometrys = torusgeometrys_ as TorusGeometryAPI[]
-						var triangles: TriangleAPI[]
-						triangles = triangles_ as TriangleAPI[]
-						var tubegeometrys: TubeGeometryAPI[]
-						tubegeometrys = tubegeometrys_ as TubeGeometryAPI[]
-						var vector2s: Vector2API[]
-						vector2s = vector2s_ as Vector2API[]
-						var vector3s: Vector3API[]
-						vector3s = vector3s_ as Vector3API[]
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template for init 
-						// init the arrays
-						this.frontRepo.array_AmbiantLights = []
-						this.frontRepo.map_ID_AmbiantLight.clear()
-
-						ambiantlights.forEach(
-							ambiantlightAPI => {
-								let ambiantlight = new AmbiantLight
-								this.frontRepo.array_AmbiantLights.push(ambiantlight)
-								this.frontRepo.map_ID_AmbiantLight.set(ambiantlightAPI.ID, ambiantlight)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_BoxGeometrys = []
-						this.frontRepo.map_ID_BoxGeometry.clear()
-
-						boxgeometrys.forEach(
-							boxgeometryAPI => {
-								let boxgeometry = new BoxGeometry
-								this.frontRepo.array_BoxGeometrys.push(boxgeometry)
-								this.frontRepo.map_ID_BoxGeometry.set(boxgeometryAPI.ID, boxgeometry)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_BufferGeometrys = []
-						this.frontRepo.map_ID_BufferGeometry.clear()
-
-						buffergeometrys.forEach(
-							buffergeometryAPI => {
-								let buffergeometry = new BufferGeometry
-								this.frontRepo.array_BufferGeometrys.push(buffergeometry)
-								this.frontRepo.map_ID_BufferGeometry.set(buffergeometryAPI.ID, buffergeometry)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Cameras = []
-						this.frontRepo.map_ID_Camera.clear()
-
-						cameras.forEach(
-							cameraAPI => {
-								let camera = new Camera
-								this.frontRepo.array_Cameras.push(camera)
-								this.frontRepo.map_ID_Camera.set(cameraAPI.ID, camera)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Canvass = []
-						this.frontRepo.map_ID_Canvas.clear()
-
-						canvass.forEach(
-							canvasAPI => {
-								let canvas = new Canvas
-								this.frontRepo.array_Canvass.push(canvas)
-								this.frontRepo.map_ID_Canvas.set(canvasAPI.ID, canvas)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Curves = []
-						this.frontRepo.map_ID_Curve.clear()
-
-						curves.forEach(
-							curveAPI => {
-								let curve = new Curve
-								this.frontRepo.array_Curves.push(curve)
-								this.frontRepo.map_ID_Curve.set(curveAPI.ID, curve)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_CylinderGeometrys = []
-						this.frontRepo.map_ID_CylinderGeometry.clear()
-
-						cylindergeometrys.forEach(
-							cylindergeometryAPI => {
-								let cylindergeometry = new CylinderGeometry
-								this.frontRepo.array_CylinderGeometrys.push(cylindergeometry)
-								this.frontRepo.map_ID_CylinderGeometry.set(cylindergeometryAPI.ID, cylindergeometry)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_DirectionalLights = []
-						this.frontRepo.map_ID_DirectionalLight.clear()
-
-						directionallights.forEach(
-							directionallightAPI => {
-								let directionallight = new DirectionalLight
-								this.frontRepo.array_DirectionalLights.push(directionallight)
-								this.frontRepo.map_ID_DirectionalLight.set(directionallightAPI.ID, directionallight)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_ExtrudeGeometrys = []
-						this.frontRepo.map_ID_ExtrudeGeometry.clear()
-
-						extrudegeometrys.forEach(
-							extrudegeometryAPI => {
-								let extrudegeometry = new ExtrudeGeometry
-								this.frontRepo.array_ExtrudeGeometrys.push(extrudegeometry)
-								this.frontRepo.map_ID_ExtrudeGeometry.set(extrudegeometryAPI.ID, extrudegeometry)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Meshs = []
-						this.frontRepo.map_ID_Mesh.clear()
-
-						meshs.forEach(
-							meshAPI => {
-								let mesh = new Mesh
-								this.frontRepo.array_Meshs.push(mesh)
-								this.frontRepo.map_ID_Mesh.set(meshAPI.ID, mesh)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_MeshMaterialBasics = []
-						this.frontRepo.map_ID_MeshMaterialBasic.clear()
-
-						meshmaterialbasics.forEach(
-							meshmaterialbasicAPI => {
-								let meshmaterialbasic = new MeshMaterialBasic
-								this.frontRepo.array_MeshMaterialBasics.push(meshmaterialbasic)
-								this.frontRepo.map_ID_MeshMaterialBasic.set(meshmaterialbasicAPI.ID, meshmaterialbasic)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_MeshPhysicalMaterials = []
-						this.frontRepo.map_ID_MeshPhysicalMaterial.clear()
-
-						meshphysicalmaterials.forEach(
-							meshphysicalmaterialAPI => {
-								let meshphysicalmaterial = new MeshPhysicalMaterial
-								this.frontRepo.array_MeshPhysicalMaterials.push(meshphysicalmaterial)
-								this.frontRepo.map_ID_MeshPhysicalMaterial.set(meshphysicalmaterialAPI.ID, meshphysicalmaterial)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_PlaneGeometrys = []
-						this.frontRepo.map_ID_PlaneGeometry.clear()
-
-						planegeometrys.forEach(
-							planegeometryAPI => {
-								let planegeometry = new PlaneGeometry
-								this.frontRepo.array_PlaneGeometrys.push(planegeometry)
-								this.frontRepo.map_ID_PlaneGeometry.set(planegeometryAPI.ID, planegeometry)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Shapes = []
-						this.frontRepo.map_ID_Shape.clear()
-
-						shapes.forEach(
-							shapeAPI => {
-								let shape = new Shape
-								this.frontRepo.array_Shapes.push(shape)
-								this.frontRepo.map_ID_Shape.set(shapeAPI.ID, shape)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_SphereGeometrys = []
-						this.frontRepo.map_ID_SphereGeometry.clear()
-
-						spheregeometrys.forEach(
-							spheregeometryAPI => {
-								let spheregeometry = new SphereGeometry
-								this.frontRepo.array_SphereGeometrys.push(spheregeometry)
-								this.frontRepo.map_ID_SphereGeometry.set(spheregeometryAPI.ID, spheregeometry)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_TorusGeometrys = []
-						this.frontRepo.map_ID_TorusGeometry.clear()
-
-						torusgeometrys.forEach(
-							torusgeometryAPI => {
-								let torusgeometry = new TorusGeometry
-								this.frontRepo.array_TorusGeometrys.push(torusgeometry)
-								this.frontRepo.map_ID_TorusGeometry.set(torusgeometryAPI.ID, torusgeometry)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Triangles = []
-						this.frontRepo.map_ID_Triangle.clear()
-
-						triangles.forEach(
-							triangleAPI => {
-								let triangle = new Triangle
-								this.frontRepo.array_Triangles.push(triangle)
-								this.frontRepo.map_ID_Triangle.set(triangleAPI.ID, triangle)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_TubeGeometrys = []
-						this.frontRepo.map_ID_TubeGeometry.clear()
-
-						tubegeometrys.forEach(
-							tubegeometryAPI => {
-								let tubegeometry = new TubeGeometry
-								this.frontRepo.array_TubeGeometrys.push(tubegeometry)
-								this.frontRepo.map_ID_TubeGeometry.set(tubegeometryAPI.ID, tubegeometry)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Vector2s = []
-						this.frontRepo.map_ID_Vector2.clear()
-
-						vector2s.forEach(
-							vector2API => {
-								let vector2 = new Vector2
-								this.frontRepo.array_Vector2s.push(vector2)
-								this.frontRepo.map_ID_Vector2.set(vector2API.ID, vector2)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Vector3s = []
-						this.frontRepo.map_ID_Vector3.clear()
-
-						vector3s.forEach(
-							vector3API => {
-								let vector3 = new Vector3
-								this.frontRepo.array_Vector3s.push(vector3)
-								this.frontRepo.map_ID_Vector3.set(vector3API.ID, vector3)
-							}
-						)
-
-
-						// 
-						// Second Step: reddeem front objects
-						// insertion point sub template for redeem 
-						// fill up front objects
-						ambiantlights.forEach(
-							ambiantlightAPI => {
-								let ambiantlight = this.frontRepo.map_ID_AmbiantLight.get(ambiantlightAPI.ID)
-								CopyAmbiantLightAPIToAmbiantLight(ambiantlightAPI, ambiantlight!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						boxgeometrys.forEach(
-							boxgeometryAPI => {
-								let boxgeometry = this.frontRepo.map_ID_BoxGeometry.get(boxgeometryAPI.ID)
-								CopyBoxGeometryAPIToBoxGeometry(boxgeometryAPI, boxgeometry!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						buffergeometrys.forEach(
-							buffergeometryAPI => {
-								let buffergeometry = this.frontRepo.map_ID_BufferGeometry.get(buffergeometryAPI.ID)
-								CopyBufferGeometryAPIToBufferGeometry(buffergeometryAPI, buffergeometry!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						cameras.forEach(
-							cameraAPI => {
-								let camera = this.frontRepo.map_ID_Camera.get(cameraAPI.ID)
-								CopyCameraAPIToCamera(cameraAPI, camera!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						canvass.forEach(
-							canvasAPI => {
-								let canvas = this.frontRepo.map_ID_Canvas.get(canvasAPI.ID)
-								CopyCanvasAPIToCanvas(canvasAPI, canvas!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						curves.forEach(
-							curveAPI => {
-								let curve = this.frontRepo.map_ID_Curve.get(curveAPI.ID)
-								CopyCurveAPIToCurve(curveAPI, curve!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						cylindergeometrys.forEach(
-							cylindergeometryAPI => {
-								let cylindergeometry = this.frontRepo.map_ID_CylinderGeometry.get(cylindergeometryAPI.ID)
-								CopyCylinderGeometryAPIToCylinderGeometry(cylindergeometryAPI, cylindergeometry!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						directionallights.forEach(
-							directionallightAPI => {
-								let directionallight = this.frontRepo.map_ID_DirectionalLight.get(directionallightAPI.ID)
-								CopyDirectionalLightAPIToDirectionalLight(directionallightAPI, directionallight!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						extrudegeometrys.forEach(
-							extrudegeometryAPI => {
-								let extrudegeometry = this.frontRepo.map_ID_ExtrudeGeometry.get(extrudegeometryAPI.ID)
-								CopyExtrudeGeometryAPIToExtrudeGeometry(extrudegeometryAPI, extrudegeometry!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						meshs.forEach(
-							meshAPI => {
-								let mesh = this.frontRepo.map_ID_Mesh.get(meshAPI.ID)
-								CopyMeshAPIToMesh(meshAPI, mesh!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						meshmaterialbasics.forEach(
-							meshmaterialbasicAPI => {
-								let meshmaterialbasic = this.frontRepo.map_ID_MeshMaterialBasic.get(meshmaterialbasicAPI.ID)
-								CopyMeshMaterialBasicAPIToMeshMaterialBasic(meshmaterialbasicAPI, meshmaterialbasic!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						meshphysicalmaterials.forEach(
-							meshphysicalmaterialAPI => {
-								let meshphysicalmaterial = this.frontRepo.map_ID_MeshPhysicalMaterial.get(meshphysicalmaterialAPI.ID)
-								CopyMeshPhysicalMaterialAPIToMeshPhysicalMaterial(meshphysicalmaterialAPI, meshphysicalmaterial!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						planegeometrys.forEach(
-							planegeometryAPI => {
-								let planegeometry = this.frontRepo.map_ID_PlaneGeometry.get(planegeometryAPI.ID)
-								CopyPlaneGeometryAPIToPlaneGeometry(planegeometryAPI, planegeometry!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						shapes.forEach(
-							shapeAPI => {
-								let shape = this.frontRepo.map_ID_Shape.get(shapeAPI.ID)
-								CopyShapeAPIToShape(shapeAPI, shape!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						spheregeometrys.forEach(
-							spheregeometryAPI => {
-								let spheregeometry = this.frontRepo.map_ID_SphereGeometry.get(spheregeometryAPI.ID)
-								CopySphereGeometryAPIToSphereGeometry(spheregeometryAPI, spheregeometry!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						torusgeometrys.forEach(
-							torusgeometryAPI => {
-								let torusgeometry = this.frontRepo.map_ID_TorusGeometry.get(torusgeometryAPI.ID)
-								CopyTorusGeometryAPIToTorusGeometry(torusgeometryAPI, torusgeometry!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						triangles.forEach(
-							triangleAPI => {
-								let triangle = this.frontRepo.map_ID_Triangle.get(triangleAPI.ID)
-								CopyTriangleAPIToTriangle(triangleAPI, triangle!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						tubegeometrys.forEach(
-							tubegeometryAPI => {
-								let tubegeometry = this.frontRepo.map_ID_TubeGeometry.get(tubegeometryAPI.ID)
-								CopyTubeGeometryAPIToTubeGeometry(tubegeometryAPI, tubegeometry!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						vector2s.forEach(
-							vector2API => {
-								let vector2 = this.frontRepo.map_ID_Vector2.get(vector2API.ID)
-								CopyVector2APIToVector2(vector2API, vector2!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						vector3s.forEach(
-							vector3API => {
-								let vector3 = this.frontRepo.map_ID_Vector3.get(vector3API.ID)
-								CopyVector3APIToVector3(vector3API, vector3!, this.frontRepo)
-							}
-						)
-
-
-						// hand over control flow to observer
-						this.ngZone.run(() => {
-							observer.next(this.frontRepo)
-						})
-					}
-				)
-			}
-		)
+		return of(this.frontRepo)
 	}
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
@@ -1375,54 +765,71 @@ export class FrontRepoService {
 				})
 			}
 
-			// 3. Connection Loop
-			const attemptConnection = (retries: number): void => {
-				// console.log("github.com/fullstack-lang/gong/lib/threejs/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+			// Offline mode handling: Listen to the global event
+			if (isOfflineMode) {
+				console.log("github.com/fullstack-lang/gong/lib/threejs/go; Offline mode detected. Skipping WebSocket connection.")
 
-				// A. WASM OFFLINE MODE (Check if Go is ready)
-				if ((window as any).openWasmSocket) {
-					// console.log("github.com/fullstack-lang/gong/lib/threejs/go; attemptConnection: openWasmSocket exists, calling it");
-					(window as any).openWasmSocket("github.com/fullstack-lang/gong/lib/threejs/go", Name, processData);
-					return;
+				window.addEventListener('message', (event) => {
+					if (event.data && event.data.type === 'STAGE_UPDATE') {
+						console.log("github.com/fullstack-lang/gong/lib/threejs/go; Received STAGE_UPDATE message.")
+						processData(JSON.stringify(event.data.data))
+					}
+				})
+
+				return () => {
+					console.log("github.com/fullstack-lang/gong/lib/threejs/go; Cleaning up offline message listener.")
+				}
+			}
+
+			// Fallback: If not offline, create normal WebSocket
+			const attemptConnection = () => {
+				// Offline check inside attemptConnection: if window.openWasmSocket is available, use it!
+				if (typeof window !== 'undefined' && (window as any).openWasmSocket) {
+					(window as any).openWasmSocket('github.com/fullstack-lang/gong/lib/threejs/go', Name, (data: any) => {
+						processData(data)
+					})
+					return
 				}
 
-				// B. WAITING FOR WASM
-				if (isOfflineMode && retries > 0) {
-					// console.log("github.com/fullstack-lang/gong/lib/threejs/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
-					setTimeout(() => attemptConnection(retries - 1), 100);
-					return;
+				if (isOfflineMode && retryCount > 0) {
+					console.log("github.com/fullstack-lang/gong/lib/threejs/go; Waiting for wasm socket provider...")
+					setTimeout(() => attemptConnection(), 100)
+					return
 				}
 
-				// C. STANDARD SERVER MODE
-				if (!isOfflineMode) {
-					// console.log("github.com/fullstack-lang/gong/lib/threejs/go; attemptConnection: STANDARD SERVER MODE. url =", url)
-					socket = new WebSocket(url)
-					socket.onopen = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/threejs/go; WebSocket: onopen", event)
-					}
-					socket.onmessage = event => {
-						// console.log("github.com/fullstack-lang/gong/lib/threejs/go; WebSocket: onmessage")
-						processData(event.data)
-					}
-					socket.onerror = event => {
-						console.error("github.com/fullstack-lang/gong/lib/threejs/go WebSocket: onerror", event)
-						observer.error(event)
-					}
-					socket.onclose = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/threejs/go; WebSocket: onclose", event)
-						observer.complete()
-					}
-				} else {
+				if (isOfflineMode) {
 					console.error("github.com/fullstack-lang/gong/lib/threejs/go, attemptConnection: Offline mode detected, but WASM backend failed to load.")
-					observer.error("Offline mode detected, but WASM backend failed to load.");
+					observer.error("Offline mode detected, but WASM backend failed to load.")
+					return
 				}
-			};
 
-			attemptConnection(50);
+				socket = new WebSocket(url)
 
-			// Teardown logic: Called when the last subscriber unsubscribes.
+				socket.onopen = () => {
+					// console.log("github.com/fullstack-lang/gong/lib/threejs/go; WebSocket connection opened successfully:", url)
+				}
+
+				socket.onmessage = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/threejs/go; WebSocket message received:", event.data)
+					processData(event.data)
+				}
+
+				socket.onerror = (error) => {
+					console.error("github.com/fullstack-lang/gong/lib/threejs/go WebSocket: onerror", error)
+					observer.error(error)
+				}
+
+				socket.onclose = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/threejs/go; WebSocket connection closed:", event)
+					observer.complete()
+				}
+			}
+
+			let retryCount = 10
+			attemptConnection()
+
 			return () => {
-				this.webSocketConnections.delete(Name) // Remove from cache
+				// console.log("github.com/fullstack-lang/gong/lib/threejs/go; Cleaning up WebSocket connection")
 				if (socket) {
 					socket.close()
 				}

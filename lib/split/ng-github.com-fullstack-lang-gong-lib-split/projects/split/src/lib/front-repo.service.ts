@@ -2,89 +2,69 @@
 import { Injectable, NgZone } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
+import { Observable, BehaviorSubject, of } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
 
 // insertion point sub template for services imports
 import { AsSplitAPI } from './assplit-api'
 import { AsSplit, CopyAsSplitAPIToAsSplit } from './assplit'
-import { AsSplitService } from './assplit.service'
 
 import { AsSplitAreaAPI } from './assplitarea-api'
 import { AsSplitArea, CopyAsSplitAreaAPIToAsSplitArea } from './assplitarea'
-import { AsSplitAreaService } from './assplitarea.service'
 
 import { ButtonAPI } from './button-api'
 import { Button, CopyButtonAPIToButton } from './button'
-import { ButtonService } from './button.service'
 
 import { CursorAPI } from './cursor-api'
 import { Cursor, CopyCursorAPIToCursor } from './cursor'
-import { CursorService } from './cursor.service'
 
 import { FavIconAPI } from './favicon-api'
 import { FavIcon, CopyFavIconAPIToFavIcon } from './favicon'
-import { FavIconService } from './favicon.service'
 
 import { FormAPI } from './form-api'
 import { Form, CopyFormAPIToForm } from './form'
-import { FormService } from './form.service'
 
 import { LoadAPI } from './load-api'
 import { Load, CopyLoadAPIToLoad } from './load'
-import { LoadService } from './load.service'
 
 import { LogoOnTheLeftAPI } from './logoontheleft-api'
 import { LogoOnTheLeft, CopyLogoOnTheLeftAPIToLogoOnTheLeft } from './logoontheleft'
-import { LogoOnTheLeftService } from './logoontheleft.service'
 
 import { LogoOnTheRightAPI } from './logoontheright-api'
 import { LogoOnTheRight, CopyLogoOnTheRightAPIToLogoOnTheRight } from './logoontheright'
-import { LogoOnTheRightService } from './logoontheright.service'
 
 import { MarkdownAPI } from './markdown-api'
 import { Markdown, CopyMarkdownAPIToMarkdown } from './markdown'
-import { MarkdownService } from './markdown.service'
 
 import { SliderAPI } from './slider-api'
 import { Slider, CopySliderAPIToSlider } from './slider'
-import { SliderService } from './slider.service'
 
 import { SplitAPI } from './split-api'
 import { Split, CopySplitAPIToSplit } from './split'
-import { SplitService } from './split.service'
 
 import { SvgAPI } from './svg-api'
 import { Svg, CopySvgAPIToSvg } from './svg'
-import { SvgService } from './svg.service'
 
 import { TableAPI } from './table-api'
 import { Table, CopyTableAPIToTable } from './table'
-import { TableService } from './table.service'
 
 import { ThreejsAPI } from './threejs-api'
 import { Threejs, CopyThreejsAPIToThreejs } from './threejs'
-import { ThreejsService } from './threejs.service'
 
 import { TitleAPI } from './title-api'
 import { Title, CopyTitleAPIToTitle } from './title'
-import { TitleService } from './title.service'
 
 import { ToneAPI } from './tone-api'
 import { Tone, CopyToneAPIToTone } from './tone'
-import { ToneService } from './tone.service'
 
 import { TreeAPI } from './tree-api'
 import { Tree, CopyTreeAPIToTree } from './tree'
-import { TreeService } from './tree.service'
 
 import { ViewAPI } from './view-api'
 import { View, CopyViewAPIToView } from './view'
-import { ViewService } from './view.service'
 
 import { XlsxAPI } from './xlsx-api'
 import { Xlsx, CopyXlsxAPIToXlsx } from './xlsx'
-import { XlsxService } from './xlsx.service'
 
 
 import { BackRepoData } from './back-repo-data'
@@ -320,605 +300,15 @@ export class FrontRepoService {
 
 	constructor(
 		private http: HttpClient,
-		private ngZone: NgZone, // insertion point sub template 
-		private assplitService: AsSplitService,
-		private assplitareaService: AsSplitAreaService,
-		private buttonService: ButtonService,
-		private cursorService: CursorService,
-		private faviconService: FavIconService,
-		private formService: FormService,
-		private loadService: LoadService,
-		private logoontheleftService: LogoOnTheLeftService,
-		private logoontherightService: LogoOnTheRightService,
-		private markdownService: MarkdownService,
-		private sliderService: SliderService,
-		private splitService: SplitService,
-		private svgService: SvgService,
-		private tableService: TableService,
-		private threejsService: ThreejsService,
-		private titleService: TitleService,
-		private toneService: ToneService,
-		private treeService: TreeService,
-		private viewService: ViewService,
-		private xlsxService: XlsxService,
+		private ngZone: NgZone,
 	) { }
 
-	// postService provides a post function for each struct name
-	postService(structName: string, instanceToBePosted: any) {
-		let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
-		let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
-
-		servicePostFunction(instanceToBePosted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("post")
-			}
-		)
-	}
-
-	// deleteService provides a delete function for each struct name
-	deleteService(structName: string, instanceToBeDeleted: any) {
-		let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
-		let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
-
-		serviceDeleteFunction(instanceToBeDeleted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("delete")
-			}
-		)
-	}
-
-	// typing of observable can be messy in typescript. Therefore, one force the type
-	observableFrontRepo!: [
-		Observable<null>, // see below for the of(null) observable
-		// insertion point sub template 
-		Observable<AsSplitAPI[]>,
-		Observable<AsSplitAreaAPI[]>,
-		Observable<ButtonAPI[]>,
-		Observable<CursorAPI[]>,
-		Observable<FavIconAPI[]>,
-		Observable<FormAPI[]>,
-		Observable<LoadAPI[]>,
-		Observable<LogoOnTheLeftAPI[]>,
-		Observable<LogoOnTheRightAPI[]>,
-		Observable<MarkdownAPI[]>,
-		Observable<SliderAPI[]>,
-		Observable<SplitAPI[]>,
-		Observable<SvgAPI[]>,
-		Observable<TableAPI[]>,
-		Observable<ThreejsAPI[]>,
-		Observable<TitleAPI[]>,
-		Observable<ToneAPI[]>,
-		Observable<TreeAPI[]>,
-		Observable<ViewAPI[]>,
-		Observable<XlsxAPI[]>,
-	]
-
 	//
-	// pull performs a GET on all struct of the stack and redeem association pointers 
+	// pull returns the FrontRepo Observable
 	//
-	// This is an observable. Therefore, the control flow forks with
-	// - pull() return immediatly the observable
-	// - the observable observer, if it subscribe, is called when all GET calls are performs
 	pull(Name: string = ""): Observable<FrontRepo> {
-
 		this.Name = Name
-
-		this.observableFrontRepo = [
-			of(null), // see above for justification
-			// insertion point sub template
-			this.assplitService.getAsSplits(this.Name, this.frontRepo),
-			this.assplitareaService.getAsSplitAreas(this.Name, this.frontRepo),
-			this.buttonService.getButtons(this.Name, this.frontRepo),
-			this.cursorService.getCursors(this.Name, this.frontRepo),
-			this.faviconService.getFavIcons(this.Name, this.frontRepo),
-			this.formService.getForms(this.Name, this.frontRepo),
-			this.loadService.getLoads(this.Name, this.frontRepo),
-			this.logoontheleftService.getLogoOnTheLefts(this.Name, this.frontRepo),
-			this.logoontherightService.getLogoOnTheRights(this.Name, this.frontRepo),
-			this.markdownService.getMarkdowns(this.Name, this.frontRepo),
-			this.sliderService.getSliders(this.Name, this.frontRepo),
-			this.splitService.getSplits(this.Name, this.frontRepo),
-			this.svgService.getSvgs(this.Name, this.frontRepo),
-			this.tableService.getTables(this.Name, this.frontRepo),
-			this.threejsService.getThreejss(this.Name, this.frontRepo),
-			this.titleService.getTitles(this.Name, this.frontRepo),
-			this.toneService.getTones(this.Name, this.frontRepo),
-			this.treeService.getTrees(this.Name, this.frontRepo),
-			this.viewService.getViews(this.Name, this.frontRepo),
-			this.xlsxService.getXlsxs(this.Name, this.frontRepo),
-		]
-
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest(
-					this.observableFrontRepo
-				).subscribe(
-					([
-						___of_null, // see above for the explanation about of
-						// insertion point sub template for declarations 
-						assplits_,
-						assplitareas_,
-						buttons_,
-						cursors_,
-						favicons_,
-						forms_,
-						loads_,
-						logoonthelefts_,
-						logoontherights_,
-						markdowns_,
-						sliders_,
-						splits_,
-						svgs_,
-						tables_,
-						threejss_,
-						titles_,
-						tones_,
-						trees_,
-						views_,
-						xlsxs_,
-					]) => {
-						let _this = this
-						// Typing can be messy with many items. Therefore, type casting is necessary here
-						// insertion point sub template for type casting 
-						var assplits: AsSplitAPI[]
-						assplits = assplits_ as AsSplitAPI[]
-						var assplitareas: AsSplitAreaAPI[]
-						assplitareas = assplitareas_ as AsSplitAreaAPI[]
-						var buttons: ButtonAPI[]
-						buttons = buttons_ as ButtonAPI[]
-						var cursors: CursorAPI[]
-						cursors = cursors_ as CursorAPI[]
-						var favicons: FavIconAPI[]
-						favicons = favicons_ as FavIconAPI[]
-						var forms: FormAPI[]
-						forms = forms_ as FormAPI[]
-						var loads: LoadAPI[]
-						loads = loads_ as LoadAPI[]
-						var logoonthelefts: LogoOnTheLeftAPI[]
-						logoonthelefts = logoonthelefts_ as LogoOnTheLeftAPI[]
-						var logoontherights: LogoOnTheRightAPI[]
-						logoontherights = logoontherights_ as LogoOnTheRightAPI[]
-						var markdowns: MarkdownAPI[]
-						markdowns = markdowns_ as MarkdownAPI[]
-						var sliders: SliderAPI[]
-						sliders = sliders_ as SliderAPI[]
-						var splits: SplitAPI[]
-						splits = splits_ as SplitAPI[]
-						var svgs: SvgAPI[]
-						svgs = svgs_ as SvgAPI[]
-						var tables: TableAPI[]
-						tables = tables_ as TableAPI[]
-						var threejss: ThreejsAPI[]
-						threejss = threejss_ as ThreejsAPI[]
-						var titles: TitleAPI[]
-						titles = titles_ as TitleAPI[]
-						var tones: ToneAPI[]
-						tones = tones_ as ToneAPI[]
-						var trees: TreeAPI[]
-						trees = trees_ as TreeAPI[]
-						var views: ViewAPI[]
-						views = views_ as ViewAPI[]
-						var xlsxs: XlsxAPI[]
-						xlsxs = xlsxs_ as XlsxAPI[]
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template for init 
-						// init the arrays
-						this.frontRepo.array_AsSplits = []
-						this.frontRepo.map_ID_AsSplit.clear()
-
-						assplits.forEach(
-							assplitAPI => {
-								let assplit = new AsSplit
-								this.frontRepo.array_AsSplits.push(assplit)
-								this.frontRepo.map_ID_AsSplit.set(assplitAPI.ID, assplit)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_AsSplitAreas = []
-						this.frontRepo.map_ID_AsSplitArea.clear()
-
-						assplitareas.forEach(
-							assplitareaAPI => {
-								let assplitarea = new AsSplitArea
-								this.frontRepo.array_AsSplitAreas.push(assplitarea)
-								this.frontRepo.map_ID_AsSplitArea.set(assplitareaAPI.ID, assplitarea)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Buttons = []
-						this.frontRepo.map_ID_Button.clear()
-
-						buttons.forEach(
-							buttonAPI => {
-								let button = new Button
-								this.frontRepo.array_Buttons.push(button)
-								this.frontRepo.map_ID_Button.set(buttonAPI.ID, button)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Cursors = []
-						this.frontRepo.map_ID_Cursor.clear()
-
-						cursors.forEach(
-							cursorAPI => {
-								let cursor = new Cursor
-								this.frontRepo.array_Cursors.push(cursor)
-								this.frontRepo.map_ID_Cursor.set(cursorAPI.ID, cursor)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_FavIcons = []
-						this.frontRepo.map_ID_FavIcon.clear()
-
-						favicons.forEach(
-							faviconAPI => {
-								let favicon = new FavIcon
-								this.frontRepo.array_FavIcons.push(favicon)
-								this.frontRepo.map_ID_FavIcon.set(faviconAPI.ID, favicon)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Forms = []
-						this.frontRepo.map_ID_Form.clear()
-
-						forms.forEach(
-							formAPI => {
-								let form = new Form
-								this.frontRepo.array_Forms.push(form)
-								this.frontRepo.map_ID_Form.set(formAPI.ID, form)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Loads = []
-						this.frontRepo.map_ID_Load.clear()
-
-						loads.forEach(
-							loadAPI => {
-								let load = new Load
-								this.frontRepo.array_Loads.push(load)
-								this.frontRepo.map_ID_Load.set(loadAPI.ID, load)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_LogoOnTheLefts = []
-						this.frontRepo.map_ID_LogoOnTheLeft.clear()
-
-						logoonthelefts.forEach(
-							logoontheleftAPI => {
-								let logoontheleft = new LogoOnTheLeft
-								this.frontRepo.array_LogoOnTheLefts.push(logoontheleft)
-								this.frontRepo.map_ID_LogoOnTheLeft.set(logoontheleftAPI.ID, logoontheleft)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_LogoOnTheRights = []
-						this.frontRepo.map_ID_LogoOnTheRight.clear()
-
-						logoontherights.forEach(
-							logoontherightAPI => {
-								let logoontheright = new LogoOnTheRight
-								this.frontRepo.array_LogoOnTheRights.push(logoontheright)
-								this.frontRepo.map_ID_LogoOnTheRight.set(logoontherightAPI.ID, logoontheright)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Markdowns = []
-						this.frontRepo.map_ID_Markdown.clear()
-
-						markdowns.forEach(
-							markdownAPI => {
-								let markdown = new Markdown
-								this.frontRepo.array_Markdowns.push(markdown)
-								this.frontRepo.map_ID_Markdown.set(markdownAPI.ID, markdown)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Sliders = []
-						this.frontRepo.map_ID_Slider.clear()
-
-						sliders.forEach(
-							sliderAPI => {
-								let slider = new Slider
-								this.frontRepo.array_Sliders.push(slider)
-								this.frontRepo.map_ID_Slider.set(sliderAPI.ID, slider)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Splits = []
-						this.frontRepo.map_ID_Split.clear()
-
-						splits.forEach(
-							splitAPI => {
-								let split = new Split
-								this.frontRepo.array_Splits.push(split)
-								this.frontRepo.map_ID_Split.set(splitAPI.ID, split)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Svgs = []
-						this.frontRepo.map_ID_Svg.clear()
-
-						svgs.forEach(
-							svgAPI => {
-								let svg = new Svg
-								this.frontRepo.array_Svgs.push(svg)
-								this.frontRepo.map_ID_Svg.set(svgAPI.ID, svg)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Tables = []
-						this.frontRepo.map_ID_Table.clear()
-
-						tables.forEach(
-							tableAPI => {
-								let table = new Table
-								this.frontRepo.array_Tables.push(table)
-								this.frontRepo.map_ID_Table.set(tableAPI.ID, table)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Threejss = []
-						this.frontRepo.map_ID_Threejs.clear()
-
-						threejss.forEach(
-							threejsAPI => {
-								let threejs = new Threejs
-								this.frontRepo.array_Threejss.push(threejs)
-								this.frontRepo.map_ID_Threejs.set(threejsAPI.ID, threejs)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Titles = []
-						this.frontRepo.map_ID_Title.clear()
-
-						titles.forEach(
-							titleAPI => {
-								let title = new Title
-								this.frontRepo.array_Titles.push(title)
-								this.frontRepo.map_ID_Title.set(titleAPI.ID, title)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Tones = []
-						this.frontRepo.map_ID_Tone.clear()
-
-						tones.forEach(
-							toneAPI => {
-								let tone = new Tone
-								this.frontRepo.array_Tones.push(tone)
-								this.frontRepo.map_ID_Tone.set(toneAPI.ID, tone)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Trees = []
-						this.frontRepo.map_ID_Tree.clear()
-
-						trees.forEach(
-							treeAPI => {
-								let tree = new Tree
-								this.frontRepo.array_Trees.push(tree)
-								this.frontRepo.map_ID_Tree.set(treeAPI.ID, tree)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Views = []
-						this.frontRepo.map_ID_View.clear()
-
-						views.forEach(
-							viewAPI => {
-								let view = new View
-								this.frontRepo.array_Views.push(view)
-								this.frontRepo.map_ID_View.set(viewAPI.ID, view)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Xlsxs = []
-						this.frontRepo.map_ID_Xlsx.clear()
-
-						xlsxs.forEach(
-							xlsxAPI => {
-								let xlsx = new Xlsx
-								this.frontRepo.array_Xlsxs.push(xlsx)
-								this.frontRepo.map_ID_Xlsx.set(xlsxAPI.ID, xlsx)
-							}
-						)
-
-
-						// 
-						// Second Step: reddeem front objects
-						// insertion point sub template for redeem 
-						// fill up front objects
-						assplits.forEach(
-							assplitAPI => {
-								let assplit = this.frontRepo.map_ID_AsSplit.get(assplitAPI.ID)
-								CopyAsSplitAPIToAsSplit(assplitAPI, assplit!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						assplitareas.forEach(
-							assplitareaAPI => {
-								let assplitarea = this.frontRepo.map_ID_AsSplitArea.get(assplitareaAPI.ID)
-								CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI, assplitarea!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						buttons.forEach(
-							buttonAPI => {
-								let button = this.frontRepo.map_ID_Button.get(buttonAPI.ID)
-								CopyButtonAPIToButton(buttonAPI, button!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						cursors.forEach(
-							cursorAPI => {
-								let cursor = this.frontRepo.map_ID_Cursor.get(cursorAPI.ID)
-								CopyCursorAPIToCursor(cursorAPI, cursor!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						favicons.forEach(
-							faviconAPI => {
-								let favicon = this.frontRepo.map_ID_FavIcon.get(faviconAPI.ID)
-								CopyFavIconAPIToFavIcon(faviconAPI, favicon!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						forms.forEach(
-							formAPI => {
-								let form = this.frontRepo.map_ID_Form.get(formAPI.ID)
-								CopyFormAPIToForm(formAPI, form!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						loads.forEach(
-							loadAPI => {
-								let load = this.frontRepo.map_ID_Load.get(loadAPI.ID)
-								CopyLoadAPIToLoad(loadAPI, load!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						logoonthelefts.forEach(
-							logoontheleftAPI => {
-								let logoontheleft = this.frontRepo.map_ID_LogoOnTheLeft.get(logoontheleftAPI.ID)
-								CopyLogoOnTheLeftAPIToLogoOnTheLeft(logoontheleftAPI, logoontheleft!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						logoontherights.forEach(
-							logoontherightAPI => {
-								let logoontheright = this.frontRepo.map_ID_LogoOnTheRight.get(logoontherightAPI.ID)
-								CopyLogoOnTheRightAPIToLogoOnTheRight(logoontherightAPI, logoontheright!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						markdowns.forEach(
-							markdownAPI => {
-								let markdown = this.frontRepo.map_ID_Markdown.get(markdownAPI.ID)
-								CopyMarkdownAPIToMarkdown(markdownAPI, markdown!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						sliders.forEach(
-							sliderAPI => {
-								let slider = this.frontRepo.map_ID_Slider.get(sliderAPI.ID)
-								CopySliderAPIToSlider(sliderAPI, slider!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						splits.forEach(
-							splitAPI => {
-								let split = this.frontRepo.map_ID_Split.get(splitAPI.ID)
-								CopySplitAPIToSplit(splitAPI, split!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						svgs.forEach(
-							svgAPI => {
-								let svg = this.frontRepo.map_ID_Svg.get(svgAPI.ID)
-								CopySvgAPIToSvg(svgAPI, svg!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						tables.forEach(
-							tableAPI => {
-								let table = this.frontRepo.map_ID_Table.get(tableAPI.ID)
-								CopyTableAPIToTable(tableAPI, table!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						threejss.forEach(
-							threejsAPI => {
-								let threejs = this.frontRepo.map_ID_Threejs.get(threejsAPI.ID)
-								CopyThreejsAPIToThreejs(threejsAPI, threejs!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						titles.forEach(
-							titleAPI => {
-								let title = this.frontRepo.map_ID_Title.get(titleAPI.ID)
-								CopyTitleAPIToTitle(titleAPI, title!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						tones.forEach(
-							toneAPI => {
-								let tone = this.frontRepo.map_ID_Tone.get(toneAPI.ID)
-								CopyToneAPIToTone(toneAPI, tone!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						trees.forEach(
-							treeAPI => {
-								let tree = this.frontRepo.map_ID_Tree.get(treeAPI.ID)
-								CopyTreeAPIToTree(treeAPI, tree!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						views.forEach(
-							viewAPI => {
-								let view = this.frontRepo.map_ID_View.get(viewAPI.ID)
-								CopyViewAPIToView(viewAPI, view!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						xlsxs.forEach(
-							xlsxAPI => {
-								let xlsx = this.frontRepo.map_ID_Xlsx.get(xlsxAPI.ID)
-								CopyXlsxAPIToXlsx(xlsxAPI, xlsx!, this.frontRepo)
-							}
-						)
-
-
-						// hand over control flow to observer
-						this.ngZone.run(() => {
-							observer.next(this.frontRepo)
-						})
-					}
-				)
-			}
-		)
+		return of(this.frontRepo)
 	}
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
@@ -1375,54 +765,71 @@ export class FrontRepoService {
 				})
 			}
 
-			// 3. Connection Loop
-			const attemptConnection = (retries: number): void => {
-				// console.log("github.com/fullstack-lang/gong/lib/split/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+			// Offline mode handling: Listen to the global event
+			if (isOfflineMode) {
+				console.log("github.com/fullstack-lang/gong/lib/split/go; Offline mode detected. Skipping WebSocket connection.")
 
-				// A. WASM OFFLINE MODE (Check if Go is ready)
-				if ((window as any).openWasmSocket) {
-					// console.log("github.com/fullstack-lang/gong/lib/split/go; attemptConnection: openWasmSocket exists, calling it");
-					(window as any).openWasmSocket("github.com/fullstack-lang/gong/lib/split/go", Name, processData);
-					return;
+				window.addEventListener('message', (event) => {
+					if (event.data && event.data.type === 'STAGE_UPDATE') {
+						console.log("github.com/fullstack-lang/gong/lib/split/go; Received STAGE_UPDATE message.")
+						processData(JSON.stringify(event.data.data))
+					}
+				})
+
+				return () => {
+					console.log("github.com/fullstack-lang/gong/lib/split/go; Cleaning up offline message listener.")
+				}
+			}
+
+			// Fallback: If not offline, create normal WebSocket
+			const attemptConnection = () => {
+				// Offline check inside attemptConnection: if window.openWasmSocket is available, use it!
+				if (typeof window !== 'undefined' && (window as any).openWasmSocket) {
+					(window as any).openWasmSocket('github.com/fullstack-lang/gong/lib/split/go', Name, (data: any) => {
+						processData(data)
+					})
+					return
 				}
 
-				// B. WAITING FOR WASM
-				if (isOfflineMode && retries > 0) {
-					// console.log("github.com/fullstack-lang/gong/lib/split/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
-					setTimeout(() => attemptConnection(retries - 1), 100);
-					return;
+				if (isOfflineMode && retryCount > 0) {
+					console.log("github.com/fullstack-lang/gong/lib/split/go; Waiting for wasm socket provider...")
+					setTimeout(() => attemptConnection(), 100)
+					return
 				}
 
-				// C. STANDARD SERVER MODE
-				if (!isOfflineMode) {
-					// console.log("github.com/fullstack-lang/gong/lib/split/go; attemptConnection: STANDARD SERVER MODE. url =", url)
-					socket = new WebSocket(url)
-					socket.onopen = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/split/go; WebSocket: onopen", event)
-					}
-					socket.onmessage = event => {
-						// console.log("github.com/fullstack-lang/gong/lib/split/go; WebSocket: onmessage")
-						processData(event.data)
-					}
-					socket.onerror = event => {
-						console.error("github.com/fullstack-lang/gong/lib/split/go WebSocket: onerror", event)
-						observer.error(event)
-					}
-					socket.onclose = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/split/go; WebSocket: onclose", event)
-						observer.complete()
-					}
-				} else {
+				if (isOfflineMode) {
 					console.error("github.com/fullstack-lang/gong/lib/split/go, attemptConnection: Offline mode detected, but WASM backend failed to load.")
-					observer.error("Offline mode detected, but WASM backend failed to load.");
+					observer.error("Offline mode detected, but WASM backend failed to load.")
+					return
 				}
-			};
 
-			attemptConnection(50);
+				socket = new WebSocket(url)
 
-			// Teardown logic: Called when the last subscriber unsubscribes.
+				socket.onopen = () => {
+					// console.log("github.com/fullstack-lang/gong/lib/split/go; WebSocket connection opened successfully:", url)
+				}
+
+				socket.onmessage = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/split/go; WebSocket message received:", event.data)
+					processData(event.data)
+				}
+
+				socket.onerror = (error) => {
+					console.error("github.com/fullstack-lang/gong/lib/split/go WebSocket: onerror", error)
+					observer.error(error)
+				}
+
+				socket.onclose = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/split/go; WebSocket connection closed:", event)
+					observer.complete()
+				}
+			}
+
+			let retryCount = 10
+			attemptConnection()
+
 			return () => {
-				this.webSocketConnections.delete(Name) // Remove from cache
+				// console.log("github.com/fullstack-lang/gong/lib/split/go; Cleaning up WebSocket connection")
 				if (socket) {
 					socket.close()
 				}

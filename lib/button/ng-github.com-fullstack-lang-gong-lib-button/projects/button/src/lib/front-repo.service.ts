@@ -2,29 +2,24 @@
 import { Injectable, NgZone } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
+import { Observable, BehaviorSubject, of } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
 
 // insertion point sub template for services imports
 import { ButtonAPI } from './button-api'
 import { Button, CopyButtonAPIToButton } from './button'
-import { ButtonService } from './button.service'
 
 import { ButtonToggleAPI } from './buttontoggle-api'
 import { ButtonToggle, CopyButtonToggleAPIToButtonToggle } from './buttontoggle'
-import { ButtonToggleService } from './buttontoggle.service'
 
 import { GroupAPI } from './group-api'
 import { Group, CopyGroupAPIToGroup } from './group'
-import { GroupService } from './group.service'
 
 import { GroupToogleAPI } from './grouptoogle-api'
 import { GroupToogle, CopyGroupToogleAPIToGroupToogle } from './grouptoogle'
-import { GroupToogleService } from './grouptoogle.service'
 
 import { LayoutAPI } from './layout-api'
 import { Layout, CopyLayoutAPIToLayout } from './layout'
-import { LayoutService } from './layout.service'
 
 
 import { BackRepoData } from './back-repo-data'
@@ -155,215 +150,15 @@ export class FrontRepoService {
 
 	constructor(
 		private http: HttpClient,
-		private ngZone: NgZone, // insertion point sub template 
-		private buttonService: ButtonService,
-		private buttontoggleService: ButtonToggleService,
-		private groupService: GroupService,
-		private grouptoogleService: GroupToogleService,
-		private layoutService: LayoutService,
+		private ngZone: NgZone,
 	) { }
 
-	// postService provides a post function for each struct name
-	postService(structName: string, instanceToBePosted: any) {
-		let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
-		let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
-
-		servicePostFunction(instanceToBePosted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("post")
-			}
-		)
-	}
-
-	// deleteService provides a delete function for each struct name
-	deleteService(structName: string, instanceToBeDeleted: any) {
-		let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
-		let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
-
-		serviceDeleteFunction(instanceToBeDeleted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("delete")
-			}
-		)
-	}
-
-	// typing of observable can be messy in typescript. Therefore, one force the type
-	observableFrontRepo!: [
-		Observable<null>, // see below for the of(null) observable
-		// insertion point sub template 
-		Observable<ButtonAPI[]>,
-		Observable<ButtonToggleAPI[]>,
-		Observable<GroupAPI[]>,
-		Observable<GroupToogleAPI[]>,
-		Observable<LayoutAPI[]>,
-	]
-
 	//
-	// pull performs a GET on all struct of the stack and redeem association pointers 
+	// pull returns the FrontRepo Observable
 	//
-	// This is an observable. Therefore, the control flow forks with
-	// - pull() return immediatly the observable
-	// - the observable observer, if it subscribe, is called when all GET calls are performs
 	pull(Name: string = ""): Observable<FrontRepo> {
-
 		this.Name = Name
-
-		this.observableFrontRepo = [
-			of(null), // see above for justification
-			// insertion point sub template
-			this.buttonService.getButtons(this.Name, this.frontRepo),
-			this.buttontoggleService.getButtonToggles(this.Name, this.frontRepo),
-			this.groupService.getGroups(this.Name, this.frontRepo),
-			this.grouptoogleService.getGroupToogles(this.Name, this.frontRepo),
-			this.layoutService.getLayouts(this.Name, this.frontRepo),
-		]
-
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest(
-					this.observableFrontRepo
-				).subscribe(
-					([
-						___of_null, // see above for the explanation about of
-						// insertion point sub template for declarations 
-						buttons_,
-						buttontoggles_,
-						groups_,
-						grouptoogles_,
-						layouts_,
-					]) => {
-						let _this = this
-						// Typing can be messy with many items. Therefore, type casting is necessary here
-						// insertion point sub template for type casting 
-						var buttons: ButtonAPI[]
-						buttons = buttons_ as ButtonAPI[]
-						var buttontoggles: ButtonToggleAPI[]
-						buttontoggles = buttontoggles_ as ButtonToggleAPI[]
-						var groups: GroupAPI[]
-						groups = groups_ as GroupAPI[]
-						var grouptoogles: GroupToogleAPI[]
-						grouptoogles = grouptoogles_ as GroupToogleAPI[]
-						var layouts: LayoutAPI[]
-						layouts = layouts_ as LayoutAPI[]
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template for init 
-						// init the arrays
-						this.frontRepo.array_Buttons = []
-						this.frontRepo.map_ID_Button.clear()
-
-						buttons.forEach(
-							buttonAPI => {
-								let button = new Button
-								this.frontRepo.array_Buttons.push(button)
-								this.frontRepo.map_ID_Button.set(buttonAPI.ID, button)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_ButtonToggles = []
-						this.frontRepo.map_ID_ButtonToggle.clear()
-
-						buttontoggles.forEach(
-							buttontoggleAPI => {
-								let buttontoggle = new ButtonToggle
-								this.frontRepo.array_ButtonToggles.push(buttontoggle)
-								this.frontRepo.map_ID_ButtonToggle.set(buttontoggleAPI.ID, buttontoggle)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Groups = []
-						this.frontRepo.map_ID_Group.clear()
-
-						groups.forEach(
-							groupAPI => {
-								let group = new Group
-								this.frontRepo.array_Groups.push(group)
-								this.frontRepo.map_ID_Group.set(groupAPI.ID, group)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_GroupToogles = []
-						this.frontRepo.map_ID_GroupToogle.clear()
-
-						grouptoogles.forEach(
-							grouptoogleAPI => {
-								let grouptoogle = new GroupToogle
-								this.frontRepo.array_GroupToogles.push(grouptoogle)
-								this.frontRepo.map_ID_GroupToogle.set(grouptoogleAPI.ID, grouptoogle)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Layouts = []
-						this.frontRepo.map_ID_Layout.clear()
-
-						layouts.forEach(
-							layoutAPI => {
-								let layout = new Layout
-								this.frontRepo.array_Layouts.push(layout)
-								this.frontRepo.map_ID_Layout.set(layoutAPI.ID, layout)
-							}
-						)
-
-
-						// 
-						// Second Step: reddeem front objects
-						// insertion point sub template for redeem 
-						// fill up front objects
-						buttons.forEach(
-							buttonAPI => {
-								let button = this.frontRepo.map_ID_Button.get(buttonAPI.ID)
-								CopyButtonAPIToButton(buttonAPI, button!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						buttontoggles.forEach(
-							buttontoggleAPI => {
-								let buttontoggle = this.frontRepo.map_ID_ButtonToggle.get(buttontoggleAPI.ID)
-								CopyButtonToggleAPIToButtonToggle(buttontoggleAPI, buttontoggle!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						groups.forEach(
-							groupAPI => {
-								let group = this.frontRepo.map_ID_Group.get(groupAPI.ID)
-								CopyGroupAPIToGroup(groupAPI, group!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						grouptoogles.forEach(
-							grouptoogleAPI => {
-								let grouptoogle = this.frontRepo.map_ID_GroupToogle.get(grouptoogleAPI.ID)
-								CopyGroupToogleAPIToGroupToogle(grouptoogleAPI, grouptoogle!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						layouts.forEach(
-							layoutAPI => {
-								let layout = this.frontRepo.map_ID_Layout.get(layoutAPI.ID)
-								CopyLayoutAPIToLayout(layoutAPI, layout!, this.frontRepo)
-							}
-						)
-
-
-						// hand over control flow to observer
-						this.ngZone.run(() => {
-							observer.next(this.frontRepo)
-						})
-					}
-				)
-			}
-		)
+		return of(this.frontRepo)
 	}
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
@@ -520,54 +315,71 @@ export class FrontRepoService {
 				})
 			}
 
-			// 3. Connection Loop
-			const attemptConnection = (retries: number): void => {
-				// console.log("github.com/fullstack-lang/gong/lib/button/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+			// Offline mode handling: Listen to the global event
+			if (isOfflineMode) {
+				console.log("github.com/fullstack-lang/gong/lib/button/go; Offline mode detected. Skipping WebSocket connection.")
 
-				// A. WASM OFFLINE MODE (Check if Go is ready)
-				if ((window as any).openWasmSocket) {
-					// console.log("github.com/fullstack-lang/gong/lib/button/go; attemptConnection: openWasmSocket exists, calling it");
-					(window as any).openWasmSocket("github.com/fullstack-lang/gong/lib/button/go", Name, processData);
-					return;
+				window.addEventListener('message', (event) => {
+					if (event.data && event.data.type === 'STAGE_UPDATE') {
+						console.log("github.com/fullstack-lang/gong/lib/button/go; Received STAGE_UPDATE message.")
+						processData(JSON.stringify(event.data.data))
+					}
+				})
+
+				return () => {
+					console.log("github.com/fullstack-lang/gong/lib/button/go; Cleaning up offline message listener.")
+				}
+			}
+
+			// Fallback: If not offline, create normal WebSocket
+			const attemptConnection = () => {
+				// Offline check inside attemptConnection: if window.openWasmSocket is available, use it!
+				if (typeof window !== 'undefined' && (window as any).openWasmSocket) {
+					(window as any).openWasmSocket('github.com/fullstack-lang/gong/lib/button/go', Name, (data: any) => {
+						processData(data)
+					})
+					return
 				}
 
-				// B. WAITING FOR WASM
-				if (isOfflineMode && retries > 0) {
-					// console.log("github.com/fullstack-lang/gong/lib/button/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
-					setTimeout(() => attemptConnection(retries - 1), 100);
-					return;
+				if (isOfflineMode && retryCount > 0) {
+					console.log("github.com/fullstack-lang/gong/lib/button/go; Waiting for wasm socket provider...")
+					setTimeout(() => attemptConnection(), 100)
+					return
 				}
 
-				// C. STANDARD SERVER MODE
-				if (!isOfflineMode) {
-					// console.log("github.com/fullstack-lang/gong/lib/button/go; attemptConnection: STANDARD SERVER MODE. url =", url)
-					socket = new WebSocket(url)
-					socket.onopen = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/button/go; WebSocket: onopen", event)
-					}
-					socket.onmessage = event => {
-						// console.log("github.com/fullstack-lang/gong/lib/button/go; WebSocket: onmessage")
-						processData(event.data)
-					}
-					socket.onerror = event => {
-						console.error("github.com/fullstack-lang/gong/lib/button/go WebSocket: onerror", event)
-						observer.error(event)
-					}
-					socket.onclose = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/button/go; WebSocket: onclose", event)
-						observer.complete()
-					}
-				} else {
+				if (isOfflineMode) {
 					console.error("github.com/fullstack-lang/gong/lib/button/go, attemptConnection: Offline mode detected, but WASM backend failed to load.")
-					observer.error("Offline mode detected, but WASM backend failed to load.");
+					observer.error("Offline mode detected, but WASM backend failed to load.")
+					return
 				}
-			};
 
-			attemptConnection(50);
+				socket = new WebSocket(url)
 
-			// Teardown logic: Called when the last subscriber unsubscribes.
+				socket.onopen = () => {
+					// console.log("github.com/fullstack-lang/gong/lib/button/go; WebSocket connection opened successfully:", url)
+				}
+
+				socket.onmessage = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/button/go; WebSocket message received:", event.data)
+					processData(event.data)
+				}
+
+				socket.onerror = (error) => {
+					console.error("github.com/fullstack-lang/gong/lib/button/go WebSocket: onerror", error)
+					observer.error(error)
+				}
+
+				socket.onclose = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/button/go; WebSocket connection closed:", event)
+					observer.complete()
+				}
+			}
+
+			let retryCount = 10
+			attemptConnection()
+
 			return () => {
-				this.webSocketConnections.delete(Name) // Remove from cache
+				// console.log("github.com/fullstack-lang/gong/lib/button/go; Cleaning up WebSocket connection")
 				if (socket) {
 					socket.close()
 				}

@@ -2,33 +2,27 @@
 import { Injectable, NgZone } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
+import { Observable, BehaviorSubject, of } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
 
 // insertion point sub template for services imports
 import { CommandAPI } from './command-api'
 import { Command, CopyCommandAPIToCommand } from './command'
-import { CommandService } from './command.service'
 
 import { DummyAgentAPI } from './dummyagent-api'
 import { DummyAgent, CopyDummyAgentAPIToDummyAgent } from './dummyagent'
-import { DummyAgentService } from './dummyagent.service'
 
 import { EngineAPI } from './engine-api'
 import { Engine, CopyEngineAPIToEngine } from './engine'
-import { EngineService } from './engine.service'
 
 import { EventAPI } from './event-api'
 import { Event, CopyEventAPIToEvent } from './event'
-import { EventService } from './event.service'
 
 import { StatusAPI } from './status-api'
 import { Status, CopyStatusAPIToStatus } from './status'
-import { StatusService } from './status.service'
 
 import { UpdateStateAPI } from './updatestate-api'
 import { UpdateState, CopyUpdateStateAPIToUpdateState } from './updatestate'
-import { UpdateStateService } from './updatestate.service'
 
 
 import { BackRepoData } from './back-repo-data'
@@ -166,241 +160,15 @@ export class FrontRepoService {
 
 	constructor(
 		private http: HttpClient,
-		private ngZone: NgZone, // insertion point sub template 
-		private commandService: CommandService,
-		private dummyagentService: DummyAgentService,
-		private engineService: EngineService,
-		private eventService: EventService,
-		private statusService: StatusService,
-		private updatestateService: UpdateStateService,
+		private ngZone: NgZone,
 	) { }
 
-	// postService provides a post function for each struct name
-	postService(structName: string, instanceToBePosted: any) {
-		let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
-		let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
-
-		servicePostFunction(instanceToBePosted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("post")
-			}
-		)
-	}
-
-	// deleteService provides a delete function for each struct name
-	deleteService(structName: string, instanceToBeDeleted: any) {
-		let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
-		let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
-
-		serviceDeleteFunction(instanceToBeDeleted).subscribe(
-			instance => {
-				let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
-				behaviorSubject.next("delete")
-			}
-		)
-	}
-
-	// typing of observable can be messy in typescript. Therefore, one force the type
-	observableFrontRepo!: [
-		Observable<null>, // see below for the of(null) observable
-		// insertion point sub template 
-		Observable<CommandAPI[]>,
-		Observable<DummyAgentAPI[]>,
-		Observable<EngineAPI[]>,
-		Observable<EventAPI[]>,
-		Observable<StatusAPI[]>,
-		Observable<UpdateStateAPI[]>,
-	]
-
 	//
-	// pull performs a GET on all struct of the stack and redeem association pointers 
+	// pull returns the FrontRepo Observable
 	//
-	// This is an observable. Therefore, the control flow forks with
-	// - pull() return immediatly the observable
-	// - the observable observer, if it subscribe, is called when all GET calls are performs
 	pull(Name: string = ""): Observable<FrontRepo> {
-
 		this.Name = Name
-
-		this.observableFrontRepo = [
-			of(null), // see above for justification
-			// insertion point sub template
-			this.commandService.getCommands(this.Name, this.frontRepo),
-			this.dummyagentService.getDummyAgents(this.Name, this.frontRepo),
-			this.engineService.getEngines(this.Name, this.frontRepo),
-			this.eventService.getEvents(this.Name, this.frontRepo),
-			this.statusService.getStatuss(this.Name, this.frontRepo),
-			this.updatestateService.getUpdateStates(this.Name, this.frontRepo),
-		]
-
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest(
-					this.observableFrontRepo
-				).subscribe(
-					([
-						___of_null, // see above for the explanation about of
-						// insertion point sub template for declarations 
-						commands_,
-						dummyagents_,
-						engines_,
-						events_,
-						statuss_,
-						updatestates_,
-					]) => {
-						let _this = this
-						// Typing can be messy with many items. Therefore, type casting is necessary here
-						// insertion point sub template for type casting 
-						var commands: CommandAPI[]
-						commands = commands_ as CommandAPI[]
-						var dummyagents: DummyAgentAPI[]
-						dummyagents = dummyagents_ as DummyAgentAPI[]
-						var engines: EngineAPI[]
-						engines = engines_ as EngineAPI[]
-						var events: EventAPI[]
-						events = events_ as EventAPI[]
-						var statuss: StatusAPI[]
-						statuss = statuss_ as StatusAPI[]
-						var updatestates: UpdateStateAPI[]
-						updatestates = updatestates_ as UpdateStateAPI[]
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template for init 
-						// init the arrays
-						this.frontRepo.array_Commands = []
-						this.frontRepo.map_ID_Command.clear()
-
-						commands.forEach(
-							commandAPI => {
-								let command = new Command
-								this.frontRepo.array_Commands.push(command)
-								this.frontRepo.map_ID_Command.set(commandAPI.ID, command)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_DummyAgents = []
-						this.frontRepo.map_ID_DummyAgent.clear()
-
-						dummyagents.forEach(
-							dummyagentAPI => {
-								let dummyagent = new DummyAgent
-								this.frontRepo.array_DummyAgents.push(dummyagent)
-								this.frontRepo.map_ID_DummyAgent.set(dummyagentAPI.ID, dummyagent)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Engines = []
-						this.frontRepo.map_ID_Engine.clear()
-
-						engines.forEach(
-							engineAPI => {
-								let engine = new Engine
-								this.frontRepo.array_Engines.push(engine)
-								this.frontRepo.map_ID_Engine.set(engineAPI.ID, engine)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Events = []
-						this.frontRepo.map_ID_Event.clear()
-
-						events.forEach(
-							eventAPI => {
-								let event = new Event
-								this.frontRepo.array_Events.push(event)
-								this.frontRepo.map_ID_Event.set(eventAPI.ID, event)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Statuss = []
-						this.frontRepo.map_ID_Status.clear()
-
-						statuss.forEach(
-							statusAPI => {
-								let status = new Status
-								this.frontRepo.array_Statuss.push(status)
-								this.frontRepo.map_ID_Status.set(statusAPI.ID, status)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_UpdateStates = []
-						this.frontRepo.map_ID_UpdateState.clear()
-
-						updatestates.forEach(
-							updatestateAPI => {
-								let updatestate = new UpdateState
-								this.frontRepo.array_UpdateStates.push(updatestate)
-								this.frontRepo.map_ID_UpdateState.set(updatestateAPI.ID, updatestate)
-							}
-						)
-
-
-						// 
-						// Second Step: reddeem front objects
-						// insertion point sub template for redeem 
-						// fill up front objects
-						commands.forEach(
-							commandAPI => {
-								let command = this.frontRepo.map_ID_Command.get(commandAPI.ID)
-								CopyCommandAPIToCommand(commandAPI, command!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						dummyagents.forEach(
-							dummyagentAPI => {
-								let dummyagent = this.frontRepo.map_ID_DummyAgent.get(dummyagentAPI.ID)
-								CopyDummyAgentAPIToDummyAgent(dummyagentAPI, dummyagent!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						engines.forEach(
-							engineAPI => {
-								let engine = this.frontRepo.map_ID_Engine.get(engineAPI.ID)
-								CopyEngineAPIToEngine(engineAPI, engine!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						events.forEach(
-							eventAPI => {
-								let event = this.frontRepo.map_ID_Event.get(eventAPI.ID)
-								CopyEventAPIToEvent(eventAPI, event!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						statuss.forEach(
-							statusAPI => {
-								let status = this.frontRepo.map_ID_Status.get(statusAPI.ID)
-								CopyStatusAPIToStatus(statusAPI, status!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						updatestates.forEach(
-							updatestateAPI => {
-								let updatestate = this.frontRepo.map_ID_UpdateState.get(updatestateAPI.ID)
-								CopyUpdateStateAPIToUpdateState(updatestateAPI, updatestate!, this.frontRepo)
-							}
-						)
-
-
-						// hand over control flow to observer
-						this.ngZone.run(() => {
-							observer.next(this.frontRepo)
-						})
-					}
-				)
-			}
-		)
+		return of(this.frontRepo)
 	}
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
@@ -577,54 +345,71 @@ export class FrontRepoService {
 				})
 			}
 
-			// 3. Connection Loop
-			const attemptConnection = (retries: number): void => {
-				// console.log("github.com/fullstack-lang/gong/lib/sim/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+			// Offline mode handling: Listen to the global event
+			if (isOfflineMode) {
+				console.log("github.com/fullstack-lang/gong/lib/sim/go; Offline mode detected. Skipping WebSocket connection.")
 
-				// A. WASM OFFLINE MODE (Check if Go is ready)
-				if ((window as any).openWasmSocket) {
-					// console.log("github.com/fullstack-lang/gong/lib/sim/go; attemptConnection: openWasmSocket exists, calling it");
-					(window as any).openWasmSocket("github.com/fullstack-lang/gong/lib/sim/go", Name, processData);
-					return;
+				window.addEventListener('message', (event) => {
+					if (event.data && event.data.type === 'STAGE_UPDATE') {
+						console.log("github.com/fullstack-lang/gong/lib/sim/go; Received STAGE_UPDATE message.")
+						processData(JSON.stringify(event.data.data))
+					}
+				})
+
+				return () => {
+					console.log("github.com/fullstack-lang/gong/lib/sim/go; Cleaning up offline message listener.")
+				}
+			}
+
+			// Fallback: If not offline, create normal WebSocket
+			const attemptConnection = () => {
+				// Offline check inside attemptConnection: if window.openWasmSocket is available, use it!
+				if (typeof window !== 'undefined' && (window as any).openWasmSocket) {
+					(window as any).openWasmSocket('github.com/fullstack-lang/gong/lib/sim/go', Name, (data: any) => {
+						processData(data)
+					})
+					return
 				}
 
-				// B. WAITING FOR WASM
-				if (isOfflineMode && retries > 0) {
-					// console.log("github.com/fullstack-lang/gong/lib/sim/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
-					setTimeout(() => attemptConnection(retries - 1), 100);
-					return;
+				if (isOfflineMode && retryCount > 0) {
+					console.log("github.com/fullstack-lang/gong/lib/sim/go; Waiting for wasm socket provider...")
+					setTimeout(() => attemptConnection(), 100)
+					return
 				}
 
-				// C. STANDARD SERVER MODE
-				if (!isOfflineMode) {
-					// console.log("github.com/fullstack-lang/gong/lib/sim/go; attemptConnection: STANDARD SERVER MODE. url =", url)
-					socket = new WebSocket(url)
-					socket.onopen = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/sim/go; WebSocket: onopen", event)
-					}
-					socket.onmessage = event => {
-						// console.log("github.com/fullstack-lang/gong/lib/sim/go; WebSocket: onmessage")
-						processData(event.data)
-					}
-					socket.onerror = event => {
-						console.error("github.com/fullstack-lang/gong/lib/sim/go WebSocket: onerror", event)
-						observer.error(event)
-					}
-					socket.onclose = (event) => {
-						// console.log("github.com/fullstack-lang/gong/lib/sim/go; WebSocket: onclose", event)
-						observer.complete()
-					}
-				} else {
+				if (isOfflineMode) {
 					console.error("github.com/fullstack-lang/gong/lib/sim/go, attemptConnection: Offline mode detected, but WASM backend failed to load.")
-					observer.error("Offline mode detected, but WASM backend failed to load.");
+					observer.error("Offline mode detected, but WASM backend failed to load.")
+					return
 				}
-			};
 
-			attemptConnection(50);
+				socket = new WebSocket(url)
 
-			// Teardown logic: Called when the last subscriber unsubscribes.
+				socket.onopen = () => {
+					// console.log("github.com/fullstack-lang/gong/lib/sim/go; WebSocket connection opened successfully:", url)
+				}
+
+				socket.onmessage = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/sim/go; WebSocket message received:", event.data)
+					processData(event.data)
+				}
+
+				socket.onerror = (error) => {
+					console.error("github.com/fullstack-lang/gong/lib/sim/go WebSocket: onerror", error)
+					observer.error(error)
+				}
+
+				socket.onclose = (event) => {
+					// console.log("github.com/fullstack-lang/gong/lib/sim/go; WebSocket connection closed:", event)
+					observer.complete()
+				}
+			}
+
+			let retryCount = 10
+			attemptConnection()
+
 			return () => {
-				this.webSocketConnections.delete(Name) // Remove from cache
+				// console.log("github.com/fullstack-lang/gong/lib/sim/go; Cleaning up WebSocket connection")
 				if (socket) {
 					socket.close()
 				}

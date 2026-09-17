@@ -3856,7 +3856,18 @@ func (all *All) GongDiff(stage *Stage, allOther *All) (diffs []string) {
 		}
 	}
 	if SequencesDifferent {
-		ops := stage.Diff(all, allOther, "Sequences", allOther.Sequences, all.Sequences)
+		ops := stage.Diff(
+			all,
+			"Sequences",
+			len(allOther.Sequences),
+			len(all.Sequences),
+			func(i, j int) bool {
+				return allOther.Sequences[i] == all.Sequences[j]
+			},
+			func(j int) string {
+				return all.Sequences[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AllsDifferent := false
@@ -3877,7 +3888,18 @@ func (all *All) GongDiff(stage *Stage, allOther *All) (diffs []string) {
 		}
 	}
 	if AllsDifferent {
-		ops := stage.Diff(all, allOther, "Alls", allOther.Alls, all.Alls)
+		ops := stage.Diff(
+			all,
+			"Alls",
+			len(allOther.Alls),
+			len(all.Alls),
+			func(i, j int) bool {
+				return allOther.Alls[i] == all.Alls[j]
+			},
+			func(j int) string {
+				return all.Alls[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ChoicesDifferent := false
@@ -3898,7 +3920,18 @@ func (all *All) GongDiff(stage *Stage, allOther *All) (diffs []string) {
 		}
 	}
 	if ChoicesDifferent {
-		ops := stage.Diff(all, allOther, "Choices", allOther.Choices, all.Choices)
+		ops := stage.Diff(
+			all,
+			"Choices",
+			len(allOther.Choices),
+			len(all.Choices),
+			func(i, j int) bool {
+				return allOther.Choices[i] == all.Choices[j]
+			},
+			func(j int) string {
+				return all.Choices[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -3919,7 +3952,18 @@ func (all *All) GongDiff(stage *Stage, allOther *All) (diffs []string) {
 		}
 	}
 	if GroupsDifferent {
-		ops := stage.Diff(all, allOther, "Groups", allOther.Groups, all.Groups)
+		ops := stage.Diff(
+			all,
+			"Groups",
+			len(allOther.Groups),
+			len(all.Groups),
+			func(i, j int) bool {
+				return allOther.Groups[i] == all.Groups[j]
+			},
+			func(j int) string {
+				return all.Groups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ElementsDifferent := false
@@ -3940,7 +3984,18 @@ func (all *All) GongDiff(stage *Stage, allOther *All) (diffs []string) {
 		}
 	}
 	if ElementsDifferent {
-		ops := stage.Diff(all, allOther, "Elements", allOther.Elements, all.Elements)
+		ops := stage.Diff(
+			all,
+			"Elements",
+			len(allOther.Elements),
+			len(all.Elements),
+			func(i, j int) bool {
+				return allOther.Elements[i] == all.Elements[j]
+			},
+			func(j int) string {
+				return all.Elements[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if all.Order != allOther.Order {
@@ -3984,7 +4039,18 @@ func (annotation *Annotation) GongDiff(stage *Stage, annotationOther *Annotation
 		}
 	}
 	if DocumentationsDifferent {
-		ops := stage.Diff(annotation, annotationOther, "Documentations", annotationOther.Documentations, annotation.Documentations)
+		ops := stage.Diff(
+			annotation,
+			"Documentations",
+			len(annotationOther.Documentations),
+			len(annotation.Documentations),
+			func(i, j int) bool {
+				return annotationOther.Documentations[i] == annotation.Documentations[j]
+			},
+			func(j int) string {
+				return annotation.Documentations[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4086,7 +4152,18 @@ func (attributegroup *AttributeGroup) GongDiff(stage *Stage, attributegroupOther
 		}
 	}
 	if AttributeGroupsDifferent {
-		ops := stage.Diff(attributegroup, attributegroupOther, "AttributeGroups", attributegroupOther.AttributeGroups, attributegroup.AttributeGroups)
+		ops := stage.Diff(
+			attributegroup,
+			"AttributeGroups",
+			len(attributegroupOther.AttributeGroups),
+			len(attributegroup.AttributeGroups),
+			func(i, j int) bool {
+				return attributegroupOther.AttributeGroups[i] == attributegroup.AttributeGroups[j]
+			},
+			func(j int) string {
+				return attributegroup.AttributeGroups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if attributegroup.Ref != attributegroupOther.Ref {
@@ -4110,7 +4187,18 @@ func (attributegroup *AttributeGroup) GongDiff(stage *Stage, attributegroupOther
 		}
 	}
 	if AttributesDifferent {
-		ops := stage.Diff(attributegroup, attributegroupOther, "Attributes", attributegroupOther.Attributes, attributegroup.Attributes)
+		ops := stage.Diff(
+			attributegroup,
+			"Attributes",
+			len(attributegroupOther.Attributes),
+			len(attributegroup.Attributes),
+			func(i, j int) bool {
+				return attributegroupOther.Attributes[i] == attributegroup.Attributes[j]
+			},
+			func(j int) string {
+				return attributegroup.Attributes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if attributegroup.Order != attributegroupOther.Order {
@@ -4158,7 +4246,18 @@ func (choice *Choice) GongDiff(stage *Stage, choiceOther *Choice) (diffs []strin
 		}
 	}
 	if SequencesDifferent {
-		ops := stage.Diff(choice, choiceOther, "Sequences", choiceOther.Sequences, choice.Sequences)
+		ops := stage.Diff(
+			choice,
+			"Sequences",
+			len(choiceOther.Sequences),
+			len(choice.Sequences),
+			func(i, j int) bool {
+				return choiceOther.Sequences[i] == choice.Sequences[j]
+			},
+			func(j int) string {
+				return choice.Sequences[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AllsDifferent := false
@@ -4179,7 +4278,18 @@ func (choice *Choice) GongDiff(stage *Stage, choiceOther *Choice) (diffs []strin
 		}
 	}
 	if AllsDifferent {
-		ops := stage.Diff(choice, choiceOther, "Alls", choiceOther.Alls, choice.Alls)
+		ops := stage.Diff(
+			choice,
+			"Alls",
+			len(choiceOther.Alls),
+			len(choice.Alls),
+			func(i, j int) bool {
+				return choiceOther.Alls[i] == choice.Alls[j]
+			},
+			func(j int) string {
+				return choice.Alls[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ChoicesDifferent := false
@@ -4200,7 +4310,18 @@ func (choice *Choice) GongDiff(stage *Stage, choiceOther *Choice) (diffs []strin
 		}
 	}
 	if ChoicesDifferent {
-		ops := stage.Diff(choice, choiceOther, "Choices", choiceOther.Choices, choice.Choices)
+		ops := stage.Diff(
+			choice,
+			"Choices",
+			len(choiceOther.Choices),
+			len(choice.Choices),
+			func(i, j int) bool {
+				return choiceOther.Choices[i] == choice.Choices[j]
+			},
+			func(j int) string {
+				return choice.Choices[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -4221,7 +4342,18 @@ func (choice *Choice) GongDiff(stage *Stage, choiceOther *Choice) (diffs []strin
 		}
 	}
 	if GroupsDifferent {
-		ops := stage.Diff(choice, choiceOther, "Groups", choiceOther.Groups, choice.Groups)
+		ops := stage.Diff(
+			choice,
+			"Groups",
+			len(choiceOther.Groups),
+			len(choice.Groups),
+			func(i, j int) bool {
+				return choiceOther.Groups[i] == choice.Groups[j]
+			},
+			func(j int) string {
+				return choice.Groups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ElementsDifferent := false
@@ -4242,7 +4374,18 @@ func (choice *Choice) GongDiff(stage *Stage, choiceOther *Choice) (diffs []strin
 		}
 	}
 	if ElementsDifferent {
-		ops := stage.Diff(choice, choiceOther, "Elements", choiceOther.Elements, choice.Elements)
+		ops := stage.Diff(
+			choice,
+			"Elements",
+			len(choiceOther.Elements),
+			len(choice.Elements),
+			func(i, j int) bool {
+				return choiceOther.Elements[i] == choice.Elements[j]
+			},
+			func(j int) string {
+				return choice.Elements[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if choice.Order != choiceOther.Order {
@@ -4329,7 +4472,18 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 		}
 	}
 	if SequencesDifferent {
-		ops := stage.Diff(complextype, complextypeOther, "Sequences", complextypeOther.Sequences, complextype.Sequences)
+		ops := stage.Diff(
+			complextype,
+			"Sequences",
+			len(complextypeOther.Sequences),
+			len(complextype.Sequences),
+			func(i, j int) bool {
+				return complextypeOther.Sequences[i] == complextype.Sequences[j]
+			},
+			func(j int) string {
+				return complextype.Sequences[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AllsDifferent := false
@@ -4350,7 +4504,18 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 		}
 	}
 	if AllsDifferent {
-		ops := stage.Diff(complextype, complextypeOther, "Alls", complextypeOther.Alls, complextype.Alls)
+		ops := stage.Diff(
+			complextype,
+			"Alls",
+			len(complextypeOther.Alls),
+			len(complextype.Alls),
+			func(i, j int) bool {
+				return complextypeOther.Alls[i] == complextype.Alls[j]
+			},
+			func(j int) string {
+				return complextype.Alls[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ChoicesDifferent := false
@@ -4371,7 +4536,18 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 		}
 	}
 	if ChoicesDifferent {
-		ops := stage.Diff(complextype, complextypeOther, "Choices", complextypeOther.Choices, complextype.Choices)
+		ops := stage.Diff(
+			complextype,
+			"Choices",
+			len(complextypeOther.Choices),
+			len(complextype.Choices),
+			func(i, j int) bool {
+				return complextypeOther.Choices[i] == complextype.Choices[j]
+			},
+			func(j int) string {
+				return complextype.Choices[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -4392,7 +4568,18 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 		}
 	}
 	if GroupsDifferent {
-		ops := stage.Diff(complextype, complextypeOther, "Groups", complextypeOther.Groups, complextype.Groups)
+		ops := stage.Diff(
+			complextype,
+			"Groups",
+			len(complextypeOther.Groups),
+			len(complextype.Groups),
+			func(i, j int) bool {
+				return complextypeOther.Groups[i] == complextype.Groups[j]
+			},
+			func(j int) string {
+				return complextype.Groups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ElementsDifferent := false
@@ -4413,7 +4600,18 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 		}
 	}
 	if ElementsDifferent {
-		ops := stage.Diff(complextype, complextypeOther, "Elements", complextypeOther.Elements, complextype.Elements)
+		ops := stage.Diff(
+			complextype,
+			"Elements",
+			len(complextypeOther.Elements),
+			len(complextype.Elements),
+			func(i, j int) bool {
+				return complextypeOther.Elements[i] == complextype.Elements[j]
+			},
+			func(j int) string {
+				return complextype.Elements[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if complextype.Order != complextypeOther.Order {
@@ -4467,7 +4665,18 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 		}
 	}
 	if AttributesDifferent {
-		ops := stage.Diff(complextype, complextypeOther, "Attributes", complextypeOther.Attributes, complextype.Attributes)
+		ops := stage.Diff(
+			complextype,
+			"Attributes",
+			len(complextypeOther.Attributes),
+			len(complextype.Attributes),
+			func(i, j int) bool {
+				return complextypeOther.Attributes[i] == complextype.Attributes[j]
+			},
+			func(j int) string {
+				return complextype.Attributes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AttributeGroupsDifferent := false
@@ -4488,7 +4697,18 @@ func (complextype *ComplexType) GongDiff(stage *Stage, complextypeOther *Complex
 		}
 	}
 	if AttributeGroupsDifferent {
-		ops := stage.Diff(complextype, complextypeOther, "AttributeGroups", complextypeOther.AttributeGroups, complextype.AttributeGroups)
+		ops := stage.Diff(
+			complextype,
+			"AttributeGroups",
+			len(complextypeOther.AttributeGroups),
+			len(complextype.AttributeGroups),
+			func(i, j int) bool {
+				return complextypeOther.AttributeGroups[i] == complextype.AttributeGroups[j]
+			},
+			func(j int) string {
+				return complextype.AttributeGroups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if complextype.IsDuplicatedInXSD != complextypeOther.IsDuplicatedInXSD {
@@ -4612,7 +4832,18 @@ func (element *Element) GongDiff(stage *Stage, elementOther *Element) (diffs []s
 		}
 	}
 	if GroupsDifferent {
-		ops := stage.Diff(element, elementOther, "Groups", elementOther.Groups, element.Groups)
+		ops := stage.Diff(
+			element,
+			"Groups",
+			len(elementOther.Groups),
+			len(element.Groups),
+			func(i, j int) bool {
+				return elementOther.Groups[i] == element.Groups[j]
+			},
+			func(j int) string {
+				return element.Groups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if element.IsDuplicatedInXSD != elementOther.IsDuplicatedInXSD {
@@ -4671,7 +4902,18 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 		}
 	}
 	if SequencesDifferent {
-		ops := stage.Diff(extension, extensionOther, "Sequences", extensionOther.Sequences, extension.Sequences)
+		ops := stage.Diff(
+			extension,
+			"Sequences",
+			len(extensionOther.Sequences),
+			len(extension.Sequences),
+			func(i, j int) bool {
+				return extensionOther.Sequences[i] == extension.Sequences[j]
+			},
+			func(j int) string {
+				return extension.Sequences[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AllsDifferent := false
@@ -4692,7 +4934,18 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 		}
 	}
 	if AllsDifferent {
-		ops := stage.Diff(extension, extensionOther, "Alls", extensionOther.Alls, extension.Alls)
+		ops := stage.Diff(
+			extension,
+			"Alls",
+			len(extensionOther.Alls),
+			len(extension.Alls),
+			func(i, j int) bool {
+				return extensionOther.Alls[i] == extension.Alls[j]
+			},
+			func(j int) string {
+				return extension.Alls[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ChoicesDifferent := false
@@ -4713,7 +4966,18 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 		}
 	}
 	if ChoicesDifferent {
-		ops := stage.Diff(extension, extensionOther, "Choices", extensionOther.Choices, extension.Choices)
+		ops := stage.Diff(
+			extension,
+			"Choices",
+			len(extensionOther.Choices),
+			len(extension.Choices),
+			func(i, j int) bool {
+				return extensionOther.Choices[i] == extension.Choices[j]
+			},
+			func(j int) string {
+				return extension.Choices[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -4734,7 +4998,18 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 		}
 	}
 	if GroupsDifferent {
-		ops := stage.Diff(extension, extensionOther, "Groups", extensionOther.Groups, extension.Groups)
+		ops := stage.Diff(
+			extension,
+			"Groups",
+			len(extensionOther.Groups),
+			len(extension.Groups),
+			func(i, j int) bool {
+				return extensionOther.Groups[i] == extension.Groups[j]
+			},
+			func(j int) string {
+				return extension.Groups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ElementsDifferent := false
@@ -4755,7 +5030,18 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 		}
 	}
 	if ElementsDifferent {
-		ops := stage.Diff(extension, extensionOther, "Elements", extensionOther.Elements, extension.Elements)
+		ops := stage.Diff(
+			extension,
+			"Elements",
+			len(extensionOther.Elements),
+			len(extension.Elements),
+			func(i, j int) bool {
+				return extensionOther.Elements[i] == extension.Elements[j]
+			},
+			func(j int) string {
+				return extension.Elements[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if extension.Order != extensionOther.Order {
@@ -4794,7 +5080,18 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 		}
 	}
 	if AttributesDifferent {
-		ops := stage.Diff(extension, extensionOther, "Attributes", extensionOther.Attributes, extension.Attributes)
+		ops := stage.Diff(
+			extension,
+			"Attributes",
+			len(extensionOther.Attributes),
+			len(extension.Attributes),
+			func(i, j int) bool {
+				return extensionOther.Attributes[i] == extension.Attributes[j]
+			},
+			func(j int) string {
+				return extension.Attributes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AttributeGroupsDifferent := false
@@ -4815,7 +5112,18 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 		}
 	}
 	if AttributeGroupsDifferent {
-		ops := stage.Diff(extension, extensionOther, "AttributeGroups", extensionOther.AttributeGroups, extension.AttributeGroups)
+		ops := stage.Diff(
+			extension,
+			"AttributeGroups",
+			len(extensionOther.AttributeGroups),
+			len(extension.AttributeGroups),
+			func(i, j int) bool {
+				return extensionOther.AttributeGroups[i] == extension.AttributeGroups[j]
+			},
+			func(j int) string {
+				return extension.AttributeGroups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 
@@ -4879,7 +5187,18 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if SequencesDifferent {
-		ops := stage.Diff(group, groupOther, "Sequences", groupOther.Sequences, group.Sequences)
+		ops := stage.Diff(
+			group,
+			"Sequences",
+			len(groupOther.Sequences),
+			len(group.Sequences),
+			func(i, j int) bool {
+				return groupOther.Sequences[i] == group.Sequences[j]
+			},
+			func(j int) string {
+				return group.Sequences[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AllsDifferent := false
@@ -4900,7 +5219,18 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if AllsDifferent {
-		ops := stage.Diff(group, groupOther, "Alls", groupOther.Alls, group.Alls)
+		ops := stage.Diff(
+			group,
+			"Alls",
+			len(groupOther.Alls),
+			len(group.Alls),
+			func(i, j int) bool {
+				return groupOther.Alls[i] == group.Alls[j]
+			},
+			func(j int) string {
+				return group.Alls[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ChoicesDifferent := false
@@ -4921,7 +5251,18 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if ChoicesDifferent {
-		ops := stage.Diff(group, groupOther, "Choices", groupOther.Choices, group.Choices)
+		ops := stage.Diff(
+			group,
+			"Choices",
+			len(groupOther.Choices),
+			len(group.Choices),
+			func(i, j int) bool {
+				return groupOther.Choices[i] == group.Choices[j]
+			},
+			func(j int) string {
+				return group.Choices[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -4942,7 +5283,18 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if GroupsDifferent {
-		ops := stage.Diff(group, groupOther, "Groups", groupOther.Groups, group.Groups)
+		ops := stage.Diff(
+			group,
+			"Groups",
+			len(groupOther.Groups),
+			len(group.Groups),
+			func(i, j int) bool {
+				return groupOther.Groups[i] == group.Groups[j]
+			},
+			func(j int) string {
+				return group.Groups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ElementsDifferent := false
@@ -4963,7 +5315,18 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if ElementsDifferent {
-		ops := stage.Diff(group, groupOther, "Elements", groupOther.Elements, group.Elements)
+		ops := stage.Diff(
+			group,
+			"Elements",
+			len(groupOther.Elements),
+			len(group.Elements),
+			func(i, j int) bool {
+				return groupOther.Elements[i] == group.Elements[j]
+			},
+			func(j int) string {
+				return group.Elements[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if group.Order != groupOther.Order {
@@ -5143,7 +5506,18 @@ func (restriction *Restriction) GongDiff(stage *Stage, restrictionOther *Restric
 		}
 	}
 	if EnumerationsDifferent {
-		ops := stage.Diff(restriction, restrictionOther, "Enumerations", restrictionOther.Enumerations, restriction.Enumerations)
+		ops := stage.Diff(
+			restriction,
+			"Enumerations",
+			len(restrictionOther.Enumerations),
+			len(restriction.Enumerations),
+			func(i, j int) bool {
+				return restrictionOther.Enumerations[i] == restriction.Enumerations[j]
+			},
+			func(j int) string {
+				return restriction.Enumerations[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if (restriction.MinInclusive == nil) != (restrictionOther.MinInclusive == nil) {
@@ -5241,7 +5615,18 @@ func (schema *Schema) GongDiff(stage *Stage, schemaOther *Schema) (diffs []strin
 		}
 	}
 	if ElementsDifferent {
-		ops := stage.Diff(schema, schemaOther, "Elements", schemaOther.Elements, schema.Elements)
+		ops := stage.Diff(
+			schema,
+			"Elements",
+			len(schemaOther.Elements),
+			len(schema.Elements),
+			func(i, j int) bool {
+				return schemaOther.Elements[i] == schema.Elements[j]
+			},
+			func(j int) string {
+				return schema.Elements[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	SimpleTypesDifferent := false
@@ -5262,7 +5647,18 @@ func (schema *Schema) GongDiff(stage *Stage, schemaOther *Schema) (diffs []strin
 		}
 	}
 	if SimpleTypesDifferent {
-		ops := stage.Diff(schema, schemaOther, "SimpleTypes", schemaOther.SimpleTypes, schema.SimpleTypes)
+		ops := stage.Diff(
+			schema,
+			"SimpleTypes",
+			len(schemaOther.SimpleTypes),
+			len(schema.SimpleTypes),
+			func(i, j int) bool {
+				return schemaOther.SimpleTypes[i] == schema.SimpleTypes[j]
+			},
+			func(j int) string {
+				return schema.SimpleTypes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ComplexTypesDifferent := false
@@ -5283,7 +5679,18 @@ func (schema *Schema) GongDiff(stage *Stage, schemaOther *Schema) (diffs []strin
 		}
 	}
 	if ComplexTypesDifferent {
-		ops := stage.Diff(schema, schemaOther, "ComplexTypes", schemaOther.ComplexTypes, schema.ComplexTypes)
+		ops := stage.Diff(
+			schema,
+			"ComplexTypes",
+			len(schemaOther.ComplexTypes),
+			len(schema.ComplexTypes),
+			func(i, j int) bool {
+				return schemaOther.ComplexTypes[i] == schema.ComplexTypes[j]
+			},
+			func(j int) string {
+				return schema.ComplexTypes[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AttributeGroupsDifferent := false
@@ -5304,7 +5711,18 @@ func (schema *Schema) GongDiff(stage *Stage, schemaOther *Schema) (diffs []strin
 		}
 	}
 	if AttributeGroupsDifferent {
-		ops := stage.Diff(schema, schemaOther, "AttributeGroups", schemaOther.AttributeGroups, schema.AttributeGroups)
+		ops := stage.Diff(
+			schema,
+			"AttributeGroups",
+			len(schemaOther.AttributeGroups),
+			len(schema.AttributeGroups),
+			func(i, j int) bool {
+				return schemaOther.AttributeGroups[i] == schema.AttributeGroups[j]
+			},
+			func(j int) string {
+				return schema.AttributeGroups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -5325,7 +5743,18 @@ func (schema *Schema) GongDiff(stage *Stage, schemaOther *Schema) (diffs []strin
 		}
 	}
 	if GroupsDifferent {
-		ops := stage.Diff(schema, schemaOther, "Groups", schemaOther.Groups, schema.Groups)
+		ops := stage.Diff(
+			schema,
+			"Groups",
+			len(schemaOther.Groups),
+			len(schema.Groups),
+			func(i, j int) bool {
+				return schemaOther.Groups[i] == schema.Groups[j]
+			},
+			func(j int) string {
+				return schema.Groups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if schema.Order != schemaOther.Order {
@@ -5373,7 +5802,18 @@ func (sequence *Sequence) GongDiff(stage *Stage, sequenceOther *Sequence) (diffs
 		}
 	}
 	if SequencesDifferent {
-		ops := stage.Diff(sequence, sequenceOther, "Sequences", sequenceOther.Sequences, sequence.Sequences)
+		ops := stage.Diff(
+			sequence,
+			"Sequences",
+			len(sequenceOther.Sequences),
+			len(sequence.Sequences),
+			func(i, j int) bool {
+				return sequenceOther.Sequences[i] == sequence.Sequences[j]
+			},
+			func(j int) string {
+				return sequence.Sequences[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	AllsDifferent := false
@@ -5394,7 +5834,18 @@ func (sequence *Sequence) GongDiff(stage *Stage, sequenceOther *Sequence) (diffs
 		}
 	}
 	if AllsDifferent {
-		ops := stage.Diff(sequence, sequenceOther, "Alls", sequenceOther.Alls, sequence.Alls)
+		ops := stage.Diff(
+			sequence,
+			"Alls",
+			len(sequenceOther.Alls),
+			len(sequence.Alls),
+			func(i, j int) bool {
+				return sequenceOther.Alls[i] == sequence.Alls[j]
+			},
+			func(j int) string {
+				return sequence.Alls[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ChoicesDifferent := false
@@ -5415,7 +5866,18 @@ func (sequence *Sequence) GongDiff(stage *Stage, sequenceOther *Sequence) (diffs
 		}
 	}
 	if ChoicesDifferent {
-		ops := stage.Diff(sequence, sequenceOther, "Choices", sequenceOther.Choices, sequence.Choices)
+		ops := stage.Diff(
+			sequence,
+			"Choices",
+			len(sequenceOther.Choices),
+			len(sequence.Choices),
+			func(i, j int) bool {
+				return sequenceOther.Choices[i] == sequence.Choices[j]
+			},
+			func(j int) string {
+				return sequence.Choices[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
@@ -5436,7 +5898,18 @@ func (sequence *Sequence) GongDiff(stage *Stage, sequenceOther *Sequence) (diffs
 		}
 	}
 	if GroupsDifferent {
-		ops := stage.Diff(sequence, sequenceOther, "Groups", sequenceOther.Groups, sequence.Groups)
+		ops := stage.Diff(
+			sequence,
+			"Groups",
+			len(sequenceOther.Groups),
+			len(sequence.Groups),
+			func(i, j int) bool {
+				return sequenceOther.Groups[i] == sequence.Groups[j]
+			},
+			func(j int) string {
+				return sequence.Groups[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	ElementsDifferent := false
@@ -5457,7 +5930,18 @@ func (sequence *Sequence) GongDiff(stage *Stage, sequenceOther *Sequence) (diffs
 		}
 	}
 	if ElementsDifferent {
-		ops := stage.Diff(sequence, sequenceOther, "Elements", sequenceOther.Elements, sequence.Elements)
+		ops := stage.Diff(
+			sequence,
+			"Elements",
+			len(sequenceOther.Elements),
+			len(sequence.Elements),
+			func(i, j int) bool {
+				return sequenceOther.Elements[i] == sequence.Elements[j]
+			},
+			func(j int) string {
+				return sequence.Elements[j].GongGetIdentifier(stage)
+			},
+		)
 		diffs = append(diffs, ops)
 	}
 	if sequence.Order != sequenceOther.Order {
@@ -5606,8 +6090,14 @@ func (whitespace *WhiteSpace) GongDiff(stage *Stage, whitespaceOther *WhiteSpace
 }
 
 // Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
-func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
-	m, n := len(oldSlice), len(newSlice)
+func (stage *Stage) Diff(
+	a GongstructIF,
+	fieldName string,
+	lenOld, lenNew int,
+	equal func(i, j int) bool,
+	getNewIdentifier func(j int) string,
+) (ops string) {
+	m, n := lenOld, lenNew
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
 	// This helps us find the "anchor" elements that shouldn't move.
@@ -5618,7 +6108,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if oldSlice[i] == newSlice[j] {
+			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
@@ -5636,7 +6126,7 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	keptIndices := make(map[int]bool)
 	i, j := m, n
 	for i > 0 && j > 0 {
-		if oldSlice[i-1] == newSlice[j-1] {
+		if equal(i-1, j-1) {
 			keptIndices[i-1] = true
 			i--
 			j--
@@ -5659,22 +6149,22 @@ func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, 
 	// We simulate the state of the slice after deletions to determine insertion points.
 	// The 'current' slice essentially consists of only the kept LCS items.
 
-	// Create a temporary view of what's left after deletions for tracking matches
-	var currentLCS []T2
+	// Track kept indices in old slice
+	keptOldIndices := make([]int, 0, len(keptIndices))
 	for k := 0; k < m; k++ {
 		if keptIndices[k] {
-			currentLCS = append(currentLCS, oldSlice[k])
+			keptOldIndices = append(keptOldIndices, k)
 		}
 	}
 
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k, targetVal := range newSlice {
-		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+	for k := 0; k < n; k++ {
+		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, getNewIdentifier(k))
 		}
 	}
 
