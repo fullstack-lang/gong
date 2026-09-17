@@ -88,11 +88,20 @@ func addLayoutButtons[AT interface {
 	comparable
 }, CT LayoutConcreteType](
 	stager *Stager,
+	diagram *Diagram,
 	node *tree.Node,
 	abstractElement AT,
 	concreteShape CT,
 	hasConcreteShape bool,
 ) {
+	recomputeLayout := func() {
+		if diagram != nil {
+			diagram.Layout(stager)
+		} else if stager.diagram != nil {
+			stager.diagram.Layout(stager)
+		}
+	}
+
 	if treeNode, ok := any(abstractElement).(TreeAbstractType); ok {
 		toggleAbstractLayoutButton := &tree.Button{
 			Name: "Toggle Abstract Layout Direction to " + func() string {
@@ -110,6 +119,7 @@ func addLayoutButtons[AT interface {
 				} else {
 					treeNode.SetLayoutDirection(Vertical)
 				}
+				recomputeLayout()
 				stager.stage.Commit()
 			},
 		}
@@ -145,6 +155,7 @@ func addLayoutButtons[AT interface {
 				} else {
 					concreteShape.SetConcreteLayoutDirection(Vertical)
 				}
+				recomputeLayout()
 				stager.stage.Commit()
 			},
 		}
@@ -163,6 +174,7 @@ func addLayoutButtons[AT interface {
 			ToolTipPosition: tree.Above,
 			OnClick: func() {
 				concreteShape.SetOverideLayoutDirection(!concreteShape.GetOverideLayoutDirection())
+				recomputeLayout()
 				stager.stage.Commit()
 			},
 		}
