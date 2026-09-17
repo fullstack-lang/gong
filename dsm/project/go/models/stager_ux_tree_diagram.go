@@ -150,7 +150,7 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 	}
 
 	pbsNode := &tree.Node{
-		Name:                 "PBS",
+		Name:                 "Products",
 		FontStyle:            tree.ITALIC,
 		IsExpanded:           diagram.IsPBSNodeExpanded,
 		IsNodeClickable:      true,
@@ -200,7 +200,7 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 	}
 
 	wbsNode := &tree.Node{
-		Name:                 "WBS",
+		Name:                 "Tasks",
 		FontStyle:            tree.ITALIC,
 		IsExpanded:           diagram.IsWBSNodeExpanded,
 		IsNodeClickable:      true,
@@ -282,7 +282,7 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 	}
 
 	resourcesNode := &tree.Node{
-		Name:                 "RBS",
+		Name:                 "Ressources",
 		FontStyle:            tree.ITALIC,
 		IsExpanded:           diagram.IsResourcesNodeExpanded,
 		IsNodeClickable:      true,
@@ -408,8 +408,12 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 					IsNodeClickable:      true,
 					IsWithPreceedingIcon: true,
 					PreceedingIcon:       string(buttons.BUTTON_category),
+					IsInEditMode:         product.GetIsInRenameMode(),
 				}
 				noteNode.Children = append(noteNode.Children, nodeProduct)
+				addRenameButton(product, nodeProduct, stager)
+				nodeProduct.OnNameChange = stager.onNameChange(product)
+				nodeProduct.OnClick = onNodeClicked(stager, product)
 
 				showHideRelationButton := &tree.Button{
 					Name: GetGongstructNameFromPointer(product) + "- showHideRelationButton" + note.Name + " - " + product.Name,
@@ -447,8 +451,12 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 					IsNodeClickable:      true,
 					IsWithPreceedingIcon: true,
 					PreceedingIcon:       string(buttons.BUTTON_task),
+					IsInEditMode:         task.GetIsInRenameMode(),
 				}
 				noteNode.Children = append(noteNode.Children, nodeTask)
+				addRenameButton(task, nodeTask, stager)
+				nodeTask.OnNameChange = stager.onNameChange(task)
+				nodeTask.OnClick = onNodeClicked(stager, task)
 				showHideRelationButton := &tree.Button{
 					Name:            GetGongstructNameFromPointer(task),
 					HasToolTip:      true,
@@ -482,8 +490,12 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 					IsNodeClickable:      true,
 					IsWithPreceedingIcon: true,
 					PreceedingIcon:       string(buttons.BUTTON_engineering),
+					IsInEditMode:         resource.GetIsInRenameMode(),
 				}
 				noteNode.Children = append(noteNode.Children, nodeResource)
+				addRenameButton(resource, nodeResource, stager)
+				nodeResource.OnNameChange = stager.onNameChange(resource)
+				nodeResource.OnClick = onNodeClicked(stager, resource)
 				showHideRelationButton := &tree.Button{
 					Name:            GetGongstructNameFromPointer(resource),
 					HasToolTip:      true,

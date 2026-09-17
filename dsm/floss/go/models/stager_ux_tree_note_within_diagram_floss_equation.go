@@ -172,7 +172,11 @@ func (stager *Stager) treeNoteWithinDiagramFlossEquation(
 				return "Click to create a link shape for this complexity within this diagram"
 			}(),
 			IsNodeClickable: true,
+			IsInEditMode:    complexity.GetIsInRenameMode(),
 		}
+		addRenameButton(complexity, nodeComplexity, stager)
+		nodeComplexity.OnNameChange = stager.onNameChange(complexity)
+		nodeComplexity.OnClick = onNodeClicked(stager, complexity)
 		nodeComplexity.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked && !ok {
 				addAssociationShapeToDiagram(stager, note, complexity, &diagramEquation.NoteComplexityShapes)
@@ -235,7 +239,11 @@ func (stager *Stager) treeNoteWithinDiagramFlossEquation(
 				return "Click to create a link shape for this performance within this diagram"
 			}(),
 			IsNodeClickable: true,
+			IsInEditMode:    performance.GetIsInRenameMode(),
 		}
+		addRenameButton(performance, nodePerformance, stager)
+		nodePerformance.OnNameChange = stager.onNameChange(performance)
+		nodePerformance.OnClick = onNodeClicked(stager, performance)
 		nodePerformance.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked && !ok {
 				addAssociationShapeToDiagram(stager, note, performance, &diagramEquation.NotePerformanceShapes)
@@ -298,7 +306,11 @@ func (stager *Stager) treeNoteWithinDiagramFlossEquation(
 				return "Click to create a link shape for this effort within this diagram"
 			}(),
 			IsNodeClickable: true,
+			IsInEditMode:    effort.GetIsInRenameMode(),
 		}
+		addRenameButton(effort, nodeEffort, stager)
+		nodeEffort.OnNameChange = stager.onNameChange(effort)
+		nodeEffort.OnClick = onNodeClicked(stager, effort)
 		nodeEffort.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked && !ok {
 				addAssociationShapeToDiagram(stager, note, effort, &diagramEquation.NoteEffortShapes)

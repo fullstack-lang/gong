@@ -147,8 +147,12 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 				CheckboxToolTipPosition: tree.Right,
 				IsWithPreceedingIcon:    true,
 				PreceedingIcon:          string(buttons.BUTTON_category),
+				IsInEditMode:            product.GetIsInRenameMode(),
 			}
 			inputProductsNode.Children = append(inputProductsNode.Children, inputProductNode)
+			addRenameButton(product, inputProductNode, stager)
+			inputProductNode.OnNameChange = stager.onNameChange(product)
+			inputProductNode.OnClick = onNodeClicked(stager, product)
 
 			// if input task is present in diagram as well as the input product
 			// display the show/hide input relation button
@@ -233,8 +237,12 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 				CheckboxToolTipPosition: tree.Right,
 				IsWithPreceedingIcon:    true,
 				PreceedingIcon:          string(buttons.BUTTON_category),
+				IsInEditMode:            product.GetIsInRenameMode(),
 			}
 			outputProductsNode.Children = append(outputProductsNode.Children, outputProductNode)
+			addRenameButton(product, outputProductNode, stager)
+			outputProductNode.OnNameChange = stager.onNameChange(product)
+			outputProductNode.OnClick = onNodeClicked(stager, product)
 
 			// if output task is present in diagram as well as the output product
 			// display the show/hide output relation button
@@ -317,8 +325,12 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 				CheckboxToolTipPosition: tree.Right,
 				IsWithPreceedingIcon:    true,
 				PreceedingIcon:          string(buttons.BUTTON_task),
+				IsInEditMode:            predecessor.GetIsInRenameMode(),
 			}
 			predecessorsNode.Children = append(predecessorsNode.Children, predecessorNode)
+			addRenameButton(predecessor, predecessorNode, stager)
+			predecessorNode.OnNameChange = stager.onNameChange(predecessor)
+			predecessorNode.OnClick = onNodeClicked(stager, predecessor)
 
 			// if predecessor task is present in diagram as well as the task
 			// display the show/hide predecessor relation button

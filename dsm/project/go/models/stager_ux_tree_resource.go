@@ -103,8 +103,12 @@ func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource
 				HasCheckboxButton:       true,
 				IsWithPreceedingIcon:    true,
 				PreceedingIcon:          string(buttons.BUTTON_task),
+				IsInEditMode:            task.GetIsInRenameMode(),
 			}
 			tasksNode.Children = append(tasksNode.Children, taskNode)
+			addRenameButton(task, taskNode, stager)
+			taskNode.OnNameChange = stager.onNameChange(task)
+			taskNode.OnClick = onNodeClicked(stager, task)
 			taskNode.IsCheckboxDisabled = true
 
 			if _, ok := diagram.map_Task_TaskShape[task]; ok {
