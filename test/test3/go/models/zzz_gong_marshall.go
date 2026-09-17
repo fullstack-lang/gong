@@ -49,26 +49,37 @@ const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
 
 
-const StringInitStatement = `
+const GongStringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const MetaFieldStructInitStatement = `
+const GongMetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
 
-const StringEnumInitStatement = `
+const GongStringEnumInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const NumberInitStatement = `
+const GongNumberInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const PointerFieldInitStatement = `
+const GongPointerFieldInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const SliceOfPointersFieldInitStatement = `
+const GongSliceOfPointersFieldInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = append({{Identifier}}.{{GeneratedFieldName}}, {{GeneratedFieldNameValue}})`
 
-const TimeInitStatement = `
+const GongTimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
+
+// backward compatibility
+const (
+	StringInitStatement           = GongStringInitStatement
+	MetaFieldStructInitStatement  = GongMetaFieldStructInitStatement
+	StringEnumInitStatement       = GongStringEnumInitStatement
+	NumberInitStatement           = GongNumberInitStatement
+	PointerFieldInitStatement     = GongPointerFieldInitStatement
+	SliceOfPointersFieldInitStatement = GongSliceOfPointersFieldInitStatement
+	TimeInitStatement             = GongTimeInitStatement
+)
 
 // __gong__toRawStringLiteral formats a string into safe Go source code,
 // using backticks to preserve newlines and readability.
@@ -416,71 +427,71 @@ func (a *A) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a.Name))
 	case "Date":
-		res = TimeInitStatement
+		res = GongTimeInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Date")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", a.Date.String())
 	case "Duration":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Duration")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", a.Duration))
 	case "FloatValue":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FloatValue")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", a.FloatValue))
 	case "IntValue":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IntValue")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", a.IntValue))
 	case "EnumString":
 		if a.EnumString.ToCodeString() != "" {
-			res = StringEnumInitStatement
+			res = GongStringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnumString")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+a.EnumString.ToCodeString())
 		} else {
 			// in case of empty enum, we need to unstage the previous value
-			res = StringEnumInitStatement
+			res = GongStringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnumString")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "EnumInt":
 		if a.EnumInt.ToCodeString() != "" {
-			res = NumberInitStatement
+			res = GongNumberInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnumInt")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+a.EnumInt.ToCodeString())
 		} else {
 			// in case of empty enum, we need to unstage the previous value
-			res = NumberInitStatement
+			res = GongNumberInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnumInt")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
 		}
 	case "UUID":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "UUID")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(a.UUID))
 
 	case "B":
 		if a.B != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "B")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", a.B.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "B")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
@@ -488,7 +499,7 @@ func (a *A) GongMarshallField(stage *Stage, fieldName string) (res string) {
 	case "Bs":
 		var sb strings.Builder
 		for _, _b := range a.Bs {
-			tmp := SliceOfPointersFieldInitStatement
+			tmp := GongSliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", a.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Bs")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _b.GongGetIdentifier(stage))
@@ -505,7 +516,7 @@ func (b *B) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", b.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(b.Name))
@@ -520,7 +531,7 @@ func (c *C) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", c.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(c.Name))

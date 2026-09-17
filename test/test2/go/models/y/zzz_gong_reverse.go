@@ -2,7 +2,7 @@
 package y
 
 // insertion point
-func (inst *Y) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *Y) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -12,7 +12,7 @@ func (inst *Y) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseF
 }
 
 // insertion point
-func (inst *Y) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *Y) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

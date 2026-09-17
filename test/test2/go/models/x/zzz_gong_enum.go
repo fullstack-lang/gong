@@ -89,9 +89,11 @@ type GongstructEnumStringField interface {
 	ToString() string
 }
 
-type PointerToGongstructEnumStringField interface {
+type GongEnumStringPointer interface {
 	FromCodeString(input string) (err error)
 }
+
+type PointerToGongstructEnumStringField = GongEnumStringPointer
 
 type GongstructEnumIntField interface {
 	int
@@ -99,9 +101,11 @@ type GongstructEnumIntField interface {
 	CodeValues() []int
 }
 
-type PointerToGongstructEnumIntField interface {
+type GongEnumIntPointer interface {
 	//insertion point for pointers to enum int types
 	FromCodeString(input string) (err error)
 }
+
+type PointerToGongstructEnumIntField = GongEnumIntPointer
 
 // Last line of the template

@@ -49,26 +49,37 @@ const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
 
 
-const StringInitStatement = `
+const GongStringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const MetaFieldStructInitStatement = `
+const GongMetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
 
-const StringEnumInitStatement = `
+const GongStringEnumInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const NumberInitStatement = `
+const GongNumberInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const PointerFieldInitStatement = `
+const GongPointerFieldInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const SliceOfPointersFieldInitStatement = `
+const GongSliceOfPointersFieldInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = append({{Identifier}}.{{GeneratedFieldName}}, {{GeneratedFieldNameValue}})`
 
-const TimeInitStatement = `
+const GongTimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
+
+// backward compatibility
+const (
+	StringInitStatement           = GongStringInitStatement
+	MetaFieldStructInitStatement  = GongMetaFieldStructInitStatement
+	StringEnumInitStatement       = GongStringEnumInitStatement
+	NumberInitStatement           = GongNumberInitStatement
+	PointerFieldInitStatement     = GongPointerFieldInitStatement
+	SliceOfPointersFieldInitStatement = GongSliceOfPointersFieldInitStatement
+	TimeInitStatement             = GongTimeInitStatement
+)
 
 // __gong__toRawStringLiteral formats a string into safe Go source code,
 // using backticks to preserve newlines and readability.
@@ -1073,19 +1084,19 @@ func (assplit *AsSplit) GongMarshallField(stage *Stage, fieldName string) (res s
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", assplit.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(assplit.Name))
 	case "Direction":
 		if assplit.Direction.ToCodeString() != "" {
-			res = StringEnumInitStatement
+			res = GongStringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplit.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Direction")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+assplit.Direction.ToCodeString())
 		} else {
 			// in case of empty enum, we need to unstage the previous value
-			res = StringEnumInitStatement
+			res = GongStringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplit.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Direction")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
@@ -1101,7 +1112,7 @@ func (assplit *AsSplit) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithCustomGutterSize")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", assplit.IsWithCustomGutterSize))
 	case "GutterSize":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", assplit.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GutterSize")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", assplit.GutterSize))
@@ -1109,7 +1120,7 @@ func (assplit *AsSplit) GongMarshallField(stage *Stage, fieldName string) (res s
 	case "AsSplitAreas":
 		var sb strings.Builder
 		for _, _assplitarea := range assplit.AsSplitAreas {
-			tmp := SliceOfPointersFieldInitStatement
+			tmp := GongSliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", assplit.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "AsSplitAreas")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _assplitarea.GongGetIdentifier(stage))
@@ -1126,7 +1137,7 @@ func (assplitarea *AsSplitArea) GongMarshallField(stage *Stage, fieldName string
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(assplitarea.Name))
@@ -1136,7 +1147,7 @@ func (assplitarea *AsSplitArea) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowNameInHeader")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", assplitarea.ShowNameInHeader))
 	case "Size":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Size")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", assplitarea.Size))
@@ -1151,189 +1162,189 @@ func (assplitarea *AsSplitArea) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasDiv")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", assplitarea.HasDiv))
 	case "DivStyle":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DivStyle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(assplitarea.DivStyle))
 
 	case "AsSplit":
 		if assplitarea.AsSplit != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AsSplit")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.AsSplit.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AsSplit")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Button":
 		if assplitarea.Button != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Button")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Button.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Button")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Cursor":
 		if assplitarea.Cursor != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Cursor")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Cursor.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Cursor")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Form":
 		if assplitarea.Form != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Form")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Form.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Form")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Load":
 		if assplitarea.Load != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Load")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Load.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Load")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Markdown":
 		if assplitarea.Markdown != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Markdown")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Markdown.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Markdown")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Slider":
 		if assplitarea.Slider != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Slider")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Slider.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Slider")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Split":
 		if assplitarea.Split != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Split")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Split.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Split")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Svg":
 		if assplitarea.Svg != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Svg")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Svg.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Svg")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Table":
 		if assplitarea.Table != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Table")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Table.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Table")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Tone":
 		if assplitarea.Tone != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Tone")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Tone.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Tone")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Tree":
 		if assplitarea.Tree != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Tree")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Tree.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Tree")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Threejs":
 		if assplitarea.Threejs != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Threejs")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Threejs.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Threejs")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Xlsx":
 		if assplitarea.Xlsx != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Xlsx")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Xlsx.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Xlsx")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
@@ -1348,12 +1359,12 @@ func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res str
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(button.Name))
 	case "StackName":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(button.StackName))
@@ -1368,17 +1379,17 @@ func (cursor *Cursor) GongMarshallField(stage *Stage, fieldName string) (res str
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cursor.Name))
 	case "StackName":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cursor.StackName))
 	case "Style":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Style")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cursor.Style))
@@ -1393,12 +1404,12 @@ func (favicon *FavIcon) GongMarshallField(stage *Stage, fieldName string) (res s
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", favicon.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(favicon.Name))
 	case "SVG":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", favicon.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVG")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(favicon.SVG))
@@ -1413,12 +1424,12 @@ func (form *Form) GongMarshallField(stage *Stage, fieldName string) (res string)
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", form.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(form.Name))
 	case "StackName":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", form.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(form.StackName))
@@ -1433,12 +1444,12 @@ func (load *Load) GongMarshallField(stage *Stage, fieldName string) (res string)
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", load.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(load.Name))
 	case "StackName":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", load.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(load.StackName))
@@ -1453,22 +1464,22 @@ func (logoontheleft *LogoOnTheLeft) GongMarshallField(stage *Stage, fieldName st
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", logoontheleft.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(logoontheleft.Name))
 	case "Width":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", logoontheleft.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", logoontheleft.Width))
 	case "Height":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", logoontheleft.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", logoontheleft.Height))
 	case "SVG":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", logoontheleft.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVG")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(logoontheleft.SVG))
@@ -1483,22 +1494,22 @@ func (logoontheright *LogoOnTheRight) GongMarshallField(stage *Stage, fieldName 
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", logoontheright.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(logoontheright.Name))
 	case "Width":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", logoontheright.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", logoontheright.Width))
 	case "Height":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", logoontheright.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", logoontheright.Height))
 	case "SVG":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", logoontheright.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVG")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(logoontheright.SVG))
@@ -1513,12 +1524,12 @@ func (markdown *Markdown) GongMarshallField(stage *Stage, fieldName string) (res
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", markdown.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(markdown.Name))
 	case "StackName":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", markdown.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(markdown.StackName))
@@ -1533,12 +1544,12 @@ func (slider *Slider) GongMarshallField(stage *Stage, fieldName string) (res str
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slider.Name))
 	case "StackName":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slider.StackName))
@@ -1553,12 +1564,12 @@ func (split *Split) GongMarshallField(stage *Stage, fieldName string) (res strin
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", split.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(split.Name))
 	case "StackName":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", split.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(split.StackName))
@@ -1573,17 +1584,17 @@ func (svg *Svg) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svg.Name))
 	case "StackName":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svg.StackName))
 	case "Style":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Style")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svg.Style))
@@ -1598,12 +1609,12 @@ func (table *Table) GongMarshallField(stage *Stage, fieldName string) (res strin
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(table.Name))
 	case "StackName":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(table.StackName))
@@ -1618,12 +1629,12 @@ func (threejs *Threejs) GongMarshallField(stage *Stage, fieldName string) (res s
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", threejs.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(threejs.Name))
 	case "StackName":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", threejs.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(threejs.StackName))
@@ -1638,7 +1649,7 @@ func (title *Title) GongMarshallField(stage *Stage, fieldName string) (res strin
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", title.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(title.Name))
@@ -1653,12 +1664,12 @@ func (tone *Tone) GongMarshallField(stage *Stage, fieldName string) (res string)
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tone.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tone.Name))
 	case "StackName":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tone.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tone.StackName))
@@ -1673,12 +1684,12 @@ func (tree *Tree) GongMarshallField(stage *Stage, fieldName string) (res string)
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tree.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tree.Name))
 	case "StackName":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tree.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tree.StackName))
@@ -1693,7 +1704,7 @@ func (view *View) GongMarshallField(stage *Stage, fieldName string) (res string)
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", view.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(view.Name))
@@ -1709,13 +1720,13 @@ func (view *View) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", view.IsSelectedView))
 	case "Direction":
 		if view.Direction.ToCodeString() != "" {
-			res = StringEnumInitStatement
+			res = GongStringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", view.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Direction")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+view.Direction.ToCodeString())
 		} else {
 			// in case of empty enum, we need to unstage the previous value
-			res = StringEnumInitStatement
+			res = GongStringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", view.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Direction")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
@@ -1736,7 +1747,7 @@ func (view *View) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithCustomGutterSize")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", view.IsWithCustomGutterSize))
 	case "GutterSize":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", view.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GutterSize")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", view.GutterSize))
@@ -1744,7 +1755,7 @@ func (view *View) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "RootAsSplitAreas":
 		var sb strings.Builder
 		for _, _assplitarea := range view.RootAsSplitAreas {
-			tmp := SliceOfPointersFieldInitStatement
+			tmp := GongSliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", view.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootAsSplitAreas")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _assplitarea.GongGetIdentifier(stage))
@@ -1761,12 +1772,12 @@ func (xlsx *Xlsx) GongMarshallField(stage *Stage, fieldName string) (res string)
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", xlsx.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(xlsx.Name))
 	case "StackName":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", xlsx.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(xlsx.StackName))

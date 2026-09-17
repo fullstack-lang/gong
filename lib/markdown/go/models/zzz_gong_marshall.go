@@ -49,26 +49,37 @@ const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
 
 
-const StringInitStatement = `
+const GongStringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const MetaFieldStructInitStatement = `
+const GongMetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
 
-const StringEnumInitStatement = `
+const GongStringEnumInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const NumberInitStatement = `
+const GongNumberInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const PointerFieldInitStatement = `
+const GongPointerFieldInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const SliceOfPointersFieldInitStatement = `
+const GongSliceOfPointersFieldInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = append({{Identifier}}.{{GeneratedFieldName}}, {{GeneratedFieldNameValue}})`
 
-const TimeInitStatement = `
+const GongTimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
+
+// backward compatibility
+const (
+	StringInitStatement           = GongStringInitStatement
+	MetaFieldStructInitStatement  = GongMetaFieldStructInitStatement
+	StringEnumInitStatement       = GongStringEnumInitStatement
+	NumberInitStatement           = GongNumberInitStatement
+	PointerFieldInitStatement     = GongPointerFieldInitStatement
+	SliceOfPointersFieldInitStatement = GongSliceOfPointersFieldInitStatement
+	TimeInitStatement             = GongTimeInitStatement
+)
 
 // __gong__toRawStringLiteral formats a string into safe Go source code,
 // using backticks to preserve newlines and readability.
@@ -479,12 +490,12 @@ func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res s
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(content.Name))
 	case "Content":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(content.Content))
@@ -499,12 +510,12 @@ func (jpgimage *JpgImage) GongMarshallField(stage *Stage, fieldName string) (res
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(jpgimage.Name))
 	case "Base64Content":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(jpgimage.Base64Content))
@@ -519,12 +530,12 @@ func (pngimage *PngImage) GongMarshallField(stage *Stage, fieldName string) (res
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pngimage.Name))
 	case "Base64Content":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pngimage.Base64Content))
@@ -539,12 +550,12 @@ func (svgimage *SvgImage) GongMarshallField(stage *Stage, fieldName string) (res
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svgimage.Name))
 	case "Content":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svgimage.Content))

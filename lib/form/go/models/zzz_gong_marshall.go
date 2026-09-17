@@ -49,26 +49,37 @@ const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
 
 
-const StringInitStatement = `
+const GongStringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const MetaFieldStructInitStatement = `
+const GongMetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
 
-const StringEnumInitStatement = `
+const GongStringEnumInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const NumberInitStatement = `
+const GongNumberInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const PointerFieldInitStatement = `
+const GongPointerFieldInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
-const SliceOfPointersFieldInitStatement = `
+const GongSliceOfPointersFieldInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = append({{Identifier}}.{{GeneratedFieldName}}, {{GeneratedFieldNameValue}})`
 
-const TimeInitStatement = `
+const GongTimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
+
+// backward compatibility
+const (
+	StringInitStatement           = GongStringInitStatement
+	MetaFieldStructInitStatement  = GongMetaFieldStructInitStatement
+	StringEnumInitStatement       = GongStringEnumInitStatement
+	NumberInitStatement           = GongNumberInitStatement
+	PointerFieldInitStatement     = GongPointerFieldInitStatement
+	SliceOfPointersFieldInitStatement = GongSliceOfPointersFieldInitStatement
+	TimeInitStatement             = GongTimeInitStatement
+)
 
 // __gong__toRawStringLiteral formats a string into safe Go source code,
 // using backticks to preserve newlines and readability.
@@ -875,7 +886,7 @@ func (checkbox *CheckBox) GongMarshallField(stage *Stage, fieldName string) (res
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(checkbox.Name))
@@ -895,7 +906,7 @@ func (formdiv *FormDiv) GongMarshallField(stage *Stage, fieldName string) (res s
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formdiv.Name))
@@ -910,7 +921,7 @@ func (formdiv *FormDiv) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsAStartAccordionGroup")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formdiv.IsAStartAccordionGroup))
 	case "AccordionGroupName":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AccordionGroupName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formdiv.AccordionGroupName))
@@ -923,7 +934,7 @@ func (formdiv *FormDiv) GongMarshallField(stage *Stage, fieldName string) (res s
 	case "FormFields":
 		var sb strings.Builder
 		for _, _formfield := range formdiv.FormFields {
-			tmp := SliceOfPointersFieldInitStatement
+			tmp := GongSliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "FormFields")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _formfield.GongGetIdentifier(stage))
@@ -933,7 +944,7 @@ func (formdiv *FormDiv) GongMarshallField(stage *Stage, fieldName string) (res s
 	case "CheckBoxs":
 		var sb strings.Builder
 		for _, _checkbox := range formdiv.CheckBoxs {
-			tmp := SliceOfPointersFieldInitStatement
+			tmp := GongSliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "CheckBoxs")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _checkbox.GongGetIdentifier(stage))
@@ -942,26 +953,26 @@ func (formdiv *FormDiv) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "FormEditAssocButton":
 		if formdiv.FormEditAssocButton != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormEditAssocButton")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formdiv.FormEditAssocButton.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormEditAssocButton")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "FormSortAssocButton":
 		if formdiv.FormSortAssocButton != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormSortAssocButton")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formdiv.FormSortAssocButton.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormSortAssocButton")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
@@ -976,17 +987,17 @@ func (formeditassocbutton *FormEditAssocButton) GongMarshallField(stage *Stage, 
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formeditassocbutton.Name))
 	case "Label":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Label")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formeditassocbutton.Label))
 	case "AssociationStorage":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AssociationStorage")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formeditassocbutton.AssociationStorage))
@@ -1006,12 +1017,12 @@ func (formeditassocbutton *FormEditAssocButton) GongMarshallField(stage *Stage, 
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasToolTip")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formeditassocbutton.HasToolTip))
 	case "ToolTipText":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formeditassocbutton.ToolTipText))
 	case "MatTooltipShowDelay":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MatTooltipShowDelay")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formeditassocbutton.MatTooltipShowDelay))
@@ -1026,30 +1037,30 @@ func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (r
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfield.Name))
 	case "InputTypeEnum":
 		if formfield.InputTypeEnum.ToCodeString() != "" {
-			res = StringEnumInitStatement
+			res = GongStringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InputTypeEnum")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+formfield.InputTypeEnum.ToCodeString())
 		} else {
 			// in case of empty enum, we need to unstage the previous value
-			res = StringEnumInitStatement
+			res = GongStringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InputTypeEnum")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "Label":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Label")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfield.Label))
 	case "Placeholder":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placeholder")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfield.Placeholder))
@@ -1059,7 +1070,7 @@ func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasBespokeWidth")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfield.HasBespokeWidth))
 	case "BespokeWidthPx":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokeWidthPx")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfield.BespokeWidthPx))
@@ -1069,98 +1080,98 @@ func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasBespokeHeight")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfield.HasBespokeHeight))
 	case "BespokeHeightPx":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokeHeightPx")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfield.BespokeHeightPx))
 
 	case "FormFieldString":
 		if formfield.FormFieldString != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldString")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldString.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldString")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "FormFieldFloat64":
 		if formfield.FormFieldFloat64 != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldFloat64")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldFloat64.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldFloat64")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "FormFieldInt":
 		if formfield.FormFieldInt != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldInt")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldInt.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldInt")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "FormFieldDate":
 		if formfield.FormFieldDate != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldDate")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldDate.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldDate")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "FormFieldTime":
 		if formfield.FormFieldTime != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldTime")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldTime.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldTime")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "FormFieldDateTime":
 		if formfield.FormFieldDateTime != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldDateTime")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldDateTime.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldDateTime")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "FormFieldSelect":
 		if formfield.FormFieldSelect != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldSelect")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldSelect.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldSelect")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
@@ -1175,12 +1186,12 @@ func (formfielddate *FormFieldDate) GongMarshallField(stage *Stage, fieldName st
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfielddate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfielddate.Name))
 	case "Value":
-		res = TimeInitStatement
+		res = GongTimeInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfielddate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfielddate.Value.String())
@@ -1195,12 +1206,12 @@ func (formfielddatetime *FormFieldDateTime) GongMarshallField(stage *Stage, fiel
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfielddatetime.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfielddatetime.Name))
 	case "Value":
-		res = TimeInitStatement
+		res = GongTimeInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfielddatetime.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfielddatetime.Value.String())
@@ -1215,12 +1226,12 @@ func (formfieldfloat64 *FormFieldFloat64) GongMarshallField(stage *Stage, fieldN
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldfloat64.Name))
 	case "Value":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", formfieldfloat64.Value))
@@ -1230,7 +1241,7 @@ func (formfieldfloat64 *FormFieldFloat64) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasMinValidator")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldfloat64.HasMinValidator))
 	case "MinValue":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MinValue")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", formfieldfloat64.MinValue))
@@ -1240,7 +1251,7 @@ func (formfieldfloat64 *FormFieldFloat64) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasMaxValidator")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldfloat64.HasMaxValidator))
 	case "MaxValue":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MaxValue")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", formfieldfloat64.MaxValue))
@@ -1255,12 +1266,12 @@ func (formfieldint *FormFieldInt) GongMarshallField(stage *Stage, fieldName stri
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldint.Name))
 	case "Value":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfieldint.Value))
@@ -1270,7 +1281,7 @@ func (formfieldint *FormFieldInt) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasMinValidator")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldint.HasMinValidator))
 	case "MinValue":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MinValue")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfieldint.MinValue))
@@ -1280,7 +1291,7 @@ func (formfieldint *FormFieldInt) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasMaxValidator")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldint.HasMaxValidator))
 	case "MaxValue":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MaxValue")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfieldint.MaxValue))
@@ -1295,7 +1306,7 @@ func (formfieldselect *FormFieldSelect) GongMarshallField(stage *Stage, fieldNam
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldselect.Name))
@@ -1312,13 +1323,13 @@ func (formfieldselect *FormFieldSelect) GongMarshallField(stage *Stage, fieldNam
 
 	case "Value":
 		if formfieldselect.Value != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfieldselect.Value.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
@@ -1326,7 +1337,7 @@ func (formfieldselect *FormFieldSelect) GongMarshallField(stage *Stage, fieldNam
 	case "Options":
 		var sb strings.Builder
 		for _, _option := range formfieldselect.Options {
-			tmp := SliceOfPointersFieldInitStatement
+			tmp := GongSliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Options")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _option.GongGetIdentifier(stage))
@@ -1343,12 +1354,12 @@ func (formfieldstring *FormFieldString) GongMarshallField(stage *Stage, fieldNam
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldstring.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldstring.Name))
 	case "Value":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldstring.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldstring.Value))
@@ -1368,17 +1379,17 @@ func (formfieldtime *FormFieldTime) GongMarshallField(stage *Stage, fieldName st
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldtime.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldtime.Name))
 	case "Value":
-		res = TimeInitStatement
+		res = GongTimeInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldtime.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfieldtime.Value.String())
 	case "Step":
-		res = NumberInitStatement
+		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldtime.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Step")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", formfieldtime.Step))
@@ -1393,17 +1404,17 @@ func (formgroup *FormGroup) GongMarshallField(stage *Stage, fieldName string) (r
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formgroup.Name))
 	case "Label":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Label")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formgroup.Label))
 	case "TypeLabel":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TypeLabel")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formgroup.TypeLabel))
@@ -1421,7 +1432,7 @@ func (formgroup *FormGroup) GongMarshallField(stage *Stage, fieldName string) (r
 	case "FormDivs":
 		var sb strings.Builder
 		for _, _formdiv := range formgroup.FormDivs {
-			tmp := SliceOfPointersFieldInitStatement
+			tmp := GongSliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "FormDivs")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _formdiv.GongGetIdentifier(stage))
@@ -1438,12 +1449,12 @@ func (formsortassocbutton *FormSortAssocButton) GongMarshallField(stage *Stage, 
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formsortassocbutton.Name))
 	case "Label":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Label")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formsortassocbutton.Label))
@@ -1453,25 +1464,25 @@ func (formsortassocbutton *FormSortAssocButton) GongMarshallField(stage *Stage, 
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasToolTip")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formsortassocbutton.HasToolTip))
 	case "ToolTipText":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formsortassocbutton.ToolTipText))
 	case "MatTooltipShowDelay":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MatTooltipShowDelay")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formsortassocbutton.MatTooltipShowDelay))
 
 	case "FormEditAssocButton":
 		if formsortassocbutton.FormEditAssocButton != nil {
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormEditAssocButton")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formsortassocbutton.FormEditAssocButton.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
+			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormEditAssocButton")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
@@ -1486,7 +1497,7 @@ func (option *Option) GongMarshallField(stage *Stage, fieldName string) (res str
 
 	switch fieldName {
 	case "Name":
-		res = StringInitStatement
+		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", option.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(option.Name))

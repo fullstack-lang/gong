@@ -30,13 +30,22 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
-	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
-	ProbeTableSuffix                 = ":table of the probe"
-	ProbeNotificationTableSuffix     = ":notification table of the probe"
-	ProbeFormSuffix                  = ":form of the probe"
-	ProbeSplitSuffix                 = ":probe of the probe"
-	ProbeLoadSuffix                  = ":load of the probe"
+	GongProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	GongProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	GongProbeTableSuffix                 = ":table of the probe"
+	GongProbeNotificationTableSuffix     = ":notification table of the probe"
+	GongProbeFormSuffix                  = ":form of the probe"
+	GongProbeSplitSuffix                 = ":probe of the probe"
+	GongProbeLoadSuffix                  = ":load of the probe"
+
+	// backward compatibility
+	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
+	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
+	ProbeTableSuffix                 = GongProbeTableSuffix
+	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
+	ProbeFormSuffix                  = GongProbeFormSuffix
+	ProbeSplitSuffix                 = GongProbeSplitSuffix
+	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -50,31 +59,31 @@ const (
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeFormSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeFormSuffix
 }
 
 func (stage *Stage) GetProbeTableStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeTableSuffix
 }
 
 func (stage *Stage) GetProbeNotificationTableStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeSplitSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeSplitSuffix
 }
 
 func (stage *Stage) GetProbeLoadStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeLoadSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeLoadSuffix
 }
 
 // errUnkownEnum is returns when a value cannot match enum values
@@ -124,10 +133,10 @@ type Stage struct {
 	Angle0Shapes_referenceOrder map[*Angle0Shape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterAngle0ShapeCreateCallback OnAfterCreateInterface[Angle0Shape]
-	OnAfterAngle0ShapeUpdateCallback OnAfterUpdateInterface[Angle0Shape]
-	OnAfterAngle0ShapeDeleteCallback OnAfterDeleteInterface[Angle0Shape]
-	OnAfterAngle0ShapeReadCallback   OnAfterReadInterface[Angle0Shape]
+	OnAfterAngle0ShapeCreateCallback GongOnAfterCreateInterface[Angle0Shape]
+	OnAfterAngle0ShapeUpdateCallback GongOnAfterUpdateInterface[Angle0Shape]
+	OnAfterAngle0ShapeDeleteCallback GongOnAfterDeleteInterface[Angle0Shape]
+	OnAfterAngle0ShapeReadCallback   GongOnAfterReadInterface[Angle0Shape]
 
 	ArcNormalVectorShapes                map[*ArcNormalVectorShape]struct{}
 	ArcNormalVectorShapes_instance       map[*ArcNormalVectorShape]*ArcNormalVectorShape
@@ -139,10 +148,10 @@ type Stage struct {
 	ArcNormalVectorShapes_referenceOrder map[*ArcNormalVectorShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterArcNormalVectorShapeCreateCallback OnAfterCreateInterface[ArcNormalVectorShape]
-	OnAfterArcNormalVectorShapeUpdateCallback OnAfterUpdateInterface[ArcNormalVectorShape]
-	OnAfterArcNormalVectorShapeDeleteCallback OnAfterDeleteInterface[ArcNormalVectorShape]
-	OnAfterArcNormalVectorShapeReadCallback   OnAfterReadInterface[ArcNormalVectorShape]
+	OnAfterArcNormalVectorShapeCreateCallback GongOnAfterCreateInterface[ArcNormalVectorShape]
+	OnAfterArcNormalVectorShapeUpdateCallback GongOnAfterUpdateInterface[ArcNormalVectorShape]
+	OnAfterArcNormalVectorShapeDeleteCallback GongOnAfterDeleteInterface[ArcNormalVectorShape]
+	OnAfterArcNormalVectorShapeReadCallback   GongOnAfterReadInterface[ArcNormalVectorShape]
 
 	ArcNormalVectorShapeGrids                map[*ArcNormalVectorShapeGrid]struct{}
 	ArcNormalVectorShapeGrids_instance       map[*ArcNormalVectorShapeGrid]*ArcNormalVectorShapeGrid
@@ -156,10 +165,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	ArcNormalVectorShapeGrid_ArcNormalVectorShapes_reverseMap map[*ArcNormalVectorShape]*ArcNormalVectorShapeGrid
 
-	OnAfterArcNormalVectorShapeGridCreateCallback OnAfterCreateInterface[ArcNormalVectorShapeGrid]
-	OnAfterArcNormalVectorShapeGridUpdateCallback OnAfterUpdateInterface[ArcNormalVectorShapeGrid]
-	OnAfterArcNormalVectorShapeGridDeleteCallback OnAfterDeleteInterface[ArcNormalVectorShapeGrid]
-	OnAfterArcNormalVectorShapeGridReadCallback   OnAfterReadInterface[ArcNormalVectorShapeGrid]
+	OnAfterArcNormalVectorShapeGridCreateCallback GongOnAfterCreateInterface[ArcNormalVectorShapeGrid]
+	OnAfterArcNormalVectorShapeGridUpdateCallback GongOnAfterUpdateInterface[ArcNormalVectorShapeGrid]
+	OnAfterArcNormalVectorShapeGridDeleteCallback GongOnAfterDeleteInterface[ArcNormalVectorShapeGrid]
+	OnAfterArcNormalVectorShapeGridReadCallback   GongOnAfterReadInterface[ArcNormalVectorShapeGrid]
 
 	AxesShapes                map[*AxesShape]struct{}
 	AxesShapes_instance       map[*AxesShape]*AxesShape
@@ -171,10 +180,10 @@ type Stage struct {
 	AxesShapes_referenceOrder map[*AxesShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterAxesShapeCreateCallback OnAfterCreateInterface[AxesShape]
-	OnAfterAxesShapeUpdateCallback OnAfterUpdateInterface[AxesShape]
-	OnAfterAxesShapeDeleteCallback OnAfterDeleteInterface[AxesShape]
-	OnAfterAxesShapeReadCallback   OnAfterReadInterface[AxesShape]
+	OnAfterAxesShapeCreateCallback GongOnAfterCreateInterface[AxesShape]
+	OnAfterAxesShapeUpdateCallback GongOnAfterUpdateInterface[AxesShape]
+	OnAfterAxesShapeDeleteCallback GongOnAfterDeleteInterface[AxesShape]
+	OnAfterAxesShapeReadCallback   GongOnAfterReadInterface[AxesShape]
 
 	BaseVectorShapes                map[*BaseVectorShape]struct{}
 	BaseVectorShapes_instance       map[*BaseVectorShape]*BaseVectorShape
@@ -186,10 +195,10 @@ type Stage struct {
 	BaseVectorShapes_referenceOrder map[*BaseVectorShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBaseVectorShapeCreateCallback OnAfterCreateInterface[BaseVectorShape]
-	OnAfterBaseVectorShapeUpdateCallback OnAfterUpdateInterface[BaseVectorShape]
-	OnAfterBaseVectorShapeDeleteCallback OnAfterDeleteInterface[BaseVectorShape]
-	OnAfterBaseVectorShapeReadCallback   OnAfterReadInterface[BaseVectorShape]
+	OnAfterBaseVectorShapeCreateCallback GongOnAfterCreateInterface[BaseVectorShape]
+	OnAfterBaseVectorShapeUpdateCallback GongOnAfterUpdateInterface[BaseVectorShape]
+	OnAfterBaseVectorShapeDeleteCallback GongOnAfterDeleteInterface[BaseVectorShape]
+	OnAfterBaseVectorShapeReadCallback   GongOnAfterReadInterface[BaseVectorShape]
 
 	BaseVectorShapeGrids                map[*BaseVectorShapeGrid]struct{}
 	BaseVectorShapeGrids_instance       map[*BaseVectorShapeGrid]*BaseVectorShapeGrid
@@ -203,10 +212,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	BaseVectorShapeGrid_BaseVectorShapes_reverseMap map[*BaseVectorShape]*BaseVectorShapeGrid
 
-	OnAfterBaseVectorShapeGridCreateCallback OnAfterCreateInterface[BaseVectorShapeGrid]
-	OnAfterBaseVectorShapeGridUpdateCallback OnAfterUpdateInterface[BaseVectorShapeGrid]
-	OnAfterBaseVectorShapeGridDeleteCallback OnAfterDeleteInterface[BaseVectorShapeGrid]
-	OnAfterBaseVectorShapeGridReadCallback   OnAfterReadInterface[BaseVectorShapeGrid]
+	OnAfterBaseVectorShapeGridCreateCallback GongOnAfterCreateInterface[BaseVectorShapeGrid]
+	OnAfterBaseVectorShapeGridUpdateCallback GongOnAfterUpdateInterface[BaseVectorShapeGrid]
+	OnAfterBaseVectorShapeGridDeleteCallback GongOnAfterDeleteInterface[BaseVectorShapeGrid]
+	OnAfterBaseVectorShapeGridReadCallback   GongOnAfterReadInterface[BaseVectorShapeGrid]
 
 	ChosenP1P2PairShapes                map[*ChosenP1P2PairShape]struct{}
 	ChosenP1P2PairShapes_instance       map[*ChosenP1P2PairShape]*ChosenP1P2PairShape
@@ -218,10 +227,10 @@ type Stage struct {
 	ChosenP1P2PairShapes_referenceOrder map[*ChosenP1P2PairShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterChosenP1P2PairShapeCreateCallback OnAfterCreateInterface[ChosenP1P2PairShape]
-	OnAfterChosenP1P2PairShapeUpdateCallback OnAfterUpdateInterface[ChosenP1P2PairShape]
-	OnAfterChosenP1P2PairShapeDeleteCallback OnAfterDeleteInterface[ChosenP1P2PairShape]
-	OnAfterChosenP1P2PairShapeReadCallback   OnAfterReadInterface[ChosenP1P2PairShape]
+	OnAfterChosenP1P2PairShapeCreateCallback GongOnAfterCreateInterface[ChosenP1P2PairShape]
+	OnAfterChosenP1P2PairShapeUpdateCallback GongOnAfterUpdateInterface[ChosenP1P2PairShape]
+	OnAfterChosenP1P2PairShapeDeleteCallback GongOnAfterDeleteInterface[ChosenP1P2PairShape]
+	OnAfterChosenP1P2PairShapeReadCallback   GongOnAfterReadInterface[ChosenP1P2PairShape]
 
 	CircleGridShapes                map[*CircleGridShape]struct{}
 	CircleGridShapes_instance       map[*CircleGridShape]*CircleGridShape
@@ -233,10 +242,10 @@ type Stage struct {
 	CircleGridShapes_referenceOrder map[*CircleGridShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterCircleGridShapeCreateCallback OnAfterCreateInterface[CircleGridShape]
-	OnAfterCircleGridShapeUpdateCallback OnAfterUpdateInterface[CircleGridShape]
-	OnAfterCircleGridShapeDeleteCallback OnAfterDeleteInterface[CircleGridShape]
-	OnAfterCircleGridShapeReadCallback   OnAfterReadInterface[CircleGridShape]
+	OnAfterCircleGridShapeCreateCallback GongOnAfterCreateInterface[CircleGridShape]
+	OnAfterCircleGridShapeUpdateCallback GongOnAfterUpdateInterface[CircleGridShape]
+	OnAfterCircleGridShapeDeleteCallback GongOnAfterDeleteInterface[CircleGridShape]
+	OnAfterCircleGridShapeReadCallback   GongOnAfterReadInterface[CircleGridShape]
 
 	Circumference3DShapes                map[*Circumference3DShape]struct{}
 	Circumference3DShapes_instance       map[*Circumference3DShape]*Circumference3DShape
@@ -248,10 +257,10 @@ type Stage struct {
 	Circumference3DShapes_referenceOrder map[*Circumference3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterCircumference3DShapeCreateCallback OnAfterCreateInterface[Circumference3DShape]
-	OnAfterCircumference3DShapeUpdateCallback OnAfterUpdateInterface[Circumference3DShape]
-	OnAfterCircumference3DShapeDeleteCallback OnAfterDeleteInterface[Circumference3DShape]
-	OnAfterCircumference3DShapeReadCallback   OnAfterReadInterface[Circumference3DShape]
+	OnAfterCircumference3DShapeCreateCallback GongOnAfterCreateInterface[Circumference3DShape]
+	OnAfterCircumference3DShapeUpdateCallback GongOnAfterUpdateInterface[Circumference3DShape]
+	OnAfterCircumference3DShapeDeleteCallback GongOnAfterDeleteInterface[Circumference3DShape]
+	OnAfterCircumference3DShapeReadCallback   GongOnAfterReadInterface[Circumference3DShape]
 
 	Clock2DDiagrams                map[*Clock2DDiagram]struct{}
 	Clock2DDiagrams_instance       map[*Clock2DDiagram]*Clock2DDiagram
@@ -263,10 +272,10 @@ type Stage struct {
 	Clock2DDiagrams_referenceOrder map[*Clock2DDiagram]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterClock2DDiagramCreateCallback OnAfterCreateInterface[Clock2DDiagram]
-	OnAfterClock2DDiagramUpdateCallback OnAfterUpdateInterface[Clock2DDiagram]
-	OnAfterClock2DDiagramDeleteCallback OnAfterDeleteInterface[Clock2DDiagram]
-	OnAfterClock2DDiagramReadCallback   OnAfterReadInterface[Clock2DDiagram]
+	OnAfterClock2DDiagramCreateCallback GongOnAfterCreateInterface[Clock2DDiagram]
+	OnAfterClock2DDiagramUpdateCallback GongOnAfterUpdateInterface[Clock2DDiagram]
+	OnAfterClock2DDiagramDeleteCallback GongOnAfterDeleteInterface[Clock2DDiagram]
+	OnAfterClock2DDiagramReadCallback   GongOnAfterReadInterface[Clock2DDiagram]
 
 	Clock3DDiagrams                map[*Clock3DDiagram]struct{}
 	Clock3DDiagrams_instance       map[*Clock3DDiagram]*Clock3DDiagram
@@ -278,10 +287,10 @@ type Stage struct {
 	Clock3DDiagrams_referenceOrder map[*Clock3DDiagram]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterClock3DDiagramCreateCallback OnAfterCreateInterface[Clock3DDiagram]
-	OnAfterClock3DDiagramUpdateCallback OnAfterUpdateInterface[Clock3DDiagram]
-	OnAfterClock3DDiagramDeleteCallback OnAfterDeleteInterface[Clock3DDiagram]
-	OnAfterClock3DDiagramReadCallback   OnAfterReadInterface[Clock3DDiagram]
+	OnAfterClock3DDiagramCreateCallback GongOnAfterCreateInterface[Clock3DDiagram]
+	OnAfterClock3DDiagramUpdateCallback GongOnAfterUpdateInterface[Clock3DDiagram]
+	OnAfterClock3DDiagramDeleteCallback GongOnAfterDeleteInterface[Clock3DDiagram]
+	OnAfterClock3DDiagramReadCallback   GongOnAfterReadInterface[Clock3DDiagram]
 
 	ClockAbstracts                map[*ClockAbstract]struct{}
 	ClockAbstracts_instance       map[*ClockAbstract]*ClockAbstract
@@ -293,10 +302,10 @@ type Stage struct {
 	ClockAbstracts_referenceOrder map[*ClockAbstract]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterClockAbstractCreateCallback OnAfterCreateInterface[ClockAbstract]
-	OnAfterClockAbstractUpdateCallback OnAfterUpdateInterface[ClockAbstract]
-	OnAfterClockAbstractDeleteCallback OnAfterDeleteInterface[ClockAbstract]
-	OnAfterClockAbstractReadCallback   OnAfterReadInterface[ClockAbstract]
+	OnAfterClockAbstractCreateCallback GongOnAfterCreateInterface[ClockAbstract]
+	OnAfterClockAbstractUpdateCallback GongOnAfterUpdateInterface[ClockAbstract]
+	OnAfterClockAbstractDeleteCallback GongOnAfterDeleteInterface[ClockAbstract]
+	OnAfterClockAbstractReadCallback   GongOnAfterReadInterface[ClockAbstract]
 
 	ClockTopCurveShapes                map[*ClockTopCurveShape]struct{}
 	ClockTopCurveShapes_instance       map[*ClockTopCurveShape]*ClockTopCurveShape
@@ -308,10 +317,10 @@ type Stage struct {
 	ClockTopCurveShapes_referenceOrder map[*ClockTopCurveShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterClockTopCurveShapeCreateCallback OnAfterCreateInterface[ClockTopCurveShape]
-	OnAfterClockTopCurveShapeUpdateCallback OnAfterUpdateInterface[ClockTopCurveShape]
-	OnAfterClockTopCurveShapeDeleteCallback OnAfterDeleteInterface[ClockTopCurveShape]
-	OnAfterClockTopCurveShapeReadCallback   OnAfterReadInterface[ClockTopCurveShape]
+	OnAfterClockTopCurveShapeCreateCallback GongOnAfterCreateInterface[ClockTopCurveShape]
+	OnAfterClockTopCurveShapeUpdateCallback GongOnAfterUpdateInterface[ClockTopCurveShape]
+	OnAfterClockTopCurveShapeDeleteCallback GongOnAfterDeleteInterface[ClockTopCurveShape]
+	OnAfterClockTopCurveShapeReadCallback   GongOnAfterReadInterface[ClockTopCurveShape]
 
 	CutLine3DShapes                map[*CutLine3DShape]struct{}
 	CutLine3DShapes_instance       map[*CutLine3DShape]*CutLine3DShape
@@ -323,10 +332,10 @@ type Stage struct {
 	CutLine3DShapes_referenceOrder map[*CutLine3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterCutLine3DShapeCreateCallback OnAfterCreateInterface[CutLine3DShape]
-	OnAfterCutLine3DShapeUpdateCallback OnAfterUpdateInterface[CutLine3DShape]
-	OnAfterCutLine3DShapeDeleteCallback OnAfterDeleteInterface[CutLine3DShape]
-	OnAfterCutLine3DShapeReadCallback   OnAfterReadInterface[CutLine3DShape]
+	OnAfterCutLine3DShapeCreateCallback GongOnAfterCreateInterface[CutLine3DShape]
+	OnAfterCutLine3DShapeUpdateCallback GongOnAfterUpdateInterface[CutLine3DShape]
+	OnAfterCutLine3DShapeDeleteCallback GongOnAfterDeleteInterface[CutLine3DShape]
+	OnAfterCutLine3DShapeReadCallback   GongOnAfterReadInterface[CutLine3DShape]
 
 	EndArcShapes                map[*EndArcShape]struct{}
 	EndArcShapes_instance       map[*EndArcShape]*EndArcShape
@@ -338,10 +347,10 @@ type Stage struct {
 	EndArcShapes_referenceOrder map[*EndArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEndArcShapeCreateCallback OnAfterCreateInterface[EndArcShape]
-	OnAfterEndArcShapeUpdateCallback OnAfterUpdateInterface[EndArcShape]
-	OnAfterEndArcShapeDeleteCallback OnAfterDeleteInterface[EndArcShape]
-	OnAfterEndArcShapeReadCallback   OnAfterReadInterface[EndArcShape]
+	OnAfterEndArcShapeCreateCallback GongOnAfterCreateInterface[EndArcShape]
+	OnAfterEndArcShapeUpdateCallback GongOnAfterUpdateInterface[EndArcShape]
+	OnAfterEndArcShapeDeleteCallback GongOnAfterDeleteInterface[EndArcShape]
+	OnAfterEndArcShapeReadCallback   GongOnAfterReadInterface[EndArcShape]
 
 	EndArcShapeGrids                map[*EndArcShapeGrid]struct{}
 	EndArcShapeGrids_instance       map[*EndArcShapeGrid]*EndArcShapeGrid
@@ -355,10 +364,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	EndArcShapeGrid_EndArcShapes_reverseMap map[*EndArcShape]*EndArcShapeGrid
 
-	OnAfterEndArcShapeGridCreateCallback OnAfterCreateInterface[EndArcShapeGrid]
-	OnAfterEndArcShapeGridUpdateCallback OnAfterUpdateInterface[EndArcShapeGrid]
-	OnAfterEndArcShapeGridDeleteCallback OnAfterDeleteInterface[EndArcShapeGrid]
-	OnAfterEndArcShapeGridReadCallback   OnAfterReadInterface[EndArcShapeGrid]
+	OnAfterEndArcShapeGridCreateCallback GongOnAfterCreateInterface[EndArcShapeGrid]
+	OnAfterEndArcShapeGridUpdateCallback GongOnAfterUpdateInterface[EndArcShapeGrid]
+	OnAfterEndArcShapeGridDeleteCallback GongOnAfterDeleteInterface[EndArcShapeGrid]
+	OnAfterEndArcShapeGridReadCallback   GongOnAfterReadInterface[EndArcShapeGrid]
 
 	EndHalfwayArcShapes                map[*EndHalfwayArcShape]struct{}
 	EndHalfwayArcShapes_instance       map[*EndHalfwayArcShape]*EndHalfwayArcShape
@@ -370,10 +379,10 @@ type Stage struct {
 	EndHalfwayArcShapes_referenceOrder map[*EndHalfwayArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEndHalfwayArcShapeCreateCallback OnAfterCreateInterface[EndHalfwayArcShape]
-	OnAfterEndHalfwayArcShapeUpdateCallback OnAfterUpdateInterface[EndHalfwayArcShape]
-	OnAfterEndHalfwayArcShapeDeleteCallback OnAfterDeleteInterface[EndHalfwayArcShape]
-	OnAfterEndHalfwayArcShapeReadCallback   OnAfterReadInterface[EndHalfwayArcShape]
+	OnAfterEndHalfwayArcShapeCreateCallback GongOnAfterCreateInterface[EndHalfwayArcShape]
+	OnAfterEndHalfwayArcShapeUpdateCallback GongOnAfterUpdateInterface[EndHalfwayArcShape]
+	OnAfterEndHalfwayArcShapeDeleteCallback GongOnAfterDeleteInterface[EndHalfwayArcShape]
+	OnAfterEndHalfwayArcShapeReadCallback   GongOnAfterReadInterface[EndHalfwayArcShape]
 
 	EndHalfwayArcShapeGrids                map[*EndHalfwayArcShapeGrid]struct{}
 	EndHalfwayArcShapeGrids_instance       map[*EndHalfwayArcShapeGrid]*EndHalfwayArcShapeGrid
@@ -387,10 +396,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	EndHalfwayArcShapeGrid_EndHalfwayArcShapes_reverseMap map[*EndHalfwayArcShape]*EndHalfwayArcShapeGrid
 
-	OnAfterEndHalfwayArcShapeGridCreateCallback OnAfterCreateInterface[EndHalfwayArcShapeGrid]
-	OnAfterEndHalfwayArcShapeGridUpdateCallback OnAfterUpdateInterface[EndHalfwayArcShapeGrid]
-	OnAfterEndHalfwayArcShapeGridDeleteCallback OnAfterDeleteInterface[EndHalfwayArcShapeGrid]
-	OnAfterEndHalfwayArcShapeGridReadCallback   OnAfterReadInterface[EndHalfwayArcShapeGrid]
+	OnAfterEndHalfwayArcShapeGridCreateCallback GongOnAfterCreateInterface[EndHalfwayArcShapeGrid]
+	OnAfterEndHalfwayArcShapeGridUpdateCallback GongOnAfterUpdateInterface[EndHalfwayArcShapeGrid]
+	OnAfterEndHalfwayArcShapeGridDeleteCallback GongOnAfterDeleteInterface[EndHalfwayArcShapeGrid]
+	OnAfterEndHalfwayArcShapeGridReadCallback   GongOnAfterReadInterface[EndHalfwayArcShapeGrid]
 
 	ExplanationTextShapes                map[*ExplanationTextShape]struct{}
 	ExplanationTextShapes_instance       map[*ExplanationTextShape]*ExplanationTextShape
@@ -402,10 +411,10 @@ type Stage struct {
 	ExplanationTextShapes_referenceOrder map[*ExplanationTextShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterExplanationTextShapeCreateCallback OnAfterCreateInterface[ExplanationTextShape]
-	OnAfterExplanationTextShapeUpdateCallback OnAfterUpdateInterface[ExplanationTextShape]
-	OnAfterExplanationTextShapeDeleteCallback OnAfterDeleteInterface[ExplanationTextShape]
-	OnAfterExplanationTextShapeReadCallback   OnAfterReadInterface[ExplanationTextShape]
+	OnAfterExplanationTextShapeCreateCallback GongOnAfterCreateInterface[ExplanationTextShape]
+	OnAfterExplanationTextShapeUpdateCallback GongOnAfterUpdateInterface[ExplanationTextShape]
+	OnAfterExplanationTextShapeDeleteCallback GongOnAfterDeleteInterface[ExplanationTextShape]
+	OnAfterExplanationTextShapeReadCallback   GongOnAfterReadInterface[ExplanationTextShape]
 
 	Eye3DShapes                map[*Eye3DShape]struct{}
 	Eye3DShapes_instance       map[*Eye3DShape]*Eye3DShape
@@ -417,10 +426,10 @@ type Stage struct {
 	Eye3DShapes_referenceOrder map[*Eye3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEye3DShapeCreateCallback OnAfterCreateInterface[Eye3DShape]
-	OnAfterEye3DShapeUpdateCallback OnAfterUpdateInterface[Eye3DShape]
-	OnAfterEye3DShapeDeleteCallback OnAfterDeleteInterface[Eye3DShape]
-	OnAfterEye3DShapeReadCallback   OnAfterReadInterface[Eye3DShape]
+	OnAfterEye3DShapeCreateCallback GongOnAfterCreateInterface[Eye3DShape]
+	OnAfterEye3DShapeUpdateCallback GongOnAfterUpdateInterface[Eye3DShape]
+	OnAfterEye3DShapeDeleteCallback GongOnAfterDeleteInterface[Eye3DShape]
+	OnAfterEye3DShapeReadCallback   GongOnAfterReadInterface[Eye3DShape]
 
 	EyeCornersSampledPoints3DShapes                map[*EyeCornersSampledPoints3DShape]struct{}
 	EyeCornersSampledPoints3DShapes_instance       map[*EyeCornersSampledPoints3DShape]*EyeCornersSampledPoints3DShape
@@ -432,10 +441,10 @@ type Stage struct {
 	EyeCornersSampledPoints3DShapes_referenceOrder map[*EyeCornersSampledPoints3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEyeCornersSampledPoints3DShapeCreateCallback OnAfterCreateInterface[EyeCornersSampledPoints3DShape]
-	OnAfterEyeCornersSampledPoints3DShapeUpdateCallback OnAfterUpdateInterface[EyeCornersSampledPoints3DShape]
-	OnAfterEyeCornersSampledPoints3DShapeDeleteCallback OnAfterDeleteInterface[EyeCornersSampledPoints3DShape]
-	OnAfterEyeCornersSampledPoints3DShapeReadCallback   OnAfterReadInterface[EyeCornersSampledPoints3DShape]
+	OnAfterEyeCornersSampledPoints3DShapeCreateCallback GongOnAfterCreateInterface[EyeCornersSampledPoints3DShape]
+	OnAfterEyeCornersSampledPoints3DShapeUpdateCallback GongOnAfterUpdateInterface[EyeCornersSampledPoints3DShape]
+	OnAfterEyeCornersSampledPoints3DShapeDeleteCallback GongOnAfterDeleteInterface[EyeCornersSampledPoints3DShape]
+	OnAfterEyeCornersSampledPoints3DShapeReadCallback   GongOnAfterReadInterface[EyeCornersSampledPoints3DShape]
 
 	EyeSampledPoints3DShapes                map[*EyeSampledPoints3DShape]struct{}
 	EyeSampledPoints3DShapes_instance       map[*EyeSampledPoints3DShape]*EyeSampledPoints3DShape
@@ -447,10 +456,10 @@ type Stage struct {
 	EyeSampledPoints3DShapes_referenceOrder map[*EyeSampledPoints3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEyeSampledPoints3DShapeCreateCallback OnAfterCreateInterface[EyeSampledPoints3DShape]
-	OnAfterEyeSampledPoints3DShapeUpdateCallback OnAfterUpdateInterface[EyeSampledPoints3DShape]
-	OnAfterEyeSampledPoints3DShapeDeleteCallback OnAfterDeleteInterface[EyeSampledPoints3DShape]
-	OnAfterEyeSampledPoints3DShapeReadCallback   OnAfterReadInterface[EyeSampledPoints3DShape]
+	OnAfterEyeSampledPoints3DShapeCreateCallback GongOnAfterCreateInterface[EyeSampledPoints3DShape]
+	OnAfterEyeSampledPoints3DShapeUpdateCallback GongOnAfterUpdateInterface[EyeSampledPoints3DShape]
+	OnAfterEyeSampledPoints3DShapeDeleteCallback GongOnAfterDeleteInterface[EyeSampledPoints3DShape]
+	OnAfterEyeSampledPoints3DShapeReadCallback   GongOnAfterReadInterface[EyeSampledPoints3DShape]
 
 	EyeSeatBottomCurveShapes                map[*EyeSeatBottomCurveShape]struct{}
 	EyeSeatBottomCurveShapes_instance       map[*EyeSeatBottomCurveShape]*EyeSeatBottomCurveShape
@@ -462,10 +471,10 @@ type Stage struct {
 	EyeSeatBottomCurveShapes_referenceOrder map[*EyeSeatBottomCurveShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEyeSeatBottomCurveShapeCreateCallback OnAfterCreateInterface[EyeSeatBottomCurveShape]
-	OnAfterEyeSeatBottomCurveShapeUpdateCallback OnAfterUpdateInterface[EyeSeatBottomCurveShape]
-	OnAfterEyeSeatBottomCurveShapeDeleteCallback OnAfterDeleteInterface[EyeSeatBottomCurveShape]
-	OnAfterEyeSeatBottomCurveShapeReadCallback   OnAfterReadInterface[EyeSeatBottomCurveShape]
+	OnAfterEyeSeatBottomCurveShapeCreateCallback GongOnAfterCreateInterface[EyeSeatBottomCurveShape]
+	OnAfterEyeSeatBottomCurveShapeUpdateCallback GongOnAfterUpdateInterface[EyeSeatBottomCurveShape]
+	OnAfterEyeSeatBottomCurveShapeDeleteCallback GongOnAfterDeleteInterface[EyeSeatBottomCurveShape]
+	OnAfterEyeSeatBottomCurveShapeReadCallback   GongOnAfterReadInterface[EyeSeatBottomCurveShape]
 
 	EyeStoolBottomCurveShapes                map[*EyeStoolBottomCurveShape]struct{}
 	EyeStoolBottomCurveShapes_instance       map[*EyeStoolBottomCurveShape]*EyeStoolBottomCurveShape
@@ -477,10 +486,10 @@ type Stage struct {
 	EyeStoolBottomCurveShapes_referenceOrder map[*EyeStoolBottomCurveShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEyeStoolBottomCurveShapeCreateCallback OnAfterCreateInterface[EyeStoolBottomCurveShape]
-	OnAfterEyeStoolBottomCurveShapeUpdateCallback OnAfterUpdateInterface[EyeStoolBottomCurveShape]
-	OnAfterEyeStoolBottomCurveShapeDeleteCallback OnAfterDeleteInterface[EyeStoolBottomCurveShape]
-	OnAfterEyeStoolBottomCurveShapeReadCallback   OnAfterReadInterface[EyeStoolBottomCurveShape]
+	OnAfterEyeStoolBottomCurveShapeCreateCallback GongOnAfterCreateInterface[EyeStoolBottomCurveShape]
+	OnAfterEyeStoolBottomCurveShapeUpdateCallback GongOnAfterUpdateInterface[EyeStoolBottomCurveShape]
+	OnAfterEyeStoolBottomCurveShapeDeleteCallback GongOnAfterDeleteInterface[EyeStoolBottomCurveShape]
+	OnAfterEyeStoolBottomCurveShapeReadCallback   GongOnAfterReadInterface[EyeStoolBottomCurveShape]
 
 	EyeVolume3DShapes                map[*EyeVolume3DShape]struct{}
 	EyeVolume3DShapes_instance       map[*EyeVolume3DShape]*EyeVolume3DShape
@@ -492,10 +501,10 @@ type Stage struct {
 	EyeVolume3DShapes_referenceOrder map[*EyeVolume3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEyeVolume3DShapeCreateCallback OnAfterCreateInterface[EyeVolume3DShape]
-	OnAfterEyeVolume3DShapeUpdateCallback OnAfterUpdateInterface[EyeVolume3DShape]
-	OnAfterEyeVolume3DShapeDeleteCallback OnAfterDeleteInterface[EyeVolume3DShape]
-	OnAfterEyeVolume3DShapeReadCallback   OnAfterReadInterface[EyeVolume3DShape]
+	OnAfterEyeVolume3DShapeCreateCallback GongOnAfterCreateInterface[EyeVolume3DShape]
+	OnAfterEyeVolume3DShapeUpdateCallback GongOnAfterUpdateInterface[EyeVolume3DShape]
+	OnAfterEyeVolume3DShapeDeleteCallback GongOnAfterDeleteInterface[EyeVolume3DShape]
+	OnAfterEyeVolume3DShapeReadCallback   GongOnAfterReadInterface[EyeVolume3DShape]
 
 	GridPathShapes                map[*GridPathShape]struct{}
 	GridPathShapes_instance       map[*GridPathShape]*GridPathShape
@@ -507,10 +516,10 @@ type Stage struct {
 	GridPathShapes_referenceOrder map[*GridPathShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGridPathShapeCreateCallback OnAfterCreateInterface[GridPathShape]
-	OnAfterGridPathShapeUpdateCallback OnAfterUpdateInterface[GridPathShape]
-	OnAfterGridPathShapeDeleteCallback OnAfterDeleteInterface[GridPathShape]
-	OnAfterGridPathShapeReadCallback   OnAfterReadInterface[GridPathShape]
+	OnAfterGridPathShapeCreateCallback GongOnAfterCreateInterface[GridPathShape]
+	OnAfterGridPathShapeUpdateCallback GongOnAfterUpdateInterface[GridPathShape]
+	OnAfterGridPathShapeDeleteCallback GongOnAfterDeleteInterface[GridPathShape]
+	OnAfterGridPathShapeReadCallback   GongOnAfterReadInterface[GridPathShape]
 
 	GrowthCurve2Ds                map[*GrowthCurve2D]struct{}
 	GrowthCurve2Ds_instance       map[*GrowthCurve2D]*GrowthCurve2D
@@ -522,10 +531,10 @@ type Stage struct {
 	GrowthCurve2Ds_referenceOrder map[*GrowthCurve2D]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGrowthCurve2DCreateCallback OnAfterCreateInterface[GrowthCurve2D]
-	OnAfterGrowthCurve2DUpdateCallback OnAfterUpdateInterface[GrowthCurve2D]
-	OnAfterGrowthCurve2DDeleteCallback OnAfterDeleteInterface[GrowthCurve2D]
-	OnAfterGrowthCurve2DReadCallback   OnAfterReadInterface[GrowthCurve2D]
+	OnAfterGrowthCurve2DCreateCallback GongOnAfterCreateInterface[GrowthCurve2D]
+	OnAfterGrowthCurve2DUpdateCallback GongOnAfterUpdateInterface[GrowthCurve2D]
+	OnAfterGrowthCurve2DDeleteCallback GongOnAfterDeleteInterface[GrowthCurve2D]
+	OnAfterGrowthCurve2DReadCallback   GongOnAfterReadInterface[GrowthCurve2D]
 
 	GrowthCurve2DRibbons                map[*GrowthCurve2DRibbon]struct{}
 	GrowthCurve2DRibbons_instance       map[*GrowthCurve2DRibbon]*GrowthCurve2DRibbon
@@ -541,10 +550,10 @@ type Stage struct {
 
 	GrowthCurve2DRibbon_GrowthCurve2DRibbonEndShapes_reverseMap map[*GrowthCurve2DRibbonEndShape]*GrowthCurve2DRibbon
 
-	OnAfterGrowthCurve2DRibbonCreateCallback OnAfterCreateInterface[GrowthCurve2DRibbon]
-	OnAfterGrowthCurve2DRibbonUpdateCallback OnAfterUpdateInterface[GrowthCurve2DRibbon]
-	OnAfterGrowthCurve2DRibbonDeleteCallback OnAfterDeleteInterface[GrowthCurve2DRibbon]
-	OnAfterGrowthCurve2DRibbonReadCallback   OnAfterReadInterface[GrowthCurve2DRibbon]
+	OnAfterGrowthCurve2DRibbonCreateCallback GongOnAfterCreateInterface[GrowthCurve2DRibbon]
+	OnAfterGrowthCurve2DRibbonUpdateCallback GongOnAfterUpdateInterface[GrowthCurve2DRibbon]
+	OnAfterGrowthCurve2DRibbonDeleteCallback GongOnAfterDeleteInterface[GrowthCurve2DRibbon]
+	OnAfterGrowthCurve2DRibbonReadCallback   GongOnAfterReadInterface[GrowthCurve2DRibbon]
 
 	GrowthCurve2DRibbonEndShapes                map[*GrowthCurve2DRibbonEndShape]struct{}
 	GrowthCurve2DRibbonEndShapes_instance       map[*GrowthCurve2DRibbonEndShape]*GrowthCurve2DRibbonEndShape
@@ -556,10 +565,10 @@ type Stage struct {
 	GrowthCurve2DRibbonEndShapes_referenceOrder map[*GrowthCurve2DRibbonEndShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGrowthCurve2DRibbonEndShapeCreateCallback OnAfterCreateInterface[GrowthCurve2DRibbonEndShape]
-	OnAfterGrowthCurve2DRibbonEndShapeUpdateCallback OnAfterUpdateInterface[GrowthCurve2DRibbonEndShape]
-	OnAfterGrowthCurve2DRibbonEndShapeDeleteCallback OnAfterDeleteInterface[GrowthCurve2DRibbonEndShape]
-	OnAfterGrowthCurve2DRibbonEndShapeReadCallback   OnAfterReadInterface[GrowthCurve2DRibbonEndShape]
+	OnAfterGrowthCurve2DRibbonEndShapeCreateCallback GongOnAfterCreateInterface[GrowthCurve2DRibbonEndShape]
+	OnAfterGrowthCurve2DRibbonEndShapeUpdateCallback GongOnAfterUpdateInterface[GrowthCurve2DRibbonEndShape]
+	OnAfterGrowthCurve2DRibbonEndShapeDeleteCallback GongOnAfterDeleteInterface[GrowthCurve2DRibbonEndShape]
+	OnAfterGrowthCurve2DRibbonEndShapeReadCallback   GongOnAfterReadInterface[GrowthCurve2DRibbonEndShape]
 
 	GrowthCurve2DRibbonStartShapes                map[*GrowthCurve2DRibbonStartShape]struct{}
 	GrowthCurve2DRibbonStartShapes_instance       map[*GrowthCurve2DRibbonStartShape]*GrowthCurve2DRibbonStartShape
@@ -571,10 +580,10 @@ type Stage struct {
 	GrowthCurve2DRibbonStartShapes_referenceOrder map[*GrowthCurve2DRibbonStartShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGrowthCurve2DRibbonStartShapeCreateCallback OnAfterCreateInterface[GrowthCurve2DRibbonStartShape]
-	OnAfterGrowthCurve2DRibbonStartShapeUpdateCallback OnAfterUpdateInterface[GrowthCurve2DRibbonStartShape]
-	OnAfterGrowthCurve2DRibbonStartShapeDeleteCallback OnAfterDeleteInterface[GrowthCurve2DRibbonStartShape]
-	OnAfterGrowthCurve2DRibbonStartShapeReadCallback   OnAfterReadInterface[GrowthCurve2DRibbonStartShape]
+	OnAfterGrowthCurve2DRibbonStartShapeCreateCallback GongOnAfterCreateInterface[GrowthCurve2DRibbonStartShape]
+	OnAfterGrowthCurve2DRibbonStartShapeUpdateCallback GongOnAfterUpdateInterface[GrowthCurve2DRibbonStartShape]
+	OnAfterGrowthCurve2DRibbonStartShapeDeleteCallback GongOnAfterDeleteInterface[GrowthCurve2DRibbonStartShape]
+	OnAfterGrowthCurve2DRibbonStartShapeReadCallback   GongOnAfterReadInterface[GrowthCurve2DRibbonStartShape]
 
 	GrowthCurveRhombusGridShapes                map[*GrowthCurveRhombusGridShape]struct{}
 	GrowthCurveRhombusGridShapes_instance       map[*GrowthCurveRhombusGridShape]*GrowthCurveRhombusGridShape
@@ -588,10 +597,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	GrowthCurveRhombusGridShape_GrowthCurveRhombusShapes_reverseMap map[*GrowthCurveRhombusShape]*GrowthCurveRhombusGridShape
 
-	OnAfterGrowthCurveRhombusGridShapeCreateCallback OnAfterCreateInterface[GrowthCurveRhombusGridShape]
-	OnAfterGrowthCurveRhombusGridShapeUpdateCallback OnAfterUpdateInterface[GrowthCurveRhombusGridShape]
-	OnAfterGrowthCurveRhombusGridShapeDeleteCallback OnAfterDeleteInterface[GrowthCurveRhombusGridShape]
-	OnAfterGrowthCurveRhombusGridShapeReadCallback   OnAfterReadInterface[GrowthCurveRhombusGridShape]
+	OnAfterGrowthCurveRhombusGridShapeCreateCallback GongOnAfterCreateInterface[GrowthCurveRhombusGridShape]
+	OnAfterGrowthCurveRhombusGridShapeUpdateCallback GongOnAfterUpdateInterface[GrowthCurveRhombusGridShape]
+	OnAfterGrowthCurveRhombusGridShapeDeleteCallback GongOnAfterDeleteInterface[GrowthCurveRhombusGridShape]
+	OnAfterGrowthCurveRhombusGridShapeReadCallback   GongOnAfterReadInterface[GrowthCurveRhombusGridShape]
 
 	GrowthCurveRhombusShapes                map[*GrowthCurveRhombusShape]struct{}
 	GrowthCurveRhombusShapes_instance       map[*GrowthCurveRhombusShape]*GrowthCurveRhombusShape
@@ -603,10 +612,10 @@ type Stage struct {
 	GrowthCurveRhombusShapes_referenceOrder map[*GrowthCurveRhombusShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGrowthCurveRhombusShapeCreateCallback OnAfterCreateInterface[GrowthCurveRhombusShape]
-	OnAfterGrowthCurveRhombusShapeUpdateCallback OnAfterUpdateInterface[GrowthCurveRhombusShape]
-	OnAfterGrowthCurveRhombusShapeDeleteCallback OnAfterDeleteInterface[GrowthCurveRhombusShape]
-	OnAfterGrowthCurveRhombusShapeReadCallback   OnAfterReadInterface[GrowthCurveRhombusShape]
+	OnAfterGrowthCurveRhombusShapeCreateCallback GongOnAfterCreateInterface[GrowthCurveRhombusShape]
+	OnAfterGrowthCurveRhombusShapeUpdateCallback GongOnAfterUpdateInterface[GrowthCurveRhombusShape]
+	OnAfterGrowthCurveRhombusShapeDeleteCallback GongOnAfterDeleteInterface[GrowthCurveRhombusShape]
+	OnAfterGrowthCurveRhombusShapeReadCallback   GongOnAfterReadInterface[GrowthCurveRhombusShape]
 
 	GrowthVectorShapes                map[*GrowthVectorShape]struct{}
 	GrowthVectorShapes_instance       map[*GrowthVectorShape]*GrowthVectorShape
@@ -618,10 +627,10 @@ type Stage struct {
 	GrowthVectorShapes_referenceOrder map[*GrowthVectorShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGrowthVectorShapeCreateCallback OnAfterCreateInterface[GrowthVectorShape]
-	OnAfterGrowthVectorShapeUpdateCallback OnAfterUpdateInterface[GrowthVectorShape]
-	OnAfterGrowthVectorShapeDeleteCallback OnAfterDeleteInterface[GrowthVectorShape]
-	OnAfterGrowthVectorShapeReadCallback   OnAfterReadInterface[GrowthVectorShape]
+	OnAfterGrowthVectorShapeCreateCallback GongOnAfterCreateInterface[GrowthVectorShape]
+	OnAfterGrowthVectorShapeUpdateCallback GongOnAfterUpdateInterface[GrowthVectorShape]
+	OnAfterGrowthVectorShapeDeleteCallback GongOnAfterDeleteInterface[GrowthVectorShape]
+	OnAfterGrowthVectorShapeReadCallback   GongOnAfterReadInterface[GrowthVectorShape]
 
 	InitialRhombusGridShapes                map[*InitialRhombusGridShape]struct{}
 	InitialRhombusGridShapes_instance       map[*InitialRhombusGridShape]*InitialRhombusGridShape
@@ -635,10 +644,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	InitialRhombusGridShape_InitialRhombusShapes_reverseMap map[*InitialRhombusShape]*InitialRhombusGridShape
 
-	OnAfterInitialRhombusGridShapeCreateCallback OnAfterCreateInterface[InitialRhombusGridShape]
-	OnAfterInitialRhombusGridShapeUpdateCallback OnAfterUpdateInterface[InitialRhombusGridShape]
-	OnAfterInitialRhombusGridShapeDeleteCallback OnAfterDeleteInterface[InitialRhombusGridShape]
-	OnAfterInitialRhombusGridShapeReadCallback   OnAfterReadInterface[InitialRhombusGridShape]
+	OnAfterInitialRhombusGridShapeCreateCallback GongOnAfterCreateInterface[InitialRhombusGridShape]
+	OnAfterInitialRhombusGridShapeUpdateCallback GongOnAfterUpdateInterface[InitialRhombusGridShape]
+	OnAfterInitialRhombusGridShapeDeleteCallback GongOnAfterDeleteInterface[InitialRhombusGridShape]
+	OnAfterInitialRhombusGridShapeReadCallback   GongOnAfterReadInterface[InitialRhombusGridShape]
 
 	InitialRhombusShapes                map[*InitialRhombusShape]struct{}
 	InitialRhombusShapes_instance       map[*InitialRhombusShape]*InitialRhombusShape
@@ -650,10 +659,10 @@ type Stage struct {
 	InitialRhombusShapes_referenceOrder map[*InitialRhombusShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterInitialRhombusShapeCreateCallback OnAfterCreateInterface[InitialRhombusShape]
-	OnAfterInitialRhombusShapeUpdateCallback OnAfterUpdateInterface[InitialRhombusShape]
-	OnAfterInitialRhombusShapeDeleteCallback OnAfterDeleteInterface[InitialRhombusShape]
-	OnAfterInitialRhombusShapeReadCallback   OnAfterReadInterface[InitialRhombusShape]
+	OnAfterInitialRhombusShapeCreateCallback GongOnAfterCreateInterface[InitialRhombusShape]
+	OnAfterInitialRhombusShapeUpdateCallback GongOnAfterUpdateInterface[InitialRhombusShape]
+	OnAfterInitialRhombusShapeDeleteCallback GongOnAfterDeleteInterface[InitialRhombusShape]
+	OnAfterInitialRhombusShapeReadCallback   GongOnAfterReadInterface[InitialRhombusShape]
 
 	Key3DShapes                map[*Key3DShape]struct{}
 	Key3DShapes_instance       map[*Key3DShape]*Key3DShape
@@ -665,10 +674,10 @@ type Stage struct {
 	Key3DShapes_referenceOrder map[*Key3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterKey3DShapeCreateCallback OnAfterCreateInterface[Key3DShape]
-	OnAfterKey3DShapeUpdateCallback OnAfterUpdateInterface[Key3DShape]
-	OnAfterKey3DShapeDeleteCallback OnAfterDeleteInterface[Key3DShape]
-	OnAfterKey3DShapeReadCallback   OnAfterReadInterface[Key3DShape]
+	OnAfterKey3DShapeCreateCallback GongOnAfterCreateInterface[Key3DShape]
+	OnAfterKey3DShapeUpdateCallback GongOnAfterUpdateInterface[Key3DShape]
+	OnAfterKey3DShapeDeleteCallback GongOnAfterDeleteInterface[Key3DShape]
+	OnAfterKey3DShapeReadCallback   GongOnAfterReadInterface[Key3DShape]
 
 	KeyHole3DShapes                map[*KeyHole3DShape]struct{}
 	KeyHole3DShapes_instance       map[*KeyHole3DShape]*KeyHole3DShape
@@ -680,10 +689,10 @@ type Stage struct {
 	KeyHole3DShapes_referenceOrder map[*KeyHole3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterKeyHole3DShapeCreateCallback OnAfterCreateInterface[KeyHole3DShape]
-	OnAfterKeyHole3DShapeUpdateCallback OnAfterUpdateInterface[KeyHole3DShape]
-	OnAfterKeyHole3DShapeDeleteCallback OnAfterDeleteInterface[KeyHole3DShape]
-	OnAfterKeyHole3DShapeReadCallback   OnAfterReadInterface[KeyHole3DShape]
+	OnAfterKeyHole3DShapeCreateCallback GongOnAfterCreateInterface[KeyHole3DShape]
+	OnAfterKeyHole3DShapeUpdateCallback GongOnAfterUpdateInterface[KeyHole3DShape]
+	OnAfterKeyHole3DShapeDeleteCallback GongOnAfterDeleteInterface[KeyHole3DShape]
+	OnAfterKeyHole3DShapeReadCallback   GongOnAfterReadInterface[KeyHole3DShape]
 
 	KeyHoleShapes                map[*KeyHoleShape]struct{}
 	KeyHoleShapes_instance       map[*KeyHoleShape]*KeyHoleShape
@@ -695,10 +704,10 @@ type Stage struct {
 	KeyHoleShapes_referenceOrder map[*KeyHoleShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterKeyHoleShapeCreateCallback OnAfterCreateInterface[KeyHoleShape]
-	OnAfterKeyHoleShapeUpdateCallback OnAfterUpdateInterface[KeyHoleShape]
-	OnAfterKeyHoleShapeDeleteCallback OnAfterDeleteInterface[KeyHoleShape]
-	OnAfterKeyHoleShapeReadCallback   OnAfterReadInterface[KeyHoleShape]
+	OnAfterKeyHoleShapeCreateCallback GongOnAfterCreateInterface[KeyHoleShape]
+	OnAfterKeyHoleShapeUpdateCallback GongOnAfterUpdateInterface[KeyHoleShape]
+	OnAfterKeyHoleShapeDeleteCallback GongOnAfterDeleteInterface[KeyHoleShape]
+	OnAfterKeyHoleShapeReadCallback   GongOnAfterReadInterface[KeyHoleShape]
 
 	Leaves3DShapes                map[*Leaves3DShape]struct{}
 	Leaves3DShapes_instance       map[*Leaves3DShape]*Leaves3DShape
@@ -710,10 +719,10 @@ type Stage struct {
 	Leaves3DShapes_referenceOrder map[*Leaves3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterLeaves3DShapeCreateCallback OnAfterCreateInterface[Leaves3DShape]
-	OnAfterLeaves3DShapeUpdateCallback OnAfterUpdateInterface[Leaves3DShape]
-	OnAfterLeaves3DShapeDeleteCallback OnAfterDeleteInterface[Leaves3DShape]
-	OnAfterLeaves3DShapeReadCallback   OnAfterReadInterface[Leaves3DShape]
+	OnAfterLeaves3DShapeCreateCallback GongOnAfterCreateInterface[Leaves3DShape]
+	OnAfterLeaves3DShapeUpdateCallback GongOnAfterUpdateInterface[Leaves3DShape]
+	OnAfterLeaves3DShapeDeleteCallback GongOnAfterDeleteInterface[Leaves3DShape]
+	OnAfterLeaves3DShapeReadCallback   GongOnAfterReadInterface[Leaves3DShape]
 
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
@@ -729,10 +738,10 @@ type Stage struct {
 
 	Library_SubLibraries_reverseMap map[*Library]*Library
 
-	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
-	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
-	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
-	OnAfterLibraryReadCallback   OnAfterReadInterface[Library]
+	OnAfterLibraryCreateCallback GongOnAfterCreateInterface[Library]
+	OnAfterLibraryUpdateCallback GongOnAfterUpdateInterface[Library]
+	OnAfterLibraryDeleteCallback GongOnAfterDeleteInterface[Library]
+	OnAfterLibraryReadCallback   GongOnAfterReadInterface[Library]
 
 	MidArcVectorShapes                map[*MidArcVectorShape]struct{}
 	MidArcVectorShapes_instance       map[*MidArcVectorShape]*MidArcVectorShape
@@ -744,10 +753,10 @@ type Stage struct {
 	MidArcVectorShapes_referenceOrder map[*MidArcVectorShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMidArcVectorShapeCreateCallback OnAfterCreateInterface[MidArcVectorShape]
-	OnAfterMidArcVectorShapeUpdateCallback OnAfterUpdateInterface[MidArcVectorShape]
-	OnAfterMidArcVectorShapeDeleteCallback OnAfterDeleteInterface[MidArcVectorShape]
-	OnAfterMidArcVectorShapeReadCallback   OnAfterReadInterface[MidArcVectorShape]
+	OnAfterMidArcVectorShapeCreateCallback GongOnAfterCreateInterface[MidArcVectorShape]
+	OnAfterMidArcVectorShapeUpdateCallback GongOnAfterUpdateInterface[MidArcVectorShape]
+	OnAfterMidArcVectorShapeDeleteCallback GongOnAfterDeleteInterface[MidArcVectorShape]
+	OnAfterMidArcVectorShapeReadCallback   GongOnAfterReadInterface[MidArcVectorShape]
 
 	MidArcVectorShapeGrids                map[*MidArcVectorShapeGrid]struct{}
 	MidArcVectorShapeGrids_instance       map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid
@@ -761,10 +770,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	MidArcVectorShapeGrid_MidArcVectorShapes_reverseMap map[*MidArcVectorShape]*MidArcVectorShapeGrid
 
-	OnAfterMidArcVectorShapeGridCreateCallback OnAfterCreateInterface[MidArcVectorShapeGrid]
-	OnAfterMidArcVectorShapeGridUpdateCallback OnAfterUpdateInterface[MidArcVectorShapeGrid]
-	OnAfterMidArcVectorShapeGridDeleteCallback OnAfterDeleteInterface[MidArcVectorShapeGrid]
-	OnAfterMidArcVectorShapeGridReadCallback   OnAfterReadInterface[MidArcVectorShapeGrid]
+	OnAfterMidArcVectorShapeGridCreateCallback GongOnAfterCreateInterface[MidArcVectorShapeGrid]
+	OnAfterMidArcVectorShapeGridUpdateCallback GongOnAfterUpdateInterface[MidArcVectorShapeGrid]
+	OnAfterMidArcVectorShapeGridDeleteCallback GongOnAfterDeleteInterface[MidArcVectorShapeGrid]
+	OnAfterMidArcVectorShapeGridReadCallback   GongOnAfterReadInterface[MidArcVectorShapeGrid]
 
 	MusicAbstracts                map[*MusicAbstract]struct{}
 	MusicAbstracts_instance       map[*MusicAbstract]*MusicAbstract
@@ -776,10 +785,10 @@ type Stage struct {
 	MusicAbstracts_referenceOrder map[*MusicAbstract]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMusicAbstractCreateCallback OnAfterCreateInterface[MusicAbstract]
-	OnAfterMusicAbstractUpdateCallback OnAfterUpdateInterface[MusicAbstract]
-	OnAfterMusicAbstractDeleteCallback OnAfterDeleteInterface[MusicAbstract]
-	OnAfterMusicAbstractReadCallback   OnAfterReadInterface[MusicAbstract]
+	OnAfterMusicAbstractCreateCallback GongOnAfterCreateInterface[MusicAbstract]
+	OnAfterMusicAbstractUpdateCallback GongOnAfterUpdateInterface[MusicAbstract]
+	OnAfterMusicAbstractDeleteCallback GongOnAfterDeleteInterface[MusicAbstract]
+	OnAfterMusicAbstractReadCallback   GongOnAfterReadInterface[MusicAbstract]
 
 	OriginalPoints3DShapes                map[*OriginalPoints3DShape]struct{}
 	OriginalPoints3DShapes_instance       map[*OriginalPoints3DShape]*OriginalPoints3DShape
@@ -791,10 +800,10 @@ type Stage struct {
 	OriginalPoints3DShapes_referenceOrder map[*OriginalPoints3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterOriginalPoints3DShapeCreateCallback OnAfterCreateInterface[OriginalPoints3DShape]
-	OnAfterOriginalPoints3DShapeUpdateCallback OnAfterUpdateInterface[OriginalPoints3DShape]
-	OnAfterOriginalPoints3DShapeDeleteCallback OnAfterDeleteInterface[OriginalPoints3DShape]
-	OnAfterOriginalPoints3DShapeReadCallback   OnAfterReadInterface[OriginalPoints3DShape]
+	OnAfterOriginalPoints3DShapeCreateCallback GongOnAfterCreateInterface[OriginalPoints3DShape]
+	OnAfterOriginalPoints3DShapeUpdateCallback GongOnAfterUpdateInterface[OriginalPoints3DShape]
+	OnAfterOriginalPoints3DShapeDeleteCallback GongOnAfterDeleteInterface[OriginalPoints3DShape]
+	OnAfterOriginalPoints3DShapeReadCallback   GongOnAfterReadInterface[OriginalPoints3DShape]
 
 	ParastichyMCurves3DShapes                map[*ParastichyMCurves3DShape]struct{}
 	ParastichyMCurves3DShapes_instance       map[*ParastichyMCurves3DShape]*ParastichyMCurves3DShape
@@ -806,10 +815,10 @@ type Stage struct {
 	ParastichyMCurves3DShapes_referenceOrder map[*ParastichyMCurves3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterParastichyMCurves3DShapeCreateCallback OnAfterCreateInterface[ParastichyMCurves3DShape]
-	OnAfterParastichyMCurves3DShapeUpdateCallback OnAfterUpdateInterface[ParastichyMCurves3DShape]
-	OnAfterParastichyMCurves3DShapeDeleteCallback OnAfterDeleteInterface[ParastichyMCurves3DShape]
-	OnAfterParastichyMCurves3DShapeReadCallback   OnAfterReadInterface[ParastichyMCurves3DShape]
+	OnAfterParastichyMCurves3DShapeCreateCallback GongOnAfterCreateInterface[ParastichyMCurves3DShape]
+	OnAfterParastichyMCurves3DShapeUpdateCallback GongOnAfterUpdateInterface[ParastichyMCurves3DShape]
+	OnAfterParastichyMCurves3DShapeDeleteCallback GongOnAfterDeleteInterface[ParastichyMCurves3DShape]
+	OnAfterParastichyMCurves3DShapeReadCallback   GongOnAfterReadInterface[ParastichyMCurves3DShape]
 
 	ParastichyNCurves3DShapes                map[*ParastichyNCurves3DShape]struct{}
 	ParastichyNCurves3DShapes_instance       map[*ParastichyNCurves3DShape]*ParastichyNCurves3DShape
@@ -821,10 +830,10 @@ type Stage struct {
 	ParastichyNCurves3DShapes_referenceOrder map[*ParastichyNCurves3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterParastichyNCurves3DShapeCreateCallback OnAfterCreateInterface[ParastichyNCurves3DShape]
-	OnAfterParastichyNCurves3DShapeUpdateCallback OnAfterUpdateInterface[ParastichyNCurves3DShape]
-	OnAfterParastichyNCurves3DShapeDeleteCallback OnAfterDeleteInterface[ParastichyNCurves3DShape]
-	OnAfterParastichyNCurves3DShapeReadCallback   OnAfterReadInterface[ParastichyNCurves3DShape]
+	OnAfterParastichyNCurves3DShapeCreateCallback GongOnAfterCreateInterface[ParastichyNCurves3DShape]
+	OnAfterParastichyNCurves3DShapeUpdateCallback GongOnAfterUpdateInterface[ParastichyNCurves3DShape]
+	OnAfterParastichyNCurves3DShapeDeleteCallback GongOnAfterDeleteInterface[ParastichyNCurves3DShape]
+	OnAfterParastichyNCurves3DShapeReadCallback   GongOnAfterReadInterface[ParastichyNCurves3DShape]
 
 	PartiallyGrowthCurve2DRibbons                map[*PartiallyGrowthCurve2DRibbon]struct{}
 	PartiallyGrowthCurve2DRibbons_instance       map[*PartiallyGrowthCurve2DRibbon]*PartiallyGrowthCurve2DRibbon
@@ -840,10 +849,10 @@ type Stage struct {
 
 	PartiallyGrowthCurve2DRibbon_PartiallyGrowthCurve2DRibbonEndShapes_reverseMap map[*PartiallyGrowthCurve2DRibbonEndShape]*PartiallyGrowthCurve2DRibbon
 
-	OnAfterPartiallyGrowthCurve2DRibbonCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DRibbon]
-	OnAfterPartiallyGrowthCurve2DRibbonUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DRibbon]
-	OnAfterPartiallyGrowthCurve2DRibbonDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DRibbon]
-	OnAfterPartiallyGrowthCurve2DRibbonReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DRibbon]
+	OnAfterPartiallyGrowthCurve2DRibbonCreateCallback GongOnAfterCreateInterface[PartiallyGrowthCurve2DRibbon]
+	OnAfterPartiallyGrowthCurve2DRibbonUpdateCallback GongOnAfterUpdateInterface[PartiallyGrowthCurve2DRibbon]
+	OnAfterPartiallyGrowthCurve2DRibbonDeleteCallback GongOnAfterDeleteInterface[PartiallyGrowthCurve2DRibbon]
+	OnAfterPartiallyGrowthCurve2DRibbonReadCallback   GongOnAfterReadInterface[PartiallyGrowthCurve2DRibbon]
 
 	PartiallyGrowthCurve2DRibbonEndShapes                map[*PartiallyGrowthCurve2DRibbonEndShape]struct{}
 	PartiallyGrowthCurve2DRibbonEndShapes_instance       map[*PartiallyGrowthCurve2DRibbonEndShape]*PartiallyGrowthCurve2DRibbonEndShape
@@ -855,10 +864,10 @@ type Stage struct {
 	PartiallyGrowthCurve2DRibbonEndShapes_referenceOrder map[*PartiallyGrowthCurve2DRibbonEndShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPartiallyGrowthCurve2DRibbonEndShapeCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DRibbonEndShape]
-	OnAfterPartiallyGrowthCurve2DRibbonEndShapeUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DRibbonEndShape]
-	OnAfterPartiallyGrowthCurve2DRibbonEndShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DRibbonEndShape]
-	OnAfterPartiallyGrowthCurve2DRibbonEndShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DRibbonEndShape]
+	OnAfterPartiallyGrowthCurve2DRibbonEndShapeCreateCallback GongOnAfterCreateInterface[PartiallyGrowthCurve2DRibbonEndShape]
+	OnAfterPartiallyGrowthCurve2DRibbonEndShapeUpdateCallback GongOnAfterUpdateInterface[PartiallyGrowthCurve2DRibbonEndShape]
+	OnAfterPartiallyGrowthCurve2DRibbonEndShapeDeleteCallback GongOnAfterDeleteInterface[PartiallyGrowthCurve2DRibbonEndShape]
+	OnAfterPartiallyGrowthCurve2DRibbonEndShapeReadCallback   GongOnAfterReadInterface[PartiallyGrowthCurve2DRibbonEndShape]
 
 	PartiallyGrowthCurve2DRibbonStartShapes                map[*PartiallyGrowthCurve2DRibbonStartShape]struct{}
 	PartiallyGrowthCurve2DRibbonStartShapes_instance       map[*PartiallyGrowthCurve2DRibbonStartShape]*PartiallyGrowthCurve2DRibbonStartShape
@@ -870,10 +879,10 @@ type Stage struct {
 	PartiallyGrowthCurve2DRibbonStartShapes_referenceOrder map[*PartiallyGrowthCurve2DRibbonStartShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPartiallyGrowthCurve2DRibbonStartShapeCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DRibbonStartShape]
-	OnAfterPartiallyGrowthCurve2DRibbonStartShapeUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DRibbonStartShape]
-	OnAfterPartiallyGrowthCurve2DRibbonStartShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DRibbonStartShape]
-	OnAfterPartiallyGrowthCurve2DRibbonStartShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DRibbonStartShape]
+	OnAfterPartiallyGrowthCurve2DRibbonStartShapeCreateCallback GongOnAfterCreateInterface[PartiallyGrowthCurve2DRibbonStartShape]
+	OnAfterPartiallyGrowthCurve2DRibbonStartShapeUpdateCallback GongOnAfterUpdateInterface[PartiallyGrowthCurve2DRibbonStartShape]
+	OnAfterPartiallyGrowthCurve2DRibbonStartShapeDeleteCallback GongOnAfterDeleteInterface[PartiallyGrowthCurve2DRibbonStartShape]
+	OnAfterPartiallyGrowthCurve2DRibbonStartShapeReadCallback   GongOnAfterReadInterface[PartiallyGrowthCurve2DRibbonStartShape]
 
 	PartiallyGrowthCurve2DTrajectorys                map[*PartiallyGrowthCurve2DTrajectory]struct{}
 	PartiallyGrowthCurve2DTrajectorys_instance       map[*PartiallyGrowthCurve2DTrajectory]*PartiallyGrowthCurve2DTrajectory
@@ -887,10 +896,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	PartiallyGrowthCurve2DTrajectory_PartiallyGrowthCurve2DTrajectoryShapes_reverseMap map[*PartiallyGrowthCurve2DTrajectoryShape]*PartiallyGrowthCurve2DTrajectory
 
-	OnAfterPartiallyGrowthCurve2DTrajectoryCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectory]
-	OnAfterPartiallyGrowthCurve2DTrajectoryUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectory]
-	OnAfterPartiallyGrowthCurve2DTrajectoryDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectory]
-	OnAfterPartiallyGrowthCurve2DTrajectoryReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectory]
+	OnAfterPartiallyGrowthCurve2DTrajectoryCreateCallback GongOnAfterCreateInterface[PartiallyGrowthCurve2DTrajectory]
+	OnAfterPartiallyGrowthCurve2DTrajectoryUpdateCallback GongOnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectory]
+	OnAfterPartiallyGrowthCurve2DTrajectoryDeleteCallback GongOnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectory]
+	OnAfterPartiallyGrowthCurve2DTrajectoryReadCallback   GongOnAfterReadInterface[PartiallyGrowthCurve2DTrajectory]
 
 	PartiallyGrowthCurve2DTrajectoryP1CurveShapes                map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]struct{}
 	PartiallyGrowthCurve2DTrajectoryP1CurveShapes_instance       map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]*PartiallyGrowthCurve2DTrajectoryP1CurveShape
@@ -902,10 +911,10 @@ type Stage struct {
 	PartiallyGrowthCurve2DTrajectoryP1CurveShapes_referenceOrder map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1CurveShapeCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP1CurveShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1CurveShapeUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP1CurveShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1CurveShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP1CurveShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1CurveShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP1CurveShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1CurveShapeCreateCallback GongOnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP1CurveShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1CurveShapeUpdateCallback GongOnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP1CurveShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1CurveShapeDeleteCallback GongOnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP1CurveShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1CurveShapeReadCallback   GongOnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP1CurveShape]
 
 	PartiallyGrowthCurve2DTrajectoryP1P2s                map[*PartiallyGrowthCurve2DTrajectoryP1P2]struct{}
 	PartiallyGrowthCurve2DTrajectoryP1P2s_instance       map[*PartiallyGrowthCurve2DTrajectoryP1P2]*PartiallyGrowthCurve2DTrajectoryP1P2
@@ -927,10 +936,10 @@ type Stage struct {
 
 	PartiallyGrowthCurve2DTrajectoryP1P2_P1P2PairLineShapes_reverseMap map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]*PartiallyGrowthCurve2DTrajectoryP1P2
 
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2CreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP1P2]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2UpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP1P2]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2DeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP1P2]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2ReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP1P2]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2CreateCallback GongOnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP1P2]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2UpdateCallback GongOnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP1P2]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2DeleteCallback GongOnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP1P2]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2ReadCallback   GongOnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP1P2]
 
 	PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes                map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]struct{}
 	PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_instance       map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape
@@ -942,10 +951,10 @@ type Stage struct {
 	PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_referenceOrder map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeCreateCallback GongOnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeUpdateCallback GongOnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeDeleteCallback GongOnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeReadCallback   GongOnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]
 
 	PartiallyGrowthCurve2DTrajectoryP1PointShapes                map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]struct{}
 	PartiallyGrowthCurve2DTrajectoryP1PointShapes_instance       map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]*PartiallyGrowthCurve2DTrajectoryP1PointShape
@@ -957,10 +966,10 @@ type Stage struct {
 	PartiallyGrowthCurve2DTrajectoryP1PointShapes_referenceOrder map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1PointShapeCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP1PointShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1PointShapeUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP1PointShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1PointShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP1PointShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP1PointShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP1PointShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1PointShapeCreateCallback GongOnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP1PointShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1PointShapeUpdateCallback GongOnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP1PointShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1PointShapeDeleteCallback GongOnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP1PointShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1PointShapeReadCallback   GongOnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP1PointShape]
 
 	PartiallyGrowthCurve2DTrajectoryP2CurveShapes                map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]struct{}
 	PartiallyGrowthCurve2DTrajectoryP2CurveShapes_instance       map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]*PartiallyGrowthCurve2DTrajectoryP2CurveShape
@@ -972,10 +981,10 @@ type Stage struct {
 	PartiallyGrowthCurve2DTrajectoryP2CurveShapes_referenceOrder map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPartiallyGrowthCurve2DTrajectoryP2CurveShapeCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP2CurveShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP2CurveShapeUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP2CurveShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP2CurveShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP2CurveShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP2CurveShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP2CurveShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2CurveShapeCreateCallback GongOnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP2CurveShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2CurveShapeUpdateCallback GongOnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP2CurveShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2CurveShapeDeleteCallback GongOnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP2CurveShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2CurveShapeReadCallback   GongOnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP2CurveShape]
 
 	PartiallyGrowthCurve2DTrajectoryP2PointShapes                map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]struct{}
 	PartiallyGrowthCurve2DTrajectoryP2PointShapes_instance       map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]*PartiallyGrowthCurve2DTrajectoryP2PointShape
@@ -987,10 +996,10 @@ type Stage struct {
 	PartiallyGrowthCurve2DTrajectoryP2PointShapes_referenceOrder map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeCreateCallback GongOnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeUpdateCallback GongOnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeDeleteCallback GongOnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeReadCallback   GongOnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape]
 
 	PartiallyGrowthCurve2DTrajectoryShapes                map[*PartiallyGrowthCurve2DTrajectoryShape]struct{}
 	PartiallyGrowthCurve2DTrajectoryShapes_instance       map[*PartiallyGrowthCurve2DTrajectoryShape]*PartiallyGrowthCurve2DTrajectoryShape
@@ -1002,10 +1011,10 @@ type Stage struct {
 	PartiallyGrowthCurve2DTrajectoryShapes_referenceOrder map[*PartiallyGrowthCurve2DTrajectoryShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPartiallyGrowthCurve2DTrajectoryShapeCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryShapeUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryShape]
-	OnAfterPartiallyGrowthCurve2DTrajectoryShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryShapeCreateCallback GongOnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryShapeUpdateCallback GongOnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryShapeDeleteCallback GongOnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryShapeReadCallback   GongOnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryShape]
 
 	PartiallyRotatedSeatBottomCurveShapes                map[*PartiallyRotatedSeatBottomCurveShape]struct{}
 	PartiallyRotatedSeatBottomCurveShapes_instance       map[*PartiallyRotatedSeatBottomCurveShape]*PartiallyRotatedSeatBottomCurveShape
@@ -1017,10 +1026,10 @@ type Stage struct {
 	PartiallyRotatedSeatBottomCurveShapes_referenceOrder map[*PartiallyRotatedSeatBottomCurveShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPartiallyRotatedSeatBottomCurveShapeCreateCallback OnAfterCreateInterface[PartiallyRotatedSeatBottomCurveShape]
-	OnAfterPartiallyRotatedSeatBottomCurveShapeUpdateCallback OnAfterUpdateInterface[PartiallyRotatedSeatBottomCurveShape]
-	OnAfterPartiallyRotatedSeatBottomCurveShapeDeleteCallback OnAfterDeleteInterface[PartiallyRotatedSeatBottomCurveShape]
-	OnAfterPartiallyRotatedSeatBottomCurveShapeReadCallback   OnAfterReadInterface[PartiallyRotatedSeatBottomCurveShape]
+	OnAfterPartiallyRotatedSeatBottomCurveShapeCreateCallback GongOnAfterCreateInterface[PartiallyRotatedSeatBottomCurveShape]
+	OnAfterPartiallyRotatedSeatBottomCurveShapeUpdateCallback GongOnAfterUpdateInterface[PartiallyRotatedSeatBottomCurveShape]
+	OnAfterPartiallyRotatedSeatBottomCurveShapeDeleteCallback GongOnAfterDeleteInterface[PartiallyRotatedSeatBottomCurveShape]
+	OnAfterPartiallyRotatedSeatBottomCurveShapeReadCallback   GongOnAfterReadInterface[PartiallyRotatedSeatBottomCurveShape]
 
 	PartiallyRotatedSeatTopCurveShapes                map[*PartiallyRotatedSeatTopCurveShape]struct{}
 	PartiallyRotatedSeatTopCurveShapes_instance       map[*PartiallyRotatedSeatTopCurveShape]*PartiallyRotatedSeatTopCurveShape
@@ -1032,10 +1041,10 @@ type Stage struct {
 	PartiallyRotatedSeatTopCurveShapes_referenceOrder map[*PartiallyRotatedSeatTopCurveShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPartiallyRotatedSeatTopCurveShapeCreateCallback OnAfterCreateInterface[PartiallyRotatedSeatTopCurveShape]
-	OnAfterPartiallyRotatedSeatTopCurveShapeUpdateCallback OnAfterUpdateInterface[PartiallyRotatedSeatTopCurveShape]
-	OnAfterPartiallyRotatedSeatTopCurveShapeDeleteCallback OnAfterDeleteInterface[PartiallyRotatedSeatTopCurveShape]
-	OnAfterPartiallyRotatedSeatTopCurveShapeReadCallback   OnAfterReadInterface[PartiallyRotatedSeatTopCurveShape]
+	OnAfterPartiallyRotatedSeatTopCurveShapeCreateCallback GongOnAfterCreateInterface[PartiallyRotatedSeatTopCurveShape]
+	OnAfterPartiallyRotatedSeatTopCurveShapeUpdateCallback GongOnAfterUpdateInterface[PartiallyRotatedSeatTopCurveShape]
+	OnAfterPartiallyRotatedSeatTopCurveShapeDeleteCallback GongOnAfterDeleteInterface[PartiallyRotatedSeatTopCurveShape]
+	OnAfterPartiallyRotatedSeatTopCurveShapeReadCallback   GongOnAfterReadInterface[PartiallyRotatedSeatTopCurveShape]
 
 	PartiallyRotatedTorusShapes                map[*PartiallyRotatedTorusShape]struct{}
 	PartiallyRotatedTorusShapes_instance       map[*PartiallyRotatedTorusShape]*PartiallyRotatedTorusShape
@@ -1047,10 +1056,10 @@ type Stage struct {
 	PartiallyRotatedTorusShapes_referenceOrder map[*PartiallyRotatedTorusShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPartiallyRotatedTorusShapeCreateCallback OnAfterCreateInterface[PartiallyRotatedTorusShape]
-	OnAfterPartiallyRotatedTorusShapeUpdateCallback OnAfterUpdateInterface[PartiallyRotatedTorusShape]
-	OnAfterPartiallyRotatedTorusShapeDeleteCallback OnAfterDeleteInterface[PartiallyRotatedTorusShape]
-	OnAfterPartiallyRotatedTorusShapeReadCallback   OnAfterReadInterface[PartiallyRotatedTorusShape]
+	OnAfterPartiallyRotatedTorusShapeCreateCallback GongOnAfterCreateInterface[PartiallyRotatedTorusShape]
+	OnAfterPartiallyRotatedTorusShapeUpdateCallback GongOnAfterUpdateInterface[PartiallyRotatedTorusShape]
+	OnAfterPartiallyRotatedTorusShapeDeleteCallback GongOnAfterDeleteInterface[PartiallyRotatedTorusShape]
+	OnAfterPartiallyRotatedTorusShapeReadCallback   GongOnAfterReadInterface[PartiallyRotatedTorusShape]
 
 	PerpendicularVectors                map[*PerpendicularVector]struct{}
 	PerpendicularVectors_instance       map[*PerpendicularVector]*PerpendicularVector
@@ -1062,10 +1071,10 @@ type Stage struct {
 	PerpendicularVectors_referenceOrder map[*PerpendicularVector]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPerpendicularVectorCreateCallback OnAfterCreateInterface[PerpendicularVector]
-	OnAfterPerpendicularVectorUpdateCallback OnAfterUpdateInterface[PerpendicularVector]
-	OnAfterPerpendicularVectorDeleteCallback OnAfterDeleteInterface[PerpendicularVector]
-	OnAfterPerpendicularVectorReadCallback   OnAfterReadInterface[PerpendicularVector]
+	OnAfterPerpendicularVectorCreateCallback GongOnAfterCreateInterface[PerpendicularVector]
+	OnAfterPerpendicularVectorUpdateCallback GongOnAfterUpdateInterface[PerpendicularVector]
+	OnAfterPerpendicularVectorDeleteCallback GongOnAfterDeleteInterface[PerpendicularVector]
+	OnAfterPerpendicularVectorReadCallback   GongOnAfterReadInterface[PerpendicularVector]
 
 	PerpendicularVectorGrids                map[*PerpendicularVectorGrid]struct{}
 	PerpendicularVectorGrids_instance       map[*PerpendicularVectorGrid]*PerpendicularVectorGrid
@@ -1079,10 +1088,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	PerpendicularVectorGrid_PerpendicularVectors_reverseMap map[*PerpendicularVector]*PerpendicularVectorGrid
 
-	OnAfterPerpendicularVectorGridCreateCallback OnAfterCreateInterface[PerpendicularVectorGrid]
-	OnAfterPerpendicularVectorGridUpdateCallback OnAfterUpdateInterface[PerpendicularVectorGrid]
-	OnAfterPerpendicularVectorGridDeleteCallback OnAfterDeleteInterface[PerpendicularVectorGrid]
-	OnAfterPerpendicularVectorGridReadCallback   OnAfterReadInterface[PerpendicularVectorGrid]
+	OnAfterPerpendicularVectorGridCreateCallback GongOnAfterCreateInterface[PerpendicularVectorGrid]
+	OnAfterPerpendicularVectorGridUpdateCallback GongOnAfterUpdateInterface[PerpendicularVectorGrid]
+	OnAfterPerpendicularVectorGridDeleteCallback GongOnAfterDeleteInterface[PerpendicularVectorGrid]
+	OnAfterPerpendicularVectorGridReadCallback   GongOnAfterReadInterface[PerpendicularVectorGrid]
 
 	PerpendicularVectorGridHalfways                map[*PerpendicularVectorGridHalfway]struct{}
 	PerpendicularVectorGridHalfways_instance       map[*PerpendicularVectorGridHalfway]*PerpendicularVectorGridHalfway
@@ -1096,10 +1105,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	PerpendicularVectorGridHalfway_PerpendicularVectorHalfways_reverseMap map[*PerpendicularVectorHalfway]*PerpendicularVectorGridHalfway
 
-	OnAfterPerpendicularVectorGridHalfwayCreateCallback OnAfterCreateInterface[PerpendicularVectorGridHalfway]
-	OnAfterPerpendicularVectorGridHalfwayUpdateCallback OnAfterUpdateInterface[PerpendicularVectorGridHalfway]
-	OnAfterPerpendicularVectorGridHalfwayDeleteCallback OnAfterDeleteInterface[PerpendicularVectorGridHalfway]
-	OnAfterPerpendicularVectorGridHalfwayReadCallback   OnAfterReadInterface[PerpendicularVectorGridHalfway]
+	OnAfterPerpendicularVectorGridHalfwayCreateCallback GongOnAfterCreateInterface[PerpendicularVectorGridHalfway]
+	OnAfterPerpendicularVectorGridHalfwayUpdateCallback GongOnAfterUpdateInterface[PerpendicularVectorGridHalfway]
+	OnAfterPerpendicularVectorGridHalfwayDeleteCallback GongOnAfterDeleteInterface[PerpendicularVectorGridHalfway]
+	OnAfterPerpendicularVectorGridHalfwayReadCallback   GongOnAfterReadInterface[PerpendicularVectorGridHalfway]
 
 	PerpendicularVectorHalfways                map[*PerpendicularVectorHalfway]struct{}
 	PerpendicularVectorHalfways_instance       map[*PerpendicularVectorHalfway]*PerpendicularVectorHalfway
@@ -1111,10 +1120,10 @@ type Stage struct {
 	PerpendicularVectorHalfways_referenceOrder map[*PerpendicularVectorHalfway]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPerpendicularVectorHalfwayCreateCallback OnAfterCreateInterface[PerpendicularVectorHalfway]
-	OnAfterPerpendicularVectorHalfwayUpdateCallback OnAfterUpdateInterface[PerpendicularVectorHalfway]
-	OnAfterPerpendicularVectorHalfwayDeleteCallback OnAfterDeleteInterface[PerpendicularVectorHalfway]
-	OnAfterPerpendicularVectorHalfwayReadCallback   OnAfterReadInterface[PerpendicularVectorHalfway]
+	OnAfterPerpendicularVectorHalfwayCreateCallback GongOnAfterCreateInterface[PerpendicularVectorHalfway]
+	OnAfterPerpendicularVectorHalfwayUpdateCallback GongOnAfterUpdateInterface[PerpendicularVectorHalfway]
+	OnAfterPerpendicularVectorHalfwayDeleteCallback GongOnAfterDeleteInterface[PerpendicularVectorHalfway]
+	OnAfterPerpendicularVectorHalfwayReadCallback   GongOnAfterReadInterface[PerpendicularVectorHalfway]
 
 	Plant2DDiagrams                map[*Plant2DDiagram]struct{}
 	Plant2DDiagrams_instance       map[*Plant2DDiagram]*Plant2DDiagram
@@ -1126,10 +1135,10 @@ type Stage struct {
 	Plant2DDiagrams_referenceOrder map[*Plant2DDiagram]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPlant2DDiagramCreateCallback OnAfterCreateInterface[Plant2DDiagram]
-	OnAfterPlant2DDiagramUpdateCallback OnAfterUpdateInterface[Plant2DDiagram]
-	OnAfterPlant2DDiagramDeleteCallback OnAfterDeleteInterface[Plant2DDiagram]
-	OnAfterPlant2DDiagramReadCallback   OnAfterReadInterface[Plant2DDiagram]
+	OnAfterPlant2DDiagramCreateCallback GongOnAfterCreateInterface[Plant2DDiagram]
+	OnAfterPlant2DDiagramUpdateCallback GongOnAfterUpdateInterface[Plant2DDiagram]
+	OnAfterPlant2DDiagramDeleteCallback GongOnAfterDeleteInterface[Plant2DDiagram]
+	OnAfterPlant2DDiagramReadCallback   GongOnAfterReadInterface[Plant2DDiagram]
 
 	Plant3DDiagrams                map[*Plant3DDiagram]struct{}
 	Plant3DDiagrams_instance       map[*Plant3DDiagram]*Plant3DDiagram
@@ -1141,10 +1150,10 @@ type Stage struct {
 	Plant3DDiagrams_referenceOrder map[*Plant3DDiagram]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPlant3DDiagramCreateCallback OnAfterCreateInterface[Plant3DDiagram]
-	OnAfterPlant3DDiagramUpdateCallback OnAfterUpdateInterface[Plant3DDiagram]
-	OnAfterPlant3DDiagramDeleteCallback OnAfterDeleteInterface[Plant3DDiagram]
-	OnAfterPlant3DDiagramReadCallback   OnAfterReadInterface[Plant3DDiagram]
+	OnAfterPlant3DDiagramCreateCallback GongOnAfterCreateInterface[Plant3DDiagram]
+	OnAfterPlant3DDiagramUpdateCallback GongOnAfterUpdateInterface[Plant3DDiagram]
+	OnAfterPlant3DDiagramDeleteCallback GongOnAfterDeleteInterface[Plant3DDiagram]
+	OnAfterPlant3DDiagramReadCallback   GongOnAfterReadInterface[Plant3DDiagram]
 
 	PlantAbstracts                map[*PlantAbstract]struct{}
 	PlantAbstracts_instance       map[*PlantAbstract]*PlantAbstract
@@ -1172,10 +1181,10 @@ type Stage struct {
 
 	PlantAbstract_Clock3DDiagrams_reverseMap map[*Clock3DDiagram]*PlantAbstract
 
-	OnAfterPlantAbstractCreateCallback OnAfterCreateInterface[PlantAbstract]
-	OnAfterPlantAbstractUpdateCallback OnAfterUpdateInterface[PlantAbstract]
-	OnAfterPlantAbstractDeleteCallback OnAfterDeleteInterface[PlantAbstract]
-	OnAfterPlantAbstractReadCallback   OnAfterReadInterface[PlantAbstract]
+	OnAfterPlantAbstractCreateCallback GongOnAfterCreateInterface[PlantAbstract]
+	OnAfterPlantAbstractUpdateCallback GongOnAfterUpdateInterface[PlantAbstract]
+	OnAfterPlantAbstractDeleteCallback GongOnAfterDeleteInterface[PlantAbstract]
+	OnAfterPlantAbstractReadCallback   GongOnAfterReadInterface[PlantAbstract]
 
 	PlantCircumferenceShapes                map[*PlantCircumferenceShape]struct{}
 	PlantCircumferenceShapes_instance       map[*PlantCircumferenceShape]*PlantCircumferenceShape
@@ -1187,10 +1196,10 @@ type Stage struct {
 	PlantCircumferenceShapes_referenceOrder map[*PlantCircumferenceShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPlantCircumferenceShapeCreateCallback OnAfterCreateInterface[PlantCircumferenceShape]
-	OnAfterPlantCircumferenceShapeUpdateCallback OnAfterUpdateInterface[PlantCircumferenceShape]
-	OnAfterPlantCircumferenceShapeDeleteCallback OnAfterDeleteInterface[PlantCircumferenceShape]
-	OnAfterPlantCircumferenceShapeReadCallback   OnAfterReadInterface[PlantCircumferenceShape]
+	OnAfterPlantCircumferenceShapeCreateCallback GongOnAfterCreateInterface[PlantCircumferenceShape]
+	OnAfterPlantCircumferenceShapeUpdateCallback GongOnAfterUpdateInterface[PlantCircumferenceShape]
+	OnAfterPlantCircumferenceShapeDeleteCallback GongOnAfterDeleteInterface[PlantCircumferenceShape]
+	OnAfterPlantCircumferenceShapeReadCallback   GongOnAfterReadInterface[PlantCircumferenceShape]
 
 	PointsAndLines3DShapes                map[*PointsAndLines3DShape]struct{}
 	PointsAndLines3DShapes_instance       map[*PointsAndLines3DShape]*PointsAndLines3DShape
@@ -1202,10 +1211,10 @@ type Stage struct {
 	PointsAndLines3DShapes_referenceOrder map[*PointsAndLines3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPointsAndLines3DShapeCreateCallback OnAfterCreateInterface[PointsAndLines3DShape]
-	OnAfterPointsAndLines3DShapeUpdateCallback OnAfterUpdateInterface[PointsAndLines3DShape]
-	OnAfterPointsAndLines3DShapeDeleteCallback OnAfterDeleteInterface[PointsAndLines3DShape]
-	OnAfterPointsAndLines3DShapeReadCallback   OnAfterReadInterface[PointsAndLines3DShape]
+	OnAfterPointsAndLines3DShapeCreateCallback GongOnAfterCreateInterface[PointsAndLines3DShape]
+	OnAfterPointsAndLines3DShapeUpdateCallback GongOnAfterUpdateInterface[PointsAndLines3DShape]
+	OnAfterPointsAndLines3DShapeDeleteCallback GongOnAfterDeleteInterface[PointsAndLines3DShape]
+	OnAfterPointsAndLines3DShapeReadCallback   GongOnAfterReadInterface[PointsAndLines3DShape]
 
 	PxShapes                map[*PxShape]struct{}
 	PxShapes_instance       map[*PxShape]*PxShape
@@ -1217,10 +1226,10 @@ type Stage struct {
 	PxShapes_referenceOrder map[*PxShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPxShapeCreateCallback OnAfterCreateInterface[PxShape]
-	OnAfterPxShapeUpdateCallback OnAfterUpdateInterface[PxShape]
-	OnAfterPxShapeDeleteCallback OnAfterDeleteInterface[PxShape]
-	OnAfterPxShapeReadCallback   OnAfterReadInterface[PxShape]
+	OnAfterPxShapeCreateCallback GongOnAfterCreateInterface[PxShape]
+	OnAfterPxShapeUpdateCallback GongOnAfterUpdateInterface[PxShape]
+	OnAfterPxShapeDeleteCallback GongOnAfterDeleteInterface[PxShape]
+	OnAfterPxShapeReadCallback   GongOnAfterReadInterface[PxShape]
 
 	Rendered3DShapes                map[*Rendered3DShape]struct{}
 	Rendered3DShapes_instance       map[*Rendered3DShape]*Rendered3DShape
@@ -1232,10 +1241,10 @@ type Stage struct {
 	Rendered3DShapes_referenceOrder map[*Rendered3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterRendered3DShapeCreateCallback OnAfterCreateInterface[Rendered3DShape]
-	OnAfterRendered3DShapeUpdateCallback OnAfterUpdateInterface[Rendered3DShape]
-	OnAfterRendered3DShapeDeleteCallback OnAfterDeleteInterface[Rendered3DShape]
-	OnAfterRendered3DShapeReadCallback   OnAfterReadInterface[Rendered3DShape]
+	OnAfterRendered3DShapeCreateCallback GongOnAfterCreateInterface[Rendered3DShape]
+	OnAfterRendered3DShapeUpdateCallback GongOnAfterUpdateInterface[Rendered3DShape]
+	OnAfterRendered3DShapeDeleteCallback GongOnAfterDeleteInterface[Rendered3DShape]
+	OnAfterRendered3DShapeReadCallback   GongOnAfterReadInterface[Rendered3DShape]
 
 	RhombusShapes                map[*RhombusShape]struct{}
 	RhombusShapes_instance       map[*RhombusShape]*RhombusShape
@@ -1247,10 +1256,10 @@ type Stage struct {
 	RhombusShapes_referenceOrder map[*RhombusShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterRhombusShapeCreateCallback OnAfterCreateInterface[RhombusShape]
-	OnAfterRhombusShapeUpdateCallback OnAfterUpdateInterface[RhombusShape]
-	OnAfterRhombusShapeDeleteCallback OnAfterDeleteInterface[RhombusShape]
-	OnAfterRhombusShapeReadCallback   OnAfterReadInterface[RhombusShape]
+	OnAfterRhombusShapeCreateCallback GongOnAfterCreateInterface[RhombusShape]
+	OnAfterRhombusShapeUpdateCallback GongOnAfterUpdateInterface[RhombusShape]
+	OnAfterRhombusShapeDeleteCallback GongOnAfterDeleteInterface[RhombusShape]
+	OnAfterRhombusShapeReadCallback   GongOnAfterReadInterface[RhombusShape]
 
 	RhombusStuffs                map[*RhombusStuff]struct{}
 	RhombusStuffs_instance       map[*RhombusStuff]*RhombusStuff
@@ -1262,10 +1271,10 @@ type Stage struct {
 	RhombusStuffs_referenceOrder map[*RhombusStuff]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterRhombusStuffCreateCallback OnAfterCreateInterface[RhombusStuff]
-	OnAfterRhombusStuffUpdateCallback OnAfterUpdateInterface[RhombusStuff]
-	OnAfterRhombusStuffDeleteCallback OnAfterDeleteInterface[RhombusStuff]
-	OnAfterRhombusStuffReadCallback   OnAfterReadInterface[RhombusStuff]
+	OnAfterRhombusStuffCreateCallback GongOnAfterCreateInterface[RhombusStuff]
+	OnAfterRhombusStuffUpdateCallback GongOnAfterUpdateInterface[RhombusStuff]
+	OnAfterRhombusStuffDeleteCallback GongOnAfterDeleteInterface[RhombusStuff]
+	OnAfterRhombusStuffReadCallback   GongOnAfterReadInterface[RhombusStuff]
 
 	RotatedRhombusGridShapes                map[*RotatedRhombusGridShape]struct{}
 	RotatedRhombusGridShapes_instance       map[*RotatedRhombusGridShape]*RotatedRhombusGridShape
@@ -1279,10 +1288,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	RotatedRhombusGridShape_RotatedRhombusShapes_reverseMap map[*RotatedRhombusShape]*RotatedRhombusGridShape
 
-	OnAfterRotatedRhombusGridShapeCreateCallback OnAfterCreateInterface[RotatedRhombusGridShape]
-	OnAfterRotatedRhombusGridShapeUpdateCallback OnAfterUpdateInterface[RotatedRhombusGridShape]
-	OnAfterRotatedRhombusGridShapeDeleteCallback OnAfterDeleteInterface[RotatedRhombusGridShape]
-	OnAfterRotatedRhombusGridShapeReadCallback   OnAfterReadInterface[RotatedRhombusGridShape]
+	OnAfterRotatedRhombusGridShapeCreateCallback GongOnAfterCreateInterface[RotatedRhombusGridShape]
+	OnAfterRotatedRhombusGridShapeUpdateCallback GongOnAfterUpdateInterface[RotatedRhombusGridShape]
+	OnAfterRotatedRhombusGridShapeDeleteCallback GongOnAfterDeleteInterface[RotatedRhombusGridShape]
+	OnAfterRotatedRhombusGridShapeReadCallback   GongOnAfterReadInterface[RotatedRhombusGridShape]
 
 	RotatedRhombusShapes                map[*RotatedRhombusShape]struct{}
 	RotatedRhombusShapes_instance       map[*RotatedRhombusShape]*RotatedRhombusShape
@@ -1294,10 +1303,10 @@ type Stage struct {
 	RotatedRhombusShapes_referenceOrder map[*RotatedRhombusShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterRotatedRhombusShapeCreateCallback OnAfterCreateInterface[RotatedRhombusShape]
-	OnAfterRotatedRhombusShapeUpdateCallback OnAfterUpdateInterface[RotatedRhombusShape]
-	OnAfterRotatedRhombusShapeDeleteCallback OnAfterDeleteInterface[RotatedRhombusShape]
-	OnAfterRotatedRhombusShapeReadCallback   OnAfterReadInterface[RotatedRhombusShape]
+	OnAfterRotatedRhombusShapeCreateCallback GongOnAfterCreateInterface[RotatedRhombusShape]
+	OnAfterRotatedRhombusShapeUpdateCallback GongOnAfterUpdateInterface[RotatedRhombusShape]
+	OnAfterRotatedRhombusShapeDeleteCallback GongOnAfterDeleteInterface[RotatedRhombusShape]
+	OnAfterRotatedRhombusShapeReadCallback   GongOnAfterReadInterface[RotatedRhombusShape]
 
 	RotatedSampledPoints3DShapes                map[*RotatedSampledPoints3DShape]struct{}
 	RotatedSampledPoints3DShapes_instance       map[*RotatedSampledPoints3DShape]*RotatedSampledPoints3DShape
@@ -1309,10 +1318,10 @@ type Stage struct {
 	RotatedSampledPoints3DShapes_referenceOrder map[*RotatedSampledPoints3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterRotatedSampledPoints3DShapeCreateCallback OnAfterCreateInterface[RotatedSampledPoints3DShape]
-	OnAfterRotatedSampledPoints3DShapeUpdateCallback OnAfterUpdateInterface[RotatedSampledPoints3DShape]
-	OnAfterRotatedSampledPoints3DShapeDeleteCallback OnAfterDeleteInterface[RotatedSampledPoints3DShape]
-	OnAfterRotatedSampledPoints3DShapeReadCallback   OnAfterReadInterface[RotatedSampledPoints3DShape]
+	OnAfterRotatedSampledPoints3DShapeCreateCallback GongOnAfterCreateInterface[RotatedSampledPoints3DShape]
+	OnAfterRotatedSampledPoints3DShapeUpdateCallback GongOnAfterUpdateInterface[RotatedSampledPoints3DShape]
+	OnAfterRotatedSampledPoints3DShapeDeleteCallback GongOnAfterDeleteInterface[RotatedSampledPoints3DShape]
+	OnAfterRotatedSampledPoints3DShapeReadCallback   GongOnAfterReadInterface[RotatedSampledPoints3DShape]
 
 	RotatedSeatAndLegs3DShapes                map[*RotatedSeatAndLegs3DShape]struct{}
 	RotatedSeatAndLegs3DShapes_instance       map[*RotatedSeatAndLegs3DShape]*RotatedSeatAndLegs3DShape
@@ -1324,10 +1333,10 @@ type Stage struct {
 	RotatedSeatAndLegs3DShapes_referenceOrder map[*RotatedSeatAndLegs3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterRotatedSeatAndLegs3DShapeCreateCallback OnAfterCreateInterface[RotatedSeatAndLegs3DShape]
-	OnAfterRotatedSeatAndLegs3DShapeUpdateCallback OnAfterUpdateInterface[RotatedSeatAndLegs3DShape]
-	OnAfterRotatedSeatAndLegs3DShapeDeleteCallback OnAfterDeleteInterface[RotatedSeatAndLegs3DShape]
-	OnAfterRotatedSeatAndLegs3DShapeReadCallback   OnAfterReadInterface[RotatedSeatAndLegs3DShape]
+	OnAfterRotatedSeatAndLegs3DShapeCreateCallback GongOnAfterCreateInterface[RotatedSeatAndLegs3DShape]
+	OnAfterRotatedSeatAndLegs3DShapeUpdateCallback GongOnAfterUpdateInterface[RotatedSeatAndLegs3DShape]
+	OnAfterRotatedSeatAndLegs3DShapeDeleteCallback GongOnAfterDeleteInterface[RotatedSeatAndLegs3DShape]
+	OnAfterRotatedSeatAndLegs3DShapeReadCallback   GongOnAfterReadInterface[RotatedSeatAndLegs3DShape]
 
 	SampledPoints3DShapes                map[*SampledPoints3DShape]struct{}
 	SampledPoints3DShapes_instance       map[*SampledPoints3DShape]*SampledPoints3DShape
@@ -1339,10 +1348,10 @@ type Stage struct {
 	SampledPoints3DShapes_referenceOrder map[*SampledPoints3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSampledPoints3DShapeCreateCallback OnAfterCreateInterface[SampledPoints3DShape]
-	OnAfterSampledPoints3DShapeUpdateCallback OnAfterUpdateInterface[SampledPoints3DShape]
-	OnAfterSampledPoints3DShapeDeleteCallback OnAfterDeleteInterface[SampledPoints3DShape]
-	OnAfterSampledPoints3DShapeReadCallback   OnAfterReadInterface[SampledPoints3DShape]
+	OnAfterSampledPoints3DShapeCreateCallback GongOnAfterCreateInterface[SampledPoints3DShape]
+	OnAfterSampledPoints3DShapeUpdateCallback GongOnAfterUpdateInterface[SampledPoints3DShape]
+	OnAfterSampledPoints3DShapeDeleteCallback GongOnAfterDeleteInterface[SampledPoints3DShape]
+	OnAfterSampledPoints3DShapeReadCallback   GongOnAfterReadInterface[SampledPoints3DShape]
 
 	Seat3DShapes                map[*Seat3DShape]struct{}
 	Seat3DShapes_instance       map[*Seat3DShape]*Seat3DShape
@@ -1354,10 +1363,10 @@ type Stage struct {
 	Seat3DShapes_referenceOrder map[*Seat3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSeat3DShapeCreateCallback OnAfterCreateInterface[Seat3DShape]
-	OnAfterSeat3DShapeUpdateCallback OnAfterUpdateInterface[Seat3DShape]
-	OnAfterSeat3DShapeDeleteCallback OnAfterDeleteInterface[Seat3DShape]
-	OnAfterSeat3DShapeReadCallback   OnAfterReadInterface[Seat3DShape]
+	OnAfterSeat3DShapeCreateCallback GongOnAfterCreateInterface[Seat3DShape]
+	OnAfterSeat3DShapeUpdateCallback GongOnAfterUpdateInterface[Seat3DShape]
+	OnAfterSeat3DShapeDeleteCallback GongOnAfterDeleteInterface[Seat3DShape]
+	OnAfterSeat3DShapeReadCallback   GongOnAfterReadInterface[Seat3DShape]
 
 	SeatAndLegs3DShapes                map[*SeatAndLegs3DShape]struct{}
 	SeatAndLegs3DShapes_instance       map[*SeatAndLegs3DShape]*SeatAndLegs3DShape
@@ -1369,10 +1378,10 @@ type Stage struct {
 	SeatAndLegs3DShapes_referenceOrder map[*SeatAndLegs3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSeatAndLegs3DShapeCreateCallback OnAfterCreateInterface[SeatAndLegs3DShape]
-	OnAfterSeatAndLegs3DShapeUpdateCallback OnAfterUpdateInterface[SeatAndLegs3DShape]
-	OnAfterSeatAndLegs3DShapeDeleteCallback OnAfterDeleteInterface[SeatAndLegs3DShape]
-	OnAfterSeatAndLegs3DShapeReadCallback   OnAfterReadInterface[SeatAndLegs3DShape]
+	OnAfterSeatAndLegs3DShapeCreateCallback GongOnAfterCreateInterface[SeatAndLegs3DShape]
+	OnAfterSeatAndLegs3DShapeUpdateCallback GongOnAfterUpdateInterface[SeatAndLegs3DShape]
+	OnAfterSeatAndLegs3DShapeDeleteCallback GongOnAfterDeleteInterface[SeatAndLegs3DShape]
+	OnAfterSeatAndLegs3DShapeReadCallback   GongOnAfterReadInterface[SeatAndLegs3DShape]
 
 	SeatBottomCurveShapes                map[*SeatBottomCurveShape]struct{}
 	SeatBottomCurveShapes_instance       map[*SeatBottomCurveShape]*SeatBottomCurveShape
@@ -1384,10 +1393,10 @@ type Stage struct {
 	SeatBottomCurveShapes_referenceOrder map[*SeatBottomCurveShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSeatBottomCurveShapeCreateCallback OnAfterCreateInterface[SeatBottomCurveShape]
-	OnAfterSeatBottomCurveShapeUpdateCallback OnAfterUpdateInterface[SeatBottomCurveShape]
-	OnAfterSeatBottomCurveShapeDeleteCallback OnAfterDeleteInterface[SeatBottomCurveShape]
-	OnAfterSeatBottomCurveShapeReadCallback   OnAfterReadInterface[SeatBottomCurveShape]
+	OnAfterSeatBottomCurveShapeCreateCallback GongOnAfterCreateInterface[SeatBottomCurveShape]
+	OnAfterSeatBottomCurveShapeUpdateCallback GongOnAfterUpdateInterface[SeatBottomCurveShape]
+	OnAfterSeatBottomCurveShapeDeleteCallback GongOnAfterDeleteInterface[SeatBottomCurveShape]
+	OnAfterSeatBottomCurveShapeReadCallback   GongOnAfterReadInterface[SeatBottomCurveShape]
 
 	SeatTopCurveShapes                map[*SeatTopCurveShape]struct{}
 	SeatTopCurveShapes_instance       map[*SeatTopCurveShape]*SeatTopCurveShape
@@ -1399,10 +1408,10 @@ type Stage struct {
 	SeatTopCurveShapes_referenceOrder map[*SeatTopCurveShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSeatTopCurveShapeCreateCallback OnAfterCreateInterface[SeatTopCurveShape]
-	OnAfterSeatTopCurveShapeUpdateCallback OnAfterUpdateInterface[SeatTopCurveShape]
-	OnAfterSeatTopCurveShapeDeleteCallback OnAfterDeleteInterface[SeatTopCurveShape]
-	OnAfterSeatTopCurveShapeReadCallback   OnAfterReadInterface[SeatTopCurveShape]
+	OnAfterSeatTopCurveShapeCreateCallback GongOnAfterCreateInterface[SeatTopCurveShape]
+	OnAfterSeatTopCurveShapeUpdateCallback GongOnAfterUpdateInterface[SeatTopCurveShape]
+	OnAfterSeatTopCurveShapeDeleteCallback GongOnAfterDeleteInterface[SeatTopCurveShape]
+	OnAfterSeatTopCurveShapeReadCallback   GongOnAfterReadInterface[SeatTopCurveShape]
 
 	ShiftedBottomTopStartArcShapes                map[*ShiftedBottomTopStartArcShape]struct{}
 	ShiftedBottomTopStartArcShapes_instance       map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape
@@ -1414,10 +1423,10 @@ type Stage struct {
 	ShiftedBottomTopStartArcShapes_referenceOrder map[*ShiftedBottomTopStartArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterShiftedBottomTopStartArcShapeCreateCallback OnAfterCreateInterface[ShiftedBottomTopStartArcShape]
-	OnAfterShiftedBottomTopStartArcShapeUpdateCallback OnAfterUpdateInterface[ShiftedBottomTopStartArcShape]
-	OnAfterShiftedBottomTopStartArcShapeDeleteCallback OnAfterDeleteInterface[ShiftedBottomTopStartArcShape]
-	OnAfterShiftedBottomTopStartArcShapeReadCallback   OnAfterReadInterface[ShiftedBottomTopStartArcShape]
+	OnAfterShiftedBottomTopStartArcShapeCreateCallback GongOnAfterCreateInterface[ShiftedBottomTopStartArcShape]
+	OnAfterShiftedBottomTopStartArcShapeUpdateCallback GongOnAfterUpdateInterface[ShiftedBottomTopStartArcShape]
+	OnAfterShiftedBottomTopStartArcShapeDeleteCallback GongOnAfterDeleteInterface[ShiftedBottomTopStartArcShape]
+	OnAfterShiftedBottomTopStartArcShapeReadCallback   GongOnAfterReadInterface[ShiftedBottomTopStartArcShape]
 
 	ShiftedBottomTopStartArcShapeGrids                map[*ShiftedBottomTopStartArcShapeGrid]struct{}
 	ShiftedBottomTopStartArcShapeGrids_instance       map[*ShiftedBottomTopStartArcShapeGrid]*ShiftedBottomTopStartArcShapeGrid
@@ -1431,10 +1440,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	ShiftedBottomTopStartArcShapeGrid_ShiftedBottomTopStartArcShapes_reverseMap map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShapeGrid
 
-	OnAfterShiftedBottomTopStartArcShapeGridCreateCallback OnAfterCreateInterface[ShiftedBottomTopStartArcShapeGrid]
-	OnAfterShiftedBottomTopStartArcShapeGridUpdateCallback OnAfterUpdateInterface[ShiftedBottomTopStartArcShapeGrid]
-	OnAfterShiftedBottomTopStartArcShapeGridDeleteCallback OnAfterDeleteInterface[ShiftedBottomTopStartArcShapeGrid]
-	OnAfterShiftedBottomTopStartArcShapeGridReadCallback   OnAfterReadInterface[ShiftedBottomTopStartArcShapeGrid]
+	OnAfterShiftedBottomTopStartArcShapeGridCreateCallback GongOnAfterCreateInterface[ShiftedBottomTopStartArcShapeGrid]
+	OnAfterShiftedBottomTopStartArcShapeGridUpdateCallback GongOnAfterUpdateInterface[ShiftedBottomTopStartArcShapeGrid]
+	OnAfterShiftedBottomTopStartArcShapeGridDeleteCallback GongOnAfterDeleteInterface[ShiftedBottomTopStartArcShapeGrid]
+	OnAfterShiftedBottomTopStartArcShapeGridReadCallback   GongOnAfterReadInterface[ShiftedBottomTopStartArcShapeGrid]
 
 	ShiftedLeftGrowthCurve2DRibbons                map[*ShiftedLeftGrowthCurve2DRibbon]struct{}
 	ShiftedLeftGrowthCurve2DRibbons_instance       map[*ShiftedLeftGrowthCurve2DRibbon]*ShiftedLeftGrowthCurve2DRibbon
@@ -1450,10 +1459,10 @@ type Stage struct {
 
 	ShiftedLeftGrowthCurve2DRibbon_ShiftedLeftGrowthCurve2DRibbonEndShapes_reverseMap map[*ShiftedLeftGrowthCurve2DRibbonEndShape]*ShiftedLeftGrowthCurve2DRibbon
 
-	OnAfterShiftedLeftGrowthCurve2DRibbonCreateCallback OnAfterCreateInterface[ShiftedLeftGrowthCurve2DRibbon]
-	OnAfterShiftedLeftGrowthCurve2DRibbonUpdateCallback OnAfterUpdateInterface[ShiftedLeftGrowthCurve2DRibbon]
-	OnAfterShiftedLeftGrowthCurve2DRibbonDeleteCallback OnAfterDeleteInterface[ShiftedLeftGrowthCurve2DRibbon]
-	OnAfterShiftedLeftGrowthCurve2DRibbonReadCallback   OnAfterReadInterface[ShiftedLeftGrowthCurve2DRibbon]
+	OnAfterShiftedLeftGrowthCurve2DRibbonCreateCallback GongOnAfterCreateInterface[ShiftedLeftGrowthCurve2DRibbon]
+	OnAfterShiftedLeftGrowthCurve2DRibbonUpdateCallback GongOnAfterUpdateInterface[ShiftedLeftGrowthCurve2DRibbon]
+	OnAfterShiftedLeftGrowthCurve2DRibbonDeleteCallback GongOnAfterDeleteInterface[ShiftedLeftGrowthCurve2DRibbon]
+	OnAfterShiftedLeftGrowthCurve2DRibbonReadCallback   GongOnAfterReadInterface[ShiftedLeftGrowthCurve2DRibbon]
 
 	ShiftedLeftGrowthCurve2DRibbonEndShapes                map[*ShiftedLeftGrowthCurve2DRibbonEndShape]struct{}
 	ShiftedLeftGrowthCurve2DRibbonEndShapes_instance       map[*ShiftedLeftGrowthCurve2DRibbonEndShape]*ShiftedLeftGrowthCurve2DRibbonEndShape
@@ -1465,10 +1474,10 @@ type Stage struct {
 	ShiftedLeftGrowthCurve2DRibbonEndShapes_referenceOrder map[*ShiftedLeftGrowthCurve2DRibbonEndShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterShiftedLeftGrowthCurve2DRibbonEndShapeCreateCallback OnAfterCreateInterface[ShiftedLeftGrowthCurve2DRibbonEndShape]
-	OnAfterShiftedLeftGrowthCurve2DRibbonEndShapeUpdateCallback OnAfterUpdateInterface[ShiftedLeftGrowthCurve2DRibbonEndShape]
-	OnAfterShiftedLeftGrowthCurve2DRibbonEndShapeDeleteCallback OnAfterDeleteInterface[ShiftedLeftGrowthCurve2DRibbonEndShape]
-	OnAfterShiftedLeftGrowthCurve2DRibbonEndShapeReadCallback   OnAfterReadInterface[ShiftedLeftGrowthCurve2DRibbonEndShape]
+	OnAfterShiftedLeftGrowthCurve2DRibbonEndShapeCreateCallback GongOnAfterCreateInterface[ShiftedLeftGrowthCurve2DRibbonEndShape]
+	OnAfterShiftedLeftGrowthCurve2DRibbonEndShapeUpdateCallback GongOnAfterUpdateInterface[ShiftedLeftGrowthCurve2DRibbonEndShape]
+	OnAfterShiftedLeftGrowthCurve2DRibbonEndShapeDeleteCallback GongOnAfterDeleteInterface[ShiftedLeftGrowthCurve2DRibbonEndShape]
+	OnAfterShiftedLeftGrowthCurve2DRibbonEndShapeReadCallback   GongOnAfterReadInterface[ShiftedLeftGrowthCurve2DRibbonEndShape]
 
 	ShiftedLeftGrowthCurve2DRibbonStartShapes                map[*ShiftedLeftGrowthCurve2DRibbonStartShape]struct{}
 	ShiftedLeftGrowthCurve2DRibbonStartShapes_instance       map[*ShiftedLeftGrowthCurve2DRibbonStartShape]*ShiftedLeftGrowthCurve2DRibbonStartShape
@@ -1480,10 +1489,10 @@ type Stage struct {
 	ShiftedLeftGrowthCurve2DRibbonStartShapes_referenceOrder map[*ShiftedLeftGrowthCurve2DRibbonStartShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterShiftedLeftGrowthCurve2DRibbonStartShapeCreateCallback OnAfterCreateInterface[ShiftedLeftGrowthCurve2DRibbonStartShape]
-	OnAfterShiftedLeftGrowthCurve2DRibbonStartShapeUpdateCallback OnAfterUpdateInterface[ShiftedLeftGrowthCurve2DRibbonStartShape]
-	OnAfterShiftedLeftGrowthCurve2DRibbonStartShapeDeleteCallback OnAfterDeleteInterface[ShiftedLeftGrowthCurve2DRibbonStartShape]
-	OnAfterShiftedLeftGrowthCurve2DRibbonStartShapeReadCallback   OnAfterReadInterface[ShiftedLeftGrowthCurve2DRibbonStartShape]
+	OnAfterShiftedLeftGrowthCurve2DRibbonStartShapeCreateCallback GongOnAfterCreateInterface[ShiftedLeftGrowthCurve2DRibbonStartShape]
+	OnAfterShiftedLeftGrowthCurve2DRibbonStartShapeUpdateCallback GongOnAfterUpdateInterface[ShiftedLeftGrowthCurve2DRibbonStartShape]
+	OnAfterShiftedLeftGrowthCurve2DRibbonStartShapeDeleteCallback GongOnAfterDeleteInterface[ShiftedLeftGrowthCurve2DRibbonStartShape]
+	OnAfterShiftedLeftGrowthCurve2DRibbonStartShapeReadCallback   GongOnAfterReadInterface[ShiftedLeftGrowthCurve2DRibbonStartShape]
 
 	ShiftedLeftPartiallyGrowthCurve2DRibbons                map[*ShiftedLeftPartiallyGrowthCurve2DRibbon]struct{}
 	ShiftedLeftPartiallyGrowthCurve2DRibbons_instance       map[*ShiftedLeftPartiallyGrowthCurve2DRibbon]*ShiftedLeftPartiallyGrowthCurve2DRibbon
@@ -1499,10 +1508,10 @@ type Stage struct {
 
 	ShiftedLeftPartiallyGrowthCurve2DRibbon_ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes_reverseMap map[*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]*ShiftedLeftPartiallyGrowthCurve2DRibbon
 
-	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonCreateCallback OnAfterCreateInterface[ShiftedLeftPartiallyGrowthCurve2DRibbon]
-	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonUpdateCallback OnAfterUpdateInterface[ShiftedLeftPartiallyGrowthCurve2DRibbon]
-	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonDeleteCallback OnAfterDeleteInterface[ShiftedLeftPartiallyGrowthCurve2DRibbon]
-	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonReadCallback   OnAfterReadInterface[ShiftedLeftPartiallyGrowthCurve2DRibbon]
+	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonCreateCallback GongOnAfterCreateInterface[ShiftedLeftPartiallyGrowthCurve2DRibbon]
+	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonUpdateCallback GongOnAfterUpdateInterface[ShiftedLeftPartiallyGrowthCurve2DRibbon]
+	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonDeleteCallback GongOnAfterDeleteInterface[ShiftedLeftPartiallyGrowthCurve2DRibbon]
+	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonReadCallback   GongOnAfterReadInterface[ShiftedLeftPartiallyGrowthCurve2DRibbon]
 
 	ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes                map[*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]struct{}
 	ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes_instance       map[*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape
@@ -1514,10 +1523,10 @@ type Stage struct {
 	ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes_referenceOrder map[*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonEndShapeCreateCallback OnAfterCreateInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]
-	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonEndShapeUpdateCallback OnAfterUpdateInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]
-	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonEndShapeDeleteCallback OnAfterDeleteInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]
-	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonEndShapeReadCallback   OnAfterReadInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]
+	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonEndShapeCreateCallback GongOnAfterCreateInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]
+	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonEndShapeUpdateCallback GongOnAfterUpdateInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]
+	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonEndShapeDeleteCallback GongOnAfterDeleteInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]
+	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonEndShapeReadCallback   GongOnAfterReadInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]
 
 	ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes                map[*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]struct{}
 	ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes_instance       map[*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape
@@ -1529,10 +1538,10 @@ type Stage struct {
 	ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes_referenceOrder map[*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonStartShapeCreateCallback OnAfterCreateInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]
-	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonStartShapeUpdateCallback OnAfterUpdateInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]
-	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonStartShapeDeleteCallback OnAfterDeleteInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]
-	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonStartShapeReadCallback   OnAfterReadInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]
+	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonStartShapeCreateCallback GongOnAfterCreateInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]
+	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonStartShapeUpdateCallback GongOnAfterUpdateInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]
+	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonStartShapeDeleteCallback GongOnAfterDeleteInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]
+	OnAfterShiftedLeftPartiallyGrowthCurve2DRibbonStartShapeReadCallback   GongOnAfterReadInterface[ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]
 
 	ShiftedLeftStackGrowthCurveEndArcShapes                map[*ShiftedLeftStackGrowthCurveEndArcShape]struct{}
 	ShiftedLeftStackGrowthCurveEndArcShapes_instance       map[*ShiftedLeftStackGrowthCurveEndArcShape]*ShiftedLeftStackGrowthCurveEndArcShape
@@ -1544,10 +1553,10 @@ type Stage struct {
 	ShiftedLeftStackGrowthCurveEndArcShapes_referenceOrder map[*ShiftedLeftStackGrowthCurveEndArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterShiftedLeftStackGrowthCurveEndArcShapeCreateCallback OnAfterCreateInterface[ShiftedLeftStackGrowthCurveEndArcShape]
-	OnAfterShiftedLeftStackGrowthCurveEndArcShapeUpdateCallback OnAfterUpdateInterface[ShiftedLeftStackGrowthCurveEndArcShape]
-	OnAfterShiftedLeftStackGrowthCurveEndArcShapeDeleteCallback OnAfterDeleteInterface[ShiftedLeftStackGrowthCurveEndArcShape]
-	OnAfterShiftedLeftStackGrowthCurveEndArcShapeReadCallback   OnAfterReadInterface[ShiftedLeftStackGrowthCurveEndArcShape]
+	OnAfterShiftedLeftStackGrowthCurveEndArcShapeCreateCallback GongOnAfterCreateInterface[ShiftedLeftStackGrowthCurveEndArcShape]
+	OnAfterShiftedLeftStackGrowthCurveEndArcShapeUpdateCallback GongOnAfterUpdateInterface[ShiftedLeftStackGrowthCurveEndArcShape]
+	OnAfterShiftedLeftStackGrowthCurveEndArcShapeDeleteCallback GongOnAfterDeleteInterface[ShiftedLeftStackGrowthCurveEndArcShape]
+	OnAfterShiftedLeftStackGrowthCurveEndArcShapeReadCallback   GongOnAfterReadInterface[ShiftedLeftStackGrowthCurveEndArcShape]
 
 	ShiftedLeftStackGrowthCurveStartArcShapes                map[*ShiftedLeftStackGrowthCurveStartArcShape]struct{}
 	ShiftedLeftStackGrowthCurveStartArcShapes_instance       map[*ShiftedLeftStackGrowthCurveStartArcShape]*ShiftedLeftStackGrowthCurveStartArcShape
@@ -1559,10 +1568,10 @@ type Stage struct {
 	ShiftedLeftStackGrowthCurveStartArcShapes_referenceOrder map[*ShiftedLeftStackGrowthCurveStartArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterShiftedLeftStackGrowthCurveStartArcShapeCreateCallback OnAfterCreateInterface[ShiftedLeftStackGrowthCurveStartArcShape]
-	OnAfterShiftedLeftStackGrowthCurveStartArcShapeUpdateCallback OnAfterUpdateInterface[ShiftedLeftStackGrowthCurveStartArcShape]
-	OnAfterShiftedLeftStackGrowthCurveStartArcShapeDeleteCallback OnAfterDeleteInterface[ShiftedLeftStackGrowthCurveStartArcShape]
-	OnAfterShiftedLeftStackGrowthCurveStartArcShapeReadCallback   OnAfterReadInterface[ShiftedLeftStackGrowthCurveStartArcShape]
+	OnAfterShiftedLeftStackGrowthCurveStartArcShapeCreateCallback GongOnAfterCreateInterface[ShiftedLeftStackGrowthCurveStartArcShape]
+	OnAfterShiftedLeftStackGrowthCurveStartArcShapeUpdateCallback GongOnAfterUpdateInterface[ShiftedLeftStackGrowthCurveStartArcShape]
+	OnAfterShiftedLeftStackGrowthCurveStartArcShapeDeleteCallback GongOnAfterDeleteInterface[ShiftedLeftStackGrowthCurveStartArcShape]
+	OnAfterShiftedLeftStackGrowthCurveStartArcShapeReadCallback   GongOnAfterReadInterface[ShiftedLeftStackGrowthCurveStartArcShape]
 
 	ShiftedLeftStackNormalVectors                map[*ShiftedLeftStackNormalVector]struct{}
 	ShiftedLeftStackNormalVectors_instance       map[*ShiftedLeftStackNormalVector]*ShiftedLeftStackNormalVector
@@ -1574,10 +1583,10 @@ type Stage struct {
 	ShiftedLeftStackNormalVectors_referenceOrder map[*ShiftedLeftStackNormalVector]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterShiftedLeftStackNormalVectorCreateCallback OnAfterCreateInterface[ShiftedLeftStackNormalVector]
-	OnAfterShiftedLeftStackNormalVectorUpdateCallback OnAfterUpdateInterface[ShiftedLeftStackNormalVector]
-	OnAfterShiftedLeftStackNormalVectorDeleteCallback OnAfterDeleteInterface[ShiftedLeftStackNormalVector]
-	OnAfterShiftedLeftStackNormalVectorReadCallback   OnAfterReadInterface[ShiftedLeftStackNormalVector]
+	OnAfterShiftedLeftStackNormalVectorCreateCallback GongOnAfterCreateInterface[ShiftedLeftStackNormalVector]
+	OnAfterShiftedLeftStackNormalVectorUpdateCallback GongOnAfterUpdateInterface[ShiftedLeftStackNormalVector]
+	OnAfterShiftedLeftStackNormalVectorDeleteCallback GongOnAfterDeleteInterface[ShiftedLeftStackNormalVector]
+	OnAfterShiftedLeftStackNormalVectorReadCallback   GongOnAfterReadInterface[ShiftedLeftStackNormalVector]
 
 	ShiftedLeftStackOfGrowthCurves                map[*ShiftedLeftStackOfGrowthCurve]struct{}
 	ShiftedLeftStackOfGrowthCurves_instance       map[*ShiftedLeftStackOfGrowthCurve]*ShiftedLeftStackOfGrowthCurve
@@ -1593,10 +1602,10 @@ type Stage struct {
 
 	ShiftedLeftStackOfGrowthCurve_ShiftedLeftStackGrowthCurveEndArcShapes_reverseMap map[*ShiftedLeftStackGrowthCurveEndArcShape]*ShiftedLeftStackOfGrowthCurve
 
-	OnAfterShiftedLeftStackOfGrowthCurveCreateCallback OnAfterCreateInterface[ShiftedLeftStackOfGrowthCurve]
-	OnAfterShiftedLeftStackOfGrowthCurveUpdateCallback OnAfterUpdateInterface[ShiftedLeftStackOfGrowthCurve]
-	OnAfterShiftedLeftStackOfGrowthCurveDeleteCallback OnAfterDeleteInterface[ShiftedLeftStackOfGrowthCurve]
-	OnAfterShiftedLeftStackOfGrowthCurveReadCallback   OnAfterReadInterface[ShiftedLeftStackOfGrowthCurve]
+	OnAfterShiftedLeftStackOfGrowthCurveCreateCallback GongOnAfterCreateInterface[ShiftedLeftStackOfGrowthCurve]
+	OnAfterShiftedLeftStackOfGrowthCurveUpdateCallback GongOnAfterUpdateInterface[ShiftedLeftStackOfGrowthCurve]
+	OnAfterShiftedLeftStackOfGrowthCurveDeleteCallback GongOnAfterDeleteInterface[ShiftedLeftStackOfGrowthCurve]
+	OnAfterShiftedLeftStackOfGrowthCurveReadCallback   GongOnAfterReadInterface[ShiftedLeftStackOfGrowthCurve]
 
 	ShiftedLeftStackOfNormalVectors                map[*ShiftedLeftStackOfNormalVector]struct{}
 	ShiftedLeftStackOfNormalVectors_instance       map[*ShiftedLeftStackOfNormalVector]*ShiftedLeftStackOfNormalVector
@@ -1610,10 +1619,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	ShiftedLeftStackOfNormalVector_ShiftedLeftStackNormalVectors_reverseMap map[*ShiftedLeftStackNormalVector]*ShiftedLeftStackOfNormalVector
 
-	OnAfterShiftedLeftStackOfNormalVectorCreateCallback OnAfterCreateInterface[ShiftedLeftStackOfNormalVector]
-	OnAfterShiftedLeftStackOfNormalVectorUpdateCallback OnAfterUpdateInterface[ShiftedLeftStackOfNormalVector]
-	OnAfterShiftedLeftStackOfNormalVectorDeleteCallback OnAfterDeleteInterface[ShiftedLeftStackOfNormalVector]
-	OnAfterShiftedLeftStackOfNormalVectorReadCallback   OnAfterReadInterface[ShiftedLeftStackOfNormalVector]
+	OnAfterShiftedLeftStackOfNormalVectorCreateCallback GongOnAfterCreateInterface[ShiftedLeftStackOfNormalVector]
+	OnAfterShiftedLeftStackOfNormalVectorUpdateCallback GongOnAfterUpdateInterface[ShiftedLeftStackOfNormalVector]
+	OnAfterShiftedLeftStackOfNormalVectorDeleteCallback GongOnAfterDeleteInterface[ShiftedLeftStackOfNormalVector]
+	OnAfterShiftedLeftStackOfNormalVectorReadCallback   GongOnAfterReadInterface[ShiftedLeftStackOfNormalVector]
 
 	ShiftedRightGrowthCurve2DRibbons                map[*ShiftedRightGrowthCurve2DRibbon]struct{}
 	ShiftedRightGrowthCurve2DRibbons_instance       map[*ShiftedRightGrowthCurve2DRibbon]*ShiftedRightGrowthCurve2DRibbon
@@ -1629,10 +1638,10 @@ type Stage struct {
 
 	ShiftedRightGrowthCurve2DRibbon_ShiftedRightGrowthCurve2DRibbonEndShapes_reverseMap map[*ShiftedRightGrowthCurve2DRibbonEndShape]*ShiftedRightGrowthCurve2DRibbon
 
-	OnAfterShiftedRightGrowthCurve2DRibbonCreateCallback OnAfterCreateInterface[ShiftedRightGrowthCurve2DRibbon]
-	OnAfterShiftedRightGrowthCurve2DRibbonUpdateCallback OnAfterUpdateInterface[ShiftedRightGrowthCurve2DRibbon]
-	OnAfterShiftedRightGrowthCurve2DRibbonDeleteCallback OnAfterDeleteInterface[ShiftedRightGrowthCurve2DRibbon]
-	OnAfterShiftedRightGrowthCurve2DRibbonReadCallback   OnAfterReadInterface[ShiftedRightGrowthCurve2DRibbon]
+	OnAfterShiftedRightGrowthCurve2DRibbonCreateCallback GongOnAfterCreateInterface[ShiftedRightGrowthCurve2DRibbon]
+	OnAfterShiftedRightGrowthCurve2DRibbonUpdateCallback GongOnAfterUpdateInterface[ShiftedRightGrowthCurve2DRibbon]
+	OnAfterShiftedRightGrowthCurve2DRibbonDeleteCallback GongOnAfterDeleteInterface[ShiftedRightGrowthCurve2DRibbon]
+	OnAfterShiftedRightGrowthCurve2DRibbonReadCallback   GongOnAfterReadInterface[ShiftedRightGrowthCurve2DRibbon]
 
 	ShiftedRightGrowthCurve2DRibbonEndShapes                map[*ShiftedRightGrowthCurve2DRibbonEndShape]struct{}
 	ShiftedRightGrowthCurve2DRibbonEndShapes_instance       map[*ShiftedRightGrowthCurve2DRibbonEndShape]*ShiftedRightGrowthCurve2DRibbonEndShape
@@ -1644,10 +1653,10 @@ type Stage struct {
 	ShiftedRightGrowthCurve2DRibbonEndShapes_referenceOrder map[*ShiftedRightGrowthCurve2DRibbonEndShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterShiftedRightGrowthCurve2DRibbonEndShapeCreateCallback OnAfterCreateInterface[ShiftedRightGrowthCurve2DRibbonEndShape]
-	OnAfterShiftedRightGrowthCurve2DRibbonEndShapeUpdateCallback OnAfterUpdateInterface[ShiftedRightGrowthCurve2DRibbonEndShape]
-	OnAfterShiftedRightGrowthCurve2DRibbonEndShapeDeleteCallback OnAfterDeleteInterface[ShiftedRightGrowthCurve2DRibbonEndShape]
-	OnAfterShiftedRightGrowthCurve2DRibbonEndShapeReadCallback   OnAfterReadInterface[ShiftedRightGrowthCurve2DRibbonEndShape]
+	OnAfterShiftedRightGrowthCurve2DRibbonEndShapeCreateCallback GongOnAfterCreateInterface[ShiftedRightGrowthCurve2DRibbonEndShape]
+	OnAfterShiftedRightGrowthCurve2DRibbonEndShapeUpdateCallback GongOnAfterUpdateInterface[ShiftedRightGrowthCurve2DRibbonEndShape]
+	OnAfterShiftedRightGrowthCurve2DRibbonEndShapeDeleteCallback GongOnAfterDeleteInterface[ShiftedRightGrowthCurve2DRibbonEndShape]
+	OnAfterShiftedRightGrowthCurve2DRibbonEndShapeReadCallback   GongOnAfterReadInterface[ShiftedRightGrowthCurve2DRibbonEndShape]
 
 	ShiftedRightGrowthCurve2DRibbonStartShapes                map[*ShiftedRightGrowthCurve2DRibbonStartShape]struct{}
 	ShiftedRightGrowthCurve2DRibbonStartShapes_instance       map[*ShiftedRightGrowthCurve2DRibbonStartShape]*ShiftedRightGrowthCurve2DRibbonStartShape
@@ -1659,10 +1668,10 @@ type Stage struct {
 	ShiftedRightGrowthCurve2DRibbonStartShapes_referenceOrder map[*ShiftedRightGrowthCurve2DRibbonStartShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterShiftedRightGrowthCurve2DRibbonStartShapeCreateCallback OnAfterCreateInterface[ShiftedRightGrowthCurve2DRibbonStartShape]
-	OnAfterShiftedRightGrowthCurve2DRibbonStartShapeUpdateCallback OnAfterUpdateInterface[ShiftedRightGrowthCurve2DRibbonStartShape]
-	OnAfterShiftedRightGrowthCurve2DRibbonStartShapeDeleteCallback OnAfterDeleteInterface[ShiftedRightGrowthCurve2DRibbonStartShape]
-	OnAfterShiftedRightGrowthCurve2DRibbonStartShapeReadCallback   OnAfterReadInterface[ShiftedRightGrowthCurve2DRibbonStartShape]
+	OnAfterShiftedRightGrowthCurve2DRibbonStartShapeCreateCallback GongOnAfterCreateInterface[ShiftedRightGrowthCurve2DRibbonStartShape]
+	OnAfterShiftedRightGrowthCurve2DRibbonStartShapeUpdateCallback GongOnAfterUpdateInterface[ShiftedRightGrowthCurve2DRibbonStartShape]
+	OnAfterShiftedRightGrowthCurve2DRibbonStartShapeDeleteCallback GongOnAfterDeleteInterface[ShiftedRightGrowthCurve2DRibbonStartShape]
+	OnAfterShiftedRightGrowthCurve2DRibbonStartShapeReadCallback   GongOnAfterReadInterface[ShiftedRightGrowthCurve2DRibbonStartShape]
 
 	StackGrowthCurve2DEndHalfwayArcShapes                map[*StackGrowthCurve2DEndHalfwayArcShape]struct{}
 	StackGrowthCurve2DEndHalfwayArcShapes_instance       map[*StackGrowthCurve2DEndHalfwayArcShape]*StackGrowthCurve2DEndHalfwayArcShape
@@ -1674,10 +1683,10 @@ type Stage struct {
 	StackGrowthCurve2DEndHalfwayArcShapes_referenceOrder map[*StackGrowthCurve2DEndHalfwayArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStackGrowthCurve2DEndHalfwayArcShapeCreateCallback OnAfterCreateInterface[StackGrowthCurve2DEndHalfwayArcShape]
-	OnAfterStackGrowthCurve2DEndHalfwayArcShapeUpdateCallback OnAfterUpdateInterface[StackGrowthCurve2DEndHalfwayArcShape]
-	OnAfterStackGrowthCurve2DEndHalfwayArcShapeDeleteCallback OnAfterDeleteInterface[StackGrowthCurve2DEndHalfwayArcShape]
-	OnAfterStackGrowthCurve2DEndHalfwayArcShapeReadCallback   OnAfterReadInterface[StackGrowthCurve2DEndHalfwayArcShape]
+	OnAfterStackGrowthCurve2DEndHalfwayArcShapeCreateCallback GongOnAfterCreateInterface[StackGrowthCurve2DEndHalfwayArcShape]
+	OnAfterStackGrowthCurve2DEndHalfwayArcShapeUpdateCallback GongOnAfterUpdateInterface[StackGrowthCurve2DEndHalfwayArcShape]
+	OnAfterStackGrowthCurve2DEndHalfwayArcShapeDeleteCallback GongOnAfterDeleteInterface[StackGrowthCurve2DEndHalfwayArcShape]
+	OnAfterStackGrowthCurve2DEndHalfwayArcShapeReadCallback   GongOnAfterReadInterface[StackGrowthCurve2DEndHalfwayArcShape]
 
 	StackGrowthCurve2DRibbonEndShapes                map[*StackGrowthCurve2DRibbonEndShape]struct{}
 	StackGrowthCurve2DRibbonEndShapes_instance       map[*StackGrowthCurve2DRibbonEndShape]*StackGrowthCurve2DRibbonEndShape
@@ -1689,10 +1698,10 @@ type Stage struct {
 	StackGrowthCurve2DRibbonEndShapes_referenceOrder map[*StackGrowthCurve2DRibbonEndShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStackGrowthCurve2DRibbonEndShapeCreateCallback OnAfterCreateInterface[StackGrowthCurve2DRibbonEndShape]
-	OnAfterStackGrowthCurve2DRibbonEndShapeUpdateCallback OnAfterUpdateInterface[StackGrowthCurve2DRibbonEndShape]
-	OnAfterStackGrowthCurve2DRibbonEndShapeDeleteCallback OnAfterDeleteInterface[StackGrowthCurve2DRibbonEndShape]
-	OnAfterStackGrowthCurve2DRibbonEndShapeReadCallback   OnAfterReadInterface[StackGrowthCurve2DRibbonEndShape]
+	OnAfterStackGrowthCurve2DRibbonEndShapeCreateCallback GongOnAfterCreateInterface[StackGrowthCurve2DRibbonEndShape]
+	OnAfterStackGrowthCurve2DRibbonEndShapeUpdateCallback GongOnAfterUpdateInterface[StackGrowthCurve2DRibbonEndShape]
+	OnAfterStackGrowthCurve2DRibbonEndShapeDeleteCallback GongOnAfterDeleteInterface[StackGrowthCurve2DRibbonEndShape]
+	OnAfterStackGrowthCurve2DRibbonEndShapeReadCallback   GongOnAfterReadInterface[StackGrowthCurve2DRibbonEndShape]
 
 	StackGrowthCurve2DRibbonStartShapes                map[*StackGrowthCurve2DRibbonStartShape]struct{}
 	StackGrowthCurve2DRibbonStartShapes_instance       map[*StackGrowthCurve2DRibbonStartShape]*StackGrowthCurve2DRibbonStartShape
@@ -1704,10 +1713,10 @@ type Stage struct {
 	StackGrowthCurve2DRibbonStartShapes_referenceOrder map[*StackGrowthCurve2DRibbonStartShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStackGrowthCurve2DRibbonStartShapeCreateCallback OnAfterCreateInterface[StackGrowthCurve2DRibbonStartShape]
-	OnAfterStackGrowthCurve2DRibbonStartShapeUpdateCallback OnAfterUpdateInterface[StackGrowthCurve2DRibbonStartShape]
-	OnAfterStackGrowthCurve2DRibbonStartShapeDeleteCallback OnAfterDeleteInterface[StackGrowthCurve2DRibbonStartShape]
-	OnAfterStackGrowthCurve2DRibbonStartShapeReadCallback   OnAfterReadInterface[StackGrowthCurve2DRibbonStartShape]
+	OnAfterStackGrowthCurve2DRibbonStartShapeCreateCallback GongOnAfterCreateInterface[StackGrowthCurve2DRibbonStartShape]
+	OnAfterStackGrowthCurve2DRibbonStartShapeUpdateCallback GongOnAfterUpdateInterface[StackGrowthCurve2DRibbonStartShape]
+	OnAfterStackGrowthCurve2DRibbonStartShapeDeleteCallback GongOnAfterDeleteInterface[StackGrowthCurve2DRibbonStartShape]
+	OnAfterStackGrowthCurve2DRibbonStartShapeReadCallback   GongOnAfterReadInterface[StackGrowthCurve2DRibbonStartShape]
 
 	StackGrowthCurve2DStartHalfwayArcShapes                map[*StackGrowthCurve2DStartHalfwayArcShape]struct{}
 	StackGrowthCurve2DStartHalfwayArcShapes_instance       map[*StackGrowthCurve2DStartHalfwayArcShape]*StackGrowthCurve2DStartHalfwayArcShape
@@ -1719,10 +1728,10 @@ type Stage struct {
 	StackGrowthCurve2DStartHalfwayArcShapes_referenceOrder map[*StackGrowthCurve2DStartHalfwayArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStackGrowthCurve2DStartHalfwayArcShapeCreateCallback OnAfterCreateInterface[StackGrowthCurve2DStartHalfwayArcShape]
-	OnAfterStackGrowthCurve2DStartHalfwayArcShapeUpdateCallback OnAfterUpdateInterface[StackGrowthCurve2DStartHalfwayArcShape]
-	OnAfterStackGrowthCurve2DStartHalfwayArcShapeDeleteCallback OnAfterDeleteInterface[StackGrowthCurve2DStartHalfwayArcShape]
-	OnAfterStackGrowthCurve2DStartHalfwayArcShapeReadCallback   OnAfterReadInterface[StackGrowthCurve2DStartHalfwayArcShape]
+	OnAfterStackGrowthCurve2DStartHalfwayArcShapeCreateCallback GongOnAfterCreateInterface[StackGrowthCurve2DStartHalfwayArcShape]
+	OnAfterStackGrowthCurve2DStartHalfwayArcShapeUpdateCallback GongOnAfterUpdateInterface[StackGrowthCurve2DStartHalfwayArcShape]
+	OnAfterStackGrowthCurve2DStartHalfwayArcShapeDeleteCallback GongOnAfterDeleteInterface[StackGrowthCurve2DStartHalfwayArcShape]
+	OnAfterStackGrowthCurve2DStartHalfwayArcShapeReadCallback   GongOnAfterReadInterface[StackGrowthCurve2DStartHalfwayArcShape]
 
 	StackOfGrowthCurve2Ds                map[*StackOfGrowthCurve2D]struct{}
 	StackOfGrowthCurve2Ds_instance       map[*StackOfGrowthCurve2D]*StackOfGrowthCurve2D
@@ -1738,10 +1747,10 @@ type Stage struct {
 
 	StackOfGrowthCurve2D_StackGrowthCurve2DEndHalfwayArcShapes_reverseMap map[*StackGrowthCurve2DEndHalfwayArcShape]*StackOfGrowthCurve2D
 
-	OnAfterStackOfGrowthCurve2DCreateCallback OnAfterCreateInterface[StackOfGrowthCurve2D]
-	OnAfterStackOfGrowthCurve2DUpdateCallback OnAfterUpdateInterface[StackOfGrowthCurve2D]
-	OnAfterStackOfGrowthCurve2DDeleteCallback OnAfterDeleteInterface[StackOfGrowthCurve2D]
-	OnAfterStackOfGrowthCurve2DReadCallback   OnAfterReadInterface[StackOfGrowthCurve2D]
+	OnAfterStackOfGrowthCurve2DCreateCallback GongOnAfterCreateInterface[StackOfGrowthCurve2D]
+	OnAfterStackOfGrowthCurve2DUpdateCallback GongOnAfterUpdateInterface[StackOfGrowthCurve2D]
+	OnAfterStackOfGrowthCurve2DDeleteCallback GongOnAfterDeleteInterface[StackOfGrowthCurve2D]
+	OnAfterStackOfGrowthCurve2DReadCallback   GongOnAfterReadInterface[StackOfGrowthCurve2D]
 
 	StackOfGrowthCurve2DByGrowthVectors                map[*StackOfGrowthCurve2DByGrowthVector]struct{}
 	StackOfGrowthCurve2DByGrowthVectors_instance       map[*StackOfGrowthCurve2DByGrowthVector]*StackOfGrowthCurve2DByGrowthVector
@@ -1753,10 +1762,10 @@ type Stage struct {
 	StackOfGrowthCurve2DByGrowthVectors_referenceOrder map[*StackOfGrowthCurve2DByGrowthVector]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStackOfGrowthCurve2DByGrowthVectorCreateCallback OnAfterCreateInterface[StackOfGrowthCurve2DByGrowthVector]
-	OnAfterStackOfGrowthCurve2DByGrowthVectorUpdateCallback OnAfterUpdateInterface[StackOfGrowthCurve2DByGrowthVector]
-	OnAfterStackOfGrowthCurve2DByGrowthVectorDeleteCallback OnAfterDeleteInterface[StackOfGrowthCurve2DByGrowthVector]
-	OnAfterStackOfGrowthCurve2DByGrowthVectorReadCallback   OnAfterReadInterface[StackOfGrowthCurve2DByGrowthVector]
+	OnAfterStackOfGrowthCurve2DByGrowthVectorCreateCallback GongOnAfterCreateInterface[StackOfGrowthCurve2DByGrowthVector]
+	OnAfterStackOfGrowthCurve2DByGrowthVectorUpdateCallback GongOnAfterUpdateInterface[StackOfGrowthCurve2DByGrowthVector]
+	OnAfterStackOfGrowthCurve2DByGrowthVectorDeleteCallback GongOnAfterDeleteInterface[StackOfGrowthCurve2DByGrowthVector]
+	OnAfterStackOfGrowthCurve2DByGrowthVectorReadCallback   GongOnAfterReadInterface[StackOfGrowthCurve2DByGrowthVector]
 
 	StackOfGrowthCurve2DRibbons                map[*StackOfGrowthCurve2DRibbon]struct{}
 	StackOfGrowthCurve2DRibbons_instance       map[*StackOfGrowthCurve2DRibbon]*StackOfGrowthCurve2DRibbon
@@ -1772,10 +1781,10 @@ type Stage struct {
 
 	StackOfGrowthCurve2DRibbon_StackGrowthCurve2DRibbonEndShapes_reverseMap map[*StackGrowthCurve2DRibbonEndShape]*StackOfGrowthCurve2DRibbon
 
-	OnAfterStackOfGrowthCurve2DRibbonCreateCallback OnAfterCreateInterface[StackOfGrowthCurve2DRibbon]
-	OnAfterStackOfGrowthCurve2DRibbonUpdateCallback OnAfterUpdateInterface[StackOfGrowthCurve2DRibbon]
-	OnAfterStackOfGrowthCurve2DRibbonDeleteCallback OnAfterDeleteInterface[StackOfGrowthCurve2DRibbon]
-	OnAfterStackOfGrowthCurve2DRibbonReadCallback   OnAfterReadInterface[StackOfGrowthCurve2DRibbon]
+	OnAfterStackOfGrowthCurve2DRibbonCreateCallback GongOnAfterCreateInterface[StackOfGrowthCurve2DRibbon]
+	OnAfterStackOfGrowthCurve2DRibbonUpdateCallback GongOnAfterUpdateInterface[StackOfGrowthCurve2DRibbon]
+	OnAfterStackOfGrowthCurve2DRibbonDeleteCallback GongOnAfterDeleteInterface[StackOfGrowthCurve2DRibbon]
+	OnAfterStackOfGrowthCurve2DRibbonReadCallback   GongOnAfterReadInterface[StackOfGrowthCurve2DRibbon]
 
 	StackOfPartiallyRotatedTorusShapes                map[*StackOfPartiallyRotatedTorusShape]struct{}
 	StackOfPartiallyRotatedTorusShapes_instance       map[*StackOfPartiallyRotatedTorusShape]*StackOfPartiallyRotatedTorusShape
@@ -1787,10 +1796,10 @@ type Stage struct {
 	StackOfPartiallyRotatedTorusShapes_referenceOrder map[*StackOfPartiallyRotatedTorusShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStackOfPartiallyRotatedTorusShapeCreateCallback OnAfterCreateInterface[StackOfPartiallyRotatedTorusShape]
-	OnAfterStackOfPartiallyRotatedTorusShapeUpdateCallback OnAfterUpdateInterface[StackOfPartiallyRotatedTorusShape]
-	OnAfterStackOfPartiallyRotatedTorusShapeDeleteCallback OnAfterDeleteInterface[StackOfPartiallyRotatedTorusShape]
-	OnAfterStackOfPartiallyRotatedTorusShapeReadCallback   OnAfterReadInterface[StackOfPartiallyRotatedTorusShape]
+	OnAfterStackOfPartiallyRotatedTorusShapeCreateCallback GongOnAfterCreateInterface[StackOfPartiallyRotatedTorusShape]
+	OnAfterStackOfPartiallyRotatedTorusShapeUpdateCallback GongOnAfterUpdateInterface[StackOfPartiallyRotatedTorusShape]
+	OnAfterStackOfPartiallyRotatedTorusShapeDeleteCallback GongOnAfterDeleteInterface[StackOfPartiallyRotatedTorusShape]
+	OnAfterStackOfPartiallyRotatedTorusShapeReadCallback   GongOnAfterReadInterface[StackOfPartiallyRotatedTorusShape]
 
 	StackOfRotatedGrowthCurve2Ds                map[*StackOfRotatedGrowthCurve2D]struct{}
 	StackOfRotatedGrowthCurve2Ds_instance       map[*StackOfRotatedGrowthCurve2D]*StackOfRotatedGrowthCurve2D
@@ -1806,10 +1815,10 @@ type Stage struct {
 
 	StackOfRotatedGrowthCurve2D_StackRotatedGrowthCurve2DEndArcShapes_reverseMap map[*StackRotatedGrowthCurve2DEndArcShape]*StackOfRotatedGrowthCurve2D
 
-	OnAfterStackOfRotatedGrowthCurve2DCreateCallback OnAfterCreateInterface[StackOfRotatedGrowthCurve2D]
-	OnAfterStackOfRotatedGrowthCurve2DUpdateCallback OnAfterUpdateInterface[StackOfRotatedGrowthCurve2D]
-	OnAfterStackOfRotatedGrowthCurve2DDeleteCallback OnAfterDeleteInterface[StackOfRotatedGrowthCurve2D]
-	OnAfterStackOfRotatedGrowthCurve2DReadCallback   OnAfterReadInterface[StackOfRotatedGrowthCurve2D]
+	OnAfterStackOfRotatedGrowthCurve2DCreateCallback GongOnAfterCreateInterface[StackOfRotatedGrowthCurve2D]
+	OnAfterStackOfRotatedGrowthCurve2DUpdateCallback GongOnAfterUpdateInterface[StackOfRotatedGrowthCurve2D]
+	OnAfterStackOfRotatedGrowthCurve2DDeleteCallback GongOnAfterDeleteInterface[StackOfRotatedGrowthCurve2D]
+	OnAfterStackOfRotatedGrowthCurve2DReadCallback   GongOnAfterReadInterface[StackOfRotatedGrowthCurve2D]
 
 	StackOfRotatedGrowthCurve2DRibbons                map[*StackOfRotatedGrowthCurve2DRibbon]struct{}
 	StackOfRotatedGrowthCurve2DRibbons_instance       map[*StackOfRotatedGrowthCurve2DRibbon]*StackOfRotatedGrowthCurve2DRibbon
@@ -1825,10 +1834,10 @@ type Stage struct {
 
 	StackOfRotatedGrowthCurve2DRibbon_StackRotatedGrowthCurve2DRibbonEndShapes_reverseMap map[*StackRotatedGrowthCurve2DRibbonEndShape]*StackOfRotatedGrowthCurve2DRibbon
 
-	OnAfterStackOfRotatedGrowthCurve2DRibbonCreateCallback OnAfterCreateInterface[StackOfRotatedGrowthCurve2DRibbon]
-	OnAfterStackOfRotatedGrowthCurve2DRibbonUpdateCallback OnAfterUpdateInterface[StackOfRotatedGrowthCurve2DRibbon]
-	OnAfterStackOfRotatedGrowthCurve2DRibbonDeleteCallback OnAfterDeleteInterface[StackOfRotatedGrowthCurve2DRibbon]
-	OnAfterStackOfRotatedGrowthCurve2DRibbonReadCallback   OnAfterReadInterface[StackOfRotatedGrowthCurve2DRibbon]
+	OnAfterStackOfRotatedGrowthCurve2DRibbonCreateCallback GongOnAfterCreateInterface[StackOfRotatedGrowthCurve2DRibbon]
+	OnAfterStackOfRotatedGrowthCurve2DRibbonUpdateCallback GongOnAfterUpdateInterface[StackOfRotatedGrowthCurve2DRibbon]
+	OnAfterStackOfRotatedGrowthCurve2DRibbonDeleteCallback GongOnAfterDeleteInterface[StackOfRotatedGrowthCurve2DRibbon]
+	OnAfterStackOfRotatedGrowthCurve2DRibbonReadCallback   GongOnAfterReadInterface[StackOfRotatedGrowthCurve2DRibbon]
 
 	StackRotatedGrowthCurve2DEndArcShapes                map[*StackRotatedGrowthCurve2DEndArcShape]struct{}
 	StackRotatedGrowthCurve2DEndArcShapes_instance       map[*StackRotatedGrowthCurve2DEndArcShape]*StackRotatedGrowthCurve2DEndArcShape
@@ -1840,10 +1849,10 @@ type Stage struct {
 	StackRotatedGrowthCurve2DEndArcShapes_referenceOrder map[*StackRotatedGrowthCurve2DEndArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStackRotatedGrowthCurve2DEndArcShapeCreateCallback OnAfterCreateInterface[StackRotatedGrowthCurve2DEndArcShape]
-	OnAfterStackRotatedGrowthCurve2DEndArcShapeUpdateCallback OnAfterUpdateInterface[StackRotatedGrowthCurve2DEndArcShape]
-	OnAfterStackRotatedGrowthCurve2DEndArcShapeDeleteCallback OnAfterDeleteInterface[StackRotatedGrowthCurve2DEndArcShape]
-	OnAfterStackRotatedGrowthCurve2DEndArcShapeReadCallback   OnAfterReadInterface[StackRotatedGrowthCurve2DEndArcShape]
+	OnAfterStackRotatedGrowthCurve2DEndArcShapeCreateCallback GongOnAfterCreateInterface[StackRotatedGrowthCurve2DEndArcShape]
+	OnAfterStackRotatedGrowthCurve2DEndArcShapeUpdateCallback GongOnAfterUpdateInterface[StackRotatedGrowthCurve2DEndArcShape]
+	OnAfterStackRotatedGrowthCurve2DEndArcShapeDeleteCallback GongOnAfterDeleteInterface[StackRotatedGrowthCurve2DEndArcShape]
+	OnAfterStackRotatedGrowthCurve2DEndArcShapeReadCallback   GongOnAfterReadInterface[StackRotatedGrowthCurve2DEndArcShape]
 
 	StackRotatedGrowthCurve2DRibbonEndShapes                map[*StackRotatedGrowthCurve2DRibbonEndShape]struct{}
 	StackRotatedGrowthCurve2DRibbonEndShapes_instance       map[*StackRotatedGrowthCurve2DRibbonEndShape]*StackRotatedGrowthCurve2DRibbonEndShape
@@ -1855,10 +1864,10 @@ type Stage struct {
 	StackRotatedGrowthCurve2DRibbonEndShapes_referenceOrder map[*StackRotatedGrowthCurve2DRibbonEndShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStackRotatedGrowthCurve2DRibbonEndShapeCreateCallback OnAfterCreateInterface[StackRotatedGrowthCurve2DRibbonEndShape]
-	OnAfterStackRotatedGrowthCurve2DRibbonEndShapeUpdateCallback OnAfterUpdateInterface[StackRotatedGrowthCurve2DRibbonEndShape]
-	OnAfterStackRotatedGrowthCurve2DRibbonEndShapeDeleteCallback OnAfterDeleteInterface[StackRotatedGrowthCurve2DRibbonEndShape]
-	OnAfterStackRotatedGrowthCurve2DRibbonEndShapeReadCallback   OnAfterReadInterface[StackRotatedGrowthCurve2DRibbonEndShape]
+	OnAfterStackRotatedGrowthCurve2DRibbonEndShapeCreateCallback GongOnAfterCreateInterface[StackRotatedGrowthCurve2DRibbonEndShape]
+	OnAfterStackRotatedGrowthCurve2DRibbonEndShapeUpdateCallback GongOnAfterUpdateInterface[StackRotatedGrowthCurve2DRibbonEndShape]
+	OnAfterStackRotatedGrowthCurve2DRibbonEndShapeDeleteCallback GongOnAfterDeleteInterface[StackRotatedGrowthCurve2DRibbonEndShape]
+	OnAfterStackRotatedGrowthCurve2DRibbonEndShapeReadCallback   GongOnAfterReadInterface[StackRotatedGrowthCurve2DRibbonEndShape]
 
 	StackRotatedGrowthCurve2DRibbonStartShapes                map[*StackRotatedGrowthCurve2DRibbonStartShape]struct{}
 	StackRotatedGrowthCurve2DRibbonStartShapes_instance       map[*StackRotatedGrowthCurve2DRibbonStartShape]*StackRotatedGrowthCurve2DRibbonStartShape
@@ -1870,10 +1879,10 @@ type Stage struct {
 	StackRotatedGrowthCurve2DRibbonStartShapes_referenceOrder map[*StackRotatedGrowthCurve2DRibbonStartShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStackRotatedGrowthCurve2DRibbonStartShapeCreateCallback OnAfterCreateInterface[StackRotatedGrowthCurve2DRibbonStartShape]
-	OnAfterStackRotatedGrowthCurve2DRibbonStartShapeUpdateCallback OnAfterUpdateInterface[StackRotatedGrowthCurve2DRibbonStartShape]
-	OnAfterStackRotatedGrowthCurve2DRibbonStartShapeDeleteCallback OnAfterDeleteInterface[StackRotatedGrowthCurve2DRibbonStartShape]
-	OnAfterStackRotatedGrowthCurve2DRibbonStartShapeReadCallback   OnAfterReadInterface[StackRotatedGrowthCurve2DRibbonStartShape]
+	OnAfterStackRotatedGrowthCurve2DRibbonStartShapeCreateCallback GongOnAfterCreateInterface[StackRotatedGrowthCurve2DRibbonStartShape]
+	OnAfterStackRotatedGrowthCurve2DRibbonStartShapeUpdateCallback GongOnAfterUpdateInterface[StackRotatedGrowthCurve2DRibbonStartShape]
+	OnAfterStackRotatedGrowthCurve2DRibbonStartShapeDeleteCallback GongOnAfterDeleteInterface[StackRotatedGrowthCurve2DRibbonStartShape]
+	OnAfterStackRotatedGrowthCurve2DRibbonStartShapeReadCallback   GongOnAfterReadInterface[StackRotatedGrowthCurve2DRibbonStartShape]
 
 	StackRotatedGrowthCurve2DStartArcShapes                map[*StackRotatedGrowthCurve2DStartArcShape]struct{}
 	StackRotatedGrowthCurve2DStartArcShapes_instance       map[*StackRotatedGrowthCurve2DStartArcShape]*StackRotatedGrowthCurve2DStartArcShape
@@ -1885,10 +1894,10 @@ type Stage struct {
 	StackRotatedGrowthCurve2DStartArcShapes_referenceOrder map[*StackRotatedGrowthCurve2DStartArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStackRotatedGrowthCurve2DStartArcShapeCreateCallback OnAfterCreateInterface[StackRotatedGrowthCurve2DStartArcShape]
-	OnAfterStackRotatedGrowthCurve2DStartArcShapeUpdateCallback OnAfterUpdateInterface[StackRotatedGrowthCurve2DStartArcShape]
-	OnAfterStackRotatedGrowthCurve2DStartArcShapeDeleteCallback OnAfterDeleteInterface[StackRotatedGrowthCurve2DStartArcShape]
-	OnAfterStackRotatedGrowthCurve2DStartArcShapeReadCallback   OnAfterReadInterface[StackRotatedGrowthCurve2DStartArcShape]
+	OnAfterStackRotatedGrowthCurve2DStartArcShapeCreateCallback GongOnAfterCreateInterface[StackRotatedGrowthCurve2DStartArcShape]
+	OnAfterStackRotatedGrowthCurve2DStartArcShapeUpdateCallback GongOnAfterUpdateInterface[StackRotatedGrowthCurve2DStartArcShape]
+	OnAfterStackRotatedGrowthCurve2DStartArcShapeDeleteCallback GongOnAfterDeleteInterface[StackRotatedGrowthCurve2DStartArcShape]
+	OnAfterStackRotatedGrowthCurve2DStartArcShapeReadCallback   GongOnAfterReadInterface[StackRotatedGrowthCurve2DStartArcShape]
 
 	StartArcShapes                map[*StartArcShape]struct{}
 	StartArcShapes_instance       map[*StartArcShape]*StartArcShape
@@ -1900,10 +1909,10 @@ type Stage struct {
 	StartArcShapes_referenceOrder map[*StartArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStartArcShapeCreateCallback OnAfterCreateInterface[StartArcShape]
-	OnAfterStartArcShapeUpdateCallback OnAfterUpdateInterface[StartArcShape]
-	OnAfterStartArcShapeDeleteCallback OnAfterDeleteInterface[StartArcShape]
-	OnAfterStartArcShapeReadCallback   OnAfterReadInterface[StartArcShape]
+	OnAfterStartArcShapeCreateCallback GongOnAfterCreateInterface[StartArcShape]
+	OnAfterStartArcShapeUpdateCallback GongOnAfterUpdateInterface[StartArcShape]
+	OnAfterStartArcShapeDeleteCallback GongOnAfterDeleteInterface[StartArcShape]
+	OnAfterStartArcShapeReadCallback   GongOnAfterReadInterface[StartArcShape]
 
 	StartArcShapeGrids                map[*StartArcShapeGrid]struct{}
 	StartArcShapeGrids_instance       map[*StartArcShapeGrid]*StartArcShapeGrid
@@ -1917,10 +1926,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	StartArcShapeGrid_StartArcShapes_reverseMap map[*StartArcShape]*StartArcShapeGrid
 
-	OnAfterStartArcShapeGridCreateCallback OnAfterCreateInterface[StartArcShapeGrid]
-	OnAfterStartArcShapeGridUpdateCallback OnAfterUpdateInterface[StartArcShapeGrid]
-	OnAfterStartArcShapeGridDeleteCallback OnAfterDeleteInterface[StartArcShapeGrid]
-	OnAfterStartArcShapeGridReadCallback   OnAfterReadInterface[StartArcShapeGrid]
+	OnAfterStartArcShapeGridCreateCallback GongOnAfterCreateInterface[StartArcShapeGrid]
+	OnAfterStartArcShapeGridUpdateCallback GongOnAfterUpdateInterface[StartArcShapeGrid]
+	OnAfterStartArcShapeGridDeleteCallback GongOnAfterDeleteInterface[StartArcShapeGrid]
+	OnAfterStartArcShapeGridReadCallback   GongOnAfterReadInterface[StartArcShapeGrid]
 
 	StartHalfwayArcShapes                map[*StartHalfwayArcShape]struct{}
 	StartHalfwayArcShapes_instance       map[*StartHalfwayArcShape]*StartHalfwayArcShape
@@ -1932,10 +1941,10 @@ type Stage struct {
 	StartHalfwayArcShapes_referenceOrder map[*StartHalfwayArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStartHalfwayArcShapeCreateCallback OnAfterCreateInterface[StartHalfwayArcShape]
-	OnAfterStartHalfwayArcShapeUpdateCallback OnAfterUpdateInterface[StartHalfwayArcShape]
-	OnAfterStartHalfwayArcShapeDeleteCallback OnAfterDeleteInterface[StartHalfwayArcShape]
-	OnAfterStartHalfwayArcShapeReadCallback   OnAfterReadInterface[StartHalfwayArcShape]
+	OnAfterStartHalfwayArcShapeCreateCallback GongOnAfterCreateInterface[StartHalfwayArcShape]
+	OnAfterStartHalfwayArcShapeUpdateCallback GongOnAfterUpdateInterface[StartHalfwayArcShape]
+	OnAfterStartHalfwayArcShapeDeleteCallback GongOnAfterDeleteInterface[StartHalfwayArcShape]
+	OnAfterStartHalfwayArcShapeReadCallback   GongOnAfterReadInterface[StartHalfwayArcShape]
 
 	StartHalfwayArcShapeGrids                map[*StartHalfwayArcShapeGrid]struct{}
 	StartHalfwayArcShapeGrids_instance       map[*StartHalfwayArcShapeGrid]*StartHalfwayArcShapeGrid
@@ -1949,10 +1958,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	StartHalfwayArcShapeGrid_StartHalfwayArcShapes_reverseMap map[*StartHalfwayArcShape]*StartHalfwayArcShapeGrid
 
-	OnAfterStartHalfwayArcShapeGridCreateCallback OnAfterCreateInterface[StartHalfwayArcShapeGrid]
-	OnAfterStartHalfwayArcShapeGridUpdateCallback OnAfterUpdateInterface[StartHalfwayArcShapeGrid]
-	OnAfterStartHalfwayArcShapeGridDeleteCallback OnAfterDeleteInterface[StartHalfwayArcShapeGrid]
-	OnAfterStartHalfwayArcShapeGridReadCallback   OnAfterReadInterface[StartHalfwayArcShapeGrid]
+	OnAfterStartHalfwayArcShapeGridCreateCallback GongOnAfterCreateInterface[StartHalfwayArcShapeGrid]
+	OnAfterStartHalfwayArcShapeGridUpdateCallback GongOnAfterUpdateInterface[StartHalfwayArcShapeGrid]
+	OnAfterStartHalfwayArcShapeGridDeleteCallback GongOnAfterDeleteInterface[StartHalfwayArcShapeGrid]
+	OnAfterStartHalfwayArcShapeGridReadCallback   GongOnAfterReadInterface[StartHalfwayArcShapeGrid]
 
 	StemCylinder3DShapes                map[*StemCylinder3DShape]struct{}
 	StemCylinder3DShapes_instance       map[*StemCylinder3DShape]*StemCylinder3DShape
@@ -1964,10 +1973,10 @@ type Stage struct {
 	StemCylinder3DShapes_referenceOrder map[*StemCylinder3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStemCylinder3DShapeCreateCallback OnAfterCreateInterface[StemCylinder3DShape]
-	OnAfterStemCylinder3DShapeUpdateCallback OnAfterUpdateInterface[StemCylinder3DShape]
-	OnAfterStemCylinder3DShapeDeleteCallback OnAfterDeleteInterface[StemCylinder3DShape]
-	OnAfterStemCylinder3DShapeReadCallback   OnAfterReadInterface[StemCylinder3DShape]
+	OnAfterStemCylinder3DShapeCreateCallback GongOnAfterCreateInterface[StemCylinder3DShape]
+	OnAfterStemCylinder3DShapeUpdateCallback GongOnAfterUpdateInterface[StemCylinder3DShape]
+	OnAfterStemCylinder3DShapeDeleteCallback GongOnAfterDeleteInterface[StemCylinder3DShape]
+	OnAfterStemCylinder3DShapeReadCallback   GongOnAfterReadInterface[StemCylinder3DShape]
 
 	Stool2DDiagrams                map[*Stool2DDiagram]struct{}
 	Stool2DDiagrams_instance       map[*Stool2DDiagram]*Stool2DDiagram
@@ -1979,10 +1988,10 @@ type Stage struct {
 	Stool2DDiagrams_referenceOrder map[*Stool2DDiagram]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStool2DDiagramCreateCallback OnAfterCreateInterface[Stool2DDiagram]
-	OnAfterStool2DDiagramUpdateCallback OnAfterUpdateInterface[Stool2DDiagram]
-	OnAfterStool2DDiagramDeleteCallback OnAfterDeleteInterface[Stool2DDiagram]
-	OnAfterStool2DDiagramReadCallback   OnAfterReadInterface[Stool2DDiagram]
+	OnAfterStool2DDiagramCreateCallback GongOnAfterCreateInterface[Stool2DDiagram]
+	OnAfterStool2DDiagramUpdateCallback GongOnAfterUpdateInterface[Stool2DDiagram]
+	OnAfterStool2DDiagramDeleteCallback GongOnAfterDeleteInterface[Stool2DDiagram]
+	OnAfterStool2DDiagramReadCallback   GongOnAfterReadInterface[Stool2DDiagram]
 
 	Stool3DDiagrams                map[*Stool3DDiagram]struct{}
 	Stool3DDiagrams_instance       map[*Stool3DDiagram]*Stool3DDiagram
@@ -1994,10 +2003,10 @@ type Stage struct {
 	Stool3DDiagrams_referenceOrder map[*Stool3DDiagram]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStool3DDiagramCreateCallback OnAfterCreateInterface[Stool3DDiagram]
-	OnAfterStool3DDiagramUpdateCallback OnAfterUpdateInterface[Stool3DDiagram]
-	OnAfterStool3DDiagramDeleteCallback OnAfterDeleteInterface[Stool3DDiagram]
-	OnAfterStool3DDiagramReadCallback   OnAfterReadInterface[Stool3DDiagram]
+	OnAfterStool3DDiagramCreateCallback GongOnAfterCreateInterface[Stool3DDiagram]
+	OnAfterStool3DDiagramUpdateCallback GongOnAfterUpdateInterface[Stool3DDiagram]
+	OnAfterStool3DDiagramDeleteCallback GongOnAfterDeleteInterface[Stool3DDiagram]
+	OnAfterStool3DDiagramReadCallback   GongOnAfterReadInterface[Stool3DDiagram]
 
 	StoolAbstracts                map[*StoolAbstract]struct{}
 	StoolAbstracts_instance       map[*StoolAbstract]*StoolAbstract
@@ -2009,10 +2018,10 @@ type Stage struct {
 	StoolAbstracts_referenceOrder map[*StoolAbstract]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStoolAbstractCreateCallback OnAfterCreateInterface[StoolAbstract]
-	OnAfterStoolAbstractUpdateCallback OnAfterUpdateInterface[StoolAbstract]
-	OnAfterStoolAbstractDeleteCallback OnAfterDeleteInterface[StoolAbstract]
-	OnAfterStoolAbstractReadCallback   OnAfterReadInterface[StoolAbstract]
+	OnAfterStoolAbstractCreateCallback GongOnAfterCreateInterface[StoolAbstract]
+	OnAfterStoolAbstractUpdateCallback GongOnAfterUpdateInterface[StoolAbstract]
+	OnAfterStoolAbstractDeleteCallback GongOnAfterDeleteInterface[StoolAbstract]
+	OnAfterStoolAbstractReadCallback   GongOnAfterReadInterface[StoolAbstract]
 
 	TiledFloor3DShapes                map[*TiledFloor3DShape]struct{}
 	TiledFloor3DShapes_instance       map[*TiledFloor3DShape]*TiledFloor3DShape
@@ -2024,10 +2033,10 @@ type Stage struct {
 	TiledFloor3DShapes_referenceOrder map[*TiledFloor3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTiledFloor3DShapeCreateCallback OnAfterCreateInterface[TiledFloor3DShape]
-	OnAfterTiledFloor3DShapeUpdateCallback OnAfterUpdateInterface[TiledFloor3DShape]
-	OnAfterTiledFloor3DShapeDeleteCallback OnAfterDeleteInterface[TiledFloor3DShape]
-	OnAfterTiledFloor3DShapeReadCallback   OnAfterReadInterface[TiledFloor3DShape]
+	OnAfterTiledFloor3DShapeCreateCallback GongOnAfterCreateInterface[TiledFloor3DShape]
+	OnAfterTiledFloor3DShapeUpdateCallback GongOnAfterUpdateInterface[TiledFloor3DShape]
+	OnAfterTiledFloor3DShapeDeleteCallback GongOnAfterDeleteInterface[TiledFloor3DShape]
+	OnAfterTiledFloor3DShapeReadCallback   GongOnAfterReadInterface[TiledFloor3DShape]
 
 	TopEndArcShapes                map[*TopEndArcShape]struct{}
 	TopEndArcShapes_instance       map[*TopEndArcShape]*TopEndArcShape
@@ -2039,10 +2048,10 @@ type Stage struct {
 	TopEndArcShapes_referenceOrder map[*TopEndArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTopEndArcShapeCreateCallback OnAfterCreateInterface[TopEndArcShape]
-	OnAfterTopEndArcShapeUpdateCallback OnAfterUpdateInterface[TopEndArcShape]
-	OnAfterTopEndArcShapeDeleteCallback OnAfterDeleteInterface[TopEndArcShape]
-	OnAfterTopEndArcShapeReadCallback   OnAfterReadInterface[TopEndArcShape]
+	OnAfterTopEndArcShapeCreateCallback GongOnAfterCreateInterface[TopEndArcShape]
+	OnAfterTopEndArcShapeUpdateCallback GongOnAfterUpdateInterface[TopEndArcShape]
+	OnAfterTopEndArcShapeDeleteCallback GongOnAfterDeleteInterface[TopEndArcShape]
+	OnAfterTopEndArcShapeReadCallback   GongOnAfterReadInterface[TopEndArcShape]
 
 	TopEndArcShapeGrids                map[*TopEndArcShapeGrid]struct{}
 	TopEndArcShapeGrids_instance       map[*TopEndArcShapeGrid]*TopEndArcShapeGrid
@@ -2056,10 +2065,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	TopEndArcShapeGrid_TopEndArcShapes_reverseMap map[*TopEndArcShape]*TopEndArcShapeGrid
 
-	OnAfterTopEndArcShapeGridCreateCallback OnAfterCreateInterface[TopEndArcShapeGrid]
-	OnAfterTopEndArcShapeGridUpdateCallback OnAfterUpdateInterface[TopEndArcShapeGrid]
-	OnAfterTopEndArcShapeGridDeleteCallback OnAfterDeleteInterface[TopEndArcShapeGrid]
-	OnAfterTopEndArcShapeGridReadCallback   OnAfterReadInterface[TopEndArcShapeGrid]
+	OnAfterTopEndArcShapeGridCreateCallback GongOnAfterCreateInterface[TopEndArcShapeGrid]
+	OnAfterTopEndArcShapeGridUpdateCallback GongOnAfterUpdateInterface[TopEndArcShapeGrid]
+	OnAfterTopEndArcShapeGridDeleteCallback GongOnAfterDeleteInterface[TopEndArcShapeGrid]
+	OnAfterTopEndArcShapeGridReadCallback   GongOnAfterReadInterface[TopEndArcShapeGrid]
 
 	TopEndHalfwayArcShapes                map[*TopEndHalfwayArcShape]struct{}
 	TopEndHalfwayArcShapes_instance       map[*TopEndHalfwayArcShape]*TopEndHalfwayArcShape
@@ -2071,10 +2080,10 @@ type Stage struct {
 	TopEndHalfwayArcShapes_referenceOrder map[*TopEndHalfwayArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTopEndHalfwayArcShapeCreateCallback OnAfterCreateInterface[TopEndHalfwayArcShape]
-	OnAfterTopEndHalfwayArcShapeUpdateCallback OnAfterUpdateInterface[TopEndHalfwayArcShape]
-	OnAfterTopEndHalfwayArcShapeDeleteCallback OnAfterDeleteInterface[TopEndHalfwayArcShape]
-	OnAfterTopEndHalfwayArcShapeReadCallback   OnAfterReadInterface[TopEndHalfwayArcShape]
+	OnAfterTopEndHalfwayArcShapeCreateCallback GongOnAfterCreateInterface[TopEndHalfwayArcShape]
+	OnAfterTopEndHalfwayArcShapeUpdateCallback GongOnAfterUpdateInterface[TopEndHalfwayArcShape]
+	OnAfterTopEndHalfwayArcShapeDeleteCallback GongOnAfterDeleteInterface[TopEndHalfwayArcShape]
+	OnAfterTopEndHalfwayArcShapeReadCallback   GongOnAfterReadInterface[TopEndHalfwayArcShape]
 
 	TopEndHalfwayArcShapeGrids                map[*TopEndHalfwayArcShapeGrid]struct{}
 	TopEndHalfwayArcShapeGrids_instance       map[*TopEndHalfwayArcShapeGrid]*TopEndHalfwayArcShapeGrid
@@ -2088,10 +2097,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	TopEndHalfwayArcShapeGrid_TopEndHalfwayArcShapes_reverseMap map[*TopEndHalfwayArcShape]*TopEndHalfwayArcShapeGrid
 
-	OnAfterTopEndHalfwayArcShapeGridCreateCallback OnAfterCreateInterface[TopEndHalfwayArcShapeGrid]
-	OnAfterTopEndHalfwayArcShapeGridUpdateCallback OnAfterUpdateInterface[TopEndHalfwayArcShapeGrid]
-	OnAfterTopEndHalfwayArcShapeGridDeleteCallback OnAfterDeleteInterface[TopEndHalfwayArcShapeGrid]
-	OnAfterTopEndHalfwayArcShapeGridReadCallback   OnAfterReadInterface[TopEndHalfwayArcShapeGrid]
+	OnAfterTopEndHalfwayArcShapeGridCreateCallback GongOnAfterCreateInterface[TopEndHalfwayArcShapeGrid]
+	OnAfterTopEndHalfwayArcShapeGridUpdateCallback GongOnAfterUpdateInterface[TopEndHalfwayArcShapeGrid]
+	OnAfterTopEndHalfwayArcShapeGridDeleteCallback GongOnAfterDeleteInterface[TopEndHalfwayArcShapeGrid]
+	OnAfterTopEndHalfwayArcShapeGridReadCallback   GongOnAfterReadInterface[TopEndHalfwayArcShapeGrid]
 
 	TopGrowthCurve2Ds                map[*TopGrowthCurve2D]struct{}
 	TopGrowthCurve2Ds_instance       map[*TopGrowthCurve2D]*TopGrowthCurve2D
@@ -2103,10 +2112,10 @@ type Stage struct {
 	TopGrowthCurve2Ds_referenceOrder map[*TopGrowthCurve2D]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTopGrowthCurve2DCreateCallback OnAfterCreateInterface[TopGrowthCurve2D]
-	OnAfterTopGrowthCurve2DUpdateCallback OnAfterUpdateInterface[TopGrowthCurve2D]
-	OnAfterTopGrowthCurve2DDeleteCallback OnAfterDeleteInterface[TopGrowthCurve2D]
-	OnAfterTopGrowthCurve2DReadCallback   OnAfterReadInterface[TopGrowthCurve2D]
+	OnAfterTopGrowthCurve2DCreateCallback GongOnAfterCreateInterface[TopGrowthCurve2D]
+	OnAfterTopGrowthCurve2DUpdateCallback GongOnAfterUpdateInterface[TopGrowthCurve2D]
+	OnAfterTopGrowthCurve2DDeleteCallback GongOnAfterDeleteInterface[TopGrowthCurve2D]
+	OnAfterTopGrowthCurve2DReadCallback   GongOnAfterReadInterface[TopGrowthCurve2D]
 
 	TopMidArcVectorShapes                map[*TopMidArcVectorShape]struct{}
 	TopMidArcVectorShapes_instance       map[*TopMidArcVectorShape]*TopMidArcVectorShape
@@ -2118,10 +2127,10 @@ type Stage struct {
 	TopMidArcVectorShapes_referenceOrder map[*TopMidArcVectorShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTopMidArcVectorShapeCreateCallback OnAfterCreateInterface[TopMidArcVectorShape]
-	OnAfterTopMidArcVectorShapeUpdateCallback OnAfterUpdateInterface[TopMidArcVectorShape]
-	OnAfterTopMidArcVectorShapeDeleteCallback OnAfterDeleteInterface[TopMidArcVectorShape]
-	OnAfterTopMidArcVectorShapeReadCallback   OnAfterReadInterface[TopMidArcVectorShape]
+	OnAfterTopMidArcVectorShapeCreateCallback GongOnAfterCreateInterface[TopMidArcVectorShape]
+	OnAfterTopMidArcVectorShapeUpdateCallback GongOnAfterUpdateInterface[TopMidArcVectorShape]
+	OnAfterTopMidArcVectorShapeDeleteCallback GongOnAfterDeleteInterface[TopMidArcVectorShape]
+	OnAfterTopMidArcVectorShapeReadCallback   GongOnAfterReadInterface[TopMidArcVectorShape]
 
 	TopMidArcVectorShapeGrids                map[*TopMidArcVectorShapeGrid]struct{}
 	TopMidArcVectorShapeGrids_instance       map[*TopMidArcVectorShapeGrid]*TopMidArcVectorShapeGrid
@@ -2135,10 +2144,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	TopMidArcVectorShapeGrid_TopMidArcVectorShapes_reverseMap map[*TopMidArcVectorShape]*TopMidArcVectorShapeGrid
 
-	OnAfterTopMidArcVectorShapeGridCreateCallback OnAfterCreateInterface[TopMidArcVectorShapeGrid]
-	OnAfterTopMidArcVectorShapeGridUpdateCallback OnAfterUpdateInterface[TopMidArcVectorShapeGrid]
-	OnAfterTopMidArcVectorShapeGridDeleteCallback OnAfterDeleteInterface[TopMidArcVectorShapeGrid]
-	OnAfterTopMidArcVectorShapeGridReadCallback   OnAfterReadInterface[TopMidArcVectorShapeGrid]
+	OnAfterTopMidArcVectorShapeGridCreateCallback GongOnAfterCreateInterface[TopMidArcVectorShapeGrid]
+	OnAfterTopMidArcVectorShapeGridUpdateCallback GongOnAfterUpdateInterface[TopMidArcVectorShapeGrid]
+	OnAfterTopMidArcVectorShapeGridDeleteCallback GongOnAfterDeleteInterface[TopMidArcVectorShapeGrid]
+	OnAfterTopMidArcVectorShapeGridReadCallback   GongOnAfterReadInterface[TopMidArcVectorShapeGrid]
 
 	TopStackGrowthCurve2DEndHalfwayArcShapes                map[*TopStackGrowthCurve2DEndHalfwayArcShape]struct{}
 	TopStackGrowthCurve2DEndHalfwayArcShapes_instance       map[*TopStackGrowthCurve2DEndHalfwayArcShape]*TopStackGrowthCurve2DEndHalfwayArcShape
@@ -2150,10 +2159,10 @@ type Stage struct {
 	TopStackGrowthCurve2DEndHalfwayArcShapes_referenceOrder map[*TopStackGrowthCurve2DEndHalfwayArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTopStackGrowthCurve2DEndHalfwayArcShapeCreateCallback OnAfterCreateInterface[TopStackGrowthCurve2DEndHalfwayArcShape]
-	OnAfterTopStackGrowthCurve2DEndHalfwayArcShapeUpdateCallback OnAfterUpdateInterface[TopStackGrowthCurve2DEndHalfwayArcShape]
-	OnAfterTopStackGrowthCurve2DEndHalfwayArcShapeDeleteCallback OnAfterDeleteInterface[TopStackGrowthCurve2DEndHalfwayArcShape]
-	OnAfterTopStackGrowthCurve2DEndHalfwayArcShapeReadCallback   OnAfterReadInterface[TopStackGrowthCurve2DEndHalfwayArcShape]
+	OnAfterTopStackGrowthCurve2DEndHalfwayArcShapeCreateCallback GongOnAfterCreateInterface[TopStackGrowthCurve2DEndHalfwayArcShape]
+	OnAfterTopStackGrowthCurve2DEndHalfwayArcShapeUpdateCallback GongOnAfterUpdateInterface[TopStackGrowthCurve2DEndHalfwayArcShape]
+	OnAfterTopStackGrowthCurve2DEndHalfwayArcShapeDeleteCallback GongOnAfterDeleteInterface[TopStackGrowthCurve2DEndHalfwayArcShape]
+	OnAfterTopStackGrowthCurve2DEndHalfwayArcShapeReadCallback   GongOnAfterReadInterface[TopStackGrowthCurve2DEndHalfwayArcShape]
 
 	TopStackGrowthCurve2DStartHalfwayArcShapes                map[*TopStackGrowthCurve2DStartHalfwayArcShape]struct{}
 	TopStackGrowthCurve2DStartHalfwayArcShapes_instance       map[*TopStackGrowthCurve2DStartHalfwayArcShape]*TopStackGrowthCurve2DStartHalfwayArcShape
@@ -2165,10 +2174,10 @@ type Stage struct {
 	TopStackGrowthCurve2DStartHalfwayArcShapes_referenceOrder map[*TopStackGrowthCurve2DStartHalfwayArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTopStackGrowthCurve2DStartHalfwayArcShapeCreateCallback OnAfterCreateInterface[TopStackGrowthCurve2DStartHalfwayArcShape]
-	OnAfterTopStackGrowthCurve2DStartHalfwayArcShapeUpdateCallback OnAfterUpdateInterface[TopStackGrowthCurve2DStartHalfwayArcShape]
-	OnAfterTopStackGrowthCurve2DStartHalfwayArcShapeDeleteCallback OnAfterDeleteInterface[TopStackGrowthCurve2DStartHalfwayArcShape]
-	OnAfterTopStackGrowthCurve2DStartHalfwayArcShapeReadCallback   OnAfterReadInterface[TopStackGrowthCurve2DStartHalfwayArcShape]
+	OnAfterTopStackGrowthCurve2DStartHalfwayArcShapeCreateCallback GongOnAfterCreateInterface[TopStackGrowthCurve2DStartHalfwayArcShape]
+	OnAfterTopStackGrowthCurve2DStartHalfwayArcShapeUpdateCallback GongOnAfterUpdateInterface[TopStackGrowthCurve2DStartHalfwayArcShape]
+	OnAfterTopStackGrowthCurve2DStartHalfwayArcShapeDeleteCallback GongOnAfterDeleteInterface[TopStackGrowthCurve2DStartHalfwayArcShape]
+	OnAfterTopStackGrowthCurve2DStartHalfwayArcShapeReadCallback   GongOnAfterReadInterface[TopStackGrowthCurve2DStartHalfwayArcShape]
 
 	TopStackOfGrowthCurve2Ds                map[*TopStackOfGrowthCurve2D]struct{}
 	TopStackOfGrowthCurve2Ds_instance       map[*TopStackOfGrowthCurve2D]*TopStackOfGrowthCurve2D
@@ -2184,10 +2193,10 @@ type Stage struct {
 
 	TopStackOfGrowthCurve2D_TopStackGrowthCurve2DEndHalfwayArcShapes_reverseMap map[*TopStackGrowthCurve2DEndHalfwayArcShape]*TopStackOfGrowthCurve2D
 
-	OnAfterTopStackOfGrowthCurve2DCreateCallback OnAfterCreateInterface[TopStackOfGrowthCurve2D]
-	OnAfterTopStackOfGrowthCurve2DUpdateCallback OnAfterUpdateInterface[TopStackOfGrowthCurve2D]
-	OnAfterTopStackOfGrowthCurve2DDeleteCallback OnAfterDeleteInterface[TopStackOfGrowthCurve2D]
-	OnAfterTopStackOfGrowthCurve2DReadCallback   OnAfterReadInterface[TopStackOfGrowthCurve2D]
+	OnAfterTopStackOfGrowthCurve2DCreateCallback GongOnAfterCreateInterface[TopStackOfGrowthCurve2D]
+	OnAfterTopStackOfGrowthCurve2DUpdateCallback GongOnAfterUpdateInterface[TopStackOfGrowthCurve2D]
+	OnAfterTopStackOfGrowthCurve2DDeleteCallback GongOnAfterDeleteInterface[TopStackOfGrowthCurve2D]
+	OnAfterTopStackOfGrowthCurve2DReadCallback   GongOnAfterReadInterface[TopStackOfGrowthCurve2D]
 
 	TopStackOfRotatedGrowthCurve2Ds                map[*TopStackOfRotatedGrowthCurve2D]struct{}
 	TopStackOfRotatedGrowthCurve2Ds_instance       map[*TopStackOfRotatedGrowthCurve2D]*TopStackOfRotatedGrowthCurve2D
@@ -2203,10 +2212,10 @@ type Stage struct {
 
 	TopStackOfRotatedGrowthCurve2D_TopStackOfRotatedGrowthCurve2DEndArcShapes_reverseMap map[*TopStackOfRotatedGrowthCurve2DEndArcShape]*TopStackOfRotatedGrowthCurve2D
 
-	OnAfterTopStackOfRotatedGrowthCurve2DCreateCallback OnAfterCreateInterface[TopStackOfRotatedGrowthCurve2D]
-	OnAfterTopStackOfRotatedGrowthCurve2DUpdateCallback OnAfterUpdateInterface[TopStackOfRotatedGrowthCurve2D]
-	OnAfterTopStackOfRotatedGrowthCurve2DDeleteCallback OnAfterDeleteInterface[TopStackOfRotatedGrowthCurve2D]
-	OnAfterTopStackOfRotatedGrowthCurve2DReadCallback   OnAfterReadInterface[TopStackOfRotatedGrowthCurve2D]
+	OnAfterTopStackOfRotatedGrowthCurve2DCreateCallback GongOnAfterCreateInterface[TopStackOfRotatedGrowthCurve2D]
+	OnAfterTopStackOfRotatedGrowthCurve2DUpdateCallback GongOnAfterUpdateInterface[TopStackOfRotatedGrowthCurve2D]
+	OnAfterTopStackOfRotatedGrowthCurve2DDeleteCallback GongOnAfterDeleteInterface[TopStackOfRotatedGrowthCurve2D]
+	OnAfterTopStackOfRotatedGrowthCurve2DReadCallback   GongOnAfterReadInterface[TopStackOfRotatedGrowthCurve2D]
 
 	TopStackOfRotatedGrowthCurve2DEndArcShapes                map[*TopStackOfRotatedGrowthCurve2DEndArcShape]struct{}
 	TopStackOfRotatedGrowthCurve2DEndArcShapes_instance       map[*TopStackOfRotatedGrowthCurve2DEndArcShape]*TopStackOfRotatedGrowthCurve2DEndArcShape
@@ -2218,10 +2227,10 @@ type Stage struct {
 	TopStackOfRotatedGrowthCurve2DEndArcShapes_referenceOrder map[*TopStackOfRotatedGrowthCurve2DEndArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTopStackOfRotatedGrowthCurve2DEndArcShapeCreateCallback OnAfterCreateInterface[TopStackOfRotatedGrowthCurve2DEndArcShape]
-	OnAfterTopStackOfRotatedGrowthCurve2DEndArcShapeUpdateCallback OnAfterUpdateInterface[TopStackOfRotatedGrowthCurve2DEndArcShape]
-	OnAfterTopStackOfRotatedGrowthCurve2DEndArcShapeDeleteCallback OnAfterDeleteInterface[TopStackOfRotatedGrowthCurve2DEndArcShape]
-	OnAfterTopStackOfRotatedGrowthCurve2DEndArcShapeReadCallback   OnAfterReadInterface[TopStackOfRotatedGrowthCurve2DEndArcShape]
+	OnAfterTopStackOfRotatedGrowthCurve2DEndArcShapeCreateCallback GongOnAfterCreateInterface[TopStackOfRotatedGrowthCurve2DEndArcShape]
+	OnAfterTopStackOfRotatedGrowthCurve2DEndArcShapeUpdateCallback GongOnAfterUpdateInterface[TopStackOfRotatedGrowthCurve2DEndArcShape]
+	OnAfterTopStackOfRotatedGrowthCurve2DEndArcShapeDeleteCallback GongOnAfterDeleteInterface[TopStackOfRotatedGrowthCurve2DEndArcShape]
+	OnAfterTopStackOfRotatedGrowthCurve2DEndArcShapeReadCallback   GongOnAfterReadInterface[TopStackOfRotatedGrowthCurve2DEndArcShape]
 
 	TopStackOfRotatedGrowthCurve2DStartArcShapes                map[*TopStackOfRotatedGrowthCurve2DStartArcShape]struct{}
 	TopStackOfRotatedGrowthCurve2DStartArcShapes_instance       map[*TopStackOfRotatedGrowthCurve2DStartArcShape]*TopStackOfRotatedGrowthCurve2DStartArcShape
@@ -2233,10 +2242,10 @@ type Stage struct {
 	TopStackOfRotatedGrowthCurve2DStartArcShapes_referenceOrder map[*TopStackOfRotatedGrowthCurve2DStartArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTopStackOfRotatedGrowthCurve2DStartArcShapeCreateCallback OnAfterCreateInterface[TopStackOfRotatedGrowthCurve2DStartArcShape]
-	OnAfterTopStackOfRotatedGrowthCurve2DStartArcShapeUpdateCallback OnAfterUpdateInterface[TopStackOfRotatedGrowthCurve2DStartArcShape]
-	OnAfterTopStackOfRotatedGrowthCurve2DStartArcShapeDeleteCallback OnAfterDeleteInterface[TopStackOfRotatedGrowthCurve2DStartArcShape]
-	OnAfterTopStackOfRotatedGrowthCurve2DStartArcShapeReadCallback   OnAfterReadInterface[TopStackOfRotatedGrowthCurve2DStartArcShape]
+	OnAfterTopStackOfRotatedGrowthCurve2DStartArcShapeCreateCallback GongOnAfterCreateInterface[TopStackOfRotatedGrowthCurve2DStartArcShape]
+	OnAfterTopStackOfRotatedGrowthCurve2DStartArcShapeUpdateCallback GongOnAfterUpdateInterface[TopStackOfRotatedGrowthCurve2DStartArcShape]
+	OnAfterTopStackOfRotatedGrowthCurve2DStartArcShapeDeleteCallback GongOnAfterDeleteInterface[TopStackOfRotatedGrowthCurve2DStartArcShape]
+	OnAfterTopStackOfRotatedGrowthCurve2DStartArcShapeReadCallback   GongOnAfterReadInterface[TopStackOfRotatedGrowthCurve2DStartArcShape]
 
 	TopStartArcShapes                map[*TopStartArcShape]struct{}
 	TopStartArcShapes_instance       map[*TopStartArcShape]*TopStartArcShape
@@ -2248,10 +2257,10 @@ type Stage struct {
 	TopStartArcShapes_referenceOrder map[*TopStartArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTopStartArcShapeCreateCallback OnAfterCreateInterface[TopStartArcShape]
-	OnAfterTopStartArcShapeUpdateCallback OnAfterUpdateInterface[TopStartArcShape]
-	OnAfterTopStartArcShapeDeleteCallback OnAfterDeleteInterface[TopStartArcShape]
-	OnAfterTopStartArcShapeReadCallback   OnAfterReadInterface[TopStartArcShape]
+	OnAfterTopStartArcShapeCreateCallback GongOnAfterCreateInterface[TopStartArcShape]
+	OnAfterTopStartArcShapeUpdateCallback GongOnAfterUpdateInterface[TopStartArcShape]
+	OnAfterTopStartArcShapeDeleteCallback GongOnAfterDeleteInterface[TopStartArcShape]
+	OnAfterTopStartArcShapeReadCallback   GongOnAfterReadInterface[TopStartArcShape]
 
 	TopStartArcShapeGrids                map[*TopStartArcShapeGrid]struct{}
 	TopStartArcShapeGrids_instance       map[*TopStartArcShapeGrid]*TopStartArcShapeGrid
@@ -2265,10 +2274,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	TopStartArcShapeGrid_TopStartArcShapes_reverseMap map[*TopStartArcShape]*TopStartArcShapeGrid
 
-	OnAfterTopStartArcShapeGridCreateCallback OnAfterCreateInterface[TopStartArcShapeGrid]
-	OnAfterTopStartArcShapeGridUpdateCallback OnAfterUpdateInterface[TopStartArcShapeGrid]
-	OnAfterTopStartArcShapeGridDeleteCallback OnAfterDeleteInterface[TopStartArcShapeGrid]
-	OnAfterTopStartArcShapeGridReadCallback   OnAfterReadInterface[TopStartArcShapeGrid]
+	OnAfterTopStartArcShapeGridCreateCallback GongOnAfterCreateInterface[TopStartArcShapeGrid]
+	OnAfterTopStartArcShapeGridUpdateCallback GongOnAfterUpdateInterface[TopStartArcShapeGrid]
+	OnAfterTopStartArcShapeGridDeleteCallback GongOnAfterDeleteInterface[TopStartArcShapeGrid]
+	OnAfterTopStartArcShapeGridReadCallback   GongOnAfterReadInterface[TopStartArcShapeGrid]
 
 	TopStartHalfwayArcShapes                map[*TopStartHalfwayArcShape]struct{}
 	TopStartHalfwayArcShapes_instance       map[*TopStartHalfwayArcShape]*TopStartHalfwayArcShape
@@ -2280,10 +2289,10 @@ type Stage struct {
 	TopStartHalfwayArcShapes_referenceOrder map[*TopStartHalfwayArcShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTopStartHalfwayArcShapeCreateCallback OnAfterCreateInterface[TopStartHalfwayArcShape]
-	OnAfterTopStartHalfwayArcShapeUpdateCallback OnAfterUpdateInterface[TopStartHalfwayArcShape]
-	OnAfterTopStartHalfwayArcShapeDeleteCallback OnAfterDeleteInterface[TopStartHalfwayArcShape]
-	OnAfterTopStartHalfwayArcShapeReadCallback   OnAfterReadInterface[TopStartHalfwayArcShape]
+	OnAfterTopStartHalfwayArcShapeCreateCallback GongOnAfterCreateInterface[TopStartHalfwayArcShape]
+	OnAfterTopStartHalfwayArcShapeUpdateCallback GongOnAfterUpdateInterface[TopStartHalfwayArcShape]
+	OnAfterTopStartHalfwayArcShapeDeleteCallback GongOnAfterDeleteInterface[TopStartHalfwayArcShape]
+	OnAfterTopStartHalfwayArcShapeReadCallback   GongOnAfterReadInterface[TopStartHalfwayArcShape]
 
 	TopStartHalfwayArcShapeGrids                map[*TopStartHalfwayArcShapeGrid]struct{}
 	TopStartHalfwayArcShapeGrids_instance       map[*TopStartHalfwayArcShapeGrid]*TopStartHalfwayArcShapeGrid
@@ -2297,10 +2306,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	TopStartHalfwayArcShapeGrid_TopStartHalfwayArcShapes_reverseMap map[*TopStartHalfwayArcShape]*TopStartHalfwayArcShapeGrid
 
-	OnAfterTopStartHalfwayArcShapeGridCreateCallback OnAfterCreateInterface[TopStartHalfwayArcShapeGrid]
-	OnAfterTopStartHalfwayArcShapeGridUpdateCallback OnAfterUpdateInterface[TopStartHalfwayArcShapeGrid]
-	OnAfterTopStartHalfwayArcShapeGridDeleteCallback OnAfterDeleteInterface[TopStartHalfwayArcShapeGrid]
-	OnAfterTopStartHalfwayArcShapeGridReadCallback   OnAfterReadInterface[TopStartHalfwayArcShapeGrid]
+	OnAfterTopStartHalfwayArcShapeGridCreateCallback GongOnAfterCreateInterface[TopStartHalfwayArcShapeGrid]
+	OnAfterTopStartHalfwayArcShapeGridUpdateCallback GongOnAfterUpdateInterface[TopStartHalfwayArcShapeGrid]
+	OnAfterTopStartHalfwayArcShapeGridDeleteCallback GongOnAfterDeleteInterface[TopStartHalfwayArcShapeGrid]
+	OnAfterTopStartHalfwayArcShapeGridReadCallback   GongOnAfterReadInterface[TopStartHalfwayArcShapeGrid]
 
 	Torus3DShapes                map[*Torus3DShape]struct{}
 	Torus3DShapes_instance       map[*Torus3DShape]*Torus3DShape
@@ -2312,10 +2321,10 @@ type Stage struct {
 	Torus3DShapes_referenceOrder map[*Torus3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTorus3DShapeCreateCallback OnAfterCreateInterface[Torus3DShape]
-	OnAfterTorus3DShapeUpdateCallback OnAfterUpdateInterface[Torus3DShape]
-	OnAfterTorus3DShapeDeleteCallback OnAfterDeleteInterface[Torus3DShape]
-	OnAfterTorus3DShapeReadCallback   OnAfterReadInterface[Torus3DShape]
+	OnAfterTorus3DShapeCreateCallback GongOnAfterCreateInterface[Torus3DShape]
+	OnAfterTorus3DShapeUpdateCallback GongOnAfterUpdateInterface[Torus3DShape]
+	OnAfterTorus3DShapeDeleteCallback GongOnAfterDeleteInterface[Torus3DShape]
+	OnAfterTorus3DShapeReadCallback   GongOnAfterReadInterface[Torus3DShape]
 
 	TorusEdge3DShapes                map[*TorusEdge3DShape]struct{}
 	TorusEdge3DShapes_instance       map[*TorusEdge3DShape]*TorusEdge3DShape
@@ -2327,10 +2336,10 @@ type Stage struct {
 	TorusEdge3DShapes_referenceOrder map[*TorusEdge3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTorusEdge3DShapeCreateCallback OnAfterCreateInterface[TorusEdge3DShape]
-	OnAfterTorusEdge3DShapeUpdateCallback OnAfterUpdateInterface[TorusEdge3DShape]
-	OnAfterTorusEdge3DShapeDeleteCallback OnAfterDeleteInterface[TorusEdge3DShape]
-	OnAfterTorusEdge3DShapeReadCallback   OnAfterReadInterface[TorusEdge3DShape]
+	OnAfterTorusEdge3DShapeCreateCallback GongOnAfterCreateInterface[TorusEdge3DShape]
+	OnAfterTorusEdge3DShapeUpdateCallback GongOnAfterUpdateInterface[TorusEdge3DShape]
+	OnAfterTorusEdge3DShapeDeleteCallback GongOnAfterDeleteInterface[TorusEdge3DShape]
+	OnAfterTorusEdge3DShapeReadCallback   GongOnAfterReadInterface[TorusEdge3DShape]
 
 	TorusStackShapes                map[*TorusStackShape]struct{}
 	TorusStackShapes_instance       map[*TorusStackShape]*TorusStackShape
@@ -2342,10 +2351,10 @@ type Stage struct {
 	TorusStackShapes_referenceOrder map[*TorusStackShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTorusStackShapeCreateCallback OnAfterCreateInterface[TorusStackShape]
-	OnAfterTorusStackShapeUpdateCallback OnAfterUpdateInterface[TorusStackShape]
-	OnAfterTorusStackShapeDeleteCallback OnAfterDeleteInterface[TorusStackShape]
-	OnAfterTorusStackShapeReadCallback   OnAfterReadInterface[TorusStackShape]
+	OnAfterTorusStackShapeCreateCallback GongOnAfterCreateInterface[TorusStackShape]
+	OnAfterTorusStackShapeUpdateCallback GongOnAfterUpdateInterface[TorusStackShape]
+	OnAfterTorusStackShapeDeleteCallback GongOnAfterDeleteInterface[TorusStackShape]
+	OnAfterTorusStackShapeReadCallback   GongOnAfterReadInterface[TorusStackShape]
 
 	TubeVase3DDiagrams                map[*TubeVase3DDiagram]struct{}
 	TubeVase3DDiagrams_instance       map[*TubeVase3DDiagram]*TubeVase3DDiagram
@@ -2357,10 +2366,10 @@ type Stage struct {
 	TubeVase3DDiagrams_referenceOrder map[*TubeVase3DDiagram]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTubeVase3DDiagramCreateCallback OnAfterCreateInterface[TubeVase3DDiagram]
-	OnAfterTubeVase3DDiagramUpdateCallback OnAfterUpdateInterface[TubeVase3DDiagram]
-	OnAfterTubeVase3DDiagramDeleteCallback OnAfterDeleteInterface[TubeVase3DDiagram]
-	OnAfterTubeVase3DDiagramReadCallback   OnAfterReadInterface[TubeVase3DDiagram]
+	OnAfterTubeVase3DDiagramCreateCallback GongOnAfterCreateInterface[TubeVase3DDiagram]
+	OnAfterTubeVase3DDiagramUpdateCallback GongOnAfterUpdateInterface[TubeVase3DDiagram]
+	OnAfterTubeVase3DDiagramDeleteCallback GongOnAfterDeleteInterface[TubeVase3DDiagram]
+	OnAfterTubeVase3DDiagramReadCallback   GongOnAfterReadInterface[TubeVase3DDiagram]
 
 	TubeVaseAbstracts                map[*TubeVaseAbstract]struct{}
 	TubeVaseAbstracts_instance       map[*TubeVaseAbstract]*TubeVaseAbstract
@@ -2372,10 +2381,10 @@ type Stage struct {
 	TubeVaseAbstracts_referenceOrder map[*TubeVaseAbstract]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTubeVaseAbstractCreateCallback OnAfterCreateInterface[TubeVaseAbstract]
-	OnAfterTubeVaseAbstractUpdateCallback OnAfterUpdateInterface[TubeVaseAbstract]
-	OnAfterTubeVaseAbstractDeleteCallback OnAfterDeleteInterface[TubeVaseAbstract]
-	OnAfterTubeVaseAbstractReadCallback   OnAfterReadInterface[TubeVaseAbstract]
+	OnAfterTubeVaseAbstractCreateCallback GongOnAfterCreateInterface[TubeVaseAbstract]
+	OnAfterTubeVaseAbstractUpdateCallback GongOnAfterUpdateInterface[TubeVaseAbstract]
+	OnAfterTubeVaseAbstractDeleteCallback GongOnAfterDeleteInterface[TubeVaseAbstract]
+	OnAfterTubeVaseAbstractReadCallback   GongOnAfterReadInterface[TubeVaseAbstract]
 
 	Vase2DDiagrams                map[*Vase2DDiagram]struct{}
 	Vase2DDiagrams_instance       map[*Vase2DDiagram]*Vase2DDiagram
@@ -2387,10 +2396,10 @@ type Stage struct {
 	Vase2DDiagrams_referenceOrder map[*Vase2DDiagram]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterVase2DDiagramCreateCallback OnAfterCreateInterface[Vase2DDiagram]
-	OnAfterVase2DDiagramUpdateCallback OnAfterUpdateInterface[Vase2DDiagram]
-	OnAfterVase2DDiagramDeleteCallback OnAfterDeleteInterface[Vase2DDiagram]
-	OnAfterVase2DDiagramReadCallback   OnAfterReadInterface[Vase2DDiagram]
+	OnAfterVase2DDiagramCreateCallback GongOnAfterCreateInterface[Vase2DDiagram]
+	OnAfterVase2DDiagramUpdateCallback GongOnAfterUpdateInterface[Vase2DDiagram]
+	OnAfterVase2DDiagramDeleteCallback GongOnAfterDeleteInterface[Vase2DDiagram]
+	OnAfterVase2DDiagramReadCallback   GongOnAfterReadInterface[Vase2DDiagram]
 
 	VerticalTorusStackShapes                map[*VerticalTorusStackShape]struct{}
 	VerticalTorusStackShapes_instance       map[*VerticalTorusStackShape]*VerticalTorusStackShape
@@ -2402,10 +2411,10 @@ type Stage struct {
 	VerticalTorusStackShapes_referenceOrder map[*VerticalTorusStackShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterVerticalTorusStackShapeCreateCallback OnAfterCreateInterface[VerticalTorusStackShape]
-	OnAfterVerticalTorusStackShapeUpdateCallback OnAfterUpdateInterface[VerticalTorusStackShape]
-	OnAfterVerticalTorusStackShapeDeleteCallback OnAfterDeleteInterface[VerticalTorusStackShape]
-	OnAfterVerticalTorusStackShapeReadCallback   OnAfterReadInterface[VerticalTorusStackShape]
+	OnAfterVerticalTorusStackShapeCreateCallback GongOnAfterCreateInterface[VerticalTorusStackShape]
+	OnAfterVerticalTorusStackShapeUpdateCallback GongOnAfterUpdateInterface[VerticalTorusStackShape]
+	OnAfterVerticalTorusStackShapeDeleteCallback GongOnAfterDeleteInterface[VerticalTorusStackShape]
+	OnAfterVerticalTorusStackShapeReadCallback   GongOnAfterReadInterface[VerticalTorusStackShape]
 
 	VolumeKey3DShapes                map[*VolumeKey3DShape]struct{}
 	VolumeKey3DShapes_instance       map[*VolumeKey3DShape]*VolumeKey3DShape
@@ -2417,18 +2426,18 @@ type Stage struct {
 	VolumeKey3DShapes_referenceOrder map[*VolumeKey3DShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterVolumeKey3DShapeCreateCallback OnAfterCreateInterface[VolumeKey3DShape]
-	OnAfterVolumeKey3DShapeUpdateCallback OnAfterUpdateInterface[VolumeKey3DShape]
-	OnAfterVolumeKey3DShapeDeleteCallback OnAfterDeleteInterface[VolumeKey3DShape]
-	OnAfterVolumeKey3DShapeReadCallback   OnAfterReadInterface[VolumeKey3DShape]
+	OnAfterVolumeKey3DShapeCreateCallback GongOnAfterCreateInterface[VolumeKey3DShape]
+	OnAfterVolumeKey3DShapeUpdateCallback GongOnAfterUpdateInterface[VolumeKey3DShape]
+	OnAfterVolumeKey3DShapeDeleteCallback GongOnAfterDeleteInterface[VolumeKey3DShape]
+	OnAfterVolumeKey3DShapeReadCallback   GongOnAfterReadInterface[VolumeKey3DShape]
 
 
-	BackRepo BackRepoInterface
+	BackRepo GongBackRepoInterface
 
 	// if set will be called before each commit to the back repo
-	OnInitCommitCallback          OnInitCommitInterface
-	OnInitCommitFromFrontCallback OnInitCommitInterface
-	OnInitCommitFromBackCallback  OnInitCommitInterface
+	OnInitCommitCallback          GongOnInitCommitInterface
+	OnInitCommitFromFrontCallback GongOnInitCommitInterface
+	OnInitCommitFromBackCallback  GongOnInitCommitInterface
 
 	// Private slices to hold the registered hooks
 	beforeCommitHooks []func(stage *Stage)
@@ -2452,11 +2461,11 @@ type Stage struct {
 	// end of insertion point
 
 	// GongUnmarshallers is the registry of all model unmarshallers
-	GongUnmarshallers map[string]ModelUnmarshaller
+	GongUnmarshallers map[string]GongModelUnmarshaller
 
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
-	probeIF ProbeIF
+	probeIF GongProbeIF
 
 	forwardCommits  []string
 	backwardCommits []string
@@ -2474,6 +2483,8 @@ type Stage struct {
 
 	lock sync.RWMutex
 }
+
+type GongStage = Stage
 
 func (s *Stage) SetGongMarshallingMode(mode GongMarshallingMode) {
 	s.gongMarshallingMode = mode
@@ -5319,11 +5330,11 @@ func (stage *Stage) IsInDeltaMode() bool {
 	return stage.isInDeltaMode
 }
 
-func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+func (stage *Stage) SetProbeIF(probeIF GongProbeIF) {
 	stage.probeIF = probeIF
 }
 
-func (stage *Stage) GetProbeIF() ProbeIF {
+func (stage *Stage) GetProbeIF() GongProbeIF {
 	if stage.probeIF == nil {
 		return nil
 	}
@@ -5334,7 +5345,7 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
+func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
@@ -7387,7 +7398,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	return
 }
 
-func __gong__getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -7417,34 +7428,44 @@ type GONG__Identifier struct {
 	Type  GONG__ExpressionType
 }
 
-type OnInitCommitInterface interface {
+type GongOnInitCommitInterface interface {
 	BeforeCommit(stage *Stage)
 }
 
-// OnAfterCreateInterface callback when an instance is updated from the front
-type OnAfterCreateInterface[Type Gongstruct] interface {
+type OnInitCommitInterface = GongOnInitCommitInterface
+
+// GongOnAfterCreateInterface callback when an instance is updated from the front
+type GongOnAfterCreateInterface[Type Gongstruct] interface {
 	OnAfterCreate(stage *Stage,
 		instance *Type)
 }
 
-// OnAfterReadInterface callback when an instance is updated from the front
-type OnAfterReadInterface[Type Gongstruct] interface {
+type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
+
+// GongOnAfterReadInterface callback when an instance is updated from the front
+type GongOnAfterReadInterface[Type Gongstruct] interface {
 	OnAfterRead(stage *Stage,
 		instance *Type)
 }
 
-// OnAfterUpdateInterface callback when an instance is updated from the front
-type OnAfterUpdateInterface[Type Gongstruct] interface {
+type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
+
+// GongOnAfterUpdateInterface callback when an instance is updated from the front
+type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
 }
 
-// OnAfterDeleteInterface callback when an instance is updated from the front
-type OnAfterDeleteInterface[Type Gongstruct] interface {
+type OnAfterUpdateInterface[Type Gongstruct] = GongOnAfterUpdateInterface[Type]
+
+// GongOnAfterDeleteInterface callback when an instance is updated from the front
+type GongOnAfterDeleteInterface[Type Gongstruct] interface {
 	OnAfterDelete(stage *Stage,
 		staged, front *Type)
 }
 
-type BackRepoInterface interface {
+type OnAfterDeleteInterface[Type Gongstruct] = GongOnAfterDeleteInterface[Type]
+
+type GongBackRepoInterface interface {
 	Commit(stage *Stage)
 	Checkout(stage *Stage)
 	Backup(stage *Stage, dirPath string)
@@ -7747,6 +7768,8 @@ type BackRepoInterface interface {
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
+
+type BackRepoInterface = GongBackRepoInterface
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
@@ -8783,7 +8806,7 @@ func NewStage(name string) (stage *Stage) {
 		VolumeKey3DShapes_reference:  make(map[*VolumeKey3DShape]*VolumeKey3DShape),
 
 		// end of insertion point
-		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+		GongUnmarshallers: map[string]GongModelUnmarshaller{ // insertion point for unmarshallers
 			"Angle0Shape": &Angle0ShapeUnmarshaller{},
 
 			"ArcNormalVectorShape": &ArcNormalVectorShapeUnmarshaller{},
@@ -9095,7 +9118,7 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 }
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
-func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (res Type) {
+func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
@@ -22799,9 +22822,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface{}
 
-type GongtructBasicField interface {
+type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
 }
+
+type GongtructBasicField = GongstructBasicField
 
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
@@ -22820,8 +22845,8 @@ type GongstructIF interface {
 	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
-	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
+	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
+	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -22830,16 +22855,18 @@ type GongstructIF interface {
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
 }
-type PointerToGongstruct interface {
+type GongstructPtr interface {
 	GongstructIF
 	comparable
 }
 
-func GongCompareGongstructByName[T PointerToGongstruct](a, b T) int {
+type PointerToGongstruct = GongstructPtr
+
+func GongCompareGongstructByName[T GongstructPtr](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func GongSortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
+func GongSortGongstructSetByName[T GongstructPtr](set map[T]struct{}) (sortedSlice []T) {
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
 	}
@@ -22849,7 +22876,7 @@ func GongSortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sor
 }
 
 // GetInstancesSorted is the Stage method returning sorted instances of a gongstruct.
-func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T) {
+func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 	set := stage.GetInstancesSet[T]()
 	sortedSlice = GongSortGongstructSetByName(*set)
 
@@ -23160,7 +23187,7 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
-func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
+func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -28363,13 +28390,15 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 	return GongGetPointerToGongstructName[Type]()
 }
 
-type ReverseField struct {
+type GongReverseField struct {
 	GongstructName string
 	Fieldname      string
 }
 
-func GongGetReverseFields[Type GongstructIF]() (res []ReverseField) {
-	res = make([]ReverseField, 0)
+type ReverseField = GongReverseField
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	res = make([]GongReverseField, 0)
 
 	var ret Type
 
@@ -28995,7 +29024,7 @@ func GongGetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	return
 }
 
-func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
+func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 	return GongGetReverseFields[Type]()
 }
 
@@ -34309,12 +34338,12 @@ func (volumekey3dshape *VolumeKey3DShape) GongGetFieldHeaders() (res []GongField
 }
 
 // GongGetFieldsFromPointer return the array of the fields
-func GongGetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+func GongGetFieldsFromPointer[Type GongstructPtr]() (res []GongFieldHeader) {
 	var ret Type
 	return ret.GongGetFieldHeaders()
 }
 
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+func GetFieldsFromPointer[Type GongstructPtr]() (res []GongFieldHeader) {
 	return GongGetFieldsFromPointer[Type]()
 }
 

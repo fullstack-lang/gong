@@ -2,7 +2,7 @@
 package models
 
 // insertion point
-func (inst *AllocatedResourceShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *AllocatedResourceShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -18,7 +18,7 @@ func (inst *AllocatedResourceShape) GongGetReverseFieldOwnerName(stage *Stage, r
 	return
 }
 
-func (inst *AllocatedSystemShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *AllocatedSystemShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -34,7 +34,7 @@ func (inst *AllocatedSystemShape) GongGetReverseFieldOwnerName(stage *Stage, rev
 	return
 }
 
-func (inst *ControlFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ControlFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -57,7 +57,7 @@ func (inst *ControlFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 	return
 }
 
-func (inst *ControlFlowShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ControlFlowShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -73,7 +73,7 @@ func (inst *ControlFlowShape) GongGetReverseFieldOwnerName(stage *Stage, reverse
 	return
 }
 
-func (inst *Data) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *Data) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -107,7 +107,7 @@ func (inst *Data) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	return
 }
 
-func (inst *DataFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *DataFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -145,7 +145,7 @@ func (inst *DataFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 	return
 }
 
-func (inst *DataFlowShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *DataFlowShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -161,7 +161,7 @@ func (inst *DataFlowShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 	return
 }
 
-func (inst *DataShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *DataShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -177,7 +177,7 @@ func (inst *DataShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	return
 }
 
-func (inst *DiagramLayerState) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *DiagramLayerState) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -186,7 +186,7 @@ func (inst *DiagramLayerState) GongGetReverseFieldOwnerName(stage *Stage, revers
 	return
 }
 
-func (inst *DiagramStructure) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *DiagramStructure) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -206,7 +206,7 @@ func (inst *DiagramStructure) GongGetReverseFieldOwnerName(stage *Stage, reverse
 	return
 }
 
-func (inst *ExternalPartShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ExternalPartShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -222,7 +222,7 @@ func (inst *ExternalPartShape) GongGetReverseFieldOwnerName(stage *Stage, revers
 	return
 }
 
-func (inst *LayerDefinition) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *LayerDefinition) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -231,7 +231,7 @@ func (inst *LayerDefinition) GongGetReverseFieldOwnerName(stage *Stage, reverseF
 	return
 }
 
-func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -251,7 +251,7 @@ func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	return
 }
 
-func (inst *Note) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *Note) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -278,7 +278,7 @@ func (inst *Note) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	return
 }
 
-func (inst *NotePartShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *NotePartShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -294,7 +294,7 @@ func (inst *NotePartShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 	return
 }
 
-func (inst *NotePortShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *NotePortShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -310,7 +310,7 @@ func (inst *NotePortShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 	return
 }
 
-func (inst *NoteShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *NoteShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -326,7 +326,7 @@ func (inst *NoteShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	return
 }
 
-func (inst *Part) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *Part) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -394,7 +394,7 @@ func (inst *Part) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	return
 }
 
-func (inst *PartAnchoredPath) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *PartAnchoredPath) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -410,7 +410,7 @@ func (inst *PartAnchoredPath) GongGetReverseFieldOwnerName(stage *Stage, reverse
 	return
 }
 
-func (inst *PartShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *PartShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -426,7 +426,7 @@ func (inst *PartShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	return
 }
 
-func (inst *Port) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *Port) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -472,7 +472,7 @@ func (inst *Port) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	return
 }
 
-func (inst *PortShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *PortShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -488,7 +488,7 @@ func (inst *PortShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	return
 }
 
-func (inst *Resource) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *Resource) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -515,7 +515,7 @@ func (inst *Resource) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 	return
 }
 
-func (inst *SemanticTag) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *SemanticTag) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -531,7 +531,7 @@ func (inst *SemanticTag) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 	return
 }
 
-func (inst *System) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *System) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -569,7 +569,7 @@ func (inst *System) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rev
 	return
 }
 
-func (inst *SystemShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *SystemShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -586,7 +586,7 @@ func (inst *SystemShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 }
 
 // insertion point
-func (inst *AllocatedResourceShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *AllocatedResourceShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -600,7 +600,7 @@ func (inst *AllocatedResourceShape) GongGetReverseFieldOwner(stage *Stage, rever
 	return res
 }
 
-func (inst *AllocatedSystemShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *AllocatedSystemShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -614,7 +614,7 @@ func (inst *AllocatedSystemShape) GongGetReverseFieldOwner(stage *Stage, reverse
 	return res
 }
 
-func (inst *ControlFlow) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ControlFlow) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -633,7 +633,7 @@ func (inst *ControlFlow) GongGetReverseFieldOwner(stage *Stage, reverseField *Re
 	return res
 }
 
-func (inst *ControlFlowShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ControlFlowShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -647,7 +647,7 @@ func (inst *ControlFlowShape) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 	return res
 }
 
-func (inst *Data) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *Data) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -673,7 +673,7 @@ func (inst *Data) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	return res
 }
 
-func (inst *DataFlow) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *DataFlow) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -701,7 +701,7 @@ func (inst *DataFlow) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 	return res
 }
 
-func (inst *DataFlowShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *DataFlowShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -715,7 +715,7 @@ func (inst *DataFlowShape) GongGetReverseFieldOwner(stage *Stage, reverseField *
 	return res
 }
 
-func (inst *DataShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *DataShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -729,7 +729,7 @@ func (inst *DataShape) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 	return res
 }
 
-func (inst *DiagramLayerState) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *DiagramLayerState) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -738,7 +738,7 @@ func (inst *DiagramLayerState) GongGetReverseFieldOwner(stage *Stage, reverseFie
 	return res
 }
 
-func (inst *DiagramStructure) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *DiagramStructure) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -754,7 +754,7 @@ func (inst *DiagramStructure) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 	return res
 }
 
-func (inst *ExternalPartShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ExternalPartShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -768,7 +768,7 @@ func (inst *ExternalPartShape) GongGetReverseFieldOwner(stage *Stage, reverseFie
 	return res
 }
 
-func (inst *LayerDefinition) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *LayerDefinition) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -777,7 +777,7 @@ func (inst *LayerDefinition) GongGetReverseFieldOwner(stage *Stage, reverseField
 	return res
 }
 
-func (inst *Library) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *Library) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -793,7 +793,7 @@ func (inst *Library) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 	return res
 }
 
-func (inst *Note) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *Note) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -814,7 +814,7 @@ func (inst *Note) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	return res
 }
 
-func (inst *NotePartShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *NotePartShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -828,7 +828,7 @@ func (inst *NotePartShape) GongGetReverseFieldOwner(stage *Stage, reverseField *
 	return res
 }
 
-func (inst *NotePortShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *NotePortShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -842,7 +842,7 @@ func (inst *NotePortShape) GongGetReverseFieldOwner(stage *Stage, reverseField *
 	return res
 }
 
-func (inst *NoteShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *NoteShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -856,7 +856,7 @@ func (inst *NoteShape) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 	return res
 }
 
-func (inst *Part) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *Part) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -902,7 +902,7 @@ func (inst *Part) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	return res
 }
 
-func (inst *PartAnchoredPath) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *PartAnchoredPath) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -916,7 +916,7 @@ func (inst *PartAnchoredPath) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 	return res
 }
 
-func (inst *PartShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *PartShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -930,7 +930,7 @@ func (inst *PartShape) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 	return res
 }
 
-func (inst *Port) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *Port) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -962,7 +962,7 @@ func (inst *Port) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	return res
 }
 
-func (inst *PortShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *PortShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -976,7 +976,7 @@ func (inst *PortShape) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 	return res
 }
 
-func (inst *Resource) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *Resource) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -997,7 +997,7 @@ func (inst *Resource) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 	return res
 }
 
-func (inst *SemanticTag) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *SemanticTag) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1011,7 +1011,7 @@ func (inst *SemanticTag) GongGetReverseFieldOwner(stage *Stage, reverseField *Re
 	return res
 }
 
-func (inst *System) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *System) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1039,7 +1039,7 @@ func (inst *System) GongGetReverseFieldOwner(stage *Stage, reverseField *Reverse
 	return res
 }
 
-func (inst *SystemShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *SystemShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

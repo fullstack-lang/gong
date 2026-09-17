@@ -52,7 +52,7 @@ type Gongfield interface {
 // limitations:
 // 1. cannot encode boolean fields
 // 2. for associations (pointer to gongstruct or slice of pointer to gongstruct, uses GetAssociationName)
-func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldType) string {
+func GongfieldName[Type GongstructPtr, FieldType Gongfield](field FieldType) string {
 	var t Type
 
 	switch any(t).(type) {

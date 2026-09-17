@@ -30,13 +30,22 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
-	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
-	ProbeTableSuffix                 = ":table of the probe"
-	ProbeNotificationTableSuffix     = ":notification table of the probe"
-	ProbeFormSuffix                  = ":form of the probe"
-	ProbeSplitSuffix                 = ":probe of the probe"
-	ProbeLoadSuffix                  = ":load of the probe"
+	GongProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	GongProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	GongProbeTableSuffix                 = ":table of the probe"
+	GongProbeNotificationTableSuffix     = ":notification table of the probe"
+	GongProbeFormSuffix                  = ":form of the probe"
+	GongProbeSplitSuffix                 = ":probe of the probe"
+	GongProbeLoadSuffix                  = ":load of the probe"
+
+	// backward compatibility
+	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
+	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
+	ProbeTableSuffix                 = GongProbeTableSuffix
+	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
+	ProbeFormSuffix                  = GongProbeFormSuffix
+	ProbeSplitSuffix                 = GongProbeSplitSuffix
+	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -50,31 +59,31 @@ const (
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeFormSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeFormSuffix
 }
 
 func (stage *Stage) GetProbeTableStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeTableSuffix
 }
 
 func (stage *Stage) GetProbeNotificationTableStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeSplitSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeSplitSuffix
 }
 
 func (stage *Stage) GetProbeLoadStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeLoadSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeLoadSuffix
 }
 
 // errUnkownEnum is returns when a value cannot match enum values
@@ -124,10 +133,10 @@ type Stage struct {
 	GongBasicFields_referenceOrder map[*GongBasicField]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGongBasicFieldCreateCallback OnAfterCreateInterface[GongBasicField]
-	OnAfterGongBasicFieldUpdateCallback OnAfterUpdateInterface[GongBasicField]
-	OnAfterGongBasicFieldDeleteCallback OnAfterDeleteInterface[GongBasicField]
-	OnAfterGongBasicFieldReadCallback   OnAfterReadInterface[GongBasicField]
+	OnAfterGongBasicFieldCreateCallback GongOnAfterCreateInterface[GongBasicField]
+	OnAfterGongBasicFieldUpdateCallback GongOnAfterUpdateInterface[GongBasicField]
+	OnAfterGongBasicFieldDeleteCallback GongOnAfterDeleteInterface[GongBasicField]
+	OnAfterGongBasicFieldReadCallback   GongOnAfterReadInterface[GongBasicField]
 
 	GongEnums                map[*GongEnum]struct{}
 	GongEnums_instance       map[*GongEnum]*GongEnum
@@ -141,10 +150,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	GongEnum_GongEnumValues_reverseMap map[*GongEnumValue]*GongEnum
 
-	OnAfterGongEnumCreateCallback OnAfterCreateInterface[GongEnum]
-	OnAfterGongEnumUpdateCallback OnAfterUpdateInterface[GongEnum]
-	OnAfterGongEnumDeleteCallback OnAfterDeleteInterface[GongEnum]
-	OnAfterGongEnumReadCallback   OnAfterReadInterface[GongEnum]
+	OnAfterGongEnumCreateCallback GongOnAfterCreateInterface[GongEnum]
+	OnAfterGongEnumUpdateCallback GongOnAfterUpdateInterface[GongEnum]
+	OnAfterGongEnumDeleteCallback GongOnAfterDeleteInterface[GongEnum]
+	OnAfterGongEnumReadCallback   GongOnAfterReadInterface[GongEnum]
 
 	GongEnumValues                map[*GongEnumValue]struct{}
 	GongEnumValues_instance       map[*GongEnumValue]*GongEnumValue
@@ -156,10 +165,10 @@ type Stage struct {
 	GongEnumValues_referenceOrder map[*GongEnumValue]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGongEnumValueCreateCallback OnAfterCreateInterface[GongEnumValue]
-	OnAfterGongEnumValueUpdateCallback OnAfterUpdateInterface[GongEnumValue]
-	OnAfterGongEnumValueDeleteCallback OnAfterDeleteInterface[GongEnumValue]
-	OnAfterGongEnumValueReadCallback   OnAfterReadInterface[GongEnumValue]
+	OnAfterGongEnumValueCreateCallback GongOnAfterCreateInterface[GongEnumValue]
+	OnAfterGongEnumValueUpdateCallback GongOnAfterUpdateInterface[GongEnumValue]
+	OnAfterGongEnumValueDeleteCallback GongOnAfterDeleteInterface[GongEnumValue]
+	OnAfterGongEnumValueReadCallback   GongOnAfterReadInterface[GongEnumValue]
 
 	GongLinks                map[*GongLink]struct{}
 	GongLinks_instance       map[*GongLink]*GongLink
@@ -171,10 +180,10 @@ type Stage struct {
 	GongLinks_referenceOrder map[*GongLink]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGongLinkCreateCallback OnAfterCreateInterface[GongLink]
-	OnAfterGongLinkUpdateCallback OnAfterUpdateInterface[GongLink]
-	OnAfterGongLinkDeleteCallback OnAfterDeleteInterface[GongLink]
-	OnAfterGongLinkReadCallback   OnAfterReadInterface[GongLink]
+	OnAfterGongLinkCreateCallback GongOnAfterCreateInterface[GongLink]
+	OnAfterGongLinkUpdateCallback GongOnAfterUpdateInterface[GongLink]
+	OnAfterGongLinkDeleteCallback GongOnAfterDeleteInterface[GongLink]
+	OnAfterGongLinkReadCallback   GongOnAfterReadInterface[GongLink]
 
 	GongNotes                map[*GongNote]struct{}
 	GongNotes_instance       map[*GongNote]*GongNote
@@ -188,10 +197,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	GongNote_Links_reverseMap map[*GongLink]*GongNote
 
-	OnAfterGongNoteCreateCallback OnAfterCreateInterface[GongNote]
-	OnAfterGongNoteUpdateCallback OnAfterUpdateInterface[GongNote]
-	OnAfterGongNoteDeleteCallback OnAfterDeleteInterface[GongNote]
-	OnAfterGongNoteReadCallback   OnAfterReadInterface[GongNote]
+	OnAfterGongNoteCreateCallback GongOnAfterCreateInterface[GongNote]
+	OnAfterGongNoteUpdateCallback GongOnAfterUpdateInterface[GongNote]
+	OnAfterGongNoteDeleteCallback GongOnAfterDeleteInterface[GongNote]
+	OnAfterGongNoteReadCallback   GongOnAfterReadInterface[GongNote]
 
 	GongStructs                map[*GongStruct]struct{}
 	GongStructs_instance       map[*GongStruct]*GongStruct
@@ -211,10 +220,10 @@ type Stage struct {
 
 	GongStruct_SliceOfPointerToGongStructFields_reverseMap map[*SliceOfPointerToGongStructField]*GongStruct
 
-	OnAfterGongStructCreateCallback OnAfterCreateInterface[GongStruct]
-	OnAfterGongStructUpdateCallback OnAfterUpdateInterface[GongStruct]
-	OnAfterGongStructDeleteCallback OnAfterDeleteInterface[GongStruct]
-	OnAfterGongStructReadCallback   OnAfterReadInterface[GongStruct]
+	OnAfterGongStructCreateCallback GongOnAfterCreateInterface[GongStruct]
+	OnAfterGongStructUpdateCallback GongOnAfterUpdateInterface[GongStruct]
+	OnAfterGongStructDeleteCallback GongOnAfterDeleteInterface[GongStruct]
+	OnAfterGongStructReadCallback   GongOnAfterReadInterface[GongStruct]
 
 	GongTimeFields                map[*GongTimeField]struct{}
 	GongTimeFields_instance       map[*GongTimeField]*GongTimeField
@@ -226,10 +235,10 @@ type Stage struct {
 	GongTimeFields_referenceOrder map[*GongTimeField]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGongTimeFieldCreateCallback OnAfterCreateInterface[GongTimeField]
-	OnAfterGongTimeFieldUpdateCallback OnAfterUpdateInterface[GongTimeField]
-	OnAfterGongTimeFieldDeleteCallback OnAfterDeleteInterface[GongTimeField]
-	OnAfterGongTimeFieldReadCallback   OnAfterReadInterface[GongTimeField]
+	OnAfterGongTimeFieldCreateCallback GongOnAfterCreateInterface[GongTimeField]
+	OnAfterGongTimeFieldUpdateCallback GongOnAfterUpdateInterface[GongTimeField]
+	OnAfterGongTimeFieldDeleteCallback GongOnAfterDeleteInterface[GongTimeField]
+	OnAfterGongTimeFieldReadCallback   GongOnAfterReadInterface[GongTimeField]
 
 	MetaReferences                map[*MetaReference]struct{}
 	MetaReferences_instance       map[*MetaReference]*MetaReference
@@ -241,10 +250,10 @@ type Stage struct {
 	MetaReferences_referenceOrder map[*MetaReference]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMetaReferenceCreateCallback OnAfterCreateInterface[MetaReference]
-	OnAfterMetaReferenceUpdateCallback OnAfterUpdateInterface[MetaReference]
-	OnAfterMetaReferenceDeleteCallback OnAfterDeleteInterface[MetaReference]
-	OnAfterMetaReferenceReadCallback   OnAfterReadInterface[MetaReference]
+	OnAfterMetaReferenceCreateCallback GongOnAfterCreateInterface[MetaReference]
+	OnAfterMetaReferenceUpdateCallback GongOnAfterUpdateInterface[MetaReference]
+	OnAfterMetaReferenceDeleteCallback GongOnAfterDeleteInterface[MetaReference]
+	OnAfterMetaReferenceReadCallback   GongOnAfterReadInterface[MetaReference]
 
 	ModelPkgs                map[*ModelPkg]struct{}
 	ModelPkgs_instance       map[*ModelPkg]*ModelPkg
@@ -256,10 +265,10 @@ type Stage struct {
 	ModelPkgs_referenceOrder map[*ModelPkg]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterModelPkgCreateCallback OnAfterCreateInterface[ModelPkg]
-	OnAfterModelPkgUpdateCallback OnAfterUpdateInterface[ModelPkg]
-	OnAfterModelPkgDeleteCallback OnAfterDeleteInterface[ModelPkg]
-	OnAfterModelPkgReadCallback   OnAfterReadInterface[ModelPkg]
+	OnAfterModelPkgCreateCallback GongOnAfterCreateInterface[ModelPkg]
+	OnAfterModelPkgUpdateCallback GongOnAfterUpdateInterface[ModelPkg]
+	OnAfterModelPkgDeleteCallback GongOnAfterDeleteInterface[ModelPkg]
+	OnAfterModelPkgReadCallback   GongOnAfterReadInterface[ModelPkg]
 
 	PointerToGongStructFields                map[*PointerToGongStructField]struct{}
 	PointerToGongStructFields_instance       map[*PointerToGongStructField]*PointerToGongStructField
@@ -271,10 +280,10 @@ type Stage struct {
 	PointerToGongStructFields_referenceOrder map[*PointerToGongStructField]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPointerToGongStructFieldCreateCallback OnAfterCreateInterface[PointerToGongStructField]
-	OnAfterPointerToGongStructFieldUpdateCallback OnAfterUpdateInterface[PointerToGongStructField]
-	OnAfterPointerToGongStructFieldDeleteCallback OnAfterDeleteInterface[PointerToGongStructField]
-	OnAfterPointerToGongStructFieldReadCallback   OnAfterReadInterface[PointerToGongStructField]
+	OnAfterPointerToGongStructFieldCreateCallback GongOnAfterCreateInterface[PointerToGongStructField]
+	OnAfterPointerToGongStructFieldUpdateCallback GongOnAfterUpdateInterface[PointerToGongStructField]
+	OnAfterPointerToGongStructFieldDeleteCallback GongOnAfterDeleteInterface[PointerToGongStructField]
+	OnAfterPointerToGongStructFieldReadCallback   GongOnAfterReadInterface[PointerToGongStructField]
 
 	SliceOfPointerToGongStructFields                map[*SliceOfPointerToGongStructField]struct{}
 	SliceOfPointerToGongStructFields_instance       map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField
@@ -286,18 +295,18 @@ type Stage struct {
 	SliceOfPointerToGongStructFields_referenceOrder map[*SliceOfPointerToGongStructField]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSliceOfPointerToGongStructFieldCreateCallback OnAfterCreateInterface[SliceOfPointerToGongStructField]
-	OnAfterSliceOfPointerToGongStructFieldUpdateCallback OnAfterUpdateInterface[SliceOfPointerToGongStructField]
-	OnAfterSliceOfPointerToGongStructFieldDeleteCallback OnAfterDeleteInterface[SliceOfPointerToGongStructField]
-	OnAfterSliceOfPointerToGongStructFieldReadCallback   OnAfterReadInterface[SliceOfPointerToGongStructField]
+	OnAfterSliceOfPointerToGongStructFieldCreateCallback GongOnAfterCreateInterface[SliceOfPointerToGongStructField]
+	OnAfterSliceOfPointerToGongStructFieldUpdateCallback GongOnAfterUpdateInterface[SliceOfPointerToGongStructField]
+	OnAfterSliceOfPointerToGongStructFieldDeleteCallback GongOnAfterDeleteInterface[SliceOfPointerToGongStructField]
+	OnAfterSliceOfPointerToGongStructFieldReadCallback   GongOnAfterReadInterface[SliceOfPointerToGongStructField]
 
 
-	BackRepo BackRepoInterface
+	BackRepo GongBackRepoInterface
 
 	// if set will be called before each commit to the back repo
-	OnInitCommitCallback          OnInitCommitInterface
-	OnInitCommitFromFrontCallback OnInitCommitInterface
-	OnInitCommitFromBackCallback  OnInitCommitInterface
+	OnInitCommitCallback          GongOnInitCommitInterface
+	OnInitCommitFromFrontCallback GongOnInitCommitInterface
+	OnInitCommitFromBackCallback  GongOnInitCommitInterface
 
 	// Private slices to hold the registered hooks
 	beforeCommitHooks []func(stage *Stage)
@@ -321,11 +330,11 @@ type Stage struct {
 	// end of insertion point
 
 	// GongUnmarshallers is the registry of all model unmarshallers
-	GongUnmarshallers map[string]ModelUnmarshaller
+	GongUnmarshallers map[string]GongModelUnmarshaller
 
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
-	probeIF ProbeIF
+	probeIF GongProbeIF
 
 	forwardCommits  []string
 	backwardCommits []string
@@ -343,6 +352,8 @@ type Stage struct {
 
 	lock sync.RWMutex
 }
+
+type GongStage = Stage
 
 func (s *Stage) SetGongMarshallingMode(mode GongMarshallingMode) {
 	s.gongMarshallingMode = mode
@@ -758,11 +769,11 @@ func (stage *Stage) IsInDeltaMode() bool {
 	return stage.isInDeltaMode
 }
 
-func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+func (stage *Stage) SetProbeIF(probeIF GongProbeIF) {
 	stage.probeIF = probeIF
 }
 
-func (stage *Stage) GetProbeIF() ProbeIF {
+func (stage *Stage) GetProbeIF() GongProbeIF {
 	if stage.probeIF == nil {
 		return nil
 	}
@@ -773,7 +784,7 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
+func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
@@ -936,7 +947,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	return
 }
 
-func __gong__getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -966,34 +977,44 @@ type GONG__Identifier struct {
 	Type  GONG__ExpressionType
 }
 
-type OnInitCommitInterface interface {
+type GongOnInitCommitInterface interface {
 	BeforeCommit(stage *Stage)
 }
 
-// OnAfterCreateInterface callback when an instance is updated from the front
-type OnAfterCreateInterface[Type Gongstruct] interface {
+type OnInitCommitInterface = GongOnInitCommitInterface
+
+// GongOnAfterCreateInterface callback when an instance is updated from the front
+type GongOnAfterCreateInterface[Type Gongstruct] interface {
 	OnAfterCreate(stage *Stage,
 		instance *Type)
 }
 
-// OnAfterReadInterface callback when an instance is updated from the front
-type OnAfterReadInterface[Type Gongstruct] interface {
+type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
+
+// GongOnAfterReadInterface callback when an instance is updated from the front
+type GongOnAfterReadInterface[Type Gongstruct] interface {
 	OnAfterRead(stage *Stage,
 		instance *Type)
 }
 
-// OnAfterUpdateInterface callback when an instance is updated from the front
-type OnAfterUpdateInterface[Type Gongstruct] interface {
+type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
+
+// GongOnAfterUpdateInterface callback when an instance is updated from the front
+type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
 }
 
-// OnAfterDeleteInterface callback when an instance is updated from the front
-type OnAfterDeleteInterface[Type Gongstruct] interface {
+type OnAfterUpdateInterface[Type Gongstruct] = GongOnAfterUpdateInterface[Type]
+
+// GongOnAfterDeleteInterface callback when an instance is updated from the front
+type GongOnAfterDeleteInterface[Type Gongstruct] interface {
 	OnAfterDelete(stage *Stage,
 		staged, front *Type)
 }
 
-type BackRepoInterface interface {
+type OnAfterDeleteInterface[Type Gongstruct] = GongOnAfterDeleteInterface[Type]
+
+type GongBackRepoInterface interface {
 	Commit(stage *Stage)
 	Checkout(stage *Stage)
 	Backup(stage *Stage, dirPath string)
@@ -1026,6 +1047,8 @@ type BackRepoInterface interface {
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
+
+type BackRepoInterface = GongBackRepoInterface
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
@@ -1117,7 +1140,7 @@ func NewStage(name string) (stage *Stage) {
 		SliceOfPointerToGongStructFields_reference:  make(map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField),
 
 		// end of insertion point
-		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+		GongUnmarshallers: map[string]GongModelUnmarshaller{ // insertion point for unmarshallers
 			"GongBasicField": &GongBasicFieldUnmarshaller{},
 
 			"GongEnum": &GongEnumUnmarshaller{},
@@ -1159,7 +1182,7 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 }
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
-func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (res Type) {
+func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
@@ -2308,9 +2331,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface{}
 
-type GongtructBasicField interface {
+type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
 }
+
+type GongtructBasicField = GongstructBasicField
 
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
@@ -2329,8 +2354,8 @@ type GongstructIF interface {
 	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
-	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
+	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
+	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -2339,16 +2364,18 @@ type GongstructIF interface {
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
 }
-type PointerToGongstruct interface {
+type GongstructPtr interface {
 	GongstructIF
 	comparable
 }
 
-func GongCompareGongstructByName[T PointerToGongstruct](a, b T) int {
+type PointerToGongstruct = GongstructPtr
+
+func GongCompareGongstructByName[T GongstructPtr](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func GongSortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
+func GongSortGongstructSetByName[T GongstructPtr](set map[T]struct{}) (sortedSlice []T) {
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
 	}
@@ -2358,7 +2385,7 @@ func GongSortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sor
 }
 
 // GetInstancesSorted is the Stage method returning sorted instances of a gongstruct.
-func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T) {
+func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 	set := stage.GetInstancesSet[T]()
 	sortedSlice = GongSortGongstructSetByName(*set)
 
@@ -2399,7 +2426,7 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
-func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
+func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -2780,13 +2807,15 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 	return GongGetPointerToGongstructName[Type]()
 }
 
-type ReverseField struct {
+type GongReverseField struct {
 	GongstructName string
 	Fieldname      string
 }
 
-func GongGetReverseFields[Type GongstructIF]() (res []ReverseField) {
-	res = make([]ReverseField, 0)
+type ReverseField = GongReverseField
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	res = make([]GongReverseField, 0)
 
 	var ret Type
 
@@ -2848,7 +2877,7 @@ func GongGetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	return
 }
 
-func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
+func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 	return GongGetReverseFields[Type]()
 }
 
@@ -3249,12 +3278,12 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetF
 }
 
 // GongGetFieldsFromPointer return the array of the fields
-func GongGetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+func GongGetFieldsFromPointer[Type GongstructPtr]() (res []GongFieldHeader) {
 	var ret Type
 	return ret.GongGetFieldHeaders()
 }
 
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+func GetFieldsFromPointer[Type GongstructPtr]() (res []GongFieldHeader) {
 	return GongGetFieldsFromPointer[Type]()
 }
 

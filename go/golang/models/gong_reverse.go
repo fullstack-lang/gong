@@ -30,7 +30,7 @@ const (
 var GongGetReverseFieldOwnerNameSubTemplateCode map[GongGetReverseFieldOwnerNameId]string = // new line
 map[GongGetReverseFieldOwnerNameId]string{
 	GongGetReverseFieldOwnerNameSwitch: `
-func (inst *{{Structname}}) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *{{Structname}}) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -40,7 +40,7 @@ func (inst *{{Structname}}) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 }
 `,
 	GongGetReverseFieldOwnerSwitch: `
-func (inst *{{Structname}}) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *{{Structname}}) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

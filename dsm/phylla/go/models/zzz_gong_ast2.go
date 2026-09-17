@@ -36,14 +36,16 @@ const (
 // STATIC AST PARSING LOGIC
 // ------------------------------------------------------------------------------------------------
 
-// ModelUnmarshaller abstracts the logic for setting fields on a staged instance
-type ModelUnmarshaller interface {
+// GongModelUnmarshaller abstracts the logic for setting fields on a staged instance
+type GongModelUnmarshaller interface {
 	// Initialize creates the struct, stages it, and returns the pointer as 'any'
 	Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error)
 
 	// UnmarshallField sets a field's value based on the AST expression
 	UnmarshallField(stage *Stage, instance GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error
 }
+
+type ModelUnmarshaller = GongModelUnmarshaller
 
 // ParseAstFile Parse pathToFile and stages all instances declared in the file
 func (stage *Stage) ParseAstFile(pathToFile string, preserveOrder bool) error {
@@ -355,7 +357,7 @@ func GongExtractExpr(expr ast.Expr) any {
 }
 
 // GongUnmarshallSliceOfPointers handles append, slices.Delete, and slices.Insert for slice fields
-func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
+func GongUnmarshallSliceOfPointers[T GongstructPtr](
 	slice *[]T,
 	valueExpr ast.Expr,
 	identifierMap map[string]GongstructIF) (err error) {
@@ -414,7 +416,7 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 }
 
 // GongUnmarshallPointer handles assignment of a single pointer field
-func GongUnmarshallPointer[T PointerToGongstruct](
+func GongUnmarshallPointer[T GongstructPtr](
 	ptr *T,
 	valueExpr ast.Expr,
 	identifierMap map[string]GongstructIF) {

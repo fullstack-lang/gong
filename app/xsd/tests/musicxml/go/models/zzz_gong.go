@@ -30,13 +30,22 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
-	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
-	ProbeTableSuffix                 = ":table of the probe"
-	ProbeNotificationTableSuffix     = ":notification table of the probe"
-	ProbeFormSuffix                  = ":form of the probe"
-	ProbeSplitSuffix                 = ":probe of the probe"
-	ProbeLoadSuffix                  = ":load of the probe"
+	GongProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	GongProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	GongProbeTableSuffix                 = ":table of the probe"
+	GongProbeNotificationTableSuffix     = ":notification table of the probe"
+	GongProbeFormSuffix                  = ":form of the probe"
+	GongProbeSplitSuffix                 = ":probe of the probe"
+	GongProbeLoadSuffix                  = ":load of the probe"
+
+	// backward compatibility
+	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
+	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
+	ProbeTableSuffix                 = GongProbeTableSuffix
+	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
+	ProbeFormSuffix                  = GongProbeFormSuffix
+	ProbeSplitSuffix                 = GongProbeSplitSuffix
+	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -50,31 +59,31 @@ const (
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeFormSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeFormSuffix
 }
 
 func (stage *Stage) GetProbeTableStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeTableSuffix
 }
 
 func (stage *Stage) GetProbeNotificationTableStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeSplitSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeSplitSuffix
 }
 
 func (stage *Stage) GetProbeLoadStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeLoadSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeLoadSuffix
 }
 
 // errUnkownEnum is returns when a value cannot match enum values
@@ -124,10 +133,10 @@ type Stage struct {
 	A_directives_referenceOrder map[*A_directive]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_directiveCreateCallback OnAfterCreateInterface[A_directive]
-	OnAfterA_directiveUpdateCallback OnAfterUpdateInterface[A_directive]
-	OnAfterA_directiveDeleteCallback OnAfterDeleteInterface[A_directive]
-	OnAfterA_directiveReadCallback   OnAfterReadInterface[A_directive]
+	OnAfterA_directiveCreateCallback GongOnAfterCreateInterface[A_directive]
+	OnAfterA_directiveUpdateCallback GongOnAfterUpdateInterface[A_directive]
+	OnAfterA_directiveDeleteCallback GongOnAfterDeleteInterface[A_directive]
+	OnAfterA_directiveReadCallback   GongOnAfterReadInterface[A_directive]
 
 	A_measures                map[*A_measure]struct{}
 	A_measures_instance       map[*A_measure]*A_measure
@@ -167,10 +176,10 @@ type Stage struct {
 
 	A_measure_Bookmark_reverseMap map[*Bookmark]*A_measure
 
-	OnAfterA_measureCreateCallback OnAfterCreateInterface[A_measure]
-	OnAfterA_measureUpdateCallback OnAfterUpdateInterface[A_measure]
-	OnAfterA_measureDeleteCallback OnAfterDeleteInterface[A_measure]
-	OnAfterA_measureReadCallback   OnAfterReadInterface[A_measure]
+	OnAfterA_measureCreateCallback GongOnAfterCreateInterface[A_measure]
+	OnAfterA_measureUpdateCallback GongOnAfterUpdateInterface[A_measure]
+	OnAfterA_measureDeleteCallback GongOnAfterDeleteInterface[A_measure]
+	OnAfterA_measureReadCallback   GongOnAfterReadInterface[A_measure]
 
 	A_measure_1s                map[*A_measure_1]struct{}
 	A_measure_1s_instance       map[*A_measure_1]*A_measure_1
@@ -184,10 +193,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_measure_1_Part_reverseMap map[*A_part_1]*A_measure_1
 
-	OnAfterA_measure_1CreateCallback OnAfterCreateInterface[A_measure_1]
-	OnAfterA_measure_1UpdateCallback OnAfterUpdateInterface[A_measure_1]
-	OnAfterA_measure_1DeleteCallback OnAfterDeleteInterface[A_measure_1]
-	OnAfterA_measure_1ReadCallback   OnAfterReadInterface[A_measure_1]
+	OnAfterA_measure_1CreateCallback GongOnAfterCreateInterface[A_measure_1]
+	OnAfterA_measure_1UpdateCallback GongOnAfterUpdateInterface[A_measure_1]
+	OnAfterA_measure_1DeleteCallback GongOnAfterDeleteInterface[A_measure_1]
+	OnAfterA_measure_1ReadCallback   GongOnAfterReadInterface[A_measure_1]
 
 	A_parts                map[*A_part]struct{}
 	A_parts_instance       map[*A_part]*A_part
@@ -201,10 +210,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_part_Measure_reverseMap map[*A_measure]*A_part
 
-	OnAfterA_partCreateCallback OnAfterCreateInterface[A_part]
-	OnAfterA_partUpdateCallback OnAfterUpdateInterface[A_part]
-	OnAfterA_partDeleteCallback OnAfterDeleteInterface[A_part]
-	OnAfterA_partReadCallback   OnAfterReadInterface[A_part]
+	OnAfterA_partCreateCallback GongOnAfterCreateInterface[A_part]
+	OnAfterA_partUpdateCallback GongOnAfterUpdateInterface[A_part]
+	OnAfterA_partDeleteCallback GongOnAfterDeleteInterface[A_part]
+	OnAfterA_partReadCallback   GongOnAfterReadInterface[A_part]
 
 	A_part_1s                map[*A_part_1]struct{}
 	A_part_1s_instance       map[*A_part_1]*A_part_1
@@ -244,10 +253,10 @@ type Stage struct {
 
 	A_part_1_Bookmark_reverseMap map[*Bookmark]*A_part_1
 
-	OnAfterA_part_1CreateCallback OnAfterCreateInterface[A_part_1]
-	OnAfterA_part_1UpdateCallback OnAfterUpdateInterface[A_part_1]
-	OnAfterA_part_1DeleteCallback OnAfterDeleteInterface[A_part_1]
-	OnAfterA_part_1ReadCallback   OnAfterReadInterface[A_part_1]
+	OnAfterA_part_1CreateCallback GongOnAfterCreateInterface[A_part_1]
+	OnAfterA_part_1UpdateCallback GongOnAfterUpdateInterface[A_part_1]
+	OnAfterA_part_1DeleteCallback GongOnAfterDeleteInterface[A_part_1]
+	OnAfterA_part_1ReadCallback   GongOnAfterReadInterface[A_part_1]
 
 	Accidentals                map[*Accidental]struct{}
 	Accidentals_instance       map[*Accidental]*Accidental
@@ -259,10 +268,10 @@ type Stage struct {
 	Accidentals_referenceOrder map[*Accidental]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterAccidentalCreateCallback OnAfterCreateInterface[Accidental]
-	OnAfterAccidentalUpdateCallback OnAfterUpdateInterface[Accidental]
-	OnAfterAccidentalDeleteCallback OnAfterDeleteInterface[Accidental]
-	OnAfterAccidentalReadCallback   OnAfterReadInterface[Accidental]
+	OnAfterAccidentalCreateCallback GongOnAfterCreateInterface[Accidental]
+	OnAfterAccidentalUpdateCallback GongOnAfterUpdateInterface[Accidental]
+	OnAfterAccidentalDeleteCallback GongOnAfterDeleteInterface[Accidental]
+	OnAfterAccidentalReadCallback   GongOnAfterReadInterface[Accidental]
 
 	Accidental_marks                map[*Accidental_mark]struct{}
 	Accidental_marks_instance       map[*Accidental_mark]*Accidental_mark
@@ -274,10 +283,10 @@ type Stage struct {
 	Accidental_marks_referenceOrder map[*Accidental_mark]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterAccidental_markCreateCallback OnAfterCreateInterface[Accidental_mark]
-	OnAfterAccidental_markUpdateCallback OnAfterUpdateInterface[Accidental_mark]
-	OnAfterAccidental_markDeleteCallback OnAfterDeleteInterface[Accidental_mark]
-	OnAfterAccidental_markReadCallback   OnAfterReadInterface[Accidental_mark]
+	OnAfterAccidental_markCreateCallback GongOnAfterCreateInterface[Accidental_mark]
+	OnAfterAccidental_markUpdateCallback GongOnAfterUpdateInterface[Accidental_mark]
+	OnAfterAccidental_markDeleteCallback GongOnAfterDeleteInterface[Accidental_mark]
+	OnAfterAccidental_markReadCallback   GongOnAfterReadInterface[Accidental_mark]
 
 	Accidental_texts                map[*Accidental_text]struct{}
 	Accidental_texts_instance       map[*Accidental_text]*Accidental_text
@@ -289,10 +298,10 @@ type Stage struct {
 	Accidental_texts_referenceOrder map[*Accidental_text]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterAccidental_textCreateCallback OnAfterCreateInterface[Accidental_text]
-	OnAfterAccidental_textUpdateCallback OnAfterUpdateInterface[Accidental_text]
-	OnAfterAccidental_textDeleteCallback OnAfterDeleteInterface[Accidental_text]
-	OnAfterAccidental_textReadCallback   OnAfterReadInterface[Accidental_text]
+	OnAfterAccidental_textCreateCallback GongOnAfterCreateInterface[Accidental_text]
+	OnAfterAccidental_textUpdateCallback GongOnAfterUpdateInterface[Accidental_text]
+	OnAfterAccidental_textDeleteCallback GongOnAfterDeleteInterface[Accidental_text]
+	OnAfterAccidental_textReadCallback   GongOnAfterReadInterface[Accidental_text]
 
 	Accords                map[*Accord]struct{}
 	Accords_instance       map[*Accord]*Accord
@@ -304,10 +313,10 @@ type Stage struct {
 	Accords_referenceOrder map[*Accord]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterAccordCreateCallback OnAfterCreateInterface[Accord]
-	OnAfterAccordUpdateCallback OnAfterUpdateInterface[Accord]
-	OnAfterAccordDeleteCallback OnAfterDeleteInterface[Accord]
-	OnAfterAccordReadCallback   OnAfterReadInterface[Accord]
+	OnAfterAccordCreateCallback GongOnAfterCreateInterface[Accord]
+	OnAfterAccordUpdateCallback GongOnAfterUpdateInterface[Accord]
+	OnAfterAccordDeleteCallback GongOnAfterDeleteInterface[Accord]
+	OnAfterAccordReadCallback   GongOnAfterReadInterface[Accord]
 
 	Accordion_registrations                map[*Accordion_registration]struct{}
 	Accordion_registrations_instance       map[*Accordion_registration]*Accordion_registration
@@ -319,10 +328,10 @@ type Stage struct {
 	Accordion_registrations_referenceOrder map[*Accordion_registration]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterAccordion_registrationCreateCallback OnAfterCreateInterface[Accordion_registration]
-	OnAfterAccordion_registrationUpdateCallback OnAfterUpdateInterface[Accordion_registration]
-	OnAfterAccordion_registrationDeleteCallback OnAfterDeleteInterface[Accordion_registration]
-	OnAfterAccordion_registrationReadCallback   OnAfterReadInterface[Accordion_registration]
+	OnAfterAccordion_registrationCreateCallback GongOnAfterCreateInterface[Accordion_registration]
+	OnAfterAccordion_registrationUpdateCallback GongOnAfterUpdateInterface[Accordion_registration]
+	OnAfterAccordion_registrationDeleteCallback GongOnAfterDeleteInterface[Accordion_registration]
+	OnAfterAccordion_registrationReadCallback   GongOnAfterReadInterface[Accordion_registration]
 
 	Appearances                map[*Appearance]struct{}
 	Appearances_instance       map[*Appearance]*Appearance
@@ -344,10 +353,10 @@ type Stage struct {
 
 	Appearance_Other_appearance_reverseMap map[*Other_appearance]*Appearance
 
-	OnAfterAppearanceCreateCallback OnAfterCreateInterface[Appearance]
-	OnAfterAppearanceUpdateCallback OnAfterUpdateInterface[Appearance]
-	OnAfterAppearanceDeleteCallback OnAfterDeleteInterface[Appearance]
-	OnAfterAppearanceReadCallback   OnAfterReadInterface[Appearance]
+	OnAfterAppearanceCreateCallback GongOnAfterCreateInterface[Appearance]
+	OnAfterAppearanceUpdateCallback GongOnAfterUpdateInterface[Appearance]
+	OnAfterAppearanceDeleteCallback GongOnAfterDeleteInterface[Appearance]
+	OnAfterAppearanceReadCallback   GongOnAfterReadInterface[Appearance]
 
 	Arpeggiates                map[*Arpeggiate]struct{}
 	Arpeggiates_instance       map[*Arpeggiate]*Arpeggiate
@@ -359,10 +368,10 @@ type Stage struct {
 	Arpeggiates_referenceOrder map[*Arpeggiate]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterArpeggiateCreateCallback OnAfterCreateInterface[Arpeggiate]
-	OnAfterArpeggiateUpdateCallback OnAfterUpdateInterface[Arpeggiate]
-	OnAfterArpeggiateDeleteCallback OnAfterDeleteInterface[Arpeggiate]
-	OnAfterArpeggiateReadCallback   OnAfterReadInterface[Arpeggiate]
+	OnAfterArpeggiateCreateCallback GongOnAfterCreateInterface[Arpeggiate]
+	OnAfterArpeggiateUpdateCallback GongOnAfterUpdateInterface[Arpeggiate]
+	OnAfterArpeggiateDeleteCallback GongOnAfterDeleteInterface[Arpeggiate]
+	OnAfterArpeggiateReadCallback   GongOnAfterReadInterface[Arpeggiate]
 
 	Arrows                map[*Arrow]struct{}
 	Arrows_instance       map[*Arrow]*Arrow
@@ -374,10 +383,10 @@ type Stage struct {
 	Arrows_referenceOrder map[*Arrow]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterArrowCreateCallback OnAfterCreateInterface[Arrow]
-	OnAfterArrowUpdateCallback OnAfterUpdateInterface[Arrow]
-	OnAfterArrowDeleteCallback OnAfterDeleteInterface[Arrow]
-	OnAfterArrowReadCallback   OnAfterReadInterface[Arrow]
+	OnAfterArrowCreateCallback GongOnAfterCreateInterface[Arrow]
+	OnAfterArrowUpdateCallback GongOnAfterUpdateInterface[Arrow]
+	OnAfterArrowDeleteCallback GongOnAfterDeleteInterface[Arrow]
+	OnAfterArrowReadCallback   GongOnAfterReadInterface[Arrow]
 
 	Articulationss                map[*Articulations]struct{}
 	Articulationss_instance       map[*Articulations]*Articulations
@@ -423,10 +432,10 @@ type Stage struct {
 
 	Articulations_Other_articulation_reverseMap map[*Other_placement_text]*Articulations
 
-	OnAfterArticulationsCreateCallback OnAfterCreateInterface[Articulations]
-	OnAfterArticulationsUpdateCallback OnAfterUpdateInterface[Articulations]
-	OnAfterArticulationsDeleteCallback OnAfterDeleteInterface[Articulations]
-	OnAfterArticulationsReadCallback   OnAfterReadInterface[Articulations]
+	OnAfterArticulationsCreateCallback GongOnAfterCreateInterface[Articulations]
+	OnAfterArticulationsUpdateCallback GongOnAfterUpdateInterface[Articulations]
+	OnAfterArticulationsDeleteCallback GongOnAfterDeleteInterface[Articulations]
+	OnAfterArticulationsReadCallback   GongOnAfterReadInterface[Articulations]
 
 	Assesss                map[*Assess]struct{}
 	Assesss_instance       map[*Assess]*Assess
@@ -438,10 +447,10 @@ type Stage struct {
 	Assesss_referenceOrder map[*Assess]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterAssessCreateCallback OnAfterCreateInterface[Assess]
-	OnAfterAssessUpdateCallback OnAfterUpdateInterface[Assess]
-	OnAfterAssessDeleteCallback OnAfterDeleteInterface[Assess]
-	OnAfterAssessReadCallback   OnAfterReadInterface[Assess]
+	OnAfterAssessCreateCallback GongOnAfterCreateInterface[Assess]
+	OnAfterAssessUpdateCallback GongOnAfterUpdateInterface[Assess]
+	OnAfterAssessDeleteCallback GongOnAfterDeleteInterface[Assess]
+	OnAfterAssessReadCallback   GongOnAfterReadInterface[Assess]
 
 	Attributess                map[*Attributes]struct{}
 	Attributess_instance       map[*Attributes]*Attributes
@@ -469,10 +478,10 @@ type Stage struct {
 
 	Attributes_Measure_style_reverseMap map[*Measure_style]*Attributes
 
-	OnAfterAttributesCreateCallback OnAfterCreateInterface[Attributes]
-	OnAfterAttributesUpdateCallback OnAfterUpdateInterface[Attributes]
-	OnAfterAttributesDeleteCallback OnAfterDeleteInterface[Attributes]
-	OnAfterAttributesReadCallback   OnAfterReadInterface[Attributes]
+	OnAfterAttributesCreateCallback GongOnAfterCreateInterface[Attributes]
+	OnAfterAttributesUpdateCallback GongOnAfterUpdateInterface[Attributes]
+	OnAfterAttributesDeleteCallback GongOnAfterDeleteInterface[Attributes]
+	OnAfterAttributesReadCallback   GongOnAfterReadInterface[Attributes]
 
 	Backups                map[*Backup]struct{}
 	Backups_instance       map[*Backup]*Backup
@@ -484,10 +493,10 @@ type Stage struct {
 	Backups_referenceOrder map[*Backup]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBackupCreateCallback OnAfterCreateInterface[Backup]
-	OnAfterBackupUpdateCallback OnAfterUpdateInterface[Backup]
-	OnAfterBackupDeleteCallback OnAfterDeleteInterface[Backup]
-	OnAfterBackupReadCallback   OnAfterReadInterface[Backup]
+	OnAfterBackupCreateCallback GongOnAfterCreateInterface[Backup]
+	OnAfterBackupUpdateCallback GongOnAfterUpdateInterface[Backup]
+	OnAfterBackupDeleteCallback GongOnAfterDeleteInterface[Backup]
+	OnAfterBackupReadCallback   GongOnAfterReadInterface[Backup]
 
 	Bar_style_colors                map[*Bar_style_color]struct{}
 	Bar_style_colors_instance       map[*Bar_style_color]*Bar_style_color
@@ -499,10 +508,10 @@ type Stage struct {
 	Bar_style_colors_referenceOrder map[*Bar_style_color]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBar_style_colorCreateCallback OnAfterCreateInterface[Bar_style_color]
-	OnAfterBar_style_colorUpdateCallback OnAfterUpdateInterface[Bar_style_color]
-	OnAfterBar_style_colorDeleteCallback OnAfterDeleteInterface[Bar_style_color]
-	OnAfterBar_style_colorReadCallback   OnAfterReadInterface[Bar_style_color]
+	OnAfterBar_style_colorCreateCallback GongOnAfterCreateInterface[Bar_style_color]
+	OnAfterBar_style_colorUpdateCallback GongOnAfterUpdateInterface[Bar_style_color]
+	OnAfterBar_style_colorDeleteCallback GongOnAfterDeleteInterface[Bar_style_color]
+	OnAfterBar_style_colorReadCallback   GongOnAfterReadInterface[Bar_style_color]
 
 	Barlines                map[*Barline]struct{}
 	Barlines_instance       map[*Barline]*Barline
@@ -514,10 +523,10 @@ type Stage struct {
 	Barlines_referenceOrder map[*Barline]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBarlineCreateCallback OnAfterCreateInterface[Barline]
-	OnAfterBarlineUpdateCallback OnAfterUpdateInterface[Barline]
-	OnAfterBarlineDeleteCallback OnAfterDeleteInterface[Barline]
-	OnAfterBarlineReadCallback   OnAfterReadInterface[Barline]
+	OnAfterBarlineCreateCallback GongOnAfterCreateInterface[Barline]
+	OnAfterBarlineUpdateCallback GongOnAfterUpdateInterface[Barline]
+	OnAfterBarlineDeleteCallback GongOnAfterDeleteInterface[Barline]
+	OnAfterBarlineReadCallback   GongOnAfterReadInterface[Barline]
 
 	Barres                map[*Barre]struct{}
 	Barres_instance       map[*Barre]*Barre
@@ -529,10 +538,10 @@ type Stage struct {
 	Barres_referenceOrder map[*Barre]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBarreCreateCallback OnAfterCreateInterface[Barre]
-	OnAfterBarreUpdateCallback OnAfterUpdateInterface[Barre]
-	OnAfterBarreDeleteCallback OnAfterDeleteInterface[Barre]
-	OnAfterBarreReadCallback   OnAfterReadInterface[Barre]
+	OnAfterBarreCreateCallback GongOnAfterCreateInterface[Barre]
+	OnAfterBarreUpdateCallback GongOnAfterUpdateInterface[Barre]
+	OnAfterBarreDeleteCallback GongOnAfterDeleteInterface[Barre]
+	OnAfterBarreReadCallback   GongOnAfterReadInterface[Barre]
 
 	Basss                map[*Bass]struct{}
 	Basss_instance       map[*Bass]*Bass
@@ -544,10 +553,10 @@ type Stage struct {
 	Basss_referenceOrder map[*Bass]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBassCreateCallback OnAfterCreateInterface[Bass]
-	OnAfterBassUpdateCallback OnAfterUpdateInterface[Bass]
-	OnAfterBassDeleteCallback OnAfterDeleteInterface[Bass]
-	OnAfterBassReadCallback   OnAfterReadInterface[Bass]
+	OnAfterBassCreateCallback GongOnAfterCreateInterface[Bass]
+	OnAfterBassUpdateCallback GongOnAfterUpdateInterface[Bass]
+	OnAfterBassDeleteCallback GongOnAfterDeleteInterface[Bass]
+	OnAfterBassReadCallback   GongOnAfterReadInterface[Bass]
 
 	Bass_steps                map[*Bass_step]struct{}
 	Bass_steps_instance       map[*Bass_step]*Bass_step
@@ -559,10 +568,10 @@ type Stage struct {
 	Bass_steps_referenceOrder map[*Bass_step]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBass_stepCreateCallback OnAfterCreateInterface[Bass_step]
-	OnAfterBass_stepUpdateCallback OnAfterUpdateInterface[Bass_step]
-	OnAfterBass_stepDeleteCallback OnAfterDeleteInterface[Bass_step]
-	OnAfterBass_stepReadCallback   OnAfterReadInterface[Bass_step]
+	OnAfterBass_stepCreateCallback GongOnAfterCreateInterface[Bass_step]
+	OnAfterBass_stepUpdateCallback GongOnAfterUpdateInterface[Bass_step]
+	OnAfterBass_stepDeleteCallback GongOnAfterDeleteInterface[Bass_step]
+	OnAfterBass_stepReadCallback   GongOnAfterReadInterface[Bass_step]
 
 	Beams                map[*Beam]struct{}
 	Beams_instance       map[*Beam]*Beam
@@ -574,10 +583,10 @@ type Stage struct {
 	Beams_referenceOrder map[*Beam]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBeamCreateCallback OnAfterCreateInterface[Beam]
-	OnAfterBeamUpdateCallback OnAfterUpdateInterface[Beam]
-	OnAfterBeamDeleteCallback OnAfterDeleteInterface[Beam]
-	OnAfterBeamReadCallback   OnAfterReadInterface[Beam]
+	OnAfterBeamCreateCallback GongOnAfterCreateInterface[Beam]
+	OnAfterBeamUpdateCallback GongOnAfterUpdateInterface[Beam]
+	OnAfterBeamDeleteCallback GongOnAfterDeleteInterface[Beam]
+	OnAfterBeamReadCallback   GongOnAfterReadInterface[Beam]
 
 	Beat_repeats                map[*Beat_repeat]struct{}
 	Beat_repeats_instance       map[*Beat_repeat]*Beat_repeat
@@ -589,10 +598,10 @@ type Stage struct {
 	Beat_repeats_referenceOrder map[*Beat_repeat]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBeat_repeatCreateCallback OnAfterCreateInterface[Beat_repeat]
-	OnAfterBeat_repeatUpdateCallback OnAfterUpdateInterface[Beat_repeat]
-	OnAfterBeat_repeatDeleteCallback OnAfterDeleteInterface[Beat_repeat]
-	OnAfterBeat_repeatReadCallback   OnAfterReadInterface[Beat_repeat]
+	OnAfterBeat_repeatCreateCallback GongOnAfterCreateInterface[Beat_repeat]
+	OnAfterBeat_repeatUpdateCallback GongOnAfterUpdateInterface[Beat_repeat]
+	OnAfterBeat_repeatDeleteCallback GongOnAfterDeleteInterface[Beat_repeat]
+	OnAfterBeat_repeatReadCallback   GongOnAfterReadInterface[Beat_repeat]
 
 	Beat_unit_tieds                map[*Beat_unit_tied]struct{}
 	Beat_unit_tieds_instance       map[*Beat_unit_tied]*Beat_unit_tied
@@ -604,10 +613,10 @@ type Stage struct {
 	Beat_unit_tieds_referenceOrder map[*Beat_unit_tied]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBeat_unit_tiedCreateCallback OnAfterCreateInterface[Beat_unit_tied]
-	OnAfterBeat_unit_tiedUpdateCallback OnAfterUpdateInterface[Beat_unit_tied]
-	OnAfterBeat_unit_tiedDeleteCallback OnAfterDeleteInterface[Beat_unit_tied]
-	OnAfterBeat_unit_tiedReadCallback   OnAfterReadInterface[Beat_unit_tied]
+	OnAfterBeat_unit_tiedCreateCallback GongOnAfterCreateInterface[Beat_unit_tied]
+	OnAfterBeat_unit_tiedUpdateCallback GongOnAfterUpdateInterface[Beat_unit_tied]
+	OnAfterBeat_unit_tiedDeleteCallback GongOnAfterDeleteInterface[Beat_unit_tied]
+	OnAfterBeat_unit_tiedReadCallback   GongOnAfterReadInterface[Beat_unit_tied]
 
 	Beaters                map[*Beater]struct{}
 	Beaters_instance       map[*Beater]*Beater
@@ -619,10 +628,10 @@ type Stage struct {
 	Beaters_referenceOrder map[*Beater]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBeaterCreateCallback OnAfterCreateInterface[Beater]
-	OnAfterBeaterUpdateCallback OnAfterUpdateInterface[Beater]
-	OnAfterBeaterDeleteCallback OnAfterDeleteInterface[Beater]
-	OnAfterBeaterReadCallback   OnAfterReadInterface[Beater]
+	OnAfterBeaterCreateCallback GongOnAfterCreateInterface[Beater]
+	OnAfterBeaterUpdateCallback GongOnAfterUpdateInterface[Beater]
+	OnAfterBeaterDeleteCallback GongOnAfterDeleteInterface[Beater]
+	OnAfterBeaterReadCallback   GongOnAfterReadInterface[Beater]
 
 	Bends                map[*Bend]struct{}
 	Bends_instance       map[*Bend]*Bend
@@ -634,10 +643,10 @@ type Stage struct {
 	Bends_referenceOrder map[*Bend]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBendCreateCallback OnAfterCreateInterface[Bend]
-	OnAfterBendUpdateCallback OnAfterUpdateInterface[Bend]
-	OnAfterBendDeleteCallback OnAfterDeleteInterface[Bend]
-	OnAfterBendReadCallback   OnAfterReadInterface[Bend]
+	OnAfterBendCreateCallback GongOnAfterCreateInterface[Bend]
+	OnAfterBendUpdateCallback GongOnAfterUpdateInterface[Bend]
+	OnAfterBendDeleteCallback GongOnAfterDeleteInterface[Bend]
+	OnAfterBendReadCallback   GongOnAfterReadInterface[Bend]
 
 	Bookmarks                map[*Bookmark]struct{}
 	Bookmarks_instance       map[*Bookmark]*Bookmark
@@ -649,10 +658,10 @@ type Stage struct {
 	Bookmarks_referenceOrder map[*Bookmark]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBookmarkCreateCallback OnAfterCreateInterface[Bookmark]
-	OnAfterBookmarkUpdateCallback OnAfterUpdateInterface[Bookmark]
-	OnAfterBookmarkDeleteCallback OnAfterDeleteInterface[Bookmark]
-	OnAfterBookmarkReadCallback   OnAfterReadInterface[Bookmark]
+	OnAfterBookmarkCreateCallback GongOnAfterCreateInterface[Bookmark]
+	OnAfterBookmarkUpdateCallback GongOnAfterUpdateInterface[Bookmark]
+	OnAfterBookmarkDeleteCallback GongOnAfterDeleteInterface[Bookmark]
+	OnAfterBookmarkReadCallback   GongOnAfterReadInterface[Bookmark]
 
 	Brackets                map[*Bracket]struct{}
 	Brackets_instance       map[*Bracket]*Bracket
@@ -664,10 +673,10 @@ type Stage struct {
 	Brackets_referenceOrder map[*Bracket]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBracketCreateCallback OnAfterCreateInterface[Bracket]
-	OnAfterBracketUpdateCallback OnAfterUpdateInterface[Bracket]
-	OnAfterBracketDeleteCallback OnAfterDeleteInterface[Bracket]
-	OnAfterBracketReadCallback   OnAfterReadInterface[Bracket]
+	OnAfterBracketCreateCallback GongOnAfterCreateInterface[Bracket]
+	OnAfterBracketUpdateCallback GongOnAfterUpdateInterface[Bracket]
+	OnAfterBracketDeleteCallback GongOnAfterDeleteInterface[Bracket]
+	OnAfterBracketReadCallback   GongOnAfterReadInterface[Bracket]
 
 	Breath_marks                map[*Breath_mark]struct{}
 	Breath_marks_instance       map[*Breath_mark]*Breath_mark
@@ -679,10 +688,10 @@ type Stage struct {
 	Breath_marks_referenceOrder map[*Breath_mark]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterBreath_markCreateCallback OnAfterCreateInterface[Breath_mark]
-	OnAfterBreath_markUpdateCallback OnAfterUpdateInterface[Breath_mark]
-	OnAfterBreath_markDeleteCallback OnAfterDeleteInterface[Breath_mark]
-	OnAfterBreath_markReadCallback   OnAfterReadInterface[Breath_mark]
+	OnAfterBreath_markCreateCallback GongOnAfterCreateInterface[Breath_mark]
+	OnAfterBreath_markUpdateCallback GongOnAfterUpdateInterface[Breath_mark]
+	OnAfterBreath_markDeleteCallback GongOnAfterDeleteInterface[Breath_mark]
+	OnAfterBreath_markReadCallback   GongOnAfterReadInterface[Breath_mark]
 
 	Caesuras                map[*Caesura]struct{}
 	Caesuras_instance       map[*Caesura]*Caesura
@@ -694,10 +703,10 @@ type Stage struct {
 	Caesuras_referenceOrder map[*Caesura]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterCaesuraCreateCallback OnAfterCreateInterface[Caesura]
-	OnAfterCaesuraUpdateCallback OnAfterUpdateInterface[Caesura]
-	OnAfterCaesuraDeleteCallback OnAfterDeleteInterface[Caesura]
-	OnAfterCaesuraReadCallback   OnAfterReadInterface[Caesura]
+	OnAfterCaesuraCreateCallback GongOnAfterCreateInterface[Caesura]
+	OnAfterCaesuraUpdateCallback GongOnAfterUpdateInterface[Caesura]
+	OnAfterCaesuraDeleteCallback GongOnAfterDeleteInterface[Caesura]
+	OnAfterCaesuraReadCallback   GongOnAfterReadInterface[Caesura]
 
 	Cancels                map[*Cancel]struct{}
 	Cancels_instance       map[*Cancel]*Cancel
@@ -709,10 +718,10 @@ type Stage struct {
 	Cancels_referenceOrder map[*Cancel]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterCancelCreateCallback OnAfterCreateInterface[Cancel]
-	OnAfterCancelUpdateCallback OnAfterUpdateInterface[Cancel]
-	OnAfterCancelDeleteCallback OnAfterDeleteInterface[Cancel]
-	OnAfterCancelReadCallback   OnAfterReadInterface[Cancel]
+	OnAfterCancelCreateCallback GongOnAfterCreateInterface[Cancel]
+	OnAfterCancelUpdateCallback GongOnAfterUpdateInterface[Cancel]
+	OnAfterCancelDeleteCallback GongOnAfterDeleteInterface[Cancel]
+	OnAfterCancelReadCallback   GongOnAfterReadInterface[Cancel]
 
 	Clefs                map[*Clef]struct{}
 	Clefs_instance       map[*Clef]*Clef
@@ -724,10 +733,10 @@ type Stage struct {
 	Clefs_referenceOrder map[*Clef]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterClefCreateCallback OnAfterCreateInterface[Clef]
-	OnAfterClefUpdateCallback OnAfterUpdateInterface[Clef]
-	OnAfterClefDeleteCallback OnAfterDeleteInterface[Clef]
-	OnAfterClefReadCallback   OnAfterReadInterface[Clef]
+	OnAfterClefCreateCallback GongOnAfterCreateInterface[Clef]
+	OnAfterClefUpdateCallback GongOnAfterUpdateInterface[Clef]
+	OnAfterClefDeleteCallback GongOnAfterDeleteInterface[Clef]
+	OnAfterClefReadCallback   GongOnAfterReadInterface[Clef]
 
 	Codas                map[*Coda]struct{}
 	Codas_instance       map[*Coda]*Coda
@@ -739,10 +748,10 @@ type Stage struct {
 	Codas_referenceOrder map[*Coda]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterCodaCreateCallback OnAfterCreateInterface[Coda]
-	OnAfterCodaUpdateCallback OnAfterUpdateInterface[Coda]
-	OnAfterCodaDeleteCallback OnAfterDeleteInterface[Coda]
-	OnAfterCodaReadCallback   OnAfterReadInterface[Coda]
+	OnAfterCodaCreateCallback GongOnAfterCreateInterface[Coda]
+	OnAfterCodaUpdateCallback GongOnAfterUpdateInterface[Coda]
+	OnAfterCodaDeleteCallback GongOnAfterDeleteInterface[Coda]
+	OnAfterCodaReadCallback   GongOnAfterReadInterface[Coda]
 
 	Credits                map[*Credit]struct{}
 	Credits_instance       map[*Credit]*Credit
@@ -762,10 +771,10 @@ type Stage struct {
 
 	Credit_Credit_symbol_reverseMap map[*Formatted_symbol_id]*Credit
 
-	OnAfterCreditCreateCallback OnAfterCreateInterface[Credit]
-	OnAfterCreditUpdateCallback OnAfterUpdateInterface[Credit]
-	OnAfterCreditDeleteCallback OnAfterDeleteInterface[Credit]
-	OnAfterCreditReadCallback   OnAfterReadInterface[Credit]
+	OnAfterCreditCreateCallback GongOnAfterCreateInterface[Credit]
+	OnAfterCreditUpdateCallback GongOnAfterUpdateInterface[Credit]
+	OnAfterCreditDeleteCallback GongOnAfterDeleteInterface[Credit]
+	OnAfterCreditReadCallback   GongOnAfterReadInterface[Credit]
 
 	Dashess                map[*Dashes]struct{}
 	Dashess_instance       map[*Dashes]*Dashes
@@ -777,10 +786,10 @@ type Stage struct {
 	Dashess_referenceOrder map[*Dashes]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDashesCreateCallback OnAfterCreateInterface[Dashes]
-	OnAfterDashesUpdateCallback OnAfterUpdateInterface[Dashes]
-	OnAfterDashesDeleteCallback OnAfterDeleteInterface[Dashes]
-	OnAfterDashesReadCallback   OnAfterReadInterface[Dashes]
+	OnAfterDashesCreateCallback GongOnAfterCreateInterface[Dashes]
+	OnAfterDashesUpdateCallback GongOnAfterUpdateInterface[Dashes]
+	OnAfterDashesDeleteCallback GongOnAfterDeleteInterface[Dashes]
+	OnAfterDashesReadCallback   GongOnAfterReadInterface[Dashes]
 
 	Defaultss                map[*Defaults]struct{}
 	Defaultss_instance       map[*Defaults]*Defaults
@@ -798,10 +807,10 @@ type Stage struct {
 
 	Defaults_Lyric_language_reverseMap map[*Lyric_language]*Defaults
 
-	OnAfterDefaultsCreateCallback OnAfterCreateInterface[Defaults]
-	OnAfterDefaultsUpdateCallback OnAfterUpdateInterface[Defaults]
-	OnAfterDefaultsDeleteCallback OnAfterDeleteInterface[Defaults]
-	OnAfterDefaultsReadCallback   OnAfterReadInterface[Defaults]
+	OnAfterDefaultsCreateCallback GongOnAfterCreateInterface[Defaults]
+	OnAfterDefaultsUpdateCallback GongOnAfterUpdateInterface[Defaults]
+	OnAfterDefaultsDeleteCallback GongOnAfterDeleteInterface[Defaults]
+	OnAfterDefaultsReadCallback   GongOnAfterReadInterface[Defaults]
 
 	Degrees                map[*Degree]struct{}
 	Degrees_instance       map[*Degree]*Degree
@@ -813,10 +822,10 @@ type Stage struct {
 	Degrees_referenceOrder map[*Degree]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDegreeCreateCallback OnAfterCreateInterface[Degree]
-	OnAfterDegreeUpdateCallback OnAfterUpdateInterface[Degree]
-	OnAfterDegreeDeleteCallback OnAfterDeleteInterface[Degree]
-	OnAfterDegreeReadCallback   OnAfterReadInterface[Degree]
+	OnAfterDegreeCreateCallback GongOnAfterCreateInterface[Degree]
+	OnAfterDegreeUpdateCallback GongOnAfterUpdateInterface[Degree]
+	OnAfterDegreeDeleteCallback GongOnAfterDeleteInterface[Degree]
+	OnAfterDegreeReadCallback   GongOnAfterReadInterface[Degree]
 
 	Degree_alters                map[*Degree_alter]struct{}
 	Degree_alters_instance       map[*Degree_alter]*Degree_alter
@@ -828,10 +837,10 @@ type Stage struct {
 	Degree_alters_referenceOrder map[*Degree_alter]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDegree_alterCreateCallback OnAfterCreateInterface[Degree_alter]
-	OnAfterDegree_alterUpdateCallback OnAfterUpdateInterface[Degree_alter]
-	OnAfterDegree_alterDeleteCallback OnAfterDeleteInterface[Degree_alter]
-	OnAfterDegree_alterReadCallback   OnAfterReadInterface[Degree_alter]
+	OnAfterDegree_alterCreateCallback GongOnAfterCreateInterface[Degree_alter]
+	OnAfterDegree_alterUpdateCallback GongOnAfterUpdateInterface[Degree_alter]
+	OnAfterDegree_alterDeleteCallback GongOnAfterDeleteInterface[Degree_alter]
+	OnAfterDegree_alterReadCallback   GongOnAfterReadInterface[Degree_alter]
 
 	Degree_types                map[*Degree_type]struct{}
 	Degree_types_instance       map[*Degree_type]*Degree_type
@@ -843,10 +852,10 @@ type Stage struct {
 	Degree_types_referenceOrder map[*Degree_type]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDegree_typeCreateCallback OnAfterCreateInterface[Degree_type]
-	OnAfterDegree_typeUpdateCallback OnAfterUpdateInterface[Degree_type]
-	OnAfterDegree_typeDeleteCallback OnAfterDeleteInterface[Degree_type]
-	OnAfterDegree_typeReadCallback   OnAfterReadInterface[Degree_type]
+	OnAfterDegree_typeCreateCallback GongOnAfterCreateInterface[Degree_type]
+	OnAfterDegree_typeUpdateCallback GongOnAfterUpdateInterface[Degree_type]
+	OnAfterDegree_typeDeleteCallback GongOnAfterDeleteInterface[Degree_type]
+	OnAfterDegree_typeReadCallback   GongOnAfterReadInterface[Degree_type]
 
 	Degree_values                map[*Degree_value]struct{}
 	Degree_values_instance       map[*Degree_value]*Degree_value
@@ -858,10 +867,10 @@ type Stage struct {
 	Degree_values_referenceOrder map[*Degree_value]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDegree_valueCreateCallback OnAfterCreateInterface[Degree_value]
-	OnAfterDegree_valueUpdateCallback OnAfterUpdateInterface[Degree_value]
-	OnAfterDegree_valueDeleteCallback OnAfterDeleteInterface[Degree_value]
-	OnAfterDegree_valueReadCallback   OnAfterReadInterface[Degree_value]
+	OnAfterDegree_valueCreateCallback GongOnAfterCreateInterface[Degree_value]
+	OnAfterDegree_valueUpdateCallback GongOnAfterUpdateInterface[Degree_value]
+	OnAfterDegree_valueDeleteCallback GongOnAfterDeleteInterface[Degree_value]
+	OnAfterDegree_valueReadCallback   GongOnAfterReadInterface[Degree_value]
 
 	Directions                map[*Direction]struct{}
 	Directions_instance       map[*Direction]*Direction
@@ -875,10 +884,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Direction_Direction_type_reverseMap map[*Direction_type]*Direction
 
-	OnAfterDirectionCreateCallback OnAfterCreateInterface[Direction]
-	OnAfterDirectionUpdateCallback OnAfterUpdateInterface[Direction]
-	OnAfterDirectionDeleteCallback OnAfterDeleteInterface[Direction]
-	OnAfterDirectionReadCallback   OnAfterReadInterface[Direction]
+	OnAfterDirectionCreateCallback GongOnAfterCreateInterface[Direction]
+	OnAfterDirectionUpdateCallback GongOnAfterUpdateInterface[Direction]
+	OnAfterDirectionDeleteCallback GongOnAfterDeleteInterface[Direction]
+	OnAfterDirectionReadCallback   GongOnAfterReadInterface[Direction]
 
 	Direction_types                map[*Direction_type]struct{}
 	Direction_types_instance       map[*Direction_type]*Direction_type
@@ -904,10 +913,10 @@ type Stage struct {
 
 	Direction_type_Percussion_reverseMap map[*Percussion]*Direction_type
 
-	OnAfterDirection_typeCreateCallback OnAfterCreateInterface[Direction_type]
-	OnAfterDirection_typeUpdateCallback OnAfterUpdateInterface[Direction_type]
-	OnAfterDirection_typeDeleteCallback OnAfterDeleteInterface[Direction_type]
-	OnAfterDirection_typeReadCallback   OnAfterReadInterface[Direction_type]
+	OnAfterDirection_typeCreateCallback GongOnAfterCreateInterface[Direction_type]
+	OnAfterDirection_typeUpdateCallback GongOnAfterUpdateInterface[Direction_type]
+	OnAfterDirection_typeDeleteCallback GongOnAfterDeleteInterface[Direction_type]
+	OnAfterDirection_typeReadCallback   GongOnAfterReadInterface[Direction_type]
 
 	Distances                map[*Distance]struct{}
 	Distances_instance       map[*Distance]*Distance
@@ -919,10 +928,10 @@ type Stage struct {
 	Distances_referenceOrder map[*Distance]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDistanceCreateCallback OnAfterCreateInterface[Distance]
-	OnAfterDistanceUpdateCallback OnAfterUpdateInterface[Distance]
-	OnAfterDistanceDeleteCallback OnAfterDeleteInterface[Distance]
-	OnAfterDistanceReadCallback   OnAfterReadInterface[Distance]
+	OnAfterDistanceCreateCallback GongOnAfterCreateInterface[Distance]
+	OnAfterDistanceUpdateCallback GongOnAfterUpdateInterface[Distance]
+	OnAfterDistanceDeleteCallback GongOnAfterDeleteInterface[Distance]
+	OnAfterDistanceReadCallback   GongOnAfterReadInterface[Distance]
 
 	Doubles                map[*Double]struct{}
 	Doubles_instance       map[*Double]*Double
@@ -934,10 +943,10 @@ type Stage struct {
 	Doubles_referenceOrder map[*Double]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDoubleCreateCallback OnAfterCreateInterface[Double]
-	OnAfterDoubleUpdateCallback OnAfterUpdateInterface[Double]
-	OnAfterDoubleDeleteCallback OnAfterDeleteInterface[Double]
-	OnAfterDoubleReadCallback   OnAfterReadInterface[Double]
+	OnAfterDoubleCreateCallback GongOnAfterCreateInterface[Double]
+	OnAfterDoubleUpdateCallback GongOnAfterUpdateInterface[Double]
+	OnAfterDoubleDeleteCallback GongOnAfterDeleteInterface[Double]
+	OnAfterDoubleReadCallback   GongOnAfterReadInterface[Double]
 
 	Dynamicss                map[*Dynamics]struct{}
 	Dynamicss_instance       map[*Dynamics]*Dynamics
@@ -951,10 +960,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Dynamics_Other_dynamics_reverseMap map[*Other_text]*Dynamics
 
-	OnAfterDynamicsCreateCallback OnAfterCreateInterface[Dynamics]
-	OnAfterDynamicsUpdateCallback OnAfterUpdateInterface[Dynamics]
-	OnAfterDynamicsDeleteCallback OnAfterDeleteInterface[Dynamics]
-	OnAfterDynamicsReadCallback   OnAfterReadInterface[Dynamics]
+	OnAfterDynamicsCreateCallback GongOnAfterCreateInterface[Dynamics]
+	OnAfterDynamicsUpdateCallback GongOnAfterUpdateInterface[Dynamics]
+	OnAfterDynamicsDeleteCallback GongOnAfterDeleteInterface[Dynamics]
+	OnAfterDynamicsReadCallback   GongOnAfterReadInterface[Dynamics]
 
 	Effects                map[*Effect]struct{}
 	Effects_instance       map[*Effect]*Effect
@@ -966,10 +975,10 @@ type Stage struct {
 	Effects_referenceOrder map[*Effect]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEffectCreateCallback OnAfterCreateInterface[Effect]
-	OnAfterEffectUpdateCallback OnAfterUpdateInterface[Effect]
-	OnAfterEffectDeleteCallback OnAfterDeleteInterface[Effect]
-	OnAfterEffectReadCallback   OnAfterReadInterface[Effect]
+	OnAfterEffectCreateCallback GongOnAfterCreateInterface[Effect]
+	OnAfterEffectUpdateCallback GongOnAfterUpdateInterface[Effect]
+	OnAfterEffectDeleteCallback GongOnAfterDeleteInterface[Effect]
+	OnAfterEffectReadCallback   GongOnAfterReadInterface[Effect]
 
 	Elisions                map[*Elision]struct{}
 	Elisions_instance       map[*Elision]*Elision
@@ -981,10 +990,10 @@ type Stage struct {
 	Elisions_referenceOrder map[*Elision]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterElisionCreateCallback OnAfterCreateInterface[Elision]
-	OnAfterElisionUpdateCallback OnAfterUpdateInterface[Elision]
-	OnAfterElisionDeleteCallback OnAfterDeleteInterface[Elision]
-	OnAfterElisionReadCallback   OnAfterReadInterface[Elision]
+	OnAfterElisionCreateCallback GongOnAfterCreateInterface[Elision]
+	OnAfterElisionUpdateCallback GongOnAfterUpdateInterface[Elision]
+	OnAfterElisionDeleteCallback GongOnAfterDeleteInterface[Elision]
+	OnAfterElisionReadCallback   GongOnAfterReadInterface[Elision]
 
 	Emptys                map[*Empty]struct{}
 	Emptys_instance       map[*Empty]*Empty
@@ -996,10 +1005,10 @@ type Stage struct {
 	Emptys_referenceOrder map[*Empty]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEmptyCreateCallback OnAfterCreateInterface[Empty]
-	OnAfterEmptyUpdateCallback OnAfterUpdateInterface[Empty]
-	OnAfterEmptyDeleteCallback OnAfterDeleteInterface[Empty]
-	OnAfterEmptyReadCallback   OnAfterReadInterface[Empty]
+	OnAfterEmptyCreateCallback GongOnAfterCreateInterface[Empty]
+	OnAfterEmptyUpdateCallback GongOnAfterUpdateInterface[Empty]
+	OnAfterEmptyDeleteCallback GongOnAfterDeleteInterface[Empty]
+	OnAfterEmptyReadCallback   GongOnAfterReadInterface[Empty]
 
 	Empty_fonts                map[*Empty_font]struct{}
 	Empty_fonts_instance       map[*Empty_font]*Empty_font
@@ -1011,10 +1020,10 @@ type Stage struct {
 	Empty_fonts_referenceOrder map[*Empty_font]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEmpty_fontCreateCallback OnAfterCreateInterface[Empty_font]
-	OnAfterEmpty_fontUpdateCallback OnAfterUpdateInterface[Empty_font]
-	OnAfterEmpty_fontDeleteCallback OnAfterDeleteInterface[Empty_font]
-	OnAfterEmpty_fontReadCallback   OnAfterReadInterface[Empty_font]
+	OnAfterEmpty_fontCreateCallback GongOnAfterCreateInterface[Empty_font]
+	OnAfterEmpty_fontUpdateCallback GongOnAfterUpdateInterface[Empty_font]
+	OnAfterEmpty_fontDeleteCallback GongOnAfterDeleteInterface[Empty_font]
+	OnAfterEmpty_fontReadCallback   GongOnAfterReadInterface[Empty_font]
 
 	Empty_lines                map[*Empty_line]struct{}
 	Empty_lines_instance       map[*Empty_line]*Empty_line
@@ -1026,10 +1035,10 @@ type Stage struct {
 	Empty_lines_referenceOrder map[*Empty_line]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEmpty_lineCreateCallback OnAfterCreateInterface[Empty_line]
-	OnAfterEmpty_lineUpdateCallback OnAfterUpdateInterface[Empty_line]
-	OnAfterEmpty_lineDeleteCallback OnAfterDeleteInterface[Empty_line]
-	OnAfterEmpty_lineReadCallback   OnAfterReadInterface[Empty_line]
+	OnAfterEmpty_lineCreateCallback GongOnAfterCreateInterface[Empty_line]
+	OnAfterEmpty_lineUpdateCallback GongOnAfterUpdateInterface[Empty_line]
+	OnAfterEmpty_lineDeleteCallback GongOnAfterDeleteInterface[Empty_line]
+	OnAfterEmpty_lineReadCallback   GongOnAfterReadInterface[Empty_line]
 
 	Empty_placements                map[*Empty_placement]struct{}
 	Empty_placements_instance       map[*Empty_placement]*Empty_placement
@@ -1041,10 +1050,10 @@ type Stage struct {
 	Empty_placements_referenceOrder map[*Empty_placement]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEmpty_placementCreateCallback OnAfterCreateInterface[Empty_placement]
-	OnAfterEmpty_placementUpdateCallback OnAfterUpdateInterface[Empty_placement]
-	OnAfterEmpty_placementDeleteCallback OnAfterDeleteInterface[Empty_placement]
-	OnAfterEmpty_placementReadCallback   OnAfterReadInterface[Empty_placement]
+	OnAfterEmpty_placementCreateCallback GongOnAfterCreateInterface[Empty_placement]
+	OnAfterEmpty_placementUpdateCallback GongOnAfterUpdateInterface[Empty_placement]
+	OnAfterEmpty_placementDeleteCallback GongOnAfterDeleteInterface[Empty_placement]
+	OnAfterEmpty_placementReadCallback   GongOnAfterReadInterface[Empty_placement]
 
 	Empty_placement_smufls                map[*Empty_placement_smufl]struct{}
 	Empty_placement_smufls_instance       map[*Empty_placement_smufl]*Empty_placement_smufl
@@ -1056,10 +1065,10 @@ type Stage struct {
 	Empty_placement_smufls_referenceOrder map[*Empty_placement_smufl]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEmpty_placement_smuflCreateCallback OnAfterCreateInterface[Empty_placement_smufl]
-	OnAfterEmpty_placement_smuflUpdateCallback OnAfterUpdateInterface[Empty_placement_smufl]
-	OnAfterEmpty_placement_smuflDeleteCallback OnAfterDeleteInterface[Empty_placement_smufl]
-	OnAfterEmpty_placement_smuflReadCallback   OnAfterReadInterface[Empty_placement_smufl]
+	OnAfterEmpty_placement_smuflCreateCallback GongOnAfterCreateInterface[Empty_placement_smufl]
+	OnAfterEmpty_placement_smuflUpdateCallback GongOnAfterUpdateInterface[Empty_placement_smufl]
+	OnAfterEmpty_placement_smuflDeleteCallback GongOnAfterDeleteInterface[Empty_placement_smufl]
+	OnAfterEmpty_placement_smuflReadCallback   GongOnAfterReadInterface[Empty_placement_smufl]
 
 	Empty_print_object_style_aligns                map[*Empty_print_object_style_align]struct{}
 	Empty_print_object_style_aligns_instance       map[*Empty_print_object_style_align]*Empty_print_object_style_align
@@ -1071,10 +1080,10 @@ type Stage struct {
 	Empty_print_object_style_aligns_referenceOrder map[*Empty_print_object_style_align]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEmpty_print_object_style_alignCreateCallback OnAfterCreateInterface[Empty_print_object_style_align]
-	OnAfterEmpty_print_object_style_alignUpdateCallback OnAfterUpdateInterface[Empty_print_object_style_align]
-	OnAfterEmpty_print_object_style_alignDeleteCallback OnAfterDeleteInterface[Empty_print_object_style_align]
-	OnAfterEmpty_print_object_style_alignReadCallback   OnAfterReadInterface[Empty_print_object_style_align]
+	OnAfterEmpty_print_object_style_alignCreateCallback GongOnAfterCreateInterface[Empty_print_object_style_align]
+	OnAfterEmpty_print_object_style_alignUpdateCallback GongOnAfterUpdateInterface[Empty_print_object_style_align]
+	OnAfterEmpty_print_object_style_alignDeleteCallback GongOnAfterDeleteInterface[Empty_print_object_style_align]
+	OnAfterEmpty_print_object_style_alignReadCallback   GongOnAfterReadInterface[Empty_print_object_style_align]
 
 	Empty_print_styles                map[*Empty_print_style]struct{}
 	Empty_print_styles_instance       map[*Empty_print_style]*Empty_print_style
@@ -1086,10 +1095,10 @@ type Stage struct {
 	Empty_print_styles_referenceOrder map[*Empty_print_style]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEmpty_print_styleCreateCallback OnAfterCreateInterface[Empty_print_style]
-	OnAfterEmpty_print_styleUpdateCallback OnAfterUpdateInterface[Empty_print_style]
-	OnAfterEmpty_print_styleDeleteCallback OnAfterDeleteInterface[Empty_print_style]
-	OnAfterEmpty_print_styleReadCallback   OnAfterReadInterface[Empty_print_style]
+	OnAfterEmpty_print_styleCreateCallback GongOnAfterCreateInterface[Empty_print_style]
+	OnAfterEmpty_print_styleUpdateCallback GongOnAfterUpdateInterface[Empty_print_style]
+	OnAfterEmpty_print_styleDeleteCallback GongOnAfterDeleteInterface[Empty_print_style]
+	OnAfterEmpty_print_styleReadCallback   GongOnAfterReadInterface[Empty_print_style]
 
 	Empty_print_style_aligns                map[*Empty_print_style_align]struct{}
 	Empty_print_style_aligns_instance       map[*Empty_print_style_align]*Empty_print_style_align
@@ -1101,10 +1110,10 @@ type Stage struct {
 	Empty_print_style_aligns_referenceOrder map[*Empty_print_style_align]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEmpty_print_style_alignCreateCallback OnAfterCreateInterface[Empty_print_style_align]
-	OnAfterEmpty_print_style_alignUpdateCallback OnAfterUpdateInterface[Empty_print_style_align]
-	OnAfterEmpty_print_style_alignDeleteCallback OnAfterDeleteInterface[Empty_print_style_align]
-	OnAfterEmpty_print_style_alignReadCallback   OnAfterReadInterface[Empty_print_style_align]
+	OnAfterEmpty_print_style_alignCreateCallback GongOnAfterCreateInterface[Empty_print_style_align]
+	OnAfterEmpty_print_style_alignUpdateCallback GongOnAfterUpdateInterface[Empty_print_style_align]
+	OnAfterEmpty_print_style_alignDeleteCallback GongOnAfterDeleteInterface[Empty_print_style_align]
+	OnAfterEmpty_print_style_alignReadCallback   GongOnAfterReadInterface[Empty_print_style_align]
 
 	Empty_print_style_align_ids                map[*Empty_print_style_align_id]struct{}
 	Empty_print_style_align_ids_instance       map[*Empty_print_style_align_id]*Empty_print_style_align_id
@@ -1116,10 +1125,10 @@ type Stage struct {
 	Empty_print_style_align_ids_referenceOrder map[*Empty_print_style_align_id]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEmpty_print_style_align_idCreateCallback OnAfterCreateInterface[Empty_print_style_align_id]
-	OnAfterEmpty_print_style_align_idUpdateCallback OnAfterUpdateInterface[Empty_print_style_align_id]
-	OnAfterEmpty_print_style_align_idDeleteCallback OnAfterDeleteInterface[Empty_print_style_align_id]
-	OnAfterEmpty_print_style_align_idReadCallback   OnAfterReadInterface[Empty_print_style_align_id]
+	OnAfterEmpty_print_style_align_idCreateCallback GongOnAfterCreateInterface[Empty_print_style_align_id]
+	OnAfterEmpty_print_style_align_idUpdateCallback GongOnAfterUpdateInterface[Empty_print_style_align_id]
+	OnAfterEmpty_print_style_align_idDeleteCallback GongOnAfterDeleteInterface[Empty_print_style_align_id]
+	OnAfterEmpty_print_style_align_idReadCallback   GongOnAfterReadInterface[Empty_print_style_align_id]
 
 	Empty_trill_sounds                map[*Empty_trill_sound]struct{}
 	Empty_trill_sounds_instance       map[*Empty_trill_sound]*Empty_trill_sound
@@ -1131,10 +1140,10 @@ type Stage struct {
 	Empty_trill_sounds_referenceOrder map[*Empty_trill_sound]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEmpty_trill_soundCreateCallback OnAfterCreateInterface[Empty_trill_sound]
-	OnAfterEmpty_trill_soundUpdateCallback OnAfterUpdateInterface[Empty_trill_sound]
-	OnAfterEmpty_trill_soundDeleteCallback OnAfterDeleteInterface[Empty_trill_sound]
-	OnAfterEmpty_trill_soundReadCallback   OnAfterReadInterface[Empty_trill_sound]
+	OnAfterEmpty_trill_soundCreateCallback GongOnAfterCreateInterface[Empty_trill_sound]
+	OnAfterEmpty_trill_soundUpdateCallback GongOnAfterUpdateInterface[Empty_trill_sound]
+	OnAfterEmpty_trill_soundDeleteCallback GongOnAfterDeleteInterface[Empty_trill_sound]
+	OnAfterEmpty_trill_soundReadCallback   GongOnAfterReadInterface[Empty_trill_sound]
 
 	Encodings                map[*Encoding]struct{}
 	Encodings_instance       map[*Encoding]*Encoding
@@ -1150,10 +1159,10 @@ type Stage struct {
 
 	Encoding_Supports_reverseMap map[*Supports]*Encoding
 
-	OnAfterEncodingCreateCallback OnAfterCreateInterface[Encoding]
-	OnAfterEncodingUpdateCallback OnAfterUpdateInterface[Encoding]
-	OnAfterEncodingDeleteCallback OnAfterDeleteInterface[Encoding]
-	OnAfterEncodingReadCallback   OnAfterReadInterface[Encoding]
+	OnAfterEncodingCreateCallback GongOnAfterCreateInterface[Encoding]
+	OnAfterEncodingUpdateCallback GongOnAfterUpdateInterface[Encoding]
+	OnAfterEncodingDeleteCallback GongOnAfterDeleteInterface[Encoding]
+	OnAfterEncodingReadCallback   GongOnAfterReadInterface[Encoding]
 
 	Endings                map[*Ending]struct{}
 	Endings_instance       map[*Ending]*Ending
@@ -1165,10 +1174,10 @@ type Stage struct {
 	Endings_referenceOrder map[*Ending]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEndingCreateCallback OnAfterCreateInterface[Ending]
-	OnAfterEndingUpdateCallback OnAfterUpdateInterface[Ending]
-	OnAfterEndingDeleteCallback OnAfterDeleteInterface[Ending]
-	OnAfterEndingReadCallback   OnAfterReadInterface[Ending]
+	OnAfterEndingCreateCallback GongOnAfterCreateInterface[Ending]
+	OnAfterEndingUpdateCallback GongOnAfterUpdateInterface[Ending]
+	OnAfterEndingDeleteCallback GongOnAfterDeleteInterface[Ending]
+	OnAfterEndingReadCallback   GongOnAfterReadInterface[Ending]
 
 	Extends                map[*Extend]struct{}
 	Extends_instance       map[*Extend]*Extend
@@ -1180,10 +1189,10 @@ type Stage struct {
 	Extends_referenceOrder map[*Extend]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterExtendCreateCallback OnAfterCreateInterface[Extend]
-	OnAfterExtendUpdateCallback OnAfterUpdateInterface[Extend]
-	OnAfterExtendDeleteCallback OnAfterDeleteInterface[Extend]
-	OnAfterExtendReadCallback   OnAfterReadInterface[Extend]
+	OnAfterExtendCreateCallback GongOnAfterCreateInterface[Extend]
+	OnAfterExtendUpdateCallback GongOnAfterUpdateInterface[Extend]
+	OnAfterExtendDeleteCallback GongOnAfterDeleteInterface[Extend]
+	OnAfterExtendReadCallback   GongOnAfterReadInterface[Extend]
 
 	Features                map[*Feature]struct{}
 	Features_instance       map[*Feature]*Feature
@@ -1195,10 +1204,10 @@ type Stage struct {
 	Features_referenceOrder map[*Feature]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterFeatureCreateCallback OnAfterCreateInterface[Feature]
-	OnAfterFeatureUpdateCallback OnAfterUpdateInterface[Feature]
-	OnAfterFeatureDeleteCallback OnAfterDeleteInterface[Feature]
-	OnAfterFeatureReadCallback   OnAfterReadInterface[Feature]
+	OnAfterFeatureCreateCallback GongOnAfterCreateInterface[Feature]
+	OnAfterFeatureUpdateCallback GongOnAfterUpdateInterface[Feature]
+	OnAfterFeatureDeleteCallback GongOnAfterDeleteInterface[Feature]
+	OnAfterFeatureReadCallback   GongOnAfterReadInterface[Feature]
 
 	Fermatas                map[*Fermata]struct{}
 	Fermatas_instance       map[*Fermata]*Fermata
@@ -1210,10 +1219,10 @@ type Stage struct {
 	Fermatas_referenceOrder map[*Fermata]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterFermataCreateCallback OnAfterCreateInterface[Fermata]
-	OnAfterFermataUpdateCallback OnAfterUpdateInterface[Fermata]
-	OnAfterFermataDeleteCallback OnAfterDeleteInterface[Fermata]
-	OnAfterFermataReadCallback   OnAfterReadInterface[Fermata]
+	OnAfterFermataCreateCallback GongOnAfterCreateInterface[Fermata]
+	OnAfterFermataUpdateCallback GongOnAfterUpdateInterface[Fermata]
+	OnAfterFermataDeleteCallback GongOnAfterDeleteInterface[Fermata]
+	OnAfterFermataReadCallback   GongOnAfterReadInterface[Fermata]
 
 	Figures                map[*Figure]struct{}
 	Figures_instance       map[*Figure]*Figure
@@ -1225,10 +1234,10 @@ type Stage struct {
 	Figures_referenceOrder map[*Figure]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterFigureCreateCallback OnAfterCreateInterface[Figure]
-	OnAfterFigureUpdateCallback OnAfterUpdateInterface[Figure]
-	OnAfterFigureDeleteCallback OnAfterDeleteInterface[Figure]
-	OnAfterFigureReadCallback   OnAfterReadInterface[Figure]
+	OnAfterFigureCreateCallback GongOnAfterCreateInterface[Figure]
+	OnAfterFigureUpdateCallback GongOnAfterUpdateInterface[Figure]
+	OnAfterFigureDeleteCallback GongOnAfterDeleteInterface[Figure]
+	OnAfterFigureReadCallback   GongOnAfterReadInterface[Figure]
 
 	Figured_basss                map[*Figured_bass]struct{}
 	Figured_basss_instance       map[*Figured_bass]*Figured_bass
@@ -1242,10 +1251,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Figured_bass_Figure_reverseMap map[*Figure]*Figured_bass
 
-	OnAfterFigured_bassCreateCallback OnAfterCreateInterface[Figured_bass]
-	OnAfterFigured_bassUpdateCallback OnAfterUpdateInterface[Figured_bass]
-	OnAfterFigured_bassDeleteCallback OnAfterDeleteInterface[Figured_bass]
-	OnAfterFigured_bassReadCallback   OnAfterReadInterface[Figured_bass]
+	OnAfterFigured_bassCreateCallback GongOnAfterCreateInterface[Figured_bass]
+	OnAfterFigured_bassUpdateCallback GongOnAfterUpdateInterface[Figured_bass]
+	OnAfterFigured_bassDeleteCallback GongOnAfterDeleteInterface[Figured_bass]
+	OnAfterFigured_bassReadCallback   GongOnAfterReadInterface[Figured_bass]
 
 	Fingerings                map[*Fingering]struct{}
 	Fingerings_instance       map[*Fingering]*Fingering
@@ -1257,10 +1266,10 @@ type Stage struct {
 	Fingerings_referenceOrder map[*Fingering]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterFingeringCreateCallback OnAfterCreateInterface[Fingering]
-	OnAfterFingeringUpdateCallback OnAfterUpdateInterface[Fingering]
-	OnAfterFingeringDeleteCallback OnAfterDeleteInterface[Fingering]
-	OnAfterFingeringReadCallback   OnAfterReadInterface[Fingering]
+	OnAfterFingeringCreateCallback GongOnAfterCreateInterface[Fingering]
+	OnAfterFingeringUpdateCallback GongOnAfterUpdateInterface[Fingering]
+	OnAfterFingeringDeleteCallback GongOnAfterDeleteInterface[Fingering]
+	OnAfterFingeringReadCallback   GongOnAfterReadInterface[Fingering]
 
 	First_frets                map[*First_fret]struct{}
 	First_frets_instance       map[*First_fret]*First_fret
@@ -1272,10 +1281,10 @@ type Stage struct {
 	First_frets_referenceOrder map[*First_fret]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterFirst_fretCreateCallback OnAfterCreateInterface[First_fret]
-	OnAfterFirst_fretUpdateCallback OnAfterUpdateInterface[First_fret]
-	OnAfterFirst_fretDeleteCallback OnAfterDeleteInterface[First_fret]
-	OnAfterFirst_fretReadCallback   OnAfterReadInterface[First_fret]
+	OnAfterFirst_fretCreateCallback GongOnAfterCreateInterface[First_fret]
+	OnAfterFirst_fretUpdateCallback GongOnAfterUpdateInterface[First_fret]
+	OnAfterFirst_fretDeleteCallback GongOnAfterDeleteInterface[First_fret]
+	OnAfterFirst_fretReadCallback   GongOnAfterReadInterface[First_fret]
 
 	For_parts                map[*For_part]struct{}
 	For_parts_instance       map[*For_part]*For_part
@@ -1287,10 +1296,10 @@ type Stage struct {
 	For_parts_referenceOrder map[*For_part]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterFor_partCreateCallback OnAfterCreateInterface[For_part]
-	OnAfterFor_partUpdateCallback OnAfterUpdateInterface[For_part]
-	OnAfterFor_partDeleteCallback OnAfterDeleteInterface[For_part]
-	OnAfterFor_partReadCallback   OnAfterReadInterface[For_part]
+	OnAfterFor_partCreateCallback GongOnAfterCreateInterface[For_part]
+	OnAfterFor_partUpdateCallback GongOnAfterUpdateInterface[For_part]
+	OnAfterFor_partDeleteCallback GongOnAfterDeleteInterface[For_part]
+	OnAfterFor_partReadCallback   GongOnAfterReadInterface[For_part]
 
 	Formatted_symbols                map[*Formatted_symbol]struct{}
 	Formatted_symbols_instance       map[*Formatted_symbol]*Formatted_symbol
@@ -1302,10 +1311,10 @@ type Stage struct {
 	Formatted_symbols_referenceOrder map[*Formatted_symbol]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterFormatted_symbolCreateCallback OnAfterCreateInterface[Formatted_symbol]
-	OnAfterFormatted_symbolUpdateCallback OnAfterUpdateInterface[Formatted_symbol]
-	OnAfterFormatted_symbolDeleteCallback OnAfterDeleteInterface[Formatted_symbol]
-	OnAfterFormatted_symbolReadCallback   OnAfterReadInterface[Formatted_symbol]
+	OnAfterFormatted_symbolCreateCallback GongOnAfterCreateInterface[Formatted_symbol]
+	OnAfterFormatted_symbolUpdateCallback GongOnAfterUpdateInterface[Formatted_symbol]
+	OnAfterFormatted_symbolDeleteCallback GongOnAfterDeleteInterface[Formatted_symbol]
+	OnAfterFormatted_symbolReadCallback   GongOnAfterReadInterface[Formatted_symbol]
 
 	Formatted_symbol_ids                map[*Formatted_symbol_id]struct{}
 	Formatted_symbol_ids_instance       map[*Formatted_symbol_id]*Formatted_symbol_id
@@ -1317,10 +1326,10 @@ type Stage struct {
 	Formatted_symbol_ids_referenceOrder map[*Formatted_symbol_id]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterFormatted_symbol_idCreateCallback OnAfterCreateInterface[Formatted_symbol_id]
-	OnAfterFormatted_symbol_idUpdateCallback OnAfterUpdateInterface[Formatted_symbol_id]
-	OnAfterFormatted_symbol_idDeleteCallback OnAfterDeleteInterface[Formatted_symbol_id]
-	OnAfterFormatted_symbol_idReadCallback   OnAfterReadInterface[Formatted_symbol_id]
+	OnAfterFormatted_symbol_idCreateCallback GongOnAfterCreateInterface[Formatted_symbol_id]
+	OnAfterFormatted_symbol_idUpdateCallback GongOnAfterUpdateInterface[Formatted_symbol_id]
+	OnAfterFormatted_symbol_idDeleteCallback GongOnAfterDeleteInterface[Formatted_symbol_id]
+	OnAfterFormatted_symbol_idReadCallback   GongOnAfterReadInterface[Formatted_symbol_id]
 
 	Formatted_texts                map[*Formatted_text]struct{}
 	Formatted_texts_instance       map[*Formatted_text]*Formatted_text
@@ -1332,10 +1341,10 @@ type Stage struct {
 	Formatted_texts_referenceOrder map[*Formatted_text]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterFormatted_textCreateCallback OnAfterCreateInterface[Formatted_text]
-	OnAfterFormatted_textUpdateCallback OnAfterUpdateInterface[Formatted_text]
-	OnAfterFormatted_textDeleteCallback OnAfterDeleteInterface[Formatted_text]
-	OnAfterFormatted_textReadCallback   OnAfterReadInterface[Formatted_text]
+	OnAfterFormatted_textCreateCallback GongOnAfterCreateInterface[Formatted_text]
+	OnAfterFormatted_textUpdateCallback GongOnAfterUpdateInterface[Formatted_text]
+	OnAfterFormatted_textDeleteCallback GongOnAfterDeleteInterface[Formatted_text]
+	OnAfterFormatted_textReadCallback   GongOnAfterReadInterface[Formatted_text]
 
 	Formatted_text_ids                map[*Formatted_text_id]struct{}
 	Formatted_text_ids_instance       map[*Formatted_text_id]*Formatted_text_id
@@ -1347,10 +1356,10 @@ type Stage struct {
 	Formatted_text_ids_referenceOrder map[*Formatted_text_id]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterFormatted_text_idCreateCallback OnAfterCreateInterface[Formatted_text_id]
-	OnAfterFormatted_text_idUpdateCallback OnAfterUpdateInterface[Formatted_text_id]
-	OnAfterFormatted_text_idDeleteCallback OnAfterDeleteInterface[Formatted_text_id]
-	OnAfterFormatted_text_idReadCallback   OnAfterReadInterface[Formatted_text_id]
+	OnAfterFormatted_text_idCreateCallback GongOnAfterCreateInterface[Formatted_text_id]
+	OnAfterFormatted_text_idUpdateCallback GongOnAfterUpdateInterface[Formatted_text_id]
+	OnAfterFormatted_text_idDeleteCallback GongOnAfterDeleteInterface[Formatted_text_id]
+	OnAfterFormatted_text_idReadCallback   GongOnAfterReadInterface[Formatted_text_id]
 
 	Forwards                map[*Forward]struct{}
 	Forwards_instance       map[*Forward]*Forward
@@ -1362,10 +1371,10 @@ type Stage struct {
 	Forwards_referenceOrder map[*Forward]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterForwardCreateCallback OnAfterCreateInterface[Forward]
-	OnAfterForwardUpdateCallback OnAfterUpdateInterface[Forward]
-	OnAfterForwardDeleteCallback OnAfterDeleteInterface[Forward]
-	OnAfterForwardReadCallback   OnAfterReadInterface[Forward]
+	OnAfterForwardCreateCallback GongOnAfterCreateInterface[Forward]
+	OnAfterForwardUpdateCallback GongOnAfterUpdateInterface[Forward]
+	OnAfterForwardDeleteCallback GongOnAfterDeleteInterface[Forward]
+	OnAfterForwardReadCallback   GongOnAfterReadInterface[Forward]
 
 	Frames                map[*Frame]struct{}
 	Frames_instance       map[*Frame]*Frame
@@ -1379,10 +1388,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Frame_Frame_note_reverseMap map[*Frame_note]*Frame
 
-	OnAfterFrameCreateCallback OnAfterCreateInterface[Frame]
-	OnAfterFrameUpdateCallback OnAfterUpdateInterface[Frame]
-	OnAfterFrameDeleteCallback OnAfterDeleteInterface[Frame]
-	OnAfterFrameReadCallback   OnAfterReadInterface[Frame]
+	OnAfterFrameCreateCallback GongOnAfterCreateInterface[Frame]
+	OnAfterFrameUpdateCallback GongOnAfterUpdateInterface[Frame]
+	OnAfterFrameDeleteCallback GongOnAfterDeleteInterface[Frame]
+	OnAfterFrameReadCallback   GongOnAfterReadInterface[Frame]
 
 	Frame_notes                map[*Frame_note]struct{}
 	Frame_notes_instance       map[*Frame_note]*Frame_note
@@ -1394,10 +1403,10 @@ type Stage struct {
 	Frame_notes_referenceOrder map[*Frame_note]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterFrame_noteCreateCallback OnAfterCreateInterface[Frame_note]
-	OnAfterFrame_noteUpdateCallback OnAfterUpdateInterface[Frame_note]
-	OnAfterFrame_noteDeleteCallback OnAfterDeleteInterface[Frame_note]
-	OnAfterFrame_noteReadCallback   OnAfterReadInterface[Frame_note]
+	OnAfterFrame_noteCreateCallback GongOnAfterCreateInterface[Frame_note]
+	OnAfterFrame_noteUpdateCallback GongOnAfterUpdateInterface[Frame_note]
+	OnAfterFrame_noteDeleteCallback GongOnAfterDeleteInterface[Frame_note]
+	OnAfterFrame_noteReadCallback   GongOnAfterReadInterface[Frame_note]
 
 	Frets                map[*Fret]struct{}
 	Frets_instance       map[*Fret]*Fret
@@ -1409,10 +1418,10 @@ type Stage struct {
 	Frets_referenceOrder map[*Fret]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterFretCreateCallback OnAfterCreateInterface[Fret]
-	OnAfterFretUpdateCallback OnAfterUpdateInterface[Fret]
-	OnAfterFretDeleteCallback OnAfterDeleteInterface[Fret]
-	OnAfterFretReadCallback   OnAfterReadInterface[Fret]
+	OnAfterFretCreateCallback GongOnAfterCreateInterface[Fret]
+	OnAfterFretUpdateCallback GongOnAfterUpdateInterface[Fret]
+	OnAfterFretDeleteCallback GongOnAfterDeleteInterface[Fret]
+	OnAfterFretReadCallback   GongOnAfterReadInterface[Fret]
 
 	Glasss                map[*Glass]struct{}
 	Glasss_instance       map[*Glass]*Glass
@@ -1424,10 +1433,10 @@ type Stage struct {
 	Glasss_referenceOrder map[*Glass]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGlassCreateCallback OnAfterCreateInterface[Glass]
-	OnAfterGlassUpdateCallback OnAfterUpdateInterface[Glass]
-	OnAfterGlassDeleteCallback OnAfterDeleteInterface[Glass]
-	OnAfterGlassReadCallback   OnAfterReadInterface[Glass]
+	OnAfterGlassCreateCallback GongOnAfterCreateInterface[Glass]
+	OnAfterGlassUpdateCallback GongOnAfterUpdateInterface[Glass]
+	OnAfterGlassDeleteCallback GongOnAfterDeleteInterface[Glass]
+	OnAfterGlassReadCallback   GongOnAfterReadInterface[Glass]
 
 	Glissandos                map[*Glissando]struct{}
 	Glissandos_instance       map[*Glissando]*Glissando
@@ -1439,10 +1448,10 @@ type Stage struct {
 	Glissandos_referenceOrder map[*Glissando]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGlissandoCreateCallback OnAfterCreateInterface[Glissando]
-	OnAfterGlissandoUpdateCallback OnAfterUpdateInterface[Glissando]
-	OnAfterGlissandoDeleteCallback OnAfterDeleteInterface[Glissando]
-	OnAfterGlissandoReadCallback   OnAfterReadInterface[Glissando]
+	OnAfterGlissandoCreateCallback GongOnAfterCreateInterface[Glissando]
+	OnAfterGlissandoUpdateCallback GongOnAfterUpdateInterface[Glissando]
+	OnAfterGlissandoDeleteCallback GongOnAfterDeleteInterface[Glissando]
+	OnAfterGlissandoReadCallback   GongOnAfterReadInterface[Glissando]
 
 	Glyphs                map[*Glyph]struct{}
 	Glyphs_instance       map[*Glyph]*Glyph
@@ -1454,10 +1463,10 @@ type Stage struct {
 	Glyphs_referenceOrder map[*Glyph]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGlyphCreateCallback OnAfterCreateInterface[Glyph]
-	OnAfterGlyphUpdateCallback OnAfterUpdateInterface[Glyph]
-	OnAfterGlyphDeleteCallback OnAfterDeleteInterface[Glyph]
-	OnAfterGlyphReadCallback   OnAfterReadInterface[Glyph]
+	OnAfterGlyphCreateCallback GongOnAfterCreateInterface[Glyph]
+	OnAfterGlyphUpdateCallback GongOnAfterUpdateInterface[Glyph]
+	OnAfterGlyphDeleteCallback GongOnAfterDeleteInterface[Glyph]
+	OnAfterGlyphReadCallback   GongOnAfterReadInterface[Glyph]
 
 	Graces                map[*Grace]struct{}
 	Graces_instance       map[*Grace]*Grace
@@ -1469,10 +1478,10 @@ type Stage struct {
 	Graces_referenceOrder map[*Grace]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGraceCreateCallback OnAfterCreateInterface[Grace]
-	OnAfterGraceUpdateCallback OnAfterUpdateInterface[Grace]
-	OnAfterGraceDeleteCallback OnAfterDeleteInterface[Grace]
-	OnAfterGraceReadCallback   OnAfterReadInterface[Grace]
+	OnAfterGraceCreateCallback GongOnAfterCreateInterface[Grace]
+	OnAfterGraceUpdateCallback GongOnAfterUpdateInterface[Grace]
+	OnAfterGraceDeleteCallback GongOnAfterDeleteInterface[Grace]
+	OnAfterGraceReadCallback   GongOnAfterReadInterface[Grace]
 
 	Group_barlines                map[*Group_barline]struct{}
 	Group_barlines_instance       map[*Group_barline]*Group_barline
@@ -1484,10 +1493,10 @@ type Stage struct {
 	Group_barlines_referenceOrder map[*Group_barline]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGroup_barlineCreateCallback OnAfterCreateInterface[Group_barline]
-	OnAfterGroup_barlineUpdateCallback OnAfterUpdateInterface[Group_barline]
-	OnAfterGroup_barlineDeleteCallback OnAfterDeleteInterface[Group_barline]
-	OnAfterGroup_barlineReadCallback   OnAfterReadInterface[Group_barline]
+	OnAfterGroup_barlineCreateCallback GongOnAfterCreateInterface[Group_barline]
+	OnAfterGroup_barlineUpdateCallback GongOnAfterUpdateInterface[Group_barline]
+	OnAfterGroup_barlineDeleteCallback GongOnAfterDeleteInterface[Group_barline]
+	OnAfterGroup_barlineReadCallback   GongOnAfterReadInterface[Group_barline]
 
 	Group_names                map[*Group_name]struct{}
 	Group_names_instance       map[*Group_name]*Group_name
@@ -1499,10 +1508,10 @@ type Stage struct {
 	Group_names_referenceOrder map[*Group_name]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGroup_nameCreateCallback OnAfterCreateInterface[Group_name]
-	OnAfterGroup_nameUpdateCallback OnAfterUpdateInterface[Group_name]
-	OnAfterGroup_nameDeleteCallback OnAfterDeleteInterface[Group_name]
-	OnAfterGroup_nameReadCallback   OnAfterReadInterface[Group_name]
+	OnAfterGroup_nameCreateCallback GongOnAfterCreateInterface[Group_name]
+	OnAfterGroup_nameUpdateCallback GongOnAfterUpdateInterface[Group_name]
+	OnAfterGroup_nameDeleteCallback GongOnAfterDeleteInterface[Group_name]
+	OnAfterGroup_nameReadCallback   GongOnAfterReadInterface[Group_name]
 
 	Group_symbols                map[*Group_symbol]struct{}
 	Group_symbols_instance       map[*Group_symbol]*Group_symbol
@@ -1514,10 +1523,10 @@ type Stage struct {
 	Group_symbols_referenceOrder map[*Group_symbol]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterGroup_symbolCreateCallback OnAfterCreateInterface[Group_symbol]
-	OnAfterGroup_symbolUpdateCallback OnAfterUpdateInterface[Group_symbol]
-	OnAfterGroup_symbolDeleteCallback OnAfterDeleteInterface[Group_symbol]
-	OnAfterGroup_symbolReadCallback   OnAfterReadInterface[Group_symbol]
+	OnAfterGroup_symbolCreateCallback GongOnAfterCreateInterface[Group_symbol]
+	OnAfterGroup_symbolUpdateCallback GongOnAfterUpdateInterface[Group_symbol]
+	OnAfterGroup_symbolDeleteCallback GongOnAfterDeleteInterface[Group_symbol]
+	OnAfterGroup_symbolReadCallback   GongOnAfterReadInterface[Group_symbol]
 
 	Groupings                map[*Grouping]struct{}
 	Groupings_instance       map[*Grouping]*Grouping
@@ -1531,10 +1540,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Grouping_Feature_reverseMap map[*Feature]*Grouping
 
-	OnAfterGroupingCreateCallback OnAfterCreateInterface[Grouping]
-	OnAfterGroupingUpdateCallback OnAfterUpdateInterface[Grouping]
-	OnAfterGroupingDeleteCallback OnAfterDeleteInterface[Grouping]
-	OnAfterGroupingReadCallback   OnAfterReadInterface[Grouping]
+	OnAfterGroupingCreateCallback GongOnAfterCreateInterface[Grouping]
+	OnAfterGroupingUpdateCallback GongOnAfterUpdateInterface[Grouping]
+	OnAfterGroupingDeleteCallback GongOnAfterDeleteInterface[Grouping]
+	OnAfterGroupingReadCallback   GongOnAfterReadInterface[Grouping]
 
 	Hammer_on_pull_offs                map[*Hammer_on_pull_off]struct{}
 	Hammer_on_pull_offs_instance       map[*Hammer_on_pull_off]*Hammer_on_pull_off
@@ -1546,10 +1555,10 @@ type Stage struct {
 	Hammer_on_pull_offs_referenceOrder map[*Hammer_on_pull_off]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterHammer_on_pull_offCreateCallback OnAfterCreateInterface[Hammer_on_pull_off]
-	OnAfterHammer_on_pull_offUpdateCallback OnAfterUpdateInterface[Hammer_on_pull_off]
-	OnAfterHammer_on_pull_offDeleteCallback OnAfterDeleteInterface[Hammer_on_pull_off]
-	OnAfterHammer_on_pull_offReadCallback   OnAfterReadInterface[Hammer_on_pull_off]
+	OnAfterHammer_on_pull_offCreateCallback GongOnAfterCreateInterface[Hammer_on_pull_off]
+	OnAfterHammer_on_pull_offUpdateCallback GongOnAfterUpdateInterface[Hammer_on_pull_off]
+	OnAfterHammer_on_pull_offDeleteCallback GongOnAfterDeleteInterface[Hammer_on_pull_off]
+	OnAfterHammer_on_pull_offReadCallback   GongOnAfterReadInterface[Hammer_on_pull_off]
 
 	Handbells                map[*Handbell]struct{}
 	Handbells_instance       map[*Handbell]*Handbell
@@ -1561,10 +1570,10 @@ type Stage struct {
 	Handbells_referenceOrder map[*Handbell]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterHandbellCreateCallback OnAfterCreateInterface[Handbell]
-	OnAfterHandbellUpdateCallback OnAfterUpdateInterface[Handbell]
-	OnAfterHandbellDeleteCallback OnAfterDeleteInterface[Handbell]
-	OnAfterHandbellReadCallback   OnAfterReadInterface[Handbell]
+	OnAfterHandbellCreateCallback GongOnAfterCreateInterface[Handbell]
+	OnAfterHandbellUpdateCallback GongOnAfterUpdateInterface[Handbell]
+	OnAfterHandbellDeleteCallback GongOnAfterDeleteInterface[Handbell]
+	OnAfterHandbellReadCallback   GongOnAfterReadInterface[Handbell]
 
 	Harmon_closeds                map[*Harmon_closed]struct{}
 	Harmon_closeds_instance       map[*Harmon_closed]*Harmon_closed
@@ -1576,10 +1585,10 @@ type Stage struct {
 	Harmon_closeds_referenceOrder map[*Harmon_closed]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterHarmon_closedCreateCallback OnAfterCreateInterface[Harmon_closed]
-	OnAfterHarmon_closedUpdateCallback OnAfterUpdateInterface[Harmon_closed]
-	OnAfterHarmon_closedDeleteCallback OnAfterDeleteInterface[Harmon_closed]
-	OnAfterHarmon_closedReadCallback   OnAfterReadInterface[Harmon_closed]
+	OnAfterHarmon_closedCreateCallback GongOnAfterCreateInterface[Harmon_closed]
+	OnAfterHarmon_closedUpdateCallback GongOnAfterUpdateInterface[Harmon_closed]
+	OnAfterHarmon_closedDeleteCallback GongOnAfterDeleteInterface[Harmon_closed]
+	OnAfterHarmon_closedReadCallback   GongOnAfterReadInterface[Harmon_closed]
 
 	Harmon_mutes                map[*Harmon_mute]struct{}
 	Harmon_mutes_instance       map[*Harmon_mute]*Harmon_mute
@@ -1591,10 +1600,10 @@ type Stage struct {
 	Harmon_mutes_referenceOrder map[*Harmon_mute]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterHarmon_muteCreateCallback OnAfterCreateInterface[Harmon_mute]
-	OnAfterHarmon_muteUpdateCallback OnAfterUpdateInterface[Harmon_mute]
-	OnAfterHarmon_muteDeleteCallback OnAfterDeleteInterface[Harmon_mute]
-	OnAfterHarmon_muteReadCallback   OnAfterReadInterface[Harmon_mute]
+	OnAfterHarmon_muteCreateCallback GongOnAfterCreateInterface[Harmon_mute]
+	OnAfterHarmon_muteUpdateCallback GongOnAfterUpdateInterface[Harmon_mute]
+	OnAfterHarmon_muteDeleteCallback GongOnAfterDeleteInterface[Harmon_mute]
+	OnAfterHarmon_muteReadCallback   GongOnAfterReadInterface[Harmon_mute]
 
 	Harmonics                map[*Harmonic]struct{}
 	Harmonics_instance       map[*Harmonic]*Harmonic
@@ -1606,10 +1615,10 @@ type Stage struct {
 	Harmonics_referenceOrder map[*Harmonic]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterHarmonicCreateCallback OnAfterCreateInterface[Harmonic]
-	OnAfterHarmonicUpdateCallback OnAfterUpdateInterface[Harmonic]
-	OnAfterHarmonicDeleteCallback OnAfterDeleteInterface[Harmonic]
-	OnAfterHarmonicReadCallback   OnAfterReadInterface[Harmonic]
+	OnAfterHarmonicCreateCallback GongOnAfterCreateInterface[Harmonic]
+	OnAfterHarmonicUpdateCallback GongOnAfterUpdateInterface[Harmonic]
+	OnAfterHarmonicDeleteCallback GongOnAfterDeleteInterface[Harmonic]
+	OnAfterHarmonicReadCallback   GongOnAfterReadInterface[Harmonic]
 
 	Harmonys                map[*Harmony]struct{}
 	Harmonys_instance       map[*Harmony]*Harmony
@@ -1623,10 +1632,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Harmony_Degree_reverseMap map[*Degree]*Harmony
 
-	OnAfterHarmonyCreateCallback OnAfterCreateInterface[Harmony]
-	OnAfterHarmonyUpdateCallback OnAfterUpdateInterface[Harmony]
-	OnAfterHarmonyDeleteCallback OnAfterDeleteInterface[Harmony]
-	OnAfterHarmonyReadCallback   OnAfterReadInterface[Harmony]
+	OnAfterHarmonyCreateCallback GongOnAfterCreateInterface[Harmony]
+	OnAfterHarmonyUpdateCallback GongOnAfterUpdateInterface[Harmony]
+	OnAfterHarmonyDeleteCallback GongOnAfterDeleteInterface[Harmony]
+	OnAfterHarmonyReadCallback   GongOnAfterReadInterface[Harmony]
 
 	Harmony_alters                map[*Harmony_alter]struct{}
 	Harmony_alters_instance       map[*Harmony_alter]*Harmony_alter
@@ -1638,10 +1647,10 @@ type Stage struct {
 	Harmony_alters_referenceOrder map[*Harmony_alter]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterHarmony_alterCreateCallback OnAfterCreateInterface[Harmony_alter]
-	OnAfterHarmony_alterUpdateCallback OnAfterUpdateInterface[Harmony_alter]
-	OnAfterHarmony_alterDeleteCallback OnAfterDeleteInterface[Harmony_alter]
-	OnAfterHarmony_alterReadCallback   OnAfterReadInterface[Harmony_alter]
+	OnAfterHarmony_alterCreateCallback GongOnAfterCreateInterface[Harmony_alter]
+	OnAfterHarmony_alterUpdateCallback GongOnAfterUpdateInterface[Harmony_alter]
+	OnAfterHarmony_alterDeleteCallback GongOnAfterDeleteInterface[Harmony_alter]
+	OnAfterHarmony_alterReadCallback   GongOnAfterReadInterface[Harmony_alter]
 
 	Harp_pedalss                map[*Harp_pedals]struct{}
 	Harp_pedalss_instance       map[*Harp_pedals]*Harp_pedals
@@ -1655,10 +1664,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Harp_pedals_Pedal_tuning_reverseMap map[*Pedal_tuning]*Harp_pedals
 
-	OnAfterHarp_pedalsCreateCallback OnAfterCreateInterface[Harp_pedals]
-	OnAfterHarp_pedalsUpdateCallback OnAfterUpdateInterface[Harp_pedals]
-	OnAfterHarp_pedalsDeleteCallback OnAfterDeleteInterface[Harp_pedals]
-	OnAfterHarp_pedalsReadCallback   OnAfterReadInterface[Harp_pedals]
+	OnAfterHarp_pedalsCreateCallback GongOnAfterCreateInterface[Harp_pedals]
+	OnAfterHarp_pedalsUpdateCallback GongOnAfterUpdateInterface[Harp_pedals]
+	OnAfterHarp_pedalsDeleteCallback GongOnAfterDeleteInterface[Harp_pedals]
+	OnAfterHarp_pedalsReadCallback   GongOnAfterReadInterface[Harp_pedals]
 
 	Heel_toes                map[*Heel_toe]struct{}
 	Heel_toes_instance       map[*Heel_toe]*Heel_toe
@@ -1670,10 +1679,10 @@ type Stage struct {
 	Heel_toes_referenceOrder map[*Heel_toe]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterHeel_toeCreateCallback OnAfterCreateInterface[Heel_toe]
-	OnAfterHeel_toeUpdateCallback OnAfterUpdateInterface[Heel_toe]
-	OnAfterHeel_toeDeleteCallback OnAfterDeleteInterface[Heel_toe]
-	OnAfterHeel_toeReadCallback   OnAfterReadInterface[Heel_toe]
+	OnAfterHeel_toeCreateCallback GongOnAfterCreateInterface[Heel_toe]
+	OnAfterHeel_toeUpdateCallback GongOnAfterUpdateInterface[Heel_toe]
+	OnAfterHeel_toeDeleteCallback GongOnAfterDeleteInterface[Heel_toe]
+	OnAfterHeel_toeReadCallback   GongOnAfterReadInterface[Heel_toe]
 
 	Holes                map[*Hole]struct{}
 	Holes_instance       map[*Hole]*Hole
@@ -1685,10 +1694,10 @@ type Stage struct {
 	Holes_referenceOrder map[*Hole]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterHoleCreateCallback OnAfterCreateInterface[Hole]
-	OnAfterHoleUpdateCallback OnAfterUpdateInterface[Hole]
-	OnAfterHoleDeleteCallback OnAfterDeleteInterface[Hole]
-	OnAfterHoleReadCallback   OnAfterReadInterface[Hole]
+	OnAfterHoleCreateCallback GongOnAfterCreateInterface[Hole]
+	OnAfterHoleUpdateCallback GongOnAfterUpdateInterface[Hole]
+	OnAfterHoleDeleteCallback GongOnAfterDeleteInterface[Hole]
+	OnAfterHoleReadCallback   GongOnAfterReadInterface[Hole]
 
 	Hole_closeds                map[*Hole_closed]struct{}
 	Hole_closeds_instance       map[*Hole_closed]*Hole_closed
@@ -1700,10 +1709,10 @@ type Stage struct {
 	Hole_closeds_referenceOrder map[*Hole_closed]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterHole_closedCreateCallback OnAfterCreateInterface[Hole_closed]
-	OnAfterHole_closedUpdateCallback OnAfterUpdateInterface[Hole_closed]
-	OnAfterHole_closedDeleteCallback OnAfterDeleteInterface[Hole_closed]
-	OnAfterHole_closedReadCallback   OnAfterReadInterface[Hole_closed]
+	OnAfterHole_closedCreateCallback GongOnAfterCreateInterface[Hole_closed]
+	OnAfterHole_closedUpdateCallback GongOnAfterUpdateInterface[Hole_closed]
+	OnAfterHole_closedDeleteCallback GongOnAfterDeleteInterface[Hole_closed]
+	OnAfterHole_closedReadCallback   GongOnAfterReadInterface[Hole_closed]
 
 	Horizontal_turns                map[*Horizontal_turn]struct{}
 	Horizontal_turns_instance       map[*Horizontal_turn]*Horizontal_turn
@@ -1715,10 +1724,10 @@ type Stage struct {
 	Horizontal_turns_referenceOrder map[*Horizontal_turn]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterHorizontal_turnCreateCallback OnAfterCreateInterface[Horizontal_turn]
-	OnAfterHorizontal_turnUpdateCallback OnAfterUpdateInterface[Horizontal_turn]
-	OnAfterHorizontal_turnDeleteCallback OnAfterDeleteInterface[Horizontal_turn]
-	OnAfterHorizontal_turnReadCallback   OnAfterReadInterface[Horizontal_turn]
+	OnAfterHorizontal_turnCreateCallback GongOnAfterCreateInterface[Horizontal_turn]
+	OnAfterHorizontal_turnUpdateCallback GongOnAfterUpdateInterface[Horizontal_turn]
+	OnAfterHorizontal_turnDeleteCallback GongOnAfterDeleteInterface[Horizontal_turn]
+	OnAfterHorizontal_turnReadCallback   GongOnAfterReadInterface[Horizontal_turn]
 
 	Identifications                map[*Identification]struct{}
 	Identifications_instance       map[*Identification]*Identification
@@ -1736,10 +1745,10 @@ type Stage struct {
 
 	Identification_Relation_reverseMap map[*Typed_text]*Identification
 
-	OnAfterIdentificationCreateCallback OnAfterCreateInterface[Identification]
-	OnAfterIdentificationUpdateCallback OnAfterUpdateInterface[Identification]
-	OnAfterIdentificationDeleteCallback OnAfterDeleteInterface[Identification]
-	OnAfterIdentificationReadCallback   OnAfterReadInterface[Identification]
+	OnAfterIdentificationCreateCallback GongOnAfterCreateInterface[Identification]
+	OnAfterIdentificationUpdateCallback GongOnAfterUpdateInterface[Identification]
+	OnAfterIdentificationDeleteCallback GongOnAfterDeleteInterface[Identification]
+	OnAfterIdentificationReadCallback   GongOnAfterReadInterface[Identification]
 
 	Images                map[*Image]struct{}
 	Images_instance       map[*Image]*Image
@@ -1751,10 +1760,10 @@ type Stage struct {
 	Images_referenceOrder map[*Image]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterImageCreateCallback OnAfterCreateInterface[Image]
-	OnAfterImageUpdateCallback OnAfterUpdateInterface[Image]
-	OnAfterImageDeleteCallback OnAfterDeleteInterface[Image]
-	OnAfterImageReadCallback   OnAfterReadInterface[Image]
+	OnAfterImageCreateCallback GongOnAfterCreateInterface[Image]
+	OnAfterImageUpdateCallback GongOnAfterUpdateInterface[Image]
+	OnAfterImageDeleteCallback GongOnAfterDeleteInterface[Image]
+	OnAfterImageReadCallback   GongOnAfterReadInterface[Image]
 
 	Instruments                map[*Instrument]struct{}
 	Instruments_instance       map[*Instrument]*Instrument
@@ -1766,10 +1775,10 @@ type Stage struct {
 	Instruments_referenceOrder map[*Instrument]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterInstrumentCreateCallback OnAfterCreateInterface[Instrument]
-	OnAfterInstrumentUpdateCallback OnAfterUpdateInterface[Instrument]
-	OnAfterInstrumentDeleteCallback OnAfterDeleteInterface[Instrument]
-	OnAfterInstrumentReadCallback   OnAfterReadInterface[Instrument]
+	OnAfterInstrumentCreateCallback GongOnAfterCreateInterface[Instrument]
+	OnAfterInstrumentUpdateCallback GongOnAfterUpdateInterface[Instrument]
+	OnAfterInstrumentDeleteCallback GongOnAfterDeleteInterface[Instrument]
+	OnAfterInstrumentReadCallback   GongOnAfterReadInterface[Instrument]
 
 	Instrument_changes                map[*Instrument_change]struct{}
 	Instrument_changes_instance       map[*Instrument_change]*Instrument_change
@@ -1781,10 +1790,10 @@ type Stage struct {
 	Instrument_changes_referenceOrder map[*Instrument_change]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterInstrument_changeCreateCallback OnAfterCreateInterface[Instrument_change]
-	OnAfterInstrument_changeUpdateCallback OnAfterUpdateInterface[Instrument_change]
-	OnAfterInstrument_changeDeleteCallback OnAfterDeleteInterface[Instrument_change]
-	OnAfterInstrument_changeReadCallback   OnAfterReadInterface[Instrument_change]
+	OnAfterInstrument_changeCreateCallback GongOnAfterCreateInterface[Instrument_change]
+	OnAfterInstrument_changeUpdateCallback GongOnAfterUpdateInterface[Instrument_change]
+	OnAfterInstrument_changeDeleteCallback GongOnAfterDeleteInterface[Instrument_change]
+	OnAfterInstrument_changeReadCallback   GongOnAfterReadInterface[Instrument_change]
 
 	Instrument_links                map[*Instrument_link]struct{}
 	Instrument_links_instance       map[*Instrument_link]*Instrument_link
@@ -1796,10 +1805,10 @@ type Stage struct {
 	Instrument_links_referenceOrder map[*Instrument_link]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterInstrument_linkCreateCallback OnAfterCreateInterface[Instrument_link]
-	OnAfterInstrument_linkUpdateCallback OnAfterUpdateInterface[Instrument_link]
-	OnAfterInstrument_linkDeleteCallback OnAfterDeleteInterface[Instrument_link]
-	OnAfterInstrument_linkReadCallback   OnAfterReadInterface[Instrument_link]
+	OnAfterInstrument_linkCreateCallback GongOnAfterCreateInterface[Instrument_link]
+	OnAfterInstrument_linkUpdateCallback GongOnAfterUpdateInterface[Instrument_link]
+	OnAfterInstrument_linkDeleteCallback GongOnAfterDeleteInterface[Instrument_link]
+	OnAfterInstrument_linkReadCallback   GongOnAfterReadInterface[Instrument_link]
 
 	Interchangeables                map[*Interchangeable]struct{}
 	Interchangeables_instance       map[*Interchangeable]*Interchangeable
@@ -1811,10 +1820,10 @@ type Stage struct {
 	Interchangeables_referenceOrder map[*Interchangeable]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterInterchangeableCreateCallback OnAfterCreateInterface[Interchangeable]
-	OnAfterInterchangeableUpdateCallback OnAfterUpdateInterface[Interchangeable]
-	OnAfterInterchangeableDeleteCallback OnAfterDeleteInterface[Interchangeable]
-	OnAfterInterchangeableReadCallback   OnAfterReadInterface[Interchangeable]
+	OnAfterInterchangeableCreateCallback GongOnAfterCreateInterface[Interchangeable]
+	OnAfterInterchangeableUpdateCallback GongOnAfterUpdateInterface[Interchangeable]
+	OnAfterInterchangeableDeleteCallback GongOnAfterDeleteInterface[Interchangeable]
+	OnAfterInterchangeableReadCallback   GongOnAfterReadInterface[Interchangeable]
 
 	Inversions                map[*Inversion]struct{}
 	Inversions_instance       map[*Inversion]*Inversion
@@ -1826,10 +1835,10 @@ type Stage struct {
 	Inversions_referenceOrder map[*Inversion]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterInversionCreateCallback OnAfterCreateInterface[Inversion]
-	OnAfterInversionUpdateCallback OnAfterUpdateInterface[Inversion]
-	OnAfterInversionDeleteCallback OnAfterDeleteInterface[Inversion]
-	OnAfterInversionReadCallback   OnAfterReadInterface[Inversion]
+	OnAfterInversionCreateCallback GongOnAfterCreateInterface[Inversion]
+	OnAfterInversionUpdateCallback GongOnAfterUpdateInterface[Inversion]
+	OnAfterInversionDeleteCallback GongOnAfterDeleteInterface[Inversion]
+	OnAfterInversionReadCallback   GongOnAfterReadInterface[Inversion]
 
 	Keys                map[*Key]struct{}
 	Keys_instance       map[*Key]*Key
@@ -1843,10 +1852,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Key_Key_octave_reverseMap map[*Key_octave]*Key
 
-	OnAfterKeyCreateCallback OnAfterCreateInterface[Key]
-	OnAfterKeyUpdateCallback OnAfterUpdateInterface[Key]
-	OnAfterKeyDeleteCallback OnAfterDeleteInterface[Key]
-	OnAfterKeyReadCallback   OnAfterReadInterface[Key]
+	OnAfterKeyCreateCallback GongOnAfterCreateInterface[Key]
+	OnAfterKeyUpdateCallback GongOnAfterUpdateInterface[Key]
+	OnAfterKeyDeleteCallback GongOnAfterDeleteInterface[Key]
+	OnAfterKeyReadCallback   GongOnAfterReadInterface[Key]
 
 	Key_accidentals                map[*Key_accidental]struct{}
 	Key_accidentals_instance       map[*Key_accidental]*Key_accidental
@@ -1858,10 +1867,10 @@ type Stage struct {
 	Key_accidentals_referenceOrder map[*Key_accidental]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterKey_accidentalCreateCallback OnAfterCreateInterface[Key_accidental]
-	OnAfterKey_accidentalUpdateCallback OnAfterUpdateInterface[Key_accidental]
-	OnAfterKey_accidentalDeleteCallback OnAfterDeleteInterface[Key_accidental]
-	OnAfterKey_accidentalReadCallback   OnAfterReadInterface[Key_accidental]
+	OnAfterKey_accidentalCreateCallback GongOnAfterCreateInterface[Key_accidental]
+	OnAfterKey_accidentalUpdateCallback GongOnAfterUpdateInterface[Key_accidental]
+	OnAfterKey_accidentalDeleteCallback GongOnAfterDeleteInterface[Key_accidental]
+	OnAfterKey_accidentalReadCallback   GongOnAfterReadInterface[Key_accidental]
 
 	Key_octaves                map[*Key_octave]struct{}
 	Key_octaves_instance       map[*Key_octave]*Key_octave
@@ -1873,10 +1882,10 @@ type Stage struct {
 	Key_octaves_referenceOrder map[*Key_octave]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterKey_octaveCreateCallback OnAfterCreateInterface[Key_octave]
-	OnAfterKey_octaveUpdateCallback OnAfterUpdateInterface[Key_octave]
-	OnAfterKey_octaveDeleteCallback OnAfterDeleteInterface[Key_octave]
-	OnAfterKey_octaveReadCallback   OnAfterReadInterface[Key_octave]
+	OnAfterKey_octaveCreateCallback GongOnAfterCreateInterface[Key_octave]
+	OnAfterKey_octaveUpdateCallback GongOnAfterUpdateInterface[Key_octave]
+	OnAfterKey_octaveDeleteCallback GongOnAfterDeleteInterface[Key_octave]
+	OnAfterKey_octaveReadCallback   GongOnAfterReadInterface[Key_octave]
 
 	Kinds                map[*Kind]struct{}
 	Kinds_instance       map[*Kind]*Kind
@@ -1888,10 +1897,10 @@ type Stage struct {
 	Kinds_referenceOrder map[*Kind]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterKindCreateCallback OnAfterCreateInterface[Kind]
-	OnAfterKindUpdateCallback OnAfterUpdateInterface[Kind]
-	OnAfterKindDeleteCallback OnAfterDeleteInterface[Kind]
-	OnAfterKindReadCallback   OnAfterReadInterface[Kind]
+	OnAfterKindCreateCallback GongOnAfterCreateInterface[Kind]
+	OnAfterKindUpdateCallback GongOnAfterUpdateInterface[Kind]
+	OnAfterKindDeleteCallback GongOnAfterDeleteInterface[Kind]
+	OnAfterKindReadCallback   GongOnAfterReadInterface[Kind]
 
 	Levels                map[*Level]struct{}
 	Levels_instance       map[*Level]*Level
@@ -1903,10 +1912,10 @@ type Stage struct {
 	Levels_referenceOrder map[*Level]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterLevelCreateCallback OnAfterCreateInterface[Level]
-	OnAfterLevelUpdateCallback OnAfterUpdateInterface[Level]
-	OnAfterLevelDeleteCallback OnAfterDeleteInterface[Level]
-	OnAfterLevelReadCallback   OnAfterReadInterface[Level]
+	OnAfterLevelCreateCallback GongOnAfterCreateInterface[Level]
+	OnAfterLevelUpdateCallback GongOnAfterUpdateInterface[Level]
+	OnAfterLevelDeleteCallback GongOnAfterDeleteInterface[Level]
+	OnAfterLevelReadCallback   GongOnAfterReadInterface[Level]
 
 	Line_details                map[*Line_detail]struct{}
 	Line_details_instance       map[*Line_detail]*Line_detail
@@ -1918,10 +1927,10 @@ type Stage struct {
 	Line_details_referenceOrder map[*Line_detail]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterLine_detailCreateCallback OnAfterCreateInterface[Line_detail]
-	OnAfterLine_detailUpdateCallback OnAfterUpdateInterface[Line_detail]
-	OnAfterLine_detailDeleteCallback OnAfterDeleteInterface[Line_detail]
-	OnAfterLine_detailReadCallback   OnAfterReadInterface[Line_detail]
+	OnAfterLine_detailCreateCallback GongOnAfterCreateInterface[Line_detail]
+	OnAfterLine_detailUpdateCallback GongOnAfterUpdateInterface[Line_detail]
+	OnAfterLine_detailDeleteCallback GongOnAfterDeleteInterface[Line_detail]
+	OnAfterLine_detailReadCallback   GongOnAfterReadInterface[Line_detail]
 
 	Line_widths                map[*Line_width]struct{}
 	Line_widths_instance       map[*Line_width]*Line_width
@@ -1933,10 +1942,10 @@ type Stage struct {
 	Line_widths_referenceOrder map[*Line_width]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterLine_widthCreateCallback OnAfterCreateInterface[Line_width]
-	OnAfterLine_widthUpdateCallback OnAfterUpdateInterface[Line_width]
-	OnAfterLine_widthDeleteCallback OnAfterDeleteInterface[Line_width]
-	OnAfterLine_widthReadCallback   OnAfterReadInterface[Line_width]
+	OnAfterLine_widthCreateCallback GongOnAfterCreateInterface[Line_width]
+	OnAfterLine_widthUpdateCallback GongOnAfterUpdateInterface[Line_width]
+	OnAfterLine_widthDeleteCallback GongOnAfterDeleteInterface[Line_width]
+	OnAfterLine_widthReadCallback   GongOnAfterReadInterface[Line_width]
 
 	Links                map[*Link]struct{}
 	Links_instance       map[*Link]*Link
@@ -1948,10 +1957,10 @@ type Stage struct {
 	Links_referenceOrder map[*Link]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterLinkCreateCallback OnAfterCreateInterface[Link]
-	OnAfterLinkUpdateCallback OnAfterUpdateInterface[Link]
-	OnAfterLinkDeleteCallback OnAfterDeleteInterface[Link]
-	OnAfterLinkReadCallback   OnAfterReadInterface[Link]
+	OnAfterLinkCreateCallback GongOnAfterCreateInterface[Link]
+	OnAfterLinkUpdateCallback GongOnAfterUpdateInterface[Link]
+	OnAfterLinkDeleteCallback GongOnAfterDeleteInterface[Link]
+	OnAfterLinkReadCallback   GongOnAfterReadInterface[Link]
 
 	Listens                map[*Listen]struct{}
 	Listens_instance       map[*Listen]*Listen
@@ -1969,10 +1978,10 @@ type Stage struct {
 
 	Listen_Other_listen_reverseMap map[*Other_listening]*Listen
 
-	OnAfterListenCreateCallback OnAfterCreateInterface[Listen]
-	OnAfterListenUpdateCallback OnAfterUpdateInterface[Listen]
-	OnAfterListenDeleteCallback OnAfterDeleteInterface[Listen]
-	OnAfterListenReadCallback   OnAfterReadInterface[Listen]
+	OnAfterListenCreateCallback GongOnAfterCreateInterface[Listen]
+	OnAfterListenUpdateCallback GongOnAfterUpdateInterface[Listen]
+	OnAfterListenDeleteCallback GongOnAfterDeleteInterface[Listen]
+	OnAfterListenReadCallback   GongOnAfterReadInterface[Listen]
 
 	Listenings                map[*Listening]struct{}
 	Listenings_instance       map[*Listening]*Listening
@@ -1988,10 +1997,10 @@ type Stage struct {
 
 	Listening_Other_listening_reverseMap map[*Other_listening]*Listening
 
-	OnAfterListeningCreateCallback OnAfterCreateInterface[Listening]
-	OnAfterListeningUpdateCallback OnAfterUpdateInterface[Listening]
-	OnAfterListeningDeleteCallback OnAfterDeleteInterface[Listening]
-	OnAfterListeningReadCallback   OnAfterReadInterface[Listening]
+	OnAfterListeningCreateCallback GongOnAfterCreateInterface[Listening]
+	OnAfterListeningUpdateCallback GongOnAfterUpdateInterface[Listening]
+	OnAfterListeningDeleteCallback GongOnAfterDeleteInterface[Listening]
+	OnAfterListeningReadCallback   GongOnAfterReadInterface[Listening]
 
 	Lyrics                map[*Lyric]struct{}
 	Lyrics_instance       map[*Lyric]*Lyric
@@ -2007,10 +2016,10 @@ type Stage struct {
 
 	Lyric_Text_reverseMap map[*Text_element_data]*Lyric
 
-	OnAfterLyricCreateCallback OnAfterCreateInterface[Lyric]
-	OnAfterLyricUpdateCallback OnAfterUpdateInterface[Lyric]
-	OnAfterLyricDeleteCallback OnAfterDeleteInterface[Lyric]
-	OnAfterLyricReadCallback   OnAfterReadInterface[Lyric]
+	OnAfterLyricCreateCallback GongOnAfterCreateInterface[Lyric]
+	OnAfterLyricUpdateCallback GongOnAfterUpdateInterface[Lyric]
+	OnAfterLyricDeleteCallback GongOnAfterDeleteInterface[Lyric]
+	OnAfterLyricReadCallback   GongOnAfterReadInterface[Lyric]
 
 	Lyric_fonts                map[*Lyric_font]struct{}
 	Lyric_fonts_instance       map[*Lyric_font]*Lyric_font
@@ -2022,10 +2031,10 @@ type Stage struct {
 	Lyric_fonts_referenceOrder map[*Lyric_font]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterLyric_fontCreateCallback OnAfterCreateInterface[Lyric_font]
-	OnAfterLyric_fontUpdateCallback OnAfterUpdateInterface[Lyric_font]
-	OnAfterLyric_fontDeleteCallback OnAfterDeleteInterface[Lyric_font]
-	OnAfterLyric_fontReadCallback   OnAfterReadInterface[Lyric_font]
+	OnAfterLyric_fontCreateCallback GongOnAfterCreateInterface[Lyric_font]
+	OnAfterLyric_fontUpdateCallback GongOnAfterUpdateInterface[Lyric_font]
+	OnAfterLyric_fontDeleteCallback GongOnAfterDeleteInterface[Lyric_font]
+	OnAfterLyric_fontReadCallback   GongOnAfterReadInterface[Lyric_font]
 
 	Lyric_languages                map[*Lyric_language]struct{}
 	Lyric_languages_instance       map[*Lyric_language]*Lyric_language
@@ -2037,10 +2046,10 @@ type Stage struct {
 	Lyric_languages_referenceOrder map[*Lyric_language]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterLyric_languageCreateCallback OnAfterCreateInterface[Lyric_language]
-	OnAfterLyric_languageUpdateCallback OnAfterUpdateInterface[Lyric_language]
-	OnAfterLyric_languageDeleteCallback OnAfterDeleteInterface[Lyric_language]
-	OnAfterLyric_languageReadCallback   OnAfterReadInterface[Lyric_language]
+	OnAfterLyric_languageCreateCallback GongOnAfterCreateInterface[Lyric_language]
+	OnAfterLyric_languageUpdateCallback GongOnAfterUpdateInterface[Lyric_language]
+	OnAfterLyric_languageDeleteCallback GongOnAfterDeleteInterface[Lyric_language]
+	OnAfterLyric_languageReadCallback   GongOnAfterReadInterface[Lyric_language]
 
 	Measure_layouts                map[*Measure_layout]struct{}
 	Measure_layouts_instance       map[*Measure_layout]*Measure_layout
@@ -2052,10 +2061,10 @@ type Stage struct {
 	Measure_layouts_referenceOrder map[*Measure_layout]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMeasure_layoutCreateCallback OnAfterCreateInterface[Measure_layout]
-	OnAfterMeasure_layoutUpdateCallback OnAfterUpdateInterface[Measure_layout]
-	OnAfterMeasure_layoutDeleteCallback OnAfterDeleteInterface[Measure_layout]
-	OnAfterMeasure_layoutReadCallback   OnAfterReadInterface[Measure_layout]
+	OnAfterMeasure_layoutCreateCallback GongOnAfterCreateInterface[Measure_layout]
+	OnAfterMeasure_layoutUpdateCallback GongOnAfterUpdateInterface[Measure_layout]
+	OnAfterMeasure_layoutDeleteCallback GongOnAfterDeleteInterface[Measure_layout]
+	OnAfterMeasure_layoutReadCallback   GongOnAfterReadInterface[Measure_layout]
 
 	Measure_numberings                map[*Measure_numbering]struct{}
 	Measure_numberings_instance       map[*Measure_numbering]*Measure_numbering
@@ -2067,10 +2076,10 @@ type Stage struct {
 	Measure_numberings_referenceOrder map[*Measure_numbering]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMeasure_numberingCreateCallback OnAfterCreateInterface[Measure_numbering]
-	OnAfterMeasure_numberingUpdateCallback OnAfterUpdateInterface[Measure_numbering]
-	OnAfterMeasure_numberingDeleteCallback OnAfterDeleteInterface[Measure_numbering]
-	OnAfterMeasure_numberingReadCallback   OnAfterReadInterface[Measure_numbering]
+	OnAfterMeasure_numberingCreateCallback GongOnAfterCreateInterface[Measure_numbering]
+	OnAfterMeasure_numberingUpdateCallback GongOnAfterUpdateInterface[Measure_numbering]
+	OnAfterMeasure_numberingDeleteCallback GongOnAfterDeleteInterface[Measure_numbering]
+	OnAfterMeasure_numberingReadCallback   GongOnAfterReadInterface[Measure_numbering]
 
 	Measure_repeats                map[*Measure_repeat]struct{}
 	Measure_repeats_instance       map[*Measure_repeat]*Measure_repeat
@@ -2082,10 +2091,10 @@ type Stage struct {
 	Measure_repeats_referenceOrder map[*Measure_repeat]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMeasure_repeatCreateCallback OnAfterCreateInterface[Measure_repeat]
-	OnAfterMeasure_repeatUpdateCallback OnAfterUpdateInterface[Measure_repeat]
-	OnAfterMeasure_repeatDeleteCallback OnAfterDeleteInterface[Measure_repeat]
-	OnAfterMeasure_repeatReadCallback   OnAfterReadInterface[Measure_repeat]
+	OnAfterMeasure_repeatCreateCallback GongOnAfterCreateInterface[Measure_repeat]
+	OnAfterMeasure_repeatUpdateCallback GongOnAfterUpdateInterface[Measure_repeat]
+	OnAfterMeasure_repeatDeleteCallback GongOnAfterDeleteInterface[Measure_repeat]
+	OnAfterMeasure_repeatReadCallback   GongOnAfterReadInterface[Measure_repeat]
 
 	Measure_styles                map[*Measure_style]struct{}
 	Measure_styles_instance       map[*Measure_style]*Measure_style
@@ -2097,10 +2106,10 @@ type Stage struct {
 	Measure_styles_referenceOrder map[*Measure_style]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMeasure_styleCreateCallback OnAfterCreateInterface[Measure_style]
-	OnAfterMeasure_styleUpdateCallback OnAfterUpdateInterface[Measure_style]
-	OnAfterMeasure_styleDeleteCallback OnAfterDeleteInterface[Measure_style]
-	OnAfterMeasure_styleReadCallback   OnAfterReadInterface[Measure_style]
+	OnAfterMeasure_styleCreateCallback GongOnAfterCreateInterface[Measure_style]
+	OnAfterMeasure_styleUpdateCallback GongOnAfterUpdateInterface[Measure_style]
+	OnAfterMeasure_styleDeleteCallback GongOnAfterDeleteInterface[Measure_style]
+	OnAfterMeasure_styleReadCallback   GongOnAfterReadInterface[Measure_style]
 
 	Membranes                map[*Membrane]struct{}
 	Membranes_instance       map[*Membrane]*Membrane
@@ -2112,10 +2121,10 @@ type Stage struct {
 	Membranes_referenceOrder map[*Membrane]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMembraneCreateCallback OnAfterCreateInterface[Membrane]
-	OnAfterMembraneUpdateCallback OnAfterUpdateInterface[Membrane]
-	OnAfterMembraneDeleteCallback OnAfterDeleteInterface[Membrane]
-	OnAfterMembraneReadCallback   OnAfterReadInterface[Membrane]
+	OnAfterMembraneCreateCallback GongOnAfterCreateInterface[Membrane]
+	OnAfterMembraneUpdateCallback GongOnAfterUpdateInterface[Membrane]
+	OnAfterMembraneDeleteCallback GongOnAfterDeleteInterface[Membrane]
+	OnAfterMembraneReadCallback   GongOnAfterReadInterface[Membrane]
 
 	Metals                map[*Metal]struct{}
 	Metals_instance       map[*Metal]*Metal
@@ -2127,10 +2136,10 @@ type Stage struct {
 	Metals_referenceOrder map[*Metal]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMetalCreateCallback OnAfterCreateInterface[Metal]
-	OnAfterMetalUpdateCallback OnAfterUpdateInterface[Metal]
-	OnAfterMetalDeleteCallback OnAfterDeleteInterface[Metal]
-	OnAfterMetalReadCallback   OnAfterReadInterface[Metal]
+	OnAfterMetalCreateCallback GongOnAfterCreateInterface[Metal]
+	OnAfterMetalUpdateCallback GongOnAfterUpdateInterface[Metal]
+	OnAfterMetalDeleteCallback GongOnAfterDeleteInterface[Metal]
+	OnAfterMetalReadCallback   GongOnAfterReadInterface[Metal]
 
 	Metronomes                map[*Metronome]struct{}
 	Metronomes_instance       map[*Metronome]*Metronome
@@ -2146,10 +2155,10 @@ type Stage struct {
 
 	Metronome_Metronome_note_reverseMap map[*Metronome_note]*Metronome
 
-	OnAfterMetronomeCreateCallback OnAfterCreateInterface[Metronome]
-	OnAfterMetronomeUpdateCallback OnAfterUpdateInterface[Metronome]
-	OnAfterMetronomeDeleteCallback OnAfterDeleteInterface[Metronome]
-	OnAfterMetronomeReadCallback   OnAfterReadInterface[Metronome]
+	OnAfterMetronomeCreateCallback GongOnAfterCreateInterface[Metronome]
+	OnAfterMetronomeUpdateCallback GongOnAfterUpdateInterface[Metronome]
+	OnAfterMetronomeDeleteCallback GongOnAfterDeleteInterface[Metronome]
+	OnAfterMetronomeReadCallback   GongOnAfterReadInterface[Metronome]
 
 	Metronome_beams                map[*Metronome_beam]struct{}
 	Metronome_beams_instance       map[*Metronome_beam]*Metronome_beam
@@ -2161,10 +2170,10 @@ type Stage struct {
 	Metronome_beams_referenceOrder map[*Metronome_beam]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMetronome_beamCreateCallback OnAfterCreateInterface[Metronome_beam]
-	OnAfterMetronome_beamUpdateCallback OnAfterUpdateInterface[Metronome_beam]
-	OnAfterMetronome_beamDeleteCallback OnAfterDeleteInterface[Metronome_beam]
-	OnAfterMetronome_beamReadCallback   OnAfterReadInterface[Metronome_beam]
+	OnAfterMetronome_beamCreateCallback GongOnAfterCreateInterface[Metronome_beam]
+	OnAfterMetronome_beamUpdateCallback GongOnAfterUpdateInterface[Metronome_beam]
+	OnAfterMetronome_beamDeleteCallback GongOnAfterDeleteInterface[Metronome_beam]
+	OnAfterMetronome_beamReadCallback   GongOnAfterReadInterface[Metronome_beam]
 
 	Metronome_notes                map[*Metronome_note]struct{}
 	Metronome_notes_instance       map[*Metronome_note]*Metronome_note
@@ -2178,10 +2187,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Metronome_note_Metronome_beam_reverseMap map[*Metronome_beam]*Metronome_note
 
-	OnAfterMetronome_noteCreateCallback OnAfterCreateInterface[Metronome_note]
-	OnAfterMetronome_noteUpdateCallback OnAfterUpdateInterface[Metronome_note]
-	OnAfterMetronome_noteDeleteCallback OnAfterDeleteInterface[Metronome_note]
-	OnAfterMetronome_noteReadCallback   OnAfterReadInterface[Metronome_note]
+	OnAfterMetronome_noteCreateCallback GongOnAfterCreateInterface[Metronome_note]
+	OnAfterMetronome_noteUpdateCallback GongOnAfterUpdateInterface[Metronome_note]
+	OnAfterMetronome_noteDeleteCallback GongOnAfterDeleteInterface[Metronome_note]
+	OnAfterMetronome_noteReadCallback   GongOnAfterReadInterface[Metronome_note]
 
 	Metronome_tieds                map[*Metronome_tied]struct{}
 	Metronome_tieds_instance       map[*Metronome_tied]*Metronome_tied
@@ -2193,10 +2202,10 @@ type Stage struct {
 	Metronome_tieds_referenceOrder map[*Metronome_tied]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMetronome_tiedCreateCallback OnAfterCreateInterface[Metronome_tied]
-	OnAfterMetronome_tiedUpdateCallback OnAfterUpdateInterface[Metronome_tied]
-	OnAfterMetronome_tiedDeleteCallback OnAfterDeleteInterface[Metronome_tied]
-	OnAfterMetronome_tiedReadCallback   OnAfterReadInterface[Metronome_tied]
+	OnAfterMetronome_tiedCreateCallback GongOnAfterCreateInterface[Metronome_tied]
+	OnAfterMetronome_tiedUpdateCallback GongOnAfterUpdateInterface[Metronome_tied]
+	OnAfterMetronome_tiedDeleteCallback GongOnAfterDeleteInterface[Metronome_tied]
+	OnAfterMetronome_tiedReadCallback   GongOnAfterReadInterface[Metronome_tied]
 
 	Metronome_tuplets                map[*Metronome_tuplet]struct{}
 	Metronome_tuplets_instance       map[*Metronome_tuplet]*Metronome_tuplet
@@ -2208,10 +2217,10 @@ type Stage struct {
 	Metronome_tuplets_referenceOrder map[*Metronome_tuplet]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMetronome_tupletCreateCallback OnAfterCreateInterface[Metronome_tuplet]
-	OnAfterMetronome_tupletUpdateCallback OnAfterUpdateInterface[Metronome_tuplet]
-	OnAfterMetronome_tupletDeleteCallback OnAfterDeleteInterface[Metronome_tuplet]
-	OnAfterMetronome_tupletReadCallback   OnAfterReadInterface[Metronome_tuplet]
+	OnAfterMetronome_tupletCreateCallback GongOnAfterCreateInterface[Metronome_tuplet]
+	OnAfterMetronome_tupletUpdateCallback GongOnAfterUpdateInterface[Metronome_tuplet]
+	OnAfterMetronome_tupletDeleteCallback GongOnAfterDeleteInterface[Metronome_tuplet]
+	OnAfterMetronome_tupletReadCallback   GongOnAfterReadInterface[Metronome_tuplet]
 
 	Midi_devices                map[*Midi_device]struct{}
 	Midi_devices_instance       map[*Midi_device]*Midi_device
@@ -2223,10 +2232,10 @@ type Stage struct {
 	Midi_devices_referenceOrder map[*Midi_device]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMidi_deviceCreateCallback OnAfterCreateInterface[Midi_device]
-	OnAfterMidi_deviceUpdateCallback OnAfterUpdateInterface[Midi_device]
-	OnAfterMidi_deviceDeleteCallback OnAfterDeleteInterface[Midi_device]
-	OnAfterMidi_deviceReadCallback   OnAfterReadInterface[Midi_device]
+	OnAfterMidi_deviceCreateCallback GongOnAfterCreateInterface[Midi_device]
+	OnAfterMidi_deviceUpdateCallback GongOnAfterUpdateInterface[Midi_device]
+	OnAfterMidi_deviceDeleteCallback GongOnAfterDeleteInterface[Midi_device]
+	OnAfterMidi_deviceReadCallback   GongOnAfterReadInterface[Midi_device]
 
 	Midi_instruments                map[*Midi_instrument]struct{}
 	Midi_instruments_instance       map[*Midi_instrument]*Midi_instrument
@@ -2238,10 +2247,10 @@ type Stage struct {
 	Midi_instruments_referenceOrder map[*Midi_instrument]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMidi_instrumentCreateCallback OnAfterCreateInterface[Midi_instrument]
-	OnAfterMidi_instrumentUpdateCallback OnAfterUpdateInterface[Midi_instrument]
-	OnAfterMidi_instrumentDeleteCallback OnAfterDeleteInterface[Midi_instrument]
-	OnAfterMidi_instrumentReadCallback   OnAfterReadInterface[Midi_instrument]
+	OnAfterMidi_instrumentCreateCallback GongOnAfterCreateInterface[Midi_instrument]
+	OnAfterMidi_instrumentUpdateCallback GongOnAfterUpdateInterface[Midi_instrument]
+	OnAfterMidi_instrumentDeleteCallback GongOnAfterDeleteInterface[Midi_instrument]
+	OnAfterMidi_instrumentReadCallback   GongOnAfterReadInterface[Midi_instrument]
 
 	Miscellaneouss                map[*Miscellaneous]struct{}
 	Miscellaneouss_instance       map[*Miscellaneous]*Miscellaneous
@@ -2255,10 +2264,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Miscellaneous_Miscellaneous_field_reverseMap map[*Miscellaneous_field]*Miscellaneous
 
-	OnAfterMiscellaneousCreateCallback OnAfterCreateInterface[Miscellaneous]
-	OnAfterMiscellaneousUpdateCallback OnAfterUpdateInterface[Miscellaneous]
-	OnAfterMiscellaneousDeleteCallback OnAfterDeleteInterface[Miscellaneous]
-	OnAfterMiscellaneousReadCallback   OnAfterReadInterface[Miscellaneous]
+	OnAfterMiscellaneousCreateCallback GongOnAfterCreateInterface[Miscellaneous]
+	OnAfterMiscellaneousUpdateCallback GongOnAfterUpdateInterface[Miscellaneous]
+	OnAfterMiscellaneousDeleteCallback GongOnAfterDeleteInterface[Miscellaneous]
+	OnAfterMiscellaneousReadCallback   GongOnAfterReadInterface[Miscellaneous]
 
 	Miscellaneous_fields                map[*Miscellaneous_field]struct{}
 	Miscellaneous_fields_instance       map[*Miscellaneous_field]*Miscellaneous_field
@@ -2270,10 +2279,10 @@ type Stage struct {
 	Miscellaneous_fields_referenceOrder map[*Miscellaneous_field]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMiscellaneous_fieldCreateCallback OnAfterCreateInterface[Miscellaneous_field]
-	OnAfterMiscellaneous_fieldUpdateCallback OnAfterUpdateInterface[Miscellaneous_field]
-	OnAfterMiscellaneous_fieldDeleteCallback OnAfterDeleteInterface[Miscellaneous_field]
-	OnAfterMiscellaneous_fieldReadCallback   OnAfterReadInterface[Miscellaneous_field]
+	OnAfterMiscellaneous_fieldCreateCallback GongOnAfterCreateInterface[Miscellaneous_field]
+	OnAfterMiscellaneous_fieldUpdateCallback GongOnAfterUpdateInterface[Miscellaneous_field]
+	OnAfterMiscellaneous_fieldDeleteCallback GongOnAfterDeleteInterface[Miscellaneous_field]
+	OnAfterMiscellaneous_fieldReadCallback   GongOnAfterReadInterface[Miscellaneous_field]
 
 	Mordents                map[*Mordent]struct{}
 	Mordents_instance       map[*Mordent]*Mordent
@@ -2285,10 +2294,10 @@ type Stage struct {
 	Mordents_referenceOrder map[*Mordent]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMordentCreateCallback OnAfterCreateInterface[Mordent]
-	OnAfterMordentUpdateCallback OnAfterUpdateInterface[Mordent]
-	OnAfterMordentDeleteCallback OnAfterDeleteInterface[Mordent]
-	OnAfterMordentReadCallback   OnAfterReadInterface[Mordent]
+	OnAfterMordentCreateCallback GongOnAfterCreateInterface[Mordent]
+	OnAfterMordentUpdateCallback GongOnAfterUpdateInterface[Mordent]
+	OnAfterMordentDeleteCallback GongOnAfterDeleteInterface[Mordent]
+	OnAfterMordentReadCallback   GongOnAfterReadInterface[Mordent]
 
 	Multiple_rests                map[*Multiple_rest]struct{}
 	Multiple_rests_instance       map[*Multiple_rest]*Multiple_rest
@@ -2300,10 +2309,10 @@ type Stage struct {
 	Multiple_rests_referenceOrder map[*Multiple_rest]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMultiple_restCreateCallback OnAfterCreateInterface[Multiple_rest]
-	OnAfterMultiple_restUpdateCallback OnAfterUpdateInterface[Multiple_rest]
-	OnAfterMultiple_restDeleteCallback OnAfterDeleteInterface[Multiple_rest]
-	OnAfterMultiple_restReadCallback   OnAfterReadInterface[Multiple_rest]
+	OnAfterMultiple_restCreateCallback GongOnAfterCreateInterface[Multiple_rest]
+	OnAfterMultiple_restUpdateCallback GongOnAfterUpdateInterface[Multiple_rest]
+	OnAfterMultiple_restDeleteCallback GongOnAfterDeleteInterface[Multiple_rest]
+	OnAfterMultiple_restReadCallback   GongOnAfterReadInterface[Multiple_rest]
 
 	Name_displays                map[*Name_display]struct{}
 	Name_displays_instance       map[*Name_display]*Name_display
@@ -2319,10 +2328,10 @@ type Stage struct {
 
 	Name_display_Accidental_text_reverseMap map[*Accidental_text]*Name_display
 
-	OnAfterName_displayCreateCallback OnAfterCreateInterface[Name_display]
-	OnAfterName_displayUpdateCallback OnAfterUpdateInterface[Name_display]
-	OnAfterName_displayDeleteCallback OnAfterDeleteInterface[Name_display]
-	OnAfterName_displayReadCallback   OnAfterReadInterface[Name_display]
+	OnAfterName_displayCreateCallback GongOnAfterCreateInterface[Name_display]
+	OnAfterName_displayUpdateCallback GongOnAfterUpdateInterface[Name_display]
+	OnAfterName_displayDeleteCallback GongOnAfterDeleteInterface[Name_display]
+	OnAfterName_displayReadCallback   GongOnAfterReadInterface[Name_display]
 
 	Non_arpeggiates                map[*Non_arpeggiate]struct{}
 	Non_arpeggiates_instance       map[*Non_arpeggiate]*Non_arpeggiate
@@ -2334,10 +2343,10 @@ type Stage struct {
 	Non_arpeggiates_referenceOrder map[*Non_arpeggiate]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterNon_arpeggiateCreateCallback OnAfterCreateInterface[Non_arpeggiate]
-	OnAfterNon_arpeggiateUpdateCallback OnAfterUpdateInterface[Non_arpeggiate]
-	OnAfterNon_arpeggiateDeleteCallback OnAfterDeleteInterface[Non_arpeggiate]
-	OnAfterNon_arpeggiateReadCallback   OnAfterReadInterface[Non_arpeggiate]
+	OnAfterNon_arpeggiateCreateCallback GongOnAfterCreateInterface[Non_arpeggiate]
+	OnAfterNon_arpeggiateUpdateCallback GongOnAfterUpdateInterface[Non_arpeggiate]
+	OnAfterNon_arpeggiateDeleteCallback GongOnAfterDeleteInterface[Non_arpeggiate]
+	OnAfterNon_arpeggiateReadCallback   GongOnAfterReadInterface[Non_arpeggiate]
 
 	Notationss                map[*Notations]struct{}
 	Notationss_instance       map[*Notations]*Notations
@@ -2377,10 +2386,10 @@ type Stage struct {
 
 	Notations_Other_notation_reverseMap map[*Other_notation]*Notations
 
-	OnAfterNotationsCreateCallback OnAfterCreateInterface[Notations]
-	OnAfterNotationsUpdateCallback OnAfterUpdateInterface[Notations]
-	OnAfterNotationsDeleteCallback OnAfterDeleteInterface[Notations]
-	OnAfterNotationsReadCallback   OnAfterReadInterface[Notations]
+	OnAfterNotationsCreateCallback GongOnAfterCreateInterface[Notations]
+	OnAfterNotationsUpdateCallback GongOnAfterUpdateInterface[Notations]
+	OnAfterNotationsDeleteCallback GongOnAfterDeleteInterface[Notations]
+	OnAfterNotationsReadCallback   GongOnAfterReadInterface[Notations]
 
 	Notes                map[*Note]struct{}
 	Notes_instance       map[*Note]*Note
@@ -2400,10 +2409,10 @@ type Stage struct {
 
 	Note_Lyric_reverseMap map[*Lyric]*Note
 
-	OnAfterNoteCreateCallback OnAfterCreateInterface[Note]
-	OnAfterNoteUpdateCallback OnAfterUpdateInterface[Note]
-	OnAfterNoteDeleteCallback OnAfterDeleteInterface[Note]
-	OnAfterNoteReadCallback   OnAfterReadInterface[Note]
+	OnAfterNoteCreateCallback GongOnAfterCreateInterface[Note]
+	OnAfterNoteUpdateCallback GongOnAfterUpdateInterface[Note]
+	OnAfterNoteDeleteCallback GongOnAfterDeleteInterface[Note]
+	OnAfterNoteReadCallback   GongOnAfterReadInterface[Note]
 
 	Note_sizes                map[*Note_size]struct{}
 	Note_sizes_instance       map[*Note_size]*Note_size
@@ -2415,10 +2424,10 @@ type Stage struct {
 	Note_sizes_referenceOrder map[*Note_size]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterNote_sizeCreateCallback OnAfterCreateInterface[Note_size]
-	OnAfterNote_sizeUpdateCallback OnAfterUpdateInterface[Note_size]
-	OnAfterNote_sizeDeleteCallback OnAfterDeleteInterface[Note_size]
-	OnAfterNote_sizeReadCallback   OnAfterReadInterface[Note_size]
+	OnAfterNote_sizeCreateCallback GongOnAfterCreateInterface[Note_size]
+	OnAfterNote_sizeUpdateCallback GongOnAfterUpdateInterface[Note_size]
+	OnAfterNote_sizeDeleteCallback GongOnAfterDeleteInterface[Note_size]
+	OnAfterNote_sizeReadCallback   GongOnAfterReadInterface[Note_size]
 
 	Note_types                map[*Note_type]struct{}
 	Note_types_instance       map[*Note_type]*Note_type
@@ -2430,10 +2439,10 @@ type Stage struct {
 	Note_types_referenceOrder map[*Note_type]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterNote_typeCreateCallback OnAfterCreateInterface[Note_type]
-	OnAfterNote_typeUpdateCallback OnAfterUpdateInterface[Note_type]
-	OnAfterNote_typeDeleteCallback OnAfterDeleteInterface[Note_type]
-	OnAfterNote_typeReadCallback   OnAfterReadInterface[Note_type]
+	OnAfterNote_typeCreateCallback GongOnAfterCreateInterface[Note_type]
+	OnAfterNote_typeUpdateCallback GongOnAfterUpdateInterface[Note_type]
+	OnAfterNote_typeDeleteCallback GongOnAfterDeleteInterface[Note_type]
+	OnAfterNote_typeReadCallback   GongOnAfterReadInterface[Note_type]
 
 	Noteheads                map[*Notehead]struct{}
 	Noteheads_instance       map[*Notehead]*Notehead
@@ -2445,10 +2454,10 @@ type Stage struct {
 	Noteheads_referenceOrder map[*Notehead]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterNoteheadCreateCallback OnAfterCreateInterface[Notehead]
-	OnAfterNoteheadUpdateCallback OnAfterUpdateInterface[Notehead]
-	OnAfterNoteheadDeleteCallback OnAfterDeleteInterface[Notehead]
-	OnAfterNoteheadReadCallback   OnAfterReadInterface[Notehead]
+	OnAfterNoteheadCreateCallback GongOnAfterCreateInterface[Notehead]
+	OnAfterNoteheadUpdateCallback GongOnAfterUpdateInterface[Notehead]
+	OnAfterNoteheadDeleteCallback GongOnAfterDeleteInterface[Notehead]
+	OnAfterNoteheadReadCallback   GongOnAfterReadInterface[Notehead]
 
 	Notehead_texts                map[*Notehead_text]struct{}
 	Notehead_texts_instance       map[*Notehead_text]*Notehead_text
@@ -2464,10 +2473,10 @@ type Stage struct {
 
 	Notehead_text_Accidental_text_reverseMap map[*Accidental_text]*Notehead_text
 
-	OnAfterNotehead_textCreateCallback OnAfterCreateInterface[Notehead_text]
-	OnAfterNotehead_textUpdateCallback OnAfterUpdateInterface[Notehead_text]
-	OnAfterNotehead_textDeleteCallback OnAfterDeleteInterface[Notehead_text]
-	OnAfterNotehead_textReadCallback   OnAfterReadInterface[Notehead_text]
+	OnAfterNotehead_textCreateCallback GongOnAfterCreateInterface[Notehead_text]
+	OnAfterNotehead_textUpdateCallback GongOnAfterUpdateInterface[Notehead_text]
+	OnAfterNotehead_textDeleteCallback GongOnAfterDeleteInterface[Notehead_text]
+	OnAfterNotehead_textReadCallback   GongOnAfterReadInterface[Notehead_text]
 
 	Numerals                map[*Numeral]struct{}
 	Numerals_instance       map[*Numeral]*Numeral
@@ -2479,10 +2488,10 @@ type Stage struct {
 	Numerals_referenceOrder map[*Numeral]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterNumeralCreateCallback OnAfterCreateInterface[Numeral]
-	OnAfterNumeralUpdateCallback OnAfterUpdateInterface[Numeral]
-	OnAfterNumeralDeleteCallback OnAfterDeleteInterface[Numeral]
-	OnAfterNumeralReadCallback   OnAfterReadInterface[Numeral]
+	OnAfterNumeralCreateCallback GongOnAfterCreateInterface[Numeral]
+	OnAfterNumeralUpdateCallback GongOnAfterUpdateInterface[Numeral]
+	OnAfterNumeralDeleteCallback GongOnAfterDeleteInterface[Numeral]
+	OnAfterNumeralReadCallback   GongOnAfterReadInterface[Numeral]
 
 	Numeral_keys                map[*Numeral_key]struct{}
 	Numeral_keys_instance       map[*Numeral_key]*Numeral_key
@@ -2494,10 +2503,10 @@ type Stage struct {
 	Numeral_keys_referenceOrder map[*Numeral_key]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterNumeral_keyCreateCallback OnAfterCreateInterface[Numeral_key]
-	OnAfterNumeral_keyUpdateCallback OnAfterUpdateInterface[Numeral_key]
-	OnAfterNumeral_keyDeleteCallback OnAfterDeleteInterface[Numeral_key]
-	OnAfterNumeral_keyReadCallback   OnAfterReadInterface[Numeral_key]
+	OnAfterNumeral_keyCreateCallback GongOnAfterCreateInterface[Numeral_key]
+	OnAfterNumeral_keyUpdateCallback GongOnAfterUpdateInterface[Numeral_key]
+	OnAfterNumeral_keyDeleteCallback GongOnAfterDeleteInterface[Numeral_key]
+	OnAfterNumeral_keyReadCallback   GongOnAfterReadInterface[Numeral_key]
 
 	Numeral_roots                map[*Numeral_root]struct{}
 	Numeral_roots_instance       map[*Numeral_root]*Numeral_root
@@ -2509,10 +2518,10 @@ type Stage struct {
 	Numeral_roots_referenceOrder map[*Numeral_root]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterNumeral_rootCreateCallback OnAfterCreateInterface[Numeral_root]
-	OnAfterNumeral_rootUpdateCallback OnAfterUpdateInterface[Numeral_root]
-	OnAfterNumeral_rootDeleteCallback OnAfterDeleteInterface[Numeral_root]
-	OnAfterNumeral_rootReadCallback   OnAfterReadInterface[Numeral_root]
+	OnAfterNumeral_rootCreateCallback GongOnAfterCreateInterface[Numeral_root]
+	OnAfterNumeral_rootUpdateCallback GongOnAfterUpdateInterface[Numeral_root]
+	OnAfterNumeral_rootDeleteCallback GongOnAfterDeleteInterface[Numeral_root]
+	OnAfterNumeral_rootReadCallback   GongOnAfterReadInterface[Numeral_root]
 
 	Octave_shifts                map[*Octave_shift]struct{}
 	Octave_shifts_instance       map[*Octave_shift]*Octave_shift
@@ -2524,10 +2533,10 @@ type Stage struct {
 	Octave_shifts_referenceOrder map[*Octave_shift]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterOctave_shiftCreateCallback OnAfterCreateInterface[Octave_shift]
-	OnAfterOctave_shiftUpdateCallback OnAfterUpdateInterface[Octave_shift]
-	OnAfterOctave_shiftDeleteCallback OnAfterDeleteInterface[Octave_shift]
-	OnAfterOctave_shiftReadCallback   OnAfterReadInterface[Octave_shift]
+	OnAfterOctave_shiftCreateCallback GongOnAfterCreateInterface[Octave_shift]
+	OnAfterOctave_shiftUpdateCallback GongOnAfterUpdateInterface[Octave_shift]
+	OnAfterOctave_shiftDeleteCallback GongOnAfterDeleteInterface[Octave_shift]
+	OnAfterOctave_shiftReadCallback   GongOnAfterReadInterface[Octave_shift]
 
 	Offsets                map[*Offset]struct{}
 	Offsets_instance       map[*Offset]*Offset
@@ -2539,10 +2548,10 @@ type Stage struct {
 	Offsets_referenceOrder map[*Offset]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterOffsetCreateCallback OnAfterCreateInterface[Offset]
-	OnAfterOffsetUpdateCallback OnAfterUpdateInterface[Offset]
-	OnAfterOffsetDeleteCallback OnAfterDeleteInterface[Offset]
-	OnAfterOffsetReadCallback   OnAfterReadInterface[Offset]
+	OnAfterOffsetCreateCallback GongOnAfterCreateInterface[Offset]
+	OnAfterOffsetUpdateCallback GongOnAfterUpdateInterface[Offset]
+	OnAfterOffsetDeleteCallback GongOnAfterDeleteInterface[Offset]
+	OnAfterOffsetReadCallback   GongOnAfterReadInterface[Offset]
 
 	Opuss                map[*Opus]struct{}
 	Opuss_instance       map[*Opus]*Opus
@@ -2554,10 +2563,10 @@ type Stage struct {
 	Opuss_referenceOrder map[*Opus]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterOpusCreateCallback OnAfterCreateInterface[Opus]
-	OnAfterOpusUpdateCallback OnAfterUpdateInterface[Opus]
-	OnAfterOpusDeleteCallback OnAfterDeleteInterface[Opus]
-	OnAfterOpusReadCallback   OnAfterReadInterface[Opus]
+	OnAfterOpusCreateCallback GongOnAfterCreateInterface[Opus]
+	OnAfterOpusUpdateCallback GongOnAfterUpdateInterface[Opus]
+	OnAfterOpusDeleteCallback GongOnAfterDeleteInterface[Opus]
+	OnAfterOpusReadCallback   GongOnAfterReadInterface[Opus]
 
 	Ornamentss                map[*Ornaments]struct{}
 	Ornamentss_instance       map[*Ornaments]*Ornaments
@@ -2601,10 +2610,10 @@ type Stage struct {
 
 	Ornaments_Accidental_mark_reverseMap map[*Accidental_mark]*Ornaments
 
-	OnAfterOrnamentsCreateCallback OnAfterCreateInterface[Ornaments]
-	OnAfterOrnamentsUpdateCallback OnAfterUpdateInterface[Ornaments]
-	OnAfterOrnamentsDeleteCallback OnAfterDeleteInterface[Ornaments]
-	OnAfterOrnamentsReadCallback   OnAfterReadInterface[Ornaments]
+	OnAfterOrnamentsCreateCallback GongOnAfterCreateInterface[Ornaments]
+	OnAfterOrnamentsUpdateCallback GongOnAfterUpdateInterface[Ornaments]
+	OnAfterOrnamentsDeleteCallback GongOnAfterDeleteInterface[Ornaments]
+	OnAfterOrnamentsReadCallback   GongOnAfterReadInterface[Ornaments]
 
 	Other_appearances                map[*Other_appearance]struct{}
 	Other_appearances_instance       map[*Other_appearance]*Other_appearance
@@ -2616,10 +2625,10 @@ type Stage struct {
 	Other_appearances_referenceOrder map[*Other_appearance]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterOther_appearanceCreateCallback OnAfterCreateInterface[Other_appearance]
-	OnAfterOther_appearanceUpdateCallback OnAfterUpdateInterface[Other_appearance]
-	OnAfterOther_appearanceDeleteCallback OnAfterDeleteInterface[Other_appearance]
-	OnAfterOther_appearanceReadCallback   OnAfterReadInterface[Other_appearance]
+	OnAfterOther_appearanceCreateCallback GongOnAfterCreateInterface[Other_appearance]
+	OnAfterOther_appearanceUpdateCallback GongOnAfterUpdateInterface[Other_appearance]
+	OnAfterOther_appearanceDeleteCallback GongOnAfterDeleteInterface[Other_appearance]
+	OnAfterOther_appearanceReadCallback   GongOnAfterReadInterface[Other_appearance]
 
 	Other_directions                map[*Other_direction]struct{}
 	Other_directions_instance       map[*Other_direction]*Other_direction
@@ -2631,10 +2640,10 @@ type Stage struct {
 	Other_directions_referenceOrder map[*Other_direction]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterOther_directionCreateCallback OnAfterCreateInterface[Other_direction]
-	OnAfterOther_directionUpdateCallback OnAfterUpdateInterface[Other_direction]
-	OnAfterOther_directionDeleteCallback OnAfterDeleteInterface[Other_direction]
-	OnAfterOther_directionReadCallback   OnAfterReadInterface[Other_direction]
+	OnAfterOther_directionCreateCallback GongOnAfterCreateInterface[Other_direction]
+	OnAfterOther_directionUpdateCallback GongOnAfterUpdateInterface[Other_direction]
+	OnAfterOther_directionDeleteCallback GongOnAfterDeleteInterface[Other_direction]
+	OnAfterOther_directionReadCallback   GongOnAfterReadInterface[Other_direction]
 
 	Other_listenings                map[*Other_listening]struct{}
 	Other_listenings_instance       map[*Other_listening]*Other_listening
@@ -2646,10 +2655,10 @@ type Stage struct {
 	Other_listenings_referenceOrder map[*Other_listening]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterOther_listeningCreateCallback OnAfterCreateInterface[Other_listening]
-	OnAfterOther_listeningUpdateCallback OnAfterUpdateInterface[Other_listening]
-	OnAfterOther_listeningDeleteCallback OnAfterDeleteInterface[Other_listening]
-	OnAfterOther_listeningReadCallback   OnAfterReadInterface[Other_listening]
+	OnAfterOther_listeningCreateCallback GongOnAfterCreateInterface[Other_listening]
+	OnAfterOther_listeningUpdateCallback GongOnAfterUpdateInterface[Other_listening]
+	OnAfterOther_listeningDeleteCallback GongOnAfterDeleteInterface[Other_listening]
+	OnAfterOther_listeningReadCallback   GongOnAfterReadInterface[Other_listening]
 
 	Other_notations                map[*Other_notation]struct{}
 	Other_notations_instance       map[*Other_notation]*Other_notation
@@ -2661,10 +2670,10 @@ type Stage struct {
 	Other_notations_referenceOrder map[*Other_notation]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterOther_notationCreateCallback OnAfterCreateInterface[Other_notation]
-	OnAfterOther_notationUpdateCallback OnAfterUpdateInterface[Other_notation]
-	OnAfterOther_notationDeleteCallback OnAfterDeleteInterface[Other_notation]
-	OnAfterOther_notationReadCallback   OnAfterReadInterface[Other_notation]
+	OnAfterOther_notationCreateCallback GongOnAfterCreateInterface[Other_notation]
+	OnAfterOther_notationUpdateCallback GongOnAfterUpdateInterface[Other_notation]
+	OnAfterOther_notationDeleteCallback GongOnAfterDeleteInterface[Other_notation]
+	OnAfterOther_notationReadCallback   GongOnAfterReadInterface[Other_notation]
 
 	Other_placement_texts                map[*Other_placement_text]struct{}
 	Other_placement_texts_instance       map[*Other_placement_text]*Other_placement_text
@@ -2676,10 +2685,10 @@ type Stage struct {
 	Other_placement_texts_referenceOrder map[*Other_placement_text]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterOther_placement_textCreateCallback OnAfterCreateInterface[Other_placement_text]
-	OnAfterOther_placement_textUpdateCallback OnAfterUpdateInterface[Other_placement_text]
-	OnAfterOther_placement_textDeleteCallback OnAfterDeleteInterface[Other_placement_text]
-	OnAfterOther_placement_textReadCallback   OnAfterReadInterface[Other_placement_text]
+	OnAfterOther_placement_textCreateCallback GongOnAfterCreateInterface[Other_placement_text]
+	OnAfterOther_placement_textUpdateCallback GongOnAfterUpdateInterface[Other_placement_text]
+	OnAfterOther_placement_textDeleteCallback GongOnAfterDeleteInterface[Other_placement_text]
+	OnAfterOther_placement_textReadCallback   GongOnAfterReadInterface[Other_placement_text]
 
 	Other_plays                map[*Other_play]struct{}
 	Other_plays_instance       map[*Other_play]*Other_play
@@ -2691,10 +2700,10 @@ type Stage struct {
 	Other_plays_referenceOrder map[*Other_play]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterOther_playCreateCallback OnAfterCreateInterface[Other_play]
-	OnAfterOther_playUpdateCallback OnAfterUpdateInterface[Other_play]
-	OnAfterOther_playDeleteCallback OnAfterDeleteInterface[Other_play]
-	OnAfterOther_playReadCallback   OnAfterReadInterface[Other_play]
+	OnAfterOther_playCreateCallback GongOnAfterCreateInterface[Other_play]
+	OnAfterOther_playUpdateCallback GongOnAfterUpdateInterface[Other_play]
+	OnAfterOther_playDeleteCallback GongOnAfterDeleteInterface[Other_play]
+	OnAfterOther_playReadCallback   GongOnAfterReadInterface[Other_play]
 
 	Other_texts                map[*Other_text]struct{}
 	Other_texts_instance       map[*Other_text]*Other_text
@@ -2706,10 +2715,10 @@ type Stage struct {
 	Other_texts_referenceOrder map[*Other_text]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterOther_textCreateCallback OnAfterCreateInterface[Other_text]
-	OnAfterOther_textUpdateCallback OnAfterUpdateInterface[Other_text]
-	OnAfterOther_textDeleteCallback OnAfterDeleteInterface[Other_text]
-	OnAfterOther_textReadCallback   OnAfterReadInterface[Other_text]
+	OnAfterOther_textCreateCallback GongOnAfterCreateInterface[Other_text]
+	OnAfterOther_textUpdateCallback GongOnAfterUpdateInterface[Other_text]
+	OnAfterOther_textDeleteCallback GongOnAfterDeleteInterface[Other_text]
+	OnAfterOther_textReadCallback   GongOnAfterReadInterface[Other_text]
 
 	Page_layouts                map[*Page_layout]struct{}
 	Page_layouts_instance       map[*Page_layout]*Page_layout
@@ -2721,10 +2730,10 @@ type Stage struct {
 	Page_layouts_referenceOrder map[*Page_layout]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPage_layoutCreateCallback OnAfterCreateInterface[Page_layout]
-	OnAfterPage_layoutUpdateCallback OnAfterUpdateInterface[Page_layout]
-	OnAfterPage_layoutDeleteCallback OnAfterDeleteInterface[Page_layout]
-	OnAfterPage_layoutReadCallback   OnAfterReadInterface[Page_layout]
+	OnAfterPage_layoutCreateCallback GongOnAfterCreateInterface[Page_layout]
+	OnAfterPage_layoutUpdateCallback GongOnAfterUpdateInterface[Page_layout]
+	OnAfterPage_layoutDeleteCallback GongOnAfterDeleteInterface[Page_layout]
+	OnAfterPage_layoutReadCallback   GongOnAfterReadInterface[Page_layout]
 
 	Page_marginss                map[*Page_margins]struct{}
 	Page_marginss_instance       map[*Page_margins]*Page_margins
@@ -2736,10 +2745,10 @@ type Stage struct {
 	Page_marginss_referenceOrder map[*Page_margins]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPage_marginsCreateCallback OnAfterCreateInterface[Page_margins]
-	OnAfterPage_marginsUpdateCallback OnAfterUpdateInterface[Page_margins]
-	OnAfterPage_marginsDeleteCallback OnAfterDeleteInterface[Page_margins]
-	OnAfterPage_marginsReadCallback   OnAfterReadInterface[Page_margins]
+	OnAfterPage_marginsCreateCallback GongOnAfterCreateInterface[Page_margins]
+	OnAfterPage_marginsUpdateCallback GongOnAfterUpdateInterface[Page_margins]
+	OnAfterPage_marginsDeleteCallback GongOnAfterDeleteInterface[Page_margins]
+	OnAfterPage_marginsReadCallback   GongOnAfterReadInterface[Page_margins]
 
 	Part_clefs                map[*Part_clef]struct{}
 	Part_clefs_instance       map[*Part_clef]*Part_clef
@@ -2751,10 +2760,10 @@ type Stage struct {
 	Part_clefs_referenceOrder map[*Part_clef]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPart_clefCreateCallback OnAfterCreateInterface[Part_clef]
-	OnAfterPart_clefUpdateCallback OnAfterUpdateInterface[Part_clef]
-	OnAfterPart_clefDeleteCallback OnAfterDeleteInterface[Part_clef]
-	OnAfterPart_clefReadCallback   OnAfterReadInterface[Part_clef]
+	OnAfterPart_clefCreateCallback GongOnAfterCreateInterface[Part_clef]
+	OnAfterPart_clefUpdateCallback GongOnAfterUpdateInterface[Part_clef]
+	OnAfterPart_clefDeleteCallback GongOnAfterDeleteInterface[Part_clef]
+	OnAfterPart_clefReadCallback   GongOnAfterReadInterface[Part_clef]
 
 	Part_groups                map[*Part_group]struct{}
 	Part_groups_instance       map[*Part_group]*Part_group
@@ -2766,10 +2775,10 @@ type Stage struct {
 	Part_groups_referenceOrder map[*Part_group]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPart_groupCreateCallback OnAfterCreateInterface[Part_group]
-	OnAfterPart_groupUpdateCallback OnAfterUpdateInterface[Part_group]
-	OnAfterPart_groupDeleteCallback OnAfterDeleteInterface[Part_group]
-	OnAfterPart_groupReadCallback   OnAfterReadInterface[Part_group]
+	OnAfterPart_groupCreateCallback GongOnAfterCreateInterface[Part_group]
+	OnAfterPart_groupUpdateCallback GongOnAfterUpdateInterface[Part_group]
+	OnAfterPart_groupDeleteCallback GongOnAfterDeleteInterface[Part_group]
+	OnAfterPart_groupReadCallback   GongOnAfterReadInterface[Part_group]
 
 	Part_links                map[*Part_link]struct{}
 	Part_links_instance       map[*Part_link]*Part_link
@@ -2783,10 +2792,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Part_link_Instrument_link_reverseMap map[*Instrument_link]*Part_link
 
-	OnAfterPart_linkCreateCallback OnAfterCreateInterface[Part_link]
-	OnAfterPart_linkUpdateCallback OnAfterUpdateInterface[Part_link]
-	OnAfterPart_linkDeleteCallback OnAfterDeleteInterface[Part_link]
-	OnAfterPart_linkReadCallback   OnAfterReadInterface[Part_link]
+	OnAfterPart_linkCreateCallback GongOnAfterCreateInterface[Part_link]
+	OnAfterPart_linkUpdateCallback GongOnAfterUpdateInterface[Part_link]
+	OnAfterPart_linkDeleteCallback GongOnAfterDeleteInterface[Part_link]
+	OnAfterPart_linkReadCallback   GongOnAfterReadInterface[Part_link]
 
 	Part_lists                map[*Part_list]struct{}
 	Part_lists_instance       map[*Part_list]*Part_list
@@ -2798,10 +2807,10 @@ type Stage struct {
 	Part_lists_referenceOrder map[*Part_list]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPart_listCreateCallback OnAfterCreateInterface[Part_list]
-	OnAfterPart_listUpdateCallback OnAfterUpdateInterface[Part_list]
-	OnAfterPart_listDeleteCallback OnAfterDeleteInterface[Part_list]
-	OnAfterPart_listReadCallback   OnAfterReadInterface[Part_list]
+	OnAfterPart_listCreateCallback GongOnAfterCreateInterface[Part_list]
+	OnAfterPart_listUpdateCallback GongOnAfterUpdateInterface[Part_list]
+	OnAfterPart_listDeleteCallback GongOnAfterDeleteInterface[Part_list]
+	OnAfterPart_listReadCallback   GongOnAfterReadInterface[Part_list]
 
 	Part_names                map[*Part_name]struct{}
 	Part_names_instance       map[*Part_name]*Part_name
@@ -2813,10 +2822,10 @@ type Stage struct {
 	Part_names_referenceOrder map[*Part_name]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPart_nameCreateCallback OnAfterCreateInterface[Part_name]
-	OnAfterPart_nameUpdateCallback OnAfterUpdateInterface[Part_name]
-	OnAfterPart_nameDeleteCallback OnAfterDeleteInterface[Part_name]
-	OnAfterPart_nameReadCallback   OnAfterReadInterface[Part_name]
+	OnAfterPart_nameCreateCallback GongOnAfterCreateInterface[Part_name]
+	OnAfterPart_nameUpdateCallback GongOnAfterUpdateInterface[Part_name]
+	OnAfterPart_nameDeleteCallback GongOnAfterDeleteInterface[Part_name]
+	OnAfterPart_nameReadCallback   GongOnAfterReadInterface[Part_name]
 
 	Part_symbols                map[*Part_symbol]struct{}
 	Part_symbols_instance       map[*Part_symbol]*Part_symbol
@@ -2828,10 +2837,10 @@ type Stage struct {
 	Part_symbols_referenceOrder map[*Part_symbol]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPart_symbolCreateCallback OnAfterCreateInterface[Part_symbol]
-	OnAfterPart_symbolUpdateCallback OnAfterUpdateInterface[Part_symbol]
-	OnAfterPart_symbolDeleteCallback OnAfterDeleteInterface[Part_symbol]
-	OnAfterPart_symbolReadCallback   OnAfterReadInterface[Part_symbol]
+	OnAfterPart_symbolCreateCallback GongOnAfterCreateInterface[Part_symbol]
+	OnAfterPart_symbolUpdateCallback GongOnAfterUpdateInterface[Part_symbol]
+	OnAfterPart_symbolDeleteCallback GongOnAfterDeleteInterface[Part_symbol]
+	OnAfterPart_symbolReadCallback   GongOnAfterReadInterface[Part_symbol]
 
 	Part_transposes                map[*Part_transpose]struct{}
 	Part_transposes_instance       map[*Part_transpose]*Part_transpose
@@ -2843,10 +2852,10 @@ type Stage struct {
 	Part_transposes_referenceOrder map[*Part_transpose]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPart_transposeCreateCallback OnAfterCreateInterface[Part_transpose]
-	OnAfterPart_transposeUpdateCallback OnAfterUpdateInterface[Part_transpose]
-	OnAfterPart_transposeDeleteCallback OnAfterDeleteInterface[Part_transpose]
-	OnAfterPart_transposeReadCallback   OnAfterReadInterface[Part_transpose]
+	OnAfterPart_transposeCreateCallback GongOnAfterCreateInterface[Part_transpose]
+	OnAfterPart_transposeUpdateCallback GongOnAfterUpdateInterface[Part_transpose]
+	OnAfterPart_transposeDeleteCallback GongOnAfterDeleteInterface[Part_transpose]
+	OnAfterPart_transposeReadCallback   GongOnAfterReadInterface[Part_transpose]
 
 	Pedals                map[*Pedal]struct{}
 	Pedals_instance       map[*Pedal]*Pedal
@@ -2858,10 +2867,10 @@ type Stage struct {
 	Pedals_referenceOrder map[*Pedal]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPedalCreateCallback OnAfterCreateInterface[Pedal]
-	OnAfterPedalUpdateCallback OnAfterUpdateInterface[Pedal]
-	OnAfterPedalDeleteCallback OnAfterDeleteInterface[Pedal]
-	OnAfterPedalReadCallback   OnAfterReadInterface[Pedal]
+	OnAfterPedalCreateCallback GongOnAfterCreateInterface[Pedal]
+	OnAfterPedalUpdateCallback GongOnAfterUpdateInterface[Pedal]
+	OnAfterPedalDeleteCallback GongOnAfterDeleteInterface[Pedal]
+	OnAfterPedalReadCallback   GongOnAfterReadInterface[Pedal]
 
 	Pedal_tunings                map[*Pedal_tuning]struct{}
 	Pedal_tunings_instance       map[*Pedal_tuning]*Pedal_tuning
@@ -2873,10 +2882,10 @@ type Stage struct {
 	Pedal_tunings_referenceOrder map[*Pedal_tuning]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPedal_tuningCreateCallback OnAfterCreateInterface[Pedal_tuning]
-	OnAfterPedal_tuningUpdateCallback OnAfterUpdateInterface[Pedal_tuning]
-	OnAfterPedal_tuningDeleteCallback OnAfterDeleteInterface[Pedal_tuning]
-	OnAfterPedal_tuningReadCallback   OnAfterReadInterface[Pedal_tuning]
+	OnAfterPedal_tuningCreateCallback GongOnAfterCreateInterface[Pedal_tuning]
+	OnAfterPedal_tuningUpdateCallback GongOnAfterUpdateInterface[Pedal_tuning]
+	OnAfterPedal_tuningDeleteCallback GongOnAfterDeleteInterface[Pedal_tuning]
+	OnAfterPedal_tuningReadCallback   GongOnAfterReadInterface[Pedal_tuning]
 
 	Per_minutes                map[*Per_minute]struct{}
 	Per_minutes_instance       map[*Per_minute]*Per_minute
@@ -2888,10 +2897,10 @@ type Stage struct {
 	Per_minutes_referenceOrder map[*Per_minute]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPer_minuteCreateCallback OnAfterCreateInterface[Per_minute]
-	OnAfterPer_minuteUpdateCallback OnAfterUpdateInterface[Per_minute]
-	OnAfterPer_minuteDeleteCallback OnAfterDeleteInterface[Per_minute]
-	OnAfterPer_minuteReadCallback   OnAfterReadInterface[Per_minute]
+	OnAfterPer_minuteCreateCallback GongOnAfterCreateInterface[Per_minute]
+	OnAfterPer_minuteUpdateCallback GongOnAfterUpdateInterface[Per_minute]
+	OnAfterPer_minuteDeleteCallback GongOnAfterDeleteInterface[Per_minute]
+	OnAfterPer_minuteReadCallback   GongOnAfterReadInterface[Per_minute]
 
 	Percussions                map[*Percussion]struct{}
 	Percussions_instance       map[*Percussion]*Percussion
@@ -2903,10 +2912,10 @@ type Stage struct {
 	Percussions_referenceOrder map[*Percussion]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPercussionCreateCallback OnAfterCreateInterface[Percussion]
-	OnAfterPercussionUpdateCallback OnAfterUpdateInterface[Percussion]
-	OnAfterPercussionDeleteCallback OnAfterDeleteInterface[Percussion]
-	OnAfterPercussionReadCallback   OnAfterReadInterface[Percussion]
+	OnAfterPercussionCreateCallback GongOnAfterCreateInterface[Percussion]
+	OnAfterPercussionUpdateCallback GongOnAfterUpdateInterface[Percussion]
+	OnAfterPercussionDeleteCallback GongOnAfterDeleteInterface[Percussion]
+	OnAfterPercussionReadCallback   GongOnAfterReadInterface[Percussion]
 
 	Pitchs                map[*Pitch]struct{}
 	Pitchs_instance       map[*Pitch]*Pitch
@@ -2918,10 +2927,10 @@ type Stage struct {
 	Pitchs_referenceOrder map[*Pitch]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPitchCreateCallback OnAfterCreateInterface[Pitch]
-	OnAfterPitchUpdateCallback OnAfterUpdateInterface[Pitch]
-	OnAfterPitchDeleteCallback OnAfterDeleteInterface[Pitch]
-	OnAfterPitchReadCallback   OnAfterReadInterface[Pitch]
+	OnAfterPitchCreateCallback GongOnAfterCreateInterface[Pitch]
+	OnAfterPitchUpdateCallback GongOnAfterUpdateInterface[Pitch]
+	OnAfterPitchDeleteCallback GongOnAfterDeleteInterface[Pitch]
+	OnAfterPitchReadCallback   GongOnAfterReadInterface[Pitch]
 
 	Pitcheds                map[*Pitched]struct{}
 	Pitcheds_instance       map[*Pitched]*Pitched
@@ -2933,10 +2942,10 @@ type Stage struct {
 	Pitcheds_referenceOrder map[*Pitched]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPitchedCreateCallback OnAfterCreateInterface[Pitched]
-	OnAfterPitchedUpdateCallback OnAfterUpdateInterface[Pitched]
-	OnAfterPitchedDeleteCallback OnAfterDeleteInterface[Pitched]
-	OnAfterPitchedReadCallback   OnAfterReadInterface[Pitched]
+	OnAfterPitchedCreateCallback GongOnAfterCreateInterface[Pitched]
+	OnAfterPitchedUpdateCallback GongOnAfterUpdateInterface[Pitched]
+	OnAfterPitchedDeleteCallback GongOnAfterDeleteInterface[Pitched]
+	OnAfterPitchedReadCallback   GongOnAfterReadInterface[Pitched]
 
 	Placement_texts                map[*Placement_text]struct{}
 	Placement_texts_instance       map[*Placement_text]*Placement_text
@@ -2948,10 +2957,10 @@ type Stage struct {
 	Placement_texts_referenceOrder map[*Placement_text]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPlacement_textCreateCallback OnAfterCreateInterface[Placement_text]
-	OnAfterPlacement_textUpdateCallback OnAfterUpdateInterface[Placement_text]
-	OnAfterPlacement_textDeleteCallback OnAfterDeleteInterface[Placement_text]
-	OnAfterPlacement_textReadCallback   OnAfterReadInterface[Placement_text]
+	OnAfterPlacement_textCreateCallback GongOnAfterCreateInterface[Placement_text]
+	OnAfterPlacement_textUpdateCallback GongOnAfterUpdateInterface[Placement_text]
+	OnAfterPlacement_textDeleteCallback GongOnAfterDeleteInterface[Placement_text]
+	OnAfterPlacement_textReadCallback   GongOnAfterReadInterface[Placement_text]
 
 	Plays                map[*Play]struct{}
 	Plays_instance       map[*Play]*Play
@@ -2965,10 +2974,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Play_Other_play_reverseMap map[*Other_play]*Play
 
-	OnAfterPlayCreateCallback OnAfterCreateInterface[Play]
-	OnAfterPlayUpdateCallback OnAfterUpdateInterface[Play]
-	OnAfterPlayDeleteCallback OnAfterDeleteInterface[Play]
-	OnAfterPlayReadCallback   OnAfterReadInterface[Play]
+	OnAfterPlayCreateCallback GongOnAfterCreateInterface[Play]
+	OnAfterPlayUpdateCallback GongOnAfterUpdateInterface[Play]
+	OnAfterPlayDeleteCallback GongOnAfterDeleteInterface[Play]
+	OnAfterPlayReadCallback   GongOnAfterReadInterface[Play]
 
 	Players                map[*Player]struct{}
 	Players_instance       map[*Player]*Player
@@ -2980,10 +2989,10 @@ type Stage struct {
 	Players_referenceOrder map[*Player]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPlayerCreateCallback OnAfterCreateInterface[Player]
-	OnAfterPlayerUpdateCallback OnAfterUpdateInterface[Player]
-	OnAfterPlayerDeleteCallback OnAfterDeleteInterface[Player]
-	OnAfterPlayerReadCallback   OnAfterReadInterface[Player]
+	OnAfterPlayerCreateCallback GongOnAfterCreateInterface[Player]
+	OnAfterPlayerUpdateCallback GongOnAfterUpdateInterface[Player]
+	OnAfterPlayerDeleteCallback GongOnAfterDeleteInterface[Player]
+	OnAfterPlayerReadCallback   GongOnAfterReadInterface[Player]
 
 	Principal_voices                map[*Principal_voice]struct{}
 	Principal_voices_instance       map[*Principal_voice]*Principal_voice
@@ -2995,10 +3004,10 @@ type Stage struct {
 	Principal_voices_referenceOrder map[*Principal_voice]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterPrincipal_voiceCreateCallback OnAfterCreateInterface[Principal_voice]
-	OnAfterPrincipal_voiceUpdateCallback OnAfterUpdateInterface[Principal_voice]
-	OnAfterPrincipal_voiceDeleteCallback OnAfterDeleteInterface[Principal_voice]
-	OnAfterPrincipal_voiceReadCallback   OnAfterReadInterface[Principal_voice]
+	OnAfterPrincipal_voiceCreateCallback GongOnAfterCreateInterface[Principal_voice]
+	OnAfterPrincipal_voiceUpdateCallback GongOnAfterUpdateInterface[Principal_voice]
+	OnAfterPrincipal_voiceDeleteCallback GongOnAfterDeleteInterface[Principal_voice]
+	OnAfterPrincipal_voiceReadCallback   GongOnAfterReadInterface[Principal_voice]
 
 	Prints                map[*Print]struct{}
 	Prints_instance       map[*Print]*Print
@@ -3012,10 +3021,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Print_Staff_layout_reverseMap map[*Staff_layout]*Print
 
-	OnAfterPrintCreateCallback OnAfterCreateInterface[Print]
-	OnAfterPrintUpdateCallback OnAfterUpdateInterface[Print]
-	OnAfterPrintDeleteCallback OnAfterDeleteInterface[Print]
-	OnAfterPrintReadCallback   OnAfterReadInterface[Print]
+	OnAfterPrintCreateCallback GongOnAfterCreateInterface[Print]
+	OnAfterPrintUpdateCallback GongOnAfterUpdateInterface[Print]
+	OnAfterPrintDeleteCallback GongOnAfterDeleteInterface[Print]
+	OnAfterPrintReadCallback   GongOnAfterReadInterface[Print]
 
 	Releases                map[*Release]struct{}
 	Releases_instance       map[*Release]*Release
@@ -3027,10 +3036,10 @@ type Stage struct {
 	Releases_referenceOrder map[*Release]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterReleaseCreateCallback OnAfterCreateInterface[Release]
-	OnAfterReleaseUpdateCallback OnAfterUpdateInterface[Release]
-	OnAfterReleaseDeleteCallback OnAfterDeleteInterface[Release]
-	OnAfterReleaseReadCallback   OnAfterReadInterface[Release]
+	OnAfterReleaseCreateCallback GongOnAfterCreateInterface[Release]
+	OnAfterReleaseUpdateCallback GongOnAfterUpdateInterface[Release]
+	OnAfterReleaseDeleteCallback GongOnAfterDeleteInterface[Release]
+	OnAfterReleaseReadCallback   GongOnAfterReadInterface[Release]
 
 	Repeats                map[*Repeat]struct{}
 	Repeats_instance       map[*Repeat]*Repeat
@@ -3042,10 +3051,10 @@ type Stage struct {
 	Repeats_referenceOrder map[*Repeat]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterRepeatCreateCallback OnAfterCreateInterface[Repeat]
-	OnAfterRepeatUpdateCallback OnAfterUpdateInterface[Repeat]
-	OnAfterRepeatDeleteCallback OnAfterDeleteInterface[Repeat]
-	OnAfterRepeatReadCallback   OnAfterReadInterface[Repeat]
+	OnAfterRepeatCreateCallback GongOnAfterCreateInterface[Repeat]
+	OnAfterRepeatUpdateCallback GongOnAfterUpdateInterface[Repeat]
+	OnAfterRepeatDeleteCallback GongOnAfterDeleteInterface[Repeat]
+	OnAfterRepeatReadCallback   GongOnAfterReadInterface[Repeat]
 
 	Rests                map[*Rest]struct{}
 	Rests_instance       map[*Rest]*Rest
@@ -3057,10 +3066,10 @@ type Stage struct {
 	Rests_referenceOrder map[*Rest]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterRestCreateCallback OnAfterCreateInterface[Rest]
-	OnAfterRestUpdateCallback OnAfterUpdateInterface[Rest]
-	OnAfterRestDeleteCallback OnAfterDeleteInterface[Rest]
-	OnAfterRestReadCallback   OnAfterReadInterface[Rest]
+	OnAfterRestCreateCallback GongOnAfterCreateInterface[Rest]
+	OnAfterRestUpdateCallback GongOnAfterUpdateInterface[Rest]
+	OnAfterRestDeleteCallback GongOnAfterDeleteInterface[Rest]
+	OnAfterRestReadCallback   GongOnAfterReadInterface[Rest]
 
 	Roots                map[*Root]struct{}
 	Roots_instance       map[*Root]*Root
@@ -3072,10 +3081,10 @@ type Stage struct {
 	Roots_referenceOrder map[*Root]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterRootCreateCallback OnAfterCreateInterface[Root]
-	OnAfterRootUpdateCallback OnAfterUpdateInterface[Root]
-	OnAfterRootDeleteCallback OnAfterDeleteInterface[Root]
-	OnAfterRootReadCallback   OnAfterReadInterface[Root]
+	OnAfterRootCreateCallback GongOnAfterCreateInterface[Root]
+	OnAfterRootUpdateCallback GongOnAfterUpdateInterface[Root]
+	OnAfterRootDeleteCallback GongOnAfterDeleteInterface[Root]
+	OnAfterRootReadCallback   GongOnAfterReadInterface[Root]
 
 	Root_steps                map[*Root_step]struct{}
 	Root_steps_instance       map[*Root_step]*Root_step
@@ -3087,10 +3096,10 @@ type Stage struct {
 	Root_steps_referenceOrder map[*Root_step]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterRoot_stepCreateCallback OnAfterCreateInterface[Root_step]
-	OnAfterRoot_stepUpdateCallback OnAfterUpdateInterface[Root_step]
-	OnAfterRoot_stepDeleteCallback OnAfterDeleteInterface[Root_step]
-	OnAfterRoot_stepReadCallback   OnAfterReadInterface[Root_step]
+	OnAfterRoot_stepCreateCallback GongOnAfterCreateInterface[Root_step]
+	OnAfterRoot_stepUpdateCallback GongOnAfterUpdateInterface[Root_step]
+	OnAfterRoot_stepDeleteCallback GongOnAfterDeleteInterface[Root_step]
+	OnAfterRoot_stepReadCallback   GongOnAfterReadInterface[Root_step]
 
 	Scalings                map[*Scaling]struct{}
 	Scalings_instance       map[*Scaling]*Scaling
@@ -3102,10 +3111,10 @@ type Stage struct {
 	Scalings_referenceOrder map[*Scaling]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterScalingCreateCallback OnAfterCreateInterface[Scaling]
-	OnAfterScalingUpdateCallback OnAfterUpdateInterface[Scaling]
-	OnAfterScalingDeleteCallback OnAfterDeleteInterface[Scaling]
-	OnAfterScalingReadCallback   OnAfterReadInterface[Scaling]
+	OnAfterScalingCreateCallback GongOnAfterCreateInterface[Scaling]
+	OnAfterScalingUpdateCallback GongOnAfterUpdateInterface[Scaling]
+	OnAfterScalingDeleteCallback GongOnAfterDeleteInterface[Scaling]
+	OnAfterScalingReadCallback   GongOnAfterReadInterface[Scaling]
 
 	Scordaturas                map[*Scordatura]struct{}
 	Scordaturas_instance       map[*Scordatura]*Scordatura
@@ -3119,10 +3128,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Scordatura_Accord_reverseMap map[*Accord]*Scordatura
 
-	OnAfterScordaturaCreateCallback OnAfterCreateInterface[Scordatura]
-	OnAfterScordaturaUpdateCallback OnAfterUpdateInterface[Scordatura]
-	OnAfterScordaturaDeleteCallback OnAfterDeleteInterface[Scordatura]
-	OnAfterScordaturaReadCallback   OnAfterReadInterface[Scordatura]
+	OnAfterScordaturaCreateCallback GongOnAfterCreateInterface[Scordatura]
+	OnAfterScordaturaUpdateCallback GongOnAfterUpdateInterface[Scordatura]
+	OnAfterScordaturaDeleteCallback GongOnAfterDeleteInterface[Scordatura]
+	OnAfterScordaturaReadCallback   GongOnAfterReadInterface[Scordatura]
 
 	Score_instruments                map[*Score_instrument]struct{}
 	Score_instruments_instance       map[*Score_instrument]*Score_instrument
@@ -3134,10 +3143,10 @@ type Stage struct {
 	Score_instruments_referenceOrder map[*Score_instrument]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterScore_instrumentCreateCallback OnAfterCreateInterface[Score_instrument]
-	OnAfterScore_instrumentUpdateCallback OnAfterUpdateInterface[Score_instrument]
-	OnAfterScore_instrumentDeleteCallback OnAfterDeleteInterface[Score_instrument]
-	OnAfterScore_instrumentReadCallback   OnAfterReadInterface[Score_instrument]
+	OnAfterScore_instrumentCreateCallback GongOnAfterCreateInterface[Score_instrument]
+	OnAfterScore_instrumentUpdateCallback GongOnAfterUpdateInterface[Score_instrument]
+	OnAfterScore_instrumentDeleteCallback GongOnAfterDeleteInterface[Score_instrument]
+	OnAfterScore_instrumentReadCallback   GongOnAfterReadInterface[Score_instrument]
 
 	Score_parts                map[*Score_part]struct{}
 	Score_parts_instance       map[*Score_part]*Score_part
@@ -3159,10 +3168,10 @@ type Stage struct {
 
 	Score_part_Midi_instrument_reverseMap map[*Midi_instrument]*Score_part
 
-	OnAfterScore_partCreateCallback OnAfterCreateInterface[Score_part]
-	OnAfterScore_partUpdateCallback OnAfterUpdateInterface[Score_part]
-	OnAfterScore_partDeleteCallback OnAfterDeleteInterface[Score_part]
-	OnAfterScore_partReadCallback   OnAfterReadInterface[Score_part]
+	OnAfterScore_partCreateCallback GongOnAfterCreateInterface[Score_part]
+	OnAfterScore_partUpdateCallback GongOnAfterUpdateInterface[Score_part]
+	OnAfterScore_partDeleteCallback GongOnAfterDeleteInterface[Score_part]
+	OnAfterScore_partReadCallback   GongOnAfterReadInterface[Score_part]
 
 	Score_partwises                map[*Score_partwise]struct{}
 	Score_partwises_instance       map[*Score_partwise]*Score_partwise
@@ -3178,10 +3187,10 @@ type Stage struct {
 
 	Score_partwise_Part_reverseMap map[*A_part]*Score_partwise
 
-	OnAfterScore_partwiseCreateCallback OnAfterCreateInterface[Score_partwise]
-	OnAfterScore_partwiseUpdateCallback OnAfterUpdateInterface[Score_partwise]
-	OnAfterScore_partwiseDeleteCallback OnAfterDeleteInterface[Score_partwise]
-	OnAfterScore_partwiseReadCallback   OnAfterReadInterface[Score_partwise]
+	OnAfterScore_partwiseCreateCallback GongOnAfterCreateInterface[Score_partwise]
+	OnAfterScore_partwiseUpdateCallback GongOnAfterUpdateInterface[Score_partwise]
+	OnAfterScore_partwiseDeleteCallback GongOnAfterDeleteInterface[Score_partwise]
+	OnAfterScore_partwiseReadCallback   GongOnAfterReadInterface[Score_partwise]
 
 	Score_timewises                map[*Score_timewise]struct{}
 	Score_timewises_instance       map[*Score_timewise]*Score_timewise
@@ -3197,10 +3206,10 @@ type Stage struct {
 
 	Score_timewise_Measure_reverseMap map[*A_measure_1]*Score_timewise
 
-	OnAfterScore_timewiseCreateCallback OnAfterCreateInterface[Score_timewise]
-	OnAfterScore_timewiseUpdateCallback OnAfterUpdateInterface[Score_timewise]
-	OnAfterScore_timewiseDeleteCallback OnAfterDeleteInterface[Score_timewise]
-	OnAfterScore_timewiseReadCallback   OnAfterReadInterface[Score_timewise]
+	OnAfterScore_timewiseCreateCallback GongOnAfterCreateInterface[Score_timewise]
+	OnAfterScore_timewiseUpdateCallback GongOnAfterUpdateInterface[Score_timewise]
+	OnAfterScore_timewiseDeleteCallback GongOnAfterDeleteInterface[Score_timewise]
+	OnAfterScore_timewiseReadCallback   GongOnAfterReadInterface[Score_timewise]
 
 	Segnos                map[*Segno]struct{}
 	Segnos_instance       map[*Segno]*Segno
@@ -3212,10 +3221,10 @@ type Stage struct {
 	Segnos_referenceOrder map[*Segno]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSegnoCreateCallback OnAfterCreateInterface[Segno]
-	OnAfterSegnoUpdateCallback OnAfterUpdateInterface[Segno]
-	OnAfterSegnoDeleteCallback OnAfterDeleteInterface[Segno]
-	OnAfterSegnoReadCallback   OnAfterReadInterface[Segno]
+	OnAfterSegnoCreateCallback GongOnAfterCreateInterface[Segno]
+	OnAfterSegnoUpdateCallback GongOnAfterUpdateInterface[Segno]
+	OnAfterSegnoDeleteCallback GongOnAfterDeleteInterface[Segno]
+	OnAfterSegnoReadCallback   GongOnAfterReadInterface[Segno]
 
 	Slashs                map[*Slash]struct{}
 	Slashs_instance       map[*Slash]*Slash
@@ -3227,10 +3236,10 @@ type Stage struct {
 	Slashs_referenceOrder map[*Slash]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSlashCreateCallback OnAfterCreateInterface[Slash]
-	OnAfterSlashUpdateCallback OnAfterUpdateInterface[Slash]
-	OnAfterSlashDeleteCallback OnAfterDeleteInterface[Slash]
-	OnAfterSlashReadCallback   OnAfterReadInterface[Slash]
+	OnAfterSlashCreateCallback GongOnAfterCreateInterface[Slash]
+	OnAfterSlashUpdateCallback GongOnAfterUpdateInterface[Slash]
+	OnAfterSlashDeleteCallback GongOnAfterDeleteInterface[Slash]
+	OnAfterSlashReadCallback   GongOnAfterReadInterface[Slash]
 
 	Slides                map[*Slide]struct{}
 	Slides_instance       map[*Slide]*Slide
@@ -3242,10 +3251,10 @@ type Stage struct {
 	Slides_referenceOrder map[*Slide]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSlideCreateCallback OnAfterCreateInterface[Slide]
-	OnAfterSlideUpdateCallback OnAfterUpdateInterface[Slide]
-	OnAfterSlideDeleteCallback OnAfterDeleteInterface[Slide]
-	OnAfterSlideReadCallback   OnAfterReadInterface[Slide]
+	OnAfterSlideCreateCallback GongOnAfterCreateInterface[Slide]
+	OnAfterSlideUpdateCallback GongOnAfterUpdateInterface[Slide]
+	OnAfterSlideDeleteCallback GongOnAfterDeleteInterface[Slide]
+	OnAfterSlideReadCallback   GongOnAfterReadInterface[Slide]
 
 	Slurs                map[*Slur]struct{}
 	Slurs_instance       map[*Slur]*Slur
@@ -3257,10 +3266,10 @@ type Stage struct {
 	Slurs_referenceOrder map[*Slur]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSlurCreateCallback OnAfterCreateInterface[Slur]
-	OnAfterSlurUpdateCallback OnAfterUpdateInterface[Slur]
-	OnAfterSlurDeleteCallback OnAfterDeleteInterface[Slur]
-	OnAfterSlurReadCallback   OnAfterReadInterface[Slur]
+	OnAfterSlurCreateCallback GongOnAfterCreateInterface[Slur]
+	OnAfterSlurUpdateCallback GongOnAfterUpdateInterface[Slur]
+	OnAfterSlurDeleteCallback GongOnAfterDeleteInterface[Slur]
+	OnAfterSlurReadCallback   GongOnAfterReadInterface[Slur]
 
 	Sounds                map[*Sound]struct{}
 	Sounds_instance       map[*Sound]*Sound
@@ -3280,10 +3289,10 @@ type Stage struct {
 
 	Sound_Play_reverseMap map[*Play]*Sound
 
-	OnAfterSoundCreateCallback OnAfterCreateInterface[Sound]
-	OnAfterSoundUpdateCallback OnAfterUpdateInterface[Sound]
-	OnAfterSoundDeleteCallback OnAfterDeleteInterface[Sound]
-	OnAfterSoundReadCallback   OnAfterReadInterface[Sound]
+	OnAfterSoundCreateCallback GongOnAfterCreateInterface[Sound]
+	OnAfterSoundUpdateCallback GongOnAfterUpdateInterface[Sound]
+	OnAfterSoundDeleteCallback GongOnAfterDeleteInterface[Sound]
+	OnAfterSoundReadCallback   GongOnAfterReadInterface[Sound]
 
 	Staff_detailss                map[*Staff_details]struct{}
 	Staff_detailss_instance       map[*Staff_details]*Staff_details
@@ -3299,10 +3308,10 @@ type Stage struct {
 
 	Staff_details_Staff_tuning_reverseMap map[*Staff_tuning]*Staff_details
 
-	OnAfterStaff_detailsCreateCallback OnAfterCreateInterface[Staff_details]
-	OnAfterStaff_detailsUpdateCallback OnAfterUpdateInterface[Staff_details]
-	OnAfterStaff_detailsDeleteCallback OnAfterDeleteInterface[Staff_details]
-	OnAfterStaff_detailsReadCallback   OnAfterReadInterface[Staff_details]
+	OnAfterStaff_detailsCreateCallback GongOnAfterCreateInterface[Staff_details]
+	OnAfterStaff_detailsUpdateCallback GongOnAfterUpdateInterface[Staff_details]
+	OnAfterStaff_detailsDeleteCallback GongOnAfterDeleteInterface[Staff_details]
+	OnAfterStaff_detailsReadCallback   GongOnAfterReadInterface[Staff_details]
 
 	Staff_divides                map[*Staff_divide]struct{}
 	Staff_divides_instance       map[*Staff_divide]*Staff_divide
@@ -3314,10 +3323,10 @@ type Stage struct {
 	Staff_divides_referenceOrder map[*Staff_divide]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStaff_divideCreateCallback OnAfterCreateInterface[Staff_divide]
-	OnAfterStaff_divideUpdateCallback OnAfterUpdateInterface[Staff_divide]
-	OnAfterStaff_divideDeleteCallback OnAfterDeleteInterface[Staff_divide]
-	OnAfterStaff_divideReadCallback   OnAfterReadInterface[Staff_divide]
+	OnAfterStaff_divideCreateCallback GongOnAfterCreateInterface[Staff_divide]
+	OnAfterStaff_divideUpdateCallback GongOnAfterUpdateInterface[Staff_divide]
+	OnAfterStaff_divideDeleteCallback GongOnAfterDeleteInterface[Staff_divide]
+	OnAfterStaff_divideReadCallback   GongOnAfterReadInterface[Staff_divide]
 
 	Staff_layouts                map[*Staff_layout]struct{}
 	Staff_layouts_instance       map[*Staff_layout]*Staff_layout
@@ -3329,10 +3338,10 @@ type Stage struct {
 	Staff_layouts_referenceOrder map[*Staff_layout]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStaff_layoutCreateCallback OnAfterCreateInterface[Staff_layout]
-	OnAfterStaff_layoutUpdateCallback OnAfterUpdateInterface[Staff_layout]
-	OnAfterStaff_layoutDeleteCallback OnAfterDeleteInterface[Staff_layout]
-	OnAfterStaff_layoutReadCallback   OnAfterReadInterface[Staff_layout]
+	OnAfterStaff_layoutCreateCallback GongOnAfterCreateInterface[Staff_layout]
+	OnAfterStaff_layoutUpdateCallback GongOnAfterUpdateInterface[Staff_layout]
+	OnAfterStaff_layoutDeleteCallback GongOnAfterDeleteInterface[Staff_layout]
+	OnAfterStaff_layoutReadCallback   GongOnAfterReadInterface[Staff_layout]
 
 	Staff_sizes                map[*Staff_size]struct{}
 	Staff_sizes_instance       map[*Staff_size]*Staff_size
@@ -3344,10 +3353,10 @@ type Stage struct {
 	Staff_sizes_referenceOrder map[*Staff_size]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStaff_sizeCreateCallback OnAfterCreateInterface[Staff_size]
-	OnAfterStaff_sizeUpdateCallback OnAfterUpdateInterface[Staff_size]
-	OnAfterStaff_sizeDeleteCallback OnAfterDeleteInterface[Staff_size]
-	OnAfterStaff_sizeReadCallback   OnAfterReadInterface[Staff_size]
+	OnAfterStaff_sizeCreateCallback GongOnAfterCreateInterface[Staff_size]
+	OnAfterStaff_sizeUpdateCallback GongOnAfterUpdateInterface[Staff_size]
+	OnAfterStaff_sizeDeleteCallback GongOnAfterDeleteInterface[Staff_size]
+	OnAfterStaff_sizeReadCallback   GongOnAfterReadInterface[Staff_size]
 
 	Staff_tunings                map[*Staff_tuning]struct{}
 	Staff_tunings_instance       map[*Staff_tuning]*Staff_tuning
@@ -3359,10 +3368,10 @@ type Stage struct {
 	Staff_tunings_referenceOrder map[*Staff_tuning]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStaff_tuningCreateCallback OnAfterCreateInterface[Staff_tuning]
-	OnAfterStaff_tuningUpdateCallback OnAfterUpdateInterface[Staff_tuning]
-	OnAfterStaff_tuningDeleteCallback OnAfterDeleteInterface[Staff_tuning]
-	OnAfterStaff_tuningReadCallback   OnAfterReadInterface[Staff_tuning]
+	OnAfterStaff_tuningCreateCallback GongOnAfterCreateInterface[Staff_tuning]
+	OnAfterStaff_tuningUpdateCallback GongOnAfterUpdateInterface[Staff_tuning]
+	OnAfterStaff_tuningDeleteCallback GongOnAfterDeleteInterface[Staff_tuning]
+	OnAfterStaff_tuningReadCallback   GongOnAfterReadInterface[Staff_tuning]
 
 	Stems                map[*Stem]struct{}
 	Stems_instance       map[*Stem]*Stem
@@ -3374,10 +3383,10 @@ type Stage struct {
 	Stems_referenceOrder map[*Stem]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStemCreateCallback OnAfterCreateInterface[Stem]
-	OnAfterStemUpdateCallback OnAfterUpdateInterface[Stem]
-	OnAfterStemDeleteCallback OnAfterDeleteInterface[Stem]
-	OnAfterStemReadCallback   OnAfterReadInterface[Stem]
+	OnAfterStemCreateCallback GongOnAfterCreateInterface[Stem]
+	OnAfterStemUpdateCallback GongOnAfterUpdateInterface[Stem]
+	OnAfterStemDeleteCallback GongOnAfterDeleteInterface[Stem]
+	OnAfterStemReadCallback   GongOnAfterReadInterface[Stem]
 
 	Sticks                map[*Stick]struct{}
 	Sticks_instance       map[*Stick]*Stick
@@ -3389,10 +3398,10 @@ type Stage struct {
 	Sticks_referenceOrder map[*Stick]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStickCreateCallback OnAfterCreateInterface[Stick]
-	OnAfterStickUpdateCallback OnAfterUpdateInterface[Stick]
-	OnAfterStickDeleteCallback OnAfterDeleteInterface[Stick]
-	OnAfterStickReadCallback   OnAfterReadInterface[Stick]
+	OnAfterStickCreateCallback GongOnAfterCreateInterface[Stick]
+	OnAfterStickUpdateCallback GongOnAfterUpdateInterface[Stick]
+	OnAfterStickDeleteCallback GongOnAfterDeleteInterface[Stick]
+	OnAfterStickReadCallback   GongOnAfterReadInterface[Stick]
 
 	String_mutes                map[*String_mute]struct{}
 	String_mutes_instance       map[*String_mute]*String_mute
@@ -3404,10 +3413,10 @@ type Stage struct {
 	String_mutes_referenceOrder map[*String_mute]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterString_muteCreateCallback OnAfterCreateInterface[String_mute]
-	OnAfterString_muteUpdateCallback OnAfterUpdateInterface[String_mute]
-	OnAfterString_muteDeleteCallback OnAfterDeleteInterface[String_mute]
-	OnAfterString_muteReadCallback   OnAfterReadInterface[String_mute]
+	OnAfterString_muteCreateCallback GongOnAfterCreateInterface[String_mute]
+	OnAfterString_muteUpdateCallback GongOnAfterUpdateInterface[String_mute]
+	OnAfterString_muteDeleteCallback GongOnAfterDeleteInterface[String_mute]
+	OnAfterString_muteReadCallback   GongOnAfterReadInterface[String_mute]
 
 	String_types                map[*String_type]struct{}
 	String_types_instance       map[*String_type]*String_type
@@ -3419,10 +3428,10 @@ type Stage struct {
 	String_types_referenceOrder map[*String_type]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterString_typeCreateCallback OnAfterCreateInterface[String_type]
-	OnAfterString_typeUpdateCallback OnAfterUpdateInterface[String_type]
-	OnAfterString_typeDeleteCallback OnAfterDeleteInterface[String_type]
-	OnAfterString_typeReadCallback   OnAfterReadInterface[String_type]
+	OnAfterString_typeCreateCallback GongOnAfterCreateInterface[String_type]
+	OnAfterString_typeUpdateCallback GongOnAfterUpdateInterface[String_type]
+	OnAfterString_typeDeleteCallback GongOnAfterDeleteInterface[String_type]
+	OnAfterString_typeReadCallback   GongOnAfterReadInterface[String_type]
 
 	Strong_accents                map[*Strong_accent]struct{}
 	Strong_accents_instance       map[*Strong_accent]*Strong_accent
@@ -3434,10 +3443,10 @@ type Stage struct {
 	Strong_accents_referenceOrder map[*Strong_accent]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStrong_accentCreateCallback OnAfterCreateInterface[Strong_accent]
-	OnAfterStrong_accentUpdateCallback OnAfterUpdateInterface[Strong_accent]
-	OnAfterStrong_accentDeleteCallback OnAfterDeleteInterface[Strong_accent]
-	OnAfterStrong_accentReadCallback   OnAfterReadInterface[Strong_accent]
+	OnAfterStrong_accentCreateCallback GongOnAfterCreateInterface[Strong_accent]
+	OnAfterStrong_accentUpdateCallback GongOnAfterUpdateInterface[Strong_accent]
+	OnAfterStrong_accentDeleteCallback GongOnAfterDeleteInterface[Strong_accent]
+	OnAfterStrong_accentReadCallback   GongOnAfterReadInterface[Strong_accent]
 
 	Style_texts                map[*Style_text]struct{}
 	Style_texts_instance       map[*Style_text]*Style_text
@@ -3449,10 +3458,10 @@ type Stage struct {
 	Style_texts_referenceOrder map[*Style_text]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStyle_textCreateCallback OnAfterCreateInterface[Style_text]
-	OnAfterStyle_textUpdateCallback OnAfterUpdateInterface[Style_text]
-	OnAfterStyle_textDeleteCallback OnAfterDeleteInterface[Style_text]
-	OnAfterStyle_textReadCallback   OnAfterReadInterface[Style_text]
+	OnAfterStyle_textCreateCallback GongOnAfterCreateInterface[Style_text]
+	OnAfterStyle_textUpdateCallback GongOnAfterUpdateInterface[Style_text]
+	OnAfterStyle_textDeleteCallback GongOnAfterDeleteInterface[Style_text]
+	OnAfterStyle_textReadCallback   GongOnAfterReadInterface[Style_text]
 
 	Supportss                map[*Supports]struct{}
 	Supportss_instance       map[*Supports]*Supports
@@ -3464,10 +3473,10 @@ type Stage struct {
 	Supportss_referenceOrder map[*Supports]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSupportsCreateCallback OnAfterCreateInterface[Supports]
-	OnAfterSupportsUpdateCallback OnAfterUpdateInterface[Supports]
-	OnAfterSupportsDeleteCallback OnAfterDeleteInterface[Supports]
-	OnAfterSupportsReadCallback   OnAfterReadInterface[Supports]
+	OnAfterSupportsCreateCallback GongOnAfterCreateInterface[Supports]
+	OnAfterSupportsUpdateCallback GongOnAfterUpdateInterface[Supports]
+	OnAfterSupportsDeleteCallback GongOnAfterDeleteInterface[Supports]
+	OnAfterSupportsReadCallback   GongOnAfterReadInterface[Supports]
 
 	Swings                map[*Swing]struct{}
 	Swings_instance       map[*Swing]*Swing
@@ -3479,10 +3488,10 @@ type Stage struct {
 	Swings_referenceOrder map[*Swing]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSwingCreateCallback OnAfterCreateInterface[Swing]
-	OnAfterSwingUpdateCallback OnAfterUpdateInterface[Swing]
-	OnAfterSwingDeleteCallback OnAfterDeleteInterface[Swing]
-	OnAfterSwingReadCallback   OnAfterReadInterface[Swing]
+	OnAfterSwingCreateCallback GongOnAfterCreateInterface[Swing]
+	OnAfterSwingUpdateCallback GongOnAfterUpdateInterface[Swing]
+	OnAfterSwingDeleteCallback GongOnAfterDeleteInterface[Swing]
+	OnAfterSwingReadCallback   GongOnAfterReadInterface[Swing]
 
 	Syncs                map[*Sync]struct{}
 	Syncs_instance       map[*Sync]*Sync
@@ -3494,10 +3503,10 @@ type Stage struct {
 	Syncs_referenceOrder map[*Sync]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSyncCreateCallback OnAfterCreateInterface[Sync]
-	OnAfterSyncUpdateCallback OnAfterUpdateInterface[Sync]
-	OnAfterSyncDeleteCallback OnAfterDeleteInterface[Sync]
-	OnAfterSyncReadCallback   OnAfterReadInterface[Sync]
+	OnAfterSyncCreateCallback GongOnAfterCreateInterface[Sync]
+	OnAfterSyncUpdateCallback GongOnAfterUpdateInterface[Sync]
+	OnAfterSyncDeleteCallback GongOnAfterDeleteInterface[Sync]
+	OnAfterSyncReadCallback   GongOnAfterReadInterface[Sync]
 
 	System_dividerss                map[*System_dividers]struct{}
 	System_dividerss_instance       map[*System_dividers]*System_dividers
@@ -3509,10 +3518,10 @@ type Stage struct {
 	System_dividerss_referenceOrder map[*System_dividers]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSystem_dividersCreateCallback OnAfterCreateInterface[System_dividers]
-	OnAfterSystem_dividersUpdateCallback OnAfterUpdateInterface[System_dividers]
-	OnAfterSystem_dividersDeleteCallback OnAfterDeleteInterface[System_dividers]
-	OnAfterSystem_dividersReadCallback   OnAfterReadInterface[System_dividers]
+	OnAfterSystem_dividersCreateCallback GongOnAfterCreateInterface[System_dividers]
+	OnAfterSystem_dividersUpdateCallback GongOnAfterUpdateInterface[System_dividers]
+	OnAfterSystem_dividersDeleteCallback GongOnAfterDeleteInterface[System_dividers]
+	OnAfterSystem_dividersReadCallback   GongOnAfterReadInterface[System_dividers]
 
 	System_layouts                map[*System_layout]struct{}
 	System_layouts_instance       map[*System_layout]*System_layout
@@ -3524,10 +3533,10 @@ type Stage struct {
 	System_layouts_referenceOrder map[*System_layout]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSystem_layoutCreateCallback OnAfterCreateInterface[System_layout]
-	OnAfterSystem_layoutUpdateCallback OnAfterUpdateInterface[System_layout]
-	OnAfterSystem_layoutDeleteCallback OnAfterDeleteInterface[System_layout]
-	OnAfterSystem_layoutReadCallback   OnAfterReadInterface[System_layout]
+	OnAfterSystem_layoutCreateCallback GongOnAfterCreateInterface[System_layout]
+	OnAfterSystem_layoutUpdateCallback GongOnAfterUpdateInterface[System_layout]
+	OnAfterSystem_layoutDeleteCallback GongOnAfterDeleteInterface[System_layout]
+	OnAfterSystem_layoutReadCallback   GongOnAfterReadInterface[System_layout]
 
 	System_marginss                map[*System_margins]struct{}
 	System_marginss_instance       map[*System_margins]*System_margins
@@ -3539,10 +3548,10 @@ type Stage struct {
 	System_marginss_referenceOrder map[*System_margins]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSystem_marginsCreateCallback OnAfterCreateInterface[System_margins]
-	OnAfterSystem_marginsUpdateCallback OnAfterUpdateInterface[System_margins]
-	OnAfterSystem_marginsDeleteCallback OnAfterDeleteInterface[System_margins]
-	OnAfterSystem_marginsReadCallback   OnAfterReadInterface[System_margins]
+	OnAfterSystem_marginsCreateCallback GongOnAfterCreateInterface[System_margins]
+	OnAfterSystem_marginsUpdateCallback GongOnAfterUpdateInterface[System_margins]
+	OnAfterSystem_marginsDeleteCallback GongOnAfterDeleteInterface[System_margins]
+	OnAfterSystem_marginsReadCallback   GongOnAfterReadInterface[System_margins]
 
 	Taps                map[*Tap]struct{}
 	Taps_instance       map[*Tap]*Tap
@@ -3554,10 +3563,10 @@ type Stage struct {
 	Taps_referenceOrder map[*Tap]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTapCreateCallback OnAfterCreateInterface[Tap]
-	OnAfterTapUpdateCallback OnAfterUpdateInterface[Tap]
-	OnAfterTapDeleteCallback OnAfterDeleteInterface[Tap]
-	OnAfterTapReadCallback   OnAfterReadInterface[Tap]
+	OnAfterTapCreateCallback GongOnAfterCreateInterface[Tap]
+	OnAfterTapUpdateCallback GongOnAfterUpdateInterface[Tap]
+	OnAfterTapDeleteCallback GongOnAfterDeleteInterface[Tap]
+	OnAfterTapReadCallback   GongOnAfterReadInterface[Tap]
 
 	Technicals                map[*Technical]struct{}
 	Technicals_instance       map[*Technical]*Technical
@@ -3631,10 +3640,10 @@ type Stage struct {
 
 	Technical_Other_technical_reverseMap map[*Other_placement_text]*Technical
 
-	OnAfterTechnicalCreateCallback OnAfterCreateInterface[Technical]
-	OnAfterTechnicalUpdateCallback OnAfterUpdateInterface[Technical]
-	OnAfterTechnicalDeleteCallback OnAfterDeleteInterface[Technical]
-	OnAfterTechnicalReadCallback   OnAfterReadInterface[Technical]
+	OnAfterTechnicalCreateCallback GongOnAfterCreateInterface[Technical]
+	OnAfterTechnicalUpdateCallback GongOnAfterUpdateInterface[Technical]
+	OnAfterTechnicalDeleteCallback GongOnAfterDeleteInterface[Technical]
+	OnAfterTechnicalReadCallback   GongOnAfterReadInterface[Technical]
 
 	Text_element_datas                map[*Text_element_data]struct{}
 	Text_element_datas_instance       map[*Text_element_data]*Text_element_data
@@ -3646,10 +3655,10 @@ type Stage struct {
 	Text_element_datas_referenceOrder map[*Text_element_data]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterText_element_dataCreateCallback OnAfterCreateInterface[Text_element_data]
-	OnAfterText_element_dataUpdateCallback OnAfterUpdateInterface[Text_element_data]
-	OnAfterText_element_dataDeleteCallback OnAfterDeleteInterface[Text_element_data]
-	OnAfterText_element_dataReadCallback   OnAfterReadInterface[Text_element_data]
+	OnAfterText_element_dataCreateCallback GongOnAfterCreateInterface[Text_element_data]
+	OnAfterText_element_dataUpdateCallback GongOnAfterUpdateInterface[Text_element_data]
+	OnAfterText_element_dataDeleteCallback GongOnAfterDeleteInterface[Text_element_data]
+	OnAfterText_element_dataReadCallback   GongOnAfterReadInterface[Text_element_data]
 
 	Ties                map[*Tie]struct{}
 	Ties_instance       map[*Tie]*Tie
@@ -3661,10 +3670,10 @@ type Stage struct {
 	Ties_referenceOrder map[*Tie]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTieCreateCallback OnAfterCreateInterface[Tie]
-	OnAfterTieUpdateCallback OnAfterUpdateInterface[Tie]
-	OnAfterTieDeleteCallback OnAfterDeleteInterface[Tie]
-	OnAfterTieReadCallback   OnAfterReadInterface[Tie]
+	OnAfterTieCreateCallback GongOnAfterCreateInterface[Tie]
+	OnAfterTieUpdateCallback GongOnAfterUpdateInterface[Tie]
+	OnAfterTieDeleteCallback GongOnAfterDeleteInterface[Tie]
+	OnAfterTieReadCallback   GongOnAfterReadInterface[Tie]
 
 	Tieds                map[*Tied]struct{}
 	Tieds_instance       map[*Tied]*Tied
@@ -3676,10 +3685,10 @@ type Stage struct {
 	Tieds_referenceOrder map[*Tied]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTiedCreateCallback OnAfterCreateInterface[Tied]
-	OnAfterTiedUpdateCallback OnAfterUpdateInterface[Tied]
-	OnAfterTiedDeleteCallback OnAfterDeleteInterface[Tied]
-	OnAfterTiedReadCallback   OnAfterReadInterface[Tied]
+	OnAfterTiedCreateCallback GongOnAfterCreateInterface[Tied]
+	OnAfterTiedUpdateCallback GongOnAfterUpdateInterface[Tied]
+	OnAfterTiedDeleteCallback GongOnAfterDeleteInterface[Tied]
+	OnAfterTiedReadCallback   GongOnAfterReadInterface[Tied]
 
 	Times                map[*Time]struct{}
 	Times_instance       map[*Time]*Time
@@ -3691,10 +3700,10 @@ type Stage struct {
 	Times_referenceOrder map[*Time]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTimeCreateCallback OnAfterCreateInterface[Time]
-	OnAfterTimeUpdateCallback OnAfterUpdateInterface[Time]
-	OnAfterTimeDeleteCallback OnAfterDeleteInterface[Time]
-	OnAfterTimeReadCallback   OnAfterReadInterface[Time]
+	OnAfterTimeCreateCallback GongOnAfterCreateInterface[Time]
+	OnAfterTimeUpdateCallback GongOnAfterUpdateInterface[Time]
+	OnAfterTimeDeleteCallback GongOnAfterDeleteInterface[Time]
+	OnAfterTimeReadCallback   GongOnAfterReadInterface[Time]
 
 	Time_modifications                map[*Time_modification]struct{}
 	Time_modifications_instance       map[*Time_modification]*Time_modification
@@ -3706,10 +3715,10 @@ type Stage struct {
 	Time_modifications_referenceOrder map[*Time_modification]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTime_modificationCreateCallback OnAfterCreateInterface[Time_modification]
-	OnAfterTime_modificationUpdateCallback OnAfterUpdateInterface[Time_modification]
-	OnAfterTime_modificationDeleteCallback OnAfterDeleteInterface[Time_modification]
-	OnAfterTime_modificationReadCallback   OnAfterReadInterface[Time_modification]
+	OnAfterTime_modificationCreateCallback GongOnAfterCreateInterface[Time_modification]
+	OnAfterTime_modificationUpdateCallback GongOnAfterUpdateInterface[Time_modification]
+	OnAfterTime_modificationDeleteCallback GongOnAfterDeleteInterface[Time_modification]
+	OnAfterTime_modificationReadCallback   GongOnAfterReadInterface[Time_modification]
 
 	Timpanis                map[*Timpani]struct{}
 	Timpanis_instance       map[*Timpani]*Timpani
@@ -3721,10 +3730,10 @@ type Stage struct {
 	Timpanis_referenceOrder map[*Timpani]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTimpaniCreateCallback OnAfterCreateInterface[Timpani]
-	OnAfterTimpaniUpdateCallback OnAfterUpdateInterface[Timpani]
-	OnAfterTimpaniDeleteCallback OnAfterDeleteInterface[Timpani]
-	OnAfterTimpaniReadCallback   OnAfterReadInterface[Timpani]
+	OnAfterTimpaniCreateCallback GongOnAfterCreateInterface[Timpani]
+	OnAfterTimpaniUpdateCallback GongOnAfterUpdateInterface[Timpani]
+	OnAfterTimpaniDeleteCallback GongOnAfterDeleteInterface[Timpani]
+	OnAfterTimpaniReadCallback   GongOnAfterReadInterface[Timpani]
 
 	Transposes                map[*Transpose]struct{}
 	Transposes_instance       map[*Transpose]*Transpose
@@ -3736,10 +3745,10 @@ type Stage struct {
 	Transposes_referenceOrder map[*Transpose]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTransposeCreateCallback OnAfterCreateInterface[Transpose]
-	OnAfterTransposeUpdateCallback OnAfterUpdateInterface[Transpose]
-	OnAfterTransposeDeleteCallback OnAfterDeleteInterface[Transpose]
-	OnAfterTransposeReadCallback   OnAfterReadInterface[Transpose]
+	OnAfterTransposeCreateCallback GongOnAfterCreateInterface[Transpose]
+	OnAfterTransposeUpdateCallback GongOnAfterUpdateInterface[Transpose]
+	OnAfterTransposeDeleteCallback GongOnAfterDeleteInterface[Transpose]
+	OnAfterTransposeReadCallback   GongOnAfterReadInterface[Transpose]
 
 	Tremolos                map[*Tremolo]struct{}
 	Tremolos_instance       map[*Tremolo]*Tremolo
@@ -3751,10 +3760,10 @@ type Stage struct {
 	Tremolos_referenceOrder map[*Tremolo]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTremoloCreateCallback OnAfterCreateInterface[Tremolo]
-	OnAfterTremoloUpdateCallback OnAfterUpdateInterface[Tremolo]
-	OnAfterTremoloDeleteCallback OnAfterDeleteInterface[Tremolo]
-	OnAfterTremoloReadCallback   OnAfterReadInterface[Tremolo]
+	OnAfterTremoloCreateCallback GongOnAfterCreateInterface[Tremolo]
+	OnAfterTremoloUpdateCallback GongOnAfterUpdateInterface[Tremolo]
+	OnAfterTremoloDeleteCallback GongOnAfterDeleteInterface[Tremolo]
+	OnAfterTremoloReadCallback   GongOnAfterReadInterface[Tremolo]
 
 	Tuplets                map[*Tuplet]struct{}
 	Tuplets_instance       map[*Tuplet]*Tuplet
@@ -3766,10 +3775,10 @@ type Stage struct {
 	Tuplets_referenceOrder map[*Tuplet]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTupletCreateCallback OnAfterCreateInterface[Tuplet]
-	OnAfterTupletUpdateCallback OnAfterUpdateInterface[Tuplet]
-	OnAfterTupletDeleteCallback OnAfterDeleteInterface[Tuplet]
-	OnAfterTupletReadCallback   OnAfterReadInterface[Tuplet]
+	OnAfterTupletCreateCallback GongOnAfterCreateInterface[Tuplet]
+	OnAfterTupletUpdateCallback GongOnAfterUpdateInterface[Tuplet]
+	OnAfterTupletDeleteCallback GongOnAfterDeleteInterface[Tuplet]
+	OnAfterTupletReadCallback   GongOnAfterReadInterface[Tuplet]
 
 	Tuplet_dots                map[*Tuplet_dot]struct{}
 	Tuplet_dots_instance       map[*Tuplet_dot]*Tuplet_dot
@@ -3781,10 +3790,10 @@ type Stage struct {
 	Tuplet_dots_referenceOrder map[*Tuplet_dot]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTuplet_dotCreateCallback OnAfterCreateInterface[Tuplet_dot]
-	OnAfterTuplet_dotUpdateCallback OnAfterUpdateInterface[Tuplet_dot]
-	OnAfterTuplet_dotDeleteCallback OnAfterDeleteInterface[Tuplet_dot]
-	OnAfterTuplet_dotReadCallback   OnAfterReadInterface[Tuplet_dot]
+	OnAfterTuplet_dotCreateCallback GongOnAfterCreateInterface[Tuplet_dot]
+	OnAfterTuplet_dotUpdateCallback GongOnAfterUpdateInterface[Tuplet_dot]
+	OnAfterTuplet_dotDeleteCallback GongOnAfterDeleteInterface[Tuplet_dot]
+	OnAfterTuplet_dotReadCallback   GongOnAfterReadInterface[Tuplet_dot]
 
 	Tuplet_numbers                map[*Tuplet_number]struct{}
 	Tuplet_numbers_instance       map[*Tuplet_number]*Tuplet_number
@@ -3796,10 +3805,10 @@ type Stage struct {
 	Tuplet_numbers_referenceOrder map[*Tuplet_number]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTuplet_numberCreateCallback OnAfterCreateInterface[Tuplet_number]
-	OnAfterTuplet_numberUpdateCallback OnAfterUpdateInterface[Tuplet_number]
-	OnAfterTuplet_numberDeleteCallback OnAfterDeleteInterface[Tuplet_number]
-	OnAfterTuplet_numberReadCallback   OnAfterReadInterface[Tuplet_number]
+	OnAfterTuplet_numberCreateCallback GongOnAfterCreateInterface[Tuplet_number]
+	OnAfterTuplet_numberUpdateCallback GongOnAfterUpdateInterface[Tuplet_number]
+	OnAfterTuplet_numberDeleteCallback GongOnAfterDeleteInterface[Tuplet_number]
+	OnAfterTuplet_numberReadCallback   GongOnAfterReadInterface[Tuplet_number]
 
 	Tuplet_portions                map[*Tuplet_portion]struct{}
 	Tuplet_portions_instance       map[*Tuplet_portion]*Tuplet_portion
@@ -3813,10 +3822,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Tuplet_portion_Tuplet_dot_reverseMap map[*Tuplet_dot]*Tuplet_portion
 
-	OnAfterTuplet_portionCreateCallback OnAfterCreateInterface[Tuplet_portion]
-	OnAfterTuplet_portionUpdateCallback OnAfterUpdateInterface[Tuplet_portion]
-	OnAfterTuplet_portionDeleteCallback OnAfterDeleteInterface[Tuplet_portion]
-	OnAfterTuplet_portionReadCallback   OnAfterReadInterface[Tuplet_portion]
+	OnAfterTuplet_portionCreateCallback GongOnAfterCreateInterface[Tuplet_portion]
+	OnAfterTuplet_portionUpdateCallback GongOnAfterUpdateInterface[Tuplet_portion]
+	OnAfterTuplet_portionDeleteCallback GongOnAfterDeleteInterface[Tuplet_portion]
+	OnAfterTuplet_portionReadCallback   GongOnAfterReadInterface[Tuplet_portion]
 
 	Tuplet_types                map[*Tuplet_type]struct{}
 	Tuplet_types_instance       map[*Tuplet_type]*Tuplet_type
@@ -3828,10 +3837,10 @@ type Stage struct {
 	Tuplet_types_referenceOrder map[*Tuplet_type]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTuplet_typeCreateCallback OnAfterCreateInterface[Tuplet_type]
-	OnAfterTuplet_typeUpdateCallback OnAfterUpdateInterface[Tuplet_type]
-	OnAfterTuplet_typeDeleteCallback OnAfterDeleteInterface[Tuplet_type]
-	OnAfterTuplet_typeReadCallback   OnAfterReadInterface[Tuplet_type]
+	OnAfterTuplet_typeCreateCallback GongOnAfterCreateInterface[Tuplet_type]
+	OnAfterTuplet_typeUpdateCallback GongOnAfterUpdateInterface[Tuplet_type]
+	OnAfterTuplet_typeDeleteCallback GongOnAfterDeleteInterface[Tuplet_type]
+	OnAfterTuplet_typeReadCallback   GongOnAfterReadInterface[Tuplet_type]
 
 	Typed_texts                map[*Typed_text]struct{}
 	Typed_texts_instance       map[*Typed_text]*Typed_text
@@ -3843,10 +3852,10 @@ type Stage struct {
 	Typed_texts_referenceOrder map[*Typed_text]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTyped_textCreateCallback OnAfterCreateInterface[Typed_text]
-	OnAfterTyped_textUpdateCallback OnAfterUpdateInterface[Typed_text]
-	OnAfterTyped_textDeleteCallback OnAfterDeleteInterface[Typed_text]
-	OnAfterTyped_textReadCallback   OnAfterReadInterface[Typed_text]
+	OnAfterTyped_textCreateCallback GongOnAfterCreateInterface[Typed_text]
+	OnAfterTyped_textUpdateCallback GongOnAfterUpdateInterface[Typed_text]
+	OnAfterTyped_textDeleteCallback GongOnAfterDeleteInterface[Typed_text]
+	OnAfterTyped_textReadCallback   GongOnAfterReadInterface[Typed_text]
 
 	Unpitcheds                map[*Unpitched]struct{}
 	Unpitcheds_instance       map[*Unpitched]*Unpitched
@@ -3858,10 +3867,10 @@ type Stage struct {
 	Unpitcheds_referenceOrder map[*Unpitched]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterUnpitchedCreateCallback OnAfterCreateInterface[Unpitched]
-	OnAfterUnpitchedUpdateCallback OnAfterUpdateInterface[Unpitched]
-	OnAfterUnpitchedDeleteCallback OnAfterDeleteInterface[Unpitched]
-	OnAfterUnpitchedReadCallback   OnAfterReadInterface[Unpitched]
+	OnAfterUnpitchedCreateCallback GongOnAfterCreateInterface[Unpitched]
+	OnAfterUnpitchedUpdateCallback GongOnAfterUpdateInterface[Unpitched]
+	OnAfterUnpitchedDeleteCallback GongOnAfterDeleteInterface[Unpitched]
+	OnAfterUnpitchedReadCallback   GongOnAfterReadInterface[Unpitched]
 
 	Virtual_instruments                map[*Virtual_instrument]struct{}
 	Virtual_instruments_instance       map[*Virtual_instrument]*Virtual_instrument
@@ -3873,10 +3882,10 @@ type Stage struct {
 	Virtual_instruments_referenceOrder map[*Virtual_instrument]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterVirtual_instrumentCreateCallback OnAfterCreateInterface[Virtual_instrument]
-	OnAfterVirtual_instrumentUpdateCallback OnAfterUpdateInterface[Virtual_instrument]
-	OnAfterVirtual_instrumentDeleteCallback OnAfterDeleteInterface[Virtual_instrument]
-	OnAfterVirtual_instrumentReadCallback   OnAfterReadInterface[Virtual_instrument]
+	OnAfterVirtual_instrumentCreateCallback GongOnAfterCreateInterface[Virtual_instrument]
+	OnAfterVirtual_instrumentUpdateCallback GongOnAfterUpdateInterface[Virtual_instrument]
+	OnAfterVirtual_instrumentDeleteCallback GongOnAfterDeleteInterface[Virtual_instrument]
+	OnAfterVirtual_instrumentReadCallback   GongOnAfterReadInterface[Virtual_instrument]
 
 	Waits                map[*Wait]struct{}
 	Waits_instance       map[*Wait]*Wait
@@ -3888,10 +3897,10 @@ type Stage struct {
 	Waits_referenceOrder map[*Wait]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterWaitCreateCallback OnAfterCreateInterface[Wait]
-	OnAfterWaitUpdateCallback OnAfterUpdateInterface[Wait]
-	OnAfterWaitDeleteCallback OnAfterDeleteInterface[Wait]
-	OnAfterWaitReadCallback   OnAfterReadInterface[Wait]
+	OnAfterWaitCreateCallback GongOnAfterCreateInterface[Wait]
+	OnAfterWaitUpdateCallback GongOnAfterUpdateInterface[Wait]
+	OnAfterWaitDeleteCallback GongOnAfterDeleteInterface[Wait]
+	OnAfterWaitReadCallback   GongOnAfterReadInterface[Wait]
 
 	Wavy_lines                map[*Wavy_line]struct{}
 	Wavy_lines_instance       map[*Wavy_line]*Wavy_line
@@ -3903,10 +3912,10 @@ type Stage struct {
 	Wavy_lines_referenceOrder map[*Wavy_line]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterWavy_lineCreateCallback OnAfterCreateInterface[Wavy_line]
-	OnAfterWavy_lineUpdateCallback OnAfterUpdateInterface[Wavy_line]
-	OnAfterWavy_lineDeleteCallback OnAfterDeleteInterface[Wavy_line]
-	OnAfterWavy_lineReadCallback   OnAfterReadInterface[Wavy_line]
+	OnAfterWavy_lineCreateCallback GongOnAfterCreateInterface[Wavy_line]
+	OnAfterWavy_lineUpdateCallback GongOnAfterUpdateInterface[Wavy_line]
+	OnAfterWavy_lineDeleteCallback GongOnAfterDeleteInterface[Wavy_line]
+	OnAfterWavy_lineReadCallback   GongOnAfterReadInterface[Wavy_line]
 
 	Wedges                map[*Wedge]struct{}
 	Wedges_instance       map[*Wedge]*Wedge
@@ -3918,10 +3927,10 @@ type Stage struct {
 	Wedges_referenceOrder map[*Wedge]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterWedgeCreateCallback OnAfterCreateInterface[Wedge]
-	OnAfterWedgeUpdateCallback OnAfterUpdateInterface[Wedge]
-	OnAfterWedgeDeleteCallback OnAfterDeleteInterface[Wedge]
-	OnAfterWedgeReadCallback   OnAfterReadInterface[Wedge]
+	OnAfterWedgeCreateCallback GongOnAfterCreateInterface[Wedge]
+	OnAfterWedgeUpdateCallback GongOnAfterUpdateInterface[Wedge]
+	OnAfterWedgeDeleteCallback GongOnAfterDeleteInterface[Wedge]
+	OnAfterWedgeReadCallback   GongOnAfterReadInterface[Wedge]
 
 	Woods                map[*Wood]struct{}
 	Woods_instance       map[*Wood]*Wood
@@ -3933,10 +3942,10 @@ type Stage struct {
 	Woods_referenceOrder map[*Wood]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterWoodCreateCallback OnAfterCreateInterface[Wood]
-	OnAfterWoodUpdateCallback OnAfterUpdateInterface[Wood]
-	OnAfterWoodDeleteCallback OnAfterDeleteInterface[Wood]
-	OnAfterWoodReadCallback   OnAfterReadInterface[Wood]
+	OnAfterWoodCreateCallback GongOnAfterCreateInterface[Wood]
+	OnAfterWoodUpdateCallback GongOnAfterUpdateInterface[Wood]
+	OnAfterWoodDeleteCallback GongOnAfterDeleteInterface[Wood]
+	OnAfterWoodReadCallback   GongOnAfterReadInterface[Wood]
 
 	Works                map[*Work]struct{}
 	Works_instance       map[*Work]*Work
@@ -3948,18 +3957,18 @@ type Stage struct {
 	Works_referenceOrder map[*Work]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterWorkCreateCallback OnAfterCreateInterface[Work]
-	OnAfterWorkUpdateCallback OnAfterUpdateInterface[Work]
-	OnAfterWorkDeleteCallback OnAfterDeleteInterface[Work]
-	OnAfterWorkReadCallback   OnAfterReadInterface[Work]
+	OnAfterWorkCreateCallback GongOnAfterCreateInterface[Work]
+	OnAfterWorkUpdateCallback GongOnAfterUpdateInterface[Work]
+	OnAfterWorkDeleteCallback GongOnAfterDeleteInterface[Work]
+	OnAfterWorkReadCallback   GongOnAfterReadInterface[Work]
 
 
-	BackRepo BackRepoInterface
+	BackRepo GongBackRepoInterface
 
 	// if set will be called before each commit to the back repo
-	OnInitCommitCallback          OnInitCommitInterface
-	OnInitCommitFromFrontCallback OnInitCommitInterface
-	OnInitCommitFromBackCallback  OnInitCommitInterface
+	OnInitCommitCallback          GongOnInitCommitInterface
+	OnInitCommitFromFrontCallback GongOnInitCommitInterface
+	OnInitCommitFromBackCallback  GongOnInitCommitInterface
 
 	// Private slices to hold the registered hooks
 	beforeCommitHooks []func(stage *Stage)
@@ -3983,11 +3992,11 @@ type Stage struct {
 	// end of insertion point
 
 	// GongUnmarshallers is the registry of all model unmarshallers
-	GongUnmarshallers map[string]ModelUnmarshaller
+	GongUnmarshallers map[string]GongModelUnmarshaller
 
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
-	probeIF ProbeIF
+	probeIF GongProbeIF
 
 	forwardCommits  []string
 	backwardCommits []string
@@ -4005,6 +4014,8 @@ type Stage struct {
 
 	lock sync.RWMutex
 }
+
+type GongStage = Stage
 
 func (s *Stage) SetGongMarshallingMode(mode GongMarshallingMode) {
 	s.gongMarshallingMode = mode
@@ -8380,11 +8391,11 @@ func (stage *Stage) IsInDeltaMode() bool {
 	return stage.isInDeltaMode
 }
 
-func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+func (stage *Stage) SetProbeIF(probeIF GongProbeIF) {
 	stage.probeIF = probeIF
 }
 
-func (stage *Stage) GetProbeIF() ProbeIF {
+func (stage *Stage) GetProbeIF() GongProbeIF {
 	if stage.probeIF == nil {
 		return nil
 	}
@@ -8395,7 +8406,7 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
+func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
@@ -11638,7 +11649,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	return
 }
 
-func __gong__getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -11668,34 +11679,44 @@ type GONG__Identifier struct {
 	Type  GONG__ExpressionType
 }
 
-type OnInitCommitInterface interface {
+type GongOnInitCommitInterface interface {
 	BeforeCommit(stage *Stage)
 }
 
-// OnAfterCreateInterface callback when an instance is updated from the front
-type OnAfterCreateInterface[Type Gongstruct] interface {
+type OnInitCommitInterface = GongOnInitCommitInterface
+
+// GongOnAfterCreateInterface callback when an instance is updated from the front
+type GongOnAfterCreateInterface[Type Gongstruct] interface {
 	OnAfterCreate(stage *Stage,
 		instance *Type)
 }
 
-// OnAfterReadInterface callback when an instance is updated from the front
-type OnAfterReadInterface[Type Gongstruct] interface {
+type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
+
+// GongOnAfterReadInterface callback when an instance is updated from the front
+type GongOnAfterReadInterface[Type Gongstruct] interface {
 	OnAfterRead(stage *Stage,
 		instance *Type)
 }
 
-// OnAfterUpdateInterface callback when an instance is updated from the front
-type OnAfterUpdateInterface[Type Gongstruct] interface {
+type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
+
+// GongOnAfterUpdateInterface callback when an instance is updated from the front
+type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
 }
 
-// OnAfterDeleteInterface callback when an instance is updated from the front
-type OnAfterDeleteInterface[Type Gongstruct] interface {
+type OnAfterUpdateInterface[Type Gongstruct] = GongOnAfterUpdateInterface[Type]
+
+// GongOnAfterDeleteInterface callback when an instance is updated from the front
+type GongOnAfterDeleteInterface[Type Gongstruct] interface {
 	OnAfterDelete(stage *Stage,
 		staged, front *Type)
 }
 
-type BackRepoInterface interface {
+type OnAfterDeleteInterface[Type Gongstruct] = GongOnAfterDeleteInterface[Type]
+
+type GongBackRepoInterface interface {
 	Commit(stage *Stage)
 	Checkout(stage *Stage)
 	Backup(stage *Stage, dirPath string)
@@ -12168,6 +12189,8 @@ type BackRepoInterface interface {
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
+
+type BackRepoInterface = GongBackRepoInterface
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
@@ -13799,7 +13822,7 @@ func NewStage(name string) (stage *Stage) {
 		Works_reference:  make(map[*Work]*Work),
 
 		// end of insertion point
-		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+		GongUnmarshallers: map[string]GongModelUnmarshaller{ // insertion point for unmarshallers
 			"A_directive": &A_directiveUnmarshaller{},
 
 			"A_measure": &A_measureUnmarshaller{},
@@ -14281,7 +14304,7 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 }
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
-func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (res Type) {
+func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
@@ -35890,9 +35913,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface{}
 
-type GongtructBasicField interface {
+type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
 }
+
+type GongtructBasicField = GongstructBasicField
 
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
@@ -35911,8 +35936,8 @@ type GongstructIF interface {
 	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
-	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
+	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
+	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -35921,16 +35946,18 @@ type GongstructIF interface {
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
 }
-type PointerToGongstruct interface {
+type GongstructPtr interface {
 	GongstructIF
 	comparable
 }
 
-func GongCompareGongstructByName[T PointerToGongstruct](a, b T) int {
+type PointerToGongstruct = GongstructPtr
+
+func GongCompareGongstructByName[T GongstructPtr](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func GongSortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
+func GongSortGongstructSetByName[T GongstructPtr](set map[T]struct{}) (sortedSlice []T) {
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
 	}
@@ -35940,7 +35967,7 @@ func GongSortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sor
 }
 
 // GetInstancesSorted is the Stage method returning sorted instances of a gongstruct.
-func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T) {
+func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 	set := stage.GetInstancesSet[T]()
 	sortedSlice = GongSortGongstructSetByName(*set)
 
@@ -36421,7 +36448,7 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
-func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
+func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -45802,13 +45829,15 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 	return GongGetPointerToGongstructName[Type]()
 }
 
-type ReverseField struct {
+type GongReverseField struct {
 	GongstructName string
 	Fieldname      string
 }
 
-func GongGetReverseFields[Type GongstructIF]() (res []ReverseField) {
-	res = make([]ReverseField, 0)
+type ReverseField = GongReverseField
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	res = make([]GongReverseField, 0)
 
 	var ret Type
 
@@ -47073,7 +47102,7 @@ func GongGetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	return
 }
 
-func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
+func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 	return GongGetReverseFields[Type]()
 }
 
@@ -58190,12 +58219,12 @@ func (work *Work) GongGetFieldHeaders() (res []GongFieldHeader) {
 }
 
 // GongGetFieldsFromPointer return the array of the fields
-func GongGetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+func GongGetFieldsFromPointer[Type GongstructPtr]() (res []GongFieldHeader) {
 	var ret Type
 	return ret.GongGetFieldHeaders()
 }
 
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+func GetFieldsFromPointer[Type GongstructPtr]() (res []GongFieldHeader) {
 	return GongGetFieldsFromPointer[Type]()
 }
 

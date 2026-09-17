@@ -30,13 +30,22 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
-	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
-	ProbeTableSuffix                 = ":table of the probe"
-	ProbeNotificationTableSuffix     = ":notification table of the probe"
-	ProbeFormSuffix                  = ":form of the probe"
-	ProbeSplitSuffix                 = ":probe of the probe"
-	ProbeLoadSuffix                  = ":load of the probe"
+	GongProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	GongProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	GongProbeTableSuffix                 = ":table of the probe"
+	GongProbeNotificationTableSuffix     = ":notification table of the probe"
+	GongProbeFormSuffix                  = ":form of the probe"
+	GongProbeSplitSuffix                 = ":probe of the probe"
+	GongProbeLoadSuffix                  = ":load of the probe"
+
+	// backward compatibility
+	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
+	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
+	ProbeTableSuffix                 = GongProbeTableSuffix
+	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
+	ProbeFormSuffix                  = GongProbeFormSuffix
+	ProbeSplitSuffix                 = GongProbeSplitSuffix
+	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -50,31 +59,31 @@ const (
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeFormSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeFormSuffix
 }
 
 func (stage *Stage) GetProbeTableStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeTableSuffix
 }
 
 func (stage *Stage) GetProbeNotificationTableStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeSplitSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeSplitSuffix
 }
 
 func (stage *Stage) GetProbeLoadStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeLoadSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeLoadSuffix
 }
 
 // errUnkownEnum is returns when a value cannot match enum values
@@ -124,10 +133,10 @@ type Stage struct {
 	AnalysisNeeds_referenceOrder map[*AnalysisNeed]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterAnalysisNeedCreateCallback OnAfterCreateInterface[AnalysisNeed]
-	OnAfterAnalysisNeedUpdateCallback OnAfterUpdateInterface[AnalysisNeed]
-	OnAfterAnalysisNeedDeleteCallback OnAfterDeleteInterface[AnalysisNeed]
-	OnAfterAnalysisNeedReadCallback   OnAfterReadInterface[AnalysisNeed]
+	OnAfterAnalysisNeedCreateCallback GongOnAfterCreateInterface[AnalysisNeed]
+	OnAfterAnalysisNeedUpdateCallback GongOnAfterUpdateInterface[AnalysisNeed]
+	OnAfterAnalysisNeedDeleteCallback GongOnAfterDeleteInterface[AnalysisNeed]
+	OnAfterAnalysisNeedReadCallback   GongOnAfterReadInterface[AnalysisNeed]
 
 	Concepts                map[*Concept]struct{}
 	Concepts_instance       map[*Concept]*Concept
@@ -141,10 +150,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Concept_Tools_reverseMap map[*Tool]*Concept
 
-	OnAfterConceptCreateCallback OnAfterCreateInterface[Concept]
-	OnAfterConceptUpdateCallback OnAfterUpdateInterface[Concept]
-	OnAfterConceptDeleteCallback OnAfterDeleteInterface[Concept]
-	OnAfterConceptReadCallback   OnAfterReadInterface[Concept]
+	OnAfterConceptCreateCallback GongOnAfterCreateInterface[Concept]
+	OnAfterConceptUpdateCallback GongOnAfterUpdateInterface[Concept]
+	OnAfterConceptDeleteCallback GongOnAfterDeleteInterface[Concept]
+	OnAfterConceptReadCallback   GongOnAfterReadInterface[Concept]
 
 	ConceptShapes                map[*ConceptShape]struct{}
 	ConceptShapes_instance       map[*ConceptShape]*ConceptShape
@@ -156,10 +165,10 @@ type Stage struct {
 	ConceptShapes_referenceOrder map[*ConceptShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterConceptShapeCreateCallback OnAfterCreateInterface[ConceptShape]
-	OnAfterConceptShapeUpdateCallback OnAfterUpdateInterface[ConceptShape]
-	OnAfterConceptShapeDeleteCallback OnAfterDeleteInterface[ConceptShape]
-	OnAfterConceptShapeReadCallback   OnAfterReadInterface[ConceptShape]
+	OnAfterConceptShapeCreateCallback GongOnAfterCreateInterface[ConceptShape]
+	OnAfterConceptShapeUpdateCallback GongOnAfterUpdateInterface[ConceptShape]
+	OnAfterConceptShapeDeleteCallback GongOnAfterDeleteInterface[ConceptShape]
+	OnAfterConceptShapeReadCallback   GongOnAfterReadInterface[ConceptShape]
 
 	Concerns                map[*Concern]struct{}
 	Concerns_instance       map[*Concern]*Concern
@@ -179,10 +188,10 @@ type Stage struct {
 
 	Concern_Requirements_reverseMap map[*Requirement]*Concern
 
-	OnAfterConcernCreateCallback OnAfterCreateInterface[Concern]
-	OnAfterConcernUpdateCallback OnAfterUpdateInterface[Concern]
-	OnAfterConcernDeleteCallback OnAfterDeleteInterface[Concern]
-	OnAfterConcernReadCallback   OnAfterReadInterface[Concern]
+	OnAfterConcernCreateCallback GongOnAfterCreateInterface[Concern]
+	OnAfterConcernUpdateCallback GongOnAfterUpdateInterface[Concern]
+	OnAfterConcernDeleteCallback GongOnAfterDeleteInterface[Concern]
+	OnAfterConcernReadCallback   GongOnAfterReadInterface[Concern]
 
 	ConcernCompositionShapes                map[*ConcernCompositionShape]struct{}
 	ConcernCompositionShapes_instance       map[*ConcernCompositionShape]*ConcernCompositionShape
@@ -196,10 +205,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	ConcernCompositionShape_ControlPointShapes_reverseMap map[*ControlPointShape]*ConcernCompositionShape
 
-	OnAfterConcernCompositionShapeCreateCallback OnAfterCreateInterface[ConcernCompositionShape]
-	OnAfterConcernCompositionShapeUpdateCallback OnAfterUpdateInterface[ConcernCompositionShape]
-	OnAfterConcernCompositionShapeDeleteCallback OnAfterDeleteInterface[ConcernCompositionShape]
-	OnAfterConcernCompositionShapeReadCallback   OnAfterReadInterface[ConcernCompositionShape]
+	OnAfterConcernCompositionShapeCreateCallback GongOnAfterCreateInterface[ConcernCompositionShape]
+	OnAfterConcernCompositionShapeUpdateCallback GongOnAfterUpdateInterface[ConcernCompositionShape]
+	OnAfterConcernCompositionShapeDeleteCallback GongOnAfterDeleteInterface[ConcernCompositionShape]
+	OnAfterConcernCompositionShapeReadCallback   GongOnAfterReadInterface[ConcernCompositionShape]
 
 	ConcernInputShapes                map[*ConcernInputShape]struct{}
 	ConcernInputShapes_instance       map[*ConcernInputShape]*ConcernInputShape
@@ -213,10 +222,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	ConcernInputShape_ControlPointShapes_reverseMap map[*ControlPointShape]*ConcernInputShape
 
-	OnAfterConcernInputShapeCreateCallback OnAfterCreateInterface[ConcernInputShape]
-	OnAfterConcernInputShapeUpdateCallback OnAfterUpdateInterface[ConcernInputShape]
-	OnAfterConcernInputShapeDeleteCallback OnAfterDeleteInterface[ConcernInputShape]
-	OnAfterConcernInputShapeReadCallback   OnAfterReadInterface[ConcernInputShape]
+	OnAfterConcernInputShapeCreateCallback GongOnAfterCreateInterface[ConcernInputShape]
+	OnAfterConcernInputShapeUpdateCallback GongOnAfterUpdateInterface[ConcernInputShape]
+	OnAfterConcernInputShapeDeleteCallback GongOnAfterDeleteInterface[ConcernInputShape]
+	OnAfterConcernInputShapeReadCallback   GongOnAfterReadInterface[ConcernInputShape]
 
 	ConcernOutputShapes                map[*ConcernOutputShape]struct{}
 	ConcernOutputShapes_instance       map[*ConcernOutputShape]*ConcernOutputShape
@@ -230,10 +239,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	ConcernOutputShape_ControlPointShapes_reverseMap map[*ControlPointShape]*ConcernOutputShape
 
-	OnAfterConcernOutputShapeCreateCallback OnAfterCreateInterface[ConcernOutputShape]
-	OnAfterConcernOutputShapeUpdateCallback OnAfterUpdateInterface[ConcernOutputShape]
-	OnAfterConcernOutputShapeDeleteCallback OnAfterDeleteInterface[ConcernOutputShape]
-	OnAfterConcernOutputShapeReadCallback   OnAfterReadInterface[ConcernOutputShape]
+	OnAfterConcernOutputShapeCreateCallback GongOnAfterCreateInterface[ConcernOutputShape]
+	OnAfterConcernOutputShapeUpdateCallback GongOnAfterUpdateInterface[ConcernOutputShape]
+	OnAfterConcernOutputShapeDeleteCallback GongOnAfterDeleteInterface[ConcernOutputShape]
+	OnAfterConcernOutputShapeReadCallback   GongOnAfterReadInterface[ConcernOutputShape]
 
 	ConcernShapes                map[*ConcernShape]struct{}
 	ConcernShapes_instance       map[*ConcernShape]*ConcernShape
@@ -245,10 +254,10 @@ type Stage struct {
 	ConcernShapes_referenceOrder map[*ConcernShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterConcernShapeCreateCallback OnAfterCreateInterface[ConcernShape]
-	OnAfterConcernShapeUpdateCallback OnAfterUpdateInterface[ConcernShape]
-	OnAfterConcernShapeDeleteCallback OnAfterDeleteInterface[ConcernShape]
-	OnAfterConcernShapeReadCallback   OnAfterReadInterface[ConcernShape]
+	OnAfterConcernShapeCreateCallback GongOnAfterCreateInterface[ConcernShape]
+	OnAfterConcernShapeUpdateCallback GongOnAfterUpdateInterface[ConcernShape]
+	OnAfterConcernShapeDeleteCallback GongOnAfterDeleteInterface[ConcernShape]
+	OnAfterConcernShapeReadCallback   GongOnAfterReadInterface[ConcernShape]
 
 	ControlPointShapes                map[*ControlPointShape]struct{}
 	ControlPointShapes_instance       map[*ControlPointShape]*ControlPointShape
@@ -260,10 +269,10 @@ type Stage struct {
 	ControlPointShapes_referenceOrder map[*ControlPointShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterControlPointShapeCreateCallback OnAfterCreateInterface[ControlPointShape]
-	OnAfterControlPointShapeUpdateCallback OnAfterUpdateInterface[ControlPointShape]
-	OnAfterControlPointShapeDeleteCallback OnAfterDeleteInterface[ControlPointShape]
-	OnAfterControlPointShapeReadCallback   OnAfterReadInterface[ControlPointShape]
+	OnAfterControlPointShapeCreateCallback GongOnAfterCreateInterface[ControlPointShape]
+	OnAfterControlPointShapeUpdateCallback GongOnAfterUpdateInterface[ControlPointShape]
+	OnAfterControlPointShapeDeleteCallback GongOnAfterDeleteInterface[ControlPointShape]
+	OnAfterControlPointShapeReadCallback   GongOnAfterReadInterface[ControlPointShape]
 
 	Deliverables                map[*Deliverable]struct{}
 	Deliverables_instance       map[*Deliverable]*Deliverable
@@ -279,10 +288,10 @@ type Stage struct {
 
 	Deliverable_Concepts_reverseMap map[*Concept]*Deliverable
 
-	OnAfterDeliverableCreateCallback OnAfterCreateInterface[Deliverable]
-	OnAfterDeliverableUpdateCallback OnAfterUpdateInterface[Deliverable]
-	OnAfterDeliverableDeleteCallback OnAfterDeleteInterface[Deliverable]
-	OnAfterDeliverableReadCallback   OnAfterReadInterface[Deliverable]
+	OnAfterDeliverableCreateCallback GongOnAfterCreateInterface[Deliverable]
+	OnAfterDeliverableUpdateCallback GongOnAfterUpdateInterface[Deliverable]
+	OnAfterDeliverableDeleteCallback GongOnAfterDeleteInterface[Deliverable]
+	OnAfterDeliverableReadCallback   GongOnAfterReadInterface[Deliverable]
 
 	DeliverableCompositionShapes                map[*DeliverableCompositionShape]struct{}
 	DeliverableCompositionShapes_instance       map[*DeliverableCompositionShape]*DeliverableCompositionShape
@@ -296,10 +305,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	DeliverableCompositionShape_ControlPointShapes_reverseMap map[*ControlPointShape]*DeliverableCompositionShape
 
-	OnAfterDeliverableCompositionShapeCreateCallback OnAfterCreateInterface[DeliverableCompositionShape]
-	OnAfterDeliverableCompositionShapeUpdateCallback OnAfterUpdateInterface[DeliverableCompositionShape]
-	OnAfterDeliverableCompositionShapeDeleteCallback OnAfterDeleteInterface[DeliverableCompositionShape]
-	OnAfterDeliverableCompositionShapeReadCallback   OnAfterReadInterface[DeliverableCompositionShape]
+	OnAfterDeliverableCompositionShapeCreateCallback GongOnAfterCreateInterface[DeliverableCompositionShape]
+	OnAfterDeliverableCompositionShapeUpdateCallback GongOnAfterUpdateInterface[DeliverableCompositionShape]
+	OnAfterDeliverableCompositionShapeDeleteCallback GongOnAfterDeleteInterface[DeliverableCompositionShape]
+	OnAfterDeliverableCompositionShapeReadCallback   GongOnAfterReadInterface[DeliverableCompositionShape]
 
 	DeliverableConceptShapes                map[*DeliverableConceptShape]struct{}
 	DeliverableConceptShapes_instance       map[*DeliverableConceptShape]*DeliverableConceptShape
@@ -313,10 +322,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	DeliverableConceptShape_ControlPointShapes_reverseMap map[*ControlPointShape]*DeliverableConceptShape
 
-	OnAfterDeliverableConceptShapeCreateCallback OnAfterCreateInterface[DeliverableConceptShape]
-	OnAfterDeliverableConceptShapeUpdateCallback OnAfterUpdateInterface[DeliverableConceptShape]
-	OnAfterDeliverableConceptShapeDeleteCallback OnAfterDeleteInterface[DeliverableConceptShape]
-	OnAfterDeliverableConceptShapeReadCallback   OnAfterReadInterface[DeliverableConceptShape]
+	OnAfterDeliverableConceptShapeCreateCallback GongOnAfterCreateInterface[DeliverableConceptShape]
+	OnAfterDeliverableConceptShapeUpdateCallback GongOnAfterUpdateInterface[DeliverableConceptShape]
+	OnAfterDeliverableConceptShapeDeleteCallback GongOnAfterDeleteInterface[DeliverableConceptShape]
+	OnAfterDeliverableConceptShapeReadCallback   GongOnAfterReadInterface[DeliverableConceptShape]
 
 	DeliverableShapes                map[*DeliverableShape]struct{}
 	DeliverableShapes_instance       map[*DeliverableShape]*DeliverableShape
@@ -328,10 +337,10 @@ type Stage struct {
 	DeliverableShapes_referenceOrder map[*DeliverableShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDeliverableShapeCreateCallback OnAfterCreateInterface[DeliverableShape]
-	OnAfterDeliverableShapeUpdateCallback OnAfterUpdateInterface[DeliverableShape]
-	OnAfterDeliverableShapeDeleteCallback OnAfterDeleteInterface[DeliverableShape]
-	OnAfterDeliverableShapeReadCallback   OnAfterReadInterface[DeliverableShape]
+	OnAfterDeliverableShapeCreateCallback GongOnAfterCreateInterface[DeliverableShape]
+	OnAfterDeliverableShapeUpdateCallback GongOnAfterUpdateInterface[DeliverableShape]
+	OnAfterDeliverableShapeDeleteCallback GongOnAfterDeleteInterface[DeliverableShape]
+	OnAfterDeliverableShapeReadCallback   GongOnAfterReadInterface[DeliverableShape]
 
 	Diagrams                map[*Diagram]struct{}
 	Diagrams_instance       map[*Diagram]*Diagram
@@ -403,10 +412,10 @@ type Stage struct {
 
 	Diagram_DiagramsWhoseNodeIsExpanded_reverseMap map[*Diagram]*Diagram
 
-	OnAfterDiagramCreateCallback OnAfterCreateInterface[Diagram]
-	OnAfterDiagramUpdateCallback OnAfterUpdateInterface[Diagram]
-	OnAfterDiagramDeleteCallback OnAfterDeleteInterface[Diagram]
-	OnAfterDiagramReadCallback   OnAfterReadInterface[Diagram]
+	OnAfterDiagramCreateCallback GongOnAfterCreateInterface[Diagram]
+	OnAfterDiagramUpdateCallback GongOnAfterUpdateInterface[Diagram]
+	OnAfterDiagramDeleteCallback GongOnAfterDeleteInterface[Diagram]
+	OnAfterDiagramReadCallback   GongOnAfterReadInterface[Diagram]
 
 	DiagramShapes                map[*DiagramShape]struct{}
 	DiagramShapes_instance       map[*DiagramShape]*DiagramShape
@@ -418,10 +427,10 @@ type Stage struct {
 	DiagramShapes_referenceOrder map[*DiagramShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDiagramShapeCreateCallback OnAfterCreateInterface[DiagramShape]
-	OnAfterDiagramShapeUpdateCallback OnAfterUpdateInterface[DiagramShape]
-	OnAfterDiagramShapeDeleteCallback OnAfterDeleteInterface[DiagramShape]
-	OnAfterDiagramShapeReadCallback   OnAfterReadInterface[DiagramShape]
+	OnAfterDiagramShapeCreateCallback GongOnAfterCreateInterface[DiagramShape]
+	OnAfterDiagramShapeUpdateCallback GongOnAfterUpdateInterface[DiagramShape]
+	OnAfterDiagramShapeDeleteCallback GongOnAfterDeleteInterface[DiagramShape]
+	OnAfterDiagramShapeReadCallback   GongOnAfterReadInterface[DiagramShape]
 
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
@@ -451,10 +460,10 @@ type Stage struct {
 
 	Library_SubLibraries_reverseMap map[*Library]*Library
 
-	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
-	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
-	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
-	OnAfterLibraryReadCallback   OnAfterReadInterface[Library]
+	OnAfterLibraryCreateCallback GongOnAfterCreateInterface[Library]
+	OnAfterLibraryUpdateCallback GongOnAfterUpdateInterface[Library]
+	OnAfterLibraryDeleteCallback GongOnAfterDeleteInterface[Library]
+	OnAfterLibraryReadCallback   GongOnAfterReadInterface[Library]
 
 	Notes                map[*Note]struct{}
 	Notes_instance       map[*Note]*Note
@@ -472,10 +481,10 @@ type Stage struct {
 
 	Note_Resources_reverseMap map[*Stakeholder]*Note
 
-	OnAfterNoteCreateCallback OnAfterCreateInterface[Note]
-	OnAfterNoteUpdateCallback OnAfterUpdateInterface[Note]
-	OnAfterNoteDeleteCallback OnAfterDeleteInterface[Note]
-	OnAfterNoteReadCallback   OnAfterReadInterface[Note]
+	OnAfterNoteCreateCallback GongOnAfterCreateInterface[Note]
+	OnAfterNoteUpdateCallback GongOnAfterUpdateInterface[Note]
+	OnAfterNoteDeleteCallback GongOnAfterDeleteInterface[Note]
+	OnAfterNoteReadCallback   GongOnAfterReadInterface[Note]
 
 	NoteDeliverableShapes                map[*NoteDeliverableShape]struct{}
 	NoteDeliverableShapes_instance       map[*NoteDeliverableShape]*NoteDeliverableShape
@@ -489,10 +498,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	NoteDeliverableShape_ControlPointShapes_reverseMap map[*ControlPointShape]*NoteDeliverableShape
 
-	OnAfterNoteDeliverableShapeCreateCallback OnAfterCreateInterface[NoteDeliverableShape]
-	OnAfterNoteDeliverableShapeUpdateCallback OnAfterUpdateInterface[NoteDeliverableShape]
-	OnAfterNoteDeliverableShapeDeleteCallback OnAfterDeleteInterface[NoteDeliverableShape]
-	OnAfterNoteDeliverableShapeReadCallback   OnAfterReadInterface[NoteDeliverableShape]
+	OnAfterNoteDeliverableShapeCreateCallback GongOnAfterCreateInterface[NoteDeliverableShape]
+	OnAfterNoteDeliverableShapeUpdateCallback GongOnAfterUpdateInterface[NoteDeliverableShape]
+	OnAfterNoteDeliverableShapeDeleteCallback GongOnAfterDeleteInterface[NoteDeliverableShape]
+	OnAfterNoteDeliverableShapeReadCallback   GongOnAfterReadInterface[NoteDeliverableShape]
 
 	NoteShapes                map[*NoteShape]struct{}
 	NoteShapes_instance       map[*NoteShape]*NoteShape
@@ -504,10 +513,10 @@ type Stage struct {
 	NoteShapes_referenceOrder map[*NoteShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterNoteShapeCreateCallback OnAfterCreateInterface[NoteShape]
-	OnAfterNoteShapeUpdateCallback OnAfterUpdateInterface[NoteShape]
-	OnAfterNoteShapeDeleteCallback OnAfterDeleteInterface[NoteShape]
-	OnAfterNoteShapeReadCallback   OnAfterReadInterface[NoteShape]
+	OnAfterNoteShapeCreateCallback GongOnAfterCreateInterface[NoteShape]
+	OnAfterNoteShapeUpdateCallback GongOnAfterUpdateInterface[NoteShape]
+	OnAfterNoteShapeDeleteCallback GongOnAfterDeleteInterface[NoteShape]
+	OnAfterNoteShapeReadCallback   GongOnAfterReadInterface[NoteShape]
 
 	NoteStakeholderShapes                map[*NoteStakeholderShape]struct{}
 	NoteStakeholderShapes_instance       map[*NoteStakeholderShape]*NoteStakeholderShape
@@ -521,10 +530,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	NoteStakeholderShape_ControlPointShapes_reverseMap map[*ControlPointShape]*NoteStakeholderShape
 
-	OnAfterNoteStakeholderShapeCreateCallback OnAfterCreateInterface[NoteStakeholderShape]
-	OnAfterNoteStakeholderShapeUpdateCallback OnAfterUpdateInterface[NoteStakeholderShape]
-	OnAfterNoteStakeholderShapeDeleteCallback OnAfterDeleteInterface[NoteStakeholderShape]
-	OnAfterNoteStakeholderShapeReadCallback   OnAfterReadInterface[NoteStakeholderShape]
+	OnAfterNoteStakeholderShapeCreateCallback GongOnAfterCreateInterface[NoteStakeholderShape]
+	OnAfterNoteStakeholderShapeUpdateCallback GongOnAfterUpdateInterface[NoteStakeholderShape]
+	OnAfterNoteStakeholderShapeDeleteCallback GongOnAfterDeleteInterface[NoteStakeholderShape]
+	OnAfterNoteStakeholderShapeReadCallback   GongOnAfterReadInterface[NoteStakeholderShape]
 
 	NoteTaskShapes                map[*NoteTaskShape]struct{}
 	NoteTaskShapes_instance       map[*NoteTaskShape]*NoteTaskShape
@@ -538,10 +547,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	NoteTaskShape_ControlPointShapes_reverseMap map[*ControlPointShape]*NoteTaskShape
 
-	OnAfterNoteTaskShapeCreateCallback OnAfterCreateInterface[NoteTaskShape]
-	OnAfterNoteTaskShapeUpdateCallback OnAfterUpdateInterface[NoteTaskShape]
-	OnAfterNoteTaskShapeDeleteCallback OnAfterDeleteInterface[NoteTaskShape]
-	OnAfterNoteTaskShapeReadCallback   OnAfterReadInterface[NoteTaskShape]
+	OnAfterNoteTaskShapeCreateCallback GongOnAfterCreateInterface[NoteTaskShape]
+	OnAfterNoteTaskShapeUpdateCallback GongOnAfterUpdateInterface[NoteTaskShape]
+	OnAfterNoteTaskShapeDeleteCallback GongOnAfterDeleteInterface[NoteTaskShape]
+	OnAfterNoteTaskShapeReadCallback   GongOnAfterReadInterface[NoteTaskShape]
 
 	Requirements                map[*Requirement]struct{}
 	Requirements_instance       map[*Requirement]*Requirement
@@ -557,10 +566,10 @@ type Stage struct {
 
 	Requirement_Concepts_reverseMap map[*Concept]*Requirement
 
-	OnAfterRequirementCreateCallback OnAfterCreateInterface[Requirement]
-	OnAfterRequirementUpdateCallback OnAfterUpdateInterface[Requirement]
-	OnAfterRequirementDeleteCallback OnAfterDeleteInterface[Requirement]
-	OnAfterRequirementReadCallback   OnAfterReadInterface[Requirement]
+	OnAfterRequirementCreateCallback GongOnAfterCreateInterface[Requirement]
+	OnAfterRequirementUpdateCallback GongOnAfterUpdateInterface[Requirement]
+	OnAfterRequirementDeleteCallback GongOnAfterDeleteInterface[Requirement]
+	OnAfterRequirementReadCallback   GongOnAfterReadInterface[Requirement]
 
 	RequirementShapes                map[*RequirementShape]struct{}
 	RequirementShapes_instance       map[*RequirementShape]*RequirementShape
@@ -572,10 +581,10 @@ type Stage struct {
 	RequirementShapes_referenceOrder map[*RequirementShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterRequirementShapeCreateCallback OnAfterCreateInterface[RequirementShape]
-	OnAfterRequirementShapeUpdateCallback OnAfterUpdateInterface[RequirementShape]
-	OnAfterRequirementShapeDeleteCallback OnAfterDeleteInterface[RequirementShape]
-	OnAfterRequirementShapeReadCallback   OnAfterReadInterface[RequirementShape]
+	OnAfterRequirementShapeCreateCallback GongOnAfterCreateInterface[RequirementShape]
+	OnAfterRequirementShapeUpdateCallback GongOnAfterUpdateInterface[RequirementShape]
+	OnAfterRequirementShapeDeleteCallback GongOnAfterDeleteInterface[RequirementShape]
+	OnAfterRequirementShapeReadCallback   GongOnAfterReadInterface[RequirementShape]
 
 	Stakeholders                map[*Stakeholder]struct{}
 	Stakeholders_instance       map[*Stakeholder]*Stakeholder
@@ -591,10 +600,10 @@ type Stage struct {
 
 	Stakeholder_SubStakeholders_reverseMap map[*Stakeholder]*Stakeholder
 
-	OnAfterStakeholderCreateCallback OnAfterCreateInterface[Stakeholder]
-	OnAfterStakeholderUpdateCallback OnAfterUpdateInterface[Stakeholder]
-	OnAfterStakeholderDeleteCallback OnAfterDeleteInterface[Stakeholder]
-	OnAfterStakeholderReadCallback   OnAfterReadInterface[Stakeholder]
+	OnAfterStakeholderCreateCallback GongOnAfterCreateInterface[Stakeholder]
+	OnAfterStakeholderUpdateCallback GongOnAfterUpdateInterface[Stakeholder]
+	OnAfterStakeholderDeleteCallback GongOnAfterDeleteInterface[Stakeholder]
+	OnAfterStakeholderReadCallback   GongOnAfterReadInterface[Stakeholder]
 
 	StakeholderCompositionShapes                map[*StakeholderCompositionShape]struct{}
 	StakeholderCompositionShapes_instance       map[*StakeholderCompositionShape]*StakeholderCompositionShape
@@ -608,10 +617,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	StakeholderCompositionShape_ControlPointShapes_reverseMap map[*ControlPointShape]*StakeholderCompositionShape
 
-	OnAfterStakeholderCompositionShapeCreateCallback OnAfterCreateInterface[StakeholderCompositionShape]
-	OnAfterStakeholderCompositionShapeUpdateCallback OnAfterUpdateInterface[StakeholderCompositionShape]
-	OnAfterStakeholderCompositionShapeDeleteCallback OnAfterDeleteInterface[StakeholderCompositionShape]
-	OnAfterStakeholderCompositionShapeReadCallback   OnAfterReadInterface[StakeholderCompositionShape]
+	OnAfterStakeholderCompositionShapeCreateCallback GongOnAfterCreateInterface[StakeholderCompositionShape]
+	OnAfterStakeholderCompositionShapeUpdateCallback GongOnAfterUpdateInterface[StakeholderCompositionShape]
+	OnAfterStakeholderCompositionShapeDeleteCallback GongOnAfterDeleteInterface[StakeholderCompositionShape]
+	OnAfterStakeholderCompositionShapeReadCallback   GongOnAfterReadInterface[StakeholderCompositionShape]
 
 	StakeholderConcernShapes                map[*StakeholderConcernShape]struct{}
 	StakeholderConcernShapes_instance       map[*StakeholderConcernShape]*StakeholderConcernShape
@@ -625,10 +634,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	StakeholderConcernShape_ControlPointShapes_reverseMap map[*ControlPointShape]*StakeholderConcernShape
 
-	OnAfterStakeholderConcernShapeCreateCallback OnAfterCreateInterface[StakeholderConcernShape]
-	OnAfterStakeholderConcernShapeUpdateCallback OnAfterUpdateInterface[StakeholderConcernShape]
-	OnAfterStakeholderConcernShapeDeleteCallback OnAfterDeleteInterface[StakeholderConcernShape]
-	OnAfterStakeholderConcernShapeReadCallback   OnAfterReadInterface[StakeholderConcernShape]
+	OnAfterStakeholderConcernShapeCreateCallback GongOnAfterCreateInterface[StakeholderConcernShape]
+	OnAfterStakeholderConcernShapeUpdateCallback GongOnAfterUpdateInterface[StakeholderConcernShape]
+	OnAfterStakeholderConcernShapeDeleteCallback GongOnAfterDeleteInterface[StakeholderConcernShape]
+	OnAfterStakeholderConcernShapeReadCallback   GongOnAfterReadInterface[StakeholderConcernShape]
 
 	StakeholderShapes                map[*StakeholderShape]struct{}
 	StakeholderShapes_instance       map[*StakeholderShape]*StakeholderShape
@@ -640,10 +649,10 @@ type Stage struct {
 	StakeholderShapes_referenceOrder map[*StakeholderShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStakeholderShapeCreateCallback OnAfterCreateInterface[StakeholderShape]
-	OnAfterStakeholderShapeUpdateCallback OnAfterUpdateInterface[StakeholderShape]
-	OnAfterStakeholderShapeDeleteCallback OnAfterDeleteInterface[StakeholderShape]
-	OnAfterStakeholderShapeReadCallback   OnAfterReadInterface[StakeholderShape]
+	OnAfterStakeholderShapeCreateCallback GongOnAfterCreateInterface[StakeholderShape]
+	OnAfterStakeholderShapeUpdateCallback GongOnAfterUpdateInterface[StakeholderShape]
+	OnAfterStakeholderShapeDeleteCallback GongOnAfterDeleteInterface[StakeholderShape]
+	OnAfterStakeholderShapeReadCallback   GongOnAfterReadInterface[StakeholderShape]
 
 	SupportLevels                map[*SupportLevel]struct{}
 	SupportLevels_instance       map[*SupportLevel]*SupportLevel
@@ -655,10 +664,10 @@ type Stage struct {
 	SupportLevels_referenceOrder map[*SupportLevel]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSupportLevelCreateCallback OnAfterCreateInterface[SupportLevel]
-	OnAfterSupportLevelUpdateCallback OnAfterUpdateInterface[SupportLevel]
-	OnAfterSupportLevelDeleteCallback OnAfterDeleteInterface[SupportLevel]
-	OnAfterSupportLevelReadCallback   OnAfterReadInterface[SupportLevel]
+	OnAfterSupportLevelCreateCallback GongOnAfterCreateInterface[SupportLevel]
+	OnAfterSupportLevelUpdateCallback GongOnAfterUpdateInterface[SupportLevel]
+	OnAfterSupportLevelDeleteCallback GongOnAfterDeleteInterface[SupportLevel]
+	OnAfterSupportLevelReadCallback   GongOnAfterReadInterface[SupportLevel]
 
 	Tools                map[*Tool]struct{}
 	Tools_instance       map[*Tool]*Tool
@@ -670,18 +679,18 @@ type Stage struct {
 	Tools_referenceOrder map[*Tool]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterToolCreateCallback OnAfterCreateInterface[Tool]
-	OnAfterToolUpdateCallback OnAfterUpdateInterface[Tool]
-	OnAfterToolDeleteCallback OnAfterDeleteInterface[Tool]
-	OnAfterToolReadCallback   OnAfterReadInterface[Tool]
+	OnAfterToolCreateCallback GongOnAfterCreateInterface[Tool]
+	OnAfterToolUpdateCallback GongOnAfterUpdateInterface[Tool]
+	OnAfterToolDeleteCallback GongOnAfterDeleteInterface[Tool]
+	OnAfterToolReadCallback   GongOnAfterReadInterface[Tool]
 
 
-	BackRepo BackRepoInterface
+	BackRepo GongBackRepoInterface
 
 	// if set will be called before each commit to the back repo
-	OnInitCommitCallback          OnInitCommitInterface
-	OnInitCommitFromFrontCallback OnInitCommitInterface
-	OnInitCommitFromBackCallback  OnInitCommitInterface
+	OnInitCommitCallback          GongOnInitCommitInterface
+	OnInitCommitFromFrontCallback GongOnInitCommitInterface
+	OnInitCommitFromBackCallback  GongOnInitCommitInterface
 
 	// Private slices to hold the registered hooks
 	beforeCommitHooks []func(stage *Stage)
@@ -705,11 +714,11 @@ type Stage struct {
 	// end of insertion point
 
 	// GongUnmarshallers is the registry of all model unmarshallers
-	GongUnmarshallers map[string]ModelUnmarshaller
+	GongUnmarshallers map[string]GongModelUnmarshaller
 
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
-	probeIF ProbeIF
+	probeIF GongProbeIF
 
 	forwardCommits  []string
 	backwardCommits []string
@@ -727,6 +736,8 @@ type Stage struct {
 
 	lock sync.RWMutex
 }
+
+type GongStage = Stage
 
 func (s *Stage) SetGongMarshallingMode(mode GongMarshallingMode) {
 	s.gongMarshallingMode = mode
@@ -1466,11 +1477,11 @@ func (stage *Stage) IsInDeltaMode() bool {
 	return stage.isInDeltaMode
 }
 
-func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+func (stage *Stage) SetProbeIF(probeIF GongProbeIF) {
 	stage.probeIF = probeIF
 }
 
-func (stage *Stage) GetProbeIF() ProbeIF {
+func (stage *Stage) GetProbeIF() GongProbeIF {
 	if stage.probeIF == nil {
 		return nil
 	}
@@ -1481,7 +1492,7 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
+func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
@@ -1896,7 +1907,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	return
 }
 
-func __gong__getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -1926,34 +1937,44 @@ type GONG__Identifier struct {
 	Type  GONG__ExpressionType
 }
 
-type OnInitCommitInterface interface {
+type GongOnInitCommitInterface interface {
 	BeforeCommit(stage *Stage)
 }
 
-// OnAfterCreateInterface callback when an instance is updated from the front
-type OnAfterCreateInterface[Type Gongstruct] interface {
+type OnInitCommitInterface = GongOnInitCommitInterface
+
+// GongOnAfterCreateInterface callback when an instance is updated from the front
+type GongOnAfterCreateInterface[Type Gongstruct] interface {
 	OnAfterCreate(stage *Stage,
 		instance *Type)
 }
 
-// OnAfterReadInterface callback when an instance is updated from the front
-type OnAfterReadInterface[Type Gongstruct] interface {
+type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
+
+// GongOnAfterReadInterface callback when an instance is updated from the front
+type GongOnAfterReadInterface[Type Gongstruct] interface {
 	OnAfterRead(stage *Stage,
 		instance *Type)
 }
 
-// OnAfterUpdateInterface callback when an instance is updated from the front
-type OnAfterUpdateInterface[Type Gongstruct] interface {
+type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
+
+// GongOnAfterUpdateInterface callback when an instance is updated from the front
+type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
 }
 
-// OnAfterDeleteInterface callback when an instance is updated from the front
-type OnAfterDeleteInterface[Type Gongstruct] interface {
+type OnAfterUpdateInterface[Type Gongstruct] = GongOnAfterUpdateInterface[Type]
+
+// GongOnAfterDeleteInterface callback when an instance is updated from the front
+type GongOnAfterDeleteInterface[Type Gongstruct] interface {
 	OnAfterDelete(stage *Stage,
 		staged, front *Type)
 }
 
-type BackRepoInterface interface {
+type OnAfterDeleteInterface[Type Gongstruct] = GongOnAfterDeleteInterface[Type]
+
+type GongBackRepoInterface interface {
 	Commit(stage *Stage)
 	Checkout(stage *Stage)
 	Backup(stage *Stage, dirPath string)
@@ -2022,6 +2043,8 @@ type BackRepoInterface interface {
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
+
+type BackRepoInterface = GongBackRepoInterface
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
@@ -2239,7 +2262,7 @@ func NewStage(name string) (stage *Stage) {
 		Tools_reference:  make(map[*Tool]*Tool),
 
 		// end of insertion point
-		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+		GongUnmarshallers: map[string]GongModelUnmarshaller{ // insertion point for unmarshallers
 			"AnalysisNeed": &AnalysisNeedUnmarshaller{},
 
 			"Concept": &ConceptUnmarshaller{},
@@ -2317,7 +2340,7 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 }
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
-func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (res Type) {
+func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
@@ -5140,9 +5163,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface{}
 
-type GongtructBasicField interface {
+type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
 }
+
+type GongtructBasicField = GongstructBasicField
 
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
@@ -5161,8 +5186,8 @@ type GongstructIF interface {
 	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
-	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
+	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
+	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -5171,16 +5196,18 @@ type GongstructIF interface {
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
 }
-type PointerToGongstruct interface {
+type GongstructPtr interface {
 	GongstructIF
 	comparable
 }
 
-func GongCompareGongstructByName[T PointerToGongstruct](a, b T) int {
+type PointerToGongstruct = GongstructPtr
+
+func GongCompareGongstructByName[T GongstructPtr](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func GongSortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
+func GongSortGongstructSetByName[T GongstructPtr](set map[T]struct{}) (sortedSlice []T) {
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
 	}
@@ -5190,7 +5217,7 @@ func GongSortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sor
 }
 
 // GetInstancesSorted is the Stage method returning sorted instances of a gongstruct.
-func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T) {
+func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 	set := stage.GetInstancesSet[T]()
 	sortedSlice = GongSortGongstructSetByName(*set)
 
@@ -5267,7 +5294,7 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
-func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
+func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -6960,13 +6987,15 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 	return GongGetPointerToGongstructName[Type]()
 }
 
-type ReverseField struct {
+type GongReverseField struct {
 	GongstructName string
 	Fieldname      string
 }
 
-func GongGetReverseFields[Type GongstructIF]() (res []ReverseField) {
-	res = make([]ReverseField, 0)
+type ReverseField = GongReverseField
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	res = make([]GongReverseField, 0)
 
 	var ret Type
 
@@ -7253,7 +7282,7 @@ func GongGetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	return
 }
 
-func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
+func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 	return GongGetReverseFields[Type]()
 }
 
@@ -8644,12 +8673,12 @@ func (tool *Tool) GongGetFieldHeaders() (res []GongFieldHeader) {
 }
 
 // GongGetFieldsFromPointer return the array of the fields
-func GongGetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+func GongGetFieldsFromPointer[Type GongstructPtr]() (res []GongFieldHeader) {
 	var ret Type
 	return ret.GongGetFieldHeaders()
 }
 
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+func GetFieldsFromPointer[Type GongstructPtr]() (res []GongFieldHeader) {
 	return GongGetFieldsFromPointer[Type]()
 }
 

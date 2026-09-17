@@ -47,7 +47,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 // insertion point per named struct{{` + string(rune(GongSliceGongGetUUID)) + `}}
 
 type GongstructDiffable[T any] interface {
-	PointerToGongstruct
+	GongstructPtr
 	GongMarshallIdentifier(stage *Stage) string
 	GongMarshallUnstaging(stage *Stage) string
 	GongMarshallAllFields(stage *Stage) (string, string)

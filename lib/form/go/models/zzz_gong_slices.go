@@ -382,7 +382,7 @@ func (option *Option) GongGetUUID(stage *Stage) (uuid string) {
 
 
 type GongstructDiffable[T any] interface {
-	PointerToGongstruct
+	GongstructPtr
 	GongMarshallIdentifier(stage *Stage) string
 	GongMarshallUnstaging(stage *Stage) string
 	GongMarshallAllFields(stage *Stage) (string, string)

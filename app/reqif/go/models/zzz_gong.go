@@ -30,13 +30,22 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
-	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
-	ProbeTableSuffix                 = ":table of the probe"
-	ProbeNotificationTableSuffix     = ":notification table of the probe"
-	ProbeFormSuffix                  = ":form of the probe"
-	ProbeSplitSuffix                 = ":probe of the probe"
-	ProbeLoadSuffix                  = ":load of the probe"
+	GongProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	GongProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	GongProbeTableSuffix                 = ":table of the probe"
+	GongProbeNotificationTableSuffix     = ":notification table of the probe"
+	GongProbeFormSuffix                  = ":form of the probe"
+	GongProbeSplitSuffix                 = ":probe of the probe"
+	GongProbeLoadSuffix                  = ":load of the probe"
+
+	// backward compatibility
+	ProbeTreeSidebarSuffix           = GongProbeTreeSidebarSuffix
+	ProbeNavigationTreeSidebarSuffix = GongProbeNavigationTreeSidebarSuffix
+	ProbeTableSuffix                 = GongProbeTableSuffix
+	ProbeNotificationTableSuffix     = GongProbeNotificationTableSuffix
+	ProbeFormSuffix                  = GongProbeFormSuffix
+	ProbeSplitSuffix                 = GongProbeSplitSuffix
+	ProbeLoadSuffix                  = GongProbeLoadSuffix
 )
 
 type GongMarshallingMode string
@@ -50,31 +59,31 @@ const (
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeFormSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeFormSuffix
 }
 
 func (stage *Stage) GetProbeTableStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeTableSuffix
 }
 
 func (stage *Stage) GetProbeNotificationTableStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeSplitSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeSplitSuffix
 }
 
 func (stage *Stage) GetProbeLoadStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeLoadSuffix
+	return stage.GetType() + ":" + stage.GetName() + GongProbeLoadSuffix
 }
 
 // errUnkownEnum is returns when a value cannot match enum values
@@ -124,10 +133,10 @@ type Stage struct {
 	ALTERNATIVE_IDs_referenceOrder map[*ALTERNATIVE_ID]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterALTERNATIVE_IDCreateCallback OnAfterCreateInterface[ALTERNATIVE_ID]
-	OnAfterALTERNATIVE_IDUpdateCallback OnAfterUpdateInterface[ALTERNATIVE_ID]
-	OnAfterALTERNATIVE_IDDeleteCallback OnAfterDeleteInterface[ALTERNATIVE_ID]
-	OnAfterALTERNATIVE_IDReadCallback   OnAfterReadInterface[ALTERNATIVE_ID]
+	OnAfterALTERNATIVE_IDCreateCallback GongOnAfterCreateInterface[ALTERNATIVE_ID]
+	OnAfterALTERNATIVE_IDUpdateCallback GongOnAfterUpdateInterface[ALTERNATIVE_ID]
+	OnAfterALTERNATIVE_IDDeleteCallback GongOnAfterDeleteInterface[ALTERNATIVE_ID]
+	OnAfterALTERNATIVE_IDReadCallback   GongOnAfterReadInterface[ALTERNATIVE_ID]
 
 	ATTRIBUTE_DEFINITION_BOOLEANs                map[*ATTRIBUTE_DEFINITION_BOOLEAN]struct{}
 	ATTRIBUTE_DEFINITION_BOOLEANs_instance       map[*ATTRIBUTE_DEFINITION_BOOLEAN]*ATTRIBUTE_DEFINITION_BOOLEAN
@@ -139,10 +148,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_BOOLEANs_referenceOrder map[*ATTRIBUTE_DEFINITION_BOOLEAN]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_BOOLEANCreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_BOOLEAN]
-	OnAfterATTRIBUTE_DEFINITION_BOOLEANUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_BOOLEAN]
-	OnAfterATTRIBUTE_DEFINITION_BOOLEANDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_BOOLEAN]
-	OnAfterATTRIBUTE_DEFINITION_BOOLEANReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_BOOLEAN]
+	OnAfterATTRIBUTE_DEFINITION_BOOLEANCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_BOOLEAN]
+	OnAfterATTRIBUTE_DEFINITION_BOOLEANUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_BOOLEAN]
+	OnAfterATTRIBUTE_DEFINITION_BOOLEANDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_BOOLEAN]
+	OnAfterATTRIBUTE_DEFINITION_BOOLEANReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_BOOLEAN]
 
 	ATTRIBUTE_DEFINITION_BOOLEAN_Renderings                map[*ATTRIBUTE_DEFINITION_BOOLEAN_Rendering]struct{}
 	ATTRIBUTE_DEFINITION_BOOLEAN_Renderings_instance       map[*ATTRIBUTE_DEFINITION_BOOLEAN_Rendering]*ATTRIBUTE_DEFINITION_BOOLEAN_Rendering
@@ -154,10 +163,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_BOOLEAN_Renderings_referenceOrder map[*ATTRIBUTE_DEFINITION_BOOLEAN_Rendering]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_BOOLEAN_RenderingCreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_BOOLEAN_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_BOOLEAN_RenderingUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_BOOLEAN_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_BOOLEAN_RenderingDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_BOOLEAN_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_BOOLEAN_RenderingReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_BOOLEAN_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_BOOLEAN_RenderingCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_BOOLEAN_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_BOOLEAN_RenderingUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_BOOLEAN_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_BOOLEAN_RenderingDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_BOOLEAN_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_BOOLEAN_RenderingReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_BOOLEAN_Rendering]
 
 	ATTRIBUTE_DEFINITION_DATEs                map[*ATTRIBUTE_DEFINITION_DATE]struct{}
 	ATTRIBUTE_DEFINITION_DATEs_instance       map[*ATTRIBUTE_DEFINITION_DATE]*ATTRIBUTE_DEFINITION_DATE
@@ -169,10 +178,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_DATEs_referenceOrder map[*ATTRIBUTE_DEFINITION_DATE]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_DATECreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_DATE]
-	OnAfterATTRIBUTE_DEFINITION_DATEUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_DATE]
-	OnAfterATTRIBUTE_DEFINITION_DATEDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_DATE]
-	OnAfterATTRIBUTE_DEFINITION_DATEReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_DATE]
+	OnAfterATTRIBUTE_DEFINITION_DATECreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_DATE]
+	OnAfterATTRIBUTE_DEFINITION_DATEUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_DATE]
+	OnAfterATTRIBUTE_DEFINITION_DATEDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_DATE]
+	OnAfterATTRIBUTE_DEFINITION_DATEReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_DATE]
 
 	ATTRIBUTE_DEFINITION_DATE_Renderings                map[*ATTRIBUTE_DEFINITION_DATE_Rendering]struct{}
 	ATTRIBUTE_DEFINITION_DATE_Renderings_instance       map[*ATTRIBUTE_DEFINITION_DATE_Rendering]*ATTRIBUTE_DEFINITION_DATE_Rendering
@@ -184,10 +193,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_DATE_Renderings_referenceOrder map[*ATTRIBUTE_DEFINITION_DATE_Rendering]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_DATE_RenderingCreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_DATE_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_DATE_RenderingUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_DATE_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_DATE_RenderingDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_DATE_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_DATE_RenderingReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_DATE_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_DATE_RenderingCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_DATE_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_DATE_RenderingUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_DATE_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_DATE_RenderingDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_DATE_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_DATE_RenderingReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_DATE_Rendering]
 
 	ATTRIBUTE_DEFINITION_ENUMERATIONs                map[*ATTRIBUTE_DEFINITION_ENUMERATION]struct{}
 	ATTRIBUTE_DEFINITION_ENUMERATIONs_instance       map[*ATTRIBUTE_DEFINITION_ENUMERATION]*ATTRIBUTE_DEFINITION_ENUMERATION
@@ -199,10 +208,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_ENUMERATIONs_referenceOrder map[*ATTRIBUTE_DEFINITION_ENUMERATION]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_ENUMERATIONCreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_ENUMERATION]
-	OnAfterATTRIBUTE_DEFINITION_ENUMERATIONUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_ENUMERATION]
-	OnAfterATTRIBUTE_DEFINITION_ENUMERATIONDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_ENUMERATION]
-	OnAfterATTRIBUTE_DEFINITION_ENUMERATIONReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_ENUMERATION]
+	OnAfterATTRIBUTE_DEFINITION_ENUMERATIONCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_ENUMERATION]
+	OnAfterATTRIBUTE_DEFINITION_ENUMERATIONUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_ENUMERATION]
+	OnAfterATTRIBUTE_DEFINITION_ENUMERATIONDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_ENUMERATION]
+	OnAfterATTRIBUTE_DEFINITION_ENUMERATIONReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_ENUMERATION]
 
 	ATTRIBUTE_DEFINITION_ENUMERATION_Renderings                map[*ATTRIBUTE_DEFINITION_ENUMERATION_Rendering]struct{}
 	ATTRIBUTE_DEFINITION_ENUMERATION_Renderings_instance       map[*ATTRIBUTE_DEFINITION_ENUMERATION_Rendering]*ATTRIBUTE_DEFINITION_ENUMERATION_Rendering
@@ -214,10 +223,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_ENUMERATION_Renderings_referenceOrder map[*ATTRIBUTE_DEFINITION_ENUMERATION_Rendering]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_ENUMERATION_RenderingCreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_ENUMERATION_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_ENUMERATION_RenderingUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_ENUMERATION_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_ENUMERATION_RenderingDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_ENUMERATION_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_ENUMERATION_RenderingReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_ENUMERATION_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_ENUMERATION_RenderingCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_ENUMERATION_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_ENUMERATION_RenderingUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_ENUMERATION_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_ENUMERATION_RenderingDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_ENUMERATION_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_ENUMERATION_RenderingReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_ENUMERATION_Rendering]
 
 	ATTRIBUTE_DEFINITION_INTEGERs                map[*ATTRIBUTE_DEFINITION_INTEGER]struct{}
 	ATTRIBUTE_DEFINITION_INTEGERs_instance       map[*ATTRIBUTE_DEFINITION_INTEGER]*ATTRIBUTE_DEFINITION_INTEGER
@@ -229,10 +238,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_INTEGERs_referenceOrder map[*ATTRIBUTE_DEFINITION_INTEGER]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_INTEGERCreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_INTEGER]
-	OnAfterATTRIBUTE_DEFINITION_INTEGERUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_INTEGER]
-	OnAfterATTRIBUTE_DEFINITION_INTEGERDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_INTEGER]
-	OnAfterATTRIBUTE_DEFINITION_INTEGERReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_INTEGER]
+	OnAfterATTRIBUTE_DEFINITION_INTEGERCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_INTEGER]
+	OnAfterATTRIBUTE_DEFINITION_INTEGERUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_INTEGER]
+	OnAfterATTRIBUTE_DEFINITION_INTEGERDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_INTEGER]
+	OnAfterATTRIBUTE_DEFINITION_INTEGERReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_INTEGER]
 
 	ATTRIBUTE_DEFINITION_INTEGER_Renderings                map[*ATTRIBUTE_DEFINITION_INTEGER_Rendering]struct{}
 	ATTRIBUTE_DEFINITION_INTEGER_Renderings_instance       map[*ATTRIBUTE_DEFINITION_INTEGER_Rendering]*ATTRIBUTE_DEFINITION_INTEGER_Rendering
@@ -244,10 +253,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_INTEGER_Renderings_referenceOrder map[*ATTRIBUTE_DEFINITION_INTEGER_Rendering]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_INTEGER_RenderingCreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_INTEGER_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_INTEGER_RenderingUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_INTEGER_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_INTEGER_RenderingDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_INTEGER_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_INTEGER_RenderingReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_INTEGER_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_INTEGER_RenderingCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_INTEGER_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_INTEGER_RenderingUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_INTEGER_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_INTEGER_RenderingDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_INTEGER_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_INTEGER_RenderingReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_INTEGER_Rendering]
 
 	ATTRIBUTE_DEFINITION_REALs                map[*ATTRIBUTE_DEFINITION_REAL]struct{}
 	ATTRIBUTE_DEFINITION_REALs_instance       map[*ATTRIBUTE_DEFINITION_REAL]*ATTRIBUTE_DEFINITION_REAL
@@ -259,10 +268,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_REALs_referenceOrder map[*ATTRIBUTE_DEFINITION_REAL]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_REALCreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_REAL]
-	OnAfterATTRIBUTE_DEFINITION_REALUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_REAL]
-	OnAfterATTRIBUTE_DEFINITION_REALDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_REAL]
-	OnAfterATTRIBUTE_DEFINITION_REALReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_REAL]
+	OnAfterATTRIBUTE_DEFINITION_REALCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_REAL]
+	OnAfterATTRIBUTE_DEFINITION_REALUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_REAL]
+	OnAfterATTRIBUTE_DEFINITION_REALDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_REAL]
+	OnAfterATTRIBUTE_DEFINITION_REALReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_REAL]
 
 	ATTRIBUTE_DEFINITION_REAL_Renderings                map[*ATTRIBUTE_DEFINITION_REAL_Rendering]struct{}
 	ATTRIBUTE_DEFINITION_REAL_Renderings_instance       map[*ATTRIBUTE_DEFINITION_REAL_Rendering]*ATTRIBUTE_DEFINITION_REAL_Rendering
@@ -274,10 +283,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_REAL_Renderings_referenceOrder map[*ATTRIBUTE_DEFINITION_REAL_Rendering]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_REAL_RenderingCreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_REAL_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_REAL_RenderingUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_REAL_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_REAL_RenderingDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_REAL_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_REAL_RenderingReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_REAL_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_REAL_RenderingCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_REAL_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_REAL_RenderingUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_REAL_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_REAL_RenderingDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_REAL_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_REAL_RenderingReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_REAL_Rendering]
 
 	ATTRIBUTE_DEFINITION_Renderings                map[*ATTRIBUTE_DEFINITION_Rendering]struct{}
 	ATTRIBUTE_DEFINITION_Renderings_instance       map[*ATTRIBUTE_DEFINITION_Rendering]*ATTRIBUTE_DEFINITION_Rendering
@@ -289,10 +298,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_Renderings_referenceOrder map[*ATTRIBUTE_DEFINITION_Rendering]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_RenderingCreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_RenderingUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_RenderingDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_RenderingReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_RenderingCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_RenderingUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_RenderingDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_RenderingReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_Rendering]
 
 	ATTRIBUTE_DEFINITION_STRINGs                map[*ATTRIBUTE_DEFINITION_STRING]struct{}
 	ATTRIBUTE_DEFINITION_STRINGs_instance       map[*ATTRIBUTE_DEFINITION_STRING]*ATTRIBUTE_DEFINITION_STRING
@@ -304,10 +313,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_STRINGs_referenceOrder map[*ATTRIBUTE_DEFINITION_STRING]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_STRINGCreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_STRING]
-	OnAfterATTRIBUTE_DEFINITION_STRINGUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_STRING]
-	OnAfterATTRIBUTE_DEFINITION_STRINGDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_STRING]
-	OnAfterATTRIBUTE_DEFINITION_STRINGReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_STRING]
+	OnAfterATTRIBUTE_DEFINITION_STRINGCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_STRING]
+	OnAfterATTRIBUTE_DEFINITION_STRINGUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_STRING]
+	OnAfterATTRIBUTE_DEFINITION_STRINGDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_STRING]
+	OnAfterATTRIBUTE_DEFINITION_STRINGReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_STRING]
 
 	ATTRIBUTE_DEFINITION_STRING_Renderings                map[*ATTRIBUTE_DEFINITION_STRING_Rendering]struct{}
 	ATTRIBUTE_DEFINITION_STRING_Renderings_instance       map[*ATTRIBUTE_DEFINITION_STRING_Rendering]*ATTRIBUTE_DEFINITION_STRING_Rendering
@@ -319,10 +328,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_STRING_Renderings_referenceOrder map[*ATTRIBUTE_DEFINITION_STRING_Rendering]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_STRING_RenderingCreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_STRING_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_STRING_RenderingUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_STRING_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_STRING_RenderingDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_STRING_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_STRING_RenderingReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_STRING_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_STRING_RenderingCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_STRING_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_STRING_RenderingUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_STRING_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_STRING_RenderingDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_STRING_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_STRING_RenderingReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_STRING_Rendering]
 
 	ATTRIBUTE_DEFINITION_XHTMLs                map[*ATTRIBUTE_DEFINITION_XHTML]struct{}
 	ATTRIBUTE_DEFINITION_XHTMLs_instance       map[*ATTRIBUTE_DEFINITION_XHTML]*ATTRIBUTE_DEFINITION_XHTML
@@ -334,10 +343,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_XHTMLs_referenceOrder map[*ATTRIBUTE_DEFINITION_XHTML]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_XHTMLCreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_XHTML]
-	OnAfterATTRIBUTE_DEFINITION_XHTMLUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_XHTML]
-	OnAfterATTRIBUTE_DEFINITION_XHTMLDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_XHTML]
-	OnAfterATTRIBUTE_DEFINITION_XHTMLReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_XHTML]
+	OnAfterATTRIBUTE_DEFINITION_XHTMLCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_XHTML]
+	OnAfterATTRIBUTE_DEFINITION_XHTMLUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_XHTML]
+	OnAfterATTRIBUTE_DEFINITION_XHTMLDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_XHTML]
+	OnAfterATTRIBUTE_DEFINITION_XHTMLReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_XHTML]
 
 	ATTRIBUTE_DEFINITION_XHTML_Renderings                map[*ATTRIBUTE_DEFINITION_XHTML_Rendering]struct{}
 	ATTRIBUTE_DEFINITION_XHTML_Renderings_instance       map[*ATTRIBUTE_DEFINITION_XHTML_Rendering]*ATTRIBUTE_DEFINITION_XHTML_Rendering
@@ -349,10 +358,10 @@ type Stage struct {
 	ATTRIBUTE_DEFINITION_XHTML_Renderings_referenceOrder map[*ATTRIBUTE_DEFINITION_XHTML_Rendering]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_DEFINITION_XHTML_RenderingCreateCallback OnAfterCreateInterface[ATTRIBUTE_DEFINITION_XHTML_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_XHTML_RenderingUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_DEFINITION_XHTML_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_XHTML_RenderingDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_DEFINITION_XHTML_Rendering]
-	OnAfterATTRIBUTE_DEFINITION_XHTML_RenderingReadCallback   OnAfterReadInterface[ATTRIBUTE_DEFINITION_XHTML_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_XHTML_RenderingCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_DEFINITION_XHTML_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_XHTML_RenderingUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_DEFINITION_XHTML_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_XHTML_RenderingDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_DEFINITION_XHTML_Rendering]
+	OnAfterATTRIBUTE_DEFINITION_XHTML_RenderingReadCallback   GongOnAfterReadInterface[ATTRIBUTE_DEFINITION_XHTML_Rendering]
 
 	ATTRIBUTE_VALUE_BOOLEANs                map[*ATTRIBUTE_VALUE_BOOLEAN]struct{}
 	ATTRIBUTE_VALUE_BOOLEANs_instance       map[*ATTRIBUTE_VALUE_BOOLEAN]*ATTRIBUTE_VALUE_BOOLEAN
@@ -364,10 +373,10 @@ type Stage struct {
 	ATTRIBUTE_VALUE_BOOLEANs_referenceOrder map[*ATTRIBUTE_VALUE_BOOLEAN]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_VALUE_BOOLEANCreateCallback OnAfterCreateInterface[ATTRIBUTE_VALUE_BOOLEAN]
-	OnAfterATTRIBUTE_VALUE_BOOLEANUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_VALUE_BOOLEAN]
-	OnAfterATTRIBUTE_VALUE_BOOLEANDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_VALUE_BOOLEAN]
-	OnAfterATTRIBUTE_VALUE_BOOLEANReadCallback   OnAfterReadInterface[ATTRIBUTE_VALUE_BOOLEAN]
+	OnAfterATTRIBUTE_VALUE_BOOLEANCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_VALUE_BOOLEAN]
+	OnAfterATTRIBUTE_VALUE_BOOLEANUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_VALUE_BOOLEAN]
+	OnAfterATTRIBUTE_VALUE_BOOLEANDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_VALUE_BOOLEAN]
+	OnAfterATTRIBUTE_VALUE_BOOLEANReadCallback   GongOnAfterReadInterface[ATTRIBUTE_VALUE_BOOLEAN]
 
 	ATTRIBUTE_VALUE_DATEs                map[*ATTRIBUTE_VALUE_DATE]struct{}
 	ATTRIBUTE_VALUE_DATEs_instance       map[*ATTRIBUTE_VALUE_DATE]*ATTRIBUTE_VALUE_DATE
@@ -379,10 +388,10 @@ type Stage struct {
 	ATTRIBUTE_VALUE_DATEs_referenceOrder map[*ATTRIBUTE_VALUE_DATE]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_VALUE_DATECreateCallback OnAfterCreateInterface[ATTRIBUTE_VALUE_DATE]
-	OnAfterATTRIBUTE_VALUE_DATEUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_VALUE_DATE]
-	OnAfterATTRIBUTE_VALUE_DATEDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_VALUE_DATE]
-	OnAfterATTRIBUTE_VALUE_DATEReadCallback   OnAfterReadInterface[ATTRIBUTE_VALUE_DATE]
+	OnAfterATTRIBUTE_VALUE_DATECreateCallback GongOnAfterCreateInterface[ATTRIBUTE_VALUE_DATE]
+	OnAfterATTRIBUTE_VALUE_DATEUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_VALUE_DATE]
+	OnAfterATTRIBUTE_VALUE_DATEDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_VALUE_DATE]
+	OnAfterATTRIBUTE_VALUE_DATEReadCallback   GongOnAfterReadInterface[ATTRIBUTE_VALUE_DATE]
 
 	ATTRIBUTE_VALUE_ENUMERATIONs                map[*ATTRIBUTE_VALUE_ENUMERATION]struct{}
 	ATTRIBUTE_VALUE_ENUMERATIONs_instance       map[*ATTRIBUTE_VALUE_ENUMERATION]*ATTRIBUTE_VALUE_ENUMERATION
@@ -394,10 +403,10 @@ type Stage struct {
 	ATTRIBUTE_VALUE_ENUMERATIONs_referenceOrder map[*ATTRIBUTE_VALUE_ENUMERATION]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_VALUE_ENUMERATIONCreateCallback OnAfterCreateInterface[ATTRIBUTE_VALUE_ENUMERATION]
-	OnAfterATTRIBUTE_VALUE_ENUMERATIONUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_VALUE_ENUMERATION]
-	OnAfterATTRIBUTE_VALUE_ENUMERATIONDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_VALUE_ENUMERATION]
-	OnAfterATTRIBUTE_VALUE_ENUMERATIONReadCallback   OnAfterReadInterface[ATTRIBUTE_VALUE_ENUMERATION]
+	OnAfterATTRIBUTE_VALUE_ENUMERATIONCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_VALUE_ENUMERATION]
+	OnAfterATTRIBUTE_VALUE_ENUMERATIONUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_VALUE_ENUMERATION]
+	OnAfterATTRIBUTE_VALUE_ENUMERATIONDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_VALUE_ENUMERATION]
+	OnAfterATTRIBUTE_VALUE_ENUMERATIONReadCallback   GongOnAfterReadInterface[ATTRIBUTE_VALUE_ENUMERATION]
 
 	ATTRIBUTE_VALUE_INTEGERs                map[*ATTRIBUTE_VALUE_INTEGER]struct{}
 	ATTRIBUTE_VALUE_INTEGERs_instance       map[*ATTRIBUTE_VALUE_INTEGER]*ATTRIBUTE_VALUE_INTEGER
@@ -409,10 +418,10 @@ type Stage struct {
 	ATTRIBUTE_VALUE_INTEGERs_referenceOrder map[*ATTRIBUTE_VALUE_INTEGER]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_VALUE_INTEGERCreateCallback OnAfterCreateInterface[ATTRIBUTE_VALUE_INTEGER]
-	OnAfterATTRIBUTE_VALUE_INTEGERUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_VALUE_INTEGER]
-	OnAfterATTRIBUTE_VALUE_INTEGERDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_VALUE_INTEGER]
-	OnAfterATTRIBUTE_VALUE_INTEGERReadCallback   OnAfterReadInterface[ATTRIBUTE_VALUE_INTEGER]
+	OnAfterATTRIBUTE_VALUE_INTEGERCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_VALUE_INTEGER]
+	OnAfterATTRIBUTE_VALUE_INTEGERUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_VALUE_INTEGER]
+	OnAfterATTRIBUTE_VALUE_INTEGERDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_VALUE_INTEGER]
+	OnAfterATTRIBUTE_VALUE_INTEGERReadCallback   GongOnAfterReadInterface[ATTRIBUTE_VALUE_INTEGER]
 
 	ATTRIBUTE_VALUE_REALs                map[*ATTRIBUTE_VALUE_REAL]struct{}
 	ATTRIBUTE_VALUE_REALs_instance       map[*ATTRIBUTE_VALUE_REAL]*ATTRIBUTE_VALUE_REAL
@@ -424,10 +433,10 @@ type Stage struct {
 	ATTRIBUTE_VALUE_REALs_referenceOrder map[*ATTRIBUTE_VALUE_REAL]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_VALUE_REALCreateCallback OnAfterCreateInterface[ATTRIBUTE_VALUE_REAL]
-	OnAfterATTRIBUTE_VALUE_REALUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_VALUE_REAL]
-	OnAfterATTRIBUTE_VALUE_REALDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_VALUE_REAL]
-	OnAfterATTRIBUTE_VALUE_REALReadCallback   OnAfterReadInterface[ATTRIBUTE_VALUE_REAL]
+	OnAfterATTRIBUTE_VALUE_REALCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_VALUE_REAL]
+	OnAfterATTRIBUTE_VALUE_REALUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_VALUE_REAL]
+	OnAfterATTRIBUTE_VALUE_REALDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_VALUE_REAL]
+	OnAfterATTRIBUTE_VALUE_REALReadCallback   GongOnAfterReadInterface[ATTRIBUTE_VALUE_REAL]
 
 	ATTRIBUTE_VALUE_STRINGs                map[*ATTRIBUTE_VALUE_STRING]struct{}
 	ATTRIBUTE_VALUE_STRINGs_instance       map[*ATTRIBUTE_VALUE_STRING]*ATTRIBUTE_VALUE_STRING
@@ -439,10 +448,10 @@ type Stage struct {
 	ATTRIBUTE_VALUE_STRINGs_referenceOrder map[*ATTRIBUTE_VALUE_STRING]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_VALUE_STRINGCreateCallback OnAfterCreateInterface[ATTRIBUTE_VALUE_STRING]
-	OnAfterATTRIBUTE_VALUE_STRINGUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_VALUE_STRING]
-	OnAfterATTRIBUTE_VALUE_STRINGDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_VALUE_STRING]
-	OnAfterATTRIBUTE_VALUE_STRINGReadCallback   OnAfterReadInterface[ATTRIBUTE_VALUE_STRING]
+	OnAfterATTRIBUTE_VALUE_STRINGCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_VALUE_STRING]
+	OnAfterATTRIBUTE_VALUE_STRINGUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_VALUE_STRING]
+	OnAfterATTRIBUTE_VALUE_STRINGDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_VALUE_STRING]
+	OnAfterATTRIBUTE_VALUE_STRINGReadCallback   GongOnAfterReadInterface[ATTRIBUTE_VALUE_STRING]
 
 	ATTRIBUTE_VALUE_XHTMLs                map[*ATTRIBUTE_VALUE_XHTML]struct{}
 	ATTRIBUTE_VALUE_XHTMLs_instance       map[*ATTRIBUTE_VALUE_XHTML]*ATTRIBUTE_VALUE_XHTML
@@ -454,10 +463,10 @@ type Stage struct {
 	ATTRIBUTE_VALUE_XHTMLs_referenceOrder map[*ATTRIBUTE_VALUE_XHTML]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterATTRIBUTE_VALUE_XHTMLCreateCallback OnAfterCreateInterface[ATTRIBUTE_VALUE_XHTML]
-	OnAfterATTRIBUTE_VALUE_XHTMLUpdateCallback OnAfterUpdateInterface[ATTRIBUTE_VALUE_XHTML]
-	OnAfterATTRIBUTE_VALUE_XHTMLDeleteCallback OnAfterDeleteInterface[ATTRIBUTE_VALUE_XHTML]
-	OnAfterATTRIBUTE_VALUE_XHTMLReadCallback   OnAfterReadInterface[ATTRIBUTE_VALUE_XHTML]
+	OnAfterATTRIBUTE_VALUE_XHTMLCreateCallback GongOnAfterCreateInterface[ATTRIBUTE_VALUE_XHTML]
+	OnAfterATTRIBUTE_VALUE_XHTMLUpdateCallback GongOnAfterUpdateInterface[ATTRIBUTE_VALUE_XHTML]
+	OnAfterATTRIBUTE_VALUE_XHTMLDeleteCallback GongOnAfterDeleteInterface[ATTRIBUTE_VALUE_XHTML]
+	OnAfterATTRIBUTE_VALUE_XHTMLReadCallback   GongOnAfterReadInterface[ATTRIBUTE_VALUE_XHTML]
 
 	A_ALTERNATIVE_IDs                map[*A_ALTERNATIVE_ID]struct{}
 	A_ALTERNATIVE_IDs_instance       map[*A_ALTERNATIVE_ID]*A_ALTERNATIVE_ID
@@ -469,10 +478,10 @@ type Stage struct {
 	A_ALTERNATIVE_IDs_referenceOrder map[*A_ALTERNATIVE_ID]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_ALTERNATIVE_IDCreateCallback OnAfterCreateInterface[A_ALTERNATIVE_ID]
-	OnAfterA_ALTERNATIVE_IDUpdateCallback OnAfterUpdateInterface[A_ALTERNATIVE_ID]
-	OnAfterA_ALTERNATIVE_IDDeleteCallback OnAfterDeleteInterface[A_ALTERNATIVE_ID]
-	OnAfterA_ALTERNATIVE_IDReadCallback   OnAfterReadInterface[A_ALTERNATIVE_ID]
+	OnAfterA_ALTERNATIVE_IDCreateCallback GongOnAfterCreateInterface[A_ALTERNATIVE_ID]
+	OnAfterA_ALTERNATIVE_IDUpdateCallback GongOnAfterUpdateInterface[A_ALTERNATIVE_ID]
+	OnAfterA_ALTERNATIVE_IDDeleteCallback GongOnAfterDeleteInterface[A_ALTERNATIVE_ID]
+	OnAfterA_ALTERNATIVE_IDReadCallback   GongOnAfterReadInterface[A_ALTERNATIVE_ID]
 
 	A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs                map[*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]struct{}
 	A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_instance       map[*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF
@@ -484,10 +493,10 @@ type Stage struct {
 	A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_referenceOrder map[*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_ATTRIBUTE_DEFINITION_BOOLEAN_REFCreateCallback OnAfterCreateInterface[A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_BOOLEAN_REFUpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_BOOLEAN_REFDeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_BOOLEAN_REFReadCallback   OnAfterReadInterface[A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_BOOLEAN_REFCreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_BOOLEAN_REFUpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_BOOLEAN_REFDeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_BOOLEAN_REFReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]
 
 	A_ATTRIBUTE_DEFINITION_DATE_REFs                map[*A_ATTRIBUTE_DEFINITION_DATE_REF]struct{}
 	A_ATTRIBUTE_DEFINITION_DATE_REFs_instance       map[*A_ATTRIBUTE_DEFINITION_DATE_REF]*A_ATTRIBUTE_DEFINITION_DATE_REF
@@ -499,10 +508,10 @@ type Stage struct {
 	A_ATTRIBUTE_DEFINITION_DATE_REFs_referenceOrder map[*A_ATTRIBUTE_DEFINITION_DATE_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_ATTRIBUTE_DEFINITION_DATE_REFCreateCallback OnAfterCreateInterface[A_ATTRIBUTE_DEFINITION_DATE_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_DATE_REFUpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_DEFINITION_DATE_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_DATE_REFDeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_DEFINITION_DATE_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_DATE_REFReadCallback   OnAfterReadInterface[A_ATTRIBUTE_DEFINITION_DATE_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_DATE_REFCreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_DEFINITION_DATE_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_DATE_REFUpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_DEFINITION_DATE_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_DATE_REFDeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_DEFINITION_DATE_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_DATE_REFReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_DEFINITION_DATE_REF]
 
 	A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs                map[*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]struct{}
 	A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_instance       map[*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF
@@ -514,10 +523,10 @@ type Stage struct {
 	A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_referenceOrder map[*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_ATTRIBUTE_DEFINITION_ENUMERATION_REFCreateCallback OnAfterCreateInterface[A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_ENUMERATION_REFUpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_ENUMERATION_REFDeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_ENUMERATION_REFReadCallback   OnAfterReadInterface[A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_ENUMERATION_REFCreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_ENUMERATION_REFUpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_ENUMERATION_REFDeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_ENUMERATION_REFReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]
 
 	A_ATTRIBUTE_DEFINITION_INTEGER_REFs                map[*A_ATTRIBUTE_DEFINITION_INTEGER_REF]struct{}
 	A_ATTRIBUTE_DEFINITION_INTEGER_REFs_instance       map[*A_ATTRIBUTE_DEFINITION_INTEGER_REF]*A_ATTRIBUTE_DEFINITION_INTEGER_REF
@@ -529,10 +538,10 @@ type Stage struct {
 	A_ATTRIBUTE_DEFINITION_INTEGER_REFs_referenceOrder map[*A_ATTRIBUTE_DEFINITION_INTEGER_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_ATTRIBUTE_DEFINITION_INTEGER_REFCreateCallback OnAfterCreateInterface[A_ATTRIBUTE_DEFINITION_INTEGER_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_INTEGER_REFUpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_DEFINITION_INTEGER_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_INTEGER_REFDeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_DEFINITION_INTEGER_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_INTEGER_REFReadCallback   OnAfterReadInterface[A_ATTRIBUTE_DEFINITION_INTEGER_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_INTEGER_REFCreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_DEFINITION_INTEGER_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_INTEGER_REFUpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_DEFINITION_INTEGER_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_INTEGER_REFDeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_DEFINITION_INTEGER_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_INTEGER_REFReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_DEFINITION_INTEGER_REF]
 
 	A_ATTRIBUTE_DEFINITION_REAL_REFs                map[*A_ATTRIBUTE_DEFINITION_REAL_REF]struct{}
 	A_ATTRIBUTE_DEFINITION_REAL_REFs_instance       map[*A_ATTRIBUTE_DEFINITION_REAL_REF]*A_ATTRIBUTE_DEFINITION_REAL_REF
@@ -544,10 +553,10 @@ type Stage struct {
 	A_ATTRIBUTE_DEFINITION_REAL_REFs_referenceOrder map[*A_ATTRIBUTE_DEFINITION_REAL_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_ATTRIBUTE_DEFINITION_REAL_REFCreateCallback OnAfterCreateInterface[A_ATTRIBUTE_DEFINITION_REAL_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_REAL_REFUpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_DEFINITION_REAL_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_REAL_REFDeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_DEFINITION_REAL_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_REAL_REFReadCallback   OnAfterReadInterface[A_ATTRIBUTE_DEFINITION_REAL_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_REAL_REFCreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_DEFINITION_REAL_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_REAL_REFUpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_DEFINITION_REAL_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_REAL_REFDeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_DEFINITION_REAL_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_REAL_REFReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_DEFINITION_REAL_REF]
 
 	A_ATTRIBUTE_DEFINITION_STRING_REFs                map[*A_ATTRIBUTE_DEFINITION_STRING_REF]struct{}
 	A_ATTRIBUTE_DEFINITION_STRING_REFs_instance       map[*A_ATTRIBUTE_DEFINITION_STRING_REF]*A_ATTRIBUTE_DEFINITION_STRING_REF
@@ -559,10 +568,10 @@ type Stage struct {
 	A_ATTRIBUTE_DEFINITION_STRING_REFs_referenceOrder map[*A_ATTRIBUTE_DEFINITION_STRING_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_ATTRIBUTE_DEFINITION_STRING_REFCreateCallback OnAfterCreateInterface[A_ATTRIBUTE_DEFINITION_STRING_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_STRING_REFUpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_DEFINITION_STRING_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_STRING_REFDeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_DEFINITION_STRING_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_STRING_REFReadCallback   OnAfterReadInterface[A_ATTRIBUTE_DEFINITION_STRING_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_STRING_REFCreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_DEFINITION_STRING_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_STRING_REFUpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_DEFINITION_STRING_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_STRING_REFDeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_DEFINITION_STRING_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_STRING_REFReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_DEFINITION_STRING_REF]
 
 	A_ATTRIBUTE_DEFINITION_XHTML_REFs                map[*A_ATTRIBUTE_DEFINITION_XHTML_REF]struct{}
 	A_ATTRIBUTE_DEFINITION_XHTML_REFs_instance       map[*A_ATTRIBUTE_DEFINITION_XHTML_REF]*A_ATTRIBUTE_DEFINITION_XHTML_REF
@@ -574,10 +583,10 @@ type Stage struct {
 	A_ATTRIBUTE_DEFINITION_XHTML_REFs_referenceOrder map[*A_ATTRIBUTE_DEFINITION_XHTML_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_ATTRIBUTE_DEFINITION_XHTML_REFCreateCallback OnAfterCreateInterface[A_ATTRIBUTE_DEFINITION_XHTML_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_XHTML_REFUpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_DEFINITION_XHTML_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_XHTML_REFDeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_DEFINITION_XHTML_REF]
-	OnAfterA_ATTRIBUTE_DEFINITION_XHTML_REFReadCallback   OnAfterReadInterface[A_ATTRIBUTE_DEFINITION_XHTML_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_XHTML_REFCreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_DEFINITION_XHTML_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_XHTML_REFUpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_DEFINITION_XHTML_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_XHTML_REFDeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_DEFINITION_XHTML_REF]
+	OnAfterA_ATTRIBUTE_DEFINITION_XHTML_REFReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_DEFINITION_XHTML_REF]
 
 	A_ATTRIBUTE_VALUE_BOOLEANs                map[*A_ATTRIBUTE_VALUE_BOOLEAN]struct{}
 	A_ATTRIBUTE_VALUE_BOOLEANs_instance       map[*A_ATTRIBUTE_VALUE_BOOLEAN]*A_ATTRIBUTE_VALUE_BOOLEAN
@@ -591,10 +600,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_ATTRIBUTE_VALUE_BOOLEAN_ATTRIBUTE_VALUE_BOOLEAN_reverseMap map[*ATTRIBUTE_VALUE_BOOLEAN]*A_ATTRIBUTE_VALUE_BOOLEAN
 
-	OnAfterA_ATTRIBUTE_VALUE_BOOLEANCreateCallback OnAfterCreateInterface[A_ATTRIBUTE_VALUE_BOOLEAN]
-	OnAfterA_ATTRIBUTE_VALUE_BOOLEANUpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_VALUE_BOOLEAN]
-	OnAfterA_ATTRIBUTE_VALUE_BOOLEANDeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_VALUE_BOOLEAN]
-	OnAfterA_ATTRIBUTE_VALUE_BOOLEANReadCallback   OnAfterReadInterface[A_ATTRIBUTE_VALUE_BOOLEAN]
+	OnAfterA_ATTRIBUTE_VALUE_BOOLEANCreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_VALUE_BOOLEAN]
+	OnAfterA_ATTRIBUTE_VALUE_BOOLEANUpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_VALUE_BOOLEAN]
+	OnAfterA_ATTRIBUTE_VALUE_BOOLEANDeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_VALUE_BOOLEAN]
+	OnAfterA_ATTRIBUTE_VALUE_BOOLEANReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_VALUE_BOOLEAN]
 
 	A_ATTRIBUTE_VALUE_DATEs                map[*A_ATTRIBUTE_VALUE_DATE]struct{}
 	A_ATTRIBUTE_VALUE_DATEs_instance       map[*A_ATTRIBUTE_VALUE_DATE]*A_ATTRIBUTE_VALUE_DATE
@@ -608,10 +617,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_ATTRIBUTE_VALUE_DATE_ATTRIBUTE_VALUE_DATE_reverseMap map[*ATTRIBUTE_VALUE_DATE]*A_ATTRIBUTE_VALUE_DATE
 
-	OnAfterA_ATTRIBUTE_VALUE_DATECreateCallback OnAfterCreateInterface[A_ATTRIBUTE_VALUE_DATE]
-	OnAfterA_ATTRIBUTE_VALUE_DATEUpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_VALUE_DATE]
-	OnAfterA_ATTRIBUTE_VALUE_DATEDeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_VALUE_DATE]
-	OnAfterA_ATTRIBUTE_VALUE_DATEReadCallback   OnAfterReadInterface[A_ATTRIBUTE_VALUE_DATE]
+	OnAfterA_ATTRIBUTE_VALUE_DATECreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_VALUE_DATE]
+	OnAfterA_ATTRIBUTE_VALUE_DATEUpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_VALUE_DATE]
+	OnAfterA_ATTRIBUTE_VALUE_DATEDeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_VALUE_DATE]
+	OnAfterA_ATTRIBUTE_VALUE_DATEReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_VALUE_DATE]
 
 	A_ATTRIBUTE_VALUE_ENUMERATIONs                map[*A_ATTRIBUTE_VALUE_ENUMERATION]struct{}
 	A_ATTRIBUTE_VALUE_ENUMERATIONs_instance       map[*A_ATTRIBUTE_VALUE_ENUMERATION]*A_ATTRIBUTE_VALUE_ENUMERATION
@@ -625,10 +634,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_ATTRIBUTE_VALUE_ENUMERATION_ATTRIBUTE_VALUE_ENUMERATION_reverseMap map[*ATTRIBUTE_VALUE_ENUMERATION]*A_ATTRIBUTE_VALUE_ENUMERATION
 
-	OnAfterA_ATTRIBUTE_VALUE_ENUMERATIONCreateCallback OnAfterCreateInterface[A_ATTRIBUTE_VALUE_ENUMERATION]
-	OnAfterA_ATTRIBUTE_VALUE_ENUMERATIONUpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_VALUE_ENUMERATION]
-	OnAfterA_ATTRIBUTE_VALUE_ENUMERATIONDeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_VALUE_ENUMERATION]
-	OnAfterA_ATTRIBUTE_VALUE_ENUMERATIONReadCallback   OnAfterReadInterface[A_ATTRIBUTE_VALUE_ENUMERATION]
+	OnAfterA_ATTRIBUTE_VALUE_ENUMERATIONCreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_VALUE_ENUMERATION]
+	OnAfterA_ATTRIBUTE_VALUE_ENUMERATIONUpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_VALUE_ENUMERATION]
+	OnAfterA_ATTRIBUTE_VALUE_ENUMERATIONDeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_VALUE_ENUMERATION]
+	OnAfterA_ATTRIBUTE_VALUE_ENUMERATIONReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_VALUE_ENUMERATION]
 
 	A_ATTRIBUTE_VALUE_INTEGERs                map[*A_ATTRIBUTE_VALUE_INTEGER]struct{}
 	A_ATTRIBUTE_VALUE_INTEGERs_instance       map[*A_ATTRIBUTE_VALUE_INTEGER]*A_ATTRIBUTE_VALUE_INTEGER
@@ -642,10 +651,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_ATTRIBUTE_VALUE_INTEGER_ATTRIBUTE_VALUE_INTEGER_reverseMap map[*ATTRIBUTE_VALUE_INTEGER]*A_ATTRIBUTE_VALUE_INTEGER
 
-	OnAfterA_ATTRIBUTE_VALUE_INTEGERCreateCallback OnAfterCreateInterface[A_ATTRIBUTE_VALUE_INTEGER]
-	OnAfterA_ATTRIBUTE_VALUE_INTEGERUpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_VALUE_INTEGER]
-	OnAfterA_ATTRIBUTE_VALUE_INTEGERDeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_VALUE_INTEGER]
-	OnAfterA_ATTRIBUTE_VALUE_INTEGERReadCallback   OnAfterReadInterface[A_ATTRIBUTE_VALUE_INTEGER]
+	OnAfterA_ATTRIBUTE_VALUE_INTEGERCreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_VALUE_INTEGER]
+	OnAfterA_ATTRIBUTE_VALUE_INTEGERUpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_VALUE_INTEGER]
+	OnAfterA_ATTRIBUTE_VALUE_INTEGERDeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_VALUE_INTEGER]
+	OnAfterA_ATTRIBUTE_VALUE_INTEGERReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_VALUE_INTEGER]
 
 	A_ATTRIBUTE_VALUE_REALs                map[*A_ATTRIBUTE_VALUE_REAL]struct{}
 	A_ATTRIBUTE_VALUE_REALs_instance       map[*A_ATTRIBUTE_VALUE_REAL]*A_ATTRIBUTE_VALUE_REAL
@@ -659,10 +668,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_ATTRIBUTE_VALUE_REAL_ATTRIBUTE_VALUE_REAL_reverseMap map[*ATTRIBUTE_VALUE_REAL]*A_ATTRIBUTE_VALUE_REAL
 
-	OnAfterA_ATTRIBUTE_VALUE_REALCreateCallback OnAfterCreateInterface[A_ATTRIBUTE_VALUE_REAL]
-	OnAfterA_ATTRIBUTE_VALUE_REALUpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_VALUE_REAL]
-	OnAfterA_ATTRIBUTE_VALUE_REALDeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_VALUE_REAL]
-	OnAfterA_ATTRIBUTE_VALUE_REALReadCallback   OnAfterReadInterface[A_ATTRIBUTE_VALUE_REAL]
+	OnAfterA_ATTRIBUTE_VALUE_REALCreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_VALUE_REAL]
+	OnAfterA_ATTRIBUTE_VALUE_REALUpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_VALUE_REAL]
+	OnAfterA_ATTRIBUTE_VALUE_REALDeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_VALUE_REAL]
+	OnAfterA_ATTRIBUTE_VALUE_REALReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_VALUE_REAL]
 
 	A_ATTRIBUTE_VALUE_STRINGs                map[*A_ATTRIBUTE_VALUE_STRING]struct{}
 	A_ATTRIBUTE_VALUE_STRINGs_instance       map[*A_ATTRIBUTE_VALUE_STRING]*A_ATTRIBUTE_VALUE_STRING
@@ -676,10 +685,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_ATTRIBUTE_VALUE_STRING_ATTRIBUTE_VALUE_STRING_reverseMap map[*ATTRIBUTE_VALUE_STRING]*A_ATTRIBUTE_VALUE_STRING
 
-	OnAfterA_ATTRIBUTE_VALUE_STRINGCreateCallback OnAfterCreateInterface[A_ATTRIBUTE_VALUE_STRING]
-	OnAfterA_ATTRIBUTE_VALUE_STRINGUpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_VALUE_STRING]
-	OnAfterA_ATTRIBUTE_VALUE_STRINGDeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_VALUE_STRING]
-	OnAfterA_ATTRIBUTE_VALUE_STRINGReadCallback   OnAfterReadInterface[A_ATTRIBUTE_VALUE_STRING]
+	OnAfterA_ATTRIBUTE_VALUE_STRINGCreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_VALUE_STRING]
+	OnAfterA_ATTRIBUTE_VALUE_STRINGUpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_VALUE_STRING]
+	OnAfterA_ATTRIBUTE_VALUE_STRINGDeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_VALUE_STRING]
+	OnAfterA_ATTRIBUTE_VALUE_STRINGReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_VALUE_STRING]
 
 	A_ATTRIBUTE_VALUE_XHTMLs                map[*A_ATTRIBUTE_VALUE_XHTML]struct{}
 	A_ATTRIBUTE_VALUE_XHTMLs_instance       map[*A_ATTRIBUTE_VALUE_XHTML]*A_ATTRIBUTE_VALUE_XHTML
@@ -693,10 +702,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_ATTRIBUTE_VALUE_XHTML_ATTRIBUTE_VALUE_XHTML_reverseMap map[*ATTRIBUTE_VALUE_XHTML]*A_ATTRIBUTE_VALUE_XHTML
 
-	OnAfterA_ATTRIBUTE_VALUE_XHTMLCreateCallback OnAfterCreateInterface[A_ATTRIBUTE_VALUE_XHTML]
-	OnAfterA_ATTRIBUTE_VALUE_XHTMLUpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_VALUE_XHTML]
-	OnAfterA_ATTRIBUTE_VALUE_XHTMLDeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_VALUE_XHTML]
-	OnAfterA_ATTRIBUTE_VALUE_XHTMLReadCallback   OnAfterReadInterface[A_ATTRIBUTE_VALUE_XHTML]
+	OnAfterA_ATTRIBUTE_VALUE_XHTMLCreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_VALUE_XHTML]
+	OnAfterA_ATTRIBUTE_VALUE_XHTMLUpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_VALUE_XHTML]
+	OnAfterA_ATTRIBUTE_VALUE_XHTMLDeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_VALUE_XHTML]
+	OnAfterA_ATTRIBUTE_VALUE_XHTMLReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_VALUE_XHTML]
 
 	A_ATTRIBUTE_VALUE_XHTML_1s                map[*A_ATTRIBUTE_VALUE_XHTML_1]struct{}
 	A_ATTRIBUTE_VALUE_XHTML_1s_instance       map[*A_ATTRIBUTE_VALUE_XHTML_1]*A_ATTRIBUTE_VALUE_XHTML_1
@@ -722,10 +731,10 @@ type Stage struct {
 
 	A_ATTRIBUTE_VALUE_XHTML_1_ATTRIBUTE_VALUE_XHTML_reverseMap map[*ATTRIBUTE_VALUE_XHTML]*A_ATTRIBUTE_VALUE_XHTML_1
 
-	OnAfterA_ATTRIBUTE_VALUE_XHTML_1CreateCallback OnAfterCreateInterface[A_ATTRIBUTE_VALUE_XHTML_1]
-	OnAfterA_ATTRIBUTE_VALUE_XHTML_1UpdateCallback OnAfterUpdateInterface[A_ATTRIBUTE_VALUE_XHTML_1]
-	OnAfterA_ATTRIBUTE_VALUE_XHTML_1DeleteCallback OnAfterDeleteInterface[A_ATTRIBUTE_VALUE_XHTML_1]
-	OnAfterA_ATTRIBUTE_VALUE_XHTML_1ReadCallback   OnAfterReadInterface[A_ATTRIBUTE_VALUE_XHTML_1]
+	OnAfterA_ATTRIBUTE_VALUE_XHTML_1CreateCallback GongOnAfterCreateInterface[A_ATTRIBUTE_VALUE_XHTML_1]
+	OnAfterA_ATTRIBUTE_VALUE_XHTML_1UpdateCallback GongOnAfterUpdateInterface[A_ATTRIBUTE_VALUE_XHTML_1]
+	OnAfterA_ATTRIBUTE_VALUE_XHTML_1DeleteCallback GongOnAfterDeleteInterface[A_ATTRIBUTE_VALUE_XHTML_1]
+	OnAfterA_ATTRIBUTE_VALUE_XHTML_1ReadCallback   GongOnAfterReadInterface[A_ATTRIBUTE_VALUE_XHTML_1]
 
 	A_CHILDRENs                map[*A_CHILDREN]struct{}
 	A_CHILDRENs_instance       map[*A_CHILDREN]*A_CHILDREN
@@ -739,10 +748,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_CHILDREN_SPEC_HIERARCHY_reverseMap map[*SPEC_HIERARCHY]*A_CHILDREN
 
-	OnAfterA_CHILDRENCreateCallback OnAfterCreateInterface[A_CHILDREN]
-	OnAfterA_CHILDRENUpdateCallback OnAfterUpdateInterface[A_CHILDREN]
-	OnAfterA_CHILDRENDeleteCallback OnAfterDeleteInterface[A_CHILDREN]
-	OnAfterA_CHILDRENReadCallback   OnAfterReadInterface[A_CHILDREN]
+	OnAfterA_CHILDRENCreateCallback GongOnAfterCreateInterface[A_CHILDREN]
+	OnAfterA_CHILDRENUpdateCallback GongOnAfterUpdateInterface[A_CHILDREN]
+	OnAfterA_CHILDRENDeleteCallback GongOnAfterDeleteInterface[A_CHILDREN]
+	OnAfterA_CHILDRENReadCallback   GongOnAfterReadInterface[A_CHILDREN]
 
 	A_CORE_CONTENTs                map[*A_CORE_CONTENT]struct{}
 	A_CORE_CONTENTs_instance       map[*A_CORE_CONTENT]*A_CORE_CONTENT
@@ -754,10 +763,10 @@ type Stage struct {
 	A_CORE_CONTENTs_referenceOrder map[*A_CORE_CONTENT]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_CORE_CONTENTCreateCallback OnAfterCreateInterface[A_CORE_CONTENT]
-	OnAfterA_CORE_CONTENTUpdateCallback OnAfterUpdateInterface[A_CORE_CONTENT]
-	OnAfterA_CORE_CONTENTDeleteCallback OnAfterDeleteInterface[A_CORE_CONTENT]
-	OnAfterA_CORE_CONTENTReadCallback   OnAfterReadInterface[A_CORE_CONTENT]
+	OnAfterA_CORE_CONTENTCreateCallback GongOnAfterCreateInterface[A_CORE_CONTENT]
+	OnAfterA_CORE_CONTENTUpdateCallback GongOnAfterUpdateInterface[A_CORE_CONTENT]
+	OnAfterA_CORE_CONTENTDeleteCallback GongOnAfterDeleteInterface[A_CORE_CONTENT]
+	OnAfterA_CORE_CONTENTReadCallback   GongOnAfterReadInterface[A_CORE_CONTENT]
 
 	A_DATATYPESs                map[*A_DATATYPES]struct{}
 	A_DATATYPESs_instance       map[*A_DATATYPES]*A_DATATYPES
@@ -783,10 +792,10 @@ type Stage struct {
 
 	A_DATATYPES_DATATYPE_DEFINITION_XHTML_reverseMap map[*DATATYPE_DEFINITION_XHTML]*A_DATATYPES
 
-	OnAfterA_DATATYPESCreateCallback OnAfterCreateInterface[A_DATATYPES]
-	OnAfterA_DATATYPESUpdateCallback OnAfterUpdateInterface[A_DATATYPES]
-	OnAfterA_DATATYPESDeleteCallback OnAfterDeleteInterface[A_DATATYPES]
-	OnAfterA_DATATYPESReadCallback   OnAfterReadInterface[A_DATATYPES]
+	OnAfterA_DATATYPESCreateCallback GongOnAfterCreateInterface[A_DATATYPES]
+	OnAfterA_DATATYPESUpdateCallback GongOnAfterUpdateInterface[A_DATATYPES]
+	OnAfterA_DATATYPESDeleteCallback GongOnAfterDeleteInterface[A_DATATYPES]
+	OnAfterA_DATATYPESReadCallback   GongOnAfterReadInterface[A_DATATYPES]
 
 	A_DATATYPE_DEFINITION_BOOLEAN_REFs                map[*A_DATATYPE_DEFINITION_BOOLEAN_REF]struct{}
 	A_DATATYPE_DEFINITION_BOOLEAN_REFs_instance       map[*A_DATATYPE_DEFINITION_BOOLEAN_REF]*A_DATATYPE_DEFINITION_BOOLEAN_REF
@@ -798,10 +807,10 @@ type Stage struct {
 	A_DATATYPE_DEFINITION_BOOLEAN_REFs_referenceOrder map[*A_DATATYPE_DEFINITION_BOOLEAN_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_DATATYPE_DEFINITION_BOOLEAN_REFCreateCallback OnAfterCreateInterface[A_DATATYPE_DEFINITION_BOOLEAN_REF]
-	OnAfterA_DATATYPE_DEFINITION_BOOLEAN_REFUpdateCallback OnAfterUpdateInterface[A_DATATYPE_DEFINITION_BOOLEAN_REF]
-	OnAfterA_DATATYPE_DEFINITION_BOOLEAN_REFDeleteCallback OnAfterDeleteInterface[A_DATATYPE_DEFINITION_BOOLEAN_REF]
-	OnAfterA_DATATYPE_DEFINITION_BOOLEAN_REFReadCallback   OnAfterReadInterface[A_DATATYPE_DEFINITION_BOOLEAN_REF]
+	OnAfterA_DATATYPE_DEFINITION_BOOLEAN_REFCreateCallback GongOnAfterCreateInterface[A_DATATYPE_DEFINITION_BOOLEAN_REF]
+	OnAfterA_DATATYPE_DEFINITION_BOOLEAN_REFUpdateCallback GongOnAfterUpdateInterface[A_DATATYPE_DEFINITION_BOOLEAN_REF]
+	OnAfterA_DATATYPE_DEFINITION_BOOLEAN_REFDeleteCallback GongOnAfterDeleteInterface[A_DATATYPE_DEFINITION_BOOLEAN_REF]
+	OnAfterA_DATATYPE_DEFINITION_BOOLEAN_REFReadCallback   GongOnAfterReadInterface[A_DATATYPE_DEFINITION_BOOLEAN_REF]
 
 	A_DATATYPE_DEFINITION_DATE_REFs                map[*A_DATATYPE_DEFINITION_DATE_REF]struct{}
 	A_DATATYPE_DEFINITION_DATE_REFs_instance       map[*A_DATATYPE_DEFINITION_DATE_REF]*A_DATATYPE_DEFINITION_DATE_REF
@@ -813,10 +822,10 @@ type Stage struct {
 	A_DATATYPE_DEFINITION_DATE_REFs_referenceOrder map[*A_DATATYPE_DEFINITION_DATE_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_DATATYPE_DEFINITION_DATE_REFCreateCallback OnAfterCreateInterface[A_DATATYPE_DEFINITION_DATE_REF]
-	OnAfterA_DATATYPE_DEFINITION_DATE_REFUpdateCallback OnAfterUpdateInterface[A_DATATYPE_DEFINITION_DATE_REF]
-	OnAfterA_DATATYPE_DEFINITION_DATE_REFDeleteCallback OnAfterDeleteInterface[A_DATATYPE_DEFINITION_DATE_REF]
-	OnAfterA_DATATYPE_DEFINITION_DATE_REFReadCallback   OnAfterReadInterface[A_DATATYPE_DEFINITION_DATE_REF]
+	OnAfterA_DATATYPE_DEFINITION_DATE_REFCreateCallback GongOnAfterCreateInterface[A_DATATYPE_DEFINITION_DATE_REF]
+	OnAfterA_DATATYPE_DEFINITION_DATE_REFUpdateCallback GongOnAfterUpdateInterface[A_DATATYPE_DEFINITION_DATE_REF]
+	OnAfterA_DATATYPE_DEFINITION_DATE_REFDeleteCallback GongOnAfterDeleteInterface[A_DATATYPE_DEFINITION_DATE_REF]
+	OnAfterA_DATATYPE_DEFINITION_DATE_REFReadCallback   GongOnAfterReadInterface[A_DATATYPE_DEFINITION_DATE_REF]
 
 	A_DATATYPE_DEFINITION_ENUMERATION_REFs                map[*A_DATATYPE_DEFINITION_ENUMERATION_REF]struct{}
 	A_DATATYPE_DEFINITION_ENUMERATION_REFs_instance       map[*A_DATATYPE_DEFINITION_ENUMERATION_REF]*A_DATATYPE_DEFINITION_ENUMERATION_REF
@@ -828,10 +837,10 @@ type Stage struct {
 	A_DATATYPE_DEFINITION_ENUMERATION_REFs_referenceOrder map[*A_DATATYPE_DEFINITION_ENUMERATION_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_DATATYPE_DEFINITION_ENUMERATION_REFCreateCallback OnAfterCreateInterface[A_DATATYPE_DEFINITION_ENUMERATION_REF]
-	OnAfterA_DATATYPE_DEFINITION_ENUMERATION_REFUpdateCallback OnAfterUpdateInterface[A_DATATYPE_DEFINITION_ENUMERATION_REF]
-	OnAfterA_DATATYPE_DEFINITION_ENUMERATION_REFDeleteCallback OnAfterDeleteInterface[A_DATATYPE_DEFINITION_ENUMERATION_REF]
-	OnAfterA_DATATYPE_DEFINITION_ENUMERATION_REFReadCallback   OnAfterReadInterface[A_DATATYPE_DEFINITION_ENUMERATION_REF]
+	OnAfterA_DATATYPE_DEFINITION_ENUMERATION_REFCreateCallback GongOnAfterCreateInterface[A_DATATYPE_DEFINITION_ENUMERATION_REF]
+	OnAfterA_DATATYPE_DEFINITION_ENUMERATION_REFUpdateCallback GongOnAfterUpdateInterface[A_DATATYPE_DEFINITION_ENUMERATION_REF]
+	OnAfterA_DATATYPE_DEFINITION_ENUMERATION_REFDeleteCallback GongOnAfterDeleteInterface[A_DATATYPE_DEFINITION_ENUMERATION_REF]
+	OnAfterA_DATATYPE_DEFINITION_ENUMERATION_REFReadCallback   GongOnAfterReadInterface[A_DATATYPE_DEFINITION_ENUMERATION_REF]
 
 	A_DATATYPE_DEFINITION_INTEGER_REFs                map[*A_DATATYPE_DEFINITION_INTEGER_REF]struct{}
 	A_DATATYPE_DEFINITION_INTEGER_REFs_instance       map[*A_DATATYPE_DEFINITION_INTEGER_REF]*A_DATATYPE_DEFINITION_INTEGER_REF
@@ -843,10 +852,10 @@ type Stage struct {
 	A_DATATYPE_DEFINITION_INTEGER_REFs_referenceOrder map[*A_DATATYPE_DEFINITION_INTEGER_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_DATATYPE_DEFINITION_INTEGER_REFCreateCallback OnAfterCreateInterface[A_DATATYPE_DEFINITION_INTEGER_REF]
-	OnAfterA_DATATYPE_DEFINITION_INTEGER_REFUpdateCallback OnAfterUpdateInterface[A_DATATYPE_DEFINITION_INTEGER_REF]
-	OnAfterA_DATATYPE_DEFINITION_INTEGER_REFDeleteCallback OnAfterDeleteInterface[A_DATATYPE_DEFINITION_INTEGER_REF]
-	OnAfterA_DATATYPE_DEFINITION_INTEGER_REFReadCallback   OnAfterReadInterface[A_DATATYPE_DEFINITION_INTEGER_REF]
+	OnAfterA_DATATYPE_DEFINITION_INTEGER_REFCreateCallback GongOnAfterCreateInterface[A_DATATYPE_DEFINITION_INTEGER_REF]
+	OnAfterA_DATATYPE_DEFINITION_INTEGER_REFUpdateCallback GongOnAfterUpdateInterface[A_DATATYPE_DEFINITION_INTEGER_REF]
+	OnAfterA_DATATYPE_DEFINITION_INTEGER_REFDeleteCallback GongOnAfterDeleteInterface[A_DATATYPE_DEFINITION_INTEGER_REF]
+	OnAfterA_DATATYPE_DEFINITION_INTEGER_REFReadCallback   GongOnAfterReadInterface[A_DATATYPE_DEFINITION_INTEGER_REF]
 
 	A_DATATYPE_DEFINITION_REAL_REFs                map[*A_DATATYPE_DEFINITION_REAL_REF]struct{}
 	A_DATATYPE_DEFINITION_REAL_REFs_instance       map[*A_DATATYPE_DEFINITION_REAL_REF]*A_DATATYPE_DEFINITION_REAL_REF
@@ -858,10 +867,10 @@ type Stage struct {
 	A_DATATYPE_DEFINITION_REAL_REFs_referenceOrder map[*A_DATATYPE_DEFINITION_REAL_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_DATATYPE_DEFINITION_REAL_REFCreateCallback OnAfterCreateInterface[A_DATATYPE_DEFINITION_REAL_REF]
-	OnAfterA_DATATYPE_DEFINITION_REAL_REFUpdateCallback OnAfterUpdateInterface[A_DATATYPE_DEFINITION_REAL_REF]
-	OnAfterA_DATATYPE_DEFINITION_REAL_REFDeleteCallback OnAfterDeleteInterface[A_DATATYPE_DEFINITION_REAL_REF]
-	OnAfterA_DATATYPE_DEFINITION_REAL_REFReadCallback   OnAfterReadInterface[A_DATATYPE_DEFINITION_REAL_REF]
+	OnAfterA_DATATYPE_DEFINITION_REAL_REFCreateCallback GongOnAfterCreateInterface[A_DATATYPE_DEFINITION_REAL_REF]
+	OnAfterA_DATATYPE_DEFINITION_REAL_REFUpdateCallback GongOnAfterUpdateInterface[A_DATATYPE_DEFINITION_REAL_REF]
+	OnAfterA_DATATYPE_DEFINITION_REAL_REFDeleteCallback GongOnAfterDeleteInterface[A_DATATYPE_DEFINITION_REAL_REF]
+	OnAfterA_DATATYPE_DEFINITION_REAL_REFReadCallback   GongOnAfterReadInterface[A_DATATYPE_DEFINITION_REAL_REF]
 
 	A_DATATYPE_DEFINITION_STRING_REFs                map[*A_DATATYPE_DEFINITION_STRING_REF]struct{}
 	A_DATATYPE_DEFINITION_STRING_REFs_instance       map[*A_DATATYPE_DEFINITION_STRING_REF]*A_DATATYPE_DEFINITION_STRING_REF
@@ -873,10 +882,10 @@ type Stage struct {
 	A_DATATYPE_DEFINITION_STRING_REFs_referenceOrder map[*A_DATATYPE_DEFINITION_STRING_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_DATATYPE_DEFINITION_STRING_REFCreateCallback OnAfterCreateInterface[A_DATATYPE_DEFINITION_STRING_REF]
-	OnAfterA_DATATYPE_DEFINITION_STRING_REFUpdateCallback OnAfterUpdateInterface[A_DATATYPE_DEFINITION_STRING_REF]
-	OnAfterA_DATATYPE_DEFINITION_STRING_REFDeleteCallback OnAfterDeleteInterface[A_DATATYPE_DEFINITION_STRING_REF]
-	OnAfterA_DATATYPE_DEFINITION_STRING_REFReadCallback   OnAfterReadInterface[A_DATATYPE_DEFINITION_STRING_REF]
+	OnAfterA_DATATYPE_DEFINITION_STRING_REFCreateCallback GongOnAfterCreateInterface[A_DATATYPE_DEFINITION_STRING_REF]
+	OnAfterA_DATATYPE_DEFINITION_STRING_REFUpdateCallback GongOnAfterUpdateInterface[A_DATATYPE_DEFINITION_STRING_REF]
+	OnAfterA_DATATYPE_DEFINITION_STRING_REFDeleteCallback GongOnAfterDeleteInterface[A_DATATYPE_DEFINITION_STRING_REF]
+	OnAfterA_DATATYPE_DEFINITION_STRING_REFReadCallback   GongOnAfterReadInterface[A_DATATYPE_DEFINITION_STRING_REF]
 
 	A_DATATYPE_DEFINITION_XHTML_REFs                map[*A_DATATYPE_DEFINITION_XHTML_REF]struct{}
 	A_DATATYPE_DEFINITION_XHTML_REFs_instance       map[*A_DATATYPE_DEFINITION_XHTML_REF]*A_DATATYPE_DEFINITION_XHTML_REF
@@ -888,10 +897,10 @@ type Stage struct {
 	A_DATATYPE_DEFINITION_XHTML_REFs_referenceOrder map[*A_DATATYPE_DEFINITION_XHTML_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_DATATYPE_DEFINITION_XHTML_REFCreateCallback OnAfterCreateInterface[A_DATATYPE_DEFINITION_XHTML_REF]
-	OnAfterA_DATATYPE_DEFINITION_XHTML_REFUpdateCallback OnAfterUpdateInterface[A_DATATYPE_DEFINITION_XHTML_REF]
-	OnAfterA_DATATYPE_DEFINITION_XHTML_REFDeleteCallback OnAfterDeleteInterface[A_DATATYPE_DEFINITION_XHTML_REF]
-	OnAfterA_DATATYPE_DEFINITION_XHTML_REFReadCallback   OnAfterReadInterface[A_DATATYPE_DEFINITION_XHTML_REF]
+	OnAfterA_DATATYPE_DEFINITION_XHTML_REFCreateCallback GongOnAfterCreateInterface[A_DATATYPE_DEFINITION_XHTML_REF]
+	OnAfterA_DATATYPE_DEFINITION_XHTML_REFUpdateCallback GongOnAfterUpdateInterface[A_DATATYPE_DEFINITION_XHTML_REF]
+	OnAfterA_DATATYPE_DEFINITION_XHTML_REFDeleteCallback GongOnAfterDeleteInterface[A_DATATYPE_DEFINITION_XHTML_REF]
+	OnAfterA_DATATYPE_DEFINITION_XHTML_REFReadCallback   GongOnAfterReadInterface[A_DATATYPE_DEFINITION_XHTML_REF]
 
 	A_EDITABLE_ATTSs                map[*A_EDITABLE_ATTS]struct{}
 	A_EDITABLE_ATTSs_instance       map[*A_EDITABLE_ATTS]*A_EDITABLE_ATTS
@@ -903,10 +912,10 @@ type Stage struct {
 	A_EDITABLE_ATTSs_referenceOrder map[*A_EDITABLE_ATTS]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_EDITABLE_ATTSCreateCallback OnAfterCreateInterface[A_EDITABLE_ATTS]
-	OnAfterA_EDITABLE_ATTSUpdateCallback OnAfterUpdateInterface[A_EDITABLE_ATTS]
-	OnAfterA_EDITABLE_ATTSDeleteCallback OnAfterDeleteInterface[A_EDITABLE_ATTS]
-	OnAfterA_EDITABLE_ATTSReadCallback   OnAfterReadInterface[A_EDITABLE_ATTS]
+	OnAfterA_EDITABLE_ATTSCreateCallback GongOnAfterCreateInterface[A_EDITABLE_ATTS]
+	OnAfterA_EDITABLE_ATTSUpdateCallback GongOnAfterUpdateInterface[A_EDITABLE_ATTS]
+	OnAfterA_EDITABLE_ATTSDeleteCallback GongOnAfterDeleteInterface[A_EDITABLE_ATTS]
+	OnAfterA_EDITABLE_ATTSReadCallback   GongOnAfterReadInterface[A_EDITABLE_ATTS]
 
 	A_ENUM_VALUE_REFs                map[*A_ENUM_VALUE_REF]struct{}
 	A_ENUM_VALUE_REFs_instance       map[*A_ENUM_VALUE_REF]*A_ENUM_VALUE_REF
@@ -918,10 +927,10 @@ type Stage struct {
 	A_ENUM_VALUE_REFs_referenceOrder map[*A_ENUM_VALUE_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_ENUM_VALUE_REFCreateCallback OnAfterCreateInterface[A_ENUM_VALUE_REF]
-	OnAfterA_ENUM_VALUE_REFUpdateCallback OnAfterUpdateInterface[A_ENUM_VALUE_REF]
-	OnAfterA_ENUM_VALUE_REFDeleteCallback OnAfterDeleteInterface[A_ENUM_VALUE_REF]
-	OnAfterA_ENUM_VALUE_REFReadCallback   OnAfterReadInterface[A_ENUM_VALUE_REF]
+	OnAfterA_ENUM_VALUE_REFCreateCallback GongOnAfterCreateInterface[A_ENUM_VALUE_REF]
+	OnAfterA_ENUM_VALUE_REFUpdateCallback GongOnAfterUpdateInterface[A_ENUM_VALUE_REF]
+	OnAfterA_ENUM_VALUE_REFDeleteCallback GongOnAfterDeleteInterface[A_ENUM_VALUE_REF]
+	OnAfterA_ENUM_VALUE_REFReadCallback   GongOnAfterReadInterface[A_ENUM_VALUE_REF]
 
 	A_OBJECTs                map[*A_OBJECT]struct{}
 	A_OBJECTs_instance       map[*A_OBJECT]*A_OBJECT
@@ -933,10 +942,10 @@ type Stage struct {
 	A_OBJECTs_referenceOrder map[*A_OBJECT]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_OBJECTCreateCallback OnAfterCreateInterface[A_OBJECT]
-	OnAfterA_OBJECTUpdateCallback OnAfterUpdateInterface[A_OBJECT]
-	OnAfterA_OBJECTDeleteCallback OnAfterDeleteInterface[A_OBJECT]
-	OnAfterA_OBJECTReadCallback   OnAfterReadInterface[A_OBJECT]
+	OnAfterA_OBJECTCreateCallback GongOnAfterCreateInterface[A_OBJECT]
+	OnAfterA_OBJECTUpdateCallback GongOnAfterUpdateInterface[A_OBJECT]
+	OnAfterA_OBJECTDeleteCallback GongOnAfterDeleteInterface[A_OBJECT]
+	OnAfterA_OBJECTReadCallback   GongOnAfterReadInterface[A_OBJECT]
 
 	A_PROPERTIESs                map[*A_PROPERTIES]struct{}
 	A_PROPERTIESs_instance       map[*A_PROPERTIES]*A_PROPERTIES
@@ -948,10 +957,10 @@ type Stage struct {
 	A_PROPERTIESs_referenceOrder map[*A_PROPERTIES]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_PROPERTIESCreateCallback OnAfterCreateInterface[A_PROPERTIES]
-	OnAfterA_PROPERTIESUpdateCallback OnAfterUpdateInterface[A_PROPERTIES]
-	OnAfterA_PROPERTIESDeleteCallback OnAfterDeleteInterface[A_PROPERTIES]
-	OnAfterA_PROPERTIESReadCallback   OnAfterReadInterface[A_PROPERTIES]
+	OnAfterA_PROPERTIESCreateCallback GongOnAfterCreateInterface[A_PROPERTIES]
+	OnAfterA_PROPERTIESUpdateCallback GongOnAfterUpdateInterface[A_PROPERTIES]
+	OnAfterA_PROPERTIESDeleteCallback GongOnAfterDeleteInterface[A_PROPERTIES]
+	OnAfterA_PROPERTIESReadCallback   GongOnAfterReadInterface[A_PROPERTIES]
 
 	A_RELATION_GROUP_TYPE_REFs                map[*A_RELATION_GROUP_TYPE_REF]struct{}
 	A_RELATION_GROUP_TYPE_REFs_instance       map[*A_RELATION_GROUP_TYPE_REF]*A_RELATION_GROUP_TYPE_REF
@@ -963,10 +972,10 @@ type Stage struct {
 	A_RELATION_GROUP_TYPE_REFs_referenceOrder map[*A_RELATION_GROUP_TYPE_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_RELATION_GROUP_TYPE_REFCreateCallback OnAfterCreateInterface[A_RELATION_GROUP_TYPE_REF]
-	OnAfterA_RELATION_GROUP_TYPE_REFUpdateCallback OnAfterUpdateInterface[A_RELATION_GROUP_TYPE_REF]
-	OnAfterA_RELATION_GROUP_TYPE_REFDeleteCallback OnAfterDeleteInterface[A_RELATION_GROUP_TYPE_REF]
-	OnAfterA_RELATION_GROUP_TYPE_REFReadCallback   OnAfterReadInterface[A_RELATION_GROUP_TYPE_REF]
+	OnAfterA_RELATION_GROUP_TYPE_REFCreateCallback GongOnAfterCreateInterface[A_RELATION_GROUP_TYPE_REF]
+	OnAfterA_RELATION_GROUP_TYPE_REFUpdateCallback GongOnAfterUpdateInterface[A_RELATION_GROUP_TYPE_REF]
+	OnAfterA_RELATION_GROUP_TYPE_REFDeleteCallback GongOnAfterDeleteInterface[A_RELATION_GROUP_TYPE_REF]
+	OnAfterA_RELATION_GROUP_TYPE_REFReadCallback   GongOnAfterReadInterface[A_RELATION_GROUP_TYPE_REF]
 
 	A_SOURCE_1s                map[*A_SOURCE_1]struct{}
 	A_SOURCE_1s_instance       map[*A_SOURCE_1]*A_SOURCE_1
@@ -978,10 +987,10 @@ type Stage struct {
 	A_SOURCE_1s_referenceOrder map[*A_SOURCE_1]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_SOURCE_1CreateCallback OnAfterCreateInterface[A_SOURCE_1]
-	OnAfterA_SOURCE_1UpdateCallback OnAfterUpdateInterface[A_SOURCE_1]
-	OnAfterA_SOURCE_1DeleteCallback OnAfterDeleteInterface[A_SOURCE_1]
-	OnAfterA_SOURCE_1ReadCallback   OnAfterReadInterface[A_SOURCE_1]
+	OnAfterA_SOURCE_1CreateCallback GongOnAfterCreateInterface[A_SOURCE_1]
+	OnAfterA_SOURCE_1UpdateCallback GongOnAfterUpdateInterface[A_SOURCE_1]
+	OnAfterA_SOURCE_1DeleteCallback GongOnAfterDeleteInterface[A_SOURCE_1]
+	OnAfterA_SOURCE_1ReadCallback   GongOnAfterReadInterface[A_SOURCE_1]
 
 	A_SOURCE_SPECIFICATION_1s                map[*A_SOURCE_SPECIFICATION_1]struct{}
 	A_SOURCE_SPECIFICATION_1s_instance       map[*A_SOURCE_SPECIFICATION_1]*A_SOURCE_SPECIFICATION_1
@@ -993,10 +1002,10 @@ type Stage struct {
 	A_SOURCE_SPECIFICATION_1s_referenceOrder map[*A_SOURCE_SPECIFICATION_1]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_SOURCE_SPECIFICATION_1CreateCallback OnAfterCreateInterface[A_SOURCE_SPECIFICATION_1]
-	OnAfterA_SOURCE_SPECIFICATION_1UpdateCallback OnAfterUpdateInterface[A_SOURCE_SPECIFICATION_1]
-	OnAfterA_SOURCE_SPECIFICATION_1DeleteCallback OnAfterDeleteInterface[A_SOURCE_SPECIFICATION_1]
-	OnAfterA_SOURCE_SPECIFICATION_1ReadCallback   OnAfterReadInterface[A_SOURCE_SPECIFICATION_1]
+	OnAfterA_SOURCE_SPECIFICATION_1CreateCallback GongOnAfterCreateInterface[A_SOURCE_SPECIFICATION_1]
+	OnAfterA_SOURCE_SPECIFICATION_1UpdateCallback GongOnAfterUpdateInterface[A_SOURCE_SPECIFICATION_1]
+	OnAfterA_SOURCE_SPECIFICATION_1DeleteCallback GongOnAfterDeleteInterface[A_SOURCE_SPECIFICATION_1]
+	OnAfterA_SOURCE_SPECIFICATION_1ReadCallback   GongOnAfterReadInterface[A_SOURCE_SPECIFICATION_1]
 
 	A_SPECIFICATIONSs                map[*A_SPECIFICATIONS]struct{}
 	A_SPECIFICATIONSs_instance       map[*A_SPECIFICATIONS]*A_SPECIFICATIONS
@@ -1010,10 +1019,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_SPECIFICATIONS_SPECIFICATION_reverseMap map[*SPECIFICATION]*A_SPECIFICATIONS
 
-	OnAfterA_SPECIFICATIONSCreateCallback OnAfterCreateInterface[A_SPECIFICATIONS]
-	OnAfterA_SPECIFICATIONSUpdateCallback OnAfterUpdateInterface[A_SPECIFICATIONS]
-	OnAfterA_SPECIFICATIONSDeleteCallback OnAfterDeleteInterface[A_SPECIFICATIONS]
-	OnAfterA_SPECIFICATIONSReadCallback   OnAfterReadInterface[A_SPECIFICATIONS]
+	OnAfterA_SPECIFICATIONSCreateCallback GongOnAfterCreateInterface[A_SPECIFICATIONS]
+	OnAfterA_SPECIFICATIONSUpdateCallback GongOnAfterUpdateInterface[A_SPECIFICATIONS]
+	OnAfterA_SPECIFICATIONSDeleteCallback GongOnAfterDeleteInterface[A_SPECIFICATIONS]
+	OnAfterA_SPECIFICATIONSReadCallback   GongOnAfterReadInterface[A_SPECIFICATIONS]
 
 	A_SPECIFICATION_TYPE_REFs                map[*A_SPECIFICATION_TYPE_REF]struct{}
 	A_SPECIFICATION_TYPE_REFs_instance       map[*A_SPECIFICATION_TYPE_REF]*A_SPECIFICATION_TYPE_REF
@@ -1025,10 +1034,10 @@ type Stage struct {
 	A_SPECIFICATION_TYPE_REFs_referenceOrder map[*A_SPECIFICATION_TYPE_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_SPECIFICATION_TYPE_REFCreateCallback OnAfterCreateInterface[A_SPECIFICATION_TYPE_REF]
-	OnAfterA_SPECIFICATION_TYPE_REFUpdateCallback OnAfterUpdateInterface[A_SPECIFICATION_TYPE_REF]
-	OnAfterA_SPECIFICATION_TYPE_REFDeleteCallback OnAfterDeleteInterface[A_SPECIFICATION_TYPE_REF]
-	OnAfterA_SPECIFICATION_TYPE_REFReadCallback   OnAfterReadInterface[A_SPECIFICATION_TYPE_REF]
+	OnAfterA_SPECIFICATION_TYPE_REFCreateCallback GongOnAfterCreateInterface[A_SPECIFICATION_TYPE_REF]
+	OnAfterA_SPECIFICATION_TYPE_REFUpdateCallback GongOnAfterUpdateInterface[A_SPECIFICATION_TYPE_REF]
+	OnAfterA_SPECIFICATION_TYPE_REFDeleteCallback GongOnAfterDeleteInterface[A_SPECIFICATION_TYPE_REF]
+	OnAfterA_SPECIFICATION_TYPE_REFReadCallback   GongOnAfterReadInterface[A_SPECIFICATION_TYPE_REF]
 
 	A_SPECIFIED_VALUESs                map[*A_SPECIFIED_VALUES]struct{}
 	A_SPECIFIED_VALUESs_instance       map[*A_SPECIFIED_VALUES]*A_SPECIFIED_VALUES
@@ -1042,10 +1051,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_SPECIFIED_VALUES_ENUM_VALUE_reverseMap map[*ENUM_VALUE]*A_SPECIFIED_VALUES
 
-	OnAfterA_SPECIFIED_VALUESCreateCallback OnAfterCreateInterface[A_SPECIFIED_VALUES]
-	OnAfterA_SPECIFIED_VALUESUpdateCallback OnAfterUpdateInterface[A_SPECIFIED_VALUES]
-	OnAfterA_SPECIFIED_VALUESDeleteCallback OnAfterDeleteInterface[A_SPECIFIED_VALUES]
-	OnAfterA_SPECIFIED_VALUESReadCallback   OnAfterReadInterface[A_SPECIFIED_VALUES]
+	OnAfterA_SPECIFIED_VALUESCreateCallback GongOnAfterCreateInterface[A_SPECIFIED_VALUES]
+	OnAfterA_SPECIFIED_VALUESUpdateCallback GongOnAfterUpdateInterface[A_SPECIFIED_VALUES]
+	OnAfterA_SPECIFIED_VALUESDeleteCallback GongOnAfterDeleteInterface[A_SPECIFIED_VALUES]
+	OnAfterA_SPECIFIED_VALUESReadCallback   GongOnAfterReadInterface[A_SPECIFIED_VALUES]
 
 	A_SPEC_ATTRIBUTESs                map[*A_SPEC_ATTRIBUTES]struct{}
 	A_SPEC_ATTRIBUTESs_instance       map[*A_SPEC_ATTRIBUTES]*A_SPEC_ATTRIBUTES
@@ -1071,10 +1080,10 @@ type Stage struct {
 
 	A_SPEC_ATTRIBUTES_ATTRIBUTE_DEFINITION_XHTML_reverseMap map[*ATTRIBUTE_DEFINITION_XHTML]*A_SPEC_ATTRIBUTES
 
-	OnAfterA_SPEC_ATTRIBUTESCreateCallback OnAfterCreateInterface[A_SPEC_ATTRIBUTES]
-	OnAfterA_SPEC_ATTRIBUTESUpdateCallback OnAfterUpdateInterface[A_SPEC_ATTRIBUTES]
-	OnAfterA_SPEC_ATTRIBUTESDeleteCallback OnAfterDeleteInterface[A_SPEC_ATTRIBUTES]
-	OnAfterA_SPEC_ATTRIBUTESReadCallback   OnAfterReadInterface[A_SPEC_ATTRIBUTES]
+	OnAfterA_SPEC_ATTRIBUTESCreateCallback GongOnAfterCreateInterface[A_SPEC_ATTRIBUTES]
+	OnAfterA_SPEC_ATTRIBUTESUpdateCallback GongOnAfterUpdateInterface[A_SPEC_ATTRIBUTES]
+	OnAfterA_SPEC_ATTRIBUTESDeleteCallback GongOnAfterDeleteInterface[A_SPEC_ATTRIBUTES]
+	OnAfterA_SPEC_ATTRIBUTESReadCallback   GongOnAfterReadInterface[A_SPEC_ATTRIBUTES]
 
 	A_SPEC_OBJECTSs                map[*A_SPEC_OBJECTS]struct{}
 	A_SPEC_OBJECTSs_instance       map[*A_SPEC_OBJECTS]*A_SPEC_OBJECTS
@@ -1088,10 +1097,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_SPEC_OBJECTS_SPEC_OBJECT_reverseMap map[*SPEC_OBJECT]*A_SPEC_OBJECTS
 
-	OnAfterA_SPEC_OBJECTSCreateCallback OnAfterCreateInterface[A_SPEC_OBJECTS]
-	OnAfterA_SPEC_OBJECTSUpdateCallback OnAfterUpdateInterface[A_SPEC_OBJECTS]
-	OnAfterA_SPEC_OBJECTSDeleteCallback OnAfterDeleteInterface[A_SPEC_OBJECTS]
-	OnAfterA_SPEC_OBJECTSReadCallback   OnAfterReadInterface[A_SPEC_OBJECTS]
+	OnAfterA_SPEC_OBJECTSCreateCallback GongOnAfterCreateInterface[A_SPEC_OBJECTS]
+	OnAfterA_SPEC_OBJECTSUpdateCallback GongOnAfterUpdateInterface[A_SPEC_OBJECTS]
+	OnAfterA_SPEC_OBJECTSDeleteCallback GongOnAfterDeleteInterface[A_SPEC_OBJECTS]
+	OnAfterA_SPEC_OBJECTSReadCallback   GongOnAfterReadInterface[A_SPEC_OBJECTS]
 
 	A_SPEC_OBJECT_TYPE_REFs                map[*A_SPEC_OBJECT_TYPE_REF]struct{}
 	A_SPEC_OBJECT_TYPE_REFs_instance       map[*A_SPEC_OBJECT_TYPE_REF]*A_SPEC_OBJECT_TYPE_REF
@@ -1103,10 +1112,10 @@ type Stage struct {
 	A_SPEC_OBJECT_TYPE_REFs_referenceOrder map[*A_SPEC_OBJECT_TYPE_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_SPEC_OBJECT_TYPE_REFCreateCallback OnAfterCreateInterface[A_SPEC_OBJECT_TYPE_REF]
-	OnAfterA_SPEC_OBJECT_TYPE_REFUpdateCallback OnAfterUpdateInterface[A_SPEC_OBJECT_TYPE_REF]
-	OnAfterA_SPEC_OBJECT_TYPE_REFDeleteCallback OnAfterDeleteInterface[A_SPEC_OBJECT_TYPE_REF]
-	OnAfterA_SPEC_OBJECT_TYPE_REFReadCallback   OnAfterReadInterface[A_SPEC_OBJECT_TYPE_REF]
+	OnAfterA_SPEC_OBJECT_TYPE_REFCreateCallback GongOnAfterCreateInterface[A_SPEC_OBJECT_TYPE_REF]
+	OnAfterA_SPEC_OBJECT_TYPE_REFUpdateCallback GongOnAfterUpdateInterface[A_SPEC_OBJECT_TYPE_REF]
+	OnAfterA_SPEC_OBJECT_TYPE_REFDeleteCallback GongOnAfterDeleteInterface[A_SPEC_OBJECT_TYPE_REF]
+	OnAfterA_SPEC_OBJECT_TYPE_REFReadCallback   GongOnAfterReadInterface[A_SPEC_OBJECT_TYPE_REF]
 
 	A_SPEC_RELATIONSs                map[*A_SPEC_RELATIONS]struct{}
 	A_SPEC_RELATIONSs_instance       map[*A_SPEC_RELATIONS]*A_SPEC_RELATIONS
@@ -1120,10 +1129,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_SPEC_RELATIONS_SPEC_RELATION_reverseMap map[*SPEC_RELATION]*A_SPEC_RELATIONS
 
-	OnAfterA_SPEC_RELATIONSCreateCallback OnAfterCreateInterface[A_SPEC_RELATIONS]
-	OnAfterA_SPEC_RELATIONSUpdateCallback OnAfterUpdateInterface[A_SPEC_RELATIONS]
-	OnAfterA_SPEC_RELATIONSDeleteCallback OnAfterDeleteInterface[A_SPEC_RELATIONS]
-	OnAfterA_SPEC_RELATIONSReadCallback   OnAfterReadInterface[A_SPEC_RELATIONS]
+	OnAfterA_SPEC_RELATIONSCreateCallback GongOnAfterCreateInterface[A_SPEC_RELATIONS]
+	OnAfterA_SPEC_RELATIONSUpdateCallback GongOnAfterUpdateInterface[A_SPEC_RELATIONS]
+	OnAfterA_SPEC_RELATIONSDeleteCallback GongOnAfterDeleteInterface[A_SPEC_RELATIONS]
+	OnAfterA_SPEC_RELATIONSReadCallback   GongOnAfterReadInterface[A_SPEC_RELATIONS]
 
 	A_SPEC_RELATION_GROUPSs                map[*A_SPEC_RELATION_GROUPS]struct{}
 	A_SPEC_RELATION_GROUPSs_instance       map[*A_SPEC_RELATION_GROUPS]*A_SPEC_RELATION_GROUPS
@@ -1137,10 +1146,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_SPEC_RELATION_GROUPS_RELATION_GROUP_reverseMap map[*RELATION_GROUP]*A_SPEC_RELATION_GROUPS
 
-	OnAfterA_SPEC_RELATION_GROUPSCreateCallback OnAfterCreateInterface[A_SPEC_RELATION_GROUPS]
-	OnAfterA_SPEC_RELATION_GROUPSUpdateCallback OnAfterUpdateInterface[A_SPEC_RELATION_GROUPS]
-	OnAfterA_SPEC_RELATION_GROUPSDeleteCallback OnAfterDeleteInterface[A_SPEC_RELATION_GROUPS]
-	OnAfterA_SPEC_RELATION_GROUPSReadCallback   OnAfterReadInterface[A_SPEC_RELATION_GROUPS]
+	OnAfterA_SPEC_RELATION_GROUPSCreateCallback GongOnAfterCreateInterface[A_SPEC_RELATION_GROUPS]
+	OnAfterA_SPEC_RELATION_GROUPSUpdateCallback GongOnAfterUpdateInterface[A_SPEC_RELATION_GROUPS]
+	OnAfterA_SPEC_RELATION_GROUPSDeleteCallback GongOnAfterDeleteInterface[A_SPEC_RELATION_GROUPS]
+	OnAfterA_SPEC_RELATION_GROUPSReadCallback   GongOnAfterReadInterface[A_SPEC_RELATION_GROUPS]
 
 	A_SPEC_RELATION_REFs                map[*A_SPEC_RELATION_REF]struct{}
 	A_SPEC_RELATION_REFs_instance       map[*A_SPEC_RELATION_REF]*A_SPEC_RELATION_REF
@@ -1152,10 +1161,10 @@ type Stage struct {
 	A_SPEC_RELATION_REFs_referenceOrder map[*A_SPEC_RELATION_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_SPEC_RELATION_REFCreateCallback OnAfterCreateInterface[A_SPEC_RELATION_REF]
-	OnAfterA_SPEC_RELATION_REFUpdateCallback OnAfterUpdateInterface[A_SPEC_RELATION_REF]
-	OnAfterA_SPEC_RELATION_REFDeleteCallback OnAfterDeleteInterface[A_SPEC_RELATION_REF]
-	OnAfterA_SPEC_RELATION_REFReadCallback   OnAfterReadInterface[A_SPEC_RELATION_REF]
+	OnAfterA_SPEC_RELATION_REFCreateCallback GongOnAfterCreateInterface[A_SPEC_RELATION_REF]
+	OnAfterA_SPEC_RELATION_REFUpdateCallback GongOnAfterUpdateInterface[A_SPEC_RELATION_REF]
+	OnAfterA_SPEC_RELATION_REFDeleteCallback GongOnAfterDeleteInterface[A_SPEC_RELATION_REF]
+	OnAfterA_SPEC_RELATION_REFReadCallback   GongOnAfterReadInterface[A_SPEC_RELATION_REF]
 
 	A_SPEC_RELATION_TYPE_REFs                map[*A_SPEC_RELATION_TYPE_REF]struct{}
 	A_SPEC_RELATION_TYPE_REFs_instance       map[*A_SPEC_RELATION_TYPE_REF]*A_SPEC_RELATION_TYPE_REF
@@ -1167,10 +1176,10 @@ type Stage struct {
 	A_SPEC_RELATION_TYPE_REFs_referenceOrder map[*A_SPEC_RELATION_TYPE_REF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_SPEC_RELATION_TYPE_REFCreateCallback OnAfterCreateInterface[A_SPEC_RELATION_TYPE_REF]
-	OnAfterA_SPEC_RELATION_TYPE_REFUpdateCallback OnAfterUpdateInterface[A_SPEC_RELATION_TYPE_REF]
-	OnAfterA_SPEC_RELATION_TYPE_REFDeleteCallback OnAfterDeleteInterface[A_SPEC_RELATION_TYPE_REF]
-	OnAfterA_SPEC_RELATION_TYPE_REFReadCallback   OnAfterReadInterface[A_SPEC_RELATION_TYPE_REF]
+	OnAfterA_SPEC_RELATION_TYPE_REFCreateCallback GongOnAfterCreateInterface[A_SPEC_RELATION_TYPE_REF]
+	OnAfterA_SPEC_RELATION_TYPE_REFUpdateCallback GongOnAfterUpdateInterface[A_SPEC_RELATION_TYPE_REF]
+	OnAfterA_SPEC_RELATION_TYPE_REFDeleteCallback GongOnAfterDeleteInterface[A_SPEC_RELATION_TYPE_REF]
+	OnAfterA_SPEC_RELATION_TYPE_REFReadCallback   GongOnAfterReadInterface[A_SPEC_RELATION_TYPE_REF]
 
 	A_SPEC_TYPESs                map[*A_SPEC_TYPES]struct{}
 	A_SPEC_TYPESs_instance       map[*A_SPEC_TYPES]*A_SPEC_TYPES
@@ -1190,10 +1199,10 @@ type Stage struct {
 
 	A_SPEC_TYPES_SPECIFICATION_TYPE_reverseMap map[*SPECIFICATION_TYPE]*A_SPEC_TYPES
 
-	OnAfterA_SPEC_TYPESCreateCallback OnAfterCreateInterface[A_SPEC_TYPES]
-	OnAfterA_SPEC_TYPESUpdateCallback OnAfterUpdateInterface[A_SPEC_TYPES]
-	OnAfterA_SPEC_TYPESDeleteCallback OnAfterDeleteInterface[A_SPEC_TYPES]
-	OnAfterA_SPEC_TYPESReadCallback   OnAfterReadInterface[A_SPEC_TYPES]
+	OnAfterA_SPEC_TYPESCreateCallback GongOnAfterCreateInterface[A_SPEC_TYPES]
+	OnAfterA_SPEC_TYPESUpdateCallback GongOnAfterUpdateInterface[A_SPEC_TYPES]
+	OnAfterA_SPEC_TYPESDeleteCallback GongOnAfterDeleteInterface[A_SPEC_TYPES]
+	OnAfterA_SPEC_TYPESReadCallback   GongOnAfterReadInterface[A_SPEC_TYPES]
 
 	A_THE_HEADERs                map[*A_THE_HEADER]struct{}
 	A_THE_HEADERs_instance       map[*A_THE_HEADER]*A_THE_HEADER
@@ -1205,10 +1214,10 @@ type Stage struct {
 	A_THE_HEADERs_referenceOrder map[*A_THE_HEADER]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_THE_HEADERCreateCallback OnAfterCreateInterface[A_THE_HEADER]
-	OnAfterA_THE_HEADERUpdateCallback OnAfterUpdateInterface[A_THE_HEADER]
-	OnAfterA_THE_HEADERDeleteCallback OnAfterDeleteInterface[A_THE_HEADER]
-	OnAfterA_THE_HEADERReadCallback   OnAfterReadInterface[A_THE_HEADER]
+	OnAfterA_THE_HEADERCreateCallback GongOnAfterCreateInterface[A_THE_HEADER]
+	OnAfterA_THE_HEADERUpdateCallback GongOnAfterUpdateInterface[A_THE_HEADER]
+	OnAfterA_THE_HEADERDeleteCallback GongOnAfterDeleteInterface[A_THE_HEADER]
+	OnAfterA_THE_HEADERReadCallback   GongOnAfterReadInterface[A_THE_HEADER]
 
 	A_TOOL_EXTENSIONSs                map[*A_TOOL_EXTENSIONS]struct{}
 	A_TOOL_EXTENSIONSs_instance       map[*A_TOOL_EXTENSIONS]*A_TOOL_EXTENSIONS
@@ -1222,10 +1231,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_TOOL_EXTENSIONS_REQ_IF_TOOL_EXTENSION_reverseMap map[*REQ_IF_TOOL_EXTENSION]*A_TOOL_EXTENSIONS
 
-	OnAfterA_TOOL_EXTENSIONSCreateCallback OnAfterCreateInterface[A_TOOL_EXTENSIONS]
-	OnAfterA_TOOL_EXTENSIONSUpdateCallback OnAfterUpdateInterface[A_TOOL_EXTENSIONS]
-	OnAfterA_TOOL_EXTENSIONSDeleteCallback OnAfterDeleteInterface[A_TOOL_EXTENSIONS]
-	OnAfterA_TOOL_EXTENSIONSReadCallback   OnAfterReadInterface[A_TOOL_EXTENSIONS]
+	OnAfterA_TOOL_EXTENSIONSCreateCallback GongOnAfterCreateInterface[A_TOOL_EXTENSIONS]
+	OnAfterA_TOOL_EXTENSIONSUpdateCallback GongOnAfterUpdateInterface[A_TOOL_EXTENSIONS]
+	OnAfterA_TOOL_EXTENSIONSDeleteCallback GongOnAfterDeleteInterface[A_TOOL_EXTENSIONS]
+	OnAfterA_TOOL_EXTENSIONSReadCallback   GongOnAfterReadInterface[A_TOOL_EXTENSIONS]
 
 	DATATYPE_DEFINITION_BOOLEANs                map[*DATATYPE_DEFINITION_BOOLEAN]struct{}
 	DATATYPE_DEFINITION_BOOLEANs_instance       map[*DATATYPE_DEFINITION_BOOLEAN]*DATATYPE_DEFINITION_BOOLEAN
@@ -1237,10 +1246,10 @@ type Stage struct {
 	DATATYPE_DEFINITION_BOOLEANs_referenceOrder map[*DATATYPE_DEFINITION_BOOLEAN]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDATATYPE_DEFINITION_BOOLEANCreateCallback OnAfterCreateInterface[DATATYPE_DEFINITION_BOOLEAN]
-	OnAfterDATATYPE_DEFINITION_BOOLEANUpdateCallback OnAfterUpdateInterface[DATATYPE_DEFINITION_BOOLEAN]
-	OnAfterDATATYPE_DEFINITION_BOOLEANDeleteCallback OnAfterDeleteInterface[DATATYPE_DEFINITION_BOOLEAN]
-	OnAfterDATATYPE_DEFINITION_BOOLEANReadCallback   OnAfterReadInterface[DATATYPE_DEFINITION_BOOLEAN]
+	OnAfterDATATYPE_DEFINITION_BOOLEANCreateCallback GongOnAfterCreateInterface[DATATYPE_DEFINITION_BOOLEAN]
+	OnAfterDATATYPE_DEFINITION_BOOLEANUpdateCallback GongOnAfterUpdateInterface[DATATYPE_DEFINITION_BOOLEAN]
+	OnAfterDATATYPE_DEFINITION_BOOLEANDeleteCallback GongOnAfterDeleteInterface[DATATYPE_DEFINITION_BOOLEAN]
+	OnAfterDATATYPE_DEFINITION_BOOLEANReadCallback   GongOnAfterReadInterface[DATATYPE_DEFINITION_BOOLEAN]
 
 	DATATYPE_DEFINITION_DATEs                map[*DATATYPE_DEFINITION_DATE]struct{}
 	DATATYPE_DEFINITION_DATEs_instance       map[*DATATYPE_DEFINITION_DATE]*DATATYPE_DEFINITION_DATE
@@ -1252,10 +1261,10 @@ type Stage struct {
 	DATATYPE_DEFINITION_DATEs_referenceOrder map[*DATATYPE_DEFINITION_DATE]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDATATYPE_DEFINITION_DATECreateCallback OnAfterCreateInterface[DATATYPE_DEFINITION_DATE]
-	OnAfterDATATYPE_DEFINITION_DATEUpdateCallback OnAfterUpdateInterface[DATATYPE_DEFINITION_DATE]
-	OnAfterDATATYPE_DEFINITION_DATEDeleteCallback OnAfterDeleteInterface[DATATYPE_DEFINITION_DATE]
-	OnAfterDATATYPE_DEFINITION_DATEReadCallback   OnAfterReadInterface[DATATYPE_DEFINITION_DATE]
+	OnAfterDATATYPE_DEFINITION_DATECreateCallback GongOnAfterCreateInterface[DATATYPE_DEFINITION_DATE]
+	OnAfterDATATYPE_DEFINITION_DATEUpdateCallback GongOnAfterUpdateInterface[DATATYPE_DEFINITION_DATE]
+	OnAfterDATATYPE_DEFINITION_DATEDeleteCallback GongOnAfterDeleteInterface[DATATYPE_DEFINITION_DATE]
+	OnAfterDATATYPE_DEFINITION_DATEReadCallback   GongOnAfterReadInterface[DATATYPE_DEFINITION_DATE]
 
 	DATATYPE_DEFINITION_ENUMERATIONs                map[*DATATYPE_DEFINITION_ENUMERATION]struct{}
 	DATATYPE_DEFINITION_ENUMERATIONs_instance       map[*DATATYPE_DEFINITION_ENUMERATION]*DATATYPE_DEFINITION_ENUMERATION
@@ -1267,10 +1276,10 @@ type Stage struct {
 	DATATYPE_DEFINITION_ENUMERATIONs_referenceOrder map[*DATATYPE_DEFINITION_ENUMERATION]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDATATYPE_DEFINITION_ENUMERATIONCreateCallback OnAfterCreateInterface[DATATYPE_DEFINITION_ENUMERATION]
-	OnAfterDATATYPE_DEFINITION_ENUMERATIONUpdateCallback OnAfterUpdateInterface[DATATYPE_DEFINITION_ENUMERATION]
-	OnAfterDATATYPE_DEFINITION_ENUMERATIONDeleteCallback OnAfterDeleteInterface[DATATYPE_DEFINITION_ENUMERATION]
-	OnAfterDATATYPE_DEFINITION_ENUMERATIONReadCallback   OnAfterReadInterface[DATATYPE_DEFINITION_ENUMERATION]
+	OnAfterDATATYPE_DEFINITION_ENUMERATIONCreateCallback GongOnAfterCreateInterface[DATATYPE_DEFINITION_ENUMERATION]
+	OnAfterDATATYPE_DEFINITION_ENUMERATIONUpdateCallback GongOnAfterUpdateInterface[DATATYPE_DEFINITION_ENUMERATION]
+	OnAfterDATATYPE_DEFINITION_ENUMERATIONDeleteCallback GongOnAfterDeleteInterface[DATATYPE_DEFINITION_ENUMERATION]
+	OnAfterDATATYPE_DEFINITION_ENUMERATIONReadCallback   GongOnAfterReadInterface[DATATYPE_DEFINITION_ENUMERATION]
 
 	DATATYPE_DEFINITION_INTEGERs                map[*DATATYPE_DEFINITION_INTEGER]struct{}
 	DATATYPE_DEFINITION_INTEGERs_instance       map[*DATATYPE_DEFINITION_INTEGER]*DATATYPE_DEFINITION_INTEGER
@@ -1282,10 +1291,10 @@ type Stage struct {
 	DATATYPE_DEFINITION_INTEGERs_referenceOrder map[*DATATYPE_DEFINITION_INTEGER]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDATATYPE_DEFINITION_INTEGERCreateCallback OnAfterCreateInterface[DATATYPE_DEFINITION_INTEGER]
-	OnAfterDATATYPE_DEFINITION_INTEGERUpdateCallback OnAfterUpdateInterface[DATATYPE_DEFINITION_INTEGER]
-	OnAfterDATATYPE_DEFINITION_INTEGERDeleteCallback OnAfterDeleteInterface[DATATYPE_DEFINITION_INTEGER]
-	OnAfterDATATYPE_DEFINITION_INTEGERReadCallback   OnAfterReadInterface[DATATYPE_DEFINITION_INTEGER]
+	OnAfterDATATYPE_DEFINITION_INTEGERCreateCallback GongOnAfterCreateInterface[DATATYPE_DEFINITION_INTEGER]
+	OnAfterDATATYPE_DEFINITION_INTEGERUpdateCallback GongOnAfterUpdateInterface[DATATYPE_DEFINITION_INTEGER]
+	OnAfterDATATYPE_DEFINITION_INTEGERDeleteCallback GongOnAfterDeleteInterface[DATATYPE_DEFINITION_INTEGER]
+	OnAfterDATATYPE_DEFINITION_INTEGERReadCallback   GongOnAfterReadInterface[DATATYPE_DEFINITION_INTEGER]
 
 	DATATYPE_DEFINITION_REALs                map[*DATATYPE_DEFINITION_REAL]struct{}
 	DATATYPE_DEFINITION_REALs_instance       map[*DATATYPE_DEFINITION_REAL]*DATATYPE_DEFINITION_REAL
@@ -1297,10 +1306,10 @@ type Stage struct {
 	DATATYPE_DEFINITION_REALs_referenceOrder map[*DATATYPE_DEFINITION_REAL]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDATATYPE_DEFINITION_REALCreateCallback OnAfterCreateInterface[DATATYPE_DEFINITION_REAL]
-	OnAfterDATATYPE_DEFINITION_REALUpdateCallback OnAfterUpdateInterface[DATATYPE_DEFINITION_REAL]
-	OnAfterDATATYPE_DEFINITION_REALDeleteCallback OnAfterDeleteInterface[DATATYPE_DEFINITION_REAL]
-	OnAfterDATATYPE_DEFINITION_REALReadCallback   OnAfterReadInterface[DATATYPE_DEFINITION_REAL]
+	OnAfterDATATYPE_DEFINITION_REALCreateCallback GongOnAfterCreateInterface[DATATYPE_DEFINITION_REAL]
+	OnAfterDATATYPE_DEFINITION_REALUpdateCallback GongOnAfterUpdateInterface[DATATYPE_DEFINITION_REAL]
+	OnAfterDATATYPE_DEFINITION_REALDeleteCallback GongOnAfterDeleteInterface[DATATYPE_DEFINITION_REAL]
+	OnAfterDATATYPE_DEFINITION_REALReadCallback   GongOnAfterReadInterface[DATATYPE_DEFINITION_REAL]
 
 	DATATYPE_DEFINITION_STRINGs                map[*DATATYPE_DEFINITION_STRING]struct{}
 	DATATYPE_DEFINITION_STRINGs_instance       map[*DATATYPE_DEFINITION_STRING]*DATATYPE_DEFINITION_STRING
@@ -1312,10 +1321,10 @@ type Stage struct {
 	DATATYPE_DEFINITION_STRINGs_referenceOrder map[*DATATYPE_DEFINITION_STRING]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDATATYPE_DEFINITION_STRINGCreateCallback OnAfterCreateInterface[DATATYPE_DEFINITION_STRING]
-	OnAfterDATATYPE_DEFINITION_STRINGUpdateCallback OnAfterUpdateInterface[DATATYPE_DEFINITION_STRING]
-	OnAfterDATATYPE_DEFINITION_STRINGDeleteCallback OnAfterDeleteInterface[DATATYPE_DEFINITION_STRING]
-	OnAfterDATATYPE_DEFINITION_STRINGReadCallback   OnAfterReadInterface[DATATYPE_DEFINITION_STRING]
+	OnAfterDATATYPE_DEFINITION_STRINGCreateCallback GongOnAfterCreateInterface[DATATYPE_DEFINITION_STRING]
+	OnAfterDATATYPE_DEFINITION_STRINGUpdateCallback GongOnAfterUpdateInterface[DATATYPE_DEFINITION_STRING]
+	OnAfterDATATYPE_DEFINITION_STRINGDeleteCallback GongOnAfterDeleteInterface[DATATYPE_DEFINITION_STRING]
+	OnAfterDATATYPE_DEFINITION_STRINGReadCallback   GongOnAfterReadInterface[DATATYPE_DEFINITION_STRING]
 
 	DATATYPE_DEFINITION_XHTMLs                map[*DATATYPE_DEFINITION_XHTML]struct{}
 	DATATYPE_DEFINITION_XHTMLs_instance       map[*DATATYPE_DEFINITION_XHTML]*DATATYPE_DEFINITION_XHTML
@@ -1327,10 +1336,10 @@ type Stage struct {
 	DATATYPE_DEFINITION_XHTMLs_referenceOrder map[*DATATYPE_DEFINITION_XHTML]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterDATATYPE_DEFINITION_XHTMLCreateCallback OnAfterCreateInterface[DATATYPE_DEFINITION_XHTML]
-	OnAfterDATATYPE_DEFINITION_XHTMLUpdateCallback OnAfterUpdateInterface[DATATYPE_DEFINITION_XHTML]
-	OnAfterDATATYPE_DEFINITION_XHTMLDeleteCallback OnAfterDeleteInterface[DATATYPE_DEFINITION_XHTML]
-	OnAfterDATATYPE_DEFINITION_XHTMLReadCallback   OnAfterReadInterface[DATATYPE_DEFINITION_XHTML]
+	OnAfterDATATYPE_DEFINITION_XHTMLCreateCallback GongOnAfterCreateInterface[DATATYPE_DEFINITION_XHTML]
+	OnAfterDATATYPE_DEFINITION_XHTMLUpdateCallback GongOnAfterUpdateInterface[DATATYPE_DEFINITION_XHTML]
+	OnAfterDATATYPE_DEFINITION_XHTMLDeleteCallback GongOnAfterDeleteInterface[DATATYPE_DEFINITION_XHTML]
+	OnAfterDATATYPE_DEFINITION_XHTMLReadCallback   GongOnAfterReadInterface[DATATYPE_DEFINITION_XHTML]
 
 	EMBEDDED_VALUEs                map[*EMBEDDED_VALUE]struct{}
 	EMBEDDED_VALUEs_instance       map[*EMBEDDED_VALUE]*EMBEDDED_VALUE
@@ -1342,10 +1351,10 @@ type Stage struct {
 	EMBEDDED_VALUEs_referenceOrder map[*EMBEDDED_VALUE]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEMBEDDED_VALUECreateCallback OnAfterCreateInterface[EMBEDDED_VALUE]
-	OnAfterEMBEDDED_VALUEUpdateCallback OnAfterUpdateInterface[EMBEDDED_VALUE]
-	OnAfterEMBEDDED_VALUEDeleteCallback OnAfterDeleteInterface[EMBEDDED_VALUE]
-	OnAfterEMBEDDED_VALUEReadCallback   OnAfterReadInterface[EMBEDDED_VALUE]
+	OnAfterEMBEDDED_VALUECreateCallback GongOnAfterCreateInterface[EMBEDDED_VALUE]
+	OnAfterEMBEDDED_VALUEUpdateCallback GongOnAfterUpdateInterface[EMBEDDED_VALUE]
+	OnAfterEMBEDDED_VALUEDeleteCallback GongOnAfterDeleteInterface[EMBEDDED_VALUE]
+	OnAfterEMBEDDED_VALUEReadCallback   GongOnAfterReadInterface[EMBEDDED_VALUE]
 
 	ENUM_VALUEs                map[*ENUM_VALUE]struct{}
 	ENUM_VALUEs_instance       map[*ENUM_VALUE]*ENUM_VALUE
@@ -1357,10 +1366,10 @@ type Stage struct {
 	ENUM_VALUEs_referenceOrder map[*ENUM_VALUE]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterENUM_VALUECreateCallback OnAfterCreateInterface[ENUM_VALUE]
-	OnAfterENUM_VALUEUpdateCallback OnAfterUpdateInterface[ENUM_VALUE]
-	OnAfterENUM_VALUEDeleteCallback OnAfterDeleteInterface[ENUM_VALUE]
-	OnAfterENUM_VALUEReadCallback   OnAfterReadInterface[ENUM_VALUE]
+	OnAfterENUM_VALUECreateCallback GongOnAfterCreateInterface[ENUM_VALUE]
+	OnAfterENUM_VALUEUpdateCallback GongOnAfterUpdateInterface[ENUM_VALUE]
+	OnAfterENUM_VALUEDeleteCallback GongOnAfterDeleteInterface[ENUM_VALUE]
+	OnAfterENUM_VALUEReadCallback   GongOnAfterReadInterface[ENUM_VALUE]
 
 	EmbeddedJpgImages                map[*EmbeddedJpgImage]struct{}
 	EmbeddedJpgImages_instance       map[*EmbeddedJpgImage]*EmbeddedJpgImage
@@ -1372,10 +1381,10 @@ type Stage struct {
 	EmbeddedJpgImages_referenceOrder map[*EmbeddedJpgImage]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEmbeddedJpgImageCreateCallback OnAfterCreateInterface[EmbeddedJpgImage]
-	OnAfterEmbeddedJpgImageUpdateCallback OnAfterUpdateInterface[EmbeddedJpgImage]
-	OnAfterEmbeddedJpgImageDeleteCallback OnAfterDeleteInterface[EmbeddedJpgImage]
-	OnAfterEmbeddedJpgImageReadCallback   OnAfterReadInterface[EmbeddedJpgImage]
+	OnAfterEmbeddedJpgImageCreateCallback GongOnAfterCreateInterface[EmbeddedJpgImage]
+	OnAfterEmbeddedJpgImageUpdateCallback GongOnAfterUpdateInterface[EmbeddedJpgImage]
+	OnAfterEmbeddedJpgImageDeleteCallback GongOnAfterDeleteInterface[EmbeddedJpgImage]
+	OnAfterEmbeddedJpgImageReadCallback   GongOnAfterReadInterface[EmbeddedJpgImage]
 
 	EmbeddedPngImages                map[*EmbeddedPngImage]struct{}
 	EmbeddedPngImages_instance       map[*EmbeddedPngImage]*EmbeddedPngImage
@@ -1387,10 +1396,10 @@ type Stage struct {
 	EmbeddedPngImages_referenceOrder map[*EmbeddedPngImage]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEmbeddedPngImageCreateCallback OnAfterCreateInterface[EmbeddedPngImage]
-	OnAfterEmbeddedPngImageUpdateCallback OnAfterUpdateInterface[EmbeddedPngImage]
-	OnAfterEmbeddedPngImageDeleteCallback OnAfterDeleteInterface[EmbeddedPngImage]
-	OnAfterEmbeddedPngImageReadCallback   OnAfterReadInterface[EmbeddedPngImage]
+	OnAfterEmbeddedPngImageCreateCallback GongOnAfterCreateInterface[EmbeddedPngImage]
+	OnAfterEmbeddedPngImageUpdateCallback GongOnAfterUpdateInterface[EmbeddedPngImage]
+	OnAfterEmbeddedPngImageDeleteCallback GongOnAfterDeleteInterface[EmbeddedPngImage]
+	OnAfterEmbeddedPngImageReadCallback   GongOnAfterReadInterface[EmbeddedPngImage]
 
 	EmbeddedSvgImages                map[*EmbeddedSvgImage]struct{}
 	EmbeddedSvgImages_instance       map[*EmbeddedSvgImage]*EmbeddedSvgImage
@@ -1402,10 +1411,10 @@ type Stage struct {
 	EmbeddedSvgImages_referenceOrder map[*EmbeddedSvgImage]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterEmbeddedSvgImageCreateCallback OnAfterCreateInterface[EmbeddedSvgImage]
-	OnAfterEmbeddedSvgImageUpdateCallback OnAfterUpdateInterface[EmbeddedSvgImage]
-	OnAfterEmbeddedSvgImageDeleteCallback OnAfterDeleteInterface[EmbeddedSvgImage]
-	OnAfterEmbeddedSvgImageReadCallback   OnAfterReadInterface[EmbeddedSvgImage]
+	OnAfterEmbeddedSvgImageCreateCallback GongOnAfterCreateInterface[EmbeddedSvgImage]
+	OnAfterEmbeddedSvgImageUpdateCallback GongOnAfterUpdateInterface[EmbeddedSvgImage]
+	OnAfterEmbeddedSvgImageDeleteCallback GongOnAfterDeleteInterface[EmbeddedSvgImage]
+	OnAfterEmbeddedSvgImageReadCallback   GongOnAfterReadInterface[EmbeddedSvgImage]
 
 	Kills                map[*Kill]struct{}
 	Kills_instance       map[*Kill]*Kill
@@ -1417,10 +1426,10 @@ type Stage struct {
 	Kills_referenceOrder map[*Kill]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterKillCreateCallback OnAfterCreateInterface[Kill]
-	OnAfterKillUpdateCallback OnAfterUpdateInterface[Kill]
-	OnAfterKillDeleteCallback OnAfterDeleteInterface[Kill]
-	OnAfterKillReadCallback   OnAfterReadInterface[Kill]
+	OnAfterKillCreateCallback GongOnAfterCreateInterface[Kill]
+	OnAfterKillUpdateCallback GongOnAfterUpdateInterface[Kill]
+	OnAfterKillDeleteCallback GongOnAfterDeleteInterface[Kill]
+	OnAfterKillReadCallback   GongOnAfterReadInterface[Kill]
 
 	Map_identifier_bools                map[*Map_identifier_bool]struct{}
 	Map_identifier_bools_instance       map[*Map_identifier_bool]*Map_identifier_bool
@@ -1432,10 +1441,10 @@ type Stage struct {
 	Map_identifier_bools_referenceOrder map[*Map_identifier_bool]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterMap_identifier_boolCreateCallback OnAfterCreateInterface[Map_identifier_bool]
-	OnAfterMap_identifier_boolUpdateCallback OnAfterUpdateInterface[Map_identifier_bool]
-	OnAfterMap_identifier_boolDeleteCallback OnAfterDeleteInterface[Map_identifier_bool]
-	OnAfterMap_identifier_boolReadCallback   OnAfterReadInterface[Map_identifier_bool]
+	OnAfterMap_identifier_boolCreateCallback GongOnAfterCreateInterface[Map_identifier_bool]
+	OnAfterMap_identifier_boolUpdateCallback GongOnAfterUpdateInterface[Map_identifier_bool]
+	OnAfterMap_identifier_boolDeleteCallback GongOnAfterDeleteInterface[Map_identifier_bool]
+	OnAfterMap_identifier_boolReadCallback   GongOnAfterReadInterface[Map_identifier_bool]
 
 	RELATION_GROUPs                map[*RELATION_GROUP]struct{}
 	RELATION_GROUPs_instance       map[*RELATION_GROUP]*RELATION_GROUP
@@ -1447,10 +1456,10 @@ type Stage struct {
 	RELATION_GROUPs_referenceOrder map[*RELATION_GROUP]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterRELATION_GROUPCreateCallback OnAfterCreateInterface[RELATION_GROUP]
-	OnAfterRELATION_GROUPUpdateCallback OnAfterUpdateInterface[RELATION_GROUP]
-	OnAfterRELATION_GROUPDeleteCallback OnAfterDeleteInterface[RELATION_GROUP]
-	OnAfterRELATION_GROUPReadCallback   OnAfterReadInterface[RELATION_GROUP]
+	OnAfterRELATION_GROUPCreateCallback GongOnAfterCreateInterface[RELATION_GROUP]
+	OnAfterRELATION_GROUPUpdateCallback GongOnAfterUpdateInterface[RELATION_GROUP]
+	OnAfterRELATION_GROUPDeleteCallback GongOnAfterDeleteInterface[RELATION_GROUP]
+	OnAfterRELATION_GROUPReadCallback   GongOnAfterReadInterface[RELATION_GROUP]
 
 	RELATION_GROUP_TYPEs                map[*RELATION_GROUP_TYPE]struct{}
 	RELATION_GROUP_TYPEs_instance       map[*RELATION_GROUP_TYPE]*RELATION_GROUP_TYPE
@@ -1462,10 +1471,10 @@ type Stage struct {
 	RELATION_GROUP_TYPEs_referenceOrder map[*RELATION_GROUP_TYPE]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterRELATION_GROUP_TYPECreateCallback OnAfterCreateInterface[RELATION_GROUP_TYPE]
-	OnAfterRELATION_GROUP_TYPEUpdateCallback OnAfterUpdateInterface[RELATION_GROUP_TYPE]
-	OnAfterRELATION_GROUP_TYPEDeleteCallback OnAfterDeleteInterface[RELATION_GROUP_TYPE]
-	OnAfterRELATION_GROUP_TYPEReadCallback   OnAfterReadInterface[RELATION_GROUP_TYPE]
+	OnAfterRELATION_GROUP_TYPECreateCallback GongOnAfterCreateInterface[RELATION_GROUP_TYPE]
+	OnAfterRELATION_GROUP_TYPEUpdateCallback GongOnAfterUpdateInterface[RELATION_GROUP_TYPE]
+	OnAfterRELATION_GROUP_TYPEDeleteCallback GongOnAfterDeleteInterface[RELATION_GROUP_TYPE]
+	OnAfterRELATION_GROUP_TYPEReadCallback   GongOnAfterReadInterface[RELATION_GROUP_TYPE]
 
 	REQ_IFs                map[*REQ_IF]struct{}
 	REQ_IFs_instance       map[*REQ_IF]*REQ_IF
@@ -1477,10 +1486,10 @@ type Stage struct {
 	REQ_IFs_referenceOrder map[*REQ_IF]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterREQ_IFCreateCallback OnAfterCreateInterface[REQ_IF]
-	OnAfterREQ_IFUpdateCallback OnAfterUpdateInterface[REQ_IF]
-	OnAfterREQ_IFDeleteCallback OnAfterDeleteInterface[REQ_IF]
-	OnAfterREQ_IFReadCallback   OnAfterReadInterface[REQ_IF]
+	OnAfterREQ_IFCreateCallback GongOnAfterCreateInterface[REQ_IF]
+	OnAfterREQ_IFUpdateCallback GongOnAfterUpdateInterface[REQ_IF]
+	OnAfterREQ_IFDeleteCallback GongOnAfterDeleteInterface[REQ_IF]
+	OnAfterREQ_IFReadCallback   GongOnAfterReadInterface[REQ_IF]
 
 	REQ_IF_CONTENTs                map[*REQ_IF_CONTENT]struct{}
 	REQ_IF_CONTENTs_instance       map[*REQ_IF_CONTENT]*REQ_IF_CONTENT
@@ -1492,10 +1501,10 @@ type Stage struct {
 	REQ_IF_CONTENTs_referenceOrder map[*REQ_IF_CONTENT]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterREQ_IF_CONTENTCreateCallback OnAfterCreateInterface[REQ_IF_CONTENT]
-	OnAfterREQ_IF_CONTENTUpdateCallback OnAfterUpdateInterface[REQ_IF_CONTENT]
-	OnAfterREQ_IF_CONTENTDeleteCallback OnAfterDeleteInterface[REQ_IF_CONTENT]
-	OnAfterREQ_IF_CONTENTReadCallback   OnAfterReadInterface[REQ_IF_CONTENT]
+	OnAfterREQ_IF_CONTENTCreateCallback GongOnAfterCreateInterface[REQ_IF_CONTENT]
+	OnAfterREQ_IF_CONTENTUpdateCallback GongOnAfterUpdateInterface[REQ_IF_CONTENT]
+	OnAfterREQ_IF_CONTENTDeleteCallback GongOnAfterDeleteInterface[REQ_IF_CONTENT]
+	OnAfterREQ_IF_CONTENTReadCallback   GongOnAfterReadInterface[REQ_IF_CONTENT]
 
 	REQ_IF_HEADERs                map[*REQ_IF_HEADER]struct{}
 	REQ_IF_HEADERs_instance       map[*REQ_IF_HEADER]*REQ_IF_HEADER
@@ -1507,10 +1516,10 @@ type Stage struct {
 	REQ_IF_HEADERs_referenceOrder map[*REQ_IF_HEADER]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterREQ_IF_HEADERCreateCallback OnAfterCreateInterface[REQ_IF_HEADER]
-	OnAfterREQ_IF_HEADERUpdateCallback OnAfterUpdateInterface[REQ_IF_HEADER]
-	OnAfterREQ_IF_HEADERDeleteCallback OnAfterDeleteInterface[REQ_IF_HEADER]
-	OnAfterREQ_IF_HEADERReadCallback   OnAfterReadInterface[REQ_IF_HEADER]
+	OnAfterREQ_IF_HEADERCreateCallback GongOnAfterCreateInterface[REQ_IF_HEADER]
+	OnAfterREQ_IF_HEADERUpdateCallback GongOnAfterUpdateInterface[REQ_IF_HEADER]
+	OnAfterREQ_IF_HEADERDeleteCallback GongOnAfterDeleteInterface[REQ_IF_HEADER]
+	OnAfterREQ_IF_HEADERReadCallback   GongOnAfterReadInterface[REQ_IF_HEADER]
 
 	REQ_IF_TOOL_EXTENSIONs                map[*REQ_IF_TOOL_EXTENSION]struct{}
 	REQ_IF_TOOL_EXTENSIONs_instance       map[*REQ_IF_TOOL_EXTENSION]*REQ_IF_TOOL_EXTENSION
@@ -1522,10 +1531,10 @@ type Stage struct {
 	REQ_IF_TOOL_EXTENSIONs_referenceOrder map[*REQ_IF_TOOL_EXTENSION]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterREQ_IF_TOOL_EXTENSIONCreateCallback OnAfterCreateInterface[REQ_IF_TOOL_EXTENSION]
-	OnAfterREQ_IF_TOOL_EXTENSIONUpdateCallback OnAfterUpdateInterface[REQ_IF_TOOL_EXTENSION]
-	OnAfterREQ_IF_TOOL_EXTENSIONDeleteCallback OnAfterDeleteInterface[REQ_IF_TOOL_EXTENSION]
-	OnAfterREQ_IF_TOOL_EXTENSIONReadCallback   OnAfterReadInterface[REQ_IF_TOOL_EXTENSION]
+	OnAfterREQ_IF_TOOL_EXTENSIONCreateCallback GongOnAfterCreateInterface[REQ_IF_TOOL_EXTENSION]
+	OnAfterREQ_IF_TOOL_EXTENSIONUpdateCallback GongOnAfterUpdateInterface[REQ_IF_TOOL_EXTENSION]
+	OnAfterREQ_IF_TOOL_EXTENSIONDeleteCallback GongOnAfterDeleteInterface[REQ_IF_TOOL_EXTENSION]
+	OnAfterREQ_IF_TOOL_EXTENSIONReadCallback   GongOnAfterReadInterface[REQ_IF_TOOL_EXTENSION]
 
 	SPECIFICATIONs                map[*SPECIFICATION]struct{}
 	SPECIFICATIONs_instance       map[*SPECIFICATION]*SPECIFICATION
@@ -1537,10 +1546,10 @@ type Stage struct {
 	SPECIFICATIONs_referenceOrder map[*SPECIFICATION]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSPECIFICATIONCreateCallback OnAfterCreateInterface[SPECIFICATION]
-	OnAfterSPECIFICATIONUpdateCallback OnAfterUpdateInterface[SPECIFICATION]
-	OnAfterSPECIFICATIONDeleteCallback OnAfterDeleteInterface[SPECIFICATION]
-	OnAfterSPECIFICATIONReadCallback   OnAfterReadInterface[SPECIFICATION]
+	OnAfterSPECIFICATIONCreateCallback GongOnAfterCreateInterface[SPECIFICATION]
+	OnAfterSPECIFICATIONUpdateCallback GongOnAfterUpdateInterface[SPECIFICATION]
+	OnAfterSPECIFICATIONDeleteCallback GongOnAfterDeleteInterface[SPECIFICATION]
+	OnAfterSPECIFICATIONReadCallback   GongOnAfterReadInterface[SPECIFICATION]
 
 	SPECIFICATION_Renderings                map[*SPECIFICATION_Rendering]struct{}
 	SPECIFICATION_Renderings_instance       map[*SPECIFICATION_Rendering]*SPECIFICATION_Rendering
@@ -1552,10 +1561,10 @@ type Stage struct {
 	SPECIFICATION_Renderings_referenceOrder map[*SPECIFICATION_Rendering]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSPECIFICATION_RenderingCreateCallback OnAfterCreateInterface[SPECIFICATION_Rendering]
-	OnAfterSPECIFICATION_RenderingUpdateCallback OnAfterUpdateInterface[SPECIFICATION_Rendering]
-	OnAfterSPECIFICATION_RenderingDeleteCallback OnAfterDeleteInterface[SPECIFICATION_Rendering]
-	OnAfterSPECIFICATION_RenderingReadCallback   OnAfterReadInterface[SPECIFICATION_Rendering]
+	OnAfterSPECIFICATION_RenderingCreateCallback GongOnAfterCreateInterface[SPECIFICATION_Rendering]
+	OnAfterSPECIFICATION_RenderingUpdateCallback GongOnAfterUpdateInterface[SPECIFICATION_Rendering]
+	OnAfterSPECIFICATION_RenderingDeleteCallback GongOnAfterDeleteInterface[SPECIFICATION_Rendering]
+	OnAfterSPECIFICATION_RenderingReadCallback   GongOnAfterReadInterface[SPECIFICATION_Rendering]
 
 	SPECIFICATION_TYPEs                map[*SPECIFICATION_TYPE]struct{}
 	SPECIFICATION_TYPEs_instance       map[*SPECIFICATION_TYPE]*SPECIFICATION_TYPE
@@ -1567,10 +1576,10 @@ type Stage struct {
 	SPECIFICATION_TYPEs_referenceOrder map[*SPECIFICATION_TYPE]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSPECIFICATION_TYPECreateCallback OnAfterCreateInterface[SPECIFICATION_TYPE]
-	OnAfterSPECIFICATION_TYPEUpdateCallback OnAfterUpdateInterface[SPECIFICATION_TYPE]
-	OnAfterSPECIFICATION_TYPEDeleteCallback OnAfterDeleteInterface[SPECIFICATION_TYPE]
-	OnAfterSPECIFICATION_TYPEReadCallback   OnAfterReadInterface[SPECIFICATION_TYPE]
+	OnAfterSPECIFICATION_TYPECreateCallback GongOnAfterCreateInterface[SPECIFICATION_TYPE]
+	OnAfterSPECIFICATION_TYPEUpdateCallback GongOnAfterUpdateInterface[SPECIFICATION_TYPE]
+	OnAfterSPECIFICATION_TYPEDeleteCallback GongOnAfterDeleteInterface[SPECIFICATION_TYPE]
+	OnAfterSPECIFICATION_TYPEReadCallback   GongOnAfterReadInterface[SPECIFICATION_TYPE]
 
 	SPEC_HIERARCHYs                map[*SPEC_HIERARCHY]struct{}
 	SPEC_HIERARCHYs_instance       map[*SPEC_HIERARCHY]*SPEC_HIERARCHY
@@ -1582,10 +1591,10 @@ type Stage struct {
 	SPEC_HIERARCHYs_referenceOrder map[*SPEC_HIERARCHY]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSPEC_HIERARCHYCreateCallback OnAfterCreateInterface[SPEC_HIERARCHY]
-	OnAfterSPEC_HIERARCHYUpdateCallback OnAfterUpdateInterface[SPEC_HIERARCHY]
-	OnAfterSPEC_HIERARCHYDeleteCallback OnAfterDeleteInterface[SPEC_HIERARCHY]
-	OnAfterSPEC_HIERARCHYReadCallback   OnAfterReadInterface[SPEC_HIERARCHY]
+	OnAfterSPEC_HIERARCHYCreateCallback GongOnAfterCreateInterface[SPEC_HIERARCHY]
+	OnAfterSPEC_HIERARCHYUpdateCallback GongOnAfterUpdateInterface[SPEC_HIERARCHY]
+	OnAfterSPEC_HIERARCHYDeleteCallback GongOnAfterDeleteInterface[SPEC_HIERARCHY]
+	OnAfterSPEC_HIERARCHYReadCallback   GongOnAfterReadInterface[SPEC_HIERARCHY]
 
 	SPEC_OBJECTs                map[*SPEC_OBJECT]struct{}
 	SPEC_OBJECTs_instance       map[*SPEC_OBJECT]*SPEC_OBJECT
@@ -1597,10 +1606,10 @@ type Stage struct {
 	SPEC_OBJECTs_referenceOrder map[*SPEC_OBJECT]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSPEC_OBJECTCreateCallback OnAfterCreateInterface[SPEC_OBJECT]
-	OnAfterSPEC_OBJECTUpdateCallback OnAfterUpdateInterface[SPEC_OBJECT]
-	OnAfterSPEC_OBJECTDeleteCallback OnAfterDeleteInterface[SPEC_OBJECT]
-	OnAfterSPEC_OBJECTReadCallback   OnAfterReadInterface[SPEC_OBJECT]
+	OnAfterSPEC_OBJECTCreateCallback GongOnAfterCreateInterface[SPEC_OBJECT]
+	OnAfterSPEC_OBJECTUpdateCallback GongOnAfterUpdateInterface[SPEC_OBJECT]
+	OnAfterSPEC_OBJECTDeleteCallback GongOnAfterDeleteInterface[SPEC_OBJECT]
+	OnAfterSPEC_OBJECTReadCallback   GongOnAfterReadInterface[SPEC_OBJECT]
 
 	SPEC_OBJECT_TYPEs                map[*SPEC_OBJECT_TYPE]struct{}
 	SPEC_OBJECT_TYPEs_instance       map[*SPEC_OBJECT_TYPE]*SPEC_OBJECT_TYPE
@@ -1612,10 +1621,10 @@ type Stage struct {
 	SPEC_OBJECT_TYPEs_referenceOrder map[*SPEC_OBJECT_TYPE]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSPEC_OBJECT_TYPECreateCallback OnAfterCreateInterface[SPEC_OBJECT_TYPE]
-	OnAfterSPEC_OBJECT_TYPEUpdateCallback OnAfterUpdateInterface[SPEC_OBJECT_TYPE]
-	OnAfterSPEC_OBJECT_TYPEDeleteCallback OnAfterDeleteInterface[SPEC_OBJECT_TYPE]
-	OnAfterSPEC_OBJECT_TYPEReadCallback   OnAfterReadInterface[SPEC_OBJECT_TYPE]
+	OnAfterSPEC_OBJECT_TYPECreateCallback GongOnAfterCreateInterface[SPEC_OBJECT_TYPE]
+	OnAfterSPEC_OBJECT_TYPEUpdateCallback GongOnAfterUpdateInterface[SPEC_OBJECT_TYPE]
+	OnAfterSPEC_OBJECT_TYPEDeleteCallback GongOnAfterDeleteInterface[SPEC_OBJECT_TYPE]
+	OnAfterSPEC_OBJECT_TYPEReadCallback   GongOnAfterReadInterface[SPEC_OBJECT_TYPE]
 
 	SPEC_OBJECT_TYPE_Renderings                map[*SPEC_OBJECT_TYPE_Rendering]struct{}
 	SPEC_OBJECT_TYPE_Renderings_instance       map[*SPEC_OBJECT_TYPE_Rendering]*SPEC_OBJECT_TYPE_Rendering
@@ -1627,10 +1636,10 @@ type Stage struct {
 	SPEC_OBJECT_TYPE_Renderings_referenceOrder map[*SPEC_OBJECT_TYPE_Rendering]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSPEC_OBJECT_TYPE_RenderingCreateCallback OnAfterCreateInterface[SPEC_OBJECT_TYPE_Rendering]
-	OnAfterSPEC_OBJECT_TYPE_RenderingUpdateCallback OnAfterUpdateInterface[SPEC_OBJECT_TYPE_Rendering]
-	OnAfterSPEC_OBJECT_TYPE_RenderingDeleteCallback OnAfterDeleteInterface[SPEC_OBJECT_TYPE_Rendering]
-	OnAfterSPEC_OBJECT_TYPE_RenderingReadCallback   OnAfterReadInterface[SPEC_OBJECT_TYPE_Rendering]
+	OnAfterSPEC_OBJECT_TYPE_RenderingCreateCallback GongOnAfterCreateInterface[SPEC_OBJECT_TYPE_Rendering]
+	OnAfterSPEC_OBJECT_TYPE_RenderingUpdateCallback GongOnAfterUpdateInterface[SPEC_OBJECT_TYPE_Rendering]
+	OnAfterSPEC_OBJECT_TYPE_RenderingDeleteCallback GongOnAfterDeleteInterface[SPEC_OBJECT_TYPE_Rendering]
+	OnAfterSPEC_OBJECT_TYPE_RenderingReadCallback   GongOnAfterReadInterface[SPEC_OBJECT_TYPE_Rendering]
 
 	SPEC_RELATIONs                map[*SPEC_RELATION]struct{}
 	SPEC_RELATIONs_instance       map[*SPEC_RELATION]*SPEC_RELATION
@@ -1642,10 +1651,10 @@ type Stage struct {
 	SPEC_RELATIONs_referenceOrder map[*SPEC_RELATION]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSPEC_RELATIONCreateCallback OnAfterCreateInterface[SPEC_RELATION]
-	OnAfterSPEC_RELATIONUpdateCallback OnAfterUpdateInterface[SPEC_RELATION]
-	OnAfterSPEC_RELATIONDeleteCallback OnAfterDeleteInterface[SPEC_RELATION]
-	OnAfterSPEC_RELATIONReadCallback   OnAfterReadInterface[SPEC_RELATION]
+	OnAfterSPEC_RELATIONCreateCallback GongOnAfterCreateInterface[SPEC_RELATION]
+	OnAfterSPEC_RELATIONUpdateCallback GongOnAfterUpdateInterface[SPEC_RELATION]
+	OnAfterSPEC_RELATIONDeleteCallback GongOnAfterDeleteInterface[SPEC_RELATION]
+	OnAfterSPEC_RELATIONReadCallback   GongOnAfterReadInterface[SPEC_RELATION]
 
 	SPEC_RELATION_TYPEs                map[*SPEC_RELATION_TYPE]struct{}
 	SPEC_RELATION_TYPEs_instance       map[*SPEC_RELATION_TYPE]*SPEC_RELATION_TYPE
@@ -1657,10 +1666,10 @@ type Stage struct {
 	SPEC_RELATION_TYPEs_referenceOrder map[*SPEC_RELATION_TYPE]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterSPEC_RELATION_TYPECreateCallback OnAfterCreateInterface[SPEC_RELATION_TYPE]
-	OnAfterSPEC_RELATION_TYPEUpdateCallback OnAfterUpdateInterface[SPEC_RELATION_TYPE]
-	OnAfterSPEC_RELATION_TYPEDeleteCallback OnAfterDeleteInterface[SPEC_RELATION_TYPE]
-	OnAfterSPEC_RELATION_TYPEReadCallback   OnAfterReadInterface[SPEC_RELATION_TYPE]
+	OnAfterSPEC_RELATION_TYPECreateCallback GongOnAfterCreateInterface[SPEC_RELATION_TYPE]
+	OnAfterSPEC_RELATION_TYPEUpdateCallback GongOnAfterUpdateInterface[SPEC_RELATION_TYPE]
+	OnAfterSPEC_RELATION_TYPEDeleteCallback GongOnAfterDeleteInterface[SPEC_RELATION_TYPE]
+	OnAfterSPEC_RELATION_TYPEReadCallback   GongOnAfterReadInterface[SPEC_RELATION_TYPE]
 
 	StaticWebSites                map[*StaticWebSite]struct{}
 	StaticWebSites_instance       map[*StaticWebSite]*StaticWebSite
@@ -1674,10 +1683,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	StaticWebSite_Chapters_reverseMap map[*StaticWebSiteChapter]*StaticWebSite
 
-	OnAfterStaticWebSiteCreateCallback OnAfterCreateInterface[StaticWebSite]
-	OnAfterStaticWebSiteUpdateCallback OnAfterUpdateInterface[StaticWebSite]
-	OnAfterStaticWebSiteDeleteCallback OnAfterDeleteInterface[StaticWebSite]
-	OnAfterStaticWebSiteReadCallback   OnAfterReadInterface[StaticWebSite]
+	OnAfterStaticWebSiteCreateCallback GongOnAfterCreateInterface[StaticWebSite]
+	OnAfterStaticWebSiteUpdateCallback GongOnAfterUpdateInterface[StaticWebSite]
+	OnAfterStaticWebSiteDeleteCallback GongOnAfterDeleteInterface[StaticWebSite]
+	OnAfterStaticWebSiteReadCallback   GongOnAfterReadInterface[StaticWebSite]
 
 	StaticWebSiteChapters                map[*StaticWebSiteChapter]struct{}
 	StaticWebSiteChapters_instance       map[*StaticWebSiteChapter]*StaticWebSiteChapter
@@ -1691,10 +1700,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	StaticWebSiteChapter_Paragraphs_reverseMap map[*StaticWebSiteParagraph]*StaticWebSiteChapter
 
-	OnAfterStaticWebSiteChapterCreateCallback OnAfterCreateInterface[StaticWebSiteChapter]
-	OnAfterStaticWebSiteChapterUpdateCallback OnAfterUpdateInterface[StaticWebSiteChapter]
-	OnAfterStaticWebSiteChapterDeleteCallback OnAfterDeleteInterface[StaticWebSiteChapter]
-	OnAfterStaticWebSiteChapterReadCallback   OnAfterReadInterface[StaticWebSiteChapter]
+	OnAfterStaticWebSiteChapterCreateCallback GongOnAfterCreateInterface[StaticWebSiteChapter]
+	OnAfterStaticWebSiteChapterUpdateCallback GongOnAfterUpdateInterface[StaticWebSiteChapter]
+	OnAfterStaticWebSiteChapterDeleteCallback GongOnAfterDeleteInterface[StaticWebSiteChapter]
+	OnAfterStaticWebSiteChapterReadCallback   GongOnAfterReadInterface[StaticWebSiteChapter]
 
 	StaticWebSiteGeneratedImages                map[*StaticWebSiteGeneratedImage]struct{}
 	StaticWebSiteGeneratedImages_instance       map[*StaticWebSiteGeneratedImage]*StaticWebSiteGeneratedImage
@@ -1706,10 +1715,10 @@ type Stage struct {
 	StaticWebSiteGeneratedImages_referenceOrder map[*StaticWebSiteGeneratedImage]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStaticWebSiteGeneratedImageCreateCallback OnAfterCreateInterface[StaticWebSiteGeneratedImage]
-	OnAfterStaticWebSiteGeneratedImageUpdateCallback OnAfterUpdateInterface[StaticWebSiteGeneratedImage]
-	OnAfterStaticWebSiteGeneratedImageDeleteCallback OnAfterDeleteInterface[StaticWebSiteGeneratedImage]
-	OnAfterStaticWebSiteGeneratedImageReadCallback   OnAfterReadInterface[StaticWebSiteGeneratedImage]
+	OnAfterStaticWebSiteGeneratedImageCreateCallback GongOnAfterCreateInterface[StaticWebSiteGeneratedImage]
+	OnAfterStaticWebSiteGeneratedImageUpdateCallback GongOnAfterUpdateInterface[StaticWebSiteGeneratedImage]
+	OnAfterStaticWebSiteGeneratedImageDeleteCallback GongOnAfterDeleteInterface[StaticWebSiteGeneratedImage]
+	OnAfterStaticWebSiteGeneratedImageReadCallback   GongOnAfterReadInterface[StaticWebSiteGeneratedImage]
 
 	StaticWebSiteImages                map[*StaticWebSiteImage]struct{}
 	StaticWebSiteImages_instance       map[*StaticWebSiteImage]*StaticWebSiteImage
@@ -1721,10 +1730,10 @@ type Stage struct {
 	StaticWebSiteImages_referenceOrder map[*StaticWebSiteImage]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStaticWebSiteImageCreateCallback OnAfterCreateInterface[StaticWebSiteImage]
-	OnAfterStaticWebSiteImageUpdateCallback OnAfterUpdateInterface[StaticWebSiteImage]
-	OnAfterStaticWebSiteImageDeleteCallback OnAfterDeleteInterface[StaticWebSiteImage]
-	OnAfterStaticWebSiteImageReadCallback   OnAfterReadInterface[StaticWebSiteImage]
+	OnAfterStaticWebSiteImageCreateCallback GongOnAfterCreateInterface[StaticWebSiteImage]
+	OnAfterStaticWebSiteImageUpdateCallback GongOnAfterUpdateInterface[StaticWebSiteImage]
+	OnAfterStaticWebSiteImageDeleteCallback GongOnAfterDeleteInterface[StaticWebSiteImage]
+	OnAfterStaticWebSiteImageReadCallback   GongOnAfterReadInterface[StaticWebSiteImage]
 
 	StaticWebSiteParagraphs                map[*StaticWebSiteParagraph]struct{}
 	StaticWebSiteParagraphs_instance       map[*StaticWebSiteParagraph]*StaticWebSiteParagraph
@@ -1736,10 +1745,10 @@ type Stage struct {
 	StaticWebSiteParagraphs_referenceOrder map[*StaticWebSiteParagraph]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterStaticWebSiteParagraphCreateCallback OnAfterCreateInterface[StaticWebSiteParagraph]
-	OnAfterStaticWebSiteParagraphUpdateCallback OnAfterUpdateInterface[StaticWebSiteParagraph]
-	OnAfterStaticWebSiteParagraphDeleteCallback OnAfterDeleteInterface[StaticWebSiteParagraph]
-	OnAfterStaticWebSiteParagraphReadCallback   OnAfterReadInterface[StaticWebSiteParagraph]
+	OnAfterStaticWebSiteParagraphCreateCallback GongOnAfterCreateInterface[StaticWebSiteParagraph]
+	OnAfterStaticWebSiteParagraphUpdateCallback GongOnAfterUpdateInterface[StaticWebSiteParagraph]
+	OnAfterStaticWebSiteParagraphDeleteCallback GongOnAfterDeleteInterface[StaticWebSiteParagraph]
+	OnAfterStaticWebSiteParagraphReadCallback   GongOnAfterReadInterface[StaticWebSiteParagraph]
 
 	XHTML_CONTENTs                map[*XHTML_CONTENT]struct{}
 	XHTML_CONTENTs_instance       map[*XHTML_CONTENT]*XHTML_CONTENT
@@ -1751,18 +1760,18 @@ type Stage struct {
 	XHTML_CONTENTs_referenceOrder map[*XHTML_CONTENT]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterXHTML_CONTENTCreateCallback OnAfterCreateInterface[XHTML_CONTENT]
-	OnAfterXHTML_CONTENTUpdateCallback OnAfterUpdateInterface[XHTML_CONTENT]
-	OnAfterXHTML_CONTENTDeleteCallback OnAfterDeleteInterface[XHTML_CONTENT]
-	OnAfterXHTML_CONTENTReadCallback   OnAfterReadInterface[XHTML_CONTENT]
+	OnAfterXHTML_CONTENTCreateCallback GongOnAfterCreateInterface[XHTML_CONTENT]
+	OnAfterXHTML_CONTENTUpdateCallback GongOnAfterUpdateInterface[XHTML_CONTENT]
+	OnAfterXHTML_CONTENTDeleteCallback GongOnAfterDeleteInterface[XHTML_CONTENT]
+	OnAfterXHTML_CONTENTReadCallback   GongOnAfterReadInterface[XHTML_CONTENT]
 
 
-	BackRepo BackRepoInterface
+	BackRepo GongBackRepoInterface
 
 	// if set will be called before each commit to the back repo
-	OnInitCommitCallback          OnInitCommitInterface
-	OnInitCommitFromFrontCallback OnInitCommitInterface
-	OnInitCommitFromBackCallback  OnInitCommitInterface
+	OnInitCommitCallback          GongOnInitCommitInterface
+	OnInitCommitFromFrontCallback GongOnInitCommitInterface
+	OnInitCommitFromBackCallback  GongOnInitCommitInterface
 
 	// Private slices to hold the registered hooks
 	beforeCommitHooks []func(stage *Stage)
@@ -1786,11 +1795,11 @@ type Stage struct {
 	// end of insertion point
 
 	// GongUnmarshallers is the registry of all model unmarshallers
-	GongUnmarshallers map[string]ModelUnmarshaller
+	GongUnmarshallers map[string]GongModelUnmarshaller
 
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
-	probeIF ProbeIF
+	probeIF GongProbeIF
 
 	forwardCommits  []string
 	backwardCommits []string
@@ -1808,6 +1817,8 @@ type Stage struct {
 
 	lock sync.RWMutex
 }
+
+type GongStage = Stage
 
 func (s *Stage) SetGongMarshallingMode(mode GongMarshallingMode) {
 	s.gongMarshallingMode = mode
@@ -3897,11 +3908,11 @@ func (stage *Stage) IsInDeltaMode() bool {
 	return stage.isInDeltaMode
 }
 
-func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+func (stage *Stage) SetProbeIF(probeIF GongProbeIF) {
 	stage.probeIF = probeIF
 }
 
-func (stage *Stage) GetProbeIF() ProbeIF {
+func (stage *Stage) GetProbeIF() GongProbeIF {
 	if stage.probeIF == nil {
 		return nil
 	}
@@ -3912,7 +3923,7 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
+func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
@@ -5377,7 +5388,7 @@ func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	return
 }
 
-func __gong__getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+func __gong__getStructInstancesByOrder[T GongstructPtr](set map[T]struct{}, order map[T]uint) (res []T) {
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -5407,34 +5418,44 @@ type GONG__Identifier struct {
 	Type  GONG__ExpressionType
 }
 
-type OnInitCommitInterface interface {
+type GongOnInitCommitInterface interface {
 	BeforeCommit(stage *Stage)
 }
 
-// OnAfterCreateInterface callback when an instance is updated from the front
-type OnAfterCreateInterface[Type Gongstruct] interface {
+type OnInitCommitInterface = GongOnInitCommitInterface
+
+// GongOnAfterCreateInterface callback when an instance is updated from the front
+type GongOnAfterCreateInterface[Type Gongstruct] interface {
 	OnAfterCreate(stage *Stage,
 		instance *Type)
 }
 
-// OnAfterReadInterface callback when an instance is updated from the front
-type OnAfterReadInterface[Type Gongstruct] interface {
+type OnAfterCreateInterface[Type Gongstruct] = GongOnAfterCreateInterface[Type]
+
+// GongOnAfterReadInterface callback when an instance is updated from the front
+type GongOnAfterReadInterface[Type Gongstruct] interface {
 	OnAfterRead(stage *Stage,
 		instance *Type)
 }
 
-// OnAfterUpdateInterface callback when an instance is updated from the front
-type OnAfterUpdateInterface[Type Gongstruct] interface {
+type OnAfterReadInterface[Type Gongstruct] = GongOnAfterReadInterface[Type]
+
+// GongOnAfterUpdateInterface callback when an instance is updated from the front
+type GongOnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
 }
 
-// OnAfterDeleteInterface callback when an instance is updated from the front
-type OnAfterDeleteInterface[Type Gongstruct] interface {
+type OnAfterUpdateInterface[Type Gongstruct] = GongOnAfterUpdateInterface[Type]
+
+// GongOnAfterDeleteInterface callback when an instance is updated from the front
+type GongOnAfterDeleteInterface[Type Gongstruct] interface {
 	OnAfterDelete(stage *Stage,
 		staged, front *Type)
 }
 
-type BackRepoInterface interface {
+type OnAfterDeleteInterface[Type Gongstruct] = GongOnAfterDeleteInterface[Type]
+
+type GongBackRepoInterface interface {
 	Commit(stage *Stage)
 	Checkout(stage *Stage)
 	Backup(stage *Stage, dirPath string)
@@ -5653,6 +5674,8 @@ type BackRepoInterface interface {
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
+
+type BackRepoInterface = GongBackRepoInterface
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
@@ -6395,7 +6418,7 @@ func NewStage(name string) (stage *Stage) {
 		XHTML_CONTENTs_reference:  make(map[*XHTML_CONTENT]*XHTML_CONTENT),
 
 		// end of insertion point
-		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+		GongUnmarshallers: map[string]GongModelUnmarshaller{ // insertion point for unmarshallers
 			"ALTERNATIVE_ID": &ALTERNATIVE_IDUnmarshaller{},
 
 			"ATTRIBUTE_DEFINITION_BOOLEAN": &ATTRIBUTE_DEFINITION_BOOLEANUnmarshaller{},
@@ -6623,7 +6646,7 @@ func (stage *Stage) GetOrder(instance GongstructIF) uint {
 }
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
-func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (res Type) {
+func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Type) {
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
@@ -16421,9 +16444,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface{}
 
-type GongtructBasicField interface {
+type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
 }
+
+type GongtructBasicField = GongstructBasicField
 
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
@@ -16442,8 +16467,8 @@ type GongstructIF interface {
 	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
-	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
-	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
+	GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) string
+	GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
 	GongAfterCreateFromFront(stage *Stage)
 	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
@@ -16452,16 +16477,18 @@ type GongstructIF interface {
 	GongStageBranch(stage *Stage)
 	GongUnstageBranch(stage *Stage)
 }
-type PointerToGongstruct interface {
+type GongstructPtr interface {
 	GongstructIF
 	comparable
 }
 
-func GongCompareGongstructByName[T PointerToGongstruct](a, b T) int {
+type PointerToGongstruct = GongstructPtr
+
+func GongCompareGongstructByName[T GongstructPtr](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func GongSortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
+func GongSortGongstructSetByName[T GongstructPtr](set map[T]struct{}) (sortedSlice []T) {
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
 	}
@@ -16471,7 +16498,7 @@ func GongSortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sor
 }
 
 // GetInstancesSorted is the Stage method returning sorted instances of a gongstruct.
-func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T) {
+func (stage *Stage) GetInstancesSorted[T GongstructPtr]() (sortedSlice []T) {
 	set := stage.GetInstancesSet[T]()
 	sortedSlice = GongSortGongstructSetByName(*set)
 
@@ -16698,7 +16725,7 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 }
 
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
-func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
+func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -20642,13 +20669,15 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 	return GongGetPointerToGongstructName[Type]()
 }
 
-type ReverseField struct {
+type GongReverseField struct {
 	GongstructName string
 	Fieldname      string
 }
 
-func GongGetReverseFields[Type GongstructIF]() (res []ReverseField) {
-	res = make([]ReverseField, 0)
+type ReverseField = GongReverseField
+
+func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
+	res = make([]GongReverseField, 0)
 
 	var ret Type
 
@@ -21094,7 +21123,7 @@ func GongGetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	return
 }
 
-func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
+func GetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 	return GongGetReverseFields[Type]()
 }
 
@@ -23742,12 +23771,12 @@ func (xhtml_content *XHTML_CONTENT) GongGetFieldHeaders() (res []GongFieldHeader
 }
 
 // GongGetFieldsFromPointer return the array of the fields
-func GongGetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+func GongGetFieldsFromPointer[Type GongstructPtr]() (res []GongFieldHeader) {
 	var ret Type
 	return ret.GongGetFieldHeaders()
 }
 
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+func GetFieldsFromPointer[Type GongstructPtr]() (res []GongFieldHeader) {
 	return GongGetFieldsFromPointer[Type]()
 }
 

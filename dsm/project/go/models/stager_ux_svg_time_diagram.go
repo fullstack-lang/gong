@@ -506,7 +506,7 @@ func (stager *Stager) drawTimeLine(diagram *Diagram, XLeftLanes float64, XRightM
 				gridLine.X1 = xOriginal
 				gridLine.Y1 = YTopMargin
 				gridLine.X2 = xOriginal
-				gridLine.Y2 = yTimeLine - YTopMargin
+				gridLine.Y2 = yTimeLine
 
 				gridLine.Stroke = "grey"
 				gridLine.StrokeOpacity = 1.0

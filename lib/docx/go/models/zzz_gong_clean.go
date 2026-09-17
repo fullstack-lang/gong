@@ -4,7 +4,7 @@ package models
 import "time"
 
 // CleanSlice is the Stage method that removes unstaged elements from a slice of pointers.
-func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool) {
+func (stage *Stage) CleanSlice[T GongstructPtr](slice *[]T) (modified bool) {
 	if *slice == nil {
 		return false
 	}
@@ -23,7 +23,7 @@ func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool
 }
 
 // CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
-func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
+func (stage *Stage) CleanPointer[T GongstructPtr](element *T) (modified bool) {
 	var zero T
 	if *element == zero {
 		return

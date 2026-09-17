@@ -10,7 +10,7 @@ import (
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 )
 
-type ProbeIF interface {
+type GongProbeIF interface {
 	Refresh()
 	GetFormStage() *form.Stage
 	GetDataEditor() *split.AsSplit
@@ -31,6 +31,8 @@ type ProbeIF interface {
 	UpdateSliceOfPointersCallback(instance any, fieldName string, slicePtr any)
 	SetUpdateSliceOfPointersCallback(cb func(instance any, fieldName string, slicePtr any))
 }
+
+type ProbeIF = GongProbeIF
 
 type GongNodeIF interface {
 }

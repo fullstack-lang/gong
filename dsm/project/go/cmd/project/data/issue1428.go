@@ -40,9 +40,9 @@ func _(stage *models.Stage) {
 	__ProductShape__00000001_ := (&models.ProductShape{Name: `1428-P1.1`}).Stage(stage)
 	__ProductShape__00000002_ := (&models.ProductShape{Name: `1428-P1.2`}).Stage(stage)
 
-	__Task__00000000_ := (&models.Task{Name: ``}).Stage(stage)
+	__Task__00000000_ := (&models.Task{Name: `Task1`}).Stage(stage)
 
-	__TaskShape__00000000_ := (&models.TaskShape{Name: `1428-`}).Stage(stage)
+	__TaskShape__00000000_ := (&models.TaskShape{Name: `1428-Task1`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -169,7 +169,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000002_.Height = 70.000000
 	__ProductShape__00000002_.IsHidden = false
 
-	__Task__00000000_.Name = ``
+	__Task__00000000_.Name = `Task1`
 	__Task__00000000_.Description = ``
 	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
@@ -194,7 +194,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_.IsExpanded = false
 	__Task__00000000_.LayoutDirection = models.Vertical
 
-	__TaskShape__00000000_.Name = `1428-`
+	__TaskShape__00000000_.Name = `1428-Task1`
 	__TaskShape__00000000_.IsShowDate = false
 	__TaskShape__00000000_.OverideLayoutDirection = false
 	__TaskShape__00000000_.LayoutDirection = models.Vertical

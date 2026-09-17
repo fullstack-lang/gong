@@ -2,7 +2,7 @@
 package models
 
 // insertion point
-func (inst *ALTERNATIVE_ID) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ALTERNATIVE_ID) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -11,7 +11,7 @@ func (inst *ALTERNATIVE_ID) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
-func (inst *ATTRIBUTE_DEFINITION_BOOLEAN) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ATTRIBUTE_DEFINITION_BOOLEAN) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -27,7 +27,7 @@ func (inst *ATTRIBUTE_DEFINITION_BOOLEAN) GongGetReverseFieldOwnerName(stage *St
 	return
 }
 
-func (inst *ATTRIBUTE_DEFINITION_DATE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ATTRIBUTE_DEFINITION_DATE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -43,7 +43,7 @@ func (inst *ATTRIBUTE_DEFINITION_DATE) GongGetReverseFieldOwnerName(stage *Stage
 	return
 }
 
-func (inst *ATTRIBUTE_DEFINITION_ENUMERATION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ATTRIBUTE_DEFINITION_ENUMERATION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -59,7 +59,7 @@ func (inst *ATTRIBUTE_DEFINITION_ENUMERATION) GongGetReverseFieldOwnerName(stage
 	return
 }
 
-func (inst *ATTRIBUTE_DEFINITION_INTEGER) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ATTRIBUTE_DEFINITION_INTEGER) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -75,7 +75,7 @@ func (inst *ATTRIBUTE_DEFINITION_INTEGER) GongGetReverseFieldOwnerName(stage *St
 	return
 }
 
-func (inst *ATTRIBUTE_DEFINITION_REAL) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ATTRIBUTE_DEFINITION_REAL) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -91,7 +91,7 @@ func (inst *ATTRIBUTE_DEFINITION_REAL) GongGetReverseFieldOwnerName(stage *Stage
 	return
 }
 
-func (inst *ATTRIBUTE_DEFINITION_STRING) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ATTRIBUTE_DEFINITION_STRING) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -107,7 +107,7 @@ func (inst *ATTRIBUTE_DEFINITION_STRING) GongGetReverseFieldOwnerName(stage *Sta
 	return
 }
 
-func (inst *ATTRIBUTE_DEFINITION_XHTML) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ATTRIBUTE_DEFINITION_XHTML) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -123,7 +123,7 @@ func (inst *ATTRIBUTE_DEFINITION_XHTML) GongGetReverseFieldOwnerName(stage *Stag
 	return
 }
 
-func (inst *ATTRIBUTE_VALUE_BOOLEAN) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ATTRIBUTE_VALUE_BOOLEAN) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -146,7 +146,7 @@ func (inst *ATTRIBUTE_VALUE_BOOLEAN) GongGetReverseFieldOwnerName(stage *Stage, 
 	return
 }
 
-func (inst *ATTRIBUTE_VALUE_DATE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ATTRIBUTE_VALUE_DATE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -169,7 +169,7 @@ func (inst *ATTRIBUTE_VALUE_DATE) GongGetReverseFieldOwnerName(stage *Stage, rev
 	return
 }
 
-func (inst *ATTRIBUTE_VALUE_ENUMERATION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ATTRIBUTE_VALUE_ENUMERATION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -192,7 +192,7 @@ func (inst *ATTRIBUTE_VALUE_ENUMERATION) GongGetReverseFieldOwnerName(stage *Sta
 	return
 }
 
-func (inst *ATTRIBUTE_VALUE_INTEGER) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ATTRIBUTE_VALUE_INTEGER) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -215,7 +215,7 @@ func (inst *ATTRIBUTE_VALUE_INTEGER) GongGetReverseFieldOwnerName(stage *Stage, 
 	return
 }
 
-func (inst *ATTRIBUTE_VALUE_REAL) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ATTRIBUTE_VALUE_REAL) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -238,7 +238,7 @@ func (inst *ATTRIBUTE_VALUE_REAL) GongGetReverseFieldOwnerName(stage *Stage, rev
 	return
 }
 
-func (inst *ATTRIBUTE_VALUE_STRING) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ATTRIBUTE_VALUE_STRING) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -261,7 +261,7 @@ func (inst *ATTRIBUTE_VALUE_STRING) GongGetReverseFieldOwnerName(stage *Stage, r
 	return
 }
 
-func (inst *ATTRIBUTE_VALUE_XHTML) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ATTRIBUTE_VALUE_XHTML) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -284,7 +284,7 @@ func (inst *ATTRIBUTE_VALUE_XHTML) GongGetReverseFieldOwnerName(stage *Stage, re
 	return
 }
 
-func (inst *A_ALTERNATIVE_ID) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ALTERNATIVE_ID) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -293,7 +293,7 @@ func (inst *A_ALTERNATIVE_ID) GongGetReverseFieldOwnerName(stage *Stage, reverse
 	return
 }
 
-func (inst *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -302,7 +302,7 @@ func (inst *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongGetReverseFieldOwnerName(sta
 	return
 }
 
-func (inst *A_ATTRIBUTE_DEFINITION_DATE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_DEFINITION_DATE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -311,7 +311,7 @@ func (inst *A_ATTRIBUTE_DEFINITION_DATE_REF) GongGetReverseFieldOwnerName(stage 
 	return
 }
 
-func (inst *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -320,7 +320,7 @@ func (inst *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongGetReverseFieldOwnerName
 	return
 }
 
-func (inst *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -329,7 +329,7 @@ func (inst *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongGetReverseFieldOwnerName(sta
 	return
 }
 
-func (inst *A_ATTRIBUTE_DEFINITION_REAL_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_DEFINITION_REAL_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -338,7 +338,7 @@ func (inst *A_ATTRIBUTE_DEFINITION_REAL_REF) GongGetReverseFieldOwnerName(stage 
 	return
 }
 
-func (inst *A_ATTRIBUTE_DEFINITION_STRING_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_DEFINITION_STRING_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -347,7 +347,7 @@ func (inst *A_ATTRIBUTE_DEFINITION_STRING_REF) GongGetReverseFieldOwnerName(stag
 	return
 }
 
-func (inst *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -356,7 +356,7 @@ func (inst *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongGetReverseFieldOwnerName(stage
 	return
 }
 
-func (inst *A_ATTRIBUTE_VALUE_BOOLEAN) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_VALUE_BOOLEAN) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -365,7 +365,7 @@ func (inst *A_ATTRIBUTE_VALUE_BOOLEAN) GongGetReverseFieldOwnerName(stage *Stage
 	return
 }
 
-func (inst *A_ATTRIBUTE_VALUE_DATE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_VALUE_DATE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -374,7 +374,7 @@ func (inst *A_ATTRIBUTE_VALUE_DATE) GongGetReverseFieldOwnerName(stage *Stage, r
 	return
 }
 
-func (inst *A_ATTRIBUTE_VALUE_ENUMERATION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_VALUE_ENUMERATION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -383,7 +383,7 @@ func (inst *A_ATTRIBUTE_VALUE_ENUMERATION) GongGetReverseFieldOwnerName(stage *S
 	return
 }
 
-func (inst *A_ATTRIBUTE_VALUE_INTEGER) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_VALUE_INTEGER) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -392,7 +392,7 @@ func (inst *A_ATTRIBUTE_VALUE_INTEGER) GongGetReverseFieldOwnerName(stage *Stage
 	return
 }
 
-func (inst *A_ATTRIBUTE_VALUE_REAL) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_VALUE_REAL) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -401,7 +401,7 @@ func (inst *A_ATTRIBUTE_VALUE_REAL) GongGetReverseFieldOwnerName(stage *Stage, r
 	return
 }
 
-func (inst *A_ATTRIBUTE_VALUE_STRING) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_VALUE_STRING) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -410,7 +410,7 @@ func (inst *A_ATTRIBUTE_VALUE_STRING) GongGetReverseFieldOwnerName(stage *Stage,
 	return
 }
 
-func (inst *A_ATTRIBUTE_VALUE_XHTML) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_VALUE_XHTML) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -419,7 +419,7 @@ func (inst *A_ATTRIBUTE_VALUE_XHTML) GongGetReverseFieldOwnerName(stage *Stage, 
 	return
 }
 
-func (inst *A_ATTRIBUTE_VALUE_XHTML_1) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ATTRIBUTE_VALUE_XHTML_1) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -428,7 +428,7 @@ func (inst *A_ATTRIBUTE_VALUE_XHTML_1) GongGetReverseFieldOwnerName(stage *Stage
 	return
 }
 
-func (inst *A_CHILDREN) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_CHILDREN) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -437,7 +437,7 @@ func (inst *A_CHILDREN) GongGetReverseFieldOwnerName(stage *Stage, reverseField 
 	return
 }
 
-func (inst *A_CORE_CONTENT) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_CORE_CONTENT) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -446,7 +446,7 @@ func (inst *A_CORE_CONTENT) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
-func (inst *A_DATATYPES) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_DATATYPES) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -455,7 +455,7 @@ func (inst *A_DATATYPES) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 	return
 }
 
-func (inst *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -464,7 +464,7 @@ func (inst *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongGetReverseFieldOwnerName(stag
 	return
 }
 
-func (inst *A_DATATYPE_DEFINITION_DATE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_DATATYPE_DEFINITION_DATE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -473,7 +473,7 @@ func (inst *A_DATATYPE_DEFINITION_DATE_REF) GongGetReverseFieldOwnerName(stage *
 	return
 }
 
-func (inst *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -482,7 +482,7 @@ func (inst *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongGetReverseFieldOwnerName(
 	return
 }
 
-func (inst *A_DATATYPE_DEFINITION_INTEGER_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_DATATYPE_DEFINITION_INTEGER_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -491,7 +491,7 @@ func (inst *A_DATATYPE_DEFINITION_INTEGER_REF) GongGetReverseFieldOwnerName(stag
 	return
 }
 
-func (inst *A_DATATYPE_DEFINITION_REAL_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_DATATYPE_DEFINITION_REAL_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -500,7 +500,7 @@ func (inst *A_DATATYPE_DEFINITION_REAL_REF) GongGetReverseFieldOwnerName(stage *
 	return
 }
 
-func (inst *A_DATATYPE_DEFINITION_STRING_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_DATATYPE_DEFINITION_STRING_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -509,7 +509,7 @@ func (inst *A_DATATYPE_DEFINITION_STRING_REF) GongGetReverseFieldOwnerName(stage
 	return
 }
 
-func (inst *A_DATATYPE_DEFINITION_XHTML_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_DATATYPE_DEFINITION_XHTML_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -518,7 +518,7 @@ func (inst *A_DATATYPE_DEFINITION_XHTML_REF) GongGetReverseFieldOwnerName(stage 
 	return
 }
 
-func (inst *A_EDITABLE_ATTS) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_EDITABLE_ATTS) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -527,7 +527,7 @@ func (inst *A_EDITABLE_ATTS) GongGetReverseFieldOwnerName(stage *Stage, reverseF
 	return
 }
 
-func (inst *A_ENUM_VALUE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_ENUM_VALUE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -536,7 +536,7 @@ func (inst *A_ENUM_VALUE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverse
 	return
 }
 
-func (inst *A_OBJECT) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_OBJECT) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -545,7 +545,7 @@ func (inst *A_OBJECT) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 	return
 }
 
-func (inst *A_PROPERTIES) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_PROPERTIES) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -554,7 +554,7 @@ func (inst *A_PROPERTIES) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	return
 }
 
-func (inst *A_RELATION_GROUP_TYPE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_RELATION_GROUP_TYPE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -563,7 +563,7 @@ func (inst *A_RELATION_GROUP_TYPE_REF) GongGetReverseFieldOwnerName(stage *Stage
 	return
 }
 
-func (inst *A_SOURCE_1) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_SOURCE_1) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -572,7 +572,7 @@ func (inst *A_SOURCE_1) GongGetReverseFieldOwnerName(stage *Stage, reverseField 
 	return
 }
 
-func (inst *A_SOURCE_SPECIFICATION_1) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_SOURCE_SPECIFICATION_1) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -581,7 +581,7 @@ func (inst *A_SOURCE_SPECIFICATION_1) GongGetReverseFieldOwnerName(stage *Stage,
 	return
 }
 
-func (inst *A_SPECIFICATIONS) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_SPECIFICATIONS) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -590,7 +590,7 @@ func (inst *A_SPECIFICATIONS) GongGetReverseFieldOwnerName(stage *Stage, reverse
 	return
 }
 
-func (inst *A_SPECIFICATION_TYPE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_SPECIFICATION_TYPE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -599,7 +599,7 @@ func (inst *A_SPECIFICATION_TYPE_REF) GongGetReverseFieldOwnerName(stage *Stage,
 	return
 }
 
-func (inst *A_SPECIFIED_VALUES) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_SPECIFIED_VALUES) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -608,7 +608,7 @@ func (inst *A_SPECIFIED_VALUES) GongGetReverseFieldOwnerName(stage *Stage, rever
 	return
 }
 
-func (inst *A_SPEC_ATTRIBUTES) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_SPEC_ATTRIBUTES) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -617,7 +617,7 @@ func (inst *A_SPEC_ATTRIBUTES) GongGetReverseFieldOwnerName(stage *Stage, revers
 	return
 }
 
-func (inst *A_SPEC_OBJECTS) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_SPEC_OBJECTS) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -626,7 +626,7 @@ func (inst *A_SPEC_OBJECTS) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
-func (inst *A_SPEC_OBJECT_TYPE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_SPEC_OBJECT_TYPE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -635,7 +635,7 @@ func (inst *A_SPEC_OBJECT_TYPE_REF) GongGetReverseFieldOwnerName(stage *Stage, r
 	return
 }
 
-func (inst *A_SPEC_RELATIONS) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_SPEC_RELATIONS) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -644,7 +644,7 @@ func (inst *A_SPEC_RELATIONS) GongGetReverseFieldOwnerName(stage *Stage, reverse
 	return
 }
 
-func (inst *A_SPEC_RELATION_GROUPS) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_SPEC_RELATION_GROUPS) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -653,7 +653,7 @@ func (inst *A_SPEC_RELATION_GROUPS) GongGetReverseFieldOwnerName(stage *Stage, r
 	return
 }
 
-func (inst *A_SPEC_RELATION_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_SPEC_RELATION_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -662,7 +662,7 @@ func (inst *A_SPEC_RELATION_REF) GongGetReverseFieldOwnerName(stage *Stage, reve
 	return
 }
 
-func (inst *A_SPEC_RELATION_TYPE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_SPEC_RELATION_TYPE_REF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -671,7 +671,7 @@ func (inst *A_SPEC_RELATION_TYPE_REF) GongGetReverseFieldOwnerName(stage *Stage,
 	return
 }
 
-func (inst *A_SPEC_TYPES) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_SPEC_TYPES) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -680,7 +680,7 @@ func (inst *A_SPEC_TYPES) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	return
 }
 
-func (inst *A_THE_HEADER) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_THE_HEADER) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -689,7 +689,7 @@ func (inst *A_THE_HEADER) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	return
 }
 
-func (inst *A_TOOL_EXTENSIONS) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *A_TOOL_EXTENSIONS) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -698,7 +698,7 @@ func (inst *A_TOOL_EXTENSIONS) GongGetReverseFieldOwnerName(stage *Stage, revers
 	return
 }
 
-func (inst *DATATYPE_DEFINITION_BOOLEAN) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *DATATYPE_DEFINITION_BOOLEAN) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -714,7 +714,7 @@ func (inst *DATATYPE_DEFINITION_BOOLEAN) GongGetReverseFieldOwnerName(stage *Sta
 	return
 }
 
-func (inst *DATATYPE_DEFINITION_DATE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *DATATYPE_DEFINITION_DATE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -730,7 +730,7 @@ func (inst *DATATYPE_DEFINITION_DATE) GongGetReverseFieldOwnerName(stage *Stage,
 	return
 }
 
-func (inst *DATATYPE_DEFINITION_ENUMERATION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *DATATYPE_DEFINITION_ENUMERATION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -746,7 +746,7 @@ func (inst *DATATYPE_DEFINITION_ENUMERATION) GongGetReverseFieldOwnerName(stage 
 	return
 }
 
-func (inst *DATATYPE_DEFINITION_INTEGER) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *DATATYPE_DEFINITION_INTEGER) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -762,7 +762,7 @@ func (inst *DATATYPE_DEFINITION_INTEGER) GongGetReverseFieldOwnerName(stage *Sta
 	return
 }
 
-func (inst *DATATYPE_DEFINITION_REAL) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *DATATYPE_DEFINITION_REAL) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -778,7 +778,7 @@ func (inst *DATATYPE_DEFINITION_REAL) GongGetReverseFieldOwnerName(stage *Stage,
 	return
 }
 
-func (inst *DATATYPE_DEFINITION_STRING) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *DATATYPE_DEFINITION_STRING) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -794,7 +794,7 @@ func (inst *DATATYPE_DEFINITION_STRING) GongGetReverseFieldOwnerName(stage *Stag
 	return
 }
 
-func (inst *DATATYPE_DEFINITION_XHTML) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *DATATYPE_DEFINITION_XHTML) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -810,7 +810,7 @@ func (inst *DATATYPE_DEFINITION_XHTML) GongGetReverseFieldOwnerName(stage *Stage
 	return
 }
 
-func (inst *EMBEDDED_VALUE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *EMBEDDED_VALUE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -819,7 +819,7 @@ func (inst *EMBEDDED_VALUE) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
-func (inst *ENUM_VALUE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ENUM_VALUE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -835,7 +835,7 @@ func (inst *ENUM_VALUE) GongGetReverseFieldOwnerName(stage *Stage, reverseField 
 	return
 }
 
-func (inst *RELATION_GROUP) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *RELATION_GROUP) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -851,7 +851,7 @@ func (inst *RELATION_GROUP) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
-func (inst *RELATION_GROUP_TYPE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *RELATION_GROUP_TYPE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -867,7 +867,7 @@ func (inst *RELATION_GROUP_TYPE) GongGetReverseFieldOwnerName(stage *Stage, reve
 	return
 }
 
-func (inst *REQ_IF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *REQ_IF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -876,7 +876,7 @@ func (inst *REQ_IF) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rev
 	return
 }
 
-func (inst *REQ_IF_CONTENT) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *REQ_IF_CONTENT) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -885,7 +885,7 @@ func (inst *REQ_IF_CONTENT) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
-func (inst *REQ_IF_HEADER) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *REQ_IF_HEADER) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -894,7 +894,7 @@ func (inst *REQ_IF_HEADER) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 	return
 }
 
-func (inst *REQ_IF_TOOL_EXTENSION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *REQ_IF_TOOL_EXTENSION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -910,7 +910,7 @@ func (inst *REQ_IF_TOOL_EXTENSION) GongGetReverseFieldOwnerName(stage *Stage, re
 	return
 }
 
-func (inst *SPECIFICATION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *SPECIFICATION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -926,7 +926,7 @@ func (inst *SPECIFICATION) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 	return
 }
 
-func (inst *SPECIFICATION_TYPE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *SPECIFICATION_TYPE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -942,7 +942,7 @@ func (inst *SPECIFICATION_TYPE) GongGetReverseFieldOwnerName(stage *Stage, rever
 	return
 }
 
-func (inst *SPEC_HIERARCHY) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *SPEC_HIERARCHY) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -958,7 +958,7 @@ func (inst *SPEC_HIERARCHY) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
-func (inst *SPEC_OBJECT) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *SPEC_OBJECT) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -974,7 +974,7 @@ func (inst *SPEC_OBJECT) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 	return
 }
 
-func (inst *SPEC_OBJECT_TYPE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *SPEC_OBJECT_TYPE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -990,7 +990,7 @@ func (inst *SPEC_OBJECT_TYPE) GongGetReverseFieldOwnerName(stage *Stage, reverse
 	return
 }
 
-func (inst *SPEC_RELATION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *SPEC_RELATION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -1006,7 +1006,7 @@ func (inst *SPEC_RELATION) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 	return
 }
 
-func (inst *SPEC_RELATION_TYPE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *SPEC_RELATION_TYPE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -1022,7 +1022,7 @@ func (inst *SPEC_RELATION_TYPE) GongGetReverseFieldOwnerName(stage *Stage, rever
 	return
 }
 
-func (inst *XHTML_CONTENT) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *XHTML_CONTENT) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -1032,7 +1032,7 @@ func (inst *XHTML_CONTENT) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 }
 
 // insertion point
-func (inst *ALTERNATIVE_ID) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ALTERNATIVE_ID) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1041,7 +1041,7 @@ func (inst *ALTERNATIVE_ID) GongGetReverseFieldOwner(stage *Stage, reverseField 
 	return res
 }
 
-func (inst *ATTRIBUTE_DEFINITION_BOOLEAN) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ATTRIBUTE_DEFINITION_BOOLEAN) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1055,7 +1055,7 @@ func (inst *ATTRIBUTE_DEFINITION_BOOLEAN) GongGetReverseFieldOwner(stage *Stage,
 	return res
 }
 
-func (inst *ATTRIBUTE_DEFINITION_DATE) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ATTRIBUTE_DEFINITION_DATE) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1069,7 +1069,7 @@ func (inst *ATTRIBUTE_DEFINITION_DATE) GongGetReverseFieldOwner(stage *Stage, re
 	return res
 }
 
-func (inst *ATTRIBUTE_DEFINITION_ENUMERATION) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ATTRIBUTE_DEFINITION_ENUMERATION) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1083,7 +1083,7 @@ func (inst *ATTRIBUTE_DEFINITION_ENUMERATION) GongGetReverseFieldOwner(stage *St
 	return res
 }
 
-func (inst *ATTRIBUTE_DEFINITION_INTEGER) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ATTRIBUTE_DEFINITION_INTEGER) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1097,7 +1097,7 @@ func (inst *ATTRIBUTE_DEFINITION_INTEGER) GongGetReverseFieldOwner(stage *Stage,
 	return res
 }
 
-func (inst *ATTRIBUTE_DEFINITION_REAL) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ATTRIBUTE_DEFINITION_REAL) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1111,7 +1111,7 @@ func (inst *ATTRIBUTE_DEFINITION_REAL) GongGetReverseFieldOwner(stage *Stage, re
 	return res
 }
 
-func (inst *ATTRIBUTE_DEFINITION_STRING) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ATTRIBUTE_DEFINITION_STRING) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1125,7 +1125,7 @@ func (inst *ATTRIBUTE_DEFINITION_STRING) GongGetReverseFieldOwner(stage *Stage, 
 	return res
 }
 
-func (inst *ATTRIBUTE_DEFINITION_XHTML) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ATTRIBUTE_DEFINITION_XHTML) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1139,7 +1139,7 @@ func (inst *ATTRIBUTE_DEFINITION_XHTML) GongGetReverseFieldOwner(stage *Stage, r
 	return res
 }
 
-func (inst *ATTRIBUTE_VALUE_BOOLEAN) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ATTRIBUTE_VALUE_BOOLEAN) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1158,7 +1158,7 @@ func (inst *ATTRIBUTE_VALUE_BOOLEAN) GongGetReverseFieldOwner(stage *Stage, reve
 	return res
 }
 
-func (inst *ATTRIBUTE_VALUE_DATE) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ATTRIBUTE_VALUE_DATE) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1177,7 +1177,7 @@ func (inst *ATTRIBUTE_VALUE_DATE) GongGetReverseFieldOwner(stage *Stage, reverse
 	return res
 }
 
-func (inst *ATTRIBUTE_VALUE_ENUMERATION) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ATTRIBUTE_VALUE_ENUMERATION) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1196,7 +1196,7 @@ func (inst *ATTRIBUTE_VALUE_ENUMERATION) GongGetReverseFieldOwner(stage *Stage, 
 	return res
 }
 
-func (inst *ATTRIBUTE_VALUE_INTEGER) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ATTRIBUTE_VALUE_INTEGER) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1215,7 +1215,7 @@ func (inst *ATTRIBUTE_VALUE_INTEGER) GongGetReverseFieldOwner(stage *Stage, reve
 	return res
 }
 
-func (inst *ATTRIBUTE_VALUE_REAL) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ATTRIBUTE_VALUE_REAL) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1234,7 +1234,7 @@ func (inst *ATTRIBUTE_VALUE_REAL) GongGetReverseFieldOwner(stage *Stage, reverse
 	return res
 }
 
-func (inst *ATTRIBUTE_VALUE_STRING) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ATTRIBUTE_VALUE_STRING) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1253,7 +1253,7 @@ func (inst *ATTRIBUTE_VALUE_STRING) GongGetReverseFieldOwner(stage *Stage, rever
 	return res
 }
 
-func (inst *ATTRIBUTE_VALUE_XHTML) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ATTRIBUTE_VALUE_XHTML) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1272,7 +1272,7 @@ func (inst *ATTRIBUTE_VALUE_XHTML) GongGetReverseFieldOwner(stage *Stage, revers
 	return res
 }
 
-func (inst *A_ALTERNATIVE_ID) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ALTERNATIVE_ID) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1281,7 +1281,7 @@ func (inst *A_ALTERNATIVE_ID) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 	return res
 }
 
-func (inst *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1290,7 +1290,7 @@ func (inst *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongGetReverseFieldOwner(stage *
 	return res
 }
 
-func (inst *A_ATTRIBUTE_DEFINITION_DATE_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_DEFINITION_DATE_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1299,7 +1299,7 @@ func (inst *A_ATTRIBUTE_DEFINITION_DATE_REF) GongGetReverseFieldOwner(stage *Sta
 	return res
 }
 
-func (inst *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1308,7 +1308,7 @@ func (inst *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongGetReverseFieldOwner(sta
 	return res
 }
 
-func (inst *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1317,7 +1317,7 @@ func (inst *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongGetReverseFieldOwner(stage *
 	return res
 }
 
-func (inst *A_ATTRIBUTE_DEFINITION_REAL_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_DEFINITION_REAL_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1326,7 +1326,7 @@ func (inst *A_ATTRIBUTE_DEFINITION_REAL_REF) GongGetReverseFieldOwner(stage *Sta
 	return res
 }
 
-func (inst *A_ATTRIBUTE_DEFINITION_STRING_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_DEFINITION_STRING_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1335,7 +1335,7 @@ func (inst *A_ATTRIBUTE_DEFINITION_STRING_REF) GongGetReverseFieldOwner(stage *S
 	return res
 }
 
-func (inst *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1344,7 +1344,7 @@ func (inst *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongGetReverseFieldOwner(stage *St
 	return res
 }
 
-func (inst *A_ATTRIBUTE_VALUE_BOOLEAN) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_VALUE_BOOLEAN) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1353,7 +1353,7 @@ func (inst *A_ATTRIBUTE_VALUE_BOOLEAN) GongGetReverseFieldOwner(stage *Stage, re
 	return res
 }
 
-func (inst *A_ATTRIBUTE_VALUE_DATE) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_VALUE_DATE) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1362,7 +1362,7 @@ func (inst *A_ATTRIBUTE_VALUE_DATE) GongGetReverseFieldOwner(stage *Stage, rever
 	return res
 }
 
-func (inst *A_ATTRIBUTE_VALUE_ENUMERATION) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_VALUE_ENUMERATION) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1371,7 +1371,7 @@ func (inst *A_ATTRIBUTE_VALUE_ENUMERATION) GongGetReverseFieldOwner(stage *Stage
 	return res
 }
 
-func (inst *A_ATTRIBUTE_VALUE_INTEGER) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_VALUE_INTEGER) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1380,7 +1380,7 @@ func (inst *A_ATTRIBUTE_VALUE_INTEGER) GongGetReverseFieldOwner(stage *Stage, re
 	return res
 }
 
-func (inst *A_ATTRIBUTE_VALUE_REAL) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_VALUE_REAL) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1389,7 +1389,7 @@ func (inst *A_ATTRIBUTE_VALUE_REAL) GongGetReverseFieldOwner(stage *Stage, rever
 	return res
 }
 
-func (inst *A_ATTRIBUTE_VALUE_STRING) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_VALUE_STRING) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1398,7 +1398,7 @@ func (inst *A_ATTRIBUTE_VALUE_STRING) GongGetReverseFieldOwner(stage *Stage, rev
 	return res
 }
 
-func (inst *A_ATTRIBUTE_VALUE_XHTML) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_VALUE_XHTML) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1407,7 +1407,7 @@ func (inst *A_ATTRIBUTE_VALUE_XHTML) GongGetReverseFieldOwner(stage *Stage, reve
 	return res
 }
 
-func (inst *A_ATTRIBUTE_VALUE_XHTML_1) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ATTRIBUTE_VALUE_XHTML_1) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1416,7 +1416,7 @@ func (inst *A_ATTRIBUTE_VALUE_XHTML_1) GongGetReverseFieldOwner(stage *Stage, re
 	return res
 }
 
-func (inst *A_CHILDREN) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_CHILDREN) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1425,7 +1425,7 @@ func (inst *A_CHILDREN) GongGetReverseFieldOwner(stage *Stage, reverseField *Rev
 	return res
 }
 
-func (inst *A_CORE_CONTENT) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_CORE_CONTENT) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1434,7 +1434,7 @@ func (inst *A_CORE_CONTENT) GongGetReverseFieldOwner(stage *Stage, reverseField 
 	return res
 }
 
-func (inst *A_DATATYPES) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_DATATYPES) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1443,7 +1443,7 @@ func (inst *A_DATATYPES) GongGetReverseFieldOwner(stage *Stage, reverseField *Re
 	return res
 }
 
-func (inst *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1452,7 +1452,7 @@ func (inst *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongGetReverseFieldOwner(stage *S
 	return res
 }
 
-func (inst *A_DATATYPE_DEFINITION_DATE_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_DATATYPE_DEFINITION_DATE_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1461,7 +1461,7 @@ func (inst *A_DATATYPE_DEFINITION_DATE_REF) GongGetReverseFieldOwner(stage *Stag
 	return res
 }
 
-func (inst *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1470,7 +1470,7 @@ func (inst *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongGetReverseFieldOwner(stag
 	return res
 }
 
-func (inst *A_DATATYPE_DEFINITION_INTEGER_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_DATATYPE_DEFINITION_INTEGER_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1479,7 +1479,7 @@ func (inst *A_DATATYPE_DEFINITION_INTEGER_REF) GongGetReverseFieldOwner(stage *S
 	return res
 }
 
-func (inst *A_DATATYPE_DEFINITION_REAL_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_DATATYPE_DEFINITION_REAL_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1488,7 +1488,7 @@ func (inst *A_DATATYPE_DEFINITION_REAL_REF) GongGetReverseFieldOwner(stage *Stag
 	return res
 }
 
-func (inst *A_DATATYPE_DEFINITION_STRING_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_DATATYPE_DEFINITION_STRING_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1497,7 +1497,7 @@ func (inst *A_DATATYPE_DEFINITION_STRING_REF) GongGetReverseFieldOwner(stage *St
 	return res
 }
 
-func (inst *A_DATATYPE_DEFINITION_XHTML_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_DATATYPE_DEFINITION_XHTML_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1506,7 +1506,7 @@ func (inst *A_DATATYPE_DEFINITION_XHTML_REF) GongGetReverseFieldOwner(stage *Sta
 	return res
 }
 
-func (inst *A_EDITABLE_ATTS) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_EDITABLE_ATTS) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1515,7 +1515,7 @@ func (inst *A_EDITABLE_ATTS) GongGetReverseFieldOwner(stage *Stage, reverseField
 	return res
 }
 
-func (inst *A_ENUM_VALUE_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_ENUM_VALUE_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1524,7 +1524,7 @@ func (inst *A_ENUM_VALUE_REF) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 	return res
 }
 
-func (inst *A_OBJECT) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_OBJECT) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1533,7 +1533,7 @@ func (inst *A_OBJECT) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 	return res
 }
 
-func (inst *A_PROPERTIES) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_PROPERTIES) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1542,7 +1542,7 @@ func (inst *A_PROPERTIES) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 	return res
 }
 
-func (inst *A_RELATION_GROUP_TYPE_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_RELATION_GROUP_TYPE_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1551,7 +1551,7 @@ func (inst *A_RELATION_GROUP_TYPE_REF) GongGetReverseFieldOwner(stage *Stage, re
 	return res
 }
 
-func (inst *A_SOURCE_1) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_SOURCE_1) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1560,7 +1560,7 @@ func (inst *A_SOURCE_1) GongGetReverseFieldOwner(stage *Stage, reverseField *Rev
 	return res
 }
 
-func (inst *A_SOURCE_SPECIFICATION_1) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_SOURCE_SPECIFICATION_1) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1569,7 +1569,7 @@ func (inst *A_SOURCE_SPECIFICATION_1) GongGetReverseFieldOwner(stage *Stage, rev
 	return res
 }
 
-func (inst *A_SPECIFICATIONS) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_SPECIFICATIONS) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1578,7 +1578,7 @@ func (inst *A_SPECIFICATIONS) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 	return res
 }
 
-func (inst *A_SPECIFICATION_TYPE_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_SPECIFICATION_TYPE_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1587,7 +1587,7 @@ func (inst *A_SPECIFICATION_TYPE_REF) GongGetReverseFieldOwner(stage *Stage, rev
 	return res
 }
 
-func (inst *A_SPECIFIED_VALUES) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_SPECIFIED_VALUES) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1596,7 +1596,7 @@ func (inst *A_SPECIFIED_VALUES) GongGetReverseFieldOwner(stage *Stage, reverseFi
 	return res
 }
 
-func (inst *A_SPEC_ATTRIBUTES) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_SPEC_ATTRIBUTES) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1605,7 +1605,7 @@ func (inst *A_SPEC_ATTRIBUTES) GongGetReverseFieldOwner(stage *Stage, reverseFie
 	return res
 }
 
-func (inst *A_SPEC_OBJECTS) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_SPEC_OBJECTS) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1614,7 +1614,7 @@ func (inst *A_SPEC_OBJECTS) GongGetReverseFieldOwner(stage *Stage, reverseField 
 	return res
 }
 
-func (inst *A_SPEC_OBJECT_TYPE_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_SPEC_OBJECT_TYPE_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1623,7 +1623,7 @@ func (inst *A_SPEC_OBJECT_TYPE_REF) GongGetReverseFieldOwner(stage *Stage, rever
 	return res
 }
 
-func (inst *A_SPEC_RELATIONS) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_SPEC_RELATIONS) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1632,7 +1632,7 @@ func (inst *A_SPEC_RELATIONS) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 	return res
 }
 
-func (inst *A_SPEC_RELATION_GROUPS) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_SPEC_RELATION_GROUPS) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1641,7 +1641,7 @@ func (inst *A_SPEC_RELATION_GROUPS) GongGetReverseFieldOwner(stage *Stage, rever
 	return res
 }
 
-func (inst *A_SPEC_RELATION_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_SPEC_RELATION_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1650,7 +1650,7 @@ func (inst *A_SPEC_RELATION_REF) GongGetReverseFieldOwner(stage *Stage, reverseF
 	return res
 }
 
-func (inst *A_SPEC_RELATION_TYPE_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_SPEC_RELATION_TYPE_REF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1659,7 +1659,7 @@ func (inst *A_SPEC_RELATION_TYPE_REF) GongGetReverseFieldOwner(stage *Stage, rev
 	return res
 }
 
-func (inst *A_SPEC_TYPES) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_SPEC_TYPES) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1668,7 +1668,7 @@ func (inst *A_SPEC_TYPES) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 	return res
 }
 
-func (inst *A_THE_HEADER) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_THE_HEADER) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1677,7 +1677,7 @@ func (inst *A_THE_HEADER) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 	return res
 }
 
-func (inst *A_TOOL_EXTENSIONS) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *A_TOOL_EXTENSIONS) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1686,7 +1686,7 @@ func (inst *A_TOOL_EXTENSIONS) GongGetReverseFieldOwner(stage *Stage, reverseFie
 	return res
 }
 
-func (inst *DATATYPE_DEFINITION_BOOLEAN) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *DATATYPE_DEFINITION_BOOLEAN) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1700,7 +1700,7 @@ func (inst *DATATYPE_DEFINITION_BOOLEAN) GongGetReverseFieldOwner(stage *Stage, 
 	return res
 }
 
-func (inst *DATATYPE_DEFINITION_DATE) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *DATATYPE_DEFINITION_DATE) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1714,7 +1714,7 @@ func (inst *DATATYPE_DEFINITION_DATE) GongGetReverseFieldOwner(stage *Stage, rev
 	return res
 }
 
-func (inst *DATATYPE_DEFINITION_ENUMERATION) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *DATATYPE_DEFINITION_ENUMERATION) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1728,7 +1728,7 @@ func (inst *DATATYPE_DEFINITION_ENUMERATION) GongGetReverseFieldOwner(stage *Sta
 	return res
 }
 
-func (inst *DATATYPE_DEFINITION_INTEGER) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *DATATYPE_DEFINITION_INTEGER) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1742,7 +1742,7 @@ func (inst *DATATYPE_DEFINITION_INTEGER) GongGetReverseFieldOwner(stage *Stage, 
 	return res
 }
 
-func (inst *DATATYPE_DEFINITION_REAL) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *DATATYPE_DEFINITION_REAL) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1756,7 +1756,7 @@ func (inst *DATATYPE_DEFINITION_REAL) GongGetReverseFieldOwner(stage *Stage, rev
 	return res
 }
 
-func (inst *DATATYPE_DEFINITION_STRING) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *DATATYPE_DEFINITION_STRING) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1770,7 +1770,7 @@ func (inst *DATATYPE_DEFINITION_STRING) GongGetReverseFieldOwner(stage *Stage, r
 	return res
 }
 
-func (inst *DATATYPE_DEFINITION_XHTML) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *DATATYPE_DEFINITION_XHTML) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1784,7 +1784,7 @@ func (inst *DATATYPE_DEFINITION_XHTML) GongGetReverseFieldOwner(stage *Stage, re
 	return res
 }
 
-func (inst *EMBEDDED_VALUE) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *EMBEDDED_VALUE) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1793,7 +1793,7 @@ func (inst *EMBEDDED_VALUE) GongGetReverseFieldOwner(stage *Stage, reverseField 
 	return res
 }
 
-func (inst *ENUM_VALUE) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ENUM_VALUE) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1807,7 +1807,7 @@ func (inst *ENUM_VALUE) GongGetReverseFieldOwner(stage *Stage, reverseField *Rev
 	return res
 }
 
-func (inst *RELATION_GROUP) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *RELATION_GROUP) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1821,7 +1821,7 @@ func (inst *RELATION_GROUP) GongGetReverseFieldOwner(stage *Stage, reverseField 
 	return res
 }
 
-func (inst *RELATION_GROUP_TYPE) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *RELATION_GROUP_TYPE) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1835,7 +1835,7 @@ func (inst *RELATION_GROUP_TYPE) GongGetReverseFieldOwner(stage *Stage, reverseF
 	return res
 }
 
-func (inst *REQ_IF) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *REQ_IF) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1844,7 +1844,7 @@ func (inst *REQ_IF) GongGetReverseFieldOwner(stage *Stage, reverseField *Reverse
 	return res
 }
 
-func (inst *REQ_IF_CONTENT) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *REQ_IF_CONTENT) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1853,7 +1853,7 @@ func (inst *REQ_IF_CONTENT) GongGetReverseFieldOwner(stage *Stage, reverseField 
 	return res
 }
 
-func (inst *REQ_IF_HEADER) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *REQ_IF_HEADER) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1862,7 +1862,7 @@ func (inst *REQ_IF_HEADER) GongGetReverseFieldOwner(stage *Stage, reverseField *
 	return res
 }
 
-func (inst *REQ_IF_TOOL_EXTENSION) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *REQ_IF_TOOL_EXTENSION) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1876,7 +1876,7 @@ func (inst *REQ_IF_TOOL_EXTENSION) GongGetReverseFieldOwner(stage *Stage, revers
 	return res
 }
 
-func (inst *SPECIFICATION) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *SPECIFICATION) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1890,7 +1890,7 @@ func (inst *SPECIFICATION) GongGetReverseFieldOwner(stage *Stage, reverseField *
 	return res
 }
 
-func (inst *SPECIFICATION_TYPE) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *SPECIFICATION_TYPE) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1904,7 +1904,7 @@ func (inst *SPECIFICATION_TYPE) GongGetReverseFieldOwner(stage *Stage, reverseFi
 	return res
 }
 
-func (inst *SPEC_HIERARCHY) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *SPEC_HIERARCHY) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1918,7 +1918,7 @@ func (inst *SPEC_HIERARCHY) GongGetReverseFieldOwner(stage *Stage, reverseField 
 	return res
 }
 
-func (inst *SPEC_OBJECT) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *SPEC_OBJECT) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1932,7 +1932,7 @@ func (inst *SPEC_OBJECT) GongGetReverseFieldOwner(stage *Stage, reverseField *Re
 	return res
 }
 
-func (inst *SPEC_OBJECT_TYPE) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *SPEC_OBJECT_TYPE) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1946,7 +1946,7 @@ func (inst *SPEC_OBJECT_TYPE) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 	return res
 }
 
-func (inst *SPEC_RELATION) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *SPEC_RELATION) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1960,7 +1960,7 @@ func (inst *SPEC_RELATION) GongGetReverseFieldOwner(stage *Stage, reverseField *
 	return res
 }
 
-func (inst *SPEC_RELATION_TYPE) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *SPEC_RELATION_TYPE) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1974,7 +1974,7 @@ func (inst *SPEC_RELATION_TYPE) GongGetReverseFieldOwner(stage *Stage, reverseFi
 	return res
 }
 
-func (inst *XHTML_CONTENT) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *XHTML_CONTENT) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

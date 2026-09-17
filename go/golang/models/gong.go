@@ -210,10 +210,10 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	{{Structname}}s_referenceOrder map[*{{Structname}}]uint
 
 	// insertion point for slice of pointers maps{{SliceOfPointersReverseMaps}}
-	OnAfter{{Structname}}CreateCallback OnAfterCreateInterface[{{Structname}}]
-	OnAfter{{Structname}}UpdateCallback OnAfterUpdateInterface[{{Structname}}]
-	OnAfter{{Structname}}DeleteCallback OnAfterDeleteInterface[{{Structname}}]
-	OnAfter{{Structname}}ReadCallback   OnAfterReadInterface[{{Structname}}]
+	OnAfter{{Structname}}CreateCallback GongOnAfterCreateInterface[{{Structname}}]
+	OnAfter{{Structname}}UpdateCallback GongOnAfterUpdateInterface[{{Structname}}]
+	OnAfter{{Structname}}DeleteCallback GongOnAfterDeleteInterface[{{Structname}}]
+	OnAfter{{Structname}}ReadCallback   GongOnAfterReadInterface[{{Structname}}]
 `,
 
 	ModelGongStructInsertionArrayInitialisation: `

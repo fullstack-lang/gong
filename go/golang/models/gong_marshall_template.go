@@ -51,27 +51,38 @@ const GongUnstageStmt = ` + "`" + `
 	{{Identifier}}.Unstage(stage)` + "`" + `
 
 
-const StringInitStatement = ` + "`" + `
+const GongStringInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}` + "`" + `
 
-const MetaFieldStructInitStatement = ` + "`" + `
+const GongMetaFieldStructInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + ` + ` + "`" +
 	`{{GeneratedFieldNameValue}}` + "`" + `
 
-const StringEnumInitStatement = ` + "`" + `
+const GongStringEnumInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}` + "`" + `
 
-const NumberInitStatement = ` + "`" + `
+const GongNumberInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}` + "`" + `
 
-const PointerFieldInitStatement = ` + "`" + `
+const GongPointerFieldInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}` + "`" + `
 
-const SliceOfPointersFieldInitStatement = ` + "`" + `
+const GongSliceOfPointersFieldInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = append({{Identifier}}.{{GeneratedFieldName}}, {{GeneratedFieldNameValue}})` + "`" + `
 
-const TimeInitStatement = ` + "`" + `
+const GongTimeInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")` + "`" + `
+
+// backward compatibility
+const (
+	StringInitStatement           = GongStringInitStatement
+	MetaFieldStructInitStatement  = GongMetaFieldStructInitStatement
+	StringEnumInitStatement       = GongStringEnumInitStatement
+	NumberInitStatement           = GongNumberInitStatement
+	PointerFieldInitStatement     = GongPointerFieldInitStatement
+	SliceOfPointersFieldInitStatement = GongSliceOfPointersFieldInitStatement
+	TimeInitStatement             = GongTimeInitStatement
+)
 
 // __gong__toRawStringLiteral formats a string into safe Go source code,
 // using backticks to preserve newlines and readability.

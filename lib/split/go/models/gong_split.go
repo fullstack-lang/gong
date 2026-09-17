@@ -19,5 +19,7 @@ type ProbeIF interface {
 	RefreshNavigationTree()
 }
 
+type GongProbeIF = ProbeIF
+
 type GongNodeIF interface {
 }

@@ -298,7 +298,7 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 	}
 
-	var tab ExcelizeTabulator
+	var tab GongExcelizeTabulator
 	tab.SetExcelizeFile(f)
 	{
 		f.DeleteSheet("Sheet1")
@@ -323,30 +323,34 @@ func __gong__shortenString(s string) string {
 	return s
 }
 
-// Tabulator is an interface for writing to a table strings
-type Tabulator interface {
+// GongTabulator is an interface for writing to a table strings
+type GongTabulator interface {
 	AddSheet(sheetName string)
 	AddRow(sheetName string) int
 	AddCell(sheetName string, rowId, columnIndex int, value string)
 }
 
-type ExcelizeTabulator struct {
+type Tabulator = GongTabulator
+
+type GongExcelizeTabulator struct {
 	f *excelize.File
 }
 
-func (tab *ExcelizeTabulator) SetExcelizeFile(f *excelize.File) {
+type ExcelizeTabulator = GongExcelizeTabulator
+
+func (tab *GongExcelizeTabulator) SetExcelizeFile(f *excelize.File) {
 	tab.f = f
 }
 
-func (tab *ExcelizeTabulator) AddSheet(sheetName string) {
+func (tab *GongExcelizeTabulator) AddSheet(sheetName string) {
 
 }
 
-func (tab *ExcelizeTabulator) AddRow(sheetName string) (rowId int) {
+func (tab *GongExcelizeTabulator) AddRow(sheetName string) (rowId int) {
 	return
 }
 
-func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, value string) {
+func (tab *GongExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, value string) {
 
 }
 
@@ -438,12 +442,12 @@ func (stage *Stage) SerializeExcelize(f *excelize.File, name string, instances [
 }
 
 // SerializeExcelizePointer is the Stage method for Excel serialization.
-func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
+func (stage *Stage) SerializeExcelizePointer[Type GongstructPtr](f *excelize.File) {
 	stage.SerializeExcelizePointer2[Type](f, false)
 }
 
 // SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
-func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
+func (stage *Stage) SerializeExcelizePointer2[Type GongstructPtr](f *excelize.File, addIDs bool) {
 	var ret Type
 	set := *stage.GetInstancesSet[Type]()
 	var instances []GongstructIF
