@@ -33,6 +33,42 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	}
 	addCreateItemButton(stager, confSubLibraries)
 
+	confNotes := ItemButtonConfiguration[
+		Note, *Note, // AT, PAT (Added Element)
+		Library, *Library, // ParentAT, PParentAT (Parent Element)
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.Notes,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
+		IsButtonInMenu:                     true,
+	}
+	callbacksNotes := addCreateItemButton(stager, confNotes)
+	callbacksNotes.OnBeforeCommit = func() {
+		for _, diagram := range library.Diagrams {
+			diagram.IsNotesNodeExpanded = true
+		}
+	}
+
+	confResources := ItemButtonConfiguration[
+		Resource, *Resource, // AT, PAT (Added Element)
+		Library, *Library, // ParentAT, PParentAT (Parent Element)
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.RootResources,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
+		IsButtonInMenu:                     true,
+	}
+	callbacksResources := addCreateItemButton(stager, confResources)
+	callbacksResources.OnBeforeCommit = func() {
+		for _, diagram := range library.Diagrams {
+			diagram.IsResourcesNodeExpanded = true
+		}
+	}
+
 	confTaskGroups := ItemButtonConfiguration[
 		TaskGroup, *TaskGroup, // AT, PAT (Added Element)
 		Library, *Library, // ParentAT, PParentAT (Parent Element)
@@ -53,6 +89,42 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	if len(libraryNode.Menu.Buttons) > 0 {
 		libraryNode.Menu.Buttons[0].Name = "Add Task Group"
 		libraryNode.Menu.Buttons[0].ToolTipText = "Add a Task Group to \"" + library.Name + "\""
+	}
+
+	confTasks := ItemButtonConfiguration[
+		Task, *Task, // AT, PAT (Added Element)
+		Library, *Library, // ParentAT, PParentAT (Parent Element)
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.RootTasks,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
+		IsButtonInMenu:                     true,
+	}
+	callbacksTasks := addCreateItemButton(stager, confTasks)
+	callbacksTasks.OnBeforeCommit = func() {
+		for _, diagram := range library.Diagrams {
+			diagram.IsWBSNodeExpanded = true
+		}
+	}
+
+	confProducts := ItemButtonConfiguration[
+		Product, *Product, // AT, PAT (Added Element)
+		Library, *Library, // ParentAT, PParentAT (Parent Element)
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.RootProducts,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
+		IsButtonInMenu:                     true,
+	}
+	callbacksProducts := addCreateItemButton(stager, confProducts)
+	callbacksProducts.OnBeforeCommit = func() {
+		for _, diagram := range library.Diagrams {
+			diagram.IsPBSNodeExpanded = true
+		}
 	}
 
 	confDiagrams := ItemButtonConfiguration[

@@ -29,14 +29,29 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: `1428`}).Stage(stage)
 
+	__Product__00000000_ := (&models.Product{Name: `P1`}).Stage(stage)
+	__Product__00000001_ := (&models.Product{Name: `P1.1`}).Stage(stage)
+	__Product__00000002_ := (&models.Product{Name: `P1.2`}).Stage(stage)
+
+	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `1428-P1-P1.1`}).Stage(stage)
+	__ProductCompositionShape__00000001_ := (&models.ProductCompositionShape{Name: `1428-P1-P1.2`}).Stage(stage)
+
+	__ProductShape__00000000_ := (&models.ProductShape{Name: `1428-P1`}).Stage(stage)
+	__ProductShape__00000001_ := (&models.ProductShape{Name: `1428-P1.1`}).Stage(stage)
+	__ProductShape__00000002_ := (&models.ProductShape{Name: `1428-P1.2`}).Stage(stage)
+
+	__Task__00000000_ := (&models.Task{Name: ``}).Stage(stage)
+
+	__TaskShape__00000000_ := (&models.TaskShape{Name: `1428-`}).Stage(stage)
+
 	// insertion point for initialization of values
 
 	__Diagram__00000000_.Name = `1428`
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000000_.DateFormat = ``
-	__Diagram__00000000_.Width = 100.000000
-	__Diagram__00000000_.Height = 100.000000
+	__Diagram__00000000_.Width = 875.000000
+	__Diagram__00000000_.Height = 390.000000
 	__Diagram__00000000_.IsTimeDiagram = false
 	__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
@@ -72,7 +87,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsShowPrefix = false
 	__Diagram__00000000_.IsInAutoLayoutMode = true
 	__Diagram__00000000_.IsPBSNodeExpanded = false
-	__Diagram__00000000_.IsWBSNodeExpanded = false
+	__Diagram__00000000_.IsWBSNodeExpanded = true
 	__Diagram__00000000_.IsTaskGroupsNodeExpanded = false
 	__Diagram__00000000_.IsNotesNodeExpanded = false
 	__Diagram__00000000_.IsResourcesNodeExpanded = false
@@ -84,6 +99,132 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.IsRootLibrary = true
 
+	__Product__00000000_.Name = `P1`
+	__Product__00000000_.Description = ``
+	__Product__00000000_.IsProducersNodeExpanded = false
+	__Product__00000000_.IsConsumersNodeExpanded = false
+	__Product__00000000_.IsImport = false
+	__Product__00000000_.ComputedPrefix = `1`
+	__Product__00000000_.IsExpanded = false
+	__Product__00000000_.LayoutDirection = models.Horizontal
+
+	__Product__00000001_.Name = `P1.1`
+	__Product__00000001_.Description = ``
+	__Product__00000001_.IsProducersNodeExpanded = false
+	__Product__00000001_.IsConsumersNodeExpanded = false
+	__Product__00000001_.IsImport = false
+	__Product__00000001_.ComputedPrefix = `1.1`
+	__Product__00000001_.IsExpanded = false
+	__Product__00000001_.LayoutDirection = models.Vertical
+
+	__Product__00000002_.Name = `P1.2`
+	__Product__00000002_.Description = ``
+	__Product__00000002_.IsProducersNodeExpanded = false
+	__Product__00000002_.IsConsumersNodeExpanded = false
+	__Product__00000002_.IsImport = false
+	__Product__00000002_.ComputedPrefix = `1.2`
+	__Product__00000002_.IsExpanded = false
+	__Product__00000002_.LayoutDirection = models.Vertical
+
+	__ProductCompositionShape__00000000_.Name = `1428-P1-P1.1`
+	__ProductCompositionShape__00000000_.StartRatio = 0.500000
+	__ProductCompositionShape__00000000_.EndRatio = 0.500000
+	__ProductCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ProductCompositionShape__00000000_.CornerOffsetRatio = 1.500000
+	__ProductCompositionShape__00000000_.IsHidden = false
+
+	__ProductCompositionShape__00000001_.Name = `1428-P1-P1.2`
+	__ProductCompositionShape__00000001_.StartRatio = 0.500000
+	__ProductCompositionShape__00000001_.EndRatio = 0.500000
+	__ProductCompositionShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ProductCompositionShape__00000001_.CornerOffsetRatio = 1.500000
+	__ProductCompositionShape__00000001_.IsHidden = false
+
+	__ProductShape__00000000_.Name = `1428-P1`
+	__ProductShape__00000000_.OverideLayoutDirection = false
+	__ProductShape__00000000_.LayoutDirection = models.Vertical
+	__ProductShape__00000000_.X = 50.000000
+	__ProductShape__00000000_.Y = 50.000000
+	__ProductShape__00000000_.Width = 250.000000
+	__ProductShape__00000000_.Height = 70.000000
+	__ProductShape__00000000_.IsHidden = false
+
+	__ProductShape__00000001_.Name = `1428-P1.1`
+	__ProductShape__00000001_.OverideLayoutDirection = false
+	__ProductShape__00000001_.LayoutDirection = models.Vertical
+	__ProductShape__00000001_.X = 225.000000
+	__ProductShape__00000001_.Y = 135.000000
+	__ProductShape__00000001_.Width = 250.000000
+	__ProductShape__00000001_.Height = 70.000000
+	__ProductShape__00000001_.IsHidden = false
+
+	__ProductShape__00000002_.Name = `1428-P1.2`
+	__ProductShape__00000002_.OverideLayoutDirection = false
+	__ProductShape__00000002_.LayoutDirection = models.Vertical
+	__ProductShape__00000002_.X = 225.000000
+	__ProductShape__00000002_.Y = 220.000000
+	__ProductShape__00000002_.Width = 250.000000
+	__ProductShape__00000002_.Height = 70.000000
+	__ProductShape__00000002_.IsHidden = false
+
+	__Task__00000000_.Name = ``
+	__Task__00000000_.Description = ``
+	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000000_.IsStartDateComputedFromPredecessors = false
+	__Task__00000000_.DurationYears = 0.000000
+	__Task__00000000_.DurationMonths = 0.000000
+	__Task__00000000_.DurationWeeks = 0.000000
+	__Task__00000000_.DurationDays = 0.000000
+	__Task__00000000_.DurationHours = 0.000000
+	__Task__00000000_.IsEndDateComputedFromDuration = false
+	__Task__00000000_.IsMilestone = false
+	__Task__00000000_.IsWithCompletion = false
+	__Task__00000000_.Completion = ""
+	__Task__00000000_.DisplayVerticalBar = false
+	__Task__00000000_.TextPosition = ""
+	__Task__00000000_.XOffset = 0.000000
+	__Task__00000000_.YOffset = 0.000000
+	__Task__00000000_.IsImport = false
+	__Task__00000000_.IsInputsNodeExpanded = false
+	__Task__00000000_.IsOutputsNodeExpanded = false
+	__Task__00000000_.ComputedPrefix = `1`
+	__Task__00000000_.IsExpanded = false
+	__Task__00000000_.LayoutDirection = models.Vertical
+
+	__TaskShape__00000000_.Name = `1428-`
+	__TaskShape__00000000_.IsShowDate = false
+	__TaskShape__00000000_.OverideLayoutDirection = false
+	__TaskShape__00000000_.LayoutDirection = models.Vertical
+	__TaskShape__00000000_.X = 525.000000
+	__TaskShape__00000000_.Y = 50.000000
+	__TaskShape__00000000_.Width = 250.000000
+	__TaskShape__00000000_.Height = 70.000000
+	__TaskShape__00000000_.IsHidden = false
+
 	// insertion point for setup of pointers
+	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000000_)
+	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000001_)
+	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000002_)
+	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000000_)
+	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000000_)
+	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000001_)
+	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000000_)
+	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000000_)
+	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
+	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000001_)
+	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000002_)
+	__Product__00000000_.ReferencedProduct = nil
+	__Product__00000001_.ReferencedProduct = nil
+	__Product__00000002_.ReferencedProduct = nil
+	__ProductCompositionShape__00000000_.Product = __Product__00000001_
+	__ProductCompositionShape__00000001_.Product = __Product__00000002_
+	__ProductShape__00000000_.Product = __Product__00000000_
+	__ProductShape__00000001_.Product = __Product__00000001_
+	__ProductShape__00000002_.Product = __Product__00000002_
+	__Task__00000000_.ReferencedTask = nil
+	__TaskShape__00000000_.Task = __Task__00000000_
 }
