@@ -99,6 +99,7 @@ func (stager *Stager) treeNoteWithinDiagramProcess(
 			Name:                    task.GetName(),
 			HasCheckboxButton:       true,
 			IsChecked:               ok,
+			IsInEditMode:            task.GetIsInRenameMode(),
 			CheckboxHasToolTip:      true,
 			CheckboxToolTipPosition: tree.Left,
 			CheckboxToolTipText: func() string {
@@ -109,6 +110,9 @@ func (stager *Stager) treeNoteWithinDiagramProcess(
 			}(),
 			IsNodeClickable: true,
 		}
+		addRenameButton(task, nodeTask, stager)
+		nodeTask.OnNameChange = stager.onNameChange(task)
+		nodeTask.OnClick = onNodeClicked(stager, task)
 		nodeTask.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked && !ok {
 				noteTaskShape := (&NoteTaskShape{

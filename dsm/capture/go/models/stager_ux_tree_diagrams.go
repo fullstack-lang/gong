@@ -25,11 +25,18 @@ func (stager *Stager) treeDiagramBSinDiagram(currentDiagram *Diagram, library *L
 			Name:                    targetDiagram.GetName(),
 			IsExpanded:              true,
 			IsNodeClickable:         true,
+			IsInEditMode:            targetDiagram.GetIsInRenameMode(),
 			HasCheckboxButton:       true,
 			CheckboxHasToolTip:      true,
 			CheckboxToolTipPosition: tree.Right,
 		}
 		parentNode.Children = append(parentNode.Children, node)
+		addRenameButton(targetDiagram, node, stager)
+		node.OnNameChange = func(newName string) {
+			targetDiagram.SetName(newName)
+			targetDiagram.SetIsInRenameMode(false)
+			stager.stage.Commit()
+		}
 
 		diagramShape, ok := currentDiagram.map_Diagram_DiagramShape[targetDiagram]
 		node.IsChecked = ok
@@ -69,8 +76,15 @@ func (stager *Stager) treeDiagramBSinDiagram(currentDiagram *Diagram, library *L
 			Name:            subLibrary.GetName(),
 			IsExpanded:      true, // Expand by default or manage state if needed
 			IsNodeClickable: true,
+			IsInEditMode:    subLibrary.GetIsInRenameMode(),
 		}
 		parentNode.Children = append(parentNode.Children, libNode)
+		addRenameButton(subLibrary, libNode, stager)
+		libNode.OnNameChange = func(newName string) {
+			subLibrary.SetName(newName)
+			subLibrary.SetIsInRenameMode(false)
+			stager.stage.Commit()
+		}
 
 		stager.treeDiagramBSinDiagram(currentDiagram, subLibrary, libNode)
 	}

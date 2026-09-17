@@ -41,6 +41,8 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 		}(),
 	}
 	dataFlowNode.Children = append(dataFlowNode.Children, dataNode)
+	addRenameButton(data, dataNode, stager)
+	dataNode.OnNameChange = stager.onNameChange(data)
 
 	dataNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !isDataShapePresent {

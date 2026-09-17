@@ -170,7 +170,7 @@ func NewStager(
 	stager.treeStage2D = tree_stack.NewStack(r, "treeStage2D", "", "", "", true, true).Stage
 	stager.treeStage3D = tree_stack.NewStack(r, "treeStage3D", "", "", "", true, true).Stage
 	stager.plantFormStage = form_stack.NewStack(r, "plantFormStage", "", "", "", true, true).Stage
-	form.SetOrchestratorOnAfterUpdate[form.FormGroup](stager.plantFormStage)
+	stager.plantFormStage.SetOrchestratorOnAfterUpdate[form.FormGroup]()
 
 	stager.createViews()
 

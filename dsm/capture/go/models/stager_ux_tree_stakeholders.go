@@ -76,11 +76,18 @@ func (stager *Stager) treeStakeholderBSinDiagram(diagram *Diagram, stakeholder *
 			n := &tree.Node{
 				Name:                    concern.IDAirbus + "- " + concern.Name,
 				IsNodeClickable:         true,
+				IsInEditMode:            concern.GetIsInRenameMode(),
 				CheckboxHasToolTip:      true,
 				CheckboxToolTipPosition: tree.Right,
 				HasCheckboxButton:       true,
 			}
 			tasksNode.Children = append(tasksNode.Children, n)
+			addRenameButton(concern, n, stager)
+			n.OnNameChange = func(newName string) {
+				concern.SetName(newName)
+				concern.SetIsInRenameMode(false)
+				stager.stage.Commit()
+			}
 			n.IsCheckboxDisabled = true
 
 			if _, ok := diagram.map_Concern_ConcernShape[concern]; ok {

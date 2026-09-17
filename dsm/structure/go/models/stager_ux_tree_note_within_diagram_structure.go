@@ -99,6 +99,7 @@ func (stager *Stager) treeNoteWithinDiagramStructure(
 			Name:                    port.GetName(),
 			HasCheckboxButton:       true,
 			IsChecked:               ok,
+			IsInEditMode:            port.GetIsInRenameMode(),
 			CheckboxHasToolTip:      true,
 			CheckboxToolTipPosition: tree.Left,
 			CheckboxToolTipText: func() string {
@@ -109,6 +110,9 @@ func (stager *Stager) treeNoteWithinDiagramStructure(
 			}(),
 			IsNodeClickable: true,
 		}
+		addRenameButton(port, nodePort, stager)
+		nodePort.OnNameChange = stager.onNameChange(port)
+		nodePort.OnClick = onNodeClicked(stager, port)
 		nodePort.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked && !ok {
 				notePortShape := (&NotePortShape{
@@ -168,6 +172,7 @@ func (stager *Stager) treeNoteWithinDiagramStructure(
 			Name:                    part.GetName(),
 			HasCheckboxButton:       true,
 			IsChecked:               ok,
+			IsInEditMode:            part.GetIsInRenameMode(),
 			CheckboxHasToolTip:      true,
 			CheckboxToolTipPosition: tree.Left,
 			CheckboxToolTipText: func() string {
@@ -178,6 +183,9 @@ func (stager *Stager) treeNoteWithinDiagramStructure(
 			}(),
 			IsNodeClickable: true,
 		}
+		addRenameButton(part, nodePart, stager)
+		nodePart.OnNameChange = stager.onNameChange(part)
+		nodePart.OnClick = onNodeClicked(stager, part)
 		nodePart.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked && !ok {
 				notePartShape := (&NotePartShape{

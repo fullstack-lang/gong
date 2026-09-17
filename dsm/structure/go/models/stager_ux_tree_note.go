@@ -37,8 +37,13 @@ func (stager *Stager) treeNote(
 
 	for _, port := range note.Ports {
 		nodePort := &tree.Node{
-			Name: port.GetName(),
+			Name:            port.GetName(),
+			IsNodeClickable: true,
+			IsInEditMode:    port.GetIsInRenameMode(),
 		}
 		portsNode.Children = append(portsNode.Children, nodePort)
+		addRenameButton(port, nodePort, stager)
+		nodePort.OnNameChange = stager.onNameChange(port)
+		nodePort.OnClick = onNodeClicked(stager, port)
 	}
 }

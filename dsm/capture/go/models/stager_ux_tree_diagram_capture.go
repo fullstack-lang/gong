@@ -365,8 +365,15 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 				nodeDeliverable := &tree.Node{
 					Name:            deliverable.Name,
 					IsNodeClickable: true,
+					IsInEditMode:    deliverable.GetIsInRenameMode(),
 				}
 				noteNode.Children = append(noteNode.Children, nodeDeliverable)
+				addRenameButton(deliverable, nodeDeliverable, stager)
+				nodeDeliverable.OnNameChange = func(newName string) {
+					deliverable.SetName(newName)
+					deliverable.SetIsInRenameMode(false)
+					stager.stage.Commit()
+				}
 
 				showHideRelationButton := &tree.Button{
 					Name: GetGongstructNameFromPointer(deliverable) + "- showHideRelationButton" + note.Name + " - " + deliverable.Name,
@@ -402,8 +409,15 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 				nodeTask := &tree.Node{
 					Name:            task.Name,
 					IsNodeClickable: true,
+					IsInEditMode:    task.GetIsInRenameMode(),
 				}
 				noteNode.Children = append(noteNode.Children, nodeTask)
+				addRenameButton(task, nodeTask, stager)
+				nodeTask.OnNameChange = func(newName string) {
+					task.SetName(newName)
+					task.SetIsInRenameMode(false)
+					stager.stage.Commit()
+				}
 				showHideRelationButton := &tree.Button{
 					Name:            GetGongstructNameFromPointer(task),
 					HasToolTip:      true,
@@ -435,8 +449,15 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 				nodeResource := &tree.Node{
 					Name:            resource.Name,
 					IsNodeClickable: true,
+					IsInEditMode:    resource.GetIsInRenameMode(),
 				}
 				noteNode.Children = append(noteNode.Children, nodeResource)
+				addRenameButton(resource, nodeResource, stager)
+				nodeResource.OnNameChange = func(newName string) {
+					resource.SetName(newName)
+					resource.SetIsInRenameMode(false)
+					stager.stage.Commit()
+				}
 				showHideRelationButton := &tree.Button{
 					Name:            GetGongstructNameFromPointer(resource),
 					HasToolTip:      true,

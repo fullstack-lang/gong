@@ -54,10 +54,17 @@ func (stager *Stager) treeConceptBSinDiagram(diagram *Diagram, concept *Concept,
 				Name:                    deliverable.GetName(),
 				IsExpanded:              true,
 				IsNodeClickable:         true,
+				IsInEditMode:            deliverable.GetIsInRenameMode(),
 				CheckboxHasToolTip:      true,
 				CheckboxToolTipPosition: tree.Right,
 			}
 			deliverablesNode.Children = append(deliverablesNode.Children, deliverableNode)
+			addRenameButton(deliverable, deliverableNode, stager)
+			deliverableNode.OnNameChange = func(newName string) {
+				deliverable.SetName(newName)
+				deliverable.SetIsInRenameMode(false)
+				stager.stage.Commit()
+			}
 
 			if _, ok := diagram.map_Deliverable_DeliverableShape[deliverable]; ok {
 				if _, ok := diagram.map_Concept_ConceptShape[concept]; ok {

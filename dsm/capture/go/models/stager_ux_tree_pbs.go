@@ -80,10 +80,17 @@ func (stager *Stager) treeDeliverableRecusriveInDiagram(diagram *Diagram, delive
 				Name:                    concept.GetName(),
 				IsExpanded:              true,
 				IsNodeClickable:         true,
+				IsInEditMode:            concept.GetIsInRenameMode(),
 				CheckboxHasToolTip:      true,
 				CheckboxToolTipPosition: tree.Right,
 			}
 			conceptsNode.Children = append(conceptsNode.Children, conceptNode)
+			addRenameButton(concept, conceptNode, stager)
+			conceptNode.OnNameChange = func(newName string) {
+				concept.SetName(newName)
+				concept.SetIsInRenameMode(false)
+				stager.stage.Commit()
+			}
 
 			if _, ok := diagram.map_Deliverable_DeliverableShape[deliverable]; ok {
 				if _, ok := diagram.map_Concept_ConceptShape[concept]; ok {

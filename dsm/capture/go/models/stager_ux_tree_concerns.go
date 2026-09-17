@@ -84,10 +84,17 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 				Name:                    deliverable.GetName(),
 				IsExpanded:              true,
 				IsNodeClickable:         true,
+				IsInEditMode:            deliverable.GetIsInRenameMode(),
 				CheckboxHasToolTip:      true,
 				CheckboxToolTipPosition: tree.Right,
 			}
 			inputDeliverablesNode.Children = append(inputDeliverablesNode.Children, inputDeliverableNode)
+			addRenameButton(deliverable, inputDeliverableNode, stager)
+			inputDeliverableNode.OnNameChange = func(newName string) {
+				deliverable.SetName(newName)
+				deliverable.SetIsInRenameMode(false)
+				stager.stage.Commit()
+			}
 
 			// if input task is present in diagram as well as the input deliverable
 			// display the show/hide input relation button
@@ -164,10 +171,17 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 				Name:                    deliverable.GetName(),
 				IsExpanded:              true,
 				IsNodeClickable:         true,
+				IsInEditMode:            deliverable.GetIsInRenameMode(),
 				CheckboxHasToolTip:      true,
 				CheckboxToolTipPosition: tree.Right,
 			}
 			outputDeliverablesNode.Children = append(outputDeliverablesNode.Children, outputDeliverableNode)
+			addRenameButton(deliverable, outputDeliverableNode, stager)
+			outputDeliverableNode.OnNameChange = func(newName string) {
+				deliverable.SetName(newName)
+				deliverable.SetIsInRenameMode(false)
+				stager.stage.Commit()
+			}
 
 			// if output task is present in diagram as well as the output deliverable
 			// display the show/hide output relation button
@@ -247,11 +261,18 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 				Name:                    stakeholder.GetName(),
 				IsExpanded:              true,
 				IsNodeClickable:         true,
+				IsInEditMode:            stakeholder.GetIsInRenameMode(),
 				CheckboxHasToolTip:      true,
 				CheckboxToolTipPosition: tree.Right,
 				HasSecondCheckboxButton: true,
 			}
 			stakeholdersNode.Children = append(stakeholdersNode.Children, node)
+			addRenameButton(stakeholder, node, stager)
+			node.OnNameChange = func(newName string) {
+				stakeholder.SetName(newName)
+				stakeholder.SetIsInRenameMode(false)
+				stager.stage.Commit()
+			}
 
 			node.HasCheckboxButton = true
 

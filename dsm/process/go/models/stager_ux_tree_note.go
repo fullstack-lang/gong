@@ -37,8 +37,13 @@ func (stager *Stager) treeNote(
 
 	for _, task := range note.Tasks {
 		nodeTask := &tree.Node{
-			Name: task.GetName(),
+			Name:            task.GetName(),
+			IsNodeClickable: true,
+			IsInEditMode:    task.GetIsInRenameMode(),
 		}
 		tasksNode.Children = append(tasksNode.Children, nodeTask)
+		addRenameButton(task, nodeTask, stager)
+		nodeTask.OnNameChange = stager.onNameChange(task)
+		nodeTask.OnClick = onNodeClicked(stager, task)
 	}
 }

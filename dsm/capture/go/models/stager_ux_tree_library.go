@@ -16,9 +16,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	}
 	*parentNodes = append(*parentNodes, libraryNode)
 
-	if library != stager.GetRootLibrary() {
-		addRenameButton(library, libraryNode, stager)
-	}
+	addRenameButton(library, libraryNode, stager)
 
 	libraryNode.OnNameChange = func(newName string) {
 		library.Name = newName

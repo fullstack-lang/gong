@@ -32,7 +32,7 @@ func (stager *Stager) updateSelectedViewFromPlant(plant *PlantAbstract) {
 func (stager *Stager) createViews() {
 	stager.splitStage.Reset()
 
-	split.SetOrchestratorOnAfterUpdate[split.View](stager.splitStage)
+	stager.splitStage.SetOrchestratorOnAfterUpdate[split.View]()
 
 	tabTitle := &split.Title{
 		Name: "Phylla (" + getPersistanceFile(stager) + ")",

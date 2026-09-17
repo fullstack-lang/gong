@@ -55,9 +55,14 @@ func (stager *Stager) treeNote(
 
 	for _, complexity := range note.Complexities {
 		nodeComplexity := &tree.Node{
-			Name: complexity.GetName(),
+			Name:            complexity.GetName(),
+			IsNodeClickable: true,
+			IsInEditMode:    complexity.GetIsInRenameMode(),
 		}
 		complexitiesNode.Children = append(complexitiesNode.Children, nodeComplexity)
+		addRenameButton(complexity, nodeComplexity, stager)
+		nodeComplexity.OnNameChange = stager.onNameChange(complexity)
+		nodeComplexity.OnClick = onNodeClicked(stager, complexity)
 	}
 
 	// Performances related to the note
@@ -72,9 +77,14 @@ func (stager *Stager) treeNote(
 
 	for _, performance := range note.Performances {
 		nodePerformance := &tree.Node{
-			Name: performance.GetName(),
+			Name:            performance.GetName(),
+			IsNodeClickable: true,
+			IsInEditMode:    performance.GetIsInRenameMode(),
 		}
 		performancesNode.Children = append(performancesNode.Children, nodePerformance)
+		addRenameButton(performance, nodePerformance, stager)
+		nodePerformance.OnNameChange = stager.onNameChange(performance)
+		nodePerformance.OnClick = onNodeClicked(stager, performance)
 	}
 
 	// Efforts related to the note
@@ -89,8 +99,13 @@ func (stager *Stager) treeNote(
 
 	for _, effort := range note.Efforts {
 		nodeEffort := &tree.Node{
-			Name: effort.GetName(),
+			Name:            effort.GetName(),
+			IsNodeClickable: true,
+			IsInEditMode:    effort.GetIsInRenameMode(),
 		}
 		effortsNode.Children = append(effortsNode.Children, nodeEffort)
+		addRenameButton(effort, nodeEffort, stager)
+		nodeEffort.OnNameChange = stager.onNameChange(effort)
+		nodeEffort.OnClick = onNodeClicked(stager, effort)
 	}
 }

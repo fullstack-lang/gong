@@ -83,10 +83,14 @@ func (stager *Stager) ux_tree() {
 			HasCheckboxButton: true,
 			IsExpanded:        diagram.IsNodeExpanded,
 			IsNodeClickable:   true,
+			IsInEditMode:      diagram.GetIsInRenameMode(),
 		}
 		if stager.desk.SelectedDiagram == diagram {
 			diagramNode.IsChecked = true
 		}
+
+		addRenameButton(diagram, diagramNode, stager)
+		diagramNode.OnNameChange = stager.onNameChange(diagram)
 
 		diagramNode.Buttons = []*tree.Button{
 			{

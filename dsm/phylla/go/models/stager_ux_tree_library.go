@@ -23,9 +23,7 @@ func (stager *Stager) treeLibrary(
 	}
 	*parentNodes = append(*parentNodes, libraryNode)
 
-	if library != stager.getRootLibrary() {
-		addRenameButton(library, libraryNode, stager)
-	}
+	addRenameButton(library, libraryNode, stager)
 	libraryNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsExpanded)
 	libraryNode.OnNameChange = stager.onNameChange(library)
 	libraryNode.OnClick = onNodeClicked(stager, library)
