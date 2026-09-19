@@ -171,24 +171,6 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	//
 	// Layers
 	//
-	backgroundLayer := new(svg.Layer)
-	backgroundLayer.Name = "Background Layer"
-	svgObject.Layers = append(svgObject.Layers, backgroundLayer)
-
-	backgroundRect := new(svg.Rect)
-	backgroundRect.Name = "Background"
-	backgroundRect.X = -100000
-	backgroundRect.Y = -100000
-	backgroundRect.Width = 200000
-	backgroundRect.Height = 200000
-	backgroundRect.Color = "white"
-	backgroundRect.FillOpacity = 0.0
-	backgroundRect.OnSelect = func() {
-		diagram.IsInDrawMode = !diagram.IsInDrawMode
-		stager.stage.Commit()
-	}
-	backgroundLayer.Rects = append(backgroundLayer.Rects, backgroundRect)
-
 	axisLayer := new(svg.Layer)
 	axisLayer.Name = "Axis Layer"
 	svgObject.Layers = append(svgObject.Layers, axisLayer)

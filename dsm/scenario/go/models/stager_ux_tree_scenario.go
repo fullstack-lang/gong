@@ -2,46 +2,81 @@ package models
 
 import (
 	"slices"
+	"time"
 
+	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	"github.com/fullstack-lang/gong/dsm/scenario/go/icons"
 )
 
-func (stager *Stager) treeScenario(treeInstance *tree.Tree, scenario *Scenario, parentNodes *[]*tree.Node) {
+func (stager *Stager) treeScenario(scenario *Scenario, parentNode *tree.Node) {
 	scenarioNode := new(tree.Node)
 	scenarioNode.Name = scenario.Name
 	scenarioNode.IsExpanded = scenario.GetIsExpanded()
 	scenarioNode.IsWithPreceedingIcon = false
 	scenarioNode.PreceedingSVGIcon = icons.ScenarioIcon
 	scenarioNode.IsNodeClickable = true
-
-	*parentNodes = append(*parentNodes, scenarioNode)
-
-	// Callback for when the scenario node is clicked
-	scenarioNode.OnClick = func(frontNode *tree.Node) {
-		stager.probeForm.FillUpFormFromGongstruct(scenario, GetPointerToGongstructName[*Scenario]())
-		stager.stage.Commit()
-	}
-	scenarioNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&scenario.IsExpanded)
 	scenarioNode.IsInEditMode = scenario.GetIsInRenameMode()
+
+	parentNode.Children = append(parentNode.Children, scenarioNode)
+
+	scenarioNode.OnClick = onNodeClicked(stager, scenario)
+	scenarioNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&scenario.IsExpanded)
 	scenarioNode.OnNameChange = stager.onNameChange(scenario)
 	addRenameButton(scenario, scenarioNode, stager)
 
 	// Categories
-	stager.treeCategoryDiagrams(treeInstance, scenario, &scenarioNode.Children)
+	stager.treeCategoryDiagrams(scenario, &scenarioNode.Children)
 }
 
 // -------------------------------------------------------------------------------------
 // Diagrams
 // -------------------------------------------------------------------------------------
-func (stager *Stager) treeCategoryDiagrams(treeInstance *tree.Tree, scenario *Scenario, parentNodes *[]*tree.Node) {
+func (stager *Stager) treeCategoryDiagrams(scenario *Scenario, parentNodes *[]*tree.Node) {
 	categoryNode := new(tree.Node)
 	categoryNode.Name = "Diagrams"
+	categoryNode.FontStyle = tree.ITALIC
 	categoryNode.IsExpanded = scenario.IsDiagramsNodeExpanded
-	categoryNode.IsNodeClickable = false
+	categoryNode.IsNodeClickable = true
 	categoryNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&scenario.IsDiagramsNodeExpanded)
+	categoryNode.OnClick = onNodeClicked(stager, scenario)
 	*parentNodes = append(*parentNodes, categoryNode)
+
+	confDiagrams := ItemButtonConfiguration[
+		Diagram, *Diagram,
+		Scenario, *Scenario,
+	]{
+		parentNode:                         categoryNode,
+		sliceForNewAddedItem:               &scenario.Diagrams,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &scenario.IsDiagramsNodeExpanded,
+	}
+	itemAdderCallback := addCreateItemButton(stager, confDiagrams)
+	itemAdderCallback.OnBeforeCommit = func() {
+		newDiagram := itemAdderCallback.createdItem
+		newDiagram.IsExpanded = true
+		newDiagram.AxisOrign_X = 150
+		newDiagram.AxisOrign_Y = 300
+		newDiagram.HorizontalAxis_Right_X = 950
+		newDiagram.VerticalAxis_Top_Y = 100
+		newDiagram.VerticalAxis_Bottom_Y = 500
+		newDiagram.VerticalAxis_StrokeWidth = 2
+		newDiagram.Start = time.Now()
+		newDiagram.End = time.Now().AddDate(1, 0, 0)
+		newDiagram.IsParametersNodeExpanded = true
+		newDiagram.IsActorStatesNodeExpanded = true
+		newDiagram.IsEvolutionDirectionsNodeExpanded = true
+		newDiagram.IsParametersAggregatesNodeExpanded = true
+		newDiagram.IsActorStateTransitionsNodeExpanded = true
+
+		for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
+			diagram_.IsChecked = false
+		}
+		newDiagram.IsChecked = true
+		newDiagram.IsInDrawMode = true
+	}
 
 	slices.SortFunc(scenario.Diagrams, GongCompareGongstructByName)
 	for _, diagram := range scenario.Diagrams {
@@ -53,14 +88,55 @@ func (stager *Stager) treeCategoryDiagrams(treeInstance *tree.Tree, scenario *Sc
 		diagramNode.IsExpanded = diagram.GetIsExpanded()
 		diagramNode.OnIsCheckedChanged = onIsCheckedChangedDiagram(stager, diagram)
 		diagramNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsExpanded)
-		diagramNode.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(diagram, GetPointerToGongstructName[*Diagram]())
-			stager.stage.Commit()
-		}
+		diagramNode.OnClick = onNodeClicked(stager, diagram)
 
 		diagramNode.IsInEditMode = diagram.GetIsInRenameMode()
 		diagramNode.OnNameChange = stager.onNameChange(diagram)
 		addRenameButton(diagram, diagramNode, stager)
+
+		// edit button
+		{
+			editButton := &tree.Button{
+				Name:            "Diagram Editability",
+				Icon:            string(buttons.BUTTON_edit),
+				HasToolTip:      true,
+				ToolTipPosition: tree.Above,
+				OnClick: func() {
+					diagram.IsInDrawMode = !diagram.IsInDrawMode
+					stager.stage.Commit()
+				},
+			}
+			if !diagram.IsInDrawMode {
+				editButton.Icon = string(buttons.BUTTON_edit)
+				editButton.ToolTipText = "Edit diagram"
+			} else {
+				editButton.Icon = string(buttons.BUTTON_edit_off)
+				editButton.ToolTipText = "Stop editing diagram"
+			}
+			diagramNode.Buttons = append(diagramNode.Buttons, editButton)
+		}
+
+		// prefix button
+		{
+			showPrefixButton := &tree.Button{
+				Name:            "Diagram Prefix",
+				Icon:            string(buttons.BUTTON_show_chart),
+				HasToolTip:      true,
+				ToolTipPosition: tree.Above,
+				OnClick: func() {
+					diagram.IsShowPrefix = !diagram.IsShowPrefix
+					stager.stage.Commit()
+				},
+			}
+			if !diagram.IsShowPrefix {
+				showPrefixButton.Icon = string(buttons.BUTTON_label)
+				showPrefixButton.ToolTipText = "Show Prefix"
+			} else {
+				showPrefixButton.Icon = string(buttons.BUTTON_label_off)
+				showPrefixButton.ToolTipText = "Hide Prefix"
+			}
+			diagramNode.Buttons = append(diagramNode.Buttons, showPrefixButton)
+		}
 
 		categoryNode.Children = append(categoryNode.Children, diagramNode)
 
@@ -110,10 +186,24 @@ func (stager *Stager) treeCategoryDiagrams(treeInstance *tree.Tree, scenario *Sc
 		// Parameters Node
 		parametersNode := new(tree.Node)
 		parametersNode.Name = "Parameters"
+		parametersNode.FontStyle = tree.ITALIC
 		parametersNode.IsExpanded = diagram.IsParametersNodeExpanded
 		parametersNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsParametersNodeExpanded)
-		parametersNode.IsNodeClickable = false
+		parametersNode.IsNodeClickable = true
+		parametersNode.OnClick = onNodeClicked(stager, diagram)
 		diagramNode.Children = append(diagramNode.Children, parametersNode)
+
+		confParameters := ItemButtonConfiguration[
+			Parameter, *Parameter,
+			Scenario, *Scenario,
+		]{
+			parentNode:                         parametersNode,
+			sliceForNewAddedItem:               &scenario.Parameters,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagram.IsParametersNodeExpanded,
+		}
+		addCreateItemButton(stager, confParameters)
 
 		slices.SortFunc(scenario.Parameters, GongCompareGongstructByName)
 		for _, p := range scenario.Parameters {
@@ -137,10 +227,24 @@ func (stager *Stager) treeCategoryDiagrams(treeInstance *tree.Tree, scenario *Sc
 		// Actor States Node
 		actorStatesNode := new(tree.Node)
 		actorStatesNode.Name = "Actor States"
+		actorStatesNode.FontStyle = tree.ITALIC
 		actorStatesNode.IsExpanded = diagram.IsActorStatesNodeExpanded
 		actorStatesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsActorStatesNodeExpanded)
-		actorStatesNode.IsNodeClickable = false
+		actorStatesNode.IsNodeClickable = true
+		actorStatesNode.OnClick = onNodeClicked(stager, diagram)
 		diagramNode.Children = append(diagramNode.Children, actorStatesNode)
+
+		confActorStates := ItemButtonConfiguration[
+			ActorState, *ActorState,
+			Scenario, *Scenario,
+		]{
+			parentNode:                         actorStatesNode,
+			sliceForNewAddedItem:               &scenario.ActorStates,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagram.IsActorStatesNodeExpanded,
+		}
+		addCreateItemButton(stager, confActorStates)
 
 		slices.SortFunc(scenario.ActorStates, GongCompareGongstructByName)
 		for _, as := range scenario.ActorStates {
@@ -164,10 +268,24 @@ func (stager *Stager) treeCategoryDiagrams(treeInstance *tree.Tree, scenario *Sc
 		// Evolution Directions Node
 		evolutionDirectionsNode := new(tree.Node)
 		evolutionDirectionsNode.Name = "Evolution Directions"
+		evolutionDirectionsNode.FontStyle = tree.ITALIC
 		evolutionDirectionsNode.IsExpanded = diagram.IsEvolutionDirectionsNodeExpanded
 		evolutionDirectionsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsEvolutionDirectionsNodeExpanded)
-		evolutionDirectionsNode.IsNodeClickable = false
+		evolutionDirectionsNode.IsNodeClickable = true
+		evolutionDirectionsNode.OnClick = onNodeClicked(stager, diagram)
 		diagramNode.Children = append(diagramNode.Children, evolutionDirectionsNode)
+
+		confEvolutionDirections := ItemButtonConfiguration[
+			EvolutionDirection, *EvolutionDirection,
+			Scenario, *Scenario,
+		]{
+			parentNode:                         evolutionDirectionsNode,
+			sliceForNewAddedItem:               &scenario.EvolutionDirections,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagram.IsEvolutionDirectionsNodeExpanded,
+		}
+		addCreateItemButton(stager, confEvolutionDirections)
 
 		slices.SortFunc(scenario.EvolutionDirections, GongCompareGongstructByName)
 		for _, ed := range scenario.EvolutionDirections {
@@ -191,10 +309,24 @@ func (stager *Stager) treeCategoryDiagrams(treeInstance *tree.Tree, scenario *Sc
 		// Parameters Aggregates Node
 		parametersAggregatesNode := new(tree.Node)
 		parametersAggregatesNode.Name = "Parameters Aggregates"
+		parametersAggregatesNode.FontStyle = tree.ITALIC
 		parametersAggregatesNode.IsExpanded = diagram.IsParametersAggregatesNodeExpanded
 		parametersAggregatesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsParametersAggregatesNodeExpanded)
-		parametersAggregatesNode.IsNodeClickable = false
+		parametersAggregatesNode.IsNodeClickable = true
+		parametersAggregatesNode.OnClick = onNodeClicked(stager, diagram)
 		diagramNode.Children = append(diagramNode.Children, parametersAggregatesNode)
+
+		confParametersAggregates := ItemButtonConfiguration[
+			ParametersAggregate, *ParametersAggregate,
+			Scenario, *Scenario,
+		]{
+			parentNode:                         parametersAggregatesNode,
+			sliceForNewAddedItem:               &scenario.ParametersAggretates,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagram.IsParametersAggregatesNodeExpanded,
+		}
+		addCreateItemButton(stager, confParametersAggregates)
 
 		slices.SortFunc(scenario.ParametersAggretates, GongCompareGongstructByName)
 		for _, pa := range scenario.ParametersAggretates {
@@ -218,10 +350,24 @@ func (stager *Stager) treeCategoryDiagrams(treeInstance *tree.Tree, scenario *Sc
 		// Actor State Transitions Node
 		actorStateTransitionsNode := new(tree.Node)
 		actorStateTransitionsNode.Name = "Actor State Transitions"
+		actorStateTransitionsNode.FontStyle = tree.ITALIC
 		actorStateTransitionsNode.IsExpanded = diagram.IsActorStateTransitionsNodeExpanded
 		actorStateTransitionsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsActorStateTransitionsNodeExpanded)
-		actorStateTransitionsNode.IsNodeClickable = false
+		actorStateTransitionsNode.IsNodeClickable = true
+		actorStateTransitionsNode.OnClick = onNodeClicked(stager, diagram)
 		diagramNode.Children = append(diagramNode.Children, actorStateTransitionsNode)
+
+		confActorStateTransitions := ItemButtonConfiguration[
+			ActorStateTransition, *ActorStateTransition,
+			Scenario, *Scenario,
+		]{
+			parentNode:                         actorStateTransitionsNode,
+			sliceForNewAddedItem:               &scenario.ActorStateTransitions,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagram.IsActorStateTransitionsNodeExpanded,
+		}
+		addCreateItemButton(stager, confActorStateTransitions)
 
 		slices.SortFunc(scenario.ActorStateTransitions, GongCompareGongstructByName)
 		for _, ast := range scenario.ActorStateTransitions {

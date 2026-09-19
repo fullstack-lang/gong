@@ -471,6 +471,20 @@
             ]
         },
         {
+            "label": "dsm - scenario: go run . edit",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/dsm/scenario/go/cmd/scenario"
+            },
+            "command": "go run",
+            "group": "build",
+            "args": [
+                ".",
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
             "label": "dsm - scenario: gong generate scenario --dsm",
             "type": "shell",
             "options": {

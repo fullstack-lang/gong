@@ -12,9 +12,9 @@ import (
 
 	"github.com/fullstack-lang/gong/dsm/project/go/level1stack"
 
-	splitlite "github.com/fullstack-lang/gong/lib/splitlite/go/models"
-	splitlite_stack "github.com/fullstack-lang/gong/lib/splitlite/go/stack"
-	splitlite_static "github.com/fullstack-lang/gong/lib/splitlite/go/static"
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 )
 
 var (
@@ -47,13 +47,13 @@ func executeServer() {
 	stack.Probe.Refresh()
 
 	// Create root split stage for the probe
-	rootSplitStage := splitlite_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
+	rootSplitStage := split_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
 
-	splitlite.StageBranch(rootSplitStage, &splitlite.View{
+	split.StageBranch(rootSplitStage, &split.View{
 		Name: "Data Probe & Data Model",
-		RootAsSplitAreas: []*splitlite.AsSplitArea{
+		RootAsSplitAreas: []*split.AsSplitArea{
 			{
-				Split: &splitlite.Split{
+				Split: &split.Split{
 					StackName: stack.Stage.GetProbeSplitStageName(),
 				},
 			},
@@ -62,7 +62,7 @@ func executeServer() {
 	rootSplitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
-	err := splitlite_static.RunServer(stack.R, ":" + strconv.Itoa(port))
+	err := split_static.RunServer(stack.R, ":" + strconv.Itoa(port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}

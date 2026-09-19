@@ -455,7 +455,7 @@ func (d *Diagram) GetDefaultBoxHeigth() float64 {
 }
 
 func (d *Diagram) IsEditable() bool {
-	return true
+	return d.IsInDrawMode
 }
 
 func (d *Diagram) GetDiagramListElement() AbstractType {

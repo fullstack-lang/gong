@@ -15,7 +15,7 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
 	form_fullstack "github.com/fullstack-lang/gong/lib/form/go/fullstack"
-	splitlite_fullstack "github.com/fullstack-lang/gong/lib/splitlite/go/fullstack"
+	split_fullstack "github.com/fullstack-lang/gong/lib/split/go/fullstack"
 	table_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
 	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
@@ -24,7 +24,7 @@ import (
 
 	doc "github.com/fullstack-lang/gong/lib/doc/go/models"
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
-	splitlite "github.com/fullstack-lang/gong/lib/splitlite/go/models"
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
@@ -43,16 +43,16 @@ type Probe struct {
 	formStage              *form.Stage
 	tableStage             *table.Stage
 	notificationTableStage *table.Stage
-	splitStage             *splitlite.Stage
+	splitStage             *split.Stage
 	loadStage              *load.Stage
 
 	fileName               string
 
 	// AsSplit to be used if one need only the data editor
-	dataEditor *splitlite.AsSplit
+	dataEditor *split.AsSplit
 
 	// AsSplitArea for the diagram editor
-	diagramEditor *splitlite.AsSplitArea
+	diagramEditor *split.AsSplitArea
 
 	docStager *doc.Stager
 
@@ -116,7 +116,7 @@ func NewProbe(
 	stageOfInterest *models.Stage) (probe *Probe) {
 
 	// split stage for the whole probe
-	splitStage, _ := splitlite_fullstack.NewStackInstance(r, stageOfInterest.GetProbeSplitStageName())
+	splitStage, _ := split_fullstack.NewStackInstance(r, stageOfInterest.GetProbeSplitStageName())
 	splitStage.Commit()
 
 	stageOfInterest.MetaPackageImportPath = "github.com/fullstack-lang/gong/dsm/project/go/models"
@@ -158,13 +158,13 @@ func NewProbe(
 	}
 
 	// prepare the receiving AsSplitArea
-	probe.diagramEditor = &splitlite.AsSplitArea{
+	probe.diagramEditor = &split.AsSplitArea{
 		Name:             "Bottom",
 		ShowNameInHeader: false,
 		Size:             50,
 	}
 
-	probe.docStager = prepare.PrepareSplitlite(
+	probe.docStager = prepare.Prepare(
 		r,
 		embeddedDiagrams,
 
@@ -178,24 +178,24 @@ func NewProbe(
 		stageOfInterest.Map_GongStructName_InstancesNb,
 	)
 
-	probe.dataEditor = &splitlite.AsSplit{
+	probe.dataEditor = &split.AsSplit{
 		Name:          "Top, sidebar, table & form",
-		Direction:     splitlite.Horizontal,
+		Direction:     split.Horizontal,
 		IsSizeInPixel: true,
-		AsSplitAreas: []*splitlite.AsSplitArea{
+		AsSplitAreas: []*split.AsSplitArea{
 			{
 				Name: "sidebar",
 				Size: 525,
-				AsSplit: &splitlite.AsSplit{
-					Direction:              splitlite.Vertical,
+				AsSplit: &split.AsSplit{
+					Direction:              split.Vertical,
 					IsSizeInPixel:          true,
 					IsWithCustomGutterSize: true,
 					GutterSize:             1,
-					AsSplitAreas: []*splitlite.AsSplitArea{
+					AsSplitAreas: []*split.AsSplitArea{
 						{
 							Name: "sidebar tree",
 							Size: 53, // to align on the top of the table
-							Tree: &splitlite.Tree{
+							Tree: &split.Tree{
 								Name:      "Sidebar",
 								StackName: probe.treeNavigationStage.GetName(),
 							},
@@ -203,7 +203,7 @@ func NewProbe(
 						{
 							Name:  "sidebar tree",
 							IsAny: true,
-							Tree: &splitlite.Tree{
+							Tree: &split.Tree{
 								Name:      "Sidebar",
 								StackName: probe.treeStage.GetName(),
 							},
@@ -211,7 +211,7 @@ func NewProbe(
 						{
 							Name: "load",
 							Size: 70,
-							Load: &splitlite.Load{
+							Load: &split.Load{
 								Name:      "Table",
 								StackName: probe.loadStage.GetName(),
 							},
@@ -223,13 +223,13 @@ func NewProbe(
 			{
 				Name:  "both tables",
 				IsAny: true,
-				AsSplit: &splitlite.AsSplit{
-					Direction: splitlite.Vertical,
-					AsSplitAreas: []*splitlite.AsSplitArea{
+				AsSplit: &split.AsSplit{
+					Direction: split.Vertical,
+					AsSplitAreas: []*split.AsSplitArea{
 						{
 							Name: "table",
 							Size: 50,
-							Table: &splitlite.Table{
+							Table: &split.Table{
 								Name:      "Table",
 								StackName: probe.tableStage.GetName(),
 							},
@@ -237,7 +237,7 @@ func NewProbe(
 						{
 							Name: "notification table",
 							Size: 50,
-							Table: &splitlite.Table{
+							Table: &split.Table{
 								Name:      "Table",
 								StackName: probe.notificationTableStage.GetName(),
 							},
@@ -248,7 +248,7 @@ func NewProbe(
 			{
 				Name: "form",
 				Size: 525,
-				Form: &splitlite.Form{
+				Form: &split.Form{
 					Name:      "Form",
 					StackName: probe.formStage.GetName(),
 				},
@@ -256,9 +256,9 @@ func NewProbe(
 		},
 	}
 
-	splitlite.StageBranch(probe.splitStage, &splitlite.View{
+	split.StageBranch(probe.splitStage, &split.View{
 		Name: "Main view",
-		RootAsSplitAreas: []*splitlite.AsSplitArea{
+		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:    "Top",
 				Size:    50,
@@ -373,11 +373,11 @@ func (probe *Probe) GetNavigationTreeStage() *tree.Stage {
 	return probe.treeNavigationStage
 }
 
-func (probe *Probe) GetDataEditor() *splitlite.AsSplit {
+func (probe *Probe) GetDataEditor() *split.AsSplit {
 	return probe.dataEditor
 }
 
-func (probe *Probe) GetDiagramEditor() *splitlite.AsSplitArea {
+func (probe *Probe) GetDiagramEditor() *split.AsSplitArea {
 	return probe.diagramEditor
 }
 
