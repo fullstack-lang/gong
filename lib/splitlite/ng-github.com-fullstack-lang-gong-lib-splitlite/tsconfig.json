@@ -1,0 +1,58 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "rootDir": "../../../..",
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "paths": {
+      "@vendored_components/*": [
+        "../vendor/*",
+        "../../vendor/*",
+        "../../../vendor/*",
+        "../../../../../../*"
+      ],
+      "splitlite": [
+        "./projects/splitlite/src/public-api.ts"
+      ],
+      "splitlitespecific": [
+        "./projects/splitlitespecific/src/public-api.ts"
+      ],
+      "@fullstack-lang/gong-button": [
+        "../../button/ng-github.com-fullstack-lang-gong-lib-button/projects/button/src/public-api"
+      ],
+      "@fullstack-lang/gong-form": [
+        "../../form/ng-github.com-fullstack-lang-gong-lib-form/projects/form/src/public-api"
+      ],
+      "@fullstack-lang/gong-load": [
+        "../../load/ng-github.com-fullstack-lang-gong-lib-load/projects/load/src/public-api"
+      ],
+      "@fullstack-lang/gong-svg": [
+        "../../svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svg/src/public-api"
+      ],
+      "@fullstack-lang/gong-table": [
+        "../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/table/src/public-api"
+      ],
+      "@fullstack-lang/gong-tree": [
+        "../../tree/ng-github.com-fullstack-lang-gong-lib-tree/projects/tree/src/public-api"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

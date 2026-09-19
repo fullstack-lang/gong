@@ -37,3 +37,41 @@ type ProbeIF = GongProbeIF
 type GongNodeIF interface {
 }
 `
+
+const ModelGongProbeSplitliteFileTemplate = `// generated code - do not edit
+package {{PkgGoName}}
+
+import (
+	"time"
+
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	splitlite "github.com/fullstack-lang/gong/lib/splitlite/go/models"
+)
+
+type GongProbeIF interface {
+	Refresh()
+	GetFormStage() *form.Stage
+	GetDataEditor() *splitlite.AsSplit
+	GetDiagramEditor() *splitlite.AsSplitArea
+	FillUpFormFromGongstruct(instance any, formName string)
+	AddNotification(date time.Time, message string)
+	CommitNotificationTable()
+	ResetNotifications()
+	SetMaxElementsNbPerGongStructNode(nb int)
+	GetMaxElementsNbPerGongStructNode() int
+	AddCommitNavigationNode(appendChildrenNodeFunc func(GongNodeIF))
+	SetCommitMode(bool)
+	RefreshNavigationTree() // to be called in delta mode, when the navigation tree shall be refreshed to navigate commits
+
+	GetProbeLoadStageName() string
+
+	// UpdateSliceOfPointersCallback is called after a SliceOfPointers field is updated in the probe
+	UpdateSliceOfPointersCallback(instance any, fieldName string, slicePtr any)
+	SetUpdateSliceOfPointersCallback(cb func(instance any, fieldName string, slicePtr any))
+}
+
+type ProbeIF = GongProbeIF
+
+type GongNodeIF interface {
+}
+`

@@ -2,6 +2,9 @@ package cmd
 
 import (
 	"archive/zip"
+	"bytes"
+	"compress/gzip"
+	"embed"
 	"encoding/base64"
 	"fmt"
 	"io"
@@ -13,8 +16,33 @@ import (
 	"strings"
 
 	"github.com/fullstack-lang/gong/lib/split"
+	"github.com/fullstack-lang/gong/lib/splitlite"
 	"github.com/spf13/cobra"
 )
+
+var useSplitlitePortable bool
+
+func isUsingSplitlite() bool {
+	if useSplitlitePortable {
+		return true
+	}
+	searchDirs := []string{".", "..", "../..", "../../models", "../../level1stack", "../models", "../level1stack"}
+	for _, dir := range searchDirs {
+		files, err := os.ReadDir(dir)
+		if err != nil {
+			continue
+		}
+		for _, f := range files {
+			if !f.IsDir() && strings.HasSuffix(f.Name(), ".go") {
+				content, err := os.ReadFile(filepath.Join(dir, f.Name()))
+				if err == nil && strings.Contains(string(content), "splitlite") {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
 
 var portableCmd = &cobra.Command{
 	Use:   "portable [target dir]",
@@ -49,10 +77,19 @@ var portableCmd = &cobra.Command{
 		os.Remove(zipFile)
 		os.MkdirAll(".tmp_build", 0o755)
 
-		// 1. Copy Frontend Assets from the embedded lib/split directory
-		baseEmbedPath := "ng-github.com-fullstack-lang-gong-lib-split/dist/ng-github.com-fullstack-lang-gong-lib-split"
-		embedPath := baseEmbedPath + "/browser"
-		if err := copyFS(split.NgDistNg, embedPath, ".tmp_build"); err != nil {
+		// 1. Copy Frontend Assets from the embedded lib/split or lib/splitlite directory
+		var embedFS embed.FS
+		var embedPath string
+		if isUsingSplitlite() {
+			fmt.Printf("📦 Using splitlite frontend distribution\n")
+			embedFS = splitlite.NgDistNg
+			embedPath = "ng-github.com-fullstack-lang-gong-lib-splitlite/dist/ng-github.com-fullstack-lang-gong-lib-splitlite/browser"
+		} else {
+			fmt.Printf("📦 Using standard split frontend distribution\n")
+			embedFS = split.NgDistNg
+			embedPath = "ng-github.com-fullstack-lang-gong-lib-split/dist/ng-github.com-fullstack-lang-gong-lib-split/browser"
+		}
+		if err := copyFS(embedFS, embedPath, ".tmp_build"); err != nil {
 			fmt.Printf("❌ Error extracting embedded Angular files: %v\n", err)
 			os.Exit(1)
 		}
@@ -70,7 +107,7 @@ var portableCmd = &cobra.Command{
 		copyFile(wasmExecPath, filepath.Join(".tmp_build", "wasm_exec.js"))
 
 		// Build the Go Wasm binary:
-		runWasmBuild("go", "build", "-a", "-o", ".tmp_build/main.wasm", ".")
+		runWasmBuild("go", "build", "-ldflags=-s -w", "-o", ".tmp_build/main.wasm", ".")
 
 		// =========================================================================
 		// 2. bundle.js Equivalent (Packaging)
@@ -79,14 +116,35 @@ var portableCmd = &cobra.Command{
 
 		buildDir := ".tmp_build"
 
-		// Read main.wasm and encode to Base64
+		// Read main.wasm and encode to Base64 (with gzip compression)
 		wasmPath := filepath.Join(buildDir, "main.wasm")
 		wasmBytes, err := os.ReadFile(wasmPath)
 		if err != nil {
 			fmt.Printf("❌ Error: main.wasm not found at %s. Did you compile Go to the public folder?\n", wasmPath)
 			os.Exit(1)
 		}
-		wasmBase64 := base64.StdEncoding.EncodeToString(wasmBytes)
+
+		var gzipBuf bytes.Buffer
+		gw, err := gzip.NewWriterLevel(&gzipBuf, gzip.BestCompression)
+		if err != nil {
+			fmt.Printf("❌ Error creating gzip compressor: %v\n", err)
+			os.Exit(1)
+		}
+		if _, err := gw.Write(wasmBytes); err != nil {
+			fmt.Printf("❌ Error compressing main.wasm: %v\n", err)
+			os.Exit(1)
+		}
+		if err := gw.Close(); err != nil {
+			fmt.Printf("❌ Error closing gzip compressor: %v\n", err)
+			os.Exit(1)
+		}
+		compressedWasm := gzipBuf.Bytes()
+		wasmBase64 := base64.StdEncoding.EncodeToString(compressedWasm)
+
+		fmt.Printf("📊 WASM stats: raw %.2f MB -> gzipped %.2f MB (Base64: %.2f MB)\n",
+			float64(len(wasmBytes))/(1024*1024),
+			float64(len(compressedWasm))/(1024*1024),
+			float64(len(wasmBase64))/(1024*1024))
 
 		// Read index.html and wasm_exec.js
 		htmlBytes, err := os.ReadFile(filepath.Join(buildDir, "index.html"))
@@ -121,6 +179,16 @@ var portableCmd = &cobra.Command{
   console.log("Initializing %s WASM Backend from Base64...");
   const base64String = document.getElementById('wasm-base64-data').textContent.trim();
   
+  async function decompressGzip(compressedBytes) {
+      const ds = new DecompressionStream('gzip');
+      const writer = ds.writable.getWriter();
+      writer.write(compressedBytes);
+      writer.close();
+      const response = new Response(ds.readable);
+      const arrayBuffer = await response.arrayBuffer();
+      return new Uint8Array(arrayBuffer);
+  }
+
   async function processBase64InChunks(base64Str) {
       let padding = 0;
       if (base64Str.endsWith('==')) padding = 2;
@@ -167,8 +235,13 @@ var portableCmd = &cobra.Command{
       });
   }
 
-  processBase64InChunks(base64String).then((bytes) => {
+  processBase64InChunks(base64String).then(async (compressedBytes) => {
       const progressText = document.getElementById('wasm-progress-text');
+      if (progressText) {
+          progressText.innerText = "Decompressing WASM...";
+      }
+      const wasmBytes = await decompressGzip(compressedBytes);
+
       if (progressText) {
           progressText.innerText = "Compiling WASM (this may take a moment)...";
       }
@@ -176,7 +249,7 @@ var portableCmd = &cobra.Command{
       // 3. Small timeout to allow the browser to paint the "Compiling..." text before blocking the main thread
       setTimeout(() => {
           const go = new Go();
-          WebAssembly.instantiate(bytes.buffer, go.importObject)
+          WebAssembly.instantiate(wasmBytes.buffer, go.importObject)
             .then((result) => {
                 // 4. Hide the progress bar ONLY when the app is completely instantiated and ready
                 const progressContainer = document.getElementById('wasm-progress-container');
@@ -396,6 +469,8 @@ var portableCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(portableCmd)
+	portableCmd.Flags().BoolVar(&useSplitlitePortable, "use-splitlite", false, "use splitlite dist instead of split")
+	portableCmd.Flags().BoolVar(&useSplitlitePortable, "useSplitlite", false, "use splitlite dist instead of split")
 }
 
 // Helper: Run standard build commands

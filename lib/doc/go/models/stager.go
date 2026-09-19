@@ -11,6 +11,7 @@ import (
 	gong "github.com/fullstack-lang/gong/go/models"
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	splitlite "github.com/fullstack-lang/gong/lib/splitlite/go/models"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
@@ -38,6 +39,28 @@ type Stager struct {
 	map_GongStructName_InstancesNb map[string]int
 }
 
+func initStager(
+	stage *Stage,
+	treeStage *tree.Stage,
+	svgStage *svg.Stage,
+	gongStage *gong.Stage,
+	formStage *form.Stage,
+	treeNavigationStage *tree.Stage,
+	embeddedDiagrams bool,
+	map_GongStructName_InstancesNb map[string]int,
+) *Stager {
+	stager := new(Stager)
+	stager.stage = stage
+	stager.treeStage = treeStage
+	stager.treeNavigationStage = treeNavigationStage
+	stager.svgStage = svgStage
+	stager.gongStage = gongStage
+	stager.formStage = formStage
+	stager.embeddedDiagrams = embeddedDiagrams
+	stager.map_GongStructName_InstancesNb = map_GongStructName_InstancesNb
+	return stager
+}
+
 func NewStager(
 	r *http.ServeMux,
 	receivingAsSplitArea *split.AsSplitArea,
@@ -47,27 +70,54 @@ func NewStager(
 	gongStage *gong.Stage,
 	formStage *form.Stage,
 	treeNavigationStage *tree.Stage,
-
 	embeddedDiagrams bool,
-
 	map_GongStructName_InstancesNb map[string]int,
-
 ) (stager *Stager) {
-
-	stager = new(Stager)
-
-	stager.stage = stage
-	stager.treeStage = treeStage
-	stager.treeNavigationStage = treeNavigationStage
-	stager.svgStage = svgStage
-	stager.gongStage = gongStage
-	stager.formStage = formStage
-
-	stager.embeddedDiagrams = embeddedDiagrams
-
-	stager.map_GongStructName_InstancesNb = map_GongStructName_InstancesNb
-
+	stager = initStager(
+		stage,
+		treeStage,
+		svgStage,
+		gongStage,
+		formStage,
+		treeNavigationStage,
+		embeddedDiagrams,
+		map_GongStructName_InstancesNb,
+	)
 	stager.createViews(receivingAsSplitArea)
+	stager.postInit()
+	return stager
+}
+
+func NewStagerSplitlite(
+	r *http.ServeMux,
+	receivingAsSplitArea *splitlite.AsSplitArea,
+	stage *Stage,
+	treeStage *tree.Stage,
+	svgStage *svg.Stage,
+	gongStage *gong.Stage,
+	formStage *form.Stage,
+	treeNavigationStage *tree.Stage,
+	embeddedDiagrams bool,
+	map_GongStructName_InstancesNb map[string]int,
+) (stager *Stager) {
+	stager = initStager(
+		stage,
+		treeStage,
+		svgStage,
+		gongStage,
+		formStage,
+		treeNavigationStage,
+		embeddedDiagrams,
+		map_GongStructName_InstancesNb,
+	)
+	stager.createViewsSplitlite(receivingAsSplitArea)
+	stager.postInit()
+	return stager
+}
+
+func (stager *Stager) postInit() {
+	stage := stager.stage
+	embeddedDiagrams := stager.embeddedDiagrams
 
 	// if no diagram package is present, creates one
 	diagramPackages := *stage.GetInstancesSet[*DiagramPackage]()

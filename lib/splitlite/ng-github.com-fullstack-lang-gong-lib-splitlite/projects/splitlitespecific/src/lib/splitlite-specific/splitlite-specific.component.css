@@ -1,0 +1,26 @@
+.splitlite-root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.splitlite-tabs {
+  flex: 1 1 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep .splitlite-tabs .mat-mdc-tab-body-wrapper {
+  flex: 1 1 auto;
+  height: 100%;
+}
+
+.single-view-container {
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}

@@ -1,6 +1,8 @@
 package angular
 
-const EmebedNgDistNg = `// generated code - do not edit
+const EmebedNgDistNg = `//go:build !js
+
+// generated code - do not edit
 package {{pkgname}}
 
 import "embed"

@@ -14,7 +14,8 @@
         "lib/tone/ng-github.com-fullstack-lang-gong-lib-tone",
         "lib/tree/ng-github.com-fullstack-lang-gong-lib-tree",
         "test/test1/ng-github.com-fullstack-lang-gong-test-test1",
-        "lib/threejs/ng-github.com-fullstack-lang-gong-lib-threejs"
+        "lib/threejs/ng-github.com-fullstack-lang-gong-lib-threejs",
+        "lib/splitlite/ng-github.com-fullstack-lang-gong-lib-splitlite"
     ],
     "dependencies": {
         "@types/katex": "^0.16.8",

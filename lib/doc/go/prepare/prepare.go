@@ -17,6 +17,10 @@ import (
 	gong "github.com/fullstack-lang/gong/go/models"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	splitlite "github.com/fullstack-lang/gong/lib/splitlite/go/models"
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
+	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
 )
 
 // hook marhalling to stage
@@ -48,16 +52,21 @@ func (beforeCommitImplementation *beforeCommitImplementation) BeforeCommit(stage
 	stage.Marshall(file, "github.com/fullstack-lang/gong/lib/doc/go/models", packageName)
 }
 
-func Prepare(
+func prepareStages(
 	r *http.ServeMux,
 	embeddedDiagrams bool,
 	docStackName string,
 	goModelsDir embed.FS,
 	goDiagramsDir embed.FS,
-	receivingAsSplitArea *split.AsSplitArea, // split area that will receive the doc areas
-	map_GongStructName_InstancesNb map[string]int,
-) (stager *models.Stager) {
-	stage := models.NewStage(docStackName)
+) (
+	stage *models.Stage,
+	treeStage *tree.Stage,
+	svgStage *svg.Stage,
+	gongStage *gong.Stage,
+	formStage *form.Stage,
+	treeNavigationStage *tree.Stage,
+) {
+	stage = models.NewStage(docStackName)
 
 	stage.MetaPackageImportAlias = "ref_models"
 
@@ -103,14 +112,28 @@ func Prepare(
 		}
 	}
 
-	treeStage, _ := tree_fullstack.NewStackInstance(r, docStackName+":doc-sidebar", "", "")
-	svgStage, _ := svg_fullstack.NewStackInstance(r, docStackName+":doc-svg", "", "", "")
-	gongStage := gong.NewStage(docStackName + ":doc-gong")
-	formStage, _ := form_fullstack.NewStackInstance(r, docStackName+":doc-diagramForm", "", "")
-	treeNavigationStage, _ := tree_fullstack.NewStackInstance(r, docStackName+":doc-sidebar-navigation", "", "")
+	treeStage, _ = tree_fullstack.NewStackInstance(r, docStackName+":doc-sidebar", "", "")
+	svgStage, _ = svg_fullstack.NewStackInstance(r, docStackName+":doc-svg", "", "", "")
+	gongStage = gong.NewStage(docStackName + ":doc-gong")
+	formStage, _ = form_fullstack.NewStackInstance(r, docStackName+":doc-diagramForm", "", "")
+	treeNavigationStage, _ = tree_fullstack.NewStackInstance(r, docStackName+":doc-sidebar-navigation", "", "")
 
 	// load the code of the model of interest into the gongStage
 	gong.LoadEmbedded(gongStage, goModelsDir)
+
+	return
+}
+
+func Prepare(
+	r *http.ServeMux,
+	embeddedDiagrams bool,
+	docStackName string,
+	goModelsDir embed.FS,
+	goDiagramsDir embed.FS,
+	receivingAsSplitArea *split.AsSplitArea, // split area that will receive the doc areas
+	map_GongStructName_InstancesNb map[string]int,
+) (stager *models.Stager) {
+	stage, treeStage, svgStage, gongStage, formStage, treeNavigationStage := prepareStages(r, embeddedDiagrams, docStackName, goModelsDir, goDiagramsDir)
 
 	return models.NewStager(
 		r,
@@ -124,3 +147,28 @@ func Prepare(
 		embeddedDiagrams,
 		map_GongStructName_InstancesNb)
 }
+
+func PrepareSplitlite(
+	r *http.ServeMux,
+	embeddedDiagrams bool,
+	docStackName string,
+	goModelsDir embed.FS,
+	goDiagramsDir embed.FS,
+	receivingAsSplitArea *splitlite.AsSplitArea, // split area that will receive the doc areas
+	map_GongStructName_InstancesNb map[string]int,
+) (stager *models.Stager) {
+	stage, treeStage, svgStage, gongStage, formStage, treeNavigationStage := prepareStages(r, embeddedDiagrams, docStackName, goModelsDir, goDiagramsDir)
+
+	return models.NewStagerSplitlite(
+		r,
+		receivingAsSplitArea,
+		stage,
+		treeStage,
+		svgStage,
+		gongStage,
+		formStage,
+		treeNavigationStage,
+		embeddedDiagrams,
+		map_GongStructName_InstancesNb)
+}
+

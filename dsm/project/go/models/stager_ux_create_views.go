@@ -1,6 +1,6 @@
 package models
 
-import split "github.com/fullstack-lang/gong/lib/split/go/models"
+import split "github.com/fullstack-lang/gong/lib/splitlite/go/models"
 
 func getPersistanceFile(stager *Stager) string {
 	if stager.stage.OnInitCommitCallback != nil {

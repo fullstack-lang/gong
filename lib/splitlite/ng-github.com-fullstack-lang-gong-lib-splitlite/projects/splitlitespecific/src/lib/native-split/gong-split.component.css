@@ -1,0 +1,79 @@
+:host {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+:host(.gong-split-horizontal) {
+  flex-direction: row;
+}
+
+:host(.gong-split-vertical) {
+  flex-direction: column;
+}
+
+:host(.gong-split-dragging) {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+:host(.gong-split-dragging) ::ng-deep > * {
+  pointer-events: none;
+}
+
+:host(.gong-split-dragging) ::ng-deep > .gong-split-gutter {
+  pointer-events: auto;
+}
+
+::ng-deep .gong-split-gutter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  background-color: var(--mat-sys-outline-variant, #e0e0e0);
+  transition: background-color 0.15s ease;
+  user-select: none;
+  touch-action: none;
+  z-index: 5;
+  position: relative;
+}
+
+::ng-deep .gong-split-gutter:hover,
+::ng-deep .gong-split-gutter.gong-split-gutter-active {
+  background-color: var(--mat-sys-primary, #1976d2);
+}
+
+::ng-deep .gong-split-horizontal > .gong-split-gutter {
+  cursor: col-resize;
+  height: 100%;
+}
+
+::ng-deep .gong-split-vertical > .gong-split-gutter {
+  cursor: row-resize;
+  width: 100%;
+}
+
+::ng-deep .gong-split-gutter-icon {
+  border-radius: 2px;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: background-color 0.15s ease;
+}
+
+::ng-deep .gong-split-gutter:hover .gong-split-gutter-icon,
+::ng-deep .gong-split-gutter.gong-split-gutter-active .gong-split-gutter-icon {
+  background-color: #ffffff;
+}
+
+::ng-deep .gong-split-horizontal > .gong-split-gutter > .gong-split-gutter-icon {
+  width: 3px;
+  height: 24px;
+}
+
+::ng-deep .gong-split-vertical > .gong-split-gutter > .gong-split-gutter-icon {
+  width: 24px;
+  height: 3px;
+}

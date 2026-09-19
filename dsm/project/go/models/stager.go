@@ -11,8 +11,8 @@ import (
 	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 
-	split "github.com/fullstack-lang/gong/lib/split/go/models"
-	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+	split "github.com/fullstack-lang/gong/lib/splitlite/go/models"
+	split_stack "github.com/fullstack-lang/gong/lib/splitlite/go/stack"
 
 	ssg_stack "github.com/fullstack-lang/gong/lib/ssg/go/level1stack"
 	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"
