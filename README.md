@@ -1,7 +1,7 @@
 # 1. Domain-Specific Modeling (DSM) in the Browser
 
 > [!NOTE]
-> On average, the file to download is heavy (200 MB) and the zip is also heavy (74 MB).
+> On average, the file to download is heavy (50 MB). Download the zip (50 MB) if you want to have it locally.
 
 ## Systems Engineering
 

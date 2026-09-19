@@ -968,39 +968,46 @@ func (stager *Stager) button() {
 
 	group1 := new(button.Group)
 	group1.Percentage = 100
-	group1.NbColumns = 4
+	group1.NbColumns = 1
 	layout.Groups = append(layout.Groups, group1)
 
-	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:            "Stop",
-		Icon:            string(buttons.BUTTON_stop_circle),
-		Label:           "Stop",
-		ToolTipText:     "Stop application",
-		ToolTipPosition: button.Above,
-		HasToolTip:      true,
-		OnClick: func() {
-			log.Println("Stop")
-			os.Exit(0)
-		},
-	})
+	// Auxiliary buttons (Stop, Web, HTML) are hidden by default
+	const showAuxiliaryButtons = false
+	if showAuxiliaryButtons {
+		group1.Buttons = append(group1.Buttons, &button.Button{
+			Name:            "Stop",
+			Icon:            string(buttons.BUTTON_stop_circle),
+			Label:           "Stop",
+			ToolTipText:     "Stop application",
+			ToolTipPosition: button.Above,
+			HasToolTip:      true,
+			OnClick: func() {
+				log.Println("Stop")
+				os.Exit(0)
+			},
+		})
+
+		group1.Buttons = append(group1.Buttons, &button.Button{
+			Name:            "Web",
+			Icon:            string(buttons.BUTTON_web),
+			Label:           "Web",
+			ToolTipText:     "Export documentation website",
+			ToolTipPosition: button.Above,
+			HasToolTip:      true,
+			OnClick:         stager.exportWebsite,
+		})
+	}
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:            "Web",
-		Icon:            string(buttons.BUTTON_web),
-		Label:           "Web",
-		ToolTipText:     "Export documentation website",
-		ToolTipPosition: button.Above,
-		HasToolTip:      true,
-		OnClick:         stager.exportWebsite,
-	})
-
-	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:            "Go",
-		Icon:            string(buttons.BUTTON_file_download),
-		Label:           "Go",
-		ToolTipText:     "Export stage as Go file",
-		ToolTipPosition: button.Above,
-		HasToolTip:      true,
+		Name:                "Go",
+		Icon:                string(buttons.BUTTON_file_download),
+		Label:               "Export Stage as Go file",
+		ToolTipText:         "Export stage as Go file",
+		ToolTipPosition:     button.Above,
+		HasToolTip:          true,
+		MatButtonType:       button.MatButtonTypeBasic,
+		MatButtonAppearance: button.MatButtonAppearanceFilled,
+		Color:               button.MatButtonPaletteTypePrimary,
 		OnClick: func() {
 			log.Println("Exporting stage as Go file")
 
@@ -1050,44 +1057,45 @@ func (stager *Stager) button() {
 		},
 	})
 
-	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:            "HTML",
-		Icon:            string(buttons.BUTTON_launch),
-		Label:           "HTML",
-		ToolTipText:     "Export launcher HTML",
-		ToolTipPosition: button.Above,
-		HasToolTip:      true,
-		OnClick: func() {
-			log.Println("Exporting launcher HTML")
+	if showAuxiliaryButtons {
+		group1.Buttons = append(group1.Buttons, &button.Button{
+			Name:            "HTML",
+			Icon:            string(buttons.BUTTON_launch),
+			Label:           "HTML",
+			ToolTipText:     "Export launcher HTML",
+			ToolTipPosition: button.Above,
+			HasToolTip:      true,
+			OnClick: func() {
+				log.Println("Exporting launcher HTML")
 
-			stager.loadStage.Reset()
+				stager.loadStage.Reset()
 
-			fileToDownload := new(load.FileToDownload)
+				fileToDownload := new(load.FileToDownload)
 
-			pkgName := stager.GetPkgName()
+				pkgName := stager.GetPkgName()
 
-			if stager.fileName == "" {
-				stager.fileName = pkgName + "-" + stager.stage.GetName() + ".go"
-			}
+				if stager.fileName == "" {
+					stager.fileName = pkgName + "-" + stager.stage.GetName() + ".go"
+				}
 
-			prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
-			cleanFileName := prefixRegex.ReplaceAllString(stager.fileName, "")
+				prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
+				cleanFileName := prefixRegex.ReplaceAllString(stager.fileName, "")
 
-			fileToDownload.Name = "PROMPT_SAVE_FILE_DIALOG_" + time.Now().Format("20060102 1504 ") + cleanFileName + ".html"
+				fileToDownload.Name = "PROMPT_SAVE_FILE_DIALOG_" + time.Now().Format("20060102 1504 ") + cleanFileName + ".html"
 
-			stageString, err := stager.stage.MarshallToString(stager.stage.MetaPackageImportPath, "main")
-			if err != nil {
-				log.Println("Error serializing stage: " + err.Error())
-				return
-			}
+				stageString, err := stager.stage.MarshallToString(stager.stage.MetaPackageImportPath, "main")
+				if err != nil {
+					log.Println("Error serializing stage: " + err.Error())
+					return
+				}
 
-			// Escape the Go string for safe inclusion in a JavaScript template literal
-			jsGoCode := strings.ReplaceAll(stageString, "\\", "\\\\")
-			jsGoCode = strings.ReplaceAll(jsGoCode, "`", "\\`")
-			jsGoCode = strings.ReplaceAll(jsGoCode, "${", "\\${")
-			jsGoCode = strings.ReplaceAll(jsGoCode, "</script>", "<\\/script>")
+				// Escape the Go string for safe inclusion in a JavaScript template literal
+				jsGoCode := strings.ReplaceAll(stageString, "\\", "\\\\")
+				jsGoCode = strings.ReplaceAll(jsGoCode, "`", "\\`")
+				jsGoCode = strings.ReplaceAll(jsGoCode, "${", "\\${")
+				jsGoCode = strings.ReplaceAll(jsGoCode, "</script>", "<\\/script>")
 
-			htmlString := `<!DOCTYPE html>
+				htmlString := `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1145,26 +1153,27 @@ func (stager *Stager) button() {
 </body>
 </html>`
 
-			fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(htmlString))
+				fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(htmlString))
 
-			fileToUpload := &load.FileToUpload{
-				Name: "Name of file",
-				FileToUploadProxy: &loadProxy{
-					stager: stager,
-				},
-			}
+				fileToUpload := &load.FileToUpload{
+					Name: "Name of file",
+					FileToUploadProxy: &loadProxy{
+						stager: stager,
+					},
+				}
 
-			load.StageBranch(stager.loadStage, fileToDownload)
-			load.StageBranch(stager.loadStage, fileToUpload)
+				load.StageBranch(stager.loadStage, fileToDownload)
+				load.StageBranch(stager.loadStage, fileToUpload)
 
-			message := &load.Message{
-				Name: "Drop your <library>.go file here or ",
-			}
-			message.Stage(stager.loadStage)
+				message := &load.Message{
+					Name: "Drop your <library>.go file here or ",
+				}
+				message.Stage(stager.loadStage)
 
-			stager.loadStage.Commit()
-		},
-	})
+				stager.loadStage.Commit()
+			},
+		})
+	}
 
 	button.StageBranch(buttonStage, layout)
 
