@@ -37,10 +37,7 @@ func (stager *Stager) ux_tone_music() {
 			continue
 		}
 
-		pitchIdx := noteData.Pitch
-		if pitchIdx < 0 {
-			pitchIdx = 0
-		}
+		pitchIdx := max(noteData.Pitch, 0)
 		if pitchIdx >= len(keyboard) {
 			pitchIdx = len(keyboard) - 1
 		}

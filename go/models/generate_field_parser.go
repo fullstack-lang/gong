@@ -409,8 +409,8 @@ func extractFieldsFromTypesStruct(
 	compositeTypeStructName string,
 	prefix string,
 ) {
-	for i := 0; i < structType.NumFields(); i++ {
-		field := structType.Field(i)
+	for field := range structType.Fields() {
+		field := field
 		if !field.Exported() {
 			continue
 		}
@@ -578,4 +578,3 @@ func extractFieldsFromTypesStruct(
 		}
 	}
 }
-

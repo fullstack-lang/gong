@@ -154,7 +154,7 @@ func executeServer(args []string) {
 	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
-	err := gongtable_static.RunServer(r, ":" + strconv.Itoa(port))
+	err := gongtable_static.RunServer(r, ":"+strconv.Itoa(port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
@@ -204,19 +204,19 @@ func fillUpSortTableDummyStuff(stage *gongtable_models.Stage, tableName string) 
 	table.CanDragDropRows = true
 	table.HasCloseButton = true
 
-	for j := 0; j < nbColumns; j++ {
+	for j := range nbColumns {
 		column := new(gongtable_models.DisplayedColumn).Stage(stage)
 		column.Name = fmt.Sprintf("Column %d", j)
 
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 
-	for i := 0; i < nbRows; i++ {
+	for i := range nbRows {
 		row := new(gongtable_models.Row).Stage(stage)
 		row.Name = fmt.Sprintf("Row %d", i)
 		table.Rows = append(table.Rows, row)
 
-		for j := 0; j < nbColumns; j++ {
+		for j := range nbColumns {
 			cell := new(gongtable_models.Cell).Stage(stage)
 			cell.Name = fmt.Sprintf("Row %d - Column %d", i, j)
 
@@ -241,13 +241,13 @@ func fillUpSelectTableDummyStuff(stage *gongtable_models.Stage, tableName string
 	table.HasCheckableRows = true
 	table.HasSaveButton = true
 
-	for j := 0; j < nbColumns; j++ {
+	for j := range nbColumns {
 		column := new(gongtable_models.DisplayedColumn).Stage(stage)
 		column.Name = fmt.Sprintf("Column %d", j)
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 
-	for i := 0; i < nbRows; i++ {
+	for i := range nbRows {
 		row := new(gongtable_models.Row).Stage(stage)
 		row.Name = fmt.Sprintf("Row %d", i)
 		table.Rows = append(table.Rows, row)
@@ -256,7 +256,7 @@ func fillUpSelectTableDummyStuff(stage *gongtable_models.Stage, tableName string
 			row.IsChecked = true
 		}
 
-		for j := 0; j < nbColumns; j++ {
+		for j := range nbColumns {
 			cell := new(gongtable_models.Cell).Stage(stage)
 			cell.Name = fmt.Sprintf("Row %d - Column %d", i, j)
 
@@ -281,18 +281,18 @@ func fillUpTableWithDummyStuff(stage *gongtable_models.Stage, tableName string) 
 
 	table.NbOfStickyColumns = 2
 
-	for j := 0; j < nbColumns; j++ {
+	for j := range nbColumns {
 		column := new(gongtable_models.DisplayedColumn).Stage(stage)
 		column.Name = fmt.Sprintf("Column %d", j)
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 
-	for i := 0; i < nbRows; i++ {
+	for i := range nbRows {
 		row := new(gongtable_models.Row).Stage(stage)
 		row.Name = fmt.Sprintf("Row %d", i)
 		table.Rows = append(table.Rows, row)
 
-		for j := 0; j < nbColumns; j++ {
+		for j := range nbColumns {
 			cell := new(gongtable_models.Cell).Stage(stage)
 			cell.Name = fmt.Sprintf("Row %d - Column %d", i, j)
 

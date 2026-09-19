@@ -218,14 +218,14 @@ func TestScrambleStageFile_FileOperations(t *testing.T) {
 }
 
 func extractLiteralBetween(s, prefix, suffix string) string {
-	idx := strings.Index(s, prefix)
-	if idx == -1 {
+	_, after, ok := strings.Cut(s, prefix)
+	if !ok {
 		return ""
 	}
-	rest := s[idx+len(prefix):]
-	endIdx := strings.Index(rest, suffix)
-	if endIdx == -1 {
+	rest := after
+	before0, _, ok0 := strings.Cut(rest, suffix)
+	if !ok0 {
 		return ""
 	}
-	return rest[:endIdx]
+	return before0
 }

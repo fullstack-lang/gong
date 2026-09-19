@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -340,7 +339,6 @@ type Stage struct {
 	OnAfterOptionUpdateCallback GongOnAfterUpdateInterface[Option]
 	OnAfterOptionDeleteCallback GongOnAfterDeleteInterface[Option]
 	OnAfterOptionReadCallback   GongOnAfterReadInterface[Option]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -876,7 +874,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -1336,7 +1333,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -1388,8 +1384,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -1565,7 +1559,6 @@ func (checkbox *CheckBox) Commit(stage *Stage) *CheckBox {
 	return checkbox
 }
 
-
 func (checkbox *CheckBox) StageVoid(stage *Stage) {
 	checkbox.Stage(stage)
 }
@@ -1649,7 +1642,6 @@ func (formdiv *FormDiv) Commit(stage *Stage) *FormDiv {
 	}
 	return formdiv
 }
-
 
 func (formdiv *FormDiv) StageVoid(stage *Stage) {
 	formdiv.Stage(stage)
@@ -1735,7 +1727,6 @@ func (formeditassocbutton *FormEditAssocButton) Commit(stage *Stage) *FormEditAs
 	return formeditassocbutton
 }
 
-
 func (formeditassocbutton *FormEditAssocButton) StageVoid(stage *Stage) {
 	formeditassocbutton.Stage(stage)
 }
@@ -1819,7 +1810,6 @@ func (formfield *FormField) Commit(stage *Stage) *FormField {
 	}
 	return formfield
 }
-
 
 func (formfield *FormField) StageVoid(stage *Stage) {
 	formfield.Stage(stage)
@@ -1905,7 +1895,6 @@ func (formfielddate *FormFieldDate) Commit(stage *Stage) *FormFieldDate {
 	return formfielddate
 }
 
-
 func (formfielddate *FormFieldDate) StageVoid(stage *Stage) {
 	formfielddate.Stage(stage)
 }
@@ -1989,7 +1978,6 @@ func (formfielddatetime *FormFieldDateTime) Commit(stage *Stage) *FormFieldDateT
 	}
 	return formfielddatetime
 }
-
 
 func (formfielddatetime *FormFieldDateTime) StageVoid(stage *Stage) {
 	formfielddatetime.Stage(stage)
@@ -2075,7 +2063,6 @@ func (formfieldfloat64 *FormFieldFloat64) Commit(stage *Stage) *FormFieldFloat64
 	return formfieldfloat64
 }
 
-
 func (formfieldfloat64 *FormFieldFloat64) StageVoid(stage *Stage) {
 	formfieldfloat64.Stage(stage)
 }
@@ -2159,7 +2146,6 @@ func (formfieldint *FormFieldInt) Commit(stage *Stage) *FormFieldInt {
 	}
 	return formfieldint
 }
-
 
 func (formfieldint *FormFieldInt) StageVoid(stage *Stage) {
 	formfieldint.Stage(stage)
@@ -2245,7 +2231,6 @@ func (formfieldselect *FormFieldSelect) Commit(stage *Stage) *FormFieldSelect {
 	return formfieldselect
 }
 
-
 func (formfieldselect *FormFieldSelect) StageVoid(stage *Stage) {
 	formfieldselect.Stage(stage)
 }
@@ -2329,7 +2314,6 @@ func (formfieldstring *FormFieldString) Commit(stage *Stage) *FormFieldString {
 	}
 	return formfieldstring
 }
-
 
 func (formfieldstring *FormFieldString) StageVoid(stage *Stage) {
 	formfieldstring.Stage(stage)
@@ -2415,7 +2399,6 @@ func (formfieldtime *FormFieldTime) Commit(stage *Stage) *FormFieldTime {
 	return formfieldtime
 }
 
-
 func (formfieldtime *FormFieldTime) StageVoid(stage *Stage) {
 	formfieldtime.Stage(stage)
 }
@@ -2499,7 +2482,6 @@ func (formgroup *FormGroup) Commit(stage *Stage) *FormGroup {
 	}
 	return formgroup
 }
-
 
 func (formgroup *FormGroup) StageVoid(stage *Stage) {
 	formgroup.Stage(stage)
@@ -2585,7 +2567,6 @@ func (formsortassocbutton *FormSortAssocButton) Commit(stage *Stage) *FormSortAs
 	return formsortassocbutton
 }
 
-
 func (formsortassocbutton *FormSortAssocButton) StageVoid(stage *Stage) {
 	formsortassocbutton.Stage(stage)
 }
@@ -2669,7 +2650,6 @@ func (option *Option) Commit(stage *Stage) *Option {
 	}
 	return option
 }
-
 
 func (option *Option) StageVoid(stage *Stage) {
 	option.Stage(stage)
@@ -2778,7 +2758,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

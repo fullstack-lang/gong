@@ -6,11 +6,9 @@ import (
 	gong "github.com/fullstack-lang/gong/go/models"
 )
 
-type ModelElement interface {
-}
+type ModelElement any
 
-type Shape interface {
-}
+type Shape any
 
 func (stager *Stager) compute_map_modelElement_shape(
 	classdiagram *Classdiagram,

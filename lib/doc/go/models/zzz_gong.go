@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -273,7 +272,6 @@ type Stage struct {
 	OnAfterLinkShapeUpdateCallback GongOnAfterUpdateInterface[LinkShape]
 	OnAfterLinkShapeDeleteCallback GongOnAfterDeleteInterface[LinkShape]
 	OnAfterLinkShapeReadCallback   GongOnAfterReadInterface[LinkShape]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -719,7 +717,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -1054,7 +1051,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -1096,8 +1092,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -1268,7 +1262,6 @@ func (attributeshape *AttributeShape) Commit(stage *Stage) *AttributeShape {
 	return attributeshape
 }
 
-
 func (attributeshape *AttributeShape) StageVoid(stage *Stage) {
 	attributeshape.Stage(stage)
 }
@@ -1352,7 +1345,6 @@ func (classdiagram *Classdiagram) Commit(stage *Stage) *Classdiagram {
 	}
 	return classdiagram
 }
-
 
 func (classdiagram *Classdiagram) StageVoid(stage *Stage) {
 	classdiagram.Stage(stage)
@@ -1438,7 +1430,6 @@ func (diagrampackage *DiagramPackage) Commit(stage *Stage) *DiagramPackage {
 	return diagrampackage
 }
 
-
 func (diagrampackage *DiagramPackage) StageVoid(stage *Stage) {
 	diagrampackage.Stage(stage)
 }
@@ -1522,7 +1513,6 @@ func (gongenumshape *GongEnumShape) Commit(stage *Stage) *GongEnumShape {
 	}
 	return gongenumshape
 }
-
 
 func (gongenumshape *GongEnumShape) StageVoid(stage *Stage) {
 	gongenumshape.Stage(stage)
@@ -1608,7 +1598,6 @@ func (gongenumvalueshape *GongEnumValueShape) Commit(stage *Stage) *GongEnumValu
 	return gongenumvalueshape
 }
 
-
 func (gongenumvalueshape *GongEnumValueShape) StageVoid(stage *Stage) {
 	gongenumvalueshape.Stage(stage)
 }
@@ -1692,7 +1681,6 @@ func (gongnotelinkshape *GongNoteLinkShape) Commit(stage *Stage) *GongNoteLinkSh
 	}
 	return gongnotelinkshape
 }
-
 
 func (gongnotelinkshape *GongNoteLinkShape) StageVoid(stage *Stage) {
 	gongnotelinkshape.Stage(stage)
@@ -1778,7 +1766,6 @@ func (gongnoteshape *GongNoteShape) Commit(stage *Stage) *GongNoteShape {
 	return gongnoteshape
 }
 
-
 func (gongnoteshape *GongNoteShape) StageVoid(stage *Stage) {
 	gongnoteshape.Stage(stage)
 }
@@ -1862,7 +1849,6 @@ func (gongstructshape *GongStructShape) Commit(stage *Stage) *GongStructShape {
 	}
 	return gongstructshape
 }
-
 
 func (gongstructshape *GongStructShape) StageVoid(stage *Stage) {
 	gongstructshape.Stage(stage)
@@ -1948,7 +1934,6 @@ func (linkshape *LinkShape) Commit(stage *Stage) *LinkShape {
 	return linkshape
 }
 
-
 func (linkshape *LinkShape) StageVoid(stage *Stage) {
 	linkshape.Stage(stage)
 }
@@ -2031,7 +2016,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

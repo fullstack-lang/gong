@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -241,7 +240,6 @@ type Stage struct {
 	OnAfterMilestoneUpdateCallback GongOnAfterUpdateInterface[Milestone]
 	OnAfterMilestoneDeleteCallback GongOnAfterDeleteInterface[Milestone]
 	OnAfterMilestoneReadCallback   GongOnAfterReadInterface[Milestone]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -651,7 +649,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -936,7 +933,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -974,8 +970,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -1144,7 +1138,6 @@ func (arrow *Arrow) Commit(stage *Stage) *Arrow {
 	return arrow
 }
 
-
 func (arrow *Arrow) StageVoid(stage *Stage) {
 	arrow.Stage(stage)
 }
@@ -1228,7 +1221,6 @@ func (bar *Bar) Commit(stage *Stage) *Bar {
 	}
 	return bar
 }
-
 
 func (bar *Bar) StageVoid(stage *Stage) {
 	bar.Stage(stage)
@@ -1314,7 +1306,6 @@ func (gantt *Gantt) Commit(stage *Stage) *Gantt {
 	return gantt
 }
 
-
 func (gantt *Gantt) StageVoid(stage *Stage) {
 	gantt.Stage(stage)
 }
@@ -1398,7 +1389,6 @@ func (group *Group) Commit(stage *Stage) *Group {
 	}
 	return group
 }
-
 
 func (group *Group) StageVoid(stage *Stage) {
 	group.Stage(stage)
@@ -1484,7 +1474,6 @@ func (lane *Lane) Commit(stage *Stage) *Lane {
 	return lane
 }
 
-
 func (lane *Lane) StageVoid(stage *Stage) {
 	lane.Stage(stage)
 }
@@ -1568,7 +1557,6 @@ func (laneuse *LaneUse) Commit(stage *Stage) *LaneUse {
 	}
 	return laneuse
 }
-
 
 func (laneuse *LaneUse) StageVoid(stage *Stage) {
 	laneuse.Stage(stage)
@@ -1654,7 +1642,6 @@ func (milestone *Milestone) Commit(stage *Stage) *Milestone {
 	return milestone
 }
 
-
 func (milestone *Milestone) StageVoid(stage *Stage) {
 	milestone.Stage(stage)
 }
@@ -1727,7 +1714,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

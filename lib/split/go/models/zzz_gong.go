@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -426,7 +425,6 @@ type Stage struct {
 	OnAfterXlsxUpdateCallback GongOnAfterUpdateInterface[Xlsx]
 	OnAfterXlsxDeleteCallback GongOnAfterDeleteInterface[Xlsx]
 	OnAfterXlsxReadCallback   GongOnAfterReadInterface[Xlsx]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -1070,7 +1068,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -1680,7 +1677,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -1744,8 +1740,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -1927,7 +1921,6 @@ func (assplit *AsSplit) Commit(stage *Stage) *AsSplit {
 	return assplit
 }
 
-
 func (assplit *AsSplit) StageVoid(stage *Stage) {
 	assplit.Stage(stage)
 }
@@ -2011,7 +2004,6 @@ func (assplitarea *AsSplitArea) Commit(stage *Stage) *AsSplitArea {
 	}
 	return assplitarea
 }
-
 
 func (assplitarea *AsSplitArea) StageVoid(stage *Stage) {
 	assplitarea.Stage(stage)
@@ -2097,7 +2089,6 @@ func (button *Button) Commit(stage *Stage) *Button {
 	return button
 }
 
-
 func (button *Button) StageVoid(stage *Stage) {
 	button.Stage(stage)
 }
@@ -2181,7 +2172,6 @@ func (cursor *Cursor) Commit(stage *Stage) *Cursor {
 	}
 	return cursor
 }
-
 
 func (cursor *Cursor) StageVoid(stage *Stage) {
 	cursor.Stage(stage)
@@ -2267,7 +2257,6 @@ func (favicon *FavIcon) Commit(stage *Stage) *FavIcon {
 	return favicon
 }
 
-
 func (favicon *FavIcon) StageVoid(stage *Stage) {
 	favicon.Stage(stage)
 }
@@ -2351,7 +2340,6 @@ func (form *Form) Commit(stage *Stage) *Form {
 	}
 	return form
 }
-
 
 func (form *Form) StageVoid(stage *Stage) {
 	form.Stage(stage)
@@ -2437,7 +2425,6 @@ func (load *Load) Commit(stage *Stage) *Load {
 	return load
 }
 
-
 func (load *Load) StageVoid(stage *Stage) {
 	load.Stage(stage)
 }
@@ -2521,7 +2508,6 @@ func (logoontheleft *LogoOnTheLeft) Commit(stage *Stage) *LogoOnTheLeft {
 	}
 	return logoontheleft
 }
-
 
 func (logoontheleft *LogoOnTheLeft) StageVoid(stage *Stage) {
 	logoontheleft.Stage(stage)
@@ -2607,7 +2593,6 @@ func (logoontheright *LogoOnTheRight) Commit(stage *Stage) *LogoOnTheRight {
 	return logoontheright
 }
 
-
 func (logoontheright *LogoOnTheRight) StageVoid(stage *Stage) {
 	logoontheright.Stage(stage)
 }
@@ -2691,7 +2676,6 @@ func (markdown *Markdown) Commit(stage *Stage) *Markdown {
 	}
 	return markdown
 }
-
 
 func (markdown *Markdown) StageVoid(stage *Stage) {
 	markdown.Stage(stage)
@@ -2777,7 +2761,6 @@ func (slider *Slider) Commit(stage *Stage) *Slider {
 	return slider
 }
 
-
 func (slider *Slider) StageVoid(stage *Stage) {
 	slider.Stage(stage)
 }
@@ -2861,7 +2844,6 @@ func (split *Split) Commit(stage *Stage) *Split {
 	}
 	return split
 }
-
 
 func (split *Split) StageVoid(stage *Stage) {
 	split.Stage(stage)
@@ -2947,7 +2929,6 @@ func (svg *Svg) Commit(stage *Stage) *Svg {
 	return svg
 }
 
-
 func (svg *Svg) StageVoid(stage *Stage) {
 	svg.Stage(stage)
 }
@@ -3031,7 +3012,6 @@ func (table *Table) Commit(stage *Stage) *Table {
 	}
 	return table
 }
-
 
 func (table *Table) StageVoid(stage *Stage) {
 	table.Stage(stage)
@@ -3117,7 +3097,6 @@ func (threejs *Threejs) Commit(stage *Stage) *Threejs {
 	return threejs
 }
 
-
 func (threejs *Threejs) StageVoid(stage *Stage) {
 	threejs.Stage(stage)
 }
@@ -3201,7 +3180,6 @@ func (title *Title) Commit(stage *Stage) *Title {
 	}
 	return title
 }
-
 
 func (title *Title) StageVoid(stage *Stage) {
 	title.Stage(stage)
@@ -3287,7 +3265,6 @@ func (tone *Tone) Commit(stage *Stage) *Tone {
 	return tone
 }
 
-
 func (tone *Tone) StageVoid(stage *Stage) {
 	tone.Stage(stage)
 }
@@ -3371,7 +3348,6 @@ func (tree *Tree) Commit(stage *Stage) *Tree {
 	}
 	return tree
 }
-
 
 func (tree *Tree) StageVoid(stage *Stage) {
 	tree.Stage(stage)
@@ -3457,7 +3433,6 @@ func (view *View) Commit(stage *Stage) *View {
 	return view
 }
 
-
 func (view *View) StageVoid(stage *Stage) {
 	view.Stage(stage)
 }
@@ -3541,7 +3516,6 @@ func (xlsx *Xlsx) Commit(stage *Stage) *Xlsx {
 	}
 	return xlsx
 }
-
 
 func (xlsx *Xlsx) StageVoid(stage *Stage) {
 	xlsx.Stage(stage)
@@ -3680,7 +3654,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

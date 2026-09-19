@@ -841,7 +841,7 @@ func MultiCodeGeneratorBackRepo(
 		codeGO := BackRepoPerStructTemplateCode
 
 		insertions := make(map[BackRepoInsertionPoint]string)
-		for insertion := BackRepoInsertionPoint(0); insertion < BackRepoNbInsertionPoints; insertion++ {
+		for insertion := range BackRepoNbInsertionPoints {
 			insertions[insertion] = ""
 		}
 
@@ -1084,7 +1084,7 @@ func MultiCodeGeneratorBackRepo(
 		}
 
 		// substitutes {{<<insertion points>>}} stuff with generated code
-		for insertion := BackRepoInsertionPoint(0); insertion < BackRepoNbInsertionPoints; insertion++ {
+		for insertion := range BackRepoNbInsertionPoints {
 			toReplace := "{{" + string(rune(insertion)) + "}}"
 			codeGO = strings.ReplaceAll(codeGO, toReplace, insertions[insertion])
 		}

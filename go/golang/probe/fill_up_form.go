@@ -281,7 +281,7 @@ func CodeGeneratorFillUpForm(
 	}
 
 	// substitutes {{<<insertionPerStructId points>>}} stuff with generated code
-	for insertionPerStructId := FillUpFormInsertionId(0); insertionPerStructId < FillUpFormInsertionNb; insertionPerStructId++ {
+	for insertionPerStructId := range FillUpFormInsertionNb {
 		toReplace := "{{" + string(rune(insertionPerStructId)) + "}}"
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
 	}

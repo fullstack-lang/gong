@@ -19,7 +19,7 @@ func enforceStartArcShapeV2GridHasShapes(stage *Stage, grid *StartArcShapeGrid, 
 	if len(grid.StartArcShapes) != expectedLen {
 		valid = false
 	} else {
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 			arc := grid.StartArcShapes[i]
@@ -91,7 +91,7 @@ func enforceStartArcShapeV2GridHasShapes(stage *Stage, grid *StartArcShapeGrid, 
 			}
 		}
 		grid.StartArcShapes = make([]*StartArcShape, expectedLen)
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
@@ -171,7 +171,7 @@ func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShape
 	if len(grid.TopStartArcShapes) != expectedLen {
 		valid = false
 	} else {
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 			arc := grid.TopStartArcShapes[i]
@@ -208,7 +208,7 @@ func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShape
 		}
 		grid.TopStartArcShapes = make([]*TopStartArcShape, expectedLen)
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
@@ -247,7 +247,7 @@ func enforceEndArcShapeV2GridHasShapes(stage *Stage, grid *EndArcShapeGrid, pGri
 	if len(grid.EndArcShapes) != expectedLen {
 		valid = false
 	} else {
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 			arc := grid.EndArcShapes[i]
@@ -318,7 +318,7 @@ func enforceEndArcShapeV2GridHasShapes(stage *Stage, grid *EndArcShapeGrid, pGri
 			}
 		}
 		grid.EndArcShapes = make([]*EndArcShape, expectedLen)
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
@@ -396,7 +396,7 @@ func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeGrid
 	if len(grid.TopEndArcShapes) != expectedLen {
 		valid = false
 	} else {
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 			arc := grid.TopEndArcShapes[i]
@@ -433,7 +433,7 @@ func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeGrid
 		}
 		grid.TopEndArcShapes = make([]*TopEndArcShape, expectedLen)
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
@@ -558,7 +558,7 @@ func enforceShiftedBottomTopStartArcShapeV2GridHasShapes(stage *Stage, grid *Shi
 	if len(grid.ShiftedBottomTopStartArcShapes) != expectedLen {
 		valid = false
 	} else {
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 			arc := grid.ShiftedBottomTopStartArcShapes[i]
@@ -595,7 +595,7 @@ func enforceShiftedBottomTopStartArcShapeV2GridHasShapes(stage *Stage, grid *Shi
 		}
 		grid.ShiftedBottomTopStartArcShapes = make([]*ShiftedBottomTopStartArcShape, expectedLen)
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
@@ -646,7 +646,7 @@ func enforceMidArcVectorShapeGridHasShapes(stage *Stage, grid *MidArcVectorShape
 	if len(grid.MidArcVectorShapes) != expectedLen {
 		valid = false
 	} else {
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 			s := grid.MidArcVectorShapes[i]
@@ -677,7 +677,7 @@ func enforceMidArcVectorShapeGridHasShapes(stage *Stage, grid *MidArcVectorShape
 		}
 		grid.MidArcVectorShapes = make([]*MidArcVectorShape, expectedLen)
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
@@ -726,7 +726,7 @@ func enforceTopMidArcVectorShapeGridHasShapes(stage *Stage, grid *TopMidArcVecto
 	if len(grid.TopMidArcVectorShapes) != expectedLen {
 		valid = false
 	} else {
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 			s := grid.TopMidArcVectorShapes[i]
@@ -772,7 +772,7 @@ func enforceTopMidArcVectorShapeGridHasShapes(stage *Stage, grid *TopMidArcVecto
 		}
 		grid.TopMidArcVectorShapes = make([]*TopMidArcVectorShape, expectedLen)
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
@@ -836,7 +836,7 @@ func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *StartHalfwayArcShap
 	if len(grid.StartHalfwayArcShapes) != expectedLen {
 		valid = false
 	} else {
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 			s := grid.StartHalfwayArcShapes[i]
@@ -927,7 +927,7 @@ func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *StartHalfwayArcShap
 		}
 		grid.StartHalfwayArcShapes = make([]*StartHalfwayArcShape, expectedLen)
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
@@ -1041,7 +1041,7 @@ func enforceEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *EndHalfwayArcSha
 	if len(grid.EndHalfwayArcShapes) != expectedLen {
 		valid = false
 	} else {
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 			s := grid.EndHalfwayArcShapes[i]
@@ -1138,7 +1138,7 @@ func enforceEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *EndHalfwayArcSha
 		}
 		grid.EndHalfwayArcShapes = make([]*EndHalfwayArcShape, expectedLen)
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
@@ -1256,7 +1256,7 @@ func enforceTopStartHalfwayArcShapeGridHasShapes(stage *Stage, grid *TopStartHal
 	if len(grid.TopStartHalfwayArcShapes) != expectedLen {
 		valid = false
 	} else {
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 			s := grid.TopStartHalfwayArcShapes[i]
@@ -1360,7 +1360,7 @@ func enforceTopStartHalfwayArcShapeGridHasShapes(stage *Stage, grid *TopStartHal
 		}
 		grid.TopStartHalfwayArcShapes = make([]*TopStartHalfwayArcShape, expectedLen)
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
@@ -1487,7 +1487,7 @@ func enforceTopEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *TopEndHalfway
 	if len(grid.TopEndHalfwayArcShapes) != expectedLen {
 		valid = false
 	} else {
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 			s := grid.TopEndHalfwayArcShapes[i]
@@ -1600,7 +1600,7 @@ func enforceTopEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *TopEndHalfway
 		}
 		grid.TopEndHalfwayArcShapes = make([]*TopEndHalfwayArcShape, expectedLen)
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 

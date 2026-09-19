@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -297,7 +296,6 @@ type Stage struct {
 	OnAfterTableUpdateCallback GongOnAfterUpdateInterface[Table]
 	OnAfterTableDeleteCallback GongOnAfterDeleteInterface[Table]
 	OnAfterTableReadCallback   GongOnAfterReadInterface[Table]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -779,7 +777,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -1164,7 +1161,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -1210,8 +1206,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -1384,7 +1378,6 @@ func (button *Button) Commit(stage *Stage) *Button {
 	return button
 }
 
-
 func (button *Button) StageVoid(stage *Stage) {
 	button.Stage(stage)
 }
@@ -1468,7 +1461,6 @@ func (cell *Cell) Commit(stage *Stage) *Cell {
 	}
 	return cell
 }
-
 
 func (cell *Cell) StageVoid(stage *Stage) {
 	cell.Stage(stage)
@@ -1554,7 +1546,6 @@ func (cellboolean *CellBoolean) Commit(stage *Stage) *CellBoolean {
 	return cellboolean
 }
 
-
 func (cellboolean *CellBoolean) StageVoid(stage *Stage) {
 	cellboolean.Stage(stage)
 }
@@ -1638,7 +1629,6 @@ func (cellfloat64 *CellFloat64) Commit(stage *Stage) *CellFloat64 {
 	}
 	return cellfloat64
 }
-
 
 func (cellfloat64 *CellFloat64) StageVoid(stage *Stage) {
 	cellfloat64.Stage(stage)
@@ -1724,7 +1714,6 @@ func (cellicon *CellIcon) Commit(stage *Stage) *CellIcon {
 	return cellicon
 }
 
-
 func (cellicon *CellIcon) StageVoid(stage *Stage) {
 	cellicon.Stage(stage)
 }
@@ -1808,7 +1797,6 @@ func (cellint *CellInt) Commit(stage *Stage) *CellInt {
 	}
 	return cellint
 }
-
 
 func (cellint *CellInt) StageVoid(stage *Stage) {
 	cellint.Stage(stage)
@@ -1894,7 +1882,6 @@ func (cellstring *CellString) Commit(stage *Stage) *CellString {
 	return cellstring
 }
 
-
 func (cellstring *CellString) StageVoid(stage *Stage) {
 	cellstring.Stage(stage)
 }
@@ -1978,7 +1965,6 @@ func (displayedcolumn *DisplayedColumn) Commit(stage *Stage) *DisplayedColumn {
 	}
 	return displayedcolumn
 }
-
 
 func (displayedcolumn *DisplayedColumn) StageVoid(stage *Stage) {
 	displayedcolumn.Stage(stage)
@@ -2064,7 +2050,6 @@ func (row *Row) Commit(stage *Stage) *Row {
 	return row
 }
 
-
 func (row *Row) StageVoid(stage *Stage) {
 	row.Stage(stage)
 }
@@ -2149,7 +2134,6 @@ func (svgicon *SVGIcon) Commit(stage *Stage) *SVGIcon {
 	return svgicon
 }
 
-
 func (svgicon *SVGIcon) StageVoid(stage *Stage) {
 	svgicon.Stage(stage)
 }
@@ -2233,7 +2217,6 @@ func (table *Table) Commit(stage *Stage) *Table {
 	}
 	return table
 }
-
 
 func (table *Table) StageVoid(stage *Stage) {
 	table.Stage(stage)
@@ -2327,7 +2310,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

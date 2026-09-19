@@ -241,7 +241,7 @@ func (u *ThreeJSStageUpdater) createFaceMesh(stager *models.Stager, faceName str
 		Name: fmt.Sprintf("%s BufferGeometry", faceName),
 	}).Stage(threejsStage)
 
-	for i := 0; i < len(edges); i++ {
+	for i := range edges {
 		p1_src := edges[i][0]
 		p2_src := edges[i][1]
 
@@ -318,7 +318,7 @@ func (u *ThreeJSStageUpdater) createTorusEdgeMesh(stager *models.Stager, name st
 		Name: "Curve " + name,
 	}).Stage(threejsStage)
 
-	for i := 0; i < len(edges); i++ {
+	for i := range edges {
 		p := edges[i][0]
 		if !useLeft {
 			p = edges[i][1]

@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -554,7 +553,6 @@ type Stage struct {
 	OnAfterTextUpdateCallback GongOnAfterUpdateInterface[Text]
 	OnAfterTextDeleteCallback GongOnAfterDeleteInterface[Text]
 	OnAfterTextReadCallback   GongOnAfterReadInterface[Text]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -1270,7 +1268,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -1980,7 +1977,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -2052,8 +2048,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -2239,7 +2233,6 @@ func (animate *Animate) Commit(stage *Stage) *Animate {
 	return animate
 }
 
-
 func (animate *Animate) StageVoid(stage *Stage) {
 	animate.Stage(stage)
 }
@@ -2323,7 +2316,6 @@ func (circle *Circle) Commit(stage *Stage) *Circle {
 	}
 	return circle
 }
-
 
 func (circle *Circle) StageVoid(stage *Stage) {
 	circle.Stage(stage)
@@ -2409,7 +2401,6 @@ func (condition *Condition) Commit(stage *Stage) *Condition {
 	return condition
 }
 
-
 func (condition *Condition) StageVoid(stage *Stage) {
 	condition.Stage(stage)
 }
@@ -2493,7 +2484,6 @@ func (controlpoint *ControlPoint) Commit(stage *Stage) *ControlPoint {
 	}
 	return controlpoint
 }
-
 
 func (controlpoint *ControlPoint) StageVoid(stage *Stage) {
 	controlpoint.Stage(stage)
@@ -2579,7 +2569,6 @@ func (ellipse *Ellipse) Commit(stage *Stage) *Ellipse {
 	return ellipse
 }
 
-
 func (ellipse *Ellipse) StageVoid(stage *Stage) {
 	ellipse.Stage(stage)
 }
@@ -2663,7 +2652,6 @@ func (filetodownload *FileToDownload) Commit(stage *Stage) *FileToDownload {
 	}
 	return filetodownload
 }
-
 
 func (filetodownload *FileToDownload) StageVoid(stage *Stage) {
 	filetodownload.Stage(stage)
@@ -2749,7 +2737,6 @@ func (layer *Layer) Commit(stage *Stage) *Layer {
 	return layer
 }
 
-
 func (layer *Layer) StageVoid(stage *Stage) {
 	layer.Stage(stage)
 }
@@ -2833,7 +2820,6 @@ func (line *Line) Commit(stage *Stage) *Line {
 	}
 	return line
 }
-
 
 func (line *Line) StageVoid(stage *Stage) {
 	line.Stage(stage)
@@ -2919,7 +2905,6 @@ func (link *Link) Commit(stage *Stage) *Link {
 	return link
 }
 
-
 func (link *Link) StageVoid(stage *Stage) {
 	link.Stage(stage)
 }
@@ -3003,7 +2988,6 @@ func (linkanchoredpath *LinkAnchoredPath) Commit(stage *Stage) *LinkAnchoredPath
 	}
 	return linkanchoredpath
 }
-
 
 func (linkanchoredpath *LinkAnchoredPath) StageVoid(stage *Stage) {
 	linkanchoredpath.Stage(stage)
@@ -3089,7 +3073,6 @@ func (linkanchoredtext *LinkAnchoredText) Commit(stage *Stage) *LinkAnchoredText
 	return linkanchoredtext
 }
 
-
 func (linkanchoredtext *LinkAnchoredText) StageVoid(stage *Stage) {
 	linkanchoredtext.Stage(stage)
 }
@@ -3173,7 +3156,6 @@ func (path *Path) Commit(stage *Stage) *Path {
 	}
 	return path
 }
-
 
 func (path *Path) StageVoid(stage *Stage) {
 	path.Stage(stage)
@@ -3259,7 +3241,6 @@ func (point *Point) Commit(stage *Stage) *Point {
 	return point
 }
 
-
 func (point *Point) StageVoid(stage *Stage) {
 	point.Stage(stage)
 }
@@ -3343,7 +3324,6 @@ func (polygone *Polygone) Commit(stage *Stage) *Polygone {
 	}
 	return polygone
 }
-
 
 func (polygone *Polygone) StageVoid(stage *Stage) {
 	polygone.Stage(stage)
@@ -3429,7 +3409,6 @@ func (polyline *Polyline) Commit(stage *Stage) *Polyline {
 	return polyline
 }
 
-
 func (polyline *Polyline) StageVoid(stage *Stage) {
 	polyline.Stage(stage)
 }
@@ -3513,7 +3492,6 @@ func (rect *Rect) Commit(stage *Stage) *Rect {
 	}
 	return rect
 }
-
 
 func (rect *Rect) StageVoid(stage *Stage) {
 	rect.Stage(stage)
@@ -3599,7 +3577,6 @@ func (rectanchoredpath *RectAnchoredPath) Commit(stage *Stage) *RectAnchoredPath
 	return rectanchoredpath
 }
 
-
 func (rectanchoredpath *RectAnchoredPath) StageVoid(stage *Stage) {
 	rectanchoredpath.Stage(stage)
 }
@@ -3683,7 +3660,6 @@ func (rectanchoredpngimage *RectAnchoredPngImage) Commit(stage *Stage) *RectAnch
 	}
 	return rectanchoredpngimage
 }
-
 
 func (rectanchoredpngimage *RectAnchoredPngImage) StageVoid(stage *Stage) {
 	rectanchoredpngimage.Stage(stage)
@@ -3769,7 +3745,6 @@ func (rectanchoredrect *RectAnchoredRect) Commit(stage *Stage) *RectAnchoredRect
 	return rectanchoredrect
 }
 
-
 func (rectanchoredrect *RectAnchoredRect) StageVoid(stage *Stage) {
 	rectanchoredrect.Stage(stage)
 }
@@ -3853,7 +3828,6 @@ func (rectanchoredtext *RectAnchoredText) Commit(stage *Stage) *RectAnchoredText
 	}
 	return rectanchoredtext
 }
-
 
 func (rectanchoredtext *RectAnchoredText) StageVoid(stage *Stage) {
 	rectanchoredtext.Stage(stage)
@@ -3939,7 +3913,6 @@ func (rectlinklink *RectLinkLink) Commit(stage *Stage) *RectLinkLink {
 	return rectlinklink
 }
 
-
 func (rectlinklink *RectLinkLink) StageVoid(stage *Stage) {
 	rectlinklink.Stage(stage)
 }
@@ -4023,7 +3996,6 @@ func (svg *SVG) Commit(stage *Stage) *SVG {
 	}
 	return svg
 }
-
 
 func (svg *SVG) StageVoid(stage *Stage) {
 	svg.Stage(stage)
@@ -4109,7 +4081,6 @@ func (svgtext *SvgText) Commit(stage *Stage) *SvgText {
 	return svgtext
 }
 
-
 func (svgtext *SvgText) StageVoid(stage *Stage) {
 	svgtext.Stage(stage)
 }
@@ -4193,7 +4164,6 @@ func (text *Text) Commit(stage *Stage) *Text {
 	}
 	return text
 }
-
 
 func (text *Text) StageVoid(stage *Stage) {
 	text.Stage(stage)
@@ -4352,7 +4322,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

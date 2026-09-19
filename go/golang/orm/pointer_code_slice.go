@@ -17,7 +17,7 @@ func (s IntSlice) Value() (driver.Value, error) {
 }
 
 // Scan makes IntSlice implement the sql.Scanner interface.
-func (s *IntSlice) Scan(value interface{}) error {
+func (s *IntSlice) Scan(value any) error {
 	bytes, ok := value.([]byte)
 	if !ok {
 		return error(fmt.Errorf("Failed to unmarshal IntSlice value: %v", value))

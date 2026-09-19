@@ -75,10 +75,7 @@ func (stager *Stager) formatText(rect *svg.Rect, yOffset float64) {
 	if len(rect.RectAnchoredTexts) > 0 {
 		numberOfPixelsPerCharacters := 7.5
 		padding := 20.0 // 10px padding on each side
-		maxChars := int((rect.Width - padding) / numberOfPixelsPerCharacters)
-		if maxChars < 10 {
-			maxChars = 10
-		}
+		maxChars := max(int((rect.Width-padding)/numberOfPixelsPerCharacters), 10)
 		lines := splitIntoLines(rect.Name, maxChars)
 		content := ""
 		for _, line := range lines {
@@ -145,10 +142,7 @@ func (stager *Stager) appendArrows(rect *svg.Rect, direction DirectionType) {
 		if rect.Width > (distanceFromBorder + iconWidth) {
 			numberOfPixelsPerCharacters := 7.5
 			padding := 20.0
-			maxChars := int((rect.Width - (distanceFromBorder + iconWidth) - padding) / numberOfPixelsPerCharacters)
-			if maxChars < 10 {
-				maxChars = 10
-			}
+			maxChars := max(int((rect.Width-(distanceFromBorder+iconWidth)-padding)/numberOfPixelsPerCharacters), 10)
 			lines := splitIntoLines(rect.Name, maxChars)
 			content := ""
 			for _, line := range lines {
@@ -261,10 +255,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 				if rect.Width > (distanceFromBorder + iconWidth) {
 					numberOfPixelsPerCharacters := 7.5
 					padding := 20.0
-					maxChars := int((rect.Width - (distanceFromBorder + iconWidth) - padding) / numberOfPixelsPerCharacters)
-					if maxChars < 10 {
-						maxChars = 10
-					}
+					maxChars := max(int((rect.Width-(distanceFromBorder+iconWidth)-padding)/numberOfPixelsPerCharacters), 10)
 					lines := splitIntoLines(rect.Name, maxChars)
 					content := ""
 					for _, line := range lines {

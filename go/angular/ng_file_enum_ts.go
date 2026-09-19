@@ -63,7 +63,7 @@ func CodeGeneratorNgEnum(modelPkg *models.ModelPkg) {
 		codeTS := NgEnumTemplateTS
 
 		insertions := make(map[NgEnumInsertionPoint]string)
-		for insertion := NgEnumInsertionPoint(0); insertion < NgEnumNbInsertionPoints; insertion++ {
+		for insertion := range NgEnumNbInsertionPoints {
 			insertions[insertion] = ""
 		}
 
@@ -89,7 +89,7 @@ func CodeGeneratorNgEnum(modelPkg *models.ModelPkg) {
 		}
 
 		// substitutes {{<<insertion points>>}} stuff with generated code
-		for insertion := NgEnumInsertionPoint(0); insertion < NgEnumNbInsertionPoints; insertion++ {
+		for insertion := range NgEnumNbInsertionPoints {
 			toReplace := "{{" + string(rune(insertion)) + "}}"
 			codeTS = strings.ReplaceAll(codeTS, toReplace, insertions[insertion])
 		}

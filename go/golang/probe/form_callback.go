@@ -293,7 +293,7 @@ func CodeGeneratorModelFormCallback(
 	}
 
 	// substitutes {{<<insertionPerStructId points>>}} stuff with generated code
-	for insertionPerStructId := FormCallbackGongstructInsertionId(0); insertionPerStructId < FormCallbackGongstructInsertionNb; insertionPerStructId++ {
+	for insertionPerStructId := range FormCallbackGongstructInsertionNb {
 		toReplace := "{{" + string(rune(insertionPerStructId)) + "}}"
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
 	}

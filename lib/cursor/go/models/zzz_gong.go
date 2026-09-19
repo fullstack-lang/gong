@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -137,7 +136,6 @@ type Stage struct {
 	OnAfterCursorUpdateCallback GongOnAfterUpdateInterface[Cursor]
 	OnAfterCursorDeleteCallback GongOnAfterDeleteInterface[Cursor]
 	OnAfterCursorReadCallback   GongOnAfterReadInterface[Cursor]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -439,7 +437,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -574,7 +571,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -600,8 +596,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -764,7 +758,6 @@ func (cursor *Cursor) Commit(stage *Stage) *Cursor {
 	return cursor
 }
 
-
 func (cursor *Cursor) StageVoid(stage *Stage) {
 	cursor.Stage(stage)
 }
@@ -807,7 +800,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

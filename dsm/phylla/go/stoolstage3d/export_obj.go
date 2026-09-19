@@ -49,7 +49,7 @@ func buildSeatGeom(
 	seatBaseIdx := len(geom.Vertices)
 
 	var sumTopX, sumTopZ, sumBottomX, sumBottomZ float64
-	for i := 0; i < N; i++ {
+	for i := range N {
 		tx, ty, tz := transformPoint(rotSeatTopPoints[i], deltaY)
 		topV := (&threejs.Vector3{
 			Name: fmt.Sprintf("%s Seat Top V %d", geomName, i),
@@ -62,7 +62,7 @@ func buildSeatGeom(
 		sumTopZ += tz
 	}
 
-	for i := 0; i < N; i++ {
+	for i := range N {
 		tx, ty, tz := transformPoint(rotSeatBottomPoints[i], deltaY)
 		botV := (&threejs.Vector3{
 			Name: fmt.Sprintf("%s Seat Bottom V %d", geomName, i),
@@ -94,7 +94,7 @@ func buildSeatGeom(
 	geom.Vertices = append(geom.Vertices, botCenterV)
 
 	// 1. Top face (facing +Y): (topCenter, nextI, i)
-	for i := 0; i < N; i++ {
+	for i := range N {
 		nextI := (i + 1) % N
 		geom.Faces = append(geom.Faces, (&threejs.Triangle{
 			Name: fmt.Sprintf("%s Seat Top Face %d", geomName, i),
@@ -105,7 +105,7 @@ func buildSeatGeom(
 	}
 
 	// 2. Bottom face (facing -Y): (botCenter, botI, botNextI)
-	for i := 0; i < N; i++ {
+	for i := range N {
 		nextI := (i + 1) % N
 		botI := seatBaseIdx + N + i
 		botNextI := seatBaseIdx + N + nextI
@@ -118,7 +118,7 @@ func buildSeatGeom(
 	}
 
 	// 3. Side wall quads between Top and Bottom:
-	for i := 0; i < N; i++ {
+	for i := range N {
 		nextI := (i + 1) % N
 		topI := seatBaseIdx + i
 		topNextI := seatBaseIdx + nextI
@@ -163,7 +163,7 @@ func buildLegsGeom(
 
 	M := len(projSeatBottomEyePoints)
 
-	for k := 0; k < radialRepetitions; k++ {
+	for k := range radialRepetitions {
 		baseRot := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 		totalRot := baseRot + deltaTheta
 		cosK := math.Cos(totalRot)
@@ -172,7 +172,7 @@ func buildLegsGeom(
 		legBaseIdx := len(geom.Vertices)
 
 		var sumTopX, sumTopZ, sumBottomX, sumBottomZ float64
-		for i := 0; i < M; i++ {
+		for i := range M {
 			origTop := projSeatBottomEyePoints[i]
 			rx := origTop.X*cosK - origTop.Z*sinK
 			rz := origTop.X*sinK + origTop.Z*cosK
@@ -187,7 +187,7 @@ func buildLegsGeom(
 			sumTopZ += rz
 		}
 
-		for i := 0; i < M; i++ {
+		for i := range M {
 			origBot := projStoolBottomEyePoints[i]
 			rx := origBot.X*cosK - origBot.Z*sinK
 			rz := origBot.X*sinK + origBot.Z*cosK
@@ -221,7 +221,7 @@ func buildLegsGeom(
 		geom.Vertices = append(geom.Vertices, botCenterV)
 
 		// 1. Top face (facing +Y): (topCenter, nextI, i)
-		for i := 0; i < M; i++ {
+		for i := range M {
 			nextI := (i + 1) % M
 			geom.Faces = append(geom.Faces, (&threejs.Triangle{
 				Name: fmt.Sprintf("%s Leg Top Face k%d %d", geomName, k, i),
@@ -232,7 +232,7 @@ func buildLegsGeom(
 		}
 
 		// 2. Bottom face (facing -Y): (botCenter, botI, botNextI)
-		for i := 0; i < M; i++ {
+		for i := range M {
 			nextI := (i + 1) % M
 			botI := legBaseIdx + M + i
 			botNextI := legBaseIdx + M + nextI
@@ -245,7 +245,7 @@ func buildLegsGeom(
 		}
 
 		// 3. Side wall quads between Top and Bottom:
-		for i := 0; i < M; i++ {
+		for i := range M {
 			nextI := (i + 1) % M
 			topI := legBaseIdx + i
 			topNextI := legBaseIdx + nextI
@@ -304,7 +304,7 @@ func buildSeatAndLegsGeom(
 		seatBaseIdx := len(geom.Vertices)
 
 		var sumTopX, sumTopZ, sumBottomX, sumBottomZ float64
-		for i := 0; i < N; i++ {
+		for i := range N {
 			tx, ty, tz := transformPoint(rotSeatTopPoints[i], deltaY)
 			topV := (&threejs.Vector3{
 				Name: fmt.Sprintf("%s Seat Top V %d", geomName, i),
@@ -317,7 +317,7 @@ func buildSeatAndLegsGeom(
 			sumTopZ += tz
 		}
 
-		for i := 0; i < N; i++ {
+		for i := range N {
 			tx, ty, tz := transformPoint(rotSeatBottomPoints[i], deltaY)
 			botV := (&threejs.Vector3{
 				Name: fmt.Sprintf("%s Seat Bottom V %d", geomName, i),
@@ -349,7 +349,7 @@ func buildSeatAndLegsGeom(
 		geom.Vertices = append(geom.Vertices, botCenterV)
 
 		// 1. Top face (facing +Y): (topCenter, nextI, i)
-		for i := 0; i < N; i++ {
+		for i := range N {
 			nextI := (i + 1) % N
 			geom.Faces = append(geom.Faces, (&threejs.Triangle{
 				Name: fmt.Sprintf("%s Seat Top Face %d", geomName, i),
@@ -360,7 +360,7 @@ func buildSeatAndLegsGeom(
 		}
 
 		// 2. Bottom face (facing -Y): (botCenter, botI, botNextI)
-		for i := 0; i < N; i++ {
+		for i := range N {
 			nextI := (i + 1) % N
 			botI := seatBaseIdx + N + i
 			botNextI := seatBaseIdx + N + nextI
@@ -373,7 +373,7 @@ func buildSeatAndLegsGeom(
 		}
 
 		// 3. Side wall quads between Top and Bottom:
-		for i := 0; i < N; i++ {
+		for i := range N {
 			nextI := (i + 1) % N
 			topI := seatBaseIdx + i
 			topNextI := seatBaseIdx + nextI
@@ -400,7 +400,7 @@ func buildSeatAndLegsGeom(
 	if len(projSeatBottomEyePoints) >= 3 && len(projSeatBottomEyePoints) == len(projStoolBottomEyePoints) {
 		M := len(projSeatBottomEyePoints)
 
-		for k := 0; k < radialRepetitions; k++ {
+		for k := range radialRepetitions {
 			baseRot := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 			totalRot := baseRot + deltaTheta
 			cosK := math.Cos(totalRot)
@@ -409,7 +409,7 @@ func buildSeatAndLegsGeom(
 			legBaseIdx := len(geom.Vertices)
 
 			var sumTopX, sumTopZ, sumBottomX, sumBottomZ float64
-			for i := 0; i < M; i++ {
+			for i := range M {
 				origTop := projSeatBottomEyePoints[i]
 				rx := origTop.X*cosK - origTop.Z*sinK
 				rz := origTop.X*sinK + origTop.Z*cosK
@@ -424,7 +424,7 @@ func buildSeatAndLegsGeom(
 				sumTopZ += rz
 			}
 
-			for i := 0; i < M; i++ {
+			for i := range M {
 				origBot := projStoolBottomEyePoints[i]
 				rx := origBot.X*cosK - origBot.Z*sinK
 				rz := origBot.X*sinK + origBot.Z*cosK
@@ -458,7 +458,7 @@ func buildSeatAndLegsGeom(
 			geom.Vertices = append(geom.Vertices, botCenterV)
 
 			// 1. Top face (facing +Y): (topCenter, nextI, i)
-			for i := 0; i < M; i++ {
+			for i := range M {
 				nextI := (i + 1) % M
 				geom.Faces = append(geom.Faces, (&threejs.Triangle{
 					Name: fmt.Sprintf("%s Leg Top Face k%d %d", geomName, k, i),
@@ -469,7 +469,7 @@ func buildSeatAndLegsGeom(
 			}
 
 			// 2. Bottom face (facing -Y): (botCenter, botI, botNextI)
-			for i := 0; i < M; i++ {
+			for i := range M {
 				nextI := (i + 1) % M
 				botI := legBaseIdx + M + i
 				botNextI := legBaseIdx + M + nextI
@@ -482,7 +482,7 @@ func buildSeatAndLegsGeom(
 			}
 
 			// 3. Side wall quads between Top and Bottom:
-			for i := 0; i < M; i++ {
+			for i := range M {
 				nextI := (i + 1) % M
 				topI := legBaseIdx + i
 				topNextI := legBaseIdx + nextI
@@ -559,7 +559,7 @@ func ComputeStoolGeometries(
 	var rotSeatBottomPoints []*threejs.Vector3
 	thetaOffset := growthVectorX / globalR
 
-	for k := 0; k < radialRepetitions; k++ {
+	for k := range radialRepetitions {
 		baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 		totalThetaOffset := baseThetaOffset + thetaOffset
 
@@ -600,10 +600,7 @@ func ComputeStoolGeometries(
 		for evalAngle > expectedRad {
 			evalAngle -= expectedRad
 		}
-		idx := int(math.Floor(evalAngle / radInterval))
-		if idx < 0 {
-			idx = 0
-		}
+		idx := max(int(math.Floor(evalAngle/radInterval)), 0)
 		if idx >= len(resampledBaseCurve.Points)-1 {
 			return resampledBaseCurve.Points[len(resampledBaseCurve.Points)-1].Y
 		}
@@ -659,10 +656,7 @@ func ComputeStoolGeometries(
 			cumLen[k] = totalLen
 		}
 
-		n := int(math.Round(totalLen / dStep))
-		if n < 2 {
-			n = 2
-		}
+		n := max(int(math.Round(totalLen/dStep)), 2)
 
 		var result []*threejs.Vector3
 		for j := 1; j < n; j++ {
@@ -711,7 +705,7 @@ func ComputeStoolGeometries(
 
 	iStart := -1
 	iEnd := -1
-	for i := 0; i < numPts; i++ {
+	for i := range numPts {
 		if inEye[i] {
 			if iStart == -1 {
 				iStart = i
@@ -754,10 +748,7 @@ func ComputeStoolGeometries(
 		// Right corner (connects Bottom -> Top at iEnd)
 		{
 			i0 := iEnd
-			i1 := iEnd - 1
-			if i1 < 0 {
-				i1 = 0
-			}
+			i1 := max(iEnd-1, 0)
 
 			pBottom0 := point2D{U: targetAngles[i0] * globalR, Y: yBaseList[i0]}
 			pBottom1 := point2D{U: targetAngles[i1] * globalR, Y: yBaseList[i1]}

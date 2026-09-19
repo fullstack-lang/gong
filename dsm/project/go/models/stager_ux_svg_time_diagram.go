@@ -490,7 +490,7 @@ func (stager *Stager) drawTimeLine(diagram *Diagram, XLeftLanes float64, XRightM
 
 	// Draw the vertical grid lines as thin Rects so they overlay the lanes perfectly
 	if diagram.DrawVerticalTimeLines {
-		for i := 0; i < len(ticksToDraw); i++ {
+		for i := range ticksToDraw {
 			tick := ticksToDraw[i]
 
 			durationBetweenTickAndGanttStart := tick.Sub(diagram.ComputedStart)

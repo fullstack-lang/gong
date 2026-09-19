@@ -325,7 +325,7 @@ func buildBaseRingSTL(resampledBaseBottom, resampledBaseTop []vector3, radialRep
 	massiveBottom = make([]vector3, 0, len(resampledBaseBottom)*radialRepetitions)
 	massiveTop = make([]vector3, 0, len(resampledBaseTop)*radialRepetitions)
 
-	for k := 0; k < radialRepetitions; k++ {
+	for k := range radialRepetitions {
 		baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 		totalThetaOffset := thetaOffset + baseThetaOffset
 
@@ -384,10 +384,7 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 
 	if plant.PlantType == TubeVase {
 		vase := plant.TubeVaseAbstract
-		radialRepetitions = vase.RadialRepetitions
-		if radialRepetitions < 1 {
-			radialRepetitions = 1
-		}
+		radialRepetitions = max(vase.RadialRepetitions, 1)
 		sideLength = plant.RhombusSideLength
 		relativeRadialThickness = vase.RelativeRadialThickness
 		relativeVerticalThickness = vase.RelativeVerticalThickness
@@ -414,10 +411,7 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 		if circumference <= 0 {
 			circumference = 10.0
 		}
-		threeDModulo := radialRepetitions
-		if threeDModulo < 1 {
-			threeDModulo = 1
-		}
+		threeDModulo := max(radialRepetitions, 1)
 		globalR = circumference * float64(threeDModulo) / (2 * math.Pi)
 	}
 
@@ -496,7 +490,7 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 			}
 		}
 
-		for i := 0; i < len(startArcs); i++ {
+		for i := range startArcs {
 			sa := startArcs[i]
 			appendArcPointsSTL(&curvePoints, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
 
@@ -506,7 +500,7 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 			}
 		}
 
-		for i := 0; i < len(topStartArcs); i++ {
+		for i := range topStartArcs {
 			tsa := topStartArcs[i]
 			appendArcPointsSTL(&topCurvePoints, tsa.StartX, tsa.StartY, tsa.EndX, tsa.EndY, tsa.RadiusX, !tsa.SweepFlag, tsa.LargeArcFlag)
 
@@ -608,7 +602,7 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 						rotatedSeparation := relativeRotatedTorusSeparation * sideLength
 
 						var run []stlLayerConfig
-						for h := 0; h < stackHeight; h++ {
+						for h := range stackHeight {
 							dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
 							dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation
 							thetaOffset := dx / globalR
@@ -619,7 +613,7 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 
 					if !checkedDiagram.IsHiddenVerticalTorusStackShape {
 						var run []stlLayerConfig
-						for h := 0; h < stackHeight; h++ {
+						for h := range stackHeight {
 							dx := 0.0
 							dy := float64(h) * relativeCuttedStackFloorHeight * sideLength
 							thetaOffset := 0.0
@@ -666,7 +660,7 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 						}
 
 						var run []stlLayerConfig
-						for h := 0; h < stackHeight; h++ {
+						for h := range stackHeight {
 							dx := dxs[h]
 							dy := dys[h]
 							thetaOffset := dx / globalR
@@ -678,7 +672,7 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 
 				if len(activeShapeRuns) == 0 {
 					var run []stlLayerConfig
-					for h := 0; h < stackHeight; h++ {
+					for h := range stackHeight {
 						dy := float64(h) * relativeCuttedStackFloorHeight * sideLength
 						run = append(run, stlLayerConfig{dx: 0, dy: dy, thetaOffset: 0})
 					}

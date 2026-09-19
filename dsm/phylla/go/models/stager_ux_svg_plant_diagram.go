@@ -2978,7 +2978,7 @@ func (plant2DDiagram *Plant2DDiagram) drawChosenP1P2PairShape(stager *Stager, la
 								ellipsePtsY[i] = plant2DDiagram.OriginY - (ellipseCenterY + aVal*math.Cos(t)*uy + bVal*math.Sin(t)*vy)
 							}
 
-							for i := 0; i < numEllipseSteps; i++ {
+							for i := range numEllipseSteps {
 								lineE := new(svg.Line)
 								layer.Lines = append(layer.Lines, lineE)
 								lineE.Name = fmt.Sprintf("%s-Partial-Ellipse-Seg-%d", chosen.Name, i)

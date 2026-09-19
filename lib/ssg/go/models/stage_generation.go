@@ -72,7 +72,7 @@ func (stage *Stage) Generation(inMemory bool) (base64Zip string, err error) {
 					// Clean the SVG content to prevent the markdown parser from treating
 					// indented lines as code blocks or empty lines as paragraph breaks.
 					body.WriteString("<div class=\"svg-container\">\n")
-					for _, line := range strings.Split(section.SvgImage.Content, "\n") {
+					for line := range strings.SplitSeq(section.SvgImage.Content, "\n") {
 						if trimmed := strings.TrimSpace(line); trimmed != "" {
 							body.WriteString(trimmed + "\n")
 						}

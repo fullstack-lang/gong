@@ -96,10 +96,7 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 	}
 
 	baseH := 2.5 * globalR
-	sh := plant.StackHeight
-	if sh < 1 {
-		sh = 1
-	}
+	sh := max(plant.StackHeight, 1)
 	H := float64(sh) * baseH
 
 	tubeRadius := math.Max(globalR*0.015, 1.2)
@@ -232,7 +229,7 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 			}).Stage(plant3dStage)
 
 			ringSegments := 64
-			for i := 0; i < ringSegments; i++ {
+			for i := range ringSegments {
 				theta := float64(i) * 2.0 * math.Pi / float64(ringSegments)
 				ringCurve.Points = append(ringCurve.Points, (&threejs.Vector3{
 					Name: fmt.Sprintf("%s Pt %d", name, i),

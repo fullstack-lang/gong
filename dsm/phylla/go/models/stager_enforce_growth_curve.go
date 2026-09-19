@@ -39,11 +39,11 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfRotatedGro
 	}
 	vx, vy = vx/vLen, vy/vLen
 
-	for h := 0; h < stackHeight; h++ {
+	for h := range stackHeight {
 		dx := float64(h)*vector.X + float64(h)*thickness*vx
 		dy := float64(h)*vector.Y + float64(h)*thickness*vy
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			currentDX := math.Mod(dx, circLen)
 			if currentDX < 0 {
 				currentDX += circLen
@@ -170,11 +170,11 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfRota
 	}
 	vx, vy = vx/vLen, vy/vLen
 
-	for h := 0; h < stackHeight; h++ {
+	for h := range stackHeight {
 		dx := float64(h)*vector.X + float64(h)*thickness*vx
 		dy := float64(h)*vector.Y + float64(h)*thickness*vy
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			currentDX := math.Mod(dx, circLen)
 			if currentDX < 0 {
 				currentDX += circLen
@@ -301,11 +301,11 @@ func enforceShiftedLeftStackOfGrowthCurveV2HasShapes(stage *Stage, stack *Shifte
 	}
 	vx, vy = vx/vLen, vy/vLen
 
-	for h := 0; h < stackHeight; h++ {
+	for h := range stackHeight {
 		dx := float64(h)*vector.X + float64(h)*thickness*vx
 		dy := float64(h)*vector.Y + float64(h)*thickness*vy
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			currentDX := math.Mod(dx, circLen)
 			if currentDX < 0 {
 				currentDX += circLen
@@ -423,10 +423,10 @@ func enforceStackOfGrowthCurve2DHasShapes(stage *Stage, stack *StackOfGrowthCurv
 	var expectedStart []expectedStartShape
 	var expectedEnd []expectedStartShape
 
-	for h := 0; h < stackHeight; h++ {
+	for h := range stackHeight {
 		dy := float64(h) * verticalThickness
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			sStart := startGrid.StartHalfwayArcShapes[i]
 			expectedStart = append(expectedStart, expectedStartShape{
 				name:   fmt.Sprintf("%s-layer-start-%d-%d", stack.Name, h, i),
@@ -539,10 +539,10 @@ func enforceTopStackOfGrowthCurve2DHasShapes(stage *Stage, stack *TopStackOfGrow
 	var expectedStart []expectedStartShape
 	var expectedEnd []expectedStartShape
 
-	for h := 0; h < stackHeight; h++ {
+	for h := range stackHeight {
 		dy := float64(h) * verticalThickness
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			sStart := startGrid.TopStartHalfwayArcShapes[i]
 			expectedStart = append(expectedStart, expectedStartShape{
 				name:   fmt.Sprintf("%s-layer-start-%d-%d", stack.Name, h, i),
@@ -1087,4 +1087,3 @@ func enforceStackOfRotatedGrowthCurve2DRibbonHasShapes(
 
 	return needCommit
 }
-

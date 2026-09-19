@@ -375,7 +375,7 @@ var portableCmd = &cobra.Command{
 						return urlMatch
 					}
 
-					cleanAssetPath := strings.Split(strings.Split(assetPath, "?")[0], "#")[0]
+					cleanAssetPath, _, _ := strings.Cut(strings.Split(assetPath, "?")[0], "#")
 					absAssetPath := filepath.Join(buildDir, cleanAssetPath)
 
 					assetBytes, err := os.ReadFile(absAssetPath)

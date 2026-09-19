@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"math"
+	"slices"
 	"strings"
 
 	"github.com/fullstack-lang/gong/lib/strutils"
@@ -54,20 +55,14 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	if compareAnalysis == nil && owningSystem == nil {
 		for ca := range *stager.stage.GetInstancesSet[*CompareAnalysis]() {
-			for _, d := range ca.DiagramFlossEquations {
-				if d == diagram {
-					compareAnalysis = ca
-					break
-				}
+			if slices.Contains(ca.DiagramFlossEquations, diagram) {
+				compareAnalysis = ca
 			}
 		}
 		if compareAnalysis == nil {
 			for sys := range *stager.stage.GetInstancesSet[*System]() {
-				for _, d := range sys.DiagramFlossEquations {
-					if d == diagram {
-						owningSystem = sys
-						break
-					}
+				if slices.Contains(sys.DiagramFlossEquations, diagram) {
+					owningSystem = sys
 				}
 			}
 		}

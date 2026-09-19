@@ -69,7 +69,7 @@ func CodeGeneratorNgPublicApi(modelPkg *models.ModelPkg) {
 	codeTS := NgPublicApiTemplateTS
 
 	insertions := make(map[NgPublicApiInsertionPoint]string)
-	for insertion := NgPublicApiInsertionPoint(0); insertion < NgPublicApiNbInsertionPoints; insertion++ {
+	for insertion := range NgPublicApiNbInsertionPoints {
 		insertions[insertion] = ""
 	}
 
@@ -110,7 +110,7 @@ func CodeGeneratorNgPublicApi(modelPkg *models.ModelPkg) {
 	}
 
 	// substitutes {{<<insertion points>>}} stuff with generated code
-	for insertion := NgPublicApiInsertionPoint(0); insertion < NgPublicApiNbInsertionPoints; insertion++ {
+	for insertion := range NgPublicApiNbInsertionPoints {
 		toReplace := "{{" + string(rune(insertion)) + "}}"
 		codeTS = strings.ReplaceAll(codeTS, toReplace, insertions[insertion])
 	}

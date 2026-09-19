@@ -15,7 +15,7 @@ func enforceInitialRhombusGridShapeHasRhombuses(stage *Stage, grid *InitialRhomb
 		seen := make(map[*InitialRhombusShape]bool)
 		idx := 0
 		for i := -1; i < N; i++ {
-			for j := 0; j < M; j++ {
+			for j := range M {
 				r := grid.InitialRhombusShapes[idx]
 				if seen[r] {
 					valid = false
@@ -38,7 +38,7 @@ func enforceInitialRhombusGridShapeHasRhombuses(stage *Stage, grid *InitialRhomb
 	if !valid {
 		grid.InitialRhombusShapes = make([]*InitialRhombusShape, 0, (N+1)*M)
 		for i := -1; i < N; i++ {
-			for j := 0; j < M; j++ {
+			for j := range M {
 				r := new(InitialRhombusShape).Stage(stage)
 				r.Name = fmt.Sprintf("%s-%d-%d", grid.Name, i, j)
 				origX := float64(i)*v1x + float64(j)*v2x + (v1x+v2x)/2.0
@@ -52,7 +52,7 @@ func enforceInitialRhombusGridShapeHasRhombuses(stage *Stage, grid *InitialRhomb
 	} else {
 		idx := 0
 		for i := -1; i < N; i++ {
-			for j := 0; j < M; j++ {
+			for j := range M {
 				r := grid.InitialRhombusShapes[idx]
 				origX := float64(i)*v1x + float64(j)*v2x + (v1x+v2x)/2.0
 				origY := float64(i)*v1y + float64(j)*v2y + (v1y+v2y)/2.0
@@ -80,7 +80,7 @@ func enforceRotatedRhombusGridShapeHasRhombuses(stage *Stage, grid *RotatedRhomb
 		seen := make(map[*RotatedRhombusShape]bool)
 		idx := 0
 		for i := -1; i < N; i++ {
-			for j := 0; j < M; j++ {
+			for j := range M {
 				r := grid.RotatedRhombusShapes[idx]
 				if seen[r] {
 					valid = false
@@ -103,7 +103,7 @@ func enforceRotatedRhombusGridShapeHasRhombuses(stage *Stage, grid *RotatedRhomb
 	if !valid {
 		grid.RotatedRhombusShapes = make([]*RotatedRhombusShape, 0, (N+1)*M)
 		for i := -1; i < N; i++ {
-			for j := 0; j < M; j++ {
+			for j := range M {
 				r := new(RotatedRhombusShape).Stage(stage)
 				r.Name = fmt.Sprintf("%s-%d-%d", grid.Name, i, j)
 				origX := float64(i)*v1x + float64(j)*v2x + (v1x+v2x)/2.0
@@ -117,7 +117,7 @@ func enforceRotatedRhombusGridShapeHasRhombuses(stage *Stage, grid *RotatedRhomb
 	} else {
 		idx := 0
 		for i := -1; i < N; i++ {
-			for j := 0; j < M; j++ {
+			for j := range M {
 				r := grid.RotatedRhombusShapes[idx]
 				origX := float64(i)*v1x + float64(j)*v2x + (v1x+v2x)/2.0
 				origY := float64(i)*v1y + float64(j)*v2y + (v1y+v2y)/2.0

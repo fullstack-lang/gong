@@ -295,8 +295,8 @@ func (modelPkg *ModelPkg) GetEmbeddedStructNames(structName string) []string {
 	var embedded []string
 	var collect func(s *types.Struct)
 	collect = func(s *types.Struct) {
-		for i := 0; i < s.NumFields(); i++ {
-			f := s.Field(i)
+		for f := range s.Fields() {
+			f := f
 			if f.Anonymous() {
 				embedded = append(embedded, f.Name())
 				// Check transitive embedding

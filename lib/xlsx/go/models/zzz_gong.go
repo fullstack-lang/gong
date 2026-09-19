@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -205,7 +204,6 @@ type Stage struct {
 	OnAfterXLSheetUpdateCallback GongOnAfterUpdateInterface[XLSheet]
 	OnAfterXLSheetDeleteCallback GongOnAfterDeleteInterface[XLSheet]
 	OnAfterXLSheetReadCallback   GongOnAfterReadInterface[XLSheet]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -579,7 +577,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -814,7 +811,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -848,8 +844,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -1016,7 +1010,6 @@ func (displayselection *DisplaySelection) Commit(stage *Stage) *DisplaySelection
 	return displayselection
 }
 
-
 func (displayselection *DisplaySelection) StageVoid(stage *Stage) {
 	displayselection.Stage(stage)
 }
@@ -1100,7 +1093,6 @@ func (xlcell *XLCell) Commit(stage *Stage) *XLCell {
 	}
 	return xlcell
 }
-
 
 func (xlcell *XLCell) StageVoid(stage *Stage) {
 	xlcell.Stage(stage)
@@ -1186,7 +1178,6 @@ func (xlfile *XLFile) Commit(stage *Stage) *XLFile {
 	return xlfile
 }
 
-
 func (xlfile *XLFile) StageVoid(stage *Stage) {
 	xlfile.Stage(stage)
 }
@@ -1270,7 +1261,6 @@ func (xlrow *XLRow) Commit(stage *Stage) *XLRow {
 	}
 	return xlrow
 }
-
 
 func (xlrow *XLRow) StageVoid(stage *Stage) {
 	xlrow.Stage(stage)
@@ -1356,7 +1346,6 @@ func (xlsheet *XLSheet) Commit(stage *Stage) *XLSheet {
 	return xlsheet
 }
 
-
 func (xlsheet *XLSheet) StageVoid(stage *Stage) {
 	xlsheet.Stage(stage)
 }
@@ -1419,7 +1408,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

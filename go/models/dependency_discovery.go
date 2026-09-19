@@ -26,7 +26,7 @@ func DiscoverModelDependencies(rootPkgPath string) ([]string, error) {
 	var goModDir string
 	var modPath string
 	curr := rootAbs
-	for i := 0; i < 10; i++ {
+	for range 10 {
 		goModFile := filepath.Join(curr, "go.mod")
 		if buf, err := os.ReadFile(goModFile); err == nil {
 			goModDir = curr

@@ -55,7 +55,7 @@ func enforceGrowthCurve2DRibbonHasShapes(
 	var expectedStart []expectedShape
 	var expectedEnd []expectedShape
 
-	for i := 0; i < expectedLen; i++ {
+	for i := range expectedLen {
 		s := stack.StackRotatedGrowthCurve2DRibbonStartShapes[i]
 		expectedStart = append(expectedStart, expectedShape{
 			name:         fmt.Sprintf("%s-start-%d", ribbon.Name, i),
@@ -269,7 +269,7 @@ func enforceShiftedRightGrowthCurve2DRibbonHasShapes(
 	var expectedStart []expectedShape
 	var expectedEnd []expectedShape
 
-	for i := 0; i < expectedLen; i++ {
+	for i := range expectedLen {
 		s := stack.StackRotatedGrowthCurve2DRibbonStartShapes[i]
 		expectedStart = append(expectedStart, expectedShape{
 			name:         fmt.Sprintf("%s-start-%d", ribbon.Name, i),
@@ -483,7 +483,7 @@ func enforceShiftedLeftGrowthCurve2DRibbonHasShapes(
 	var expectedStart []expectedShape
 	var expectedEnd []expectedShape
 
-	for i := 0; i < expectedLen; i++ {
+	for i := range expectedLen {
 		s := stack.StackRotatedGrowthCurve2DRibbonStartShapes[i]
 		expectedStart = append(expectedStart, expectedShape{
 			name:         fmt.Sprintf("%s-start-%d", ribbon.Name, i),

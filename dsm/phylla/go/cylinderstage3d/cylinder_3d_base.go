@@ -88,10 +88,7 @@ func RenderCylinder3DBase(
 		circumference = 10.0
 	}
 
-	radialRepetitions := params.RadialRepetitions
-	if radialRepetitions < 1 {
-		radialRepetitions = 1
-	}
+	radialRepetitions := max(params.RadialRepetitions, 1)
 
 	globalR := circumference * float64(radialRepetitions) / (2 * math.Pi)
 
@@ -194,7 +191,7 @@ func RenderCylinder3DBase(
 			Name: fmt.Sprintf("%s Base Curve", params.NamePrefix),
 		}).Stage(stage3d)
 
-		for i := 0; i < len(startArcs); i++ {
+		for i := range startArcs {
 			sa := startArcs[i]
 			AppendArcPointsCylinder(stage3d, baseCurve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag, globalR, 0.0, &floorMinY)
 
@@ -264,7 +261,7 @@ func RenderCylinder3DBase(
 				Name: fmt.Sprintf("%s Curve", namePrefix),
 			}).Stage(stage3d)
 
-			for k := 0; k < radialRepetitions; k++ {
+			for k := range radialRepetitions {
 				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 				totalThetaOffset := baseThetaOffset + thetaOffset
 
@@ -287,10 +284,7 @@ func RenderCylinder3DBase(
 				}
 			}
 
-			numSegments := len(layerCurve.Points)
-			if numSegments < 2 {
-				numSegments = 2
-			}
+			numSegments := max(len(layerCurve.Points), 2)
 
 			tGeom := (&threejs.TubeGeometry{
 				Name:            fmt.Sprintf("%s TubeGeom", namePrefix),
@@ -343,7 +337,7 @@ func RenderCylinder3DBase(
 				Name: fmt.Sprintf("%s Top Curve", params.NamePrefix),
 			}).Stage(stage3d)
 
-			for k := 0; k < radialRepetitions; k++ {
+			for k := range radialRepetitions {
 				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 
 				for _, pt := range resampledBaseCurve.Points {
@@ -364,10 +358,7 @@ func RenderCylinder3DBase(
 				}
 			}
 
-			numSegments := len(topCurve.Points)
-			if numSegments < 2 {
-				numSegments = 2
-			}
+			numSegments := max(len(topCurve.Points), 2)
 
 			stGeom := (&threejs.TubeGeometry{
 				Name:            fmt.Sprintf("%s Top TubeGeom", params.NamePrefix),
@@ -397,7 +388,7 @@ func RenderCylinder3DBase(
 			var rotTopPoints []*threejs.Vector3
 			thetaOffset := growthVectorX / globalR
 
-			for k := 0; k < radialRepetitions; k++ {
+			for k := range radialRepetitions {
 				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 				totalThetaOffset := baseThetaOffset + thetaOffset
 
@@ -428,10 +419,7 @@ func RenderCylinder3DBase(
 				}).Stage(stage3d)
 				res.RotTopCurve = rotTopCurve
 
-				numSegments := len(rotTopCurve.Points)
-				if numSegments < 2 {
-					numSegments = 2
-				}
+				numSegments := max(len(rotTopCurve.Points), 2)
 
 				rotStGeom := (&threejs.TubeGeometry{
 					Name:            fmt.Sprintf("%s Partially Rotated Top TubeGeom", params.NamePrefix),
@@ -462,7 +450,7 @@ func RenderCylinder3DBase(
 		if !params.IsHiddenSampledPoints3DShape {
 			numPointsPerRep := len(resampledBaseCurve.Points)
 			var basePoints []*threejs.Vector3
-			for k := 0; k < radialRepetitions; k++ {
+			for k := range radialRepetitions {
 				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 				for _, pt := range resampledBaseCurve.Points {
 					origTheta := math.Atan2(pt.Z, pt.X)
@@ -485,7 +473,7 @@ func RenderCylinder3DBase(
 			var rotPoints []*threejs.Vector3
 			thetaOffset := growthVectorX / globalR
 
-			for k := 0; k < radialRepetitions; k++ {
+			for k := range radialRepetitions {
 				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 				totalThetaOffset := baseThetaOffset + thetaOffset
 

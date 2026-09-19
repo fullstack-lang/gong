@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -1764,7 +1763,6 @@ type Stage struct {
 	OnAfterXHTML_CONTENTUpdateCallback GongOnAfterUpdateInterface[XHTML_CONTENT]
 	OnAfterXHTML_CONTENTDeleteCallback GongOnAfterDeleteInterface[XHTML_CONTENT]
 	OnAfterXHTML_CONTENTReadCallback   GongOnAfterReadInterface[XHTML_CONTENT]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -3919,7 +3917,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 
 	return stage.probeIF
 }
-
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -6630,7 +6627,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -6862,8 +6858,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -7129,7 +7123,6 @@ func (alternative_id *ALTERNATIVE_ID) Commit(stage *Stage) *ALTERNATIVE_ID {
 	return alternative_id
 }
 
-
 func (alternative_id *ALTERNATIVE_ID) StageVoid(stage *Stage) {
 	alternative_id.Stage(stage)
 }
@@ -7213,7 +7206,6 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) Commit(stage *
 	}
 	return attribute_definition_boolean
 }
-
 
 func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) StageVoid(stage *Stage) {
 	attribute_definition_boolean.Stage(stage)
@@ -7299,7 +7291,6 @@ func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rende
 	return attribute_definition_boolean_rendering
 }
 
-
 func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_boolean_rendering.Stage(stage)
 }
@@ -7383,7 +7374,6 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) Commit(stage *Stage)
 	}
 	return attribute_definition_date
 }
-
 
 func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) StageVoid(stage *Stage) {
 	attribute_definition_date.Stage(stage)
@@ -7469,7 +7459,6 @@ func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) 
 	return attribute_definition_date_rendering
 }
 
-
 func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_date_rendering.Stage(stage)
 }
@@ -7553,7 +7542,6 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) Commit
 	}
 	return attribute_definition_enumeration
 }
-
 
 func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) StageVoid(stage *Stage) {
 	attribute_definition_enumeration.Stage(stage)
@@ -7639,7 +7627,6 @@ func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATI
 	return attribute_definition_enumeration_rendering
 }
 
-
 func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_enumeration_rendering.Stage(stage)
 }
@@ -7723,7 +7710,6 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) Commit(stage *
 	}
 	return attribute_definition_integer
 }
-
 
 func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) StageVoid(stage *Stage) {
 	attribute_definition_integer.Stage(stage)
@@ -7809,7 +7795,6 @@ func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rende
 	return attribute_definition_integer_rendering
 }
 
-
 func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_integer_rendering.Stage(stage)
 }
@@ -7893,7 +7878,6 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) Commit(stage *Stage)
 	}
 	return attribute_definition_real
 }
-
 
 func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) StageVoid(stage *Stage) {
 	attribute_definition_real.Stage(stage)
@@ -7979,7 +7963,6 @@ func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) 
 	return attribute_definition_real_rendering
 }
 
-
 func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_real_rendering.Stage(stage)
 }
@@ -8063,7 +8046,6 @@ func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) Commit(sta
 	}
 	return attribute_definition_rendering
 }
-
 
 func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_rendering.Stage(stage)
@@ -8149,7 +8131,6 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) Commit(stage *St
 	return attribute_definition_string
 }
 
-
 func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) StageVoid(stage *Stage) {
 	attribute_definition_string.Stage(stage)
 }
@@ -8233,7 +8214,6 @@ func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Renderi
 	}
 	return attribute_definition_string_rendering
 }
-
 
 func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_string_rendering.Stage(stage)
@@ -8319,7 +8299,6 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) Commit(stage *Stag
 	return attribute_definition_xhtml
 }
 
-
 func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) StageVoid(stage *Stage) {
 	attribute_definition_xhtml.Stage(stage)
 }
@@ -8403,7 +8382,6 @@ func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering
 	}
 	return attribute_definition_xhtml_rendering
 }
-
 
 func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_xhtml_rendering.Stage(stage)
@@ -8489,7 +8467,6 @@ func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) Commit(stage *Stage) *AT
 	return attribute_value_boolean
 }
 
-
 func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) StageVoid(stage *Stage) {
 	attribute_value_boolean.Stage(stage)
 }
@@ -8573,7 +8550,6 @@ func (attribute_value_date *ATTRIBUTE_VALUE_DATE) Commit(stage *Stage) *ATTRIBUT
 	}
 	return attribute_value_date
 }
-
 
 func (attribute_value_date *ATTRIBUTE_VALUE_DATE) StageVoid(stage *Stage) {
 	attribute_value_date.Stage(stage)
@@ -8659,7 +8635,6 @@ func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) Commit(stage *St
 	return attribute_value_enumeration
 }
 
-
 func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) StageVoid(stage *Stage) {
 	attribute_value_enumeration.Stage(stage)
 }
@@ -8743,7 +8718,6 @@ func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) Commit(stage *Stage) *AT
 	}
 	return attribute_value_integer
 }
-
 
 func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) StageVoid(stage *Stage) {
 	attribute_value_integer.Stage(stage)
@@ -8829,7 +8803,6 @@ func (attribute_value_real *ATTRIBUTE_VALUE_REAL) Commit(stage *Stage) *ATTRIBUT
 	return attribute_value_real
 }
 
-
 func (attribute_value_real *ATTRIBUTE_VALUE_REAL) StageVoid(stage *Stage) {
 	attribute_value_real.Stage(stage)
 }
@@ -8913,7 +8886,6 @@ func (attribute_value_string *ATTRIBUTE_VALUE_STRING) Commit(stage *Stage) *ATTR
 	}
 	return attribute_value_string
 }
-
 
 func (attribute_value_string *ATTRIBUTE_VALUE_STRING) StageVoid(stage *Stage) {
 	attribute_value_string.Stage(stage)
@@ -8999,7 +8971,6 @@ func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) Commit(stage *Stage) *ATTRIB
 	return attribute_value_xhtml
 }
 
-
 func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) StageVoid(stage *Stage) {
 	attribute_value_xhtml.Stage(stage)
 }
@@ -9083,7 +9054,6 @@ func (a_alternative_id *A_ALTERNATIVE_ID) Commit(stage *Stage) *A_ALTERNATIVE_ID
 	}
 	return a_alternative_id
 }
-
 
 func (a_alternative_id *A_ALTERNATIVE_ID) StageVoid(stage *Stage) {
 	a_alternative_id.Stage(stage)
@@ -9169,7 +9139,6 @@ func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) Co
 	return a_attribute_definition_boolean_ref
 }
 
-
 func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) StageVoid(stage *Stage) {
 	a_attribute_definition_boolean_ref.Stage(stage)
 }
@@ -9253,7 +9222,6 @@ func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) Commit(s
 	}
 	return a_attribute_definition_date_ref
 }
-
 
 func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) StageVoid(stage *Stage) {
 	a_attribute_definition_date_ref.Stage(stage)
@@ -9339,7 +9307,6 @@ func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION
 	return a_attribute_definition_enumeration_ref
 }
 
-
 func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) StageVoid(stage *Stage) {
 	a_attribute_definition_enumeration_ref.Stage(stage)
 }
@@ -9423,7 +9390,6 @@ func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) Co
 	}
 	return a_attribute_definition_integer_ref
 }
-
 
 func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) StageVoid(stage *Stage) {
 	a_attribute_definition_integer_ref.Stage(stage)
@@ -9509,7 +9475,6 @@ func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) Commit(s
 	return a_attribute_definition_real_ref
 }
 
-
 func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) StageVoid(stage *Stage) {
 	a_attribute_definition_real_ref.Stage(stage)
 }
@@ -9593,7 +9558,6 @@ func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) Comm
 	}
 	return a_attribute_definition_string_ref
 }
-
 
 func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) StageVoid(stage *Stage) {
 	a_attribute_definition_string_ref.Stage(stage)
@@ -9679,7 +9643,6 @@ func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) Commit
 	return a_attribute_definition_xhtml_ref
 }
 
-
 func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) StageVoid(stage *Stage) {
 	a_attribute_definition_xhtml_ref.Stage(stage)
 }
@@ -9763,7 +9726,6 @@ func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) Commit(stage *Stage)
 	}
 	return a_attribute_value_boolean
 }
-
 
 func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) StageVoid(stage *Stage) {
 	a_attribute_value_boolean.Stage(stage)
@@ -9849,7 +9811,6 @@ func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) Commit(stage *Stage) *A_AT
 	return a_attribute_value_date
 }
 
-
 func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) StageVoid(stage *Stage) {
 	a_attribute_value_date.Stage(stage)
 }
@@ -9933,7 +9894,6 @@ func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) Commit(stage
 	}
 	return a_attribute_value_enumeration
 }
-
 
 func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) StageVoid(stage *Stage) {
 	a_attribute_value_enumeration.Stage(stage)
@@ -10019,7 +9979,6 @@ func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) Commit(stage *Stage)
 	return a_attribute_value_integer
 }
 
-
 func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) StageVoid(stage *Stage) {
 	a_attribute_value_integer.Stage(stage)
 }
@@ -10103,7 +10062,6 @@ func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) Commit(stage *Stage) *A_AT
 	}
 	return a_attribute_value_real
 }
-
 
 func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) StageVoid(stage *Stage) {
 	a_attribute_value_real.Stage(stage)
@@ -10189,7 +10147,6 @@ func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) Commit(stage *Stage) *
 	return a_attribute_value_string
 }
 
-
 func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) StageVoid(stage *Stage) {
 	a_attribute_value_string.Stage(stage)
 }
@@ -10273,7 +10230,6 @@ func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) Commit(stage *Stage) *A_
 	}
 	return a_attribute_value_xhtml
 }
-
 
 func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) StageVoid(stage *Stage) {
 	a_attribute_value_xhtml.Stage(stage)
@@ -10359,7 +10315,6 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) Commit(stage *Stage)
 	return a_attribute_value_xhtml_1
 }
 
-
 func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) StageVoid(stage *Stage) {
 	a_attribute_value_xhtml_1.Stage(stage)
 }
@@ -10443,7 +10398,6 @@ func (a_children *A_CHILDREN) Commit(stage *Stage) *A_CHILDREN {
 	}
 	return a_children
 }
-
 
 func (a_children *A_CHILDREN) StageVoid(stage *Stage) {
 	a_children.Stage(stage)
@@ -10529,7 +10483,6 @@ func (a_core_content *A_CORE_CONTENT) Commit(stage *Stage) *A_CORE_CONTENT {
 	return a_core_content
 }
 
-
 func (a_core_content *A_CORE_CONTENT) StageVoid(stage *Stage) {
 	a_core_content.Stage(stage)
 }
@@ -10613,7 +10566,6 @@ func (a_datatypes *A_DATATYPES) Commit(stage *Stage) *A_DATATYPES {
 	}
 	return a_datatypes
 }
-
 
 func (a_datatypes *A_DATATYPES) StageVoid(stage *Stage) {
 	a_datatypes.Stage(stage)
@@ -10699,7 +10651,6 @@ func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) Comm
 	return a_datatype_definition_boolean_ref
 }
 
-
 func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) StageVoid(stage *Stage) {
 	a_datatype_definition_boolean_ref.Stage(stage)
 }
@@ -10783,7 +10734,6 @@ func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) Commit(sta
 	}
 	return a_datatype_definition_date_ref
 }
-
 
 func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) StageVoid(stage *Stage) {
 	a_datatype_definition_date_ref.Stage(stage)
@@ -10869,7 +10819,6 @@ func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_R
 	return a_datatype_definition_enumeration_ref
 }
 
-
 func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) StageVoid(stage *Stage) {
 	a_datatype_definition_enumeration_ref.Stage(stage)
 }
@@ -10953,7 +10902,6 @@ func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) Comm
 	}
 	return a_datatype_definition_integer_ref
 }
-
 
 func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) StageVoid(stage *Stage) {
 	a_datatype_definition_integer_ref.Stage(stage)
@@ -11039,7 +10987,6 @@ func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) Commit(sta
 	return a_datatype_definition_real_ref
 }
 
-
 func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) StageVoid(stage *Stage) {
 	a_datatype_definition_real_ref.Stage(stage)
 }
@@ -11123,7 +11070,6 @@ func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) Commit
 	}
 	return a_datatype_definition_string_ref
 }
-
 
 func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) StageVoid(stage *Stage) {
 	a_datatype_definition_string_ref.Stage(stage)
@@ -11209,7 +11155,6 @@ func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) Commit(s
 	return a_datatype_definition_xhtml_ref
 }
 
-
 func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) StageVoid(stage *Stage) {
 	a_datatype_definition_xhtml_ref.Stage(stage)
 }
@@ -11293,7 +11238,6 @@ func (a_editable_atts *A_EDITABLE_ATTS) Commit(stage *Stage) *A_EDITABLE_ATTS {
 	}
 	return a_editable_atts
 }
-
 
 func (a_editable_atts *A_EDITABLE_ATTS) StageVoid(stage *Stage) {
 	a_editable_atts.Stage(stage)
@@ -11379,7 +11323,6 @@ func (a_enum_value_ref *A_ENUM_VALUE_REF) Commit(stage *Stage) *A_ENUM_VALUE_REF
 	return a_enum_value_ref
 }
 
-
 func (a_enum_value_ref *A_ENUM_VALUE_REF) StageVoid(stage *Stage) {
 	a_enum_value_ref.Stage(stage)
 }
@@ -11463,7 +11406,6 @@ func (a_object *A_OBJECT) Commit(stage *Stage) *A_OBJECT {
 	}
 	return a_object
 }
-
 
 func (a_object *A_OBJECT) StageVoid(stage *Stage) {
 	a_object.Stage(stage)
@@ -11549,7 +11491,6 @@ func (a_properties *A_PROPERTIES) Commit(stage *Stage) *A_PROPERTIES {
 	return a_properties
 }
 
-
 func (a_properties *A_PROPERTIES) StageVoid(stage *Stage) {
 	a_properties.Stage(stage)
 }
@@ -11633,7 +11574,6 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) Commit(stage *Stage)
 	}
 	return a_relation_group_type_ref
 }
-
 
 func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) StageVoid(stage *Stage) {
 	a_relation_group_type_ref.Stage(stage)
@@ -11719,7 +11659,6 @@ func (a_source_1 *A_SOURCE_1) Commit(stage *Stage) *A_SOURCE_1 {
 	return a_source_1
 }
 
-
 func (a_source_1 *A_SOURCE_1) StageVoid(stage *Stage) {
 	a_source_1.Stage(stage)
 }
@@ -11803,7 +11742,6 @@ func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) Commit(stage *Stage) *
 	}
 	return a_source_specification_1
 }
-
 
 func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) StageVoid(stage *Stage) {
 	a_source_specification_1.Stage(stage)
@@ -11889,7 +11827,6 @@ func (a_specifications *A_SPECIFICATIONS) Commit(stage *Stage) *A_SPECIFICATIONS
 	return a_specifications
 }
 
-
 func (a_specifications *A_SPECIFICATIONS) StageVoid(stage *Stage) {
 	a_specifications.Stage(stage)
 }
@@ -11973,7 +11910,6 @@ func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) Commit(stage *Stage) *
 	}
 	return a_specification_type_ref
 }
-
 
 func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) StageVoid(stage *Stage) {
 	a_specification_type_ref.Stage(stage)
@@ -12059,7 +11995,6 @@ func (a_specified_values *A_SPECIFIED_VALUES) Commit(stage *Stage) *A_SPECIFIED_
 	return a_specified_values
 }
 
-
 func (a_specified_values *A_SPECIFIED_VALUES) StageVoid(stage *Stage) {
 	a_specified_values.Stage(stage)
 }
@@ -12143,7 +12078,6 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) Commit(stage *Stage) *A_SPEC_ATTRIBU
 	}
 	return a_spec_attributes
 }
-
 
 func (a_spec_attributes *A_SPEC_ATTRIBUTES) StageVoid(stage *Stage) {
 	a_spec_attributes.Stage(stage)
@@ -12229,7 +12163,6 @@ func (a_spec_objects *A_SPEC_OBJECTS) Commit(stage *Stage) *A_SPEC_OBJECTS {
 	return a_spec_objects
 }
 
-
 func (a_spec_objects *A_SPEC_OBJECTS) StageVoid(stage *Stage) {
 	a_spec_objects.Stage(stage)
 }
@@ -12313,7 +12246,6 @@ func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) Commit(stage *Stage) *A_SP
 	}
 	return a_spec_object_type_ref
 }
-
 
 func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) StageVoid(stage *Stage) {
 	a_spec_object_type_ref.Stage(stage)
@@ -12399,7 +12331,6 @@ func (a_spec_relations *A_SPEC_RELATIONS) Commit(stage *Stage) *A_SPEC_RELATIONS
 	return a_spec_relations
 }
 
-
 func (a_spec_relations *A_SPEC_RELATIONS) StageVoid(stage *Stage) {
 	a_spec_relations.Stage(stage)
 }
@@ -12483,7 +12414,6 @@ func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) Commit(stage *Stage) *A_SP
 	}
 	return a_spec_relation_groups
 }
-
 
 func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) StageVoid(stage *Stage) {
 	a_spec_relation_groups.Stage(stage)
@@ -12569,7 +12499,6 @@ func (a_spec_relation_ref *A_SPEC_RELATION_REF) Commit(stage *Stage) *A_SPEC_REL
 	return a_spec_relation_ref
 }
 
-
 func (a_spec_relation_ref *A_SPEC_RELATION_REF) StageVoid(stage *Stage) {
 	a_spec_relation_ref.Stage(stage)
 }
@@ -12653,7 +12582,6 @@ func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) Commit(stage *Stage) *
 	}
 	return a_spec_relation_type_ref
 }
-
 
 func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) StageVoid(stage *Stage) {
 	a_spec_relation_type_ref.Stage(stage)
@@ -12739,7 +12667,6 @@ func (a_spec_types *A_SPEC_TYPES) Commit(stage *Stage) *A_SPEC_TYPES {
 	return a_spec_types
 }
 
-
 func (a_spec_types *A_SPEC_TYPES) StageVoid(stage *Stage) {
 	a_spec_types.Stage(stage)
 }
@@ -12823,7 +12750,6 @@ func (a_the_header *A_THE_HEADER) Commit(stage *Stage) *A_THE_HEADER {
 	}
 	return a_the_header
 }
-
 
 func (a_the_header *A_THE_HEADER) StageVoid(stage *Stage) {
 	a_the_header.Stage(stage)
@@ -12909,7 +12835,6 @@ func (a_tool_extensions *A_TOOL_EXTENSIONS) Commit(stage *Stage) *A_TOOL_EXTENSI
 	return a_tool_extensions
 }
 
-
 func (a_tool_extensions *A_TOOL_EXTENSIONS) StageVoid(stage *Stage) {
 	a_tool_extensions.Stage(stage)
 }
@@ -12993,7 +12918,6 @@ func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) Commit(stage *St
 	}
 	return datatype_definition_boolean
 }
-
 
 func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) StageVoid(stage *Stage) {
 	datatype_definition_boolean.Stage(stage)
@@ -13079,7 +13003,6 @@ func (datatype_definition_date *DATATYPE_DEFINITION_DATE) Commit(stage *Stage) *
 	return datatype_definition_date
 }
 
-
 func (datatype_definition_date *DATATYPE_DEFINITION_DATE) StageVoid(stage *Stage) {
 	datatype_definition_date.Stage(stage)
 }
@@ -13163,7 +13086,6 @@ func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) Commit(s
 	}
 	return datatype_definition_enumeration
 }
-
 
 func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) StageVoid(stage *Stage) {
 	datatype_definition_enumeration.Stage(stage)
@@ -13249,7 +13171,6 @@ func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) Commit(stage *St
 	return datatype_definition_integer
 }
 
-
 func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) StageVoid(stage *Stage) {
 	datatype_definition_integer.Stage(stage)
 }
@@ -13333,7 +13254,6 @@ func (datatype_definition_real *DATATYPE_DEFINITION_REAL) Commit(stage *Stage) *
 	}
 	return datatype_definition_real
 }
-
 
 func (datatype_definition_real *DATATYPE_DEFINITION_REAL) StageVoid(stage *Stage) {
 	datatype_definition_real.Stage(stage)
@@ -13419,7 +13339,6 @@ func (datatype_definition_string *DATATYPE_DEFINITION_STRING) Commit(stage *Stag
 	return datatype_definition_string
 }
 
-
 func (datatype_definition_string *DATATYPE_DEFINITION_STRING) StageVoid(stage *Stage) {
 	datatype_definition_string.Stage(stage)
 }
@@ -13503,7 +13422,6 @@ func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) Commit(stage *Stage)
 	}
 	return datatype_definition_xhtml
 }
-
 
 func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) StageVoid(stage *Stage) {
 	datatype_definition_xhtml.Stage(stage)
@@ -13589,7 +13507,6 @@ func (embedded_value *EMBEDDED_VALUE) Commit(stage *Stage) *EMBEDDED_VALUE {
 	return embedded_value
 }
 
-
 func (embedded_value *EMBEDDED_VALUE) StageVoid(stage *Stage) {
 	embedded_value.Stage(stage)
 }
@@ -13673,7 +13590,6 @@ func (enum_value *ENUM_VALUE) Commit(stage *Stage) *ENUM_VALUE {
 	}
 	return enum_value
 }
-
 
 func (enum_value *ENUM_VALUE) StageVoid(stage *Stage) {
 	enum_value.Stage(stage)
@@ -13759,7 +13675,6 @@ func (embeddedjpgimage *EmbeddedJpgImage) Commit(stage *Stage) *EmbeddedJpgImage
 	return embeddedjpgimage
 }
 
-
 func (embeddedjpgimage *EmbeddedJpgImage) StageVoid(stage *Stage) {
 	embeddedjpgimage.Stage(stage)
 }
@@ -13843,7 +13758,6 @@ func (embeddedpngimage *EmbeddedPngImage) Commit(stage *Stage) *EmbeddedPngImage
 	}
 	return embeddedpngimage
 }
-
 
 func (embeddedpngimage *EmbeddedPngImage) StageVoid(stage *Stage) {
 	embeddedpngimage.Stage(stage)
@@ -13929,7 +13843,6 @@ func (embeddedsvgimage *EmbeddedSvgImage) Commit(stage *Stage) *EmbeddedSvgImage
 	return embeddedsvgimage
 }
 
-
 func (embeddedsvgimage *EmbeddedSvgImage) StageVoid(stage *Stage) {
 	embeddedsvgimage.Stage(stage)
 }
@@ -14013,7 +13926,6 @@ func (kill *Kill) Commit(stage *Stage) *Kill {
 	}
 	return kill
 }
-
 
 func (kill *Kill) StageVoid(stage *Stage) {
 	kill.Stage(stage)
@@ -14099,7 +14011,6 @@ func (map_identifier_bool *Map_identifier_bool) Commit(stage *Stage) *Map_identi
 	return map_identifier_bool
 }
 
-
 func (map_identifier_bool *Map_identifier_bool) StageVoid(stage *Stage) {
 	map_identifier_bool.Stage(stage)
 }
@@ -14183,7 +14094,6 @@ func (relation_group *RELATION_GROUP) Commit(stage *Stage) *RELATION_GROUP {
 	}
 	return relation_group
 }
-
 
 func (relation_group *RELATION_GROUP) StageVoid(stage *Stage) {
 	relation_group.Stage(stage)
@@ -14269,7 +14179,6 @@ func (relation_group_type *RELATION_GROUP_TYPE) Commit(stage *Stage) *RELATION_G
 	return relation_group_type
 }
 
-
 func (relation_group_type *RELATION_GROUP_TYPE) StageVoid(stage *Stage) {
 	relation_group_type.Stage(stage)
 }
@@ -14353,7 +14262,6 @@ func (req_if *REQ_IF) Commit(stage *Stage) *REQ_IF {
 	}
 	return req_if
 }
-
 
 func (req_if *REQ_IF) StageVoid(stage *Stage) {
 	req_if.Stage(stage)
@@ -14439,7 +14347,6 @@ func (req_if_content *REQ_IF_CONTENT) Commit(stage *Stage) *REQ_IF_CONTENT {
 	return req_if_content
 }
 
-
 func (req_if_content *REQ_IF_CONTENT) StageVoid(stage *Stage) {
 	req_if_content.Stage(stage)
 }
@@ -14523,7 +14430,6 @@ func (req_if_header *REQ_IF_HEADER) Commit(stage *Stage) *REQ_IF_HEADER {
 	}
 	return req_if_header
 }
-
 
 func (req_if_header *REQ_IF_HEADER) StageVoid(stage *Stage) {
 	req_if_header.Stage(stage)
@@ -14609,7 +14515,6 @@ func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) Commit(stage *Stage) *REQ_IF
 	return req_if_tool_extension
 }
 
-
 func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) StageVoid(stage *Stage) {
 	req_if_tool_extension.Stage(stage)
 }
@@ -14693,7 +14598,6 @@ func (specification *SPECIFICATION) Commit(stage *Stage) *SPECIFICATION {
 	}
 	return specification
 }
-
 
 func (specification *SPECIFICATION) StageVoid(stage *Stage) {
 	specification.Stage(stage)
@@ -14779,7 +14683,6 @@ func (specification_rendering *SPECIFICATION_Rendering) Commit(stage *Stage) *SP
 	return specification_rendering
 }
 
-
 func (specification_rendering *SPECIFICATION_Rendering) StageVoid(stage *Stage) {
 	specification_rendering.Stage(stage)
 }
@@ -14863,7 +14766,6 @@ func (specification_type *SPECIFICATION_TYPE) Commit(stage *Stage) *SPECIFICATIO
 	}
 	return specification_type
 }
-
 
 func (specification_type *SPECIFICATION_TYPE) StageVoid(stage *Stage) {
 	specification_type.Stage(stage)
@@ -14949,7 +14851,6 @@ func (spec_hierarchy *SPEC_HIERARCHY) Commit(stage *Stage) *SPEC_HIERARCHY {
 	return spec_hierarchy
 }
 
-
 func (spec_hierarchy *SPEC_HIERARCHY) StageVoid(stage *Stage) {
 	spec_hierarchy.Stage(stage)
 }
@@ -15033,7 +14934,6 @@ func (spec_object *SPEC_OBJECT) Commit(stage *Stage) *SPEC_OBJECT {
 	}
 	return spec_object
 }
-
 
 func (spec_object *SPEC_OBJECT) StageVoid(stage *Stage) {
 	spec_object.Stage(stage)
@@ -15119,7 +15019,6 @@ func (spec_object_type *SPEC_OBJECT_TYPE) Commit(stage *Stage) *SPEC_OBJECT_TYPE
 	return spec_object_type
 }
 
-
 func (spec_object_type *SPEC_OBJECT_TYPE) StageVoid(stage *Stage) {
 	spec_object_type.Stage(stage)
 }
@@ -15203,7 +15102,6 @@ func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) Commit(stage *Stag
 	}
 	return spec_object_type_rendering
 }
-
 
 func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) StageVoid(stage *Stage) {
 	spec_object_type_rendering.Stage(stage)
@@ -15289,7 +15187,6 @@ func (spec_relation *SPEC_RELATION) Commit(stage *Stage) *SPEC_RELATION {
 	return spec_relation
 }
 
-
 func (spec_relation *SPEC_RELATION) StageVoid(stage *Stage) {
 	spec_relation.Stage(stage)
 }
@@ -15373,7 +15270,6 @@ func (spec_relation_type *SPEC_RELATION_TYPE) Commit(stage *Stage) *SPEC_RELATIO
 	}
 	return spec_relation_type
 }
-
 
 func (spec_relation_type *SPEC_RELATION_TYPE) StageVoid(stage *Stage) {
 	spec_relation_type.Stage(stage)
@@ -15459,7 +15355,6 @@ func (staticwebsite *StaticWebSite) Commit(stage *Stage) *StaticWebSite {
 	return staticwebsite
 }
 
-
 func (staticwebsite *StaticWebSite) StageVoid(stage *Stage) {
 	staticwebsite.Stage(stage)
 }
@@ -15543,7 +15438,6 @@ func (staticwebsitechapter *StaticWebSiteChapter) Commit(stage *Stage) *StaticWe
 	}
 	return staticwebsitechapter
 }
-
 
 func (staticwebsitechapter *StaticWebSiteChapter) StageVoid(stage *Stage) {
 	staticwebsitechapter.Stage(stage)
@@ -15629,7 +15523,6 @@ func (staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) Commit(stage *St
 	return staticwebsitegeneratedimage
 }
 
-
 func (staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) StageVoid(stage *Stage) {
 	staticwebsitegeneratedimage.Stage(stage)
 }
@@ -15713,7 +15606,6 @@ func (staticwebsiteimage *StaticWebSiteImage) Commit(stage *Stage) *StaticWebSit
 	}
 	return staticwebsiteimage
 }
-
 
 func (staticwebsiteimage *StaticWebSiteImage) StageVoid(stage *Stage) {
 	staticwebsiteimage.Stage(stage)
@@ -15799,7 +15691,6 @@ func (staticwebsiteparagraph *StaticWebSiteParagraph) Commit(stage *Stage) *Stat
 	return staticwebsiteparagraph
 }
 
-
 func (staticwebsiteparagraph *StaticWebSiteParagraph) StageVoid(stage *Stage) {
 	staticwebsiteparagraph.Stage(stage)
 }
@@ -15883,7 +15774,6 @@ func (xhtml_content *XHTML_CONTENT) Commit(stage *Stage) *XHTML_CONTENT {
 	}
 	return xhtml_content
 }
-
 
 func (xhtml_content *XHTML_CONTENT) StageVoid(stage *Stage) {
 	xhtml_content.Stage(stage)
@@ -16442,7 +16332,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

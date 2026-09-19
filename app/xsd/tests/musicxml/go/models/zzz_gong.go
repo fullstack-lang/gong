@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -3961,7 +3960,6 @@ type Stage struct {
 	OnAfterWorkUpdateCallback GongOnAfterUpdateInterface[Work]
 	OnAfterWorkDeleteCallback GongOnAfterDeleteInterface[Work]
 	OnAfterWorkReadCallback   GongOnAfterReadInterface[Work]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -8402,7 +8400,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 
 	return stage.probeIF
 }
-
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -14288,7 +14285,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -14775,8 +14771,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 	}
 }
 
-
-
 func (stage *Stage) GetName() string {
 	return stage.name
 }
@@ -15168,7 +15162,6 @@ func (a_directive *A_directive) Commit(stage *Stage) *A_directive {
 	return a_directive
 }
 
-
 func (a_directive *A_directive) StageVoid(stage *Stage) {
 	a_directive.Stage(stage)
 }
@@ -15252,7 +15245,6 @@ func (a_measure *A_measure) Commit(stage *Stage) *A_measure {
 	}
 	return a_measure
 }
-
 
 func (a_measure *A_measure) StageVoid(stage *Stage) {
 	a_measure.Stage(stage)
@@ -15338,7 +15330,6 @@ func (a_measure_1 *A_measure_1) Commit(stage *Stage) *A_measure_1 {
 	return a_measure_1
 }
 
-
 func (a_measure_1 *A_measure_1) StageVoid(stage *Stage) {
 	a_measure_1.Stage(stage)
 }
@@ -15422,7 +15413,6 @@ func (a_part *A_part) Commit(stage *Stage) *A_part {
 	}
 	return a_part
 }
-
 
 func (a_part *A_part) StageVoid(stage *Stage) {
 	a_part.Stage(stage)
@@ -15508,7 +15498,6 @@ func (a_part_1 *A_part_1) Commit(stage *Stage) *A_part_1 {
 	return a_part_1
 }
 
-
 func (a_part_1 *A_part_1) StageVoid(stage *Stage) {
 	a_part_1.Stage(stage)
 }
@@ -15592,7 +15581,6 @@ func (accidental *Accidental) Commit(stage *Stage) *Accidental {
 	}
 	return accidental
 }
-
 
 func (accidental *Accidental) StageVoid(stage *Stage) {
 	accidental.Stage(stage)
@@ -15678,7 +15666,6 @@ func (accidental_mark *Accidental_mark) Commit(stage *Stage) *Accidental_mark {
 	return accidental_mark
 }
 
-
 func (accidental_mark *Accidental_mark) StageVoid(stage *Stage) {
 	accidental_mark.Stage(stage)
 }
@@ -15762,7 +15749,6 @@ func (accidental_text *Accidental_text) Commit(stage *Stage) *Accidental_text {
 	}
 	return accidental_text
 }
-
 
 func (accidental_text *Accidental_text) StageVoid(stage *Stage) {
 	accidental_text.Stage(stage)
@@ -15848,7 +15834,6 @@ func (accord *Accord) Commit(stage *Stage) *Accord {
 	return accord
 }
 
-
 func (accord *Accord) StageVoid(stage *Stage) {
 	accord.Stage(stage)
 }
@@ -15932,7 +15917,6 @@ func (accordion_registration *Accordion_registration) Commit(stage *Stage) *Acco
 	}
 	return accordion_registration
 }
-
 
 func (accordion_registration *Accordion_registration) StageVoid(stage *Stage) {
 	accordion_registration.Stage(stage)
@@ -16018,7 +16002,6 @@ func (appearance *Appearance) Commit(stage *Stage) *Appearance {
 	return appearance
 }
 
-
 func (appearance *Appearance) StageVoid(stage *Stage) {
 	appearance.Stage(stage)
 }
@@ -16102,7 +16085,6 @@ func (arpeggiate *Arpeggiate) Commit(stage *Stage) *Arpeggiate {
 	}
 	return arpeggiate
 }
-
 
 func (arpeggiate *Arpeggiate) StageVoid(stage *Stage) {
 	arpeggiate.Stage(stage)
@@ -16188,7 +16170,6 @@ func (arrow *Arrow) Commit(stage *Stage) *Arrow {
 	return arrow
 }
 
-
 func (arrow *Arrow) StageVoid(stage *Stage) {
 	arrow.Stage(stage)
 }
@@ -16272,7 +16253,6 @@ func (articulations *Articulations) Commit(stage *Stage) *Articulations {
 	}
 	return articulations
 }
-
 
 func (articulations *Articulations) StageVoid(stage *Stage) {
 	articulations.Stage(stage)
@@ -16358,7 +16338,6 @@ func (assess *Assess) Commit(stage *Stage) *Assess {
 	return assess
 }
 
-
 func (assess *Assess) StageVoid(stage *Stage) {
 	assess.Stage(stage)
 }
@@ -16442,7 +16421,6 @@ func (attributes *Attributes) Commit(stage *Stage) *Attributes {
 	}
 	return attributes
 }
-
 
 func (attributes *Attributes) StageVoid(stage *Stage) {
 	attributes.Stage(stage)
@@ -16528,7 +16506,6 @@ func (backup *Backup) Commit(stage *Stage) *Backup {
 	return backup
 }
 
-
 func (backup *Backup) StageVoid(stage *Stage) {
 	backup.Stage(stage)
 }
@@ -16612,7 +16589,6 @@ func (bar_style_color *Bar_style_color) Commit(stage *Stage) *Bar_style_color {
 	}
 	return bar_style_color
 }
-
 
 func (bar_style_color *Bar_style_color) StageVoid(stage *Stage) {
 	bar_style_color.Stage(stage)
@@ -16698,7 +16674,6 @@ func (barline *Barline) Commit(stage *Stage) *Barline {
 	return barline
 }
 
-
 func (barline *Barline) StageVoid(stage *Stage) {
 	barline.Stage(stage)
 }
@@ -16782,7 +16757,6 @@ func (barre *Barre) Commit(stage *Stage) *Barre {
 	}
 	return barre
 }
-
 
 func (barre *Barre) StageVoid(stage *Stage) {
 	barre.Stage(stage)
@@ -16868,7 +16842,6 @@ func (bass *Bass) Commit(stage *Stage) *Bass {
 	return bass
 }
 
-
 func (bass *Bass) StageVoid(stage *Stage) {
 	bass.Stage(stage)
 }
@@ -16952,7 +16925,6 @@ func (bass_step *Bass_step) Commit(stage *Stage) *Bass_step {
 	}
 	return bass_step
 }
-
 
 func (bass_step *Bass_step) StageVoid(stage *Stage) {
 	bass_step.Stage(stage)
@@ -17038,7 +17010,6 @@ func (beam *Beam) Commit(stage *Stage) *Beam {
 	return beam
 }
 
-
 func (beam *Beam) StageVoid(stage *Stage) {
 	beam.Stage(stage)
 }
@@ -17122,7 +17093,6 @@ func (beat_repeat *Beat_repeat) Commit(stage *Stage) *Beat_repeat {
 	}
 	return beat_repeat
 }
-
 
 func (beat_repeat *Beat_repeat) StageVoid(stage *Stage) {
 	beat_repeat.Stage(stage)
@@ -17208,7 +17178,6 @@ func (beat_unit_tied *Beat_unit_tied) Commit(stage *Stage) *Beat_unit_tied {
 	return beat_unit_tied
 }
 
-
 func (beat_unit_tied *Beat_unit_tied) StageVoid(stage *Stage) {
 	beat_unit_tied.Stage(stage)
 }
@@ -17292,7 +17261,6 @@ func (beater *Beater) Commit(stage *Stage) *Beater {
 	}
 	return beater
 }
-
 
 func (beater *Beater) StageVoid(stage *Stage) {
 	beater.Stage(stage)
@@ -17378,7 +17346,6 @@ func (bend *Bend) Commit(stage *Stage) *Bend {
 	return bend
 }
 
-
 func (bend *Bend) StageVoid(stage *Stage) {
 	bend.Stage(stage)
 }
@@ -17462,7 +17429,6 @@ func (bookmark *Bookmark) Commit(stage *Stage) *Bookmark {
 	}
 	return bookmark
 }
-
 
 func (bookmark *Bookmark) StageVoid(stage *Stage) {
 	bookmark.Stage(stage)
@@ -17548,7 +17514,6 @@ func (bracket *Bracket) Commit(stage *Stage) *Bracket {
 	return bracket
 }
 
-
 func (bracket *Bracket) StageVoid(stage *Stage) {
 	bracket.Stage(stage)
 }
@@ -17632,7 +17597,6 @@ func (breath_mark *Breath_mark) Commit(stage *Stage) *Breath_mark {
 	}
 	return breath_mark
 }
-
 
 func (breath_mark *Breath_mark) StageVoid(stage *Stage) {
 	breath_mark.Stage(stage)
@@ -17718,7 +17682,6 @@ func (caesura *Caesura) Commit(stage *Stage) *Caesura {
 	return caesura
 }
 
-
 func (caesura *Caesura) StageVoid(stage *Stage) {
 	caesura.Stage(stage)
 }
@@ -17802,7 +17765,6 @@ func (cancel *Cancel) Commit(stage *Stage) *Cancel {
 	}
 	return cancel
 }
-
 
 func (cancel *Cancel) StageVoid(stage *Stage) {
 	cancel.Stage(stage)
@@ -17888,7 +17850,6 @@ func (clef *Clef) Commit(stage *Stage) *Clef {
 	return clef
 }
 
-
 func (clef *Clef) StageVoid(stage *Stage) {
 	clef.Stage(stage)
 }
@@ -17972,7 +17933,6 @@ func (coda *Coda) Commit(stage *Stage) *Coda {
 	}
 	return coda
 }
-
 
 func (coda *Coda) StageVoid(stage *Stage) {
 	coda.Stage(stage)
@@ -18058,7 +18018,6 @@ func (credit *Credit) Commit(stage *Stage) *Credit {
 	return credit
 }
 
-
 func (credit *Credit) StageVoid(stage *Stage) {
 	credit.Stage(stage)
 }
@@ -18142,7 +18101,6 @@ func (dashes *Dashes) Commit(stage *Stage) *Dashes {
 	}
 	return dashes
 }
-
 
 func (dashes *Dashes) StageVoid(stage *Stage) {
 	dashes.Stage(stage)
@@ -18228,7 +18186,6 @@ func (defaults *Defaults) Commit(stage *Stage) *Defaults {
 	return defaults
 }
 
-
 func (defaults *Defaults) StageVoid(stage *Stage) {
 	defaults.Stage(stage)
 }
@@ -18312,7 +18269,6 @@ func (degree *Degree) Commit(stage *Stage) *Degree {
 	}
 	return degree
 }
-
 
 func (degree *Degree) StageVoid(stage *Stage) {
 	degree.Stage(stage)
@@ -18398,7 +18354,6 @@ func (degree_alter *Degree_alter) Commit(stage *Stage) *Degree_alter {
 	return degree_alter
 }
 
-
 func (degree_alter *Degree_alter) StageVoid(stage *Stage) {
 	degree_alter.Stage(stage)
 }
@@ -18482,7 +18437,6 @@ func (degree_type *Degree_type) Commit(stage *Stage) *Degree_type {
 	}
 	return degree_type
 }
-
 
 func (degree_type *Degree_type) StageVoid(stage *Stage) {
 	degree_type.Stage(stage)
@@ -18568,7 +18522,6 @@ func (degree_value *Degree_value) Commit(stage *Stage) *Degree_value {
 	return degree_value
 }
 
-
 func (degree_value *Degree_value) StageVoid(stage *Stage) {
 	degree_value.Stage(stage)
 }
@@ -18652,7 +18605,6 @@ func (direction *Direction) Commit(stage *Stage) *Direction {
 	}
 	return direction
 }
-
 
 func (direction *Direction) StageVoid(stage *Stage) {
 	direction.Stage(stage)
@@ -18738,7 +18690,6 @@ func (direction_type *Direction_type) Commit(stage *Stage) *Direction_type {
 	return direction_type
 }
 
-
 func (direction_type *Direction_type) StageVoid(stage *Stage) {
 	direction_type.Stage(stage)
 }
@@ -18822,7 +18773,6 @@ func (distance *Distance) Commit(stage *Stage) *Distance {
 	}
 	return distance
 }
-
 
 func (distance *Distance) StageVoid(stage *Stage) {
 	distance.Stage(stage)
@@ -18908,7 +18858,6 @@ func (double *Double) Commit(stage *Stage) *Double {
 	return double
 }
 
-
 func (double *Double) StageVoid(stage *Stage) {
 	double.Stage(stage)
 }
@@ -18992,7 +18941,6 @@ func (dynamics *Dynamics) Commit(stage *Stage) *Dynamics {
 	}
 	return dynamics
 }
-
 
 func (dynamics *Dynamics) StageVoid(stage *Stage) {
 	dynamics.Stage(stage)
@@ -19078,7 +19026,6 @@ func (effect *Effect) Commit(stage *Stage) *Effect {
 	return effect
 }
 
-
 func (effect *Effect) StageVoid(stage *Stage) {
 	effect.Stage(stage)
 }
@@ -19162,7 +19109,6 @@ func (elision *Elision) Commit(stage *Stage) *Elision {
 	}
 	return elision
 }
-
 
 func (elision *Elision) StageVoid(stage *Stage) {
 	elision.Stage(stage)
@@ -19248,7 +19194,6 @@ func (empty *Empty) Commit(stage *Stage) *Empty {
 	return empty
 }
 
-
 func (empty *Empty) StageVoid(stage *Stage) {
 	empty.Stage(stage)
 }
@@ -19332,7 +19277,6 @@ func (empty_font *Empty_font) Commit(stage *Stage) *Empty_font {
 	}
 	return empty_font
 }
-
 
 func (empty_font *Empty_font) StageVoid(stage *Stage) {
 	empty_font.Stage(stage)
@@ -19418,7 +19362,6 @@ func (empty_line *Empty_line) Commit(stage *Stage) *Empty_line {
 	return empty_line
 }
 
-
 func (empty_line *Empty_line) StageVoid(stage *Stage) {
 	empty_line.Stage(stage)
 }
@@ -19502,7 +19445,6 @@ func (empty_placement *Empty_placement) Commit(stage *Stage) *Empty_placement {
 	}
 	return empty_placement
 }
-
 
 func (empty_placement *Empty_placement) StageVoid(stage *Stage) {
 	empty_placement.Stage(stage)
@@ -19588,7 +19530,6 @@ func (empty_placement_smufl *Empty_placement_smufl) Commit(stage *Stage) *Empty_
 	return empty_placement_smufl
 }
 
-
 func (empty_placement_smufl *Empty_placement_smufl) StageVoid(stage *Stage) {
 	empty_placement_smufl.Stage(stage)
 }
@@ -19672,7 +19613,6 @@ func (empty_print_object_style_align *Empty_print_object_style_align) Commit(sta
 	}
 	return empty_print_object_style_align
 }
-
 
 func (empty_print_object_style_align *Empty_print_object_style_align) StageVoid(stage *Stage) {
 	empty_print_object_style_align.Stage(stage)
@@ -19758,7 +19698,6 @@ func (empty_print_style *Empty_print_style) Commit(stage *Stage) *Empty_print_st
 	return empty_print_style
 }
 
-
 func (empty_print_style *Empty_print_style) StageVoid(stage *Stage) {
 	empty_print_style.Stage(stage)
 }
@@ -19842,7 +19781,6 @@ func (empty_print_style_align *Empty_print_style_align) Commit(stage *Stage) *Em
 	}
 	return empty_print_style_align
 }
-
 
 func (empty_print_style_align *Empty_print_style_align) StageVoid(stage *Stage) {
 	empty_print_style_align.Stage(stage)
@@ -19928,7 +19866,6 @@ func (empty_print_style_align_id *Empty_print_style_align_id) Commit(stage *Stag
 	return empty_print_style_align_id
 }
 
-
 func (empty_print_style_align_id *Empty_print_style_align_id) StageVoid(stage *Stage) {
 	empty_print_style_align_id.Stage(stage)
 }
@@ -20012,7 +19949,6 @@ func (empty_trill_sound *Empty_trill_sound) Commit(stage *Stage) *Empty_trill_so
 	}
 	return empty_trill_sound
 }
-
 
 func (empty_trill_sound *Empty_trill_sound) StageVoid(stage *Stage) {
 	empty_trill_sound.Stage(stage)
@@ -20098,7 +20034,6 @@ func (encoding *Encoding) Commit(stage *Stage) *Encoding {
 	return encoding
 }
 
-
 func (encoding *Encoding) StageVoid(stage *Stage) {
 	encoding.Stage(stage)
 }
@@ -20182,7 +20117,6 @@ func (ending *Ending) Commit(stage *Stage) *Ending {
 	}
 	return ending
 }
-
 
 func (ending *Ending) StageVoid(stage *Stage) {
 	ending.Stage(stage)
@@ -20268,7 +20202,6 @@ func (extend *Extend) Commit(stage *Stage) *Extend {
 	return extend
 }
 
-
 func (extend *Extend) StageVoid(stage *Stage) {
 	extend.Stage(stage)
 }
@@ -20352,7 +20285,6 @@ func (feature *Feature) Commit(stage *Stage) *Feature {
 	}
 	return feature
 }
-
 
 func (feature *Feature) StageVoid(stage *Stage) {
 	feature.Stage(stage)
@@ -20438,7 +20370,6 @@ func (fermata *Fermata) Commit(stage *Stage) *Fermata {
 	return fermata
 }
 
-
 func (fermata *Fermata) StageVoid(stage *Stage) {
 	fermata.Stage(stage)
 }
@@ -20522,7 +20453,6 @@ func (figure *Figure) Commit(stage *Stage) *Figure {
 	}
 	return figure
 }
-
 
 func (figure *Figure) StageVoid(stage *Stage) {
 	figure.Stage(stage)
@@ -20608,7 +20538,6 @@ func (figured_bass *Figured_bass) Commit(stage *Stage) *Figured_bass {
 	return figured_bass
 }
 
-
 func (figured_bass *Figured_bass) StageVoid(stage *Stage) {
 	figured_bass.Stage(stage)
 }
@@ -20692,7 +20621,6 @@ func (fingering *Fingering) Commit(stage *Stage) *Fingering {
 	}
 	return fingering
 }
-
 
 func (fingering *Fingering) StageVoid(stage *Stage) {
 	fingering.Stage(stage)
@@ -20778,7 +20706,6 @@ func (first_fret *First_fret) Commit(stage *Stage) *First_fret {
 	return first_fret
 }
 
-
 func (first_fret *First_fret) StageVoid(stage *Stage) {
 	first_fret.Stage(stage)
 }
@@ -20862,7 +20789,6 @@ func (for_part *For_part) Commit(stage *Stage) *For_part {
 	}
 	return for_part
 }
-
 
 func (for_part *For_part) StageVoid(stage *Stage) {
 	for_part.Stage(stage)
@@ -20948,7 +20874,6 @@ func (formatted_symbol *Formatted_symbol) Commit(stage *Stage) *Formatted_symbol
 	return formatted_symbol
 }
 
-
 func (formatted_symbol *Formatted_symbol) StageVoid(stage *Stage) {
 	formatted_symbol.Stage(stage)
 }
@@ -21032,7 +20957,6 @@ func (formatted_symbol_id *Formatted_symbol_id) Commit(stage *Stage) *Formatted_
 	}
 	return formatted_symbol_id
 }
-
 
 func (formatted_symbol_id *Formatted_symbol_id) StageVoid(stage *Stage) {
 	formatted_symbol_id.Stage(stage)
@@ -21118,7 +21042,6 @@ func (formatted_text *Formatted_text) Commit(stage *Stage) *Formatted_text {
 	return formatted_text
 }
 
-
 func (formatted_text *Formatted_text) StageVoid(stage *Stage) {
 	formatted_text.Stage(stage)
 }
@@ -21202,7 +21125,6 @@ func (formatted_text_id *Formatted_text_id) Commit(stage *Stage) *Formatted_text
 	}
 	return formatted_text_id
 }
-
 
 func (formatted_text_id *Formatted_text_id) StageVoid(stage *Stage) {
 	formatted_text_id.Stage(stage)
@@ -21288,7 +21210,6 @@ func (forward *Forward) Commit(stage *Stage) *Forward {
 	return forward
 }
 
-
 func (forward *Forward) StageVoid(stage *Stage) {
 	forward.Stage(stage)
 }
@@ -21372,7 +21293,6 @@ func (frame *Frame) Commit(stage *Stage) *Frame {
 	}
 	return frame
 }
-
 
 func (frame *Frame) StageVoid(stage *Stage) {
 	frame.Stage(stage)
@@ -21458,7 +21378,6 @@ func (frame_note *Frame_note) Commit(stage *Stage) *Frame_note {
 	return frame_note
 }
 
-
 func (frame_note *Frame_note) StageVoid(stage *Stage) {
 	frame_note.Stage(stage)
 }
@@ -21542,7 +21461,6 @@ func (fret *Fret) Commit(stage *Stage) *Fret {
 	}
 	return fret
 }
-
 
 func (fret *Fret) StageVoid(stage *Stage) {
 	fret.Stage(stage)
@@ -21628,7 +21546,6 @@ func (glass *Glass) Commit(stage *Stage) *Glass {
 	return glass
 }
 
-
 func (glass *Glass) StageVoid(stage *Stage) {
 	glass.Stage(stage)
 }
@@ -21712,7 +21629,6 @@ func (glissando *Glissando) Commit(stage *Stage) *Glissando {
 	}
 	return glissando
 }
-
 
 func (glissando *Glissando) StageVoid(stage *Stage) {
 	glissando.Stage(stage)
@@ -21798,7 +21714,6 @@ func (glyph *Glyph) Commit(stage *Stage) *Glyph {
 	return glyph
 }
 
-
 func (glyph *Glyph) StageVoid(stage *Stage) {
 	glyph.Stage(stage)
 }
@@ -21882,7 +21797,6 @@ func (grace *Grace) Commit(stage *Stage) *Grace {
 	}
 	return grace
 }
-
 
 func (grace *Grace) StageVoid(stage *Stage) {
 	grace.Stage(stage)
@@ -21968,7 +21882,6 @@ func (group_barline *Group_barline) Commit(stage *Stage) *Group_barline {
 	return group_barline
 }
 
-
 func (group_barline *Group_barline) StageVoid(stage *Stage) {
 	group_barline.Stage(stage)
 }
@@ -22052,7 +21965,6 @@ func (group_name *Group_name) Commit(stage *Stage) *Group_name {
 	}
 	return group_name
 }
-
 
 func (group_name *Group_name) StageVoid(stage *Stage) {
 	group_name.Stage(stage)
@@ -22138,7 +22050,6 @@ func (group_symbol *Group_symbol) Commit(stage *Stage) *Group_symbol {
 	return group_symbol
 }
 
-
 func (group_symbol *Group_symbol) StageVoid(stage *Stage) {
 	group_symbol.Stage(stage)
 }
@@ -22222,7 +22133,6 @@ func (grouping *Grouping) Commit(stage *Stage) *Grouping {
 	}
 	return grouping
 }
-
 
 func (grouping *Grouping) StageVoid(stage *Stage) {
 	grouping.Stage(stage)
@@ -22308,7 +22218,6 @@ func (hammer_on_pull_off *Hammer_on_pull_off) Commit(stage *Stage) *Hammer_on_pu
 	return hammer_on_pull_off
 }
 
-
 func (hammer_on_pull_off *Hammer_on_pull_off) StageVoid(stage *Stage) {
 	hammer_on_pull_off.Stage(stage)
 }
@@ -22392,7 +22301,6 @@ func (handbell *Handbell) Commit(stage *Stage) *Handbell {
 	}
 	return handbell
 }
-
 
 func (handbell *Handbell) StageVoid(stage *Stage) {
 	handbell.Stage(stage)
@@ -22478,7 +22386,6 @@ func (harmon_closed *Harmon_closed) Commit(stage *Stage) *Harmon_closed {
 	return harmon_closed
 }
 
-
 func (harmon_closed *Harmon_closed) StageVoid(stage *Stage) {
 	harmon_closed.Stage(stage)
 }
@@ -22562,7 +22469,6 @@ func (harmon_mute *Harmon_mute) Commit(stage *Stage) *Harmon_mute {
 	}
 	return harmon_mute
 }
-
 
 func (harmon_mute *Harmon_mute) StageVoid(stage *Stage) {
 	harmon_mute.Stage(stage)
@@ -22648,7 +22554,6 @@ func (harmonic *Harmonic) Commit(stage *Stage) *Harmonic {
 	return harmonic
 }
 
-
 func (harmonic *Harmonic) StageVoid(stage *Stage) {
 	harmonic.Stage(stage)
 }
@@ -22732,7 +22637,6 @@ func (harmony *Harmony) Commit(stage *Stage) *Harmony {
 	}
 	return harmony
 }
-
 
 func (harmony *Harmony) StageVoid(stage *Stage) {
 	harmony.Stage(stage)
@@ -22818,7 +22722,6 @@ func (harmony_alter *Harmony_alter) Commit(stage *Stage) *Harmony_alter {
 	return harmony_alter
 }
 
-
 func (harmony_alter *Harmony_alter) StageVoid(stage *Stage) {
 	harmony_alter.Stage(stage)
 }
@@ -22902,7 +22805,6 @@ func (harp_pedals *Harp_pedals) Commit(stage *Stage) *Harp_pedals {
 	}
 	return harp_pedals
 }
-
 
 func (harp_pedals *Harp_pedals) StageVoid(stage *Stage) {
 	harp_pedals.Stage(stage)
@@ -22988,7 +22890,6 @@ func (heel_toe *Heel_toe) Commit(stage *Stage) *Heel_toe {
 	return heel_toe
 }
 
-
 func (heel_toe *Heel_toe) StageVoid(stage *Stage) {
 	heel_toe.Stage(stage)
 }
@@ -23072,7 +22973,6 @@ func (hole *Hole) Commit(stage *Stage) *Hole {
 	}
 	return hole
 }
-
 
 func (hole *Hole) StageVoid(stage *Stage) {
 	hole.Stage(stage)
@@ -23158,7 +23058,6 @@ func (hole_closed *Hole_closed) Commit(stage *Stage) *Hole_closed {
 	return hole_closed
 }
 
-
 func (hole_closed *Hole_closed) StageVoid(stage *Stage) {
 	hole_closed.Stage(stage)
 }
@@ -23242,7 +23141,6 @@ func (horizontal_turn *Horizontal_turn) Commit(stage *Stage) *Horizontal_turn {
 	}
 	return horizontal_turn
 }
-
 
 func (horizontal_turn *Horizontal_turn) StageVoid(stage *Stage) {
 	horizontal_turn.Stage(stage)
@@ -23328,7 +23226,6 @@ func (identification *Identification) Commit(stage *Stage) *Identification {
 	return identification
 }
 
-
 func (identification *Identification) StageVoid(stage *Stage) {
 	identification.Stage(stage)
 }
@@ -23412,7 +23309,6 @@ func (image *Image) Commit(stage *Stage) *Image {
 	}
 	return image
 }
-
 
 func (image *Image) StageVoid(stage *Stage) {
 	image.Stage(stage)
@@ -23498,7 +23394,6 @@ func (instrument *Instrument) Commit(stage *Stage) *Instrument {
 	return instrument
 }
 
-
 func (instrument *Instrument) StageVoid(stage *Stage) {
 	instrument.Stage(stage)
 }
@@ -23582,7 +23477,6 @@ func (instrument_change *Instrument_change) Commit(stage *Stage) *Instrument_cha
 	}
 	return instrument_change
 }
-
 
 func (instrument_change *Instrument_change) StageVoid(stage *Stage) {
 	instrument_change.Stage(stage)
@@ -23668,7 +23562,6 @@ func (instrument_link *Instrument_link) Commit(stage *Stage) *Instrument_link {
 	return instrument_link
 }
 
-
 func (instrument_link *Instrument_link) StageVoid(stage *Stage) {
 	instrument_link.Stage(stage)
 }
@@ -23752,7 +23645,6 @@ func (interchangeable *Interchangeable) Commit(stage *Stage) *Interchangeable {
 	}
 	return interchangeable
 }
-
 
 func (interchangeable *Interchangeable) StageVoid(stage *Stage) {
 	interchangeable.Stage(stage)
@@ -23838,7 +23730,6 @@ func (inversion *Inversion) Commit(stage *Stage) *Inversion {
 	return inversion
 }
 
-
 func (inversion *Inversion) StageVoid(stage *Stage) {
 	inversion.Stage(stage)
 }
@@ -23922,7 +23813,6 @@ func (key *Key) Commit(stage *Stage) *Key {
 	}
 	return key
 }
-
 
 func (key *Key) StageVoid(stage *Stage) {
 	key.Stage(stage)
@@ -24008,7 +23898,6 @@ func (key_accidental *Key_accidental) Commit(stage *Stage) *Key_accidental {
 	return key_accidental
 }
 
-
 func (key_accidental *Key_accidental) StageVoid(stage *Stage) {
 	key_accidental.Stage(stage)
 }
@@ -24092,7 +23981,6 @@ func (key_octave *Key_octave) Commit(stage *Stage) *Key_octave {
 	}
 	return key_octave
 }
-
 
 func (key_octave *Key_octave) StageVoid(stage *Stage) {
 	key_octave.Stage(stage)
@@ -24178,7 +24066,6 @@ func (kind *Kind) Commit(stage *Stage) *Kind {
 	return kind
 }
 
-
 func (kind *Kind) StageVoid(stage *Stage) {
 	kind.Stage(stage)
 }
@@ -24262,7 +24149,6 @@ func (level *Level) Commit(stage *Stage) *Level {
 	}
 	return level
 }
-
 
 func (level *Level) StageVoid(stage *Stage) {
 	level.Stage(stage)
@@ -24348,7 +24234,6 @@ func (line_detail *Line_detail) Commit(stage *Stage) *Line_detail {
 	return line_detail
 }
 
-
 func (line_detail *Line_detail) StageVoid(stage *Stage) {
 	line_detail.Stage(stage)
 }
@@ -24432,7 +24317,6 @@ func (line_width *Line_width) Commit(stage *Stage) *Line_width {
 	}
 	return line_width
 }
-
 
 func (line_width *Line_width) StageVoid(stage *Stage) {
 	line_width.Stage(stage)
@@ -24518,7 +24402,6 @@ func (link *Link) Commit(stage *Stage) *Link {
 	return link
 }
 
-
 func (link *Link) StageVoid(stage *Stage) {
 	link.Stage(stage)
 }
@@ -24602,7 +24485,6 @@ func (listen *Listen) Commit(stage *Stage) *Listen {
 	}
 	return listen
 }
-
 
 func (listen *Listen) StageVoid(stage *Stage) {
 	listen.Stage(stage)
@@ -24688,7 +24570,6 @@ func (listening *Listening) Commit(stage *Stage) *Listening {
 	return listening
 }
 
-
 func (listening *Listening) StageVoid(stage *Stage) {
 	listening.Stage(stage)
 }
@@ -24772,7 +24653,6 @@ func (lyric *Lyric) Commit(stage *Stage) *Lyric {
 	}
 	return lyric
 }
-
 
 func (lyric *Lyric) StageVoid(stage *Stage) {
 	lyric.Stage(stage)
@@ -24858,7 +24738,6 @@ func (lyric_font *Lyric_font) Commit(stage *Stage) *Lyric_font {
 	return lyric_font
 }
 
-
 func (lyric_font *Lyric_font) StageVoid(stage *Stage) {
 	lyric_font.Stage(stage)
 }
@@ -24942,7 +24821,6 @@ func (lyric_language *Lyric_language) Commit(stage *Stage) *Lyric_language {
 	}
 	return lyric_language
 }
-
 
 func (lyric_language *Lyric_language) StageVoid(stage *Stage) {
 	lyric_language.Stage(stage)
@@ -25028,7 +24906,6 @@ func (measure_layout *Measure_layout) Commit(stage *Stage) *Measure_layout {
 	return measure_layout
 }
 
-
 func (measure_layout *Measure_layout) StageVoid(stage *Stage) {
 	measure_layout.Stage(stage)
 }
@@ -25112,7 +24989,6 @@ func (measure_numbering *Measure_numbering) Commit(stage *Stage) *Measure_number
 	}
 	return measure_numbering
 }
-
 
 func (measure_numbering *Measure_numbering) StageVoid(stage *Stage) {
 	measure_numbering.Stage(stage)
@@ -25198,7 +25074,6 @@ func (measure_repeat *Measure_repeat) Commit(stage *Stage) *Measure_repeat {
 	return measure_repeat
 }
 
-
 func (measure_repeat *Measure_repeat) StageVoid(stage *Stage) {
 	measure_repeat.Stage(stage)
 }
@@ -25282,7 +25157,6 @@ func (measure_style *Measure_style) Commit(stage *Stage) *Measure_style {
 	}
 	return measure_style
 }
-
 
 func (measure_style *Measure_style) StageVoid(stage *Stage) {
 	measure_style.Stage(stage)
@@ -25368,7 +25242,6 @@ func (membrane *Membrane) Commit(stage *Stage) *Membrane {
 	return membrane
 }
 
-
 func (membrane *Membrane) StageVoid(stage *Stage) {
 	membrane.Stage(stage)
 }
@@ -25452,7 +25325,6 @@ func (metal *Metal) Commit(stage *Stage) *Metal {
 	}
 	return metal
 }
-
 
 func (metal *Metal) StageVoid(stage *Stage) {
 	metal.Stage(stage)
@@ -25538,7 +25410,6 @@ func (metronome *Metronome) Commit(stage *Stage) *Metronome {
 	return metronome
 }
 
-
 func (metronome *Metronome) StageVoid(stage *Stage) {
 	metronome.Stage(stage)
 }
@@ -25622,7 +25493,6 @@ func (metronome_beam *Metronome_beam) Commit(stage *Stage) *Metronome_beam {
 	}
 	return metronome_beam
 }
-
 
 func (metronome_beam *Metronome_beam) StageVoid(stage *Stage) {
 	metronome_beam.Stage(stage)
@@ -25708,7 +25578,6 @@ func (metronome_note *Metronome_note) Commit(stage *Stage) *Metronome_note {
 	return metronome_note
 }
 
-
 func (metronome_note *Metronome_note) StageVoid(stage *Stage) {
 	metronome_note.Stage(stage)
 }
@@ -25792,7 +25661,6 @@ func (metronome_tied *Metronome_tied) Commit(stage *Stage) *Metronome_tied {
 	}
 	return metronome_tied
 }
-
 
 func (metronome_tied *Metronome_tied) StageVoid(stage *Stage) {
 	metronome_tied.Stage(stage)
@@ -25878,7 +25746,6 @@ func (metronome_tuplet *Metronome_tuplet) Commit(stage *Stage) *Metronome_tuplet
 	return metronome_tuplet
 }
 
-
 func (metronome_tuplet *Metronome_tuplet) StageVoid(stage *Stage) {
 	metronome_tuplet.Stage(stage)
 }
@@ -25962,7 +25829,6 @@ func (midi_device *Midi_device) Commit(stage *Stage) *Midi_device {
 	}
 	return midi_device
 }
-
 
 func (midi_device *Midi_device) StageVoid(stage *Stage) {
 	midi_device.Stage(stage)
@@ -26048,7 +25914,6 @@ func (midi_instrument *Midi_instrument) Commit(stage *Stage) *Midi_instrument {
 	return midi_instrument
 }
 
-
 func (midi_instrument *Midi_instrument) StageVoid(stage *Stage) {
 	midi_instrument.Stage(stage)
 }
@@ -26132,7 +25997,6 @@ func (miscellaneous *Miscellaneous) Commit(stage *Stage) *Miscellaneous {
 	}
 	return miscellaneous
 }
-
 
 func (miscellaneous *Miscellaneous) StageVoid(stage *Stage) {
 	miscellaneous.Stage(stage)
@@ -26218,7 +26082,6 @@ func (miscellaneous_field *Miscellaneous_field) Commit(stage *Stage) *Miscellane
 	return miscellaneous_field
 }
 
-
 func (miscellaneous_field *Miscellaneous_field) StageVoid(stage *Stage) {
 	miscellaneous_field.Stage(stage)
 }
@@ -26302,7 +26165,6 @@ func (mordent *Mordent) Commit(stage *Stage) *Mordent {
 	}
 	return mordent
 }
-
 
 func (mordent *Mordent) StageVoid(stage *Stage) {
 	mordent.Stage(stage)
@@ -26388,7 +26250,6 @@ func (multiple_rest *Multiple_rest) Commit(stage *Stage) *Multiple_rest {
 	return multiple_rest
 }
 
-
 func (multiple_rest *Multiple_rest) StageVoid(stage *Stage) {
 	multiple_rest.Stage(stage)
 }
@@ -26472,7 +26333,6 @@ func (name_display *Name_display) Commit(stage *Stage) *Name_display {
 	}
 	return name_display
 }
-
 
 func (name_display *Name_display) StageVoid(stage *Stage) {
 	name_display.Stage(stage)
@@ -26558,7 +26418,6 @@ func (non_arpeggiate *Non_arpeggiate) Commit(stage *Stage) *Non_arpeggiate {
 	return non_arpeggiate
 }
 
-
 func (non_arpeggiate *Non_arpeggiate) StageVoid(stage *Stage) {
 	non_arpeggiate.Stage(stage)
 }
@@ -26642,7 +26501,6 @@ func (notations *Notations) Commit(stage *Stage) *Notations {
 	}
 	return notations
 }
-
 
 func (notations *Notations) StageVoid(stage *Stage) {
 	notations.Stage(stage)
@@ -26728,7 +26586,6 @@ func (note *Note) Commit(stage *Stage) *Note {
 	return note
 }
 
-
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
 }
@@ -26812,7 +26669,6 @@ func (note_size *Note_size) Commit(stage *Stage) *Note_size {
 	}
 	return note_size
 }
-
 
 func (note_size *Note_size) StageVoid(stage *Stage) {
 	note_size.Stage(stage)
@@ -26898,7 +26754,6 @@ func (note_type *Note_type) Commit(stage *Stage) *Note_type {
 	return note_type
 }
 
-
 func (note_type *Note_type) StageVoid(stage *Stage) {
 	note_type.Stage(stage)
 }
@@ -26982,7 +26837,6 @@ func (notehead *Notehead) Commit(stage *Stage) *Notehead {
 	}
 	return notehead
 }
-
 
 func (notehead *Notehead) StageVoid(stage *Stage) {
 	notehead.Stage(stage)
@@ -27068,7 +26922,6 @@ func (notehead_text *Notehead_text) Commit(stage *Stage) *Notehead_text {
 	return notehead_text
 }
 
-
 func (notehead_text *Notehead_text) StageVoid(stage *Stage) {
 	notehead_text.Stage(stage)
 }
@@ -27152,7 +27005,6 @@ func (numeral *Numeral) Commit(stage *Stage) *Numeral {
 	}
 	return numeral
 }
-
 
 func (numeral *Numeral) StageVoid(stage *Stage) {
 	numeral.Stage(stage)
@@ -27238,7 +27090,6 @@ func (numeral_key *Numeral_key) Commit(stage *Stage) *Numeral_key {
 	return numeral_key
 }
 
-
 func (numeral_key *Numeral_key) StageVoid(stage *Stage) {
 	numeral_key.Stage(stage)
 }
@@ -27322,7 +27173,6 @@ func (numeral_root *Numeral_root) Commit(stage *Stage) *Numeral_root {
 	}
 	return numeral_root
 }
-
 
 func (numeral_root *Numeral_root) StageVoid(stage *Stage) {
 	numeral_root.Stage(stage)
@@ -27408,7 +27258,6 @@ func (octave_shift *Octave_shift) Commit(stage *Stage) *Octave_shift {
 	return octave_shift
 }
 
-
 func (octave_shift *Octave_shift) StageVoid(stage *Stage) {
 	octave_shift.Stage(stage)
 }
@@ -27492,7 +27341,6 @@ func (offset *Offset) Commit(stage *Stage) *Offset {
 	}
 	return offset
 }
-
 
 func (offset *Offset) StageVoid(stage *Stage) {
 	offset.Stage(stage)
@@ -27578,7 +27426,6 @@ func (opus *Opus) Commit(stage *Stage) *Opus {
 	return opus
 }
 
-
 func (opus *Opus) StageVoid(stage *Stage) {
 	opus.Stage(stage)
 }
@@ -27662,7 +27509,6 @@ func (ornaments *Ornaments) Commit(stage *Stage) *Ornaments {
 	}
 	return ornaments
 }
-
 
 func (ornaments *Ornaments) StageVoid(stage *Stage) {
 	ornaments.Stage(stage)
@@ -27748,7 +27594,6 @@ func (other_appearance *Other_appearance) Commit(stage *Stage) *Other_appearance
 	return other_appearance
 }
 
-
 func (other_appearance *Other_appearance) StageVoid(stage *Stage) {
 	other_appearance.Stage(stage)
 }
@@ -27832,7 +27677,6 @@ func (other_direction *Other_direction) Commit(stage *Stage) *Other_direction {
 	}
 	return other_direction
 }
-
 
 func (other_direction *Other_direction) StageVoid(stage *Stage) {
 	other_direction.Stage(stage)
@@ -27918,7 +27762,6 @@ func (other_listening *Other_listening) Commit(stage *Stage) *Other_listening {
 	return other_listening
 }
 
-
 func (other_listening *Other_listening) StageVoid(stage *Stage) {
 	other_listening.Stage(stage)
 }
@@ -28002,7 +27845,6 @@ func (other_notation *Other_notation) Commit(stage *Stage) *Other_notation {
 	}
 	return other_notation
 }
-
 
 func (other_notation *Other_notation) StageVoid(stage *Stage) {
 	other_notation.Stage(stage)
@@ -28088,7 +27930,6 @@ func (other_placement_text *Other_placement_text) Commit(stage *Stage) *Other_pl
 	return other_placement_text
 }
 
-
 func (other_placement_text *Other_placement_text) StageVoid(stage *Stage) {
 	other_placement_text.Stage(stage)
 }
@@ -28172,7 +28013,6 @@ func (other_play *Other_play) Commit(stage *Stage) *Other_play {
 	}
 	return other_play
 }
-
 
 func (other_play *Other_play) StageVoid(stage *Stage) {
 	other_play.Stage(stage)
@@ -28258,7 +28098,6 @@ func (other_text *Other_text) Commit(stage *Stage) *Other_text {
 	return other_text
 }
 
-
 func (other_text *Other_text) StageVoid(stage *Stage) {
 	other_text.Stage(stage)
 }
@@ -28342,7 +28181,6 @@ func (page_layout *Page_layout) Commit(stage *Stage) *Page_layout {
 	}
 	return page_layout
 }
-
 
 func (page_layout *Page_layout) StageVoid(stage *Stage) {
 	page_layout.Stage(stage)
@@ -28428,7 +28266,6 @@ func (page_margins *Page_margins) Commit(stage *Stage) *Page_margins {
 	return page_margins
 }
 
-
 func (page_margins *Page_margins) StageVoid(stage *Stage) {
 	page_margins.Stage(stage)
 }
@@ -28512,7 +28349,6 @@ func (part_clef *Part_clef) Commit(stage *Stage) *Part_clef {
 	}
 	return part_clef
 }
-
 
 func (part_clef *Part_clef) StageVoid(stage *Stage) {
 	part_clef.Stage(stage)
@@ -28598,7 +28434,6 @@ func (part_group *Part_group) Commit(stage *Stage) *Part_group {
 	return part_group
 }
 
-
 func (part_group *Part_group) StageVoid(stage *Stage) {
 	part_group.Stage(stage)
 }
@@ -28682,7 +28517,6 @@ func (part_link *Part_link) Commit(stage *Stage) *Part_link {
 	}
 	return part_link
 }
-
 
 func (part_link *Part_link) StageVoid(stage *Stage) {
 	part_link.Stage(stage)
@@ -28768,7 +28602,6 @@ func (part_list *Part_list) Commit(stage *Stage) *Part_list {
 	return part_list
 }
 
-
 func (part_list *Part_list) StageVoid(stage *Stage) {
 	part_list.Stage(stage)
 }
@@ -28852,7 +28685,6 @@ func (part_name *Part_name) Commit(stage *Stage) *Part_name {
 	}
 	return part_name
 }
-
 
 func (part_name *Part_name) StageVoid(stage *Stage) {
 	part_name.Stage(stage)
@@ -28938,7 +28770,6 @@ func (part_symbol *Part_symbol) Commit(stage *Stage) *Part_symbol {
 	return part_symbol
 }
 
-
 func (part_symbol *Part_symbol) StageVoid(stage *Stage) {
 	part_symbol.Stage(stage)
 }
@@ -29022,7 +28853,6 @@ func (part_transpose *Part_transpose) Commit(stage *Stage) *Part_transpose {
 	}
 	return part_transpose
 }
-
 
 func (part_transpose *Part_transpose) StageVoid(stage *Stage) {
 	part_transpose.Stage(stage)
@@ -29108,7 +28938,6 @@ func (pedal *Pedal) Commit(stage *Stage) *Pedal {
 	return pedal
 }
 
-
 func (pedal *Pedal) StageVoid(stage *Stage) {
 	pedal.Stage(stage)
 }
@@ -29192,7 +29021,6 @@ func (pedal_tuning *Pedal_tuning) Commit(stage *Stage) *Pedal_tuning {
 	}
 	return pedal_tuning
 }
-
 
 func (pedal_tuning *Pedal_tuning) StageVoid(stage *Stage) {
 	pedal_tuning.Stage(stage)
@@ -29278,7 +29106,6 @@ func (per_minute *Per_minute) Commit(stage *Stage) *Per_minute {
 	return per_minute
 }
 
-
 func (per_minute *Per_minute) StageVoid(stage *Stage) {
 	per_minute.Stage(stage)
 }
@@ -29362,7 +29189,6 @@ func (percussion *Percussion) Commit(stage *Stage) *Percussion {
 	}
 	return percussion
 }
-
 
 func (percussion *Percussion) StageVoid(stage *Stage) {
 	percussion.Stage(stage)
@@ -29448,7 +29274,6 @@ func (pitch *Pitch) Commit(stage *Stage) *Pitch {
 	return pitch
 }
 
-
 func (pitch *Pitch) StageVoid(stage *Stage) {
 	pitch.Stage(stage)
 }
@@ -29532,7 +29357,6 @@ func (pitched *Pitched) Commit(stage *Stage) *Pitched {
 	}
 	return pitched
 }
-
 
 func (pitched *Pitched) StageVoid(stage *Stage) {
 	pitched.Stage(stage)
@@ -29618,7 +29442,6 @@ func (placement_text *Placement_text) Commit(stage *Stage) *Placement_text {
 	return placement_text
 }
 
-
 func (placement_text *Placement_text) StageVoid(stage *Stage) {
 	placement_text.Stage(stage)
 }
@@ -29702,7 +29525,6 @@ func (play *Play) Commit(stage *Stage) *Play {
 	}
 	return play
 }
-
 
 func (play *Play) StageVoid(stage *Stage) {
 	play.Stage(stage)
@@ -29788,7 +29610,6 @@ func (player *Player) Commit(stage *Stage) *Player {
 	return player
 }
 
-
 func (player *Player) StageVoid(stage *Stage) {
 	player.Stage(stage)
 }
@@ -29872,7 +29693,6 @@ func (principal_voice *Principal_voice) Commit(stage *Stage) *Principal_voice {
 	}
 	return principal_voice
 }
-
 
 func (principal_voice *Principal_voice) StageVoid(stage *Stage) {
 	principal_voice.Stage(stage)
@@ -29958,7 +29778,6 @@ func (print *Print) Commit(stage *Stage) *Print {
 	return print
 }
 
-
 func (print *Print) StageVoid(stage *Stage) {
 	print.Stage(stage)
 }
@@ -30042,7 +29861,6 @@ func (release *Release) Commit(stage *Stage) *Release {
 	}
 	return release
 }
-
 
 func (release *Release) StageVoid(stage *Stage) {
 	release.Stage(stage)
@@ -30128,7 +29946,6 @@ func (repeat *Repeat) Commit(stage *Stage) *Repeat {
 	return repeat
 }
 
-
 func (repeat *Repeat) StageVoid(stage *Stage) {
 	repeat.Stage(stage)
 }
@@ -30212,7 +30029,6 @@ func (rest *Rest) Commit(stage *Stage) *Rest {
 	}
 	return rest
 }
-
 
 func (rest *Rest) StageVoid(stage *Stage) {
 	rest.Stage(stage)
@@ -30298,7 +30114,6 @@ func (root *Root) Commit(stage *Stage) *Root {
 	return root
 }
 
-
 func (root *Root) StageVoid(stage *Stage) {
 	root.Stage(stage)
 }
@@ -30382,7 +30197,6 @@ func (root_step *Root_step) Commit(stage *Stage) *Root_step {
 	}
 	return root_step
 }
-
 
 func (root_step *Root_step) StageVoid(stage *Stage) {
 	root_step.Stage(stage)
@@ -30468,7 +30282,6 @@ func (scaling *Scaling) Commit(stage *Stage) *Scaling {
 	return scaling
 }
 
-
 func (scaling *Scaling) StageVoid(stage *Stage) {
 	scaling.Stage(stage)
 }
@@ -30552,7 +30365,6 @@ func (scordatura *Scordatura) Commit(stage *Stage) *Scordatura {
 	}
 	return scordatura
 }
-
 
 func (scordatura *Scordatura) StageVoid(stage *Stage) {
 	scordatura.Stage(stage)
@@ -30638,7 +30450,6 @@ func (score_instrument *Score_instrument) Commit(stage *Stage) *Score_instrument
 	return score_instrument
 }
 
-
 func (score_instrument *Score_instrument) StageVoid(stage *Stage) {
 	score_instrument.Stage(stage)
 }
@@ -30722,7 +30533,6 @@ func (score_part *Score_part) Commit(stage *Stage) *Score_part {
 	}
 	return score_part
 }
-
 
 func (score_part *Score_part) StageVoid(stage *Stage) {
 	score_part.Stage(stage)
@@ -30808,7 +30618,6 @@ func (score_partwise *Score_partwise) Commit(stage *Stage) *Score_partwise {
 	return score_partwise
 }
 
-
 func (score_partwise *Score_partwise) StageVoid(stage *Stage) {
 	score_partwise.Stage(stage)
 }
@@ -30892,7 +30701,6 @@ func (score_timewise *Score_timewise) Commit(stage *Stage) *Score_timewise {
 	}
 	return score_timewise
 }
-
 
 func (score_timewise *Score_timewise) StageVoid(stage *Stage) {
 	score_timewise.Stage(stage)
@@ -30978,7 +30786,6 @@ func (segno *Segno) Commit(stage *Stage) *Segno {
 	return segno
 }
 
-
 func (segno *Segno) StageVoid(stage *Stage) {
 	segno.Stage(stage)
 }
@@ -31062,7 +30869,6 @@ func (slash *Slash) Commit(stage *Stage) *Slash {
 	}
 	return slash
 }
-
 
 func (slash *Slash) StageVoid(stage *Stage) {
 	slash.Stage(stage)
@@ -31148,7 +30954,6 @@ func (slide *Slide) Commit(stage *Stage) *Slide {
 	return slide
 }
 
-
 func (slide *Slide) StageVoid(stage *Stage) {
 	slide.Stage(stage)
 }
@@ -31232,7 +31037,6 @@ func (slur *Slur) Commit(stage *Stage) *Slur {
 	}
 	return slur
 }
-
 
 func (slur *Slur) StageVoid(stage *Stage) {
 	slur.Stage(stage)
@@ -31318,7 +31122,6 @@ func (sound *Sound) Commit(stage *Stage) *Sound {
 	return sound
 }
 
-
 func (sound *Sound) StageVoid(stage *Stage) {
 	sound.Stage(stage)
 }
@@ -31402,7 +31205,6 @@ func (staff_details *Staff_details) Commit(stage *Stage) *Staff_details {
 	}
 	return staff_details
 }
-
 
 func (staff_details *Staff_details) StageVoid(stage *Stage) {
 	staff_details.Stage(stage)
@@ -31488,7 +31290,6 @@ func (staff_divide *Staff_divide) Commit(stage *Stage) *Staff_divide {
 	return staff_divide
 }
 
-
 func (staff_divide *Staff_divide) StageVoid(stage *Stage) {
 	staff_divide.Stage(stage)
 }
@@ -31572,7 +31373,6 @@ func (staff_layout *Staff_layout) Commit(stage *Stage) *Staff_layout {
 	}
 	return staff_layout
 }
-
 
 func (staff_layout *Staff_layout) StageVoid(stage *Stage) {
 	staff_layout.Stage(stage)
@@ -31658,7 +31458,6 @@ func (staff_size *Staff_size) Commit(stage *Stage) *Staff_size {
 	return staff_size
 }
 
-
 func (staff_size *Staff_size) StageVoid(stage *Stage) {
 	staff_size.Stage(stage)
 }
@@ -31742,7 +31541,6 @@ func (staff_tuning *Staff_tuning) Commit(stage *Stage) *Staff_tuning {
 	}
 	return staff_tuning
 }
-
 
 func (staff_tuning *Staff_tuning) StageVoid(stage *Stage) {
 	staff_tuning.Stage(stage)
@@ -31828,7 +31626,6 @@ func (stem *Stem) Commit(stage *Stage) *Stem {
 	return stem
 }
 
-
 func (stem *Stem) StageVoid(stage *Stage) {
 	stem.Stage(stage)
 }
@@ -31912,7 +31709,6 @@ func (stick *Stick) Commit(stage *Stage) *Stick {
 	}
 	return stick
 }
-
 
 func (stick *Stick) StageVoid(stage *Stage) {
 	stick.Stage(stage)
@@ -31998,7 +31794,6 @@ func (string_mute *String_mute) Commit(stage *Stage) *String_mute {
 	return string_mute
 }
 
-
 func (string_mute *String_mute) StageVoid(stage *Stage) {
 	string_mute.Stage(stage)
 }
@@ -32082,7 +31877,6 @@ func (string_type *String_type) Commit(stage *Stage) *String_type {
 	}
 	return string_type
 }
-
 
 func (string_type *String_type) StageVoid(stage *Stage) {
 	string_type.Stage(stage)
@@ -32168,7 +31962,6 @@ func (strong_accent *Strong_accent) Commit(stage *Stage) *Strong_accent {
 	return strong_accent
 }
 
-
 func (strong_accent *Strong_accent) StageVoid(stage *Stage) {
 	strong_accent.Stage(stage)
 }
@@ -32252,7 +32045,6 @@ func (style_text *Style_text) Commit(stage *Stage) *Style_text {
 	}
 	return style_text
 }
-
 
 func (style_text *Style_text) StageVoid(stage *Stage) {
 	style_text.Stage(stage)
@@ -32338,7 +32130,6 @@ func (supports *Supports) Commit(stage *Stage) *Supports {
 	return supports
 }
 
-
 func (supports *Supports) StageVoid(stage *Stage) {
 	supports.Stage(stage)
 }
@@ -32422,7 +32213,6 @@ func (swing *Swing) Commit(stage *Stage) *Swing {
 	}
 	return swing
 }
-
 
 func (swing *Swing) StageVoid(stage *Stage) {
 	swing.Stage(stage)
@@ -32508,7 +32298,6 @@ func (sync *Sync) Commit(stage *Stage) *Sync {
 	return sync
 }
 
-
 func (sync *Sync) StageVoid(stage *Stage) {
 	sync.Stage(stage)
 }
@@ -32592,7 +32381,6 @@ func (system_dividers *System_dividers) Commit(stage *Stage) *System_dividers {
 	}
 	return system_dividers
 }
-
 
 func (system_dividers *System_dividers) StageVoid(stage *Stage) {
 	system_dividers.Stage(stage)
@@ -32678,7 +32466,6 @@ func (system_layout *System_layout) Commit(stage *Stage) *System_layout {
 	return system_layout
 }
 
-
 func (system_layout *System_layout) StageVoid(stage *Stage) {
 	system_layout.Stage(stage)
 }
@@ -32762,7 +32549,6 @@ func (system_margins *System_margins) Commit(stage *Stage) *System_margins {
 	}
 	return system_margins
 }
-
 
 func (system_margins *System_margins) StageVoid(stage *Stage) {
 	system_margins.Stage(stage)
@@ -32848,7 +32634,6 @@ func (tap *Tap) Commit(stage *Stage) *Tap {
 	return tap
 }
 
-
 func (tap *Tap) StageVoid(stage *Stage) {
 	tap.Stage(stage)
 }
@@ -32932,7 +32717,6 @@ func (technical *Technical) Commit(stage *Stage) *Technical {
 	}
 	return technical
 }
-
 
 func (technical *Technical) StageVoid(stage *Stage) {
 	technical.Stage(stage)
@@ -33018,7 +32802,6 @@ func (text_element_data *Text_element_data) Commit(stage *Stage) *Text_element_d
 	return text_element_data
 }
 
-
 func (text_element_data *Text_element_data) StageVoid(stage *Stage) {
 	text_element_data.Stage(stage)
 }
@@ -33102,7 +32885,6 @@ func (tie *Tie) Commit(stage *Stage) *Tie {
 	}
 	return tie
 }
-
 
 func (tie *Tie) StageVoid(stage *Stage) {
 	tie.Stage(stage)
@@ -33188,7 +32970,6 @@ func (tied *Tied) Commit(stage *Stage) *Tied {
 	return tied
 }
 
-
 func (tied *Tied) StageVoid(stage *Stage) {
 	tied.Stage(stage)
 }
@@ -33272,7 +33053,6 @@ func (time *Time) Commit(stage *Stage) *Time {
 	}
 	return time
 }
-
 
 func (time *Time) StageVoid(stage *Stage) {
 	time.Stage(stage)
@@ -33358,7 +33138,6 @@ func (time_modification *Time_modification) Commit(stage *Stage) *Time_modificat
 	return time_modification
 }
 
-
 func (time_modification *Time_modification) StageVoid(stage *Stage) {
 	time_modification.Stage(stage)
 }
@@ -33442,7 +33221,6 @@ func (timpani *Timpani) Commit(stage *Stage) *Timpani {
 	}
 	return timpani
 }
-
 
 func (timpani *Timpani) StageVoid(stage *Stage) {
 	timpani.Stage(stage)
@@ -33528,7 +33306,6 @@ func (transpose *Transpose) Commit(stage *Stage) *Transpose {
 	return transpose
 }
 
-
 func (transpose *Transpose) StageVoid(stage *Stage) {
 	transpose.Stage(stage)
 }
@@ -33612,7 +33389,6 @@ func (tremolo *Tremolo) Commit(stage *Stage) *Tremolo {
 	}
 	return tremolo
 }
-
 
 func (tremolo *Tremolo) StageVoid(stage *Stage) {
 	tremolo.Stage(stage)
@@ -33698,7 +33474,6 @@ func (tuplet *Tuplet) Commit(stage *Stage) *Tuplet {
 	return tuplet
 }
 
-
 func (tuplet *Tuplet) StageVoid(stage *Stage) {
 	tuplet.Stage(stage)
 }
@@ -33782,7 +33557,6 @@ func (tuplet_dot *Tuplet_dot) Commit(stage *Stage) *Tuplet_dot {
 	}
 	return tuplet_dot
 }
-
 
 func (tuplet_dot *Tuplet_dot) StageVoid(stage *Stage) {
 	tuplet_dot.Stage(stage)
@@ -33868,7 +33642,6 @@ func (tuplet_number *Tuplet_number) Commit(stage *Stage) *Tuplet_number {
 	return tuplet_number
 }
 
-
 func (tuplet_number *Tuplet_number) StageVoid(stage *Stage) {
 	tuplet_number.Stage(stage)
 }
@@ -33952,7 +33725,6 @@ func (tuplet_portion *Tuplet_portion) Commit(stage *Stage) *Tuplet_portion {
 	}
 	return tuplet_portion
 }
-
 
 func (tuplet_portion *Tuplet_portion) StageVoid(stage *Stage) {
 	tuplet_portion.Stage(stage)
@@ -34038,7 +33810,6 @@ func (tuplet_type *Tuplet_type) Commit(stage *Stage) *Tuplet_type {
 	return tuplet_type
 }
 
-
 func (tuplet_type *Tuplet_type) StageVoid(stage *Stage) {
 	tuplet_type.Stage(stage)
 }
@@ -34122,7 +33893,6 @@ func (typed_text *Typed_text) Commit(stage *Stage) *Typed_text {
 	}
 	return typed_text
 }
-
 
 func (typed_text *Typed_text) StageVoid(stage *Stage) {
 	typed_text.Stage(stage)
@@ -34208,7 +33978,6 @@ func (unpitched *Unpitched) Commit(stage *Stage) *Unpitched {
 	return unpitched
 }
 
-
 func (unpitched *Unpitched) StageVoid(stage *Stage) {
 	unpitched.Stage(stage)
 }
@@ -34292,7 +34061,6 @@ func (virtual_instrument *Virtual_instrument) Commit(stage *Stage) *Virtual_inst
 	}
 	return virtual_instrument
 }
-
 
 func (virtual_instrument *Virtual_instrument) StageVoid(stage *Stage) {
 	virtual_instrument.Stage(stage)
@@ -34378,7 +34146,6 @@ func (wait *Wait) Commit(stage *Stage) *Wait {
 	return wait
 }
 
-
 func (wait *Wait) StageVoid(stage *Stage) {
 	wait.Stage(stage)
 }
@@ -34462,7 +34229,6 @@ func (wavy_line *Wavy_line) Commit(stage *Stage) *Wavy_line {
 	}
 	return wavy_line
 }
-
 
 func (wavy_line *Wavy_line) StageVoid(stage *Stage) {
 	wavy_line.Stage(stage)
@@ -34548,7 +34314,6 @@ func (wedge *Wedge) Commit(stage *Stage) *Wedge {
 	return wedge
 }
 
-
 func (wedge *Wedge) StageVoid(stage *Stage) {
 	wedge.Stage(stage)
 }
@@ -34633,7 +34398,6 @@ func (wood *Wood) Commit(stage *Stage) *Wood {
 	return wood
 }
 
-
 func (wood *Wood) StageVoid(stage *Stage) {
 	wood.Stage(stage)
 }
@@ -34717,7 +34481,6 @@ func (work *Work) Commit(stage *Stage) *Work {
 	}
 	return work
 }
-
 
 func (work *Work) StageVoid(stage *Stage) {
 	work.Stage(stage)
@@ -35911,7 +35674,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

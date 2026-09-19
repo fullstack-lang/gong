@@ -1,6 +1,7 @@
 package models
 
 import (
+	"slices"
 	"strings"
 )
 
@@ -157,12 +158,7 @@ func (gongStruct *GongStruct) Implements(interfaceName string) bool {
 	if gongStruct.ModelPkg != nil {
 		return gongStruct.ModelPkg.Implements(gongStruct.Name, interfaceName)
 	}
-	for _, iface := range gongStruct.ImplementedInterfaces {
-		if iface == interfaceName {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(gongStruct.ImplementedInterfaces, interfaceName)
 }
 
 // HasMethod checks if this GongStruct has a method with the given name (including promoted methods).
@@ -174,8 +170,8 @@ func (gongStruct *GongStruct) HasMethod(methodName string) bool {
 	if mset == nil {
 		return false
 	}
-	for i := 0; i < mset.Len(); i++ {
-		if mset.At(i).Obj().Name() == methodName {
+	for method := range mset.Methods() {
+		if method.Obj().Name() == methodName {
 			return true
 		}
 	}
@@ -191,8 +187,8 @@ func (gongStruct *GongStruct) GetMethodNames() (names []string) {
 	if mset == nil {
 		return nil
 	}
-	for i := 0; i < mset.Len(); i++ {
-		names = append(names, mset.At(i).Obj().Name())
+	for method := range mset.Methods() {
+		names = append(names, method.Obj().Name())
 	}
 	return names
 }

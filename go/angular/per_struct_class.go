@@ -204,7 +204,7 @@ func MultiCodeGeneratorNgClass(modelPkg *models.ModelPkg) {
 		}
 
 		TSinsertions := make(map[NgClassTsInsertionPoint]string)
-		for insertion := NgClassTsInsertionPoint(0); insertion < NgClassTsInsertionsNb; insertion++ {
+		for insertion := range NgClassTsInsertionsNb {
 			TSinsertions[insertion] = ""
 		}
 
@@ -340,7 +340,7 @@ func MultiCodeGeneratorNgClass(modelPkg *models.ModelPkg) {
 		// generate the typescript file
 		codeTS := NgClassTmpl
 
-		for insertion := NgClassTsInsertionPoint(0); insertion < NgClassTsInsertionsNb; insertion++ {
+		for insertion := range NgClassTsInsertionsNb {
 			toReplace := "{{" + string(rune(insertion)) + "}}"
 			codeTS = strings.ReplaceAll(codeTS, toReplace, TSinsertions[insertion])
 		}

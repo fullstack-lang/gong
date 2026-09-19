@@ -25,7 +25,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			log.Fatalln(err)
 		}
 
-		var root interface{}
+		var root any
 		if err := json.Unmarshal(input, &root); err != nil {
 			log.Fatal(err)
 		}
@@ -40,7 +40,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			"production",
 			"budgets"}
 		for i, k := range path {
-			m, ok := v.(map[string]interface{})
+			m, ok := v.(map[string]any)
 			if !ok {
 				log.Fatalf("map not found at %s", strings.Join(path[:i+1], ", "))
 			}
@@ -52,12 +52,12 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 
 		// Set value in the target object.
 		// budgets is a slice and it is the first one
-		slice, ok := v.([]interface{})
+		slice, ok := v.([]any)
 		if !ok {
 			log.Fatalf("not slice found at %s", strings.Join(path, ", "))
 		}
 		v = slice[0]
-		m, ok := v.(map[string]interface{})
+		m, ok := v.(map[string]any)
 		if !ok {
 			log.Fatalf("map not found at %s", strings.Join(path, ", "))
 		}
@@ -71,7 +71,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			"build",
 			"options"}
 		for i, k := range optPath {
-			m, ok := vOpt.(map[string]interface{})
+			m, ok := vOpt.(map[string]any)
 			if !ok {
 				log.Fatalf("map not found at %s", strings.Join(optPath[:i+1], ", "))
 			}
@@ -80,7 +80,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 				log.Fatalf("value not found at %s", strings.Join(optPath[:i+1], ", "))
 			}
 		}
-		if optMap, ok := vOpt.(map[string]interface{}); ok {
+		if optMap, ok := vOpt.(map[string]any); ok {
 			optMap["allowedCommonJsDependencies"] = []string{
 				"automation-events",
 				"standardized-audio-context",

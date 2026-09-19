@@ -380,11 +380,10 @@ func MultiCodeGeneratorNgService(
 			codeTS = NgServiceUpdateOnlyTmpl
 		}
 
-
 		codeTS = strings.ReplaceAll(codeTS, "{{addr}}", apiPath)
 
 		TSinsertions := make(map[NgServiceTsInsertionPoint]string)
-		for insertion := NgServiceTsInsertionPoint(0); insertion < NgServiceTsInsertionsNb; insertion++ {
+		for insertion := range NgServiceTsInsertionsNb {
 			TSinsertions[insertion] = ""
 		}
 
@@ -418,7 +417,7 @@ func MultiCodeGeneratorNgService(
 			}
 		}
 
-		for insertion := NgServiceTsInsertionPoint(0); insertion < NgServiceTsInsertionsNb; insertion++ {
+		for insertion := range NgServiceTsInsertionsNb {
 			toReplace := "{{" + string(rune(insertion)) + "}}"
 			codeTS = strings.ReplaceAll(codeTS, toReplace, TSinsertions[insertion])
 		}

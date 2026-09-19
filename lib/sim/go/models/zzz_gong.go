@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -212,7 +211,6 @@ type Stage struct {
 	OnAfterUpdateStateUpdateCallback GongOnAfterUpdateInterface[UpdateState]
 	OnAfterUpdateStateDeleteCallback GongOnAfterDeleteInterface[UpdateState]
 	OnAfterUpdateStateReadCallback   GongOnAfterReadInterface[UpdateState]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -604,7 +602,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -864,7 +861,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -900,8 +896,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -1069,7 +1063,6 @@ func (command *Command) Commit(stage *Stage) *Command {
 	return command
 }
 
-
 func (command *Command) StageVoid(stage *Stage) {
 	command.Stage(stage)
 }
@@ -1153,7 +1146,6 @@ func (dummyagent *DummyAgent) Commit(stage *Stage) *DummyAgent {
 	}
 	return dummyagent
 }
-
 
 func (dummyagent *DummyAgent) StageVoid(stage *Stage) {
 	dummyagent.Stage(stage)
@@ -1239,7 +1231,6 @@ func (engine *Engine) Commit(stage *Stage) *Engine {
 	return engine
 }
 
-
 func (engine *Engine) StageVoid(stage *Stage) {
 	engine.Stage(stage)
 }
@@ -1323,7 +1314,6 @@ func (event *Event) Commit(stage *Stage) *Event {
 	}
 	return event
 }
-
 
 func (event *Event) StageVoid(stage *Stage) {
 	event.Stage(stage)
@@ -1409,7 +1399,6 @@ func (status *Status) Commit(stage *Stage) *Status {
 	return status
 }
 
-
 func (status *Status) StageVoid(stage *Stage) {
 	status.Stage(stage)
 }
@@ -1494,7 +1483,6 @@ func (updatestate *UpdateState) Commit(stage *Stage) *UpdateState {
 	return updatestate
 }
 
-
 func (updatestate *UpdateState) StageVoid(stage *Stage) {
 	updatestate.Stage(stage)
 }
@@ -1562,7 +1550,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

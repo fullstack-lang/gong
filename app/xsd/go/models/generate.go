@@ -68,11 +68,8 @@ func Generate(stage *Stage, outputFilePath string) {
 				isRootElement := false
 				schemas := stage.GetInstancesSorted[*Schema]()
 				if len(schemas) == 1 {
-					for _, el := range schemas[0].Elements {
-						if el == ct.OuterElement {
-							isRootElement = true
-							break
-						}
+					if slices.Contains(schemas[0].Elements, ct.OuterElement) {
+						isRootElement = true
 					}
 				}
 				if isRootElement {
@@ -270,7 +267,7 @@ func Generate(stage *Stage, outputFilePath string) {
 		templInsertionLevel0[Level0AllGongstructsCode] += pc.code
 	}
 
-	for insertionPerStructId := Level0(0); insertionPerStructId < Level0Nb; insertionPerStructId++ {
+	for insertionPerStructId := range Level0Nb {
 		toReplace := "{{" + string(rune(insertionPerStructId)) + "}}"
 		codeGO = strings.ReplaceAll(codeGO, toReplace, templInsertionLevel0[insertionPerStructId])
 	}

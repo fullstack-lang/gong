@@ -99,7 +99,6 @@ func ({{structname}} *{{Structname}}) GongGetFieldValue(fieldName string, stage 
 }
 `,
 
-
 	ModelGongStructInsertionGenericGetGongstructName: `
 func ({{structname}} *{{Structname}}) GongGetGongstructName() string {
 	return "{{Structname}}"
@@ -199,7 +198,6 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 }
 `,
 
-
 	ModelGongStructInsertionArrayDefintion: `
 	{{Structname}}s                map[*{{Structname}}]struct{}
 	{{Structname}}s_instance       map[*{{Structname}}]*{{Structname}}
@@ -228,7 +226,6 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	stage.{{Structname}}_stagedOrder = make(map[*{{Structname}}]uint)
 	stage.{{Structname}}Order = 0
 `,
-
 
 	ModelGongStructInsertionUnmarshallDeclarations: `
 
@@ -324,7 +321,6 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 			"{{Structname}}": &{{Structname}}Unmarshaller{},
 `,
 
-
 	ModelGongNamedStructSortedOrderInstances: `
 	case *{{Structname}}:
 		tmp := __gong__getStructInstancesByOrder(stage.{{Structname}}s, stage.{{Structname}}_stagedOrder)
@@ -395,7 +391,6 @@ const (
 	GongFileFieldSubTmplStringValueTimeFieldBespokeFormat
 	GongFileFieldSubTmplStringValuePointerField
 	GongFileFieldSubTmplStringValueSliceOfPointersField
-
 
 	GongFileFieldSubTmplAssociationNamePointerField
 	GongFileFieldSubTmplAssociationNameSliceOfPointersField
@@ -566,7 +561,6 @@ map[GongFilePerStructSubTemplateId]string{
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}`,
-
 
 	GongFileFieldSubTmplAssociationNamePointerField: `
 			// field is initialized with an instance of {{AssocStructName}} with the name of the field
@@ -848,7 +842,6 @@ func CodeGeneratorModelGong(
 			fieldHeaders += `
 	}`
 
-
 			generatedCodeFromSubTemplate := models.Replace10(ModelGongStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
@@ -867,7 +860,7 @@ func CodeGeneratorModelGong(
 	}
 
 	// substitutes {{<<insertionPerStructId points>>}} stuff with generated code
-	for insertionPerStructId := ModelGongStructInsertionId(0); insertionPerStructId < ModelGongStructInsertionsNb; insertionPerStructId++ {
+	for insertionPerStructId := range ModelGongStructInsertionsNb {
 		toReplace := "{{" + string(rune(insertionPerStructId)) + "}}"
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
 	}
@@ -879,8 +872,8 @@ func CodeGeneratorModelGong(
 		returnType = "any"
 	}
 	var pkgPathRoot string
-	if idx := strings.Index(modelPkg.PkgPath, "/go/models"); idx != -1 {
-		pkgPathRoot = modelPkg.PkgPath[:idx] + "/go"
+	if before, _, ok := strings.Cut(modelPkg.PkgPath, "/go/models"); ok {
+		pkgPathRoot = before + "/go"
 	} else {
 		pkgPathRoot = strings.ReplaceAll(modelPkg.PkgPath, "/models", "")
 	}

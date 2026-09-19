@@ -365,7 +365,7 @@ func CodeGeneratorModelGongMarshall(
 	}
 
 	// substitutes {{<<insertionPerStructId points>>}} stuff with generated code
-	for insertionPerStructId := ModelGongMarshallStructInsertionId(0); insertionPerStructId < ModelGongMarshallStructInsertionsNb; insertionPerStructId++ {
+	for insertionPerStructId := range ModelGongMarshallStructInsertionsNb {
 		toReplace := "{{" + string(rune(insertionPerStructId)) + "}}"
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
 	}

@@ -182,14 +182,14 @@ func CodeGenerator(
 	code = strings.ReplaceAll(code, "{{PkgGoName}}", mdlPkg.PkgGoName)
 
 	var pkgPathRoot string
-	if idx := strings.Index(pkgGoPath, "/go/models"); idx != -1 {
-		pkgPathRoot = pkgGoPath[:idx] + "/go"
+	if before, _, ok := strings.Cut(pkgGoPath, "/go/models"); ok {
+		pkgPathRoot = before + "/go"
 	} else {
 		pkgPathRoot = strings.ReplaceAll(pkgGoPath, "/models", "")
 	}
 	var pkgPathAboveRoot string
-	if idx := strings.Index(pkgGoPath, "/go/models"); idx != -1 {
-		pkgPathAboveRoot = pkgGoPath[:idx]
+	if before, _, ok := strings.Cut(pkgGoPath, "/go/models"); ok {
+		pkgPathAboveRoot = before
 	} else {
 		pkgPathAboveRoot = strings.ReplaceAll(pkgGoPath, "/go/models", "")
 	}
@@ -293,8 +293,8 @@ func MultiCodeGenerator(
 		code = strings.ReplaceAll(code, "{{PkgGoName}}", mdlPkg.PkgGoName)
 
 		var pkgPathRoot string
-		if idx := strings.Index(pkgGoPath, "/go/models"); idx != -1 {
-			pkgPathRoot = pkgGoPath[:idx] + "/go"
+		if before, _, ok := strings.Cut(pkgGoPath, "/go/models"); ok {
+			pkgPathRoot = before + "/go"
 		} else {
 			pkgPathRoot = strings.ReplaceAll(pkgGoPath, "/models", "")
 		}

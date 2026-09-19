@@ -140,7 +140,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		Name: "Torus Continuous Curve Top",
 	}).Stage(threejsStage)
 
-	for i := 0; i < len(startArcs); i++ {
+	for i := range startArcs {
 		sa := startArcs[i]
 		// Cartesian sweep is the inverse of SVG sweep due to Y-axis mirroring
 		u.appendArcPoints(stager, curve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag, globalR, &floorMinY)
@@ -153,7 +153,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 	}
 
-	for i := 0; i < len(topStartArcs); i++ {
+	for i := range topStartArcs {
 		tsa := topStartArcs[i]
 		u.appendArcPoints(stager, topCurve, tsa.StartX, tsa.StartY, tsa.EndX, tsa.EndY, tsa.RadiusX, !tsa.SweepFlag, tsa.LargeArcFlag, globalR, &floorMinY)
 
@@ -204,7 +204,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		verticalThickness := relativeVerticalThickness * sideLength
 		rotatedSeparation := relativeRotatedTorusSeparation * sideLength
 
-		for h := 0; h < stackHeight; h++ {
+		for h := range stackHeight {
 			dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
 			dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation
 			thetaOffset := dx / globalR
@@ -214,7 +214,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 	}
 
 	if !checkedDiagram.IsHiddenVerticalTorusStackShape {
-		for h := 0; h < stackHeight; h++ {
+		for h := range stackHeight {
 			dx := 0.0
 			dy := float64(h) * relativeCuttedStackFloorHeight * sideLength
 			thetaOffset := 0.0
@@ -262,7 +262,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			}
 		}
 
-		for h := 0; h < stackHeight; h++ {
+		for h := range stackHeight {
 			dx := dxs[h]
 			dy := dys[h]
 			thetaOffset := dx / globalR
@@ -331,7 +331,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			dx_h := dxs3D[h]
 			dy_h := dys3D[h]
 
-			for k := 0; k < threeDModulo; k++ {
+			for k := range threeDModulo {
 				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
 
 				if !checkedDiagram.IsHiddenKey3DShape {

@@ -572,7 +572,6 @@ func (controller *Controller) Update{{Structname}}(w http.ResponseWriter, r *htt
 // insertion points
 type ControllerFileInsertionPoint int
 
-
 const (
 	ControllerFileGetsInsertion ControllerFileInsertionPoint = iota
 	ControllerFilePostInsertion
@@ -798,7 +797,7 @@ func MultiCodeGeneratorControllers(
 		}
 
 		insertions := make(map[ControllerFileInsertionPoint]string)
-		for insertion := ControllerFileInsertionPoint(0); insertion < ControllerFileNbInsertionPoints; insertion++ {
+		for insertion := range ControllerFileNbInsertionPoints {
 			insertions[insertion] = ""
 		}
 
@@ -806,7 +805,6 @@ func MultiCodeGeneratorControllers(
 		if skipNonUpdate {
 			codeGO = controllersUpdateOnlyTmpl
 		}
-
 
 		for _, field := range _struct.Fields {
 			switch field := field.(type) {
@@ -927,7 +925,7 @@ func MultiCodeGeneratorControllers(
 		}
 
 		// substitutes {{<<insertion points>>}} stuff with generated code
-		for insertion := ControllerFileInsertionPoint(0); insertion < ControllerFileNbInsertionPoints; insertion++ {
+		for insertion := range ControllerFileNbInsertionPoints {
 			toReplace := "{{" + string(rune(insertion)) + "}}"
 			codeGO = strings.ReplaceAll(codeGO, toReplace, insertions[insertion])
 		}

@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -434,7 +433,6 @@ type Stage struct {
 	OnAfterVector3UpdateCallback GongOnAfterUpdateInterface[Vector3]
 	OnAfterVector3DeleteCallback GongOnAfterDeleteInterface[Vector3]
 	OnAfterVector3ReadCallback   GongOnAfterReadInterface[Vector3]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -1078,7 +1076,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -1688,7 +1685,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -1752,8 +1748,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -1935,7 +1929,6 @@ func (ambiantlight *AmbiantLight) Commit(stage *Stage) *AmbiantLight {
 	return ambiantlight
 }
 
-
 func (ambiantlight *AmbiantLight) StageVoid(stage *Stage) {
 	ambiantlight.Stage(stage)
 }
@@ -2019,7 +2012,6 @@ func (boxgeometry *BoxGeometry) Commit(stage *Stage) *BoxGeometry {
 	}
 	return boxgeometry
 }
-
 
 func (boxgeometry *BoxGeometry) StageVoid(stage *Stage) {
 	boxgeometry.Stage(stage)
@@ -2105,7 +2097,6 @@ func (buffergeometry *BufferGeometry) Commit(stage *Stage) *BufferGeometry {
 	return buffergeometry
 }
 
-
 func (buffergeometry *BufferGeometry) StageVoid(stage *Stage) {
 	buffergeometry.Stage(stage)
 }
@@ -2189,7 +2180,6 @@ func (camera *Camera) Commit(stage *Stage) *Camera {
 	}
 	return camera
 }
-
 
 func (camera *Camera) StageVoid(stage *Stage) {
 	camera.Stage(stage)
@@ -2275,7 +2265,6 @@ func (canvas *Canvas) Commit(stage *Stage) *Canvas {
 	return canvas
 }
 
-
 func (canvas *Canvas) StageVoid(stage *Stage) {
 	canvas.Stage(stage)
 }
@@ -2359,7 +2348,6 @@ func (curve *Curve) Commit(stage *Stage) *Curve {
 	}
 	return curve
 }
-
 
 func (curve *Curve) StageVoid(stage *Stage) {
 	curve.Stage(stage)
@@ -2445,7 +2433,6 @@ func (cylindergeometry *CylinderGeometry) Commit(stage *Stage) *CylinderGeometry
 	return cylindergeometry
 }
 
-
 func (cylindergeometry *CylinderGeometry) StageVoid(stage *Stage) {
 	cylindergeometry.Stage(stage)
 }
@@ -2529,7 +2516,6 @@ func (directionallight *DirectionalLight) Commit(stage *Stage) *DirectionalLight
 	}
 	return directionallight
 }
-
 
 func (directionallight *DirectionalLight) StageVoid(stage *Stage) {
 	directionallight.Stage(stage)
@@ -2615,7 +2601,6 @@ func (extrudegeometry *ExtrudeGeometry) Commit(stage *Stage) *ExtrudeGeometry {
 	return extrudegeometry
 }
 
-
 func (extrudegeometry *ExtrudeGeometry) StageVoid(stage *Stage) {
 	extrudegeometry.Stage(stage)
 }
@@ -2699,7 +2684,6 @@ func (mesh *Mesh) Commit(stage *Stage) *Mesh {
 	}
 	return mesh
 }
-
 
 func (mesh *Mesh) StageVoid(stage *Stage) {
 	mesh.Stage(stage)
@@ -2785,7 +2769,6 @@ func (meshmaterialbasic *MeshMaterialBasic) Commit(stage *Stage) *MeshMaterialBa
 	return meshmaterialbasic
 }
 
-
 func (meshmaterialbasic *MeshMaterialBasic) StageVoid(stage *Stage) {
 	meshmaterialbasic.Stage(stage)
 }
@@ -2869,7 +2852,6 @@ func (meshphysicalmaterial *MeshPhysicalMaterial) Commit(stage *Stage) *MeshPhys
 	}
 	return meshphysicalmaterial
 }
-
 
 func (meshphysicalmaterial *MeshPhysicalMaterial) StageVoid(stage *Stage) {
 	meshphysicalmaterial.Stage(stage)
@@ -2955,7 +2937,6 @@ func (planegeometry *PlaneGeometry) Commit(stage *Stage) *PlaneGeometry {
 	return planegeometry
 }
 
-
 func (planegeometry *PlaneGeometry) StageVoid(stage *Stage) {
 	planegeometry.Stage(stage)
 }
@@ -3039,7 +3020,6 @@ func (shape *Shape) Commit(stage *Stage) *Shape {
 	}
 	return shape
 }
-
 
 func (shape *Shape) StageVoid(stage *Stage) {
 	shape.Stage(stage)
@@ -3125,7 +3105,6 @@ func (spheregeometry *SphereGeometry) Commit(stage *Stage) *SphereGeometry {
 	return spheregeometry
 }
 
-
 func (spheregeometry *SphereGeometry) StageVoid(stage *Stage) {
 	spheregeometry.Stage(stage)
 }
@@ -3209,7 +3188,6 @@ func (torusgeometry *TorusGeometry) Commit(stage *Stage) *TorusGeometry {
 	}
 	return torusgeometry
 }
-
 
 func (torusgeometry *TorusGeometry) StageVoid(stage *Stage) {
 	torusgeometry.Stage(stage)
@@ -3295,7 +3273,6 @@ func (triangle *Triangle) Commit(stage *Stage) *Triangle {
 	return triangle
 }
 
-
 func (triangle *Triangle) StageVoid(stage *Stage) {
 	triangle.Stage(stage)
 }
@@ -3379,7 +3356,6 @@ func (tubegeometry *TubeGeometry) Commit(stage *Stage) *TubeGeometry {
 	}
 	return tubegeometry
 }
-
 
 func (tubegeometry *TubeGeometry) StageVoid(stage *Stage) {
 	tubegeometry.Stage(stage)
@@ -3465,7 +3441,6 @@ func (vector2 *Vector2) Commit(stage *Stage) *Vector2 {
 	return vector2
 }
 
-
 func (vector2 *Vector2) StageVoid(stage *Stage) {
 	vector2.Stage(stage)
 }
@@ -3549,7 +3524,6 @@ func (vector3 *Vector3) Commit(stage *Stage) *Vector3 {
 	}
 	return vector3
 }
-
 
 func (vector3 *Vector3) StageVoid(stage *Stage) {
 	vector3.Stage(stage)
@@ -3688,7 +3662,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

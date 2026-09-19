@@ -316,7 +316,6 @@ func ({{structname}} *{{Structname}}) GongGetUUID(stage *Stage) (uuid string) {
 		&lenModifiedInstances,
 	)`,
 
-
 	GongSliceGongComputeReferencePass1: `
 	stage.{{Structname}}s_reference = make(map[*{{Structname}}]*{{Structname}})
 	stage.{{Structname}}s_referenceOrder = make(map[*{{Structname}}]uint) // diff Unstage needs the reference order
@@ -510,21 +509,20 @@ func CodeGeneratorModelGongSlice(
 				"{{perFieldCode}}", perFieldCode,
 				"{{sliceOfPointerFieldReverseMapComputationCode}}", sliceOfPointerFieldReverseMapComputationCode)
 
-
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
 		}
 
 	}
 
 	// substitutes {{<<insertionPerStructId points>>}} stuff with generated code
-	for insertionPerStructId := GongSliceGongstructInsertionId(0); insertionPerStructId < GongSliceGongstructInsertionNb; insertionPerStructId++ {
+	for insertionPerStructId := range GongSliceGongstructInsertionNb {
 		toReplace := "{{" + string(rune(insertionPerStructId)) + "}}"
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
 	}
 
 	var pkgPathRoot string
-	if idx := strings.Index(pkgGoPath, "/go/models"); idx != -1 {
-		pkgPathRoot = pkgGoPath[:idx] + "/go"
+	if before, _, ok := strings.Cut(pkgGoPath, "/go/models"); ok {
+		pkgPathRoot = before + "/go"
 	} else {
 		pkgPathRoot = strings.ReplaceAll(pkgGoPath, "/models", "")
 	}

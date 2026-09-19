@@ -1,10 +1,7 @@
 package models
 
+import "slices"
+
 func contains[T comparable](elems []T, v T) bool {
-	for _, s := range elems {
-		if v == s {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(elems, v)
 }

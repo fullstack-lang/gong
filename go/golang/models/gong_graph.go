@@ -95,17 +95,13 @@ func (stage *Stage) Diff(
 		dp[i] = make([]int, n+1)
 	}
 
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
+	for i := range m {
+		for j := range n {
 			if equal(i, j) {
 				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
 				// Take the maximum of previous options
-				if dp[i][j+1] > dp[i+1][j] {
-					dp[i+1][j+1] = dp[i][j+1]
-				} else {
-					dp[i+1][j+1] = dp[i+1][j]
-				}
+				dp[i+1][j+1] = max(dp[i][j+1], dp[i+1][j])
 			}
 		}
 	}
@@ -140,7 +136,7 @@ func (stage *Stage) Diff(
 
 	// Track kept indices in old slice
 	keptOldIndices := make([]int, 0, len(keptIndices))
-	for k := 0; k < m; k++ {
+	for k := range m {
 		if keptIndices[k] {
 			keptOldIndices = append(keptOldIndices, k)
 		}
@@ -149,7 +145,7 @@ func (stage *Stage) Diff(
 	lcsIdx := 0
 	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
 	// If it doesn't match, it must be inserted here.
-	for k := 0; k < n; k++ {
+	for k := range n {
 		if lcsIdx < len(keptOldIndices) && equal(keptOldIndices[lcsIdx], k) {
 			lcsIdx++
 		} else {
@@ -386,7 +382,6 @@ map[GongGraphFilePerStructSubTemplateId]string{
 		diffs = append(diffs, ops)
 	}`,
 
-
 	GongGraphPointerFieldReconstructPointersFromReferences: `
 	if instance.{{FieldName}} != nil {
 		reference.{{FieldName}} = stage.{{AssocStructName}}s_reference[instance.{{FieldName}}]
@@ -587,7 +582,7 @@ func CodeGeneratorModelGongGraph(
 	}
 
 	// substitutes {{<<insertionPerStructId points>>}} stuff with generated code
-	for insertionPerStructId := ModelGongGraphStructInsertionId(0); insertionPerStructId < ModelGongGraphStructInsertionsNb; insertionPerStructId++ {
+	for insertionPerStructId := range ModelGongGraphStructInsertionsNb {
 		toReplace := "{{" + string(rune(insertionPerStructId)) + "}}"
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
 	}

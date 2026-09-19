@@ -33,7 +33,7 @@ func onShowAllInDiagram(stager *Stager, diagram *Diagram) func() {
 		// - Task -> Output (Deliverable)
 		// - Deliverable -> Input (Task)
 		nbNodes := len(deliverables) + len(tasks)
-		for i := 0; i < nbNodes; i++ {
+		for range nbNodes {
 
 			// Deliverable Composition: Parent Rank < Child Rank
 			for _, deliverable := range deliverables {

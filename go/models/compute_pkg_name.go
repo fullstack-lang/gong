@@ -12,9 +12,8 @@ func ComputePkgNameFromPkgPath(pkgPathArg string) (pkgName string) {
 	abs = filepath.ToSlash(abs)
 
 	// If the path is in or under /go/models, the stack directory is before /go/models
-	if idx := strings.Index(abs, "/go/models"); idx != -1 {
-		stackDir := abs[:idx]
-		dirs := strings.Split(stackDir, "/")
+	if before, _, ok := strings.Cut(abs, "/go/models"); ok {
+		dirs := strings.Split(before, "/")
 		pkgName = dirs[len(dirs)-1]
 	} else {
 		absTwoLevelsUp, _ := filepath.Abs(filepath.Join(pkgPathArg, "../.."))

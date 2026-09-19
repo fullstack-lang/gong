@@ -1,6 +1,7 @@
 package models
 
 import (
+	"slices"
 	"testing"
 	"time"
 
@@ -49,13 +50,7 @@ func TestScenarioLibraryTreeAndButtons(t *testing.T) {
 	}
 
 	// Verify Analysis is attached to root library
-	found := false
-	for _, a := range rootLib.Analyses {
-		if a == analysis {
-			found = true
-			break
-		}
-	}
+	found := slices.Contains(rootLib.Analyses, analysis)
 	if !found {
 		t.Fatal("expected analysis to be attached to root library Analyses slice")
 	}
@@ -370,4 +365,3 @@ func TestScenarioButtonClicks(t *testing.T) {
 		t.Fatalf("expected parameters count to increase by 1, got %d", len(scenario.Parameters))
 	}
 }
-

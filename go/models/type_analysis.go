@@ -22,7 +22,7 @@ func findGoMod(startDir string) (goModDir string, modPath string) {
 	if err != nil {
 		return "", ""
 	}
-	for i := 0; i < 15; i++ {
+	for range 15 {
 		goModFile := filepath.Join(curr, "go.mod")
 		if buf, err := os.ReadFile(goModFile); err == nil {
 			if mf, err := modfile.Parse(goModFile, buf, nil); err == nil && mf.Module != nil {
@@ -191,7 +191,7 @@ func RunTypeAnalysis(modelPkg *ModelPkg, astPackage *ast.Package) {
 	stubBuf.WriteString("package " + pkgName + "\n\n")
 	stubBuf.WriteString("type Stage struct{}\n")
 	stubBuf.WriteString("type StageStruct = Stage\n")
-	stubBuf.WriteString("type GongstructIF interface{}\n\n")
+	stubBuf.WriteString("type GongstructIF any\n\n")
 
 	for _, gongStruct := range modelPkg.GongStructs {
 		stubBuf.WriteString(fmt.Sprintf("func (*%s) Stage(...*Stage) *%s { return nil }\n", gongStruct.Name, gongStruct.Name))
@@ -227,7 +227,7 @@ func RunTypeAnalysis(modelPkg *ModelPkg, astPackage *ast.Package) {
 		},
 	}
 
-checkPkgPath := modelPkg.PkgPath
+	checkPkgPath := modelPkg.PkgPath
 	if checkPkgPath == "" {
 		checkPkgPath = pkgName
 	}

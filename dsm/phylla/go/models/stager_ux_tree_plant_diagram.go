@@ -98,7 +98,7 @@ func (stager *Stager) addHideAllButton(categoryNode *tree.Node, hiddenPtrs ...*b
 	categoryNode.Buttons = append(categoryNode.Buttons, btn)
 }
 
-func (stager *Stager) handleDiagramCheck(diagramType interface{}, plant *PlantAbstract, view ViewType) {
+func (stager *Stager) handleDiagramCheck(diagramType any, plant *PlantAbstract, view ViewType) {
 	uncheckAllDiagrams(stager)
 	// Actually we should set the passed diagram to checked, but it's done by the caller
 	for p := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
@@ -708,4 +708,3 @@ func (stager *Stager) treePlant3DDiagram(plant *PlantAbstract, diagram *Plant3DD
 		appendDiagramNode(stager, node, "3D Tiled Floor", diagram.TiledFloor3DShape, &diagram.IsHiddenTiledFloor3DShape)
 	}
 }
-

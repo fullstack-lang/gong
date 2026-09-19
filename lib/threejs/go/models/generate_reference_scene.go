@@ -65,8 +65,8 @@ func GenerateReferenceScene(stage *Stage) {
 	color1 := (&MeshMaterialBasic{Name: "TileColor1", Color: "white"}).Stage(stage)
 	color2 := (&MeshMaterialBasic{Name: "TileColor2", Color: "black"}).Stage(stage)
 
-	for i := 0; i < tilesCount; i++ {
-		for j := 0; j < tilesCount; j++ {
+	for i := range tilesCount {
+		for j := range tilesCount {
 			var mat *MeshMaterialBasic
 			if (i+j)%2 == 0 {
 				mat = color1
@@ -234,7 +234,7 @@ func GenerateReferenceScene(stage *Stage) {
 			Name: "Wavy Torus " + name + " BufferGeometry",
 		}).Stage(stage)
 
-		for i := 0; i < len(edges); i++ {
+		for i := range edges {
 			p1_src := edges[i][0]
 			p2_src := edges[i][1]
 
@@ -389,7 +389,7 @@ func GenerateReferenceScene(stage *Stage) {
 		}
 	}
 
-	for i := 0; i < len(startArcs); i++ {
+	for i := range startArcs {
 		sa := startArcs[i]
 		appendArcPoints(sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.Radius, !sa.SweepFlag, sa.LargeArcFlag)
 
@@ -410,7 +410,7 @@ func GenerateReferenceScene(stage *Stage) {
 		}).Stage(stage)
 
 		// Create vertices and faces
-		for i := 0; i < len(edges); i++ {
+		for i := range edges {
 			p1_src := edges[i][0]
 			p2_src := edges[i][1]
 
@@ -518,7 +518,7 @@ func GenerateReferenceScene(stage *Stage) {
 			Name: "Curve " + name,
 		}).Stage(stage)
 
-		for i := 0; i < len(edges); i++ {
+		for i := range edges {
 			p := edges[i][0]
 			if !useLeft {
 				p = edges[i][1]

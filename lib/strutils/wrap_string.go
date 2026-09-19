@@ -17,9 +17,9 @@ func WrapString(s string, cutoff int) string {
 	b.Grow(len(s)) // Pre-allocate capacity for efficiency
 
 	currentLineLen := 0
-	words := strings.Fields(s) // Split the string into words
+	words := strings.FieldsSeq(s) // Split the string into words
 
-	for _, word := range words {
+	for word := range words {
 		wordLen := utf8.RuneCountInString(word)
 
 		// If this word alone is longer than the cutoff,

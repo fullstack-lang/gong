@@ -42,7 +42,7 @@ func (b *MusicBezierSegment) ComputeYFromX(x float64) float64 {
 	}
 
 	t := 0.5
-	for i := 0; i < maxIterations; i++ {
+	for range maxIterations {
 		xAtT := bezierX(t)
 		xPrimeAtT := bezierXPrime(t)
 		if math.Abs(xPrimeAtT) < 1e-12 {
@@ -183,7 +183,7 @@ func (stager *Stager) ux_svg_music() {
 	// 2. Compute construction circles
 	Z := N + M + 1
 	growingCircles := make([]pt, Z)
-	for k := 0; k < Z; k++ {
+	for k := range Z {
 		gx := float64(k) * nextCircle.x
 		gy := float64(k) * nextCircle.y
 		nbRotations := int(gx / circumferenceLength)

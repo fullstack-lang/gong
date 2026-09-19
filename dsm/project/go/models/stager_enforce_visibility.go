@@ -41,7 +41,7 @@ func collectVisibleElements[T ConcreteType](shapes []T, visibleElements map[Abst
 }
 
 func removeInvisibleShapes[T AssociationConcreteType](stager *Stager, shapes *[]T, visibleElements map[AbstractType]struct{}) (needCommit bool) {
-	for i := len(*shapes) - 1; i >= 0; i-- {
+	for i := range slices.Backward(*shapes) {
 		shape := (*shapes)[i]
 		start := shape.GetAbstractStartElement()
 		end := shape.GetAbstractEndElement()

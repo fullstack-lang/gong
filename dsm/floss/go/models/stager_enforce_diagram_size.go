@@ -1,5 +1,7 @@
 package models
 
+import "slices"
+
 import "math"
 
 func (stager *Stager) enforceDiagramSize() (needCommit bool) {
@@ -8,20 +10,14 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 		owningSystem := diagramEq.GetOwningSystem()
 		if compareAnalysis == nil && owningSystem == nil {
 			for ca := range *stager.stage.GetInstancesSet[*CompareAnalysis]() {
-				for _, d := range ca.DiagramFlossEquations {
-					if d == diagramEq {
-						compareAnalysis = ca
-						break
-					}
+				if slices.Contains(ca.DiagramFlossEquations, diagramEq) {
+					compareAnalysis = ca
 				}
 			}
 			if compareAnalysis == nil {
 				for sys := range *stager.stage.GetInstancesSet[*System]() {
-					for _, d := range sys.DiagramFlossEquations {
-						if d == diagramEq {
-							owningSystem = sys
-							break
-						}
+					if slices.Contains(sys.DiagramFlossEquations, diagramEq) {
+						owningSystem = sys
 					}
 				}
 			}

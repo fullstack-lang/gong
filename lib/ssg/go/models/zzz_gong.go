@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -252,7 +251,6 @@ type Stage struct {
 	OnAfterSvgImageUpdateCallback GongOnAfterUpdateInterface[SvgImage]
 	OnAfterSvgImageDeleteCallback GongOnAfterDeleteInterface[SvgImage]
 	OnAfterSvgImageReadCallback   GongOnAfterReadInterface[SvgImage]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -680,7 +678,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -990,7 +987,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -1030,8 +1026,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -1201,7 +1195,6 @@ func (chapter *Chapter) Commit(stage *Stage) *Chapter {
 	return chapter
 }
 
-
 func (chapter *Chapter) StageVoid(stage *Stage) {
 	chapter.Stage(stage)
 }
@@ -1285,7 +1278,6 @@ func (content *Content) Commit(stage *Stage) *Content {
 	}
 	return content
 }
-
 
 func (content *Content) StageVoid(stage *Stage) {
 	content.Stage(stage)
@@ -1371,7 +1363,6 @@ func (downloadablefile *DownloadableFile) Commit(stage *Stage) *DownloadableFile
 	return downloadablefile
 }
 
-
 func (downloadablefile *DownloadableFile) StageVoid(stage *Stage) {
 	downloadablefile.Stage(stage)
 }
@@ -1455,7 +1446,6 @@ func (jpgimage *JpgImage) Commit(stage *Stage) *JpgImage {
 	}
 	return jpgimage
 }
-
 
 func (jpgimage *JpgImage) StageVoid(stage *Stage) {
 	jpgimage.Stage(stage)
@@ -1541,7 +1531,6 @@ func (page *Page) Commit(stage *Stage) *Page {
 	return page
 }
 
-
 func (page *Page) StageVoid(stage *Stage) {
 	page.Stage(stage)
 }
@@ -1625,7 +1614,6 @@ func (pngimage *PngImage) Commit(stage *Stage) *PngImage {
 	}
 	return pngimage
 }
-
 
 func (pngimage *PngImage) StageVoid(stage *Stage) {
 	pngimage.Stage(stage)
@@ -1711,7 +1699,6 @@ func (section *Section) Commit(stage *Stage) *Section {
 	return section
 }
 
-
 func (section *Section) StageVoid(stage *Stage) {
 	section.Stage(stage)
 }
@@ -1796,7 +1783,6 @@ func (svgimage *SvgImage) Commit(stage *Stage) *SvgImage {
 	return svgimage
 }
 
-
 func (svgimage *SvgImage) StageVoid(stage *Stage) {
 	svgimage.Stage(stage)
 }
@@ -1874,7 +1860,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

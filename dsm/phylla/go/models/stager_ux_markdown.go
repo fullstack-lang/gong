@@ -429,7 +429,7 @@ func stageSvgCylinderToLattice(stage *markdown.Stage) {
 
 	// Draw the 9 rhombuses for i in [-1, N-1] and j in [0, M-1]
 	for i := -1; i < N; i++ {
-		for j := 0; j < M; j++ {
+		for j := range M {
 			x0 := ox + float64(i)*v1x + float64(j)*v2x
 			y0 := oy + float64(i)*v1y + float64(j)*v2y
 			x1 := x0 + v1x
@@ -482,13 +482,13 @@ func stageSvgCylinderToLattice(stage *markdown.Stage) {
 	var nodes []circNode
 	nodes = append(nodes, circNode{currX, currY})
 
-	for k := 0; k < N; k++ {
+	for range N {
 		currX += v1x
 		currY += v1y
 		pathPts = append(pathPts, fmt.Sprintf("%.1f,%.1f", currX, currY))
 		nodes = append(nodes, circNode{currX, currY})
 	}
-	for k := 0; k < M; k++ {
+	for range M {
 		currX += v2x
 		currY += v2y
 		pathPts = append(pathPts, fmt.Sprintf("%.1f,%.1f", currX, currY))

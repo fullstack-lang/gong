@@ -12,7 +12,7 @@ import (
 
 var _ db.DBInterface = (*DBWrapper)(nil)
 
-func NewDBWrapper(filename, table_prefix string, dst ...interface{}) *DBWrapper {
+func NewDBWrapper(filename, table_prefix string, dst ...any) *DBWrapper {
 	dbWrapper := new(DBWrapper)
 
 	// adjust naming strategy to the stack

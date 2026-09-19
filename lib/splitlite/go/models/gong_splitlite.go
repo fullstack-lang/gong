@@ -29,5 +29,4 @@ type GongProbeIF interface {
 
 type ProbeIF = GongProbeIF
 
-type GongNodeIF interface {
-}
+type GongNodeIF any

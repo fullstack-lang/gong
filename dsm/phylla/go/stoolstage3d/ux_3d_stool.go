@@ -89,7 +89,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		var rotSeatBottomPoints []*threejs.Vector3
 		thetaOffset := growthVectorX / globalR
 
-		for k := 0; k < radialRepetitions; k++ {
+		for k := range radialRepetitions {
 			baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 			totalThetaOffset := baseThetaOffset + thetaOffset
 
@@ -118,7 +118,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 				Name: "Stool Seat Bottom Curve",
 			}).Stage(stool3dStage)
 
-			for k := 0; k < radialRepetitions; k++ {
+			for k := range radialRepetitions {
 				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 
 				for _, pt := range resampledBaseCurve.Points {
@@ -139,10 +139,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 				}
 			}
 
-			numSegments := len(seatBottomCurve.Points)
-			if numSegments < 2 {
-				numSegments = 2
-			}
+			numSegments := max(len(seatBottomCurve.Points), 2)
 
 			sbGeom := (&threejs.TubeGeometry{
 				Name:            "Stool Seat Bottom TubeGeom",
@@ -175,10 +172,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 				Points: rotSeatBottomPoints,
 			}).Stage(stool3dStage)
 
-			numSegments := len(rotSeatBottomCurve.Points)
-			if numSegments < 2 {
-				numSegments = 2
-			}
+			numSegments := max(len(rotSeatBottomCurve.Points), 2)
 
 			rotSbGeom := (&threejs.TubeGeometry{
 				Name:            "Stool Rotated Seat Bottom TubeGeom",
@@ -244,10 +238,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			for evalAngle > expectedRad {
 				evalAngle -= expectedRad
 			}
-			idx := int(math.Floor(evalAngle / radInterval))
-			if idx < 0 {
-				idx = 0
-			}
+			idx := max(int(math.Floor(evalAngle/radInterval)), 0)
 			if idx >= len(resampledBaseCurve.Points)-1 {
 				return resampledBaseCurve.Points[len(resampledBaseCurve.Points)-1].Y
 			}
@@ -304,10 +295,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 				cumLen[k] = totalLen
 			}
 
-			n := int(math.Round(totalLen / dStep))
-			if n < 2 {
-				n = 2
-			}
+			n := max(int(math.Round(totalLen/dStep)), 2)
 
 			var result []*threejs.Vector3
 			for j := 1; j < n; j++ {
@@ -357,7 +345,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		// Find eye segment endpoints
 		iStart := -1
 		iEnd := -1
-		for i := 0; i < numPts; i++ {
+		for i := range numPts {
 			if inEye[i] {
 				if iStart == -1 {
 					iStart = i
@@ -400,10 +388,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			// Right corner (connects Bottom -> Top at iEnd)
 			{
 				i0 := iEnd
-				i1 := iEnd - 1
-				if i1 < 0 {
-					i1 = 0
-				}
+				i1 := max(iEnd-1, 0)
 
 				pBottom0 := point2D{U: targetAngles[i0] * globalR, Y: yBaseList[i0]}
 				pBottom1 := point2D{U: targetAngles[i1] * globalR, Y: yBaseList[i1]}
@@ -503,10 +488,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					Points: eye3DPoints,
 				}).Stage(stool3dStage)
 
-				numSegments := len(eyeLoopCurve.Points)
-				if numSegments < 2 {
-					numSegments = 2
-				}
+				numSegments := max(len(eyeLoopCurve.Points), 2)
 
 				eyeGeom := (&threejs.TubeGeometry{
 					Name:            "Stool Eye TubeGeom",
@@ -567,12 +549,9 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		// 17. Seat Bottom Eye 2D Projected Curve on horizontal seat bottom plane
 		if checkedDiagram != nil && !checkedDiagram.IsHiddenEyeSeatBottomCurveShape {
 			if len(projSeatBottomEyePoints) > 0 {
-				numSegments := len(projSeatBottomEyePoints)
-				if numSegments < 2 {
-					numSegments = 2
-				}
+				numSegments := max(len(projSeatBottomEyePoints), 2)
 
-				for k := 0; k < radialRepetitions; k++ {
+				for k := range radialRepetitions {
 					rotAngle := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 					cosRot := math.Cos(rotAngle)
 					sinRot := math.Sin(rotAngle)
@@ -621,12 +600,9 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		// 18. Stool Bottom Eye 2D Projected Curve on horizontal stool bottom / floor plane (Y = 0)
 		if checkedDiagram != nil && !checkedDiagram.IsHiddenEyeStoolBottomCurveShape {
 			if len(projStoolBottomEyePoints) > 0 {
-				numSegments := len(projStoolBottomEyePoints)
-				if numSegments < 2 {
-					numSegments = 2
-				}
+				numSegments := max(len(projStoolBottomEyePoints), 2)
 
-				for k := 0; k < radialRepetitions; k++ {
+				for k := range radialRepetitions {
 					rotAngle := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 					cosRot := math.Cos(rotAngle)
 					sinRot := math.Sin(rotAngle)
@@ -677,7 +653,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			if len(projSeatBottomEyePoints) >= 3 && len(projSeatBottomEyePoints) == len(projStoolBottomEyePoints) {
 				M := len(projSeatBottomEyePoints)
 
-				for k := 0; k < radialRepetitions; k++ {
+				for k := range radialRepetitions {
 					rotAngle := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 					cosRot := math.Cos(rotAngle)
 					sinRot := math.Sin(rotAngle)
@@ -687,7 +663,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					}).Stage(stool3dStage)
 
 					var sumTopX, sumTopZ, sumBottomX, sumBottomZ float64
-					for i := 0; i < M; i++ {
+					for i := range M {
 						origTop := projSeatBottomEyePoints[i]
 						rx := origTop.X*cosRot - origTop.Z*sinRot
 						rz := origTop.X*sinRot + origTop.Z*cosRot
@@ -702,7 +678,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 						sumTopZ += topV.Z
 					}
 
-					for i := 0; i < M; i++ {
+					for i := range M {
 						origBot := projStoolBottomEyePoints[i]
 						rx := origBot.X*cosRot - origBot.Z*sinRot
 						rz := origBot.X*sinRot + origBot.Z*cosRot
@@ -736,7 +712,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					eyeVolGeom.Vertices = append(eyeVolGeom.Vertices, botCenterV)
 
 					// 1. Top face (facing +Y): (topCenter, nextI, i)
-					for i := 0; i < M; i++ {
+					for i := range M {
 						nextI := (i + 1) % M
 						eyeVolGeom.Faces = append(eyeVolGeom.Faces, (&threejs.Triangle{
 							Name: fmt.Sprintf("Eye Top Face k%d %d", k, i),
@@ -747,7 +723,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					}
 
 					// 2. Bottom face (facing -Y): (botCenter, botI, botNextI)
-					for i := 0; i < M; i++ {
+					for i := range M {
 						nextI := (i + 1) % M
 						botI := M + i
 						botNextI := M + nextI
@@ -760,7 +736,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					}
 
 					// 3. Side wall quads between Top and Bottom:
-					for i := 0; i < M; i++ {
+					for i := range M {
 						nextI := (i + 1) % M
 						topI := i
 						topNextI := nextI

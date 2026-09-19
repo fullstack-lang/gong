@@ -1,5 +1,7 @@
 package models
 
+import "slices"
+
 import "log"
 
 func (stager *Stager) assignProbeCallback() bool {
@@ -42,13 +44,7 @@ func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
 					if dataShape.Data != nil {
 						existingDataShapes[dataShape.Data] = dataShape
 
-						stillExists := false
-						for _, d := range dataFlow.Datas {
-							if d == dataShape.Data {
-								stillExists = true
-								break
-							}
-						}
+						stillExists := slices.Contains(dataFlow.Datas, dataShape.Data)
 						if stillExists {
 							validDataShapes = append(validDataShapes, dataShape)
 						} else {

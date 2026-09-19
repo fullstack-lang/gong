@@ -56,7 +56,7 @@ func enforcePartiallyGrowthCurve2DRibbonHasShapes(
 	var expectedStart []expectedStartShape
 	var expectedEnd []expectedStartShape
 
-	for i := 0; i < expectedLen; i++ {
+	for i := range expectedLen {
 		b := baseRibbonStack.StackGrowthCurve2DRibbonStartShapes[i]
 		expectedStart = append(expectedStart, expectedStartShape{
 			name:         fmt.Sprintf("%s-start-%d", ribbon.Name, i),
@@ -276,7 +276,7 @@ func enforceShiftedLeftPartiallyGrowthCurve2DRibbonHasShapes(
 	var expectedStart []expectedStartShape
 	var expectedEnd []expectedStartShape
 
-	for i := 0; i < expectedLen; i++ {
+	for i := range expectedLen {
 		b := baseRibbonStack.StackGrowthCurve2DRibbonStartShapes[i]
 		expectedStart = append(expectedStart, expectedStartShape{
 			name:         fmt.Sprintf("%s-start-%d", ribbon.Name, i),

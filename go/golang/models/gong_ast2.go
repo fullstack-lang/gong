@@ -113,8 +113,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 	var fileModuleVersion string
 	for _, commentGroup := range inFile.Comments {
 		for _, comment := range commentGroup.List {
-			if strings.HasPrefix(comment.Text, "// go module version: ") {
-				fileModuleVersion = strings.TrimPrefix(comment.Text, "// go module version: ")
+			if after, ok := strings.CutPrefix(comment.Text, "// go module version: "); ok {
+				fileModuleVersion = after
 			}
 		}
 	}
@@ -679,7 +679,7 @@ func GongAst2(modelPkg *models.ModelPkg, pkgPath string) {
 	}
 
 	// substitutes {{<<insertionPerStructId points>>}} stuff with generated code
-	for insertionPerStructId := GongAst2GongstructInsertionId(0); insertionPerStructId < GongAst2GongstructInsertionNb; insertionPerStructId++ {
+	for insertionPerStructId := range GongAst2GongstructInsertionNb {
 		toReplace := "{{" + string(rune(insertionPerStructId)) + "}}"
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
 	}

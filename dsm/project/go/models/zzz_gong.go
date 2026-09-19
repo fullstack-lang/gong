@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -536,7 +535,6 @@ type Stage struct {
 	OnAfterTaskShapeUpdateCallback GongOnAfterUpdateInterface[TaskShape]
 	OnAfterTaskShapeDeleteCallback GongOnAfterDeleteInterface[TaskShape]
 	OnAfterTaskShapeReadCallback   GongOnAfterReadInterface[TaskShape]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -1216,7 +1214,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -1876,7 +1873,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -1944,8 +1940,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -2129,7 +2123,6 @@ func (diagram *Diagram) Commit(stage *Stage) *Diagram {
 	return diagram
 }
 
-
 func (diagram *Diagram) StageVoid(stage *Stage) {
 	diagram.Stage(stage)
 }
@@ -2213,7 +2206,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	}
 	return library
 }
-
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
@@ -2299,7 +2291,6 @@ func (note *Note) Commit(stage *Stage) *Note {
 	return note
 }
 
-
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
 }
@@ -2383,7 +2374,6 @@ func (noteproductshape *NoteProductShape) Commit(stage *Stage) *NoteProductShape
 	}
 	return noteproductshape
 }
-
 
 func (noteproductshape *NoteProductShape) StageVoid(stage *Stage) {
 	noteproductshape.Stage(stage)
@@ -2469,7 +2459,6 @@ func (noteresourceshape *NoteResourceShape) Commit(stage *Stage) *NoteResourceSh
 	return noteresourceshape
 }
 
-
 func (noteresourceshape *NoteResourceShape) StageVoid(stage *Stage) {
 	noteresourceshape.Stage(stage)
 }
@@ -2553,7 +2542,6 @@ func (noteshape *NoteShape) Commit(stage *Stage) *NoteShape {
 	}
 	return noteshape
 }
-
 
 func (noteshape *NoteShape) StageVoid(stage *Stage) {
 	noteshape.Stage(stage)
@@ -2639,7 +2627,6 @@ func (notetaskshape *NoteTaskShape) Commit(stage *Stage) *NoteTaskShape {
 	return notetaskshape
 }
 
-
 func (notetaskshape *NoteTaskShape) StageVoid(stage *Stage) {
 	notetaskshape.Stage(stage)
 }
@@ -2723,7 +2710,6 @@ func (product *Product) Commit(stage *Stage) *Product {
 	}
 	return product
 }
-
 
 func (product *Product) StageVoid(stage *Stage) {
 	product.Stage(stage)
@@ -2809,7 +2795,6 @@ func (productcompositionshape *ProductCompositionShape) Commit(stage *Stage) *Pr
 	return productcompositionshape
 }
 
-
 func (productcompositionshape *ProductCompositionShape) StageVoid(stage *Stage) {
 	productcompositionshape.Stage(stage)
 }
@@ -2893,7 +2878,6 @@ func (productshape *ProductShape) Commit(stage *Stage) *ProductShape {
 	}
 	return productshape
 }
-
 
 func (productshape *ProductShape) StageVoid(stage *Stage) {
 	productshape.Stage(stage)
@@ -2979,7 +2963,6 @@ func (resource *Resource) Commit(stage *Stage) *Resource {
 	return resource
 }
 
-
 func (resource *Resource) StageVoid(stage *Stage) {
 	resource.Stage(stage)
 }
@@ -3063,7 +3046,6 @@ func (resourcecompositionshape *ResourceCompositionShape) Commit(stage *Stage) *
 	}
 	return resourcecompositionshape
 }
-
 
 func (resourcecompositionshape *ResourceCompositionShape) StageVoid(stage *Stage) {
 	resourcecompositionshape.Stage(stage)
@@ -3149,7 +3131,6 @@ func (resourceshape *ResourceShape) Commit(stage *Stage) *ResourceShape {
 	return resourceshape
 }
 
-
 func (resourceshape *ResourceShape) StageVoid(stage *Stage) {
 	resourceshape.Stage(stage)
 }
@@ -3233,7 +3214,6 @@ func (resourcetaskshape *ResourceTaskShape) Commit(stage *Stage) *ResourceTaskSh
 	}
 	return resourcetaskshape
 }
-
 
 func (resourcetaskshape *ResourceTaskShape) StageVoid(stage *Stage) {
 	resourcetaskshape.Stage(stage)
@@ -3319,7 +3299,6 @@ func (task *Task) Commit(stage *Stage) *Task {
 	return task
 }
 
-
 func (task *Task) StageVoid(stage *Stage) {
 	task.Stage(stage)
 }
@@ -3403,7 +3382,6 @@ func (taskcompositionshape *TaskCompositionShape) Commit(stage *Stage) *TaskComp
 	}
 	return taskcompositionshape
 }
-
 
 func (taskcompositionshape *TaskCompositionShape) StageVoid(stage *Stage) {
 	taskcompositionshape.Stage(stage)
@@ -3489,7 +3467,6 @@ func (taskgroup *TaskGroup) Commit(stage *Stage) *TaskGroup {
 	return taskgroup
 }
 
-
 func (taskgroup *TaskGroup) StageVoid(stage *Stage) {
 	taskgroup.Stage(stage)
 }
@@ -3573,7 +3550,6 @@ func (taskgroupshape *TaskGroupShape) Commit(stage *Stage) *TaskGroupShape {
 	}
 	return taskgroupshape
 }
-
 
 func (taskgroupshape *TaskGroupShape) StageVoid(stage *Stage) {
 	taskgroupshape.Stage(stage)
@@ -3659,7 +3635,6 @@ func (taskinputshape *TaskInputShape) Commit(stage *Stage) *TaskInputShape {
 	return taskinputshape
 }
 
-
 func (taskinputshape *TaskInputShape) StageVoid(stage *Stage) {
 	taskinputshape.Stage(stage)
 }
@@ -3743,7 +3718,6 @@ func (taskoutputshape *TaskOutputShape) Commit(stage *Stage) *TaskOutputShape {
 	}
 	return taskoutputshape
 }
-
 
 func (taskoutputshape *TaskOutputShape) StageVoid(stage *Stage) {
 	taskoutputshape.Stage(stage)
@@ -3829,7 +3803,6 @@ func (taskpredecessorshape *TaskPredecessorShape) Commit(stage *Stage) *TaskPred
 	return taskpredecessorshape
 }
 
-
 func (taskpredecessorshape *TaskPredecessorShape) StageVoid(stage *Stage) {
 	taskpredecessorshape.Stage(stage)
 }
@@ -3913,7 +3886,6 @@ func (taskshape *TaskShape) Commit(stage *Stage) *TaskShape {
 	}
 	return taskshape
 }
-
 
 func (taskshape *TaskShape) StageVoid(stage *Stage) {
 	taskshape.Stage(stage)
@@ -4062,7 +4034,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

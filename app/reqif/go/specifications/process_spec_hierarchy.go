@@ -78,8 +78,8 @@ func processSpecHierarchy(
 	}
 
 	// remove "****" if no title is present
-	if strings.HasSuffix(*markDownContent, markdownBoldStartingMark+markdownBoldEndingMark) {
-		*markDownContent = strings.TrimSuffix(*markDownContent, markdownBoldStartingMark+markdownBoldEndingMark)
+	if before, ok0 := strings.CutSuffix(*markDownContent, markdownBoldStartingMark+markdownBoldEndingMark); ok0 {
+		*markDownContent = before
 	}
 
 	// add the subject after the title

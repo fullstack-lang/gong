@@ -99,7 +99,7 @@ func enforceBaseVectorShapeGridHasShapes(stage *Stage, grid *BaseVectorShapeGrid
 	if len(grid.BaseVectorShapes) != expectedLen {
 		valid = false
 	} else {
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 			base := grid.BaseVectorShapes[i]
@@ -129,7 +129,7 @@ func enforceBaseVectorShapeGridHasShapes(stage *Stage, grid *BaseVectorShapeGrid
 			}
 		}
 		grid.BaseVectorShapes = make([]*BaseVectorShape, expectedLen)
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
@@ -166,7 +166,7 @@ func enforceArcNormalVectorShapeGridHasShapes(stage *Stage, grid *ArcNormalVecto
 	if len(grid.ArcNormalVectorShapes) != expectedLen {
 		valid = false
 	} else {
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 			arcNorm := grid.ArcNormalVectorShapes[i]
@@ -253,7 +253,7 @@ func enforceArcNormalVectorShapeGridHasShapes(stage *Stage, grid *ArcNormalVecto
 			}
 		}
 		grid.ArcNormalVectorShapes = make([]*ArcNormalVectorShape, expectedLen)
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
@@ -347,7 +347,7 @@ func enforcePerpendicularVectorGridHalfwayHasVectors(stage *Stage, grid *Perpend
 	if len(grid.PerpendicularVectorHalfways) != expectedLen {
 		valid = false
 	} else {
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := sourceGrid.PerpendicularVectors[i]
 			v2 := sourceGrid.PerpendicularVectors[i+1]
 			vHalfway := grid.PerpendicularVectorHalfways[i]
@@ -381,7 +381,7 @@ func enforcePerpendicularVectorGridHalfwayHasVectors(stage *Stage, grid *Perpend
 			}
 		}
 		grid.PerpendicularVectorHalfways = make([]*PerpendicularVectorHalfway, expectedLen)
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			v1 := sourceGrid.PerpendicularVectors[i]
 			v2 := sourceGrid.PerpendicularVectors[i+1]
 
@@ -434,11 +434,11 @@ func enforceShiftedLeftStackOfNormalVectorHasShapes(stage *Stage, stack *Shifted
 	}
 	vx, vy = vx/vLen, vy/vLen
 
-	for h := 0; h < stackHeight; h++ {
+	for h := range stackHeight {
 		dx := float64(h)*vector.X + float64(h)*thickness*vx
 		dy := float64(h)*vector.Y + float64(h)*thickness*vy
 
-		for i := 0; i < expectedLen; i++ {
+		for i := range expectedLen {
 			vec := nGrid.ArcNormalVectorShapes[i]
 
 			currentDX := math.Mod(dx, circLen)

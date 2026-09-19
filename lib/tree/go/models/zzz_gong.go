@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -205,7 +204,6 @@ type Stage struct {
 	OnAfterTreeUpdateCallback GongOnAfterUpdateInterface[Tree]
 	OnAfterTreeDeleteCallback GongOnAfterDeleteInterface[Tree]
 	OnAfterTreeReadCallback   GongOnAfterReadInterface[Tree]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -579,7 +577,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -814,7 +811,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -848,8 +844,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -1016,7 +1010,6 @@ func (button *Button) Commit(stage *Stage) *Button {
 	return button
 }
 
-
 func (button *Button) StageVoid(stage *Stage) {
 	button.Stage(stage)
 }
@@ -1100,7 +1093,6 @@ func (menu *Menu) Commit(stage *Stage) *Menu {
 	}
 	return menu
 }
-
 
 func (menu *Menu) StageVoid(stage *Stage) {
 	menu.Stage(stage)
@@ -1186,7 +1178,6 @@ func (node *Node) Commit(stage *Stage) *Node {
 	return node
 }
 
-
 func (node *Node) StageVoid(stage *Stage) {
 	node.Stage(stage)
 }
@@ -1270,7 +1261,6 @@ func (svgicon *SVGIcon) Commit(stage *Stage) *SVGIcon {
 	}
 	return svgicon
 }
-
 
 func (svgicon *SVGIcon) StageVoid(stage *Stage) {
 	svgicon.Stage(stage)
@@ -1356,7 +1346,6 @@ func (tree *Tree) Commit(stage *Stage) *Tree {
 	return tree
 }
 
-
 func (tree *Tree) StageVoid(stage *Stage) {
 	tree.Stage(stage)
 }
@@ -1419,7 +1408,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration

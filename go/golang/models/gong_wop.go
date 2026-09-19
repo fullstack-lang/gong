@@ -196,7 +196,7 @@ func CodeGeneratorModelGongWop(
 	}
 
 	// substitutes {{<<insertionPerStructId points>>}} stuff with generated code
-	for insertionPerStructId := ModelGongWopStructInsertionId(0); insertionPerStructId < ModelGongWopStructInsertionsNb; insertionPerStructId++ {
+	for insertionPerStructId := range ModelGongWopStructInsertionsNb {
 		toReplace := "{{" + string(rune(insertionPerStructId)) + "}}"
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
 	}

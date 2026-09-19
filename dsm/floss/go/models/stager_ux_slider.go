@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"math"
+	"slices"
 
 	m "github.com/fullstack-lang/gong/lib/slider/go/models"
 )
@@ -44,20 +45,14 @@ func (stager *Stager) ux_slider() {
 			activeSystem = d.GetOwningSystem()
 			if activeCompareAnalysis == nil && activeSystem == nil {
 				for ca := range *stager.stage.GetInstancesSet[*CompareAnalysis]() {
-					for _, eqD := range ca.DiagramFlossEquations {
-						if eqD == d {
-							activeCompareAnalysis = ca
-							break
-						}
+					if slices.Contains(ca.DiagramFlossEquations, d) {
+						activeCompareAnalysis = ca
 					}
 				}
 				if activeCompareAnalysis == nil {
 					for sys := range *stager.stage.GetInstancesSet[*System]() {
-						for _, eqD := range sys.DiagramFlossEquations {
-							if eqD == d {
-								activeSystem = sys
-								break
-							}
+						if slices.Contains(sys.DiagramFlossEquations, d) {
+							activeSystem = sys
 						}
 					}
 				}

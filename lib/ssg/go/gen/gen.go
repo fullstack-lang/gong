@@ -28,20 +28,20 @@ import (
 // --- Structs (Page, SiteInfo) - Unchanged ---
 // Page holds information about a single content file
 type Page struct {
-	SourcePath    string                 // Original path in content/
-	OutputPath    string                 // Target path in the specified output directory
-	URL           string                 // Absolute URL path (e.g., "/chapter1/page1/") used for internal logic
-	RelativeURL   string                 // Path relative to output root (e.g., "chapter1/page1/index.html") used by templates
-	RelPathToRoot string                 // Path from page to root (e.g., "../../" or "/") used by templates
-	Title         string                 // Page title from front matter
-	Weight        int                    // Weight for ordering from front matter
-	ContentHTML   template.HTML          // Processed HTML content from Markdown
-	IsHome        bool                   // Is this the root _index.md?
-	IsSection     bool                   // Is this an _index.md file (a section index)?
-	FrontMatter   map[string]interface{} // Store all front matter
-	Pages         []*Page                // Child pages (for sections), sorted by weight
-	Section       *Page                  // Parent section page (nil for top-level sections/home)
-	Site          *SiteInfo              // Link back to global site info
+	SourcePath    string         // Original path in content/
+	OutputPath    string         // Target path in the specified output directory
+	URL           string         // Absolute URL path (e.g., "/chapter1/page1/") used for internal logic
+	RelativeURL   string         // Path relative to output root (e.g., "chapter1/page1/index.html") used by templates
+	RelPathToRoot string         // Path from page to root (e.g., "../../" or "/") used by templates
+	Title         string         // Page title from front matter
+	Weight        int            // Weight for ordering from front matter
+	ContentHTML   template.HTML  // Processed HTML content from Markdown
+	IsHome        bool           // Is this the root _index.md?
+	IsSection     bool           // Is this an _index.md file (a section index)?
+	FrontMatter   map[string]any // Store all front matter
+	Pages         []*Page        // Child pages (for sections), sorted by weight
+	Section       *Page          // Parent section page (nil for top-level sections/home)
+	Site          *SiteInfo      // Link back to global site info
 }
 
 // SiteInfo holds global information about the site
@@ -135,7 +135,7 @@ func ParseContent(fileSystem fs.FS, site *SiteInfo, buildTarget string, outputDi
 		}
 
 		metaData := meta.Get(context)
-		pageMeta := make(map[string]interface{})
+		pageMeta := make(map[string]any)
 		if metaData != nil {
 			pageMeta = metaData
 		} else {
@@ -339,7 +339,7 @@ func RenderPages(site *SiteInfo, outputDir string, buildTarget string, inMemory 
 		}
 
 		// Define the data to pass to the template
-		templateData := map[string]interface{}{
+		templateData := map[string]any{
 			"Page":        page,
 			"Site":        site,
 			"BuildTarget": buildTarget, // Pass buildTarget to template data
@@ -602,7 +602,7 @@ func ServeSite(outputDir string, serverPort string) {
 }
 
 // --- Helper functions (getString, getInt) - Unchanged ---
-func getString(m map[string]interface{}, key string, defaultValue string) string {
+func getString(m map[string]any, key string, defaultValue string) string {
 	if val, ok := m[key]; ok {
 		if strVal, ok := val.(string); ok {
 			return strVal
@@ -611,7 +611,7 @@ func getString(m map[string]interface{}, key string, defaultValue string) string
 	return defaultValue
 }
 
-func getInt(m map[string]interface{}, key string, defaultValue int) int {
+func getInt(m map[string]any, key string, defaultValue int) int {
 	if val, ok := m[key]; ok {
 		switch v := val.(type) {
 		case int:

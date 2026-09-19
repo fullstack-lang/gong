@@ -200,14 +200,14 @@ func CodeGeneratorModelGongClean(
 	}
 
 	// substitutes {{<<insertionPerStructId points>>}} stuff with generated code
-	for insertionPerStructId := GongCleanGongstructInsertionId(0); insertionPerStructId < GongCleanGongstructInsertionNb; insertionPerStructId++ {
+	for insertionPerStructId := range GongCleanGongstructInsertionNb {
 		toReplace := "{{" + string(rune(insertionPerStructId)) + "}}"
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
 	}
 
 	var pkgPathRoot string
-	if idx := strings.Index(pkgGoPath, "/go/models"); idx != -1 {
-		pkgPathRoot = pkgGoPath[:idx] + "/go"
+	if before, _, ok := strings.Cut(pkgGoPath, "/go/models"); ok {
+		pkgPathRoot = before + "/go"
 	} else {
 		pkgPathRoot = strings.ReplaceAll(pkgGoPath, "/models", "")
 	}

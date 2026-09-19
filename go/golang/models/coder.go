@@ -272,7 +272,7 @@ func CodeGeneratorModelGongCoder(
 		}
 	}
 
-	for insertionPerStructId := ModelGongCoderStructInsertionId(0); insertionPerStructId < ModelGongCoderStructInsertionsNb; insertionPerStructId++ {
+	for insertionPerStructId := range ModelGongCoderStructInsertionsNb {
 		toReplace := "{{" + string(rune(insertionPerStructId)) + "}}"
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
 	}

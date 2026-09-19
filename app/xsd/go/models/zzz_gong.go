@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -600,7 +599,6 @@ type Stage struct {
 	OnAfterWhiteSpaceUpdateCallback GongOnAfterUpdateInterface[WhiteSpace]
 	OnAfterWhiteSpaceDeleteCallback GongOnAfterDeleteInterface[WhiteSpace]
 	OnAfterWhiteSpaceReadCallback   GongOnAfterReadInterface[WhiteSpace]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -1351,7 +1349,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 
 	return stage.probeIF
 }
-
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -2112,7 +2109,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -2188,8 +2184,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -2377,7 +2371,6 @@ func (all *All) Commit(stage *Stage) *All {
 	return all
 }
 
-
 func (all *All) StageVoid(stage *Stage) {
 	all.Stage(stage)
 }
@@ -2461,7 +2454,6 @@ func (annotation *Annotation) Commit(stage *Stage) *Annotation {
 	}
 	return annotation
 }
-
 
 func (annotation *Annotation) StageVoid(stage *Stage) {
 	annotation.Stage(stage)
@@ -2547,7 +2539,6 @@ func (attribute *Attribute) Commit(stage *Stage) *Attribute {
 	return attribute
 }
 
-
 func (attribute *Attribute) StageVoid(stage *Stage) {
 	attribute.Stage(stage)
 }
@@ -2631,7 +2622,6 @@ func (attributegroup *AttributeGroup) Commit(stage *Stage) *AttributeGroup {
 	}
 	return attributegroup
 }
-
 
 func (attributegroup *AttributeGroup) StageVoid(stage *Stage) {
 	attributegroup.Stage(stage)
@@ -2717,7 +2707,6 @@ func (choice *Choice) Commit(stage *Stage) *Choice {
 	return choice
 }
 
-
 func (choice *Choice) StageVoid(stage *Stage) {
 	choice.Stage(stage)
 }
@@ -2801,7 +2790,6 @@ func (complexcontent *ComplexContent) Commit(stage *Stage) *ComplexContent {
 	}
 	return complexcontent
 }
-
 
 func (complexcontent *ComplexContent) StageVoid(stage *Stage) {
 	complexcontent.Stage(stage)
@@ -2887,7 +2875,6 @@ func (complextype *ComplexType) Commit(stage *Stage) *ComplexType {
 	return complextype
 }
 
-
 func (complextype *ComplexType) StageVoid(stage *Stage) {
 	complextype.Stage(stage)
 }
@@ -2971,7 +2958,6 @@ func (documentation *Documentation) Commit(stage *Stage) *Documentation {
 	}
 	return documentation
 }
-
 
 func (documentation *Documentation) StageVoid(stage *Stage) {
 	documentation.Stage(stage)
@@ -3057,7 +3043,6 @@ func (element *Element) Commit(stage *Stage) *Element {
 	return element
 }
 
-
 func (element *Element) StageVoid(stage *Stage) {
 	element.Stage(stage)
 }
@@ -3141,7 +3126,6 @@ func (enumeration *Enumeration) Commit(stage *Stage) *Enumeration {
 	}
 	return enumeration
 }
-
 
 func (enumeration *Enumeration) StageVoid(stage *Stage) {
 	enumeration.Stage(stage)
@@ -3227,7 +3211,6 @@ func (extension *Extension) Commit(stage *Stage) *Extension {
 	return extension
 }
 
-
 func (extension *Extension) StageVoid(stage *Stage) {
 	extension.Stage(stage)
 }
@@ -3311,7 +3294,6 @@ func (group *Group) Commit(stage *Stage) *Group {
 	}
 	return group
 }
-
 
 func (group *Group) StageVoid(stage *Stage) {
 	group.Stage(stage)
@@ -3397,7 +3379,6 @@ func (length *Length) Commit(stage *Stage) *Length {
 	return length
 }
 
-
 func (length *Length) StageVoid(stage *Stage) {
 	length.Stage(stage)
 }
@@ -3481,7 +3462,6 @@ func (maxinclusive *MaxInclusive) Commit(stage *Stage) *MaxInclusive {
 	}
 	return maxinclusive
 }
-
 
 func (maxinclusive *MaxInclusive) StageVoid(stage *Stage) {
 	maxinclusive.Stage(stage)
@@ -3567,7 +3547,6 @@ func (maxlength *MaxLength) Commit(stage *Stage) *MaxLength {
 	return maxlength
 }
 
-
 func (maxlength *MaxLength) StageVoid(stage *Stage) {
 	maxlength.Stage(stage)
 }
@@ -3651,7 +3630,6 @@ func (mininclusive *MinInclusive) Commit(stage *Stage) *MinInclusive {
 	}
 	return mininclusive
 }
-
 
 func (mininclusive *MinInclusive) StageVoid(stage *Stage) {
 	mininclusive.Stage(stage)
@@ -3737,7 +3715,6 @@ func (minlength *MinLength) Commit(stage *Stage) *MinLength {
 	return minlength
 }
 
-
 func (minlength *MinLength) StageVoid(stage *Stage) {
 	minlength.Stage(stage)
 }
@@ -3821,7 +3798,6 @@ func (pattern *Pattern) Commit(stage *Stage) *Pattern {
 	}
 	return pattern
 }
-
 
 func (pattern *Pattern) StageVoid(stage *Stage) {
 	pattern.Stage(stage)
@@ -3907,7 +3883,6 @@ func (restriction *Restriction) Commit(stage *Stage) *Restriction {
 	return restriction
 }
 
-
 func (restriction *Restriction) StageVoid(stage *Stage) {
 	restriction.Stage(stage)
 }
@@ -3991,7 +3966,6 @@ func (schema *Schema) Commit(stage *Stage) *Schema {
 	}
 	return schema
 }
-
 
 func (schema *Schema) StageVoid(stage *Stage) {
 	schema.Stage(stage)
@@ -4077,7 +4051,6 @@ func (sequence *Sequence) Commit(stage *Stage) *Sequence {
 	return sequence
 }
 
-
 func (sequence *Sequence) StageVoid(stage *Stage) {
 	sequence.Stage(stage)
 }
@@ -4161,7 +4134,6 @@ func (simplecontent *SimpleContent) Commit(stage *Stage) *SimpleContent {
 	}
 	return simplecontent
 }
-
 
 func (simplecontent *SimpleContent) StageVoid(stage *Stage) {
 	simplecontent.Stage(stage)
@@ -4247,7 +4219,6 @@ func (simpletype *SimpleType) Commit(stage *Stage) *SimpleType {
 	return simpletype
 }
 
-
 func (simpletype *SimpleType) StageVoid(stage *Stage) {
 	simpletype.Stage(stage)
 }
@@ -4331,7 +4302,6 @@ func (totaldigit *TotalDigit) Commit(stage *Stage) *TotalDigit {
 	}
 	return totaldigit
 }
-
 
 func (totaldigit *TotalDigit) StageVoid(stage *Stage) {
 	totaldigit.Stage(stage)
@@ -4417,7 +4387,6 @@ func (union *Union) Commit(stage *Stage) *Union {
 	return union
 }
 
-
 func (union *Union) StageVoid(stage *Stage) {
 	union.Stage(stage)
 }
@@ -4501,7 +4470,6 @@ func (whitespace *WhiteSpace) Commit(stage *Stage) *WhiteSpace {
 	}
 	return whitespace
 }
-
 
 func (whitespace *WhiteSpace) StageVoid(stage *Stage) {
 	whitespace.Stage(stage)
@@ -4670,7 +4638,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct any
 
 type GongstructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
