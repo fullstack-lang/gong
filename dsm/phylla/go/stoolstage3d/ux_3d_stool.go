@@ -35,16 +35,16 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 	}
 
 	params := cylinderstage3d.Cylinder3DParams{
-		NamePrefix:                          "Stool",
-		CanvasName:                          "Stool 3D Canvas",
-		RadialRepetitions:                   plant.StoolAbstract.RadialRepetitions,
-		Transparency:                        plant.StoolAbstract.Transparency,
-		RelativeTubeDiameter:                plant.StoolAbstract.RelativeTubeDiameter,
-		RelativeHeight3DTorus:               plant.StoolAbstract.RelativeHeight3DTorus,
-		VerticalScale:                       plant.StoolAbstract.StoolTorusVerticalScale,
-		RelativeHeight:                      plant.StoolAbstract.RelativeHeight,
-		ProjectionAngle:                     plant.StoolAbstract.ProjectionAngle,
-		HasRotatedShapes:                    true,
+		NamePrefix:            "Stool",
+		CanvasName:            "Stool 3D Canvas",
+		RadialRepetitions:     plant.StoolAbstract.RadialRepetitions,
+		Transparency:          plant.StoolAbstract.Transparency,
+		RelativeTubeDiameter:  plant.StoolAbstract.RelativeTubeDiameter,
+		RelativeHeight3DTorus: plant.StoolAbstract.RelativeHeight3DTorus,
+		VerticalScale:         plant.StoolAbstract.StoolTorusVerticalScale,
+		RelativeHeight:        plant.StoolAbstract.RelativeHeight,
+		ProjectionAngle:       plant.StoolAbstract.ProjectionAngle,
+		HasRotatedShapes:      true,
 	}
 
 	if checkedDiagram != nil {
@@ -154,14 +154,14 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			}).Stage(stool3dStage)
 
 			sbMesh := (&threejs.Mesh{
-				Name:         "Stool Seat Bottom Mesh",
-				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+				Name: "Stool Seat Bottom Mesh",
+				X:    0, Y: 0, Z: 0,
 				TubeGeometry: sbGeom,
 				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-					Name:                 "Stool Seat Bottom Material",
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "dodgerblue"},
-					Transparent:          true,
-					Opacity:              opacity,
+					Name:        "Stool Seat Bottom Material",
+					Color:       "dodgerblue",
+					Transparent: true,
+					Opacity:     opacity,
 				}).Stage(stool3dStage),
 			}).Stage(stool3dStage)
 
@@ -190,14 +190,14 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			}).Stage(stool3dStage)
 
 			rotSbMesh := (&threejs.Mesh{
-				Name:         "Stool Rotated Seat Bottom Mesh",
-				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+				Name: "Stool Rotated Seat Bottom Mesh",
+				X:    0, Y: 0, Z: 0,
 				TubeGeometry: rotSbGeom,
 				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-					Name:                 "Stool Rotated Seat Bottom Material",
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "coral"},
-					Transparent:          true,
-					Opacity:              opacity,
+					Name:        "Stool Rotated Seat Bottom Material",
+					Color:       "coral",
+					Transparent: true,
+					Opacity:     opacity,
 				}).Stage(stool3dStage),
 			}).Stage(stool3dStage)
 
@@ -209,14 +209,14 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			seatGeom := buildSeatGeom(stool3dStage, "Stool Seat BufferGeometry", 0.0, 0.0, rotSeatTopPoints, rotSeatBottomPoints, stoolTopHeight, seatBottomHeight)
 			if len(seatGeom.Faces) > 0 {
 				seatMesh := (&threejs.Mesh{
-					Name:           "Stool Seat 3D Mesh",
-					Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+					Name: "Stool Seat 3D Mesh",
+					X:    0, Y: 0, Z: 0,
 					BufferGeometry: seatGeom,
 					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-						Name:                 "Stool Seat Material",
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "peru"},
-						Transparent:          true,
-						Opacity:              opacity,
+						Name:        "Stool Seat Material",
+						Color:       "peru",
+						Transparent: true,
+						Opacity:     opacity,
 					}).Stage(stool3dStage),
 				}).Stage(stool3dStage)
 
@@ -518,14 +518,14 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 				}).Stage(stool3dStage)
 
 				eyeMesh := (&threejs.Mesh{
-					Name:         "Stool Eye Mesh",
-					Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+					Name: "Stool Eye Mesh",
+					X:    0, Y: 0, Z: 0,
 					TubeGeometry: eyeGeom,
 					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-						Name:                 "Stool Eye Material",
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "deeppink"},
-						Transparent:          true,
-						Opacity:              opacity,
+						Name:        "Stool Eye Material",
+						Color:       "deeppink",
+						Transparent: true,
+						Opacity:     opacity,
 					}).Stage(stool3dStage),
 				}).Stage(stool3dStage)
 
@@ -602,14 +602,14 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					}).Stage(stool3dStage)
 
 					sbEyeMesh := (&threejs.Mesh{
-						Name:         fmt.Sprintf("Stool Seat Bottom Eye Mesh k%d", k),
-						Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+						Name: fmt.Sprintf("Stool Seat Bottom Eye Mesh k%d", k),
+						X:    0, Y: 0, Z: 0,
 						TubeGeometry: sbEyeGeom,
 						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-							Name:                 fmt.Sprintf("Stool Seat Bottom Eye Material k%d", k),
-							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "mediumvioletred"},
-							Transparent:          true,
-							Opacity:              opacity,
+							Name:        fmt.Sprintf("Stool Seat Bottom Eye Material k%d", k),
+							Color:       "mediumvioletred",
+							Transparent: true,
+							Opacity:     opacity,
 						}).Stage(stool3dStage),
 					}).Stage(stool3dStage)
 
@@ -656,14 +656,14 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					}).Stage(stool3dStage)
 
 					stoolBottomEyeMesh := (&threejs.Mesh{
-						Name:         fmt.Sprintf("Stool Bottom Eye Mesh k%d", k),
-						Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+						Name: fmt.Sprintf("Stool Bottom Eye Mesh k%d", k),
+						X:    0, Y: 0, Z: 0,
 						TubeGeometry: stoolBottomEyeGeom,
 						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-							Name:                 fmt.Sprintf("Stool Bottom Eye Material k%d", k),
-							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkviolet"},
-							Transparent:          true,
-							Opacity:              opacity,
+							Name:        fmt.Sprintf("Stool Bottom Eye Material k%d", k),
+							Color:       "darkviolet",
+							Transparent: true,
+							Opacity:     opacity,
 						}).Stage(stool3dStage),
 					}).Stage(stool3dStage)
 
@@ -785,14 +785,14 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					}
 
 					eyeVolMesh := (&threejs.Mesh{
-						Name:           fmt.Sprintf("Stool Eye Volume 3D Mesh k%d", k),
-						Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+						Name: fmt.Sprintf("Stool Eye Volume 3D Mesh k%d", k),
+						X:    0, Y: 0, Z: 0,
 						BufferGeometry: eyeVolGeom,
 						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-							Name:                 fmt.Sprintf("Stool Eye Volume Material k%d", k),
-							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "mediumorchid"},
-							Transparent:          true,
-							Opacity:              opacity,
+							Name:        fmt.Sprintf("Stool Eye Volume Material k%d", k),
+							Color:       "mediumorchid",
+							Transparent: true,
+							Opacity:     opacity,
 						}).Stage(stool3dStage),
 					}).Stage(stool3dStage)
 
@@ -810,14 +810,14 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			seatAndLegsGeom := buildSeatAndLegsGeomLocal("Stool Seat and Legs", 0.0, 0.0)
 			if len(seatAndLegsGeom.Faces) > 0 {
 				seatAndLegsMesh := (&threejs.Mesh{
-					Name:           "Stool Seat and Legs Mesh",
-					Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+					Name: "Stool Seat and Legs Mesh",
+					X:    0, Y: 0, Z: 0,
 					BufferGeometry: seatAndLegsGeom,
 					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-						Name:                 "Stool Seat and Legs Material",
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "saddlebrown"},
-						Transparent:          true,
-						Opacity:              opacity,
+						Name:        "Stool Seat and Legs Material",
+						Color:       "saddlebrown",
+						Transparent: true,
+						Opacity:     opacity,
 					}).Stage(stool3dStage),
 				}).Stage(stool3dStage)
 
@@ -830,14 +830,14 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			rotSeatAndLegsGeom := buildSeatAndLegsGeomLocal("Stool Rotated Seat and Legs", growthVectorX/globalR, growthVectorY)
 			if len(rotSeatAndLegsGeom.Faces) > 0 {
 				rotSeatAndLegsMesh := (&threejs.Mesh{
-					Name:           "Stool Rotated Seat and Legs Mesh",
-					Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+					Name: "Stool Rotated Seat and Legs Mesh",
+					X:    0, Y: 0, Z: 0,
 					BufferGeometry: rotSeatAndLegsGeom,
 					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-						Name:                 "Stool Rotated Seat and Legs Material",
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkgoldenrod"},
-						Transparent:          true,
-						Opacity:              opacity,
+						Name:        "Stool Rotated Seat and Legs Material",
+						Color:       "darkgoldenrod",
+						Transparent: true,
+						Opacity:     opacity,
 					}).Stage(stool3dStage),
 				}).Stage(stool3dStage)
 

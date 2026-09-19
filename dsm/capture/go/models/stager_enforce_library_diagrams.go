@@ -15,9 +15,7 @@ func (stager *Stager) enforceLibraryHasAtLeastOneDiagram() (needCommit bool) {
 				Name:        "Default Diagram",
 				IsChecked:   true,
 				IsEditable_: true,
-				AbstractTypeFields: AbstractTypeFields{
-					IsExpanded: true,
-				},
+				IsExpanded:  true,
 			}
 			newDiagram.Stage(stager.stage)
 			library.Diagrams = append(library.Diagrams, newDiagram)

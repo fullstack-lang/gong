@@ -275,12 +275,10 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 		}
 		titleBox := &svg.RectAnchoredRect{
-			Name: participantShape.GetAbstractElement().GetName(),
-			Presentation: svg.Presentation{
-				Stroke:        "#E0E0E0",
-				StrokeWidth:   1,
-				StrokeOpacity: 1,
-			},
+			Name:           participantShape.GetAbstractElement().GetName(),
+			Stroke:         "#E0E0E0",
+			StrokeWidth:    1,
+			StrokeOpacity:  1,
 			X_Offset:       0,
 			Y_Offset:       -verticalTopMarginForTitle,
 			Height:         verticalTopMarginForTitle,
@@ -426,17 +424,15 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 		processRect.Obstacles = append(processRect.Obstacles, rect)
 
 		tailRect := &svg.Rect{
-			Name:               "Tail" + rect.GetName(),
-			CanMoveHorizontaly: true,
-			CanMoveVerticaly:   true,
-			Presentation: svg.Presentation{
-				Stroke:          "#9E9E9E",
-				StrokeWidth:     1.5,
-				StrokeOpacity:   1,
-				StrokeDashArray: "5 5",
-				Color:           "transparent",
-				FillOpacity:     0.0,
-			},
+			Name:                "Tail" + rect.GetName(),
+			CanMoveHorizontaly:  true,
+			CanMoveVerticaly:    true,
+			Stroke:              "#9E9E9E",
+			StrokeWidth:         1.5,
+			StrokeOpacity:       1,
+			StrokeDashArray:     "5 5",
+			Color:               "transparent",
+			FillOpacity:         0.0,
 			Width:               externalParticipantWidth,
 			Height:              externalParticipantShape.TailHeigth - boxHeight,
 			X:                   rect.X + (rect.Width-externalParticipantWidth)/2.0,
@@ -722,16 +718,12 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 					}
 					return dataShape.Data.Name
 				}(),
-				Content: data.Name,
-				Presentation: svg.Presentation{
-					Color:       "#333333",
-					FillOpacity: 1.0,
-					Stroke:      "#FFFFFF",
-					StrokeWidth: 2.0,
-				},
-				TextAttributes: svg.TextAttributes{
-					FontWeight: "600",
-				},
+				Content:     data.Name,
+				Color:       "#333333",
+				FillOpacity: 1.0,
+				Stroke:      "#FFFFFF",
+				StrokeWidth: 2.0,
+				FontWeight:  "600",
 
 				Y_Offset: float64(-nbDataShapes+idx+1)*18.0 - 4.0,
 				X_Offset: textXOffset,
@@ -743,13 +735,11 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 					data.InverseAppliedScaling = 1.0
 				}
 				path := &svg.LinkAnchoredPath{
-					Name:       data.GetName(),
-					Definition: data.SVG_Path,
-					Presentation: svg.Presentation{
-						StrokeWidth: 0,
-						Color:       "#757575",
-						FillOpacity: 1,
-					},
+					Name:                data.GetName(),
+					Definition:          data.SVG_Path,
+					StrokeWidth:         0,
+					Color:               "#757575",
+					FillOpacity:         1,
 					X_Offset:            4.0,
 					Y_Offset:            float64(-nbDataShapes+idx+1)*18.0 - 4.0,
 					ScalePropotionnally: true,
@@ -875,17 +865,13 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 		}
 
 		allocatedProcessText := &svg.RectAnchoredText{
-			Name:    allocatedProcessShape.Name,
-			Content: content,
-			Presentation: svg.Presentation{
-				StrokeWidth: 0,
-				Color:       "#757575",
-				FillOpacity: 1,
-			},
-			TextAttributes: svg.TextAttributes{
-				FontStyle: "italic",
-				FontSize:  "15px",
-			},
+			Name:        allocatedProcessShape.Name,
+			Content:     content,
+			StrokeWidth: 0,
+			Color:       "#757575",
+			FillOpacity: 1,
+			FontStyle:   "italic",
+			FontSize:    "15px",
 
 			DominantBaseline: svg.DominantBaselineMiddle,
 			X_Offset:         X_Offset,
@@ -911,13 +897,11 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 				process.InverseAppliedScaling = 1.0
 			}
 			allocatedProcessPath := &svg.RectAnchoredPath{
-				Name:       process.GetName(),
-				Definition: process.SVG_Path,
-				Presentation: svg.Presentation{
-					StrokeWidth: 0,
-					Color:       "#757575",
-					FillOpacity: 1,
-				},
+				Name:                process.GetName(),
+				Definition:          process.SVG_Path,
+				StrokeWidth:         0,
+				Color:               "#757575",
+				FillOpacity:         1,
 				X_Offset:            10,
 				Y_Offset:            10 + float64(totalLines)*HeightBetween2AttributeShapes,
 				ScalePropotionnally: true,
@@ -949,17 +933,13 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 		}
 
 		allocatedResourceText := &svg.RectAnchoredText{
-			Name:    allocatedResourceShape.Name,
-			Content: content,
-			Presentation: svg.Presentation{
-				StrokeWidth: 0,
-				Color:       "#757575",
-				FillOpacity: 1,
-			},
-			TextAttributes: svg.TextAttributes{
-				FontStyle: "italic",
-				FontSize:  "15px",
-			},
+			Name:        allocatedResourceShape.Name,
+			Content:     content,
+			StrokeWidth: 0,
+			Color:       "#757575",
+			FillOpacity: 1,
+			FontStyle:   "italic",
+			FontSize:    "15px",
 
 			DominantBaseline: svg.DominantBaselineMiddle,
 			X_Offset:         X_Offset,
@@ -985,13 +965,11 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 				resource.InverseAppliedScaling = 1.0
 			}
 			allocatedResourcePath := &svg.RectAnchoredPath{
-				Name:       resource.GetName(),
-				Definition: resource.SVG_Path,
-				Presentation: svg.Presentation{
-					StrokeWidth: 0,
-					Color:       "#757575",
-					FillOpacity: 1,
-				},
+				Name:                resource.GetName(),
+				Definition:          resource.SVG_Path,
+				StrokeWidth:         0,
+				Color:               "#757575",
+				FillOpacity:         1,
 				X_Offset:            10,
 				Y_Offset:            10 + float64(totalLines)*HeightBetween2AttributeShapes,
 				ScalePropotionnally: true,
@@ -1010,12 +988,10 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 	if totalLines > 0 {
 		lineWidth := 1.0
 		allocatedResourceRect = &svg.RectAnchoredRect{
-			Name: participant.Name + "_allocated_resources_and_processes",
-			Presentation: svg.Presentation{
-				Stroke:        "#CCCCCC",
-				StrokeWidth:   lineWidth,
-				StrokeOpacity: 1,
-			},
+			Name:           participant.Name + "_allocated_resources_and_processes",
+			Stroke:         "#CCCCCC",
+			StrokeWidth:    lineWidth,
+			StrokeOpacity:  1,
 			X_Offset:       lineWidth,
 			Y_Offset:       lineWidth,
 			Height:         boxHeight - 2*lineWidth,

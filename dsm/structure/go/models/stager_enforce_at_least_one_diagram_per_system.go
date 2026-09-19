@@ -15,12 +15,10 @@ func (stager *Stager) enforceAtLeastOneDiagramPerSystem() (needCommit bool) {
 			systemShape := (&SystemShape{
 				Name:   "SystemShape",
 				System: system,
-				RectShape: RectShape{
-					X:      100,
-					Y:      50,
-					Width:  500,
-					Height: 1000,
-				},
+				X:      100,
+				Y:      50,
+				Width:  500,
+				Height: 1000,
 			}).Stage(stage)
 			diagramStructure.System_Shapes = append(diagramStructure.System_Shapes, systemShape)
 

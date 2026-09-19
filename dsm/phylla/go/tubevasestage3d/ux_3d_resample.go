@@ -26,20 +26,16 @@ func (u *ThreeJSStageUpdater) addPointSpheres(stager *models.Stager, points []*t
 
 		sphere := (&threejs.Mesh{
 			Name: fmt.Sprintf("%s Sphere %d", namePrefix, i),
-			Position: threejs.Position{
-				X: pt.X,
-				Y: pt.Y + dy,
-				Z: pt.Z,
-			},
+			X:    pt.X,
+			Y:    pt.Y + dy,
+			Z:    pt.Z,
 			SphereGeometry: (&threejs.SphereGeometry{
 				Name:   fmt.Sprintf("%s SphereGeom %d", namePrefix, i),
 				Radius: radius,
 			}).Stage(threejsStage),
 			MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-				Name: fmt.Sprintf("%s SphereMat %d", namePrefix, i),
-				MeshMaterialAbstract: threejs.MeshMaterialAbstract{
-					Color: sphereColor,
-				},
+				Name:  fmt.Sprintf("%s SphereMat %d", namePrefix, i),
+				Color: sphereColor,
 			}).Stage(threejsStage),
 		}).Stage(threejsStage)
 		canvas.Meshs = append(canvas.Meshs, sphere)

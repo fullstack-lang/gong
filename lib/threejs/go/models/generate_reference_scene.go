@@ -13,45 +13,37 @@ func GenerateReferenceScene(stage *Stage) {
 	}).Stage(stage)
 
 	canvas.Camera = (&Camera{
-		Name:     "Camera",
-		Position: Position{X: 30, Y: 30, Z: 30},
-		TargetX:  0,
-		TargetY:  5,
-		TargetZ:  0,
-		Fov:      45,
+		Name: "Camera",
+		X:    30, Y: 30, Z: 30,
+		TargetX: 0,
+		TargetY: 5,
+		TargetZ: 0,
+		Fov:     45,
 	}).Stage(stage)
 
 	canvas.AmbiantLight = (&AmbiantLight{
-		Name: "Ambiant Light",
-		LightAbstract: LightAbstract{
-			Intensity: 0.3,
-		},
+		Name:      "Ambiant Light",
+		Intensity: 0.3,
 	}).Stage(stage)
 
 	dirLight1 := (&DirectionalLight{
-		Name:     "Directional Light 1 (Key)",
-		Position: Position{X: 15, Y: 20, Z: 15},
-		LightAbstract: LightAbstract{
-			Intensity: 1.2,
-		},
+		Name: "Directional Light 1 (Key)",
+		X:    15, Y: 20, Z: 15,
+		Intensity:        1.2,
 		IsWithCastShadow: true,
 	}).Stage(stage)
 
 	dirLight2 := (&DirectionalLight{
-		Name:     "Directional Light 2 (Fill)",
-		Position: Position{X: -15, Y: 10, Z: -15},
-		LightAbstract: LightAbstract{
-			Intensity: 0.6,
-		},
+		Name: "Directional Light 2 (Fill)",
+		X:    -15, Y: 10, Z: -15,
+		Intensity:        0.6,
 		IsWithCastShadow: false,
 	}).Stage(stage)
 
 	dirLight3 := (&DirectionalLight{
-		Name:     "Directional Light 3 (Rim)",
-		Position: Position{X: 0, Y: 30, Z: -20},
-		LightAbstract: LightAbstract{
-			Intensity: 0.8,
-		},
+		Name: "Directional Light 3 (Rim)",
+		X:    0, Y: 30, Z: -20,
+		Intensity:        0.8,
 		IsWithCastShadow: false,
 	}).Stage(stage)
 
@@ -70,8 +62,8 @@ func GenerateReferenceScene(stage *Stage) {
 		DepthSegments:  1,
 	}).Stage(stage)
 
-	color1 := (&MeshMaterialBasic{Name: "TileColor1", MeshMaterialAbstract: MeshMaterialAbstract{Color: "white"}}).Stage(stage)
-	color2 := (&MeshMaterialBasic{Name: "TileColor2", MeshMaterialAbstract: MeshMaterialAbstract{Color: "black"}}).Stage(stage)
+	color1 := (&MeshMaterialBasic{Name: "TileColor1", Color: "white"}).Stage(stage)
+	color2 := (&MeshMaterialBasic{Name: "TileColor2", Color: "black"}).Stage(stage)
 
 	for i := 0; i < tilesCount; i++ {
 		for j := 0; j < tilesCount; j++ {
@@ -83,12 +75,10 @@ func GenerateReferenceScene(stage *Stage) {
 			}
 
 			tileMesh := (&Mesh{
-				Name: "Floor Tile " + strconv.Itoa(i) + "-" + strconv.Itoa(j),
-				Position: Position{
-					X: (float64(i) - float64(tilesCount)/2.0 + 0.5) * tileSize,
-					Y: -0.05,
-					Z: (float64(j) - float64(tilesCount)/2.0 + 0.5) * tileSize,
-				},
+				Name:              "Floor Tile " + strconv.Itoa(i) + "-" + strconv.Itoa(j),
+				X:                 (float64(i) - float64(tilesCount)/2.0 + 0.5) * tileSize,
+				Y:                 -0.05,
+				Z:                 (float64(j) - float64(tilesCount)/2.0 + 0.5) * tileSize,
 				BoxGeometry:       boxGeom,
 				MeshMaterialBasic: mat,
 			}).Stage(stage)
@@ -98,8 +88,8 @@ func GenerateReferenceScene(stage *Stage) {
 	}
 
 	planeMesh := (&Mesh{
-		Name:     "Wall",
-		Position: Position{X: 0, Y: 0, Z: -30},
+		Name: "Wall",
+		X:    0, Y: 0, Z: -30,
 		PlaneGeometry: (&PlaneGeometry{
 			Name:           "Wall Plane",
 			Width:          200,
@@ -107,13 +97,13 @@ func GenerateReferenceScene(stage *Stage) {
 			WidthSegments:  1,
 			HeightSegments: 1,
 		}).Stage(stage),
-		MeshMaterialBasic: (&MeshMaterialBasic{Name: "Gray", MeshMaterialAbstract: MeshMaterialAbstract{Color: "gray"}}).Stage(stage),
+		MeshMaterialBasic: (&MeshMaterialBasic{Name: "Gray", Color: "gray"}).Stage(stage),
 	}).Stage(stage)
 	canvas.Meshs = append(canvas.Meshs, planeMesh)
 
 	sphereMesh := (&Mesh{
-		Name:     "Sphere",
-		Position: Position{X: 5, Y: 5, Z: -5},
+		Name: "Sphere",
+		X:    5, Y: 5, Z: -5,
 		SphereGeometry: (&SphereGeometry{
 			Name:           "Sphere Geometry",
 			Radius:         2,
@@ -122,7 +112,7 @@ func GenerateReferenceScene(stage *Stage) {
 			PhiLength:      math.Pi * 2,
 			ThetaLength:    math.Pi,
 		}).Stage(stage),
-		MeshMaterialBasic: (&MeshMaterialBasic{Name: "Cyan", MeshMaterialAbstract: MeshMaterialAbstract{Color: "cyan"}}).Stage(stage),
+		MeshMaterialBasic: (&MeshMaterialBasic{Name: "Cyan", Color: "cyan"}).Stage(stage),
 	}).Stage(stage)
 	canvas.Meshs = append(canvas.Meshs, sphereMesh)
 
@@ -159,10 +149,10 @@ func GenerateReferenceScene(stage *Stage) {
 	}).Stage(stage)
 
 	tubeMesh := (&Mesh{
-		Name:              "Helix Mesh",
-		Position:          Position{X: 0, Y: 3.5, Z: -10},
+		Name: "Helix Mesh",
+		X:    0, Y: 3.5, Z: -10,
 		TubeGeometry:      tubeGeometry,
-		MeshMaterialBasic: (&MeshMaterialBasic{Name: "Silver", MeshMaterialAbstract: MeshMaterialAbstract{Color: "silver"}}).Stage(stage),
+		MeshMaterialBasic: (&MeshMaterialBasic{Name: "Silver", Color: "silver"}).Stage(stage),
 	}).Stage(stage)
 
 	canvas.Meshs = append(canvas.Meshs, tubeMesh)
@@ -200,7 +190,7 @@ func GenerateReferenceScene(stage *Stage) {
 		angle := t * math.Pi * 2
 		x := math.Cos(angle) * radius
 		z := math.Sin(angle) * radius
-		y := math.Sin(angle*waves) * amplitude + 5.0 // Add the Y:5 position offset here
+		y := math.Sin(angle*waves)*amplitude + 5.0 // Add the Y:5 position offset here
 
 		// Stable coordinate system to prevent twisting:
 		// Outward vector
@@ -293,14 +283,14 @@ func GenerateReferenceScene(stage *Stage) {
 		}
 
 		return (&Mesh{
-			Name:            "Wavy Torus " + name + " Mesh",
-			Position:        Position{X: 0, Y: 0, Z: 0},
-			BufferGeometry:  geom,
+			Name: "Wavy Torus " + name + " Mesh",
+			X:    0, Y: 0, Z: 0,
+			BufferGeometry: geom,
 			MeshPhysicalMaterial: (&MeshPhysicalMaterial{
-				Name:                 "Wavy Torus " + name + " Material",
-				Transparent:          false,
-				Opacity:              1.0,
-				MeshMaterialAbstract: MeshMaterialAbstract{Color: color},
+				Name:        "Wavy Torus " + name + " Material",
+				Transparent: false,
+				Opacity:     1.0,
+				Color:       color,
 			}).Stage(stage),
 		}).Stage(stage)
 	}
@@ -338,7 +328,7 @@ func GenerateReferenceScene(stage *Stage) {
 
 	circumference := 871.779788
 	globalR := circumference / (2 * math.Pi)
-	
+
 	// Scale factor to shrink down the 138-radius shape into a ~10-radius shape
 	scale := 10.0 / globalR
 	yOffset := 10.0 // Raise it above the first torus
@@ -392,7 +382,7 @@ func GenerateReferenceScene(stage *Stage) {
 			vec := (&Vector3{
 				Name: "PhyllaPoint " + strconv.Itoa(len(curvePhylla.Points)),
 				X:    x3d * scale,
-				Y:    y2d * scale + yOffset,
+				Y:    y2d*scale + yOffset,
 				Z:    z3d * scale,
 			}).Stage(stage)
 			curvePhylla.Points = append(curvePhylla.Points, vec)
@@ -423,7 +413,7 @@ func GenerateReferenceScene(stage *Stage) {
 		for i := 0; i < len(edges); i++ {
 			p1_src := edges[i][0]
 			p2_src := edges[i][1]
-			
+
 			p1 := (&Vector3{
 				Name: p1_src.Name + " " + name + " " + strconv.Itoa(i),
 				X:    p1_src.X,
@@ -437,7 +427,7 @@ func GenerateReferenceScene(stage *Stage) {
 				Y:    p2_src.Y,
 				Z:    p2_src.Z,
 			}).Stage(stage)
-			
+
 			// Copy pointers
 			geom.Vertices = append(geom.Vertices, p1, p2)
 
@@ -460,7 +450,7 @@ func GenerateReferenceScene(stage *Stage) {
 					V2:   v2_t1,
 					V3:   v3_t1,
 				}).Stage(stage)
-				
+
 				// Triangle 2
 				t2 := (&Triangle{
 					Name: "T2 " + strconv.Itoa(i),
@@ -474,14 +464,14 @@ func GenerateReferenceScene(stage *Stage) {
 		}
 
 		return (&Mesh{
-			Name:            "Phylla Torus " + name + " Mesh",
-			Position:        Position{X: 0, Y: 0, Z: 0},
-			BufferGeometry:  geom,
+			Name: "Phylla Torus " + name + " Mesh",
+			X:    0, Y: 0, Z: 0,
+			BufferGeometry: geom,
 			MeshPhysicalMaterial: (&MeshPhysicalMaterial{
-				Name:                 "Phylla Torus " + name + " Material",
-				Transparent:          true,
-				Opacity:              0.5,
-				MeshMaterialAbstract: MeshMaterialAbstract{Color: color},
+				Name:        "Phylla Torus " + name + " Material",
+				Transparent: true,
+				Opacity:     0.5,
+				Color:       color,
 			}).Stage(stage),
 		}).Stage(stage)
 	}
@@ -490,19 +480,19 @@ func GenerateReferenceScene(stage *Stage) {
 
 	for i := 0; i < len(curvePhylla.Points); i++ {
 		p := curvePhylla.Points[i]
-		
+
 		// The point is (x3d, y3d, z3d) which is globalR * cos(theta), y, globalR * sin(theta)
 		// We can compute theta:
 		theta := math.Atan2(p.Z, p.X)
 
 		// Compute the 4 corners of the cross section at this angle
 		// We enforce perfectly vertical walls by matching X and Z radially
-		
+
 		xBL, yBL, zBL := p.X, p.Y, p.Z
-		xBR, yBR, zBR := p.X + thicknessPhylla*math.Cos(theta), p.Y, p.Z + thicknessPhylla*math.Sin(theta)
-		
-		xTL, yTL, zTL := p.X, p.Y + dy2d, p.Z
-		xTR, yTR, zTR := p.X + thicknessPhylla*math.Cos(theta), p.Y + dy2d, p.Z + thicknessPhylla*math.Sin(theta)
+		xBR, yBR, zBR := p.X+thicknessPhylla*math.Cos(theta), p.Y, p.Z+thicknessPhylla*math.Sin(theta)
+
+		xTL, yTL, zTL := p.X, p.Y+dy2d, p.Z
+		xTR, yTR, zTR := p.X+thicknessPhylla*math.Cos(theta), p.Y+dy2d, p.Z+thicknessPhylla*math.Sin(theta)
 
 		vBL := (&Vector3{Name: "BL", X: xBL, Y: yBL, Z: zBL}).Stage(stage)
 		vBR := (&Vector3{Name: "BR", X: xBR, Y: yBR, Z: zBR}).Stage(stage)
@@ -551,10 +541,10 @@ func GenerateReferenceScene(stage *Stage) {
 		}).Stage(stage)
 
 		return (&Mesh{
-			Name:              "TubeMesh " + name,
-			Position:          Position{X: 0, Y: 0, Z: 0},
+			Name: "TubeMesh " + name,
+			X:    0, Y: 0, Z: 0,
 			TubeGeometry:      tubeGeometry,
-			MeshMaterialBasic: (&MeshMaterialBasic{Name: name + " Material", MeshMaterialAbstract: MeshMaterialAbstract{Color: color}}).Stage(stage),
+			MeshMaterialBasic: (&MeshMaterialBasic{Name: name + " Material", Color: color}).Stage(stage),
 		}).Stage(stage)
 	}
 

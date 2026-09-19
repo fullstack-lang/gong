@@ -39,12 +39,10 @@ func (stager *Stager) enforceAProcessDiagramHasItsOwningProcess() (needCommit bo
 			processShape := (&ProcessShape{
 				Name:    "ProcessShape",
 				Process: diagramProcess.owningProcess,
-				RectShape: RectShape{
-					X:      100,
-					Y:      50,
-					Width:  500,
-					Height: 1000,
-				},
+				X:       100,
+				Y:       50,
+				Width:   500,
+				Height:  1000,
 			}).Stage(stager.stage)
 			diagramProcess.Process_Shapes = append(diagramProcess.Process_Shapes, processShape)
 			needCommit = true

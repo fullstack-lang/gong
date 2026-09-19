@@ -15,12 +15,10 @@ func (stager *Stager) enforceAtLeastOneDiagramPerProcess() (needCommit bool) {
 			processShape := (&ProcessShape{
 				Name:    "ProcessShape",
 				Process: process,
-				RectShape: RectShape{
-					X:      100,
-					Y:      50,
-					Width:  500,
-					Height: 1000,
-				},
+				X:       100,
+				Y:       50,
+				Width:   500,
+				Height:  1000,
 			}).Stage(stage)
 			diagramProcess.Process_Shapes = append(diagramProcess.Process_Shapes, processShape)
 

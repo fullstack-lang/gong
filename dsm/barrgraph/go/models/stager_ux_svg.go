@@ -55,15 +55,13 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 	y := float64(len(years)-1)*yStep + diagram.BottomBoxYOffset
 
 	backgroundRect := &svg.Rect{
-		Name:   diagram.Name,
-		X:      0.0,
-		Y:      0,
-		Width:  diagram.BottomBoxWidth,
-		Height: y,
-		Presentation: svg.Presentation{
-			Color:       diagram.BackgroundGreyColorCode,
-			FillOpacity: 1.0,
-		},
+		Name:        diagram.Name,
+		X:           0.0,
+		Y:           0,
+		Width:       diagram.BottomBoxWidth,
+		Height:      y,
+		Color:       diagram.BackgroundGreyColorCode,
+		FillOpacity: 1.0,
 		OnUpdate: func(frontRect *svg.Rect) {
 			diagram.IsEditable = !diagram.IsEditable
 			stager.stage.Commit()
@@ -82,19 +80,15 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 						Name:           year.Format("2006"),
 						Content:        year.Format("2006"),
 						RectAnchorType: svg.RECT_CENTER,
-						Presentation: svg.Presentation{
-							Stroke:        diagram.RedColorCode,
-							StrokeOpacity: 1.0,
-							StrokeWidth:   1.0,
-							Color:         diagram.RedColorCode,
-							FillOpacity:   1.0,
-						},
-						TextAttributes: svg.TextAttributes{
-							FontWeight:    diagram.MovementFontWeigth,
-							FontSize:      diagram.MovementFontSize,
-							FontFamily:    diagram.MovementFontFamily,
-							LetterSpacing: diagram.MovementLetterSpacing,
-						},
+						Stroke:         diagram.RedColorCode,
+						StrokeOpacity:  1.0,
+						StrokeWidth:    1.0,
+						Color:          diagram.RedColorCode,
+						FillOpacity:    1.0,
+						FontWeight:     diagram.MovementFontWeigth,
+						FontSize:       diagram.MovementFontSize,
+						FontFamily:     diagram.MovementFontFamily,
+						LetterSpacing:  diagram.MovementLetterSpacing,
 					},
 				},
 			}
@@ -117,16 +111,12 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			RectAnchorType:   svg.RectAnchorType(diagram.MovementRectAnchorType),
 			TextAnchorType:   svg.TextAnchorType(diagram.MovementTextAnchorType),
 			DominantBaseline: svg.DominantBaselineType(diagram.MovementDominantBaselineType),
-			TextAttributes: svg.TextAttributes{
-				FontWeight:    diagram.MovementFontWeigth,
-				FontSize:      diagram.MovementFontSize,
-				FontFamily:    diagram.MovementFontFamily,
-				LetterSpacing: diagram.MovementLetterSpacing,
-			},
-			Presentation: svg.Presentation{
-				Color:       diagram.GrayColorCode,
-				FillOpacity: 1.0,
-			},
+			FontWeight:       diagram.MovementFontWeigth,
+			FontSize:         diagram.MovementFontSize,
+			FontFamily:       diagram.MovementFontFamily,
+			LetterSpacing:    diagram.MovementLetterSpacing,
+			Color:            diagram.GrayColorCode,
+			FillOpacity:      1.0,
 		}
 
 		if movement.IsFeatured {
@@ -143,32 +133,24 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			RectAnchorType:   svg.RectAnchorType(diagram.MovementDateRectAnchorType),
 			TextAnchorType:   svg.TextAnchorType(diagram.MovementDateTextAnchorType),
 			DominantBaseline: svg.DominantBaselineType(diagram.MovementDateTextDominantBaselineType),
-			TextAttributes: svg.TextAttributes{
-				FontWeight:    diagram.MovementDateAndPlacesFontWeigth,
-				FontSize:      diagram.MovementDateAndPlacesFontSize,
-				FontFamily:    diagram.MovementDateAndPlacesFontFamily,
-				LetterSpacing: diagram.MovementDateAndPlacesLetterSpacing,
-			},
-			Presentation: svg.Presentation{
-				Color:       diagram.GrayColorCode,
-				FillOpacity: 1.0,
-			},
+			FontWeight:       diagram.MovementDateAndPlacesFontWeigth,
+			FontSize:         diagram.MovementDateAndPlacesFontSize,
+			FontFamily:       diagram.MovementDateAndPlacesFontFamily,
+			LetterSpacing:    diagram.MovementDateAndPlacesLetterSpacing,
+			Color:            diagram.GrayColorCode,
+			FillOpacity:      1.0,
 		}
 		placesRectAnchoredText := &svg.RectAnchoredText{
 			Name:             movement.Name + " places",
 			RectAnchorType:   svg.RectAnchorType(diagram.MovementPlacesRectAnchorType),
 			TextAnchorType:   svg.TextAnchorType(diagram.MovementPlacesTextAnchorType),
 			DominantBaseline: svg.DominantBaselineType(diagram.MovementPlacesDominantBaselineType),
-			TextAttributes: svg.TextAttributes{
-				FontWeight:    diagram.MovementDateAndPlacesFontWeigth,
-				FontSize:      diagram.MovementDateAndPlacesFontSize,
-				FontFamily:    diagram.MovementDateAndPlacesFontFamily,
-				LetterSpacing: diagram.MovementDateAndPlacesLetterSpacing,
-			},
-			Presentation: svg.Presentation{
-				Color:       diagram.GrayColorCode,
-				FillOpacity: 1.0,
-			},
+			FontWeight:       diagram.MovementDateAndPlacesFontWeigth,
+			FontSize:         diagram.MovementDateAndPlacesFontSize,
+			FontFamily:       diagram.MovementDateAndPlacesFontFamily,
+			LetterSpacing:    diagram.MovementDateAndPlacesLetterSpacing,
+			Color:            diagram.GrayColorCode,
+			FillOpacity:      1.0,
 		}
 		for _, place := range movement.Places {
 			placesRectAnchoredText.Content += place.Name + "\n"
@@ -186,9 +168,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			CanHaveRightHandle:  true,
 			CanHaveTopHandle:    true,
 			CanHaveBottomHandle: true,
-			Presentation: svg.Presentation{
-				Color: svg.White.ToString(),
-			},
+			Color:               svg.White.ToString(),
 			RectAnchoredTexts: []*svg.RectAnchoredText{
 				titleRectAnchoredText,
 				placesRectAnchoredText,
@@ -218,16 +198,12 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 				RectAnchorType:   svg.RectAnchorType(diagram.AbstractMovementRectAnchorType),
 				TextAnchorType:   svg.TextAnchorType(diagram.AbstractMovementTextAnchorType),
 				DominantBaseline: svg.DominantBaselineType(diagram.AbstractDominantBaselineType),
-				TextAttributes: svg.TextAttributes{
-					FontWeight:    diagram.MovementFontWeigth,
-					FontSize:      diagram.AbstractMovementFontSize,
-					FontFamily:    diagram.MovementFontFamily,
-					LetterSpacing: diagram.MovementLetterSpacing,
-				},
-				Presentation: svg.Presentation{
-					Color:       diagram.GrayColorCode,
-					FillOpacity: 1.0,
-				},
+				FontWeight:       diagram.MovementFontWeigth,
+				FontSize:         diagram.AbstractMovementFontSize,
+				FontFamily:       diagram.MovementFontFamily,
+				LetterSpacing:    diagram.MovementLetterSpacing,
+				Color:            diagram.GrayColorCode,
+				FillOpacity:      1.0,
 			}
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, abstractRectAnchoredText)
 		}
@@ -266,13 +242,11 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			Y_Offset: diagram.MovementBelowArcY_Offset +
 				float64(len(movement.Places)*
 					int(diagram.MovementBelowArcY_OffsetPerPlace)),
-			Presentation: svg.Presentation{
-				Stroke:        diagram.GrayColorCode,
-				StrokeOpacity: 1.0,
-				StrokeWidth:   diagram.ArtefactTypeStrokeWidth,
-				Color:         diagram.BackgroundGreyColorCode,
-				FillOpacity:   1.0,
-			},
+			Stroke:        diagram.GrayColorCode,
+			StrokeOpacity: 1.0,
+			StrokeWidth:   diagram.ArtefactTypeStrokeWidth,
+			Color:         diagram.BackgroundGreyColorCode,
+			FillOpacity:   1.0,
 		}
 
 		rect.OnSelect = func() {
@@ -316,16 +290,12 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			RectAnchorType:   svg.RectAnchorType(diagram.ArtefactTypeRectAnchorType),
 			TextAnchorType:   svg.TextAnchorType(TEXT_ANCHOR_CENTER),
 			DominantBaseline: svg.DominantBaselineType(diagram.ArtefactDominantBaselineType),
-			TextAttributes: svg.TextAttributes{
-				FontWeight:    diagram.ArtefactTypeFontWeigth,
-				FontSize:      diagram.ArtefactTypeFontSize,
-				FontFamily:    diagram.ArtefactTypeFontFamily,
-				LetterSpacing: diagram.ArtefactTypeLetterSpacing,
-			},
-			Presentation: svg.Presentation{
-				Color:       diagram.RedColorCode,
-				FillOpacity: 1.0,
-			},
+			FontWeight:       diagram.ArtefactTypeFontWeigth,
+			FontSize:         diagram.ArtefactTypeFontSize,
+			FontFamily:       diagram.ArtefactTypeFontFamily,
+			LetterSpacing:    diagram.ArtefactTypeLetterSpacing,
+			Color:            diagram.RedColorCode,
+			FillOpacity:      1.0,
 		}
 
 		rect := &svg.Rect{
@@ -341,12 +311,10 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			CanHaveRightHandle:  true,
 			CanHaveTopHandle:    true,
 			CanHaveBottomHandle: true,
-			Presentation: svg.Presentation{
-				Color:         svg.White.ToString(),
-				Stroke:        diagram.RedColorCode,
-				StrokeOpacity: 1.0,
-				StrokeWidth:   diagram.ArtefactTypeStrokeWidth,
-			},
+			Color:               svg.White.ToString(),
+			Stroke:              diagram.RedColorCode,
+			StrokeOpacity:       1.0,
+			StrokeWidth:         diagram.ArtefactTypeStrokeWidth,
 			RectAnchoredTexts: []*svg.RectAnchoredText{
 				titleRectAnchoredText,
 			},
@@ -389,16 +357,12 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			RectAnchorType:   svg.RectAnchorType(diagram.ArtistRectAnchorType),
 			TextAnchorType:   svg.TextAnchorType(diagram.ArtistTextAnchorType),
 			DominantBaseline: svg.DominantBaselineType(diagram.ArtistDominantBaselineType),
-			TextAttributes: svg.TextAttributes{
-				FontWeight:    diagram.ArtistFontWeigth,
-				FontSize:      diagram.ArtistFontSize,
-				FontFamily:    diagram.ArtistFontFamily,
-				LetterSpacing: diagram.ArtistLetterSpacing,
-			},
-			Presentation: svg.Presentation{
-				Color:       diagram.GrayColorCode,
-				FillOpacity: 1.0,
-			},
+			FontWeight:       diagram.ArtistFontWeigth,
+			FontSize:         diagram.ArtistFontSize,
+			FontFamily:       diagram.ArtistFontFamily,
+			LetterSpacing:    diagram.ArtistLetterSpacing,
+			Color:            diagram.GrayColorCode,
+			FillOpacity:      1.0,
 		}
 
 		dateRectAnchoredText := &svg.RectAnchoredText{
@@ -407,32 +371,24 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			RectAnchorType:   svg.RectAnchorType(diagram.ArtistDateRectAnchorType),
 			TextAnchorType:   svg.TextAnchorType(diagram.ArtistDateTextAnchorType),
 			DominantBaseline: svg.DominantBaselineType(diagram.ArtefactDominantBaselineType),
-			TextAttributes: svg.TextAttributes{
-				FontWeight:    diagram.ArtistDateAndPlacesFontWeigth,
-				FontSize:      diagram.ArtistDateAndPlacesFontSize,
-				FontFamily:    diagram.ArtistDateAndPlacesFontFamily,
-				LetterSpacing: diagram.ArtistDateAndPlacesLetterSpacing,
-			},
-			Presentation: svg.Presentation{
-				Color:       diagram.GrayColorCode,
-				FillOpacity: 1.0,
-			},
+			FontWeight:       diagram.ArtistDateAndPlacesFontWeigth,
+			FontSize:         diagram.ArtistDateAndPlacesFontSize,
+			FontFamily:       diagram.ArtistDateAndPlacesFontFamily,
+			LetterSpacing:    diagram.ArtistDateAndPlacesLetterSpacing,
+			Color:            diagram.GrayColorCode,
+			FillOpacity:      1.0,
 		}
 		placesRectAnchoredText := &svg.RectAnchoredText{
 			Name:             artist.Name + " places",
 			RectAnchorType:   svg.RectAnchorType(diagram.ArtistPlacesRectAnchorType),
 			TextAnchorType:   svg.TextAnchorType(diagram.ArtistPlacesTextAnchorType),
 			DominantBaseline: svg.DominantBaselineType(diagram.ArtistPlacesDominantBaselineType),
-			TextAttributes: svg.TextAttributes{
-				FontWeight:    diagram.ArtistDateAndPlacesFontWeigth,
-				FontSize:      diagram.ArtistDateAndPlacesFontSize,
-				FontFamily:    diagram.ArtistDateAndPlacesFontFamily,
-				LetterSpacing: diagram.ArtistDateAndPlacesLetterSpacing,
-			},
-			Presentation: svg.Presentation{
-				Color:       diagram.GrayColorCode,
-				FillOpacity: 1.0,
-			},
+			FontWeight:       diagram.ArtistDateAndPlacesFontWeigth,
+			FontSize:         diagram.ArtistDateAndPlacesFontSize,
+			FontFamily:       diagram.ArtistDateAndPlacesFontFamily,
+			LetterSpacing:    diagram.ArtistDateAndPlacesLetterSpacing,
+			Color:            diagram.GrayColorCode,
+			FillOpacity:      1.0,
 		}
 		if artist.Place != nil {
 			placesRectAnchoredText.Content += artist.Place.Name
@@ -456,13 +412,11 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			RectAnchorType: svg.RECT_BOTTOM,
 			Y_Offset: diagram.MovementBelowArcY_Offset +
 				diagram.MovementBelowArcY_OffsetPerPlace,
-			Presentation: svg.Presentation{
-				Stroke:        diagram.GrayColorCode,
-				StrokeOpacity: 1.0,
-				StrokeWidth:   diagram.ArtefactTypeStrokeWidth,
-				Color:         diagram.BackgroundGreyColorCode,
-				FillOpacity:   1.0,
-			},
+			Stroke:        diagram.GrayColorCode,
+			StrokeOpacity: 1.0,
+			StrokeWidth:   diagram.ArtefactTypeStrokeWidth,
+			Color:         diagram.BackgroundGreyColorCode,
+			FillOpacity:   1.0,
 		}
 
 		rect := &svg.Rect{
@@ -478,9 +432,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			CanHaveRightHandle:  true,
 			CanHaveTopHandle:    true,
 			CanHaveBottomHandle: true,
-			Presentation: svg.Presentation{
-				Color: svg.White.ToString(),
-			},
+			Color:               svg.White.ToString(),
 			RectAnchoredTexts: []*svg.RectAnchoredText{
 				titleRectAnchoredText,
 				placesRectAnchoredText,
@@ -642,41 +594,35 @@ func (*Stager) addBottomRect(y float64, diagram *Diagram, layer *svg.Layer) {
 	yBoxText := y + diagram.BottomBoxHeigth/2.0
 	_ = yBoxText
 	rect := &svg.Rect{
-		Name:   diagram.Name,
-		X:      0.0,
-		Y:      y,
-		Width:  diagram.BottomBoxWidth,
-		Height: diagram.BottomBoxHeigth,
-		Presentation: svg.Presentation{
-			Color:       diagram.RedColorCode,
-			FillOpacity: 1.0,
-		},
+		Name:        diagram.Name,
+		X:           0.0,
+		Y:           y,
+		Width:       diagram.BottomBoxWidth,
+		Height:      diagram.BottomBoxHeigth,
+		Color:       diagram.RedColorCode,
+		FillOpacity: 1.0,
 		RectAnchoredTexts: []*svg.RectAnchoredText{
 			{
 				Name:           diagram.Name,
 				Content:        strings.ToUpper(diagram.Name),
 				TextAnchorType: svg.TEXT_ANCHOR_START,
 				RectAnchorType: svg.RECT_LEFT,
-				TextAttributes: svg.TextAttributes{
-					FontWeight:    diagram.BottomBoxFontWeigth,
-					FontSize:      diagram.BottomBoxFontSize,
-					FontFamily:    diagram.BottomBoxFontFamily,
-					LetterSpacing: diagram.BottomBoxLetterSpacing,
-					WhiteSpace:    svg.WhiteSpaceEnumPre,
-				},
-				X_Offset: 8,
+				FontWeight:     diagram.BottomBoxFontWeigth,
+				FontSize:       diagram.BottomBoxFontSize,
+				FontFamily:     diagram.BottomBoxFontFamily,
+				LetterSpacing:  diagram.BottomBoxLetterSpacing,
+				WhiteSpace:     svg.WhiteSpaceEnumPre,
+				X_Offset:       8,
 				// Y_Offset:         10,
 				DominantBaseline: svg.DominantBaselineCentral,
-				Presentation: svg.Presentation{
-					Stroke:        diagram.BottomBoxLetterColorCode,
-					StrokeOpacity: 1.0,
-					StrokeWidth:   1.0,
-					Color:         diagram.BottomBoxLetterColorCode,
-					FillOpacity:   1.0,
-					Transform: fmt.Sprintf("translate(0, %f) scale(0.649, 1.2) translate(0, %f)",
-						yBoxText,
-						-yBoxText),
-				},
+				Stroke:           diagram.BottomBoxLetterColorCode,
+				StrokeOpacity:    1.0,
+				StrokeWidth:      1.0,
+				Color:            diagram.BottomBoxLetterColorCode,
+				FillOpacity:      1.0,
+				Transform: fmt.Sprintf("translate(0, %f) scale(0.649, 1.2) translate(0, %f)",
+					yBoxText,
+					-yBoxText),
 			},
 		},
 	}

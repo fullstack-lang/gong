@@ -305,26 +305,26 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 	// The inner and outer surfaces are created with shared materials.
 	// The hole walls are created with the same material.
 	innerMesh := (&threejs.Mesh{
-		Name:           namePrefix + " Inner Mesh",
-		Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+		Name: namePrefix + " Inner Mesh",
+		X:    0, Y: 0, Z: 0,
 		BufferGeometry: geomInner,
 		MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-			Name:                 namePrefix + " Inner Material",
-			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: japanesePaperColor},
-			Transparent:          true,
-			Opacity:              opacity,
+			Name:        namePrefix + " Inner Material",
+			Color:       japanesePaperColor,
+			Transparent: true,
+			Opacity:     opacity,
 		}).Stage(threejsStage),
 	}).Stage(threejsStage)
 
 	outerMesh := (&threejs.Mesh{
-		Name:           namePrefix + " Outer Mesh",
-		Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+		Name: namePrefix + " Outer Mesh",
+		X:    0, Y: 0, Z: 0,
 		BufferGeometry: geomOuter,
 		MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-			Name:                 namePrefix + " Outer Material",
-			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: japanesePaperColor},
-			Transparent:          true,
-			Opacity:              opacity,
+			Name:        namePrefix + " Outer Material",
+			Color:       japanesePaperColor,
+			Transparent: true,
+			Opacity:     opacity,
 		}).Stage(threejsStage),
 	}).Stage(threejsStage)
 
@@ -332,14 +332,14 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 
 	if hasHole {
 		holeWallsMesh := (&threejs.Mesh{
-			Name:           namePrefix + " HoleWalls Mesh",
-			Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+			Name: namePrefix + " HoleWalls Mesh",
+			X:    0, Y: 0, Z: 0,
 			BufferGeometry: geomHoleWalls,
 			MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-				Name:                 namePrefix + " HoleWalls Material",
-				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: japanesePaperColor},
-				Transparent:          true,
-				Opacity:              opacity,
+				Name:        namePrefix + " HoleWalls Material",
+				Color:       japanesePaperColor,
+				Transparent: true,
+				Opacity:     opacity,
 			}).Stage(threejsStage),
 		}).Stage(threejsStage)
 		canvas.Meshs = append(canvas.Meshs, holeWallsMesh)
@@ -426,11 +426,9 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 			createPointSphere := func(ptName string, color string, vec *threejs.Vector3) *threejs.Mesh {
 				return (&threejs.Mesh{
 					Name: fmt.Sprintf("Sphere %s %s h%d r%d", ptName, namePrefix, h, rep),
-					Position: threejs.Position{
-						X: vec.X,
-						Y: vec.Y,
-						Z: vec.Z,
-					},
+					X:    vec.X,
+					Y:    vec.Y,
+					Z:    vec.Z,
 					SphereGeometry: (&threejs.SphereGeometry{
 						Name:           fmt.Sprintf("SphereGeom %s %s h%d r%d", ptName, namePrefix, h, rep),
 						Radius:         sphereRad,
@@ -438,8 +436,8 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 						HeightSegments: 16,
 					}).Stage(threejsStage),
 					MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-						Name:                 fmt.Sprintf("Material %s %s h%d r%d", ptName, namePrefix, h, rep),
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+						Name:  fmt.Sprintf("Material %s %s h%d r%d", ptName, namePrefix, h, rep),
+						Color: color,
 					}).Stage(threejsStage),
 				}).Stage(threejsStage)
 			}
@@ -460,12 +458,12 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 				}).Stage(threejsStage)
 
 				return (&threejs.Mesh{
-					Name:         fmt.Sprintf("TubeMesh %s %s h%d r%d", lineName, namePrefix, h, rep),
-					Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+					Name: fmt.Sprintf("TubeMesh %s %s h%d r%d", lineName, namePrefix, h, rep),
+					X:    0, Y: 0, Z: 0,
 					TubeGeometry: tGeom,
 					MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-						Name:                 fmt.Sprintf("Material %s %s h%d r%d", lineName, namePrefix, h, rep),
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+						Name:  fmt.Sprintf("Material %s %s h%d r%d", lineName, namePrefix, h, rep),
+						Color: color,
 					}).Stage(threejsStage),
 				}).Stage(threejsStage)
 			}

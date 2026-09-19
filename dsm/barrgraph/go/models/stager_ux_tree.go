@@ -160,12 +160,10 @@ func (stager *Stager) ux_tree() {
 
 					movementShape := &MovementShape{
 						Movement: movement,
-						PositionAndSize: PositionAndSize{
-							Width:  240,
-							Height: 80,
-							X:      float64(int(rand.Float32()*100) + 10),
-							Y:      float64(int(rand.Float32()*100) + 10),
-						},
+						Width:    240,
+						Height:   80,
+						X:        float64(int(rand.Float32()*100) + 10),
+						Y:        float64(int(rand.Float32()*100) + 10),
 					}
 					movementShape.Stage(stage)
 					diagram.MovementShapes = append(diagram.MovementShapes, movementShape)
@@ -197,12 +195,10 @@ func (stager *Stager) ux_tree() {
 					if isChecked {
 						movementShape := &MovementShape{
 							Movement: movement,
-							PositionAndSize: PositionAndSize{
-								Width:  240,
-								Height: 80,
-								X:      float64(int(rand.Float32()*100) + 10),
-								Y:      float64(int(rand.Float32()*100) + 10),
-							},
+							Width:    240,
+							Height:   80,
+							X:        float64(int(rand.Float32()*100) + 10),
+							Y:        float64(int(rand.Float32()*100) + 10),
 						}
 						movementShape.Stage(stage)
 						diagram.MovementShapes = append(diagram.MovementShapes, movementShape)
@@ -282,12 +278,10 @@ func (stager *Stager) ux_tree() {
 
 					artefactTypeShape := &ArtefactTypeShape{
 						ArtefactType: artefactType,
-						PositionAndSize: PositionAndSize{
-							Width:  150,
-							Height: 25,
-							X:      float64(int(rand.Float32()*100) + 10),
-							Y:      float64(int(rand.Float32()*100) + 10),
-						},
+						Width:        150,
+						Height:       25,
+						X:            float64(int(rand.Float32()*100) + 10),
+						Y:            float64(int(rand.Float32()*100) + 10),
 					}
 					artefactTypeShape.Stage(stage)
 					diagram.ArtefactTypeShapes = append(diagram.ArtefactTypeShapes, artefactTypeShape)
@@ -317,12 +311,10 @@ func (stager *Stager) ux_tree() {
 					if isChecked {
 						artefactTypeShape := &ArtefactTypeShape{
 							ArtefactType: artefactType,
-							PositionAndSize: PositionAndSize{
-								Width:  150,
-								Height: 25,
-								X:      float64(int(rand.Float32()*100) + 10),
-								Y:      float64(int(rand.Float32()*100) + 10),
-							},
+							Width:        150,
+							Height:       25,
+							X:            float64(int(rand.Float32()*100) + 10),
+							Y:            float64(int(rand.Float32()*100) + 10),
 						}
 						artefactTypeShape.Stage(stage)
 						diagram.ArtefactTypeShapes = append(diagram.ArtefactTypeShapes, artefactTypeShape)
@@ -404,12 +396,10 @@ func (stager *Stager) ux_tree() {
 
 					artistShape := &ArtistShape{
 						Artist: artist,
-						PositionAndSize: PositionAndSize{
-							Width:  80,
-							Height: 30,
-							X:      float64(int(rand.Float32()*100) + 10),
-							Y:      float64(int(rand.Float32()*100) + 10),
-						},
+						Width:  80,
+						Height: 30,
+						X:      float64(int(rand.Float32()*100) + 10),
+						Y:      float64(int(rand.Float32()*100) + 10),
 					}
 					artistShape.Stage(stage)
 					diagram.ArtistShapes = append(diagram.ArtistShapes, artistShape)
@@ -440,12 +430,10 @@ func (stager *Stager) ux_tree() {
 					if isChecked {
 						artistShape := &ArtistShape{
 							Artist: element,
-							PositionAndSize: PositionAndSize{
-								Width:  80,
-								Height: 30,
-								X:      float64(int(rand.Float32()*100) + 10),
-								Y:      float64(int(rand.Float32()*100) + 10),
-							},
+							Width:  80,
+							Height: 30,
+							X:      float64(int(rand.Float32()*100) + 10),
+							Y:      float64(int(rand.Float32()*100) + 10),
 						}
 						artistShape.Stage(stage)
 						diagram.ArtistShapes = append(diagram.ArtistShapes, artistShape)

@@ -28,11 +28,9 @@ func TestModelsStageBasicFunctionalities(t *testing.T) {
 		B:           bInstance,
 		Bs:          []*B{bInstance},
 		X:           xInstance,
-		ToBeImported: x.ToBeImported{
-			Foo:   123,
-			Bar:   45.67,
-			Zorgh: "Hello Gong",
-		},
+		Foo:         123,
+		Bar:         45.67,
+		Zorgh:       "Hello Gong",
 	}).Stage(stageModels)
 
 	stageModels.Commit()

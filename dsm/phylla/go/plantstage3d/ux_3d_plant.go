@@ -108,31 +108,31 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 	// Lights
 	lightScale := math.Max(globalR, H)
 	dirLight1 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 1 (Key)",
-		Position:         threejs.Position{X: lightScale * 2.0, Y: lightScale * 2.5, Z: lightScale * 2.0},
-		LightAbstract:    threejs.LightAbstract{Intensity: 1.2},
+		Name: "Directional Light 1 (Key)",
+		X:    lightScale * 2.0, Y: lightScale * 2.5, Z: lightScale * 2.0,
+		Intensity:        1.2,
 		IsWithCastShadow: true,
 	}).Stage(plant3dStage)
 
 	dirLight2 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 2 (Fill)",
-		Position:         threejs.Position{X: -lightScale * 2.0, Y: lightScale * 1.5, Z: -lightScale * 2.0},
-		LightAbstract:    threejs.LightAbstract{Intensity: 0.6},
+		Name: "Directional Light 2 (Fill)",
+		X:    -lightScale * 2.0, Y: lightScale * 1.5, Z: -lightScale * 2.0,
+		Intensity:        0.6,
 		IsWithCastShadow: false,
 	}).Stage(plant3dStage)
 
 	dirLight3 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 3 (Rim)",
-		Position:         threejs.Position{X: 0, Y: lightScale * 3.5, Z: -lightScale * 2.5},
-		LightAbstract:    threejs.LightAbstract{Intensity: 0.8},
+		Name: "Directional Light 3 (Rim)",
+		X:    0, Y: lightScale * 3.5, Z: -lightScale * 2.5,
+		Intensity:        0.8,
 		IsWithCastShadow: false,
 	}).Stage(plant3dStage)
 
 	canvas.DirectionalLights = append(canvas.DirectionalLights, dirLight1, dirLight2, dirLight3)
 
 	ambiantLight := (&threejs.AmbiantLight{
-		Name:          "Ambiant Light",
-		LightAbstract: threejs.LightAbstract{Intensity: 0.45},
+		Name:      "Ambiant Light",
+		Intensity: 0.45,
 	}).Stage(plant3dStage)
 	canvas.AmbiantLight = ambiantLight
 
@@ -148,12 +148,10 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 			fov = 50
 		}
 		canvas.Camera = (&threejs.Camera{
-			Name: "Camera",
-			Position: threejs.Position{
-				X: rendered3DShape.ViewX,
-				Y: rendered3DShape.ViewY,
-				Z: rendered3DShape.ViewZ,
-			},
+			Name:    "Camera",
+			X:       rendered3DShape.ViewX,
+			Y:       rendered3DShape.ViewY,
+			Z:       rendered3DShape.ViewZ,
 			TargetX: rendered3DShape.TargetX,
 			TargetY: rendered3DShape.TargetY,
 			TargetZ: rendered3DShape.TargetZ,
@@ -165,12 +163,10 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 			camDist = 30
 		}
 		canvas.Camera = (&threejs.Camera{
-			Name: "Camera",
-			Position: threejs.Position{
-				X: camDist,
-				Y: H * 0.7,
-				Z: camDist,
-			},
+			Name:    "Camera",
+			X:       camDist,
+			Y:       H * 0.7,
+			Z:       camDist,
 			TargetY: H * 0.5,
 			Fov:     50,
 		}).Stage(plant3dStage)
@@ -214,14 +210,14 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 		}).Stage(plant3dStage)
 
 		cylMesh := (&threejs.Mesh{
-			Name:             "Stem Cylinder Mesh",
-			Position:         threejs.Position{X: 0, Y: H / 2.0, Z: 0},
+			Name: "Stem Cylinder Mesh",
+			X:    0, Y: H / 2.0, Z: 0,
 			CylinderGeometry: cylGeom,
 			MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-				Name:                 "Stem Cylinder Material",
-				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#f1f5f9"},
-				Transparent:          true,
-				Opacity:              opacity,
+				Name:        "Stem Cylinder Material",
+				Color:       "#f1f5f9",
+				Transparent: true,
+				Opacity:     opacity,
 			}).Stage(plant3dStage),
 		}).Stage(plant3dStage)
 
@@ -259,10 +255,10 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 				Name:         fmt.Sprintf("%s Mesh", name),
 				TubeGeometry: ringGeom,
 				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-					Name:                 fmt.Sprintf("%s Material", name),
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-					Transparent:          true,
-					Opacity:              0.9,
+					Name:        fmt.Sprintf("%s Material", name),
+					Color:       color,
+					Transparent: true,
+					Opacity:     0.9,
 				}).Stage(plant3dStage),
 			}).Stage(plant3dStage)
 
@@ -303,10 +299,10 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 			Name:         "Cut Line Mesh",
 			TubeGeometry: cutGeom,
 			MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-				Name:                 "Cut Line Material",
-				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#db2777"}, // Deep pink/magenta
-				Transparent:          true,
-				Opacity:              1.0,
+				Name:        "Cut Line Material",
+				Color:       "#db2777", // Deep pink/magenta
+				Transparent: true,
+				Opacity:     1.0,
 			}).Stage(plant3dStage),
 		}).Stage(plant3dStage)
 
@@ -348,10 +344,10 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 				Name:         fmt.Sprintf("Parastichy N Mesh %d", k),
 				TubeGeometry: geom,
 				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-					Name:                 fmt.Sprintf("Parastichy N Material %d", k),
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#2563eb"}, // Vibrant Blue
-					Transparent:          true,
-					Opacity:              1.0,
+					Name:        fmt.Sprintf("Parastichy N Material %d", k),
+					Color:       "#2563eb", // Vibrant Blue
+					Transparent: true,
+					Opacity:     1.0,
 				}).Stage(plant3dStage),
 			}).Stage(plant3dStage)
 
@@ -394,10 +390,10 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 				Name:         fmt.Sprintf("Parastichy M Mesh %d", m),
 				TubeGeometry: geom,
 				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-					Name:                 fmt.Sprintf("Parastichy M Material %d", m),
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#ea580c"}, // Vibrant Orange
-					Transparent:          true,
-					Opacity:              1.0,
+					Name:        fmt.Sprintf("Parastichy M Material %d", m),
+					Color:       "#ea580c", // Vibrant Orange
+					Transparent: true,
+					Opacity:     1.0,
 				}).Stage(plant3dStage),
 			}).Stage(plant3dStage)
 
@@ -486,13 +482,13 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 				leafStalkRadius := math.Max(tubeRadius*1.5, 2.0)
 
 				nodeMaterial := (&threejs.MeshPhysicalMaterial{
-					Name:                 "Leaf Node Material",
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#15803d"},
+					Name:  "Leaf Node Material",
+					Color: "#15803d",
 				}).Stage(plant3dStage)
 
 				stalkMaterial := (&threejs.MeshPhysicalMaterial{
-					Name:                 "Leaf Stalk Material",
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#16a34a"},
+					Name:  "Leaf Stalk Material",
+					Color: "#16a34a",
 				}).Stage(plant3dStage)
 
 				for idx, lp := range leafPoints {
@@ -513,11 +509,9 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 					// 1. Primordium Node Sphere right at the intersection point
 					nodeSphere := (&threejs.Mesh{
 						Name: fmt.Sprintf("Leaf Node %d", idx),
-						Position: threejs.Position{
-							X: lp.x,
-							Y: lp.y,
-							Z: lp.z,
-						},
+						X:    lp.x,
+						Y:    lp.y,
+						Z:    lp.z,
 						SphereGeometry: (&threejs.SphereGeometry{
 							Name:           fmt.Sprintf("Leaf Node Geom %d", idx),
 							Radius:         leafNodeRadius,
@@ -636,10 +630,10 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 					Name:           "Plant Leaves Mesh",
 					BufferGeometry: leafGeom,
 					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-						Name:                 "Plant Leaves Material",
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#22c55e"},
-						Transparent:          true,
-						Opacity:              0.92,
+						Name:        "Plant Leaves Material",
+						Color:       "#22c55e",
+						Transparent: true,
+						Opacity:     0.92,
 					}).Stage(plant3dStage),
 				}).Stage(plant3dStage)
 

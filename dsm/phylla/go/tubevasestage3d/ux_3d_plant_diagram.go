@@ -427,14 +427,14 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}).Stage(threejsStage)
 
 		poleMesh := (&threejs.Mesh{
-			Name:         "Angle0 Pole Mesh",
-			Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+			Name: "Angle0 Pole Mesh",
+			X:    0, Y: 0, Z: 0,
 			TubeGeometry: tGeomPole,
 			MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-				Name:                 "Angle0 Pole Material",
-				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "magenta"},
-				Transparent:          true,
-				Opacity:              0.2,
+				Name:        "Angle0 Pole Material",
+				Color:       "magenta",
+				Transparent: true,
+				Opacity:     0.2,
 			}).Stage(threejsStage),
 		}).Stage(threejsStage)
 
@@ -457,14 +457,14 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}).Stage(threejsStage)
 
 		axisMesh := (&threejs.Mesh{
-			Name:         "Angle0 Axis Mesh",
-			Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+			Name: "Angle0 Axis Mesh",
+			X:    0, Y: 0, Z: 0,
 			TubeGeometry: tGeomAxis,
 			MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-				Name:                 "Angle0 Axis Material",
-				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "magenta"},
-				Transparent:          true,
-				Opacity:              0.2,
+				Name:        "Angle0 Axis Material",
+				Color:       "magenta",
+				Transparent: true,
+				Opacity:     0.2,
 			}).Stage(threejsStage),
 		}).Stage(threejsStage)
 

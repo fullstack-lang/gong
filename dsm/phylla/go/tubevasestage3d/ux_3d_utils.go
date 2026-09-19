@@ -13,31 +13,31 @@ func (u *ThreeJSStageUpdater) addLights(stager *models.Stager, canvas *threejs.C
 	threejsStage := stager.GetThreejsStage()
 
 	dirLight1 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 1 (Key)",
-		Position:         threejs.Position{X: 15, Y: 20, Z: 15},
-		LightAbstract:    threejs.LightAbstract{Intensity: 1.2},
+		Name: "Directional Light 1 (Key)",
+		X:    15, Y: 20, Z: 15,
+		Intensity:        1.2,
 		IsWithCastShadow: true,
 	}).Stage(threejsStage)
 
 	dirLight2 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 2 (Fill)",
-		Position:         threejs.Position{X: -15, Y: 10, Z: -15},
-		LightAbstract:    threejs.LightAbstract{Intensity: 0.6},
+		Name: "Directional Light 2 (Fill)",
+		X:    -15, Y: 10, Z: -15,
+		Intensity:        0.6,
 		IsWithCastShadow: false,
 	}).Stage(threejsStage)
 
 	dirLight3 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 3 (Rim)",
-		Position:         threejs.Position{X: 0, Y: 30, Z: -20},
-		LightAbstract:    threejs.LightAbstract{Intensity: 0.8},
+		Name: "Directional Light 3 (Rim)",
+		X:    0, Y: 30, Z: -20,
+		Intensity:        0.8,
 		IsWithCastShadow: false,
 	}).Stage(threejsStage)
 
 	canvas.DirectionalLights = append(canvas.DirectionalLights, dirLight1, dirLight2, dirLight3)
 
 	ambiantLight := (&threejs.AmbiantLight{
-		Name:          "Ambiant Light",
-		LightAbstract: threejs.LightAbstract{Intensity: 0.3},
+		Name:      "Ambiant Light",
+		Intensity: 0.3,
 	}).Stage(threejsStage)
 	canvas.AmbiantLight = ambiantLight
 }
@@ -52,12 +52,10 @@ func (u *ThreeJSStageUpdater) setupCamera(stager *models.Stager, canvas *threejs
 			fov = 50
 		}
 		canvas.Camera = (&threejs.Camera{
-			Name: "Camera",
-			Position: threejs.Position{
-				X: checkedDiagram.Rendered3DShape.ViewX,
-				Y: checkedDiagram.Rendered3DShape.ViewY,
-				Z: checkedDiagram.Rendered3DShape.ViewZ,
-			},
+			Name:    "Camera",
+			X:       checkedDiagram.Rendered3DShape.ViewX,
+			Y:       checkedDiagram.Rendered3DShape.ViewY,
+			Z:       checkedDiagram.Rendered3DShape.ViewZ,
 			TargetX: checkedDiagram.Rendered3DShape.TargetX,
 			TargetY: checkedDiagram.Rendered3DShape.TargetY,
 			TargetZ: checkedDiagram.Rendered3DShape.TargetZ,
@@ -70,12 +68,10 @@ func (u *ThreeJSStageUpdater) setupCamera(stager *models.Stager, canvas *threejs
 		}
 
 		canvas.Camera = (&threejs.Camera{
-			Name: "Camera",
-			Position: threejs.Position{
-				X: camDist,
-				Y: camDist * 0.8,
-				Z: camDist,
-			},
+			Name:    "Camera",
+			X:       camDist,
+			Y:       camDist * 0.8,
+			Z:       camDist,
 			TargetY: globalR,
 			Fov:     50,
 		}).Stage(threejsStage)
@@ -151,11 +147,9 @@ func (u *ThreeJSStageUpdater) addFloorTiles(stager *models.Stager, floorMinY flo
 
 			tileMesh := (&threejs.Mesh{
 				Name: "Floor Tile " + strconv.Itoa(i) + "-" + strconv.Itoa(j),
-				Position: threejs.Position{
-					X: float64(i)*tileSize + tileSize/2,
-					Y: floorMinY - 0.05,
-					Z: float64(j)*tileSize + tileSize/2,
-				},
+				X:    float64(i)*tileSize + tileSize/2,
+				Y:    floorMinY - 0.05,
+				Z:    float64(j)*tileSize + tileSize/2,
 				BoxGeometry: (&threejs.BoxGeometry{
 					Name:           "Tile Geometry",
 					Width:          tileSize,
@@ -166,8 +160,8 @@ func (u *ThreeJSStageUpdater) addFloorTiles(stager *models.Stager, floorMinY flo
 					DepthSegments:  1,
 				}).Stage(threejsStage),
 				MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-					Name:                 "Tile Material " + color,
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+					Name:  "Tile Material " + color,
+					Color: color,
 				}).Stage(threejsStage),
 			}).Stage(threejsStage)
 
@@ -305,14 +299,14 @@ func (u *ThreeJSStageUpdater) createFaceMesh(stager *models.Stager, faceName str
 	}
 
 	return (&threejs.Mesh{
-		Name:           fmt.Sprintf("%s Mesh", faceName),
-		Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+		Name: fmt.Sprintf("%s Mesh", faceName),
+		X:    0, Y: 0, Z: 0,
 		BufferGeometry: geom,
 		MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-			Name:                 fmt.Sprintf("%s Material", faceName),
-			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-			Transparent:          true,
-			Opacity:              opacity,
+			Name:        fmt.Sprintf("%s Material", faceName),
+			Color:       color,
+			Transparent: true,
+			Opacity:     opacity,
 		}).Stage(threejsStage),
 	}).Stage(threejsStage)
 }
@@ -347,10 +341,10 @@ func (u *ThreeJSStageUpdater) createTorusEdgeMesh(stager *models.Stager, name st
 	}).Stage(threejsStage)
 
 	return (&threejs.Mesh{
-		Name:              "TubeMesh " + name,
-		Position:          threejs.Position{X: 0, Y: 0, Z: 0},
+		Name: "TubeMesh " + name,
+		X:    0, Y: 0, Z: 0,
 		TubeGeometry:      tubeGeometry,
-		MeshMaterialBasic: (&threejs.MeshMaterialBasic{Name: name + " Material", MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color}}).Stage(threejsStage),
+		MeshMaterialBasic: (&threejs.MeshMaterialBasic{Name: name + " Material", Color: color}).Stage(threejsStage),
 	}).Stage(threejsStage)
 }
 
@@ -372,12 +366,12 @@ func (u *ThreeJSStageUpdater) createKeyHole3DTubeMesh(stager *models.Stager, tub
 	}).Stage(threejsStage)
 
 	return (&threejs.Mesh{
-		Name:         fmt.Sprintf("TubeMesh %s", tubeName),
-		Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+		Name: fmt.Sprintf("TubeMesh %s", tubeName),
+		X:    0, Y: 0, Z: 0,
 		TubeGeometry: tGeom,
 		MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-			Name:                 fmt.Sprintf("Material %s", tubeName),
-			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkred"},
+			Name:  fmt.Sprintf("Material %s", tubeName),
+			Color: "darkred",
 		}).Stage(threejsStage),
 	}).Stage(threejsStage)
 }
@@ -455,8 +449,8 @@ func (u *ThreeJSStageUpdater) createVolumeKey3DBoxMesh(stager *models.Stager, na
 		Name:           name + " Mesh",
 		BufferGeometry: geom,
 		MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-			Name:                 name + " Material",
-			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+			Name:  name + " Material",
+			Color: color,
 		}).Stage(threejsStage),
 	}).Stage(threejsStage)
 

@@ -212,23 +212,21 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 
 		for _, path := range partShape.Part.PartAnchoredPath {
 			rectAnchoredPath := &svg.RectAnchoredPath{
-				Name:                path.Name,
-				Definition:          path.Definition,
-				X_Offset:            path.X_Offset,
-				Y_Offset:            path.Y_Offset,
-				RectAnchorType:      svg.RectAnchorType(path.RectAnchorType),
-				ScalePropotionnally: path.ScalePropotionnally,
-				AppliedScaling:      path.AppliedScaling,
-				Presentation: svg.Presentation{
-					Color:                       path.Color,
-					FillOpacity:                 path.FillOpacity,
-					Stroke:                      path.Stroke,
-					StrokeOpacity:               path.StrokeOpacity,
-					StrokeWidth:                 path.StrokeWidth,
-					StrokeDashArray:             path.StrokeDashArray,
-					StrokeDashArrayWhenSelected: path.StrokeDashArrayWhenSelected,
-					Transform:                   path.Transform,
-				},
+				Name:                        path.Name,
+				Definition:                  path.Definition,
+				X_Offset:                    path.X_Offset,
+				Y_Offset:                    path.Y_Offset,
+				RectAnchorType:              svg.RectAnchorType(path.RectAnchorType),
+				ScalePropotionnally:         path.ScalePropotionnally,
+				AppliedScaling:              path.AppliedScaling,
+				Color:                       path.Color,
+				FillOpacity:                 path.FillOpacity,
+				Stroke:                      path.Stroke,
+				StrokeOpacity:               path.StrokeOpacity,
+				StrokeWidth:                 path.StrokeWidth,
+				StrokeDashArray:             path.StrokeDashArray,
+				StrokeDashArrayWhenSelected: path.StrokeDashArrayWhenSelected,
+				Transform:                   path.Transform,
 			}
 			partRect.RectAnchoredPaths = append(partRect.RectAnchoredPaths, rectAnchoredPath)
 		}
@@ -307,17 +305,15 @@ func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure,
 		systemRect.Obstacles = append(systemRect.Obstacles, rect)
 
 		tailRect := &svg.Rect{
-			Name:               "Tail" + rect.GetName(),
-			CanMoveHorizontaly: true,
-			CanMoveVerticaly:   true,
-			Presentation: svg.Presentation{
-				Stroke:          "#9E9E9E",
-				StrokeWidth:     1.5,
-				StrokeOpacity:   1,
-				StrokeDashArray: "5 5",
-				Color:           "transparent",
-				FillOpacity:     0.0,
-			},
+			Name:                "Tail" + rect.GetName(),
+			CanMoveHorizontaly:  true,
+			CanMoveVerticaly:    true,
+			Stroke:              "#9E9E9E",
+			StrokeWidth:         1.5,
+			StrokeOpacity:       1,
+			StrokeDashArray:     "5 5",
+			Color:               "transparent",
+			FillOpacity:         0.0,
 			Width:               externalPartWidth,
 			Height:              externalPartShape.TailHeigth,
 			X:                   rect.X + (rect.Width-externalPartWidth)/2.0,
@@ -398,7 +394,7 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 			portRect.RectAnchoredTexts = slices.Delete(portRect.RectAnchoredTexts, 0, len(portRect.RectAnchoredTexts))
 			portRect.FillOpacity = 0.1
 			portRect.StrokeOpacity = 0.3
-			
+
 			portRect.X += portRect.Width / 4.0
 			portRect.Y += portRect.Height / 4.0
 			portRect.Width /= 2.0
@@ -585,16 +581,12 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 					}
 					return dataShape.Data.Name
 				}(),
-				Content: data.Name,
-				Presentation: svg.Presentation{
-					Color:       "#333333",
-					FillOpacity: 1.0,
-					Stroke:      "#FFFFFF",
-					StrokeWidth: 2.0,
-				},
-				TextAttributes: svg.TextAttributes{
-					FontWeight: "600",
-				},
+				Content:     data.Name,
+				Color:       "#333333",
+				FillOpacity: 1.0,
+				Stroke:      "#FFFFFF",
+				StrokeWidth: 2.0,
+				FontWeight:  "600",
 
 				Y_Offset: float64(-nbDataShapes+idx+1)*18.0 - 4.0,
 				X_Offset: textXOffset,
@@ -606,13 +598,11 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 					data.InverseAppliedScaling = 1.0
 				}
 				path := &svg.LinkAnchoredPath{
-					Name:       data.GetName(),
-					Definition: data.SVG_Path,
-					Presentation: svg.Presentation{
-						StrokeWidth: 0,
-						Color:       "#757575",
-						FillOpacity: 1,
-					},
+					Name:                data.GetName(),
+					Definition:          data.SVG_Path,
+					StrokeWidth:         0,
+					Color:               "#757575",
+					FillOpacity:         1,
 					X_Offset:            4.0,
 					Y_Offset:            float64(-nbDataShapes+idx+1)*18.0 - 4.0,
 					ScalePropotionnally: true,

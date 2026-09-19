@@ -96,19 +96,17 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	if toSys == nil || (compareAnalysis != nil && fromSys == nil) {
 		infoRect := &svg.Rect{
-			Name:   "Info Background",
-			X:      100,
-			Y:      250,
-			Width:  750,
-			Height: 120,
-			RX:     10,
-			Presentation: svg.Presentation{
-				Color:         "#F5F5F5",
-				FillOpacity:   0.9,
-				Stroke:        "#9E9E9E",
-				StrokeWidth:   1.5,
-				StrokeOpacity: 1.0,
-			},
+			Name:          "Info Background",
+			X:             100,
+			Y:             250,
+			Width:         750,
+			Height:        120,
+			RX:            10,
+			Color:         "#F5F5F5",
+			FillOpacity:   0.9,
+			Stroke:        "#9E9E9E",
+			StrokeWidth:   1.5,
+			StrokeOpacity: 1.0,
 		}
 		layer.Rects = append(layer.Rects, infoRect)
 
@@ -436,19 +434,17 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	// Header banner
 	headerWidth := math.Max(columnsRight+40.0, textWidth+40.0) // 40.0 padding
 	headerRect := &svg.Rect{
-		Name:   "Header Card",
-		X:      40,
-		Y:      20,
-		Width:  headerWidth,
-		Height: fontSettings.HeaderHeight,
-		RX:     8,
-		Presentation: svg.Presentation{
-			Color:         "#FAFAFA",
-			FillOpacity:   1.0,
-			Stroke:        "#B0BEC5",
-			StrokeWidth:   1.5,
-			StrokeOpacity: 1.0,
-		},
+		Name:          "Header Card",
+		X:             40,
+		Y:             20,
+		Width:         headerWidth,
+		Height:        fontSettings.HeaderHeight,
+		RX:            8,
+		Color:         "#FAFAFA",
+		FillOpacity:   1.0,
+		Stroke:        "#B0BEC5",
+		StrokeWidth:   1.5,
+		StrokeOpacity: 1.0,
 	}
 	if compareAnalysis != nil {
 		headerRect.OnSelect = onSelectRectElement(stager, compareAnalysis)
@@ -515,20 +511,16 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	// -------------------------------------------------------------
 
 	groundLine := &svg.Line{
-		Name: "Ground Baseline",
-		X1:   40,
-		Y1:   yGround,
-		X2:   columnsRight + 80.0,
-		Y2:   yGround,
-		Presentation: svg.Presentation{
-			Stroke:        "#78909C",
-			StrokeWidth:   2.0,
-			StrokeOpacity: 1.0,
-		},
+		Name:          "Ground Baseline",
+		X1:            40,
+		Y1:            yGround,
+		X2:            columnsRight + 80.0,
+		Y2:            yGround,
+		Stroke:        "#78909C",
+		StrokeWidth:   2.0,
+		StrokeOpacity: 1.0,
 	}
 	layer.Lines = append(layer.Lines, groundLine)
-
-
 
 	// Map to hold element to rect pointers
 	map_Element_Rect := make(map[any]*svg.Rect)
@@ -599,20 +591,18 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 				}
 
 				itemRect := &svg.Rect{
-					Name:   fmt.Sprintf("%s_%s_%d", category, ownerSys.Name, idx),
-					X:      xPos,
-					Y:      currY,
-					Width:  colWidth,
-					Height: itemH,
-					RX:     4,
-					Presentation: svg.Presentation{
-						Color:           fillColor,
-						FillOpacity:     0.95,
-						Stroke:          strokeColor,
-						StrokeWidth:     1.5,
-						StrokeOpacity:   1.0,
-						StrokeDashArray: strokeDash,
-					},
+					Name:            fmt.Sprintf("%s_%s_%d", category, ownerSys.Name, idx),
+					X:               xPos,
+					Y:               currY,
+					Width:           colWidth,
+					Height:          itemH,
+					RX:              4,
+					Color:           fillColor,
+					FillOpacity:     0.95,
+					Stroke:          strokeColor,
+					StrokeWidth:     1.5,
+					StrokeOpacity:   1.0,
+					StrokeDashArray: strokeDash,
 				}
 				layer.Rects = append(layer.Rects, itemRect)
 				map_Element_Rect[item] = itemRect
@@ -686,20 +676,18 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 				return
 			}
 			colRect := &svg.Rect{
-				Name:   fmt.Sprintf("%s Col Rect", category),
-				X:      xPos,
-				Y:      baseY,
-				Width:  colWidth,
-				Height: totalH,
-				RX:     4,
-				Presentation: svg.Presentation{
-					Color:           fillColor,
-					FillOpacity:     0.95,
-					Stroke:          strokeColor,
-					StrokeWidth:     1.5,
-					StrokeOpacity:   1.0,
-					StrokeDashArray: strokeDash,
-				},
+				Name:            fmt.Sprintf("%s Col Rect", category),
+				X:               xPos,
+				Y:               baseY,
+				Width:           colWidth,
+				Height:          totalH,
+				RX:              4,
+				Color:           fillColor,
+				FillOpacity:     0.95,
+				Stroke:          strokeColor,
+				StrokeWidth:     1.5,
+				StrokeOpacity:   1.0,
+				StrokeDashArray: strokeDash,
 			}
 			layer.Rects = append(layer.Rects, colRect)
 		}
@@ -766,15 +754,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 		if diagram.AreQuantitativeElementsVisible {
 			muRect := &svg.Rect{
-				Name:   "Mu Label Rect",
-				X:      xCol2_V2,
-				Y:      yTipP_V2 - 35,
-				Width:  colWidth,
-				Height: 30,
-				Presentation: svg.Presentation{
-					FillOpacity:   0.0,
-					StrokeOpacity: 0.0,
-				},
+				Name:          "Mu Label Rect",
+				X:             xCol2_V2,
+				Y:             yTipP_V2 - 35,
+				Width:         colWidth,
+				Height:        30,
+				FillOpacity:   0.0,
+				StrokeOpacity: 0.0,
 			}
 			layer.Rects = append(layer.Rects, muRect)
 
@@ -800,15 +786,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 		if diagram.AreQuantitativeElementsVisible {
 			epsilonRect := &svg.Rect{
-				Name:   "Epsilon Label Rect",
-				X:      xCol3_V2,
-				Y:      yBottomE_V2 + 5,
-				Width:  colWidth,
-				Height: 30,
-				Presentation: svg.Presentation{
-					FillOpacity:   0.0,
-					StrokeOpacity: 0.0,
-				},
+				Name:          "Epsilon Label Rect",
+				X:             xCol3_V2,
+				Y:             yBottomE_V2 + 5,
+				Width:         colWidth,
+				Height:        30,
+				FillOpacity:   0.0,
+				StrokeOpacity: 0.0,
 			}
 			layer.Rects = append(layer.Rects, epsilonRect)
 
@@ -829,38 +813,30 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 		// Guides & Indicators
 		peakLine := &svg.Line{
-			Name: "Peak Indicator Line",
-			X1:   xCol2_V2,
-			Y1:   yTipP_V2,
-			X2:   columnsRight,
-			Y2:   yTipP_V2,
-			Presentation: svg.Presentation{
-				Stroke:          "#388E3C",
-				StrokeWidth:     1.5,
-				StrokeOpacity:   1.0,
-				StrokeDashArray: "4 3",
-			},
+			Name:            "Peak Indicator Line",
+			X1:              xCol2_V2,
+			Y1:              yTipP_V2,
+			X2:              columnsRight,
+			Y2:              yTipP_V2,
+			Stroke:          "#388E3C",
+			StrokeWidth:     1.5,
+			StrokeOpacity:   1.0,
+			StrokeDashArray: "4 3",
 		}
 		layer.Lines = append(layer.Lines, peakLine)
 
-
-
 		rhsLine := &svg.Line{
-			Name: "RHS Level Line",
-			X1:   xCol1_V2,
-			Y1:   yBottomE_V2,
-			X2:   columnsRight,
-			Y2:   yBottomE_V2,
-			Presentation: svg.Presentation{
-				Stroke:          "#1565C0",
-				StrokeWidth:     1.5,
-				StrokeOpacity:   1.0,
-				StrokeDashArray: "4 3",
-			},
+			Name:            "RHS Level Line",
+			X1:              xCol1_V2,
+			Y1:              yBottomE_V2,
+			X2:              columnsRight,
+			Y2:              yBottomE_V2,
+			Stroke:          "#1565C0",
+			StrokeWidth:     1.5,
+			StrokeOpacity:   1.0,
+			StrokeDashArray: "4 3",
 		}
 		layer.Lines = append(layer.Lines, rhsLine)
-
-
 
 		yTipC_Indicator = yTipC_V2
 		yRHS_Indicator = yBottomE_V2
@@ -881,46 +857,42 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			shaftWidth := 14.0
 			headWidth := 34.0
 			headHeight := 16.0
-			
+
 			if math.Abs(yStart-yEnd) < headHeight*1.5 {
 				headHeight = math.Abs(yStart-yEnd) * 0.5
 			}
-			
+
 			var yHeadBase float64
 			if isUp {
 				yHeadBase = yEnd + headHeight
 			} else {
 				yHeadBase = yEnd - headHeight
 			}
-			
+
 			dummyRect := &svg.Rect{
 				Name: "Dummy Anchor for Arrow " + label,
-				X: 0, Y: 0, Width: 0, Height: 0,
-				Presentation: svg.Presentation{
-					Color: "transparent",
-					Stroke: "transparent",
-				},
+				X:    0, Y: 0, Width: 0, Height: 0,
+				Color:  "transparent",
+				Stroke: "transparent",
 			}
 
 			anchoredPath := &svg.RectAnchoredPath{
 				Name: "Arrow " + label,
 				Definition: fmt.Sprintf("M %f,%f L %f,%f L %f,%f L %f,%f L %f,%f L %f,%f L %f,%f Z",
-					xCenter - shaftWidth/2, yStart,
-					xCenter + shaftWidth/2, yStart,
-					xCenter + shaftWidth/2, yHeadBase,
-					xCenter + headWidth/2, yHeadBase,
+					xCenter-shaftWidth/2, yStart,
+					xCenter+shaftWidth/2, yStart,
+					xCenter+shaftWidth/2, yHeadBase,
+					xCenter+headWidth/2, yHeadBase,
 					xCenter, yEnd,
-					xCenter - headWidth/2, yHeadBase,
-					xCenter - shaftWidth/2, yHeadBase),
-				RectAnchorType: svg.RECT_TOP_LEFT,
+					xCenter-headWidth/2, yHeadBase,
+					xCenter-shaftWidth/2, yHeadBase),
+				RectAnchorType:      svg.RECT_TOP_LEFT,
 				ScalePropotionnally: false,
-				Presentation: svg.Presentation{
-					Color: color,
-					FillOpacity: 0.2,
-					Stroke: color,
-					StrokeWidth: 2.0,
-					StrokeOpacity: 1.0,
-				},
+				Color:               color,
+				FillOpacity:         0.2,
+				Stroke:              color,
+				StrokeWidth:         2.0,
+				StrokeOpacity:       1.0,
 			}
 			dummyRect.RectAnchoredPaths = append(dummyRect.RectAnchoredPaths, anchoredPath)
 			layer.Rects = append(layer.Rects, dummyRect)
@@ -943,33 +915,29 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 		// Dashed guide across tips of V2 and V1
 		tipCLine := &svg.Line{
-			Name: "C Tip Guide Line",
-			X1:   xCol1_V2,
-			Y1:   yTipC_V2,
-			X2:   xCol1_V1 + colWidth,
-			Y2:   yTipC_V2,
-			Presentation: svg.Presentation{
-				Stroke:          "#FFA000",
-				StrokeWidth:     1.5,
-				StrokeOpacity:   1.0,
-				StrokeDashArray: "4 3",
-			},
+			Name:            "C Tip Guide Line",
+			X1:              xCol1_V2,
+			Y1:              yTipC_V2,
+			X2:              xCol1_V1 + colWidth,
+			Y2:              yTipC_V2,
+			Stroke:          "#FFA000",
+			StrokeWidth:     1.5,
+			StrokeOpacity:   1.0,
+			StrokeDashArray: "4 3",
 		}
 		layer.Lines = append(layer.Lines, tipCLine)
 
 		// Dashed guide at C1 bottom (Delta C level line)
 		c1BottomLine := &svg.Line{
-			Name: "C1 Bottom Guide Line",
-			X1:   xCol1_V2,
-			Y1:   yGround,
-			X2:   columnsRight,
-			Y2:   yGround,
-			Presentation: svg.Presentation{
-				Stroke:          "#2196F3",
-				StrokeWidth:     1.5,
-				StrokeOpacity:   1.0,
-				StrokeDashArray: "4 3",
-			},
+			Name:            "C1 Bottom Guide Line",
+			X1:              xCol1_V2,
+			Y1:              yGround,
+			X2:              columnsRight,
+			Y2:              yGround,
+			Stroke:          "#2196F3",
+			StrokeWidth:     1.5,
+			StrokeOpacity:   1.0,
+			StrokeDashArray: "4 3",
 		}
 		layer.Lines = append(layer.Lines, c1BottomLine)
 
@@ -1002,49 +970,43 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 		// Top peak line across P2 and P1
 		peakLine := &svg.Line{
-			Name: "Peak Indicator Line",
-			X1:   xCol2_V1,
-			Y1:   yTipP_V2,
-			X2:   xCol2_V2 + colWidth,
-			Y2:   yTipP_V2,
-			Presentation: svg.Presentation{
-				Stroke:          "#388E3C",
-				StrokeWidth:     1.5,
-				StrokeOpacity:   1.0,
-				StrokeDashArray: "4 3",
-			},
+			Name:            "Peak Indicator Line",
+			X1:              xCol2_V1,
+			Y1:              yTipP_V2,
+			X2:              xCol2_V2 + colWidth,
+			Y2:              yTipP_V2,
+			Stroke:          "#388E3C",
+			StrokeWidth:     1.5,
+			StrokeOpacity:   1.0,
+			StrokeDashArray: "4 3",
 		}
 		layer.Lines = append(layer.Lines, peakLine)
 
 		// Dashed guide across tips of C2 and C1
 		cTipLine := &svg.Line{
-			Name: "C Tip Guide Line",
-			X1:   xCol1_V1,
-			Y1:   yTipC_V2,
-			X2:   xCol1_V2 + colWidth,
-			Y2:   yTipC_V2,
-			Presentation: svg.Presentation{
-				Stroke:          "#E65100",
-				StrokeWidth:     1.5,
-				StrokeOpacity:   0.6,
-				StrokeDashArray: "4 3",
-			},
+			Name:            "C Tip Guide Line",
+			X1:              xCol1_V1,
+			Y1:              yTipC_V2,
+			X2:              xCol1_V2 + colWidth,
+			Y2:              yTipC_V2,
+			Stroke:          "#E65100",
+			StrokeWidth:     1.5,
+			StrokeOpacity:   0.6,
+			StrokeDashArray: "4 3",
 		}
 		layer.Lines = append(layer.Lines, cTipLine)
 
 		// Equation Label line from P1 bottom to E2 top
 		p1BottomLine := &svg.Line{
-			Name: "P1 Bottom Guide Line",
-			X1:   xCol2_V1,
-			Y1:   yBottomP_V1,
-			X2:   xCol3_V2 + colWidth,
-			Y2:   yBottomP_V1,
-			Presentation: svg.Presentation{
-				Stroke:          "#4CAF50",
-				StrokeWidth:     1.5,
-				StrokeOpacity:   1.0,
-				StrokeDashArray: "4 3",
-			},
+			Name:            "P1 Bottom Guide Line",
+			X1:              xCol2_V1,
+			Y1:              yBottomP_V1,
+			X2:              xCol3_V2 + colWidth,
+			Y2:              yBottomP_V1,
+			Stroke:          "#4CAF50",
+			StrokeWidth:     1.5,
+			StrokeOpacity:   1.0,
+			StrokeDashArray: "4 3",
 		}
 		layer.Lines = append(layer.Lines, p1BottomLine)
 
@@ -1064,15 +1026,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			yPeakP := math.Min(yTipP_V2, yTipP_V1)
 
 			muRect := &svg.Rect{
-				Name:   "Mu Label Rect",
-				X:      pMinX,
-				Y:      yPeakP - 35,
-				Width:  pTotalW,
-				Height: 30,
-				Presentation: svg.Presentation{
-					FillOpacity:   0.0,
-					StrokeOpacity: 0.0,
-				},
+				Name:          "Mu Label Rect",
+				X:             pMinX,
+				Y:             yPeakP - 35,
+				Width:         pTotalW,
+				Height:        30,
+				FillOpacity:   0.0,
+				StrokeOpacity: 0.0,
 			}
 			layer.Rects = append(layer.Rects, muRect)
 
@@ -1110,17 +1070,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 		// Dashed guide across tips of E2 and E1
 		eTipLine := &svg.Line{
-			Name: "E Tip Guide Line",
-			X1:   xCol3_V1,
-			Y1:   yTopE_V1,
-			X2:   xCol3_V2 + colWidth,
-			Y2:   yTopE_V1,
-			Presentation: svg.Presentation{
-				Stroke:          "#1976D2",
-				StrokeWidth:     1.5,
-				StrokeOpacity:   0.6,
-				StrokeDashArray: "4 3",
-			},
+			Name:            "E Tip Guide Line",
+			X1:              xCol3_V1,
+			Y1:              yTopE_V1,
+			X2:              xCol3_V2 + colWidth,
+			Y2:              yTopE_V1,
+			Stroke:          "#1976D2",
+			StrokeWidth:     1.5,
+			StrokeOpacity:   0.6,
+			StrokeDashArray: "4 3",
 		}
 		layer.Lines = append(layer.Lines, eTipLine)
 
@@ -1140,15 +1098,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			yBottomE := math.Max(yBottomE_V2, yBottomE_V1)
 
 			epsilonRect := &svg.Rect{
-				Name:   "Epsilon Label Rect",
-				X:      eMinX,
-				Y:      yBottomE + 5,
-				Width:  eTotalW,
-				Height: 30,
-				Presentation: svg.Presentation{
-					FillOpacity:   0.0,
-					StrokeOpacity: 0.0,
-				},
+				Name:          "Epsilon Label Rect",
+				X:             eMinX,
+				Y:             yBottomE + 5,
+				Width:         eTotalW,
+				Height:        30,
+				FillOpacity:   0.0,
+				StrokeOpacity: 0.0,
 			}
 			layer.Rects = append(layer.Rects, epsilonRect)
 
@@ -1169,21 +1125,17 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 		// Level line at E1 top / C1 bottom
 		rhsLine := &svg.Line{
-			Name: "RHS Level Line",
-			X1:   xCol1_V2,
-			Y1:   yTopE_V1,
-			X2:   columnsRight,
-			Y2:   yTopE_V1,
-			Presentation: svg.Presentation{
-				Stroke:          "#1565C0",
-				StrokeWidth:     1.5,
-				StrokeOpacity:   1.0,
-				StrokeDashArray: "4 3",
-			},
+			Name:            "RHS Level Line",
+			X1:              xCol1_V2,
+			Y1:              yTopE_V1,
+			X2:              columnsRight,
+			Y2:              yTopE_V1,
+			Stroke:          "#1565C0",
+			StrokeWidth:     1.5,
+			StrokeOpacity:   1.0,
+			StrokeDashArray: "4 3",
 		}
 		layer.Lines = append(layer.Lines, rhsLine)
-
-
 
 		yTipC_Indicator = yBottomC_V1
 		yRHS_Indicator = yTopE_V1
@@ -1203,19 +1155,17 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			items []any,
 		) *svg.Rect {
 			rect := &svg.Rect{
-				Name:   fmt.Sprintf("Delta %s Rect", category),
-				X:      xPos,
-				Y:      yPos,
-				Width:  colWidth,
-				Height: height,
-				RX:     4,
-				Presentation: svg.Presentation{
-					Color:         fillColor,
-					FillOpacity:   0.95,
-					Stroke:        strokeColor,
-					StrokeWidth:   1.5,
-					StrokeOpacity: 1.0,
-				},
+				Name:          fmt.Sprintf("Delta %s Rect", category),
+				X:             xPos,
+				Y:             yPos,
+				Width:         colWidth,
+				Height:        height,
+				RX:            4,
+				Color:         fillColor,
+				FillOpacity:   0.95,
+				Stroke:        strokeColor,
+				StrokeWidth:   1.5,
+				StrokeOpacity: 1.0,
 			}
 			layer.Rects = append(layer.Rects, rect)
 			for _, item := range items {
@@ -1333,15 +1283,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 		if diagram.AreQuantitativeElementsVisible {
 			muRect := &svg.Rect{
-				Name:   "Mu Label Rect",
-				X:      xCol2_V2,
-				Y:      yTopDeltaP - 35,
-				Width:  colWidth,
-				Height: 30,
-				Presentation: svg.Presentation{
-					FillOpacity:   0.0,
-					StrokeOpacity: 0.0,
-				},
+				Name:          "Mu Label Rect",
+				X:             xCol2_V2,
+				Y:             yTopDeltaP - 35,
+				Width:         colWidth,
+				Height:        30,
+				FillOpacity:   0.0,
+				StrokeOpacity: 0.0,
 			}
 			layer.Rects = append(layer.Rects, muRect)
 
@@ -1399,15 +1347,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 		if diagram.AreQuantitativeElementsVisible {
 			epsilonRect := &svg.Rect{
-				Name:   "Epsilon Label Rect",
-				X:      xCol3_V2,
-				Y:      yBottomDeltaE + 5,
-				Width:  colWidth,
-				Height: 30,
-				Presentation: svg.Presentation{
-					FillOpacity:   0.0,
-					StrokeOpacity: 0.0,
-				},
+				Name:          "Epsilon Label Rect",
+				X:             xCol3_V2,
+				Y:             yBottomDeltaE + 5,
+				Width:         colWidth,
+				Height:        30,
+				FillOpacity:   0.0,
+				StrokeOpacity: 0.0,
 			}
 			layer.Rects = append(layer.Rects, epsilonRect)
 
@@ -1428,32 +1374,28 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 		// Guides and Indicators
 		peakLine := &svg.Line{
-			Name: "Peak Indicator Line",
-			X1:   xCol2_V2,
-			Y1:   yTopDeltaP,
-			X2:   columnsRight,
-			Y2:   yTopDeltaP,
-			Presentation: svg.Presentation{
-				Stroke:          "#388E3C",
-				StrokeWidth:     1.5,
-				StrokeOpacity:   1.0,
-				StrokeDashArray: "4 3",
-			},
+			Name:            "Peak Indicator Line",
+			X1:              xCol2_V2,
+			Y1:              yTopDeltaP,
+			X2:              columnsRight,
+			Y2:              yTopDeltaP,
+			Stroke:          "#388E3C",
+			StrokeWidth:     1.5,
+			StrokeOpacity:   1.0,
+			StrokeDashArray: "4 3",
 		}
 		layer.Lines = append(layer.Lines, peakLine)
 
 		rhsLine := &svg.Line{
-			Name: "RHS Level Line",
-			X1:   xCol1_V2,
-			Y1:   yBottomDeltaE,
-			X2:   columnsRight,
-			Y2:   yBottomDeltaE,
-			Presentation: svg.Presentation{
-				Stroke:          "#1565C0",
-				StrokeWidth:     1.5,
-				StrokeOpacity:   1.0,
-				StrokeDashArray: "4 3",
-			},
+			Name:            "RHS Level Line",
+			X1:              xCol1_V2,
+			Y1:              yBottomDeltaE,
+			X2:              columnsRight,
+			Y2:              yBottomDeltaE,
+			Stroke:          "#1565C0",
+			StrokeWidth:     1.5,
+			StrokeOpacity:   1.0,
+			StrokeDashArray: "4 3",
 		}
 		layer.Lines = append(layer.Lines, rhsLine)
 
@@ -1484,15 +1426,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	if diagram.AreColumnTitlesVisible {
 		renderColumnTitle := func(name string, text string, xCenter float64, width float64, color string) {
 			titleRect := &svg.Rect{
-				Name:   name + " Title Rect",
-				X:      xCenter - width/2,
-				Y:      yTitles,
-				Width:  width,
-				Height: 30,
-				Presentation: svg.Presentation{
-					FillOpacity:   0.0,
-					StrokeOpacity: 0.0,
-				},
+				Name:          name + " Title Rect",
+				X:             xCenter - width/2,
+				Y:             yTitles,
+				Width:         width,
+				Height:        30,
+				FillOpacity:   0.0,
+				StrokeOpacity: 0.0,
 			}
 			layer.Rects = append(layer.Rects, titleRect)
 
@@ -1557,16 +1497,14 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 
 	diffLine := &svg.Line{
-		Name: "Delta Indicator Line",
-		X1:   indicatorX,
-		Y1:   yTipC_Indicator,
-		X2:   indicatorX,
-		Y2:   yRHS_Indicator,
-		Presentation: svg.Presentation{
-			Stroke:        diffColor,
-			StrokeWidth:   2.5,
-			StrokeOpacity: 1.0,
-		},
+		Name:          "Delta Indicator Line",
+		X1:            indicatorX,
+		Y1:            yTipC_Indicator,
+		X2:            indicatorX,
+		Y2:            yRHS_Indicator,
+		Stroke:        diffColor,
+		StrokeWidth:   2.5,
+		StrokeOpacity: 1.0,
 	}
 	layer.Lines = append(layer.Lines, diffLine)
 
@@ -1576,13 +1514,19 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	diffNotes := make(map[*Note]bool)
 	for _, shape := range diagram.NoteComplexityShapes {
-		if shape.Note != nil { diffNotes[shape.Note] = true }
+		if shape.Note != nil {
+			diffNotes[shape.Note] = true
+		}
 	}
 	for _, shape := range diagram.NotePerformanceShapes {
-		if shape.Note != nil { diffNotes[shape.Note] = true }
+		if shape.Note != nil {
+			diffNotes[shape.Note] = true
+		}
 	}
 	for _, shape := range diagram.NoteEffortShapes {
-		if shape.Note != nil { diffNotes[shape.Note] = true }
+		if shape.Note != nil {
+			diffNotes[shape.Note] = true
+		}
 	}
 
 	diagram.map_Note_Rect = make(map[*Note]*svg.Rect)

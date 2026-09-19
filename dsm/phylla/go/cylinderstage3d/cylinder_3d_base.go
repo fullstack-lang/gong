@@ -98,31 +98,31 @@ func RenderCylinder3DBase(
 	// Directional and ambient lights positioned relative to scene scale
 	lightScale := math.Max(globalR, 50.0)
 	dirLight1 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 1 (Key)",
-		Position:         threejs.Position{X: lightScale * 2.0, Y: lightScale * 2.5, Z: lightScale * 2.0},
-		LightAbstract:    threejs.LightAbstract{Intensity: 1.2},
+		Name: "Directional Light 1 (Key)",
+		X:    lightScale * 2.0, Y: lightScale * 2.5, Z: lightScale * 2.0,
+		Intensity:        1.2,
 		IsWithCastShadow: true,
 	}).Stage(stage3d)
 
 	dirLight2 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 2 (Fill)",
-		Position:         threejs.Position{X: -lightScale * 2.0, Y: lightScale * 1.5, Z: -lightScale * 2.0},
-		LightAbstract:    threejs.LightAbstract{Intensity: 0.6},
+		Name: "Directional Light 2 (Fill)",
+		X:    -lightScale * 2.0, Y: lightScale * 1.5, Z: -lightScale * 2.0,
+		Intensity:        0.6,
 		IsWithCastShadow: false,
 	}).Stage(stage3d)
 
 	dirLight3 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 3 (Rim)",
-		Position:         threejs.Position{X: 0, Y: lightScale * 3.5, Z: -lightScale * 2.5},
-		LightAbstract:    threejs.LightAbstract{Intensity: 0.8},
+		Name: "Directional Light 3 (Rim)",
+		X:    0, Y: lightScale * 3.5, Z: -lightScale * 2.5,
+		Intensity:        0.8,
 		IsWithCastShadow: false,
 	}).Stage(stage3d)
 
 	canvas.DirectionalLights = append(canvas.DirectionalLights, dirLight1, dirLight2, dirLight3)
 
 	ambiantLight := (&threejs.AmbiantLight{
-		Name:          "Ambiant Light",
-		LightAbstract: threejs.LightAbstract{Intensity: 0.4},
+		Name:      "Ambiant Light",
+		Intensity: 0.4,
 	}).Stage(stage3d)
 	canvas.AmbiantLight = ambiantLight
 
@@ -134,12 +134,10 @@ func RenderCylinder3DBase(
 			fov = 50
 		}
 		canvas.Camera = (&threejs.Camera{
-			Name: "Camera",
-			Position: threejs.Position{
-				X: rendered3DShape.ViewX,
-				Y: rendered3DShape.ViewY,
-				Z: rendered3DShape.ViewZ,
-			},
+			Name:    "Camera",
+			X:       rendered3DShape.ViewX,
+			Y:       rendered3DShape.ViewY,
+			Z:       rendered3DShape.ViewZ,
 			TargetX: rendered3DShape.TargetX,
 			TargetY: rendered3DShape.TargetY,
 			TargetZ: rendered3DShape.TargetZ,
@@ -151,12 +149,10 @@ func RenderCylinder3DBase(
 			camDist = 30
 		}
 		canvas.Camera = (&threejs.Camera{
-			Name: "Camera",
-			Position: threejs.Position{
-				X: camDist,
-				Y: camDist * 0.8,
-				Z: camDist,
-			},
+			Name:    "Camera",
+			X:       camDist,
+			Y:       camDist * 0.8,
+			Z:       camDist,
 			TargetY: globalR * 0.5,
 			Fov:     50,
 		}).Stage(stage3d)
@@ -306,14 +302,14 @@ func RenderCylinder3DBase(
 			}).Stage(stage3d)
 
 			tubeMesh := (&threejs.Mesh{
-				Name:         fmt.Sprintf("%s Mesh", namePrefix),
-				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+				Name: fmt.Sprintf("%s Mesh", namePrefix),
+				X:    0, Y: 0, Z: 0,
 				TubeGeometry: tGeom,
 				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-					Name:                 fmt.Sprintf("%s Material", namePrefix),
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-					Transparent:          true,
-					Opacity:              opacity,
+					Name:        fmt.Sprintf("%s Material", namePrefix),
+					Color:       color,
+					Transparent: true,
+					Opacity:     opacity,
 				}).Stage(stage3d),
 			}).Stage(stage3d)
 
@@ -383,14 +379,14 @@ func RenderCylinder3DBase(
 			}).Stage(stage3d)
 
 			stMesh := (&threejs.Mesh{
-				Name:         fmt.Sprintf("%s Top Mesh", params.NamePrefix),
-				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+				Name: fmt.Sprintf("%s Top Mesh", params.NamePrefix),
+				X:    0, Y: 0, Z: 0,
 				TubeGeometry: stGeom,
 				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-					Name:                 fmt.Sprintf("%s Top Material", params.NamePrefix),
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "royalblue"},
-					Transparent:          true,
-					Opacity:              opacity,
+					Name:        fmt.Sprintf("%s Top Material", params.NamePrefix),
+					Color:       "royalblue",
+					Transparent: true,
+					Opacity:     opacity,
 				}).Stage(stage3d),
 			}).Stage(stage3d)
 
@@ -447,14 +443,14 @@ func RenderCylinder3DBase(
 				}).Stage(stage3d)
 
 				rotStMesh := (&threejs.Mesh{
-					Name:         fmt.Sprintf("%s Partially Rotated Top Mesh", params.NamePrefix),
-					Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+					Name: fmt.Sprintf("%s Partially Rotated Top Mesh", params.NamePrefix),
+					X:    0, Y: 0, Z: 0,
 					TubeGeometry: rotStGeom,
 					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-						Name:                 fmt.Sprintf("%s Partially Rotated Top Material", params.NamePrefix),
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkorange"},
-						Transparent:          true,
-						Opacity:              opacity,
+						Name:        fmt.Sprintf("%s Partially Rotated Top Material", params.NamePrefix),
+						Color:       "darkorange",
+						Transparent: true,
+						Opacity:     opacity,
 					}).Stage(stage3d),
 				}).Stage(stage3d)
 
@@ -758,20 +754,16 @@ func AddPointSpheres(stool3dStage *threejs.Stage, points []*threejs.Vector3, col
 
 		sphere := (&threejs.Mesh{
 			Name: fmt.Sprintf("%s Sphere %d", namePrefix, i),
-			Position: threejs.Position{
-				X: pt.X,
-				Y: pt.Y + dy,
-				Z: pt.Z,
-			},
+			X:    pt.X,
+			Y:    pt.Y + dy,
+			Z:    pt.Z,
 			SphereGeometry: (&threejs.SphereGeometry{
 				Name:   fmt.Sprintf("%s SphereGeom %d", namePrefix, i),
 				Radius: radius,
 			}).Stage(stool3dStage),
 			MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-				Name: fmt.Sprintf("%s SphereMat %d", namePrefix, i),
-				MeshMaterialAbstract: threejs.MeshMaterialAbstract{
-					Color: sphereColor,
-				},
+				Name:  fmt.Sprintf("%s SphereMat %d", namePrefix, i),
+				Color: sphereColor,
 			}).Stage(stool3dStage),
 		}).Stage(stool3dStage)
 		canvas.Meshs = append(canvas.Meshs, sphere)
@@ -800,11 +792,9 @@ func AddFloorTiles(stage3d *threejs.Stage, canvas *threejs.Canvas, globalR float
 
 			tileMesh := (&threejs.Mesh{
 				Name: "Floor Tile " + strconv.Itoa(i) + "-" + strconv.Itoa(j),
-				Position: threejs.Position{
-					X: float64(i)*tileSize + tileSize/2,
-					Y: floorMinY - 0.05,
-					Z: float64(j)*tileSize + tileSize/2,
-				},
+				X:    float64(i)*tileSize + tileSize/2,
+				Y:    floorMinY - 0.05,
+				Z:    float64(j)*tileSize + tileSize/2,
 				BoxGeometry: (&threejs.BoxGeometry{
 					Name:           "Tile Geometry",
 					Width:          tileSize,
@@ -815,8 +805,8 @@ func AddFloorTiles(stage3d *threejs.Stage, canvas *threejs.Canvas, globalR float
 					DepthSegments:  1,
 				}).Stage(stage3d),
 				MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-					Name:                 "Tile Material " + color,
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+					Name:  "Tile Material " + color,
+					Color: color,
 				}).Stage(stage3d),
 			}).Stage(stage3d)
 

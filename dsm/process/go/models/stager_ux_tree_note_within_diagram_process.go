@@ -60,14 +60,12 @@ func (stager *Stager) treeNoteWithinDiagramProcess(
 	noteNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !ok {
 			noteShape := (&NoteShape{
-				Name: note.GetName() + " shape",
-				Note: note,
-				RectShape: RectShape{
-					X:      100 + rand.Float64()*100.0,
-					Y:      100 + rand.Float64()*100.0,
-					Width:  diagramProcess.GetDefaultBoxWidth(),
-					Height: diagramProcess.GetDefaultBoxHeigth(),
-				},
+				Name:   note.GetName() + " shape",
+				Note:   note,
+				X:      100 + rand.Float64()*100.0,
+				Y:      100 + rand.Float64()*100.0,
+				Width:  diagramProcess.GetDefaultBoxWidth(),
+				Height: diagramProcess.GetDefaultBoxHeigth(),
 			}).Stage(stager.stage)
 			diagramProcess.Note_Shapes = append(diagramProcess.Note_Shapes, noteShape)
 			stage.Commit()

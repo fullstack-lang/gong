@@ -395,14 +395,12 @@ func (stager *Stager) treeDiagramFlossEquationWithinSystem(
 				newNote := adder.createdItem
 				if newNote != nil {
 					noteShape := (&NoteShape{
-						Name: newNote.GetName() + " shape",
-						Note: newNote,
-						RectShape: RectShape{
-							X:      100,
-							Y:      100 + float64(len(diagram.Note_Shapes))*60,
-							Width:  diagram.GetDefaultBoxWidth(),
-							Height: diagram.GetDefaultBoxHeigth(),
-						},
+						Name:   newNote.GetName() + " shape",
+						Note:   newNote,
+						X:      100,
+						Y:      100 + float64(len(diagram.Note_Shapes))*60,
+						Width:  diagram.GetDefaultBoxWidth(),
+						Height: diagram.GetDefaultBoxHeigth(),
 					}).Stage(stager.stage)
 					diagram.Note_Shapes = append(diagram.Note_Shapes, noteShape)
 				}

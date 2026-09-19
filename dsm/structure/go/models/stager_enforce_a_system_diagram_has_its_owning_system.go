@@ -39,12 +39,10 @@ func (stager *Stager) enforceASystemDiagramHasItsOwningSystem() (needCommit bool
 			systemShape := (&SystemShape{
 				Name:   "SystemShape",
 				System: diagramStructure.owningSystem,
-				RectShape: RectShape{
-					X:      100,
-					Y:      50,
-					Width:  500,
-					Height: 1000,
-				},
+				X:      100,
+				Y:      50,
+				Width:  500,
+				Height: 1000,
 			}).Stage(stager.stage)
 			diagramStructure.System_Shapes = append(diagramStructure.System_Shapes, systemShape)
 			needCommit = true

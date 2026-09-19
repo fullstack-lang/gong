@@ -97,7 +97,6 @@ func (stager *Stager) treeNoteWithinDiagramFlossEquation(
 	}
 	noteNode.Menu.Buttons = append(noteNode.Menu.Buttons, deleteButton)
 
-
 	if ok {
 		visibilityButton := &tree.Button{
 			Name:            diagramEquation.GetName(),
@@ -123,14 +122,12 @@ func (stager *Stager) treeNoteWithinDiagramFlossEquation(
 	noteNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !ok {
 			noteShape := (&NoteShape{
-				Name: note.GetName() + " shape",
-				Note: note,
-				RectShape: RectShape{
-					X:      100 + rand.Float64()*100.0,
-					Y:      100 + rand.Float64()*100.0,
-					Width:  diagramEquation.GetDefaultBoxWidth(),
-					Height: diagramEquation.GetDefaultBoxHeigth(),
-				},
+				Name:   note.GetName() + " shape",
+				Note:   note,
+				X:      100 + rand.Float64()*100.0,
+				Y:      100 + rand.Float64()*100.0,
+				Width:  diagramEquation.GetDefaultBoxWidth(),
+				Height: diagramEquation.GetDefaultBoxHeigth(),
 			}).Stage(stager.stage)
 			diagramEquation.Note_Shapes = append(diagramEquation.Note_Shapes, noteShape)
 			stage.Commit()
