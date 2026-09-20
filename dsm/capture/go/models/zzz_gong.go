@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -683,7 +682,6 @@ type Stage struct {
 	OnAfterToolUpdateCallback GongOnAfterUpdateInterface[Tool]
 	OnAfterToolDeleteCallback GongOnAfterDeleteInterface[Tool]
 	OnAfterToolReadCallback   GongOnAfterReadInterface[Tool]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -1488,7 +1486,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 
 	return stage.probeIF
 }
-
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -2324,7 +2321,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -2406,8 +2402,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -2598,7 +2592,6 @@ func (analysisneed *AnalysisNeed) Commit(stage *Stage) *AnalysisNeed {
 	return analysisneed
 }
 
-
 func (analysisneed *AnalysisNeed) StageVoid(stage *Stage) {
 	analysisneed.Stage(stage)
 }
@@ -2682,7 +2675,6 @@ func (concept *Concept) Commit(stage *Stage) *Concept {
 	}
 	return concept
 }
-
 
 func (concept *Concept) StageVoid(stage *Stage) {
 	concept.Stage(stage)
@@ -2768,7 +2760,6 @@ func (conceptshape *ConceptShape) Commit(stage *Stage) *ConceptShape {
 	return conceptshape
 }
 
-
 func (conceptshape *ConceptShape) StageVoid(stage *Stage) {
 	conceptshape.Stage(stage)
 }
@@ -2852,7 +2843,6 @@ func (concern *Concern) Commit(stage *Stage) *Concern {
 	}
 	return concern
 }
-
 
 func (concern *Concern) StageVoid(stage *Stage) {
 	concern.Stage(stage)
@@ -2938,7 +2928,6 @@ func (concerncompositionshape *ConcernCompositionShape) Commit(stage *Stage) *Co
 	return concerncompositionshape
 }
 
-
 func (concerncompositionshape *ConcernCompositionShape) StageVoid(stage *Stage) {
 	concerncompositionshape.Stage(stage)
 }
@@ -3022,7 +3011,6 @@ func (concerninputshape *ConcernInputShape) Commit(stage *Stage) *ConcernInputSh
 	}
 	return concerninputshape
 }
-
 
 func (concerninputshape *ConcernInputShape) StageVoid(stage *Stage) {
 	concerninputshape.Stage(stage)
@@ -3108,7 +3096,6 @@ func (concernoutputshape *ConcernOutputShape) Commit(stage *Stage) *ConcernOutpu
 	return concernoutputshape
 }
 
-
 func (concernoutputshape *ConcernOutputShape) StageVoid(stage *Stage) {
 	concernoutputshape.Stage(stage)
 }
@@ -3192,7 +3179,6 @@ func (concernshape *ConcernShape) Commit(stage *Stage) *ConcernShape {
 	}
 	return concernshape
 }
-
 
 func (concernshape *ConcernShape) StageVoid(stage *Stage) {
 	concernshape.Stage(stage)
@@ -3278,7 +3264,6 @@ func (controlpointshape *ControlPointShape) Commit(stage *Stage) *ControlPointSh
 	return controlpointshape
 }
 
-
 func (controlpointshape *ControlPointShape) StageVoid(stage *Stage) {
 	controlpointshape.Stage(stage)
 }
@@ -3362,7 +3347,6 @@ func (deliverable *Deliverable) Commit(stage *Stage) *Deliverable {
 	}
 	return deliverable
 }
-
 
 func (deliverable *Deliverable) StageVoid(stage *Stage) {
 	deliverable.Stage(stage)
@@ -3448,7 +3432,6 @@ func (deliverablecompositionshape *DeliverableCompositionShape) Commit(stage *St
 	return deliverablecompositionshape
 }
 
-
 func (deliverablecompositionshape *DeliverableCompositionShape) StageVoid(stage *Stage) {
 	deliverablecompositionshape.Stage(stage)
 }
@@ -3532,7 +3515,6 @@ func (deliverableconceptshape *DeliverableConceptShape) Commit(stage *Stage) *De
 	}
 	return deliverableconceptshape
 }
-
 
 func (deliverableconceptshape *DeliverableConceptShape) StageVoid(stage *Stage) {
 	deliverableconceptshape.Stage(stage)
@@ -3618,7 +3600,6 @@ func (deliverableshape *DeliverableShape) Commit(stage *Stage) *DeliverableShape
 	return deliverableshape
 }
 
-
 func (deliverableshape *DeliverableShape) StageVoid(stage *Stage) {
 	deliverableshape.Stage(stage)
 }
@@ -3702,7 +3683,6 @@ func (diagram *Diagram) Commit(stage *Stage) *Diagram {
 	}
 	return diagram
 }
-
 
 func (diagram *Diagram) StageVoid(stage *Stage) {
 	diagram.Stage(stage)
@@ -3788,7 +3768,6 @@ func (diagramshape *DiagramShape) Commit(stage *Stage) *DiagramShape {
 	return diagramshape
 }
 
-
 func (diagramshape *DiagramShape) StageVoid(stage *Stage) {
 	diagramshape.Stage(stage)
 }
@@ -3872,7 +3851,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	}
 	return library
 }
-
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
@@ -3958,7 +3936,6 @@ func (note *Note) Commit(stage *Stage) *Note {
 	return note
 }
 
-
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
 }
@@ -4042,7 +4019,6 @@ func (notedeliverableshape *NoteDeliverableShape) Commit(stage *Stage) *NoteDeli
 	}
 	return notedeliverableshape
 }
-
 
 func (notedeliverableshape *NoteDeliverableShape) StageVoid(stage *Stage) {
 	notedeliverableshape.Stage(stage)
@@ -4128,7 +4104,6 @@ func (noteshape *NoteShape) Commit(stage *Stage) *NoteShape {
 	return noteshape
 }
 
-
 func (noteshape *NoteShape) StageVoid(stage *Stage) {
 	noteshape.Stage(stage)
 }
@@ -4212,7 +4187,6 @@ func (notestakeholdershape *NoteStakeholderShape) Commit(stage *Stage) *NoteStak
 	}
 	return notestakeholdershape
 }
-
 
 func (notestakeholdershape *NoteStakeholderShape) StageVoid(stage *Stage) {
 	notestakeholdershape.Stage(stage)
@@ -4298,7 +4272,6 @@ func (notetaskshape *NoteTaskShape) Commit(stage *Stage) *NoteTaskShape {
 	return notetaskshape
 }
 
-
 func (notetaskshape *NoteTaskShape) StageVoid(stage *Stage) {
 	notetaskshape.Stage(stage)
 }
@@ -4382,7 +4355,6 @@ func (requirement *Requirement) Commit(stage *Stage) *Requirement {
 	}
 	return requirement
 }
-
 
 func (requirement *Requirement) StageVoid(stage *Stage) {
 	requirement.Stage(stage)
@@ -4468,7 +4440,6 @@ func (requirementshape *RequirementShape) Commit(stage *Stage) *RequirementShape
 	return requirementshape
 }
 
-
 func (requirementshape *RequirementShape) StageVoid(stage *Stage) {
 	requirementshape.Stage(stage)
 }
@@ -4552,7 +4523,6 @@ func (stakeholder *Stakeholder) Commit(stage *Stage) *Stakeholder {
 	}
 	return stakeholder
 }
-
 
 func (stakeholder *Stakeholder) StageVoid(stage *Stage) {
 	stakeholder.Stage(stage)
@@ -4638,7 +4608,6 @@ func (stakeholdercompositionshape *StakeholderCompositionShape) Commit(stage *St
 	return stakeholdercompositionshape
 }
 
-
 func (stakeholdercompositionshape *StakeholderCompositionShape) StageVoid(stage *Stage) {
 	stakeholdercompositionshape.Stage(stage)
 }
@@ -4722,7 +4691,6 @@ func (stakeholderconcernshape *StakeholderConcernShape) Commit(stage *Stage) *St
 	}
 	return stakeholderconcernshape
 }
-
 
 func (stakeholderconcernshape *StakeholderConcernShape) StageVoid(stage *Stage) {
 	stakeholderconcernshape.Stage(stage)
@@ -4808,7 +4776,6 @@ func (stakeholdershape *StakeholderShape) Commit(stage *Stage) *StakeholderShape
 	return stakeholdershape
 }
 
-
 func (stakeholdershape *StakeholderShape) StageVoid(stage *Stage) {
 	stakeholdershape.Stage(stage)
 }
@@ -4893,7 +4860,6 @@ func (supportlevel *SupportLevel) Commit(stage *Stage) *SupportLevel {
 	return supportlevel
 }
 
-
 func (supportlevel *SupportLevel) StageVoid(stage *Stage) {
 	supportlevel.Stage(stage)
 }
@@ -4977,7 +4943,6 @@ func (tool *Tool) Commit(stage *Stage) *Tool {
 	}
 	return tool
 }
-
 
 func (tool *Tool) StageVoid(stage *Stage) {
 	tool.Stage(stage)

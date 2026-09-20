@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -374,7 +373,6 @@ type Stage struct {
 	OnAfterSystemUpdateCallback GongOnAfterUpdateInterface[System]
 	OnAfterSystemDeleteCallback GongOnAfterDeleteInterface[System]
 	OnAfterSystemReadCallback   GongOnAfterReadInterface[System]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -874,7 +872,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -1284,7 +1281,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -1332,8 +1328,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -1507,7 +1501,6 @@ func (compareanalysis *CompareAnalysis) Commit(stage *Stage) *CompareAnalysis {
 	return compareanalysis
 }
 
-
 func (compareanalysis *CompareAnalysis) StageVoid(stage *Stage) {
 	compareanalysis.Stage(stage)
 }
@@ -1591,7 +1584,6 @@ func (complexity *Complexity) Commit(stage *Stage) *Complexity {
 	}
 	return complexity
 }
-
 
 func (complexity *Complexity) StageVoid(stage *Stage) {
 	complexity.Stage(stage)
@@ -1677,7 +1669,6 @@ func (diagramflossequation *DiagramFlossEquation) Commit(stage *Stage) *DiagramF
 	return diagramflossequation
 }
 
-
 func (diagramflossequation *DiagramFlossEquation) StageVoid(stage *Stage) {
 	diagramflossequation.Stage(stage)
 }
@@ -1761,7 +1752,6 @@ func (effort *Effort) Commit(stage *Stage) *Effort {
 	}
 	return effort
 }
-
 
 func (effort *Effort) StageVoid(stage *Stage) {
 	effort.Stage(stage)
@@ -1847,7 +1837,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	return library
 }
 
-
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
 }
@@ -1931,7 +1920,6 @@ func (note *Note) Commit(stage *Stage) *Note {
 	}
 	return note
 }
-
 
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
@@ -2017,7 +2005,6 @@ func (notecomplexityshape *NoteComplexityShape) Commit(stage *Stage) *NoteComple
 	return notecomplexityshape
 }
 
-
 func (notecomplexityshape *NoteComplexityShape) StageVoid(stage *Stage) {
 	notecomplexityshape.Stage(stage)
 }
@@ -2101,7 +2088,6 @@ func (noteeffortshape *NoteEffortShape) Commit(stage *Stage) *NoteEffortShape {
 	}
 	return noteeffortshape
 }
-
 
 func (noteeffortshape *NoteEffortShape) StageVoid(stage *Stage) {
 	noteeffortshape.Stage(stage)
@@ -2187,7 +2173,6 @@ func (noteperformanceshape *NotePerformanceShape) Commit(stage *Stage) *NotePerf
 	return noteperformanceshape
 }
 
-
 func (noteperformanceshape *NotePerformanceShape) StageVoid(stage *Stage) {
 	noteperformanceshape.Stage(stage)
 }
@@ -2271,7 +2256,6 @@ func (noteshape *NoteShape) Commit(stage *Stage) *NoteShape {
 	}
 	return noteshape
 }
-
 
 func (noteshape *NoteShape) StageVoid(stage *Stage) {
 	noteshape.Stage(stage)
@@ -2357,7 +2341,6 @@ func (performance *Performance) Commit(stage *Stage) *Performance {
 	return performance
 }
 
-
 func (performance *Performance) StageVoid(stage *Stage) {
 	performance.Stage(stage)
 }
@@ -2441,7 +2424,6 @@ func (system *System) Commit(stage *Stage) *System {
 	}
 	return system
 }
-
 
 func (system *System) StageVoid(stage *Stage) {
 	system.Stage(stage)

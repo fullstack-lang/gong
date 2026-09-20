@@ -172,7 +172,6 @@ func ({{structname}} *{{Structname}}) Commit(stage *Stage) *{{Structname}} {
 	return {{structname}}
 }
 
-
 func ({{structname}} *{{Structname}}) StageVoid(stage *Stage) {
 	{{structname}}.Stage(stage)
 }

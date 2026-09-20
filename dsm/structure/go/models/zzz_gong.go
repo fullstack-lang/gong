@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -628,7 +627,6 @@ type Stage struct {
 	OnAfterSystemShapeUpdateCallback GongOnAfterUpdateInterface[SystemShape]
 	OnAfterSystemShapeDeleteCallback GongOnAfterDeleteInterface[SystemShape]
 	OnAfterSystemShapeReadCallback   GongOnAfterReadInterface[SystemShape]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -1379,7 +1377,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 
 	return stage.probeIF
 }
-
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -2140,7 +2137,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -2216,8 +2212,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -2405,7 +2399,6 @@ func (allocatedresourceshape *AllocatedResourceShape) Commit(stage *Stage) *Allo
 	return allocatedresourceshape
 }
 
-
 func (allocatedresourceshape *AllocatedResourceShape) StageVoid(stage *Stage) {
 	allocatedresourceshape.Stage(stage)
 }
@@ -2489,7 +2482,6 @@ func (allocatedsystemshape *AllocatedSystemShape) Commit(stage *Stage) *Allocate
 	}
 	return allocatedsystemshape
 }
-
 
 func (allocatedsystemshape *AllocatedSystemShape) StageVoid(stage *Stage) {
 	allocatedsystemshape.Stage(stage)
@@ -2575,7 +2567,6 @@ func (controlflow *ControlFlow) Commit(stage *Stage) *ControlFlow {
 	return controlflow
 }
 
-
 func (controlflow *ControlFlow) StageVoid(stage *Stage) {
 	controlflow.Stage(stage)
 }
@@ -2659,7 +2650,6 @@ func (controlflowshape *ControlFlowShape) Commit(stage *Stage) *ControlFlowShape
 	}
 	return controlflowshape
 }
-
 
 func (controlflowshape *ControlFlowShape) StageVoid(stage *Stage) {
 	controlflowshape.Stage(stage)
@@ -2745,7 +2735,6 @@ func (data *Data) Commit(stage *Stage) *Data {
 	return data
 }
 
-
 func (data *Data) StageVoid(stage *Stage) {
 	data.Stage(stage)
 }
@@ -2829,7 +2818,6 @@ func (dataflow *DataFlow) Commit(stage *Stage) *DataFlow {
 	}
 	return dataflow
 }
-
 
 func (dataflow *DataFlow) StageVoid(stage *Stage) {
 	dataflow.Stage(stage)
@@ -2915,7 +2903,6 @@ func (dataflowshape *DataFlowShape) Commit(stage *Stage) *DataFlowShape {
 	return dataflowshape
 }
 
-
 func (dataflowshape *DataFlowShape) StageVoid(stage *Stage) {
 	dataflowshape.Stage(stage)
 }
@@ -2999,7 +2986,6 @@ func (datashape *DataShape) Commit(stage *Stage) *DataShape {
 	}
 	return datashape
 }
-
 
 func (datashape *DataShape) StageVoid(stage *Stage) {
 	datashape.Stage(stage)
@@ -3085,7 +3071,6 @@ func (diagramlayerstate *DiagramLayerState) Commit(stage *Stage) *DiagramLayerSt
 	return diagramlayerstate
 }
 
-
 func (diagramlayerstate *DiagramLayerState) StageVoid(stage *Stage) {
 	diagramlayerstate.Stage(stage)
 }
@@ -3169,7 +3154,6 @@ func (diagramstructure *DiagramStructure) Commit(stage *Stage) *DiagramStructure
 	}
 	return diagramstructure
 }
-
 
 func (diagramstructure *DiagramStructure) StageVoid(stage *Stage) {
 	diagramstructure.Stage(stage)
@@ -3255,7 +3239,6 @@ func (externalpartshape *ExternalPartShape) Commit(stage *Stage) *ExternalPartSh
 	return externalpartshape
 }
 
-
 func (externalpartshape *ExternalPartShape) StageVoid(stage *Stage) {
 	externalpartshape.Stage(stage)
 }
@@ -3339,7 +3322,6 @@ func (layerdefinition *LayerDefinition) Commit(stage *Stage) *LayerDefinition {
 	}
 	return layerdefinition
 }
-
 
 func (layerdefinition *LayerDefinition) StageVoid(stage *Stage) {
 	layerdefinition.Stage(stage)
@@ -3425,7 +3407,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	return library
 }
 
-
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
 }
@@ -3509,7 +3490,6 @@ func (note *Note) Commit(stage *Stage) *Note {
 	}
 	return note
 }
-
 
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
@@ -3595,7 +3575,6 @@ func (notepartshape *NotePartShape) Commit(stage *Stage) *NotePartShape {
 	return notepartshape
 }
 
-
 func (notepartshape *NotePartShape) StageVoid(stage *Stage) {
 	notepartshape.Stage(stage)
 }
@@ -3679,7 +3658,6 @@ func (noteportshape *NotePortShape) Commit(stage *Stage) *NotePortShape {
 	}
 	return noteportshape
 }
-
 
 func (noteportshape *NotePortShape) StageVoid(stage *Stage) {
 	noteportshape.Stage(stage)
@@ -3765,7 +3743,6 @@ func (noteshape *NoteShape) Commit(stage *Stage) *NoteShape {
 	return noteshape
 }
 
-
 func (noteshape *NoteShape) StageVoid(stage *Stage) {
 	noteshape.Stage(stage)
 }
@@ -3849,7 +3826,6 @@ func (part *Part) Commit(stage *Stage) *Part {
 	}
 	return part
 }
-
 
 func (part *Part) StageVoid(stage *Stage) {
 	part.Stage(stage)
@@ -3935,7 +3911,6 @@ func (partanchoredpath *PartAnchoredPath) Commit(stage *Stage) *PartAnchoredPath
 	return partanchoredpath
 }
 
-
 func (partanchoredpath *PartAnchoredPath) StageVoid(stage *Stage) {
 	partanchoredpath.Stage(stage)
 }
@@ -4019,7 +3994,6 @@ func (partshape *PartShape) Commit(stage *Stage) *PartShape {
 	}
 	return partshape
 }
-
 
 func (partshape *PartShape) StageVoid(stage *Stage) {
 	partshape.Stage(stage)
@@ -4105,7 +4079,6 @@ func (port *Port) Commit(stage *Stage) *Port {
 	return port
 }
 
-
 func (port *Port) StageVoid(stage *Stage) {
 	port.Stage(stage)
 }
@@ -4189,7 +4162,6 @@ func (portshape *PortShape) Commit(stage *Stage) *PortShape {
 	}
 	return portshape
 }
-
 
 func (portshape *PortShape) StageVoid(stage *Stage) {
 	portshape.Stage(stage)
@@ -4275,7 +4247,6 @@ func (resource *Resource) Commit(stage *Stage) *Resource {
 	return resource
 }
 
-
 func (resource *Resource) StageVoid(stage *Stage) {
 	resource.Stage(stage)
 }
@@ -4359,7 +4330,6 @@ func (semantictag *SemanticTag) Commit(stage *Stage) *SemanticTag {
 	}
 	return semantictag
 }
-
 
 func (semantictag *SemanticTag) StageVoid(stage *Stage) {
 	semantictag.Stage(stage)
@@ -4445,7 +4415,6 @@ func (system *System) Commit(stage *Stage) *System {
 	return system
 }
 
-
 func (system *System) StageVoid(stage *Stage) {
 	system.Stage(stage)
 }
@@ -4529,7 +4498,6 @@ func (systemshape *SystemShape) Commit(stage *Stage) *SystemShape {
 	}
 	return systemshape
 }
-
 
 func (systemshape *SystemShape) StageVoid(stage *Stage) {
 	systemshape.Stage(stage)

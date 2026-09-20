@@ -3,8 +3,7 @@ package orm
 const GetInstanceDBFromInstanceTemplateCode = `// generated code - do not edit
 package orm
 
-type GongstructDB interface {
-}
+type GongstructDB any
 `
 
 type GetInstanceDBFromInstanceSubTemplateInsertion int

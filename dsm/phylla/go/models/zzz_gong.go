@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -2430,7 +2429,6 @@ type Stage struct {
 	OnAfterVolumeKey3DShapeUpdateCallback GongOnAfterUpdateInterface[VolumeKey3DShape]
 	OnAfterVolumeKey3DShapeDeleteCallback GongOnAfterDeleteInterface[VolumeKey3DShape]
 	OnAfterVolumeKey3DShapeReadCallback   GongOnAfterReadInterface[VolumeKey3DShape]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -5341,7 +5339,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 
 	return stage.probeIF
 }
-
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -9102,7 +9099,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -9419,8 +9415,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 	}
 }
 
-
-
 func (stage *Stage) GetName() string {
 	return stage.name
 }
@@ -9727,7 +9721,6 @@ func (angle0shape *Angle0Shape) Commit(stage *Stage) *Angle0Shape {
 	return angle0shape
 }
 
-
 func (angle0shape *Angle0Shape) StageVoid(stage *Stage) {
 	angle0shape.Stage(stage)
 }
@@ -9811,7 +9804,6 @@ func (arcnormalvectorshape *ArcNormalVectorShape) Commit(stage *Stage) *ArcNorma
 	}
 	return arcnormalvectorshape
 }
-
 
 func (arcnormalvectorshape *ArcNormalVectorShape) StageVoid(stage *Stage) {
 	arcnormalvectorshape.Stage(stage)
@@ -9897,7 +9889,6 @@ func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) Commit(stage *Stage) *
 	return arcnormalvectorshapegrid
 }
 
-
 func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) StageVoid(stage *Stage) {
 	arcnormalvectorshapegrid.Stage(stage)
 }
@@ -9981,7 +9972,6 @@ func (axesshape *AxesShape) Commit(stage *Stage) *AxesShape {
 	}
 	return axesshape
 }
-
 
 func (axesshape *AxesShape) StageVoid(stage *Stage) {
 	axesshape.Stage(stage)
@@ -10067,7 +10057,6 @@ func (basevectorshape *BaseVectorShape) Commit(stage *Stage) *BaseVectorShape {
 	return basevectorshape
 }
 
-
 func (basevectorshape *BaseVectorShape) StageVoid(stage *Stage) {
 	basevectorshape.Stage(stage)
 }
@@ -10151,7 +10140,6 @@ func (basevectorshapegrid *BaseVectorShapeGrid) Commit(stage *Stage) *BaseVector
 	}
 	return basevectorshapegrid
 }
-
 
 func (basevectorshapegrid *BaseVectorShapeGrid) StageVoid(stage *Stage) {
 	basevectorshapegrid.Stage(stage)
@@ -10237,7 +10225,6 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) Commit(stage *Stage) *ChosenP1P2
 	return chosenp1p2pairshape
 }
 
-
 func (chosenp1p2pairshape *ChosenP1P2PairShape) StageVoid(stage *Stage) {
 	chosenp1p2pairshape.Stage(stage)
 }
@@ -10321,7 +10308,6 @@ func (circlegridshape *CircleGridShape) Commit(stage *Stage) *CircleGridShape {
 	}
 	return circlegridshape
 }
-
 
 func (circlegridshape *CircleGridShape) StageVoid(stage *Stage) {
 	circlegridshape.Stage(stage)
@@ -10407,7 +10393,6 @@ func (circumference3dshape *Circumference3DShape) Commit(stage *Stage) *Circumfe
 	return circumference3dshape
 }
 
-
 func (circumference3dshape *Circumference3DShape) StageVoid(stage *Stage) {
 	circumference3dshape.Stage(stage)
 }
@@ -10491,7 +10476,6 @@ func (clock2ddiagram *Clock2DDiagram) Commit(stage *Stage) *Clock2DDiagram {
 	}
 	return clock2ddiagram
 }
-
 
 func (clock2ddiagram *Clock2DDiagram) StageVoid(stage *Stage) {
 	clock2ddiagram.Stage(stage)
@@ -10577,7 +10561,6 @@ func (clock3ddiagram *Clock3DDiagram) Commit(stage *Stage) *Clock3DDiagram {
 	return clock3ddiagram
 }
 
-
 func (clock3ddiagram *Clock3DDiagram) StageVoid(stage *Stage) {
 	clock3ddiagram.Stage(stage)
 }
@@ -10661,7 +10644,6 @@ func (clockabstract *ClockAbstract) Commit(stage *Stage) *ClockAbstract {
 	}
 	return clockabstract
 }
-
 
 func (clockabstract *ClockAbstract) StageVoid(stage *Stage) {
 	clockabstract.Stage(stage)
@@ -10747,7 +10729,6 @@ func (clocktopcurveshape *ClockTopCurveShape) Commit(stage *Stage) *ClockTopCurv
 	return clocktopcurveshape
 }
 
-
 func (clocktopcurveshape *ClockTopCurveShape) StageVoid(stage *Stage) {
 	clocktopcurveshape.Stage(stage)
 }
@@ -10831,7 +10812,6 @@ func (cutline3dshape *CutLine3DShape) Commit(stage *Stage) *CutLine3DShape {
 	}
 	return cutline3dshape
 }
-
 
 func (cutline3dshape *CutLine3DShape) StageVoid(stage *Stage) {
 	cutline3dshape.Stage(stage)
@@ -10917,7 +10897,6 @@ func (endarcshape *EndArcShape) Commit(stage *Stage) *EndArcShape {
 	return endarcshape
 }
 
-
 func (endarcshape *EndArcShape) StageVoid(stage *Stage) {
 	endarcshape.Stage(stage)
 }
@@ -11001,7 +10980,6 @@ func (endarcshapegrid *EndArcShapeGrid) Commit(stage *Stage) *EndArcShapeGrid {
 	}
 	return endarcshapegrid
 }
-
 
 func (endarcshapegrid *EndArcShapeGrid) StageVoid(stage *Stage) {
 	endarcshapegrid.Stage(stage)
@@ -11087,7 +11065,6 @@ func (endhalfwayarcshape *EndHalfwayArcShape) Commit(stage *Stage) *EndHalfwayAr
 	return endhalfwayarcshape
 }
 
-
 func (endhalfwayarcshape *EndHalfwayArcShape) StageVoid(stage *Stage) {
 	endhalfwayarcshape.Stage(stage)
 }
@@ -11171,7 +11148,6 @@ func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) Commit(stage *Stage) *EndH
 	}
 	return endhalfwayarcshapegrid
 }
-
 
 func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) StageVoid(stage *Stage) {
 	endhalfwayarcshapegrid.Stage(stage)
@@ -11257,7 +11233,6 @@ func (explanationtextshape *ExplanationTextShape) Commit(stage *Stage) *Explanat
 	return explanationtextshape
 }
 
-
 func (explanationtextshape *ExplanationTextShape) StageVoid(stage *Stage) {
 	explanationtextshape.Stage(stage)
 }
@@ -11341,7 +11316,6 @@ func (eye3dshape *Eye3DShape) Commit(stage *Stage) *Eye3DShape {
 	}
 	return eye3dshape
 }
-
 
 func (eye3dshape *Eye3DShape) StageVoid(stage *Stage) {
 	eye3dshape.Stage(stage)
@@ -11427,7 +11401,6 @@ func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) Commit(sta
 	return eyecornerssampledpoints3dshape
 }
 
-
 func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) StageVoid(stage *Stage) {
 	eyecornerssampledpoints3dshape.Stage(stage)
 }
@@ -11511,7 +11484,6 @@ func (eyesampledpoints3dshape *EyeSampledPoints3DShape) Commit(stage *Stage) *Ey
 	}
 	return eyesampledpoints3dshape
 }
-
 
 func (eyesampledpoints3dshape *EyeSampledPoints3DShape) StageVoid(stage *Stage) {
 	eyesampledpoints3dshape.Stage(stage)
@@ -11597,7 +11569,6 @@ func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) Commit(stage *Stage) *Ey
 	return eyeseatbottomcurveshape
 }
 
-
 func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) StageVoid(stage *Stage) {
 	eyeseatbottomcurveshape.Stage(stage)
 }
@@ -11681,7 +11652,6 @@ func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) Commit(stage *Stage) *
 	}
 	return eyestoolbottomcurveshape
 }
-
 
 func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) StageVoid(stage *Stage) {
 	eyestoolbottomcurveshape.Stage(stage)
@@ -11767,7 +11737,6 @@ func (eyevolume3dshape *EyeVolume3DShape) Commit(stage *Stage) *EyeVolume3DShape
 	return eyevolume3dshape
 }
 
-
 func (eyevolume3dshape *EyeVolume3DShape) StageVoid(stage *Stage) {
 	eyevolume3dshape.Stage(stage)
 }
@@ -11851,7 +11820,6 @@ func (gridpathshape *GridPathShape) Commit(stage *Stage) *GridPathShape {
 	}
 	return gridpathshape
 }
-
 
 func (gridpathshape *GridPathShape) StageVoid(stage *Stage) {
 	gridpathshape.Stage(stage)
@@ -11937,7 +11905,6 @@ func (growthcurve2d *GrowthCurve2D) Commit(stage *Stage) *GrowthCurve2D {
 	return growthcurve2d
 }
 
-
 func (growthcurve2d *GrowthCurve2D) StageVoid(stage *Stage) {
 	growthcurve2d.Stage(stage)
 }
@@ -12021,7 +11988,6 @@ func (growthcurve2dribbon *GrowthCurve2DRibbon) Commit(stage *Stage) *GrowthCurv
 	}
 	return growthcurve2dribbon
 }
-
 
 func (growthcurve2dribbon *GrowthCurve2DRibbon) StageVoid(stage *Stage) {
 	growthcurve2dribbon.Stage(stage)
@@ -12107,7 +12073,6 @@ func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) Commit(stage *St
 	return growthcurve2dribbonendshape
 }
 
-
 func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
 	growthcurve2dribbonendshape.Stage(stage)
 }
@@ -12191,7 +12156,6 @@ func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) Commit(stage
 	}
 	return growthcurve2dribbonstartshape
 }
-
 
 func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
 	growthcurve2dribbonstartshape.Stage(stage)
@@ -12277,7 +12241,6 @@ func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) Commit(stage *St
 	return growthcurverhombusgridshape
 }
 
-
 func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) StageVoid(stage *Stage) {
 	growthcurverhombusgridshape.Stage(stage)
 }
@@ -12361,7 +12324,6 @@ func (growthcurverhombusshape *GrowthCurveRhombusShape) Commit(stage *Stage) *Gr
 	}
 	return growthcurverhombusshape
 }
-
 
 func (growthcurverhombusshape *GrowthCurveRhombusShape) StageVoid(stage *Stage) {
 	growthcurverhombusshape.Stage(stage)
@@ -12447,7 +12409,6 @@ func (growthvectorshape *GrowthVectorShape) Commit(stage *Stage) *GrowthVectorSh
 	return growthvectorshape
 }
 
-
 func (growthvectorshape *GrowthVectorShape) StageVoid(stage *Stage) {
 	growthvectorshape.Stage(stage)
 }
@@ -12531,7 +12492,6 @@ func (initialrhombusgridshape *InitialRhombusGridShape) Commit(stage *Stage) *In
 	}
 	return initialrhombusgridshape
 }
-
 
 func (initialrhombusgridshape *InitialRhombusGridShape) StageVoid(stage *Stage) {
 	initialrhombusgridshape.Stage(stage)
@@ -12617,7 +12577,6 @@ func (initialrhombusshape *InitialRhombusShape) Commit(stage *Stage) *InitialRho
 	return initialrhombusshape
 }
 
-
 func (initialrhombusshape *InitialRhombusShape) StageVoid(stage *Stage) {
 	initialrhombusshape.Stage(stage)
 }
@@ -12701,7 +12660,6 @@ func (key3dshape *Key3DShape) Commit(stage *Stage) *Key3DShape {
 	}
 	return key3dshape
 }
-
 
 func (key3dshape *Key3DShape) StageVoid(stage *Stage) {
 	key3dshape.Stage(stage)
@@ -12787,7 +12745,6 @@ func (keyhole3dshape *KeyHole3DShape) Commit(stage *Stage) *KeyHole3DShape {
 	return keyhole3dshape
 }
 
-
 func (keyhole3dshape *KeyHole3DShape) StageVoid(stage *Stage) {
 	keyhole3dshape.Stage(stage)
 }
@@ -12871,7 +12828,6 @@ func (keyholeshape *KeyHoleShape) Commit(stage *Stage) *KeyHoleShape {
 	}
 	return keyholeshape
 }
-
 
 func (keyholeshape *KeyHoleShape) StageVoid(stage *Stage) {
 	keyholeshape.Stage(stage)
@@ -12957,7 +12913,6 @@ func (leaves3dshape *Leaves3DShape) Commit(stage *Stage) *Leaves3DShape {
 	return leaves3dshape
 }
 
-
 func (leaves3dshape *Leaves3DShape) StageVoid(stage *Stage) {
 	leaves3dshape.Stage(stage)
 }
@@ -13041,7 +12996,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	}
 	return library
 }
-
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
@@ -13127,7 +13081,6 @@ func (midarcvectorshape *MidArcVectorShape) Commit(stage *Stage) *MidArcVectorSh
 	return midarcvectorshape
 }
 
-
 func (midarcvectorshape *MidArcVectorShape) StageVoid(stage *Stage) {
 	midarcvectorshape.Stage(stage)
 }
@@ -13211,7 +13164,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) Commit(stage *Stage) *MidArc
 	}
 	return midarcvectorshapegrid
 }
-
 
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) StageVoid(stage *Stage) {
 	midarcvectorshapegrid.Stage(stage)
@@ -13297,7 +13249,6 @@ func (musicabstract *MusicAbstract) Commit(stage *Stage) *MusicAbstract {
 	return musicabstract
 }
 
-
 func (musicabstract *MusicAbstract) StageVoid(stage *Stage) {
 	musicabstract.Stage(stage)
 }
@@ -13381,7 +13332,6 @@ func (originalpoints3dshape *OriginalPoints3DShape) Commit(stage *Stage) *Origin
 	}
 	return originalpoints3dshape
 }
-
 
 func (originalpoints3dshape *OriginalPoints3DShape) StageVoid(stage *Stage) {
 	originalpoints3dshape.Stage(stage)
@@ -13467,7 +13417,6 @@ func (parastichymcurves3dshape *ParastichyMCurves3DShape) Commit(stage *Stage) *
 	return parastichymcurves3dshape
 }
 
-
 func (parastichymcurves3dshape *ParastichyMCurves3DShape) StageVoid(stage *Stage) {
 	parastichymcurves3dshape.Stage(stage)
 }
@@ -13551,7 +13500,6 @@ func (parastichyncurves3dshape *ParastichyNCurves3DShape) Commit(stage *Stage) *
 	}
 	return parastichyncurves3dshape
 }
-
 
 func (parastichyncurves3dshape *ParastichyNCurves3DShape) StageVoid(stage *Stage) {
 	parastichyncurves3dshape.Stage(stage)
@@ -13637,7 +13585,6 @@ func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) Commit(stage *
 	return partiallygrowthcurve2dribbon
 }
 
-
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dribbon.Stage(stage)
 }
@@ -13721,7 +13668,6 @@ func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape
 	}
 	return partiallygrowthcurve2dribbonendshape
 }
-
 
 func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dribbonendshape.Stage(stage)
@@ -13807,7 +13753,6 @@ func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartS
 	return partiallygrowthcurve2dribbonstartshape
 }
 
-
 func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dribbonstartshape.Stage(stage)
 }
@@ -13891,7 +13836,6 @@ func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) Commit
 	}
 	return partiallygrowthcurve2dtrajectory
 }
-
 
 func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectory.Stage(stage)
@@ -13977,7 +13921,6 @@ func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajec
 	return partiallygrowthcurve2dtrajectoryp1curveshape
 }
 
-
 func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectoryp1curveshape.Stage(stage)
 }
@@ -14061,7 +14004,6 @@ func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2
 	}
 	return partiallygrowthcurve2dtrajectoryp1p2
 }
-
 
 func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectoryp1p2.Stage(stage)
@@ -14147,7 +14089,6 @@ func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DT
 	return partiallygrowthcurve2dtrajectoryp1p2pairlineshape
 }
 
-
 func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Stage(stage)
 }
@@ -14231,7 +14172,6 @@ func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajec
 	}
 	return partiallygrowthcurve2dtrajectoryp1pointshape
 }
-
 
 func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectoryp1pointshape.Stage(stage)
@@ -14317,7 +14257,6 @@ func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajec
 	return partiallygrowthcurve2dtrajectoryp2curveshape
 }
 
-
 func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectoryp2curveshape.Stage(stage)
 }
@@ -14401,7 +14340,6 @@ func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajec
 	}
 	return partiallygrowthcurve2dtrajectoryp2pointshape
 }
-
 
 func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectoryp2pointshape.Stage(stage)
@@ -14487,7 +14425,6 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	return partiallygrowthcurve2dtrajectoryshape
 }
 
-
 func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectoryshape.Stage(stage)
 }
@@ -14571,7 +14508,6 @@ func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape
 	}
 	return partiallyrotatedseatbottomcurveshape
 }
-
 
 func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) StageVoid(stage *Stage) {
 	partiallyrotatedseatbottomcurveshape.Stage(stage)
@@ -14657,7 +14593,6 @@ func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) Comm
 	return partiallyrotatedseattopcurveshape
 }
 
-
 func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) StageVoid(stage *Stage) {
 	partiallyrotatedseattopcurveshape.Stage(stage)
 }
@@ -14741,7 +14676,6 @@ func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) Commit(stage *Stag
 	}
 	return partiallyrotatedtorusshape
 }
-
 
 func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) StageVoid(stage *Stage) {
 	partiallyrotatedtorusshape.Stage(stage)
@@ -14827,7 +14761,6 @@ func (perpendicularvector *PerpendicularVector) Commit(stage *Stage) *Perpendicu
 	return perpendicularvector
 }
 
-
 func (perpendicularvector *PerpendicularVector) StageVoid(stage *Stage) {
 	perpendicularvector.Stage(stage)
 }
@@ -14911,7 +14844,6 @@ func (perpendicularvectorgrid *PerpendicularVectorGrid) Commit(stage *Stage) *Pe
 	}
 	return perpendicularvectorgrid
 }
-
 
 func (perpendicularvectorgrid *PerpendicularVectorGrid) StageVoid(stage *Stage) {
 	perpendicularvectorgrid.Stage(stage)
@@ -14997,7 +14929,6 @@ func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) Commit(sta
 	return perpendicularvectorgridhalfway
 }
 
-
 func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) StageVoid(stage *Stage) {
 	perpendicularvectorgridhalfway.Stage(stage)
 }
@@ -15081,7 +15012,6 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) Commit(stage *Stag
 	}
 	return perpendicularvectorhalfway
 }
-
 
 func (perpendicularvectorhalfway *PerpendicularVectorHalfway) StageVoid(stage *Stage) {
 	perpendicularvectorhalfway.Stage(stage)
@@ -15167,7 +15097,6 @@ func (plant2ddiagram *Plant2DDiagram) Commit(stage *Stage) *Plant2DDiagram {
 	return plant2ddiagram
 }
 
-
 func (plant2ddiagram *Plant2DDiagram) StageVoid(stage *Stage) {
 	plant2ddiagram.Stage(stage)
 }
@@ -15251,7 +15180,6 @@ func (plant3ddiagram *Plant3DDiagram) Commit(stage *Stage) *Plant3DDiagram {
 	}
 	return plant3ddiagram
 }
-
 
 func (plant3ddiagram *Plant3DDiagram) StageVoid(stage *Stage) {
 	plant3ddiagram.Stage(stage)
@@ -15337,7 +15265,6 @@ func (plantabstract *PlantAbstract) Commit(stage *Stage) *PlantAbstract {
 	return plantabstract
 }
 
-
 func (plantabstract *PlantAbstract) StageVoid(stage *Stage) {
 	plantabstract.Stage(stage)
 }
@@ -15421,7 +15348,6 @@ func (plantcircumferenceshape *PlantCircumferenceShape) Commit(stage *Stage) *Pl
 	}
 	return plantcircumferenceshape
 }
-
 
 func (plantcircumferenceshape *PlantCircumferenceShape) StageVoid(stage *Stage) {
 	plantcircumferenceshape.Stage(stage)
@@ -15507,7 +15433,6 @@ func (pointsandlines3dshape *PointsAndLines3DShape) Commit(stage *Stage) *Points
 	return pointsandlines3dshape
 }
 
-
 func (pointsandlines3dshape *PointsAndLines3DShape) StageVoid(stage *Stage) {
 	pointsandlines3dshape.Stage(stage)
 }
@@ -15591,7 +15516,6 @@ func (pxshape *PxShape) Commit(stage *Stage) *PxShape {
 	}
 	return pxshape
 }
-
 
 func (pxshape *PxShape) StageVoid(stage *Stage) {
 	pxshape.Stage(stage)
@@ -15677,7 +15601,6 @@ func (rendered3dshape *Rendered3DShape) Commit(stage *Stage) *Rendered3DShape {
 	return rendered3dshape
 }
 
-
 func (rendered3dshape *Rendered3DShape) StageVoid(stage *Stage) {
 	rendered3dshape.Stage(stage)
 }
@@ -15761,7 +15684,6 @@ func (rhombusshape *RhombusShape) Commit(stage *Stage) *RhombusShape {
 	}
 	return rhombusshape
 }
-
 
 func (rhombusshape *RhombusShape) StageVoid(stage *Stage) {
 	rhombusshape.Stage(stage)
@@ -15847,7 +15769,6 @@ func (rhombusstuff *RhombusStuff) Commit(stage *Stage) *RhombusStuff {
 	return rhombusstuff
 }
 
-
 func (rhombusstuff *RhombusStuff) StageVoid(stage *Stage) {
 	rhombusstuff.Stage(stage)
 }
@@ -15931,7 +15852,6 @@ func (rotatedrhombusgridshape *RotatedRhombusGridShape) Commit(stage *Stage) *Ro
 	}
 	return rotatedrhombusgridshape
 }
-
 
 func (rotatedrhombusgridshape *RotatedRhombusGridShape) StageVoid(stage *Stage) {
 	rotatedrhombusgridshape.Stage(stage)
@@ -16017,7 +15937,6 @@ func (rotatedrhombusshape *RotatedRhombusShape) Commit(stage *Stage) *RotatedRho
 	return rotatedrhombusshape
 }
 
-
 func (rotatedrhombusshape *RotatedRhombusShape) StageVoid(stage *Stage) {
 	rotatedrhombusshape.Stage(stage)
 }
@@ -16101,7 +16020,6 @@ func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) Commit(stage *St
 	}
 	return rotatedsampledpoints3dshape
 }
-
 
 func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) StageVoid(stage *Stage) {
 	rotatedsampledpoints3dshape.Stage(stage)
@@ -16187,7 +16105,6 @@ func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) Commit(stage *Stage)
 	return rotatedseatandlegs3dshape
 }
 
-
 func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) StageVoid(stage *Stage) {
 	rotatedseatandlegs3dshape.Stage(stage)
 }
@@ -16271,7 +16188,6 @@ func (sampledpoints3dshape *SampledPoints3DShape) Commit(stage *Stage) *SampledP
 	}
 	return sampledpoints3dshape
 }
-
 
 func (sampledpoints3dshape *SampledPoints3DShape) StageVoid(stage *Stage) {
 	sampledpoints3dshape.Stage(stage)
@@ -16357,7 +16273,6 @@ func (seat3dshape *Seat3DShape) Commit(stage *Stage) *Seat3DShape {
 	return seat3dshape
 }
 
-
 func (seat3dshape *Seat3DShape) StageVoid(stage *Stage) {
 	seat3dshape.Stage(stage)
 }
@@ -16441,7 +16356,6 @@ func (seatandlegs3dshape *SeatAndLegs3DShape) Commit(stage *Stage) *SeatAndLegs3
 	}
 	return seatandlegs3dshape
 }
-
 
 func (seatandlegs3dshape *SeatAndLegs3DShape) StageVoid(stage *Stage) {
 	seatandlegs3dshape.Stage(stage)
@@ -16527,7 +16441,6 @@ func (seatbottomcurveshape *SeatBottomCurveShape) Commit(stage *Stage) *SeatBott
 	return seatbottomcurveshape
 }
 
-
 func (seatbottomcurveshape *SeatBottomCurveShape) StageVoid(stage *Stage) {
 	seatbottomcurveshape.Stage(stage)
 }
@@ -16611,7 +16524,6 @@ func (seattopcurveshape *SeatTopCurveShape) Commit(stage *Stage) *SeatTopCurveSh
 	}
 	return seattopcurveshape
 }
-
 
 func (seattopcurveshape *SeatTopCurveShape) StageVoid(stage *Stage) {
 	seattopcurveshape.Stage(stage)
@@ -16697,7 +16609,6 @@ func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) Commit(stage
 	return shiftedbottomtopstartarcshape
 }
 
-
 func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) StageVoid(stage *Stage) {
 	shiftedbottomtopstartarcshape.Stage(stage)
 }
@@ -16781,7 +16692,6 @@ func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) Comm
 	}
 	return shiftedbottomtopstartarcshapegrid
 }
-
 
 func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) StageVoid(stage *Stage) {
 	shiftedbottomtopstartarcshapegrid.Stage(stage)
@@ -16867,7 +16777,6 @@ func (shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) Commit(sta
 	return shiftedleftgrowthcurve2dribbon
 }
 
-
 func (shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) StageVoid(stage *Stage) {
 	shiftedleftgrowthcurve2dribbon.Stage(stage)
 }
@@ -16951,7 +16860,6 @@ func (shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndS
 	}
 	return shiftedleftgrowthcurve2dribbonendshape
 }
-
 
 func (shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
 	shiftedleftgrowthcurve2dribbonendshape.Stage(stage)
@@ -17037,7 +16945,6 @@ func (shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonSt
 	return shiftedleftgrowthcurve2dribbonstartshape
 }
 
-
 func (shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
 	shiftedleftgrowthcurve2dribbonstartshape.Stage(stage)
 }
@@ -17121,7 +17028,6 @@ func (shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2D
 	}
 	return shiftedleftpartiallygrowthcurve2dribbon
 }
-
 
 func (shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2DRibbon) StageVoid(stage *Stage) {
 	shiftedleftpartiallygrowthcurve2dribbon.Stage(stage)
@@ -17207,7 +17113,6 @@ func (shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowt
 	return shiftedleftpartiallygrowthcurve2dribbonendshape
 }
 
-
 func (shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
 	shiftedleftpartiallygrowthcurve2dribbonendshape.Stage(stage)
 }
@@ -17291,7 +17196,6 @@ func (shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGro
 	}
 	return shiftedleftpartiallygrowthcurve2dribbonstartshape
 }
-
 
 func (shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
 	shiftedleftpartiallygrowthcurve2dribbonstartshape.Stage(stage)
@@ -17377,7 +17281,6 @@ func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcS
 	return shiftedleftstackgrowthcurveendarcshape
 }
 
-
 func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) StageVoid(stage *Stage) {
 	shiftedleftstackgrowthcurveendarcshape.Stage(stage)
 }
@@ -17461,7 +17364,6 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	}
 	return shiftedleftstackgrowthcurvestartarcshape
 }
-
 
 func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape) StageVoid(stage *Stage) {
 	shiftedleftstackgrowthcurvestartarcshape.Stage(stage)
@@ -17547,7 +17449,6 @@ func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) Commit(stage *
 	return shiftedleftstacknormalvector
 }
 
-
 func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) StageVoid(stage *Stage) {
 	shiftedleftstacknormalvector.Stage(stage)
 }
@@ -17631,7 +17532,6 @@ func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) Commit(stage
 	}
 	return shiftedleftstackofgrowthcurve
 }
-
 
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) StageVoid(stage *Stage) {
 	shiftedleftstackofgrowthcurve.Stage(stage)
@@ -17717,7 +17617,6 @@ func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) Commit(sta
 	return shiftedleftstackofnormalvector
 }
 
-
 func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) StageVoid(stage *Stage) {
 	shiftedleftstackofnormalvector.Stage(stage)
 }
@@ -17801,7 +17700,6 @@ func (shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) Commit(s
 	}
 	return shiftedrightgrowthcurve2dribbon
 }
-
 
 func (shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) StageVoid(stage *Stage) {
 	shiftedrightgrowthcurve2dribbon.Stage(stage)
@@ -17887,7 +17785,6 @@ func (shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEn
 	return shiftedrightgrowthcurve2dribbonendshape
 }
 
-
 func (shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
 	shiftedrightgrowthcurve2dribbonendshape.Stage(stage)
 }
@@ -17971,7 +17868,6 @@ func (shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbon
 	}
 	return shiftedrightgrowthcurve2dribbonstartshape
 }
-
 
 func (shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
 	shiftedrightgrowthcurve2dribbonstartshape.Stage(stage)
@@ -18057,7 +17953,6 @@ func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape
 	return stackgrowthcurve2dendhalfwayarcshape
 }
 
-
 func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) StageVoid(stage *Stage) {
 	stackgrowthcurve2dendhalfwayarcshape.Stage(stage)
 }
@@ -18141,7 +18036,6 @@ func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) Commit
 	}
 	return stackgrowthcurve2dribbonendshape
 }
-
 
 func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
 	stackgrowthcurve2dribbonendshape.Stage(stage)
@@ -18227,7 +18121,6 @@ func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) Co
 	return stackgrowthcurve2dribbonstartshape
 }
 
-
 func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
 	stackgrowthcurve2dribbonstartshape.Stage(stage)
 }
@@ -18311,7 +18204,6 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 	}
 	return stackgrowthcurve2dstarthalfwayarcshape
 }
-
 
 func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) StageVoid(stage *Stage) {
 	stackgrowthcurve2dstarthalfwayarcshape.Stage(stage)
@@ -18397,7 +18289,6 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) Commit(stage *Stage) *StackOfG
 	return stackofgrowthcurve2d
 }
 
-
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) StageVoid(stage *Stage) {
 	stackofgrowthcurve2d.Stage(stage)
 }
@@ -18481,7 +18372,6 @@ func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) Co
 	}
 	return stackofgrowthcurve2dbygrowthvector
 }
-
 
 func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) StageVoid(stage *Stage) {
 	stackofgrowthcurve2dbygrowthvector.Stage(stage)
@@ -18567,7 +18457,6 @@ func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) Commit(stage *Stag
 	return stackofgrowthcurve2dribbon
 }
 
-
 func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) StageVoid(stage *Stage) {
 	stackofgrowthcurve2dribbon.Stage(stage)
 }
@@ -18651,7 +18540,6 @@ func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) Comm
 	}
 	return stackofpartiallyrotatedtorusshape
 }
-
 
 func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) StageVoid(stage *Stage) {
 	stackofpartiallyrotatedtorusshape.Stage(stage)
@@ -18737,7 +18625,6 @@ func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) Commit(stage *St
 	return stackofrotatedgrowthcurve2d
 }
 
-
 func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) StageVoid(stage *Stage) {
 	stackofrotatedgrowthcurve2d.Stage(stage)
 }
@@ -18821,7 +18708,6 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Comm
 	}
 	return stackofrotatedgrowthcurve2dribbon
 }
-
 
 func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) StageVoid(stage *Stage) {
 	stackofrotatedgrowthcurve2dribbon.Stage(stage)
@@ -18907,7 +18793,6 @@ func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape
 	return stackrotatedgrowthcurve2dendarcshape
 }
 
-
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) StageVoid(stage *Stage) {
 	stackrotatedgrowthcurve2dendarcshape.Stage(stage)
 }
@@ -18991,7 +18876,6 @@ func (stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEn
 	}
 	return stackrotatedgrowthcurve2dribbonendshape
 }
-
 
 func (stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
 	stackrotatedgrowthcurve2dribbonendshape.Stage(stage)
@@ -19077,7 +18961,6 @@ func (stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbon
 	return stackrotatedgrowthcurve2dribbonstartshape
 }
 
-
 func (stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
 	stackrotatedgrowthcurve2dribbonstartshape.Stage(stage)
 }
@@ -19161,7 +19044,6 @@ func (stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcS
 	}
 	return stackrotatedgrowthcurve2dstartarcshape
 }
-
 
 func (stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcShape) StageVoid(stage *Stage) {
 	stackrotatedgrowthcurve2dstartarcshape.Stage(stage)
@@ -19247,7 +19129,6 @@ func (startarcshape *StartArcShape) Commit(stage *Stage) *StartArcShape {
 	return startarcshape
 }
 
-
 func (startarcshape *StartArcShape) StageVoid(stage *Stage) {
 	startarcshape.Stage(stage)
 }
@@ -19331,7 +19212,6 @@ func (startarcshapegrid *StartArcShapeGrid) Commit(stage *Stage) *StartArcShapeG
 	}
 	return startarcshapegrid
 }
-
 
 func (startarcshapegrid *StartArcShapeGrid) StageVoid(stage *Stage) {
 	startarcshapegrid.Stage(stage)
@@ -19417,7 +19297,6 @@ func (starthalfwayarcshape *StartHalfwayArcShape) Commit(stage *Stage) *StartHal
 	return starthalfwayarcshape
 }
 
-
 func (starthalfwayarcshape *StartHalfwayArcShape) StageVoid(stage *Stage) {
 	starthalfwayarcshape.Stage(stage)
 }
@@ -19501,7 +19380,6 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) Commit(stage *Stage) *
 	}
 	return starthalfwayarcshapegrid
 }
-
 
 func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) StageVoid(stage *Stage) {
 	starthalfwayarcshapegrid.Stage(stage)
@@ -19587,7 +19465,6 @@ func (stemcylinder3dshape *StemCylinder3DShape) Commit(stage *Stage) *StemCylind
 	return stemcylinder3dshape
 }
 
-
 func (stemcylinder3dshape *StemCylinder3DShape) StageVoid(stage *Stage) {
 	stemcylinder3dshape.Stage(stage)
 }
@@ -19671,7 +19548,6 @@ func (stool2ddiagram *Stool2DDiagram) Commit(stage *Stage) *Stool2DDiagram {
 	}
 	return stool2ddiagram
 }
-
 
 func (stool2ddiagram *Stool2DDiagram) StageVoid(stage *Stage) {
 	stool2ddiagram.Stage(stage)
@@ -19757,7 +19633,6 @@ func (stool3ddiagram *Stool3DDiagram) Commit(stage *Stage) *Stool3DDiagram {
 	return stool3ddiagram
 }
 
-
 func (stool3ddiagram *Stool3DDiagram) StageVoid(stage *Stage) {
 	stool3ddiagram.Stage(stage)
 }
@@ -19841,7 +19716,6 @@ func (stoolabstract *StoolAbstract) Commit(stage *Stage) *StoolAbstract {
 	}
 	return stoolabstract
 }
-
 
 func (stoolabstract *StoolAbstract) StageVoid(stage *Stage) {
 	stoolabstract.Stage(stage)
@@ -19927,7 +19801,6 @@ func (tiledfloor3dshape *TiledFloor3DShape) Commit(stage *Stage) *TiledFloor3DSh
 	return tiledfloor3dshape
 }
 
-
 func (tiledfloor3dshape *TiledFloor3DShape) StageVoid(stage *Stage) {
 	tiledfloor3dshape.Stage(stage)
 }
@@ -20011,7 +19884,6 @@ func (topendarcshape *TopEndArcShape) Commit(stage *Stage) *TopEndArcShape {
 	}
 	return topendarcshape
 }
-
 
 func (topendarcshape *TopEndArcShape) StageVoid(stage *Stage) {
 	topendarcshape.Stage(stage)
@@ -20097,7 +19969,6 @@ func (topendarcshapegrid *TopEndArcShapeGrid) Commit(stage *Stage) *TopEndArcSha
 	return topendarcshapegrid
 }
 
-
 func (topendarcshapegrid *TopEndArcShapeGrid) StageVoid(stage *Stage) {
 	topendarcshapegrid.Stage(stage)
 }
@@ -20181,7 +20052,6 @@ func (topendhalfwayarcshape *TopEndHalfwayArcShape) Commit(stage *Stage) *TopEnd
 	}
 	return topendhalfwayarcshape
 }
-
 
 func (topendhalfwayarcshape *TopEndHalfwayArcShape) StageVoid(stage *Stage) {
 	topendhalfwayarcshape.Stage(stage)
@@ -20267,7 +20137,6 @@ func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) Commit(stage *Stage)
 	return topendhalfwayarcshapegrid
 }
 
-
 func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) StageVoid(stage *Stage) {
 	topendhalfwayarcshapegrid.Stage(stage)
 }
@@ -20351,7 +20220,6 @@ func (topgrowthcurve2d *TopGrowthCurve2D) Commit(stage *Stage) *TopGrowthCurve2D
 	}
 	return topgrowthcurve2d
 }
-
 
 func (topgrowthcurve2d *TopGrowthCurve2D) StageVoid(stage *Stage) {
 	topgrowthcurve2d.Stage(stage)
@@ -20437,7 +20305,6 @@ func (topmidarcvectorshape *TopMidArcVectorShape) Commit(stage *Stage) *TopMidAr
 	return topmidarcvectorshape
 }
 
-
 func (topmidarcvectorshape *TopMidArcVectorShape) StageVoid(stage *Stage) {
 	topmidarcvectorshape.Stage(stage)
 }
@@ -20521,7 +20388,6 @@ func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) Commit(stage *Stage) *
 	}
 	return topmidarcvectorshapegrid
 }
-
 
 func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) StageVoid(stage *Stage) {
 	topmidarcvectorshapegrid.Stage(stage)
@@ -20607,7 +20473,6 @@ func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayAr
 	return topstackgrowthcurve2dendhalfwayarcshape
 }
 
-
 func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) StageVoid(stage *Stage) {
 	topstackgrowthcurve2dendhalfwayarcshape.Stage(stage)
 }
@@ -20691,7 +20556,6 @@ func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfw
 	}
 	return topstackgrowthcurve2dstarthalfwayarcshape
 }
-
 
 func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) StageVoid(stage *Stage) {
 	topstackgrowthcurve2dstarthalfwayarcshape.Stage(stage)
@@ -20777,7 +20641,6 @@ func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) Commit(stage *Stage) *To
 	return topstackofgrowthcurve2d
 }
 
-
 func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) StageVoid(stage *Stage) {
 	topstackofgrowthcurve2d.Stage(stage)
 }
@@ -20861,7 +20724,6 @@ func (topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) Commit(sta
 	}
 	return topstackofrotatedgrowthcurve2d
 }
-
 
 func (topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) StageVoid(stage *Stage) {
 	topstackofrotatedgrowthcurve2d.Stage(stage)
@@ -20947,7 +20809,6 @@ func (topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DE
 	return topstackofrotatedgrowthcurve2dendarcshape
 }
 
-
 func (topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DEndArcShape) StageVoid(stage *Stage) {
 	topstackofrotatedgrowthcurve2dendarcshape.Stage(stage)
 }
@@ -21031,7 +20892,6 @@ func (topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2
 	}
 	return topstackofrotatedgrowthcurve2dstartarcshape
 }
-
 
 func (topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2DStartArcShape) StageVoid(stage *Stage) {
 	topstackofrotatedgrowthcurve2dstartarcshape.Stage(stage)
@@ -21117,7 +20977,6 @@ func (topstartarcshape *TopStartArcShape) Commit(stage *Stage) *TopStartArcShape
 	return topstartarcshape
 }
 
-
 func (topstartarcshape *TopStartArcShape) StageVoid(stage *Stage) {
 	topstartarcshape.Stage(stage)
 }
@@ -21201,7 +21060,6 @@ func (topstartarcshapegrid *TopStartArcShapeGrid) Commit(stage *Stage) *TopStart
 	}
 	return topstartarcshapegrid
 }
-
 
 func (topstartarcshapegrid *TopStartArcShapeGrid) StageVoid(stage *Stage) {
 	topstartarcshapegrid.Stage(stage)
@@ -21287,7 +21145,6 @@ func (topstarthalfwayarcshape *TopStartHalfwayArcShape) Commit(stage *Stage) *To
 	return topstarthalfwayarcshape
 }
 
-
 func (topstarthalfwayarcshape *TopStartHalfwayArcShape) StageVoid(stage *Stage) {
 	topstarthalfwayarcshape.Stage(stage)
 }
@@ -21371,7 +21228,6 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) Commit(stage *St
 	}
 	return topstarthalfwayarcshapegrid
 }
-
 
 func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) StageVoid(stage *Stage) {
 	topstarthalfwayarcshapegrid.Stage(stage)
@@ -21457,7 +21313,6 @@ func (torus3dshape *Torus3DShape) Commit(stage *Stage) *Torus3DShape {
 	return torus3dshape
 }
 
-
 func (torus3dshape *Torus3DShape) StageVoid(stage *Stage) {
 	torus3dshape.Stage(stage)
 }
@@ -21541,7 +21396,6 @@ func (torusedge3dshape *TorusEdge3DShape) Commit(stage *Stage) *TorusEdge3DShape
 	}
 	return torusedge3dshape
 }
-
 
 func (torusedge3dshape *TorusEdge3DShape) StageVoid(stage *Stage) {
 	torusedge3dshape.Stage(stage)
@@ -21627,7 +21481,6 @@ func (torusstackshape *TorusStackShape) Commit(stage *Stage) *TorusStackShape {
 	return torusstackshape
 }
 
-
 func (torusstackshape *TorusStackShape) StageVoid(stage *Stage) {
 	torusstackshape.Stage(stage)
 }
@@ -21711,7 +21564,6 @@ func (tubevase3ddiagram *TubeVase3DDiagram) Commit(stage *Stage) *TubeVase3DDiag
 	}
 	return tubevase3ddiagram
 }
-
 
 func (tubevase3ddiagram *TubeVase3DDiagram) StageVoid(stage *Stage) {
 	tubevase3ddiagram.Stage(stage)
@@ -21797,7 +21649,6 @@ func (tubevaseabstract *TubeVaseAbstract) Commit(stage *Stage) *TubeVaseAbstract
 	return tubevaseabstract
 }
 
-
 func (tubevaseabstract *TubeVaseAbstract) StageVoid(stage *Stage) {
 	tubevaseabstract.Stage(stage)
 }
@@ -21881,7 +21732,6 @@ func (vase2ddiagram *Vase2DDiagram) Commit(stage *Stage) *Vase2DDiagram {
 	}
 	return vase2ddiagram
 }
-
 
 func (vase2ddiagram *Vase2DDiagram) StageVoid(stage *Stage) {
 	vase2ddiagram.Stage(stage)
@@ -21967,7 +21817,6 @@ func (verticaltorusstackshape *VerticalTorusStackShape) Commit(stage *Stage) *Ve
 	return verticaltorusstackshape
 }
 
-
 func (verticaltorusstackshape *VerticalTorusStackShape) StageVoid(stage *Stage) {
 	verticaltorusstackshape.Stage(stage)
 }
@@ -22051,7 +21900,6 @@ func (volumekey3dshape *VolumeKey3DShape) Commit(stage *Stage) *VolumeKey3DShape
 	}
 	return volumekey3dshape
 }
-
 
 func (volumekey3dshape *VolumeKey3DShape) StageVoid(stage *Stage) {
 	volumekey3dshape.Stage(stage)

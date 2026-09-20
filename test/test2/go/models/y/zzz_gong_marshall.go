@@ -128,10 +128,9 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 		if stage.isSquashing {
 			// we squash: we want to clear the current function body
 			// and let the append logic write the squashed commit
-			firstBrace := strings.Index(content, "func _(stage *y.Stage) {")
-			if firstBrace != -1 {
-				firstBrace += len("func _(stage *y.Stage) {")
-				content = content[:firstBrace] + "\n}\n"
+			const fnSig = "func _(stage *y.Stage) {"
+			if before, _, ok := strings.Cut(content, fnSig); ok {
+				content = before + fnSig + "\n}\n"
 			}
 		}
 

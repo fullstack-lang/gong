@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -436,7 +435,6 @@ type Stage struct {
 	OnAfterTransition_ShapeUpdateCallback GongOnAfterUpdateInterface[Transition_Shape]
 	OnAfterTransition_ShapeDeleteCallback GongOnAfterDeleteInterface[Transition_Shape]
 	OnAfterTransition_ShapeReadCallback   GongOnAfterReadInterface[Transition_Shape]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -1044,7 +1042,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -1604,7 +1601,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -1664,8 +1660,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -1845,7 +1839,6 @@ func (action *Action) Commit(stage *Stage) *Action {
 	return action
 }
 
-
 func (action *Action) StageVoid(stage *Stage) {
 	action.Stage(stage)
 }
@@ -1929,7 +1922,6 @@ func (activities *Activities) Commit(stage *Stage) *Activities {
 	}
 	return activities
 }
-
 
 func (activities *Activities) StageVoid(stage *Stage) {
 	activities.Stage(stage)
@@ -2015,7 +2007,6 @@ func (diagram *Diagram) Commit(stage *Stage) *Diagram {
 	return diagram
 }
 
-
 func (diagram *Diagram) StageVoid(stage *Stage) {
 	diagram.Stage(stage)
 }
@@ -2099,7 +2090,6 @@ func (guard *Guard) Commit(stage *Stage) *Guard {
 	}
 	return guard
 }
-
 
 func (guard *Guard) StageVoid(stage *Stage) {
 	guard.Stage(stage)
@@ -2185,7 +2175,6 @@ func (kill *Kill) Commit(stage *Stage) *Kill {
 	return kill
 }
 
-
 func (kill *Kill) StageVoid(stage *Stage) {
 	kill.Stage(stage)
 }
@@ -2269,7 +2258,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	}
 	return library
 }
-
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
@@ -2355,7 +2343,6 @@ func (message *Message) Commit(stage *Stage) *Message {
 	return message
 }
 
-
 func (message *Message) StageVoid(stage *Stage) {
 	message.Stage(stage)
 }
@@ -2439,7 +2426,6 @@ func (messagetype *MessageType) Commit(stage *Stage) *MessageType {
 	}
 	return messagetype
 }
-
 
 func (messagetype *MessageType) StageVoid(stage *Stage) {
 	messagetype.Stage(stage)
@@ -2525,7 +2511,6 @@ func (note *Note) Commit(stage *Stage) *Note {
 	return note
 }
 
-
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
 }
@@ -2609,7 +2594,6 @@ func (noteshape *NoteShape) Commit(stage *Stage) *NoteShape {
 	}
 	return noteshape
 }
-
 
 func (noteshape *NoteShape) StageVoid(stage *Stage) {
 	noteshape.Stage(stage)
@@ -2695,7 +2679,6 @@ func (notestateshape *NoteStateShape) Commit(stage *Stage) *NoteStateShape {
 	return notestateshape
 }
 
-
 func (notestateshape *NoteStateShape) StageVoid(stage *Stage) {
 	notestateshape.Stage(stage)
 }
@@ -2779,7 +2762,6 @@ func (object *Object) Commit(stage *Stage) *Object {
 	}
 	return object
 }
-
 
 func (object *Object) StageVoid(stage *Stage) {
 	object.Stage(stage)
@@ -2865,7 +2847,6 @@ func (role *Role) Commit(stage *Stage) *Role {
 	return role
 }
 
-
 func (role *Role) StageVoid(stage *Stage) {
 	role.Stage(stage)
 }
@@ -2949,7 +2930,6 @@ func (state *State) Commit(stage *Stage) *State {
 	}
 	return state
 }
-
 
 func (state *State) StageVoid(stage *Stage) {
 	state.Stage(stage)
@@ -3035,7 +3015,6 @@ func (statemachine *StateMachine) Commit(stage *Stage) *StateMachine {
 	return statemachine
 }
 
-
 func (statemachine *StateMachine) StageVoid(stage *Stage) {
 	statemachine.Stage(stage)
 }
@@ -3119,7 +3098,6 @@ func (stateshape *StateShape) Commit(stage *Stage) *StateShape {
 	}
 	return stateshape
 }
-
 
 func (stateshape *StateShape) StageVoid(stage *Stage) {
 	stateshape.Stage(stage)
@@ -3205,7 +3183,6 @@ func (transition *Transition) Commit(stage *Stage) *Transition {
 	return transition
 }
 
-
 func (transition *Transition) StageVoid(stage *Stage) {
 	transition.Stage(stage)
 }
@@ -3289,7 +3266,6 @@ func (transition_shape *Transition_Shape) Commit(stage *Stage) *Transition_Shape
 	}
 	return transition_shape
 }
-
 
 func (transition_shape *Transition_Shape) StageVoid(stage *Stage) {
 	transition_shape.Stage(stage)

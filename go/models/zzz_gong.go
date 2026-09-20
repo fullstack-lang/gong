@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -299,7 +298,6 @@ type Stage struct {
 	OnAfterSliceOfPointerToGongStructFieldUpdateCallback GongOnAfterUpdateInterface[SliceOfPointerToGongStructField]
 	OnAfterSliceOfPointerToGongStructFieldDeleteCallback GongOnAfterDeleteInterface[SliceOfPointerToGongStructField]
 	OnAfterSliceOfPointerToGongStructFieldReadCallback   GongOnAfterReadInterface[SliceOfPointerToGongStructField]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -781,7 +779,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -1166,7 +1163,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -1212,8 +1208,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -1386,7 +1380,6 @@ func (gongbasicfield *GongBasicField) Commit(stage *Stage) *GongBasicField {
 	return gongbasicfield
 }
 
-
 func (gongbasicfield *GongBasicField) StageVoid(stage *Stage) {
 	gongbasicfield.Stage(stage)
 }
@@ -1470,7 +1463,6 @@ func (gongenum *GongEnum) Commit(stage *Stage) *GongEnum {
 	}
 	return gongenum
 }
-
 
 func (gongenum *GongEnum) StageVoid(stage *Stage) {
 	gongenum.Stage(stage)
@@ -1556,7 +1548,6 @@ func (gongenumvalue *GongEnumValue) Commit(stage *Stage) *GongEnumValue {
 	return gongenumvalue
 }
 
-
 func (gongenumvalue *GongEnumValue) StageVoid(stage *Stage) {
 	gongenumvalue.Stage(stage)
 }
@@ -1640,7 +1631,6 @@ func (gonglink *GongLink) Commit(stage *Stage) *GongLink {
 	}
 	return gonglink
 }
-
 
 func (gonglink *GongLink) StageVoid(stage *Stage) {
 	gonglink.Stage(stage)
@@ -1726,7 +1716,6 @@ func (gongnote *GongNote) Commit(stage *Stage) *GongNote {
 	return gongnote
 }
 
-
 func (gongnote *GongNote) StageVoid(stage *Stage) {
 	gongnote.Stage(stage)
 }
@@ -1810,7 +1799,6 @@ func (gongstruct *GongStruct) Commit(stage *Stage) *GongStruct {
 	}
 	return gongstruct
 }
-
 
 func (gongstruct *GongStruct) StageVoid(stage *Stage) {
 	gongstruct.Stage(stage)
@@ -1896,7 +1884,6 @@ func (gongtimefield *GongTimeField) Commit(stage *Stage) *GongTimeField {
 	return gongtimefield
 }
 
-
 func (gongtimefield *GongTimeField) StageVoid(stage *Stage) {
 	gongtimefield.Stage(stage)
 }
@@ -1980,7 +1967,6 @@ func (metareference *MetaReference) Commit(stage *Stage) *MetaReference {
 	}
 	return metareference
 }
-
 
 func (metareference *MetaReference) StageVoid(stage *Stage) {
 	metareference.Stage(stage)
@@ -2066,7 +2052,6 @@ func (modelpkg *ModelPkg) Commit(stage *Stage) *ModelPkg {
 	return modelpkg
 }
 
-
 func (modelpkg *ModelPkg) StageVoid(stage *Stage) {
 	modelpkg.Stage(stage)
 }
@@ -2151,7 +2136,6 @@ func (pointertogongstructfield *PointerToGongStructField) Commit(stage *Stage) *
 	return pointertogongstructfield
 }
 
-
 func (pointertogongstructfield *PointerToGongStructField) StageVoid(stage *Stage) {
 	pointertogongstructfield.Stage(stage)
 }
@@ -2235,7 +2219,6 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Commit(s
 	}
 	return sliceofpointertogongstructfield
 }
-
 
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) StageVoid(stage *Stage) {
 	sliceofpointertogongstructfield.Stage(stage)

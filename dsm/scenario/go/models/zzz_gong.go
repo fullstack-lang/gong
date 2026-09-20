@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -655,7 +654,6 @@ type Stage struct {
 	OnAfterWorkspaceUpdateCallback GongOnAfterUpdateInterface[Workspace]
 	OnAfterWorkspaceDeleteCallback GongOnAfterDeleteInterface[Workspace]
 	OnAfterWorkspaceReadCallback   GongOnAfterReadInterface[Workspace]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -1496,7 +1494,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 
 	return stage.probeIF
 }
-
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -2382,7 +2379,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -2468,8 +2464,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -2662,7 +2656,6 @@ func (actorstate *ActorState) Commit(stage *Stage) *ActorState {
 	return actorstate
 }
 
-
 func (actorstate *ActorState) StageVoid(stage *Stage) {
 	actorstate.Stage(stage)
 }
@@ -2746,7 +2739,6 @@ func (actorstateshape *ActorStateShape) Commit(stage *Stage) *ActorStateShape {
 	}
 	return actorstateshape
 }
-
 
 func (actorstateshape *ActorStateShape) StageVoid(stage *Stage) {
 	actorstateshape.Stage(stage)
@@ -2832,7 +2824,6 @@ func (actorstatetransition *ActorStateTransition) Commit(stage *Stage) *ActorSta
 	return actorstatetransition
 }
 
-
 func (actorstatetransition *ActorStateTransition) StageVoid(stage *Stage) {
 	actorstatetransition.Stage(stage)
 }
@@ -2916,7 +2907,6 @@ func (actorstatetransitionshape *ActorStateTransitionShape) Commit(stage *Stage)
 	}
 	return actorstatetransitionshape
 }
-
 
 func (actorstatetransitionshape *ActorStateTransitionShape) StageVoid(stage *Stage) {
 	actorstatetransitionshape.Stage(stage)
@@ -3002,7 +2992,6 @@ func (analysis *Analysis) Commit(stage *Stage) *Analysis {
 	return analysis
 }
 
-
 func (analysis *Analysis) StageVoid(stage *Stage) {
 	analysis.Stage(stage)
 }
@@ -3086,7 +3075,6 @@ func (controlpointshape *ControlPointShape) Commit(stage *Stage) *ControlPointSh
 	}
 	return controlpointshape
 }
-
 
 func (controlpointshape *ControlPointShape) StageVoid(stage *Stage) {
 	controlpointshape.Stage(stage)
@@ -3172,7 +3160,6 @@ func (diagram *Diagram) Commit(stage *Stage) *Diagram {
 	return diagram
 }
 
-
 func (diagram *Diagram) StageVoid(stage *Stage) {
 	diagram.Stage(stage)
 }
@@ -3256,7 +3243,6 @@ func (document *Document) Commit(stage *Stage) *Document {
 	}
 	return document
 }
-
 
 func (document *Document) StageVoid(stage *Stage) {
 	document.Stage(stage)
@@ -3342,7 +3328,6 @@ func (documentuse *DocumentUse) Commit(stage *Stage) *DocumentUse {
 	return documentuse
 }
 
-
 func (documentuse *DocumentUse) StageVoid(stage *Stage) {
 	documentuse.Stage(stage)
 }
@@ -3426,7 +3411,6 @@ func (evolutiondirection *EvolutionDirection) Commit(stage *Stage) *EvolutionDir
 	}
 	return evolutiondirection
 }
-
 
 func (evolutiondirection *EvolutionDirection) StageVoid(stage *Stage) {
 	evolutiondirection.Stage(stage)
@@ -3512,7 +3496,6 @@ func (evolutiondirectionshape *EvolutionDirectionShape) Commit(stage *Stage) *Ev
 	return evolutiondirectionshape
 }
 
-
 func (evolutiondirectionshape *EvolutionDirectionShape) StageVoid(stage *Stage) {
 	evolutiondirectionshape.Stage(stage)
 }
@@ -3596,7 +3579,6 @@ func (foo *Foo) Commit(stage *Stage) *Foo {
 	}
 	return foo
 }
-
 
 func (foo *Foo) StageVoid(stage *Stage) {
 	foo.Stage(stage)
@@ -3682,7 +3664,6 @@ func (geoobject *GeoObject) Commit(stage *Stage) *GeoObject {
 	return geoobject
 }
 
-
 func (geoobject *GeoObject) StageVoid(stage *Stage) {
 	geoobject.Stage(stage)
 }
@@ -3766,7 +3747,6 @@ func (geoobjectuse *GeoObjectUse) Commit(stage *Stage) *GeoObjectUse {
 	}
 	return geoobjectuse
 }
-
 
 func (geoobjectuse *GeoObjectUse) StageVoid(stage *Stage) {
 	geoobjectuse.Stage(stage)
@@ -3852,7 +3832,6 @@ func (group *Group) Commit(stage *Stage) *Group {
 	return group
 }
 
-
 func (group *Group) StageVoid(stage *Stage) {
 	group.Stage(stage)
 }
@@ -3936,7 +3915,6 @@ func (groupuse *GroupUse) Commit(stage *Stage) *GroupUse {
 	}
 	return groupuse
 }
-
 
 func (groupuse *GroupUse) StageVoid(stage *Stage) {
 	groupuse.Stage(stage)
@@ -4022,7 +4000,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	return library
 }
 
-
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
 }
@@ -4106,7 +4083,6 @@ func (mapobject *MapObject) Commit(stage *Stage) *MapObject {
 	}
 	return mapobject
 }
-
 
 func (mapobject *MapObject) StageVoid(stage *Stage) {
 	mapobject.Stage(stage)
@@ -4192,7 +4168,6 @@ func (mapobjectuse *MapObjectUse) Commit(stage *Stage) *MapObjectUse {
 	return mapobjectuse
 }
 
-
 func (mapobjectuse *MapObjectUse) StageVoid(stage *Stage) {
 	mapobjectuse.Stage(stage)
 }
@@ -4276,7 +4251,6 @@ func (parameter *Parameter) Commit(stage *Stage) *Parameter {
 	}
 	return parameter
 }
-
 
 func (parameter *Parameter) StageVoid(stage *Stage) {
 	parameter.Stage(stage)
@@ -4362,7 +4336,6 @@ func (parametercategory *ParameterCategory) Commit(stage *Stage) *ParameterCateg
 	return parametercategory
 }
 
-
 func (parametercategory *ParameterCategory) StageVoid(stage *Stage) {
 	parametercategory.Stage(stage)
 }
@@ -4446,7 +4419,6 @@ func (parametercategoryuse *ParameterCategoryUse) Commit(stage *Stage) *Paramete
 	}
 	return parametercategoryuse
 }
-
 
 func (parametercategoryuse *ParameterCategoryUse) StageVoid(stage *Stage) {
 	parametercategoryuse.Stage(stage)
@@ -4532,7 +4504,6 @@ func (parametershape *ParameterShape) Commit(stage *Stage) *ParameterShape {
 	return parametershape
 }
 
-
 func (parametershape *ParameterShape) StageVoid(stage *Stage) {
 	parametershape.Stage(stage)
 }
@@ -4616,7 +4587,6 @@ func (parametersaggregate *ParametersAggregate) Commit(stage *Stage) *Parameters
 	}
 	return parametersaggregate
 }
-
 
 func (parametersaggregate *ParametersAggregate) StageVoid(stage *Stage) {
 	parametersaggregate.Stage(stage)
@@ -4702,7 +4672,6 @@ func (parametersaggregateshape *ParametersAggregateShape) Commit(stage *Stage) *
 	return parametersaggregateshape
 }
 
-
 func (parametersaggregateshape *ParametersAggregateShape) StageVoid(stage *Stage) {
 	parametersaggregateshape.Stage(stage)
 }
@@ -4786,7 +4755,6 @@ func (position *Position) Commit(stage *Stage) *Position {
 	}
 	return position
 }
-
 
 func (position *Position) StageVoid(stage *Stage) {
 	position.Stage(stage)
@@ -4872,7 +4840,6 @@ func (repository *Repository) Commit(stage *Stage) *Repository {
 	return repository
 }
 
-
 func (repository *Repository) StageVoid(stage *Stage) {
 	repository.Stage(stage)
 }
@@ -4956,7 +4923,6 @@ func (scenario *Scenario) Commit(stage *Stage) *Scenario {
 	}
 	return scenario
 }
-
 
 func (scenario *Scenario) StageVoid(stage *Stage) {
 	scenario.Stage(stage)
@@ -5042,7 +5008,6 @@ func (user *User) Commit(stage *Stage) *User {
 	return user
 }
 
-
 func (user *User) StageVoid(stage *Stage) {
 	user.Stage(stage)
 }
@@ -5127,7 +5092,6 @@ func (useruse *UserUse) Commit(stage *Stage) *UserUse {
 	return useruse
 }
 
-
 func (useruse *UserUse) StageVoid(stage *Stage) {
 	useruse.Stage(stage)
 }
@@ -5211,7 +5175,6 @@ func (workspace *Workspace) Commit(stage *Stage) *Workspace {
 	}
 	return workspace
 }
-
 
 func (workspace *Workspace) StageVoid(stage *Stage) {
 	workspace.Stage(stage)

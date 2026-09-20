@@ -107,7 +107,6 @@ var (
 	_        = __member
 )
 
-
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -333,7 +332,6 @@ type Stage struct {
 	OnAfterPlaceUpdateCallback GongOnAfterUpdateInterface[Place]
 	OnAfterPlaceDeleteCallback GongOnAfterDeleteInterface[Place]
 	OnAfterPlaceReadCallback   GongOnAfterReadInterface[Place]
-
 
 	BackRepo GongBackRepoInterface
 
@@ -851,7 +849,6 @@ func (stage *Stage) GetProbeIF() GongProbeIF {
 	return stage.probeIF
 }
 
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
@@ -1286,7 +1283,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-
 		navigationMode: GongNavigationModeNormal,
 	}
 
@@ -1336,8 +1332,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return // should not happen
 	}
 }
-
-
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -1512,7 +1506,6 @@ func (artefacttype *ArtefactType) Commit(stage *Stage) *ArtefactType {
 	return artefacttype
 }
 
-
 func (artefacttype *ArtefactType) StageVoid(stage *Stage) {
 	artefacttype.Stage(stage)
 }
@@ -1596,7 +1589,6 @@ func (artefacttypeshape *ArtefactTypeShape) Commit(stage *Stage) *ArtefactTypeSh
 	}
 	return artefacttypeshape
 }
-
 
 func (artefacttypeshape *ArtefactTypeShape) StageVoid(stage *Stage) {
 	artefacttypeshape.Stage(stage)
@@ -1682,7 +1674,6 @@ func (artist *Artist) Commit(stage *Stage) *Artist {
 	return artist
 }
 
-
 func (artist *Artist) StageVoid(stage *Stage) {
 	artist.Stage(stage)
 }
@@ -1766,7 +1757,6 @@ func (artistshape *ArtistShape) Commit(stage *Stage) *ArtistShape {
 	}
 	return artistshape
 }
-
 
 func (artistshape *ArtistShape) StageVoid(stage *Stage) {
 	artistshape.Stage(stage)
@@ -1852,7 +1842,6 @@ func (controlpointshape *ControlPointShape) Commit(stage *Stage) *ControlPointSh
 	return controlpointshape
 }
 
-
 func (controlpointshape *ControlPointShape) StageVoid(stage *Stage) {
 	controlpointshape.Stage(stage)
 }
@@ -1936,7 +1925,6 @@ func (desk *Desk) Commit(stage *Stage) *Desk {
 	}
 	return desk
 }
-
 
 func (desk *Desk) StageVoid(stage *Stage) {
 	desk.Stage(stage)
@@ -2022,7 +2010,6 @@ func (diagram *Diagram) Commit(stage *Stage) *Diagram {
 	return diagram
 }
 
-
 func (diagram *Diagram) StageVoid(stage *Stage) {
 	diagram.Stage(stage)
 }
@@ -2106,7 +2093,6 @@ func (influence *Influence) Commit(stage *Stage) *Influence {
 	}
 	return influence
 }
-
 
 func (influence *Influence) StageVoid(stage *Stage) {
 	influence.Stage(stage)
@@ -2192,7 +2178,6 @@ func (influenceshape *InfluenceShape) Commit(stage *Stage) *InfluenceShape {
 	return influenceshape
 }
 
-
 func (influenceshape *InfluenceShape) StageVoid(stage *Stage) {
 	influenceshape.Stage(stage)
 }
@@ -2276,7 +2261,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	}
 	return library
 }
-
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
@@ -2362,7 +2346,6 @@ func (movement *Movement) Commit(stage *Stage) *Movement {
 	return movement
 }
 
-
 func (movement *Movement) StageVoid(stage *Stage) {
 	movement.Stage(stage)
 }
@@ -2447,7 +2430,6 @@ func (movementshape *MovementShape) Commit(stage *Stage) *MovementShape {
 	return movementshape
 }
 
-
 func (movementshape *MovementShape) StageVoid(stage *Stage) {
 	movementshape.Stage(stage)
 }
@@ -2531,7 +2513,6 @@ func (place *Place) Commit(stage *Stage) *Place {
 	}
 	return place
 }
-
 
 func (place *Place) StageVoid(stage *Stage) {
 	place.Stage(stage)

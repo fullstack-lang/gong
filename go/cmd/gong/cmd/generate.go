@@ -82,23 +82,16 @@ var generateCmd = &cobra.Command{
 			useSplitlite = true
 		}
 		if !useSplitlite {
-			searchDirs := []string{pkgPath, filepath.Join(pkgPath, "../level1stack")}
-			for _, dir := range searchDirs {
-				files, err := os.ReadDir(dir)
-				if err != nil {
-					continue
-				}
+			files, err := os.ReadDir(pkgPath)
+			if err == nil {
 				for _, f := range files {
 					if !f.IsDir() && strings.HasSuffix(f.Name(), ".go") && !strings.HasPrefix(f.Name(), "zzz_") {
-						content, err := os.ReadFile(filepath.Join(dir, f.Name()))
-						if err == nil && strings.Contains(string(content), "lib/splitlite") {
+						content, err := os.ReadFile(filepath.Join(pkgPath, f.Name()))
+						if err == nil && strings.Contains(string(content), "split \"github.com/fullstack-lang/gong/lib/splitlite/go/models\"") {
 							useSplitlite = true
 							break
 						}
 					}
-				}
-				if useSplitlite {
-					break
 				}
 			}
 		}
