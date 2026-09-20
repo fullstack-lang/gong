@@ -107,6 +107,12 @@ var (
 	_        = __member
 )
 
+// MetaPackageImport represents a package import needed by a meta/diagram file
+type MetaPackageImport struct {
+	Alias string
+	Path  string
+}
+
 // Stage enables storage of staged instances
 type Stage struct {
 	name string
@@ -205,6 +211,7 @@ type Stage struct {
 	// store meta package import
 	MetaPackageImportPath  string
 	MetaPackageImportAlias string
+	MetaPackageImports     []*MetaPackageImport
 
 	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
 	// map to enable docLink renaming when an identifier is renamed

@@ -143,7 +143,7 @@ func _(stage *models.Stage) {
 
 	__LinkShape__00000000_.Name = `X`
 	__LinkShape__00000000_.IdentifierMeta = ref_models.A{}.X
-	__LinkShape__00000000_.FieldTypeIdentifierMeta = ref_models.X{}
+	__LinkShape__00000000_.FieldTypeIdentifierMeta = ref_x.X{}
 	__LinkShape__00000000_.FieldOffsetX = 0.000000
 	__LinkShape__00000000_.FieldOffsetY = 0.000000
 	__LinkShape__00000000_.TargetMultiplicity = models.ZERO_ONE
@@ -162,7 +162,7 @@ func _(stage *models.Stage) {
 
 	__LinkShape__00000001_.Name = `Y`
 	__LinkShape__00000001_.IdentifierMeta = ref_x.X{}.Y
-	__LinkShape__00000001_.FieldTypeIdentifierMeta = ref_models.Y{}
+	__LinkShape__00000001_.FieldTypeIdentifierMeta = ref_y.Y{}
 	__LinkShape__00000001_.FieldOffsetX = 0.000000
 	__LinkShape__00000001_.FieldOffsetY = 0.000000
 	__LinkShape__00000001_.TargetMultiplicity = models.ZERO_ONE

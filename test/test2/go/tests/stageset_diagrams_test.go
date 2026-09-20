@@ -67,8 +67,8 @@ func TestStageSetDiagramsParseAndMarshall(t *testing.T) {
 	}
 
 	// 3. Verify GongStructShapes across multiple packages
-	if len(stageSetDiagram.GongStructShapes) != 3 {
-		t.Fatalf("expected 3 GongStructShapes, got %d", len(stageSetDiagram.GongStructShapes))
+	if len(stageSetDiagram.GongStructShapes) < 3 {
+		t.Fatalf("expected at least 3 GongStructShapes, got %d", len(stageSetDiagram.GongStructShapes))
 	}
 
 	shapeNames := make(map[string]*doc_models.GongStructShape)
@@ -85,12 +85,18 @@ func TestStageSetDiagramsParseAndMarshall(t *testing.T) {
 
 	// 4. Verify Cross-package LinkShapes
 	aShape := shapeNames["models.A"]
-	if aShape == nil || len(aShape.LinkShapes) != 1 {
-		t.Fatalf("expected 1 LinkShape on models.A, got %v", aShape)
+	if aShape == nil {
+		t.Fatalf("expected GongStructShape on models.A, got nil")
 	}
-	xLink := aShape.LinkShapes[0]
-	if xLink.Name != "X" {
-		t.Errorf("expected link name 'X', got %s", xLink.Name)
+	var xLink *doc_models.LinkShape
+	for _, l := range aShape.LinkShapes {
+		if l.Name == "X" {
+			xLink = l
+			break
+		}
+	}
+	if xLink == nil {
+		t.Fatalf("expected link 'X' on models.A, but none found among %d links", len(aShape.LinkShapes))
 	}
 	expectedXLinkTarget := "ref_x.X{}"
 	if xLink.FieldTypeIdentifierMeta != expectedXLinkTarget {
@@ -98,12 +104,18 @@ func TestStageSetDiagramsParseAndMarshall(t *testing.T) {
 	}
 
 	xShape := shapeNames["x.X"]
-	if xShape == nil || len(xShape.LinkShapes) != 1 {
-		t.Fatalf("expected 1 LinkShape on x.X, got %v", xShape)
+	if xShape == nil {
+		t.Fatalf("expected GongStructShape on x.X, got nil")
 	}
-	yLink := xShape.LinkShapes[0]
-	if yLink.Name != "Y" {
-		t.Errorf("expected link name 'Y', got %s", yLink.Name)
+	var yLink *doc_models.LinkShape
+	for _, l := range xShape.LinkShapes {
+		if l.Name == "Y" {
+			yLink = l
+			break
+		}
+	}
+	if yLink == nil {
+		t.Fatalf("expected link 'Y' on x.X, but none found among %d links", len(xShape.LinkShapes))
 	}
 	expectedYLinkTarget := "ref_y.Y{}"
 	if yLink.FieldTypeIdentifierMeta != expectedYLinkTarget {

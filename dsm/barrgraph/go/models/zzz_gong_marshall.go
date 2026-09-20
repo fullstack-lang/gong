@@ -32,6 +32,8 @@ var (
 	_ = slices.Index[[]int, int]
 )
 
+// injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
+
 // function will stage objects
 func _(stage *models.Stage) {
 
@@ -899,7 +901,19 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
 
-	if stage.MetaPackageImportAlias != "" {
+	if len(stage.MetaPackageImports) > 0 {
+		var importDecls strings.Builder
+		for _, imp := range stage.MetaPackageImports {
+			importDecls.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+		}
+		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}", importDecls.String())
+
+		var dummyDecls strings.Builder
+		for _, imp := range stage.MetaPackageImports {
+			dummyDecls.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}", dummyDecls.String())
+	} else if stage.MetaPackageImportAlias != "" {
 		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
 			fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
 
@@ -944,6 +958,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		}
 
 		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries.String())
+	} else {
+		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}", "")
+		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}", "")
 	}
 	return
 }

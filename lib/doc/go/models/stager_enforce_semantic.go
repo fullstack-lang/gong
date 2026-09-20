@@ -120,7 +120,11 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 					}
 					expectedTargetMultiplicity := ZERO_ONE
 					expectedSourceMultiplicity := MANY
-					expectedFieldTypeIdentifierMeta := GongStructNameToIdentifier(targetStructName) + "{}"
+					targetPkgName := "models"
+					if realField.GongStruct.ModelPkg != nil && realField.GongStruct.ModelPkg.PkgGoName != "" {
+						targetPkgName = realField.GongStruct.ModelPkg.PkgGoName
+					}
+					expectedFieldTypeIdentifierMeta := GongStructNameToIdentifierWithPackage(targetPkgName, targetStructName) + "{}"
 
 					if linkShape.TargetMultiplicity != expectedTargetMultiplicity {
 						linkShape.TargetMultiplicity = expectedTargetMultiplicity
@@ -142,7 +146,11 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 					}
 					expectedTargetMultiplicity := MANY
 					expectedSourceMultiplicity := MANY
-					expectedFieldTypeIdentifierMeta := GongStructNameToIdentifier(targetStructName) + "{}"
+					targetPkgName := "models"
+					if realField.GongStruct.ModelPkg != nil && realField.GongStruct.ModelPkg.PkgGoName != "" {
+						targetPkgName = realField.GongStruct.ModelPkg.PkgGoName
+					}
+					expectedFieldTypeIdentifierMeta := GongStructNameToIdentifierWithPackage(targetPkgName, targetStructName) + "{}"
 
 					if linkShape.TargetMultiplicity != expectedTargetMultiplicity {
 						linkShape.TargetMultiplicity = expectedTargetMultiplicity
