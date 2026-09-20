@@ -520,10 +520,12 @@ func onMoveRectElement[CT interface {
 			stager.stage.CommitWithSuspendedCallbacks()
 			// update the tree because it contains the undo/redo calls
 			stager.ux_tree()
+			stager.button()
 		} else {
 			// if the position is different, no need to generates
 			// the SVG updates with the semantic rules updates.
 			stager.stage.CommitWithSuspendedCallbacks()
+			stager.button()
 		}
 	}
 }

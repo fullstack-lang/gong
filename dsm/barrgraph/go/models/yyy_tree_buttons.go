@@ -11,6 +11,7 @@ import (
 	"regexp"
 	"slices"
 	"strings"
+	"sync"
 	"time"
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
@@ -960,7 +961,46 @@ func (stager *Stager) GetPkgName() string {
 	return pkgName
 }
 
+// probeButtonProxy wraps a GongProbeIF so that RefreshNavigationTree()
+// also triggers stager.button(). Since stage.Commit() always calls
+// probeIF.RefreshNavigationTree() in delta mode — even when callbacks
+// are suspended by CommitWithSuspendedCallbacks() — this guarantees
+// the export button visual cue is updated on every commit.
+type probeButtonProxy struct {
+	GongProbeIF
+	stager *Stager
+}
+
+func (p *probeButtonProxy) RefreshNavigationTree() {
+	if p.GongProbeIF != nil {
+		p.GongProbeIF.RefreshNavigationTree()
+	}
+	p.stager.button()
+}
+
+var (
+	stagerStateMutex             sync.Mutex
+	map_Stager_savedCommit       = make(map[*Stager]int)
+	map_Stager_initialized       = make(map[*Stager]bool)
+	map_Stager_resetOnNextCommit = make(map[*Stager]bool)
+	map_Stager_probeProxied      = make(map[*Stager]bool)
+)
+
 func (stager *Stager) button() {
+	// Install the proxy once so that every Commit (including
+	// CommitWithSuspendedCallbacks) automatically calls button().
+	stagerStateMutex.Lock()
+	if !map_Stager_probeProxied[stager] {
+		if existing := stager.stage.GetProbeIF(); existing != nil {
+			stager.stage.SetProbeIF(&probeButtonProxy{
+				GongProbeIF: existing,
+				stager:      stager,
+			})
+		}
+		map_Stager_probeProxied[stager] = true
+	}
+	stagerStateMutex.Unlock()
+
 	buttonStage := stager.buttonStage
 	buttonStage.Reset()
 
@@ -998,16 +1038,21 @@ func (stager *Stager) button() {
 		})
 	}
 
-	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:                "Go",
-		Icon:                string(buttons.BUTTON_file_download),
-		Label:               "Export Stage as Go file",
-		ToolTipText:         "Export stage as Go file",
-		ToolTipPosition:     button.Above,
-		HasToolTip:          true,
-		MatButtonType:       button.MatButtonTypeBasic,
-		MatButtonAppearance: button.MatButtonAppearanceFilled,
-		Color:               button.MatButtonPaletteTypePrimary,
+	stagerStateMutex.Lock()
+	activeCommits := len(stager.stage.GetForwardCommits()) - stager.stage.GetCommitsBehind()
+	if !map_Stager_initialized[stager] || map_Stager_resetOnNextCommit[stager] {
+		map_Stager_initialized[stager] = true
+		map_Stager_resetOnNextCommit[stager] = false
+		map_Stager_savedCommit[stager] = activeCommits
+	}
+	isModified := (activeCommits != map_Stager_savedCommit[stager])
+	stagerStateMutex.Unlock()
+
+	goButton := &button.Button{
+		Name:            "Go",
+		ToolTipPosition: button.Above,
+		HasToolTip:      true,
+		MatButtonType:   button.MatButtonTypeBasic,
 		OnClick: func() {
 			log.Println("Exporting stage as Go file")
 
@@ -1054,8 +1099,30 @@ func (stager *Stager) button() {
 			message.Stage(stager.loadStage)
 
 			stager.loadStage.Commit()
+
+			stagerStateMutex.Lock()
+			activeCommits := len(stager.stage.GetForwardCommits()) - stager.stage.GetCommitsBehind()
+			map_Stager_savedCommit[stager] = activeCommits
+			stagerStateMutex.Unlock()
+			stager.button()
 		},
-	})
+	}
+
+	if isModified {
+		goButton.Icon = string(buttons.BUTTON_save)
+		goButton.Label = "* Export Stage as Go file"
+		goButton.ToolTipText = "Stage has been modified — export Go file to save"
+		goButton.Color = button.MatButtonPaletteTypeWarn
+		goButton.MatButtonAppearance = button.MatButtonAppearanceFilled
+	} else {
+		goButton.Icon = string(buttons.BUTTON_file_download)
+		goButton.Label = "Export Stage as Go file"
+		goButton.ToolTipText = "Stage is up to date with last export"
+		goButton.Color = button.MatButtonPaletteTypePrimary
+		goButton.MatButtonAppearance = button.MatButtonAppearanceOutlined
+	}
+
+	group1.Buttons = append(group1.Buttons, goButton)
 
 	if showAuxiliaryButtons {
 		group1.Buttons = append(group1.Buttons, &button.Button{
@@ -1228,6 +1295,11 @@ func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
 	fmt.Println("OnFileUpload: after reset")
 	ParseAstFromBytes(proxy.stager.stage, decodedBytes)
 	fmt.Println("OnFileUpload: after parse")
+
+	stagerStateMutex.Lock()
+	map_Stager_resetOnNextCommit[proxy.stager] = true
+	stagerStateMutex.Unlock()
+
 	proxy.stager.stage.Commit()
 	fmt.Println("OnFileUpload: after commit")
 

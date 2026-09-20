@@ -598,6 +598,7 @@ func (stager *Stager) OnAfterUpdateSliderElement() {
 	stager.UpdatePlant3DStage()
 
 	stager.stage.CommitWithSuspendedCallbacks()
+	stager.button()
 }
 
 type BoolSliderProxy struct {
