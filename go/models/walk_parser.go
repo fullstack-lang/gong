@@ -32,7 +32,7 @@ func ParseEmbedModelWithFset(embeddedDir embed.FS, source string, fset *token.Fi
 	pkg.Files = make(map[string]*ast.File)
 	fs.WalkDir(embeddedDir, source, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
-			log.Fatal(err)
+			return nil
 		}
 
 		if d.IsDir() {
@@ -81,18 +81,14 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 			break
 		}
 	}
-	if astPackage == nil {
-		log.Fatal("No package to parse")
+	if astPackage == nil || len(astPackage.Files) == 0 {
+		return
 	}
 	modelPkg.PkgGoName = astPackage.Name
 
 	modelPkg.GongEnums = make(map[string]*GongEnum)
 	modelPkg.GongStructs = make(map[string]*GongStruct)
 	modelPkg.GongNotes = make(map[string]*GongNote)
-
-	if len(astPackage.Files) == 0 {
-		log.Fatal("No go file to parse")
-	}
 
 	// parses all comments in the package
 	typeDocumentation := doc.New(astPackage, "./", doc.PreserveAST)

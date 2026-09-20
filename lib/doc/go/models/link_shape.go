@@ -70,27 +70,41 @@ func (classdiagram *Classdiagram) AddLinkShape(
 	case *gong.PointerToGongStructField, *gong.SliceOfPointerToGongStructField:
 
 		var targetStructName string
+		var targetPkgName string
 		var sourceMultiplicity MultiplicityType
 		var targetMultiplicity MultiplicityType
 
 		switch realField := field.(type) {
 		case *gong.PointerToGongStructField:
 			targetStructName = realField.GongStruct.Name
+			if realField.GongStruct.ModelPkg != nil && realField.GongStruct.ModelPkg.PkgGoName != "" {
+				targetPkgName = realField.GongStruct.ModelPkg.PkgGoName
+			}
 			sourceMultiplicity = MANY
 			targetMultiplicity = ZERO_ONE
 		case *gong.SliceOfPointerToGongStructField:
 			targetStructName = realField.GongStruct.Name
+			if realField.GongStruct.ModelPkg != nil && realField.GongStruct.ModelPkg.PkgGoName != "" {
+				targetPkgName = realField.GongStruct.ModelPkg.PkgGoName
+			}
 			sourceMultiplicity = MANY
 			targetMultiplicity = MANY
 		}
 		targetSourceGongStructShape := false
 		var targetGongStructShape *GongStructShape
 		for _, _gongstructshape := range diagramPackage.SelectedClassdiagram.GongStructShapes {
-
-			// strange behavior when the gongstructshape is remove within the loop
-			if IdentifierMetaToGongStructName(_gongstructshape.IdentifierMeta) == targetStructName && !targetSourceGongStructShape {
+			pkg, name := IdentifierMetaToPackageAndGongStructName(_gongstructshape.IdentifierMeta)
+			if (targetPkgName == "" || pkg == targetPkgName) && name == targetStructName && !targetSourceGongStructShape {
 				targetSourceGongStructShape = true
 				targetGongStructShape = _gongstructshape
+			}
+		}
+		if !targetSourceGongStructShape {
+			for _, _gongstructshape := range diagramPackage.SelectedClassdiagram.GongStructShapes {
+				if IdentifierMetaToGongStructName(_gongstructshape.IdentifierMeta) == targetStructName && !targetSourceGongStructShape {
+					targetSourceGongStructShape = true
+					targetGongStructShape = _gongstructshape
+				}
 			}
 		}
 		if !targetSourceGongStructShape {
@@ -111,9 +125,13 @@ func (classdiagram *Classdiagram) AddLinkShape(
 		linkShape.FieldOffsetX = 0
 		linkShape.FieldOffsetY = 0
 
-		fieldIdentifier := GongstructAndFieldnameToFieldIdentifier(gongStruct.Name, field.GetName())
-		linkShape.IdentifierMeta = moveStructLiteralToType(fieldIdentifier)
-		linkShape.FieldTypeIdentifierMeta = GongStructNameToIdentifier(targetStructName) + "{}"
+		if metaStr, ok := gongStructShape.IdentifierMeta.(string); ok {
+			linkShape.IdentifierMeta = metaStr + "." + field.GetName()
+		} else {
+			fieldIdentifier := GongstructAndFieldnameToFieldIdentifier(gongStruct.Name, field.GetName())
+			linkShape.IdentifierMeta = moveStructLiteralToType(fieldIdentifier)
+		}
+		linkShape.FieldTypeIdentifierMeta = targetGongStructShape.IdentifierMeta
 
 		gongStructShape.LinkShapes = append(gongStructShape.LinkShapes, linkShape)
 

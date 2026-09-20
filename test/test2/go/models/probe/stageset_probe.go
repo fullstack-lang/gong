@@ -2,12 +2,15 @@
 package probe
 
 import (
+	"embed"
 	"encoding/base64"
 	"fmt"
 	"net/http"
 	"regexp"
 	"time"
 
+	doc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
+	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
 	form_fullstack "github.com/fullstack-lang/gong/lib/form/go/fullstack"
 	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 	split_fullstack "github.com/fullstack-lang/gong/lib/split/go/fullstack"
@@ -34,6 +37,9 @@ type StageSetProbe struct {
 	splitStage             *split.Stage
 	loadStage              *load.Stage
 
+	diagramEditor *split.AsSplitArea
+	docStager     *doc_models.Stager
+
 	fileName string
 
 	dataEditor *split.AsSplit
@@ -47,6 +53,9 @@ type StageSetProbe struct {
 
 func NewStageSetProbe(
 	r *http.ServeMux,
+	goModelsDir embed.FS,
+	goDiagramsDir embed.FS,
+	embeddedDiagrams bool,
 	stageSet *models.StageSet,
 ) (probe *StageSetProbe) {
 
@@ -80,6 +89,29 @@ func NewStageSetProbe(
 		maxElementsNbPerGongStructNode: 10,
 		commitMode:                     true,
 	}
+
+	probe.diagramEditor = &split.AsSplitArea{
+		Name:             "Bottom",
+		ShowNameInHeader: false,
+		Size:             50,
+	}
+
+	metaPackageImports := []*doc_models.MetaPackageImport{
+		{Alias: "ref_models", Path: "\"github.com/fullstack-lang/gong/test/test2/go/models\""},
+		{Alias: "ref_x", Path: "\"github.com/fullstack-lang/gong/test/test2/go/models/x\""},
+		{Alias: "ref_y", Path: "\"github.com/fullstack-lang/gong/test/test2/go/models/y\""},
+	}
+
+	probe.docStager = prepare.PrepareStageSet(
+		r,
+		embeddedDiagrams,
+		"github.com/fullstack-lang/gong/test/test2/go:"+stageSet.GetProbeSplitStageName(),
+		metaPackageImports,
+		goModelsDir,
+		goDiagramsDir,
+		probe.diagramEditor,
+		nil,
+	)
 
 	probe.dataEditor = &split.AsSplit{
 		Name:          "StageSet Top, sidebar, table & form",
@@ -163,9 +195,10 @@ func NewStageSetProbe(
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:    "Top",
-				Size:    100,
+				Size:    50,
 				AsSplit: probe.dataEditor,
 			},
+			probe.diagramEditor,
 		},
 	})
 	probe.splitStage.Commit()
@@ -174,6 +207,10 @@ func NewStageSetProbe(
 	probe.ux_tree()
 
 	return probe
+}
+
+func (probe *StageSetProbe) GetDocStager() *doc_models.Stager {
+	return probe.docStager
 }
 
 func (probe *StageSetProbe) GetStageSet() *models.StageSet {

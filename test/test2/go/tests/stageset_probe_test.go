@@ -11,6 +11,7 @@ import (
 
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+	embeddedgo "github.com/fullstack-lang/gong/test/test2/go"
 )
 
 func TestStageSetProbe(t *testing.T) {
@@ -34,7 +35,7 @@ func TestStageSetProbe(t *testing.T) {
 	stageSet.Commit()
 
 	// 2. Instantiate StageSetProbe
-	p := probe.NewStageSetProbe(mux, stageSet)
+	p := probe.NewStageSetProbe(mux, embeddedgo.GoModelsDir, embeddedgo.GoDiagramsDir, true, stageSet)
 	if p == nil {
 		t.Fatal("expected non-nil StageSetProbe")
 	}

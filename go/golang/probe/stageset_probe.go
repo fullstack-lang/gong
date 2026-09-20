@@ -358,41 +358,50 @@ func generateStageSetProbeMain(
 ) {
 	splitImportPath := "github.com/fullstack-lang/gong/lib/split"
 	splitPkg := "split"
+	prepareStageSetSuffix := ""
 	if useSplitlite {
 		splitImportPath = "github.com/fullstack-lang/gong/lib/splitlite"
 		splitPkg = "splitlite"
+		prepareStageSetSuffix = "Splitlite"
 	}
 
-	var extImports strings.Builder
+	var metaPkgImports strings.Builder
 	for _, f := range stageSet.Fields {
+		alias := "ref_models"
+		pkgP := pkgPathRoot + "/models"
 		if !f.IsLocal {
-			extImports.WriteString(fmt.Sprintf("\n\t\"%s\"", f.PackagePath))
+			alias = "ref_" + f.PackageName
+			pkgP = f.PackagePath
 		}
+		metaPkgImports.WriteString(fmt.Sprintf("\t\t{Alias: %q, Path: %q},\n", alias, `"`+pkgP+`"`))
 	}
 
-	code := fmt.Sprintf(`// generated code - do not edit
+	code := `// generated code - do not edit
 package probe
 
 import (
+	"embed"
 	"encoding/base64"
 	"fmt"
 	"net/http"
 	"regexp"
 	"time"
 
+	doc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
+	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
 	form_fullstack "github.com/fullstack-lang/gong/lib/form/go/fullstack"
 	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
-	%s_fullstack "%s/go/fullstack"
+	{{SplitPkg}}_fullstack "{{SplitImportPath}}/go/fullstack"
 	table_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
 
-	form "%s/go/models"
-	load "%s/go/models"
-	%s "%s/go/models"
-	table "%s/go/models"
-	tree "%s/go/models"
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	load "github.com/fullstack-lang/gong/lib/load/go/models"
+	{{SplitPkg}} "{{SplitImportPath}}/go/models"
+	table "github.com/fullstack-lang/gong/lib/table/go/models"
+	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
-	"%s/models"
+	"{{PkgPathRoot}}/models"
 )
 
 type StageSetProbe struct {
@@ -403,12 +412,15 @@ type StageSetProbe struct {
 	formStage              *form.Stage
 	tableStage             *table.Stage
 	notificationTableStage *table.Stage
-	splitStage             *%s.Stage
+	splitStage             *{{SplitPkg}}.Stage
 	loadStage              *load.Stage
+
+	diagramEditor *{{SplitPkg}}.AsSplitArea
+	docStager     *doc_models.Stager
 
 	fileName string
 
-	dataEditor *%s.AsSplit
+	dataEditor *{{SplitPkg}}.AsSplit
 
 	notification []*Notification
 
@@ -419,10 +431,13 @@ type StageSetProbe struct {
 
 func NewStageSetProbe(
 	r *http.ServeMux,
+	goModelsDir embed.FS,
+	goDiagramsDir embed.FS,
+	embeddedDiagrams bool,
 	stageSet *models.StageSet,
 ) (probe *StageSetProbe) {
 
-	splitStage, _ := %s_fullstack.NewStackInstance(r, stageSet.GetProbeSplitStageName())
+	splitStage, _ := {{SplitPkg}}_fullstack.NewStackInstance(r, stageSet.GetProbeSplitStageName())
 	splitStage.Commit()
 
 	treeStage, _ := tree_fullstack.NewStackInstance(r, stageSet.GetProbeSplitStageName()+"-tree")
@@ -453,24 +468,44 @@ func NewStageSetProbe(
 		commitMode:                     true,
 	}
 
-	probe.dataEditor = &%s.AsSplit{
+	probe.diagramEditor = &{{SplitPkg}}.AsSplitArea{
+		Name:             "Bottom",
+		ShowNameInHeader: false,
+		Size:             50,
+	}
+
+	metaPackageImports := []*doc_models.MetaPackageImport{
+{{MetaPackageImports}}	}
+
+	probe.docStager = prepare.PrepareStageSet{{PrepareStageSetSuffix}}(
+		r,
+		embeddedDiagrams,
+		"{{PkgPathRoot}}:"+stageSet.GetProbeSplitStageName(),
+		metaPackageImports,
+		goModelsDir,
+		goDiagramsDir,
+		probe.diagramEditor,
+		nil,
+	)
+
+	probe.dataEditor = &{{SplitPkg}}.AsSplit{
 		Name:          "StageSet Top, sidebar, table & form",
-		Direction:     %s.Horizontal,
+		Direction:     {{SplitPkg}}.Horizontal,
 		IsSizeInPixel: true,
-		AsSplitAreas: []*%s.AsSplitArea{
+		AsSplitAreas: []*{{SplitPkg}}.AsSplitArea{
 			{
 				Name: "sidebar",
 				Size: 525,
-				AsSplit: &%s.AsSplit{
-					Direction:              %s.Vertical,
+				AsSplit: &{{SplitPkg}}.AsSplit{
+					Direction:              {{SplitPkg}}.Vertical,
 					IsSizeInPixel:          true,
 					IsWithCustomGutterSize: true,
 					GutterSize:             1,
-					AsSplitAreas: []*%s.AsSplitArea{
+					AsSplitAreas: []*{{SplitPkg}}.AsSplitArea{
 						{
 							Name: "sidebar tree",
 							Size: 53,
-							Tree: &%s.Tree{
+							Tree: &{{SplitPkg}}.Tree{
 								Name:      "Sidebar",
 								StackName: probe.treeNavigationStage.GetName(),
 							},
@@ -478,7 +513,7 @@ func NewStageSetProbe(
 						{
 							Name:  "sidebar tree",
 							IsAny: true,
-							Tree: &%s.Tree{
+							Tree: &{{SplitPkg}}.Tree{
 								Name:      "Sidebar",
 								StackName: probe.treeStage.GetName(),
 							},
@@ -486,7 +521,7 @@ func NewStageSetProbe(
 						{
 							Name: "load",
 							Size: 70,
-							Load: &%s.Load{
+							Load: &{{SplitPkg}}.Load{
 								Name:      "Table",
 								StackName: probe.loadStage.GetName(),
 							},
@@ -497,13 +532,13 @@ func NewStageSetProbe(
 			{
 				Name:  "both tables",
 				IsAny: true,
-				AsSplit: &%s.AsSplit{
-					Direction: %s.Vertical,
-					AsSplitAreas: []*%s.AsSplitArea{
+				AsSplit: &{{SplitPkg}}.AsSplit{
+					Direction: {{SplitPkg}}.Vertical,
+					AsSplitAreas: []*{{SplitPkg}}.AsSplitArea{
 						{
 							Name: "table",
 							Size: 50,
-							Table: &%s.Table{
+							Table: &{{SplitPkg}}.Table{
 								Name:      "Table",
 								StackName: probe.tableStage.GetName(),
 							},
@@ -511,7 +546,7 @@ func NewStageSetProbe(
 						{
 							Name: "notification table",
 							Size: 50,
-							Table: &%s.Table{
+							Table: &{{SplitPkg}}.Table{
 								Name:      "Table",
 								StackName: probe.notificationTableStage.GetName(),
 							},
@@ -522,7 +557,7 @@ func NewStageSetProbe(
 			{
 				Name: "form",
 				Size: 525,
-				Form: &%s.Form{
+				Form: &{{SplitPkg}}.Form{
 					Name:      "Form",
 					StackName: probe.formStage.GetName(),
 				},
@@ -530,14 +565,15 @@ func NewStageSetProbe(
 		},
 	}
 
-	%s.StageBranch(probe.splitStage, &%s.View{
+	{{SplitPkg}}.StageBranch(probe.splitStage, &{{SplitPkg}}.View{
 		Name: "StageSet Main view",
-		RootAsSplitAreas: []*%s.AsSplitArea{
+		RootAsSplitAreas: []*{{SplitPkg}}.AsSplitArea{
 			{
 				Name:    "Top",
-				Size:    100,
+				Size:    50,
 				AsSplit: probe.dataEditor,
 			},
+			probe.diagramEditor,
 		},
 	})
 	probe.splitStage.Commit()
@@ -548,11 +584,15 @@ func NewStageSetProbe(
 	return probe
 }
 
+func (probe *StageSetProbe) GetDocStager() *doc_models.Stager {
+	return probe.docStager
+}
+
 func (probe *StageSetProbe) GetStageSet() *models.StageSet {
 	return probe.stageSet
 }
 
-func (probe *StageSetProbe) GetSplitStage() *%s.Stage {
+func (probe *StageSetProbe) GetSplitStage() *{{SplitPkg}}.Stage {
 	return probe.splitStage
 }
 
@@ -627,7 +667,7 @@ func (probe *StageSetProbe) ExportStage() {
 
 	fileToDownload := new(load.FileToDownload)
 	if probe.fileName == "" {
-		probe.fileName = "%s-stageset.go"
+		probe.fileName = "{{ModelPkgName}}-stageset.go"
 	}
 
 	prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
@@ -658,7 +698,7 @@ func (proxy *stageSetLoadProxy) OnFileUpload(uploadedFile *load.FileToUpload) er
 	proxy.probe.fileName = uploadedFile.GetName()
 	decodedBytes, err := base64.StdEncoding.DecodeString(uploadedFile.Base64EncodedContent)
 	if err != nil {
-		return fmt.Errorf("base64.StdEncoding.DecodeString failed: %%w", err)
+		return fmt.Errorf("base64.StdEncoding.DecodeString failed: %w", err)
 	}
 	proxy.probe.stageSet.Reset()
 	err = proxy.probe.stageSet.ParseAstString(string(decodedBytes), true)
@@ -692,25 +732,14 @@ func (probe *StageSetProbe) initLoadStage() {
 
 	probe.loadStage.Commit()
 }
-`,
-		splitPkg, splitImportPath,
-		"github.com/fullstack-lang/gong/lib/form",
-		"github.com/fullstack-lang/gong/lib/load",
-		splitPkg, splitImportPath,
-		"github.com/fullstack-lang/gong/lib/table",
-		"github.com/fullstack-lang/gong/lib/tree",
-		pkgPathRoot,
-		splitPkg, splitPkg,
-		splitPkg,
-		splitPkg, splitPkg, splitPkg,
-		splitPkg, splitPkg, splitPkg,
-		splitPkg, splitPkg, splitPkg,
-		splitPkg, splitPkg, splitPkg,
-		splitPkg, splitPkg, splitPkg,
-		splitPkg,
-		splitPkg, splitPkg, splitPkg,
-		modelPkg.Name,
-	)
+`
+
+	code = strings.ReplaceAll(code, "{{SplitPkg}}", splitPkg)
+	code = strings.ReplaceAll(code, "{{SplitImportPath}}", splitImportPath)
+	code = strings.ReplaceAll(code, "{{PkgPathRoot}}", pkgPathRoot)
+	code = strings.ReplaceAll(code, "{{MetaPackageImports}}", metaPkgImports.String())
+	code = strings.ReplaceAll(code, "{{PrepareStageSetSuffix}}", prepareStageSetSuffix)
+	code = strings.ReplaceAll(code, "{{ModelPkgName}}", modelPkg.Name)
 
 	writeFile(filepath.Join(pkgPath, "probe/stageset_probe.go"), code)
 }

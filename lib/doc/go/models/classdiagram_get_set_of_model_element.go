@@ -16,7 +16,17 @@ func (stager *Stager) compute_map_modelElement_shape(
 	map_ModelElement_Shape map[ModelElement]Shape) {
 	map_ModelElement_Shape = make(map[ModelElement]Shape)
 
-	gongStructSet := stager.gongStage.GetInstancesMapByName[*gong.GongStruct]()
+	map_Pkg_StructName_GongStruct := make(map[string]*gong.GongStruct)
+	for gongStruct := range *stager.gongStage.GetInstancesSet[*gong.GongStruct]() {
+		pkgName := "models"
+		if gongStruct.ModelPkg != nil && gongStruct.ModelPkg.PkgGoName != "" {
+			pkgName = gongStruct.ModelPkg.PkgGoName
+		}
+		map_Pkg_StructName_GongStruct[pkgName+"."+gongStruct.Name] = gongStruct
+		if _, exists := map_Pkg_StructName_GongStruct[gongStruct.Name]; !exists {
+			map_Pkg_StructName_GongStruct[gongStruct.Name] = gongStruct
+		}
+	}
 
 	//
 	// Filter valid GongStructShapes (Fix for missing Structs)
@@ -24,8 +34,11 @@ func (stager *Stager) compute_map_modelElement_shape(
 	validGongStructShapes := make([]*GongStructShape, 0)
 	for _, gongStructShape := range classdiagram.GongStructShapes {
 
-		gongStructName := IdentifierMetaToGongStructName(gongStructShape.IdentifierMeta)
-		gongStruct, ok := gongStructSet[gongStructName]
+		pkgName, gongStructName := IdentifierMetaToPackageAndGongStructName(gongStructShape.IdentifierMeta)
+		gongStruct, ok := map_Pkg_StructName_GongStruct[pkgName+"."+gongStructName]
+		if !ok {
+			gongStruct, ok = map_Pkg_StructName_GongStruct[gongStructName]
+		}
 
 		if !ok {
 			log.Panicln("Diagram", classdiagram.GetName(), "has a shape named", gongStructName, "but no gongstruct exists. Removing it.")

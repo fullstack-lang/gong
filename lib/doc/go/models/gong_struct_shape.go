@@ -33,11 +33,13 @@ type GongStructShape struct {
 }
 
 func (classdiagram *Classdiagram) HasGongStructShape(gongstructName string) (foundGongStructShape bool, gongstructshape *GongStructShape) {
+	return classdiagram.HasGongStructShapeWithPackage("", gongstructName)
+}
 
+func (classdiagram *Classdiagram) HasGongStructShapeWithPackage(pkgName, gongstructName string) (foundGongStructShape bool, gongstructshape *GongStructShape) {
 	for _, _gongstructshape := range classdiagram.GongStructShapes {
-
-		// strange behavior when the gongstructshape is remove within the loop
-		if IdentifierMetaToGongStructName(_gongstructshape.IdentifierMeta) == gongstructName && !foundGongStructShape {
+		pkg, name := IdentifierMetaToPackageAndGongStructName(_gongstructshape.IdentifierMeta)
+		if (pkgName == "" || pkg == pkgName) && name == gongstructName && !foundGongStructShape {
 			foundGongStructShape = true
 			gongstructshape = _gongstructshape
 		}
@@ -46,8 +48,12 @@ func (classdiagram *Classdiagram) HasGongStructShape(gongstructName string) (fou
 }
 
 func (classdiagram *Classdiagram) RemoveGongStructShape(stage *Stage, gongstructName string) {
+	classdiagram.RemoveGongStructShapeWithPackage(stage, "", gongstructName)
+}
 
-	foundGongStructShape, gongstructshape := classdiagram.HasGongStructShape(gongstructName)
+func (classdiagram *Classdiagram) RemoveGongStructShapeWithPackage(stage *Stage, pkgName, gongstructName string) {
+
+	foundGongStructShape, gongstructshape := classdiagram.HasGongStructShapeWithPackage(pkgName, gongstructName)
 	if !foundGongStructShape {
 		log.Fatalln("Shape not found", gongstructName)
 	}
@@ -65,9 +71,9 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(stage *Stage, gongstruct
 
 		newSliceOfLinks := make([]*LinkShape, 0)
 		for _, linkShape := range fromGongStructShape.LinkShapes {
-			typeOfTheField := IdentifierMetaToGongStructName(gongstructshape.IdentifierMeta)
-			typeOfTheLink := IdentifierMetaToGongStructName(linkShape.FieldTypeIdentifierMeta)
-			if typeOfTheLink == typeOfTheField {
+			targetPkg, typeOfTheField := IdentifierMetaToPackageAndGongStructName(gongstructshape.IdentifierMeta)
+			linkTargetPkg, typeOfTheLink := IdentifierMetaToPackageAndGongStructName(linkShape.FieldTypeIdentifierMeta)
+			if typeOfTheLink == typeOfTheField && (targetPkg == linkTargetPkg || targetPkg == "" || linkTargetPkg == "") {
 				linkShape.Unstage(stage)
 			} else {
 				newSliceOfLinks = append(newSliceOfLinks, linkShape)
@@ -81,10 +87,7 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(stage *Stage, gongstruct
 		field.Unstage(stage)
 	}
 
-	//
 	// remove documentation links that go this gongstructshape
-	//
-	// generate the map to navigate from children to parents
 	fieldName := GongGetAssociationName[GongNoteShape]().GongNoteLinkShapes[0].Name
 	map_NoteShapeLink_NodeShape := stage.GetSliceOfPointersReverseMap[GongNoteShape, GongNoteLinkShape](fieldName)
 	for noteShapeLink := range *stage.GetInstancesSet[*GongNoteLinkShape]() {
@@ -100,24 +103,24 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(stage *Stage, gongstruct
 		}
 	}
 
-	// log.Println("RemoveGongStructShape, before commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
 	stage.Commit()
-	// log.Println("RemoveGongStructShape, after commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
 }
 
 func (classdiagram *Classdiagram) AddGongStructShape(stage *Stage, diagramPackage *DiagramPackage, gongStructShapeName string) {
+	classdiagram.AddGongStructShapeWithPackage(stage, diagramPackage, "models", gongStructShapeName)
+}
 
+func (classdiagram *Classdiagram) AddGongStructShapeWithPackage(stage *Stage, diagramPackage *DiagramPackage, pkgName string, gongStructShapeName string) {
+	if pkgName == "" {
+		pkgName = "models"
+	}
 	var gongStructShape GongStructShape
 	gongStructShape.Name = classdiagram.Name + "-" + gongStructShapeName
-	// gongStructShape.Identifier = GongStructNameToIdentifier(gongStructShapeName)
 
-	// for instanciation of the struct ref_models.Astruct{}
-	gongStructShape.IdentifierMeta = GongStructNameToIdentifier(gongStructShapeName) + "{}"
+	// for instanciation of the struct ref_<pkg>.<Struct>{}
+	gongStructShape.IdentifierMeta = GongStructNameToIdentifierWithPackage(pkgName, gongStructShapeName) + "{}"
 	gongStructShape.Width = 240
 	gongStructShape.Height = 63
-
-	// attach GongStruct to gongstructshape
-	// nbInstances, ok := diagramPackage.Map_Identifier_NbInstances[gongStructShapeName]
 
 	gongStructShape.Stage(stage)
 
@@ -126,8 +129,6 @@ func (classdiagram *Classdiagram) AddGongStructShape(stage *Stage, diagramPackag
 
 	classdiagram.GongStructShapes = append(classdiagram.GongStructShapes, &gongStructShape)
 
-	// log.Println("AddGongStructShape, before commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
 	stage.Commit()
-	// log.Println("AddGongStructShape, after commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
-
 }
+

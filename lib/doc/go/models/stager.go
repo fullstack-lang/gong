@@ -186,3 +186,12 @@ func (stager *Stager) postInit() {
 func (stager *Stager) SetMap_GongStructName_InstancesNb(map_GongStructName_InstancesNb map[string]int) {
 	stager.map_GongStructName_InstancesNb = map_GongStructName_InstancesNb
 }
+
+func (stager *Stager) GetStage() *Stage {
+	return stager.stage
+}
+
+func (stager *Stager) GetGongStage() *gong.Stage {
+	return stager.gongStage
+}
+

@@ -140,6 +140,9 @@ func newLevel1Stack(
 		stage.SetProbeIF(level1Stack.Probe)
 		level1Stack.StageSetProbe = probe.NewStageSetProbe(
 			level1Stack.R,
+			embeddedgo.GoModelsDir,
+			embeddedgo.GoDiagramsDir,
+			embeddedDiagrams,
 			stageSet,
 		)
 	}

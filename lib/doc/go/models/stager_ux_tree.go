@@ -213,8 +213,17 @@ func (stager *Stager) tree() {
 				isExpanded = false
 			}
 
+			pkgName := "models"
+			if gongStruct.ModelPkg != nil && gongStruct.ModelPkg.PkgGoName != "" {
+				pkgName = gongStruct.ModelPkg.PkgGoName
+			}
+			nodeName := gongStruct.Name
+			if pkgName != "" && pkgName != "models" {
+				nodeName = gongStruct.Name + " (" + pkgName + ")"
+			}
+
 			nodeNamedStruct := &tree.Node{
-				Name:               gongStruct.Name,
+				Name:               nodeName,
 				HasCheckboxButton:  true,
 				IsCheckboxDisabled: stager.embeddedDiagrams || !selected,
 				IsChecked:          isGongStructShapeInDiagram,
@@ -232,9 +241,9 @@ func (stager *Stager) tree() {
 			nodeNamedStruct.OnIsCheckedChanged = func(isChecked bool) {
 				if isChecked {
 					diagramPackage := getTheDiagramPackage(stager.stage)
-					classDiagram.AddGongStructShape(stager.stage, diagramPackage, gongStruct.Name)
+					classDiagram.AddGongStructShapeWithPackage(stager.stage, diagramPackage, pkgName, gongStruct.Name)
 				} else {
-					classDiagram.RemoveGongStructShape(stager.stage, gongStruct.Name)
+					classDiagram.RemoveGongStructShapeWithPackage(stager.stage, pkgName, gongStruct.Name)
 				}
 			}
 			nodeNamedStruct.OnIsExpandedChange = func(isExpanded bool) {

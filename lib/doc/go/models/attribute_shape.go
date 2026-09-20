@@ -61,11 +61,13 @@ func (classdiagram *Classdiagram) AddAttributeFieldShape(
 		var concreteField AttributeShape
 		concreteField.Name = field.GetName()
 
-		fieldIdentifier := GongstructAndFieldnameToFieldIdentifier(
-			gongStruct.Name, field.GetName())
-
-		// turn ref_models.Button.Name{} into ref_models.Button{}.Name
-		concreteField.IdentifierMeta = moveStructLiteralToType(fieldIdentifier)
+		if metaStr, ok := gongStructShape.IdentifierMeta.(string); ok {
+			concreteField.IdentifierMeta = metaStr + "." + field.GetName()
+		} else {
+			fieldIdentifier := GongstructAndFieldnameToFieldIdentifier(
+				gongStruct.Name, field.GetName())
+			concreteField.IdentifierMeta = moveStructLiteralToType(fieldIdentifier)
+		}
 
 		switch realField := field.(type) {
 		case *gong.GongBasicField:

@@ -32,12 +32,18 @@ const (
 )
 
 func (classdiagram *Classdiagram) AddGongEnumShape(stage *Stage, diagramPackage *DiagramPackage, enumshapeName string) {
+	classdiagram.AddGongEnumShapeWithPackage(stage, diagramPackage, "models", enumshapeName)
+}
 
+func (classdiagram *Classdiagram) AddGongEnumShapeWithPackage(stage *Stage, diagramPackage *DiagramPackage, pkgName string, enumshapeName string) {
+	if pkgName == "" {
+		pkgName = "models"
+	}
 	var enumshape GongEnumShape
 	enumshape.Name = classdiagram.Name + "-" + enumshapeName
 
 	// this is a way to initiate an enum
-	enumshape.IdentifierMeta = "new(" + GongStructNameToIdentifier(enumshapeName) + ")"
+	enumshape.IdentifierMeta = "new(" + GongStructNameToIdentifierWithPackage(pkgName, enumshapeName) + ")"
 	enumshape.Width = 240
 	enumshape.Height = 63
 
@@ -50,17 +56,32 @@ func (classdiagram *Classdiagram) AddGongEnumShape(stage *Stage, diagramPackage 
 }
 
 func (classdiagram *Classdiagram) RemoveGongEnumShape(stage *Stage, gongenumshapeName string) {
+	classdiagram.RemoveGongEnumShapeWithPackage(stage, "", gongenumshapeName)
+}
+
+func (classdiagram *Classdiagram) RemoveGongEnumShapeWithPackage(stage *Stage, pkgName, gongenumshapeName string) {
 
 	foundGongEnumShape := false
 	var gongenumshape *GongEnumShape
 	for _, _gongenumshape := range classdiagram.GongEnumShapes {
-
-		// strange behavior when the gongenumshape is remove within the loop
-		if IdentifierToGongStructName(GongEnumIdentifierMetaToGongEnumName(_gongenumshape.IdentifierMeta)) == gongenumshapeName && !foundGongEnumShape {
+		pkg, name := IdentifierMetaToPackageAndGongStructName(_gongenumshape.IdentifierMeta)
+		if (pkgName == "" || pkg == pkgName) && name == gongenumshapeName && !foundGongEnumShape {
+			foundGongEnumShape = true
 			gongenumshape = _gongenumshape
 		}
 	}
+	if !foundGongEnumShape {
+		for _, _gongenumshape := range classdiagram.GongEnumShapes {
+			if IdentifierToGongStructName(GongEnumIdentifierMetaToGongEnumName(_gongenumshape.IdentifierMeta)) == gongenumshapeName && !foundGongEnumShape {
+				foundGongEnumShape = true
+				gongenumshape = _gongenumshape
+			}
+		}
+	}
 
+	if gongenumshape == nil {
+		return
+	}
 	classdiagram.GongEnumShapes = remove(classdiagram.GongEnumShapes, gongenumshape)
 	gongenumshape.Unstage(stage)
 

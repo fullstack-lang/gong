@@ -52,7 +52,7 @@ func (stager *Stager) Svg() {
 
 		rectLayer := new(svg_models.Layer)
 
-		gongStructIdentifier := IdentifierMetaToGongStructName(gongstructShape.IdentifierMeta)
+		pkgName, gongStructIdentifier := IdentifierMetaToPackageAndGongStructName(gongstructShape.IdentifierMeta)
 
 		rectLayer.Name = "Layer" + gongStructIdentifier
 		svg.Layers = append(svg.Layers, rectLayer)
@@ -80,6 +80,9 @@ func (stager *Stager) Svg() {
 
 		stager.map_GongstructShape_Rect[gongstructShape] = rect
 		stager.map_Structname_Rect[gongStructIdentifier] = rect
+		if pkgName != "" {
+			stager.map_Structname_Rect[pkgName+"."+gongStructIdentifier] = rect
+		}
 
 		rectLayer.Rects = append(rectLayer.Rects, rect)
 		rect.X = gongstructShape.X
@@ -115,7 +118,11 @@ func (stager *Stager) Svg() {
 		//
 		title := new(svg_models.RectAnchoredText)
 		title.Name = gongStructIdentifier
-		title.Content = title.Name
+		if pkgName != "" && pkgName != "models" {
+			title.Content = pkgName + "." + gongStructIdentifier
+		} else {
+			title.Content = title.Name
+		}
 		title.X_Offset = 0
 		title.Y_Offset = 20
 		title.RectAnchorType = svg_models.RECT_TOP
@@ -202,8 +209,11 @@ func (stager *Stager) Svg() {
 				continue
 			}
 
-			endRectGongStructName := IdentifierMetaToGongStructName(linkShape.FieldTypeIdentifierMeta)
-			endRect, ok := stager.map_Structname_Rect[endRectGongStructName]
+			endPkg, endRectGongStructName := IdentifierMetaToPackageAndGongStructName(linkShape.FieldTypeIdentifierMeta)
+			endRect, ok := stager.map_Structname_Rect[endPkg+"."+endRectGongStructName]
+			if !ok {
+				endRect, ok = stager.map_Structname_Rect[endRectGongStructName]
+			}
 
 			// if some renaming of field type name has occured, end rect might be nil
 			if !ok {
@@ -378,8 +388,13 @@ func (stager *Stager) Svg() {
 			stager.navigationTree()
 		}
 
+		enumPkg, _ := IdentifierMetaToPackageAndGongStructName(gongenumShape.IdentifierMeta)
+		enumName := GongEnumIdentifierMetaToGongEnumName(gongenumShape.IdentifierMeta)
 		stager.map_GongenumShape_Rect[gongenumShape] = rect
-		stager.map_Structname_Rect[GongEnumIdentifierMetaToGongEnumName(gongenumShape.IdentifierMeta)] = rect
+		stager.map_Structname_Rect[enumName] = rect
+		if enumPkg != "" {
+			stager.map_Structname_Rect[enumPkg+"."+enumName] = rect
+		}
 
 		rectLayer.Rects = append(rectLayer.Rects, rect)
 		rect.X = gongenumShape.X
@@ -411,8 +426,12 @@ func (stager *Stager) Svg() {
 		// Title
 		//
 		title := new(svg_models.RectAnchoredText)
-		title.Name = IdentifierToGongStructName(GongEnumIdentifierMetaToGongEnumName(gongenumShape.IdentifierMeta))
-		title.Content = title.Name
+		title.Name = IdentifierToGongStructName(enumName)
+		if enumPkg != "" && enumPkg != "models" {
+			title.Content = enumPkg + "." + title.Name
+		} else {
+			title.Content = title.Name
+		}
 		title.X_Offset = 0
 		title.Y_Offset = 20
 		title.RectAnchorType = svg_models.RECT_TOP
