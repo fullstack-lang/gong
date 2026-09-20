@@ -81,6 +81,27 @@ var generateCmd = &cobra.Command{
 		if strings.Contains(absPkgPath, "splitlite") {
 			useSplitlite = true
 		}
+		if !useSplitlite {
+			searchDirs := []string{pkgPath, filepath.Join(pkgPath, "../level1stack")}
+			for _, dir := range searchDirs {
+				files, err := os.ReadDir(dir)
+				if err != nil {
+					continue
+				}
+				for _, f := range files {
+					if !f.IsDir() && strings.HasSuffix(f.Name(), ".go") && !strings.HasPrefix(f.Name(), "zzz_") {
+						content, err := os.ReadFile(filepath.Join(dir, f.Name()))
+						if err == nil && strings.Contains(string(content), "lib/splitlite") {
+							useSplitlite = true
+							break
+						}
+					}
+				}
+				if useSplitlite {
+					break
+				}
+			}
+		}
 
 		if dsm {
 			// remove all existing yyy files before parsing the models
