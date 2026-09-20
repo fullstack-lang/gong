@@ -630,4 +630,12 @@ func GeneratesGoModelPackageCode(modelPkg *gong_models.ModelPkg, pkgPath string,
 		pkgPath,
 		modelPkg.PkgPath,
 	)
+
+	if modelPkg.StageSet != nil {
+		models.CodeGeneratorModelGongStageSet(
+			modelPkg,
+			modelPkg.Name,
+			pkgPath,
+		)
+	}
 }

@@ -1,6 +1,9 @@
 package models
 
 import (
+	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/fullstack-lang/gong/test/test2/go/models/x"
@@ -95,5 +98,243 @@ func TestModelsStageBasicFunctionalities(t *testing.T) {
 	aMap = stageModels.GetInstancesMapByName[*A]()
 	if len(aMap) != 0 {
 		t.Fatalf("expected 0 A instances after unstage, got %d", len(aMap))
+	}
+}
+
+func TestStageSetMarshallAndUnmarshall(t *testing.T) {
+	// 1. Stage in package y
+	stageY := y.NewStage("stage_y")
+	yInstance := (&y.Y{Name: "Y_Root"}).Stage(stageY)
+
+	// 2. Stage in package x referencing y
+	stageX := x.NewStage("stage_x")
+	xInstance := (&x.X{Name: "X_Root", Y: yInstance}).Stage(stageX)
+
+	// 3. Stage in package models referencing x and local B
+	stageModels := NewStage("stage_models")
+	bInstance := (&B{Name: "B_Root"}).Stage(stageModels)
+	aInstance := (&A{
+		Name:        "A_Root",
+		NumberField: 42,
+		B:           bInstance,
+		Bs:          []*B{bInstance},
+		X:           xInstance,
+		Foo:         123,
+		Bar:         45.67,
+		Zorgh:       "Hello Gong",
+	}).Stage(stageModels)
+
+	stageSet := &StageSet{
+		Stage:  stageModels,
+		XStage: stageX,
+		YStage: stageY,
+	}
+	stageSet.Commit()
+
+	// 4. Marshall to string
+	marshalledCode, err := stageSet.MarshallToString("main")
+	if err != nil {
+		t.Fatalf("MarshallToString failed: %v", err)
+	}
+
+	t.Logf("Marshalled code:\n%s", marshalledCode)
+
+	// Verify key elements in the marshalled code
+	expectedSubstrings := []string{
+		"package main",
+		"__stage_0__ \"github.com/fullstack-lang/gong/test/test2/go/models\"",
+		"__stage_1__ \"github.com/fullstack-lang/gong/test/test2/go/models/x\"",
+		"__stage_2__ \"github.com/fullstack-lang/gong/test/test2/go/models/y\"",
+		"func _(stageSet *__stage_0__.StageSet)",
+		"__stage_2__Y__00000000_ := (&__stage_2__.Y{Name: `Y_Root`}).Stage(stageSet.YStage)",
+		"__stage_1__X__00000000_ := (&__stage_1__.X{Name: `X_Root`}).Stage(stageSet.XStage)",
+		"__stage_0__A__00000000_ := (&__stage_0__.A{Name: `A_Root`}).Stage(stageSet.Stage)",
+		"__stage_0__B__00000000_ := (&__stage_0__.B{Name: `B_Root`}).Stage(stageSet.Stage)",
+		"__stage_0__A__00000000_.NumberField = 42",
+		"__stage_0__A__00000000_.Foo = 123",
+		"__stage_0__A__00000000_.Bar = 45.670000",
+		"__stage_0__A__00000000_.Zorgh = `Hello Gong`",
+		"__stage_1__X__00000000_.Y = __stage_2__Y__00000000_",
+		"__stage_0__A__00000000_.B = __stage_0__B__00000000_",
+		"__stage_0__A__00000000_.Bs = append(__stage_0__A__00000000_.Bs, __stage_0__B__00000000_)",
+		"__stage_0__A__00000000_.X = __stage_1__X__00000000_",
+	}
+
+	for _, expected := range expectedSubstrings {
+		if !strings.Contains(marshalledCode, expected) {
+			t.Errorf("marshalled code missing expected string:\n%s", expected)
+		}
+	}
+
+	// 5. Unmarshall into fresh stages
+	newStageModels := NewStage("new_models")
+	newStageX := x.NewStage("new_x")
+	newStageY := y.NewStage("new_y")
+
+	newStageSet := &StageSet{
+		Stage:  newStageModels,
+		XStage: newStageX,
+		YStage: newStageY,
+	}
+
+	err = newStageSet.ParseAstString(marshalledCode, true)
+	if err != nil {
+		t.Fatalf("ParseAstString failed: %v", err)
+	}
+
+	// Verify instances in new stages
+	newYMap := newStageY.GetInstancesMapByName[*y.Y]()
+	if len(newYMap) != 1 || newYMap["Y_Root"] == nil {
+		t.Fatalf("expected Y_Root in newStageY")
+	}
+
+	newXMap := newStageX.GetInstancesMapByName[*x.X]()
+	if len(newXMap) != 1 || newXMap["X_Root"] == nil {
+		t.Fatalf("expected X_Root in newStageX")
+	}
+
+	newBMap := newStageModels.GetInstancesMapByName[*B]()
+	if len(newBMap) != 1 || newBMap["B_Root"] == nil {
+		t.Fatalf("expected B_Root in newStageModels")
+	}
+
+	newAMap := newStageModels.GetInstancesMapByName[*A]()
+	if len(newAMap) != 1 || newAMap["A_Root"] == nil {
+		t.Fatalf("expected A_Root in newStageModels")
+	}
+
+	newA := newAMap["A_Root"]
+	newB := newBMap["B_Root"]
+	newX := newXMap["X_Root"]
+	newY := newYMap["Y_Root"]
+
+	// Verify values
+	if newA.NumberField != 42 {
+		t.Errorf("expected NumberField 42, got %d", newA.NumberField)
+	}
+	if newA.Foo != 123 {
+		t.Errorf("expected Foo 123, got %d", newA.Foo)
+	}
+	if newA.Bar != 45.67 {
+		t.Errorf("expected Bar 45.67, got %f", newA.Bar)
+	}
+	if newA.Zorgh != "Hello Gong" {
+		t.Errorf("expected Zorgh 'Hello Gong', got %s", newA.Zorgh)
+	}
+
+	// Verify intra-stage pointers
+	if newA.B != newB {
+		t.Errorf("expected A.B to be newB")
+	}
+	if len(newA.Bs) != 1 || newA.Bs[0] != newB {
+		t.Errorf("expected A.Bs to contain newB")
+	}
+
+	// Verify cross-stage pointers
+	if newA.X != newX {
+		t.Errorf("expected A.X to be newX")
+	}
+	if newX.Y != newY {
+		t.Errorf("expected X.Y to be newY")
+	}
+	if newA.X.Y != newY {
+		t.Errorf("expected A.X.Y to link to newY")
+	}
+
+	// Suppress unused warnings
+	_ = aInstance
+}
+
+func TestStageSetEmptyStages(t *testing.T) {
+	// Test robustness to empty stages (some or all stages having 0 instances)
+	stageModels := NewStage("empty_models")
+	stageX := x.NewStage("empty_x")
+	stageY := y.NewStage("empty_y")
+
+	// Only stage an instance in models; x and y are completely empty
+	b := (&B{Name: "Lone_B"}).Stage(stageModels)
+	_ = b
+
+	stageSet := &StageSet{
+		Stage:  stageModels,
+		XStage: stageX,
+		YStage: stageY,
+	}
+
+	code, err := stageSet.MarshallToString("main")
+	if err != nil {
+		t.Fatalf("MarshallToString on empty stages failed: %v", err)
+	}
+
+	// Verify it still includes all package dummy declarations so unused import errors are prevented
+	if !strings.Contains(code, "_ *__stage_0__.Stage") ||
+		!strings.Contains(code, "_ *__stage_1__.Stage") ||
+		!strings.Contains(code, "_ *__stage_2__.Stage") {
+		t.Errorf("expected dummy declarations for all stages to prevent unused imports")
+	}
+
+	newStageSet := &StageSet{
+		Stage:  NewStage("fresh_models"),
+		XStage: x.NewStage("fresh_x"),
+		YStage: y.NewStage("fresh_y"),
+	}
+
+	err = newStageSet.ParseAstString(code, true)
+	if err != nil {
+		t.Fatalf("ParseAstString on empty stages failed: %v", err)
+	}
+
+	bMap := newStageSet.Stage.GetInstancesMapByName[*B]()
+	if len(bMap) != 1 || bMap["Lone_B"] == nil {
+		t.Fatalf("expected Lone_B to be parsed")
+	}
+}
+
+func TestStageSetMarshallFileAndParseAstFile(t *testing.T) {
+	tmpFile := filepath.Join(t.TempDir(), "stage_set_data.go")
+
+	stageY := y.NewStage("stage_y")
+	yInst := (&y.Y{Name: "File_Y"}).Stage(stageY)
+
+	stageX := x.NewStage("stage_x")
+	xInst := (&x.X{Name: "File_X", Y: yInst}).Stage(stageX)
+
+	stageModels := NewStage("stage_models")
+	aInst := (&A{Name: "File_A", X: xInst}).Stage(stageModels)
+	_ = aInst
+
+	stageSet := &StageSet{
+		Stage:  stageModels,
+		XStage: stageX,
+		YStage: stageY,
+	}
+
+	stageSet.MarshallFile(tmpFile, "main")
+
+	// Read and verify file exists
+	if _, err := os.Stat(tmpFile); err != nil {
+		t.Fatalf("expected file to exist: %v", err)
+	}
+
+	newStageSet := &StageSet{
+		Stage:  NewStage("new_models"),
+		XStage: x.NewStage("new_x"),
+		YStage: y.NewStage("new_y"),
+	}
+
+	err := newStageSet.ParseAstFile(tmpFile, true)
+	if err != nil {
+		t.Fatalf("ParseAstFile failed: %v", err)
+	}
+
+	aMap := newStageSet.Stage.GetInstancesMapByName[*A]()
+	if len(aMap) != 1 || aMap["File_A"] == nil {
+		t.Fatalf("expected File_A in newStageSet")
+	}
+	if aMap["File_A"].X == nil || aMap["File_A"].X.Name != "File_X" {
+		t.Fatalf("expected File_A.X to link to File_X")
+	}
+	if aMap["File_A"].X.Y == nil || aMap["File_A"].X.Y.Name != "File_Y" {
+		t.Fatalf("expected File_A.X.Y to link to File_Y")
 	}
 }

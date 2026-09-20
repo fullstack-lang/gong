@@ -39,6 +39,10 @@ type ModelPkg struct {
 	// swagger:ignore
 	TypeErrors []error `gorm:"-"`
 
+	// StageSet holds metadata if a StageSet struct is defined in the package
+	// swagger:ignore
+	StageSet *StageSetModel `gorm:"-"`
+
 	// PathToGoSubDirectory for instance "/tmp"
 	PathToGoSubDirectory string
 

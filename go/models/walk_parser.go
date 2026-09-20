@@ -266,6 +266,56 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 									Stage(modelPkg.GetStage())
 								modelPkg.GongStructs[modelPkg.PkgPath+"."+typeSpec.Name.Name] = gongstruct
 							}
+							if typeSpec.Name.Name == "StageSet" {
+								stageSet := &StageSetModel{
+									Name: "StageSet",
+								}
+								for _, field := range _type.Fields.List {
+									if len(field.Names) == 0 {
+										continue
+									}
+									fieldName := field.Names[0].Name
+									star, ok := field.Type.(*ast.StarExpr)
+									if !ok {
+										continue
+									}
+									stageSetField := &StageSetField{
+										Name: fieldName,
+									}
+									switch X := star.X.(type) {
+									case *ast.Ident:
+										if X.Name == "Stage" {
+											stageSetField.IsLocal = true
+											stageSetField.PackageName = modelPkg.PkgGoName
+											stageSetField.PackagePath = modelPkg.PkgPath
+										}
+									case *ast.SelectorExpr:
+										if X.Sel.Name == "Stage" {
+											if pkgIdent, ok := X.X.(*ast.Ident); ok {
+												stageSetField.PackageName = pkgIdent.Name
+												for _, imp := range file.Imports {
+													impPath := strings.Trim(imp.Path.Value, "\"")
+													if imp.Name != nil && imp.Name.Name == pkgIdent.Name {
+														stageSetField.PackagePath = impPath
+														break
+													}
+													if imp.Name == nil && filepath.Base(impPath) == pkgIdent.Name {
+														stageSetField.PackagePath = impPath
+														break
+													}
+												}
+											}
+										}
+									}
+									if stageSetField.PackagePath != "" {
+										stageSet.Fields = append(stageSet.Fields, stageSetField)
+									}
+								}
+								for idx, f := range stageSet.Fields {
+									f.ImportAlias = fmt.Sprintf("__stage_%d__", idx)
+								}
+								modelPkg.StageSet = stageSet
+							}
 							if !hasIgnoreStatement {
 								map_Structname_fieldList[typeSpec.Name.Name] = &_type.Fields.List
 							}

@@ -22,6 +22,7 @@ var GeneratedModelFiles = []string{
 	string(GeneratedGongReverseGoFilePath),
 	string(GeneratedGongSerializeGoFilePath),
 	string(GeneratedGongSlicesGoFilePath),
+	string(GeneratedGongStageSetGoFilePath),
 	string(GeneratedGongWopGoFilePath),
 
 	string(LegacyGeneratedGongGoFilePath),
@@ -71,6 +72,7 @@ const (
 	GeneratedGongReverseGoFilePath         GeneratedGoFilePath = "zzz_gong_reverse.go"
 	GeneratedGongSerializeGoFilePath       GeneratedGoFilePath = "zzz_gong_serialize.go"
 	GeneratedGongSlicesGoFilePath          GeneratedGoFilePath = "zzz_gong_slices.go"
+	GeneratedGongStageSetGoFilePath        GeneratedGoFilePath = "zzz_gong_stageset.go"
 	GeneratedGongWopGoFilePath             GeneratedGoFilePath = "zzz_gong_wop.go"
 
 	StagerGoFilePath GeneratedGoFilePath = "stager.go"

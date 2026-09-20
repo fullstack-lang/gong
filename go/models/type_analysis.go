@@ -16,8 +16,8 @@ import (
 	"golang.org/x/mod/modfile"
 )
 
-// findGoMod traverses upwards to locate the nearest go.mod and extracts the module path.
-func findGoMod(startDir string) (goModDir string, modPath string) {
+// FindGoMod traverses upwards to locate the nearest go.mod and extracts the module path.
+func FindGoMod(startDir string) (goModDir string, modPath string) {
 	curr, err := filepath.Abs(startDir)
 	if err != nil {
 		return "", ""
@@ -216,7 +216,7 @@ func RunTypeAnalysis(modelPkg *ModelPkg, astPackage *ast.Package) {
 		sampleDir = filepath.Dir(filePath)
 		break
 	}
-	goModDir, modPath := findGoMod(sampleDir)
+	goModDir, modPath := FindGoMod(sampleDir)
 
 	conf := types.Config{
 		IgnoreFuncBodies:         true,
