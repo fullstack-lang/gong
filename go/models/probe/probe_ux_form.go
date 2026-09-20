@@ -185,6 +185,32 @@ func FillUpFormFromGongstructName(
 		sliceofpointertogongstructfield := new(models.SliceOfPointerToGongStructField)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(sliceofpointertogongstructfield, formGroup, probe)
+	case "StageSetField":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StageSetField Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StageSetFieldFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stagesetfield := new(models.StageSetField)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stagesetfield, formGroup, probe)
+	case "StageSetModel":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StageSetModel Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StageSetModelFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stagesetmodel := new(models.StageSetModel)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stagesetmodel, formGroup, probe)
 	}
 	formStage.Commit()
 }

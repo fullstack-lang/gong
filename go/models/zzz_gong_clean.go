@@ -124,6 +124,21 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongClea
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by StageSetField
+func (stagesetfield *StageSetField) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StageSetModel
+func (stagesetmodel *StageSetModel) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = stage.CleanSlice(&stagesetmodel.Fields) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {

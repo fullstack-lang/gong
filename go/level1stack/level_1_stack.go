@@ -135,6 +135,8 @@ func NewLevel1StackDelta(
 	stage.SetOrchestratorOnAfterUpdate[models.ModelPkg]()
 	stage.SetOrchestratorOnAfterUpdate[models.PointerToGongStructField]()
 	stage.SetOrchestratorOnAfterUpdate[models.SliceOfPointerToGongStructField]()
+	stage.SetOrchestratorOnAfterUpdate[models.StageSetField]()
+	stage.SetOrchestratorOnAfterUpdate[models.StageSetModel]()
 
 	return
 }

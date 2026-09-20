@@ -95,6 +95,19 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct SliceOfPointerToGongStructField
 	// insertion point per field
 
+	// Compute reverse map for named struct StageSetField
+	// insertion point per field
+
+	// Compute reverse map for named struct StageSetModel
+	// insertion point per field
+	stage.StageSetModel_Fields_reverseMap = make(map[*StageSetField]*StageSetModel)
+	for stagesetmodel := range stage.StageSetModels {
+		_ = stagesetmodel
+		for _, _stagesetfield := range stagesetmodel.Fields {
+			stage.StageSetModel_Fields_reverseMap[_stagesetfield] = stagesetmodel
+		}
+	}
+
 	// end of insertion point per named struct
 }
 
@@ -141,6 +154,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.SliceOfPointerToGongStructFields {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.StageSetFields {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.StageSetModels {
 		res = append(res, instance)
 	}
 
@@ -211,6 +232,18 @@ func (pointertogongstructfield *PointerToGongStructField) GongCopy() GongstructI
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongCopy() GongstructIF {
 	newInstance := new(SliceOfPointerToGongStructField)
 	sliceofpointertogongstructfield.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (stagesetfield *StageSetField) GongCopy() GongstructIF {
+	newInstance := new(StageSetField)
+	stagesetfield.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (stagesetmodel *StageSetModel) GongCopy() GongstructIF {
+	newInstance := new(StageSetModel)
+	stagesetmodel.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -322,6 +355,26 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetU
 	}
 
 	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(sliceofpointertogongstructfield), uint64(stage.GetOrder(sliceofpointertogongstructfield)))
+	return
+}
+
+func (stagesetfield *StageSetField) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(stagesetfield).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stagesetfield), uint64(stage.GetOrder(stagesetfield)))
+	return
+}
+
+func (stagesetmodel *StageSetModel) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(stagesetmodel).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stagesetmodel), uint64(stage.GetOrder(stagesetmodel)))
 	return
 }
 
@@ -612,6 +665,40 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		&lenDeletedInstances,
 		&lenModifiedInstances,
 	)
+	computeCommitsForType(
+		stage,
+		stage.StageSetFields,
+		stage.StageSetField_stagedOrder,
+		stage.StageSetFields_reference,
+		&stage.StageSetFields_referenceOrder,
+		stage.StageSetFields_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.StageSetModels,
+		stage.StageSetModel_stagedOrder,
+		stage.StageSetModels_reference,
+		&stage.StageSetModels_referenceOrder,
+		stage.StageSetModels_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 
@@ -757,6 +844,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.SliceOfPointerToGongStructFields_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.StageSetFields_reference = make(map[*StageSetField]*StageSetField)
+	stage.StageSetFields_referenceOrder = make(map[*StageSetField]uint) // diff Unstage needs the reference order
+	stage.StageSetFields_instance = make(map[*StageSetField]*StageSetField)
+	for instance := range stage.StageSetFields {
+		_copy := instance.GongCopy().(*StageSetField)
+		stage.StageSetFields_reference[instance] = _copy
+		stage.StageSetFields_instance[_copy] = instance
+		stage.StageSetFields_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.StageSetModels_reference = make(map[*StageSetModel]*StageSetModel)
+	stage.StageSetModels_referenceOrder = make(map[*StageSetModel]uint) // diff Unstage needs the reference order
+	stage.StageSetModels_instance = make(map[*StageSetModel]*StageSetModel)
+	for instance := range stage.StageSetModels {
+		_copy := instance.GongCopy().(*StageSetModel)
+		stage.StageSetModels_reference[instance] = _copy
+		stage.StageSetModels_instance[_copy] = instance
+		stage.StageSetModels_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	// insertion point per named struct
 	for instance := range stage.GongBasicFields {
 		reference := stage.GongBasicFields_reference[instance]
@@ -810,6 +917,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.SliceOfPointerToGongStructFields {
 		reference := stage.SliceOfPointerToGongStructFields_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.StageSetFields {
+		reference := stage.StageSetFields_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.StageSetModels {
+		reference := stage.StageSetModels_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -955,6 +1072,30 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetO
 	}
 }
 
+func (stagesetfield *StageSetField) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.StageSetField_stagedOrder[stagesetfield]; ok {
+		return order
+	}
+	if order, ok := stage.StageSetFields_referenceOrder[stagesetfield]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type StageSetField was not staged and does not have a reference order", stagesetfield)
+		return 0
+	}
+}
+
+func (stagesetmodel *StageSetModel) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.StageSetModel_stagedOrder[stagesetmodel]; ok {
+		return order
+	}
+	if order, ok := stage.StageSetModels_referenceOrder[stagesetmodel]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type StageSetModel was not staged and does not have a reference order", stagesetmodel)
+		return 0
+	}
+}
+
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
 // in the staging area
@@ -1059,6 +1200,24 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetR
 	return fmt.Sprintf("__%s__%08d_", sliceofpointertogongstructfield.GongGetGongstructName(), sliceofpointertogongstructfield.GongGetOrder(stage))
 }
 
+func (stagesetfield *StageSetField) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stagesetfield.GongGetGongstructName(), stagesetfield.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (stagesetfield *StageSetField) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stagesetfield.GongGetGongstructName(), stagesetfield.GongGetOrder(stage))
+}
+
+func (stagesetmodel *StageSetModel) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stagesetmodel.GongGetGongstructName(), stagesetmodel.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (stagesetmodel *StageSetModel) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stagesetmodel.GongGetGongstructName(), stagesetmodel.GongGetOrder(stage))
+}
+
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
@@ -1150,6 +1309,22 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMars
 	return
 }
 
+func (stagesetfield *StageSetField) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stagesetfield.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StageSetField")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stagesetfield.Name))
+	return
+}
+
+func (stagesetmodel *StageSetModel) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stagesetmodel.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StageSetModel")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stagesetmodel.Name))
+	return
+}
+
 // insertion point for unstaging
 func (gongbasicfield *GongBasicField) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
@@ -1214,6 +1389,18 @@ func (pointertogongstructfield *PointerToGongStructField) GongMarshallUnstaging(
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", sliceofpointertogongstructfield.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (stagesetfield *StageSetField) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stagesetfield.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (stagesetmodel *StageSetModel) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stagesetmodel.GongGetReferenceIdentifier(stage))
 	return
 }
 

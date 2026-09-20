@@ -642,6 +642,63 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(sliceofpointertogongstructfield.GongMarshallField(stage, "IsAccordionEnd"))
 	}
 
+	stagesetfieldOrdered := []*StageSetField{}
+	for stagesetfield := range stage.StageSetFields {
+		stagesetfieldOrdered = append(stagesetfieldOrdered, stagesetfield)
+	}
+	sort.Slice(stagesetfieldOrdered[:], func(i, j int) bool {
+		stagesetfieldi := stagesetfieldOrdered[i]
+		stagesetfieldj := stagesetfieldOrdered[j]
+		stagesetfieldi_order, oki := stage.StageSetField_stagedOrder[stagesetfieldi]
+		stagesetfieldj_order, okj := stage.StageSetField_stagedOrder[stagesetfieldj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return stagesetfieldi_order < stagesetfieldj_order
+	})
+	if len(stagesetfieldOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, stagesetfield := range stagesetfieldOrdered {
+
+		identifiersDecl.WriteString(stagesetfield.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(stagesetfield.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(stagesetfield.GongMarshallField(stage, "PackageName"))
+		initializerStatements.WriteString(stagesetfield.GongMarshallField(stage, "PackagePath"))
+		initializerStatements.WriteString(stagesetfield.GongMarshallField(stage, "IsLocal"))
+		initializerStatements.WriteString(stagesetfield.GongMarshallField(stage, "ImportAlias"))
+	}
+
+	stagesetmodelOrdered := []*StageSetModel{}
+	for stagesetmodel := range stage.StageSetModels {
+		stagesetmodelOrdered = append(stagesetmodelOrdered, stagesetmodel)
+	}
+	sort.Slice(stagesetmodelOrdered[:], func(i, j int) bool {
+		stagesetmodeli := stagesetmodelOrdered[i]
+		stagesetmodelj := stagesetmodelOrdered[j]
+		stagesetmodeli_order, oki := stage.StageSetModel_stagedOrder[stagesetmodeli]
+		stagesetmodelj_order, okj := stage.StageSetModel_stagedOrder[stagesetmodelj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return stagesetmodeli_order < stagesetmodelj_order
+	})
+	if len(stagesetmodelOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, stagesetmodel := range stagesetmodelOrdered {
+
+		identifiersDecl.WriteString(stagesetmodel.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(stagesetmodel.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(stagesetmodel.GongMarshallField(stage, "Fields"))
+	}
+
 	// insertion initialization of objects to stage
 	for _, gongbasicfield := range gongbasicfieldOrdered {
 		_ = gongbasicfield
@@ -725,6 +782,22 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, sliceofpointertogongstructfield := range sliceofpointertogongstructfieldOrdered {
 		_ = sliceofpointertogongstructfield
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, stagesetfield := range stagesetfieldOrdered {
+		_ = stagesetfield
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, stagesetmodel := range stagesetmodelOrdered {
+		_ = stagesetmodel
 		var setPointerField string
 		_ = setPointerField
 
@@ -1342,6 +1415,66 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMars
 	return
 }
 
+func (stagesetfield *StageSetField) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = GongStringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stagesetfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stagesetfield.Name))
+	case "PackageName":
+		res = GongStringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stagesetfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PackageName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stagesetfield.PackageName))
+	case "PackagePath":
+		res = GongStringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stagesetfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PackagePath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stagesetfield.PackagePath))
+	case "IsLocal":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stagesetfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsLocal")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", stagesetfield.IsLocal))
+	case "ImportAlias":
+		res = GongStringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stagesetfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ImportAlias")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stagesetfield.ImportAlias))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct StageSetField", fieldName)
+	}
+	return
+}
+
+func (stagesetmodel *StageSetModel) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = GongStringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stagesetmodel.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stagesetmodel.Name))
+
+	case "Fields":
+		var sb strings.Builder
+		for _, _stagesetfield := range stagesetmodel.Fields {
+			tmp := GongSliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", stagesetmodel.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Fields")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _stagesetfield.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct StageSetModel", fieldName)
+	}
+	return
+}
+
 // insertion point for marshall all fields methods
 func (gongbasicfield *GongBasicField) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
@@ -1525,6 +1658,33 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMars
 		initializerStatements.WriteString(sliceofpointertogongstructfield.GongMarshallField(stage, "IsAccordionStart"))
 		initializerStatements.WriteString(sliceofpointertogongstructfield.GongMarshallField(stage, "AccordionName"))
 		initializerStatements.WriteString(sliceofpointertogongstructfield.GongMarshallField(stage, "IsAccordionEnd"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (stagesetfield *StageSetField) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(stagesetfield.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(stagesetfield.GongMarshallField(stage, "PackageName"))
+		initializerStatements.WriteString(stagesetfield.GongMarshallField(stage, "PackagePath"))
+		initializerStatements.WriteString(stagesetfield.GongMarshallField(stage, "IsLocal"))
+		initializerStatements.WriteString(stagesetfield.GongMarshallField(stage, "ImportAlias"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (stagesetmodel *StageSetModel) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(stagesetmodel.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(stagesetmodel.GongMarshallField(stage, "Fields"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

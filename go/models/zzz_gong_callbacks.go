@@ -313,3 +313,55 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongAfte
 	}
 }
 
+func (stagesetfield *StageSetField) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterStageSetFieldCreateCallback != nil {
+		stage.OnAfterStageSetFieldCreateCallback.OnAfterCreate(stage, stagesetfield)
+	}
+}
+
+func (stagesetfield *StageSetField) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterStageSetFieldUpdateCallback != nil {
+		var frontStageSetField *StageSetField
+		if front != nil {
+			frontStageSetField, _ = front.(*StageSetField)
+		}
+		stage.OnAfterStageSetFieldUpdateCallback.OnAfterUpdate(stage, stagesetfield, frontStageSetField)
+	}
+}
+
+func (stagesetfield *StageSetField) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterStageSetFieldDeleteCallback != nil {
+		var frontStageSetField *StageSetField
+		if front != nil {
+			frontStageSetField, _ = front.(*StageSetField)
+		}
+		stage.OnAfterStageSetFieldDeleteCallback.OnAfterDelete(stage, stagesetfield, frontStageSetField)
+	}
+}
+
+func (stagesetmodel *StageSetModel) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterStageSetModelCreateCallback != nil {
+		stage.OnAfterStageSetModelCreateCallback.OnAfterCreate(stage, stagesetmodel)
+	}
+}
+
+func (stagesetmodel *StageSetModel) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterStageSetModelUpdateCallback != nil {
+		var frontStageSetModel *StageSetModel
+		if front != nil {
+			frontStageSetModel, _ = front.(*StageSetModel)
+		}
+		stage.OnAfterStageSetModelUpdateCallback.OnAfterUpdate(stage, stagesetmodel, frontStageSetModel)
+	}
+}
+
+func (stagesetmodel *StageSetModel) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterStageSetModelDeleteCallback != nil {
+		var frontStageSetModel *StageSetModel
+		if front != nil {
+			frontStageSetModel, _ = front.(*StageSetModel)
+		}
+		stage.OnAfterStageSetModelDeleteCallback.OnAfterDelete(stage, stagesetmodel, frontStageSetModel)
+	}
+}
+

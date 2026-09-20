@@ -1,3 +1,5 @@
+//go:build !js
+
 // generated code - do not edit
 package tree
 

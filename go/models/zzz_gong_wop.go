@@ -299,4 +299,38 @@ func (from *SliceOfPointerToGongStructField) GongCopyBasicFields(to *SliceOfPoin
 	to.IsAccordionEnd = from.IsAccordionEnd
 }
 
+type StageSetField_WOP struct {
+	// insertion point
+
+	Name string
+
+	PackageName string
+
+	PackagePath string
+
+	IsLocal bool
+
+	ImportAlias string
+}
+
+func (from *StageSetField) GongCopyBasicFields(to *StageSetField) {
+	// insertion point
+	to.Name = from.Name
+	to.PackageName = from.PackageName
+	to.PackagePath = from.PackagePath
+	to.IsLocal = from.IsLocal
+	to.ImportAlias = from.ImportAlias
+}
+
+type StageSetModel_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *StageSetModel) GongCopyBasicFields(to *StageSetModel) {
+	// insertion point
+	to.Name = from.Name
+}
+
 // end of insertion point

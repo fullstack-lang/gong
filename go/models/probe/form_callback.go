@@ -554,3 +554,73 @@ func saveSliceOfPointerToGongStructFieldFields(
 	}
 }
 
+func __gong__New__StageSetFieldFormCallback(
+	_instance *models.StageSetField,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (stagesetfieldFormCallback *FormCallback[*models.StageSetField]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveStageSetFieldFields,
+	)
+}
+
+type StageSetFieldFormCallback = FormCallback[*models.StageSetField]
+
+func saveStageSetFieldFields(
+	_instance *models.StageSetField,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "PackageName":
+			FormDivBasicFieldToField(&(_instance.PackageName), formDiv)
+		case "PackagePath":
+			FormDivBasicFieldToField(&(_instance.PackagePath), formDiv)
+		case "IsLocal":
+			FormDivBasicFieldToField(&(_instance.IsLocal), formDiv)
+		case "ImportAlias":
+			FormDivBasicFieldToField(&(_instance.ImportAlias), formDiv)
+		case "StageSetModel:Fields":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Fields", func(owner *models.StageSetModel) *[]*models.StageSetField { return &owner.Fields })
+		}
+	}
+}
+
+func __gong__New__StageSetModelFormCallback(
+	_instance *models.StageSetModel,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (stagesetmodelFormCallback *FormCallback[*models.StageSetModel]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveStageSetModelFields,
+	)
+}
+
+type StageSetModelFormCallback = FormCallback[*models.StageSetModel]
+
+func saveStageSetModelFields(
+	_instance *models.StageSetModel,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Fields":
+			FormDivSliceOfPointersToField(_instance, "Fields", &(_instance.Fields), formDiv, probe)
+		}
+	}
+}
+

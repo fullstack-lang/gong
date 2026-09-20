@@ -101,6 +101,20 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 			}
 			stage.SerializeExcelize(f, "SliceOfPointerToGongStructField", instances, (*SliceOfPointerToGongStructField)(nil).GongGetFieldHeaders(), addIDs)
 		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StageSetFields {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StageSetField", instances, (*StageSetField)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StageSetModels {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "StageSetModel", instances, (*StageSetModel)(nil).GongGetFieldHeaders(), addIDs)
+		}
 	}
 
 	// Create a style with wrap text enabled

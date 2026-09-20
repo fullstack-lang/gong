@@ -299,6 +299,38 @@ type Stage struct {
 	OnAfterSliceOfPointerToGongStructFieldDeleteCallback GongOnAfterDeleteInterface[SliceOfPointerToGongStructField]
 	OnAfterSliceOfPointerToGongStructFieldReadCallback   GongOnAfterReadInterface[SliceOfPointerToGongStructField]
 
+	StageSetFields                map[*StageSetField]struct{}
+	StageSetFields_instance       map[*StageSetField]*StageSetField
+	StageSetFields_mapString      map[string]*StageSetField
+	StageSetFieldOrder            uint
+	StageSetField_stagedOrder     map[*StageSetField]uint
+	StageSetField_orderStaged     map[uint]*StageSetField
+	StageSetFields_reference      map[*StageSetField]*StageSetField
+	StageSetFields_referenceOrder map[*StageSetField]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterStageSetFieldCreateCallback GongOnAfterCreateInterface[StageSetField]
+	OnAfterStageSetFieldUpdateCallback GongOnAfterUpdateInterface[StageSetField]
+	OnAfterStageSetFieldDeleteCallback GongOnAfterDeleteInterface[StageSetField]
+	OnAfterStageSetFieldReadCallback   GongOnAfterReadInterface[StageSetField]
+
+	StageSetModels                map[*StageSetModel]struct{}
+	StageSetModels_instance       map[*StageSetModel]*StageSetModel
+	StageSetModels_mapString      map[string]*StageSetModel
+	StageSetModelOrder            uint
+	StageSetModel_stagedOrder     map[*StageSetModel]uint
+	StageSetModel_orderStaged     map[uint]*StageSetModel
+	StageSetModels_reference      map[*StageSetModel]*StageSetModel
+	StageSetModels_referenceOrder map[*StageSetModel]uint
+
+	// insertion point for slice of pointers maps
+	StageSetModel_Fields_reverseMap map[*StageSetField]*StageSetModel
+
+	OnAfterStageSetModelCreateCallback GongOnAfterCreateInterface[StageSetModel]
+	OnAfterStageSetModelUpdateCallback GongOnAfterUpdateInterface[StageSetModel]
+	OnAfterStageSetModelDeleteCallback GongOnAfterDeleteInterface[StageSetModel]
+	OnAfterStageSetModelReadCallback   GongOnAfterReadInterface[StageSetModel]
+
 	BackRepo GongBackRepoInterface
 
 	// if set will be called before each commit to the back repo
@@ -575,6 +607,14 @@ func (stage *Stage) Squash() {
 	stage.SliceOfPointerToGongStructFields_instance = make(map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField)
 	stage.SliceOfPointerToGongStructFields_referenceOrder = make(map[*SliceOfPointerToGongStructField]uint)
 
+	stage.StageSetFields_reference = make(map[*StageSetField]*StageSetField)
+	stage.StageSetFields_instance = make(map[*StageSetField]*StageSetField)
+	stage.StageSetFields_referenceOrder = make(map[*StageSetField]uint)
+
+	stage.StageSetModels_reference = make(map[*StageSetModel]*StageSetModel)
+	stage.StageSetModels_instance = make(map[*StageSetModel]*StageSetModel)
+	stage.StageSetModels_referenceOrder = make(map[*StageSetModel]uint)
+
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
@@ -754,6 +794,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.SliceOfPointerToGongStructFieldOrder = maxSliceOfPointerToGongStructFieldOrder + 1
 	} else {
 		stage.SliceOfPointerToGongStructFieldOrder = 0
+	}
+
+	var maxStageSetFieldOrder uint
+	var foundStageSetField bool
+	for _, order := range stage.StageSetField_stagedOrder {
+		if !foundStageSetField || order > maxStageSetFieldOrder {
+			maxStageSetFieldOrder = order
+			foundStageSetField = true
+		}
+	}
+	if foundStageSetField {
+		stage.StageSetFieldOrder = maxStageSetFieldOrder + 1
+	} else {
+		stage.StageSetFieldOrder = 0
+	}
+
+	var maxStageSetModelOrder uint
+	var foundStageSetModel bool
+	for _, order := range stage.StageSetModel_stagedOrder {
+		if !foundStageSetModel || order > maxStageSetModelOrder {
+			maxStageSetModelOrder = order
+			foundStageSetModel = true
+		}
+	}
+	if foundStageSetModel {
+		stage.StageSetModelOrder = maxStageSetModelOrder + 1
+	} else {
+		stage.StageSetModelOrder = 0
 	}
 
 	// end of insertion point for max order recomputation
@@ -939,6 +1007,34 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *StageSetField:
+		tmp := __gong__getStructInstancesByOrder(stage.StageSetFields, stage.StageSetField_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *StageSetField implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *StageSetModel:
+		tmp := __gong__getStructInstancesByOrder(stage.StageSetModels, stage.StageSetModel_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *StageSetModel implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 
 	}
 	return
@@ -1041,6 +1137,10 @@ type GongBackRepoInterface interface {
 	CheckoutPointerToGongStructField(pointertogongstructfield *PointerToGongStructField)
 	CommitSliceOfPointerToGongStructField(sliceofpointertogongstructfield *SliceOfPointerToGongStructField)
 	CheckoutSliceOfPointerToGongStructField(sliceofpointertogongstructfield *SliceOfPointerToGongStructField)
+	CommitStageSetField(stagesetfield *StageSetField)
+	CheckoutStageSetField(stagesetfield *StageSetField)
+	CommitStageSetModel(stagesetmodel *StageSetModel)
+	CheckoutStageSetModel(stagesetmodel *StageSetModel)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -1081,6 +1181,12 @@ func NewStage(name string) (stage *Stage) {
 
 		SliceOfPointerToGongStructFields:           make(map[*SliceOfPointerToGongStructField]struct{}),
 		SliceOfPointerToGongStructFields_mapString: make(map[string]*SliceOfPointerToGongStructField),
+
+		StageSetFields:           make(map[*StageSetField]struct{}),
+		StageSetFields_mapString: make(map[string]*StageSetField),
+
+		StageSetModels:           make(map[*StageSetModel]struct{}),
+		StageSetModels_mapString: make(map[string]*StageSetModel),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -1136,6 +1242,14 @@ func NewStage(name string) (stage *Stage) {
 		SliceOfPointerToGongStructField_orderStaged: make(map[uint]*SliceOfPointerToGongStructField),
 		SliceOfPointerToGongStructFields_reference:  make(map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField),
 
+		StageSetField_stagedOrder: make(map[*StageSetField]uint),
+		StageSetField_orderStaged: make(map[uint]*StageSetField),
+		StageSetFields_reference:  make(map[*StageSetField]*StageSetField),
+
+		StageSetModel_stagedOrder: make(map[*StageSetModel]uint),
+		StageSetModel_orderStaged: make(map[uint]*StageSetModel),
+		StageSetModels_reference:  make(map[*StageSetModel]*StageSetModel),
+
 		// end of insertion point
 		GongUnmarshallers: map[string]GongModelUnmarshaller{ // insertion point for unmarshallers
 			"GongBasicField": &GongBasicFieldUnmarshaller{},
@@ -1159,6 +1273,10 @@ func NewStage(name string) (stage *Stage) {
 			"PointerToGongStructField": &PointerToGongStructFieldUnmarshaller{},
 
 			"SliceOfPointerToGongStructField": &SliceOfPointerToGongStructFieldUnmarshaller{},
+
+			"StageSetField": &StageSetFieldUnmarshaller{},
+
+			"StageSetModel": &StageSetModelUnmarshaller{},
 
 			// end of insertion point
 		},
@@ -1204,6 +1322,10 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return any(stage.PointerToGongStructField_orderStaged[order]).(Type)
 	case *SliceOfPointerToGongStructField:
 		return any(stage.SliceOfPointerToGongStructField_orderStaged[order]).(Type)
+	case *StageSetField:
+		return any(stage.StageSetField_orderStaged[order]).(Type)
+	case *StageSetModel:
+		return any(stage.StageSetModel_orderStaged[order]).(Type)
 	default:
 		return // should not happen
 	}
@@ -1280,6 +1402,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["ModelPkg"] = len(stage.ModelPkgs)
 	stage.Map_GongStructName_InstancesNb["PointerToGongStructField"] = len(stage.PointerToGongStructFields)
 	stage.Map_GongStructName_InstancesNb["SliceOfPointerToGongStructField"] = len(stage.SliceOfPointerToGongStructFields)
+	stage.Map_GongStructName_InstancesNb["StageSetField"] = len(stage.StageSetFields)
+	stage.Map_GongStructName_InstancesNb["StageSetModel"] = len(stage.StageSetModels)
 }
 
 func (stage *Stage) Checkout() {
@@ -2244,6 +2368,174 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) SetName(
 	sliceofpointertogongstructfield.Name = name
 }
 
+// Stage puts stagesetfield to the model stage
+func (stagesetfield *StageSetField) Stage(stage *Stage) *StageSetField {
+	if _, ok := stage.StageSetFields[stagesetfield]; !ok {
+		stage.StageSetFields[stagesetfield] = struct{}{}
+		stage.StageSetField_stagedOrder[stagesetfield] = stage.StageSetFieldOrder
+		stage.StageSetField_orderStaged[stage.StageSetFieldOrder] = stagesetfield
+		stage.StageSetFieldOrder++
+	}
+	stage.StageSetFields_mapString[stagesetfield.Name] = stagesetfield
+
+	return stagesetfield
+}
+
+// StagePreserveOrder puts stagesetfield to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.StageSetFieldOrder
+// - update stage.StageSetFieldOrder accordingly
+func (stagesetfield *StageSetField) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.StageSetFields[stagesetfield]; !ok {
+		stage.StageSetFields[stagesetfield] = struct{}{}
+
+		if order > stage.StageSetFieldOrder {
+			stage.StageSetFieldOrder = order
+		}
+		stage.StageSetField_stagedOrder[stagesetfield] = order
+		stage.StageSetField_orderStaged[order] = stagesetfield
+		stage.StageSetFieldOrder++
+	}
+	stage.StageSetFields_mapString[stagesetfield.Name] = stagesetfield
+}
+
+// Unstage removes stagesetfield off the model stage
+func (stagesetfield *StageSetField) Unstage(stage *Stage) *StageSetField {
+	delete(stage.StageSetFields, stagesetfield)
+	// issue1150
+	// delete(stage.StageSetField_stagedOrder, stagesetfield)
+	delete(stage.StageSetFields_mapString, stagesetfield.Name)
+
+	return stagesetfield
+}
+
+// UnstageVoid removes stagesetfield off the model stage
+func (stagesetfield *StageSetField) UnstageVoid(stage *Stage) {
+	delete(stage.StageSetFields, stagesetfield)
+	// issue1150
+	// delete(stage.StageSetField_stagedOrder, stagesetfield)
+	delete(stage.StageSetFields_mapString, stagesetfield.Name)
+}
+
+// commit stagesetfield to the back repo (if it is already staged)
+func (stagesetfield *StageSetField) Commit(stage *Stage) *StageSetField {
+	if _, ok := stage.StageSetFields[stagesetfield]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitStageSetField(stagesetfield)
+		}
+	}
+	return stagesetfield
+}
+
+func (stagesetfield *StageSetField) StageVoid(stage *Stage) {
+	stagesetfield.Stage(stage)
+}
+
+// Checkout stagesetfield to the back repo (if it is already staged)
+func (stagesetfield *StageSetField) Checkout(stage *Stage) *StageSetField {
+	if _, ok := stage.StageSetFields[stagesetfield]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutStageSetField(stagesetfield)
+		}
+	}
+	return stagesetfield
+}
+
+// for satisfaction of GongStruct interface
+func (stagesetfield *StageSetField) GetName() (res string) {
+	return stagesetfield.Name
+}
+
+// for satisfaction of GongStruct interface
+func (stagesetfield *StageSetField) SetName(name string) {
+	stagesetfield.Name = name
+}
+
+// Stage puts stagesetmodel to the model stage
+func (stagesetmodel *StageSetModel) Stage(stage *Stage) *StageSetModel {
+	if _, ok := stage.StageSetModels[stagesetmodel]; !ok {
+		stage.StageSetModels[stagesetmodel] = struct{}{}
+		stage.StageSetModel_stagedOrder[stagesetmodel] = stage.StageSetModelOrder
+		stage.StageSetModel_orderStaged[stage.StageSetModelOrder] = stagesetmodel
+		stage.StageSetModelOrder++
+	}
+	stage.StageSetModels_mapString[stagesetmodel.Name] = stagesetmodel
+
+	return stagesetmodel
+}
+
+// StagePreserveOrder puts stagesetmodel to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.StageSetModelOrder
+// - update stage.StageSetModelOrder accordingly
+func (stagesetmodel *StageSetModel) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.StageSetModels[stagesetmodel]; !ok {
+		stage.StageSetModels[stagesetmodel] = struct{}{}
+
+		if order > stage.StageSetModelOrder {
+			stage.StageSetModelOrder = order
+		}
+		stage.StageSetModel_stagedOrder[stagesetmodel] = order
+		stage.StageSetModel_orderStaged[order] = stagesetmodel
+		stage.StageSetModelOrder++
+	}
+	stage.StageSetModels_mapString[stagesetmodel.Name] = stagesetmodel
+}
+
+// Unstage removes stagesetmodel off the model stage
+func (stagesetmodel *StageSetModel) Unstage(stage *Stage) *StageSetModel {
+	delete(stage.StageSetModels, stagesetmodel)
+	// issue1150
+	// delete(stage.StageSetModel_stagedOrder, stagesetmodel)
+	delete(stage.StageSetModels_mapString, stagesetmodel.Name)
+
+	return stagesetmodel
+}
+
+// UnstageVoid removes stagesetmodel off the model stage
+func (stagesetmodel *StageSetModel) UnstageVoid(stage *Stage) {
+	delete(stage.StageSetModels, stagesetmodel)
+	// issue1150
+	// delete(stage.StageSetModel_stagedOrder, stagesetmodel)
+	delete(stage.StageSetModels_mapString, stagesetmodel.Name)
+}
+
+// commit stagesetmodel to the back repo (if it is already staged)
+func (stagesetmodel *StageSetModel) Commit(stage *Stage) *StageSetModel {
+	if _, ok := stage.StageSetModels[stagesetmodel]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitStageSetModel(stagesetmodel)
+		}
+	}
+	return stagesetmodel
+}
+
+func (stagesetmodel *StageSetModel) StageVoid(stage *Stage) {
+	stagesetmodel.Stage(stage)
+}
+
+// Checkout stagesetmodel to the back repo (if it is already staged)
+func (stagesetmodel *StageSetModel) Checkout(stage *Stage) *StageSetModel {
+	if _, ok := stage.StageSetModels[stagesetmodel]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutStageSetModel(stagesetmodel)
+		}
+	}
+	return stagesetmodel
+}
+
+// for satisfaction of GongStruct interface
+func (stagesetmodel *StageSetModel) GetName() (res string) {
+	return stagesetmodel.Name
+}
+
+// for satisfaction of GongStruct interface
+func (stagesetmodel *StageSetModel) SetName(name string) {
+	stagesetmodel.Name = name
+}
+
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.GongBasicFields = make(map[*GongBasicField]struct{})
 	stage.GongBasicFields_mapString = make(map[string]*GongBasicField)
@@ -2299,6 +2591,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.SliceOfPointerToGongStructFields_mapString = make(map[string]*SliceOfPointerToGongStructField)
 	stage.SliceOfPointerToGongStructField_stagedOrder = make(map[*SliceOfPointerToGongStructField]uint)
 	stage.SliceOfPointerToGongStructFieldOrder = 0
+
+	stage.StageSetFields = make(map[*StageSetField]struct{})
+	stage.StageSetFields_mapString = make(map[string]*StageSetField)
+	stage.StageSetField_stagedOrder = make(map[*StageSetField]uint)
+	stage.StageSetFieldOrder = 0
+
+	stage.StageSetModels = make(map[*StageSetModel]struct{})
+	stage.StageSetModels_mapString = make(map[string]*StageSetModel)
+	stage.StageSetModel_stagedOrder = make(map[*StageSetModel]uint)
+	stage.StageSetModelOrder = 0
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -2403,6 +2705,10 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 		return any(stage.PointerToGongStructFields_mapString).(map[string]Type)
 	case *SliceOfPointerToGongStructField:
 		return any(stage.SliceOfPointerToGongStructFields_mapString).(map[string]Type)
+	case *StageSetField:
+		return any(stage.StageSetFields_mapString).(map[string]Type)
+	case *StageSetModel:
+		return any(stage.StageSetModels_mapString).(map[string]Type)
 	default:
 		return nil
 	}
@@ -2436,6 +2742,10 @@ func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
 		return any(&stage.PointerToGongStructFields).(*map[Type]struct{})
 	case *SliceOfPointerToGongStructField:
 		return any(&stage.SliceOfPointerToGongStructFields).(*map[Type]struct{})
+	case *StageSetField:
+		return any(&stage.StageSetFields).(*map[Type]struct{})
+	case *StageSetModel:
+		return any(&stage.StageSetModels).(*map[Type]struct{})
 	default:
 		return nil
 	}
@@ -2511,6 +2821,16 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of GongStruct with the name of the field
 			GongStruct: &GongStruct{Name: "GongStruct"},
+		}).(*Type)
+	case StageSetField:
+		return any(&StageSetField{
+			// Initialisation of associations
+		}).(*Type)
+	case StageSetModel:
+		return any(&StageSetModel{
+			// Initialisation of associations
+			// field is initialized with an instance of StageSetField with the name of the field
+			Fields: []*StageSetField{{Name: "Fields"}},
 		}).(*Type)
 	default:
 		return nil
@@ -2636,6 +2956,16 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of StageSetField
+	case StageSetField:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of StageSetModel
+	case StageSetModel:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -2749,6 +3079,24 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of StageSetField
+	case StageSetField:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of StageSetModel
+	case StageSetModel:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Fields":
+			res := make(map[*StageSetField][]*StageSetModel)
+			for stagesetmodel := range stage.StageSetModels {
+				for _, stagesetfield_ := range stagesetmodel.Fields {
+					res[stagesetfield_] = append(res[stagesetfield_], stagesetmodel)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	}
 	return nil
 }
@@ -2781,6 +3129,10 @@ func GongNewInstance[Type GongstructPtr]() (res Type) {
 		res = any(new(PointerToGongStructField)).(Type)
 	case *SliceOfPointerToGongStructField:
 		res = any(new(SliceOfPointerToGongStructField)).(Type)
+	case *StageSetField:
+		res = any(new(StageSetField)).(Type)
+	case *StageSetModel:
+		res = any(new(StageSetModel)).(Type)
 	}
 	return res
 }
@@ -2830,6 +3182,10 @@ func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "PointerToGongStructField"
 	case *SliceOfPointerToGongStructField:
 		res = "SliceOfPointerToGongStructField"
+	case *StageSetField:
+		res = "StageSetField"
+	case *StageSetModel:
+		res = "StageSetModel"
 	}
 	return res
 }
@@ -2904,6 +3260,15 @@ func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 		rf.GongstructName = "GongStruct"
 		rf.Fieldname = "SliceOfPointerToGongStructFields"
 		res = append(res, rf)
+	case *StageSetField:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "StageSetModel"
+		rf.Fieldname = "Fields"
+		res = append(res, rf)
+	case *StageSetModel:
+		var rf ReverseField
+		_ = rf
 	}
 	return
 }
@@ -3308,6 +3673,49 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetF
 	return
 }
 
+func (stagesetfield *StageSetField) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "PackageName",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "PackagePath",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsLocal",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ImportAlias",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (stagesetmodel *StageSetModel) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Fields",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "StageSetField",
+		},
+	}
+	return
+}
+
 // GongGetFieldsFromPointer return the array of the fields
 func GongGetFieldsFromPointer[Type GongstructPtr]() (res []GongFieldHeader) {
 	var ret Type
@@ -3703,6 +4111,44 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetF
 	return
 }
 
+func (stagesetfield *StageSetField) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = stagesetfield.Name
+	case "PackageName":
+		res.valueString = stagesetfield.PackageName
+	case "PackagePath":
+		res.valueString = stagesetfield.PackagePath
+	case "IsLocal":
+		res.valueString = fmt.Sprintf("%t", stagesetfield.IsLocal)
+		res.valueBool = stagesetfield.IsLocal
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ImportAlias":
+		res.valueString = stagesetfield.ImportAlias
+	}
+	return
+}
+
+func (stagesetmodel *StageSetModel) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = stagesetmodel.Name
+	case "Fields":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range stagesetmodel.Fields {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (stage *Stage) GetFieldStringValueFromPointer(instance GongstructIF, fieldName string) (res GongFieldValue) {
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
@@ -3755,6 +4201,14 @@ func (pointertogongstructfield *PointerToGongStructField) GongGetGongstructName(
 
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetGongstructName() string {
 	return "SliceOfPointerToGongStructField"
+}
+
+func (stagesetfield *StageSetField) GongGetGongstructName() string {
+	return "StageSetField"
+}
+
+func (stagesetmodel *StageSetModel) GongGetGongstructName() string {
+	return "StageSetModel"
 }
 
 func GongGetGongstructNameFromPointer(instance GongstructIF) (res string) {
@@ -3821,6 +4275,16 @@ func (stage *Stage) ResetMapStrings() {
 	stage.SliceOfPointerToGongStructFields_mapString = make(map[string]*SliceOfPointerToGongStructField)
 	for sliceofpointertogongstructfield := range stage.SliceOfPointerToGongStructFields {
 		stage.SliceOfPointerToGongStructFields_mapString[sliceofpointertogongstructfield.Name] = sliceofpointertogongstructfield
+	}
+
+	stage.StageSetFields_mapString = make(map[string]*StageSetField)
+	for stagesetfield := range stage.StageSetFields {
+		stage.StageSetFields_mapString[stagesetfield.Name] = stagesetfield
+	}
+
+	stage.StageSetModels_mapString = make(map[string]*StageSetModel)
+	for stagesetmodel := range stage.StageSetModels {
+		stage.StageSetModels_mapString[stagesetmodel.Name] = stagesetmodel
 	}
 
 	// end of insertion point for generic get gongstruct name

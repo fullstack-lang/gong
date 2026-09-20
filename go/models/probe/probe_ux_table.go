@@ -46,6 +46,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.PointerToGongStructField](probe)
 	case "SliceOfPointerToGongStructField":
 		updateProbeTable[*models.SliceOfPointerToGongStructField](probe)
+	case "StageSetField":
+		updateProbeTable[*models.StageSetField](probe)
+	case "StageSetModel":
+		updateProbeTable[*models.StageSetModel](probe)
 	}
 }
 

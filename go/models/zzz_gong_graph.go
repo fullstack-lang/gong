@@ -144,6 +144,30 @@ func (stage *Stage) IsStagedSliceOfPointerToGongStructField(sliceofpointertogong
 	return sliceofpointertogongstructfield.GongIsStaged(stage)
 }
 
+func (stagesetfield *StageSetField) GongIsStaged(stage *Stage) (ok bool) {
+
+	_, ok = stage.StageSetFields[stagesetfield]
+
+	return
+}
+
+func (stage *Stage) IsStagedStageSetField(stagesetfield *StageSetField) (ok bool) {
+
+	return stagesetfield.GongIsStaged(stage)
+}
+
+func (stagesetmodel *StageSetModel) GongIsStaged(stage *Stage) (ok bool) {
+
+	_, ok = stage.StageSetModels[stagesetmodel]
+
+	return
+}
+
+func (stage *Stage) IsStagedStageSetModel(stagesetmodel *StageSetModel) (ok bool) {
+
+	return stagesetmodel.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
 func (stage *Stage) StageBranch(instance GongstructIF) {
 	if instance != nil {
@@ -393,6 +417,47 @@ func (stage *Stage) StageBranchSliceOfPointerToGongStructField(sliceofpointertog
 
 }
 
+func (stagesetfield *StageSetField) GongStageBranch(stage *Stage) {
+	stage.StageBranchStageSetField(stagesetfield)
+}
+
+func (stage *Stage) StageBranchStageSetField(stagesetfield *StageSetField) {
+
+	// check if instance is already staged
+	if stage.IsStaged(stagesetfield) {
+		return
+	}
+
+	stagesetfield.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stagesetmodel *StageSetModel) GongStageBranch(stage *Stage) {
+	stage.StageBranchStageSetModel(stagesetmodel)
+}
+
+func (stage *Stage) StageBranchStageSetModel(stagesetmodel *StageSetModel) {
+
+	// check if instance is already staged
+	if stage.IsStaged(stagesetmodel) {
+		return
+	}
+
+	stagesetmodel.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _stagesetfield := range stagesetmodel.Fields {
+		stage.StageBranch(_stagesetfield)
+	}
+
+}
+
 // GongCopyBranch stages instance and apply GongCopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -446,6 +511,14 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *SliceOfPointerToGongStructField:
 		toT := GongCopyBranchSliceOfPointerToGongStructField(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *StageSetField:
+		toT := GongCopyBranchStageSetField(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *StageSetModel:
+		toT := GongCopyBranchStageSetModel(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -687,6 +760,47 @@ func GongCopyBranchSliceOfPointerToGongStructField(mapOrigCopy map[any]any, slic
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchStageSetField(mapOrigCopy map[any]any, stagesetfieldFrom *StageSetField) (stagesetfieldTo *StageSetField) {
+
+	// stagesetfieldFrom has already been copied
+	if _stagesetfieldTo, ok := mapOrigCopy[stagesetfieldFrom]; ok {
+		stagesetfieldTo = _stagesetfieldTo.(*StageSetField)
+		return
+	}
+
+	stagesetfieldTo = new(StageSetField)
+	mapOrigCopy[stagesetfieldFrom] = stagesetfieldTo
+	stagesetfieldFrom.GongCopyBasicFields(stagesetfieldTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchStageSetModel(mapOrigCopy map[any]any, stagesetmodelFrom *StageSetModel) (stagesetmodelTo *StageSetModel) {
+
+	// stagesetmodelFrom has already been copied
+	if _stagesetmodelTo, ok := mapOrigCopy[stagesetmodelFrom]; ok {
+		stagesetmodelTo = _stagesetmodelTo.(*StageSetModel)
+		return
+	}
+
+	stagesetmodelTo = new(StageSetModel)
+	mapOrigCopy[stagesetmodelFrom] = stagesetmodelTo
+	stagesetmodelFrom.GongCopyBasicFields(stagesetmodelTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _stagesetfield := range stagesetmodelFrom.Fields {
+		stagesetmodelTo.Fields = append(stagesetmodelTo.Fields, GongCopyBranchStageSetField(mapOrigCopy, _stagesetfield))
+	}
 
 	return
 }
@@ -944,6 +1058,47 @@ func (stage *Stage) UnstageBranchSliceOfPointerToGongStructField(sliceofpointert
 
 }
 
+func (stagesetfield *StageSetField) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStageSetField(stagesetfield)
+}
+
+func (stage *Stage) UnstageBranchStageSetField(stagesetfield *StageSetField) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(stagesetfield) {
+		return
+	}
+
+	stagesetfield.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stagesetmodel *StageSetModel) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStageSetModel(stagesetmodel)
+}
+
+func (stage *Stage) UnstageBranchStageSetModel(stagesetmodel *StageSetModel) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(stagesetmodel) {
+		return
+	}
+
+	stagesetmodel.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _stagesetfield := range stagesetmodel.Fields {
+		stage.UnstageBranch(_stagesetfield)
+	}
+
+}
+
 // insertion point for pointer reconstruction from references
 func (reference *GongBasicField) GongReconstructPointersFromReferences(stage *Stage, instance *GongBasicField) {
 	// insertion point for pointers field
@@ -1031,6 +1186,20 @@ func (reference *SliceOfPointerToGongStructField) GongReconstructPointersFromRef
 		reference.GongStruct = stage.GongStructs_reference[instance.GongStruct]
 	}
 	// insertion point for slice of pointers field
+}
+
+func (reference *StageSetField) GongReconstructPointersFromReferences(stage *Stage, instance *StageSetField) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *StageSetModel) GongReconstructPointersFromReferences(stage *Stage, instance *StageSetModel) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Fields = reference.Fields[:0]
+	for _, _b := range instance.Fields {
+		reference.Fields = append(reference.Fields, stage.StageSetFields_reference[_b])
+	}
 }
 
 // insertion point for pointer reconstruction from instances
@@ -1147,6 +1316,23 @@ func (reference *SliceOfPointerToGongStructField) GongReconstructPointersFromIns
 		}
 	}
 	// insertion point for slice of pointers fields
+}
+
+func (reference *StageSetField) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *StageSetModel) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Fields []*StageSetField
+	for _, _reference := range reference.Fields {
+		if _instance, ok := stage.StageSetFields_instance[_reference]; ok {
+			_Fields = append(_Fields, _instance)
+		}
+	}
+	reference.Fields = _Fields
 }
 
 // insertion point for diff per struct
@@ -1650,6 +1836,72 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongDiff
 	}
 	if sliceofpointertogongstructfield.IsAccordionEnd != sliceofpointertogongstructfieldOther.IsAccordionEnd {
 		diffs = append(diffs, sliceofpointertogongstructfield.GongMarshallField(stage, "IsAccordionEnd"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (stagesetfield *StageSetField) GongDiff(stage *Stage, stagesetfieldOther *StageSetField) (diffs []string) {
+	// insertion point for field diffs
+	if stagesetfield.Name != stagesetfieldOther.Name {
+		diffs = append(diffs, stagesetfield.GongMarshallField(stage, "Name"))
+	}
+	if stagesetfield.PackageName != stagesetfieldOther.PackageName {
+		diffs = append(diffs, stagesetfield.GongMarshallField(stage, "PackageName"))
+	}
+	if stagesetfield.PackagePath != stagesetfieldOther.PackagePath {
+		diffs = append(diffs, stagesetfield.GongMarshallField(stage, "PackagePath"))
+	}
+	if stagesetfield.IsLocal != stagesetfieldOther.IsLocal {
+		diffs = append(diffs, stagesetfield.GongMarshallField(stage, "IsLocal"))
+	}
+	if stagesetfield.ImportAlias != stagesetfieldOther.ImportAlias {
+		diffs = append(diffs, stagesetfield.GongMarshallField(stage, "ImportAlias"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (stagesetmodel *StageSetModel) GongDiff(stage *Stage, stagesetmodelOther *StageSetModel) (diffs []string) {
+	// insertion point for field diffs
+	if stagesetmodel.Name != stagesetmodelOther.Name {
+		diffs = append(diffs, stagesetmodel.GongMarshallField(stage, "Name"))
+	}
+	FieldsDifferent := false
+	if len(stagesetmodel.Fields) != len(stagesetmodelOther.Fields) {
+		FieldsDifferent = true
+	} else {
+		for i := range stagesetmodel.Fields {
+			if (stagesetmodel.Fields[i] == nil) != (stagesetmodelOther.Fields[i] == nil) {
+				FieldsDifferent = true
+				break
+			} else if stagesetmodel.Fields[i] != nil && stagesetmodelOther.Fields[i] != nil {
+				// this is a pointer comparaison
+				if stagesetmodel.Fields[i] != stagesetmodelOther.Fields[i] {
+					FieldsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if FieldsDifferent {
+		ops := stage.Diff(
+			stagesetmodel,
+			"Fields",
+			len(stagesetmodelOther.Fields),
+			len(stagesetmodel.Fields),
+			func(i, j int) bool {
+				return stagesetmodelOther.Fields[i] == stagesetmodel.Fields[j]
+			},
+			func(j int) string {
+				return stagesetmodel.Fields[j].GongGetIdentifier(stage)
+			},
+		)
+		diffs = append(diffs, ops)
 	}
 
 	return
