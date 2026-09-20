@@ -16,7 +16,9 @@ func GetProbeCmdMainTemplate(useSplitlite bool, hasStageSet bool) string {
 
 	stageSetCmd := ""
 	addStageSetCmd := ""
+	modelsImport := ""
 	if hasStageSet {
+		modelsImport = "\n\t\"{{PkgPathRoot}}/models\""
 		stageSetCmd = fmt.Sprintf(`
 var editStageSetCmd = &cobra.Command{
 	Use:     "edit-stageset [data/stage.go]",
@@ -73,8 +75,34 @@ func executeServerStageSet() {
 		log.Fatalln(err.Error())
 	}
 }
+
+var migrateOut string
+
+var migrateCmd = &cobra.Command{
+	Use:   "migrate [data/stage.go]",
+	Short: "Migrate a single-stage data file to multiple-stage StageSet format",
+	Args:  cobra.MaximumNArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		inputFile := "data/stage.go"
+		if len(args) > 0 {
+			inputFile = args[0]
+		}
+		outputFile := migrateOut
+		if outputFile == "" {
+			outputFile = "data/stageset.go"
+		}
+
+		stage := models.NewStage("")
+		if err := stage.ParseAstFile(inputFile, true); err != nil {
+			log.Fatalf("failed to parse input stage file: %v", err)
+		}
+		stageSet := models.NewStageSetFromStage(stage)
+		stageSet.MarshallFile(outputFile, "main")
+		log.Printf("Successfully migrated %s to %s", inputFile, outputFile)
+	},
+}
 `, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg, splitPkg)
-		addStageSetCmd = "\n\trootCmd.AddCommand(editStageSetCmd)"
+		addStageSetCmd = "\n\trootCmd.AddCommand(editStageSetCmd)\n\tmigrateCmd.Flags().StringVar(&migrateOut, \"out\", \"\", \"output file path (default: data/stageset.go)\")\n\trootCmd.AddCommand(migrateCmd)"
 	}
 
 	return fmt.Sprintf(`//go:build !js
@@ -89,7 +117,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"{{PkgPathRoot}}/level1stack"
+	"{{PkgPathRoot}}/level1stack"%s
 
 	%s
 	%s
@@ -171,6 +199,7 @@ func main() {
 	}
 }
 `,
+		modelsImport,
 		splitImport,
 		splitStackImport,
 		splitStaticImport,
