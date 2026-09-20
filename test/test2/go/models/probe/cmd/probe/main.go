@@ -68,6 +68,62 @@ func executeServer() {
 	}
 }
 
+var editStageSetCmd = &cobra.Command{
+	Use:     "edit-stageset [data/stage.go]",
+	Aliases: []string{"stageset", "edit-multistage"},
+	Short:   "Edit a multi-stage StageSet file (temporary command)",
+	Args:    cobra.MaximumNArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) > 0 {
+			unmarshallFromCode = args[0]
+			marshallOnCommit = args[0]
+		}
+		executeServerStageSet()
+	},
+}
+
+func executeServerStageSet() {
+	stack := level1stack.NewLevel1StackStageSet("test2", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams)
+
+	stack.Probe.Refresh()
+	if stack.StageSetProbe != nil {
+		stack.StageSetProbe.Refresh()
+	}
+
+	rootSplitStage := split_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
+
+	if stack.StageSet != nil {
+		split.StageBranch(rootSplitStage, &split.View{
+			Name: "StageSet Probe",
+			RootAsSplitAreas: []*split.AsSplitArea{
+				{
+					Split: &split.Split{
+						StackName: stack.StageSet.GetProbeSplitStageName(),
+					},
+				},
+			},
+		})
+	}
+
+	split.StageBranch(rootSplitStage, &split.View{
+		Name: "Data Probe & Data Model",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stack.Stage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+	rootSplitStage.Commit()
+
+	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
+	err := split_static.RunServer(stack.R, ":" + strconv.Itoa(port))
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+}
+
 var rootCmd = &cobra.Command{
 	Use:   "probe",
 	Short: "probe CLI for test2",
@@ -83,6 +139,7 @@ var rootCmd = &cobra.Command{
 
 func main() {
 	rootCmd.AddCommand(editCmd)
+	rootCmd.AddCommand(editStageSetCmd)
 	rootCmd.PersistentFlags().BoolVar(&embeddedDiagrams, "embedded-diagrams", true, "parse/analysis go/models and go/embeddedDiagrams")
 	rootCmd.PersistentFlags().IntVar(&port, "port", 8080, "port server")
 

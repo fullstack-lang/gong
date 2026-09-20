@@ -12,7 +12,7 @@ import (
 	"github.com/fullstack-lang/gong/go/models"
 )
 
-type stageSetStructField struct {
+type StageSetStructField struct {
 	Name              string
 	IsPointer         bool
 	IsSliceOfPointer  bool
@@ -25,8 +25,8 @@ type stageSetStructField struct {
 	IsTime            bool
 }
 
-func extractStructFields(mPkg *models.ModelPkg, structName string) []stageSetStructField {
-	var result []stageSetStructField
+func ExtractStructFields(mPkg *models.ModelPkg, structName string) []StageSetStructField {
+	var result []StageSetStructField
 	if mPkg.TypesPkg == nil {
 		return result
 	}
@@ -59,7 +59,7 @@ func extractStructFields(mPkg *models.ModelPkg, structName string) []stageSetStr
 			if ptr, ok := fld.Type().(*types.Pointer); ok {
 				if targetNamed, ok := ptr.Elem().(*types.Named); ok {
 					if targetPkg := targetNamed.Obj().Pkg(); targetPkg != nil {
-						result = append(result, stageSetStructField{
+						result = append(result, StageSetStructField{
 							Name:              fld.Name(),
 							IsPointer:         true,
 							TargetPackagePath: targetPkg.Path(),
@@ -74,7 +74,7 @@ func extractStructFields(mPkg *models.ModelPkg, structName string) []stageSetStr
 				if ptr, ok := sl.Elem().(*types.Pointer); ok {
 					if targetNamed, ok := ptr.Elem().(*types.Named); ok {
 						if targetPkg := targetNamed.Obj().Pkg(); targetPkg != nil {
-							result = append(result, stageSetStructField{
+							result = append(result, StageSetStructField{
 								Name:              fld.Name(),
 								IsSliceOfPointer:  true,
 								TargetPackagePath: targetPkg.Path(),
@@ -87,7 +87,7 @@ func extractStructFields(mPkg *models.ModelPkg, structName string) []stageSetStr
 			}
 			// check basic type
 			if basic, ok := fld.Type().(*types.Basic); ok {
-				result = append(result, stageSetStructField{
+				result = append(result, StageSetStructField{
 					Name:      fld.Name(),
 					BasicKind: basic.Kind(),
 				})
@@ -96,14 +96,14 @@ func extractStructFields(mPkg *models.ModelPkg, structName string) []stageSetStr
 			// check named basic (enum or time.Duration / time.Time)
 			if namedType, ok := fld.Type().(*types.Named); ok {
 				if namedType.Obj().Pkg() != nil && namedType.Obj().Pkg().Path() == "time" && namedType.Obj().Name() == "Duration" {
-					result = append(result, stageSetStructField{
+					result = append(result, StageSetStructField{
 						Name:       fld.Name(),
 						IsDuration: true,
 					})
 					continue
 				}
 				if namedType.Obj().Pkg() != nil && namedType.Obj().Pkg().Path() == "time" && namedType.Obj().Name() == "Time" {
-					result = append(result, stageSetStructField{
+					result = append(result, StageSetStructField{
 						Name:   fld.Name(),
 						IsTime: true,
 					})
@@ -114,7 +114,7 @@ func extractStructFields(mPkg *models.ModelPkg, structName string) []stageSetStr
 					if namedType.Obj().Pkg() != nil && namedType.Obj().Pkg().Path() != mPkg.PkgPath {
 						qual = namedType.Obj().Pkg().Name() + "." + qual
 					}
-					result = append(result, stageSetStructField{
+					result = append(result, StageSetStructField{
 						Name:         fld.Name(),
 						IsEnum:       true,
 						BasicKind:    basic.Kind(),
@@ -195,10 +195,32 @@ func CodeGeneratorModelGongStageSet(
 	var commitStatements strings.Builder
 	var checkoutStatements strings.Builder
 	var resetStatements strings.Builder
+	var cleanStatements strings.Builder
+	var computeReverseMapsStatements strings.Builder
+	var computeInstancesNbStatements strings.Builder
+	var computeReferenceAndOrdersStatements strings.Builder
 	for _, f := range orderedFields {
 		commitStatements.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n\t\tstageSet.%s.Commit()\n\t}\n", f.Name, f.Name))
 		checkoutStatements.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n\t\tstageSet.%s.Checkout()\n\t}\n", f.Name, f.Name))
 		resetStatements.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n\t\tstageSet.%s.Reset()\n\t}\n", f.Name, f.Name))
+		cleanStatements.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n\t\tstageSet.%s.Clean()\n\t}\n", f.Name, f.Name))
+		computeReverseMapsStatements.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n\t\tstageSet.%s.ComputeReverseMaps()\n\t}\n", f.Name, f.Name))
+		computeInstancesNbStatements.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n\t\tstageSet.%s.ComputeInstancesNb()\n\t}\n", f.Name, f.Name))
+		computeReferenceAndOrdersStatements.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n\t\tstageSet.%s.ComputeReferenceAndOrders()\n\t}\n", f.Name, f.Name))
+	}
+
+	var newStageStatements strings.Builder
+	var newStageFromStageStatements strings.Builder
+	localFieldName := "Stage"
+	for _, f := range stageSet.Fields {
+		if f.IsLocal {
+			localFieldName = f.Name
+			newStageStatements.WriteString(fmt.Sprintf("\tstageSet.%s = NewStage(path)\n", f.Name))
+			newStageFromStageStatements.WriteString(fmt.Sprintf("\tstageSet.%s = stage\n", f.Name))
+		} else {
+			newStageStatements.WriteString(fmt.Sprintf("\tsubPath_%s := \"%s\"\n\tif path != \"\" {\n\tsubPath_%s = path + \"_%s\"\n\t}\n\tstageSet.%s = %s.NewStage(subPath_%s)\n", f.Name, f.PackageName, f.Name, f.PackageName, f.Name, f.PackageName, f.Name))
+			newStageFromStageStatements.WriteString(fmt.Sprintf("\tsubPath_%s := \"%s\"\n\tif stage != nil && stage.GetName() != \"\" {\n\tsubPath_%s = stage.GetName() + \"_%s\"\n\t}\n\tstageSet.%s = %s.NewStage(subPath_%s)\n", f.Name, f.PackageName, f.Name, f.PackageName, f.Name, f.PackageName, f.Name))
+		}
 	}
 
 	var syntheticImports strings.Builder
@@ -250,7 +272,7 @@ func CodeGeneratorModelGongStageSet(
 				typeQual = f.PackageName + "." + sName
 			}
 
-			fields := extractStructFields(mPkg, sName)
+			fields := ExtractStructFields(mPkg, sName)
 
 			marshallBody.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n", f.Name))
 			marshallBody.WriteString(fmt.Sprintf("\t\t%sOrdered := []*%s{}\n", sVar, typeQual))
@@ -366,7 +388,7 @@ func CodeGeneratorModelGongStageSet(
 			if !f.IsLocal {
 				typeQual = f.PackageName + "." + sName
 			}
-			fields := extractStructFields(mPkg, sName)
+			fields := ExtractStructFields(mPkg, sName)
 
 			assignCases.WriteString(fmt.Sprintf("\t\t\t\tcase *%s:\n", typeQual))
 			assignCases.WriteString("\t\t\t\t\tswitch fieldName {\n")
@@ -440,6 +462,13 @@ func CodeGeneratorModelGongStageSet(
 	codeGO = strings.ReplaceAll(codeGO, "{{CommitStatements}}", commitStatements.String())
 	codeGO = strings.ReplaceAll(codeGO, "{{CheckoutStatements}}", checkoutStatements.String())
 	codeGO = strings.ReplaceAll(codeGO, "{{ResetStatements}}", resetStatements.String())
+	codeGO = strings.ReplaceAll(codeGO, "{{CleanStatements}}", cleanStatements.String())
+	codeGO = strings.ReplaceAll(codeGO, "{{ComputeReverseMapsStatements}}", computeReverseMapsStatements.String())
+	codeGO = strings.ReplaceAll(codeGO, "{{ComputeInstancesNbStatements}}", computeInstancesNbStatements.String())
+	codeGO = strings.ReplaceAll(codeGO, "{{ComputeReferenceAndOrdersStatements}}", computeReferenceAndOrdersStatements.String())
+	codeGO = strings.ReplaceAll(codeGO, "{{NewStageStatements}}", newStageStatements.String())
+	codeGO = strings.ReplaceAll(codeGO, "{{NewStageFromStageStatements}}", newStageFromStageStatements.String())
+	codeGO = strings.ReplaceAll(codeGO, "{{LocalFieldName}}", localFieldName)
 	codeGO = strings.ReplaceAll(codeGO, "{{SyntheticImports}}", syntheticImports.String())
 	codeGO = strings.ReplaceAll(codeGO, "{{DummyDeclarations}}", dummyDeclarations.String())
 	codeGO = strings.ReplaceAll(codeGO, "{{MainPkgImportAlias}}", mainPkgImportAlias)

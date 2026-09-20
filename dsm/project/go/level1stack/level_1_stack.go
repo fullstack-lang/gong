@@ -81,7 +81,6 @@ func NewLevel1StackDelta(
 	}
 
 	level1Stack.Stage = stage
-
 	level1Stack.R = splitlite_static.ServeStaticFiles(false)
 	if withProbe {
 		// if the application edits the diagrams via the probe, it is surmised

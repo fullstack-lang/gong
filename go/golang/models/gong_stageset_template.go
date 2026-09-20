@@ -40,6 +40,42 @@ func (stageSet *StageSet) Checkout() {
 func (stageSet *StageSet) Reset() {
 {{ResetStatements}}}
 
+// Clean cleans all stages in StageSet in dependency order
+func (stageSet *StageSet) Clean() {
+{{CleanStatements}}}
+
+// ComputeReverseMaps computes reverse maps on all stages in StageSet
+func (stageSet *StageSet) ComputeReverseMaps() {
+{{ComputeReverseMapsStatements}}}
+
+// ComputeInstancesNb computes instances nb on all stages in StageSet
+func (stageSet *StageSet) ComputeInstancesNb() {
+{{ComputeInstancesNbStatements}}}
+
+// ComputeReferenceAndOrders computes reference and orders on all stages in StageSet
+func (stageSet *StageSet) ComputeReferenceAndOrders() {
+{{ComputeReferenceAndOrdersStatements}}}
+
+// NewStageSet creates a StageSet with all stages initialized
+func NewStageSet(path string) (stageSet *StageSet) {
+	stageSet = new(StageSet)
+{{NewStageStatements}}	return stageSet
+}
+
+// NewStageSetFromStage creates a StageSet using an existing root stage
+func NewStageSetFromStage(stage *Stage) (stageSet *StageSet) {
+	stageSet = new(StageSet)
+{{NewStageFromStageStatements}}	return stageSet
+}
+
+// GetProbeSplitStageName returns the split stage name for the StageSet probe
+func (stageSet *StageSet) GetProbeSplitStageName() string {
+	if stageSet.{{LocalFieldName}} != nil {
+		return stageSet.{{LocalFieldName}}.GetProbeSplitStageName() + "_stageset"
+	}
+	return "stageset_probe_split"
+}
+
 // MarshallFile marshalls all stages into a file
 func (stageSet *StageSet) MarshallFile(filename, packageName string) {
 	file, err := os.Create(filename)

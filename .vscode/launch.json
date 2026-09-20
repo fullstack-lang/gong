@@ -1529,6 +1529,32 @@
             ]
         },
         {
+            "name": "test - test2: go run . edit-stageset data/stageset.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test2/go/cmd/test2",
+            "args": [
+                "edit-stageset",
+                "data/stageset.go",
+                "--out",
+                "data/stageset_out.go"
+            ]
+        },
+        {
+            "name": "test - test2: go run . edit-stageset data/stageset.go --out data/stageset_out.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test2/go/cmd/test2",
+            "args": [
+                "edit-stageset",
+                "data/stageset.go",
+                "--out",
+                "data/stageset_out.go"
+            ]
+        },
+        {
             "name": "test - test2: go run . edit data/stage2.go",
             "type": "go",
             "request": "launch",

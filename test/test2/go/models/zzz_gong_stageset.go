@@ -67,6 +67,100 @@ func (stageSet *StageSet) Reset() {
 	}
 }
 
+// Clean cleans all stages in StageSet in dependency order
+func (stageSet *StageSet) Clean() {
+	if stageSet.YStage != nil {
+		stageSet.YStage.Clean()
+	}
+	if stageSet.XStage != nil {
+		stageSet.XStage.Clean()
+	}
+	if stageSet.Stage != nil {
+		stageSet.Stage.Clean()
+	}
+}
+
+// ComputeReverseMaps computes reverse maps on all stages in StageSet
+func (stageSet *StageSet) ComputeReverseMaps() {
+	if stageSet.YStage != nil {
+		stageSet.YStage.ComputeReverseMaps()
+	}
+	if stageSet.XStage != nil {
+		stageSet.XStage.ComputeReverseMaps()
+	}
+	if stageSet.Stage != nil {
+		stageSet.Stage.ComputeReverseMaps()
+	}
+}
+
+// ComputeInstancesNb computes instances nb on all stages in StageSet
+func (stageSet *StageSet) ComputeInstancesNb() {
+	if stageSet.YStage != nil {
+		stageSet.YStage.ComputeInstancesNb()
+	}
+	if stageSet.XStage != nil {
+		stageSet.XStage.ComputeInstancesNb()
+	}
+	if stageSet.Stage != nil {
+		stageSet.Stage.ComputeInstancesNb()
+	}
+}
+
+// ComputeReferenceAndOrders computes reference and orders on all stages in StageSet
+func (stageSet *StageSet) ComputeReferenceAndOrders() {
+	if stageSet.YStage != nil {
+		stageSet.YStage.ComputeReferenceAndOrders()
+	}
+	if stageSet.XStage != nil {
+		stageSet.XStage.ComputeReferenceAndOrders()
+	}
+	if stageSet.Stage != nil {
+		stageSet.Stage.ComputeReferenceAndOrders()
+	}
+}
+
+// NewStageSet creates a StageSet with all stages initialized
+func NewStageSet(path string) (stageSet *StageSet) {
+	stageSet = new(StageSet)
+	stageSet.Stage = NewStage(path)
+	subPath_XStage := "x"
+	if path != "" {
+	subPath_XStage = path + "_x"
+	}
+	stageSet.XStage = x.NewStage(subPath_XStage)
+	subPath_YStage := "y"
+	if path != "" {
+	subPath_YStage = path + "_y"
+	}
+	stageSet.YStage = y.NewStage(subPath_YStage)
+	return stageSet
+}
+
+// NewStageSetFromStage creates a StageSet using an existing root stage
+func NewStageSetFromStage(stage *Stage) (stageSet *StageSet) {
+	stageSet = new(StageSet)
+	stageSet.Stage = stage
+	subPath_XStage := "x"
+	if stage != nil && stage.GetName() != "" {
+	subPath_XStage = stage.GetName() + "_x"
+	}
+	stageSet.XStage = x.NewStage(subPath_XStage)
+	subPath_YStage := "y"
+	if stage != nil && stage.GetName() != "" {
+	subPath_YStage = stage.GetName() + "_y"
+	}
+	stageSet.YStage = y.NewStage(subPath_YStage)
+	return stageSet
+}
+
+// GetProbeSplitStageName returns the split stage name for the StageSet probe
+func (stageSet *StageSet) GetProbeSplitStageName() string {
+	if stageSet.Stage != nil {
+		return stageSet.Stage.GetProbeSplitStageName() + "_stageset"
+	}
+	return "stageset_probe_split"
+}
+
 // MarshallFile marshalls all stages into a file
 func (stageSet *StageSet) MarshallFile(filename, packageName string) {
 	file, err := os.Create(filename)
