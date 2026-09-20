@@ -2,10 +2,12 @@ package models
 
 import (
 	"fmt"
+	"go/ast"
 	"go/parser"
 	"go/token"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"golang.org/x/mod/modfile"
@@ -87,8 +89,15 @@ func DiscoverModelDependencies(rootPkgPath string) ([]string, error) {
 				}
 			}
 
-			// Traverse dependencies
+			// Sort dependencies deterministically
+			var impPaths []string
 			for impPath := range importSet {
+				impPaths = append(impPaths, impPath)
+			}
+			sort.Strings(impPaths)
+
+			// Traverse dependencies
+			for _, impPath := range impPaths {
 				relFromMod := strings.TrimPrefix(impPath, modPath)
 				relFromMod = strings.TrimPrefix(relFromMod, "/")
 				targetDir := filepath.Join(goModDir, filepath.FromSlash(relFromMod))
@@ -111,20 +120,10 @@ func DiscoverModelDependencies(rootPkgPath string) ([]string, error) {
 					continue
 				}
 
-				// Check that targetDir exists and contains go files
-				if entries, err := os.ReadDir(targetAbs); err == nil {
-					hasGoFiles := false
-					for _, e := range entries {
-						if !e.IsDir() && strings.HasSuffix(e.Name(), ".go") &&
-							!strings.HasPrefix(e.Name(), "zzz_gong") {
-							hasGoFiles = true
-							break
-						}
-					}
-					if hasGoFiles {
-						if err := dfs(targetAbs); err != nil {
-							return err
-						}
+				// Check that targetDir exists and contains model type declarations
+				if hasModelDeclarations(targetAbs) {
+					if err := dfs(targetAbs); err != nil {
+						return err
 					}
 				}
 			}
@@ -146,3 +145,38 @@ func DiscoverModelDependencies(rootPkgPath string) ([]string, error) {
 
 	return result, nil
 }
+
+// hasModelDeclarations checks whether dir contains docs.go and at least one non-generated Go file with a type declaration.
+func hasModelDeclarations(dir string) bool {
+	// A Gong model package must have docs.go
+	if _, err := os.Stat(filepath.Join(dir, "docs.go")); err != nil {
+		return false
+	}
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return false
+	}
+	for _, e := range entries {
+		if e.IsDir() || !strings.HasSuffix(e.Name(), ".go") || strings.HasPrefix(e.Name(), "zzz_gong") || strings.HasPrefix(e.Name(), "stager") || e.Name() == "docs.go" {
+			continue
+		}
+		fset := token.NewFileSet()
+		file, err := parser.ParseFile(fset, filepath.Join(dir, e.Name()), nil, 0)
+		if err != nil {
+			continue
+		}
+		for _, decl := range file.Decls {
+			genDecl, ok := decl.(*ast.GenDecl)
+			if !ok || genDecl.Tok != token.TYPE {
+				continue
+			}
+			for _, spec := range genDecl.Specs {
+				if _, ok := spec.(*ast.TypeSpec); ok {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+

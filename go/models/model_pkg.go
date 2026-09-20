@@ -165,6 +165,10 @@ func LoadSource(stage *Stage, pkgPath string) (modelPkg *ModelPkg, err error) {
 
 	Walk(pkgPath, modelPkg)
 
+	if modelPkg.StageSet == nil {
+		_ = modelPkg.SynthesizeStageSetFromDependencies(pkgPath)
+	}
+
 	modelPkg.SerializeToStage()
 
 	return modelPkg, nil

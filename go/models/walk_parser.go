@@ -264,7 +264,8 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 							}
 							if typeSpec.Name.Name == "StageSet" {
 								stageSet := &StageSetModel{
-									Name: "StageSet",
+									Name:     "StageSet",
+									IsManual: true,
 								}
 								for _, field := range _type.Fields.List {
 									if len(field.Names) == 0 {

@@ -1903,6 +1903,9 @@ func (stagesetmodel *StageSetModel) GongDiff(stage *Stage, stagesetmodelOther *S
 		)
 		diffs = append(diffs, ops)
 	}
+	if stagesetmodel.IsManual != stagesetmodelOther.IsManual {
+		diffs = append(diffs, stagesetmodel.GongMarshallField(stage, "IsManual"))
+	}
 
 	return
 }

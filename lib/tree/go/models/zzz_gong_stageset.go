@@ -1,0 +1,628 @@
+// generated code - do not edit
+package models
+
+import (
+	"embed"
+	"errors"
+	"fmt"
+	"go/ast"
+	"go/parser"
+	"go/token"
+	"log"
+	"os"
+	"path/filepath"
+	"slices"
+	"sort"
+	"strconv"
+	"strings"
+	"time"
+
+)
+
+var (
+	_ = time.Hour
+	_ = slices.Index[[]int, int]
+	_ = sort.Slice
+	_ = strconv.Itoa
+)
+
+// StageSet coordinates multiple stages across packages
+type StageSet struct {
+	Stage *Stage
+}
+
+
+// Commit commits all stages in StageSet in dependency order
+func (stageSet *StageSet) Commit() {
+	if stageSet.Stage != nil {
+		stageSet.Stage.Commit()
+	}
+}
+
+// Checkout checkouts all stages in StageSet
+func (stageSet *StageSet) Checkout() {
+	if stageSet.Stage != nil {
+		stageSet.Stage.Checkout()
+	}
+}
+
+// Reset resets all stages in StageSet
+func (stageSet *StageSet) Reset() {
+	if stageSet.Stage != nil {
+		stageSet.Stage.Reset()
+	}
+}
+
+// Clean cleans all stages in StageSet in dependency order
+func (stageSet *StageSet) Clean() {
+	if stageSet.Stage != nil {
+		stageSet.Stage.Clean()
+	}
+}
+
+// ComputeReverseMaps computes reverse maps on all stages in StageSet
+func (stageSet *StageSet) ComputeReverseMaps() {
+	if stageSet.Stage != nil {
+		stageSet.Stage.ComputeReverseMaps()
+	}
+}
+
+// ComputeInstancesNb computes instances nb on all stages in StageSet
+func (stageSet *StageSet) ComputeInstancesNb() {
+	if stageSet.Stage != nil {
+		stageSet.Stage.ComputeInstancesNb()
+	}
+}
+
+// ComputeReferenceAndOrders computes reference and orders on all stages in StageSet
+func (stageSet *StageSet) ComputeReferenceAndOrders() {
+	if stageSet.Stage != nil {
+		stageSet.Stage.ComputeReferenceAndOrders()
+	}
+}
+
+// NewStageSet creates a StageSet with all stages initialized
+func NewStageSet(path string) (stageSet *StageSet) {
+	stageSet = new(StageSet)
+	stageSet.Stage = NewStage(path)
+	return stageSet
+}
+
+// NewStageSetFromStage creates a StageSet using an existing root stage
+func NewStageSetFromStage(stage *Stage) (stageSet *StageSet) {
+	stageSet = new(StageSet)
+	stageSet.Stage = stage
+	return stageSet
+}
+
+// GetProbeSplitStageName returns the split stage name for the StageSet probe
+func (stageSet *StageSet) GetProbeSplitStageName() string {
+	if stageSet.Stage != nil {
+		return stageSet.Stage.GetProbeSplitStageName() + "_stageset"
+	}
+	return "stageset_probe_split"
+}
+
+// MarshallFile marshalls all stages into a file
+func (stageSet *StageSet) MarshallFile(filename, packageName string) {
+	file, err := os.Create(filename)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	defer file.Close()
+
+	stageSet.Marshall(file, packageName)
+}
+
+// Marshall marshalls all stages into an open file
+func (stageSet *StageSet) Marshall(file *os.File, packageName string) {
+	res, err := stageSet.MarshallToString(packageName)
+	if err != nil {
+		log.Fatalln("Error marshalling to string:", err)
+	}
+	fmt.Fprintln(file, res)
+}
+
+// MarshallToString marshalls all stages into a Go code string
+func (stageSet *StageSet) MarshallToString(packageName string) (res string, err error) {
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+
+	if stageSet.Stage != nil {
+		buttonOrdered := []*Button{}
+		for button := range stageSet.Stage.Buttons {
+			buttonOrdered = append(buttonOrdered, button)
+		}
+		sort.Slice(buttonOrdered, func(i, j int) bool {
+			return stageSet.Stage.Button_stagedOrder[buttonOrdered[i]] < stageSet.Stage.Button_stagedOrder[buttonOrdered[j]]
+		})
+		for _, button := range buttonOrdered {
+			buttonIdent := "__stage_0" + button.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Button{Name: %s}).Stage(stageSet.Stage)", buttonIdent, __gong__toRawStringLiteral(button.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", buttonIdent, __gong__toRawStringLiteral(button.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Icon = %s", buttonIdent, __gong__toRawStringLiteral(button.Icon)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDisabled = %t", buttonIdent, button.IsDisabled))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasToolTip = %t", buttonIdent, button.HasToolTip))
+			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipText = %s", buttonIdent, __gong__toRawStringLiteral(button.ToolTipText)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = %s", buttonIdent, __gong__toRawStringLiteral(string(button.ToolTipPosition))))
+			values.WriteString(fmt.Sprintf("\n\t%s.ClientOnX = %f", buttonIdent, button.ClientOnX))
+			values.WriteString(fmt.Sprintf("\n\t%s.ClientOnY = %f", buttonIdent, button.ClientOnY))
+			if button.SVGIcon != nil {
+				targetIdent := "__stage_0" + button.SVGIcon.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SVGIcon = %s", buttonIdent, targetIdent))
+			}
+		}
+	}
+	if stageSet.Stage != nil {
+		menuOrdered := []*Menu{}
+		for menu := range stageSet.Stage.Menus {
+			menuOrdered = append(menuOrdered, menu)
+		}
+		sort.Slice(menuOrdered, func(i, j int) bool {
+			return stageSet.Stage.Menu_stagedOrder[menuOrdered[i]] < stageSet.Stage.Menu_stagedOrder[menuOrdered[j]]
+		})
+		for _, menu := range menuOrdered {
+			menuIdent := "__stage_0" + menu.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Menu{Name: %s}).Stage(stageSet.Stage)", menuIdent, __gong__toRawStringLiteral(menu.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", menuIdent, __gong__toRawStringLiteral(menu.Name)))
+			for _, elem := range menu.Buttons {
+				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Buttons = append(%s.Buttons, %s)", menuIdent, menuIdent, targetIdent))
+			}
+		}
+	}
+	if stageSet.Stage != nil {
+		nodeOrdered := []*Node{}
+		for node := range stageSet.Stage.Nodes {
+			nodeOrdered = append(nodeOrdered, node)
+		}
+		sort.Slice(nodeOrdered, func(i, j int) bool {
+			return stageSet.Stage.Node_stagedOrder[nodeOrdered[i]] < stageSet.Stage.Node_stagedOrder[nodeOrdered[j]]
+		})
+		for _, node := range nodeOrdered {
+			nodeIdent := "__stage_0" + node.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Node{Name: %s}).Stage(stageSet.Stage)", nodeIdent, __gong__toRawStringLiteral(node.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", nodeIdent, __gong__toRawStringLiteral(node.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsWithPrefix = %t", nodeIdent, node.IsWithPrefix))
+			values.WriteString(fmt.Sprintf("\n\t%s.Prefix = %s", nodeIdent, __gong__toRawStringLiteral(node.Prefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontStyle = %s", nodeIdent, __gong__toRawStringLiteral(string(node.FontStyle))))
+			values.WriteString(fmt.Sprintf("\n\t%s.BackgroundColor = %s", nodeIdent, __gong__toRawStringLiteral(node.BackgroundColor)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", nodeIdent, node.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasCheckboxButton = %t", nodeIdent, node.HasCheckboxButton))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", nodeIdent, node.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsCheckboxDisabled = %t", nodeIdent, node.IsCheckboxDisabled))
+			values.WriteString(fmt.Sprintf("\n\t%s.CheckboxHasToolTip = %t", nodeIdent, node.CheckboxHasToolTip))
+			values.WriteString(fmt.Sprintf("\n\t%s.CheckboxToolTipText = %s", nodeIdent, __gong__toRawStringLiteral(node.CheckboxToolTipText)))
+			values.WriteString(fmt.Sprintf("\n\t%s.CheckboxToolTipPosition = %s", nodeIdent, __gong__toRawStringLiteral(string(node.CheckboxToolTipPosition))))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasSecondCheckboxButton = %t", nodeIdent, node.HasSecondCheckboxButton))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSecondCheckboxChecked = %t", nodeIdent, node.IsSecondCheckboxChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSecondCheckboxDisabled = %t", nodeIdent, node.IsSecondCheckboxDisabled))
+			values.WriteString(fmt.Sprintf("\n\t%s.SecondCheckboxHasToolTip = %t", nodeIdent, node.SecondCheckboxHasToolTip))
+			values.WriteString(fmt.Sprintf("\n\t%s.SecondCheckboxToolTipText = %s", nodeIdent, __gong__toRawStringLiteral(node.SecondCheckboxToolTipText)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SecondCheckboxToolTipPosition = %s", nodeIdent, __gong__toRawStringLiteral(string(node.SecondCheckboxToolTipPosition))))
+			values.WriteString(fmt.Sprintf("\n\t%s.TextAfterSecondCheckbox = %s", nodeIdent, __gong__toRawStringLiteral(node.TextAfterSecondCheckbox)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasToolTip = %t", nodeIdent, node.HasToolTip))
+			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipText = %s", nodeIdent, __gong__toRawStringLiteral(node.ToolTipText)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = %s", nodeIdent, __gong__toRawStringLiteral(string(node.ToolTipPosition))))
+			values.WriteString(fmt.Sprintf("\n\t%s.ClientOnY = %f", nodeIdent, node.ClientOnY))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsInEditMode = %t", nodeIdent, node.IsInEditMode))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsNodeClickable = %t", nodeIdent, node.IsNodeClickable))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsWithPreceedingIcon = %t", nodeIdent, node.IsWithPreceedingIcon))
+			values.WriteString(fmt.Sprintf("\n\t%s.PreceedingIcon = %s", nodeIdent, __gong__toRawStringLiteral(node.PreceedingIcon)))
+			if node.PreceedingSVGIcon != nil {
+				targetIdent := "__stage_0" + node.PreceedingSVGIcon.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PreceedingSVGIcon = %s", nodeIdent, targetIdent))
+			}
+			for _, elem := range node.Children {
+				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Children = append(%s.Children, %s)", nodeIdent, nodeIdent, targetIdent))
+			}
+			for _, elem := range node.Buttons {
+				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Buttons = append(%s.Buttons, %s)", nodeIdent, nodeIdent, targetIdent))
+			}
+			if node.Menu != nil {
+				targetIdent := "__stage_0" + node.Menu.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Menu = %s", nodeIdent, targetIdent))
+			}
+		}
+	}
+	if stageSet.Stage != nil {
+		svgiconOrdered := []*SVGIcon{}
+		for svgicon := range stageSet.Stage.SVGIcons {
+			svgiconOrdered = append(svgiconOrdered, svgicon)
+		}
+		sort.Slice(svgiconOrdered, func(i, j int) bool {
+			return stageSet.Stage.SVGIcon_stagedOrder[svgiconOrdered[i]] < stageSet.Stage.SVGIcon_stagedOrder[svgiconOrdered[j]]
+		})
+		for _, svgicon := range svgiconOrdered {
+			svgiconIdent := "__stage_0" + svgicon.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.SVGIcon{Name: %s}).Stage(stageSet.Stage)", svgiconIdent, __gong__toRawStringLiteral(svgicon.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", svgiconIdent, __gong__toRawStringLiteral(svgicon.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", svgiconIdent, __gong__toRawStringLiteral(svgicon.SVG)))
+		}
+	}
+	if stageSet.Stage != nil {
+		treeOrdered := []*Tree{}
+		for tree := range stageSet.Stage.Trees {
+			treeOrdered = append(treeOrdered, tree)
+		}
+		sort.Slice(treeOrdered, func(i, j int) bool {
+			return stageSet.Stage.Tree_stagedOrder[treeOrdered[i]] < stageSet.Stage.Tree_stagedOrder[treeOrdered[j]]
+		})
+		for _, tree := range treeOrdered {
+			treeIdent := "__stage_0" + tree.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Tree{Name: %s}).Stage(stageSet.Stage)", treeIdent, __gong__toRawStringLiteral(tree.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", treeIdent, __gong__toRawStringLiteral(tree.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HaveSearch = %t", treeIdent, tree.HaveSearch))
+			for _, elem := range tree.RootNodes {
+				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RootNodes = append(%s.RootNodes, %s)", treeIdent, treeIdent, targetIdent))
+			}
+		}
+	}
+
+
+	res = fmt.Sprintf(`// file generated by gong
+package %s
+
+import (
+	"slices"
+	"time"
+
+	__stage_0__ "github.com/fullstack-lang/gong/lib/tree/go/models"
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *__stage_0__.Stage
+)
+
+// function will stage objects across all coordinated stages
+func _(stageSet *__stage_0__.StageSet) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, packageName, declarations.String(), values.String(), pointers.String())
+
+	return res, nil
+}
+
+// ParseAstFile Parse pathToFile and stages all instances declared in the file into stageSet
+func (stageSet *StageSet) ParseAstFile(pathToFile string, preserveOrder bool) error {
+	fileOfInterest, err := filepath.Abs(pathToFile)
+	if err != nil {
+		return errors.New("Path does not exist " + pathToFile + " ;" + fileOfInterest)
+	}
+
+	fset := token.NewFileSet()
+	inFile, errParser := parser.ParseFile(fset, fileOfInterest, nil, parser.ParseComments)
+	if errParser != nil {
+		return errors.New("Unable to parse " + errParser.Error())
+	}
+
+	return stageSet.ParseAstFileFromAst(inFile, fset, preserveOrder)
+}
+
+// ParseAstEmbeddedFile parses the Go source code from an embedded file into stageSet
+func (stageSet *StageSet) ParseAstEmbeddedFile(directory embed.FS, pathToFile string) error {
+	fileContentBytes, err := directory.ReadFile(pathToFile)
+	if err != nil {
+		return errors.New("Unable to read embedded file " + err.Error())
+	}
+
+	fset := token.NewFileSet()
+	inFile, errParser := parser.ParseFile(fset, pathToFile, fileContentBytes, parser.ParseComments)
+	if errParser != nil {
+		return errors.New("Unable to parse embedded file '" + pathToFile + "': " + errParser.Error())
+	}
+
+	return stageSet.ParseAstFileFromAst(inFile, fset, false)
+}
+
+// ParseAstString parses the Go source code from a string into stageSet
+func (stageSet *StageSet) ParseAstString(blob string, preserveOrder bool) error {
+	fset := token.NewFileSet()
+	inFile, errParser := parser.ParseFile(fset, "", blob, parser.ParseComments)
+	if errParser != nil {
+		return errors.New("Unable to parse " + errParser.Error())
+	}
+
+	return stageSet.ParseAstFileFromAst(inFile, fset, preserveOrder)
+}
+
+// ParseAstFileFromAst traverses the AST and stages instances into stageSet
+func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
+	identifierMap := make(map[string]any)
+
+	ast.Inspect(inFile, func(n ast.Node) bool {
+		switch node := n.(type) {
+		case *ast.AssignStmt:
+			if len(node.Lhs) < 1 || len(node.Rhs) < 1 {
+				return true
+			}
+
+			// CASE 1: Initialization ( := )
+			if node.Tok == token.DEFINE {
+				if ident, ok := node.Lhs[0].(*ast.Ident); ok {
+					var pkgAlias string
+					var typeName string
+					var instanceName string
+
+					ast.Inspect(node.Rhs[0], func(expr ast.Node) bool {
+						if compLit, ok := expr.(*ast.CompositeLit); ok {
+							if selExpr, ok := compLit.Type.(*ast.SelectorExpr); ok {
+								if pkgId, ok := selExpr.X.(*ast.Ident); ok {
+									pkgAlias = pkgId.Name
+								}
+								typeName = selExpr.Sel.Name
+								for _, elt := range compLit.Elts {
+									if kv, ok := elt.(*ast.KeyValueExpr); ok {
+										if k, ok := kv.Key.(*ast.Ident); ok && k.Name == "Name" {
+											if v, ok := kv.Value.(*ast.BasicLit); ok {
+												instanceName = strings.Trim(v.Value, "\"`")
+											}
+										}
+									}
+								}
+								return false
+							}
+						}
+						return true
+					})
+
+					switch pkgAlias {
+			case "__stage_0__":
+				switch typeName {
+				case "Button":
+					if !preserveOrder {
+						inst := (&Button{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(Button)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				case "Menu":
+					if !preserveOrder {
+						inst := (&Menu{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(Menu)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				case "Node":
+					if !preserveOrder {
+						inst := (&Node{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(Node)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				case "SVGIcon":
+					if !preserveOrder {
+						inst := (&SVGIcon{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(SVGIcon)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				case "Tree":
+					if !preserveOrder {
+						inst := (&Tree{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(Tree)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				}
+					}
+				}
+				return false
+			}
+
+			// CASE 2: Assignment ( = )
+			if node.Tok == token.ASSIGN {
+				if selExpr, ok := node.Lhs[0].(*ast.SelectorExpr); ok {
+					if ident, ok := selExpr.X.(*ast.Ident); ok {
+						if instance, exists := identifierMap[ident.Name]; exists {
+							fieldName := selExpr.Sel.Name
+							rhs := node.Rhs[0]
+							switch inst := instance.(type) {
+				case *Button:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Icon":
+						inst.Icon = GongExtractString(rhs)
+					case "SVGIcon":
+						if rIdent, ok := rhs.(*ast.Ident); ok {
+							if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*SVGIcon); ok {
+									inst.SVGIcon = typedTarget
+								}
+							}
+						}
+					case "IsDisabled":
+						inst.IsDisabled = GongExtractBool(rhs)
+					case "HasToolTip":
+						inst.HasToolTip = GongExtractBool(rhs)
+					case "ToolTipText":
+						inst.ToolTipText = GongExtractString(rhs)
+					case "ToolTipPosition":
+						inst.ToolTipPosition = ToolTipPositionEnum(GongExtractString(rhs))
+					case "ClientOnX":
+						inst.ClientOnX = GongExtractFloat(rhs)
+					case "ClientOnY":
+						inst.ClientOnY = GongExtractFloat(rhs)
+					}
+				case *Menu:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Buttons":
+						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+								if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*Button); ok {
+										inst.Buttons = append(inst.Buttons, typedTarget)
+									}
+								}
+							}
+						}
+					}
+				case *Node:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "IsWithPrefix":
+						inst.IsWithPrefix = GongExtractBool(rhs)
+					case "Prefix":
+						inst.Prefix = GongExtractString(rhs)
+					case "FontStyle":
+						inst.FontStyle = FontStyleEnum(GongExtractString(rhs))
+					case "BackgroundColor":
+						inst.BackgroundColor = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "HasCheckboxButton":
+						inst.HasCheckboxButton = GongExtractBool(rhs)
+					case "IsChecked":
+						inst.IsChecked = GongExtractBool(rhs)
+					case "IsCheckboxDisabled":
+						inst.IsCheckboxDisabled = GongExtractBool(rhs)
+					case "CheckboxHasToolTip":
+						inst.CheckboxHasToolTip = GongExtractBool(rhs)
+					case "CheckboxToolTipText":
+						inst.CheckboxToolTipText = GongExtractString(rhs)
+					case "CheckboxToolTipPosition":
+						inst.CheckboxToolTipPosition = ToolTipPositionEnum(GongExtractString(rhs))
+					case "HasSecondCheckboxButton":
+						inst.HasSecondCheckboxButton = GongExtractBool(rhs)
+					case "IsSecondCheckboxChecked":
+						inst.IsSecondCheckboxChecked = GongExtractBool(rhs)
+					case "IsSecondCheckboxDisabled":
+						inst.IsSecondCheckboxDisabled = GongExtractBool(rhs)
+					case "SecondCheckboxHasToolTip":
+						inst.SecondCheckboxHasToolTip = GongExtractBool(rhs)
+					case "SecondCheckboxToolTipText":
+						inst.SecondCheckboxToolTipText = GongExtractString(rhs)
+					case "SecondCheckboxToolTipPosition":
+						inst.SecondCheckboxToolTipPosition = ToolTipPositionEnum(GongExtractString(rhs))
+					case "TextAfterSecondCheckbox":
+						inst.TextAfterSecondCheckbox = GongExtractString(rhs)
+					case "HasToolTip":
+						inst.HasToolTip = GongExtractBool(rhs)
+					case "ToolTipText":
+						inst.ToolTipText = GongExtractString(rhs)
+					case "ToolTipPosition":
+						inst.ToolTipPosition = ToolTipPositionEnum(GongExtractString(rhs))
+					case "ClientOnY":
+						inst.ClientOnY = GongExtractFloat(rhs)
+					case "IsInEditMode":
+						inst.IsInEditMode = GongExtractBool(rhs)
+					case "IsNodeClickable":
+						inst.IsNodeClickable = GongExtractBool(rhs)
+					case "IsWithPreceedingIcon":
+						inst.IsWithPreceedingIcon = GongExtractBool(rhs)
+					case "PreceedingIcon":
+						inst.PreceedingIcon = GongExtractString(rhs)
+					case "PreceedingSVGIcon":
+						if rIdent, ok := rhs.(*ast.Ident); ok {
+							if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*SVGIcon); ok {
+									inst.PreceedingSVGIcon = typedTarget
+								}
+							}
+						}
+					case "Children":
+						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+								if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*Node); ok {
+										inst.Children = append(inst.Children, typedTarget)
+									}
+								}
+							}
+						}
+					case "Buttons":
+						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+								if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*Button); ok {
+										inst.Buttons = append(inst.Buttons, typedTarget)
+									}
+								}
+							}
+						}
+					case "Menu":
+						if rIdent, ok := rhs.(*ast.Ident); ok {
+							if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*Menu); ok {
+									inst.Menu = typedTarget
+								}
+							}
+						}
+					}
+				case *SVGIcon:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "SVG":
+						inst.SVG = GongExtractString(rhs)
+					}
+				case *Tree:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "RootNodes":
+						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+								if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*Node); ok {
+										inst.RootNodes = append(inst.RootNodes, typedTarget)
+									}
+								}
+							}
+						}
+					case "HaveSearch":
+						inst.HaveSearch = GongExtractBool(rhs)
+					}
+							}
+						}
+					}
+				}
+			}
+		}
+		return true
+	})
+
+	return nil
+}

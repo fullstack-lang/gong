@@ -326,11 +326,14 @@ type StageSetModel_WOP struct {
 	// insertion point
 
 	Name string
+
+	IsManual bool
 }
 
 func (from *StageSetModel) GongCopyBasicFields(to *StageSetModel) {
 	// insertion point
 	to.Name = from.Name
+	to.IsManual = from.IsManual
 }
 
 // end of insertion point

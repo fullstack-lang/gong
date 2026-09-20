@@ -199,3 +199,46 @@ func TestTypeAnalysis_CrossPackageEmbeddedStruct(t *testing.T) {
 	}
 }
 
+func TestSynthesizeStageSetFromDependencies(t *testing.T) {
+	stage := NewStage("")
+	modelPkg, err := LoadSource(stage, "../../test/test2/go/models")
+	if err != nil {
+		t.Fatalf("Failed to load source for test2 models: %v", err)
+	}
+
+	if modelPkg.StageSet == nil {
+		t.Fatalf("Expected modelPkg.StageSet to be synthesized, got nil")
+	}
+
+	if len(modelPkg.StageSet.Fields) != 3 {
+		t.Fatalf("Expected 3 StageSet fields (Stage, XStage, YStage), got %d", len(modelPkg.StageSet.Fields))
+	}
+
+	expectedFields := []struct {
+		Name        string
+		PackageName string
+		IsLocal     bool
+		ImportAlias string
+	}{
+		{Name: "Stage", PackageName: "models", IsLocal: true, ImportAlias: "__stage_0__"},
+		{Name: "XStage", PackageName: "x", IsLocal: false, ImportAlias: "__stage_1__"},
+		{Name: "YStage", PackageName: "y", IsLocal: false, ImportAlias: "__stage_2__"},
+	}
+
+	for idx, exp := range expectedFields {
+		f := modelPkg.StageSet.Fields[idx]
+		if f.Name != exp.Name {
+			t.Errorf("Field %d Name: expected %s, got %s", idx, exp.Name, f.Name)
+		}
+		if f.PackageName != exp.PackageName {
+			t.Errorf("Field %d PackageName: expected %s, got %s", idx, exp.PackageName, f.PackageName)
+		}
+		if f.IsLocal != exp.IsLocal {
+			t.Errorf("Field %d IsLocal: expected %v, got %v", idx, exp.IsLocal, f.IsLocal)
+		}
+		if f.ImportAlias != exp.ImportAlias {
+			t.Errorf("Field %d ImportAlias: expected %s, got %s", idx, exp.ImportAlias, f.ImportAlias)
+		}
+	}
+}
+

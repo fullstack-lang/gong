@@ -59,11 +59,17 @@ func ExtractStructFields(mPkg *models.ModelPkg, structName string) []StageSetStr
 			if ptr, ok := fld.Type().(*types.Pointer); ok {
 				if targetNamed, ok := ptr.Elem().(*types.Named); ok {
 					if targetPkg := targetNamed.Obj().Pkg(); targetPkg != nil {
+						targetName := targetNamed.Obj().Name()
+						if targetPkg.Path() == mPkg.PkgPath {
+							if _, ok := mPkg.GongStructs[mPkg.PkgPath+"."+targetName]; !ok {
+								continue
+							}
+						}
 						result = append(result, StageSetStructField{
 							Name:              fld.Name(),
 							IsPointer:         true,
 							TargetPackagePath: targetPkg.Path(),
-							TargetStructName:  targetNamed.Obj().Name(),
+							TargetStructName:  targetName,
 						})
 						continue
 					}
@@ -74,11 +80,17 @@ func ExtractStructFields(mPkg *models.ModelPkg, structName string) []StageSetStr
 				if ptr, ok := sl.Elem().(*types.Pointer); ok {
 					if targetNamed, ok := ptr.Elem().(*types.Named); ok {
 						if targetPkg := targetNamed.Obj().Pkg(); targetPkg != nil {
+							targetName := targetNamed.Obj().Name()
+							if targetPkg.Path() == mPkg.PkgPath {
+								if _, ok := mPkg.GongStructs[mPkg.PkgPath+"."+targetName]; !ok {
+									continue
+								}
+							}
 							result = append(result, StageSetStructField{
 								Name:              fld.Name(),
 								IsSliceOfPointer:  true,
 								TargetPackagePath: targetPkg.Path(),
-								TargetStructName:  targetNamed.Obj().Name(),
+								TargetStructName:  targetName,
 							})
 							continue
 						}
@@ -295,7 +307,11 @@ func CodeGeneratorModelGongStageSet(
 				}
 				switch fld.BasicKind {
 				case types.String:
-					marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, __gong__toRawStringLiteral(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
+					if fld.IsEnum {
+						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, __gong__toRawStringLiteral(string(%s.%s))))\n", fld.Name, sVar, sVar, fld.Name))
+					} else {
+						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, __gong__toRawStringLiteral(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
+					}
 				case types.Int, types.Int64, types.Int32, types.Int16, types.Int8, types.Uint, types.Uint64, types.Uint32, types.Uint16, types.Uint8:
 					if fld.IsEnum {
 						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%d\", %sIdent, int(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
@@ -303,9 +319,17 @@ func CodeGeneratorModelGongStageSet(
 						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%d\", %sIdent, %s.%s))\n", fld.Name, sVar, sVar, fld.Name))
 					}
 				case types.Float64, types.Float32:
-					marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%f\", %sIdent, %s.%s))\n", fld.Name, sVar, sVar, fld.Name))
+					if fld.IsEnum {
+						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%f\", %sIdent, float64(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
+					} else {
+						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%f\", %sIdent, %s.%s))\n", fld.Name, sVar, sVar, fld.Name))
+					}
 				case types.Bool:
-					marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%t\", %sIdent, %s.%s))\n", fld.Name, sVar, sVar, fld.Name))
+					if fld.IsEnum {
+						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%t\", %sIdent, bool(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
+					} else {
+						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%t\", %sIdent, %s.%s))\n", fld.Name, sVar, sVar, fld.Name))
+					}
 				default:
 					if fld.IsTime {
 						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s, _ = time.Parse(\\\"2006-01-02 15:04:05.999999999 -0700 MST\\\", \\\"%%s\\\")\", %sIdent, %s.%s.String()))\n", fld.Name, sVar, sVar, fld.Name))
@@ -322,6 +346,11 @@ func CodeGeneratorModelGongStageSet(
 				if fld.IsPointer {
 					targetSSF := pkgPathToField[fld.TargetPackagePath]
 					if targetSSF != nil {
+						if targetPkg := fieldToModelPkg[targetSSF]; targetPkg != nil {
+							if _, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]; !isGS {
+								continue
+							}
+						}
 						targetAliasPrefix := targetSSF.ImportAlias[:len(targetSSF.ImportAlias)-2]
 						marshallBody.WriteString(fmt.Sprintf("\t\t\tif %s.%s != nil {\n", sVar, fld.Name))
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := \"%s\" + %s.%s.GongGetIdentifier(stageSet.%s)\n", targetAliasPrefix, sVar, fld.Name, targetSSF.Name))
@@ -331,6 +360,11 @@ func CodeGeneratorModelGongStageSet(
 				} else if fld.IsSliceOfPointer {
 					targetSSF := pkgPathToField[fld.TargetPackagePath]
 					if targetSSF != nil {
+						if targetPkg := fieldToModelPkg[targetSSF]; targetPkg != nil {
+							if _, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]; !isGS {
+								continue
+							}
+						}
 						targetAliasPrefix := targetSSF.ImportAlias[:len(targetSSF.ImportAlias)-2]
 						marshallBody.WriteString(fmt.Sprintf("\t\t\tfor _, elem := range %s.%s {\n", sVar, fld.Name))
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := \"%s\" + elem.GongGetIdentifier(stageSet.%s)\n", targetAliasPrefix, targetSSF.Name))
@@ -396,6 +430,11 @@ func CodeGeneratorModelGongStageSet(
 				if fld.IsPointer {
 					targetSSF := pkgPathToField[fld.TargetPackagePath]
 					if targetSSF != nil {
+						if targetPkg := fieldToModelPkg[targetSSF]; targetPkg != nil {
+							if _, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]; !isGS {
+								continue
+							}
+						}
 						targetQual := fld.TargetStructName
 						if !targetSSF.IsLocal {
 							targetQual = targetSSF.PackageName + "." + fld.TargetStructName
@@ -412,6 +451,11 @@ func CodeGeneratorModelGongStageSet(
 				} else if fld.IsSliceOfPointer {
 					targetSSF := pkgPathToField[fld.TargetPackagePath]
 					if targetSSF != nil {
+						if targetPkg := fieldToModelPkg[targetSSF]; targetPkg != nil {
+							if _, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]; !isGS {
+								continue
+							}
+						}
 						targetQual := fld.TargetStructName
 						if !targetSSF.IsLocal {
 							targetQual = targetSSF.PackageName + "." + fld.TargetStructName
@@ -420,7 +464,7 @@ func CodeGeneratorModelGongStageSet(
 						assignCases.WriteString("\t\t\t\t\t\tif call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {\n")
 						assignCases.WriteString("\t\t\t\t\t\t\tif rIdent, ok := call.Args[1].(*ast.Ident); ok {\n")
 						assignCases.WriteString("\t\t\t\t\t\t\t\tif target, ok := identifierMap[rIdent.Name]; ok {\n")
-						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\t\t\t\t\tif typedTarget, ok := target.(*%s); ok {\n", targetQual))
+						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\t\t\t\tif typedTarget, ok := target.(*%s); ok {\n", targetQual))
 						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\t\t\t\t\t\tinst.%s = append(inst.%s, typedTarget)\n", fld.Name, fld.Name))
 						assignCases.WriteString("\t\t\t\t\t\t\t\t\t}\n")
 						assignCases.WriteString("\t\t\t\t\t\t\t\t}\n")
@@ -430,17 +474,89 @@ func CodeGeneratorModelGongStageSet(
 				} else {
 					switch fld.BasicKind {
 					case types.String:
-						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = GongExtractString(rhs)\n", fld.Name, fld.Name))
-					case types.Int, types.Int64, types.Int32, types.Int16, types.Int8, types.Uint, types.Uint64, types.Uint32, types.Uint16, types.Uint8:
+						if fld.IsEnum {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = %s(GongExtractString(rhs))\n", fld.Name, fld.Name, fld.EnumTypeQual))
+						} else {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = GongExtractString(rhs)\n", fld.Name, fld.Name))
+						}
+					case types.Int:
 						if fld.IsEnum {
 							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = %s(GongExtractInt(rhs))\n", fld.Name, fld.Name, fld.EnumTypeQual))
 						} else {
 							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = GongExtractInt(rhs)\n", fld.Name, fld.Name))
 						}
-					case types.Float64, types.Float32:
-						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = GongExtractFloat(rhs)\n", fld.Name, fld.Name))
+					case types.Int8:
+						if fld.IsEnum {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = %s(GongExtractInt(rhs))\n", fld.Name, fld.Name, fld.EnumTypeQual))
+						} else {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = int8(GongExtractInt(rhs))\n", fld.Name, fld.Name))
+						}
+					case types.Int16:
+						if fld.IsEnum {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = %s(GongExtractInt(rhs))\n", fld.Name, fld.Name, fld.EnumTypeQual))
+						} else {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = int16(GongExtractInt(rhs))\n", fld.Name, fld.Name))
+						}
+					case types.Int32:
+						if fld.IsEnum {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = %s(GongExtractInt(rhs))\n", fld.Name, fld.Name, fld.EnumTypeQual))
+						} else {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = int32(GongExtractInt(rhs))\n", fld.Name, fld.Name))
+						}
+					case types.Int64:
+						if fld.IsEnum {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = %s(GongExtractInt(rhs))\n", fld.Name, fld.Name, fld.EnumTypeQual))
+						} else {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = int64(GongExtractInt(rhs))\n", fld.Name, fld.Name))
+						}
+					case types.Uint:
+						if fld.IsEnum {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = %s(GongExtractInt(rhs))\n", fld.Name, fld.Name, fld.EnumTypeQual))
+						} else {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = uint(GongExtractInt(rhs))\n", fld.Name, fld.Name))
+						}
+					case types.Uint8:
+						if fld.IsEnum {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = %s(GongExtractInt(rhs))\n", fld.Name, fld.Name, fld.EnumTypeQual))
+						} else {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = uint8(GongExtractInt(rhs))\n", fld.Name, fld.Name))
+						}
+					case types.Uint16:
+						if fld.IsEnum {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = %s(GongExtractInt(rhs))\n", fld.Name, fld.Name, fld.EnumTypeQual))
+						} else {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = uint16(GongExtractInt(rhs))\n", fld.Name, fld.Name))
+						}
+					case types.Uint32:
+						if fld.IsEnum {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = %s(GongExtractInt(rhs))\n", fld.Name, fld.Name, fld.EnumTypeQual))
+						} else {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = uint32(GongExtractInt(rhs))\n", fld.Name, fld.Name))
+						}
+					case types.Uint64:
+						if fld.IsEnum {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = %s(GongExtractInt(rhs))\n", fld.Name, fld.Name, fld.EnumTypeQual))
+						} else {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = uint64(GongExtractInt(rhs))\n", fld.Name, fld.Name))
+						}
+					case types.Float32:
+						if fld.IsEnum {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = %s(GongExtractFloat(rhs))\n", fld.Name, fld.Name, fld.EnumTypeQual))
+						} else {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = float32(GongExtractFloat(rhs))\n", fld.Name, fld.Name))
+						}
+					case types.Float64:
+						if fld.IsEnum {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = %s(GongExtractFloat(rhs))\n", fld.Name, fld.Name, fld.EnumTypeQual))
+						} else {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = GongExtractFloat(rhs)\n", fld.Name, fld.Name))
+						}
 					case types.Bool:
-						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = GongExtractBool(rhs)\n", fld.Name, fld.Name))
+						if fld.IsEnum {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = %s(GongExtractBool(rhs))\n", fld.Name, fld.Name, fld.EnumTypeQual))
+						} else {
+							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tinst.%s = GongExtractBool(rhs)\n", fld.Name, fld.Name))
+						}
 					default:
 						if fld.IsTime {
 							assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n\t\t\t\t\t\tif call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {\n\t\t\t\t\t\t\tif bl, ok := call.Args[1].(*ast.BasicLit); ok {\n\t\t\t\t\t\t\t\tinst.%s, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", strings.Trim(bl.Value, \"\\\"`\"))\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n", fld.Name, fld.Name))
@@ -456,9 +572,27 @@ func CodeGeneratorModelGongStageSet(
 		}
 	}
 
+	var stageSetStructDefinition string
+	if !stageSet.IsManual {
+		var stageSetStructFields strings.Builder
+		for _, f := range stageSet.Fields {
+			if f.IsLocal {
+				stageSetStructFields.WriteString(fmt.Sprintf("\t%s *Stage\n", f.Name))
+			} else {
+				stageSetStructFields.WriteString(fmt.Sprintf("\t%s *%s.Stage\n", f.Name, f.PackageName))
+			}
+		}
+		stageSetStructDefinition = fmt.Sprintf(`// StageSet coordinates multiple stages across packages
+type StageSet struct {
+%s}
+
+`, stageSetStructFields.String())
+	}
+
 	codeGO := ModelGongStageSetTemplate
 	codeGO = strings.ReplaceAll(codeGO, "{{PkgGoName}}", modelPkg.PkgGoName)
 	codeGO = strings.ReplaceAll(codeGO, "{{ExternalImports}}", externalImports.String())
+	codeGO = strings.ReplaceAll(codeGO, "{{StageSetStructDefinition}}", stageSetStructDefinition)
 	codeGO = strings.ReplaceAll(codeGO, "{{CommitStatements}}", commitStatements.String())
 	codeGO = strings.ReplaceAll(codeGO, "{{CheckoutStatements}}", checkoutStatements.String())
 	codeGO = strings.ReplaceAll(codeGO, "{{ResetStatements}}", resetStatements.String())

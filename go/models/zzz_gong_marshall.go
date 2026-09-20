@@ -699,6 +699,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stagesetmodel.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(stagesetmodel.GongMarshallField(stage, "Fields"))
+		initializerStatements.WriteString(stagesetmodel.GongMarshallField(stage, "IsManual"))
 	}
 
 	// insertion initialization of objects to stage
@@ -1475,6 +1476,11 @@ func (stagesetmodel *StageSetModel) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", stagesetmodel.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stagesetmodel.Name))
+	case "IsManual":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stagesetmodel.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsManual")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", stagesetmodel.IsManual))
 
 	case "Fields":
 		var sb strings.Builder
@@ -1702,6 +1708,7 @@ func (stagesetmodel *StageSetModel) GongMarshallAllFields(stage *Stage) (initRes
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stagesetmodel.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(stagesetmodel.GongMarshallField(stage, "Fields"))
+		initializerStatements.WriteString(stagesetmodel.GongMarshallField(stage, "IsManual"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -17,8 +17,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fullstack-lang/gong/test/test2/go/models/x"
-	"github.com/fullstack-lang/gong/test/test2/go/models/y"
 )
 
 var (
@@ -31,19 +29,11 @@ var (
 // StageSet coordinates multiple stages across packages
 type StageSet struct {
 	Stage *Stage
-	XStage *x.Stage
-	YStage *y.Stage
 }
 
 
 // Commit commits all stages in StageSet in dependency order
 func (stageSet *StageSet) Commit() {
-	if stageSet.YStage != nil {
-		stageSet.YStage.Commit()
-	}
-	if stageSet.XStage != nil {
-		stageSet.XStage.Commit()
-	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.Commit()
 	}
@@ -51,12 +41,6 @@ func (stageSet *StageSet) Commit() {
 
 // Checkout checkouts all stages in StageSet
 func (stageSet *StageSet) Checkout() {
-	if stageSet.YStage != nil {
-		stageSet.YStage.Checkout()
-	}
-	if stageSet.XStage != nil {
-		stageSet.XStage.Checkout()
-	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.Checkout()
 	}
@@ -64,12 +48,6 @@ func (stageSet *StageSet) Checkout() {
 
 // Reset resets all stages in StageSet
 func (stageSet *StageSet) Reset() {
-	if stageSet.YStage != nil {
-		stageSet.YStage.Reset()
-	}
-	if stageSet.XStage != nil {
-		stageSet.XStage.Reset()
-	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.Reset()
 	}
@@ -77,12 +55,6 @@ func (stageSet *StageSet) Reset() {
 
 // Clean cleans all stages in StageSet in dependency order
 func (stageSet *StageSet) Clean() {
-	if stageSet.YStage != nil {
-		stageSet.YStage.Clean()
-	}
-	if stageSet.XStage != nil {
-		stageSet.XStage.Clean()
-	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.Clean()
 	}
@@ -90,12 +62,6 @@ func (stageSet *StageSet) Clean() {
 
 // ComputeReverseMaps computes reverse maps on all stages in StageSet
 func (stageSet *StageSet) ComputeReverseMaps() {
-	if stageSet.YStage != nil {
-		stageSet.YStage.ComputeReverseMaps()
-	}
-	if stageSet.XStage != nil {
-		stageSet.XStage.ComputeReverseMaps()
-	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.ComputeReverseMaps()
 	}
@@ -103,12 +69,6 @@ func (stageSet *StageSet) ComputeReverseMaps() {
 
 // ComputeInstancesNb computes instances nb on all stages in StageSet
 func (stageSet *StageSet) ComputeInstancesNb() {
-	if stageSet.YStage != nil {
-		stageSet.YStage.ComputeInstancesNb()
-	}
-	if stageSet.XStage != nil {
-		stageSet.XStage.ComputeInstancesNb()
-	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.ComputeInstancesNb()
 	}
@@ -116,12 +76,6 @@ func (stageSet *StageSet) ComputeInstancesNb() {
 
 // ComputeReferenceAndOrders computes reference and orders on all stages in StageSet
 func (stageSet *StageSet) ComputeReferenceAndOrders() {
-	if stageSet.YStage != nil {
-		stageSet.YStage.ComputeReferenceAndOrders()
-	}
-	if stageSet.XStage != nil {
-		stageSet.XStage.ComputeReferenceAndOrders()
-	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.ComputeReferenceAndOrders()
 	}
@@ -131,16 +85,6 @@ func (stageSet *StageSet) ComputeReferenceAndOrders() {
 func NewStageSet(path string) (stageSet *StageSet) {
 	stageSet = new(StageSet)
 	stageSet.Stage = NewStage(path)
-	subPath_XStage := "x"
-	if path != "" {
-	subPath_XStage = path + "_x"
-	}
-	stageSet.XStage = x.NewStage(subPath_XStage)
-	subPath_YStage := "y"
-	if path != "" {
-	subPath_YStage = path + "_y"
-	}
-	stageSet.YStage = y.NewStage(subPath_YStage)
 	return stageSet
 }
 
@@ -148,16 +92,6 @@ func NewStageSet(path string) (stageSet *StageSet) {
 func NewStageSetFromStage(stage *Stage) (stageSet *StageSet) {
 	stageSet = new(StageSet)
 	stageSet.Stage = stage
-	subPath_XStage := "x"
-	if stage != nil && stage.GetName() != "" {
-	subPath_XStage = stage.GetName() + "_x"
-	}
-	stageSet.XStage = x.NewStage(subPath_XStage)
-	subPath_YStage := "y"
-	if stage != nil && stage.GetName() != "" {
-	subPath_YStage = stage.GetName() + "_y"
-	}
-	stageSet.YStage = y.NewStage(subPath_YStage)
 	return stageSet
 }
 
@@ -195,80 +129,105 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	var values strings.Builder
 	var pointers strings.Builder
 
-	if stageSet.YStage != nil {
-		yOrdered := []*y.Y{}
-		for y := range stageSet.YStage.Ys {
-			yOrdered = append(yOrdered, y)
+	if stageSet.Stage != nil {
+		displayselectionOrdered := []*DisplaySelection{}
+		for displayselection := range stageSet.Stage.DisplaySelections {
+			displayselectionOrdered = append(displayselectionOrdered, displayselection)
 		}
-		sort.Slice(yOrdered, func(i, j int) bool {
-			return stageSet.YStage.Y_stagedOrder[yOrdered[i]] < stageSet.YStage.Y_stagedOrder[yOrdered[j]]
+		sort.Slice(displayselectionOrdered, func(i, j int) bool {
+			return stageSet.Stage.DisplaySelection_stagedOrder[displayselectionOrdered[i]] < stageSet.Stage.DisplaySelection_stagedOrder[displayselectionOrdered[j]]
 		})
-		for _, y := range yOrdered {
-			yIdent := "__stage_2" + y.GongGetIdentifier(stageSet.YStage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_2__.Y{Name: %s}).Stage(stageSet.YStage)", yIdent, __gong__toRawStringLiteral(y.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", yIdent, __gong__toRawStringLiteral(y.Name)))
-		}
-	}
-	if stageSet.XStage != nil {
-		xOrdered := []*x.X{}
-		for x := range stageSet.XStage.Xs {
-			xOrdered = append(xOrdered, x)
-		}
-		sort.Slice(xOrdered, func(i, j int) bool {
-			return stageSet.XStage.X_stagedOrder[xOrdered[i]] < stageSet.XStage.X_stagedOrder[xOrdered[j]]
-		})
-		for _, x := range xOrdered {
-			xIdent := "__stage_1" + x.GongGetIdentifier(stageSet.XStage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_1__.X{Name: %s}).Stage(stageSet.XStage)", xIdent, __gong__toRawStringLiteral(x.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xIdent, __gong__toRawStringLiteral(x.Name)))
-			if x.Y != nil {
-				targetIdent := "__stage_2" + x.Y.GongGetIdentifier(stageSet.YStage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Y = %s", xIdent, targetIdent))
+		for _, displayselection := range displayselectionOrdered {
+			displayselectionIdent := "__stage_0" + displayselection.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DisplaySelection{Name: %s}).Stage(stageSet.Stage)", displayselectionIdent, __gong__toRawStringLiteral(displayselection.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", displayselectionIdent, __gong__toRawStringLiteral(displayselection.Name)))
+			if displayselection.XLFile != nil {
+				targetIdent := "__stage_0" + displayselection.XLFile.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.XLFile = %s", displayselectionIdent, targetIdent))
+			}
+			if displayselection.XLSheet != nil {
+				targetIdent := "__stage_0" + displayselection.XLSheet.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.XLSheet = %s", displayselectionIdent, targetIdent))
 			}
 		}
 	}
 	if stageSet.Stage != nil {
-		aOrdered := []*A{}
-		for a := range stageSet.Stage.As {
-			aOrdered = append(aOrdered, a)
+		xlcellOrdered := []*XLCell{}
+		for xlcell := range stageSet.Stage.XLCells {
+			xlcellOrdered = append(xlcellOrdered, xlcell)
 		}
-		sort.Slice(aOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_stagedOrder[aOrdered[i]] < stageSet.Stage.A_stagedOrder[aOrdered[j]]
+		sort.Slice(xlcellOrdered, func(i, j int) bool {
+			return stageSet.Stage.XLCell_stagedOrder[xlcellOrdered[i]] < stageSet.Stage.XLCell_stagedOrder[xlcellOrdered[j]]
 		})
-		for _, a := range aOrdered {
-			aIdent := "__stage_0" + a.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A{Name: %s}).Stage(stageSet.Stage)", aIdent, __gong__toRawStringLiteral(a.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", aIdent, __gong__toRawStringLiteral(a.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.NumberField = %d", aIdent, a.NumberField))
-			values.WriteString(fmt.Sprintf("\n\t%s.Foo = %d", aIdent, a.Foo))
-			values.WriteString(fmt.Sprintf("\n\t%s.Bar = %f", aIdent, a.Bar))
-			values.WriteString(fmt.Sprintf("\n\t%s.Zorgh = %s", aIdent, __gong__toRawStringLiteral(a.Zorgh)))
-			if a.B != nil {
-				targetIdent := "__stage_0" + a.B.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.B = %s", aIdent, targetIdent))
-			}
-			for _, elem := range a.Bs {
+		for _, xlcell := range xlcellOrdered {
+			xlcellIdent := "__stage_0" + xlcell.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.XLCell{Name: %s}).Stage(stageSet.Stage)", xlcellIdent, __gong__toRawStringLiteral(xlcell.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xlcellIdent, __gong__toRawStringLiteral(xlcell.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %d", xlcellIdent, xlcell.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %d", xlcellIdent, xlcell.Y))
+		}
+	}
+	if stageSet.Stage != nil {
+		xlfileOrdered := []*XLFile{}
+		for xlfile := range stageSet.Stage.XLFiles {
+			xlfileOrdered = append(xlfileOrdered, xlfile)
+		}
+		sort.Slice(xlfileOrdered, func(i, j int) bool {
+			return stageSet.Stage.XLFile_stagedOrder[xlfileOrdered[i]] < stageSet.Stage.XLFile_stagedOrder[xlfileOrdered[j]]
+		})
+		for _, xlfile := range xlfileOrdered {
+			xlfileIdent := "__stage_0" + xlfile.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.XLFile{Name: %s}).Stage(stageSet.Stage)", xlfileIdent, __gong__toRawStringLiteral(xlfile.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xlfileIdent, __gong__toRawStringLiteral(xlfile.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbSheets = %d", xlfileIdent, xlfile.NbSheets))
+			for _, elem := range xlfile.Sheets {
 				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Bs = append(%s.Bs, %s)", aIdent, aIdent, targetIdent))
-			}
-			if a.X != nil {
-				targetIdent := "__stage_1" + a.X.GongGetIdentifier(stageSet.XStage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.X = %s", aIdent, targetIdent))
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Sheets = append(%s.Sheets, %s)", xlfileIdent, xlfileIdent, targetIdent))
 			}
 		}
 	}
 	if stageSet.Stage != nil {
-		bOrdered := []*B{}
-		for b := range stageSet.Stage.Bs {
-			bOrdered = append(bOrdered, b)
+		xlrowOrdered := []*XLRow{}
+		for xlrow := range stageSet.Stage.XLRows {
+			xlrowOrdered = append(xlrowOrdered, xlrow)
 		}
-		sort.Slice(bOrdered, func(i, j int) bool {
-			return stageSet.Stage.B_stagedOrder[bOrdered[i]] < stageSet.Stage.B_stagedOrder[bOrdered[j]]
+		sort.Slice(xlrowOrdered, func(i, j int) bool {
+			return stageSet.Stage.XLRow_stagedOrder[xlrowOrdered[i]] < stageSet.Stage.XLRow_stagedOrder[xlrowOrdered[j]]
 		})
-		for _, b := range bOrdered {
-			bIdent := "__stage_0" + b.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.B{Name: %s}).Stage(stageSet.Stage)", bIdent, __gong__toRawStringLiteral(b.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bIdent, __gong__toRawStringLiteral(b.Name)))
+		for _, xlrow := range xlrowOrdered {
+			xlrowIdent := "__stage_0" + xlrow.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.XLRow{Name: %s}).Stage(stageSet.Stage)", xlrowIdent, __gong__toRawStringLiteral(xlrow.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xlrowIdent, __gong__toRawStringLiteral(xlrow.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RowIndex = %d", xlrowIdent, xlrow.RowIndex))
+			for _, elem := range xlrow.Cells {
+				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Cells = append(%s.Cells, %s)", xlrowIdent, xlrowIdent, targetIdent))
+			}
+		}
+	}
+	if stageSet.Stage != nil {
+		xlsheetOrdered := []*XLSheet{}
+		for xlsheet := range stageSet.Stage.XLSheets {
+			xlsheetOrdered = append(xlsheetOrdered, xlsheet)
+		}
+		sort.Slice(xlsheetOrdered, func(i, j int) bool {
+			return stageSet.Stage.XLSheet_stagedOrder[xlsheetOrdered[i]] < stageSet.Stage.XLSheet_stagedOrder[xlsheetOrdered[j]]
+		})
+		for _, xlsheet := range xlsheetOrdered {
+			xlsheetIdent := "__stage_0" + xlsheet.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.XLSheet{Name: %s}).Stage(stageSet.Stage)", xlsheetIdent, __gong__toRawStringLiteral(xlsheet.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xlsheetIdent, __gong__toRawStringLiteral(xlsheet.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MaxRow = %d", xlsheetIdent, xlsheet.MaxRow))
+			values.WriteString(fmt.Sprintf("\n\t%s.MaxCol = %d", xlsheetIdent, xlsheet.MaxCol))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbRows = %d", xlsheetIdent, xlsheet.NbRows))
+			for _, elem := range xlsheet.Rows {
+				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Rows = append(%s.Rows, %s)", xlsheetIdent, xlsheetIdent, targetIdent))
+			}
+			for _, elem := range xlsheet.SheetCells {
+				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SheetCells = append(%s.SheetCells, %s)", xlsheetIdent, xlsheetIdent, targetIdent))
+			}
 		}
 	}
 
@@ -280,9 +239,7 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/test/test2/go/models"
-	__stage_1__ "github.com/fullstack-lang/gong/test/test2/go/models/x"
-	__stage_2__ "github.com/fullstack-lang/gong/test/test2/go/models/y"
+	__stage_0__ "github.com/fullstack-lang/gong/lib/xlsx/go/models"
 )
 
 var (
@@ -290,8 +247,6 @@ var (
 	_ = slices.Index[[]int, int]
 
 	_ *__stage_0__.Stage
-	_ *__stage_1__.Stage
-	_ *__stage_2__.Stage
 )
 
 // function will stage objects across all coordinated stages
@@ -398,53 +353,58 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					})
 
 					switch pkgAlias {
-			case "__stage_2__":
-				switch typeName {
-				case "Y":
-					if !preserveOrder {
-						inst := (&y.Y{Name: instanceName}).Stage(stageSet.YStage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(y.Y)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.YStage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
-				}
-			case "__stage_1__":
-				switch typeName {
-				case "X":
-					if !preserveOrder {
-						inst := (&x.X{Name: instanceName}).Stage(stageSet.XStage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(x.X)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.XStage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
-				}
 			case "__stage_0__":
 				switch typeName {
-				case "A":
+				case "DisplaySelection":
 					if !preserveOrder {
-						inst := (&A{Name: instanceName}).Stage(stageSet.Stage)
+						inst := (&DisplaySelection{Name: instanceName}).Stage(stageSet.Stage)
 						identifierMap[ident.Name] = inst
 					} else {
-						inst := new(A)
+						inst := new(DisplaySelection)
 						inst.Name = instanceName
 						order, _ := __gong__extractMiddleUint(ident.Name)
 						inst.StagePreserveOrder(stageSet.Stage, uint(order))
 						identifierMap[ident.Name] = inst
 					}
-				case "B":
+				case "XLCell":
 					if !preserveOrder {
-						inst := (&B{Name: instanceName}).Stage(stageSet.Stage)
+						inst := (&XLCell{Name: instanceName}).Stage(stageSet.Stage)
 						identifierMap[ident.Name] = inst
 					} else {
-						inst := new(B)
+						inst := new(XLCell)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				case "XLFile":
+					if !preserveOrder {
+						inst := (&XLFile{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(XLFile)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				case "XLRow":
+					if !preserveOrder {
+						inst := (&XLRow{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(XLRow)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				case "XLSheet":
+					if !preserveOrder {
+						inst := (&XLSheet{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(XLSheet)
 						inst.Name = instanceName
 						order, _ := __gong__extractMiddleUint(ident.Name)
 						inst.StagePreserveOrder(stageSet.Stage, uint(order))
@@ -464,67 +424,100 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 							fieldName := selExpr.Sel.Name
 							rhs := node.Rhs[0]
 							switch inst := instance.(type) {
-				case *y.Y:
+				case *DisplaySelection:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "XLFile":
+						if rIdent, ok := rhs.(*ast.Ident); ok {
+							if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*XLFile); ok {
+									inst.XLFile = typedTarget
+								}
+							}
+						}
+					case "XLSheet":
+						if rIdent, ok := rhs.(*ast.Ident); ok {
+							if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*XLSheet); ok {
+									inst.XLSheet = typedTarget
+								}
+							}
+						}
 					}
-				case *x.X:
+				case *XLCell:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "X":
+						inst.X = GongExtractInt(rhs)
 					case "Y":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*y.Y); ok {
-									inst.Y = typedTarget
-								}
-							}
-						}
+						inst.Y = GongExtractInt(rhs)
 					}
-				case *A:
+				case *XLFile:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "NumberField":
-						inst.NumberField = GongExtractInt(rhs)
-					case "B":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*B); ok {
-									inst.B = typedTarget
-								}
-							}
-						}
-					case "Bs":
+					case "NbSheets":
+						inst.NbSheets = GongExtractInt(rhs)
+					case "Sheets":
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*B); ok {
-										inst.Bs = append(inst.Bs, typedTarget)
+								if typedTarget, ok := target.(*XLSheet); ok {
+										inst.Sheets = append(inst.Sheets, typedTarget)
 									}
 								}
 							}
 						}
-					case "X":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*x.X); ok {
-									inst.X = typedTarget
-								}
-							}
-						}
-					case "Foo":
-						inst.Foo = GongExtractInt(rhs)
-					case "Bar":
-						inst.Bar = GongExtractFloat(rhs)
-					case "Zorgh":
-						inst.Zorgh = GongExtractString(rhs)
 					}
-				case *B:
+				case *XLRow:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "RowIndex":
+						inst.RowIndex = GongExtractInt(rhs)
+					case "Cells":
+						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+								if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*XLCell); ok {
+										inst.Cells = append(inst.Cells, typedTarget)
+									}
+								}
+							}
+						}
+					}
+				case *XLSheet:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "MaxRow":
+						inst.MaxRow = GongExtractInt(rhs)
+					case "MaxCol":
+						inst.MaxCol = GongExtractInt(rhs)
+					case "NbRows":
+						inst.NbRows = GongExtractInt(rhs)
+					case "Rows":
+						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+								if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*XLRow); ok {
+										inst.Rows = append(inst.Rows, typedTarget)
+									}
+								}
+							}
+						}
+					case "SheetCells":
+						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+								if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*XLCell); ok {
+										inst.SheetCells = append(inst.SheetCells, typedTarget)
+									}
+								}
+							}
+						}
 					}
 							}
 						}

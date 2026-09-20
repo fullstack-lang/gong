@@ -273,7 +273,8 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	if stackHeight == 0 {
 		template = fullstack.FullstackNewStackInstanceTemplateLevel1
 
-		level1StackTemplate := level1stack.GetLevel1StackTemplate(useSplitlite, modelPkg.StageSet != nil)
+		hasMultiStageSet := modelPkg.StageSet != nil && len(modelPkg.StageSet.Fields) > 1
+		level1StackTemplate := level1stack.GetLevel1StackTemplate(useSplitlite, hasMultiStageSet)
 
 		gong_models.SimpleCodeGenerator(
 			modelPkg,
@@ -504,7 +505,8 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		filepath.Join(pkgPath, "probe/form_div_field.go"),
 		probe.FormDivToFieldTemplate)
 
-	if modelPkg.StageSet != nil {
+	hasMultiStageSet := modelPkg.StageSet != nil && len(modelPkg.StageSet.Fields) > 1
+	if hasMultiStageSet {
 		probe.CodeGeneratorStageSetProbe(
 			modelPkg,
 			modelPkg.Name,
@@ -525,7 +527,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	os.WriteFile(gitignorePath, []byte("probe\nprobe.exe\n"), os.ModePerm)
 
 	if stackHeight == 0 {
-		probeCmdTemplate := probe.GetProbeCmdMainTemplate(useSplitlite, modelPkg.StageSet != nil)
+		probeCmdTemplate := probe.GetProbeCmdMainTemplate(useSplitlite, hasMultiStageSet)
 		gong_models.SimpleCodeGenerator(
 			modelPkg,
 			modelPkg.Name,

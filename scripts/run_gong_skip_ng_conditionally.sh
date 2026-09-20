@@ -7,8 +7,7 @@ set -e
 
 echo "🚀 Starting conditional gong build..."
 
-# Corrected line: We apply dirname a third time to get the actual project root.
-find . -path '*/go/models/docs.go' -exec dirname {} \; | xargs -I {} dirname {} | xargs -I {} dirname {} | sort -u | while IFS= read -r dir; do
+find . -path './.*' -prune -o -path '*/go/models/docs.go' -print | xargs -I {} dirname {} | xargs -I {} dirname {} | xargs -I {} dirname {} | sort -u | while IFS= read -r dir; do
   (
     # Change into the target directory in a subshell
     cd "$dir"

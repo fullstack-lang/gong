@@ -622,6 +622,8 @@ func saveStageSetModelFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Fields":
 			FormDivSliceOfPointersToField(_instance, "Fields", &(_instance.Fields), formDiv, probe)
+		case "IsManual":
+			FormDivBasicFieldToField(&(_instance.IsManual), formDiv)
 		}
 	}
 }

@@ -970,6 +970,8 @@ func (u *StageSetModelUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.Name = GongExtractString(valueExpr)
 	case "Fields":
 		GongUnmarshallSliceOfPointers(&instance.Fields, valueExpr, identifierMap)
+	case "IsManual":
+		instance.IsManual = GongExtractBool(valueExpr)
 	}
 	return nil
 }

@@ -3720,6 +3720,10 @@ func (stagesetmodel *StageSetModel) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "StageSetField",
 		},
+		{
+			Name:               "IsManual",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -4153,6 +4157,10 @@ func (stagesetmodel *StageSetModel) GongGetFieldValue(fieldName string, stage *S
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsManual":
+		res.valueString = fmt.Sprintf("%t", stagesetmodel.IsManual)
+		res.valueBool = stagesetmodel.IsManual
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }

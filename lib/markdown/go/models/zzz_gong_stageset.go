@@ -17,8 +17,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fullstack-lang/gong/test/test2/go/models/x"
-	"github.com/fullstack-lang/gong/test/test2/go/models/y"
 )
 
 var (
@@ -31,19 +29,11 @@ var (
 // StageSet coordinates multiple stages across packages
 type StageSet struct {
 	Stage *Stage
-	XStage *x.Stage
-	YStage *y.Stage
 }
 
 
 // Commit commits all stages in StageSet in dependency order
 func (stageSet *StageSet) Commit() {
-	if stageSet.YStage != nil {
-		stageSet.YStage.Commit()
-	}
-	if stageSet.XStage != nil {
-		stageSet.XStage.Commit()
-	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.Commit()
 	}
@@ -51,12 +41,6 @@ func (stageSet *StageSet) Commit() {
 
 // Checkout checkouts all stages in StageSet
 func (stageSet *StageSet) Checkout() {
-	if stageSet.YStage != nil {
-		stageSet.YStage.Checkout()
-	}
-	if stageSet.XStage != nil {
-		stageSet.XStage.Checkout()
-	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.Checkout()
 	}
@@ -64,12 +48,6 @@ func (stageSet *StageSet) Checkout() {
 
 // Reset resets all stages in StageSet
 func (stageSet *StageSet) Reset() {
-	if stageSet.YStage != nil {
-		stageSet.YStage.Reset()
-	}
-	if stageSet.XStage != nil {
-		stageSet.XStage.Reset()
-	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.Reset()
 	}
@@ -77,12 +55,6 @@ func (stageSet *StageSet) Reset() {
 
 // Clean cleans all stages in StageSet in dependency order
 func (stageSet *StageSet) Clean() {
-	if stageSet.YStage != nil {
-		stageSet.YStage.Clean()
-	}
-	if stageSet.XStage != nil {
-		stageSet.XStage.Clean()
-	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.Clean()
 	}
@@ -90,12 +62,6 @@ func (stageSet *StageSet) Clean() {
 
 // ComputeReverseMaps computes reverse maps on all stages in StageSet
 func (stageSet *StageSet) ComputeReverseMaps() {
-	if stageSet.YStage != nil {
-		stageSet.YStage.ComputeReverseMaps()
-	}
-	if stageSet.XStage != nil {
-		stageSet.XStage.ComputeReverseMaps()
-	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.ComputeReverseMaps()
 	}
@@ -103,12 +69,6 @@ func (stageSet *StageSet) ComputeReverseMaps() {
 
 // ComputeInstancesNb computes instances nb on all stages in StageSet
 func (stageSet *StageSet) ComputeInstancesNb() {
-	if stageSet.YStage != nil {
-		stageSet.YStage.ComputeInstancesNb()
-	}
-	if stageSet.XStage != nil {
-		stageSet.XStage.ComputeInstancesNb()
-	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.ComputeInstancesNb()
 	}
@@ -116,12 +76,6 @@ func (stageSet *StageSet) ComputeInstancesNb() {
 
 // ComputeReferenceAndOrders computes reference and orders on all stages in StageSet
 func (stageSet *StageSet) ComputeReferenceAndOrders() {
-	if stageSet.YStage != nil {
-		stageSet.YStage.ComputeReferenceAndOrders()
-	}
-	if stageSet.XStage != nil {
-		stageSet.XStage.ComputeReferenceAndOrders()
-	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.ComputeReferenceAndOrders()
 	}
@@ -131,16 +85,6 @@ func (stageSet *StageSet) ComputeReferenceAndOrders() {
 func NewStageSet(path string) (stageSet *StageSet) {
 	stageSet = new(StageSet)
 	stageSet.Stage = NewStage(path)
-	subPath_XStage := "x"
-	if path != "" {
-	subPath_XStage = path + "_x"
-	}
-	stageSet.XStage = x.NewStage(subPath_XStage)
-	subPath_YStage := "y"
-	if path != "" {
-	subPath_YStage = path + "_y"
-	}
-	stageSet.YStage = y.NewStage(subPath_YStage)
 	return stageSet
 }
 
@@ -148,16 +92,6 @@ func NewStageSet(path string) (stageSet *StageSet) {
 func NewStageSetFromStage(stage *Stage) (stageSet *StageSet) {
 	stageSet = new(StageSet)
 	stageSet.Stage = stage
-	subPath_XStage := "x"
-	if stage != nil && stage.GetName() != "" {
-	subPath_XStage = stage.GetName() + "_x"
-	}
-	stageSet.XStage = x.NewStage(subPath_XStage)
-	subPath_YStage := "y"
-	if stage != nil && stage.GetName() != "" {
-	subPath_YStage = stage.GetName() + "_y"
-	}
-	stageSet.YStage = y.NewStage(subPath_YStage)
 	return stageSet
 }
 
@@ -195,80 +129,64 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	var values strings.Builder
 	var pointers strings.Builder
 
-	if stageSet.YStage != nil {
-		yOrdered := []*y.Y{}
-		for y := range stageSet.YStage.Ys {
-			yOrdered = append(yOrdered, y)
+	if stageSet.Stage != nil {
+		contentOrdered := []*Content{}
+		for content := range stageSet.Stage.Contents {
+			contentOrdered = append(contentOrdered, content)
 		}
-		sort.Slice(yOrdered, func(i, j int) bool {
-			return stageSet.YStage.Y_stagedOrder[yOrdered[i]] < stageSet.YStage.Y_stagedOrder[yOrdered[j]]
+		sort.Slice(contentOrdered, func(i, j int) bool {
+			return stageSet.Stage.Content_stagedOrder[contentOrdered[i]] < stageSet.Stage.Content_stagedOrder[contentOrdered[j]]
 		})
-		for _, y := range yOrdered {
-			yIdent := "__stage_2" + y.GongGetIdentifier(stageSet.YStage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_2__.Y{Name: %s}).Stage(stageSet.YStage)", yIdent, __gong__toRawStringLiteral(y.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", yIdent, __gong__toRawStringLiteral(y.Name)))
-		}
-	}
-	if stageSet.XStage != nil {
-		xOrdered := []*x.X{}
-		for x := range stageSet.XStage.Xs {
-			xOrdered = append(xOrdered, x)
-		}
-		sort.Slice(xOrdered, func(i, j int) bool {
-			return stageSet.XStage.X_stagedOrder[xOrdered[i]] < stageSet.XStage.X_stagedOrder[xOrdered[j]]
-		})
-		for _, x := range xOrdered {
-			xIdent := "__stage_1" + x.GongGetIdentifier(stageSet.XStage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_1__.X{Name: %s}).Stage(stageSet.XStage)", xIdent, __gong__toRawStringLiteral(x.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xIdent, __gong__toRawStringLiteral(x.Name)))
-			if x.Y != nil {
-				targetIdent := "__stage_2" + x.Y.GongGetIdentifier(stageSet.YStage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Y = %s", xIdent, targetIdent))
-			}
+		for _, content := range contentOrdered {
+			contentIdent := "__stage_0" + content.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Content{Name: %s}).Stage(stageSet.Stage)", contentIdent, __gong__toRawStringLiteral(content.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", contentIdent, __gong__toRawStringLiteral(content.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", contentIdent, __gong__toRawStringLiteral(content.Content)))
 		}
 	}
 	if stageSet.Stage != nil {
-		aOrdered := []*A{}
-		for a := range stageSet.Stage.As {
-			aOrdered = append(aOrdered, a)
+		jpgimageOrdered := []*JpgImage{}
+		for jpgimage := range stageSet.Stage.JpgImages {
+			jpgimageOrdered = append(jpgimageOrdered, jpgimage)
 		}
-		sort.Slice(aOrdered, func(i, j int) bool {
-			return stageSet.Stage.A_stagedOrder[aOrdered[i]] < stageSet.Stage.A_stagedOrder[aOrdered[j]]
+		sort.Slice(jpgimageOrdered, func(i, j int) bool {
+			return stageSet.Stage.JpgImage_stagedOrder[jpgimageOrdered[i]] < stageSet.Stage.JpgImage_stagedOrder[jpgimageOrdered[j]]
 		})
-		for _, a := range aOrdered {
-			aIdent := "__stage_0" + a.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A{Name: %s}).Stage(stageSet.Stage)", aIdent, __gong__toRawStringLiteral(a.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", aIdent, __gong__toRawStringLiteral(a.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.NumberField = %d", aIdent, a.NumberField))
-			values.WriteString(fmt.Sprintf("\n\t%s.Foo = %d", aIdent, a.Foo))
-			values.WriteString(fmt.Sprintf("\n\t%s.Bar = %f", aIdent, a.Bar))
-			values.WriteString(fmt.Sprintf("\n\t%s.Zorgh = %s", aIdent, __gong__toRawStringLiteral(a.Zorgh)))
-			if a.B != nil {
-				targetIdent := "__stage_0" + a.B.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.B = %s", aIdent, targetIdent))
-			}
-			for _, elem := range a.Bs {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Bs = append(%s.Bs, %s)", aIdent, aIdent, targetIdent))
-			}
-			if a.X != nil {
-				targetIdent := "__stage_1" + a.X.GongGetIdentifier(stageSet.XStage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.X = %s", aIdent, targetIdent))
-			}
+		for _, jpgimage := range jpgimageOrdered {
+			jpgimageIdent := "__stage_0" + jpgimage.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.JpgImage{Name: %s}).Stage(stageSet.Stage)", jpgimageIdent, __gong__toRawStringLiteral(jpgimage.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", jpgimageIdent, __gong__toRawStringLiteral(jpgimage.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Base64Content = %s", jpgimageIdent, __gong__toRawStringLiteral(jpgimage.Base64Content)))
 		}
 	}
 	if stageSet.Stage != nil {
-		bOrdered := []*B{}
-		for b := range stageSet.Stage.Bs {
-			bOrdered = append(bOrdered, b)
+		pngimageOrdered := []*PngImage{}
+		for pngimage := range stageSet.Stage.PngImages {
+			pngimageOrdered = append(pngimageOrdered, pngimage)
 		}
-		sort.Slice(bOrdered, func(i, j int) bool {
-			return stageSet.Stage.B_stagedOrder[bOrdered[i]] < stageSet.Stage.B_stagedOrder[bOrdered[j]]
+		sort.Slice(pngimageOrdered, func(i, j int) bool {
+			return stageSet.Stage.PngImage_stagedOrder[pngimageOrdered[i]] < stageSet.Stage.PngImage_stagedOrder[pngimageOrdered[j]]
 		})
-		for _, b := range bOrdered {
-			bIdent := "__stage_0" + b.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.B{Name: %s}).Stage(stageSet.Stage)", bIdent, __gong__toRawStringLiteral(b.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bIdent, __gong__toRawStringLiteral(b.Name)))
+		for _, pngimage := range pngimageOrdered {
+			pngimageIdent := "__stage_0" + pngimage.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.PngImage{Name: %s}).Stage(stageSet.Stage)", pngimageIdent, __gong__toRawStringLiteral(pngimage.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", pngimageIdent, __gong__toRawStringLiteral(pngimage.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Base64Content = %s", pngimageIdent, __gong__toRawStringLiteral(pngimage.Base64Content)))
+		}
+	}
+	if stageSet.Stage != nil {
+		svgimageOrdered := []*SvgImage{}
+		for svgimage := range stageSet.Stage.SvgImages {
+			svgimageOrdered = append(svgimageOrdered, svgimage)
+		}
+		sort.Slice(svgimageOrdered, func(i, j int) bool {
+			return stageSet.Stage.SvgImage_stagedOrder[svgimageOrdered[i]] < stageSet.Stage.SvgImage_stagedOrder[svgimageOrdered[j]]
+		})
+		for _, svgimage := range svgimageOrdered {
+			svgimageIdent := "__stage_0" + svgimage.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.SvgImage{Name: %s}).Stage(stageSet.Stage)", svgimageIdent, __gong__toRawStringLiteral(svgimage.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", svgimageIdent, __gong__toRawStringLiteral(svgimage.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", svgimageIdent, __gong__toRawStringLiteral(svgimage.Content)))
 		}
 	}
 
@@ -280,9 +198,7 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/test/test2/go/models"
-	__stage_1__ "github.com/fullstack-lang/gong/test/test2/go/models/x"
-	__stage_2__ "github.com/fullstack-lang/gong/test/test2/go/models/y"
+	__stage_0__ "github.com/fullstack-lang/gong/lib/markdown/go/models"
 )
 
 var (
@@ -290,8 +206,6 @@ var (
 	_ = slices.Index[[]int, int]
 
 	_ *__stage_0__.Stage
-	_ *__stage_1__.Stage
-	_ *__stage_2__.Stage
 )
 
 // function will stage objects across all coordinated stages
@@ -398,53 +312,47 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					})
 
 					switch pkgAlias {
-			case "__stage_2__":
-				switch typeName {
-				case "Y":
-					if !preserveOrder {
-						inst := (&y.Y{Name: instanceName}).Stage(stageSet.YStage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(y.Y)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.YStage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
-				}
-			case "__stage_1__":
-				switch typeName {
-				case "X":
-					if !preserveOrder {
-						inst := (&x.X{Name: instanceName}).Stage(stageSet.XStage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(x.X)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.XStage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
-				}
 			case "__stage_0__":
 				switch typeName {
-				case "A":
+				case "Content":
 					if !preserveOrder {
-						inst := (&A{Name: instanceName}).Stage(stageSet.Stage)
+						inst := (&Content{Name: instanceName}).Stage(stageSet.Stage)
 						identifierMap[ident.Name] = inst
 					} else {
-						inst := new(A)
+						inst := new(Content)
 						inst.Name = instanceName
 						order, _ := __gong__extractMiddleUint(ident.Name)
 						inst.StagePreserveOrder(stageSet.Stage, uint(order))
 						identifierMap[ident.Name] = inst
 					}
-				case "B":
+				case "JpgImage":
 					if !preserveOrder {
-						inst := (&B{Name: instanceName}).Stage(stageSet.Stage)
+						inst := (&JpgImage{Name: instanceName}).Stage(stageSet.Stage)
 						identifierMap[ident.Name] = inst
 					} else {
-						inst := new(B)
+						inst := new(JpgImage)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				case "PngImage":
+					if !preserveOrder {
+						inst := (&PngImage{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(PngImage)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				case "SvgImage":
+					if !preserveOrder {
+						inst := (&SvgImage{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(SvgImage)
 						inst.Name = instanceName
 						order, _ := __gong__extractMiddleUint(ident.Name)
 						inst.StagePreserveOrder(stageSet.Stage, uint(order))
@@ -464,67 +372,33 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 							fieldName := selExpr.Sel.Name
 							rhs := node.Rhs[0]
 							switch inst := instance.(type) {
-				case *y.Y:
+				case *Content:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "Content":
+						inst.Content = GongExtractString(rhs)
 					}
-				case *x.X:
+				case *JpgImage:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Y":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*y.Y); ok {
-									inst.Y = typedTarget
-								}
-							}
-						}
+					case "Base64Content":
+						inst.Base64Content = GongExtractString(rhs)
 					}
-				case *A:
+				case *PngImage:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "NumberField":
-						inst.NumberField = GongExtractInt(rhs)
-					case "B":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*B); ok {
-									inst.B = typedTarget
-								}
-							}
-						}
-					case "Bs":
-						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
-							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
-								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*B); ok {
-										inst.Bs = append(inst.Bs, typedTarget)
-									}
-								}
-							}
-						}
-					case "X":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*x.X); ok {
-									inst.X = typedTarget
-								}
-							}
-						}
-					case "Foo":
-						inst.Foo = GongExtractInt(rhs)
-					case "Bar":
-						inst.Bar = GongExtractFloat(rhs)
-					case "Zorgh":
-						inst.Zorgh = GongExtractString(rhs)
+					case "Base64Content":
+						inst.Base64Content = GongExtractString(rhs)
 					}
-				case *B:
+				case *SvgImage:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "Content":
+						inst.Content = GongExtractString(rhs)
 					}
 							}
 						}
