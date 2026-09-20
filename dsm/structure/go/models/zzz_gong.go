@@ -6402,7 +6402,8 @@ func NewInstance[Type GongstructPtr]() (res Type) {
 
 func (stage *Stage) GongNewInstance[Type GongstructPtr]() (res Type) {
 	res = GongNewInstance[Type]()
-	if any(res) != nil {
+	var zero Type
+	if res != zero {
 		res.StageVoid(stage)
 	}
 	return res

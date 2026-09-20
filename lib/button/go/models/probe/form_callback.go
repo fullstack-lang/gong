@@ -39,9 +39,10 @@ func NewFormCallback[T models.PointerToGongstruct](
 	formGroup *form.FormGroup,
 	saveFields func(instance T, probe *Probe, formGroup *form.FormGroup),
 ) *FormCallback[T] {
+	var zero T
 	return &FormCallback[T]{
 		Instance:     instance,
-		CreationMode: any(instance) == nil,
+		CreationMode: instance == zero,
 		probe:        probe,
 		formGroup:    formGroup,
 		saveFields:   saveFields,
@@ -58,7 +59,8 @@ func (cb *FormCallback[T]) OnSave() {
 
 	cb.probe.formStage.Checkout()
 
-	if any(cb.Instance) == nil {
+	var zero T
+	if cb.Instance == zero {
 		cb.Instance = cb.probe.stageOfInterest.GongNewInstance[T]()
 	}
 
