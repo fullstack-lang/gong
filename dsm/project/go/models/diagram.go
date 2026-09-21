@@ -87,6 +87,9 @@ type Diagram struct {
 	ProductComposition_Shapes           []*ProductCompositionShape
 	map_Product_ProductCompositionShape map[*Product]*ProductCompositionShape
 
+	ProductReference_Shapes           []*ProductReferenceShape
+	map_Product_ProductReferenceShape map[productReferenceKey]*ProductReferenceShape
+
 	IsWBSNodeExpanded bool
 
 	Task_Shapes                    []*TaskShape

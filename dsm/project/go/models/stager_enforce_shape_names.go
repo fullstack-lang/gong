@@ -14,6 +14,7 @@ func (stager *Stager) enforceShapeNames() (needCommit bool) {
 		needCommit = enforceNodeShapeName(stager, diagram.Name, diagram.TaskGroupShapes) || needCommit
 
 		needCommit = enforceAssociationShapeName(stager, diagram.Name, diagram.ProductComposition_Shapes) || needCommit
+		needCommit = enforceAssociationShapeName(stager, diagram.Name, diagram.ProductReference_Shapes) || needCommit
 		needCommit = enforceAssociationShapeName(stager, diagram.Name, diagram.TaskComposition_Shapes) || needCommit
 		needCommit = enforceAssociationShapeName(stager, diagram.Name, diagram.TaskInputShapes) || needCommit
 		needCommit = enforceAssociationShapeName(stager, diagram.Name, diagram.TaskOutputShapes) || needCommit

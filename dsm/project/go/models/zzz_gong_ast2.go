@@ -590,6 +590,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsPBSNodeExpanded = GongExtractBool(valueExpr)
 	case "ProductComposition_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.ProductComposition_Shapes, valueExpr, identifierMap)
+	case "ProductReference_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.ProductReference_Shapes, valueExpr, identifierMap)
 	case "IsWBSNodeExpanded":
 		instance.IsWBSNodeExpanded = GongExtractBool(valueExpr)
 	case "Task_Shapes":
@@ -1006,6 +1008,51 @@ func (u *ProductCompositionShapeUnmarshaller) UnmarshallField(stage *Stage, i Go
 	return nil
 }
 
+type ProductReferenceShapeUnmarshaller struct{}
+
+func (u *ProductReferenceShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ProductReferenceShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ProductReferenceShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ProductReferenceShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Product":
+		GongUnmarshallPointer(&instance.Product, valueExpr, identifierMap)
+	case "ReferencedProduct":
+		GongUnmarshallPointer(&instance.ReferencedProduct, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
 type ProductShapeUnmarshaller struct{}
 
 func (u *ProductShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1033,6 +1080,8 @@ func (u *ProductShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.Name = GongExtractString(valueExpr)
 	case "Product":
 		GongUnmarshallPointer(&instance.Product, valueExpr, identifierMap)
+	case "IsShowType":
+		instance.IsShowType = GongExtractBool(valueExpr)
 	case "OverideLayoutDirection":
 		instance.OverideLayoutDirection = GongExtractBool(valueExpr)
 	case "LayoutDirection":

@@ -46,6 +46,29 @@ func (stager *Stager) treeProduct(diagram *Diagram, product *Product, parentNode
 
 	addLayoutButtons(stager, diagram, productNode, product, productShape, ok)
 
+	if ok && product.ReferencedProduct != nil {
+		button := &tree.Button{
+			Name:            "Show type on diagram",
+			Icon:            string(buttons.BUTTON_label),
+			ToolTipText:     "Show type on diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				productShape.IsShowType = !productShape.IsShowType
+				stager.stage.Commit()
+			},
+		}
+		if productShape.IsShowType {
+			button.Name = "Hide type on diagram"
+			button.ToolTipText = "Hide type on diagram"
+			button.Icon = string(buttons.BUTTON_label_off)
+		}
+		if productNode.Menu == nil {
+			productNode.Menu = &tree.Menu{Name: "Menu"}
+		}
+		productNode.Menu.Buttons = append(productNode.Menu.Buttons, button)
+	}
+
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Product, *Product, // AT, PAT (Added Element)
 		Product, *Product, // ParentAT, PParentAT (Parent Element)
@@ -75,6 +98,79 @@ func (stager *Stager) treeProduct(diagram *Diagram, product *Product, parentNode
 	}
 
 	addCreateItemShapeAndLinkButton(stager, conf)
+
+	if product.ReferencedProduct != nil {
+		refProduct := product.ReferencedProduct
+		refNode := &tree.Node{
+			Name:                    "Type: " + refProduct.GetName(),
+			IsNodeClickable:         true,
+			IsWithPreceedingIcon:    true,
+			PreceedingIcon:          string(buttons.BUTTON_category),
+			IsInEditMode:            refProduct.GetIsInRenameMode(),
+			CheckboxHasToolTip:      true,
+			CheckboxToolTipPosition: tree.Right,
+		}
+		productNode.Children = append(productNode.Children, refNode)
+		addRenameButton(refProduct, refNode, stager)
+		refNode.OnNameChange = stager.onNameChange(refProduct)
+		refNode.OnClick = onNodeClicked(stager, refProduct)
+
+		// if both product and referenced product have shapes in the diagram
+		if _, okStart := diagram.map_Product_ProductShape[product]; okStart {
+			if _, okEnd := diagram.map_Product_ProductShape[refProduct]; okEnd {
+				refNode.HasCheckboxButton = true
+
+				key := productReferenceKey{
+					Product:           product,
+					ReferencedProduct: refProduct,
+				}
+				productRefShape, okLink := diagram.map_Product_ProductReferenceShape[key]
+				refNode.IsChecked = okLink
+
+				if okLink {
+					refNode.CheckboxToolTipText = "Uncheck to remove reference link from diagram"
+				} else {
+					refNode.CheckboxToolTipText = "Check to add reference link to diagram"
+				}
+
+				refNode.OnIsCheckedChanged = func(isChecked bool) {
+					if isChecked {
+						addAssociationShapeToDiagram(stager, product, refProduct, &diagram.ProductReference_Shapes)
+						stager.stage.Commit()
+					} else {
+						if productRefShape != nil {
+							productRefShape.UnstageVoid(stager.stage)
+							stager.stage.Commit()
+						}
+					}
+				}
+
+				refNode.Buttons = []*tree.Button{
+					{
+						Name:            diagram.GetName(),
+						Icon:            string(buttons.BUTTON_visibility_off),
+						ToolTipText:     "Hide link from diagram",
+						HasToolTip:      true,
+						ToolTipPosition: tree.Right,
+						OnClick: func() {
+							if productRefShape != nil {
+								productRefShape.SetIsHidden(!productRefShape.GetIsHidden())
+								stager.stage.Commit()
+							}
+						},
+					},
+				}
+				if okLink {
+					if productRefShape.GetIsHidden() {
+						refNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+						refNode.Buttons[0].ToolTipText = "Show link on diagram"
+					}
+				} else {
+					refNode.Buttons[0].IsDisabled = true
+				}
+			}
+		}
+	}
 
 	for _, product := range product.SubProducts {
 		stager.treeProduct(diagram, product, productNode)

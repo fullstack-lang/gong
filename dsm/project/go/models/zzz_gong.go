@@ -144,6 +144,8 @@ type Stage struct {
 
 	Diagram_ProductComposition_Shapes_reverseMap map[*ProductCompositionShape]*Diagram
 
+	Diagram_ProductReference_Shapes_reverseMap map[*ProductReferenceShape]*Diagram
+
 	Diagram_Task_Shapes_reverseMap map[*TaskShape]*Diagram
 
 	Diagram_TasksWhoseNodeIsExpanded_reverseMap map[*Task]*Diagram
@@ -330,6 +332,21 @@ type Stage struct {
 	OnAfterProductCompositionShapeUpdateCallback GongOnAfterUpdateInterface[ProductCompositionShape]
 	OnAfterProductCompositionShapeDeleteCallback GongOnAfterDeleteInterface[ProductCompositionShape]
 	OnAfterProductCompositionShapeReadCallback   GongOnAfterReadInterface[ProductCompositionShape]
+
+	ProductReferenceShapes                map[*ProductReferenceShape]struct{}
+	ProductReferenceShapes_instance       map[*ProductReferenceShape]*ProductReferenceShape
+	ProductReferenceShapes_mapString      map[string]*ProductReferenceShape
+	ProductReferenceShapeOrder            uint
+	ProductReferenceShape_stagedOrder     map[*ProductReferenceShape]uint
+	ProductReferenceShape_orderStaged     map[uint]*ProductReferenceShape
+	ProductReferenceShapes_reference      map[*ProductReferenceShape]*ProductReferenceShape
+	ProductReferenceShapes_referenceOrder map[*ProductReferenceShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterProductReferenceShapeCreateCallback GongOnAfterCreateInterface[ProductReferenceShape]
+	OnAfterProductReferenceShapeUpdateCallback GongOnAfterUpdateInterface[ProductReferenceShape]
+	OnAfterProductReferenceShapeDeleteCallback GongOnAfterDeleteInterface[ProductReferenceShape]
+	OnAfterProductReferenceShapeReadCallback   GongOnAfterReadInterface[ProductReferenceShape]
 
 	ProductShapes                map[*ProductShape]struct{}
 	ProductShapes_instance       map[*ProductShape]*ProductShape
@@ -811,6 +828,10 @@ func (stage *Stage) Squash() {
 	stage.ProductCompositionShapes_instance = make(map[*ProductCompositionShape]*ProductCompositionShape)
 	stage.ProductCompositionShapes_referenceOrder = make(map[*ProductCompositionShape]uint)
 
+	stage.ProductReferenceShapes_reference = make(map[*ProductReferenceShape]*ProductReferenceShape)
+	stage.ProductReferenceShapes_instance = make(map[*ProductReferenceShape]*ProductReferenceShape)
+	stage.ProductReferenceShapes_referenceOrder = make(map[*ProductReferenceShape]uint)
+
 	stage.ProductShapes_reference = make(map[*ProductShape]*ProductShape)
 	stage.ProductShapes_instance = make(map[*ProductShape]*ProductShape)
 	stage.ProductShapes_referenceOrder = make(map[*ProductShape]uint)
@@ -1014,6 +1035,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.ProductCompositionShapeOrder = maxProductCompositionShapeOrder + 1
 	} else {
 		stage.ProductCompositionShapeOrder = 0
+	}
+
+	var maxProductReferenceShapeOrder uint
+	var foundProductReferenceShape bool
+	for _, order := range stage.ProductReferenceShape_stagedOrder {
+		if !foundProductReferenceShape || order > maxProductReferenceShapeOrder {
+			maxProductReferenceShapeOrder = order
+			foundProductReferenceShape = true
+		}
+	}
+	if foundProductReferenceShape {
+		stage.ProductReferenceShapeOrder = maxProductReferenceShapeOrder + 1
+	} else {
+		stage.ProductReferenceShapeOrder = 0
 	}
 
 	var maxProductShapeOrder uint
@@ -1353,6 +1388,20 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *ProductReferenceShape:
+		tmp := __gong__getStructInstancesByOrder(stage.ProductReferenceShapes, stage.ProductReferenceShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ProductReferenceShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *ProductShape:
 		tmp := __gong__getStructInstancesByOrder(stage.ProductShapes, stage.ProductShape_stagedOrder)
 
@@ -1633,6 +1682,8 @@ type GongBackRepoInterface interface {
 	CheckoutProduct(product *Product)
 	CommitProductCompositionShape(productcompositionshape *ProductCompositionShape)
 	CheckoutProductCompositionShape(productcompositionshape *ProductCompositionShape)
+	CommitProductReferenceShape(productreferenceshape *ProductReferenceShape)
+	CheckoutProductReferenceShape(productreferenceshape *ProductReferenceShape)
 	CommitProductShape(productshape *ProductShape)
 	CheckoutProductShape(productshape *ProductShape)
 	CommitResource(resource *Resource)
@@ -1693,6 +1744,9 @@ func NewStage(name string) (stage *Stage) {
 
 		ProductCompositionShapes:           make(map[*ProductCompositionShape]struct{}),
 		ProductCompositionShapes_mapString: make(map[string]*ProductCompositionShape),
+
+		ProductReferenceShapes:           make(map[*ProductReferenceShape]struct{}),
+		ProductReferenceShapes_mapString: make(map[string]*ProductReferenceShape),
 
 		ProductShapes:           make(map[*ProductShape]struct{}),
 		ProductShapes_mapString: make(map[string]*ProductShape),
@@ -1779,6 +1833,10 @@ func NewStage(name string) (stage *Stage) {
 		ProductCompositionShape_orderStaged: make(map[uint]*ProductCompositionShape),
 		ProductCompositionShapes_reference:  make(map[*ProductCompositionShape]*ProductCompositionShape),
 
+		ProductReferenceShape_stagedOrder: make(map[*ProductReferenceShape]uint),
+		ProductReferenceShape_orderStaged: make(map[uint]*ProductReferenceShape),
+		ProductReferenceShapes_reference:  make(map[*ProductReferenceShape]*ProductReferenceShape),
+
 		ProductShape_stagedOrder: make(map[*ProductShape]uint),
 		ProductShape_orderStaged: make(map[uint]*ProductShape),
 		ProductShapes_reference:  make(map[*ProductShape]*ProductShape),
@@ -1851,6 +1909,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"ProductCompositionShape": &ProductCompositionShapeUnmarshaller{},
 
+			"ProductReferenceShape": &ProductReferenceShapeUnmarshaller{},
+
 			"ProductShape": &ProductShapeUnmarshaller{},
 
 			"Resource": &ResourceUnmarshaller{},
@@ -1917,6 +1977,8 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return any(stage.Product_orderStaged[order]).(Type)
 	case *ProductCompositionShape:
 		return any(stage.ProductCompositionShape_orderStaged[order]).(Type)
+	case *ProductReferenceShape:
+		return any(stage.ProductReferenceShape_orderStaged[order]).(Type)
 	case *ProductShape:
 		return any(stage.ProductShape_orderStaged[order]).(Type)
 	case *Resource:
@@ -2017,6 +2079,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["NoteTaskShape"] = len(stage.NoteTaskShapes)
 	stage.Map_GongStructName_InstancesNb["Product"] = len(stage.Products)
 	stage.Map_GongStructName_InstancesNb["ProductCompositionShape"] = len(stage.ProductCompositionShapes)
+	stage.Map_GongStructName_InstancesNb["ProductReferenceShape"] = len(stage.ProductReferenceShapes)
 	stage.Map_GongStructName_InstancesNb["ProductShape"] = len(stage.ProductShapes)
 	stage.Map_GongStructName_InstancesNb["Resource"] = len(stage.Resources)
 	stage.Map_GongStructName_InstancesNb["ResourceCompositionShape"] = len(stage.ResourceCompositionShapes)
@@ -2824,6 +2887,90 @@ func (productcompositionshape *ProductCompositionShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (productcompositionshape *ProductCompositionShape) SetName(name string) {
 	productcompositionshape.Name = name
+}
+
+// Stage puts productreferenceshape to the model stage
+func (productreferenceshape *ProductReferenceShape) Stage(stage *Stage) *ProductReferenceShape {
+	if _, ok := stage.ProductReferenceShapes[productreferenceshape]; !ok {
+		stage.ProductReferenceShapes[productreferenceshape] = struct{}{}
+		stage.ProductReferenceShape_stagedOrder[productreferenceshape] = stage.ProductReferenceShapeOrder
+		stage.ProductReferenceShape_orderStaged[stage.ProductReferenceShapeOrder] = productreferenceshape
+		stage.ProductReferenceShapeOrder++
+	}
+	stage.ProductReferenceShapes_mapString[productreferenceshape.Name] = productreferenceshape
+
+	return productreferenceshape
+}
+
+// StagePreserveOrder puts productreferenceshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ProductReferenceShapeOrder
+// - update stage.ProductReferenceShapeOrder accordingly
+func (productreferenceshape *ProductReferenceShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ProductReferenceShapes[productreferenceshape]; !ok {
+		stage.ProductReferenceShapes[productreferenceshape] = struct{}{}
+
+		if order > stage.ProductReferenceShapeOrder {
+			stage.ProductReferenceShapeOrder = order
+		}
+		stage.ProductReferenceShape_stagedOrder[productreferenceshape] = order
+		stage.ProductReferenceShape_orderStaged[order] = productreferenceshape
+		stage.ProductReferenceShapeOrder++
+	}
+	stage.ProductReferenceShapes_mapString[productreferenceshape.Name] = productreferenceshape
+}
+
+// Unstage removes productreferenceshape off the model stage
+func (productreferenceshape *ProductReferenceShape) Unstage(stage *Stage) *ProductReferenceShape {
+	delete(stage.ProductReferenceShapes, productreferenceshape)
+	// issue1150
+	// delete(stage.ProductReferenceShape_stagedOrder, productreferenceshape)
+	delete(stage.ProductReferenceShapes_mapString, productreferenceshape.Name)
+
+	return productreferenceshape
+}
+
+// UnstageVoid removes productreferenceshape off the model stage
+func (productreferenceshape *ProductReferenceShape) UnstageVoid(stage *Stage) {
+	delete(stage.ProductReferenceShapes, productreferenceshape)
+	// issue1150
+	// delete(stage.ProductReferenceShape_stagedOrder, productreferenceshape)
+	delete(stage.ProductReferenceShapes_mapString, productreferenceshape.Name)
+}
+
+// commit productreferenceshape to the back repo (if it is already staged)
+func (productreferenceshape *ProductReferenceShape) Commit(stage *Stage) *ProductReferenceShape {
+	if _, ok := stage.ProductReferenceShapes[productreferenceshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitProductReferenceShape(productreferenceshape)
+		}
+	}
+	return productreferenceshape
+}
+
+func (productreferenceshape *ProductReferenceShape) StageVoid(stage *Stage) {
+	productreferenceshape.Stage(stage)
+}
+
+// Checkout productreferenceshape to the back repo (if it is already staged)
+func (productreferenceshape *ProductReferenceShape) Checkout(stage *Stage) *ProductReferenceShape {
+	if _, ok := stage.ProductReferenceShapes[productreferenceshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutProductReferenceShape(productreferenceshape)
+		}
+	}
+	return productreferenceshape
+}
+
+// for satisfaction of GongStruct interface
+func (productreferenceshape *ProductReferenceShape) GetName() (res string) {
+	return productreferenceshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (productreferenceshape *ProductReferenceShape) SetName(name string) {
+	productreferenceshape.Name = name
 }
 
 // Stage puts productshape to the model stage
@@ -3964,6 +4111,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.ProductCompositionShape_stagedOrder = make(map[*ProductCompositionShape]uint)
 	stage.ProductCompositionShapeOrder = 0
 
+	stage.ProductReferenceShapes = make(map[*ProductReferenceShape]struct{})
+	stage.ProductReferenceShapes_mapString = make(map[string]*ProductReferenceShape)
+	stage.ProductReferenceShape_stagedOrder = make(map[*ProductReferenceShape]uint)
+	stage.ProductReferenceShapeOrder = 0
+
 	stage.ProductShapes = make(map[*ProductShape]struct{})
 	stage.ProductShapes_mapString = make(map[string]*ProductShape)
 	stage.ProductShape_stagedOrder = make(map[*ProductShape]uint)
@@ -4128,6 +4280,8 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 		return any(stage.Products_mapString).(map[string]Type)
 	case *ProductCompositionShape:
 		return any(stage.ProductCompositionShapes_mapString).(map[string]Type)
+	case *ProductReferenceShape:
+		return any(stage.ProductReferenceShapes_mapString).(map[string]Type)
 	case *ProductShape:
 		return any(stage.ProductShapes_mapString).(map[string]Type)
 	case *Resource:
@@ -4183,6 +4337,8 @@ func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
 		return any(&stage.Products).(*map[Type]struct{})
 	case *ProductCompositionShape:
 		return any(&stage.ProductCompositionShapes).(*map[Type]struct{})
+	case *ProductReferenceShape:
+		return any(&stage.ProductReferenceShapes).(*map[Type]struct{})
 	case *ProductShape:
 		return any(&stage.ProductShapes).(*map[Type]struct{})
 	case *Resource:
@@ -4232,6 +4388,8 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			ProductsWhoseNodeIsExpanded: []*Product{{Name: "ProductsWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of ProductCompositionShape with the name of the field
 			ProductComposition_Shapes: []*ProductCompositionShape{{Name: "ProductComposition_Shapes"}},
+			// field is initialized with an instance of ProductReferenceShape with the name of the field
+			ProductReference_Shapes: []*ProductReferenceShape{{Name: "ProductReference_Shapes"}},
 			// field is initialized with an instance of TaskShape with the name of the field
 			Task_Shapes: []*TaskShape{{Name: "Task_Shapes"}},
 			// field is initialized with an instance of Task with the name of the field
@@ -4344,6 +4502,14 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Product with the name of the field
 			Product: &Product{Name: "Product"},
+		}).(*Type)
+	case ProductReferenceShape:
+		return any(&ProductReferenceShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Product with the name of the field
+			Product: &Product{Name: "Product"},
+			// field is initialized with an instance of Product with the name of the field
+			ReferencedProduct: &Product{Name: "ReferencedProduct"},
 		}).(*Type)
 	case ProductShape:
 		return any(&ProductShape{
@@ -4657,6 +4823,45 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					productcompositionshapes = append(productcompositionshapes, productcompositionshape)
 					res[product_] = productcompositionshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ProductReferenceShape
+	case ProductReferenceShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Product":
+			res := make(map[*Product][]*ProductReferenceShape)
+			for productreferenceshape := range stage.ProductReferenceShapes {
+				if productreferenceshape.Product != nil {
+					product_ := productreferenceshape.Product
+					var productreferenceshapes []*ProductReferenceShape
+					_, ok := res[product_]
+					if ok {
+						productreferenceshapes = res[product_]
+					} else {
+						productreferenceshapes = make([]*ProductReferenceShape, 0)
+					}
+					productreferenceshapes = append(productreferenceshapes, productreferenceshape)
+					res[product_] = productreferenceshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ReferencedProduct":
+			res := make(map[*Product][]*ProductReferenceShape)
+			for productreferenceshape := range stage.ProductReferenceShapes {
+				if productreferenceshape.ReferencedProduct != nil {
+					product_ := productreferenceshape.ReferencedProduct
+					var productreferenceshapes []*ProductReferenceShape
+					_, ok := res[product_]
+					if ok {
+						productreferenceshapes = res[product_]
+					} else {
+						productreferenceshapes = make([]*ProductReferenceShape, 0)
+					}
+					productreferenceshapes = append(productreferenceshapes, productreferenceshape)
+					res[product_] = productreferenceshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -5036,6 +5241,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ProductReference_Shapes":
+			res := make(map[*ProductReferenceShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, productreferenceshape_ := range diagram.ProductReference_Shapes {
+					res[productreferenceshape_] = append(res[productreferenceshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Task_Shapes":
 			res := make(map[*TaskShape][]*Diagram)
 			for diagram := range stage.Diagrams {
@@ -5325,6 +5538,11 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of ProductReferenceShape
+	case ProductReferenceShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of ProductShape
 	case ProductShape:
 		switch fieldname {
@@ -5482,6 +5700,8 @@ func GongNewInstance[Type GongstructPtr]() (res Type) {
 		res = any(new(Product)).(Type)
 	case *ProductCompositionShape:
 		res = any(new(ProductCompositionShape)).(Type)
+	case *ProductReferenceShape:
+		res = any(new(ProductReferenceShape)).(Type)
 	case *ProductShape:
 		res = any(new(ProductShape)).(Type)
 	case *Resource:
@@ -5554,6 +5774,8 @@ func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Product"
 	case *ProductCompositionShape:
 		res = "ProductCompositionShape"
+	case *ProductReferenceShape:
+		res = "ProductReferenceShape"
 	case *ProductShape:
 		res = "ProductShape"
 	case *Resource:
@@ -5674,6 +5896,12 @@ func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 		_ = rf
 		rf.GongstructName = "Diagram"
 		rf.Fieldname = "ProductComposition_Shapes"
+		res = append(res, rf)
+	case *ProductReferenceShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "ProductReference_Shapes"
 		res = append(res, rf)
 	case *ProductShape:
 		var rf ReverseField
@@ -5986,6 +6214,11 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "ProductComposition_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ProductCompositionShape",
+		},
+		{
+			Name:                 "ProductReference_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ProductReferenceShape",
 		},
 		{
 			Name:               "IsWBSNodeExpanded",
@@ -6490,6 +6723,53 @@ func (productcompositionshape *ProductCompositionShape) GongGetFieldHeaders() (r
 	return
 }
 
+func (productreferenceshape *ProductReferenceShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Product",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Product",
+		},
+		{
+			Name:                 "ReferencedProduct",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Product",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "StartOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:                 "EndOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:               "CornerOffsetRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
 func (productshape *ProductShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -6501,6 +6781,10 @@ func (productshape *ProductShape) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "Product",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Product",
+		},
+		{
+			Name:               "IsShowType",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "OverideLayoutDirection",
@@ -7414,6 +7698,16 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "ProductReference_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ProductReference_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "IsWBSNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", diagram.IsWBSNodeExpanded)
 		res.valueBool = diagram.IsWBSNodeExpanded
@@ -8033,6 +8327,49 @@ func (productcompositionshape *ProductCompositionShape) GongGetFieldValue(fieldN
 	return
 }
 
+func (productreferenceshape *ProductReferenceShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = productreferenceshape.Name
+	case "Product":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if productreferenceshape.Product != nil {
+			res.valueString = productreferenceshape.Product.Name
+			res.ids = productreferenceshape.Product.GongGetUUID(stage)
+		}
+	case "ReferencedProduct":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if productreferenceshape.ReferencedProduct != nil {
+			res.valueString = productreferenceshape.ReferencedProduct.Name
+			res.ids = productreferenceshape.ReferencedProduct.GongGetUUID(stage)
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", productreferenceshape.StartRatio)
+		res.valueFloat = productreferenceshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", productreferenceshape.EndRatio)
+		res.valueFloat = productreferenceshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := productreferenceshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := productreferenceshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", productreferenceshape.CornerOffsetRatio)
+		res.valueFloat = productreferenceshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", productreferenceshape.IsHidden)
+		res.valueBool = productreferenceshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func (productshape *ProductShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -8044,6 +8381,10 @@ func (productshape *ProductShape) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = productshape.Product.Name
 			res.ids = productshape.Product.GongGetUUID(stage)
 		}
+	case "IsShowType":
+		res.valueString = fmt.Sprintf("%t", productshape.IsShowType)
+		res.valueBool = productshape.IsShowType
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "OverideLayoutDirection":
 		res.valueString = fmt.Sprintf("%t", productshape.OverideLayoutDirection)
 		res.valueBool = productshape.OverideLayoutDirection
@@ -8711,6 +9052,10 @@ func (productcompositionshape *ProductCompositionShape) GongGetGongstructName() 
 	return "ProductCompositionShape"
 }
 
+func (productreferenceshape *ProductReferenceShape) GongGetGongstructName() string {
+	return "ProductReferenceShape"
+}
+
 func (productshape *ProductShape) GongGetGongstructName() string {
 	return "ProductShape"
 }
@@ -8817,6 +9162,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.ProductCompositionShapes_mapString = make(map[string]*ProductCompositionShape)
 	for productcompositionshape := range stage.ProductCompositionShapes {
 		stage.ProductCompositionShapes_mapString[productcompositionshape.Name] = productcompositionshape
+	}
+
+	stage.ProductReferenceShapes_mapString = make(map[string]*ProductReferenceShape)
+	for productreferenceshape := range stage.ProductReferenceShapes {
+		stage.ProductReferenceShapes_mapString[productreferenceshape.Name] = productreferenceshape
 	}
 
 	stage.ProductShapes_mapString = make(map[string]*ProductShape)

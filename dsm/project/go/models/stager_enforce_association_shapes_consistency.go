@@ -56,9 +56,13 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 	}
 
 	validProductCompositions := make(map[*Product]bool)
+	validProductReferences := make(map[productReferenceKey]bool)
 	for _, product := range stage.GetInstancesSorted[*Product]() {
 		for _, subProduct := range product.SubProducts {
 			validProductCompositions[subProduct] = true
+		}
+		if product.ReferencedProduct != nil {
+			validProductReferences[productReferenceKey{Product: product, ReferencedProduct: product.ReferencedProduct}] = true
 		}
 	}
 
@@ -171,6 +175,18 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 				shape.UnstageVoid(stage)
 				if stager.probeForm != nil {
 					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ProductCompositionShape %s", shape.GetName()))
+				}
+				needCommit = true
+			}
+		}
+	}
+
+	for _, shape := range stage.GetInstancesSorted[*ProductReferenceShape]() {
+		if shape.Product != nil && shape.ReferencedProduct != nil {
+			if !validProductReferences[productReferenceKey{Product: shape.Product, ReferencedProduct: shape.ReferencedProduct}] {
+				shape.UnstageVoid(stage)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ProductReferenceShape %s", shape.GetName()))
 				}
 				needCommit = true
 			}

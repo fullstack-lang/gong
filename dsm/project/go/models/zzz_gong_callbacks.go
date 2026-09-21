@@ -261,6 +261,32 @@ func (productcompositionshape *ProductCompositionShape) GongAfterDeleteFromFront
 	}
 }
 
+func (productreferenceshape *ProductReferenceShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterProductReferenceShapeCreateCallback != nil {
+		stage.OnAfterProductReferenceShapeCreateCallback.OnAfterCreate(stage, productreferenceshape)
+	}
+}
+
+func (productreferenceshape *ProductReferenceShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterProductReferenceShapeUpdateCallback != nil {
+		var frontProductReferenceShape *ProductReferenceShape
+		if front != nil {
+			frontProductReferenceShape, _ = front.(*ProductReferenceShape)
+		}
+		stage.OnAfterProductReferenceShapeUpdateCallback.OnAfterUpdate(stage, productreferenceshape, frontProductReferenceShape)
+	}
+}
+
+func (productreferenceshape *ProductReferenceShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterProductReferenceShapeDeleteCallback != nil {
+		var frontProductReferenceShape *ProductReferenceShape
+		if front != nil {
+			frontProductReferenceShape, _ = front.(*ProductReferenceShape)
+		}
+		stage.OnAfterProductReferenceShapeDeleteCallback.OnAfterDelete(stage, productreferenceshape, frontProductReferenceShape)
+	}
+}
+
 func (productshape *ProductShape) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterProductShapeCreateCallback != nil {
 		stage.OnAfterProductShapeCreateCallback.OnAfterCreate(stage, productshape)

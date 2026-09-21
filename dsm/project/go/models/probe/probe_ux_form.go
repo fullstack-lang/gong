@@ -159,6 +159,19 @@ func FillUpFormFromGongstructName(
 		productcompositionshape := new(models.ProductCompositionShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(productcompositionshape, formGroup, probe)
+	case "ProductReferenceShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ProductReferenceShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ProductReferenceShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		productreferenceshape := new(models.ProductReferenceShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(productreferenceshape, formGroup, probe)
 	case "ProductShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

@@ -43,6 +43,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_ProductComposition_Shapes_reverseMap[_productcompositionshape] = diagram
 		}
 	}
+	stage.Diagram_ProductReference_Shapes_reverseMap = make(map[*ProductReferenceShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _productreferenceshape := range diagram.ProductReference_Shapes {
+			stage.Diagram_ProductReference_Shapes_reverseMap[_productreferenceshape] = diagram
+		}
+	}
 	stage.Diagram_Task_Shapes_reverseMap = make(map[*TaskShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
@@ -285,6 +292,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct ProductCompositionShape
 	// insertion point per field
 
+	// Compute reverse map for named struct ProductReferenceShape
+	// insertion point per field
+
 	// Compute reverse map for named struct ProductShape
 	// insertion point per field
 
@@ -421,6 +431,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.ProductReferenceShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.ProductShapes {
 		res = append(res, instance)
 	}
@@ -528,6 +542,12 @@ func (product *Product) GongCopy() GongstructIF {
 func (productcompositionshape *ProductCompositionShape) GongCopy() GongstructIF {
 	newInstance := new(ProductCompositionShape)
 	productcompositionshape.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (productreferenceshape *ProductReferenceShape) GongCopy() GongstructIF {
+	newInstance := new(ProductReferenceShape)
+	productreferenceshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -697,6 +717,16 @@ func (productcompositionshape *ProductCompositionShape) GongGetUUID(stage *Stage
 	}
 
 	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(productcompositionshape), uint64(stage.GetOrder(productcompositionshape)))
+	return
+}
+
+func (productreferenceshape *ProductReferenceShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(productreferenceshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(productreferenceshape), uint64(stage.GetOrder(productreferenceshape)))
 	return
 }
 
@@ -1085,6 +1115,23 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
+		stage.ProductReferenceShapes,
+		stage.ProductReferenceShape_stagedOrder,
+		stage.ProductReferenceShapes_reference,
+		&stage.ProductReferenceShapes_referenceOrder,
+		stage.ProductReferenceShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
 		stage.ProductShapes,
 		stage.ProductShape_stagedOrder,
 		stage.ProductShapes_reference,
@@ -1429,6 +1476,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.ProductCompositionShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.ProductReferenceShapes_reference = make(map[*ProductReferenceShape]*ProductReferenceShape)
+	stage.ProductReferenceShapes_referenceOrder = make(map[*ProductReferenceShape]uint) // diff Unstage needs the reference order
+	stage.ProductReferenceShapes_instance = make(map[*ProductReferenceShape]*ProductReferenceShape)
+	for instance := range stage.ProductReferenceShapes {
+		_copy := instance.GongCopy().(*ProductReferenceShape)
+		stage.ProductReferenceShapes_reference[instance] = _copy
+		stage.ProductReferenceShapes_instance[_copy] = instance
+		stage.ProductReferenceShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.ProductShapes_reference = make(map[*ProductShape]*ProductShape)
 	stage.ProductShapes_referenceOrder = make(map[*ProductShape]uint) // diff Unstage needs the reference order
 	stage.ProductShapes_instance = make(map[*ProductShape]*ProductShape)
@@ -1602,6 +1659,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.ProductCompositionShapes {
 		reference := stage.ProductCompositionShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ProductReferenceShapes {
+		reference := stage.ProductReferenceShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -1784,6 +1846,18 @@ func (productcompositionshape *ProductCompositionShape) GongGetOrder(stage *Stag
 		return order
 	} else {
 		log.Printf("instance %p of type ProductCompositionShape was not staged and does not have a reference order", productcompositionshape)
+		return 0
+	}
+}
+
+func (productreferenceshape *ProductReferenceShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ProductReferenceShape_stagedOrder[productreferenceshape]; ok {
+		return order
+	}
+	if order, ok := stage.ProductReferenceShapes_referenceOrder[productreferenceshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ProductReferenceShape was not staged and does not have a reference order", productreferenceshape)
 		return 0
 	}
 }
@@ -2030,6 +2104,15 @@ func (productcompositionshape *ProductCompositionShape) GongGetReferenceIdentifi
 	return fmt.Sprintf("__%s__%08d_", productcompositionshape.GongGetGongstructName(), productcompositionshape.GongGetOrder(stage))
 }
 
+func (productreferenceshape *ProductReferenceShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", productreferenceshape.GongGetGongstructName(), productreferenceshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (productreferenceshape *ProductReferenceShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", productreferenceshape.GongGetGongstructName(), productreferenceshape.GongGetOrder(stage))
+}
+
 func (productshape *ProductShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", productshape.GongGetGongstructName(), productshape.GongGetOrder(stage))
 }
@@ -2222,6 +2305,14 @@ func (productcompositionshape *ProductCompositionShape) GongMarshallIdentifier(s
 	return
 }
 
+func (productreferenceshape *ProductReferenceShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ProductReferenceShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(productreferenceshape.Name))
+	return
+}
+
 func (productshape *ProductShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", productshape.GongGetIdentifier(stage))
@@ -2378,6 +2469,12 @@ func (product *Product) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (productcompositionshape *ProductCompositionShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", productcompositionshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (productreferenceshape *ProductReferenceShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", productreferenceshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

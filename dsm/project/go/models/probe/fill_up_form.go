@@ -112,6 +112,7 @@ func FillUpForm(
 		BasicFieldtoForm("IsPBSNodeExpanded", instanceWithInferedType.IsPBSNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("ProductComposition_Shapes", instanceWithInferedType, &instanceWithInferedType.ProductComposition_Shapes, formGroup, probe)
+		AssociationSliceToForm("ProductReference_Shapes", instanceWithInferedType, &instanceWithInferedType.ProductReference_Shapes, formGroup, probe)
 		BasicFieldtoForm("IsWBSNodeExpanded", instanceWithInferedType.IsWBSNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Task_Shapes", instanceWithInferedType, &instanceWithInferedType.Task_Shapes, formGroup, probe)
@@ -462,11 +463,44 @@ func FillUpForm(
 				return owner.ProductComposition_Shapes
 			})
 
+	case *models.ProductReferenceShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Product", instanceWithInferedType.Product, formGroup, probe)
+		AssociationFieldToForm("ReferencedProduct", instanceWithInferedType.ReferencedProduct, formGroup, probe)
+		BasicFieldtoForm("StartRatio", instanceWithInferedType.StartRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndRatio", instanceWithInferedType.EndRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		EnumTypeStringToForm("StartOrientation", instanceWithInferedType.StartOrientation, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("EndOrientation", instanceWithInferedType.EndOrientation, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("CornerOffsetRatio", instanceWithInferedType.CornerOffsetRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Diagram",
+			"ProductReference_Shapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Diagram) []*models.ProductReferenceShape {
+				return owner.ProductReference_Shapes
+			})
+
 	case *models.ProductShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Product", instanceWithInferedType.Product, formGroup, probe)
+		BasicFieldtoForm("IsShowType", instanceWithInferedType.IsShowType, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("OverideLayoutDirection", instanceWithInferedType.OverideLayoutDirection, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)

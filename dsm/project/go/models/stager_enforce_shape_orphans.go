@@ -9,6 +9,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	// 1. collect all shapes that are attached to a diagram
 	reachableProductShapes := make(map[*ProductShape]struct{})
 	reachableProductCompositionShapes := make(map[*ProductCompositionShape]struct{})
+	reachableProductReferenceShapes := make(map[*ProductReferenceShape]struct{})
 	reachableTaskShapes := make(map[*TaskShape]struct{})
 	reachableTaskGroupShapes := make(map[*TaskGroupShape]struct{})
 	reachableTaskCompositionShapes := make(map[*TaskCompositionShape]struct{})
@@ -23,6 +24,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	for _, diagram := range stager.stage.GetInstancesSorted[*Diagram]() {
 		collectShapes(diagram.Product_Shapes, reachableProductShapes)
 		collectShapes(diagram.ProductComposition_Shapes, reachableProductCompositionShapes)
+		collectShapes(diagram.ProductReference_Shapes, reachableProductReferenceShapes)
 		collectShapes(diagram.Task_Shapes, reachableTaskShapes)
 		collectShapes(diagram.TaskGroupShapes, reachableTaskGroupShapes)
 		collectShapes(diagram.TaskComposition_Shapes, reachableTaskCompositionShapes)
@@ -38,6 +40,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	// 2. unstage shapes that are not attached to a diagram
 	needCommit = unstageUnreachableOrphans(stager, reachableProductShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableProductCompositionShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableProductReferenceShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableTaskShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableTaskGroupShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableTaskCompositionShapes) || needCommit

@@ -204,6 +204,8 @@ func saveDiagramFields(
 			FormDivBasicFieldToField(&(_instance.IsPBSNodeExpanded), formDiv)
 		case "ProductComposition_Shapes":
 			FormDivSliceOfPointersToField(_instance, "ProductComposition_Shapes", &(_instance.ProductComposition_Shapes), formDiv, probe)
+		case "ProductReference_Shapes":
+			FormDivSliceOfPointersToField(_instance, "ProductReference_Shapes", &(_instance.ProductReference_Shapes), formDiv, probe)
 		case "IsWBSNodeExpanded":
 			FormDivBasicFieldToField(&(_instance.IsWBSNodeExpanded), formDiv)
 		case "Task_Shapes":
@@ -650,6 +652,53 @@ func saveProductCompositionShapeFields(
 	}
 }
 
+func __gong__New__ProductReferenceShapeFormCallback(
+	_instance *models.ProductReferenceShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (productreferenceshapeFormCallback *FormCallback[*models.ProductReferenceShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveProductReferenceShapeFields,
+	)
+}
+
+type ProductReferenceShapeFormCallback = FormCallback[*models.ProductReferenceShape]
+
+func saveProductReferenceShapeFields(
+	_instance *models.ProductReferenceShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Product":
+			FormDivSelectFieldToField(&(_instance.Product), probe.stageOfInterest, formDiv)
+		case "ReferencedProduct":
+			FormDivSelectFieldToField(&(_instance.ReferencedProduct), probe.stageOfInterest, formDiv)
+		case "StartRatio":
+			FormDivBasicFieldToField(&(_instance.StartRatio), formDiv)
+		case "EndRatio":
+			FormDivBasicFieldToField(&(_instance.EndRatio), formDiv)
+		case "StartOrientation":
+			FormDivEnumStringFieldToField(&(_instance.StartOrientation), formDiv)
+		case "EndOrientation":
+			FormDivEnumStringFieldToField(&(_instance.EndOrientation), formDiv)
+		case "CornerOffsetRatio":
+			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "Diagram:ProductReference_Shapes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ProductReference_Shapes", func(owner *models.Diagram) *[]*models.ProductReferenceShape { return &owner.ProductReference_Shapes })
+		}
+	}
+}
+
 func __gong__New__ProductShapeFormCallback(
 	_instance *models.ProductShape,
 	probe *Probe,
@@ -677,6 +726,8 @@ func saveProductShapeFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Product":
 			FormDivSelectFieldToField(&(_instance.Product), probe.stageOfInterest, formDiv)
+		case "IsShowType":
+			FormDivBasicFieldToField(&(_instance.IsShowType), formDiv)
 		case "OverideLayoutDirection":
 			FormDivBasicFieldToField(&(_instance.OverideLayoutDirection), formDiv)
 		case "LayoutDirection":

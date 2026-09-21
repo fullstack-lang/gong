@@ -6,6 +6,7 @@ func (stager *Stager) enforceRelationDuplicates() (needCommit bool) {
 	// Iterate through all diagrams in the stage
 	for _, diagram := range stager.stage.GetInstancesSorted[*Diagram]() {
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ProductComposition_Shapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ProductReference_Shapes)
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.TaskComposition_Shapes)
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.TaskInputShapes)
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.TaskOutputShapes)

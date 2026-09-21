@@ -44,6 +44,7 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&diagram.Product_Shapes) || modified
 	modified = stage.CleanSlice(&diagram.ProductsWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagram.ProductComposition_Shapes) || modified
+	modified = stage.CleanSlice(&diagram.ProductReference_Shapes) || modified
 	modified = stage.CleanSlice(&diagram.Task_Shapes) || modified
 	modified = stage.CleanSlice(&diagram.TasksWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagram.TasksWhoseInputNodeIsExpanded) || modified
@@ -141,6 +142,15 @@ func (productcompositionshape *ProductCompositionShape) GongClean(stage *Stage) 
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&productcompositionshape.Product) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ProductReferenceShape
+func (productreferenceshape *ProductReferenceShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&productreferenceshape.Product) || modified
+	modified = stage.CleanPointer(&productreferenceshape.ReferencedProduct) || modified
 	return
 }
 

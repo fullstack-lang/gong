@@ -233,6 +233,16 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ProductComposition_Shapes = append(%s.ProductComposition_Shapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
+			for _, elem := range diagram.ProductReference_Shapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ProductReference_Shapes = append(%s.ProductReference_Shapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
 			for _, elem := range diagram.Task_Shapes {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -890,6 +900,58 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
+		productreferenceshapeOrdered := []*ProductReferenceShape{}
+		for productreferenceshape := range stageSet.Stage.ProductReferenceShapes {
+			productreferenceshapeOrdered = append(productreferenceshapeOrdered, productreferenceshape)
+		}
+		sort.Slice(productreferenceshapeOrdered, func(i, j int) bool {
+			return stageSet.Stage.ProductReferenceShape_stagedOrder[productreferenceshapeOrdered[i]] < stageSet.Stage.ProductReferenceShape_stagedOrder[productreferenceshapeOrdered[j]]
+		})
+		for _, productreferenceshape := range productreferenceshapeOrdered {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			productreferenceshapeIdent := "__models" + productreferenceshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ProductReferenceShape{Name: %s}).Stage(stageSet.Stage)", productreferenceshapeIdent, __gong__toRawStringLiteral(productreferenceshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", productreferenceshapeIdent, __gong__toRawStringLiteral(productreferenceshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", productreferenceshapeIdent, productreferenceshape.StartRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", productreferenceshapeIdent, productreferenceshape.EndRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = %s", productreferenceshapeIdent, __gong__toRawStringLiteral(string(productreferenceshape.StartOrientation))))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = %s", productreferenceshapeIdent, __gong__toRawStringLiteral(string(productreferenceshape.EndOrientation))))
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", productreferenceshapeIdent, productreferenceshape.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", productreferenceshapeIdent, productreferenceshape.IsHidden))
+			if productreferenceshape.Product != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + productreferenceshape.Product.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Product = %s", productreferenceshapeIdent, targetIdent))
+			}
+			if productreferenceshape.ReferencedProduct != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + productreferenceshape.ReferencedProduct.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ReferencedProduct = %s", productreferenceshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stageSet.Stage != nil {
 		productshapeOrdered := []*ProductShape{}
 		for productshape := range stageSet.Stage.ProductShapes {
 			productshapeOrdered = append(productshapeOrdered, productshape)
@@ -913,6 +975,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", productshapeIdent, __gong__toRawStringLiteral(productshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsShowType = %t", productshapeIdent, productshape.IsShowType))
 			values.WriteString(fmt.Sprintf("\n\t%s.OverideLayoutDirection = %t", productshapeIdent, productshape.OverideLayoutDirection))
 			values.WriteString(fmt.Sprintf("\n\t%s.LayoutDirection = %d", productshapeIdent, int(productshape.LayoutDirection)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", productshapeIdent, productshape.X))
@@ -1801,6 +1864,17 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.StagePreserveOrder(stageSet.Stage, uint(order))
 						identifierMap[ident.Name] = inst
 					}
+				case "ProductReferenceShape":
+					if !preserveOrder {
+						inst := (&ProductReferenceShape{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(ProductReferenceShape)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
 				case "ProductShape":
 					if !preserveOrder {
 						inst := (&ProductShape{Name: instanceName}).Stage(stageSet.Stage)
@@ -2084,6 +2158,16 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 								if target, ok := identifierMap[rIdent.Name]; ok {
 									if typedTarget, ok := target.(*ProductCompositionShape); ok {
 										inst.ProductComposition_Shapes = append(inst.ProductComposition_Shapes, typedTarget)
+									}
+								}
+							}
+						}
+					case "ProductReference_Shapes":
+						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
+							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
+								if target, ok := identifierMap[rIdent.Name]; ok {
+									if typedTarget, ok := target.(*ProductReferenceShape); ok {
+										inst.ProductReference_Shapes = append(inst.ProductReference_Shapes, typedTarget)
 									}
 								}
 							}
@@ -2611,6 +2695,39 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsHidden":
 						inst.IsHidden = GongExtractBool(rhs)
 					}
+				case *ProductReferenceShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Product":
+						if rIdent, ok := rhs.(*ast.Ident); ok {
+							if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*Product); ok {
+									inst.Product = typedTarget
+								}
+							}
+						}
+					case "ReferencedProduct":
+						if rIdent, ok := rhs.(*ast.Ident); ok {
+							if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*Product); ok {
+									inst.ReferencedProduct = typedTarget
+								}
+							}
+						}
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						inst.StartOrientation = OrientationType(GongExtractString(rhs))
+					case "EndOrientation":
+						inst.EndOrientation = OrientationType(GongExtractString(rhs))
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					}
 				case *ProductShape:
 					switch fieldName {
 					case "Name":
@@ -2623,6 +2740,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 								}
 							}
 						}
+					case "IsShowType":
+						inst.IsShowType = GongExtractBool(rhs)
 					case "OverideLayoutDirection":
 						inst.OverideLayoutDirection = GongExtractBool(rhs)
 					case "LayoutDirection":

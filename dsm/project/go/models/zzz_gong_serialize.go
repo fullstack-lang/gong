@@ -89,6 +89,13 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.ProductReferenceShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ProductReferenceShape", instances, (*ProductReferenceShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.ProductShapes {
 				instances = append(instances, instance)
 			}

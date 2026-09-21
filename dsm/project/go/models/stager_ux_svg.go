@@ -95,6 +95,17 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 				}
 				rect.RectAnchoredTexts[0].Content = content
 			}
+		} else if productShape.IsShowType && productShape.Product.ReferencedProduct != nil {
+			if len(rect.RectAnchoredTexts) > 0 {
+				content := productShape.Product.Name + " : " + productShape.Product.ReferencedProduct.Name
+				if diagram != nil && diagram.GetIsShowPrefix() {
+					content = productShape.Product.GetComputedPrefix() + " " + content
+				}
+				if rect.Width > 0 && stager.getRootLibrary() != nil && stager.getRootLibrary().NbPixPerCharacter > 0 {
+					content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/stager.getRootLibrary().NbPixPerCharacter))
+				}
+				rect.RectAnchoredTexts[0].Content = content
+			}
 		}
 	}
 
@@ -125,6 +136,33 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			parentProduct,
 			layer,
 			false)
+	}
+
+	for _, productReferenceShape := range diagram.ProductReference_Shapes {
+		if productReferenceShape.GetIsHidden() {
+			continue
+		}
+		product := productReferenceShape.Product
+		referencedProduct := productReferenceShape.ReferencedProduct
+
+		if product == nil || referencedProduct == nil {
+			log.Panic("There should be a product and a referencedProduct")
+		}
+
+		startRect := diagram.map_Product_Rect[product]
+		endRect := diagram.map_Product_Rect[referencedProduct]
+
+		if startRect == nil || endRect == nil {
+			continue
+		}
+
+		svgAssociationLink(
+			stager,
+			startRect, endRect,
+			productReferenceShape,
+			product,
+			layer,
+			true)
 	}
 
 	for _, taskShape := range diagram.Task_Shapes {

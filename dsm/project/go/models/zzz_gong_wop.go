@@ -376,10 +376,41 @@ func (from *ProductCompositionShape) GongCopyBasicFields(to *ProductCompositionS
 	to.IsHidden = from.IsHidden
 }
 
+type ProductReferenceShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+}
+
+func (from *ProductReferenceShape) GongCopyBasicFields(to *ProductReferenceShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
+}
+
 type ProductShape_WOP struct {
 	// insertion point
 
 	Name string
+
+	IsShowType bool
 
 	OverideLayoutDirection bool
 
@@ -399,6 +430,7 @@ type ProductShape_WOP struct {
 func (from *ProductShape) GongCopyBasicFields(to *ProductShape) {
 	// insertion point
 	to.Name = from.Name
+	to.IsShowType = from.IsShowType
 	to.OverideLayoutDirection = from.OverideLayoutDirection
 	to.LayoutDirection = from.LayoutDirection
 	to.X = from.X

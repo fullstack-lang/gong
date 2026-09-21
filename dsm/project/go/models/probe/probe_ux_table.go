@@ -42,6 +42,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Product](probe)
 	case "ProductCompositionShape":
 		updateProbeTable[*models.ProductCompositionShape](probe)
+	case "ProductReferenceShape":
+		updateProbeTable[*models.ProductReferenceShape](probe)
 	case "ProductShape":
 		updateProbeTable[*models.ProductShape](probe)
 	case "Resource":

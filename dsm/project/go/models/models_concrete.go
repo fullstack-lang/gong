@@ -7,6 +7,8 @@ type ProductShape struct {
 
 	isExpanded bool
 
+	IsShowType bool
+
 	ConcreteTypeFields
 
 	RectShape
@@ -61,6 +63,46 @@ func (s *ProductCompositionShape) SetAbstractStartElement(abstractElement Abstra
 }
 
 var _ AssociationConcreteType = (*ProductCompositionShape)(nil)
+
+type productReferenceKey struct {
+	Product           *Product
+	ReferencedProduct *Product
+}
+
+// A ProductReferenceShape is the link between a product
+// and its referenced product (its type)
+type ProductReferenceShape struct {
+	Name string
+
+	Product           *Product
+	ReferencedProduct *Product
+
+	LinkShape
+}
+
+func (s *ProductReferenceShape) GetAbstractStartElement() AbstractType {
+	if s.Product == nil {
+		return nil
+	}
+	return s.Product
+}
+
+func (s *ProductReferenceShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.Product = abstractElement.(*Product)
+}
+
+func (s *ProductReferenceShape) GetAbstractEndElement() AbstractType {
+	if s.ReferencedProduct == nil {
+		return nil
+	}
+	return s.ReferencedProduct
+}
+
+func (s *ProductReferenceShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.ReferencedProduct = abstractElement.(*Product)
+}
+
+var _ AssociationConcreteType = (*ProductReferenceShape)(nil)
 
 // TaskShape is for both Task
 type TaskShape struct {

@@ -120,6 +120,18 @@ func (stage *Stage) IsStagedProductCompositionShape(productcompositionshape *Pro
 	return productcompositionshape.GongIsStaged(stage)
 }
 
+func (productreferenceshape *ProductReferenceShape) GongIsStaged(stage *Stage) (ok bool) {
+
+	_, ok = stage.ProductReferenceShapes[productreferenceshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedProductReferenceShape(productreferenceshape *ProductReferenceShape) (ok bool) {
+
+	return productreferenceshape.GongIsStaged(stage)
+}
+
 func (productshape *ProductShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ProductShapes[productshape]
@@ -313,6 +325,9 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	}
 	for _, _productcompositionshape := range diagram.ProductComposition_Shapes {
 		stage.StageBranch(_productcompositionshape)
+	}
+	for _, _productreferenceshape := range diagram.ProductReference_Shapes {
+		stage.StageBranch(_productreferenceshape)
 	}
 	for _, _taskshape := range diagram.Task_Shapes {
 		stage.StageBranch(_taskshape)
@@ -583,6 +598,31 @@ func (stage *Stage) StageBranchProductCompositionShape(productcompositionshape *
 	//insertion point for the staging of instances referenced by pointers
 	if productcompositionshape.Product != nil {
 		stage.StageBranch(productcompositionshape.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (productreferenceshape *ProductReferenceShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchProductReferenceShape(productreferenceshape)
+}
+
+func (stage *Stage) StageBranchProductReferenceShape(productreferenceshape *ProductReferenceShape) {
+
+	// check if instance is already staged
+	if stage.IsStaged(productreferenceshape) {
+		return
+	}
+
+	productreferenceshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if productreferenceshape.Product != nil {
+		stage.StageBranch(productreferenceshape.Product)
+	}
+	if productreferenceshape.ReferencedProduct != nil {
+		stage.StageBranch(productreferenceshape.ReferencedProduct)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -955,6 +995,10 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchProductCompositionShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *ProductReferenceShape:
+		toT := GongCopyBranchProductReferenceShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *ProductShape:
 		toT := GongCopyBranchProductShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -1037,6 +1081,9 @@ func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagr
 	}
 	for _, _productcompositionshape := range diagramFrom.ProductComposition_Shapes {
 		diagramTo.ProductComposition_Shapes = append(diagramTo.ProductComposition_Shapes, GongCopyBranchProductCompositionShape(mapOrigCopy, _productcompositionshape))
+	}
+	for _, _productreferenceshape := range diagramFrom.ProductReference_Shapes {
+		diagramTo.ProductReference_Shapes = append(diagramTo.ProductReference_Shapes, GongCopyBranchProductReferenceShape(mapOrigCopy, _productreferenceshape))
 	}
 	for _, _taskshape := range diagramFrom.Task_Shapes {
 		diagramTo.Task_Shapes = append(diagramTo.Task_Shapes, GongCopyBranchTaskShape(mapOrigCopy, _taskshape))
@@ -1307,6 +1354,31 @@ func GongCopyBranchProductCompositionShape(mapOrigCopy map[any]any, productcompo
 	//insertion point for the staging of instances referenced by pointers
 	if productcompositionshapeFrom.Product != nil {
 		productcompositionshapeTo.Product = GongCopyBranchProduct(mapOrigCopy, productcompositionshapeFrom.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchProductReferenceShape(mapOrigCopy map[any]any, productreferenceshapeFrom *ProductReferenceShape) (productreferenceshapeTo *ProductReferenceShape) {
+
+	// productreferenceshapeFrom has already been copied
+	if _productreferenceshapeTo, ok := mapOrigCopy[productreferenceshapeFrom]; ok {
+		productreferenceshapeTo = _productreferenceshapeTo.(*ProductReferenceShape)
+		return
+	}
+
+	productreferenceshapeTo = new(ProductReferenceShape)
+	mapOrigCopy[productreferenceshapeFrom] = productreferenceshapeTo
+	productreferenceshapeFrom.GongCopyBasicFields(productreferenceshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if productreferenceshapeFrom.Product != nil {
+		productreferenceshapeTo.Product = GongCopyBranchProduct(mapOrigCopy, productreferenceshapeFrom.Product)
+	}
+	if productreferenceshapeFrom.ReferencedProduct != nil {
+		productreferenceshapeTo.ReferencedProduct = GongCopyBranchProduct(mapOrigCopy, productreferenceshapeFrom.ReferencedProduct)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1675,6 +1747,9 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	for _, _productcompositionshape := range diagram.ProductComposition_Shapes {
 		stage.UnstageBranch(_productcompositionshape)
 	}
+	for _, _productreferenceshape := range diagram.ProductReference_Shapes {
+		stage.UnstageBranch(_productreferenceshape)
+	}
 	for _, _taskshape := range diagram.Task_Shapes {
 		stage.UnstageBranch(_taskshape)
 	}
@@ -1944,6 +2019,31 @@ func (stage *Stage) UnstageBranchProductCompositionShape(productcompositionshape
 	//insertion point for the staging of instances referenced by pointers
 	if productcompositionshape.Product != nil {
 		stage.UnstageBranch(productcompositionshape.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (productreferenceshape *ProductReferenceShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchProductReferenceShape(productreferenceshape)
+}
+
+func (stage *Stage) UnstageBranchProductReferenceShape(productreferenceshape *ProductReferenceShape) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(productreferenceshape) {
+		return
+	}
+
+	productreferenceshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if productreferenceshape.Product != nil {
+		stage.UnstageBranch(productreferenceshape.Product)
+	}
+	if productreferenceshape.ReferencedProduct != nil {
+		stage.UnstageBranch(productreferenceshape.ReferencedProduct)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2285,6 +2385,10 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.ProductComposition_Shapes {
 		reference.ProductComposition_Shapes = append(reference.ProductComposition_Shapes, stage.ProductCompositionShapes_reference[_b])
 	}
+	reference.ProductReference_Shapes = reference.ProductReference_Shapes[:0]
+	for _, _b := range instance.ProductReference_Shapes {
+		reference.ProductReference_Shapes = append(reference.ProductReference_Shapes, stage.ProductReferenceShapes_reference[_b])
+	}
 	reference.Task_Shapes = reference.Task_Shapes[:0]
 	for _, _b := range instance.Task_Shapes {
 		reference.Task_Shapes = append(reference.Task_Shapes, stage.TaskShapes_reference[_b])
@@ -2478,6 +2582,17 @@ func (reference *ProductCompositionShape) GongReconstructPointersFromReferences(
 	// insertion point for slice of pointers field
 }
 
+func (reference *ProductReferenceShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProductReferenceShape) {
+	// insertion point for pointers field
+	if instance.Product != nil {
+		reference.Product = stage.Products_reference[instance.Product]
+	}
+	if instance.ReferencedProduct != nil {
+		reference.ReferencedProduct = stage.Products_reference[instance.ReferencedProduct]
+	}
+	// insertion point for slice of pointers field
+}
+
 func (reference *ProductShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProductShape) {
 	// insertion point for pointers field
 	if instance.Product != nil {
@@ -2648,6 +2763,13 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.ProductComposition_Shapes = _ProductComposition_Shapes
+	var _ProductReference_Shapes []*ProductReferenceShape
+	for _, _reference := range reference.ProductReference_Shapes {
+		if _instance, ok := stage.ProductReferenceShapes_instance[_reference]; ok {
+			_ProductReference_Shapes = append(_ProductReference_Shapes, _instance)
+		}
+	}
+	reference.ProductReference_Shapes = _ProductReference_Shapes
 	var _Task_Shapes []*TaskShape
 	for _, _reference := range reference.Task_Shapes {
 		if _instance, ok := stage.TaskShapes_instance[_reference]; ok {
@@ -2956,6 +3078,23 @@ func (reference *ProductCompositionShape) GongReconstructPointersFromInstances(s
 		reference.Product = nil
 		if _instance, ok := stage.Products_instance[_reference]; ok {
 			reference.Product = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+}
+
+func (reference *ProductReferenceShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.Product; _reference != nil {
+		reference.Product = nil
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			reference.Product = _instance
+		}
+	}
+	if _reference := reference.ReferencedProduct; _reference != nil {
+		reference.ReferencedProduct = nil
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			reference.ReferencedProduct = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -3398,6 +3537,38 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 			},
 			func(j int) string {
 				return diagram.ProductComposition_Shapes[j].GongGetIdentifier(stage)
+			},
+		)
+		diffs = append(diffs, ops)
+	}
+	ProductReference_ShapesDifferent := false
+	if len(diagram.ProductReference_Shapes) != len(diagramOther.ProductReference_Shapes) {
+		ProductReference_ShapesDifferent = true
+	} else {
+		for i := range diagram.ProductReference_Shapes {
+			if (diagram.ProductReference_Shapes[i] == nil) != (diagramOther.ProductReference_Shapes[i] == nil) {
+				ProductReference_ShapesDifferent = true
+				break
+			} else if diagram.ProductReference_Shapes[i] != nil && diagramOther.ProductReference_Shapes[i] != nil {
+				// this is a pointer comparaison
+				if diagram.ProductReference_Shapes[i] != diagramOther.ProductReference_Shapes[i] {
+					ProductReference_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ProductReference_ShapesDifferent {
+		ops := stage.Diff(
+			diagram,
+			"ProductReference_Shapes",
+			len(diagramOther.ProductReference_Shapes),
+			len(diagram.ProductReference_Shapes),
+			func(i, j int) bool {
+				return diagramOther.ProductReference_Shapes[i] == diagram.ProductReference_Shapes[j]
+			},
+			func(j int) string {
+				return diagram.ProductReference_Shapes[j].GongGetIdentifier(stage)
 			},
 		)
 		diffs = append(diffs, ops)
@@ -4701,6 +4872,49 @@ func (productcompositionshape *ProductCompositionShape) GongDiff(stage *Stage, p
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (productreferenceshape *ProductReferenceShape) GongDiff(stage *Stage, productreferenceshapeOther *ProductReferenceShape) (diffs []string) {
+	// insertion point for field diffs
+	if productreferenceshape.Name != productreferenceshapeOther.Name {
+		diffs = append(diffs, productreferenceshape.GongMarshallField(stage, "Name"))
+	}
+	if (productreferenceshape.Product == nil) != (productreferenceshapeOther.Product == nil) {
+		diffs = append(diffs, productreferenceshape.GongMarshallField(stage, "Product"))
+	} else if productreferenceshape.Product != nil && productreferenceshapeOther.Product != nil {
+		if productreferenceshape.Product != productreferenceshapeOther.Product {
+			diffs = append(diffs, productreferenceshape.GongMarshallField(stage, "Product"))
+		}
+	}
+	if (productreferenceshape.ReferencedProduct == nil) != (productreferenceshapeOther.ReferencedProduct == nil) {
+		diffs = append(diffs, productreferenceshape.GongMarshallField(stage, "ReferencedProduct"))
+	} else if productreferenceshape.ReferencedProduct != nil && productreferenceshapeOther.ReferencedProduct != nil {
+		if productreferenceshape.ReferencedProduct != productreferenceshapeOther.ReferencedProduct {
+			diffs = append(diffs, productreferenceshape.GongMarshallField(stage, "ReferencedProduct"))
+		}
+	}
+	if productreferenceshape.StartRatio != productreferenceshapeOther.StartRatio {
+		diffs = append(diffs, productreferenceshape.GongMarshallField(stage, "StartRatio"))
+	}
+	if productreferenceshape.EndRatio != productreferenceshapeOther.EndRatio {
+		diffs = append(diffs, productreferenceshape.GongMarshallField(stage, "EndRatio"))
+	}
+	if productreferenceshape.StartOrientation != productreferenceshapeOther.StartOrientation {
+		diffs = append(diffs, productreferenceshape.GongMarshallField(stage, "StartOrientation"))
+	}
+	if productreferenceshape.EndOrientation != productreferenceshapeOther.EndOrientation {
+		diffs = append(diffs, productreferenceshape.GongMarshallField(stage, "EndOrientation"))
+	}
+	if productreferenceshape.CornerOffsetRatio != productreferenceshapeOther.CornerOffsetRatio {
+		diffs = append(diffs, productreferenceshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if productreferenceshape.IsHidden != productreferenceshapeOther.IsHidden {
+		diffs = append(diffs, productreferenceshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (productshape *ProductShape) GongDiff(stage *Stage, productshapeOther *ProductShape) (diffs []string) {
 	// insertion point for field diffs
 	if productshape.Name != productshapeOther.Name {
@@ -4712,6 +4926,9 @@ func (productshape *ProductShape) GongDiff(stage *Stage, productshapeOther *Prod
 		if productshape.Product != productshapeOther.Product {
 			diffs = append(diffs, productshape.GongMarshallField(stage, "Product"))
 		}
+	}
+	if productshape.IsShowType != productshapeOther.IsShowType {
+		diffs = append(diffs, productshape.GongMarshallField(stage, "IsShowType"))
 	}
 	if productshape.OverideLayoutDirection != productshapeOther.OverideLayoutDirection {
 		diffs = append(diffs, productshape.GongMarshallField(stage, "OverideLayoutDirection"))
