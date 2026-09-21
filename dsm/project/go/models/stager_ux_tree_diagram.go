@@ -287,6 +287,27 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		for _, product := range library.RootProducts {
 			stager.treeProduct(diagram, product, pbsNode)
 		}
+
+		confPBSNode := ItemShapeAndLinkButtonConfiguration[
+			Product, *Product, // AT, PAT (Added Element)
+			Product, *Product, // ParentAT, PParentAT (Parent Element)
+			ProductShape, *ProductShape, // CT, PCT (Concrete Shape)
+			ProductCompositionShape, *ProductCompositionShape, // ACT, PACT (Association Shape)
+		]{
+			parentNode:                         pbsNode,
+			sliceForNewAddedItem:               &library.RootProducts,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagram.IsPBSNodeExpanded,
+			receivingDiagram:                   diagram,
+			sliceForNewAddedShape:              &diagram.Product_Shapes,
+			sliceForNewCompositionShapes:       &diagram.ProductComposition_Shapes,
+		}
+		callbacksPBSNode := addCreateItemShapeAndLinkButton(stager, confPBSNode)
+		callbacksPBSNode.OnBeforeCommit = func() {
+			diagram.IsPBSNodeExpanded = true
+			diagram.IsExpanded = true
+		}
 	}
 
 	diagram.map_Task_TaskCompositionShape = make(map[*Task]*TaskCompositionShape)
@@ -309,6 +330,27 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		wbsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsWBSNodeExpanded)
 		wbsNode.OnClick = onNodeClicked(stager, diagram)
 
+		confWBSNode := ItemShapeAndLinkButtonConfiguration[
+			Task, *Task, // AT, PAT (Added Element)
+			Task, *Task, // ParentAT, PParentAT (Parent Element)
+			TaskShape, *TaskShape, // CT, PCT (Concrete Shape)
+			TaskCompositionShape, *TaskCompositionShape, // ACT, PACT (Association Shape)
+		]{
+			parentNode:                         wbsNode,
+			sliceForNewAddedItem:               &library.RootTasks,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagram.IsWBSNodeExpanded,
+			receivingDiagram:                   diagram,
+			sliceForNewAddedShape:              &diagram.Task_Shapes,
+			sliceForNewCompositionShapes:       &diagram.TaskComposition_Shapes,
+		}
+		callbacksWBSNode := addCreateItemShapeAndLinkButton(stager, confWBSNode)
+		callbacksWBSNode.OnBeforeCommit = func() {
+			diagram.IsWBSNodeExpanded = true
+			diagram.IsExpanded = true
+		}
+
 		if len(library.RootTaskGroups) > 0 {
 			taskGroupsNode := &tree.Node{
 				Name:                 "TaskGroups",
@@ -321,6 +363,30 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 			wbsNode.Children = append(wbsNode.Children, taskGroupsNode)
 			taskGroupsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsTaskGroupsNodeExpanded)
 			taskGroupsNode.OnClick = onNodeClicked(stager, diagram)
+
+			confTaskGroupsNode := ItemAndShapeButtonConfiguration[
+				TaskGroup, *TaskGroup, // AT, PAT (Added Element)
+				Library, *Library, // ParentAT, PParentAT (Parent Element)
+				TaskGroupShape, *TaskGroupShape, // CT, PCT (Concrete Shape)
+			]{
+				parentNode:                         taskGroupsNode,
+				sliceForNewAddedItem:               &library.RootTaskGroups,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsTaskGroupsNodeExpanded,
+				receivingDiagram:                   diagram,
+				sliceForNewAddedShape:              &diagram.TaskGroupShapes,
+			}
+			callbacksTaskGroupsNode := addCreateItemAndShapeButton(stager, confTaskGroupsNode)
+			callbacksTaskGroupsNode.OnBeforeCommit = func() {
+				diagram.IsTaskGroupsNodeExpanded = true
+				diagram.IsWBSNodeExpanded = true
+				diagram.IsExpanded = true
+			}
+			if len(taskGroupsNode.Buttons) > 0 {
+				taskGroupsNode.Buttons[0].Name = "Add Task Group"
+				taskGroupsNode.Buttons[0].ToolTipText = "Add a Task Group to \"" + diagram.Name + "\""
+			}
 
 			for _, taskGroup := range library.RootTaskGroups {
 				taskGroupNodeConf := TreeNodeAndShapeConfigurationWithoutLink[
@@ -365,6 +431,27 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		resourcesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsResourcesNodeExpanded)
 		resourcesNode.OnClick = onNodeClicked(stager, diagram)
 
+		confRBSNode := ItemShapeAndLinkButtonConfiguration[
+			Resource, *Resource, // AT, PAT (Added Element)
+			Resource, *Resource, // ParentAT, PParentAT (Parent Element)
+			ResourceShape, *ResourceShape, // CT, PCT (Concrete Shape)
+			ResourceTaskShape, *ResourceTaskShape, // ACT, PACT (Association Shape)
+		]{
+			parentNode:                         resourcesNode,
+			sliceForNewAddedItem:               &library.RootResources,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagram.IsResourcesNodeExpanded,
+			receivingDiagram:                   diagram,
+			sliceForNewAddedShape:              &diagram.Resource_Shapes,
+			sliceForNewCompositionShapes:       &diagram.ResourceTaskShapes,
+		}
+		callbacksRBSNode := addCreateItemShapeAndLinkButton(stager, confRBSNode)
+		callbacksRBSNode.OnBeforeCommit = func() {
+			diagram.IsResourcesNodeExpanded = true
+			diagram.IsExpanded = true
+		}
+
 		for _, resource := range library.RootResources {
 			stager.treeResourceinDiagram(diagram, resource, resourcesNode)
 		}
@@ -382,6 +469,27 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		diagramNode.Children = append(diagramNode.Children, notesNode)
 		notesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsNotesNodeExpanded)
 		notesNode.OnClick = onNodeClicked(stager, diagram)
+
+		confNotesNode := ItemShapeAndLinkButtonConfiguration[
+			Note, *Note, // AT, PAT (Added Element)
+			Note, *Note, // ParentAT, PParentAT (Parent Element)
+			NoteShape, *NoteShape, // CT, PCT (Concrete Shape)
+			NoteProductShape, *NoteProductShape, // ACT, PACT (Association Shape)
+		]{
+			parentNode:                         notesNode,
+			sliceForNewAddedItem:               &library.Notes,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagram.IsNotesNodeExpanded,
+			receivingDiagram:                   diagram,
+			sliceForNewAddedShape:              &diagram.Note_Shapes,
+			sliceForNewCompositionShapes:       &diagram.NoteProductShapes,
+		}
+		callbacksNotesNode := addCreateItemShapeAndLinkButton(stager, confNotesNode)
+		callbacksNotesNode.OnBeforeCommit = func() {
+			diagram.IsNotesNodeExpanded = true
+			diagram.IsExpanded = true
+		}
 
 		for _, note := range library.Notes {
 			var dummyMap map[*Note]*NoteProductShape
