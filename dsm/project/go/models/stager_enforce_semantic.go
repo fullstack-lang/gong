@@ -79,6 +79,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce node shape duplicates", stager.enforceNodeShapeDuplicates},
 		{"Enforce shape orphans", stager.enforceShapeOrphans},
 		{"Enforce shapes abstract consistency", stager.enforceShapesAbstractConsistency},
+		{"Enforce auto layout", stager.enforceAutoLayout},
 		{"Enforce diagram size", stager.enforceDiagramSize},
 		{"Enforce association shape consistency", stager.enforceAssociationShapeConsistency},
 		{"Enforce shape names", stager.enforceShapeNames},

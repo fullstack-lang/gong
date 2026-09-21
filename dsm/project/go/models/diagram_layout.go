@@ -1,6 +1,7 @@
 package models
 
 import (
+	"math"
 	"sort"
 )
 
@@ -27,17 +28,27 @@ func layoutGenericShapes[AT interface {
 	nextX *float64,
 	startY float64,
 	margin float64,
-) {
+) (hasChanged bool) {
+	if len(shapes) == 0 {
+		return false
+	}
+
 	nodesByElement := make(map[AT]*layoutNode[AT, CT])
 	var rootNodes []*layoutNode[AT, CT]
 
 	for _, shape := range shapes {
+		if any(shape) == nil || shape.GetAbstractElement() == nil {
+			continue
+		}
 		// Type assert to get the AT
 		abstractElement := shape.GetAbstractElement().(AT)
 		nodesByElement[abstractElement] = &layoutNode[AT, CT]{shape: shape}
 	}
 
 	for _, shape := range shapes {
+		if any(shape) == nil || shape.GetAbstractElement() == nil {
+			continue
+		}
 		abstractElement := shape.GetAbstractElement().(AT)
 		node := nodesByElement[abstractElement]
 		isRoot := true
@@ -88,7 +99,10 @@ func layoutGenericShapes[AT interface {
 	})
 
 	for _, root := range rootNodes {
-		maxX, _ := layoutGenericDFS(root, *nextX, startY, margin)
+		maxX, _, rootChanged := layoutGenericDFS(root, *nextX, startY, margin)
+		if rootChanged {
+			hasChanged = true
+		}
 		*nextX = maxX
 	}
 
@@ -102,7 +116,13 @@ func layoutGenericShapes[AT interface {
 	}
 
 	for _, link := range compositionShapes {
-		link.SetCornerOffsetRatio(1.5)
+		if any(link) == nil {
+			continue
+		}
+		if math.Abs(link.GetCornerOffsetRatio()-1.5) > 1e-4 {
+			link.SetCornerOffsetRatio(1.5)
+			hasChanged = true
+		}
 		element := getLinkElement(link)
 		if any(element) != nil {
 			if parentNode, ok := parentByElement[element]; ok {
@@ -113,30 +133,48 @@ func layoutGenericShapes[AT interface {
 				if parentNode.shape.GetOverideLayoutDirection() {
 					layoutDirection = parentNode.shape.GetConcreteLayoutDirection()
 				}
+				var expectedStartOrientation, expectedEndOrientation OrientationType
 				if layoutDirection == Horizontal {
-					link.SetStartOrientation(ORIENTATION_VERTICAL)
-					link.SetEndOrientation(ORIENTATION_HORIZONTAL)
+					expectedStartOrientation = ORIENTATION_VERTICAL
+					expectedEndOrientation = ORIENTATION_HORIZONTAL
 				} else {
-					link.SetStartOrientation(ORIENTATION_VERTICAL)
-					link.SetEndOrientation(ORIENTATION_VERTICAL)
+					expectedStartOrientation = ORIENTATION_VERTICAL
+					expectedEndOrientation = ORIENTATION_VERTICAL
+				}
+				if link.GetStartOrientation() != expectedStartOrientation {
+					link.SetStartOrientation(expectedStartOrientation)
+					hasChanged = true
+				}
+				if link.GetEndOrientation() != expectedEndOrientation {
+					link.SetEndOrientation(expectedEndOrientation)
+					hasChanged = true
 				}
 			}
 		}
 	}
+
+	return hasChanged
 }
 
 func layoutGenericDFS[AT interface {
 	AbstractType
 	comparable
-}, CT LayoutConcreteType](node *layoutNode[AT, CT], currentX float64, currentY float64, margin float64) (float64, float64) {
-	node.shape.SetX(currentX)
-	node.shape.SetY(currentY)
+}, CT LayoutConcreteType](node *layoutNode[AT, CT], currentX float64, currentY float64, margin float64) (float64, float64, bool) {
+	hasChanged := false
+	if math.Abs(node.shape.GetX()-currentX) > 1e-4 {
+		node.shape.SetX(currentX)
+		hasChanged = true
+	}
+	if math.Abs(node.shape.GetY()-currentY) > 1e-4 {
+		node.shape.SetY(currentY)
+		hasChanged = true
+	}
 
 	w := node.shape.GetWidth()
 	h := node.shape.GetHeight()
 
 	if len(node.children) == 0 {
-		return currentX + w + margin, currentY + h + margin
+		return currentX + w + margin, currentY + h + margin, hasChanged
 	}
 
 	var maxX float64 = currentX + w + margin
@@ -173,7 +211,10 @@ func layoutGenericDFS[AT interface {
 		}
 
 		for _, child := range node.children {
-			childMaxX, childMaxY := layoutGenericDFS(child, childX, currentY+h*2.0, margin)
+			childMaxX, childMaxY, childChanged := layoutGenericDFS(child, childX, currentY+h*2.0, margin)
+			if childChanged {
+				hasChanged = true
+			}
 			childX = childMaxX
 
 			if childMaxX > maxX {
@@ -184,7 +225,11 @@ func layoutGenericDFS[AT interface {
 			}
 		}
 		if !isParentHorizontal {
-			node.shape.SetX(node.children[0].shape.GetX())
+			newParentX := node.children[0].shape.GetX()
+			if math.Abs(node.shape.GetX()-newParentX) > 1e-4 {
+				node.shape.SetX(newParentX)
+				hasChanged = true
+			}
 		}
 		maxX = childX
 	} else {
@@ -192,7 +237,10 @@ func layoutGenericDFS[AT interface {
 		verticalMargin := 15.0
 		childY := currentY + h + verticalMargin
 		for _, child := range node.children {
-			childMaxX, childMaxY := layoutGenericDFS(child, currentX+w/2.0+margin, childY, margin)
+			childMaxX, childMaxY, childChanged := layoutGenericDFS(child, currentX+w/2.0+margin, childY, margin)
+			if childChanged {
+				hasChanged = true
+			}
 			childY = (childMaxY - margin) + verticalMargin
 
 			if childMaxX > maxX {
@@ -206,16 +254,31 @@ func layoutGenericDFS[AT interface {
 		maxY = (childY - verticalMargin) + margin
 	}
 
-	return maxX, maxY
+	return maxX, maxY, hasChanged
 }
 
 func (diagram *Diagram) Layout(stager *Stager) {
 	layoutDiagram(diagram, stager)
 }
 
-func layoutDiagram(diagram *Diagram, stager *Stager) {
+func layoutDiagram(diagram *Diagram, stager *Stager) (hasChanged bool) {
 	stager.enforceParentAssociation()
-	rootLibrary := stager.getRootLibrary()
+
+	var owningLibrary *Library
+	for _, lib := range stager.stage.GetInstancesSorted[*Library]() {
+		for _, diag := range lib.Diagrams {
+			if diag == diagram {
+				owningLibrary = lib
+				break
+			}
+		}
+		if owningLibrary != nil {
+			break
+		}
+	}
+	if owningLibrary == nil {
+		owningLibrary = stager.getRootLibrary()
+	}
 
 	nextX := 50.0
 	startY := 50.0
@@ -225,10 +288,10 @@ func layoutDiagram(diagram *Diagram, stager *Stager) {
 	var rootTasks []*Task
 	var rootResources []*Resource
 
-	if rootLibrary != nil {
-		rootProducts = rootLibrary.RootProducts
-		rootTasks = rootLibrary.RootTasks
-		rootResources = rootLibrary.RootResources
+	if owningLibrary != nil {
+		rootProducts = owningLibrary.RootProducts
+		rootTasks = owningLibrary.RootTasks
+		rootResources = owningLibrary.RootResources
 	}
 
 	// Layout Products
@@ -241,7 +304,7 @@ func layoutDiagram(diagram *Diagram, stager *Stager) {
 		productLinks = append(productLinks, link)
 	}
 
-	layoutGenericShapes(
+	if layoutGenericShapes(
 		productShapes,
 		rootProducts,
 		func(p *Product) []*Product { return p.SubProducts },
@@ -250,7 +313,9 @@ func layoutDiagram(diagram *Diagram, stager *Stager) {
 		func(l *ProductCompositionShape) *Product { return l.Product },
 		func(p *Product) string { return p.Name },
 		&nextX, startY, margin,
-	)
+	) {
+		hasChanged = true
+	}
 
 	// Layout Tasks
 	var taskShapes []*TaskShape
@@ -262,7 +327,7 @@ func layoutDiagram(diagram *Diagram, stager *Stager) {
 		taskLinks = append(taskLinks, link)
 	}
 
-	layoutGenericShapes(
+	if layoutGenericShapes(
 		taskShapes,
 		rootTasks,
 		func(t *Task) []*Task { return t.SubTasks },
@@ -271,7 +336,9 @@ func layoutDiagram(diagram *Diagram, stager *Stager) {
 		func(l *TaskCompositionShape) *Task { return l.Task },
 		func(t *Task) string { return t.Name },
 		&nextX, startY, margin,
-	)
+	) {
+		hasChanged = true
+	}
 
 	// Layout Resources
 	var resourceShapes []*ResourceShape
@@ -283,7 +350,7 @@ func layoutDiagram(diagram *Diagram, stager *Stager) {
 		resourceLinks = append(resourceLinks, link)
 	}
 
-	layoutGenericShapes(
+	if layoutGenericShapes(
 		resourceShapes,
 		rootResources,
 		func(r *Resource) []*Resource { return r.SubResources },
@@ -292,5 +359,10 @@ func layoutDiagram(diagram *Diagram, stager *Stager) {
 		func(l *ResourceCompositionShape) *Resource { return l.Resource },
 		func(r *Resource) string { return r.Name },
 		&nextX, startY, margin,
-	)
+	) {
+		hasChanged = true
+	}
+
+	return hasChanged
 }
+
