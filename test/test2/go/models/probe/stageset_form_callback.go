@@ -43,6 +43,10 @@ func StageSetFillUpFormFromGongstruct(
 				probe.stageSet.Stage.Commit()
 				updateStageSetTable_A_Stage(probe)
 				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
 			},
 		}
 		StageSetFillUpForm(inst, formGroup, probe)
@@ -59,6 +63,10 @@ func StageSetFillUpFormFromGongstruct(
 				probe.stageSet.Stage.Commit()
 				updateStageSetTable_B_Stage(probe)
 				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
 			},
 		}
 		StageSetFillUpForm(inst, formGroup, probe)
@@ -75,6 +83,10 @@ func StageSetFillUpFormFromGongstruct(
 				probe.stageSet.XStage.Commit()
 				updateStageSetTable_X_XStage(probe)
 				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
 			},
 		}
 		StageSetFillUpForm(inst, formGroup, probe)
@@ -91,6 +103,10 @@ func StageSetFillUpFormFromGongstruct(
 				probe.stageSet.YStage.Commit()
 				updateStageSetTable_Y_YStage(probe)
 				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
 			},
 		}
 		StageSetFillUpForm(inst, formGroup, probe)
@@ -107,6 +123,10 @@ func StageSetFillUpFormFromGongstruct(
 				probe.stageSet.ModelStage.Commit()
 				updateStageSetTable_SubModel_ModelStage(probe)
 				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
 			},
 		}
 		StageSetFillUpForm(inst, formGroup, probe)
@@ -217,6 +237,10 @@ func StageSetNewInstance_A_Stage(probe *StageSetProbe) {
 			probe.stageSet.Stage.Commit()
 			updateStageSetTable_A_Stage(probe)
 			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
 			StageSetFillUpFormFromGongstruct(inst, probe)
 		},
 	}
@@ -242,6 +266,10 @@ func StageSetNewInstance_B_Stage(probe *StageSetProbe) {
 			probe.stageSet.Stage.Commit()
 			updateStageSetTable_B_Stage(probe)
 			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
 			StageSetFillUpFormFromGongstruct(inst, probe)
 		},
 	}
@@ -267,6 +295,10 @@ func StageSetNewInstance_X_XStage(probe *StageSetProbe) {
 			probe.stageSet.XStage.Commit()
 			updateStageSetTable_X_XStage(probe)
 			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
 			StageSetFillUpFormFromGongstruct(inst, probe)
 		},
 	}
@@ -292,6 +324,10 @@ func StageSetNewInstance_Y_YStage(probe *StageSetProbe) {
 			probe.stageSet.YStage.Commit()
 			updateStageSetTable_Y_YStage(probe)
 			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
 			StageSetFillUpFormFromGongstruct(inst, probe)
 		},
 	}
@@ -317,6 +353,10 @@ func StageSetNewInstance_SubModel_ModelStage(probe *StageSetProbe) {
 			probe.stageSet.ModelStage.Commit()
 			updateStageSetTable_SubModel_ModelStage(probe)
 			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
 			StageSetFillUpFormFromGongstruct(inst, probe)
 		},
 	}

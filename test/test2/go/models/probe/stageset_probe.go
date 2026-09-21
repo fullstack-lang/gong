@@ -111,7 +111,7 @@ func NewStageSetProbe(
 		goModelsDir,
 		goDiagramsDir,
 		probe.diagramEditor,
-		nil,
+		probe.ComputeInstancesNb(),
 	)
 
 	probe.dataEditor = &split.AsSplit{
@@ -242,7 +242,41 @@ func (probe *StageSetProbe) GetMaxElementsNbPerGongStructNode() int {
 	return probe.maxElementsNbPerGongStructNode
 }
 
+func (probe *StageSetProbe) ComputeInstancesNb() map[string]int {
+	probe.stageSet.ComputeInstancesNb()
+	res := make(map[string]int)
+	if probe.stageSet.Stage != nil {
+		for k, v := range probe.stageSet.Stage.Map_GongStructName_InstancesNb {
+			res[k] = v
+			res["models."+k] = v
+		}
+	}
+	if probe.stageSet.XStage != nil {
+		for k, v := range probe.stageSet.XStage.Map_GongStructName_InstancesNb {
+			res[k] = v
+			res["x."+k] = v
+		}
+	}
+	if probe.stageSet.YStage != nil {
+		for k, v := range probe.stageSet.YStage.Map_GongStructName_InstancesNb {
+			res[k] = v
+			res["y."+k] = v
+		}
+	}
+	if probe.stageSet.ModelStage != nil {
+		for k, v := range probe.stageSet.ModelStage.Map_GongStructName_InstancesNb {
+			res[k] = v
+			res["model."+k] = v
+		}
+	}
+	return res
+}
+
 func (probe *StageSetProbe) Refresh() {
+	if probe.docStager != nil {
+		probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+		probe.docStager.Svg()
+	}
 	probe.ux_tree()
 	probe.ux_table()
 }

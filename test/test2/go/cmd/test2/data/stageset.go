@@ -27,6 +27,8 @@ func _(stageSet *models.StageSet) {
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
+	__model__SubModel__00000000_ := (&model.SubModel{Name: `sub model`}).Stage(stageSet.ModelStage)
+
 	__y__Y__00000000_ := (&y.Y{Name: `Y_Paris`}).Stage(stageSet.YStage)
 	__y__Y__00000001_ := (&y.Y{Name: `Y_Tokyo`}).Stage(stageSet.YStage)
 	__y__Y__00000002_ := (&y.Y{Name: `Y_NewYork`}).Stage(stageSet.YStage)
@@ -44,6 +46,8 @@ func _(stageSet *models.StageSet) {
 	__models__A__00000005_ := (&models.A{Name: `A6`}).Stage(stageSet.Stage)
 	__models__A__00000006_ := (&models.A{Name: `A7`}).Stage(stageSet.Stage)
 	__models__A__00000007_ := (&models.A{Name: `Axxx`}).Stage(stageSet.Stage)
+	__models__A__00000008_ := (&models.A{Name: `last inserted`}).Stage(stageSet.Stage)
+	__models__A__00000009_ := (&models.A{Name: `a`}).Stage(stageSet.Stage)
 	__models__B__00000000_ := (&models.B{Name: `B_Component1`}).Stage(stageSet.Stage)
 	__models__B__00000001_ := (&models.B{Name: `B_Component2`}).Stage(stageSet.Stage)
 	__models__B__00000002_ := (&models.B{Name: `B_Component3`}).Stage(stageSet.Stage)
@@ -51,6 +55,8 @@ func _(stageSet *models.StageSet) {
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations
 	// ------------------------------------------------------------------------
+	__model__SubModel__00000000_.Name = `sub model`
+
 	__y__Y__00000000_.Name = `Y_Paris`
 	__y__Y__00000001_.Name = `Y_Tokyo`
 	__y__Y__00000002_.Name = `Y_NewYork`
@@ -100,6 +106,16 @@ func _(stageSet *models.StageSet) {
 	__models__A__00000007_.Foo = 0
 	__models__A__00000007_.Bar = 0.000000
 	__models__A__00000007_.Zorgh = ``
+	__models__A__00000008_.Name = `last inserted`
+	__models__A__00000008_.NumberField = 0
+	__models__A__00000008_.Foo = 0
+	__models__A__00000008_.Bar = 0.000000
+	__models__A__00000008_.Zorgh = ``
+	__models__A__00000009_.Name = `a`
+	__models__A__00000009_.NumberField = 0
+	__models__A__00000009_.Foo = 0
+	__models__A__00000009_.Bar = 0.000000
+	__models__A__00000009_.Zorgh = ``
 	__models__B__00000000_.Name = `B_Component1`
 	__models__B__00000001_.Name = `B_Component2`
 	__models__B__00000002_.Name = `B_Component3`

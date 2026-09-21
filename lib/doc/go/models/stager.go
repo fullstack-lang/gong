@@ -199,3 +199,7 @@ func (stager *Stager) GetTreeStage() *tree.Stage {
 	return stager.treeStage
 }
 
+func (stager *Stager) GetSvgStage() *svg.Stage {
+	return stager.svgStage
+}
+

@@ -8,10 +8,13 @@ import (
 	doc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
+	table_models "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 	embeddedgo "github.com/fullstack-lang/gong/test/test2/go"
 	"github.com/fullstack-lang/gong/test/test2/go/models"
 	"github.com/fullstack-lang/gong/test/test2/go/models/probe"
+	"github.com/fullstack-lang/gong/test/test2/go/models/x"
 )
 
 func TestStageSetDiagramsParseAndMarshall(t *testing.T) {
@@ -298,5 +301,169 @@ func TestStageSetProbeEmbedsDiagramArea(t *testing.T) {
 
 	if bottomArea.Name != "Bottom" || bottomArea.Size != 50 {
 		t.Errorf("expected Bottom diagram area with Size 50, got name=%s size=%f", bottomArea.Name, bottomArea.Size)
+	}
+}
+
+func TestStageSetDiagramInstancesNb(t *testing.T) {
+	mux := http.NewServeMux()
+	stageSet := models.NewStageSet("test_instances_nb")
+
+	// Stage 2 A instances and 1 X instance
+	(&models.A{Name: "A_First"}).Stage(stageSet.Stage)
+	(&models.A{Name: "A_Second"}).Stage(stageSet.Stage)
+	(&x.X{Name: "X_First"}).Stage(stageSet.XStage)
+
+	p := probe.NewStageSetProbe(mux, embeddedgo.GoModelsDir, embeddedgo.GoDiagramsDir, true, stageSet)
+	if p == nil {
+		t.Fatal("expected non-nil StageSetProbe")
+	}
+
+	instancesMap := p.ComputeInstancesNb()
+	if instancesMap["A"] != 2 || instancesMap["models.A"] != 2 {
+		t.Errorf("expected count 2 for A, got A=%d models.A=%d", instancesMap["A"], instancesMap["models.A"])
+	}
+	if instancesMap["X"] != 1 || instancesMap["x.X"] != 1 {
+		t.Errorf("expected count 1 for X, got X=%d x.X=%d", instancesMap["X"], instancesMap["x.X"])
+	}
+
+	docStager := p.GetDocStager()
+	if docStager == nil {
+		t.Fatal("expected non-nil docStager")
+	}
+
+	// Select StageSet_Diagram and ensure ShowNbInstances is true
+	stage := docStager.GetStage()
+	for _, dp := range stage.GetInstancesSorted[*doc_models.DiagramPackage]() {
+		for _, cd := range dp.Classdiagrams {
+			if cd.Name == "StageSet_Diagram" {
+				dp.SelectedClassdiagram = cd
+				cd.ShowNbInstances = true
+				break
+			}
+		}
+	}
+
+	// Refresh probe to trigger SVG generation with instance counts
+	p.Refresh()
+
+	// Verify that svgStage contains RectAnchoredText with "(2)" for A and "(1)" for X
+	svgStage := docStager.GetSvgStage()
+	if svgStage == nil {
+		t.Fatal("expected non-nil svgStage")
+	}
+
+	foundACount := false
+	foundXCount := false
+	for _, rect := range svgStage.GetInstancesSorted[*svg_models.Rect]() {
+		if rect.Name == "A" {
+			for _, text := range rect.RectAnchoredTexts {
+				if text.Content == "(2)" {
+					foundACount = true
+				}
+			}
+		}
+		if rect.Name == "X" {
+			for _, text := range rect.RectAnchoredTexts {
+				if text.Content == "(1)" {
+					foundXCount = true
+				}
+			}
+		}
+	}
+
+	if !foundACount {
+		t.Errorf("expected anchored text '(2)' on Rect 'A'")
+	}
+	if !foundXCount {
+		t.Errorf("expected anchored text '(1)' on Rect 'X'")
+	}
+}
+
+func TestStageSetProbeTableStableOrder(t *testing.T) {
+	mux := http.NewServeMux()
+	stageSet := models.NewStageSet("test_table_order")
+
+	// Stage elements in specific order
+	a1 := (&models.A{Name: "A_System1"}).Stage(stageSet.Stage)
+	a2 := (&models.A{Name: "A_System2"}).Stage(stageSet.Stage)
+	a3 := (&models.A{Name: "A_System3"}).Stage(stageSet.Stage)
+
+	p := probe.NewStageSetProbe(mux, embeddedgo.GoModelsDir, embeddedgo.GoDiagramsDir, true, stageSet)
+	p.Refresh()
+
+	// Open form for a1 which also sets up probe state, then call updateStageSetTable_A_Stage
+	probe.StageSetFillUpFormFromGongstruct(a1, p)
+	// Refresh probe updates tree and table
+	p.Refresh()
+
+	// Verify table rows for A
+	tableStage := p.GetTableStage()
+	for tbl := range *tableStage.GetInstancesSet[*table_models.Table]() {
+		if tbl.Name == "A" {
+			if len(tbl.Rows) != 3 {
+				t.Fatalf("expected 3 rows in table A, got %d", len(tbl.Rows))
+			}
+			if tbl.Rows[0].Cells[0].CellInt.Value != 0 || tbl.Rows[0].Name != "A_System1" {
+				t.Errorf("expected row 0 to be A_System1 with ID 0, got %s with ID %d", tbl.Rows[0].Name, tbl.Rows[0].Cells[0].CellInt.Value)
+			}
+			if tbl.Rows[1].Cells[0].CellInt.Value != 1 || tbl.Rows[1].Name != "A_System2" {
+				t.Errorf("expected row 1 to be A_System2 with ID 1, got %s with ID %d", tbl.Rows[1].Name, tbl.Rows[1].Cells[0].CellInt.Value)
+			}
+			if tbl.Rows[2].Cells[0].CellInt.Value != 2 || tbl.Rows[2].Name != "A_System3" {
+				t.Errorf("expected row 2 to be A_System3 with ID 2, got %s with ID %d", tbl.Rows[2].Name, tbl.Rows[2].Cells[0].CellInt.Value)
+			}
+		}
+	}
+
+	// Let's now add a new element "A0" which comes alphabetically before "A_System1"
+	a0 := (&models.A{Name: "A0"}).Stage(stageSet.Stage)
+
+	// Verify orders in stage
+	if stageSet.Stage.GetOrder(a1) != 0 {
+		t.Errorf("expected a1 order 0, got %d", stageSet.Stage.GetOrder(a1))
+	}
+	if stageSet.Stage.GetOrder(a2) != 1 {
+		t.Errorf("expected a2 order 1, got %d", stageSet.Stage.GetOrder(a2))
+	}
+	if stageSet.Stage.GetOrder(a3) != 2 {
+		t.Errorf("expected a3 order 2, got %d", stageSet.Stage.GetOrder(a3))
+	}
+	if stageSet.Stage.GetOrder(a0) != 3 {
+		t.Errorf("expected newly staged a0 to have order 3, got %d", stageSet.Stage.GetOrder(a0))
+	}
+
+	// Refresh probe to regenerate table
+	p.Refresh()
+
+	// Verify table rows after adding A0: existing IDs (0, 1, 2) MUST NOT be shifted!
+	// A0 should be at index 3 with ID 3
+	for tbl := range *tableStage.GetInstancesSet[*table_models.Table]() {
+		if tbl.Name == "A" {
+			if len(tbl.Rows) != 4 {
+				t.Fatalf("expected 4 rows in table A, got %d", len(tbl.Rows))
+			}
+			if tbl.Rows[0].Cells[0].CellInt.Value != 0 || tbl.Rows[0].Name != "A_System1" {
+				t.Errorf("row 0 shifted! expected A_System1 with ID 0, got %s with ID %d", tbl.Rows[0].Name, tbl.Rows[0].Cells[0].CellInt.Value)
+			}
+			if tbl.Rows[1].Cells[0].CellInt.Value != 1 || tbl.Rows[1].Name != "A_System2" {
+				t.Errorf("row 1 shifted! expected A_System2 with ID 1, got %s with ID %d", tbl.Rows[1].Name, tbl.Rows[1].Cells[0].CellInt.Value)
+			}
+			if tbl.Rows[2].Cells[0].CellInt.Value != 2 || tbl.Rows[2].Name != "A_System3" {
+				t.Errorf("row 2 shifted! expected A_System3 with ID 2, got %s with ID %d", tbl.Rows[2].Name, tbl.Rows[2].Cells[0].CellInt.Value)
+			}
+			if tbl.Rows[3].Cells[0].CellInt.Value != 3 || tbl.Rows[3].Name != "A0" {
+				t.Errorf("expected newly added A0 to have ID 3 at index 3, got %s with ID %d", tbl.Rows[3].Name, tbl.Rows[3].Cells[0].CellInt.Value)
+			}
+		}
+	}
+
+	// Verify GetInstancesByOrder preserves order 0, 1, 2, 3
+	ordered := stageSet.Stage.GetInstancesByOrder[*models.A]()
+	if len(ordered) != 4 {
+		t.Fatalf("expected 4 ordered instances, got %d", len(ordered))
+	}
+	if ordered[0] != a1 || ordered[1] != a2 || ordered[2] != a3 || ordered[3] != a0 {
+		t.Errorf("instances not in staging order: %v, %v, %v, %v",
+			ordered[0].GetName(), ordered[1].GetName(), ordered[2].GetName(), ordered[3].GetName())
 	}
 }

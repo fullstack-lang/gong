@@ -376,6 +376,27 @@ func generateStageSetProbeMain(
 		metaPkgImports.WriteString(fmt.Sprintf("\t\t{Alias: %q, Path: %q},\n", alias, `"`+pkgP+`"`))
 	}
 
+	var computeInstancesNbCode strings.Builder
+	for _, f := range stageSet.Fields {
+		if f.IsLocal {
+			computeInstancesNbCode.WriteString(`	if probe.stageSet.Stage != nil {
+		for k, v := range probe.stageSet.Stage.Map_GongStructName_InstancesNb {
+			res[k] = v
+			res["models."+k] = v
+		}
+	}
+`)
+		} else {
+			computeInstancesNbCode.WriteString(fmt.Sprintf(`	if probe.stageSet.%s != nil {
+		for k, v := range probe.stageSet.%s.Map_GongStructName_InstancesNb {
+			res[k] = v
+			res["%s."+k] = v
+		}
+	}
+`, f.Name, f.Name, f.ImportAlias))
+		}
+	}
+
 	code := `// generated code - do not edit
 package probe
 
@@ -485,7 +506,7 @@ func NewStageSetProbe(
 		goModelsDir,
 		goDiagramsDir,
 		probe.diagramEditor,
-		nil,
+		probe.ComputeInstancesNb(),
 	)
 
 	probe.dataEditor = &{{SplitPkg}}.AsSplit{
@@ -616,7 +637,17 @@ func (probe *StageSetProbe) GetMaxElementsNbPerGongStructNode() int {
 	return probe.maxElementsNbPerGongStructNode
 }
 
+func (probe *StageSetProbe) ComputeInstancesNb() map[string]int {
+	probe.stageSet.ComputeInstancesNb()
+	res := make(map[string]int)
+{{ComputeInstancesNbCode}}	return res
+}
+
 func (probe *StageSetProbe) Refresh() {
+	if probe.docStager != nil {
+		probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+		probe.docStager.Svg()
+	}
 	probe.ux_tree()
 	probe.ux_table()
 }
@@ -739,6 +770,7 @@ func (probe *StageSetProbe) initLoadStage() {
 	code = strings.ReplaceAll(code, "{{PkgPathRoot}}", pkgPathRoot)
 	code = strings.ReplaceAll(code, "{{MetaPackageImports}}", metaPkgImports.String())
 	code = strings.ReplaceAll(code, "{{PrepareStageSetSuffix}}", prepareStageSetSuffix)
+	code = strings.ReplaceAll(code, "{{ComputeInstancesNbCode}}", computeInstancesNbCode.String())
 	code = strings.ReplaceAll(code, "{{ModelPkgName}}", modelPkg.Name)
 
 	writeFile(filepath.Join(pkgPath, "probe/stageset_probe.go"), code)
@@ -754,7 +786,11 @@ func generateStageSetProbeUxTree(
 	var extImports strings.Builder
 	for _, f := range stageSet.Fields {
 		if !f.IsLocal {
-			extImports.WriteString(fmt.Sprintf("\n\t\"%s\"", f.PackagePath))
+			if f.ImportAlias != f.PackageName {
+				extImports.WriteString(fmt.Sprintf("\n\t%s \"%s\"", f.ImportAlias, f.PackagePath))
+			} else {
+				extImports.WriteString(fmt.Sprintf("\n\t\"%s\"", f.PackagePath))
+			}
 		}
 	}
 
@@ -796,6 +832,12 @@ func generateStageSetProbeUxTree(
 
 		for _, sName := range sNames {
 			sPlural := sName + "s"
+			typeQual := sName
+			if !f.IsLocal {
+				typeQual = f.ImportAlias + "." + sName
+			} else {
+				typeQual = "models." + sName
+			}
 
 			pkgTreeNodes.WriteString(fmt.Sprintf(`
 	{
@@ -836,7 +878,7 @@ func generateStageSetProbeUxTree(
 		}
 
 		instCount := 0
-		for _inst := range probe.stageSet.%s.%s {
+		for _, _inst := range probe.stageSet.%s.GetInstancesByOrder[*%s]() {
 			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
 				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 				break
@@ -858,7 +900,7 @@ func generateStageSetProbeUxTree(
 			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 		}
 	}
-`, f.Name, sPlural, sName, sName, parentVarName, parentVarName, sName, sName, sName, f.Name, sName, f.Name, f.Name, sPlural))
+`, f.Name, sPlural, sName, sName, parentVarName, parentVarName, sName, sName, sName, f.Name, sName, f.Name, f.Name, typeQual))
 		}
 	}
 
@@ -910,6 +952,8 @@ import (
 
 	tree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
+
+	"%s/models"%s
 )
 
 func (probe *StageSetProbe) ux_navigation_tree() {
@@ -974,7 +1018,7 @@ func (probe *StageSetProbe) ux_tree() {
 	tree_models.StageBranch(probe.treeStage, sidebar)
 	probe.treeStage.Commit()
 }
-`, pkgTreeNodes.String())
+`, pkgPathRoot, extImports.String(), pkgTreeNodes.String())
 
 	writeFile(filepath.Join(pkgPath, "probe/stageset_probe_ux_tree.go"), code)
 }
@@ -1160,16 +1204,9 @@ func updateStageSetTable_%s_%s(probe *StageSetProbe) {
 	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
 
 %s
-	// Sort instances by name
-	instances := make([]*%s, 0, len(probe.stageSet.%s.%ss))
-	for inst := range probe.stageSet.%s.%ss {
-		instances = append(instances, inst)
-	}
-	sort.Slice(instances, func(i, j int) bool {
-		return instances[i].GetName() < instances[j].GetName()
-	})
+	instances := probe.stageSet.%s.GetInstancesByOrder[*%s]()
 
-	for idx, structInstance := range instances {
+	for _, structInstance := range instances {
 		row := new(table_models.Row)
 		row.Name = structInstance.GetName()
 
@@ -1181,7 +1218,7 @@ func updateStageSetTable_%s_%s(probe *StageSetProbe) {
 		}
 
 		cellID := &table_models.Cell{Name: "ID"}
-		cellID.CellInt = &table_models.CellInt{Value: idx}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.%s.GetOrder(structInstance))}
 		row.Cells = append(row.Cells, cellID)
 
 		cellDel := &table_models.Cell{Name: "Delete Icon"}
@@ -1198,6 +1235,10 @@ func updateStageSetTable_%s_%s(probe *StageSetProbe) {
 				probe.stageSet.Commit()
 				updateStageSetTable_%s_%s(probe)
 				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
 			},
 		}
 		cellDel.CellIcon = cellIcon
@@ -1210,7 +1251,7 @@ func updateStageSetTable_%s_%s(probe *StageSetProbe) {
 	table_models.StageBranch(probe.tableStage, table)
 	probe.tableStage.Commit()
 }
-`, si.structName, si.pkgField.Name, si.structName, columnDefs.String(), si.typeQual, si.pkgField.Name, si.structName, si.pkgField.Name, si.structName, si.pkgField.Name, si.structName, si.pkgField.Name, cellAssignments.String()))
+`, si.structName, si.pkgField.Name, si.structName, columnDefs.String(), si.pkgField.Name, si.typeQual, si.pkgField.Name, si.pkgField.Name, si.structName, si.pkgField.Name, cellAssignments.String()))
 	}
 
 	code := fmt.Sprintf(`// generated code - do not edit
@@ -1423,6 +1464,10 @@ func generateStageSetFormCallback(
 				probe.stageSet.%s.Commit()
 				updateStageSetTable_%s_%s(probe)
 				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
 			},
 		}
 		StageSetFillUpForm(inst, formGroup, probe)
@@ -1478,6 +1523,10 @@ func StageSetNewInstance_%s_%s(probe *StageSetProbe) {
 			probe.stageSet.%s.Commit()
 			updateStageSetTable_%s_%s(probe)
 			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
 			StageSetFillUpFormFromGongstruct(inst, probe)
 		},
 	}

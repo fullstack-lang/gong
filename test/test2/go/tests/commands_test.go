@@ -40,8 +40,8 @@ func TestSingleStageAndMultiStageLevel1Stack(t *testing.T) {
 		t.Fatal("expected non-nil stackMulti.StageSet")
 	}
 	aMultiMap := stackMulti.StageSet.Stage.GetInstancesMapByName[*models.A]()
-	if len(aMultiMap) != 4 {
-		t.Fatalf("expected 4 A instances in multi-stage, got %d", len(aMultiMap))
+	if len(aMultiMap) != 9 {
+		t.Fatalf("expected 9 A instances in multi-stage, got %d", len(aMultiMap))
 	}
 	yMultiMap := stackMulti.StageSet.YStage.GetInstancesMapByName[*y.Y]()
 	if len(yMultiMap) != 3 {

@@ -52,13 +52,13 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000001_ := (&models.GongStructShape{Name: `StageSet_Diagram-X`}).Stage(stage)
 	__GongStructShape__00000002_ := (&models.GongStructShape{Name: `StageSet_Diagram-Y`}).Stage(stage)
 	__GongStructShape__00000003_ := (&models.GongStructShape{Name: `StageSet_Diagram-B`}).Stage(stage)
-	__GongStructShape__00000004_ := (&models.GongStructShape{Name: `StageSet_Diagram-SubModel`}).Stage(stage)
+	__GongStructShape__00000005_ := (&models.GongStructShape{Name: `StageSet_Diagram-SubModel`}).Stage(stage)
 
 	__LinkShape__00000003_ := (&models.LinkShape{Name: `Bs`}).Stage(stage)
 	__LinkShape__00000006_ := (&models.LinkShape{Name: `B`}).Stage(stage)
 	__LinkShape__00000007_ := (&models.LinkShape{Name: `X`}).Stage(stage)
 	__LinkShape__00000008_ := (&models.LinkShape{Name: `Y`}).Stage(stage)
-	__LinkShape__00000009_ := (&models.LinkShape{Name: `SubModel`}).Stage(stage)
+	__LinkShape__00000010_ := (&models.LinkShape{Name: `SubModel`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -166,14 +166,14 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000003_.IdentifierMeta = ref_models.B{}
 	__GongStructShape__00000003_.IsSelected = false
 
-	__GongStructShape__00000004_.Name = `StageSet_Diagram-SubModel`
-	__GongStructShape__00000004_.X = 582.000061
-	__GongStructShape__00000004_.Y = 325.000000
-	__GongStructShape__00000004_.Width = 240.000000
-	__GongStructShape__00000004_.Height = 63.000000
-	__GongStructShape__00000004_.IsHidden = false
-	__GongStructShape__00000004_.IdentifierMeta = ref_model.SubModel{}
-	__GongStructShape__00000004_.IsSelected = false
+	__GongStructShape__00000005_.Name = `StageSet_Diagram-SubModel`
+	__GongStructShape__00000005_.X = 673.000000
+	__GongStructShape__00000005_.Y = 322.000000
+	__GongStructShape__00000005_.Width = 240.000000
+	__GongStructShape__00000005_.Height = 63.000000
+	__GongStructShape__00000005_.IsHidden = false
+	__GongStructShape__00000005_.IdentifierMeta = ref_model.SubModel{}
+	__GongStructShape__00000005_.IsSelected = false
 
 	__LinkShape__00000003_.Name = `Bs`
 	__LinkShape__00000003_.IdentifierMeta = ref_models.A{}.Bs
@@ -251,31 +251,31 @@ func _(stage *models.Stage) {
 	__LinkShape__00000008_.EndRatio = 0.500000
 	__LinkShape__00000008_.CornerOffsetRatio = 1.380000
 
-	__LinkShape__00000009_.Name = `SubModel`
-	__LinkShape__00000009_.IdentifierMeta = ref_y.Y{}.SubModel
-	__LinkShape__00000009_.FieldTypeIdentifierMeta = ref_model.SubModel{}
-	__LinkShape__00000009_.FieldOffsetX = 0.000000
-	__LinkShape__00000009_.FieldOffsetY = 0.000000
-	__LinkShape__00000009_.TargetMultiplicity = models.ZERO_ONE
-	__LinkShape__00000009_.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__00000009_.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__00000009_.SourceMultiplicity = models.MANY
-	__LinkShape__00000009_.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__00000009_.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__00000009_.X = 1086.999970
-	__LinkShape__00000009_.Y = 204.000000
-	__LinkShape__00000009_.StartOrientation = models.ORIENTATION_VERTICAL
-	__LinkShape__00000009_.StartRatio = 0.511581
-	__LinkShape__00000009_.EndOrientation = models.ORIENTATION_VERTICAL
-	__LinkShape__00000009_.EndRatio = 0.549081
-	__LinkShape__00000009_.CornerOffsetRatio = 2.576070
+	__LinkShape__00000010_.Name = `SubModel`
+	__LinkShape__00000010_.IdentifierMeta = ref_y.Y{}.SubModel
+	__LinkShape__00000010_.FieldTypeIdentifierMeta = ref_model.SubModel{}
+	__LinkShape__00000010_.FieldOffsetX = 0.000000
+	__LinkShape__00000010_.FieldOffsetY = 0.000000
+	__LinkShape__00000010_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000010_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000010_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000010_.SourceMultiplicity = models.MANY
+	__LinkShape__00000010_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000010_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000010_.X = 1185.999970
+	__LinkShape__00000010_.Y = 234.000000
+	__LinkShape__00000010_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000010_.StartRatio = 0.500000
+	__LinkShape__00000010_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000010_.EndRatio = 0.500000
+	__LinkShape__00000010_.CornerOffsetRatio = 1.380000
 
 	// insertion point for setup of pointers
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000000_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000001_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000002_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000003_)
-	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000004_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000005_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
 	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
 	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000000_)
@@ -289,6 +289,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000002_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000008_)
 	__GongStructShape__00000002_.AttributeShapes = append(__GongStructShape__00000002_.AttributeShapes, __AttributeShape__00000003_)
-	__GongStructShape__00000002_.LinkShapes = append(__GongStructShape__00000002_.LinkShapes, __LinkShape__00000009_)
+	__GongStructShape__00000002_.LinkShapes = append(__GongStructShape__00000002_.LinkShapes, __LinkShape__00000010_)
 	__GongStructShape__00000003_.AttributeShapes = append(__GongStructShape__00000003_.AttributeShapes, __AttributeShape__00000004_)
 }

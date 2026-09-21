@@ -176,7 +176,11 @@ func (stager *Stager) Svg() {
 		//
 		if classdiagram.ShowNbInstances {
 
-			if nbInstance, ok := stager.map_GongStructName_InstancesNb[gongStructIdentifier]; ok {
+			nbInstance, ok := stager.map_GongStructName_InstancesNb[pkgName+"."+gongStructIdentifier]
+			if !ok {
+				nbInstance, ok = stager.map_GongStructName_InstancesNb[gongStructIdentifier]
+			}
+			if ok {
 
 				nbInstancesText := new(svg_models.RectAnchoredText)
 				nbInstancesText.Name = fmt.Sprintf("(%d)", nbInstance)

@@ -102,16 +102,9 @@ func updateStageSetTable_A_Stage(probe *StageSetProbe) {
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 
-	// Sort instances by name
-	instances := make([]*models.A, 0, len(probe.stageSet.Stage.As))
-	for inst := range probe.stageSet.Stage.As {
-		instances = append(instances, inst)
-	}
-	sort.Slice(instances, func(i, j int) bool {
-		return instances[i].GetName() < instances[j].GetName()
-	})
+	instances := probe.stageSet.Stage.GetInstancesByOrder[*models.A]()
 
-	for idx, structInstance := range instances {
+	for _, structInstance := range instances {
 		row := new(table_models.Row)
 		row.Name = structInstance.GetName()
 
@@ -123,7 +116,7 @@ func updateStageSetTable_A_Stage(probe *StageSetProbe) {
 		}
 
 		cellID := &table_models.Cell{Name: "ID"}
-		cellID.CellInt = &table_models.CellInt{Value: idx}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.Stage.GetOrder(structInstance))}
 		row.Cells = append(row.Cells, cellID)
 
 		cellDel := &table_models.Cell{Name: "Delete Icon"}
@@ -140,6 +133,10 @@ func updateStageSetTable_A_Stage(probe *StageSetProbe) {
 				probe.stageSet.Commit()
 				updateStageSetTable_A_Stage(probe)
 				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
 			},
 		}
 		cellDel.CellIcon = cellIcon
@@ -248,16 +245,9 @@ func updateStageSetTable_B_Stage(probe *StageSetProbe) {
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 
-	// Sort instances by name
-	instances := make([]*models.B, 0, len(probe.stageSet.Stage.Bs))
-	for inst := range probe.stageSet.Stage.Bs {
-		instances = append(instances, inst)
-	}
-	sort.Slice(instances, func(i, j int) bool {
-		return instances[i].GetName() < instances[j].GetName()
-	})
+	instances := probe.stageSet.Stage.GetInstancesByOrder[*models.B]()
 
-	for idx, structInstance := range instances {
+	for _, structInstance := range instances {
 		row := new(table_models.Row)
 		row.Name = structInstance.GetName()
 
@@ -269,7 +259,7 @@ func updateStageSetTable_B_Stage(probe *StageSetProbe) {
 		}
 
 		cellID := &table_models.Cell{Name: "ID"}
-		cellID.CellInt = &table_models.CellInt{Value: idx}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.Stage.GetOrder(structInstance))}
 		row.Cells = append(row.Cells, cellID)
 
 		cellDel := &table_models.Cell{Name: "Delete Icon"}
@@ -286,6 +276,10 @@ func updateStageSetTable_B_Stage(probe *StageSetProbe) {
 				probe.stageSet.Commit()
 				updateStageSetTable_B_Stage(probe)
 				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
 			},
 		}
 		cellDel.CellIcon = cellIcon
@@ -367,16 +361,9 @@ func updateStageSetTable_X_XStage(probe *StageSetProbe) {
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 
-	// Sort instances by name
-	instances := make([]*x.X, 0, len(probe.stageSet.XStage.Xs))
-	for inst := range probe.stageSet.XStage.Xs {
-		instances = append(instances, inst)
-	}
-	sort.Slice(instances, func(i, j int) bool {
-		return instances[i].GetName() < instances[j].GetName()
-	})
+	instances := probe.stageSet.XStage.GetInstancesByOrder[*x.X]()
 
-	for idx, structInstance := range instances {
+	for _, structInstance := range instances {
 		row := new(table_models.Row)
 		row.Name = structInstance.GetName()
 
@@ -388,7 +375,7 @@ func updateStageSetTable_X_XStage(probe *StageSetProbe) {
 		}
 
 		cellID := &table_models.Cell{Name: "ID"}
-		cellID.CellInt = &table_models.CellInt{Value: idx}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.XStage.GetOrder(structInstance))}
 		row.Cells = append(row.Cells, cellID)
 
 		cellDel := &table_models.Cell{Name: "Delete Icon"}
@@ -405,6 +392,10 @@ func updateStageSetTable_X_XStage(probe *StageSetProbe) {
 				probe.stageSet.Commit()
 				updateStageSetTable_X_XStage(probe)
 				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
 			},
 		}
 		cellDel.CellIcon = cellIcon
@@ -480,16 +471,9 @@ func updateStageSetTable_Y_YStage(probe *StageSetProbe) {
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 
-	// Sort instances by name
-	instances := make([]*y.Y, 0, len(probe.stageSet.YStage.Ys))
-	for inst := range probe.stageSet.YStage.Ys {
-		instances = append(instances, inst)
-	}
-	sort.Slice(instances, func(i, j int) bool {
-		return instances[i].GetName() < instances[j].GetName()
-	})
+	instances := probe.stageSet.YStage.GetInstancesByOrder[*y.Y]()
 
-	for idx, structInstance := range instances {
+	for _, structInstance := range instances {
 		row := new(table_models.Row)
 		row.Name = structInstance.GetName()
 
@@ -501,7 +485,7 @@ func updateStageSetTable_Y_YStage(probe *StageSetProbe) {
 		}
 
 		cellID := &table_models.Cell{Name: "ID"}
-		cellID.CellInt = &table_models.CellInt{Value: idx}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.YStage.GetOrder(structInstance))}
 		row.Cells = append(row.Cells, cellID)
 
 		cellDel := &table_models.Cell{Name: "Delete Icon"}
@@ -518,6 +502,10 @@ func updateStageSetTable_Y_YStage(probe *StageSetProbe) {
 				probe.stageSet.Commit()
 				updateStageSetTable_Y_YStage(probe)
 				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
 			},
 		}
 		cellDel.CellIcon = cellIcon
@@ -588,16 +576,9 @@ func updateStageSetTable_SubModel_ModelStage(probe *StageSetProbe) {
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 
-	// Sort instances by name
-	instances := make([]*model.SubModel, 0, len(probe.stageSet.ModelStage.SubModels))
-	for inst := range probe.stageSet.ModelStage.SubModels {
-		instances = append(instances, inst)
-	}
-	sort.Slice(instances, func(i, j int) bool {
-		return instances[i].GetName() < instances[j].GetName()
-	})
+	instances := probe.stageSet.ModelStage.GetInstancesByOrder[*model.SubModel]()
 
-	for idx, structInstance := range instances {
+	for _, structInstance := range instances {
 		row := new(table_models.Row)
 		row.Name = structInstance.GetName()
 
@@ -609,7 +590,7 @@ func updateStageSetTable_SubModel_ModelStage(probe *StageSetProbe) {
 		}
 
 		cellID := &table_models.Cell{Name: "ID"}
-		cellID.CellInt = &table_models.CellInt{Value: idx}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageSet.ModelStage.GetOrder(structInstance))}
 		row.Cells = append(row.Cells, cellID)
 
 		cellDel := &table_models.Cell{Name: "Delete Icon"}
@@ -626,6 +607,10 @@ func updateStageSetTable_SubModel_ModelStage(probe *StageSetProbe) {
 				probe.stageSet.Commit()
 				updateStageSetTable_SubModel_ModelStage(probe)
 				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
 			},
 		}
 		cellDel.CellIcon = cellIcon

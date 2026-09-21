@@ -6,6 +6,11 @@ import (
 
 	tree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
+
+	"github.com/fullstack-lang/gong/test/test2/go/models"
+	"github.com/fullstack-lang/gong/test/test2/go/models/x"
+	"github.com/fullstack-lang/gong/test/test2/go/models/y"
+	model "github.com/fullstack-lang/gong/test/test2/go/models/x/models"
 )
 
 func (probe *StageSetProbe) ux_navigation_tree() {
@@ -105,7 +110,7 @@ func (probe *StageSetProbe) ux_tree() {
 		}
 
 		instCount := 0
-		for _inst := range probe.stageSet.Stage.As {
+		for _, _inst := range probe.stageSet.Stage.GetInstancesByOrder[*models.A]() {
 			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
 				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 				break
@@ -166,7 +171,7 @@ func (probe *StageSetProbe) ux_tree() {
 		}
 
 		instCount := 0
-		for _inst := range probe.stageSet.Stage.Bs {
+		for _, _inst := range probe.stageSet.Stage.GetInstancesByOrder[*models.B]() {
 			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
 				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 				break
@@ -237,7 +242,7 @@ func (probe *StageSetProbe) ux_tree() {
 		}
 
 		instCount := 0
-		for _inst := range probe.stageSet.XStage.Xs {
+		for _, _inst := range probe.stageSet.XStage.GetInstancesByOrder[*x.X]() {
 			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
 				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 				break
@@ -308,7 +313,7 @@ func (probe *StageSetProbe) ux_tree() {
 		}
 
 		instCount := 0
-		for _inst := range probe.stageSet.YStage.Ys {
+		for _, _inst := range probe.stageSet.YStage.GetInstancesByOrder[*y.Y]() {
 			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
 				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 				break
@@ -379,7 +384,7 @@ func (probe *StageSetProbe) ux_tree() {
 		}
 
 		instCount := 0
-		for _inst := range probe.stageSet.ModelStage.SubModels {
+		for _, _inst := range probe.stageSet.ModelStage.GetInstancesByOrder[*model.SubModel]() {
 			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
 				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 				break
