@@ -179,6 +179,7 @@ func LoadSource(stage *Stage, pkgPath string) (modelPkg *ModelPkg, err error) {
 func (modelPkg *ModelPkg) SerializeToStage() {
 	modelPkg.Stage(modelPkg.GetStage())
 	for _, gongStruct := range modelPkg.GongStructs {
+		gongStruct.ModelPkg = modelPkg
 		gongStruct.Stage(modelPkg.GetStage())
 
 		for _, field := range gongStruct.Fields {

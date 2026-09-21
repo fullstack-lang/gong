@@ -6,14 +6,20 @@ import (
 	"strings"
 	"testing"
 
+	model "github.com/fullstack-lang/gong/test/test2/go/models/x/models"
 	"github.com/fullstack-lang/gong/test/test2/go/models/x"
 	"github.com/fullstack-lang/gong/test/test2/go/models/y"
 )
 
 func TestModelsStageBasicFunctionalities(t *testing.T) {
+	// 0. Stage in package models/x/models (colliding package name models, aliased to model)
+	stageSub := model.NewStage("stage_sub")
+	subModelInstance := (&model.SubModel{Name: "SubModel_Root"}).Stage(stageSub)
+	stageSub.Commit()
+
 	// 1. Stage in package y
 	stageY := y.NewStage("stage_y")
-	yInstance := (&y.Y{Name: "Y_Root"}).Stage(stageY)
+	yInstance := (&y.Y{Name: "Y_Root", SubModel: subModelInstance}).Stage(stageY)
 	stageY.Commit()
 
 	// 2. Stage in package x referencing y
@@ -52,6 +58,9 @@ func TestModelsStageBasicFunctionalities(t *testing.T) {
 	if aMap["A_Root"].X.Y != yInstance {
 		t.Fatalf("expected A_Root.X.Y to link to yInstance")
 	}
+	if aMap["A_Root"].X.Y.SubModel != subModelInstance {
+		t.Fatalf("expected A_Root.X.Y.SubModel to link to subModelInstance")
+	}
 	if aMap["A_Root"].Foo != 123 {
 		t.Fatalf("expected Foo to be 123, got %d", aMap["A_Root"].Foo)
 	}
@@ -80,7 +89,12 @@ func TestModelsStageBasicFunctionalities(t *testing.T) {
 		t.Fatalf("expected sorted A_Root")
 	}
 
-	// Verify all 3 stages simultaneously maintain their respective instances
+	// Verify all 4 stages simultaneously maintain their respective instances
+	subMap := stageSub.GetInstancesMapByName[*model.SubModel]()
+	if len(subMap) != 1 || subMap["SubModel_Root"] != subModelInstance {
+		t.Fatalf("expected SubModel_Root in stageSub")
+	}
+
 	yMap := stageY.GetInstancesMapByName[*y.Y]()
 	if len(yMap) != 1 || yMap["Y_Root"] != yInstance {
 		t.Fatalf("expected Y_Root in stageY")
@@ -102,9 +116,13 @@ func TestModelsStageBasicFunctionalities(t *testing.T) {
 }
 
 func TestStageSetMarshallAndUnmarshall(t *testing.T) {
+	// 0. Stage in package models/x/models
+	stageSub := model.NewStage("stage_sub")
+	subModelInstance := (&model.SubModel{Name: "SubModel_Root"}).Stage(stageSub)
+
 	// 1. Stage in package y
 	stageY := y.NewStage("stage_y")
-	yInstance := (&y.Y{Name: "Y_Root"}).Stage(stageY)
+	yInstance := (&y.Y{Name: "Y_Root", SubModel: subModelInstance}).Stage(stageY)
 
 	// 2. Stage in package x referencing y
 	stageX := x.NewStage("stage_x")
@@ -125,9 +143,10 @@ func TestStageSetMarshallAndUnmarshall(t *testing.T) {
 	}).Stage(stageModels)
 
 	stageSet := &StageSet{
-		Stage:  stageModels,
-		XStage: stageX,
-		YStage: stageY,
+		Stage:      stageModels,
+		XStage:     stageX,
+		YStage:     stageY,
+		ModelStage: stageSub,
 	}
 	stageSet.Commit()
 
@@ -142,22 +161,36 @@ func TestStageSetMarshallAndUnmarshall(t *testing.T) {
 	// Verify key elements in the marshalled code
 	expectedSubstrings := []string{
 		"package main",
-		"__stage_0__ \"github.com/fullstack-lang/gong/test/test2/go/models\"",
-		"__stage_1__ \"github.com/fullstack-lang/gong/test/test2/go/models/x\"",
-		"__stage_2__ \"github.com/fullstack-lang/gong/test/test2/go/models/y\"",
-		"func _(stageSet *__stage_0__.StageSet)",
-		"__stage_2__Y__00000000_ := (&__stage_2__.Y{Name: `Y_Root`}).Stage(stageSet.YStage)",
-		"__stage_1__X__00000000_ := (&__stage_1__.X{Name: `X_Root`}).Stage(stageSet.XStage)",
-		"__stage_0__A__00000000_ := (&__stage_0__.A{Name: `A_Root`}).Stage(stageSet.Stage)",
-		"__stage_0__B__00000000_ := (&__stage_0__.B{Name: `B_Root`}).Stage(stageSet.Stage)",
-		"__stage_0__A__00000000_.NumberField = 42",
-		"__stage_0__A__00000000_.Foo = 123",
-		"__stage_0__A__00000000_.Bar = 45.670000",
-		"__stage_0__A__00000000_.Zorgh = `Hello Gong`",
-		"__stage_1__X__00000000_.Y = __stage_2__Y__00000000_",
-		"__stage_0__A__00000000_.B = __stage_0__B__00000000_",
-		"__stage_0__A__00000000_.Bs = append(__stage_0__A__00000000_.Bs, __stage_0__B__00000000_)",
-		"__stage_0__A__00000000_.X = __stage_1__X__00000000_",
+		// Natural package imports (unaliased where possible)
+		"\"github.com/fullstack-lang/gong/test/test2/go/models\"",
+		"\"github.com/fullstack-lang/gong/test/test2/go/models/x\"",
+		"\"github.com/fullstack-lang/gong/test/test2/go/models/y\"",
+		// Aliased import for colliding package name
+		"model \"github.com/fullstack-lang/gong/test/test2/go/models/x/models\"",
+		// Function header
+		"func _(stageSet *models.StageSet)",
+		// Instance declarations with readable prefixes: __<alias>__<Struct>__<order>_
+		"__model__SubModel__00000000_ := (&model.SubModel{Name: `SubModel_Root`}).Stage(stageSet.ModelStage)",
+		"__y__Y__00000000_ := (&y.Y{Name: `Y_Root`}).Stage(stageSet.YStage)",
+		"__x__X__00000000_ := (&x.X{Name: `X_Root`}).Stage(stageSet.XStage)",
+		"__models__A__00000000_ := (&models.A{Name: `A_Root`}).Stage(stageSet.Stage)",
+		"__models__B__00000000_ := (&models.B{Name: `B_Root`}).Stage(stageSet.Stage)",
+		// Values
+		"__model__SubModel__00000000_.Name = `SubModel_Root`",
+		"__y__Y__00000000_.Name = `Y_Root`",
+		"__x__X__00000000_.Name = `X_Root`",
+		"__models__A__00000000_.Name = `A_Root`",
+		"__models__A__00000000_.NumberField = 42",
+		"__models__A__00000000_.Foo = 123",
+		"__models__A__00000000_.Bar = 45.670000",
+		"__models__A__00000000_.Zorgh = `Hello Gong`",
+		"__models__B__00000000_.Name = `B_Root`",
+		// Pointers
+		"__y__Y__00000000_.SubModel = __model__SubModel__00000000_",
+		"__x__X__00000000_.Y = __y__Y__00000000_",
+		"__models__A__00000000_.B = __models__B__00000000_",
+		"__models__A__00000000_.Bs = append(__models__A__00000000_.Bs, __models__B__00000000_)",
+		"__models__A__00000000_.X = __x__X__00000000_",
 	}
 
 	for _, expected := range expectedSubstrings {
@@ -166,15 +199,31 @@ func TestStageSetMarshallAndUnmarshall(t *testing.T) {
 		}
 	}
 
+	// Verify blank line separation between stages in declarations
+	declSubModelToY := "__model__SubModel__00000000_ := (&model.SubModel{Name: `SubModel_Root`}).Stage(stageSet.ModelStage)\n\n\t__y__Y__00000000_ :="
+	if !strings.Contains(marshalledCode, declSubModelToY) {
+		t.Errorf("expected empty line between ModelStage and YStage declarations, code was:\n%s", marshalledCode)
+	}
+	declYToX := "__y__Y__00000000_ := (&y.Y{Name: `Y_Root`}).Stage(stageSet.YStage)\n\n\t__x__X__00000000_ :="
+	if !strings.Contains(marshalledCode, declYToX) {
+		t.Errorf("expected empty line between YStage and XStage declarations")
+	}
+	declXToModels := "__x__X__00000000_ := (&x.X{Name: `X_Root`}).Stage(stageSet.XStage)\n\n\t__models__A__00000000_ :="
+	if !strings.Contains(marshalledCode, declXToModels) {
+		t.Errorf("expected empty line between XStage and ModelsStage declarations")
+	}
+
 	// 5. Unmarshall into fresh stages
 	newStageModels := NewStage("new_models")
 	newStageX := x.NewStage("new_x")
 	newStageY := y.NewStage("new_y")
+	newStageSub := model.NewStage("new_sub")
 
 	newStageSet := &StageSet{
-		Stage:  newStageModels,
-		XStage: newStageX,
-		YStage: newStageY,
+		Stage:      newStageModels,
+		XStage:     newStageX,
+		YStage:     newStageY,
+		ModelStage: newStageSub,
 	}
 
 	err = newStageSet.ParseAstString(marshalledCode, true)
@@ -183,6 +232,11 @@ func TestStageSetMarshallAndUnmarshall(t *testing.T) {
 	}
 
 	// Verify instances in new stages
+	newSubMap := newStageSub.GetInstancesMapByName[*model.SubModel]()
+	if len(newSubMap) != 1 || newSubMap["SubModel_Root"] == nil {
+		t.Fatalf("expected SubModel_Root in newStageSub")
+	}
+
 	newYMap := newStageY.GetInstancesMapByName[*y.Y]()
 	if len(newYMap) != 1 || newYMap["Y_Root"] == nil {
 		t.Fatalf("expected Y_Root in newStageY")
@@ -207,6 +261,7 @@ func TestStageSetMarshallAndUnmarshall(t *testing.T) {
 	newB := newBMap["B_Root"]
 	newX := newXMap["X_Root"]
 	newY := newYMap["Y_Root"]
+	newSub := newSubMap["SubModel_Root"]
 
 	// Verify values
 	if newA.NumberField != 42 {
@@ -240,6 +295,12 @@ func TestStageSetMarshallAndUnmarshall(t *testing.T) {
 	if newA.X.Y != newY {
 		t.Errorf("expected A.X.Y to link to newY")
 	}
+	if newY.SubModel != newSub {
+		t.Errorf("expected Y.SubModel to link to newSub")
+	}
+	if newA.X.Y.SubModel != newSub {
+		t.Errorf("expected A.X.Y.SubModel to link to newSub")
+	}
 
 	// Suppress unused warnings
 	_ = aInstance
@@ -250,15 +311,17 @@ func TestStageSetEmptyStages(t *testing.T) {
 	stageModels := NewStage("empty_models")
 	stageX := x.NewStage("empty_x")
 	stageY := y.NewStage("empty_y")
+	stageSub := model.NewStage("empty_sub")
 
-	// Only stage an instance in models; x and y are completely empty
+	// Only stage an instance in models; x, y, and model are completely empty
 	b := (&B{Name: "Lone_B"}).Stage(stageModels)
 	_ = b
 
 	stageSet := &StageSet{
-		Stage:  stageModels,
-		XStage: stageX,
-		YStage: stageY,
+		Stage:      stageModels,
+		XStage:     stageX,
+		YStage:     stageY,
+		ModelStage: stageSub,
 	}
 
 	code, err := stageSet.MarshallToString("main")
@@ -267,16 +330,18 @@ func TestStageSetEmptyStages(t *testing.T) {
 	}
 
 	// Verify it still includes all package dummy declarations so unused import errors are prevented
-	if !strings.Contains(code, "_ *__stage_0__.Stage") ||
-		!strings.Contains(code, "_ *__stage_1__.Stage") ||
-		!strings.Contains(code, "_ *__stage_2__.Stage") {
-		t.Errorf("expected dummy declarations for all stages to prevent unused imports")
+	if !strings.Contains(code, "_ *models.Stage") ||
+		!strings.Contains(code, "_ *x.Stage") ||
+		!strings.Contains(code, "_ *y.Stage") ||
+		!strings.Contains(code, "_ *model.Stage") {
+		t.Errorf("expected dummy declarations for all stages to prevent unused imports, got:\n%s", code)
 	}
 
 	newStageSet := &StageSet{
-		Stage:  NewStage("fresh_models"),
-		XStage: x.NewStage("fresh_x"),
-		YStage: y.NewStage("fresh_y"),
+		Stage:      NewStage("fresh_models"),
+		XStage:     x.NewStage("fresh_x"),
+		YStage:     y.NewStage("fresh_y"),
+		ModelStage: model.NewStage("fresh_sub"),
 	}
 
 	err = newStageSet.ParseAstString(code, true)
@@ -293,8 +358,11 @@ func TestStageSetEmptyStages(t *testing.T) {
 func TestStageSetMarshallFileAndParseAstFile(t *testing.T) {
 	tmpFile := filepath.Join(t.TempDir(), "stage_set_data.go")
 
+	stageSub := model.NewStage("stage_sub")
+	subInst := (&model.SubModel{Name: "File_Sub"}).Stage(stageSub)
+
 	stageY := y.NewStage("stage_y")
-	yInst := (&y.Y{Name: "File_Y"}).Stage(stageY)
+	yInst := (&y.Y{Name: "File_Y", SubModel: subInst}).Stage(stageY)
 
 	stageX := x.NewStage("stage_x")
 	xInst := (&x.X{Name: "File_X", Y: yInst}).Stage(stageX)
@@ -304,9 +372,10 @@ func TestStageSetMarshallFileAndParseAstFile(t *testing.T) {
 	_ = aInst
 
 	stageSet := &StageSet{
-		Stage:  stageModels,
-		XStage: stageX,
-		YStage: stageY,
+		Stage:      stageModels,
+		XStage:     stageX,
+		YStage:     stageY,
+		ModelStage: stageSub,
 	}
 
 	stageSet.MarshallFile(tmpFile, "main")
@@ -317,9 +386,10 @@ func TestStageSetMarshallFileAndParseAstFile(t *testing.T) {
 	}
 
 	newStageSet := &StageSet{
-		Stage:  NewStage("new_models"),
-		XStage: x.NewStage("new_x"),
-		YStage: y.NewStage("new_y"),
+		Stage:      NewStage("new_models"),
+		XStage:     x.NewStage("new_x"),
+		YStage:     y.NewStage("new_y"),
+		ModelStage: model.NewStage("new_sub"),
 	}
 
 	err := newStageSet.ParseAstFile(tmpFile, true)
@@ -337,4 +407,8 @@ func TestStageSetMarshallFileAndParseAstFile(t *testing.T) {
 	if aMap["File_A"].X.Y == nil || aMap["File_A"].X.Y.Name != "File_Y" {
 		t.Fatalf("expected File_A.X.Y to link to File_Y")
 	}
+	if aMap["File_A"].X.Y.SubModel == nil || aMap["File_A"].X.Y.SubModel.Name != "File_Sub" {
+		t.Fatalf("expected File_A.X.Y.SubModel to link to File_Sub")
+	}
 }
+

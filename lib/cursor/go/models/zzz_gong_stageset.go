@@ -128,6 +128,12 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	var declarations strings.Builder
 	var values strings.Builder
 	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
 		cursorOrdered := []*Cursor{}
@@ -138,8 +144,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Cursor_stagedOrder[cursorOrdered[i]] < stageSet.Stage.Cursor_stagedOrder[cursorOrdered[j]]
 		})
 		for _, cursor := range cursorOrdered {
-			cursorIdent := "__stage_0" + cursor.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Cursor{Name: %s}).Stage(stageSet.Stage)", cursorIdent, __gong__toRawStringLiteral(cursor.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cursorIdent := "__models" + cursor.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Cursor{Name: %s}).Stage(stageSet.Stage)", cursorIdent, __gong__toRawStringLiteral(cursor.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cursorIdent, __gong__toRawStringLiteral(cursor.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.StartX = %f", cursorIdent, cursor.StartX))
 			values.WriteString(fmt.Sprintf("\n\t%s.EndX = %f", cursorIdent, cursor.EndX))
@@ -166,18 +184,18 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/lib/cursor/go/models"
+	"github.com/fullstack-lang/gong/lib/cursor/go/models"
 )
 
 var (
 	_ time.Time
 	_ = slices.Index[[]int, int]
 
-	_ *__stage_0__.Stage
+	_ *models.Stage
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stageSet *models.StageSet) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
@@ -243,6 +261,19 @@ func (stageSet *StageSet) ParseAstString(blob string, preserveOrder bool) error 
 func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	identifierMap := make(map[string]any)
 
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/lib/cursor/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
 	ast.Inspect(inFile, func(n ast.Node) bool {
 		switch node := n.(type) {
 		case *ast.AssignStmt:
@@ -279,8 +310,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						return true
 					})
 
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					}
+
 					switch pkgAlias {
-			case "__stage_0__":
+			case "models":
 				switch typeName {
 				case "Cursor":
 					if !preserveOrder {

@@ -128,6 +128,12 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	var declarations strings.Builder
 	var values strings.Builder
 	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
 		allocatedprocessshapeOrdered := []*AllocatedProcessShape{}
@@ -138,15 +144,39 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.AllocatedProcessShape_stagedOrder[allocatedprocessshapeOrdered[i]] < stageSet.Stage.AllocatedProcessShape_stagedOrder[allocatedprocessshapeOrdered[j]]
 		})
 		for _, allocatedprocessshape := range allocatedprocessshapeOrdered {
-			allocatedprocessshapeIdent := "__stage_0" + allocatedprocessshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.AllocatedProcessShape{Name: %s}).Stage(stageSet.Stage)", allocatedprocessshapeIdent, __gong__toRawStringLiteral(allocatedprocessshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			allocatedprocessshapeIdent := "__models" + allocatedprocessshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.AllocatedProcessShape{Name: %s}).Stage(stageSet.Stage)", allocatedprocessshapeIdent, __gong__toRawStringLiteral(allocatedprocessshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", allocatedprocessshapeIdent, __gong__toRawStringLiteral(allocatedprocessshape.Name)))
 			if allocatedprocessshape.Participant != nil {
-				targetIdent := "__stage_0" + allocatedprocessshape.Participant.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + allocatedprocessshape.Participant.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Participant = %s", allocatedprocessshapeIdent, targetIdent))
 			}
 			if allocatedprocessshape.Process != nil {
-				targetIdent := "__stage_0" + allocatedprocessshape.Process.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + allocatedprocessshape.Process.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Process = %s", allocatedprocessshapeIdent, targetIdent))
 			}
 		}
@@ -160,15 +190,39 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.AllocatedResourceShape_stagedOrder[allocatedresourceshapeOrdered[i]] < stageSet.Stage.AllocatedResourceShape_stagedOrder[allocatedresourceshapeOrdered[j]]
 		})
 		for _, allocatedresourceshape := range allocatedresourceshapeOrdered {
-			allocatedresourceshapeIdent := "__stage_0" + allocatedresourceshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.AllocatedResourceShape{Name: %s}).Stage(stageSet.Stage)", allocatedresourceshapeIdent, __gong__toRawStringLiteral(allocatedresourceshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			allocatedresourceshapeIdent := "__models" + allocatedresourceshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.AllocatedResourceShape{Name: %s}).Stage(stageSet.Stage)", allocatedresourceshapeIdent, __gong__toRawStringLiteral(allocatedresourceshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", allocatedresourceshapeIdent, __gong__toRawStringLiteral(allocatedresourceshape.Name)))
 			if allocatedresourceshape.Participant != nil {
-				targetIdent := "__stage_0" + allocatedresourceshape.Participant.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + allocatedresourceshape.Participant.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Participant = %s", allocatedresourceshapeIdent, targetIdent))
 			}
 			if allocatedresourceshape.Resource != nil {
-				targetIdent := "__stage_0" + allocatedresourceshape.Resource.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + allocatedresourceshape.Resource.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Resource = %s", allocatedresourceshapeIdent, targetIdent))
 			}
 		}
@@ -182,18 +236,42 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ControlFlow_stagedOrder[controlflowOrdered[i]] < stageSet.Stage.ControlFlow_stagedOrder[controlflowOrdered[j]]
 		})
 		for _, controlflow := range controlflowOrdered {
-			controlflowIdent := "__stage_0" + controlflow.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ControlFlow{Name: %s}).Stage(stageSet.Stage)", controlflowIdent, __gong__toRawStringLiteral(controlflow.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			controlflowIdent := "__models" + controlflow.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ControlFlow{Name: %s}).Stage(stageSet.Stage)", controlflowIdent, __gong__toRawStringLiteral(controlflow.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", controlflowIdent, __gong__toRawStringLiteral(controlflow.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", controlflowIdent, __gong__toRawStringLiteral(controlflow.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", controlflowIdent, __gong__toRawStringLiteral(controlflow.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", controlflowIdent, controlflow.IsExpanded))
 			if controlflow.Start != nil {
-				targetIdent := "__stage_0" + controlflow.Start.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + controlflow.Start.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Start = %s", controlflowIdent, targetIdent))
 			}
 			if controlflow.End != nil {
-				targetIdent := "__stage_0" + controlflow.End.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + controlflow.End.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.End = %s", controlflowIdent, targetIdent))
 			}
 		}
@@ -207,8 +285,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ControlFlowShape_stagedOrder[controlflowshapeOrdered[i]] < stageSet.Stage.ControlFlowShape_stagedOrder[controlflowshapeOrdered[j]]
 		})
 		for _, controlflowshape := range controlflowshapeOrdered {
-			controlflowshapeIdent := "__stage_0" + controlflowshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ControlFlowShape{Name: %s}).Stage(stageSet.Stage)", controlflowshapeIdent, __gong__toRawStringLiteral(controlflowshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			controlflowshapeIdent := "__models" + controlflowshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ControlFlowShape{Name: %s}).Stage(stageSet.Stage)", controlflowshapeIdent, __gong__toRawStringLiteral(controlflowshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", controlflowshapeIdent, __gong__toRawStringLiteral(controlflowshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", controlflowshapeIdent, controlflowshape.StartRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", controlflowshapeIdent, controlflowshape.EndRatio))
@@ -217,7 +307,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", controlflowshapeIdent, controlflowshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", controlflowshapeIdent, controlflowshape.IsHidden))
 			if controlflowshape.ControlFlow != nil {
-				targetIdent := "__stage_0" + controlflowshape.ControlFlow.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + controlflowshape.ControlFlow.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlow = %s", controlflowshapeIdent, targetIdent))
 			}
 		}
@@ -231,8 +327,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Data_stagedOrder[dataOrdered[i]] < stageSet.Stage.Data_stagedOrder[dataOrdered[j]]
 		})
 		for _, data := range dataOrdered {
-			dataIdent := "__stage_0" + data.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Data{Name: %s}).Stage(stageSet.Stage)", dataIdent, __gong__toRawStringLiteral(data.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			dataIdent := "__models" + data.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Data{Name: %s}).Stage(stageSet.Stage)", dataIdent, __gong__toRawStringLiteral(data.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dataIdent, __gong__toRawStringLiteral(data.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Acronym = %s", dataIdent, __gong__toRawStringLiteral(data.Acronym)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", dataIdent, __gong__toRawStringLiteral(data.Description)))
@@ -251,8 +359,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DataFlow_stagedOrder[dataflowOrdered[i]] < stageSet.Stage.DataFlow_stagedOrder[dataflowOrdered[j]]
 		})
 		for _, dataflow := range dataflowOrdered {
-			dataflowIdent := "__stage_0" + dataflow.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DataFlow{Name: %s}).Stage(stageSet.Stage)", dataflowIdent, __gong__toRawStringLiteral(dataflow.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			dataflowIdent := "__models" + dataflow.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DataFlow{Name: %s}).Stage(stageSet.Stage)", dataflowIdent, __gong__toRawStringLiteral(dataflow.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dataflowIdent, __gong__toRawStringLiteral(dataflow.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", dataflowIdent, __gong__toRawStringLiteral(dataflow.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", dataflowIdent, __gong__toRawStringLiteral(dataflow.ComputedPrefix)))
@@ -260,23 +380,53 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", dataflowIdent, __gong__toRawStringLiteral(string(dataflow.Type))))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsDatasNodeExpanded = %t", dataflowIdent, dataflow.IsDatasNodeExpanded))
 			for _, elem := range dataflow.Datas {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Datas = append(%s.Datas, %s)", dataflowIdent, dataflowIdent, targetIdent))
 			}
 			if dataflow.StartTask != nil {
-				targetIdent := "__stage_0" + dataflow.StartTask.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + dataflow.StartTask.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.StartTask = %s", dataflowIdent, targetIdent))
 			}
 			if dataflow.EndTask != nil {
-				targetIdent := "__stage_0" + dataflow.EndTask.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + dataflow.EndTask.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EndTask = %s", dataflowIdent, targetIdent))
 			}
 			if dataflow.StartExternalParticipant != nil {
-				targetIdent := "__stage_0" + dataflow.StartExternalParticipant.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + dataflow.StartExternalParticipant.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.StartExternalParticipant = %s", dataflowIdent, targetIdent))
 			}
 			if dataflow.EndExternalParticipant != nil {
-				targetIdent := "__stage_0" + dataflow.EndExternalParticipant.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + dataflow.EndExternalParticipant.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EndExternalParticipant = %s", dataflowIdent, targetIdent))
 			}
 		}
@@ -290,8 +440,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DataFlowShape_stagedOrder[dataflowshapeOrdered[i]] < stageSet.Stage.DataFlowShape_stagedOrder[dataflowshapeOrdered[j]]
 		})
 		for _, dataflowshape := range dataflowshapeOrdered {
-			dataflowshapeIdent := "__stage_0" + dataflowshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DataFlowShape{Name: %s}).Stage(stageSet.Stage)", dataflowshapeIdent, __gong__toRawStringLiteral(dataflowshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			dataflowshapeIdent := "__models" + dataflowshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DataFlowShape{Name: %s}).Stage(stageSet.Stage)", dataflowshapeIdent, __gong__toRawStringLiteral(dataflowshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dataflowshapeIdent, __gong__toRawStringLiteral(dataflowshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", dataflowshapeIdent, dataflowshape.StartRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", dataflowshapeIdent, dataflowshape.EndRatio))
@@ -300,7 +462,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", dataflowshapeIdent, dataflowshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", dataflowshapeIdent, dataflowshape.IsHidden))
 			if dataflowshape.DataFlow != nil {
-				targetIdent := "__stage_0" + dataflowshape.DataFlow.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + dataflowshape.DataFlow.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", dataflowshapeIdent, targetIdent))
 			}
 		}
@@ -314,15 +482,39 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DataShape_stagedOrder[datashapeOrdered[i]] < stageSet.Stage.DataShape_stagedOrder[datashapeOrdered[j]]
 		})
 		for _, datashape := range datashapeOrdered {
-			datashapeIdent := "__stage_0" + datashape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DataShape{Name: %s}).Stage(stageSet.Stage)", datashapeIdent, __gong__toRawStringLiteral(datashape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			datashapeIdent := "__models" + datashape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DataShape{Name: %s}).Stage(stageSet.Stage)", datashapeIdent, __gong__toRawStringLiteral(datashape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.Name)))
 			if datashape.Data != nil {
-				targetIdent := "__stage_0" + datashape.Data.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + datashape.Data.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Data = %s", datashapeIdent, targetIdent))
 			}
 			if datashape.DataFlow != nil {
-				targetIdent := "__stage_0" + datashape.DataFlow.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + datashape.DataFlow.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", datashapeIdent, targetIdent))
 			}
 		}
@@ -336,8 +528,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DiagramProcess_stagedOrder[diagramprocessOrdered[i]] < stageSet.Stage.DiagramProcess_stagedOrder[diagramprocessOrdered[j]]
 		})
 		for _, diagramprocess := range diagramprocessOrdered {
-			diagramprocessIdent := "__stage_0" + diagramprocess.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DiagramProcess{Name: %s}).Stage(stageSet.Stage)", diagramprocessIdent, __gong__toRawStringLiteral(diagramprocess.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			diagramprocessIdent := "__models" + diagramprocess.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DiagramProcess{Name: %s}).Stage(stageSet.Stage)", diagramprocessIdent, __gong__toRawStringLiteral(diagramprocess.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", diagramprocessIdent, __gong__toRawStringLiteral(diagramprocess.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", diagramprocessIdent, __gong__toRawStringLiteral(diagramprocess.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", diagramprocessIdent, __gong__toRawStringLiteral(diagramprocess.ComputedPrefix)))
@@ -354,99 +558,243 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExternalParticipantsNodeExpanded = %t", diagramprocessIdent, diagramprocess.IsExternalParticipantsNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsNotesNodeExpanded = %t", diagramprocessIdent, diagramprocess.IsNotesNodeExpanded))
 			for _, elem := range diagramprocess.Process_Shapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Process_Shapes = append(%s.Process_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ProcesssWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ProcesssWhoseNodeIsExpanded = append(%s.ProcesssWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.Participant_Shapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Participant_Shapes = append(%s.Participant_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ParticipantWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParticipantWhoseNodeIsExpanded = append(%s.ParticipantWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ExternalParticipant_Shapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipant_Shapes = append(%s.ExternalParticipant_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipantWhoseNodeIsExpanded = append(%s.ExternalParticipantWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(%s.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(%s.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.TasksWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TasksWhoseNodeIsExpanded = append(%s.TasksWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.Task_Shapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Task_Shapes = append(%s.Task_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlowsWhoseNodeIsExpanded = append(%s.ControlFlowsWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.ControlFlow_Shapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlow_Shapes = append(%s.ControlFlow_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.DataFlowsWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseNodeIsExpanded = append(%s.DataFlowsWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.DataFlow_Shapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow_Shapes = append(%s.DataFlow_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.DatasWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DatasWhoseNodeIsExpanded = append(%s.DatasWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.Data_Shapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Data_Shapes = append(%s.Data_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseDataNodeIsExpanded = append(%s.DataFlowsWhoseDataNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.AllocatedResourcesWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AllocatedResourcesWhoseNodeIsExpanded = append(%s.AllocatedResourcesWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.AllocatedResourceShapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AllocatedResourceShapes = append(%s.AllocatedResourceShapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.AllocatedProcessesWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AllocatedProcessesWhoseNodeIsExpanded = append(%s.AllocatedProcessesWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.AllocatedProcessShapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AllocatedProcessShapes = append(%s.AllocatedProcessShapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.Note_Shapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Note_Shapes = append(%s.Note_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.NotesWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.NotesWhoseNodeIsExpanded = append(%s.NotesWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.NoteTaskShapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.NoteTaskShapes = append(%s.NoteTaskShapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 		}
@@ -460,8 +808,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ExternalParticipantShape_stagedOrder[externalparticipantshapeOrdered[i]] < stageSet.Stage.ExternalParticipantShape_stagedOrder[externalparticipantshapeOrdered[j]]
 		})
 		for _, externalparticipantshape := range externalparticipantshapeOrdered {
-			externalparticipantshapeIdent := "__stage_0" + externalparticipantshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ExternalParticipantShape{Name: %s}).Stage(stageSet.Stage)", externalparticipantshapeIdent, __gong__toRawStringLiteral(externalparticipantshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			externalparticipantshapeIdent := "__models" + externalparticipantshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ExternalParticipantShape{Name: %s}).Stage(stageSet.Stage)", externalparticipantshapeIdent, __gong__toRawStringLiteral(externalparticipantshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", externalparticipantshapeIdent, __gong__toRawStringLiteral(externalparticipantshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", externalparticipantshapeIdent, externalparticipantshape.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", externalparticipantshapeIdent, externalparticipantshape.X))
@@ -471,7 +831,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", externalparticipantshapeIdent, externalparticipantshape.IsHidden))
 			values.WriteString(fmt.Sprintf("\n\t%s.TailHeigth = %f", externalparticipantshapeIdent, externalparticipantshape.TailHeigth))
 			if externalparticipantshape.Participant != nil {
-				targetIdent := "__stage_0" + externalparticipantshape.Participant.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + externalparticipantshape.Participant.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Participant = %s", externalparticipantshapeIdent, targetIdent))
 			}
 		}
@@ -485,8 +851,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Library_stagedOrder[libraryOrdered[i]] < stageSet.Stage.Library_stagedOrder[libraryOrdered[j]]
 		})
 		for _, library := range libraryOrdered {
-			libraryIdent := "__stage_0" + library.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Library{Name: %s}).Stage(stageSet.Stage)", libraryIdent, __gong__toRawStringLiteral(library.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			libraryIdent := "__models" + library.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Library{Name: %s}).Stage(stageSet.Stage)", libraryIdent, __gong__toRawStringLiteral(library.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", libraryIdent, __gong__toRawStringLiteral(library.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", libraryIdent, __gong__toRawStringLiteral(library.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", libraryIdent, __gong__toRawStringLiteral(library.ComputedPrefix)))
@@ -502,55 +880,133 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsNotesNodeExpanded = %t", libraryIdent, library.IsNotesNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpandedTmp = %t", libraryIdent, library.IsExpandedTmp))
 			for _, elem := range library.SubLibraries {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibraries = append(%s.SubLibraries, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.SubLibrariesWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibrariesWhoseNodeIsExpanded = append(%s.SubLibrariesWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootProcesses {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootProcesses = append(%s.RootProcesses, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.ProcesssWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ProcesssWhoseNodeIsExpanded = append(%s.ProcesssWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootDataFlows {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootDataFlows = append(%s.RootDataFlows, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.DataFlowsWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseNodeIsExpanded = append(%s.DataFlowsWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootDatas {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootDatas = append(%s.RootDatas, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.DatasWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DatasWhoseNodeIsExpanded = append(%s.DatasWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootResources {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootResources = append(%s.RootResources, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.ResourcesWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ResourcesWhoseNodeIsExpanded = append(%s.ResourcesWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.ParticipantsWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParticipantsWhoseNodeIsExpanded = append(%s.ParticipantsWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootNotes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RootNotes = append(%s.RootNotes, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.NotesWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.NotesWhoseNodeIsExpanded = append(%s.NotesWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 		}
@@ -564,15 +1020,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Note_stagedOrder[noteOrdered[i]] < stageSet.Stage.Note_stagedOrder[noteOrdered[j]]
 		})
 		for _, note := range noteOrdered {
-			noteIdent := "__stage_0" + note.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Note{Name: %s}).Stage(stageSet.Stage)", noteIdent, __gong__toRawStringLiteral(note.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			noteIdent := "__models" + note.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Note{Name: %s}).Stage(stageSet.Stage)", noteIdent, __gong__toRawStringLiteral(note.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", noteIdent, __gong__toRawStringLiteral(note.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", noteIdent, __gong__toRawStringLiteral(note.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", noteIdent, __gong__toRawStringLiteral(note.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", noteIdent, note.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsTasksNodeExpanded = %t", noteIdent, note.IsTasksNodeExpanded))
 			for _, elem := range note.Tasks {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Tasks = append(%s.Tasks, %s)", noteIdent, noteIdent, targetIdent))
 			}
 		}
@@ -586,8 +1060,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.NoteShape_stagedOrder[noteshapeOrdered[i]] < stageSet.Stage.NoteShape_stagedOrder[noteshapeOrdered[j]]
 		})
 		for _, noteshape := range noteshapeOrdered {
-			noteshapeIdent := "__stage_0" + noteshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.NoteShape{Name: %s}).Stage(stageSet.Stage)", noteshapeIdent, __gong__toRawStringLiteral(noteshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			noteshapeIdent := "__models" + noteshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.NoteShape{Name: %s}).Stage(stageSet.Stage)", noteshapeIdent, __gong__toRawStringLiteral(noteshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", noteshapeIdent, noteshape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", noteshapeIdent, noteshape.Y))
@@ -595,7 +1081,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", noteshapeIdent, noteshape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", noteshapeIdent, noteshape.IsHidden))
 			if noteshape.Note != nil {
-				targetIdent := "__stage_0" + noteshape.Note.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + noteshape.Note.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", noteshapeIdent, targetIdent))
 			}
 		}
@@ -609,8 +1101,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.NoteTaskShape_stagedOrder[notetaskshapeOrdered[i]] < stageSet.Stage.NoteTaskShape_stagedOrder[notetaskshapeOrdered[j]]
 		})
 		for _, notetaskshape := range notetaskshapeOrdered {
-			notetaskshapeIdent := "__stage_0" + notetaskshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.NoteTaskShape{Name: %s}).Stage(stageSet.Stage)", notetaskshapeIdent, __gong__toRawStringLiteral(notetaskshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			notetaskshapeIdent := "__models" + notetaskshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.NoteTaskShape{Name: %s}).Stage(stageSet.Stage)", notetaskshapeIdent, __gong__toRawStringLiteral(notetaskshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", notetaskshapeIdent, __gong__toRawStringLiteral(notetaskshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", notetaskshapeIdent, notetaskshape.StartRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", notetaskshapeIdent, notetaskshape.EndRatio))
@@ -619,11 +1123,23 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", notetaskshapeIdent, notetaskshape.CornerOffsetRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", notetaskshapeIdent, notetaskshape.IsHidden))
 			if notetaskshape.Note != nil {
-				targetIdent := "__stage_0" + notetaskshape.Note.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + notetaskshape.Note.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", notetaskshapeIdent, targetIdent))
 			}
 			if notetaskshape.Task != nil {
-				targetIdent := "__stage_0" + notetaskshape.Task.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + notetaskshape.Task.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Task = %s", notetaskshapeIdent, targetIdent))
 			}
 		}
@@ -637,8 +1153,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Participant_stagedOrder[participantOrdered[i]] < stageSet.Stage.Participant_stagedOrder[participantOrdered[j]]
 		})
 		for _, participant := range participantOrdered {
-			participantIdent := "__stage_0" + participant.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Participant{Name: %s}).Stage(stageSet.Stage)", participantIdent, __gong__toRawStringLiteral(participant.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			participantIdent := "__models" + participant.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Participant{Name: %s}).Stage(stageSet.Stage)", participantIdent, __gong__toRawStringLiteral(participant.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", participantIdent, __gong__toRawStringLiteral(participant.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsProcessResource = %t", participantIdent, participant.IsProcessResource))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", participantIdent, __gong__toRawStringLiteral(participant.Description)))
@@ -650,35 +1178,83 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsControlFlowsNodeExpanded = %t", participantIdent, participant.IsControlFlowsNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsDataFlowsNodeExpanded = %t", participantIdent, participant.IsDataFlowsNodeExpanded))
 			for _, elem := range participant.Resources {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Resources = append(%s.Resources, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.Processes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Processes = append(%s.Processes, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.Tasks {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Tasks = append(%s.Tasks, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.ControlFlows {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlows = append(%s.ControlFlows, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.TaskWhoseOutControlFlowsNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskWhoseOutControlFlowsNodeIsExpanded = append(%s.TaskWhoseOutControlFlowsNodeIsExpanded, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskWhoseInControlFlowsNodeIsExpanded = append(%s.TaskWhoseInControlFlowsNodeIsExpanded, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.TaskWhoseOutDataFlowsNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskWhoseOutDataFlowsNodeIsExpanded = append(%s.TaskWhoseOutDataFlowsNodeIsExpanded, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.TaskWhoseInDataFlowsNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TaskWhoseInDataFlowsNodeIsExpanded = append(%s.TaskWhoseInDataFlowsNodeIsExpanded, %s)", participantIdent, participantIdent, targetIdent))
 			}
 		}
@@ -692,8 +1268,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ParticipantShape_stagedOrder[participantshapeOrdered[i]] < stageSet.Stage.ParticipantShape_stagedOrder[participantshapeOrdered[j]]
 		})
 		for _, participantshape := range participantshapeOrdered {
-			participantshapeIdent := "__stage_0" + participantshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ParticipantShape{Name: %s}).Stage(stageSet.Stage)", participantshapeIdent, __gong__toRawStringLiteral(participantshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			participantshapeIdent := "__models" + participantshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ParticipantShape{Name: %s}).Stage(stageSet.Stage)", participantshapeIdent, __gong__toRawStringLiteral(participantshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", participantshapeIdent, __gong__toRawStringLiteral(participantshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", participantshapeIdent, participantshape.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", participantshapeIdent, participantshape.X))
@@ -703,7 +1291,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", participantshapeIdent, participantshape.IsHidden))
 			values.WriteString(fmt.Sprintf("\n\t%s.WidthWeight = %f", participantshapeIdent, participantshape.WidthWeight))
 			if participantshape.Participant != nil {
-				targetIdent := "__stage_0" + participantshape.Participant.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + participantshape.Participant.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Participant = %s", participantshapeIdent, targetIdent))
 			}
 		}
@@ -717,8 +1311,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Process_stagedOrder[processOrdered[i]] < stageSet.Stage.Process_stagedOrder[processOrdered[j]]
 		})
 		for _, process := range processOrdered {
-			processIdent := "__stage_0" + process.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Process{Name: %s}).Stage(stageSet.Stage)", processIdent, __gong__toRawStringLiteral(process.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			processIdent := "__models" + process.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Process{Name: %s}).Stage(stageSet.Stage)", processIdent, __gong__toRawStringLiteral(process.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", processIdent, __gong__toRawStringLiteral(process.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", processIdent, __gong__toRawStringLiteral(process.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", processIdent, __gong__toRawStringLiteral(process.ComputedPrefix)))
@@ -728,35 +1334,83 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsSubProcessNodeExpanded = %t", processIdent, process.IsSubProcessNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsDataFlowsNodeExpanded = %t", processIdent, process.IsDataFlowsNodeExpanded))
 			for _, elem := range process.DiagramProcesss {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DiagramProcesss = append(%s.DiagramProcesss, %s)", processIdent, processIdent, targetIdent))
 			}
 			for _, elem := range process.DiagramProcessWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DiagramProcessWhoseNodeIsExpanded = append(%s.DiagramProcessWhoseNodeIsExpanded, %s)", processIdent, processIdent, targetIdent))
 			}
 			for _, elem := range process.SubProcesses {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubProcesses = append(%s.SubProcesses, %s)", processIdent, processIdent, targetIdent))
 			}
 			for _, elem := range process.Participants {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Participants = append(%s.Participants, %s)", processIdent, processIdent, targetIdent))
 			}
 			for _, elem := range process.ParticipantWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParticipantWhoseNodeIsExpanded = append(%s.ParticipantWhoseNodeIsExpanded, %s)", processIdent, processIdent, targetIdent))
 			}
 			for _, elem := range process.DataFlows {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlows = append(%s.DataFlows, %s)", processIdent, processIdent, targetIdent))
 			}
 			for _, elem := range process.ExternalParticipants {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipants = append(%s.ExternalParticipants, %s)", processIdent, processIdent, targetIdent))
 			}
 			for _, elem := range process.ExternalParticipantWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipantWhoseNodeIsExpanded = append(%s.ExternalParticipantWhoseNodeIsExpanded, %s)", processIdent, processIdent, targetIdent))
 			}
 		}
@@ -770,8 +1424,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ProcessShape_stagedOrder[processshapeOrdered[i]] < stageSet.Stage.ProcessShape_stagedOrder[processshapeOrdered[j]]
 		})
 		for _, processshape := range processshapeOrdered {
-			processshapeIdent := "__stage_0" + processshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ProcessShape{Name: %s}).Stage(stageSet.Stage)", processshapeIdent, __gong__toRawStringLiteral(processshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			processshapeIdent := "__models" + processshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ProcessShape{Name: %s}).Stage(stageSet.Stage)", processshapeIdent, __gong__toRawStringLiteral(processshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", processshapeIdent, __gong__toRawStringLiteral(processshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", processshapeIdent, processshape.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", processshapeIdent, processshape.X))
@@ -780,7 +1446,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", processshapeIdent, processshape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", processshapeIdent, processshape.IsHidden))
 			if processshape.Process != nil {
-				targetIdent := "__stage_0" + processshape.Process.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + processshape.Process.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Process = %s", processshapeIdent, targetIdent))
 			}
 		}
@@ -794,8 +1466,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Resource_stagedOrder[resourceOrdered[i]] < stageSet.Stage.Resource_stagedOrder[resourceOrdered[j]]
 		})
 		for _, resource := range resourceOrdered {
-			resourceIdent := "__stage_0" + resource.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Resource{Name: %s}).Stage(stageSet.Stage)", resourceIdent, __gong__toRawStringLiteral(resource.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			resourceIdent := "__models" + resource.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Resource{Name: %s}).Stage(stageSet.Stage)", resourceIdent, __gong__toRawStringLiteral(resource.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", resourceIdent, __gong__toRawStringLiteral(resource.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Acronym = %s", resourceIdent, __gong__toRawStringLiteral(resource.Acronym)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", resourceIdent, __gong__toRawStringLiteral(resource.Description)))
@@ -814,8 +1498,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Task_stagedOrder[taskOrdered[i]] < stageSet.Stage.Task_stagedOrder[taskOrdered[j]]
 		})
 		for _, task := range taskOrdered {
-			taskIdent := "__stage_0" + task.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Task{Name: %s}).Stage(stageSet.Stage)", taskIdent, __gong__toRawStringLiteral(task.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			taskIdent := "__models" + task.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Task{Name: %s}).Stage(stageSet.Stage)", taskIdent, __gong__toRawStringLiteral(task.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", taskIdent, __gong__toRawStringLiteral(task.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", taskIdent, __gong__toRawStringLiteral(task.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", taskIdent, __gong__toRawStringLiteral(task.ComputedPrefix)))
@@ -824,7 +1520,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsEndTask = %t", taskIdent, task.IsEndTask))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsTaskNameNotProcessName = %t", taskIdent, task.IsTaskNameNotProcessName))
 			if task.Type != nil {
-				targetIdent := "__stage_0" + task.Type.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + task.Type.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Type = %s", taskIdent, targetIdent))
 			}
 		}
@@ -838,8 +1540,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.TaskShape_stagedOrder[taskshapeOrdered[i]] < stageSet.Stage.TaskShape_stagedOrder[taskshapeOrdered[j]]
 		})
 		for _, taskshape := range taskshapeOrdered {
-			taskshapeIdent := "__stage_0" + taskshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.TaskShape{Name: %s}).Stage(stageSet.Stage)", taskshapeIdent, __gong__toRawStringLiteral(taskshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			taskshapeIdent := "__models" + taskshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TaskShape{Name: %s}).Stage(stageSet.Stage)", taskshapeIdent, __gong__toRawStringLiteral(taskshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", taskshapeIdent, __gong__toRawStringLiteral(taskshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", taskshapeIdent, taskshape.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", taskshapeIdent, taskshape.X))
@@ -848,7 +1562,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", taskshapeIdent, taskshape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", taskshapeIdent, taskshape.IsHidden))
 			if taskshape.Task != nil {
-				targetIdent := "__stage_0" + taskshape.Task.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + taskshape.Task.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Task = %s", taskshapeIdent, targetIdent))
 			}
 		}
@@ -862,18 +1582,18 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/dsm/process/go/models"
+	"github.com/fullstack-lang/gong/dsm/process/go/models"
 )
 
 var (
 	_ time.Time
 	_ = slices.Index[[]int, int]
 
-	_ *__stage_0__.Stage
+	_ *models.Stage
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stageSet *models.StageSet) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
@@ -939,6 +1659,19 @@ func (stageSet *StageSet) ParseAstString(blob string, preserveOrder bool) error 
 func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	identifierMap := make(map[string]any)
 
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/dsm/process/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
 	ast.Inspect(inFile, func(n ast.Node) bool {
 		switch node := n.(type) {
 		case *ast.AssignStmt:
@@ -975,8 +1708,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						return true
 					})
 
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					}
+
 					switch pkgAlias {
-			case "__stage_0__":
+			case "models":
 				switch typeName {
 				case "AllocatedProcessShape":
 					if !preserveOrder {
@@ -1342,7 +2079,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Data); ok {
+									if typedTarget, ok := target.(*Data); ok {
 										inst.Datas = append(inst.Datas, typedTarget)
 									}
 								}
@@ -1465,7 +2202,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ProcessShape); ok {
+									if typedTarget, ok := target.(*ProcessShape); ok {
 										inst.Process_Shapes = append(inst.Process_Shapes, typedTarget)
 									}
 								}
@@ -1477,7 +2214,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Process); ok {
+									if typedTarget, ok := target.(*Process); ok {
 										inst.ProcesssWhoseNodeIsExpanded = append(inst.ProcesssWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1487,7 +2224,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ParticipantShape); ok {
+									if typedTarget, ok := target.(*ParticipantShape); ok {
 										inst.Participant_Shapes = append(inst.Participant_Shapes, typedTarget)
 									}
 								}
@@ -1499,7 +2236,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
+									if typedTarget, ok := target.(*Participant); ok {
 										inst.ParticipantWhoseNodeIsExpanded = append(inst.ParticipantWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1509,7 +2246,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ExternalParticipantShape); ok {
+									if typedTarget, ok := target.(*ExternalParticipantShape); ok {
 										inst.ExternalParticipant_Shapes = append(inst.ExternalParticipant_Shapes, typedTarget)
 									}
 								}
@@ -1521,7 +2258,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
+									if typedTarget, ok := target.(*Participant); ok {
 										inst.ExternalParticipantWhoseNodeIsExpanded = append(inst.ExternalParticipantWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1531,7 +2268,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
+									if typedTarget, ok := target.(*Participant); ok {
 										inst.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(inst.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1541,7 +2278,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
+									if typedTarget, ok := target.(*Participant); ok {
 										inst.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(inst.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1551,7 +2288,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Task); ok {
+									if typedTarget, ok := target.(*Task); ok {
 										inst.TasksWhoseNodeIsExpanded = append(inst.TasksWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1561,7 +2298,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TaskShape); ok {
+									if typedTarget, ok := target.(*TaskShape); ok {
 										inst.Task_Shapes = append(inst.Task_Shapes, typedTarget)
 									}
 								}
@@ -1571,7 +2308,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ControlFlow); ok {
+									if typedTarget, ok := target.(*ControlFlow); ok {
 										inst.ControlFlowsWhoseNodeIsExpanded = append(inst.ControlFlowsWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1581,7 +2318,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ControlFlowShape); ok {
+									if typedTarget, ok := target.(*ControlFlowShape); ok {
 										inst.ControlFlow_Shapes = append(inst.ControlFlow_Shapes, typedTarget)
 									}
 								}
@@ -1591,7 +2328,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DataFlow); ok {
+									if typedTarget, ok := target.(*DataFlow); ok {
 										inst.DataFlowsWhoseNodeIsExpanded = append(inst.DataFlowsWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1601,7 +2338,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DataFlowShape); ok {
+									if typedTarget, ok := target.(*DataFlowShape); ok {
 										inst.DataFlow_Shapes = append(inst.DataFlow_Shapes, typedTarget)
 									}
 								}
@@ -1611,7 +2348,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Data); ok {
+									if typedTarget, ok := target.(*Data); ok {
 										inst.DatasWhoseNodeIsExpanded = append(inst.DatasWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1621,7 +2358,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DataShape); ok {
+									if typedTarget, ok := target.(*DataShape); ok {
 										inst.Data_Shapes = append(inst.Data_Shapes, typedTarget)
 									}
 								}
@@ -1631,7 +2368,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DataFlow); ok {
+									if typedTarget, ok := target.(*DataFlow); ok {
 										inst.DataFlowsWhoseDataNodeIsExpanded = append(inst.DataFlowsWhoseDataNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1641,7 +2378,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Resource); ok {
+									if typedTarget, ok := target.(*Resource); ok {
 										inst.AllocatedResourcesWhoseNodeIsExpanded = append(inst.AllocatedResourcesWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1651,7 +2388,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*AllocatedResourceShape); ok {
+									if typedTarget, ok := target.(*AllocatedResourceShape); ok {
 										inst.AllocatedResourceShapes = append(inst.AllocatedResourceShapes, typedTarget)
 									}
 								}
@@ -1661,7 +2398,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Process); ok {
+									if typedTarget, ok := target.(*Process); ok {
 										inst.AllocatedProcessesWhoseNodeIsExpanded = append(inst.AllocatedProcessesWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1671,7 +2408,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*AllocatedProcessShape); ok {
+									if typedTarget, ok := target.(*AllocatedProcessShape); ok {
 										inst.AllocatedProcessShapes = append(inst.AllocatedProcessShapes, typedTarget)
 									}
 								}
@@ -1681,7 +2418,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*NoteShape); ok {
+									if typedTarget, ok := target.(*NoteShape); ok {
 										inst.Note_Shapes = append(inst.Note_Shapes, typedTarget)
 									}
 								}
@@ -1691,7 +2428,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Note); ok {
+									if typedTarget, ok := target.(*Note); ok {
 										inst.NotesWhoseNodeIsExpanded = append(inst.NotesWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1703,7 +2440,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*NoteTaskShape); ok {
+									if typedTarget, ok := target.(*NoteTaskShape); ok {
 										inst.NoteTaskShapes = append(inst.NoteTaskShapes, typedTarget)
 									}
 								}
@@ -1753,7 +2490,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Library); ok {
+									if typedTarget, ok := target.(*Library); ok {
 										inst.SubLibraries = append(inst.SubLibraries, typedTarget)
 									}
 								}
@@ -1765,7 +2502,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Library); ok {
+									if typedTarget, ok := target.(*Library); ok {
 										inst.SubLibrariesWhoseNodeIsExpanded = append(inst.SubLibrariesWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1779,7 +2516,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Process); ok {
+									if typedTarget, ok := target.(*Process); ok {
 										inst.RootProcesses = append(inst.RootProcesses, typedTarget)
 									}
 								}
@@ -1791,7 +2528,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Process); ok {
+									if typedTarget, ok := target.(*Process); ok {
 										inst.ProcesssWhoseNodeIsExpanded = append(inst.ProcesssWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1801,7 +2538,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DataFlow); ok {
+									if typedTarget, ok := target.(*DataFlow); ok {
 										inst.RootDataFlows = append(inst.RootDataFlows, typedTarget)
 									}
 								}
@@ -1813,7 +2550,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DataFlow); ok {
+									if typedTarget, ok := target.(*DataFlow); ok {
 										inst.DataFlowsWhoseNodeIsExpanded = append(inst.DataFlowsWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1823,7 +2560,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Data); ok {
+									if typedTarget, ok := target.(*Data); ok {
 										inst.RootDatas = append(inst.RootDatas, typedTarget)
 									}
 								}
@@ -1835,7 +2572,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Data); ok {
+									if typedTarget, ok := target.(*Data); ok {
 										inst.DatasWhoseNodeIsExpanded = append(inst.DatasWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1845,7 +2582,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Resource); ok {
+									if typedTarget, ok := target.(*Resource); ok {
 										inst.RootResources = append(inst.RootResources, typedTarget)
 									}
 								}
@@ -1857,7 +2594,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Resource); ok {
+									if typedTarget, ok := target.(*Resource); ok {
 										inst.ResourcesWhoseNodeIsExpanded = append(inst.ResourcesWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1867,7 +2604,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
+									if typedTarget, ok := target.(*Participant); ok {
 										inst.ParticipantsWhoseNodeIsExpanded = append(inst.ParticipantsWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1877,7 +2614,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Note); ok {
+									if typedTarget, ok := target.(*Note); ok {
 										inst.RootNotes = append(inst.RootNotes, typedTarget)
 									}
 								}
@@ -1889,7 +2626,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Note); ok {
+									if typedTarget, ok := target.(*Note); ok {
 										inst.NotesWhoseNodeIsExpanded = append(inst.NotesWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1914,7 +2651,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Task); ok {
+									if typedTarget, ok := target.(*Task); ok {
 										inst.Tasks = append(inst.Tasks, typedTarget)
 									}
 								}
@@ -1989,7 +2726,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Resource); ok {
+									if typedTarget, ok := target.(*Resource); ok {
 										inst.Resources = append(inst.Resources, typedTarget)
 									}
 								}
@@ -2001,7 +2738,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Process); ok {
+									if typedTarget, ok := target.(*Process); ok {
 										inst.Processes = append(inst.Processes, typedTarget)
 									}
 								}
@@ -2019,7 +2756,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Task); ok {
+									if typedTarget, ok := target.(*Task); ok {
 										inst.Tasks = append(inst.Tasks, typedTarget)
 									}
 								}
@@ -2031,7 +2768,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ControlFlow); ok {
+									if typedTarget, ok := target.(*ControlFlow); ok {
 										inst.ControlFlows = append(inst.ControlFlows, typedTarget)
 									}
 								}
@@ -2041,7 +2778,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Task); ok {
+									if typedTarget, ok := target.(*Task); ok {
 										inst.TaskWhoseOutControlFlowsNodeIsExpanded = append(inst.TaskWhoseOutControlFlowsNodeIsExpanded, typedTarget)
 									}
 								}
@@ -2051,7 +2788,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Task); ok {
+									if typedTarget, ok := target.(*Task); ok {
 										inst.TaskWhoseInControlFlowsNodeIsExpanded = append(inst.TaskWhoseInControlFlowsNodeIsExpanded, typedTarget)
 									}
 								}
@@ -2063,7 +2800,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Task); ok {
+									if typedTarget, ok := target.(*Task); ok {
 										inst.TaskWhoseOutDataFlowsNodeIsExpanded = append(inst.TaskWhoseOutDataFlowsNodeIsExpanded, typedTarget)
 									}
 								}
@@ -2073,7 +2810,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Task); ok {
+									if typedTarget, ok := target.(*Task); ok {
 										inst.TaskWhoseInDataFlowsNodeIsExpanded = append(inst.TaskWhoseInDataFlowsNodeIsExpanded, typedTarget)
 									}
 								}
@@ -2125,7 +2862,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DiagramProcess); ok {
+									if typedTarget, ok := target.(*DiagramProcess); ok {
 										inst.DiagramProcesss = append(inst.DiagramProcesss, typedTarget)
 									}
 								}
@@ -2135,7 +2872,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DiagramProcess); ok {
+									if typedTarget, ok := target.(*DiagramProcess); ok {
 										inst.DiagramProcessWhoseNodeIsExpanded = append(inst.DiagramProcessWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -2147,7 +2884,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Process); ok {
+									if typedTarget, ok := target.(*Process); ok {
 										inst.SubProcesses = append(inst.SubProcesses, typedTarget)
 									}
 								}
@@ -2157,7 +2894,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
+									if typedTarget, ok := target.(*Participant); ok {
 										inst.Participants = append(inst.Participants, typedTarget)
 									}
 								}
@@ -2167,7 +2904,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
+									if typedTarget, ok := target.(*Participant); ok {
 										inst.ParticipantWhoseNodeIsExpanded = append(inst.ParticipantWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -2177,7 +2914,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DataFlow); ok {
+									if typedTarget, ok := target.(*DataFlow); ok {
 										inst.DataFlows = append(inst.DataFlows, typedTarget)
 									}
 								}
@@ -2189,7 +2926,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
+									if typedTarget, ok := target.(*Participant); ok {
 										inst.ExternalParticipants = append(inst.ExternalParticipants, typedTarget)
 									}
 								}
@@ -2199,7 +2936,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Participant); ok {
+									if typedTarget, ok := target.(*Participant); ok {
 										inst.ExternalParticipantWhoseNodeIsExpanded = append(inst.ExternalParticipantWhoseNodeIsExpanded, typedTarget)
 									}
 								}

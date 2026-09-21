@@ -42,14 +42,32 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 
 func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needCommit bool) {
 
-	gongStructSet := stager.gongStage.GetInstancesMapByName[*gong.GongStruct]()
-	// gongEnumSet := stager.gongStage.GetInstancesMapByName[*gong.GongEnum]()
+	map_Pkg_StructName_GongStruct := make(map[string]*gong.GongStruct)
+	map_StructName_GongStruct := make(map[string]*gong.GongStruct)
+	for gongStruct := range *stager.gongStage.GetInstancesSet[*gong.GongStruct]() {
+		pkgName := "models"
+		if gongStruct.ModelPkg != nil && gongStruct.ModelPkg.PkgGoName != "" {
+			pkgName = gongStruct.ModelPkg.PkgGoName
+		}
+		map_Pkg_StructName_GongStruct[pkgName+"."+gongStruct.Name] = gongStruct
+		if _, exists := map_StructName_GongStruct[gongStruct.Name]; !exists {
+			map_StructName_GongStruct[gongStruct.Name] = gongStruct
+		}
+	}
+	getGongStruct := func(pkgName, structName string) *gong.GongStruct {
+		if pkgName != "" {
+			if gs, ok := map_Pkg_StructName_GongStruct[pkgName+"."+structName]; ok {
+				return gs
+			}
+		}
+		return map_StructName_GongStruct[structName]
+	}
 
 	for gongStructShape := range *stager.stage.GetInstancesSet[*GongStructShape]() {
-		gongStructName := IdentifierMetaToGongStructName(gongStructShape.IdentifierMeta)
-		_, ok := gongStructSet[gongStructName]
+		pkgName, gongStructName := IdentifierMetaToPackageAndGongStructName(gongStructShape.IdentifierMeta)
+		gongStruct := getGongStruct(pkgName, gongStructName)
 
-		if !ok {
+		if gongStruct == nil {
 			log.Println("doc removed shape", gongStructName)
 			gongStructShape.Unstage(stager.stage)
 			needCommit = true
@@ -58,11 +76,10 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 	}
 
 	for fieldShape := range *stager.stage.GetInstancesSet[*AttributeShape]() {
-		structname, fieldShapeName := IdentifierMetaToStructAndFieldName(fieldShape.IdentifierMeta)
+		pkgName, structname, fieldShapeName := IdentifierMetaToPackageStructAndFieldName(fieldShape.IdentifierMeta)
+		gongStruct := getGongStruct(pkgName, structname)
 
-		gongStruct, ok := gongStructSet[structname]
-
-		if !ok {
+		if gongStruct == nil {
 			log.Println("doc removed attribute shape", structname, fieldShapeName)
 			fieldShape.Unstage(stager.stage)
 			needCommit = true
@@ -98,11 +115,10 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 	}
 
 	for linkShape := range *stager.stage.GetInstancesSet[*LinkShape]() {
-		structname, fieldShapeName := IdentifierMetaToStructAndFieldName(linkShape.IdentifierMeta)
+		pkgName, structname, fieldShapeName := IdentifierMetaToPackageStructAndFieldName(linkShape.IdentifierMeta)
+		gongStruct := getGongStruct(pkgName, structname)
 
-		gongStruct, ok := gongStructSet[structname]
-
-		if !ok {
+		if gongStruct == nil {
 			log.Println("doc removed link shape", structname, fieldShapeName)
 			linkShape.Unstage(stager.stage)
 			needCommit = true
@@ -114,17 +130,18 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 			if field.GetName() == fieldShapeName {
 				switch realField := field.(type) {
 				case *gong.PointerToGongStructField:
-					targetStructName := realField.GongStruct.Name
-					if _, targetOk := gongStructSet[targetStructName]; !targetOk {
+					targetGS := realField.GongStruct
+					if targetGS == nil {
+						break
+					}
+					targetStructName := targetGS.Name
+					if _, targetOk := map_StructName_GongStruct[targetStructName]; !targetOk {
 						break
 					}
 					expectedTargetMultiplicity := ZERO_ONE
 					expectedSourceMultiplicity := MANY
-					targetPkgName := "models"
-					if realField.GongStruct.ModelPkg != nil && realField.GongStruct.ModelPkg.PkgGoName != "" {
-						targetPkgName = realField.GongStruct.ModelPkg.PkgGoName
-					}
-					expectedFieldTypeIdentifierMeta := GongStructNameToIdentifierWithPackage(targetPkgName, targetStructName) + "{}"
+
+					expectedFieldTypeIdentifierMeta := stager.computeExpectedFieldTypeIdentifierMeta(targetGS, linkShape.FieldTypeIdentifierMeta)
 
 					if linkShape.TargetMultiplicity != expectedTargetMultiplicity {
 						linkShape.TargetMultiplicity = expectedTargetMultiplicity
@@ -134,23 +151,24 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 						linkShape.SourceMultiplicity = expectedSourceMultiplicity
 						needCommit = true
 					}
-					if linkShape.FieldTypeIdentifierMeta != expectedFieldTypeIdentifierMeta {
+					if expectedFieldTypeIdentifierMeta != "" && linkShape.FieldTypeIdentifierMeta != expectedFieldTypeIdentifierMeta {
 						linkShape.FieldTypeIdentifierMeta = expectedFieldTypeIdentifierMeta
 						needCommit = true
 					}
 					fieldFound = true
 				case *gong.SliceOfPointerToGongStructField:
-					targetStructName := realField.GongStruct.Name
-					if _, targetOk := gongStructSet[targetStructName]; !targetOk {
+					targetGS := realField.GongStruct
+					if targetGS == nil {
+						break
+					}
+					targetStructName := targetGS.Name
+					if _, targetOk := map_StructName_GongStruct[targetStructName]; !targetOk {
 						break
 					}
 					expectedTargetMultiplicity := MANY
 					expectedSourceMultiplicity := MANY
-					targetPkgName := "models"
-					if realField.GongStruct.ModelPkg != nil && realField.GongStruct.ModelPkg.PkgGoName != "" {
-						targetPkgName = realField.GongStruct.ModelPkg.PkgGoName
-					}
-					expectedFieldTypeIdentifierMeta := GongStructNameToIdentifierWithPackage(targetPkgName, targetStructName) + "{}"
+
+					expectedFieldTypeIdentifierMeta := stager.computeExpectedFieldTypeIdentifierMeta(targetGS, linkShape.FieldTypeIdentifierMeta)
 
 					if linkShape.TargetMultiplicity != expectedTargetMultiplicity {
 						linkShape.TargetMultiplicity = expectedTargetMultiplicity
@@ -160,7 +178,7 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 						linkShape.SourceMultiplicity = expectedSourceMultiplicity
 						needCommit = true
 					}
-					if linkShape.FieldTypeIdentifierMeta != expectedFieldTypeIdentifierMeta {
+					if expectedFieldTypeIdentifierMeta != "" && linkShape.FieldTypeIdentifierMeta != expectedFieldTypeIdentifierMeta {
 						linkShape.FieldTypeIdentifierMeta = expectedFieldTypeIdentifierMeta
 						needCommit = true
 					}
@@ -200,4 +218,65 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 	}
 
 	return
+}
+
+func (stager *Stager) computeExpectedFieldTypeIdentifierMeta(targetGS *gong.GongStruct, currentFieldTypeIdentifierMeta any) string {
+	targetStructName := targetGS.Name
+	targetPkgName := "models"
+	if targetGS.ModelPkg != nil && targetGS.ModelPkg.PkgGoName != "" {
+		targetPkgName = targetGS.ModelPkg.PkgGoName
+	}
+
+	// 1. If current FieldTypeIdentifierMeta is already valid and points to targetStructName with a compatible package, preserve it!
+	if currentFieldTypeIdentifierMeta != nil {
+		currentPkg, currentName := IdentifierMetaToPackageAndGongStructName(currentFieldTypeIdentifierMeta)
+		if currentName == targetStructName {
+			if currentPkg == targetPkgName {
+				if str, ok := currentFieldTypeIdentifierMeta.(string); ok {
+					return str
+				}
+			}
+			for _, imp := range stager.stage.MetaPackageImports {
+				if imp.Alias == RefPrefixReferencedPackage+currentPkg {
+					cleanPath := strings.Trim(imp.Path, "\"")
+					if (targetGS.ModelPkg != nil && targetGS.ModelPkg.PkgPath != "" && cleanPath == targetGS.ModelPkg.PkgPath) ||
+						strings.HasSuffix(cleanPath, "/"+targetPkgName) ||
+						(targetPkgName == "models" && (cleanPath == "models" || strings.HasSuffix(cleanPath, "/models"))) {
+						if str, ok := currentFieldTypeIdentifierMeta.(string); ok {
+							return str
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// 2. Check if a GongStructShape in the diagram has the target struct
+	for gongStructShape := range *stager.stage.GetInstancesSet[*GongStructShape]() {
+		pkg, name := IdentifierMetaToPackageAndGongStructName(gongStructShape.IdentifierMeta)
+		if name == targetStructName && (pkg == targetPkgName || targetPkgName == "models" || pkg == "") {
+			if str, ok := gongStructShape.IdentifierMeta.(string); ok {
+				return str
+			}
+		}
+	}
+
+	// 3. Match via stager.stage.MetaPackageImports
+	if len(stager.stage.MetaPackageImports) > 0 {
+		for _, imp := range stager.stage.MetaPackageImports {
+			cleanPath := strings.Trim(imp.Path, "\"")
+			if targetGS.ModelPkg != nil && targetGS.ModelPkg.PkgPath != "" && cleanPath == targetGS.ModelPkg.PkgPath {
+				return imp.Alias + "." + targetStructName + "{}"
+			}
+			if imp.Alias == RefPrefixReferencedPackage+targetPkgName {
+				return imp.Alias + "." + targetStructName + "{}"
+			}
+			if strings.HasSuffix(cleanPath, "/"+targetPkgName) {
+				return imp.Alias + "." + targetStructName + "{}"
+			}
+		}
+	}
+
+	// 4. Default to GongStructNameToIdentifierWithPackage
+	return GongStructNameToIdentifierWithPackage(targetPkgName, targetStructName) + "{}"
 }

@@ -10,6 +10,7 @@ import (
 	"github.com/fullstack-lang/gong/test/test2/go/models"
 	"github.com/fullstack-lang/gong/test/test2/go/models/x"
 	"github.com/fullstack-lang/gong/test/test2/go/models/y"
+	model "github.com/fullstack-lang/gong/test/test2/go/models/x/models"
 )
 
 var (
@@ -94,6 +95,7 @@ func StageSetFillUpForm(
 		}
 	case *y.Y:
 		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("SubModel", inst.SubModel, formGroup, probe.stageSet.ModelStage.GetInstancesSet[*model.SubModel](), probe.formStage)
 
 		{
 			var refNames []string
@@ -104,6 +106,19 @@ func StageSetFillUpForm(
 			}
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("x.X", "Y", refNames, formGroup, probe.formStage)
+		}
+	case *model.SubModel:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+
+		{
+			var refNames []string
+			for src := range probe.stageSet.YStage.Ys {
+				if src.SubModel == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("y.Y", "SubModel", refNames, formGroup, probe.formStage)
 		}
 	default:
 		_ = inst

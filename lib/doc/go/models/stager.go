@@ -195,3 +195,7 @@ func (stager *Stager) GetGongStage() *gong.Stage {
 	return stager.gongStage
 }
 
+func (stager *Stager) GetTreeStage() *tree.Stage {
+	return stager.treeStage
+}
+

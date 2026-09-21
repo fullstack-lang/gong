@@ -128,6 +128,12 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	var declarations strings.Builder
 	var values strings.Builder
 	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
 		astructOrdered := []*Astruct{}
@@ -138,8 +144,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Astruct_stagedOrder[astructOrdered[i]] < stageSet.Stage.Astruct_stagedOrder[astructOrdered[j]]
 		})
 		for _, astruct := range astructOrdered {
-			astructIdent := "__stage_0" + astruct.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Astruct{Name: %s}).Stage(stageSet.Stage)", astructIdent, __gong__toRawStringLiteral(astruct.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			astructIdent := "__models" + astruct.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Astruct{Name: %s}).Stage(stageSet.Stage)", astructIdent, __gong__toRawStringLiteral(astruct.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", astructIdent, __gong__toRawStringLiteral(astruct.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Date, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", astructIdent, astruct.Date.String()))
 			values.WriteString(fmt.Sprintf("\n\t%s.Date2, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", astructIdent, astruct.Date2.String()))
@@ -157,63 +175,153 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.TextFieldBespokeSize = %s", astructIdent, __gong__toRawStringLiteral(astruct.TextFieldBespokeSize)))
 			values.WriteString(fmt.Sprintf("\n\t%s.TextArea = %s", astructIdent, __gong__toRawStringLiteral(astruct.TextArea)))
 			if astruct.Associationtob != nil {
-				targetIdent := "__stage_0" + astruct.Associationtob.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + astruct.Associationtob.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Associationtob = %s", astructIdent, targetIdent))
 			}
 			for _, elem := range astruct.Anarrayofb {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Anarrayofb = append(%s.Anarrayofb, %s)", astructIdent, astructIdent, targetIdent))
 			}
 			if astruct.Anotherassociationtob_2 != nil {
-				targetIdent := "__stage_0" + astruct.Anotherassociationtob_2.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + astruct.Anotherassociationtob_2.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Anotherassociationtob_2 = %s", astructIdent, targetIdent))
 			}
 			if astruct.Bstruct != nil {
-				targetIdent := "__stage_0" + astruct.Bstruct.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + astruct.Bstruct.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Bstruct = %s", astructIdent, targetIdent))
 			}
 			if astruct.Bstruct2 != nil {
-				targetIdent := "__stage_0" + astruct.Bstruct2.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + astruct.Bstruct2.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Bstruct2 = %s", astructIdent, targetIdent))
 			}
 			if astruct.Dstruct != nil {
-				targetIdent := "__stage_0" + astruct.Dstruct.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + astruct.Dstruct.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct = %s", astructIdent, targetIdent))
 			}
 			if astruct.Dstruct2 != nil {
-				targetIdent := "__stage_0" + astruct.Dstruct2.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + astruct.Dstruct2.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct2 = %s", astructIdent, targetIdent))
 			}
 			if astruct.Dstruct3 != nil {
-				targetIdent := "__stage_0" + astruct.Dstruct3.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + astruct.Dstruct3.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct3 = %s", astructIdent, targetIdent))
 			}
 			if astruct.Dstruct4 != nil {
-				targetIdent := "__stage_0" + astruct.Dstruct4.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + astruct.Dstruct4.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct4 = %s", astructIdent, targetIdent))
 			}
 			for _, elem := range astruct.Dstruct4s {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct4s = append(%s.Dstruct4s, %s)", astructIdent, astructIdent, targetIdent))
 			}
 			for _, elem := range astruct.Anarrayofa {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Anarrayofa = append(%s.Anarrayofa, %s)", astructIdent, astructIdent, targetIdent))
 			}
 			for _, elem := range astruct.Anotherarrayofb {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Anotherarrayofb = append(%s.Anotherarrayofb, %s)", astructIdent, astructIdent, targetIdent))
 			}
 			for _, elem := range astruct.AnarrayofbUse {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AnarrayofbUse = append(%s.AnarrayofbUse, %s)", astructIdent, astructIdent, targetIdent))
 			}
 			for _, elem := range astruct.Anarrayofb2Use {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Anarrayofb2Use = append(%s.Anarrayofb2Use, %s)", astructIdent, astructIdent, targetIdent))
 			}
 			if astruct.AnAstruct != nil {
-				targetIdent := "__stage_0" + astruct.AnAstruct.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + astruct.AnAstruct.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AnAstruct = %s", astructIdent, targetIdent))
 			}
 		}
@@ -227,11 +335,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.AstructBstruct2Use_stagedOrder[astructbstruct2useOrdered[i]] < stageSet.Stage.AstructBstruct2Use_stagedOrder[astructbstruct2useOrdered[j]]
 		})
 		for _, astructbstruct2use := range astructbstruct2useOrdered {
-			astructbstruct2useIdent := "__stage_0" + astructbstruct2use.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.AstructBstruct2Use{Name: %s}).Stage(stageSet.Stage)", astructbstruct2useIdent, __gong__toRawStringLiteral(astructbstruct2use.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			astructbstruct2useIdent := "__models" + astructbstruct2use.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.AstructBstruct2Use{Name: %s}).Stage(stageSet.Stage)", astructbstruct2useIdent, __gong__toRawStringLiteral(astructbstruct2use.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", astructbstruct2useIdent, __gong__toRawStringLiteral(astructbstruct2use.Name)))
 			if astructbstruct2use.Bstrcut2 != nil {
-				targetIdent := "__stage_0" + astructbstruct2use.Bstrcut2.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + astructbstruct2use.Bstrcut2.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Bstrcut2 = %s", astructbstruct2useIdent, targetIdent))
 			}
 		}
@@ -245,11 +371,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.AstructBstructUse_stagedOrder[astructbstructuseOrdered[i]] < stageSet.Stage.AstructBstructUse_stagedOrder[astructbstructuseOrdered[j]]
 		})
 		for _, astructbstructuse := range astructbstructuseOrdered {
-			astructbstructuseIdent := "__stage_0" + astructbstructuse.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.AstructBstructUse{Name: %s}).Stage(stageSet.Stage)", astructbstructuseIdent, __gong__toRawStringLiteral(astructbstructuse.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			astructbstructuseIdent := "__models" + astructbstructuse.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.AstructBstructUse{Name: %s}).Stage(stageSet.Stage)", astructbstructuseIdent, __gong__toRawStringLiteral(astructbstructuse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", astructbstructuseIdent, __gong__toRawStringLiteral(astructbstructuse.Name)))
 			if astructbstructuse.Bstruct2 != nil {
-				targetIdent := "__stage_0" + astructbstructuse.Bstruct2.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + astructbstructuse.Bstruct2.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Bstruct2 = %s", astructbstructuseIdent, targetIdent))
 			}
 		}
@@ -263,8 +407,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Bstruct_stagedOrder[bstructOrdered[i]] < stageSet.Stage.Bstruct_stagedOrder[bstructOrdered[j]]
 		})
 		for _, bstruct := range bstructOrdered {
-			bstructIdent := "__stage_0" + bstruct.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Bstruct{Name: %s}).Stage(stageSet.Stage)", bstructIdent, __gong__toRawStringLiteral(bstruct.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			bstructIdent := "__models" + bstruct.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Bstruct{Name: %s}).Stage(stageSet.Stage)", bstructIdent, __gong__toRawStringLiteral(bstruct.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bstructIdent, __gong__toRawStringLiteral(bstruct.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Floatfield = %f", bstructIdent, bstruct.Floatfield))
 			values.WriteString(fmt.Sprintf("\n\t%s.Floatfield2 = %f", bstructIdent, bstruct.Floatfield2))
@@ -281,19 +437,49 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Dstruct_stagedOrder[dstructOrdered[i]] < stageSet.Stage.Dstruct_stagedOrder[dstructOrdered[j]]
 		})
 		for _, dstruct := range dstructOrdered {
-			dstructIdent := "__stage_0" + dstruct.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Dstruct{Name: %s}).Stage(stageSet.Stage)", dstructIdent, __gong__toRawStringLiteral(dstruct.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			dstructIdent := "__models" + dstruct.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Dstruct{Name: %s}).Stage(stageSet.Stage)", dstructIdent, __gong__toRawStringLiteral(dstruct.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dstructIdent, __gong__toRawStringLiteral(dstruct.Name)))
 			for _, elem := range dstruct.Anarrayofb {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Anarrayofb = append(%s.Anarrayofb, %s)", dstructIdent, dstructIdent, targetIdent))
 			}
 			if dstruct.Gstruct != nil {
-				targetIdent := "__stage_0" + dstruct.Gstruct.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + dstruct.Gstruct.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Gstruct = %s", dstructIdent, targetIdent))
 			}
 			for _, elem := range dstruct.Gstructs {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Gstructs = append(%s.Gstructs, %s)", dstructIdent, dstructIdent, targetIdent))
 			}
 		}
@@ -307,8 +493,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.F0123456789012345678901234567890_stagedOrder[f0123456789012345678901234567890Ordered[i]] < stageSet.Stage.F0123456789012345678901234567890_stagedOrder[f0123456789012345678901234567890Ordered[j]]
 		})
 		for _, f0123456789012345678901234567890 := range f0123456789012345678901234567890Ordered {
-			f0123456789012345678901234567890Ident := "__stage_0" + f0123456789012345678901234567890.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.F0123456789012345678901234567890{Name: %s}).Stage(stageSet.Stage)", f0123456789012345678901234567890Ident, __gong__toRawStringLiteral(f0123456789012345678901234567890.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			f0123456789012345678901234567890Ident := "__models" + f0123456789012345678901234567890.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.F0123456789012345678901234567890{Name: %s}).Stage(stageSet.Stage)", f0123456789012345678901234567890Ident, __gong__toRawStringLiteral(f0123456789012345678901234567890.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", f0123456789012345678901234567890Ident, __gong__toRawStringLiteral(f0123456789012345678901234567890.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Date, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", f0123456789012345678901234567890Ident, f0123456789012345678901234567890.Date.String()))
 		}
@@ -322,8 +520,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Gstruct_stagedOrder[gstructOrdered[i]] < stageSet.Stage.Gstruct_stagedOrder[gstructOrdered[j]]
 		})
 		for _, gstruct := range gstructOrdered {
-			gstructIdent := "__stage_0" + gstruct.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Gstruct{Name: %s}).Stage(stageSet.Stage)", gstructIdent, __gong__toRawStringLiteral(gstruct.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			gstructIdent := "__models" + gstruct.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Gstruct{Name: %s}).Stage(stageSet.Stage)", gstructIdent, __gong__toRawStringLiteral(gstruct.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", gstructIdent, __gong__toRawStringLiteral(gstruct.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Floatfield = %f", gstructIdent, gstruct.Floatfield))
 			values.WriteString(fmt.Sprintf("\n\t%s.Floatfield2 = %f", gstructIdent, gstruct.Floatfield2))
@@ -340,18 +550,18 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/test/test1/go/models"
+	"github.com/fullstack-lang/gong/test/test1/go/models"
 )
 
 var (
 	_ time.Time
 	_ = slices.Index[[]int, int]
 
-	_ *__stage_0__.Stage
+	_ *models.Stage
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stageSet *models.StageSet) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
@@ -417,6 +627,19 @@ func (stageSet *StageSet) ParseAstString(blob string, preserveOrder bool) error 
 func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	identifierMap := make(map[string]any)
 
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/test/test1/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
 	ast.Inspect(inFile, func(n ast.Node) bool {
 		switch node := n.(type) {
 		case *ast.AssignStmt:
@@ -453,8 +676,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						return true
 					})
 
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					}
+
 					switch pkgAlias {
-			case "__stage_0__":
+			case "models":
 				switch typeName {
 				case "Astruct":
 					if !preserveOrder {
@@ -563,7 +790,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Bstruct); ok {
+									if typedTarget, ok := target.(*Bstruct); ok {
 										inst.Anarrayofb = append(inst.Anarrayofb, typedTarget)
 									}
 								}
@@ -655,7 +882,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Dstruct); ok {
+									if typedTarget, ok := target.(*Dstruct); ok {
 										inst.Dstruct4s = append(inst.Dstruct4s, typedTarget)
 									}
 								}
@@ -673,7 +900,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Astruct); ok {
+									if typedTarget, ok := target.(*Astruct); ok {
 										inst.Anarrayofa = append(inst.Anarrayofa, typedTarget)
 									}
 								}
@@ -683,7 +910,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Bstruct); ok {
+									if typedTarget, ok := target.(*Bstruct); ok {
 										inst.Anotherarrayofb = append(inst.Anotherarrayofb, typedTarget)
 									}
 								}
@@ -693,7 +920,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*AstructBstructUse); ok {
+									if typedTarget, ok := target.(*AstructBstructUse); ok {
 										inst.AnarrayofbUse = append(inst.AnarrayofbUse, typedTarget)
 									}
 								}
@@ -703,7 +930,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*AstructBstruct2Use); ok {
+									if typedTarget, ok := target.(*AstructBstruct2Use); ok {
 										inst.Anarrayofb2Use = append(inst.Anarrayofb2Use, typedTarget)
 									}
 								}
@@ -769,7 +996,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Bstruct); ok {
+									if typedTarget, ok := target.(*Bstruct); ok {
 										inst.Anarrayofb = append(inst.Anarrayofb, typedTarget)
 									}
 								}
@@ -787,7 +1014,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Gstruct); ok {
+									if typedTarget, ok := target.(*Gstruct); ok {
 										inst.Gstructs = append(inst.Gstructs, typedTarget)
 									}
 								}

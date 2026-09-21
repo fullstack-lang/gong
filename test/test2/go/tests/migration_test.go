@@ -101,13 +101,13 @@ func TestInAppMigrationRoundTrip(t *testing.T) {
 		t.Fatalf("stageSet.MarshallToString failed: %v", err)
 	}
 
-	if !strings.Contains(marshalled, `func _(stageSet *__stage_0__.StageSet)`) {
+	if !strings.Contains(marshalled, `func _(stageSet *models.StageSet)`) {
 		t.Errorf("missing StageSet signature in in-app marshalled code:\n%s", marshalled)
 	}
-	if !strings.Contains(marshalled, `__stage_0__A__00000000_ := (&__stage_0__.A{Name: `) {
+	if !strings.Contains(marshalled, `__models__A__00000000_ := (&models.A{Name: `) {
 		t.Errorf("missing A declaration in in-app marshalled code:\n%s", marshalled)
 	}
-	if !strings.Contains(marshalled, `__stage_0__A__00000000_.B = __stage_0__B__00000000_`) {
+	if !strings.Contains(marshalled, `__models__A__00000000_.B = __models__B__00000000_`) {
 		t.Errorf("missing A.B pointer setup in in-app marshalled code:\n%s", marshalled)
 	}
 

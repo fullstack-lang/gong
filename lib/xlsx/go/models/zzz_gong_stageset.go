@@ -128,6 +128,12 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	var declarations strings.Builder
 	var values strings.Builder
 	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
 		displayselectionOrdered := []*DisplaySelection{}
@@ -138,15 +144,39 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DisplaySelection_stagedOrder[displayselectionOrdered[i]] < stageSet.Stage.DisplaySelection_stagedOrder[displayselectionOrdered[j]]
 		})
 		for _, displayselection := range displayselectionOrdered {
-			displayselectionIdent := "__stage_0" + displayselection.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DisplaySelection{Name: %s}).Stage(stageSet.Stage)", displayselectionIdent, __gong__toRawStringLiteral(displayselection.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			displayselectionIdent := "__models" + displayselection.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DisplaySelection{Name: %s}).Stage(stageSet.Stage)", displayselectionIdent, __gong__toRawStringLiteral(displayselection.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", displayselectionIdent, __gong__toRawStringLiteral(displayselection.Name)))
 			if displayselection.XLFile != nil {
-				targetIdent := "__stage_0" + displayselection.XLFile.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + displayselection.XLFile.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.XLFile = %s", displayselectionIdent, targetIdent))
 			}
 			if displayselection.XLSheet != nil {
-				targetIdent := "__stage_0" + displayselection.XLSheet.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + displayselection.XLSheet.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.XLSheet = %s", displayselectionIdent, targetIdent))
 			}
 		}
@@ -160,8 +190,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.XLCell_stagedOrder[xlcellOrdered[i]] < stageSet.Stage.XLCell_stagedOrder[xlcellOrdered[j]]
 		})
 		for _, xlcell := range xlcellOrdered {
-			xlcellIdent := "__stage_0" + xlcell.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.XLCell{Name: %s}).Stage(stageSet.Stage)", xlcellIdent, __gong__toRawStringLiteral(xlcell.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			xlcellIdent := "__models" + xlcell.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.XLCell{Name: %s}).Stage(stageSet.Stage)", xlcellIdent, __gong__toRawStringLiteral(xlcell.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xlcellIdent, __gong__toRawStringLiteral(xlcell.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %d", xlcellIdent, xlcell.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %d", xlcellIdent, xlcell.Y))
@@ -176,12 +218,30 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.XLFile_stagedOrder[xlfileOrdered[i]] < stageSet.Stage.XLFile_stagedOrder[xlfileOrdered[j]]
 		})
 		for _, xlfile := range xlfileOrdered {
-			xlfileIdent := "__stage_0" + xlfile.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.XLFile{Name: %s}).Stage(stageSet.Stage)", xlfileIdent, __gong__toRawStringLiteral(xlfile.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			xlfileIdent := "__models" + xlfile.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.XLFile{Name: %s}).Stage(stageSet.Stage)", xlfileIdent, __gong__toRawStringLiteral(xlfile.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xlfileIdent, __gong__toRawStringLiteral(xlfile.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.NbSheets = %d", xlfileIdent, xlfile.NbSheets))
 			for _, elem := range xlfile.Sheets {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Sheets = append(%s.Sheets, %s)", xlfileIdent, xlfileIdent, targetIdent))
 			}
 		}
@@ -195,12 +255,30 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.XLRow_stagedOrder[xlrowOrdered[i]] < stageSet.Stage.XLRow_stagedOrder[xlrowOrdered[j]]
 		})
 		for _, xlrow := range xlrowOrdered {
-			xlrowIdent := "__stage_0" + xlrow.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.XLRow{Name: %s}).Stage(stageSet.Stage)", xlrowIdent, __gong__toRawStringLiteral(xlrow.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			xlrowIdent := "__models" + xlrow.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.XLRow{Name: %s}).Stage(stageSet.Stage)", xlrowIdent, __gong__toRawStringLiteral(xlrow.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xlrowIdent, __gong__toRawStringLiteral(xlrow.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.RowIndex = %d", xlrowIdent, xlrow.RowIndex))
 			for _, elem := range xlrow.Cells {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Cells = append(%s.Cells, %s)", xlrowIdent, xlrowIdent, targetIdent))
 			}
 		}
@@ -214,18 +292,42 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.XLSheet_stagedOrder[xlsheetOrdered[i]] < stageSet.Stage.XLSheet_stagedOrder[xlsheetOrdered[j]]
 		})
 		for _, xlsheet := range xlsheetOrdered {
-			xlsheetIdent := "__stage_0" + xlsheet.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.XLSheet{Name: %s}).Stage(stageSet.Stage)", xlsheetIdent, __gong__toRawStringLiteral(xlsheet.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			xlsheetIdent := "__models" + xlsheet.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.XLSheet{Name: %s}).Stage(stageSet.Stage)", xlsheetIdent, __gong__toRawStringLiteral(xlsheet.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xlsheetIdent, __gong__toRawStringLiteral(xlsheet.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.MaxRow = %d", xlsheetIdent, xlsheet.MaxRow))
 			values.WriteString(fmt.Sprintf("\n\t%s.MaxCol = %d", xlsheetIdent, xlsheet.MaxCol))
 			values.WriteString(fmt.Sprintf("\n\t%s.NbRows = %d", xlsheetIdent, xlsheet.NbRows))
 			for _, elem := range xlsheet.Rows {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Rows = append(%s.Rows, %s)", xlsheetIdent, xlsheetIdent, targetIdent))
 			}
 			for _, elem := range xlsheet.SheetCells {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SheetCells = append(%s.SheetCells, %s)", xlsheetIdent, xlsheetIdent, targetIdent))
 			}
 		}
@@ -239,18 +341,18 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/lib/xlsx/go/models"
+	"github.com/fullstack-lang/gong/lib/xlsx/go/models"
 )
 
 var (
 	_ time.Time
 	_ = slices.Index[[]int, int]
 
-	_ *__stage_0__.Stage
+	_ *models.Stage
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stageSet *models.StageSet) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
@@ -316,6 +418,19 @@ func (stageSet *StageSet) ParseAstString(blob string, preserveOrder bool) error 
 func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	identifierMap := make(map[string]any)
 
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/lib/xlsx/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
 	ast.Inspect(inFile, func(n ast.Node) bool {
 		switch node := n.(type) {
 		case *ast.AssignStmt:
@@ -352,8 +467,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						return true
 					})
 
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					}
+
 					switch pkgAlias {
-			case "__stage_0__":
+			case "models":
 				switch typeName {
 				case "DisplaySelection":
 					if !preserveOrder {
@@ -464,7 +583,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*XLSheet); ok {
+									if typedTarget, ok := target.(*XLSheet); ok {
 										inst.Sheets = append(inst.Sheets, typedTarget)
 									}
 								}
@@ -481,7 +600,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*XLCell); ok {
+									if typedTarget, ok := target.(*XLCell); ok {
 										inst.Cells = append(inst.Cells, typedTarget)
 									}
 								}
@@ -502,7 +621,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*XLRow); ok {
+									if typedTarget, ok := target.(*XLRow); ok {
 										inst.Rows = append(inst.Rows, typedTarget)
 									}
 								}
@@ -512,7 +631,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*XLCell); ok {
+									if typedTarget, ok := target.(*XLCell); ok {
 										inst.SheetCells = append(inst.SheetCells, typedTarget)
 									}
 								}

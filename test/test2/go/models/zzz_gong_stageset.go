@@ -19,6 +19,7 @@ import (
 
 	"github.com/fullstack-lang/gong/test/test2/go/models/x"
 	"github.com/fullstack-lang/gong/test/test2/go/models/y"
+	model "github.com/fullstack-lang/gong/test/test2/go/models/x/models"
 )
 
 var (
@@ -33,11 +34,15 @@ type StageSet struct {
 	Stage *Stage
 	XStage *x.Stage
 	YStage *y.Stage
+	ModelStage *model.Stage
 }
 
 
 // Commit commits all stages in StageSet in dependency order
 func (stageSet *StageSet) Commit() {
+	if stageSet.ModelStage != nil {
+		stageSet.ModelStage.Commit()
+	}
 	if stageSet.YStage != nil {
 		stageSet.YStage.Commit()
 	}
@@ -51,6 +56,9 @@ func (stageSet *StageSet) Commit() {
 
 // Checkout checkouts all stages in StageSet
 func (stageSet *StageSet) Checkout() {
+	if stageSet.ModelStage != nil {
+		stageSet.ModelStage.Checkout()
+	}
 	if stageSet.YStage != nil {
 		stageSet.YStage.Checkout()
 	}
@@ -64,6 +72,9 @@ func (stageSet *StageSet) Checkout() {
 
 // Reset resets all stages in StageSet
 func (stageSet *StageSet) Reset() {
+	if stageSet.ModelStage != nil {
+		stageSet.ModelStage.Reset()
+	}
 	if stageSet.YStage != nil {
 		stageSet.YStage.Reset()
 	}
@@ -77,6 +88,9 @@ func (stageSet *StageSet) Reset() {
 
 // Clean cleans all stages in StageSet in dependency order
 func (stageSet *StageSet) Clean() {
+	if stageSet.ModelStage != nil {
+		stageSet.ModelStage.Clean()
+	}
 	if stageSet.YStage != nil {
 		stageSet.YStage.Clean()
 	}
@@ -90,6 +104,9 @@ func (stageSet *StageSet) Clean() {
 
 // ComputeReverseMaps computes reverse maps on all stages in StageSet
 func (stageSet *StageSet) ComputeReverseMaps() {
+	if stageSet.ModelStage != nil {
+		stageSet.ModelStage.ComputeReverseMaps()
+	}
 	if stageSet.YStage != nil {
 		stageSet.YStage.ComputeReverseMaps()
 	}
@@ -103,6 +120,9 @@ func (stageSet *StageSet) ComputeReverseMaps() {
 
 // ComputeInstancesNb computes instances nb on all stages in StageSet
 func (stageSet *StageSet) ComputeInstancesNb() {
+	if stageSet.ModelStage != nil {
+		stageSet.ModelStage.ComputeInstancesNb()
+	}
 	if stageSet.YStage != nil {
 		stageSet.YStage.ComputeInstancesNb()
 	}
@@ -116,6 +136,9 @@ func (stageSet *StageSet) ComputeInstancesNb() {
 
 // ComputeReferenceAndOrders computes reference and orders on all stages in StageSet
 func (stageSet *StageSet) ComputeReferenceAndOrders() {
+	if stageSet.ModelStage != nil {
+		stageSet.ModelStage.ComputeReferenceAndOrders()
+	}
 	if stageSet.YStage != nil {
 		stageSet.YStage.ComputeReferenceAndOrders()
 	}
@@ -141,6 +164,11 @@ func NewStageSet(path string) (stageSet *StageSet) {
 	subPath_YStage = path + "_y"
 	}
 	stageSet.YStage = y.NewStage(subPath_YStage)
+	subPath_ModelStage := "model"
+	if path != "" {
+	subPath_ModelStage = path + "_model"
+	}
+	stageSet.ModelStage = model.NewStage(subPath_ModelStage)
 	return stageSet
 }
 
@@ -158,6 +186,11 @@ func NewStageSetFromStage(stage *Stage) (stageSet *StageSet) {
 	subPath_YStage = stage.GetName() + "_y"
 	}
 	stageSet.YStage = y.NewStage(subPath_YStage)
+	subPath_ModelStage := "model"
+	if stage != nil && stage.GetName() != "" {
+	subPath_ModelStage = stage.GetName() + "_model"
+	}
+	stageSet.ModelStage = model.NewStage(subPath_ModelStage)
 	return stageSet
 }
 
@@ -194,7 +227,39 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	var declarations strings.Builder
 	var values strings.Builder
 	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
 
+	if stageSet.ModelStage != nil {
+		submodelOrdered := []*model.SubModel{}
+		for submodel := range stageSet.ModelStage.SubModels {
+			submodelOrdered = append(submodelOrdered, submodel)
+		}
+		sort.Slice(submodelOrdered, func(i, j int) bool {
+			return stageSet.ModelStage.SubModel_stagedOrder[submodelOrdered[i]] < stageSet.ModelStage.SubModel_stagedOrder[submodelOrdered[j]]
+		})
+		for _, submodel := range submodelOrdered {
+			if lastStageDecl != "ModelStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "ModelStage"
+			}
+			submodelIdent := "__model" + submodel.GongGetIdentifier(stageSet.ModelStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&model.SubModel{Name: %s}).Stage(stageSet.ModelStage)", submodelIdent, __gong__toRawStringLiteral(submodel.Name)))
+			if lastStageVal != "ModelStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "ModelStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", submodelIdent, __gong__toRawStringLiteral(submodel.Name)))
+		}
+	}
 	if stageSet.YStage != nil {
 		yOrdered := []*y.Y{}
 		for y := range stageSet.YStage.Ys {
@@ -204,9 +269,31 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.YStage.Y_stagedOrder[yOrdered[i]] < stageSet.YStage.Y_stagedOrder[yOrdered[j]]
 		})
 		for _, y := range yOrdered {
-			yIdent := "__stage_2" + y.GongGetIdentifier(stageSet.YStage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_2__.Y{Name: %s}).Stage(stageSet.YStage)", yIdent, __gong__toRawStringLiteral(y.Name)))
+			if lastStageDecl != "YStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "YStage"
+			}
+			yIdent := "__y" + y.GongGetIdentifier(stageSet.YStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&y.Y{Name: %s}).Stage(stageSet.YStage)", yIdent, __gong__toRawStringLiteral(y.Name)))
+			if lastStageVal != "YStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "YStage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", yIdent, __gong__toRawStringLiteral(y.Name)))
+			if y.SubModel != nil {
+				if lastStagePtr != "YStage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "YStage"
+				}
+				targetIdent := "__model" + y.SubModel.GongGetIdentifier(stageSet.ModelStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubModel = %s", yIdent, targetIdent))
+			}
 		}
 	}
 	if stageSet.XStage != nil {
@@ -218,11 +305,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.XStage.X_stagedOrder[xOrdered[i]] < stageSet.XStage.X_stagedOrder[xOrdered[j]]
 		})
 		for _, x := range xOrdered {
-			xIdent := "__stage_1" + x.GongGetIdentifier(stageSet.XStage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_1__.X{Name: %s}).Stage(stageSet.XStage)", xIdent, __gong__toRawStringLiteral(x.Name)))
+			if lastStageDecl != "XStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "XStage"
+			}
+			xIdent := "__x" + x.GongGetIdentifier(stageSet.XStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&x.X{Name: %s}).Stage(stageSet.XStage)", xIdent, __gong__toRawStringLiteral(x.Name)))
+			if lastStageVal != "XStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "XStage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xIdent, __gong__toRawStringLiteral(x.Name)))
 			if x.Y != nil {
-				targetIdent := "__stage_2" + x.Y.GongGetIdentifier(stageSet.YStage)
+				if lastStagePtr != "XStage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "XStage"
+				}
+				targetIdent := "__y" + x.Y.GongGetIdentifier(stageSet.YStage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Y = %s", xIdent, targetIdent))
 			}
 		}
@@ -236,23 +341,53 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_stagedOrder[aOrdered[i]] < stageSet.Stage.A_stagedOrder[aOrdered[j]]
 		})
 		for _, a := range aOrdered {
-			aIdent := "__stage_0" + a.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A{Name: %s}).Stage(stageSet.Stage)", aIdent, __gong__toRawStringLiteral(a.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			aIdent := "__models" + a.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A{Name: %s}).Stage(stageSet.Stage)", aIdent, __gong__toRawStringLiteral(a.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", aIdent, __gong__toRawStringLiteral(a.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.NumberField = %d", aIdent, a.NumberField))
 			values.WriteString(fmt.Sprintf("\n\t%s.Foo = %d", aIdent, a.Foo))
 			values.WriteString(fmt.Sprintf("\n\t%s.Bar = %f", aIdent, a.Bar))
 			values.WriteString(fmt.Sprintf("\n\t%s.Zorgh = %s", aIdent, __gong__toRawStringLiteral(a.Zorgh)))
 			if a.B != nil {
-				targetIdent := "__stage_0" + a.B.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + a.B.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.B = %s", aIdent, targetIdent))
 			}
 			for _, elem := range a.Bs {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Bs = append(%s.Bs, %s)", aIdent, aIdent, targetIdent))
 			}
 			if a.X != nil {
-				targetIdent := "__stage_1" + a.X.GongGetIdentifier(stageSet.XStage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__x" + a.X.GongGetIdentifier(stageSet.XStage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.X = %s", aIdent, targetIdent))
 			}
 		}
@@ -266,8 +401,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.B_stagedOrder[bOrdered[i]] < stageSet.Stage.B_stagedOrder[bOrdered[j]]
 		})
 		for _, b := range bOrdered {
-			bIdent := "__stage_0" + b.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.B{Name: %s}).Stage(stageSet.Stage)", bIdent, __gong__toRawStringLiteral(b.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			bIdent := "__models" + b.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.B{Name: %s}).Stage(stageSet.Stage)", bIdent, __gong__toRawStringLiteral(b.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bIdent, __gong__toRawStringLiteral(b.Name)))
 		}
 	}
@@ -280,22 +427,24 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/test/test2/go/models"
-	__stage_1__ "github.com/fullstack-lang/gong/test/test2/go/models/x"
-	__stage_2__ "github.com/fullstack-lang/gong/test/test2/go/models/y"
+	"github.com/fullstack-lang/gong/test/test2/go/models"
+	"github.com/fullstack-lang/gong/test/test2/go/models/x"
+	"github.com/fullstack-lang/gong/test/test2/go/models/y"
+	model "github.com/fullstack-lang/gong/test/test2/go/models/x/models"
 )
 
 var (
 	_ time.Time
 	_ = slices.Index[[]int, int]
 
-	_ *__stage_0__.Stage
-	_ *__stage_1__.Stage
-	_ *__stage_2__.Stage
+	_ *models.Stage
+	_ *x.Stage
+	_ *y.Stage
+	_ *model.Stage
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stageSet *models.StageSet) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
@@ -361,6 +510,25 @@ func (stageSet *StageSet) ParseAstString(blob string, preserveOrder bool) error 
 func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	identifierMap := make(map[string]any)
 
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/test/test2/go/models/x/models":
+			aliasToCanonical[alias] = "model"
+		case "github.com/fullstack-lang/gong/test/test2/go/models/y":
+			aliasToCanonical[alias] = "y"
+		case "github.com/fullstack-lang/gong/test/test2/go/models/x":
+			aliasToCanonical[alias] = "x"
+		case "github.com/fullstack-lang/gong/test/test2/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
 	ast.Inspect(inFile, func(n ast.Node) bool {
 		switch node := n.(type) {
 		case *ast.AssignStmt:
@@ -397,8 +565,26 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						return true
 					})
 
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					}
+
 					switch pkgAlias {
-			case "__stage_2__":
+			case "model":
+				switch typeName {
+				case "SubModel":
+					if !preserveOrder {
+						inst := (&model.SubModel{Name: instanceName}).Stage(stageSet.ModelStage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(model.SubModel)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.ModelStage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				}
+			case "y":
 				switch typeName {
 				case "Y":
 					if !preserveOrder {
@@ -412,7 +598,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						identifierMap[ident.Name] = inst
 					}
 				}
-			case "__stage_1__":
+			case "x":
 				switch typeName {
 				case "X":
 					if !preserveOrder {
@@ -426,7 +612,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						identifierMap[ident.Name] = inst
 					}
 				}
-			case "__stage_0__":
+			case "models":
 				switch typeName {
 				case "A":
 					if !preserveOrder {
@@ -464,10 +650,23 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 							fieldName := selExpr.Sel.Name
 							rhs := node.Rhs[0]
 							switch inst := instance.(type) {
+				case *model.SubModel:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
 				case *y.Y:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "SubModel":
+						if rIdent, ok := rhs.(*ast.Ident); ok {
+							if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*model.SubModel); ok {
+									inst.SubModel = typedTarget
+								}
+							}
+						}
 					}
 				case *x.X:
 					switch fieldName {
@@ -500,7 +699,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*B); ok {
+									if typedTarget, ok := target.(*B); ok {
 										inst.Bs = append(inst.Bs, typedTarget)
 									}
 								}

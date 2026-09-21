@@ -2,6 +2,7 @@ package models
 
 import (
 	"log"
+	"strings"
 
 	gong "github.com/fullstack-lang/gong/go/models"
 )
@@ -23,6 +24,15 @@ func (stager *Stager) compute_map_modelElement_shape(
 			pkgName = gongStruct.ModelPkg.PkgGoName
 		}
 		map_Pkg_StructName_GongStruct[pkgName+"."+gongStruct.Name] = gongStruct
+		if len(stager.stage.MetaPackageImports) > 0 && gongStruct.ModelPkg != nil {
+			for _, imp := range stager.stage.MetaPackageImports {
+				cleanPath := strings.Trim(imp.Path, "\"")
+				if cleanPath == gongStruct.ModelPkg.PkgPath {
+					aliasPkg := strings.TrimPrefix(imp.Alias, "ref_")
+					map_Pkg_StructName_GongStruct[aliasPkg+"."+gongStruct.Name] = gongStruct
+				}
+			}
+		}
 		if _, exists := map_Pkg_StructName_GongStruct[gongStruct.Name]; !exists {
 			map_Pkg_StructName_GongStruct[gongStruct.Name] = gongStruct
 		}

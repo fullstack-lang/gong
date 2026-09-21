@@ -176,7 +176,7 @@ func PrepareSplitlite(
 		map_GongStructName_InstancesNb)
 }
 
-func loadEmbeddedPackages(stage *gong.Stage, goModelsDir embed.FS) {
+func loadEmbeddedPackages(stage *gong.Stage, goModelsDir embed.FS, metaPackageImports []*models.MetaPackageImport) {
 	dirsWithGoFiles := make(map[string]bool)
 	_ = fs.WalkDir(goModelsDir, ".", func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
@@ -203,6 +203,19 @@ func loadEmbeddedPackages(stage *gong.Stage, goModelsDir embed.FS) {
 		pkgs := gong.ParseEmbedModelWithFset(goModelsDir, dir, modelPkg.Fset)
 		if len(pkgs) > 0 {
 			gong.WalkParser(pkgs, modelPkg, nil)
+			for _, imp := range metaPackageImports {
+				cleanPath := strings.Trim(imp.Path, "\"")
+				if dir == "." && (cleanPath == "models" || strings.HasSuffix(cleanPath, "/models")) {
+					modelPkg.PkgPath = cleanPath
+					break
+				} else if dir != "." && (cleanPath == dir || strings.HasSuffix(cleanPath, "/"+dir)) {
+					modelPkg.PkgPath = cleanPath
+					break
+				}
+			}
+			for _, gs := range modelPkg.GongStructs {
+				gs.ModelPkg = modelPkg
+			}
 			modelPkg.SerializeToStage()
 			allPkgs[dir] = pkgs
 		}
@@ -388,7 +401,7 @@ func prepareStagesSet(
 	formStage, _ = form_fullstack.NewStackInstance(r, docStackName+":doc-diagramForm", "", "")
 	treeNavigationStage, _ = tree_fullstack.NewStackInstance(r, docStackName+":doc-sidebar-navigation", "", "")
 
-	loadEmbeddedPackages(gongStage, goModelsDir)
+	loadEmbeddedPackages(gongStage, goModelsDir, metaPackageImports)
 
 	return
 }

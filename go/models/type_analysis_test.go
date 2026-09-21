@@ -210,8 +210,8 @@ func TestSynthesizeStageSetFromDependencies(t *testing.T) {
 		t.Fatalf("Expected modelPkg.StageSet to be synthesized, got nil")
 	}
 
-	if len(modelPkg.StageSet.Fields) != 3 {
-		t.Fatalf("Expected 3 StageSet fields (Stage, XStage, YStage), got %d", len(modelPkg.StageSet.Fields))
+	if len(modelPkg.StageSet.Fields) != 4 {
+		t.Fatalf("Expected 4 StageSet fields (Stage, XStage, YStage, ModelStage), got %d", len(modelPkg.StageSet.Fields))
 	}
 
 	expectedFields := []struct {
@@ -220,9 +220,10 @@ func TestSynthesizeStageSetFromDependencies(t *testing.T) {
 		IsLocal     bool
 		ImportAlias string
 	}{
-		{Name: "Stage", PackageName: "models", IsLocal: true, ImportAlias: "__stage_0__"},
-		{Name: "XStage", PackageName: "x", IsLocal: false, ImportAlias: "__stage_1__"},
-		{Name: "YStage", PackageName: "y", IsLocal: false, ImportAlias: "__stage_2__"},
+		{Name: "Stage", PackageName: "models", IsLocal: true, ImportAlias: "models"},
+		{Name: "XStage", PackageName: "x", IsLocal: false, ImportAlias: "x"},
+		{Name: "YStage", PackageName: "y", IsLocal: false, ImportAlias: "y"},
+		{Name: "ModelStage", PackageName: "models", IsLocal: false, ImportAlias: "model"},
 	}
 
 	for idx, exp := range expectedFields {

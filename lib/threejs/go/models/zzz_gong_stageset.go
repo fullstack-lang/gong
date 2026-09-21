@@ -128,6 +128,12 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	var declarations strings.Builder
 	var values strings.Builder
 	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
 		ambiantlightOrdered := []*AmbiantLight{}
@@ -138,8 +144,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.AmbiantLight_stagedOrder[ambiantlightOrdered[i]] < stageSet.Stage.AmbiantLight_stagedOrder[ambiantlightOrdered[j]]
 		})
 		for _, ambiantlight := range ambiantlightOrdered {
-			ambiantlightIdent := "__stage_0" + ambiantlight.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.AmbiantLight{Name: %s}).Stage(stageSet.Stage)", ambiantlightIdent, __gong__toRawStringLiteral(ambiantlight.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			ambiantlightIdent := "__models" + ambiantlight.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.AmbiantLight{Name: %s}).Stage(stageSet.Stage)", ambiantlightIdent, __gong__toRawStringLiteral(ambiantlight.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", ambiantlightIdent, __gong__toRawStringLiteral(ambiantlight.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Intensity = %f", ambiantlightIdent, ambiantlight.Intensity))
 		}
@@ -153,8 +171,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.BoxGeometry_stagedOrder[boxgeometryOrdered[i]] < stageSet.Stage.BoxGeometry_stagedOrder[boxgeometryOrdered[j]]
 		})
 		for _, boxgeometry := range boxgeometryOrdered {
-			boxgeometryIdent := "__stage_0" + boxgeometry.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.BoxGeometry{Name: %s}).Stage(stageSet.Stage)", boxgeometryIdent, __gong__toRawStringLiteral(boxgeometry.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			boxgeometryIdent := "__models" + boxgeometry.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.BoxGeometry{Name: %s}).Stage(stageSet.Stage)", boxgeometryIdent, __gong__toRawStringLiteral(boxgeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", boxgeometryIdent, __gong__toRawStringLiteral(boxgeometry.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", boxgeometryIdent, boxgeometry.Width))
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", boxgeometryIdent, boxgeometry.Height))
@@ -173,15 +203,39 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.BufferGeometry_stagedOrder[buffergeometryOrdered[i]] < stageSet.Stage.BufferGeometry_stagedOrder[buffergeometryOrdered[j]]
 		})
 		for _, buffergeometry := range buffergeometryOrdered {
-			buffergeometryIdent := "__stage_0" + buffergeometry.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.BufferGeometry{Name: %s}).Stage(stageSet.Stage)", buffergeometryIdent, __gong__toRawStringLiteral(buffergeometry.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			buffergeometryIdent := "__models" + buffergeometry.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.BufferGeometry{Name: %s}).Stage(stageSet.Stage)", buffergeometryIdent, __gong__toRawStringLiteral(buffergeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", buffergeometryIdent, __gong__toRawStringLiteral(buffergeometry.Name)))
 			for _, elem := range buffergeometry.Vertices {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Vertices = append(%s.Vertices, %s)", buffergeometryIdent, buffergeometryIdent, targetIdent))
 			}
 			for _, elem := range buffergeometry.Faces {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Faces = append(%s.Faces, %s)", buffergeometryIdent, buffergeometryIdent, targetIdent))
 			}
 		}
@@ -195,8 +249,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Camera_stagedOrder[cameraOrdered[i]] < stageSet.Stage.Camera_stagedOrder[cameraOrdered[j]]
 		})
 		for _, camera := range cameraOrdered {
-			cameraIdent := "__stage_0" + camera.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Camera{Name: %s}).Stage(stageSet.Stage)", cameraIdent, __gong__toRawStringLiteral(camera.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cameraIdent := "__models" + camera.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Camera{Name: %s}).Stage(stageSet.Stage)", cameraIdent, __gong__toRawStringLiteral(camera.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cameraIdent, __gong__toRawStringLiteral(camera.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", cameraIdent, camera.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", cameraIdent, camera.Y))
@@ -216,26 +282,62 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Canvas_stagedOrder[canvasOrdered[i]] < stageSet.Stage.Canvas_stagedOrder[canvasOrdered[j]]
 		})
 		for _, canvas := range canvasOrdered {
-			canvasIdent := "__stage_0" + canvas.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Canvas{Name: %s}).Stage(stageSet.Stage)", canvasIdent, __gong__toRawStringLiteral(canvas.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			canvasIdent := "__models" + canvas.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Canvas{Name: %s}).Stage(stageSet.Stage)", canvasIdent, __gong__toRawStringLiteral(canvas.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", canvasIdent, __gong__toRawStringLiteral(canvas.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsWithLastRenderingUpdate = %t", canvasIdent, canvas.IsWithLastRenderingUpdate))
 			values.WriteString(fmt.Sprintf("\n\t%s.LastRendering, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", canvasIdent, canvas.LastRendering.String()))
 			values.WriteString(fmt.Sprintf("\n\t%s.Frame64BitsEncoded = %s", canvasIdent, __gong__toRawStringLiteral(canvas.Frame64BitsEncoded)))
 			for _, elem := range canvas.DirectionalLights {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DirectionalLights = append(%s.DirectionalLights, %s)", canvasIdent, canvasIdent, targetIdent))
 			}
 			if canvas.AmbiantLight != nil {
-				targetIdent := "__stage_0" + canvas.AmbiantLight.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + canvas.AmbiantLight.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.AmbiantLight = %s", canvasIdent, targetIdent))
 			}
 			for _, elem := range canvas.Meshs {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Meshs = append(%s.Meshs, %s)", canvasIdent, canvasIdent, targetIdent))
 			}
 			if canvas.Camera != nil {
-				targetIdent := "__stage_0" + canvas.Camera.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + canvas.Camera.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Camera = %s", canvasIdent, targetIdent))
 			}
 		}
@@ -249,11 +351,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Curve_stagedOrder[curveOrdered[i]] < stageSet.Stage.Curve_stagedOrder[curveOrdered[j]]
 		})
 		for _, curve := range curveOrdered {
-			curveIdent := "__stage_0" + curve.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Curve{Name: %s}).Stage(stageSet.Stage)", curveIdent, __gong__toRawStringLiteral(curve.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			curveIdent := "__models" + curve.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Curve{Name: %s}).Stage(stageSet.Stage)", curveIdent, __gong__toRawStringLiteral(curve.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", curveIdent, __gong__toRawStringLiteral(curve.Name)))
 			for _, elem := range curve.Points {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Points = append(%s.Points, %s)", curveIdent, curveIdent, targetIdent))
 			}
 		}
@@ -267,8 +387,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.CylinderGeometry_stagedOrder[cylindergeometryOrdered[i]] < stageSet.Stage.CylinderGeometry_stagedOrder[cylindergeometryOrdered[j]]
 		})
 		for _, cylindergeometry := range cylindergeometryOrdered {
-			cylindergeometryIdent := "__stage_0" + cylindergeometry.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.CylinderGeometry{Name: %s}).Stage(stageSet.Stage)", cylindergeometryIdent, __gong__toRawStringLiteral(cylindergeometry.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cylindergeometryIdent := "__models" + cylindergeometry.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CylinderGeometry{Name: %s}).Stage(stageSet.Stage)", cylindergeometryIdent, __gong__toRawStringLiteral(cylindergeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cylindergeometryIdent, __gong__toRawStringLiteral(cylindergeometry.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.RadiusTop = %f", cylindergeometryIdent, cylindergeometry.RadiusTop))
 			values.WriteString(fmt.Sprintf("\n\t%s.RadiusBottom = %f", cylindergeometryIdent, cylindergeometry.RadiusBottom))
@@ -289,8 +421,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DirectionalLight_stagedOrder[directionallightOrdered[i]] < stageSet.Stage.DirectionalLight_stagedOrder[directionallightOrdered[j]]
 		})
 		for _, directionallight := range directionallightOrdered {
-			directionallightIdent := "__stage_0" + directionallight.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DirectionalLight{Name: %s}).Stage(stageSet.Stage)", directionallightIdent, __gong__toRawStringLiteral(directionallight.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			directionallightIdent := "__models" + directionallight.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DirectionalLight{Name: %s}).Stage(stageSet.Stage)", directionallightIdent, __gong__toRawStringLiteral(directionallight.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", directionallightIdent, __gong__toRawStringLiteral(directionallight.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", directionallightIdent, directionallight.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", directionallightIdent, directionallight.Y))
@@ -308,16 +452,40 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ExtrudeGeometry_stagedOrder[extrudegeometryOrdered[i]] < stageSet.Stage.ExtrudeGeometry_stagedOrder[extrudegeometryOrdered[j]]
 		})
 		for _, extrudegeometry := range extrudegeometryOrdered {
-			extrudegeometryIdent := "__stage_0" + extrudegeometry.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ExtrudeGeometry{Name: %s}).Stage(stageSet.Stage)", extrudegeometryIdent, __gong__toRawStringLiteral(extrudegeometry.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			extrudegeometryIdent := "__models" + extrudegeometry.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ExtrudeGeometry{Name: %s}).Stage(stageSet.Stage)", extrudegeometryIdent, __gong__toRawStringLiteral(extrudegeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", extrudegeometryIdent, __gong__toRawStringLiteral(extrudegeometry.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Steps = %d", extrudegeometryIdent, extrudegeometry.Steps))
 			if extrudegeometry.Shape != nil {
-				targetIdent := "__stage_0" + extrudegeometry.Shape.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + extrudegeometry.Shape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Shape = %s", extrudegeometryIdent, targetIdent))
 			}
 			if extrudegeometry.ExtrudePath != nil {
-				targetIdent := "__stage_0" + extrudegeometry.ExtrudePath.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + extrudegeometry.ExtrudePath.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ExtrudePath = %s", extrudegeometryIdent, targetIdent))
 			}
 		}
@@ -331,50 +499,122 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Mesh_stagedOrder[meshOrdered[i]] < stageSet.Stage.Mesh_stagedOrder[meshOrdered[j]]
 		})
 		for _, mesh := range meshOrdered {
-			meshIdent := "__stage_0" + mesh.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Mesh{Name: %s}).Stage(stageSet.Stage)", meshIdent, __gong__toRawStringLiteral(mesh.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			meshIdent := "__models" + mesh.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Mesh{Name: %s}).Stage(stageSet.Stage)", meshIdent, __gong__toRawStringLiteral(mesh.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", meshIdent, __gong__toRawStringLiteral(mesh.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", meshIdent, mesh.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", meshIdent, mesh.Y))
 			values.WriteString(fmt.Sprintf("\n\t%s.Z = %f", meshIdent, mesh.Z))
 			if mesh.MeshMaterialBasic != nil {
-				targetIdent := "__stage_0" + mesh.MeshMaterialBasic.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + mesh.MeshMaterialBasic.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.MeshMaterialBasic = %s", meshIdent, targetIdent))
 			}
 			if mesh.MeshPhysicalMaterial != nil {
-				targetIdent := "__stage_0" + mesh.MeshPhysicalMaterial.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + mesh.MeshPhysicalMaterial.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.MeshPhysicalMaterial = %s", meshIdent, targetIdent))
 			}
 			if mesh.CylinderGeometry != nil {
-				targetIdent := "__stage_0" + mesh.CylinderGeometry.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + mesh.CylinderGeometry.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CylinderGeometry = %s", meshIdent, targetIdent))
 			}
 			if mesh.BoxGeometry != nil {
-				targetIdent := "__stage_0" + mesh.BoxGeometry.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + mesh.BoxGeometry.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.BoxGeometry = %s", meshIdent, targetIdent))
 			}
 			if mesh.SphereGeometry != nil {
-				targetIdent := "__stage_0" + mesh.SphereGeometry.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + mesh.SphereGeometry.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SphereGeometry = %s", meshIdent, targetIdent))
 			}
 			if mesh.TorusGeometry != nil {
-				targetIdent := "__stage_0" + mesh.TorusGeometry.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + mesh.TorusGeometry.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TorusGeometry = %s", meshIdent, targetIdent))
 			}
 			if mesh.PlaneGeometry != nil {
-				targetIdent := "__stage_0" + mesh.PlaneGeometry.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + mesh.PlaneGeometry.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.PlaneGeometry = %s", meshIdent, targetIdent))
 			}
 			if mesh.TubeGeometry != nil {
-				targetIdent := "__stage_0" + mesh.TubeGeometry.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + mesh.TubeGeometry.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TubeGeometry = %s", meshIdent, targetIdent))
 			}
 			if mesh.ExtrudeGeometry != nil {
-				targetIdent := "__stage_0" + mesh.ExtrudeGeometry.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + mesh.ExtrudeGeometry.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ExtrudeGeometry = %s", meshIdent, targetIdent))
 			}
 			if mesh.BufferGeometry != nil {
-				targetIdent := "__stage_0" + mesh.BufferGeometry.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + mesh.BufferGeometry.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.BufferGeometry = %s", meshIdent, targetIdent))
 			}
 		}
@@ -388,8 +628,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.MeshMaterialBasic_stagedOrder[meshmaterialbasicOrdered[i]] < stageSet.Stage.MeshMaterialBasic_stagedOrder[meshmaterialbasicOrdered[j]]
 		})
 		for _, meshmaterialbasic := range meshmaterialbasicOrdered {
-			meshmaterialbasicIdent := "__stage_0" + meshmaterialbasic.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.MeshMaterialBasic{Name: %s}).Stage(stageSet.Stage)", meshmaterialbasicIdent, __gong__toRawStringLiteral(meshmaterialbasic.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			meshmaterialbasicIdent := "__models" + meshmaterialbasic.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.MeshMaterialBasic{Name: %s}).Stage(stageSet.Stage)", meshmaterialbasicIdent, __gong__toRawStringLiteral(meshmaterialbasic.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", meshmaterialbasicIdent, __gong__toRawStringLiteral(meshmaterialbasic.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", meshmaterialbasicIdent, __gong__toRawStringLiteral(meshmaterialbasic.Color)))
 		}
@@ -403,8 +655,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.MeshPhysicalMaterial_stagedOrder[meshphysicalmaterialOrdered[i]] < stageSet.Stage.MeshPhysicalMaterial_stagedOrder[meshphysicalmaterialOrdered[j]]
 		})
 		for _, meshphysicalmaterial := range meshphysicalmaterialOrdered {
-			meshphysicalmaterialIdent := "__stage_0" + meshphysicalmaterial.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.MeshPhysicalMaterial{Name: %s}).Stage(stageSet.Stage)", meshphysicalmaterialIdent, __gong__toRawStringLiteral(meshphysicalmaterial.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			meshphysicalmaterialIdent := "__models" + meshphysicalmaterial.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.MeshPhysicalMaterial{Name: %s}).Stage(stageSet.Stage)", meshphysicalmaterialIdent, __gong__toRawStringLiteral(meshphysicalmaterial.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", meshphysicalmaterialIdent, __gong__toRawStringLiteral(meshphysicalmaterial.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", meshphysicalmaterialIdent, __gong__toRawStringLiteral(meshphysicalmaterial.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Wireframe = %t", meshphysicalmaterialIdent, meshphysicalmaterial.Wireframe))
@@ -422,8 +686,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.PlaneGeometry_stagedOrder[planegeometryOrdered[i]] < stageSet.Stage.PlaneGeometry_stagedOrder[planegeometryOrdered[j]]
 		})
 		for _, planegeometry := range planegeometryOrdered {
-			planegeometryIdent := "__stage_0" + planegeometry.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.PlaneGeometry{Name: %s}).Stage(stageSet.Stage)", planegeometryIdent, __gong__toRawStringLiteral(planegeometry.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			planegeometryIdent := "__models" + planegeometry.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.PlaneGeometry{Name: %s}).Stage(stageSet.Stage)", planegeometryIdent, __gong__toRawStringLiteral(planegeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", planegeometryIdent, __gong__toRawStringLiteral(planegeometry.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", planegeometryIdent, planegeometry.Width))
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", planegeometryIdent, planegeometry.Height))
@@ -440,11 +716,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Shape_stagedOrder[shapeOrdered[i]] < stageSet.Stage.Shape_stagedOrder[shapeOrdered[j]]
 		})
 		for _, shape := range shapeOrdered {
-			shapeIdent := "__stage_0" + shape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Shape{Name: %s}).Stage(stageSet.Stage)", shapeIdent, __gong__toRawStringLiteral(shape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			shapeIdent := "__models" + shape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Shape{Name: %s}).Stage(stageSet.Stage)", shapeIdent, __gong__toRawStringLiteral(shape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", shapeIdent, __gong__toRawStringLiteral(shape.Name)))
 			for _, elem := range shape.Points {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Points = append(%s.Points, %s)", shapeIdent, shapeIdent, targetIdent))
 			}
 		}
@@ -458,8 +752,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.SphereGeometry_stagedOrder[spheregeometryOrdered[i]] < stageSet.Stage.SphereGeometry_stagedOrder[spheregeometryOrdered[j]]
 		})
 		for _, spheregeometry := range spheregeometryOrdered {
-			spheregeometryIdent := "__stage_0" + spheregeometry.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.SphereGeometry{Name: %s}).Stage(stageSet.Stage)", spheregeometryIdent, __gong__toRawStringLiteral(spheregeometry.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			spheregeometryIdent := "__models" + spheregeometry.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SphereGeometry{Name: %s}).Stage(stageSet.Stage)", spheregeometryIdent, __gong__toRawStringLiteral(spheregeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", spheregeometryIdent, __gong__toRawStringLiteral(spheregeometry.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Radius = %f", spheregeometryIdent, spheregeometry.Radius))
 			values.WriteString(fmt.Sprintf("\n\t%s.WidthSegments = %d", spheregeometryIdent, spheregeometry.WidthSegments))
@@ -479,8 +785,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.TorusGeometry_stagedOrder[torusgeometryOrdered[i]] < stageSet.Stage.TorusGeometry_stagedOrder[torusgeometryOrdered[j]]
 		})
 		for _, torusgeometry := range torusgeometryOrdered {
-			torusgeometryIdent := "__stage_0" + torusgeometry.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.TorusGeometry{Name: %s}).Stage(stageSet.Stage)", torusgeometryIdent, __gong__toRawStringLiteral(torusgeometry.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			torusgeometryIdent := "__models" + torusgeometry.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TorusGeometry{Name: %s}).Stage(stageSet.Stage)", torusgeometryIdent, __gong__toRawStringLiteral(torusgeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", torusgeometryIdent, __gong__toRawStringLiteral(torusgeometry.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Radius = %f", torusgeometryIdent, torusgeometry.Radius))
 			values.WriteString(fmt.Sprintf("\n\t%s.Tube = %f", torusgeometryIdent, torusgeometry.Tube))
@@ -498,8 +816,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Triangle_stagedOrder[triangleOrdered[i]] < stageSet.Stage.Triangle_stagedOrder[triangleOrdered[j]]
 		})
 		for _, triangle := range triangleOrdered {
-			triangleIdent := "__stage_0" + triangle.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Triangle{Name: %s}).Stage(stageSet.Stage)", triangleIdent, __gong__toRawStringLiteral(triangle.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			triangleIdent := "__models" + triangle.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Triangle{Name: %s}).Stage(stageSet.Stage)", triangleIdent, __gong__toRawStringLiteral(triangle.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", triangleIdent, __gong__toRawStringLiteral(triangle.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.V1 = %d", triangleIdent, triangle.V1))
 			values.WriteString(fmt.Sprintf("\n\t%s.V2 = %d", triangleIdent, triangle.V2))
@@ -515,15 +845,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.TubeGeometry_stagedOrder[tubegeometryOrdered[i]] < stageSet.Stage.TubeGeometry_stagedOrder[tubegeometryOrdered[j]]
 		})
 		for _, tubegeometry := range tubegeometryOrdered {
-			tubegeometryIdent := "__stage_0" + tubegeometry.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.TubeGeometry{Name: %s}).Stage(stageSet.Stage)", tubegeometryIdent, __gong__toRawStringLiteral(tubegeometry.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			tubegeometryIdent := "__models" + tubegeometry.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TubeGeometry{Name: %s}).Stage(stageSet.Stage)", tubegeometryIdent, __gong__toRawStringLiteral(tubegeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tubegeometryIdent, __gong__toRawStringLiteral(tubegeometry.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.TubularSegments = %d", tubegeometryIdent, tubegeometry.TubularSegments))
 			values.WriteString(fmt.Sprintf("\n\t%s.Radius = %f", tubegeometryIdent, tubegeometry.Radius))
 			values.WriteString(fmt.Sprintf("\n\t%s.RadialSegments = %d", tubegeometryIdent, tubegeometry.RadialSegments))
 			values.WriteString(fmt.Sprintf("\n\t%s.Closed = %t", tubegeometryIdent, tubegeometry.Closed))
 			if tubegeometry.Path != nil {
-				targetIdent := "__stage_0" + tubegeometry.Path.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + tubegeometry.Path.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Path = %s", tubegeometryIdent, targetIdent))
 			}
 		}
@@ -537,8 +885,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Vector2_stagedOrder[vector2Ordered[i]] < stageSet.Stage.Vector2_stagedOrder[vector2Ordered[j]]
 		})
 		for _, vector2 := range vector2Ordered {
-			vector2Ident := "__stage_0" + vector2.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Vector2{Name: %s}).Stage(stageSet.Stage)", vector2Ident, __gong__toRawStringLiteral(vector2.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			vector2Ident := "__models" + vector2.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Vector2{Name: %s}).Stage(stageSet.Stage)", vector2Ident, __gong__toRawStringLiteral(vector2.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", vector2Ident, __gong__toRawStringLiteral(vector2.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", vector2Ident, vector2.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", vector2Ident, vector2.Y))
@@ -553,8 +913,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Vector3_stagedOrder[vector3Ordered[i]] < stageSet.Stage.Vector3_stagedOrder[vector3Ordered[j]]
 		})
 		for _, vector3 := range vector3Ordered {
-			vector3Ident := "__stage_0" + vector3.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Vector3{Name: %s}).Stage(stageSet.Stage)", vector3Ident, __gong__toRawStringLiteral(vector3.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			vector3Ident := "__models" + vector3.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Vector3{Name: %s}).Stage(stageSet.Stage)", vector3Ident, __gong__toRawStringLiteral(vector3.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", vector3Ident, __gong__toRawStringLiteral(vector3.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", vector3Ident, vector3.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", vector3Ident, vector3.Y))
@@ -570,18 +942,18 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/lib/threejs/go/models"
+	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
 var (
 	_ time.Time
 	_ = slices.Index[[]int, int]
 
-	_ *__stage_0__.Stage
+	_ *models.Stage
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stageSet *models.StageSet) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
@@ -647,6 +1019,19 @@ func (stageSet *StageSet) ParseAstString(blob string, preserveOrder bool) error 
 func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	identifierMap := make(map[string]any)
 
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/lib/threejs/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
 	ast.Inspect(inFile, func(n ast.Node) bool {
 		switch node := n.(type) {
 		case *ast.AssignStmt:
@@ -683,8 +1068,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						return true
 					})
 
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					}
+
 					switch pkgAlias {
-			case "__stage_0__":
+			case "models":
 				switch typeName {
 				case "AmbiantLight":
 					if !preserveOrder {
@@ -952,7 +1341,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Vector3); ok {
+									if typedTarget, ok := target.(*Vector3); ok {
 										inst.Vertices = append(inst.Vertices, typedTarget)
 									}
 								}
@@ -962,7 +1351,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Triangle); ok {
+									if typedTarget, ok := target.(*Triangle); ok {
 										inst.Faces = append(inst.Faces, typedTarget)
 									}
 								}
@@ -996,7 +1385,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DirectionalLight); ok {
+									if typedTarget, ok := target.(*DirectionalLight); ok {
 										inst.DirectionalLights = append(inst.DirectionalLights, typedTarget)
 									}
 								}
@@ -1014,7 +1403,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Mesh); ok {
+									if typedTarget, ok := target.(*Mesh); ok {
 										inst.Meshs = append(inst.Meshs, typedTarget)
 									}
 								}
@@ -1047,7 +1436,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Vector3); ok {
+									if typedTarget, ok := target.(*Vector3); ok {
 										inst.Points = append(inst.Points, typedTarget)
 									}
 								}
@@ -1247,7 +1636,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Vector2); ok {
+									if typedTarget, ok := target.(*Vector2); ok {
 										inst.Points = append(inst.Points, typedTarget)
 									}
 								}

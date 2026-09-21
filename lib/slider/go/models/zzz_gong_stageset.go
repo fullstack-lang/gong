@@ -128,6 +128,12 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	var declarations strings.Builder
 	var values strings.Builder
 	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
 		checkboxOrdered := []*Checkbox{}
@@ -138,8 +144,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Checkbox_stagedOrder[checkboxOrdered[i]] < stageSet.Stage.Checkbox_stagedOrder[checkboxOrdered[j]]
 		})
 		for _, checkbox := range checkboxOrdered {
-			checkboxIdent := "__stage_0" + checkbox.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Checkbox{Name: %s}).Stage(stageSet.Stage)", checkboxIdent, __gong__toRawStringLiteral(checkbox.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			checkboxIdent := "__models" + checkbox.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Checkbox{Name: %s}).Stage(stageSet.Stage)", checkboxIdent, __gong__toRawStringLiteral(checkbox.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", checkboxIdent, __gong__toRawStringLiteral(checkbox.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ValueBool = %t", checkboxIdent, checkbox.ValueBool))
 			values.WriteString(fmt.Sprintf("\n\t%s.LabelForTrue = %s", checkboxIdent, __gong__toRawStringLiteral(checkbox.LabelForTrue)))
@@ -155,16 +173,40 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Group_stagedOrder[groupOrdered[i]] < stageSet.Stage.Group_stagedOrder[groupOrdered[j]]
 		})
 		for _, group := range groupOrdered {
-			groupIdent := "__stage_0" + group.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Group{Name: %s}).Stage(stageSet.Stage)", groupIdent, __gong__toRawStringLiteral(group.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			groupIdent := "__models" + group.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Group{Name: %s}).Stage(stageSet.Stage)", groupIdent, __gong__toRawStringLiteral(group.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", groupIdent, __gong__toRawStringLiteral(group.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Percentage = %f", groupIdent, group.Percentage))
 			for _, elem := range group.Sliders {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Sliders = append(%s.Sliders, %s)", groupIdent, groupIdent, targetIdent))
 			}
 			for _, elem := range group.Checkboxes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Checkboxes = append(%s.Checkboxes, %s)", groupIdent, groupIdent, targetIdent))
 			}
 		}
@@ -178,13 +220,31 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Layout_stagedOrder[layoutOrdered[i]] < stageSet.Stage.Layout_stagedOrder[layoutOrdered[j]]
 		})
 		for _, layout := range layoutOrdered {
-			layoutIdent := "__stage_0" + layout.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Layout{Name: %s}).Stage(stageSet.Stage)", layoutIdent, __gong__toRawStringLiteral(layout.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			layoutIdent := "__models" + layout.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Layout{Name: %s}).Stage(stageSet.Stage)", layoutIdent, __gong__toRawStringLiteral(layout.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", layoutIdent, __gong__toRawStringLiteral(layout.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsWithCustomGutterSize = %t", layoutIdent, layout.IsWithCustomGutterSize))
 			values.WriteString(fmt.Sprintf("\n\t%s.GutterSize = %f", layoutIdent, layout.GutterSize))
 			for _, elem := range layout.Groups {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", layoutIdent, layoutIdent, targetIdent))
 			}
 		}
@@ -198,8 +258,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Slider_stagedOrder[sliderOrdered[i]] < stageSet.Stage.Slider_stagedOrder[sliderOrdered[j]]
 		})
 		for _, slider := range sliderOrdered {
-			sliderIdent := "__stage_0" + slider.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Slider{Name: %s}).Stage(stageSet.Stage)", sliderIdent, __gong__toRawStringLiteral(slider.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			sliderIdent := "__models" + slider.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Slider{Name: %s}).Stage(stageSet.Stage)", sliderIdent, __gong__toRawStringLiteral(slider.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", sliderIdent, __gong__toRawStringLiteral(slider.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsFloat64 = %t", sliderIdent, slider.IsFloat64))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsInt = %t", sliderIdent, slider.IsInt))
@@ -223,18 +295,18 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/lib/slider/go/models"
+	"github.com/fullstack-lang/gong/lib/slider/go/models"
 )
 
 var (
 	_ time.Time
 	_ = slices.Index[[]int, int]
 
-	_ *__stage_0__.Stage
+	_ *models.Stage
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stageSet *models.StageSet) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
@@ -300,6 +372,19 @@ func (stageSet *StageSet) ParseAstString(blob string, preserveOrder bool) error 
 func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	identifierMap := make(map[string]any)
 
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/lib/slider/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
 	ast.Inspect(inFile, func(n ast.Node) bool {
 		switch node := n.(type) {
 		case *ast.AssignStmt:
@@ -336,8 +421,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						return true
 					})
 
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					}
+
 					switch pkgAlias {
-			case "__stage_0__":
+			case "models":
 				switch typeName {
 				case "Checkbox":
 					if !preserveOrder {
@@ -418,7 +507,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Slider); ok {
+									if typedTarget, ok := target.(*Slider); ok {
 										inst.Sliders = append(inst.Sliders, typedTarget)
 									}
 								}
@@ -428,7 +517,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Checkbox); ok {
+									if typedTarget, ok := target.(*Checkbox); ok {
 										inst.Checkboxes = append(inst.Checkboxes, typedTarget)
 									}
 								}
@@ -443,7 +532,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Group); ok {
+									if typedTarget, ok := target.(*Group); ok {
 										inst.Groups = append(inst.Groups, typedTarget)
 									}
 								}

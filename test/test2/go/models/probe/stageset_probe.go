@@ -100,6 +100,7 @@ func NewStageSetProbe(
 		{Alias: "ref_models", Path: "\"github.com/fullstack-lang/gong/test/test2/go/models\""},
 		{Alias: "ref_x", Path: "\"github.com/fullstack-lang/gong/test/test2/go/models/x\""},
 		{Alias: "ref_y", Path: "\"github.com/fullstack-lang/gong/test/test2/go/models/y\""},
+		{Alias: "ref_model", Path: "\"github.com/fullstack-lang/gong/test/test2/go/models/x/models\""},
 	}
 
 	probe.docStager = prepare.PrepareStageSet(

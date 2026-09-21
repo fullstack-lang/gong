@@ -128,6 +128,12 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	var declarations strings.Builder
 	var values strings.Builder
 	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
 		buttonOrdered := []*Button{}
@@ -138,8 +144,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Button_stagedOrder[buttonOrdered[i]] < stageSet.Stage.Button_stagedOrder[buttonOrdered[j]]
 		})
 		for _, button := range buttonOrdered {
-			buttonIdent := "__stage_0" + button.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Button{Name: %s}).Stage(stageSet.Stage)", buttonIdent, __gong__toRawStringLiteral(button.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			buttonIdent := "__models" + button.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Button{Name: %s}).Stage(stageSet.Stage)", buttonIdent, __gong__toRawStringLiteral(button.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", buttonIdent, __gong__toRawStringLiteral(button.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Icon = %s", buttonIdent, __gong__toRawStringLiteral(button.Icon)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsDisabled = %t", buttonIdent, button.IsDisabled))
@@ -147,7 +165,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipText = %s", buttonIdent, __gong__toRawStringLiteral(button.ToolTipText)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = %s", buttonIdent, __gong__toRawStringLiteral(string(button.ToolTipPosition))))
 			if button.SVGIcon != nil {
-				targetIdent := "__stage_0" + button.SVGIcon.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + button.SVGIcon.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SVGIcon = %s", buttonIdent, targetIdent))
 			}
 		}
@@ -161,27 +185,69 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Cell_stagedOrder[cellOrdered[i]] < stageSet.Stage.Cell_stagedOrder[cellOrdered[j]]
 		})
 		for _, cell := range cellOrdered {
-			cellIdent := "__stage_0" + cell.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Cell{Name: %s}).Stage(stageSet.Stage)", cellIdent, __gong__toRawStringLiteral(cell.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cellIdent := "__models" + cell.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Cell{Name: %s}).Stage(stageSet.Stage)", cellIdent, __gong__toRawStringLiteral(cell.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cellIdent, __gong__toRawStringLiteral(cell.Name)))
 			if cell.CellString != nil {
-				targetIdent := "__stage_0" + cell.CellString.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + cell.CellString.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CellString = %s", cellIdent, targetIdent))
 			}
 			if cell.CellFloat64 != nil {
-				targetIdent := "__stage_0" + cell.CellFloat64.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + cell.CellFloat64.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CellFloat64 = %s", cellIdent, targetIdent))
 			}
 			if cell.CellInt != nil {
-				targetIdent := "__stage_0" + cell.CellInt.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + cell.CellInt.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CellInt = %s", cellIdent, targetIdent))
 			}
 			if cell.CellBool != nil {
-				targetIdent := "__stage_0" + cell.CellBool.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + cell.CellBool.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CellBool = %s", cellIdent, targetIdent))
 			}
 			if cell.CellIcon != nil {
-				targetIdent := "__stage_0" + cell.CellIcon.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + cell.CellIcon.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CellIcon = %s", cellIdent, targetIdent))
 			}
 		}
@@ -195,8 +261,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.CellBoolean_stagedOrder[cellbooleanOrdered[i]] < stageSet.Stage.CellBoolean_stagedOrder[cellbooleanOrdered[j]]
 		})
 		for _, cellboolean := range cellbooleanOrdered {
-			cellbooleanIdent := "__stage_0" + cellboolean.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.CellBoolean{Name: %s}).Stage(stageSet.Stage)", cellbooleanIdent, __gong__toRawStringLiteral(cellboolean.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cellbooleanIdent := "__models" + cellboolean.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CellBoolean{Name: %s}).Stage(stageSet.Stage)", cellbooleanIdent, __gong__toRawStringLiteral(cellboolean.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cellbooleanIdent, __gong__toRawStringLiteral(cellboolean.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Value = %t", cellbooleanIdent, cellboolean.Value))
 		}
@@ -210,8 +288,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.CellFloat64_stagedOrder[cellfloat64Ordered[i]] < stageSet.Stage.CellFloat64_stagedOrder[cellfloat64Ordered[j]]
 		})
 		for _, cellfloat64 := range cellfloat64Ordered {
-			cellfloat64Ident := "__stage_0" + cellfloat64.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.CellFloat64{Name: %s}).Stage(stageSet.Stage)", cellfloat64Ident, __gong__toRawStringLiteral(cellfloat64.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cellfloat64Ident := "__models" + cellfloat64.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CellFloat64{Name: %s}).Stage(stageSet.Stage)", cellfloat64Ident, __gong__toRawStringLiteral(cellfloat64.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cellfloat64Ident, __gong__toRawStringLiteral(cellfloat64.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Value = %f", cellfloat64Ident, cellfloat64.Value))
 		}
@@ -225,8 +315,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.CellIcon_stagedOrder[celliconOrdered[i]] < stageSet.Stage.CellIcon_stagedOrder[celliconOrdered[j]]
 		})
 		for _, cellicon := range celliconOrdered {
-			celliconIdent := "__stage_0" + cellicon.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.CellIcon{Name: %s}).Stage(stageSet.Stage)", celliconIdent, __gong__toRawStringLiteral(cellicon.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			celliconIdent := "__models" + cellicon.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CellIcon{Name: %s}).Stage(stageSet.Stage)", celliconIdent, __gong__toRawStringLiteral(cellicon.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", celliconIdent, __gong__toRawStringLiteral(cellicon.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Icon = %s", celliconIdent, __gong__toRawStringLiteral(cellicon.Icon)))
 			values.WriteString(fmt.Sprintf("\n\t%s.NeedsConfirmation = %t", celliconIdent, cellicon.NeedsConfirmation))
@@ -242,8 +344,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.CellInt_stagedOrder[cellintOrdered[i]] < stageSet.Stage.CellInt_stagedOrder[cellintOrdered[j]]
 		})
 		for _, cellint := range cellintOrdered {
-			cellintIdent := "__stage_0" + cellint.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.CellInt{Name: %s}).Stage(stageSet.Stage)", cellintIdent, __gong__toRawStringLiteral(cellint.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cellintIdent := "__models" + cellint.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CellInt{Name: %s}).Stage(stageSet.Stage)", cellintIdent, __gong__toRawStringLiteral(cellint.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cellintIdent, __gong__toRawStringLiteral(cellint.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Value = %d", cellintIdent, cellint.Value))
 		}
@@ -257,8 +371,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.CellString_stagedOrder[cellstringOrdered[i]] < stageSet.Stage.CellString_stagedOrder[cellstringOrdered[j]]
 		})
 		for _, cellstring := range cellstringOrdered {
-			cellstringIdent := "__stage_0" + cellstring.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.CellString{Name: %s}).Stage(stageSet.Stage)", cellstringIdent, __gong__toRawStringLiteral(cellstring.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cellstringIdent := "__models" + cellstring.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.CellString{Name: %s}).Stage(stageSet.Stage)", cellstringIdent, __gong__toRawStringLiteral(cellstring.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cellstringIdent, __gong__toRawStringLiteral(cellstring.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", cellstringIdent, __gong__toRawStringLiteral(cellstring.Value)))
 		}
@@ -272,8 +398,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DisplayedColumn_stagedOrder[displayedcolumnOrdered[i]] < stageSet.Stage.DisplayedColumn_stagedOrder[displayedcolumnOrdered[j]]
 		})
 		for _, displayedcolumn := range displayedcolumnOrdered {
-			displayedcolumnIdent := "__stage_0" + displayedcolumn.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DisplayedColumn{Name: %s}).Stage(stageSet.Stage)", displayedcolumnIdent, __gong__toRawStringLiteral(displayedcolumn.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			displayedcolumnIdent := "__models" + displayedcolumn.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DisplayedColumn{Name: %s}).Stage(stageSet.Stage)", displayedcolumnIdent, __gong__toRawStringLiteral(displayedcolumn.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", displayedcolumnIdent, __gong__toRawStringLiteral(displayedcolumn.Name)))
 		}
 	}
@@ -286,12 +424,30 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Row_stagedOrder[rowOrdered[i]] < stageSet.Stage.Row_stagedOrder[rowOrdered[j]]
 		})
 		for _, row := range rowOrdered {
-			rowIdent := "__stage_0" + row.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Row{Name: %s}).Stage(stageSet.Stage)", rowIdent, __gong__toRawStringLiteral(row.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			rowIdent := "__models" + row.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Row{Name: %s}).Stage(stageSet.Stage)", rowIdent, __gong__toRawStringLiteral(row.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", rowIdent, __gong__toRawStringLiteral(row.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", rowIdent, row.IsChecked))
 			for _, elem := range row.Cells {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Cells = append(%s.Cells, %s)", rowIdent, rowIdent, targetIdent))
 			}
 		}
@@ -305,8 +461,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.SVGIcon_stagedOrder[svgiconOrdered[i]] < stageSet.Stage.SVGIcon_stagedOrder[svgiconOrdered[j]]
 		})
 		for _, svgicon := range svgiconOrdered {
-			svgiconIdent := "__stage_0" + svgicon.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.SVGIcon{Name: %s}).Stage(stageSet.Stage)", svgiconIdent, __gong__toRawStringLiteral(svgicon.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			svgiconIdent := "__models" + svgicon.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SVGIcon{Name: %s}).Stage(stageSet.Stage)", svgiconIdent, __gong__toRawStringLiteral(svgicon.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", svgiconIdent, __gong__toRawStringLiteral(svgicon.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", svgiconIdent, __gong__toRawStringLiteral(svgicon.SVG)))
 		}
@@ -320,8 +488,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Table_stagedOrder[tableOrdered[i]] < stageSet.Stage.Table_stagedOrder[tableOrdered[j]]
 		})
 		for _, table := range tableOrdered {
-			tableIdent := "__stage_0" + table.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Table{Name: %s}).Stage(stageSet.Stage)", tableIdent, __gong__toRawStringLiteral(table.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			tableIdent := "__models" + table.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Table{Name: %s}).Stage(stageSet.Stage)", tableIdent, __gong__toRawStringLiteral(table.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tableIdent, __gong__toRawStringLiteral(table.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.HasFiltering = %t", tableIdent, table.HasFiltering))
 			values.WriteString(fmt.Sprintf("\n\t%s.HasColumnSorting = %t", tableIdent, table.HasColumnSorting))
@@ -336,19 +516,43 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.SavingInProgress = %t", tableIdent, table.SavingInProgress))
 			values.WriteString(fmt.Sprintf("\n\t%s.NbOfStickyColumns = %d", tableIdent, table.NbOfStickyColumns))
 			for _, elem := range table.DisplayedColumns {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DisplayedColumns = append(%s.DisplayedColumns, %s)", tableIdent, tableIdent, targetIdent))
 			}
 			for _, elem := range table.Rows {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Rows = append(%s.Rows, %s)", tableIdent, tableIdent, targetIdent))
 			}
 			for _, elem := range table.RowsSelectedForBulkDelete {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RowsSelectedForBulkDelete = append(%s.RowsSelectedForBulkDelete, %s)", tableIdent, tableIdent, targetIdent))
 			}
 			for _, elem := range table.Buttons {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Buttons = append(%s.Buttons, %s)", tableIdent, tableIdent, targetIdent))
 			}
 		}
@@ -362,18 +566,18 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/lib/table/go/models"
+	"github.com/fullstack-lang/gong/lib/table/go/models"
 )
 
 var (
 	_ time.Time
 	_ = slices.Index[[]int, int]
 
-	_ *__stage_0__.Stage
+	_ *models.Stage
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stageSet *models.StageSet) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
@@ -439,6 +643,19 @@ func (stageSet *StageSet) ParseAstString(blob string, preserveOrder bool) error 
 func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	identifierMap := make(map[string]any)
 
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/lib/table/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
 	ast.Inspect(inFile, func(n ast.Node) bool {
 		switch node := n.(type) {
 		case *ast.AssignStmt:
@@ -475,8 +692,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						return true
 					})
 
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					}
+
 					switch pkgAlias {
-			case "__stage_0__":
+			case "models":
 				switch typeName {
 				case "Button":
 					if !preserveOrder {
@@ -733,7 +954,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Cell); ok {
+									if typedTarget, ok := target.(*Cell); ok {
 										inst.Cells = append(inst.Cells, typedTarget)
 									}
 								}
@@ -757,7 +978,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DisplayedColumn); ok {
+									if typedTarget, ok := target.(*DisplayedColumn); ok {
 										inst.DisplayedColumns = append(inst.DisplayedColumns, typedTarget)
 									}
 								}
@@ -767,7 +988,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Row); ok {
+									if typedTarget, ok := target.(*Row); ok {
 										inst.Rows = append(inst.Rows, typedTarget)
 									}
 								}
@@ -793,7 +1014,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Row); ok {
+									if typedTarget, ok := target.(*Row); ok {
 										inst.RowsSelectedForBulkDelete = append(inst.RowsSelectedForBulkDelete, typedTarget)
 									}
 								}
@@ -811,7 +1032,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Button); ok {
+									if typedTarget, ok := target.(*Button); ok {
 										inst.Buttons = append(inst.Buttons, typedTarget)
 									}
 								}

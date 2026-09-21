@@ -128,6 +128,12 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	var declarations strings.Builder
 	var values strings.Builder
 	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
 		filetodownloadOrdered := []*FileToDownload{}
@@ -138,8 +144,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.FileToDownload_stagedOrder[filetodownloadOrdered[i]] < stageSet.Stage.FileToDownload_stagedOrder[filetodownloadOrdered[j]]
 		})
 		for _, filetodownload := range filetodownloadOrdered {
-			filetodownloadIdent := "__stage_0" + filetodownload.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.FileToDownload{Name: %s}).Stage(stageSet.Stage)", filetodownloadIdent, __gong__toRawStringLiteral(filetodownload.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			filetodownloadIdent := "__models" + filetodownload.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FileToDownload{Name: %s}).Stage(stageSet.Stage)", filetodownloadIdent, __gong__toRawStringLiteral(filetodownload.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", filetodownloadIdent, __gong__toRawStringLiteral(filetodownload.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Base64EncodedContent = %s", filetodownloadIdent, __gong__toRawStringLiteral(filetodownload.Base64EncodedContent)))
 		}
@@ -153,8 +171,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.FileToUpload_stagedOrder[filetouploadOrdered[i]] < stageSet.Stage.FileToUpload_stagedOrder[filetouploadOrdered[j]]
 		})
 		for _, filetoupload := range filetouploadOrdered {
-			filetouploadIdent := "__stage_0" + filetoupload.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.FileToUpload{Name: %s}).Stage(stageSet.Stage)", filetouploadIdent, __gong__toRawStringLiteral(filetoupload.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			filetouploadIdent := "__models" + filetoupload.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FileToUpload{Name: %s}).Stage(stageSet.Stage)", filetouploadIdent, __gong__toRawStringLiteral(filetoupload.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", filetouploadIdent, __gong__toRawStringLiteral(filetoupload.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Base64EncodedContent = %s", filetouploadIdent, __gong__toRawStringLiteral(filetoupload.Base64EncodedContent)))
 		}
@@ -168,8 +198,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Message_stagedOrder[messageOrdered[i]] < stageSet.Stage.Message_stagedOrder[messageOrdered[j]]
 		})
 		for _, message := range messageOrdered {
-			messageIdent := "__stage_0" + message.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Message{Name: %s}).Stage(stageSet.Stage)", messageIdent, __gong__toRawStringLiteral(message.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			messageIdent := "__models" + message.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Message{Name: %s}).Stage(stageSet.Stage)", messageIdent, __gong__toRawStringLiteral(message.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", messageIdent, __gong__toRawStringLiteral(message.Name)))
 		}
 	}
@@ -182,18 +224,18 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/lib/load/go/models"
+	"github.com/fullstack-lang/gong/lib/load/go/models"
 )
 
 var (
 	_ time.Time
 	_ = slices.Index[[]int, int]
 
-	_ *__stage_0__.Stage
+	_ *models.Stage
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stageSet *models.StageSet) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
@@ -259,6 +301,19 @@ func (stageSet *StageSet) ParseAstString(blob string, preserveOrder bool) error 
 func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	identifierMap := make(map[string]any)
 
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/lib/load/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
 	ast.Inspect(inFile, func(n ast.Node) bool {
 		switch node := n.(type) {
 		case *ast.AssignStmt:
@@ -295,8 +350,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						return true
 					})
 
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					}
+
 					switch pkgAlias {
-			case "__stage_0__":
+			case "models":
 				switch typeName {
 				case "FileToDownload":
 					if !preserveOrder {

@@ -67,16 +67,6 @@ func (probe *StageSetProbe) ux_tree() {
 	}
 	topNode.Buttons = append(topNode.Buttons, exportGoButton)
 
-	// Package node: models
-	pkgNode_Stage := &tree_models.Node{
-		Name:       "models",
-		IsExpanded: true,
-	}
-	pkgNode_Stage.OnIsExpandedChange = func(isExpanded bool) {
-		pkgNode_Stage.IsExpanded = isExpanded
-	}
-	topNode.Children = append(topNode.Children, pkgNode_Stage)
-
 	{
 		count := len(probe.stageSet.Stage.As)
 		nodeGongstruct := &tree_models.Node{
@@ -87,7 +77,19 @@ func (probe *StageSetProbe) ux_tree() {
 			IsExpanded:      true,
 			IsNodeClickable: true,
 		}
-		pkgNode_Stage.Children = append(pkgNode_Stage.Children, nodeGongstruct)
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "A " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of A",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_A_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
 
 		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
 			nodeGongstruct.IsExpanded = isExpanded
@@ -136,7 +138,19 @@ func (probe *StageSetProbe) ux_tree() {
 			IsExpanded:      true,
 			IsNodeClickable: true,
 		}
-		pkgNode_Stage.Children = append(pkgNode_Stage.Children, nodeGongstruct)
+		topNode.Children = append(topNode.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "B " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of B",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_B_Stage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
 
 		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
 			nodeGongstruct.IsExpanded = isExpanded
@@ -197,6 +211,18 @@ func (probe *StageSetProbe) ux_tree() {
 		}
 		pkgNode_XStage.Children = append(pkgNode_XStage.Children, nodeGongstruct)
 
+		addButton := &tree_models.Button{
+			Name:            "X " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of X",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_X_XStage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
 		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
 			nodeGongstruct.IsExpanded = isExpanded
 		}
@@ -256,6 +282,18 @@ func (probe *StageSetProbe) ux_tree() {
 		}
 		pkgNode_YStage.Children = append(pkgNode_YStage.Children, nodeGongstruct)
 
+		addButton := &tree_models.Button{
+			Name:            "Y " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of Y",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_Y_YStage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
 		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
 			nodeGongstruct.IsExpanded = isExpanded
 		}
@@ -271,6 +309,77 @@ func (probe *StageSetProbe) ux_tree() {
 
 		instCount := 0
 		for _inst := range probe.stageSet.YStage.Ys {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					StageSetFillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	// Package node: model
+	pkgNode_ModelStage := &tree_models.Node{
+		Name:       "model",
+		IsExpanded: true,
+	}
+	pkgNode_ModelStage.OnIsExpandedChange = func(isExpanded bool) {
+		pkgNode_ModelStage.IsExpanded = isExpanded
+	}
+	pkgNode_XStage.Children = append(pkgNode_XStage.Children, pkgNode_ModelStage)
+
+	{
+		count := len(probe.stageSet.ModelStage.SubModels)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("SubModel (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all SubModel instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		pkgNode_ModelStage.Children = append(pkgNode_ModelStage.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "SubModel " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of SubModel",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_SubModel_ModelStage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_SubModel_ModelStage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _inst := range probe.stageSet.ModelStage.SubModels {
 			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
 				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 				break

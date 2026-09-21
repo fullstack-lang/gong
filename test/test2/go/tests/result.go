@@ -5,92 +5,99 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/test/test2/go/models"
-	__stage_1__ "github.com/fullstack-lang/gong/test/test2/go/models/x"
-	__stage_2__ "github.com/fullstack-lang/gong/test/test2/go/models/y"
+	"github.com/fullstack-lang/gong/test/test2/go/models"
+	"github.com/fullstack-lang/gong/test/test2/go/models/x"
+	"github.com/fullstack-lang/gong/test/test2/go/models/y"
+	model "github.com/fullstack-lang/gong/test/test2/go/models/x/models"
 )
 
 var (
 	_ time.Time
 	_ = slices.Index[[]int, int]
 
-	_ *__stage_0__.Stage
-	_ *__stage_1__.Stage
-	_ *__stage_2__.Stage
+	_ *models.Stage
+	_ *x.Stage
+	_ *y.Stage
+	_ *model.Stage
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stageSet *models.StageSet) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
-	__stage_2__Y__00000000_ := (&__stage_2__.Y{Name: `Y_Paris`}).Stage(stageSet.YStage)
-	__stage_2__Y__00000001_ := (&__stage_2__.Y{Name: `Y_Tokyo`}).Stage(stageSet.YStage)
-	__stage_2__Y__00000002_ := (&__stage_2__.Y{Name: `Y_NewYork`}).Stage(stageSet.YStage)
-	__stage_1__X__00000000_ := (&__stage_1__.X{Name: `X_Alpha`}).Stage(stageSet.XStage)
-	__stage_1__X__00000001_ := (&__stage_1__.X{Name: `X_Beta`}).Stage(stageSet.XStage)
-	__stage_1__X__00000002_ := (&__stage_1__.X{Name: `X_Gamma`}).Stage(stageSet.XStage)
-	__stage_1__X__00000003_ := (&__stage_1__.X{Name: `X_Delta`}).Stage(stageSet.XStage)
-	__stage_0__A__00000000_ := (&__stage_0__.A{Name: `A_System1`}).Stage(stageSet.Stage)
-	__stage_0__A__00000001_ := (&__stage_0__.A{Name: `A_System2`}).Stage(stageSet.Stage)
-	__stage_0__A__00000002_ := (&__stage_0__.A{Name: `A_System3`}).Stage(stageSet.Stage)
-	__stage_0__A__00000003_ := (&__stage_0__.A{Name: `A_System4_NoX`}).Stage(stageSet.Stage)
-	__stage_0__B__00000000_ := (&__stage_0__.B{Name: `B_Component1`}).Stage(stageSet.Stage)
-	__stage_0__B__00000001_ := (&__stage_0__.B{Name: `B_Component2`}).Stage(stageSet.Stage)
-	__stage_0__B__00000002_ := (&__stage_0__.B{Name: `B_Component3`}).Stage(stageSet.Stage)
+	__y__Y__00000000_ := (&y.Y{Name: `Y_Paris`}).Stage(stageSet.YStage)
+	__y__Y__00000001_ := (&y.Y{Name: `Y_Tokyo`}).Stage(stageSet.YStage)
+	__y__Y__00000002_ := (&y.Y{Name: `Y_NewYork`}).Stage(stageSet.YStage)
+
+	__x__X__00000000_ := (&x.X{Name: `X_Alpha`}).Stage(stageSet.XStage)
+	__x__X__00000001_ := (&x.X{Name: `X_Beta`}).Stage(stageSet.XStage)
+	__x__X__00000002_ := (&x.X{Name: `X_Gamma`}).Stage(stageSet.XStage)
+	__x__X__00000003_ := (&x.X{Name: `X_Delta`}).Stage(stageSet.XStage)
+
+	__models__A__00000000_ := (&models.A{Name: `A_System1`}).Stage(stageSet.Stage)
+	__models__A__00000001_ := (&models.A{Name: `A_System2`}).Stage(stageSet.Stage)
+	__models__A__00000002_ := (&models.A{Name: `A_System3`}).Stage(stageSet.Stage)
+	__models__A__00000003_ := (&models.A{Name: `A_System4_NoX`}).Stage(stageSet.Stage)
+	__models__B__00000000_ := (&models.B{Name: `B_Component1`}).Stage(stageSet.Stage)
+	__models__B__00000001_ := (&models.B{Name: `B_Component2`}).Stage(stageSet.Stage)
+	__models__B__00000002_ := (&models.B{Name: `B_Component3`}).Stage(stageSet.Stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations
 	// ------------------------------------------------------------------------
-	__stage_2__Y__00000000_.Name = `Y_Paris`
-	__stage_2__Y__00000001_.Name = `Y_Tokyo`
-	__stage_2__Y__00000002_.Name = `Y_NewYork`
-	__stage_1__X__00000000_.Name = `X_Alpha`
-	__stage_1__X__00000001_.Name = `X_Beta`
-	__stage_1__X__00000002_.Name = `X_Gamma`
-	__stage_1__X__00000003_.Name = `X_Delta`
-	__stage_0__A__00000000_.Name = `A_System1`
-	__stage_0__A__00000000_.NumberField = 100
-	__stage_0__A__00000000_.Foo = 10
-	__stage_0__A__00000000_.Bar = 3.140000
-	__stage_0__A__00000000_.Zorgh = `First A instance`
-	__stage_0__A__00000001_.Name = `A_System2`
-	__stage_0__A__00000001_.NumberField = 200
-	__stage_0__A__00000001_.Foo = 20
-	__stage_0__A__00000001_.Bar = 6.280000
-	__stage_0__A__00000001_.Zorgh = `Second A instance`
-	__stage_0__A__00000002_.Name = `A_System3`
-	__stage_0__A__00000002_.NumberField = 300
-	__stage_0__A__00000002_.Foo = 30
-	__stage_0__A__00000002_.Bar = 9.420000
-	__stage_0__A__00000002_.Zorgh = `Third A instance`
-	__stage_0__A__00000003_.Name = `A_System4_NoX`
-	__stage_0__A__00000003_.NumberField = 400
-	__stage_0__A__00000003_.Foo = 40
-	__stage_0__A__00000003_.Bar = 0.000000
-	__stage_0__A__00000003_.Zorgh = `Fourth A instance without X`
-	__stage_0__B__00000000_.Name = `B_Component1`
-	__stage_0__B__00000001_.Name = `B_Component2`
-	__stage_0__B__00000002_.Name = `B_Component3`
+	__y__Y__00000000_.Name = `Y_Paris`
+	__y__Y__00000001_.Name = `Y_Tokyo`
+	__y__Y__00000002_.Name = `Y_NewYork`
+
+	__x__X__00000000_.Name = `X_Alpha`
+	__x__X__00000001_.Name = `X_Beta`
+	__x__X__00000002_.Name = `X_Gamma`
+	__x__X__00000003_.Name = `X_Delta`
+
+	__models__A__00000000_.Name = `A_System1`
+	__models__A__00000000_.NumberField = 100
+	__models__A__00000000_.Foo = 10
+	__models__A__00000000_.Bar = 3.140000
+	__models__A__00000000_.Zorgh = `First A instance`
+	__models__A__00000001_.Name = `A_System2`
+	__models__A__00000001_.NumberField = 200
+	__models__A__00000001_.Foo = 20
+	__models__A__00000001_.Bar = 6.280000
+	__models__A__00000001_.Zorgh = `Second A instance`
+	__models__A__00000002_.Name = `A_System3`
+	__models__A__00000002_.NumberField = 300
+	__models__A__00000002_.Foo = 30
+	__models__A__00000002_.Bar = 9.420000
+	__models__A__00000002_.Zorgh = `Third A instance`
+	__models__A__00000003_.Name = `A_System4_NoX`
+	__models__A__00000003_.NumberField = 400
+	__models__A__00000003_.Foo = 40
+	__models__A__00000003_.Bar = 0.000000
+	__models__A__00000003_.Zorgh = `Fourth A instance without X`
+	__models__B__00000000_.Name = `B_Component1`
+	__models__B__00000001_.Name = `B_Component2`
+	__models__B__00000002_.Name = `B_Component3`
 
 	// ------------------------------------------------------------------------
 	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
 	// ------------------------------------------------------------------------
-	__stage_1__X__00000000_.Y = __stage_2__Y__00000000_
-	__stage_1__X__00000001_.Y = __stage_2__Y__00000001_
-	__stage_1__X__00000002_.Y = __stage_2__Y__00000000_
-	__stage_0__A__00000000_.B = __stage_0__B__00000000_
-	__stage_0__A__00000000_.Bs = append(__stage_0__A__00000000_.Bs, __stage_0__B__00000000_)
-	__stage_0__A__00000000_.Bs = append(__stage_0__A__00000000_.Bs, __stage_0__B__00000001_)
-	__stage_0__A__00000000_.X = __stage_1__X__00000000_
-	__stage_0__A__00000001_.B = __stage_0__B__00000001_
-	__stage_0__A__00000001_.Bs = append(__stage_0__A__00000001_.Bs, __stage_0__B__00000001_)
-	__stage_0__A__00000001_.Bs = append(__stage_0__A__00000001_.Bs, __stage_0__B__00000002_)
-	__stage_0__A__00000001_.X = __stage_1__X__00000001_
-	__stage_0__A__00000002_.Bs = append(__stage_0__A__00000002_.Bs, __stage_0__B__00000000_)
-	__stage_0__A__00000002_.Bs = append(__stage_0__A__00000002_.Bs, __stage_0__B__00000002_)
-	__stage_0__A__00000002_.X = __stage_1__X__00000002_
-	__stage_0__A__00000003_.B = __stage_0__B__00000002_
+	__x__X__00000000_.Y = __y__Y__00000000_
+	__x__X__00000001_.Y = __y__Y__00000001_
+	__x__X__00000002_.Y = __y__Y__00000000_
+
+	__models__A__00000000_.B = __models__B__00000000_
+	__models__A__00000000_.Bs = append(__models__A__00000000_.Bs, __models__B__00000000_)
+	__models__A__00000000_.Bs = append(__models__A__00000000_.Bs, __models__B__00000001_)
+	__models__A__00000000_.X = __x__X__00000000_
+	__models__A__00000001_.B = __models__B__00000001_
+	__models__A__00000001_.Bs = append(__models__A__00000001_.Bs, __models__B__00000001_)
+	__models__A__00000001_.Bs = append(__models__A__00000001_.Bs, __models__B__00000002_)
+	__models__A__00000001_.X = __x__X__00000001_
+	__models__A__00000002_.Bs = append(__models__A__00000002_.Bs, __models__B__00000000_)
+	__models__A__00000002_.Bs = append(__models__A__00000002_.Bs, __models__B__00000002_)
+	__models__A__00000002_.X = __x__X__00000002_
+	__models__A__00000003_.B = __models__B__00000002_
 }
 

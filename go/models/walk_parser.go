@@ -258,7 +258,9 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 								gongstruct := (&GongStruct{
 									Name:                    typeSpec.Name.Name,
 									IsIgnoredForFront:       isFileFrontIgnored,
-									IsOmittedForMarshalling: hasOmitStatement}).
+									IsOmittedForMarshalling: hasOmitStatement,
+									ModelPkg:                modelPkg,
+								}).
 									Stage(modelPkg.GetStage())
 								modelPkg.GongStructs[modelPkg.PkgPath+"."+typeSpec.Name.Name] = gongstruct
 							}

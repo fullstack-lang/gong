@@ -128,6 +128,12 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	var declarations strings.Builder
 	var values strings.Builder
 	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
 		alternative_idOrdered := []*ALTERNATIVE_ID{}
@@ -138,8 +144,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ALTERNATIVE_ID_stagedOrder[alternative_idOrdered[i]] < stageSet.Stage.ALTERNATIVE_ID_stagedOrder[alternative_idOrdered[j]]
 		})
 		for _, alternative_id := range alternative_idOrdered {
-			alternative_idIdent := "__stage_0" + alternative_id.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ALTERNATIVE_ID{Name: %s}).Stage(stageSet.Stage)", alternative_idIdent, __gong__toRawStringLiteral(alternative_id.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			alternative_idIdent := "__models" + alternative_id.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ALTERNATIVE_ID{Name: %s}).Stage(stageSet.Stage)", alternative_idIdent, __gong__toRawStringLiteral(alternative_id.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", alternative_idIdent, __gong__toRawStringLiteral(alternative_id.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", alternative_idIdent, __gong__toRawStringLiteral(alternative_id.IDENTIFIER)))
 		}
@@ -153,8 +171,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder[attribute_definition_booleanOrdered[i]] < stageSet.Stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder[attribute_definition_booleanOrdered[j]]
 		})
 		for _, attribute_definition_boolean := range attribute_definition_booleanOrdered {
-			attribute_definition_booleanIdent := "__stage_0" + attribute_definition_boolean.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ATTRIBUTE_DEFINITION_BOOLEAN{Name: %s}).Stage(stageSet.Stage)", attribute_definition_booleanIdent, __gong__toRawStringLiteral(attribute_definition_boolean.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attribute_definition_booleanIdent := "__models" + attribute_definition_boolean.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ATTRIBUTE_DEFINITION_BOOLEAN{Name: %s}).Stage(stageSet.Stage)", attribute_definition_booleanIdent, __gong__toRawStringLiteral(attribute_definition_boolean.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attribute_definition_booleanIdent, __gong__toRawStringLiteral(attribute_definition_boolean.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", attribute_definition_booleanIdent, __gong__toRawStringLiteral(attribute_definition_boolean.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", attribute_definition_booleanIdent, __gong__toRawStringLiteral(attribute_definition_boolean.IDENTIFIER)))
@@ -162,15 +192,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", attribute_definition_booleanIdent, __gong__toRawStringLiteral(attribute_definition_boolean.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", attribute_definition_booleanIdent, __gong__toRawStringLiteral(attribute_definition_boolean.LONG_NAME)))
 			if attribute_definition_boolean.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + attribute_definition_boolean.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_boolean.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", attribute_definition_booleanIdent, targetIdent))
 			}
 			if attribute_definition_boolean.DEFAULT_VALUE != nil {
-				targetIdent := "__stage_0" + attribute_definition_boolean.DEFAULT_VALUE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_boolean.DEFAULT_VALUE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFAULT_VALUE = %s", attribute_definition_booleanIdent, targetIdent))
 			}
 			if attribute_definition_boolean.TYPE != nil {
-				targetIdent := "__stage_0" + attribute_definition_boolean.TYPE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_boolean.TYPE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", attribute_definition_booleanIdent, targetIdent))
 			}
 		}
@@ -184,8 +232,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder[attribute_definition_dateOrdered[i]] < stageSet.Stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder[attribute_definition_dateOrdered[j]]
 		})
 		for _, attribute_definition_date := range attribute_definition_dateOrdered {
-			attribute_definition_dateIdent := "__stage_0" + attribute_definition_date.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ATTRIBUTE_DEFINITION_DATE{Name: %s}).Stage(stageSet.Stage)", attribute_definition_dateIdent, __gong__toRawStringLiteral(attribute_definition_date.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attribute_definition_dateIdent := "__models" + attribute_definition_date.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ATTRIBUTE_DEFINITION_DATE{Name: %s}).Stage(stageSet.Stage)", attribute_definition_dateIdent, __gong__toRawStringLiteral(attribute_definition_date.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attribute_definition_dateIdent, __gong__toRawStringLiteral(attribute_definition_date.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", attribute_definition_dateIdent, __gong__toRawStringLiteral(attribute_definition_date.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", attribute_definition_dateIdent, __gong__toRawStringLiteral(attribute_definition_date.IDENTIFIER)))
@@ -193,15 +253,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", attribute_definition_dateIdent, __gong__toRawStringLiteral(attribute_definition_date.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", attribute_definition_dateIdent, __gong__toRawStringLiteral(attribute_definition_date.LONG_NAME)))
 			if attribute_definition_date.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + attribute_definition_date.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_date.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", attribute_definition_dateIdent, targetIdent))
 			}
 			if attribute_definition_date.DEFAULT_VALUE != nil {
-				targetIdent := "__stage_0" + attribute_definition_date.DEFAULT_VALUE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_date.DEFAULT_VALUE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFAULT_VALUE = %s", attribute_definition_dateIdent, targetIdent))
 			}
 			if attribute_definition_date.TYPE != nil {
-				targetIdent := "__stage_0" + attribute_definition_date.TYPE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_date.TYPE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", attribute_definition_dateIdent, targetIdent))
 			}
 		}
@@ -215,8 +293,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder[attribute_definition_enumerationOrdered[i]] < stageSet.Stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder[attribute_definition_enumerationOrdered[j]]
 		})
 		for _, attribute_definition_enumeration := range attribute_definition_enumerationOrdered {
-			attribute_definition_enumerationIdent := "__stage_0" + attribute_definition_enumeration.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ATTRIBUTE_DEFINITION_ENUMERATION{Name: %s}).Stage(stageSet.Stage)", attribute_definition_enumerationIdent, __gong__toRawStringLiteral(attribute_definition_enumeration.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attribute_definition_enumerationIdent := "__models" + attribute_definition_enumeration.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ATTRIBUTE_DEFINITION_ENUMERATION{Name: %s}).Stage(stageSet.Stage)", attribute_definition_enumerationIdent, __gong__toRawStringLiteral(attribute_definition_enumeration.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attribute_definition_enumerationIdent, __gong__toRawStringLiteral(attribute_definition_enumeration.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", attribute_definition_enumerationIdent, __gong__toRawStringLiteral(attribute_definition_enumeration.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", attribute_definition_enumerationIdent, __gong__toRawStringLiteral(attribute_definition_enumeration.IDENTIFIER)))
@@ -225,15 +315,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", attribute_definition_enumerationIdent, __gong__toRawStringLiteral(attribute_definition_enumeration.LONG_NAME)))
 			values.WriteString(fmt.Sprintf("\n\t%s.MULTI_VALUED = %t", attribute_definition_enumerationIdent, attribute_definition_enumeration.MULTI_VALUED))
 			if attribute_definition_enumeration.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + attribute_definition_enumeration.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_enumeration.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", attribute_definition_enumerationIdent, targetIdent))
 			}
 			if attribute_definition_enumeration.DEFAULT_VALUE != nil {
-				targetIdent := "__stage_0" + attribute_definition_enumeration.DEFAULT_VALUE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_enumeration.DEFAULT_VALUE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFAULT_VALUE = %s", attribute_definition_enumerationIdent, targetIdent))
 			}
 			if attribute_definition_enumeration.TYPE != nil {
-				targetIdent := "__stage_0" + attribute_definition_enumeration.TYPE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_enumeration.TYPE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", attribute_definition_enumerationIdent, targetIdent))
 			}
 		}
@@ -247,8 +355,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder[attribute_definition_integerOrdered[i]] < stageSet.Stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder[attribute_definition_integerOrdered[j]]
 		})
 		for _, attribute_definition_integer := range attribute_definition_integerOrdered {
-			attribute_definition_integerIdent := "__stage_0" + attribute_definition_integer.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ATTRIBUTE_DEFINITION_INTEGER{Name: %s}).Stage(stageSet.Stage)", attribute_definition_integerIdent, __gong__toRawStringLiteral(attribute_definition_integer.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attribute_definition_integerIdent := "__models" + attribute_definition_integer.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ATTRIBUTE_DEFINITION_INTEGER{Name: %s}).Stage(stageSet.Stage)", attribute_definition_integerIdent, __gong__toRawStringLiteral(attribute_definition_integer.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attribute_definition_integerIdent, __gong__toRawStringLiteral(attribute_definition_integer.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", attribute_definition_integerIdent, __gong__toRawStringLiteral(attribute_definition_integer.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", attribute_definition_integerIdent, __gong__toRawStringLiteral(attribute_definition_integer.IDENTIFIER)))
@@ -256,15 +376,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", attribute_definition_integerIdent, __gong__toRawStringLiteral(attribute_definition_integer.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", attribute_definition_integerIdent, __gong__toRawStringLiteral(attribute_definition_integer.LONG_NAME)))
 			if attribute_definition_integer.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + attribute_definition_integer.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_integer.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", attribute_definition_integerIdent, targetIdent))
 			}
 			if attribute_definition_integer.DEFAULT_VALUE != nil {
-				targetIdent := "__stage_0" + attribute_definition_integer.DEFAULT_VALUE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_integer.DEFAULT_VALUE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFAULT_VALUE = %s", attribute_definition_integerIdent, targetIdent))
 			}
 			if attribute_definition_integer.TYPE != nil {
-				targetIdent := "__stage_0" + attribute_definition_integer.TYPE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_integer.TYPE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", attribute_definition_integerIdent, targetIdent))
 			}
 		}
@@ -278,8 +416,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder[attribute_definition_realOrdered[i]] < stageSet.Stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder[attribute_definition_realOrdered[j]]
 		})
 		for _, attribute_definition_real := range attribute_definition_realOrdered {
-			attribute_definition_realIdent := "__stage_0" + attribute_definition_real.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ATTRIBUTE_DEFINITION_REAL{Name: %s}).Stage(stageSet.Stage)", attribute_definition_realIdent, __gong__toRawStringLiteral(attribute_definition_real.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attribute_definition_realIdent := "__models" + attribute_definition_real.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ATTRIBUTE_DEFINITION_REAL{Name: %s}).Stage(stageSet.Stage)", attribute_definition_realIdent, __gong__toRawStringLiteral(attribute_definition_real.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attribute_definition_realIdent, __gong__toRawStringLiteral(attribute_definition_real.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", attribute_definition_realIdent, __gong__toRawStringLiteral(attribute_definition_real.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", attribute_definition_realIdent, __gong__toRawStringLiteral(attribute_definition_real.IDENTIFIER)))
@@ -287,15 +437,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", attribute_definition_realIdent, __gong__toRawStringLiteral(attribute_definition_real.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", attribute_definition_realIdent, __gong__toRawStringLiteral(attribute_definition_real.LONG_NAME)))
 			if attribute_definition_real.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + attribute_definition_real.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_real.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", attribute_definition_realIdent, targetIdent))
 			}
 			if attribute_definition_real.DEFAULT_VALUE != nil {
-				targetIdent := "__stage_0" + attribute_definition_real.DEFAULT_VALUE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_real.DEFAULT_VALUE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFAULT_VALUE = %s", attribute_definition_realIdent, targetIdent))
 			}
 			if attribute_definition_real.TYPE != nil {
-				targetIdent := "__stage_0" + attribute_definition_real.TYPE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_real.TYPE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", attribute_definition_realIdent, targetIdent))
 			}
 		}
@@ -309,8 +477,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder[attribute_definition_stringOrdered[i]] < stageSet.Stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder[attribute_definition_stringOrdered[j]]
 		})
 		for _, attribute_definition_string := range attribute_definition_stringOrdered {
-			attribute_definition_stringIdent := "__stage_0" + attribute_definition_string.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ATTRIBUTE_DEFINITION_STRING{Name: %s}).Stage(stageSet.Stage)", attribute_definition_stringIdent, __gong__toRawStringLiteral(attribute_definition_string.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attribute_definition_stringIdent := "__models" + attribute_definition_string.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ATTRIBUTE_DEFINITION_STRING{Name: %s}).Stage(stageSet.Stage)", attribute_definition_stringIdent, __gong__toRawStringLiteral(attribute_definition_string.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attribute_definition_stringIdent, __gong__toRawStringLiteral(attribute_definition_string.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", attribute_definition_stringIdent, __gong__toRawStringLiteral(attribute_definition_string.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", attribute_definition_stringIdent, __gong__toRawStringLiteral(attribute_definition_string.IDENTIFIER)))
@@ -318,15 +498,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", attribute_definition_stringIdent, __gong__toRawStringLiteral(attribute_definition_string.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", attribute_definition_stringIdent, __gong__toRawStringLiteral(attribute_definition_string.LONG_NAME)))
 			if attribute_definition_string.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + attribute_definition_string.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_string.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", attribute_definition_stringIdent, targetIdent))
 			}
 			if attribute_definition_string.DEFAULT_VALUE != nil {
-				targetIdent := "__stage_0" + attribute_definition_string.DEFAULT_VALUE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_string.DEFAULT_VALUE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFAULT_VALUE = %s", attribute_definition_stringIdent, targetIdent))
 			}
 			if attribute_definition_string.TYPE != nil {
-				targetIdent := "__stage_0" + attribute_definition_string.TYPE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_string.TYPE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", attribute_definition_stringIdent, targetIdent))
 			}
 		}
@@ -340,8 +538,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder[attribute_definition_xhtmlOrdered[i]] < stageSet.Stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder[attribute_definition_xhtmlOrdered[j]]
 		})
 		for _, attribute_definition_xhtml := range attribute_definition_xhtmlOrdered {
-			attribute_definition_xhtmlIdent := "__stage_0" + attribute_definition_xhtml.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ATTRIBUTE_DEFINITION_XHTML{Name: %s}).Stage(stageSet.Stage)", attribute_definition_xhtmlIdent, __gong__toRawStringLiteral(attribute_definition_xhtml.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attribute_definition_xhtmlIdent := "__models" + attribute_definition_xhtml.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ATTRIBUTE_DEFINITION_XHTML{Name: %s}).Stage(stageSet.Stage)", attribute_definition_xhtmlIdent, __gong__toRawStringLiteral(attribute_definition_xhtml.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attribute_definition_xhtmlIdent, __gong__toRawStringLiteral(attribute_definition_xhtml.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", attribute_definition_xhtmlIdent, __gong__toRawStringLiteral(attribute_definition_xhtml.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", attribute_definition_xhtmlIdent, __gong__toRawStringLiteral(attribute_definition_xhtml.IDENTIFIER)))
@@ -349,15 +559,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", attribute_definition_xhtmlIdent, __gong__toRawStringLiteral(attribute_definition_xhtml.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", attribute_definition_xhtmlIdent, __gong__toRawStringLiteral(attribute_definition_xhtml.LONG_NAME)))
 			if attribute_definition_xhtml.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + attribute_definition_xhtml.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_xhtml.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", attribute_definition_xhtmlIdent, targetIdent))
 			}
 			if attribute_definition_xhtml.DEFAULT_VALUE != nil {
-				targetIdent := "__stage_0" + attribute_definition_xhtml.DEFAULT_VALUE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_xhtml.DEFAULT_VALUE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFAULT_VALUE = %s", attribute_definition_xhtmlIdent, targetIdent))
 			}
 			if attribute_definition_xhtml.TYPE != nil {
-				targetIdent := "__stage_0" + attribute_definition_xhtml.TYPE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_definition_xhtml.TYPE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", attribute_definition_xhtmlIdent, targetIdent))
 			}
 		}
@@ -371,12 +599,30 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[attribute_value_booleanOrdered[i]] < stageSet.Stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[attribute_value_booleanOrdered[j]]
 		})
 		for _, attribute_value_boolean := range attribute_value_booleanOrdered {
-			attribute_value_booleanIdent := "__stage_0" + attribute_value_boolean.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ATTRIBUTE_VALUE_BOOLEAN{Name: %s}).Stage(stageSet.Stage)", attribute_value_booleanIdent, __gong__toRawStringLiteral(attribute_value_boolean.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attribute_value_booleanIdent := "__models" + attribute_value_boolean.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ATTRIBUTE_VALUE_BOOLEAN{Name: %s}).Stage(stageSet.Stage)", attribute_value_booleanIdent, __gong__toRawStringLiteral(attribute_value_boolean.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attribute_value_booleanIdent, __gong__toRawStringLiteral(attribute_value_boolean.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.THE_VALUE = %t", attribute_value_booleanIdent, attribute_value_boolean.THE_VALUE))
 			if attribute_value_boolean.DEFINITION != nil {
-				targetIdent := "__stage_0" + attribute_value_boolean.DEFINITION.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_value_boolean.DEFINITION.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFINITION = %s", attribute_value_booleanIdent, targetIdent))
 			}
 		}
@@ -390,12 +636,30 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ATTRIBUTE_VALUE_DATE_stagedOrder[attribute_value_dateOrdered[i]] < stageSet.Stage.ATTRIBUTE_VALUE_DATE_stagedOrder[attribute_value_dateOrdered[j]]
 		})
 		for _, attribute_value_date := range attribute_value_dateOrdered {
-			attribute_value_dateIdent := "__stage_0" + attribute_value_date.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ATTRIBUTE_VALUE_DATE{Name: %s}).Stage(stageSet.Stage)", attribute_value_dateIdent, __gong__toRawStringLiteral(attribute_value_date.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attribute_value_dateIdent := "__models" + attribute_value_date.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ATTRIBUTE_VALUE_DATE{Name: %s}).Stage(stageSet.Stage)", attribute_value_dateIdent, __gong__toRawStringLiteral(attribute_value_date.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attribute_value_dateIdent, __gong__toRawStringLiteral(attribute_value_date.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.THE_VALUE = %s", attribute_value_dateIdent, __gong__toRawStringLiteral(attribute_value_date.THE_VALUE)))
 			if attribute_value_date.DEFINITION != nil {
-				targetIdent := "__stage_0" + attribute_value_date.DEFINITION.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_value_date.DEFINITION.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFINITION = %s", attribute_value_dateIdent, targetIdent))
 			}
 		}
@@ -409,15 +673,39 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[attribute_value_enumerationOrdered[i]] < stageSet.Stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[attribute_value_enumerationOrdered[j]]
 		})
 		for _, attribute_value_enumeration := range attribute_value_enumerationOrdered {
-			attribute_value_enumerationIdent := "__stage_0" + attribute_value_enumeration.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ATTRIBUTE_VALUE_ENUMERATION{Name: %s}).Stage(stageSet.Stage)", attribute_value_enumerationIdent, __gong__toRawStringLiteral(attribute_value_enumeration.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attribute_value_enumerationIdent := "__models" + attribute_value_enumeration.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ATTRIBUTE_VALUE_ENUMERATION{Name: %s}).Stage(stageSet.Stage)", attribute_value_enumerationIdent, __gong__toRawStringLiteral(attribute_value_enumeration.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attribute_value_enumerationIdent, __gong__toRawStringLiteral(attribute_value_enumeration.Name)))
 			if attribute_value_enumeration.DEFINITION != nil {
-				targetIdent := "__stage_0" + attribute_value_enumeration.DEFINITION.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_value_enumeration.DEFINITION.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFINITION = %s", attribute_value_enumerationIdent, targetIdent))
 			}
 			if attribute_value_enumeration.VALUES != nil {
-				targetIdent := "__stage_0" + attribute_value_enumeration.VALUES.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_value_enumeration.VALUES.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.VALUES = %s", attribute_value_enumerationIdent, targetIdent))
 			}
 		}
@@ -431,12 +719,30 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder[attribute_value_integerOrdered[i]] < stageSet.Stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder[attribute_value_integerOrdered[j]]
 		})
 		for _, attribute_value_integer := range attribute_value_integerOrdered {
-			attribute_value_integerIdent := "__stage_0" + attribute_value_integer.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ATTRIBUTE_VALUE_INTEGER{Name: %s}).Stage(stageSet.Stage)", attribute_value_integerIdent, __gong__toRawStringLiteral(attribute_value_integer.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attribute_value_integerIdent := "__models" + attribute_value_integer.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ATTRIBUTE_VALUE_INTEGER{Name: %s}).Stage(stageSet.Stage)", attribute_value_integerIdent, __gong__toRawStringLiteral(attribute_value_integer.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attribute_value_integerIdent, __gong__toRawStringLiteral(attribute_value_integer.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.THE_VALUE = %d", attribute_value_integerIdent, attribute_value_integer.THE_VALUE))
 			if attribute_value_integer.DEFINITION != nil {
-				targetIdent := "__stage_0" + attribute_value_integer.DEFINITION.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_value_integer.DEFINITION.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFINITION = %s", attribute_value_integerIdent, targetIdent))
 			}
 		}
@@ -450,12 +756,30 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ATTRIBUTE_VALUE_REAL_stagedOrder[attribute_value_realOrdered[i]] < stageSet.Stage.ATTRIBUTE_VALUE_REAL_stagedOrder[attribute_value_realOrdered[j]]
 		})
 		for _, attribute_value_real := range attribute_value_realOrdered {
-			attribute_value_realIdent := "__stage_0" + attribute_value_real.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ATTRIBUTE_VALUE_REAL{Name: %s}).Stage(stageSet.Stage)", attribute_value_realIdent, __gong__toRawStringLiteral(attribute_value_real.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attribute_value_realIdent := "__models" + attribute_value_real.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ATTRIBUTE_VALUE_REAL{Name: %s}).Stage(stageSet.Stage)", attribute_value_realIdent, __gong__toRawStringLiteral(attribute_value_real.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attribute_value_realIdent, __gong__toRawStringLiteral(attribute_value_real.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.THE_VALUE = %f", attribute_value_realIdent, attribute_value_real.THE_VALUE))
 			if attribute_value_real.DEFINITION != nil {
-				targetIdent := "__stage_0" + attribute_value_real.DEFINITION.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_value_real.DEFINITION.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFINITION = %s", attribute_value_realIdent, targetIdent))
 			}
 		}
@@ -469,12 +793,30 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ATTRIBUTE_VALUE_STRING_stagedOrder[attribute_value_stringOrdered[i]] < stageSet.Stage.ATTRIBUTE_VALUE_STRING_stagedOrder[attribute_value_stringOrdered[j]]
 		})
 		for _, attribute_value_string := range attribute_value_stringOrdered {
-			attribute_value_stringIdent := "__stage_0" + attribute_value_string.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ATTRIBUTE_VALUE_STRING{Name: %s}).Stage(stageSet.Stage)", attribute_value_stringIdent, __gong__toRawStringLiteral(attribute_value_string.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attribute_value_stringIdent := "__models" + attribute_value_string.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ATTRIBUTE_VALUE_STRING{Name: %s}).Stage(stageSet.Stage)", attribute_value_stringIdent, __gong__toRawStringLiteral(attribute_value_string.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attribute_value_stringIdent, __gong__toRawStringLiteral(attribute_value_string.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.THE_VALUE = %s", attribute_value_stringIdent, __gong__toRawStringLiteral(attribute_value_string.THE_VALUE)))
 			if attribute_value_string.DEFINITION != nil {
-				targetIdent := "__stage_0" + attribute_value_string.DEFINITION.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_value_string.DEFINITION.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFINITION = %s", attribute_value_stringIdent, targetIdent))
 			}
 		}
@@ -488,20 +830,50 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ATTRIBUTE_VALUE_XHTML_stagedOrder[attribute_value_xhtmlOrdered[i]] < stageSet.Stage.ATTRIBUTE_VALUE_XHTML_stagedOrder[attribute_value_xhtmlOrdered[j]]
 		})
 		for _, attribute_value_xhtml := range attribute_value_xhtmlOrdered {
-			attribute_value_xhtmlIdent := "__stage_0" + attribute_value_xhtml.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ATTRIBUTE_VALUE_XHTML{Name: %s}).Stage(stageSet.Stage)", attribute_value_xhtmlIdent, __gong__toRawStringLiteral(attribute_value_xhtml.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attribute_value_xhtmlIdent := "__models" + attribute_value_xhtml.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ATTRIBUTE_VALUE_XHTML{Name: %s}).Stage(stageSet.Stage)", attribute_value_xhtmlIdent, __gong__toRawStringLiteral(attribute_value_xhtml.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attribute_value_xhtmlIdent, __gong__toRawStringLiteral(attribute_value_xhtml.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IS_SIMPLIFIED = %t", attribute_value_xhtmlIdent, attribute_value_xhtml.IS_SIMPLIFIED))
 			if attribute_value_xhtml.THE_VALUE != nil {
-				targetIdent := "__stage_0" + attribute_value_xhtml.THE_VALUE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_value_xhtml.THE_VALUE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.THE_VALUE = %s", attribute_value_xhtmlIdent, targetIdent))
 			}
 			if attribute_value_xhtml.THE_ORIGINAL_VALUE != nil {
-				targetIdent := "__stage_0" + attribute_value_xhtml.THE_ORIGINAL_VALUE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_value_xhtml.THE_ORIGINAL_VALUE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.THE_ORIGINAL_VALUE = %s", attribute_value_xhtmlIdent, targetIdent))
 			}
 			if attribute_value_xhtml.DEFINITION != nil {
-				targetIdent := "__stage_0" + attribute_value_xhtml.DEFINITION.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + attribute_value_xhtml.DEFINITION.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFINITION = %s", attribute_value_xhtmlIdent, targetIdent))
 			}
 		}
@@ -515,11 +887,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ALTERNATIVE_ID_stagedOrder[a_alternative_idOrdered[i]] < stageSet.Stage.A_ALTERNATIVE_ID_stagedOrder[a_alternative_idOrdered[j]]
 		})
 		for _, a_alternative_id := range a_alternative_idOrdered {
-			a_alternative_idIdent := "__stage_0" + a_alternative_id.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ALTERNATIVE_ID{Name: %s}).Stage(stageSet.Stage)", a_alternative_idIdent, __gong__toRawStringLiteral(a_alternative_id.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_alternative_idIdent := "__models" + a_alternative_id.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ALTERNATIVE_ID{Name: %s}).Stage(stageSet.Stage)", a_alternative_idIdent, __gong__toRawStringLiteral(a_alternative_id.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_alternative_idIdent, __gong__toRawStringLiteral(a_alternative_id.Name)))
 			if a_alternative_id.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + a_alternative_id.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + a_alternative_id.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", a_alternative_idIdent, targetIdent))
 			}
 		}
@@ -533,8 +923,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder[a_attribute_definition_boolean_refOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder[a_attribute_definition_boolean_refOrdered[j]]
 		})
 		for _, a_attribute_definition_boolean_ref := range a_attribute_definition_boolean_refOrdered {
-			a_attribute_definition_boolean_refIdent := "__stage_0" + a_attribute_definition_boolean_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF{Name: %s}).Stage(stageSet.Stage)", a_attribute_definition_boolean_refIdent, __gong__toRawStringLiteral(a_attribute_definition_boolean_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_definition_boolean_refIdent := "__models" + a_attribute_definition_boolean_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF{Name: %s}).Stage(stageSet.Stage)", a_attribute_definition_boolean_refIdent, __gong__toRawStringLiteral(a_attribute_definition_boolean_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_definition_boolean_refIdent, __gong__toRawStringLiteral(a_attribute_definition_boolean_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_BOOLEAN_REF = %s", a_attribute_definition_boolean_refIdent, __gong__toRawStringLiteral(a_attribute_definition_boolean_ref.ATTRIBUTE_DEFINITION_BOOLEAN_REF)))
 		}
@@ -548,8 +950,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder[a_attribute_definition_date_refOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder[a_attribute_definition_date_refOrdered[j]]
 		})
 		for _, a_attribute_definition_date_ref := range a_attribute_definition_date_refOrdered {
-			a_attribute_definition_date_refIdent := "__stage_0" + a_attribute_definition_date_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_DEFINITION_DATE_REF{Name: %s}).Stage(stageSet.Stage)", a_attribute_definition_date_refIdent, __gong__toRawStringLiteral(a_attribute_definition_date_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_definition_date_refIdent := "__models" + a_attribute_definition_date_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_DEFINITION_DATE_REF{Name: %s}).Stage(stageSet.Stage)", a_attribute_definition_date_refIdent, __gong__toRawStringLiteral(a_attribute_definition_date_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_definition_date_refIdent, __gong__toRawStringLiteral(a_attribute_definition_date_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_DATE_REF = %s", a_attribute_definition_date_refIdent, __gong__toRawStringLiteral(a_attribute_definition_date_ref.ATTRIBUTE_DEFINITION_DATE_REF)))
 		}
@@ -563,8 +977,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder[a_attribute_definition_enumeration_refOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder[a_attribute_definition_enumeration_refOrdered[j]]
 		})
 		for _, a_attribute_definition_enumeration_ref := range a_attribute_definition_enumeration_refOrdered {
-			a_attribute_definition_enumeration_refIdent := "__stage_0" + a_attribute_definition_enumeration_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF{Name: %s}).Stage(stageSet.Stage)", a_attribute_definition_enumeration_refIdent, __gong__toRawStringLiteral(a_attribute_definition_enumeration_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_definition_enumeration_refIdent := "__models" + a_attribute_definition_enumeration_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF{Name: %s}).Stage(stageSet.Stage)", a_attribute_definition_enumeration_refIdent, __gong__toRawStringLiteral(a_attribute_definition_enumeration_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_definition_enumeration_refIdent, __gong__toRawStringLiteral(a_attribute_definition_enumeration_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_ENUMERATION_REF = %s", a_attribute_definition_enumeration_refIdent, __gong__toRawStringLiteral(a_attribute_definition_enumeration_ref.ATTRIBUTE_DEFINITION_ENUMERATION_REF)))
 		}
@@ -578,8 +1004,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder[a_attribute_definition_integer_refOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder[a_attribute_definition_integer_refOrdered[j]]
 		})
 		for _, a_attribute_definition_integer_ref := range a_attribute_definition_integer_refOrdered {
-			a_attribute_definition_integer_refIdent := "__stage_0" + a_attribute_definition_integer_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_DEFINITION_INTEGER_REF{Name: %s}).Stage(stageSet.Stage)", a_attribute_definition_integer_refIdent, __gong__toRawStringLiteral(a_attribute_definition_integer_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_definition_integer_refIdent := "__models" + a_attribute_definition_integer_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_DEFINITION_INTEGER_REF{Name: %s}).Stage(stageSet.Stage)", a_attribute_definition_integer_refIdent, __gong__toRawStringLiteral(a_attribute_definition_integer_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_definition_integer_refIdent, __gong__toRawStringLiteral(a_attribute_definition_integer_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_INTEGER_REF = %s", a_attribute_definition_integer_refIdent, __gong__toRawStringLiteral(a_attribute_definition_integer_ref.ATTRIBUTE_DEFINITION_INTEGER_REF)))
 		}
@@ -593,8 +1031,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder[a_attribute_definition_real_refOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder[a_attribute_definition_real_refOrdered[j]]
 		})
 		for _, a_attribute_definition_real_ref := range a_attribute_definition_real_refOrdered {
-			a_attribute_definition_real_refIdent := "__stage_0" + a_attribute_definition_real_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_DEFINITION_REAL_REF{Name: %s}).Stage(stageSet.Stage)", a_attribute_definition_real_refIdent, __gong__toRawStringLiteral(a_attribute_definition_real_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_definition_real_refIdent := "__models" + a_attribute_definition_real_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_DEFINITION_REAL_REF{Name: %s}).Stage(stageSet.Stage)", a_attribute_definition_real_refIdent, __gong__toRawStringLiteral(a_attribute_definition_real_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_definition_real_refIdent, __gong__toRawStringLiteral(a_attribute_definition_real_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_REAL_REF = %s", a_attribute_definition_real_refIdent, __gong__toRawStringLiteral(a_attribute_definition_real_ref.ATTRIBUTE_DEFINITION_REAL_REF)))
 		}
@@ -608,8 +1058,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder[a_attribute_definition_string_refOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder[a_attribute_definition_string_refOrdered[j]]
 		})
 		for _, a_attribute_definition_string_ref := range a_attribute_definition_string_refOrdered {
-			a_attribute_definition_string_refIdent := "__stage_0" + a_attribute_definition_string_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_DEFINITION_STRING_REF{Name: %s}).Stage(stageSet.Stage)", a_attribute_definition_string_refIdent, __gong__toRawStringLiteral(a_attribute_definition_string_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_definition_string_refIdent := "__models" + a_attribute_definition_string_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_DEFINITION_STRING_REF{Name: %s}).Stage(stageSet.Stage)", a_attribute_definition_string_refIdent, __gong__toRawStringLiteral(a_attribute_definition_string_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_definition_string_refIdent, __gong__toRawStringLiteral(a_attribute_definition_string_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_STRING_REF = %s", a_attribute_definition_string_refIdent, __gong__toRawStringLiteral(a_attribute_definition_string_ref.ATTRIBUTE_DEFINITION_STRING_REF)))
 		}
@@ -623,8 +1085,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder[a_attribute_definition_xhtml_refOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder[a_attribute_definition_xhtml_refOrdered[j]]
 		})
 		for _, a_attribute_definition_xhtml_ref := range a_attribute_definition_xhtml_refOrdered {
-			a_attribute_definition_xhtml_refIdent := "__stage_0" + a_attribute_definition_xhtml_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_DEFINITION_XHTML_REF{Name: %s}).Stage(stageSet.Stage)", a_attribute_definition_xhtml_refIdent, __gong__toRawStringLiteral(a_attribute_definition_xhtml_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_definition_xhtml_refIdent := "__models" + a_attribute_definition_xhtml_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_DEFINITION_XHTML_REF{Name: %s}).Stage(stageSet.Stage)", a_attribute_definition_xhtml_refIdent, __gong__toRawStringLiteral(a_attribute_definition_xhtml_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_definition_xhtml_refIdent, __gong__toRawStringLiteral(a_attribute_definition_xhtml_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_XHTML_REF = %s", a_attribute_definition_xhtml_refIdent, __gong__toRawStringLiteral(a_attribute_definition_xhtml_ref.ATTRIBUTE_DEFINITION_XHTML_REF)))
 		}
@@ -638,11 +1112,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[a_attribute_value_booleanOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[a_attribute_value_booleanOrdered[j]]
 		})
 		for _, a_attribute_value_boolean := range a_attribute_value_booleanOrdered {
-			a_attribute_value_booleanIdent := "__stage_0" + a_attribute_value_boolean.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_VALUE_BOOLEAN{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_booleanIdent, __gong__toRawStringLiteral(a_attribute_value_boolean.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_value_booleanIdent := "__models" + a_attribute_value_boolean.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_VALUE_BOOLEAN{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_booleanIdent, __gong__toRawStringLiteral(a_attribute_value_boolean.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_value_booleanIdent, __gong__toRawStringLiteral(a_attribute_value_boolean.Name)))
 			for _, elem := range a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_VALUE_BOOLEAN = append(%s.ATTRIBUTE_VALUE_BOOLEAN, %s)", a_attribute_value_booleanIdent, a_attribute_value_booleanIdent, targetIdent))
 			}
 		}
@@ -656,11 +1148,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder[a_attribute_value_dateOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder[a_attribute_value_dateOrdered[j]]
 		})
 		for _, a_attribute_value_date := range a_attribute_value_dateOrdered {
-			a_attribute_value_dateIdent := "__stage_0" + a_attribute_value_date.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_VALUE_DATE{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_dateIdent, __gong__toRawStringLiteral(a_attribute_value_date.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_value_dateIdent := "__models" + a_attribute_value_date.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_VALUE_DATE{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_dateIdent, __gong__toRawStringLiteral(a_attribute_value_date.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_value_dateIdent, __gong__toRawStringLiteral(a_attribute_value_date.Name)))
 			for _, elem := range a_attribute_value_date.ATTRIBUTE_VALUE_DATE {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_VALUE_DATE = append(%s.ATTRIBUTE_VALUE_DATE, %s)", a_attribute_value_dateIdent, a_attribute_value_dateIdent, targetIdent))
 			}
 		}
@@ -674,11 +1184,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[a_attribute_value_enumerationOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[a_attribute_value_enumerationOrdered[j]]
 		})
 		for _, a_attribute_value_enumeration := range a_attribute_value_enumerationOrdered {
-			a_attribute_value_enumerationIdent := "__stage_0" + a_attribute_value_enumeration.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_VALUE_ENUMERATION{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_enumerationIdent, __gong__toRawStringLiteral(a_attribute_value_enumeration.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_value_enumerationIdent := "__models" + a_attribute_value_enumeration.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_VALUE_ENUMERATION{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_enumerationIdent, __gong__toRawStringLiteral(a_attribute_value_enumeration.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_value_enumerationIdent, __gong__toRawStringLiteral(a_attribute_value_enumeration.Name)))
 			for _, elem := range a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_VALUE_ENUMERATION = append(%s.ATTRIBUTE_VALUE_ENUMERATION, %s)", a_attribute_value_enumerationIdent, a_attribute_value_enumerationIdent, targetIdent))
 			}
 		}
@@ -692,11 +1220,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder[a_attribute_value_integerOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder[a_attribute_value_integerOrdered[j]]
 		})
 		for _, a_attribute_value_integer := range a_attribute_value_integerOrdered {
-			a_attribute_value_integerIdent := "__stage_0" + a_attribute_value_integer.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_VALUE_INTEGER{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_integerIdent, __gong__toRawStringLiteral(a_attribute_value_integer.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_value_integerIdent := "__models" + a_attribute_value_integer.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_VALUE_INTEGER{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_integerIdent, __gong__toRawStringLiteral(a_attribute_value_integer.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_value_integerIdent, __gong__toRawStringLiteral(a_attribute_value_integer.Name)))
 			for _, elem := range a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_VALUE_INTEGER = append(%s.ATTRIBUTE_VALUE_INTEGER, %s)", a_attribute_value_integerIdent, a_attribute_value_integerIdent, targetIdent))
 			}
 		}
@@ -710,11 +1256,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder[a_attribute_value_realOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder[a_attribute_value_realOrdered[j]]
 		})
 		for _, a_attribute_value_real := range a_attribute_value_realOrdered {
-			a_attribute_value_realIdent := "__stage_0" + a_attribute_value_real.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_VALUE_REAL{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_realIdent, __gong__toRawStringLiteral(a_attribute_value_real.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_value_realIdent := "__models" + a_attribute_value_real.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_VALUE_REAL{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_realIdent, __gong__toRawStringLiteral(a_attribute_value_real.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_value_realIdent, __gong__toRawStringLiteral(a_attribute_value_real.Name)))
 			for _, elem := range a_attribute_value_real.ATTRIBUTE_VALUE_REAL {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_VALUE_REAL = append(%s.ATTRIBUTE_VALUE_REAL, %s)", a_attribute_value_realIdent, a_attribute_value_realIdent, targetIdent))
 			}
 		}
@@ -728,11 +1292,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder[a_attribute_value_stringOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder[a_attribute_value_stringOrdered[j]]
 		})
 		for _, a_attribute_value_string := range a_attribute_value_stringOrdered {
-			a_attribute_value_stringIdent := "__stage_0" + a_attribute_value_string.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_VALUE_STRING{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_stringIdent, __gong__toRawStringLiteral(a_attribute_value_string.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_value_stringIdent := "__models" + a_attribute_value_string.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_VALUE_STRING{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_stringIdent, __gong__toRawStringLiteral(a_attribute_value_string.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_value_stringIdent, __gong__toRawStringLiteral(a_attribute_value_string.Name)))
 			for _, elem := range a_attribute_value_string.ATTRIBUTE_VALUE_STRING {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_VALUE_STRING = append(%s.ATTRIBUTE_VALUE_STRING, %s)", a_attribute_value_stringIdent, a_attribute_value_stringIdent, targetIdent))
 			}
 		}
@@ -746,11 +1328,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder[a_attribute_value_xhtmlOrdered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder[a_attribute_value_xhtmlOrdered[j]]
 		})
 		for _, a_attribute_value_xhtml := range a_attribute_value_xhtmlOrdered {
-			a_attribute_value_xhtmlIdent := "__stage_0" + a_attribute_value_xhtml.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_VALUE_XHTML{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_xhtmlIdent, __gong__toRawStringLiteral(a_attribute_value_xhtml.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_value_xhtmlIdent := "__models" + a_attribute_value_xhtml.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_VALUE_XHTML{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_xhtmlIdent, __gong__toRawStringLiteral(a_attribute_value_xhtml.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_value_xhtmlIdent, __gong__toRawStringLiteral(a_attribute_value_xhtml.Name)))
 			for _, elem := range a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_VALUE_XHTML = append(%s.ATTRIBUTE_VALUE_XHTML, %s)", a_attribute_value_xhtmlIdent, a_attribute_value_xhtmlIdent, targetIdent))
 			}
 		}
@@ -764,35 +1364,89 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder[a_attribute_value_xhtml_1Ordered[i]] < stageSet.Stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder[a_attribute_value_xhtml_1Ordered[j]]
 		})
 		for _, a_attribute_value_xhtml_1 := range a_attribute_value_xhtml_1Ordered {
-			a_attribute_value_xhtml_1Ident := "__stage_0" + a_attribute_value_xhtml_1.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ATTRIBUTE_VALUE_XHTML_1{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_xhtml_1Ident, __gong__toRawStringLiteral(a_attribute_value_xhtml_1.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_attribute_value_xhtml_1Ident := "__models" + a_attribute_value_xhtml_1.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ATTRIBUTE_VALUE_XHTML_1{Name: %s}).Stage(stageSet.Stage)", a_attribute_value_xhtml_1Ident, __gong__toRawStringLiteral(a_attribute_value_xhtml_1.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_attribute_value_xhtml_1Ident, __gong__toRawStringLiteral(a_attribute_value_xhtml_1.Name)))
 			for _, elem := range a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_VALUE_BOOLEAN = append(%s.ATTRIBUTE_VALUE_BOOLEAN, %s)", a_attribute_value_xhtml_1Ident, a_attribute_value_xhtml_1Ident, targetIdent))
 			}
 			for _, elem := range a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_VALUE_DATE = append(%s.ATTRIBUTE_VALUE_DATE, %s)", a_attribute_value_xhtml_1Ident, a_attribute_value_xhtml_1Ident, targetIdent))
 			}
 			for _, elem := range a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_VALUE_ENUMERATION = append(%s.ATTRIBUTE_VALUE_ENUMERATION, %s)", a_attribute_value_xhtml_1Ident, a_attribute_value_xhtml_1Ident, targetIdent))
 			}
 			for _, elem := range a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_VALUE_INTEGER = append(%s.ATTRIBUTE_VALUE_INTEGER, %s)", a_attribute_value_xhtml_1Ident, a_attribute_value_xhtml_1Ident, targetIdent))
 			}
 			for _, elem := range a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_VALUE_REAL = append(%s.ATTRIBUTE_VALUE_REAL, %s)", a_attribute_value_xhtml_1Ident, a_attribute_value_xhtml_1Ident, targetIdent))
 			}
 			for _, elem := range a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_VALUE_STRING = append(%s.ATTRIBUTE_VALUE_STRING, %s)", a_attribute_value_xhtml_1Ident, a_attribute_value_xhtml_1Ident, targetIdent))
 			}
 			for _, elem := range a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_VALUE_XHTML = append(%s.ATTRIBUTE_VALUE_XHTML, %s)", a_attribute_value_xhtml_1Ident, a_attribute_value_xhtml_1Ident, targetIdent))
 			}
 		}
@@ -806,11 +1460,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_CHILDREN_stagedOrder[a_childrenOrdered[i]] < stageSet.Stage.A_CHILDREN_stagedOrder[a_childrenOrdered[j]]
 		})
 		for _, a_children := range a_childrenOrdered {
-			a_childrenIdent := "__stage_0" + a_children.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_CHILDREN{Name: %s}).Stage(stageSet.Stage)", a_childrenIdent, __gong__toRawStringLiteral(a_children.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_childrenIdent := "__models" + a_children.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_CHILDREN{Name: %s}).Stage(stageSet.Stage)", a_childrenIdent, __gong__toRawStringLiteral(a_children.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_childrenIdent, __gong__toRawStringLiteral(a_children.Name)))
 			for _, elem := range a_children.SPEC_HIERARCHY {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPEC_HIERARCHY = append(%s.SPEC_HIERARCHY, %s)", a_childrenIdent, a_childrenIdent, targetIdent))
 			}
 		}
@@ -824,11 +1496,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_CORE_CONTENT_stagedOrder[a_core_contentOrdered[i]] < stageSet.Stage.A_CORE_CONTENT_stagedOrder[a_core_contentOrdered[j]]
 		})
 		for _, a_core_content := range a_core_contentOrdered {
-			a_core_contentIdent := "__stage_0" + a_core_content.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_CORE_CONTENT{Name: %s}).Stage(stageSet.Stage)", a_core_contentIdent, __gong__toRawStringLiteral(a_core_content.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_core_contentIdent := "__models" + a_core_content.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_CORE_CONTENT{Name: %s}).Stage(stageSet.Stage)", a_core_contentIdent, __gong__toRawStringLiteral(a_core_content.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_core_contentIdent, __gong__toRawStringLiteral(a_core_content.Name)))
 			if a_core_content.REQ_IF_CONTENT != nil {
-				targetIdent := "__stage_0" + a_core_content.REQ_IF_CONTENT.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + a_core_content.REQ_IF_CONTENT.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.REQ_IF_CONTENT = %s", a_core_contentIdent, targetIdent))
 			}
 		}
@@ -842,35 +1532,89 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_DATATYPES_stagedOrder[a_datatypesOrdered[i]] < stageSet.Stage.A_DATATYPES_stagedOrder[a_datatypesOrdered[j]]
 		})
 		for _, a_datatypes := range a_datatypesOrdered {
-			a_datatypesIdent := "__stage_0" + a_datatypes.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_DATATYPES{Name: %s}).Stage(stageSet.Stage)", a_datatypesIdent, __gong__toRawStringLiteral(a_datatypes.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_datatypesIdent := "__models" + a_datatypes.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_DATATYPES{Name: %s}).Stage(stageSet.Stage)", a_datatypesIdent, __gong__toRawStringLiteral(a_datatypes.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_datatypesIdent, __gong__toRawStringLiteral(a_datatypes.Name)))
 			for _, elem := range a_datatypes.DATATYPE_DEFINITION_BOOLEAN {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DATATYPE_DEFINITION_BOOLEAN = append(%s.DATATYPE_DEFINITION_BOOLEAN, %s)", a_datatypesIdent, a_datatypesIdent, targetIdent))
 			}
 			for _, elem := range a_datatypes.DATATYPE_DEFINITION_DATE {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DATATYPE_DEFINITION_DATE = append(%s.DATATYPE_DEFINITION_DATE, %s)", a_datatypesIdent, a_datatypesIdent, targetIdent))
 			}
 			for _, elem := range a_datatypes.DATATYPE_DEFINITION_ENUMERATION {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DATATYPE_DEFINITION_ENUMERATION = append(%s.DATATYPE_DEFINITION_ENUMERATION, %s)", a_datatypesIdent, a_datatypesIdent, targetIdent))
 			}
 			for _, elem := range a_datatypes.DATATYPE_DEFINITION_INTEGER {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DATATYPE_DEFINITION_INTEGER = append(%s.DATATYPE_DEFINITION_INTEGER, %s)", a_datatypesIdent, a_datatypesIdent, targetIdent))
 			}
 			for _, elem := range a_datatypes.DATATYPE_DEFINITION_REAL {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DATATYPE_DEFINITION_REAL = append(%s.DATATYPE_DEFINITION_REAL, %s)", a_datatypesIdent, a_datatypesIdent, targetIdent))
 			}
 			for _, elem := range a_datatypes.DATATYPE_DEFINITION_STRING {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DATATYPE_DEFINITION_STRING = append(%s.DATATYPE_DEFINITION_STRING, %s)", a_datatypesIdent, a_datatypesIdent, targetIdent))
 			}
 			for _, elem := range a_datatypes.DATATYPE_DEFINITION_XHTML {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DATATYPE_DEFINITION_XHTML = append(%s.DATATYPE_DEFINITION_XHTML, %s)", a_datatypesIdent, a_datatypesIdent, targetIdent))
 			}
 		}
@@ -884,8 +1628,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder[a_datatype_definition_boolean_refOrdered[i]] < stageSet.Stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder[a_datatype_definition_boolean_refOrdered[j]]
 		})
 		for _, a_datatype_definition_boolean_ref := range a_datatype_definition_boolean_refOrdered {
-			a_datatype_definition_boolean_refIdent := "__stage_0" + a_datatype_definition_boolean_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_DATATYPE_DEFINITION_BOOLEAN_REF{Name: %s}).Stage(stageSet.Stage)", a_datatype_definition_boolean_refIdent, __gong__toRawStringLiteral(a_datatype_definition_boolean_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_datatype_definition_boolean_refIdent := "__models" + a_datatype_definition_boolean_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_DATATYPE_DEFINITION_BOOLEAN_REF{Name: %s}).Stage(stageSet.Stage)", a_datatype_definition_boolean_refIdent, __gong__toRawStringLiteral(a_datatype_definition_boolean_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_datatype_definition_boolean_refIdent, __gong__toRawStringLiteral(a_datatype_definition_boolean_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DATATYPE_DEFINITION_BOOLEAN_REF = %s", a_datatype_definition_boolean_refIdent, __gong__toRawStringLiteral(a_datatype_definition_boolean_ref.DATATYPE_DEFINITION_BOOLEAN_REF)))
 		}
@@ -899,8 +1655,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder[a_datatype_definition_date_refOrdered[i]] < stageSet.Stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder[a_datatype_definition_date_refOrdered[j]]
 		})
 		for _, a_datatype_definition_date_ref := range a_datatype_definition_date_refOrdered {
-			a_datatype_definition_date_refIdent := "__stage_0" + a_datatype_definition_date_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_DATATYPE_DEFINITION_DATE_REF{Name: %s}).Stage(stageSet.Stage)", a_datatype_definition_date_refIdent, __gong__toRawStringLiteral(a_datatype_definition_date_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_datatype_definition_date_refIdent := "__models" + a_datatype_definition_date_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_DATATYPE_DEFINITION_DATE_REF{Name: %s}).Stage(stageSet.Stage)", a_datatype_definition_date_refIdent, __gong__toRawStringLiteral(a_datatype_definition_date_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_datatype_definition_date_refIdent, __gong__toRawStringLiteral(a_datatype_definition_date_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DATATYPE_DEFINITION_DATE_REF = %s", a_datatype_definition_date_refIdent, __gong__toRawStringLiteral(a_datatype_definition_date_ref.DATATYPE_DEFINITION_DATE_REF)))
 		}
@@ -914,8 +1682,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder[a_datatype_definition_enumeration_refOrdered[i]] < stageSet.Stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder[a_datatype_definition_enumeration_refOrdered[j]]
 		})
 		for _, a_datatype_definition_enumeration_ref := range a_datatype_definition_enumeration_refOrdered {
-			a_datatype_definition_enumeration_refIdent := "__stage_0" + a_datatype_definition_enumeration_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_DATATYPE_DEFINITION_ENUMERATION_REF{Name: %s}).Stage(stageSet.Stage)", a_datatype_definition_enumeration_refIdent, __gong__toRawStringLiteral(a_datatype_definition_enumeration_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_datatype_definition_enumeration_refIdent := "__models" + a_datatype_definition_enumeration_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_DATATYPE_DEFINITION_ENUMERATION_REF{Name: %s}).Stage(stageSet.Stage)", a_datatype_definition_enumeration_refIdent, __gong__toRawStringLiteral(a_datatype_definition_enumeration_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_datatype_definition_enumeration_refIdent, __gong__toRawStringLiteral(a_datatype_definition_enumeration_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DATATYPE_DEFINITION_ENUMERATION_REF = %s", a_datatype_definition_enumeration_refIdent, __gong__toRawStringLiteral(a_datatype_definition_enumeration_ref.DATATYPE_DEFINITION_ENUMERATION_REF)))
 		}
@@ -929,8 +1709,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder[a_datatype_definition_integer_refOrdered[i]] < stageSet.Stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder[a_datatype_definition_integer_refOrdered[j]]
 		})
 		for _, a_datatype_definition_integer_ref := range a_datatype_definition_integer_refOrdered {
-			a_datatype_definition_integer_refIdent := "__stage_0" + a_datatype_definition_integer_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_DATATYPE_DEFINITION_INTEGER_REF{Name: %s}).Stage(stageSet.Stage)", a_datatype_definition_integer_refIdent, __gong__toRawStringLiteral(a_datatype_definition_integer_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_datatype_definition_integer_refIdent := "__models" + a_datatype_definition_integer_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_DATATYPE_DEFINITION_INTEGER_REF{Name: %s}).Stage(stageSet.Stage)", a_datatype_definition_integer_refIdent, __gong__toRawStringLiteral(a_datatype_definition_integer_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_datatype_definition_integer_refIdent, __gong__toRawStringLiteral(a_datatype_definition_integer_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DATATYPE_DEFINITION_INTEGER_REF = %s", a_datatype_definition_integer_refIdent, __gong__toRawStringLiteral(a_datatype_definition_integer_ref.DATATYPE_DEFINITION_INTEGER_REF)))
 		}
@@ -944,8 +1736,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder[a_datatype_definition_real_refOrdered[i]] < stageSet.Stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder[a_datatype_definition_real_refOrdered[j]]
 		})
 		for _, a_datatype_definition_real_ref := range a_datatype_definition_real_refOrdered {
-			a_datatype_definition_real_refIdent := "__stage_0" + a_datatype_definition_real_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_DATATYPE_DEFINITION_REAL_REF{Name: %s}).Stage(stageSet.Stage)", a_datatype_definition_real_refIdent, __gong__toRawStringLiteral(a_datatype_definition_real_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_datatype_definition_real_refIdent := "__models" + a_datatype_definition_real_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_DATATYPE_DEFINITION_REAL_REF{Name: %s}).Stage(stageSet.Stage)", a_datatype_definition_real_refIdent, __gong__toRawStringLiteral(a_datatype_definition_real_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_datatype_definition_real_refIdent, __gong__toRawStringLiteral(a_datatype_definition_real_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DATATYPE_DEFINITION_REAL_REF = %s", a_datatype_definition_real_refIdent, __gong__toRawStringLiteral(a_datatype_definition_real_ref.DATATYPE_DEFINITION_REAL_REF)))
 		}
@@ -959,8 +1763,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder[a_datatype_definition_string_refOrdered[i]] < stageSet.Stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder[a_datatype_definition_string_refOrdered[j]]
 		})
 		for _, a_datatype_definition_string_ref := range a_datatype_definition_string_refOrdered {
-			a_datatype_definition_string_refIdent := "__stage_0" + a_datatype_definition_string_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_DATATYPE_DEFINITION_STRING_REF{Name: %s}).Stage(stageSet.Stage)", a_datatype_definition_string_refIdent, __gong__toRawStringLiteral(a_datatype_definition_string_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_datatype_definition_string_refIdent := "__models" + a_datatype_definition_string_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_DATATYPE_DEFINITION_STRING_REF{Name: %s}).Stage(stageSet.Stage)", a_datatype_definition_string_refIdent, __gong__toRawStringLiteral(a_datatype_definition_string_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_datatype_definition_string_refIdent, __gong__toRawStringLiteral(a_datatype_definition_string_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DATATYPE_DEFINITION_STRING_REF = %s", a_datatype_definition_string_refIdent, __gong__toRawStringLiteral(a_datatype_definition_string_ref.DATATYPE_DEFINITION_STRING_REF)))
 		}
@@ -974,8 +1790,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder[a_datatype_definition_xhtml_refOrdered[i]] < stageSet.Stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder[a_datatype_definition_xhtml_refOrdered[j]]
 		})
 		for _, a_datatype_definition_xhtml_ref := range a_datatype_definition_xhtml_refOrdered {
-			a_datatype_definition_xhtml_refIdent := "__stage_0" + a_datatype_definition_xhtml_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_DATATYPE_DEFINITION_XHTML_REF{Name: %s}).Stage(stageSet.Stage)", a_datatype_definition_xhtml_refIdent, __gong__toRawStringLiteral(a_datatype_definition_xhtml_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_datatype_definition_xhtml_refIdent := "__models" + a_datatype_definition_xhtml_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_DATATYPE_DEFINITION_XHTML_REF{Name: %s}).Stage(stageSet.Stage)", a_datatype_definition_xhtml_refIdent, __gong__toRawStringLiteral(a_datatype_definition_xhtml_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_datatype_definition_xhtml_refIdent, __gong__toRawStringLiteral(a_datatype_definition_xhtml_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DATATYPE_DEFINITION_XHTML_REF = %s", a_datatype_definition_xhtml_refIdent, __gong__toRawStringLiteral(a_datatype_definition_xhtml_ref.DATATYPE_DEFINITION_XHTML_REF)))
 		}
@@ -989,8 +1817,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_EDITABLE_ATTS_stagedOrder[a_editable_attsOrdered[i]] < stageSet.Stage.A_EDITABLE_ATTS_stagedOrder[a_editable_attsOrdered[j]]
 		})
 		for _, a_editable_atts := range a_editable_attsOrdered {
-			a_editable_attsIdent := "__stage_0" + a_editable_atts.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_EDITABLE_ATTS{Name: %s}).Stage(stageSet.Stage)", a_editable_attsIdent, __gong__toRawStringLiteral(a_editable_atts.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_editable_attsIdent := "__models" + a_editable_atts.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_EDITABLE_ATTS{Name: %s}).Stage(stageSet.Stage)", a_editable_attsIdent, __gong__toRawStringLiteral(a_editable_atts.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_editable_attsIdent, __gong__toRawStringLiteral(a_editable_atts.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_BOOLEAN_REF = %s", a_editable_attsIdent, __gong__toRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_BOOLEAN_REF)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_DATE_REF = %s", a_editable_attsIdent, __gong__toRawStringLiteral(a_editable_atts.ATTRIBUTE_DEFINITION_DATE_REF)))
@@ -1010,8 +1850,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_ENUM_VALUE_REF_stagedOrder[a_enum_value_refOrdered[i]] < stageSet.Stage.A_ENUM_VALUE_REF_stagedOrder[a_enum_value_refOrdered[j]]
 		})
 		for _, a_enum_value_ref := range a_enum_value_refOrdered {
-			a_enum_value_refIdent := "__stage_0" + a_enum_value_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_ENUM_VALUE_REF{Name: %s}).Stage(stageSet.Stage)", a_enum_value_refIdent, __gong__toRawStringLiteral(a_enum_value_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_enum_value_refIdent := "__models" + a_enum_value_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_ENUM_VALUE_REF{Name: %s}).Stage(stageSet.Stage)", a_enum_value_refIdent, __gong__toRawStringLiteral(a_enum_value_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_enum_value_refIdent, __gong__toRawStringLiteral(a_enum_value_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ENUM_VALUE_REF = %s", a_enum_value_refIdent, __gong__toRawStringLiteral(a_enum_value_ref.ENUM_VALUE_REF)))
 		}
@@ -1025,8 +1877,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_OBJECT_stagedOrder[a_objectOrdered[i]] < stageSet.Stage.A_OBJECT_stagedOrder[a_objectOrdered[j]]
 		})
 		for _, a_object := range a_objectOrdered {
-			a_objectIdent := "__stage_0" + a_object.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_OBJECT{Name: %s}).Stage(stageSet.Stage)", a_objectIdent, __gong__toRawStringLiteral(a_object.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_objectIdent := "__models" + a_object.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_OBJECT{Name: %s}).Stage(stageSet.Stage)", a_objectIdent, __gong__toRawStringLiteral(a_object.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_objectIdent, __gong__toRawStringLiteral(a_object.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.SPEC_OBJECT_REF = %s", a_objectIdent, __gong__toRawStringLiteral(a_object.SPEC_OBJECT_REF)))
 		}
@@ -1040,11 +1904,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_PROPERTIES_stagedOrder[a_propertiesOrdered[i]] < stageSet.Stage.A_PROPERTIES_stagedOrder[a_propertiesOrdered[j]]
 		})
 		for _, a_properties := range a_propertiesOrdered {
-			a_propertiesIdent := "__stage_0" + a_properties.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_PROPERTIES{Name: %s}).Stage(stageSet.Stage)", a_propertiesIdent, __gong__toRawStringLiteral(a_properties.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_propertiesIdent := "__models" + a_properties.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_PROPERTIES{Name: %s}).Stage(stageSet.Stage)", a_propertiesIdent, __gong__toRawStringLiteral(a_properties.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_propertiesIdent, __gong__toRawStringLiteral(a_properties.Name)))
 			if a_properties.EMBEDDED_VALUE != nil {
-				targetIdent := "__stage_0" + a_properties.EMBEDDED_VALUE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + a_properties.EMBEDDED_VALUE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EMBEDDED_VALUE = %s", a_propertiesIdent, targetIdent))
 			}
 		}
@@ -1058,8 +1940,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_RELATION_GROUP_TYPE_REF_stagedOrder[a_relation_group_type_refOrdered[i]] < stageSet.Stage.A_RELATION_GROUP_TYPE_REF_stagedOrder[a_relation_group_type_refOrdered[j]]
 		})
 		for _, a_relation_group_type_ref := range a_relation_group_type_refOrdered {
-			a_relation_group_type_refIdent := "__stage_0" + a_relation_group_type_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_RELATION_GROUP_TYPE_REF{Name: %s}).Stage(stageSet.Stage)", a_relation_group_type_refIdent, __gong__toRawStringLiteral(a_relation_group_type_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_relation_group_type_refIdent := "__models" + a_relation_group_type_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_RELATION_GROUP_TYPE_REF{Name: %s}).Stage(stageSet.Stage)", a_relation_group_type_refIdent, __gong__toRawStringLiteral(a_relation_group_type_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_relation_group_type_refIdent, __gong__toRawStringLiteral(a_relation_group_type_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.RELATION_GROUP_TYPE_REF = %s", a_relation_group_type_refIdent, __gong__toRawStringLiteral(a_relation_group_type_ref.RELATION_GROUP_TYPE_REF)))
 		}
@@ -1073,8 +1967,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_SOURCE_1_stagedOrder[a_source_1Ordered[i]] < stageSet.Stage.A_SOURCE_1_stagedOrder[a_source_1Ordered[j]]
 		})
 		for _, a_source_1 := range a_source_1Ordered {
-			a_source_1Ident := "__stage_0" + a_source_1.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_SOURCE_1{Name: %s}).Stage(stageSet.Stage)", a_source_1Ident, __gong__toRawStringLiteral(a_source_1.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_source_1Ident := "__models" + a_source_1.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SOURCE_1{Name: %s}).Stage(stageSet.Stage)", a_source_1Ident, __gong__toRawStringLiteral(a_source_1.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_source_1Ident, __gong__toRawStringLiteral(a_source_1.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.SPEC_OBJECT_REF = %s", a_source_1Ident, __gong__toRawStringLiteral(a_source_1.SPEC_OBJECT_REF)))
 		}
@@ -1088,8 +1994,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_SOURCE_SPECIFICATION_1_stagedOrder[a_source_specification_1Ordered[i]] < stageSet.Stage.A_SOURCE_SPECIFICATION_1_stagedOrder[a_source_specification_1Ordered[j]]
 		})
 		for _, a_source_specification_1 := range a_source_specification_1Ordered {
-			a_source_specification_1Ident := "__stage_0" + a_source_specification_1.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_SOURCE_SPECIFICATION_1{Name: %s}).Stage(stageSet.Stage)", a_source_specification_1Ident, __gong__toRawStringLiteral(a_source_specification_1.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_source_specification_1Ident := "__models" + a_source_specification_1.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SOURCE_SPECIFICATION_1{Name: %s}).Stage(stageSet.Stage)", a_source_specification_1Ident, __gong__toRawStringLiteral(a_source_specification_1.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_source_specification_1Ident, __gong__toRawStringLiteral(a_source_specification_1.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.SPECIFICATION_REF = %s", a_source_specification_1Ident, __gong__toRawStringLiteral(string(a_source_specification_1.SPECIFICATION_REF))))
 		}
@@ -1103,11 +2021,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_SPECIFICATIONS_stagedOrder[a_specificationsOrdered[i]] < stageSet.Stage.A_SPECIFICATIONS_stagedOrder[a_specificationsOrdered[j]]
 		})
 		for _, a_specifications := range a_specificationsOrdered {
-			a_specificationsIdent := "__stage_0" + a_specifications.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_SPECIFICATIONS{Name: %s}).Stage(stageSet.Stage)", a_specificationsIdent, __gong__toRawStringLiteral(a_specifications.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_specificationsIdent := "__models" + a_specifications.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SPECIFICATIONS{Name: %s}).Stage(stageSet.Stage)", a_specificationsIdent, __gong__toRawStringLiteral(a_specifications.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_specificationsIdent, __gong__toRawStringLiteral(a_specifications.Name)))
 			for _, elem := range a_specifications.SPECIFICATION {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPECIFICATION = append(%s.SPECIFICATION, %s)", a_specificationsIdent, a_specificationsIdent, targetIdent))
 			}
 		}
@@ -1121,8 +2057,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_SPECIFICATION_TYPE_REF_stagedOrder[a_specification_type_refOrdered[i]] < stageSet.Stage.A_SPECIFICATION_TYPE_REF_stagedOrder[a_specification_type_refOrdered[j]]
 		})
 		for _, a_specification_type_ref := range a_specification_type_refOrdered {
-			a_specification_type_refIdent := "__stage_0" + a_specification_type_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_SPECIFICATION_TYPE_REF{Name: %s}).Stage(stageSet.Stage)", a_specification_type_refIdent, __gong__toRawStringLiteral(a_specification_type_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_specification_type_refIdent := "__models" + a_specification_type_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SPECIFICATION_TYPE_REF{Name: %s}).Stage(stageSet.Stage)", a_specification_type_refIdent, __gong__toRawStringLiteral(a_specification_type_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_specification_type_refIdent, __gong__toRawStringLiteral(a_specification_type_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.SPECIFICATION_TYPE_REF = %s", a_specification_type_refIdent, __gong__toRawStringLiteral(a_specification_type_ref.SPECIFICATION_TYPE_REF)))
 		}
@@ -1136,11 +2084,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_SPECIFIED_VALUES_stagedOrder[a_specified_valuesOrdered[i]] < stageSet.Stage.A_SPECIFIED_VALUES_stagedOrder[a_specified_valuesOrdered[j]]
 		})
 		for _, a_specified_values := range a_specified_valuesOrdered {
-			a_specified_valuesIdent := "__stage_0" + a_specified_values.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_SPECIFIED_VALUES{Name: %s}).Stage(stageSet.Stage)", a_specified_valuesIdent, __gong__toRawStringLiteral(a_specified_values.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_specified_valuesIdent := "__models" + a_specified_values.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SPECIFIED_VALUES{Name: %s}).Stage(stageSet.Stage)", a_specified_valuesIdent, __gong__toRawStringLiteral(a_specified_values.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_specified_valuesIdent, __gong__toRawStringLiteral(a_specified_values.Name)))
 			for _, elem := range a_specified_values.ENUM_VALUE {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ENUM_VALUE = append(%s.ENUM_VALUE, %s)", a_specified_valuesIdent, a_specified_valuesIdent, targetIdent))
 			}
 		}
@@ -1154,35 +2120,89 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_SPEC_ATTRIBUTES_stagedOrder[a_spec_attributesOrdered[i]] < stageSet.Stage.A_SPEC_ATTRIBUTES_stagedOrder[a_spec_attributesOrdered[j]]
 		})
 		for _, a_spec_attributes := range a_spec_attributesOrdered {
-			a_spec_attributesIdent := "__stage_0" + a_spec_attributes.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_SPEC_ATTRIBUTES{Name: %s}).Stage(stageSet.Stage)", a_spec_attributesIdent, __gong__toRawStringLiteral(a_spec_attributes.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_spec_attributesIdent := "__models" + a_spec_attributes.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SPEC_ATTRIBUTES{Name: %s}).Stage(stageSet.Stage)", a_spec_attributesIdent, __gong__toRawStringLiteral(a_spec_attributes.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_spec_attributesIdent, __gong__toRawStringLiteral(a_spec_attributes.Name)))
 			for _, elem := range a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_BOOLEAN = append(%s.ATTRIBUTE_DEFINITION_BOOLEAN, %s)", a_spec_attributesIdent, a_spec_attributesIdent, targetIdent))
 			}
 			for _, elem := range a_spec_attributes.ATTRIBUTE_DEFINITION_DATE {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_DATE = append(%s.ATTRIBUTE_DEFINITION_DATE, %s)", a_spec_attributesIdent, a_spec_attributesIdent, targetIdent))
 			}
 			for _, elem := range a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_ENUMERATION = append(%s.ATTRIBUTE_DEFINITION_ENUMERATION, %s)", a_spec_attributesIdent, a_spec_attributesIdent, targetIdent))
 			}
 			for _, elem := range a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_INTEGER = append(%s.ATTRIBUTE_DEFINITION_INTEGER, %s)", a_spec_attributesIdent, a_spec_attributesIdent, targetIdent))
 			}
 			for _, elem := range a_spec_attributes.ATTRIBUTE_DEFINITION_REAL {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_REAL = append(%s.ATTRIBUTE_DEFINITION_REAL, %s)", a_spec_attributesIdent, a_spec_attributesIdent, targetIdent))
 			}
 			for _, elem := range a_spec_attributes.ATTRIBUTE_DEFINITION_STRING {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_STRING = append(%s.ATTRIBUTE_DEFINITION_STRING, %s)", a_spec_attributesIdent, a_spec_attributesIdent, targetIdent))
 			}
 			for _, elem := range a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ATTRIBUTE_DEFINITION_XHTML = append(%s.ATTRIBUTE_DEFINITION_XHTML, %s)", a_spec_attributesIdent, a_spec_attributesIdent, targetIdent))
 			}
 		}
@@ -1196,11 +2216,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_SPEC_OBJECTS_stagedOrder[a_spec_objectsOrdered[i]] < stageSet.Stage.A_SPEC_OBJECTS_stagedOrder[a_spec_objectsOrdered[j]]
 		})
 		for _, a_spec_objects := range a_spec_objectsOrdered {
-			a_spec_objectsIdent := "__stage_0" + a_spec_objects.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_SPEC_OBJECTS{Name: %s}).Stage(stageSet.Stage)", a_spec_objectsIdent, __gong__toRawStringLiteral(a_spec_objects.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_spec_objectsIdent := "__models" + a_spec_objects.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SPEC_OBJECTS{Name: %s}).Stage(stageSet.Stage)", a_spec_objectsIdent, __gong__toRawStringLiteral(a_spec_objects.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_spec_objectsIdent, __gong__toRawStringLiteral(a_spec_objects.Name)))
 			for _, elem := range a_spec_objects.SPEC_OBJECT {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPEC_OBJECT = append(%s.SPEC_OBJECT, %s)", a_spec_objectsIdent, a_spec_objectsIdent, targetIdent))
 			}
 		}
@@ -1214,8 +2252,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder[a_spec_object_type_refOrdered[i]] < stageSet.Stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder[a_spec_object_type_refOrdered[j]]
 		})
 		for _, a_spec_object_type_ref := range a_spec_object_type_refOrdered {
-			a_spec_object_type_refIdent := "__stage_0" + a_spec_object_type_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_SPEC_OBJECT_TYPE_REF{Name: %s}).Stage(stageSet.Stage)", a_spec_object_type_refIdent, __gong__toRawStringLiteral(a_spec_object_type_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_spec_object_type_refIdent := "__models" + a_spec_object_type_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SPEC_OBJECT_TYPE_REF{Name: %s}).Stage(stageSet.Stage)", a_spec_object_type_refIdent, __gong__toRawStringLiteral(a_spec_object_type_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_spec_object_type_refIdent, __gong__toRawStringLiteral(a_spec_object_type_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.SPEC_OBJECT_TYPE_REF = %s", a_spec_object_type_refIdent, __gong__toRawStringLiteral(a_spec_object_type_ref.SPEC_OBJECT_TYPE_REF)))
 		}
@@ -1229,11 +2279,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_SPEC_RELATIONS_stagedOrder[a_spec_relationsOrdered[i]] < stageSet.Stage.A_SPEC_RELATIONS_stagedOrder[a_spec_relationsOrdered[j]]
 		})
 		for _, a_spec_relations := range a_spec_relationsOrdered {
-			a_spec_relationsIdent := "__stage_0" + a_spec_relations.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_SPEC_RELATIONS{Name: %s}).Stage(stageSet.Stage)", a_spec_relationsIdent, __gong__toRawStringLiteral(a_spec_relations.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_spec_relationsIdent := "__models" + a_spec_relations.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SPEC_RELATIONS{Name: %s}).Stage(stageSet.Stage)", a_spec_relationsIdent, __gong__toRawStringLiteral(a_spec_relations.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_spec_relationsIdent, __gong__toRawStringLiteral(a_spec_relations.Name)))
 			for _, elem := range a_spec_relations.SPEC_RELATION {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPEC_RELATION = append(%s.SPEC_RELATION, %s)", a_spec_relationsIdent, a_spec_relationsIdent, targetIdent))
 			}
 		}
@@ -1247,11 +2315,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_SPEC_RELATION_GROUPS_stagedOrder[a_spec_relation_groupsOrdered[i]] < stageSet.Stage.A_SPEC_RELATION_GROUPS_stagedOrder[a_spec_relation_groupsOrdered[j]]
 		})
 		for _, a_spec_relation_groups := range a_spec_relation_groupsOrdered {
-			a_spec_relation_groupsIdent := "__stage_0" + a_spec_relation_groups.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_SPEC_RELATION_GROUPS{Name: %s}).Stage(stageSet.Stage)", a_spec_relation_groupsIdent, __gong__toRawStringLiteral(a_spec_relation_groups.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_spec_relation_groupsIdent := "__models" + a_spec_relation_groups.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SPEC_RELATION_GROUPS{Name: %s}).Stage(stageSet.Stage)", a_spec_relation_groupsIdent, __gong__toRawStringLiteral(a_spec_relation_groups.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_spec_relation_groupsIdent, __gong__toRawStringLiteral(a_spec_relation_groups.Name)))
 			for _, elem := range a_spec_relation_groups.RELATION_GROUP {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RELATION_GROUP = append(%s.RELATION_GROUP, %s)", a_spec_relation_groupsIdent, a_spec_relation_groupsIdent, targetIdent))
 			}
 		}
@@ -1265,8 +2351,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_SPEC_RELATION_REF_stagedOrder[a_spec_relation_refOrdered[i]] < stageSet.Stage.A_SPEC_RELATION_REF_stagedOrder[a_spec_relation_refOrdered[j]]
 		})
 		for _, a_spec_relation_ref := range a_spec_relation_refOrdered {
-			a_spec_relation_refIdent := "__stage_0" + a_spec_relation_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_SPEC_RELATION_REF{Name: %s}).Stage(stageSet.Stage)", a_spec_relation_refIdent, __gong__toRawStringLiteral(a_spec_relation_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_spec_relation_refIdent := "__models" + a_spec_relation_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SPEC_RELATION_REF{Name: %s}).Stage(stageSet.Stage)", a_spec_relation_refIdent, __gong__toRawStringLiteral(a_spec_relation_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_spec_relation_refIdent, __gong__toRawStringLiteral(a_spec_relation_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.SPEC_RELATION_REF = %s", a_spec_relation_refIdent, __gong__toRawStringLiteral(a_spec_relation_ref.SPEC_RELATION_REF)))
 		}
@@ -1280,8 +2378,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_SPEC_RELATION_TYPE_REF_stagedOrder[a_spec_relation_type_refOrdered[i]] < stageSet.Stage.A_SPEC_RELATION_TYPE_REF_stagedOrder[a_spec_relation_type_refOrdered[j]]
 		})
 		for _, a_spec_relation_type_ref := range a_spec_relation_type_refOrdered {
-			a_spec_relation_type_refIdent := "__stage_0" + a_spec_relation_type_ref.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_SPEC_RELATION_TYPE_REF{Name: %s}).Stage(stageSet.Stage)", a_spec_relation_type_refIdent, __gong__toRawStringLiteral(a_spec_relation_type_ref.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_spec_relation_type_refIdent := "__models" + a_spec_relation_type_ref.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SPEC_RELATION_TYPE_REF{Name: %s}).Stage(stageSet.Stage)", a_spec_relation_type_refIdent, __gong__toRawStringLiteral(a_spec_relation_type_ref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_spec_relation_type_refIdent, __gong__toRawStringLiteral(a_spec_relation_type_ref.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.SPEC_RELATION_TYPE_REF = %s", a_spec_relation_type_refIdent, __gong__toRawStringLiteral(a_spec_relation_type_ref.SPEC_RELATION_TYPE_REF)))
 		}
@@ -1295,23 +2405,59 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_SPEC_TYPES_stagedOrder[a_spec_typesOrdered[i]] < stageSet.Stage.A_SPEC_TYPES_stagedOrder[a_spec_typesOrdered[j]]
 		})
 		for _, a_spec_types := range a_spec_typesOrdered {
-			a_spec_typesIdent := "__stage_0" + a_spec_types.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_SPEC_TYPES{Name: %s}).Stage(stageSet.Stage)", a_spec_typesIdent, __gong__toRawStringLiteral(a_spec_types.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_spec_typesIdent := "__models" + a_spec_types.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SPEC_TYPES{Name: %s}).Stage(stageSet.Stage)", a_spec_typesIdent, __gong__toRawStringLiteral(a_spec_types.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_spec_typesIdent, __gong__toRawStringLiteral(a_spec_types.Name)))
 			for _, elem := range a_spec_types.RELATION_GROUP_TYPE {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RELATION_GROUP_TYPE = append(%s.RELATION_GROUP_TYPE, %s)", a_spec_typesIdent, a_spec_typesIdent, targetIdent))
 			}
 			for _, elem := range a_spec_types.SPEC_OBJECT_TYPE {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPEC_OBJECT_TYPE = append(%s.SPEC_OBJECT_TYPE, %s)", a_spec_typesIdent, a_spec_typesIdent, targetIdent))
 			}
 			for _, elem := range a_spec_types.SPEC_RELATION_TYPE {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPEC_RELATION_TYPE = append(%s.SPEC_RELATION_TYPE, %s)", a_spec_typesIdent, a_spec_typesIdent, targetIdent))
 			}
 			for _, elem := range a_spec_types.SPECIFICATION_TYPE {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPECIFICATION_TYPE = append(%s.SPECIFICATION_TYPE, %s)", a_spec_typesIdent, a_spec_typesIdent, targetIdent))
 			}
 		}
@@ -1325,11 +2471,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_THE_HEADER_stagedOrder[a_the_headerOrdered[i]] < stageSet.Stage.A_THE_HEADER_stagedOrder[a_the_headerOrdered[j]]
 		})
 		for _, a_the_header := range a_the_headerOrdered {
-			a_the_headerIdent := "__stage_0" + a_the_header.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_THE_HEADER{Name: %s}).Stage(stageSet.Stage)", a_the_headerIdent, __gong__toRawStringLiteral(a_the_header.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_the_headerIdent := "__models" + a_the_header.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_THE_HEADER{Name: %s}).Stage(stageSet.Stage)", a_the_headerIdent, __gong__toRawStringLiteral(a_the_header.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_the_headerIdent, __gong__toRawStringLiteral(a_the_header.Name)))
 			if a_the_header.REQ_IF_HEADER != nil {
-				targetIdent := "__stage_0" + a_the_header.REQ_IF_HEADER.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + a_the_header.REQ_IF_HEADER.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.REQ_IF_HEADER = %s", a_the_headerIdent, targetIdent))
 			}
 		}
@@ -1343,11 +2507,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.A_TOOL_EXTENSIONS_stagedOrder[a_tool_extensionsOrdered[i]] < stageSet.Stage.A_TOOL_EXTENSIONS_stagedOrder[a_tool_extensionsOrdered[j]]
 		})
 		for _, a_tool_extensions := range a_tool_extensionsOrdered {
-			a_tool_extensionsIdent := "__stage_0" + a_tool_extensions.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.A_TOOL_EXTENSIONS{Name: %s}).Stage(stageSet.Stage)", a_tool_extensionsIdent, __gong__toRawStringLiteral(a_tool_extensions.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_tool_extensionsIdent := "__models" + a_tool_extensions.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_TOOL_EXTENSIONS{Name: %s}).Stage(stageSet.Stage)", a_tool_extensionsIdent, __gong__toRawStringLiteral(a_tool_extensions.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_tool_extensionsIdent, __gong__toRawStringLiteral(a_tool_extensions.Name)))
 			for _, elem := range a_tool_extensions.REQ_IF_TOOL_EXTENSION {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.REQ_IF_TOOL_EXTENSION = append(%s.REQ_IF_TOOL_EXTENSION, %s)", a_tool_extensionsIdent, a_tool_extensionsIdent, targetIdent))
 			}
 		}
@@ -1361,15 +2543,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder[datatype_definition_booleanOrdered[i]] < stageSet.Stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder[datatype_definition_booleanOrdered[j]]
 		})
 		for _, datatype_definition_boolean := range datatype_definition_booleanOrdered {
-			datatype_definition_booleanIdent := "__stage_0" + datatype_definition_boolean.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DATATYPE_DEFINITION_BOOLEAN{Name: %s}).Stage(stageSet.Stage)", datatype_definition_booleanIdent, __gong__toRawStringLiteral(datatype_definition_boolean.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			datatype_definition_booleanIdent := "__models" + datatype_definition_boolean.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DATATYPE_DEFINITION_BOOLEAN{Name: %s}).Stage(stageSet.Stage)", datatype_definition_booleanIdent, __gong__toRawStringLiteral(datatype_definition_boolean.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", datatype_definition_booleanIdent, __gong__toRawStringLiteral(datatype_definition_boolean.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", datatype_definition_booleanIdent, __gong__toRawStringLiteral(datatype_definition_boolean.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", datatype_definition_booleanIdent, __gong__toRawStringLiteral(datatype_definition_boolean.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", datatype_definition_booleanIdent, __gong__toRawStringLiteral(datatype_definition_boolean.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", datatype_definition_booleanIdent, __gong__toRawStringLiteral(datatype_definition_boolean.LONG_NAME)))
 			if datatype_definition_boolean.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + datatype_definition_boolean.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + datatype_definition_boolean.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", datatype_definition_booleanIdent, targetIdent))
 			}
 		}
@@ -1383,15 +2583,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DATATYPE_DEFINITION_DATE_stagedOrder[datatype_definition_dateOrdered[i]] < stageSet.Stage.DATATYPE_DEFINITION_DATE_stagedOrder[datatype_definition_dateOrdered[j]]
 		})
 		for _, datatype_definition_date := range datatype_definition_dateOrdered {
-			datatype_definition_dateIdent := "__stage_0" + datatype_definition_date.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DATATYPE_DEFINITION_DATE{Name: %s}).Stage(stageSet.Stage)", datatype_definition_dateIdent, __gong__toRawStringLiteral(datatype_definition_date.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			datatype_definition_dateIdent := "__models" + datatype_definition_date.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DATATYPE_DEFINITION_DATE{Name: %s}).Stage(stageSet.Stage)", datatype_definition_dateIdent, __gong__toRawStringLiteral(datatype_definition_date.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", datatype_definition_dateIdent, __gong__toRawStringLiteral(datatype_definition_date.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", datatype_definition_dateIdent, __gong__toRawStringLiteral(datatype_definition_date.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", datatype_definition_dateIdent, __gong__toRawStringLiteral(datatype_definition_date.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", datatype_definition_dateIdent, __gong__toRawStringLiteral(datatype_definition_date.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", datatype_definition_dateIdent, __gong__toRawStringLiteral(datatype_definition_date.LONG_NAME)))
 			if datatype_definition_date.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + datatype_definition_date.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + datatype_definition_date.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", datatype_definition_dateIdent, targetIdent))
 			}
 		}
@@ -1405,19 +2623,43 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder[datatype_definition_enumerationOrdered[i]] < stageSet.Stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder[datatype_definition_enumerationOrdered[j]]
 		})
 		for _, datatype_definition_enumeration := range datatype_definition_enumerationOrdered {
-			datatype_definition_enumerationIdent := "__stage_0" + datatype_definition_enumeration.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DATATYPE_DEFINITION_ENUMERATION{Name: %s}).Stage(stageSet.Stage)", datatype_definition_enumerationIdent, __gong__toRawStringLiteral(datatype_definition_enumeration.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			datatype_definition_enumerationIdent := "__models" + datatype_definition_enumeration.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DATATYPE_DEFINITION_ENUMERATION{Name: %s}).Stage(stageSet.Stage)", datatype_definition_enumerationIdent, __gong__toRawStringLiteral(datatype_definition_enumeration.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", datatype_definition_enumerationIdent, __gong__toRawStringLiteral(datatype_definition_enumeration.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", datatype_definition_enumerationIdent, __gong__toRawStringLiteral(datatype_definition_enumeration.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", datatype_definition_enumerationIdent, __gong__toRawStringLiteral(datatype_definition_enumeration.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", datatype_definition_enumerationIdent, __gong__toRawStringLiteral(datatype_definition_enumeration.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", datatype_definition_enumerationIdent, __gong__toRawStringLiteral(datatype_definition_enumeration.LONG_NAME)))
 			if datatype_definition_enumeration.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + datatype_definition_enumeration.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + datatype_definition_enumeration.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", datatype_definition_enumerationIdent, targetIdent))
 			}
 			if datatype_definition_enumeration.SPECIFIED_VALUES != nil {
-				targetIdent := "__stage_0" + datatype_definition_enumeration.SPECIFIED_VALUES.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + datatype_definition_enumeration.SPECIFIED_VALUES.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPECIFIED_VALUES = %s", datatype_definition_enumerationIdent, targetIdent))
 			}
 		}
@@ -1431,8 +2673,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DATATYPE_DEFINITION_INTEGER_stagedOrder[datatype_definition_integerOrdered[i]] < stageSet.Stage.DATATYPE_DEFINITION_INTEGER_stagedOrder[datatype_definition_integerOrdered[j]]
 		})
 		for _, datatype_definition_integer := range datatype_definition_integerOrdered {
-			datatype_definition_integerIdent := "__stage_0" + datatype_definition_integer.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DATATYPE_DEFINITION_INTEGER{Name: %s}).Stage(stageSet.Stage)", datatype_definition_integerIdent, __gong__toRawStringLiteral(datatype_definition_integer.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			datatype_definition_integerIdent := "__models" + datatype_definition_integer.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DATATYPE_DEFINITION_INTEGER{Name: %s}).Stage(stageSet.Stage)", datatype_definition_integerIdent, __gong__toRawStringLiteral(datatype_definition_integer.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", datatype_definition_integerIdent, __gong__toRawStringLiteral(datatype_definition_integer.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", datatype_definition_integerIdent, __gong__toRawStringLiteral(datatype_definition_integer.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", datatype_definition_integerIdent, __gong__toRawStringLiteral(datatype_definition_integer.IDENTIFIER)))
@@ -1441,7 +2695,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.MAX = %d", datatype_definition_integerIdent, datatype_definition_integer.MAX))
 			values.WriteString(fmt.Sprintf("\n\t%s.MIN = %d", datatype_definition_integerIdent, datatype_definition_integer.MIN))
 			if datatype_definition_integer.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + datatype_definition_integer.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + datatype_definition_integer.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", datatype_definition_integerIdent, targetIdent))
 			}
 		}
@@ -1455,8 +2715,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DATATYPE_DEFINITION_REAL_stagedOrder[datatype_definition_realOrdered[i]] < stageSet.Stage.DATATYPE_DEFINITION_REAL_stagedOrder[datatype_definition_realOrdered[j]]
 		})
 		for _, datatype_definition_real := range datatype_definition_realOrdered {
-			datatype_definition_realIdent := "__stage_0" + datatype_definition_real.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DATATYPE_DEFINITION_REAL{Name: %s}).Stage(stageSet.Stage)", datatype_definition_realIdent, __gong__toRawStringLiteral(datatype_definition_real.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			datatype_definition_realIdent := "__models" + datatype_definition_real.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DATATYPE_DEFINITION_REAL{Name: %s}).Stage(stageSet.Stage)", datatype_definition_realIdent, __gong__toRawStringLiteral(datatype_definition_real.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", datatype_definition_realIdent, __gong__toRawStringLiteral(datatype_definition_real.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ACCURACY = %d", datatype_definition_realIdent, datatype_definition_real.ACCURACY))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", datatype_definition_realIdent, __gong__toRawStringLiteral(datatype_definition_real.DESC)))
@@ -1466,7 +2738,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.MAX = %f", datatype_definition_realIdent, datatype_definition_real.MAX))
 			values.WriteString(fmt.Sprintf("\n\t%s.MIN = %f", datatype_definition_realIdent, datatype_definition_real.MIN))
 			if datatype_definition_real.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + datatype_definition_real.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + datatype_definition_real.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", datatype_definition_realIdent, targetIdent))
 			}
 		}
@@ -1480,8 +2758,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DATATYPE_DEFINITION_STRING_stagedOrder[datatype_definition_stringOrdered[i]] < stageSet.Stage.DATATYPE_DEFINITION_STRING_stagedOrder[datatype_definition_stringOrdered[j]]
 		})
 		for _, datatype_definition_string := range datatype_definition_stringOrdered {
-			datatype_definition_stringIdent := "__stage_0" + datatype_definition_string.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DATATYPE_DEFINITION_STRING{Name: %s}).Stage(stageSet.Stage)", datatype_definition_stringIdent, __gong__toRawStringLiteral(datatype_definition_string.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			datatype_definition_stringIdent := "__models" + datatype_definition_string.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DATATYPE_DEFINITION_STRING{Name: %s}).Stage(stageSet.Stage)", datatype_definition_stringIdent, __gong__toRawStringLiteral(datatype_definition_string.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", datatype_definition_stringIdent, __gong__toRawStringLiteral(datatype_definition_string.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", datatype_definition_stringIdent, __gong__toRawStringLiteral(datatype_definition_string.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", datatype_definition_stringIdent, __gong__toRawStringLiteral(datatype_definition_string.IDENTIFIER)))
@@ -1489,7 +2779,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", datatype_definition_stringIdent, __gong__toRawStringLiteral(datatype_definition_string.LONG_NAME)))
 			values.WriteString(fmt.Sprintf("\n\t%s.MAX_LENGTH = %d", datatype_definition_stringIdent, datatype_definition_string.MAX_LENGTH))
 			if datatype_definition_string.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + datatype_definition_string.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + datatype_definition_string.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", datatype_definition_stringIdent, targetIdent))
 			}
 		}
@@ -1503,15 +2799,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DATATYPE_DEFINITION_XHTML_stagedOrder[datatype_definition_xhtmlOrdered[i]] < stageSet.Stage.DATATYPE_DEFINITION_XHTML_stagedOrder[datatype_definition_xhtmlOrdered[j]]
 		})
 		for _, datatype_definition_xhtml := range datatype_definition_xhtmlOrdered {
-			datatype_definition_xhtmlIdent := "__stage_0" + datatype_definition_xhtml.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DATATYPE_DEFINITION_XHTML{Name: %s}).Stage(stageSet.Stage)", datatype_definition_xhtmlIdent, __gong__toRawStringLiteral(datatype_definition_xhtml.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			datatype_definition_xhtmlIdent := "__models" + datatype_definition_xhtml.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DATATYPE_DEFINITION_XHTML{Name: %s}).Stage(stageSet.Stage)", datatype_definition_xhtmlIdent, __gong__toRawStringLiteral(datatype_definition_xhtml.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", datatype_definition_xhtmlIdent, __gong__toRawStringLiteral(datatype_definition_xhtml.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", datatype_definition_xhtmlIdent, __gong__toRawStringLiteral(datatype_definition_xhtml.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", datatype_definition_xhtmlIdent, __gong__toRawStringLiteral(datatype_definition_xhtml.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", datatype_definition_xhtmlIdent, __gong__toRawStringLiteral(datatype_definition_xhtml.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", datatype_definition_xhtmlIdent, __gong__toRawStringLiteral(datatype_definition_xhtml.LONG_NAME)))
 			if datatype_definition_xhtml.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + datatype_definition_xhtml.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + datatype_definition_xhtml.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", datatype_definition_xhtmlIdent, targetIdent))
 			}
 		}
@@ -1525,8 +2839,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.EMBEDDED_VALUE_stagedOrder[embedded_valueOrdered[i]] < stageSet.Stage.EMBEDDED_VALUE_stagedOrder[embedded_valueOrdered[j]]
 		})
 		for _, embedded_value := range embedded_valueOrdered {
-			embedded_valueIdent := "__stage_0" + embedded_value.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.EMBEDDED_VALUE{Name: %s}).Stage(stageSet.Stage)", embedded_valueIdent, __gong__toRawStringLiteral(embedded_value.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			embedded_valueIdent := "__models" + embedded_value.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.EMBEDDED_VALUE{Name: %s}).Stage(stageSet.Stage)", embedded_valueIdent, __gong__toRawStringLiteral(embedded_value.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", embedded_valueIdent, __gong__toRawStringLiteral(embedded_value.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.KEY = %d", embedded_valueIdent, embedded_value.KEY))
 			values.WriteString(fmt.Sprintf("\n\t%s.OTHER_CONTENT = %s", embedded_valueIdent, __gong__toRawStringLiteral(embedded_value.OTHER_CONTENT)))
@@ -1541,19 +2867,43 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ENUM_VALUE_stagedOrder[enum_valueOrdered[i]] < stageSet.Stage.ENUM_VALUE_stagedOrder[enum_valueOrdered[j]]
 		})
 		for _, enum_value := range enum_valueOrdered {
-			enum_valueIdent := "__stage_0" + enum_value.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ENUM_VALUE{Name: %s}).Stage(stageSet.Stage)", enum_valueIdent, __gong__toRawStringLiteral(enum_value.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			enum_valueIdent := "__models" + enum_value.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ENUM_VALUE{Name: %s}).Stage(stageSet.Stage)", enum_valueIdent, __gong__toRawStringLiteral(enum_value.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", enum_valueIdent, __gong__toRawStringLiteral(enum_value.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", enum_valueIdent, __gong__toRawStringLiteral(enum_value.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", enum_valueIdent, __gong__toRawStringLiteral(enum_value.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", enum_valueIdent, __gong__toRawStringLiteral(enum_value.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", enum_valueIdent, __gong__toRawStringLiteral(enum_value.LONG_NAME)))
 			if enum_value.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + enum_value.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + enum_value.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", enum_valueIdent, targetIdent))
 			}
 			if enum_value.PROPERTIES != nil {
-				targetIdent := "__stage_0" + enum_value.PROPERTIES.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + enum_value.PROPERTIES.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.PROPERTIES = %s", enum_valueIdent, targetIdent))
 			}
 		}
@@ -1567,31 +2917,73 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.RELATION_GROUP_stagedOrder[relation_groupOrdered[i]] < stageSet.Stage.RELATION_GROUP_stagedOrder[relation_groupOrdered[j]]
 		})
 		for _, relation_group := range relation_groupOrdered {
-			relation_groupIdent := "__stage_0" + relation_group.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.RELATION_GROUP{Name: %s}).Stage(stageSet.Stage)", relation_groupIdent, __gong__toRawStringLiteral(relation_group.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			relation_groupIdent := "__models" + relation_group.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.RELATION_GROUP{Name: %s}).Stage(stageSet.Stage)", relation_groupIdent, __gong__toRawStringLiteral(relation_group.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", relation_groupIdent, __gong__toRawStringLiteral(relation_group.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", relation_groupIdent, __gong__toRawStringLiteral(relation_group.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", relation_groupIdent, __gong__toRawStringLiteral(relation_group.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", relation_groupIdent, __gong__toRawStringLiteral(relation_group.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", relation_groupIdent, __gong__toRawStringLiteral(relation_group.LONG_NAME)))
 			if relation_group.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + relation_group.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + relation_group.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", relation_groupIdent, targetIdent))
 			}
 			if relation_group.SOURCE_SPECIFICATION != nil {
-				targetIdent := "__stage_0" + relation_group.SOURCE_SPECIFICATION.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + relation_group.SOURCE_SPECIFICATION.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SOURCE_SPECIFICATION = %s", relation_groupIdent, targetIdent))
 			}
 			if relation_group.SPEC_RELATIONS != nil {
-				targetIdent := "__stage_0" + relation_group.SPEC_RELATIONS.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + relation_group.SPEC_RELATIONS.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPEC_RELATIONS = %s", relation_groupIdent, targetIdent))
 			}
 			if relation_group.TARGET_SPECIFICATION != nil {
-				targetIdent := "__stage_0" + relation_group.TARGET_SPECIFICATION.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + relation_group.TARGET_SPECIFICATION.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TARGET_SPECIFICATION = %s", relation_groupIdent, targetIdent))
 			}
 			if relation_group.TYPE != nil {
-				targetIdent := "__stage_0" + relation_group.TYPE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + relation_group.TYPE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", relation_groupIdent, targetIdent))
 			}
 		}
@@ -1605,19 +2997,43 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.RELATION_GROUP_TYPE_stagedOrder[relation_group_typeOrdered[i]] < stageSet.Stage.RELATION_GROUP_TYPE_stagedOrder[relation_group_typeOrdered[j]]
 		})
 		for _, relation_group_type := range relation_group_typeOrdered {
-			relation_group_typeIdent := "__stage_0" + relation_group_type.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.RELATION_GROUP_TYPE{Name: %s}).Stage(stageSet.Stage)", relation_group_typeIdent, __gong__toRawStringLiteral(relation_group_type.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			relation_group_typeIdent := "__models" + relation_group_type.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.RELATION_GROUP_TYPE{Name: %s}).Stage(stageSet.Stage)", relation_group_typeIdent, __gong__toRawStringLiteral(relation_group_type.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", relation_group_typeIdent, __gong__toRawStringLiteral(relation_group_type.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", relation_group_typeIdent, __gong__toRawStringLiteral(relation_group_type.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", relation_group_typeIdent, __gong__toRawStringLiteral(relation_group_type.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", relation_group_typeIdent, __gong__toRawStringLiteral(relation_group_type.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", relation_group_typeIdent, __gong__toRawStringLiteral(relation_group_type.LONG_NAME)))
 			if relation_group_type.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + relation_group_type.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + relation_group_type.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", relation_group_typeIdent, targetIdent))
 			}
 			if relation_group_type.SPEC_ATTRIBUTES != nil {
-				targetIdent := "__stage_0" + relation_group_type.SPEC_ATTRIBUTES.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + relation_group_type.SPEC_ATTRIBUTES.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPEC_ATTRIBUTES = %s", relation_group_typeIdent, targetIdent))
 			}
 		}
@@ -1631,20 +3047,50 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.REQ_IF_stagedOrder[req_ifOrdered[i]] < stageSet.Stage.REQ_IF_stagedOrder[req_ifOrdered[j]]
 		})
 		for _, req_if := range req_ifOrdered {
-			req_ifIdent := "__stage_0" + req_if.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.REQ_IF{Name: %s}).Stage(stageSet.Stage)", req_ifIdent, __gong__toRawStringLiteral(req_if.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			req_ifIdent := "__models" + req_if.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.REQ_IF{Name: %s}).Stage(stageSet.Stage)", req_ifIdent, __gong__toRawStringLiteral(req_if.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", req_ifIdent, __gong__toRawStringLiteral(req_if.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Lang = %s", req_ifIdent, __gong__toRawStringLiteral(req_if.Lang)))
 			if req_if.THE_HEADER != nil {
-				targetIdent := "__stage_0" + req_if.THE_HEADER.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + req_if.THE_HEADER.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.THE_HEADER = %s", req_ifIdent, targetIdent))
 			}
 			if req_if.CORE_CONTENT != nil {
-				targetIdent := "__stage_0" + req_if.CORE_CONTENT.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + req_if.CORE_CONTENT.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CORE_CONTENT = %s", req_ifIdent, targetIdent))
 			}
 			if req_if.TOOL_EXTENSIONS != nil {
-				targetIdent := "__stage_0" + req_if.TOOL_EXTENSIONS.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + req_if.TOOL_EXTENSIONS.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TOOL_EXTENSIONS = %s", req_ifIdent, targetIdent))
 			}
 		}
@@ -1658,31 +3104,79 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.REQ_IF_CONTENT_stagedOrder[req_if_contentOrdered[i]] < stageSet.Stage.REQ_IF_CONTENT_stagedOrder[req_if_contentOrdered[j]]
 		})
 		for _, req_if_content := range req_if_contentOrdered {
-			req_if_contentIdent := "__stage_0" + req_if_content.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.REQ_IF_CONTENT{Name: %s}).Stage(stageSet.Stage)", req_if_contentIdent, __gong__toRawStringLiteral(req_if_content.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			req_if_contentIdent := "__models" + req_if_content.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.REQ_IF_CONTENT{Name: %s}).Stage(stageSet.Stage)", req_if_contentIdent, __gong__toRawStringLiteral(req_if_content.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", req_if_contentIdent, __gong__toRawStringLiteral(req_if_content.Name)))
 			if req_if_content.DATATYPES != nil {
-				targetIdent := "__stage_0" + req_if_content.DATATYPES.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + req_if_content.DATATYPES.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DATATYPES = %s", req_if_contentIdent, targetIdent))
 			}
 			if req_if_content.SPEC_TYPES != nil {
-				targetIdent := "__stage_0" + req_if_content.SPEC_TYPES.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + req_if_content.SPEC_TYPES.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPEC_TYPES = %s", req_if_contentIdent, targetIdent))
 			}
 			if req_if_content.SPEC_OBJECTS != nil {
-				targetIdent := "__stage_0" + req_if_content.SPEC_OBJECTS.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + req_if_content.SPEC_OBJECTS.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPEC_OBJECTS = %s", req_if_contentIdent, targetIdent))
 			}
 			if req_if_content.SPEC_RELATIONS != nil {
-				targetIdent := "__stage_0" + req_if_content.SPEC_RELATIONS.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + req_if_content.SPEC_RELATIONS.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPEC_RELATIONS = %s", req_if_contentIdent, targetIdent))
 			}
 			if req_if_content.SPECIFICATIONS != nil {
-				targetIdent := "__stage_0" + req_if_content.SPECIFICATIONS.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + req_if_content.SPECIFICATIONS.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPECIFICATIONS = %s", req_if_contentIdent, targetIdent))
 			}
 			if req_if_content.SPEC_RELATION_GROUPS != nil {
-				targetIdent := "__stage_0" + req_if_content.SPEC_RELATION_GROUPS.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + req_if_content.SPEC_RELATION_GROUPS.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPEC_RELATION_GROUPS = %s", req_if_contentIdent, targetIdent))
 			}
 		}
@@ -1696,8 +3190,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.REQ_IF_HEADER_stagedOrder[req_if_headerOrdered[i]] < stageSet.Stage.REQ_IF_HEADER_stagedOrder[req_if_headerOrdered[j]]
 		})
 		for _, req_if_header := range req_if_headerOrdered {
-			req_if_headerIdent := "__stage_0" + req_if_header.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.REQ_IF_HEADER{Name: %s}).Stage(stageSet.Stage)", req_if_headerIdent, __gong__toRawStringLiteral(req_if_header.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			req_if_headerIdent := "__models" + req_if_header.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.REQ_IF_HEADER{Name: %s}).Stage(stageSet.Stage)", req_if_headerIdent, __gong__toRawStringLiteral(req_if_header.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", req_if_headerIdent, __gong__toRawStringLiteral(req_if_header.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", req_if_headerIdent, __gong__toRawStringLiteral(req_if_header.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.COMMENT = %s", req_if_headerIdent, __gong__toRawStringLiteral(req_if_header.COMMENT)))
@@ -1718,8 +3224,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.REQ_IF_TOOL_EXTENSION_stagedOrder[req_if_tool_extensionOrdered[i]] < stageSet.Stage.REQ_IF_TOOL_EXTENSION_stagedOrder[req_if_tool_extensionOrdered[j]]
 		})
 		for _, req_if_tool_extension := range req_if_tool_extensionOrdered {
-			req_if_tool_extensionIdent := "__stage_0" + req_if_tool_extension.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.REQ_IF_TOOL_EXTENSION{Name: %s}).Stage(stageSet.Stage)", req_if_tool_extensionIdent, __gong__toRawStringLiteral(req_if_tool_extension.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			req_if_tool_extensionIdent := "__models" + req_if_tool_extension.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.REQ_IF_TOOL_EXTENSION{Name: %s}).Stage(stageSet.Stage)", req_if_tool_extensionIdent, __gong__toRawStringLiteral(req_if_tool_extension.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", req_if_tool_extensionIdent, __gong__toRawStringLiteral(req_if_tool_extension.Name)))
 		}
 	}
@@ -1732,27 +3250,63 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.SPECIFICATION_stagedOrder[specificationOrdered[i]] < stageSet.Stage.SPECIFICATION_stagedOrder[specificationOrdered[j]]
 		})
 		for _, specification := range specificationOrdered {
-			specificationIdent := "__stage_0" + specification.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.SPECIFICATION{Name: %s}).Stage(stageSet.Stage)", specificationIdent, __gong__toRawStringLiteral(specification.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			specificationIdent := "__models" + specification.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SPECIFICATION{Name: %s}).Stage(stageSet.Stage)", specificationIdent, __gong__toRawStringLiteral(specification.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", specificationIdent, __gong__toRawStringLiteral(specification.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", specificationIdent, __gong__toRawStringLiteral(specification.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", specificationIdent, __gong__toRawStringLiteral(specification.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", specificationIdent, __gong__toRawStringLiteral(specification.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", specificationIdent, __gong__toRawStringLiteral(specification.LONG_NAME)))
 			if specification.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + specification.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + specification.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", specificationIdent, targetIdent))
 			}
 			if specification.CHILDREN != nil {
-				targetIdent := "__stage_0" + specification.CHILDREN.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + specification.CHILDREN.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CHILDREN = %s", specificationIdent, targetIdent))
 			}
 			if specification.VALUES != nil {
-				targetIdent := "__stage_0" + specification.VALUES.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + specification.VALUES.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.VALUES = %s", specificationIdent, targetIdent))
 			}
 			if specification.TYPE != nil {
-				targetIdent := "__stage_0" + specification.TYPE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + specification.TYPE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", specificationIdent, targetIdent))
 			}
 		}
@@ -1766,19 +3320,43 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.SPECIFICATION_TYPE_stagedOrder[specification_typeOrdered[i]] < stageSet.Stage.SPECIFICATION_TYPE_stagedOrder[specification_typeOrdered[j]]
 		})
 		for _, specification_type := range specification_typeOrdered {
-			specification_typeIdent := "__stage_0" + specification_type.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.SPECIFICATION_TYPE{Name: %s}).Stage(stageSet.Stage)", specification_typeIdent, __gong__toRawStringLiteral(specification_type.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			specification_typeIdent := "__models" + specification_type.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SPECIFICATION_TYPE{Name: %s}).Stage(stageSet.Stage)", specification_typeIdent, __gong__toRawStringLiteral(specification_type.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", specification_typeIdent, __gong__toRawStringLiteral(specification_type.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", specification_typeIdent, __gong__toRawStringLiteral(specification_type.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", specification_typeIdent, __gong__toRawStringLiteral(specification_type.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", specification_typeIdent, __gong__toRawStringLiteral(specification_type.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", specification_typeIdent, __gong__toRawStringLiteral(specification_type.LONG_NAME)))
 			if specification_type.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + specification_type.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + specification_type.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", specification_typeIdent, targetIdent))
 			}
 			if specification_type.SPEC_ATTRIBUTES != nil {
-				targetIdent := "__stage_0" + specification_type.SPEC_ATTRIBUTES.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + specification_type.SPEC_ATTRIBUTES.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPEC_ATTRIBUTES = %s", specification_typeIdent, targetIdent))
 			}
 		}
@@ -1792,8 +3370,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.SPEC_HIERARCHY_stagedOrder[spec_hierarchyOrdered[i]] < stageSet.Stage.SPEC_HIERARCHY_stagedOrder[spec_hierarchyOrdered[j]]
 		})
 		for _, spec_hierarchy := range spec_hierarchyOrdered {
-			spec_hierarchyIdent := "__stage_0" + spec_hierarchy.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.SPEC_HIERARCHY{Name: %s}).Stage(stageSet.Stage)", spec_hierarchyIdent, __gong__toRawStringLiteral(spec_hierarchy.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			spec_hierarchyIdent := "__models" + spec_hierarchy.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SPEC_HIERARCHY{Name: %s}).Stage(stageSet.Stage)", spec_hierarchyIdent, __gong__toRawStringLiteral(spec_hierarchy.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", spec_hierarchyIdent, __gong__toRawStringLiteral(spec_hierarchy.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", spec_hierarchyIdent, __gong__toRawStringLiteral(spec_hierarchy.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", spec_hierarchyIdent, __gong__toRawStringLiteral(spec_hierarchy.IDENTIFIER)))
@@ -1802,19 +3392,43 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", spec_hierarchyIdent, __gong__toRawStringLiteral(spec_hierarchy.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", spec_hierarchyIdent, __gong__toRawStringLiteral(spec_hierarchy.LONG_NAME)))
 			if spec_hierarchy.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + spec_hierarchy.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_hierarchy.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", spec_hierarchyIdent, targetIdent))
 			}
 			if spec_hierarchy.CHILDREN != nil {
-				targetIdent := "__stage_0" + spec_hierarchy.CHILDREN.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_hierarchy.CHILDREN.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.CHILDREN = %s", spec_hierarchyIdent, targetIdent))
 			}
 			if spec_hierarchy.EDITABLE_ATTS != nil {
-				targetIdent := "__stage_0" + spec_hierarchy.EDITABLE_ATTS.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_hierarchy.EDITABLE_ATTS.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EDITABLE_ATTS = %s", spec_hierarchyIdent, targetIdent))
 			}
 			if spec_hierarchy.OBJECT != nil {
-				targetIdent := "__stage_0" + spec_hierarchy.OBJECT.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_hierarchy.OBJECT.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.OBJECT = %s", spec_hierarchyIdent, targetIdent))
 			}
 		}
@@ -1828,23 +3442,53 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.SPEC_OBJECT_stagedOrder[spec_objectOrdered[i]] < stageSet.Stage.SPEC_OBJECT_stagedOrder[spec_objectOrdered[j]]
 		})
 		for _, spec_object := range spec_objectOrdered {
-			spec_objectIdent := "__stage_0" + spec_object.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.SPEC_OBJECT{Name: %s}).Stage(stageSet.Stage)", spec_objectIdent, __gong__toRawStringLiteral(spec_object.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			spec_objectIdent := "__models" + spec_object.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SPEC_OBJECT{Name: %s}).Stage(stageSet.Stage)", spec_objectIdent, __gong__toRawStringLiteral(spec_object.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", spec_objectIdent, __gong__toRawStringLiteral(spec_object.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", spec_objectIdent, __gong__toRawStringLiteral(spec_object.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", spec_objectIdent, __gong__toRawStringLiteral(spec_object.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", spec_objectIdent, __gong__toRawStringLiteral(spec_object.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", spec_objectIdent, __gong__toRawStringLiteral(spec_object.LONG_NAME)))
 			if spec_object.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + spec_object.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_object.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", spec_objectIdent, targetIdent))
 			}
 			if spec_object.VALUES != nil {
-				targetIdent := "__stage_0" + spec_object.VALUES.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_object.VALUES.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.VALUES = %s", spec_objectIdent, targetIdent))
 			}
 			if spec_object.TYPE != nil {
-				targetIdent := "__stage_0" + spec_object.TYPE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_object.TYPE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", spec_objectIdent, targetIdent))
 			}
 		}
@@ -1858,19 +3502,43 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.SPEC_OBJECT_TYPE_stagedOrder[spec_object_typeOrdered[i]] < stageSet.Stage.SPEC_OBJECT_TYPE_stagedOrder[spec_object_typeOrdered[j]]
 		})
 		for _, spec_object_type := range spec_object_typeOrdered {
-			spec_object_typeIdent := "__stage_0" + spec_object_type.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.SPEC_OBJECT_TYPE{Name: %s}).Stage(stageSet.Stage)", spec_object_typeIdent, __gong__toRawStringLiteral(spec_object_type.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			spec_object_typeIdent := "__models" + spec_object_type.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SPEC_OBJECT_TYPE{Name: %s}).Stage(stageSet.Stage)", spec_object_typeIdent, __gong__toRawStringLiteral(spec_object_type.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", spec_object_typeIdent, __gong__toRawStringLiteral(spec_object_type.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", spec_object_typeIdent, __gong__toRawStringLiteral(spec_object_type.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", spec_object_typeIdent, __gong__toRawStringLiteral(spec_object_type.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", spec_object_typeIdent, __gong__toRawStringLiteral(spec_object_type.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", spec_object_typeIdent, __gong__toRawStringLiteral(spec_object_type.LONG_NAME)))
 			if spec_object_type.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + spec_object_type.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_object_type.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", spec_object_typeIdent, targetIdent))
 			}
 			if spec_object_type.SPEC_ATTRIBUTES != nil {
-				targetIdent := "__stage_0" + spec_object_type.SPEC_ATTRIBUTES.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_object_type.SPEC_ATTRIBUTES.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPEC_ATTRIBUTES = %s", spec_object_typeIdent, targetIdent))
 			}
 		}
@@ -1884,31 +3552,73 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.SPEC_RELATION_stagedOrder[spec_relationOrdered[i]] < stageSet.Stage.SPEC_RELATION_stagedOrder[spec_relationOrdered[j]]
 		})
 		for _, spec_relation := range spec_relationOrdered {
-			spec_relationIdent := "__stage_0" + spec_relation.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.SPEC_RELATION{Name: %s}).Stage(stageSet.Stage)", spec_relationIdent, __gong__toRawStringLiteral(spec_relation.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			spec_relationIdent := "__models" + spec_relation.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SPEC_RELATION{Name: %s}).Stage(stageSet.Stage)", spec_relationIdent, __gong__toRawStringLiteral(spec_relation.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", spec_relationIdent, __gong__toRawStringLiteral(spec_relation.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", spec_relationIdent, __gong__toRawStringLiteral(spec_relation.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", spec_relationIdent, __gong__toRawStringLiteral(spec_relation.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", spec_relationIdent, __gong__toRawStringLiteral(spec_relation.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", spec_relationIdent, __gong__toRawStringLiteral(spec_relation.LONG_NAME)))
 			if spec_relation.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + spec_relation.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_relation.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", spec_relationIdent, targetIdent))
 			}
 			if spec_relation.VALUES != nil {
-				targetIdent := "__stage_0" + spec_relation.VALUES.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_relation.VALUES.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.VALUES = %s", spec_relationIdent, targetIdent))
 			}
 			if spec_relation.SOURCE != nil {
-				targetIdent := "__stage_0" + spec_relation.SOURCE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_relation.SOURCE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SOURCE = %s", spec_relationIdent, targetIdent))
 			}
 			if spec_relation.TARGET != nil {
-				targetIdent := "__stage_0" + spec_relation.TARGET.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_relation.TARGET.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TARGET = %s", spec_relationIdent, targetIdent))
 			}
 			if spec_relation.TYPE != nil {
-				targetIdent := "__stage_0" + spec_relation.TYPE.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_relation.TYPE.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", spec_relationIdent, targetIdent))
 			}
 		}
@@ -1922,19 +3632,43 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.SPEC_RELATION_TYPE_stagedOrder[spec_relation_typeOrdered[i]] < stageSet.Stage.SPEC_RELATION_TYPE_stagedOrder[spec_relation_typeOrdered[j]]
 		})
 		for _, spec_relation_type := range spec_relation_typeOrdered {
-			spec_relation_typeIdent := "__stage_0" + spec_relation_type.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.SPEC_RELATION_TYPE{Name: %s}).Stage(stageSet.Stage)", spec_relation_typeIdent, __gong__toRawStringLiteral(spec_relation_type.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			spec_relation_typeIdent := "__models" + spec_relation_type.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.SPEC_RELATION_TYPE{Name: %s}).Stage(stageSet.Stage)", spec_relation_typeIdent, __gong__toRawStringLiteral(spec_relation_type.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", spec_relation_typeIdent, __gong__toRawStringLiteral(spec_relation_type.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.DESC = %s", spec_relation_typeIdent, __gong__toRawStringLiteral(spec_relation_type.DESC)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", spec_relation_typeIdent, __gong__toRawStringLiteral(spec_relation_type.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", spec_relation_typeIdent, __gong__toRawStringLiteral(spec_relation_type.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", spec_relation_typeIdent, __gong__toRawStringLiteral(spec_relation_type.LONG_NAME)))
 			if spec_relation_type.ALTERNATIVE_ID != nil {
-				targetIdent := "__stage_0" + spec_relation_type.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_relation_type.ALTERNATIVE_ID.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ALTERNATIVE_ID = %s", spec_relation_typeIdent, targetIdent))
 			}
 			if spec_relation_type.SPEC_ATTRIBUTES != nil {
-				targetIdent := "__stage_0" + spec_relation_type.SPEC_ATTRIBUTES.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + spec_relation_type.SPEC_ATTRIBUTES.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SPEC_ATTRIBUTES = %s", spec_relation_typeIdent, targetIdent))
 			}
 		}
@@ -1948,8 +3682,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.XHTML_CONTENT_stagedOrder[xhtml_contentOrdered[i]] < stageSet.Stage.XHTML_CONTENT_stagedOrder[xhtml_contentOrdered[j]]
 		})
 		for _, xhtml_content := range xhtml_contentOrdered {
-			xhtml_contentIdent := "__stage_0" + xhtml_content.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.XHTML_CONTENT{Name: %s}).Stage(stageSet.Stage)", xhtml_contentIdent, __gong__toRawStringLiteral(xhtml_content.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			xhtml_contentIdent := "__models" + xhtml_content.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.XHTML_CONTENT{Name: %s}).Stage(stageSet.Stage)", xhtml_contentIdent, __gong__toRawStringLiteral(xhtml_content.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xhtml_contentIdent, __gong__toRawStringLiteral(xhtml_content.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", xhtml_contentIdent, __gong__toRawStringLiteral(xhtml_content.EnclosedText)))
 		}
@@ -1963,18 +3709,18 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/app/xsd/tests/reqif/go/models"
+	"github.com/fullstack-lang/gong/app/xsd/tests/reqif/go/models"
 )
 
 var (
 	_ time.Time
 	_ = slices.Index[[]int, int]
 
-	_ *__stage_0__.Stage
+	_ *models.Stage
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stageSet *models.StageSet) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
@@ -2040,6 +3786,19 @@ func (stageSet *StageSet) ParseAstString(blob string, preserveOrder bool) error 
 func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	identifierMap := make(map[string]any)
 
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/app/xsd/tests/reqif/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
 	ast.Inspect(inFile, func(n ast.Node) bool {
 		switch node := n.(type) {
 		case *ast.AssignStmt:
@@ -2076,8 +3835,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						return true
 					})
 
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					}
+
 					switch pkgAlias {
-			case "__stage_0__":
+			case "models":
 				switch typeName {
 				case "ALTERNATIVE_ID":
 					if !preserveOrder {
@@ -3496,7 +5259,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_VALUE_BOOLEAN); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_BOOLEAN); ok {
 										inst.ATTRIBUTE_VALUE_BOOLEAN = append(inst.ATTRIBUTE_VALUE_BOOLEAN, typedTarget)
 									}
 								}
@@ -3511,7 +5274,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_VALUE_DATE); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_DATE); ok {
 										inst.ATTRIBUTE_VALUE_DATE = append(inst.ATTRIBUTE_VALUE_DATE, typedTarget)
 									}
 								}
@@ -3526,7 +5289,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_VALUE_ENUMERATION); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_ENUMERATION); ok {
 										inst.ATTRIBUTE_VALUE_ENUMERATION = append(inst.ATTRIBUTE_VALUE_ENUMERATION, typedTarget)
 									}
 								}
@@ -3541,7 +5304,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_VALUE_INTEGER); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_INTEGER); ok {
 										inst.ATTRIBUTE_VALUE_INTEGER = append(inst.ATTRIBUTE_VALUE_INTEGER, typedTarget)
 									}
 								}
@@ -3556,7 +5319,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_VALUE_REAL); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_REAL); ok {
 										inst.ATTRIBUTE_VALUE_REAL = append(inst.ATTRIBUTE_VALUE_REAL, typedTarget)
 									}
 								}
@@ -3571,7 +5334,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_VALUE_STRING); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_STRING); ok {
 										inst.ATTRIBUTE_VALUE_STRING = append(inst.ATTRIBUTE_VALUE_STRING, typedTarget)
 									}
 								}
@@ -3586,7 +5349,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_VALUE_XHTML); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_XHTML); ok {
 										inst.ATTRIBUTE_VALUE_XHTML = append(inst.ATTRIBUTE_VALUE_XHTML, typedTarget)
 									}
 								}
@@ -3601,7 +5364,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_VALUE_BOOLEAN); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_BOOLEAN); ok {
 										inst.ATTRIBUTE_VALUE_BOOLEAN = append(inst.ATTRIBUTE_VALUE_BOOLEAN, typedTarget)
 									}
 								}
@@ -3611,7 +5374,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_VALUE_DATE); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_DATE); ok {
 										inst.ATTRIBUTE_VALUE_DATE = append(inst.ATTRIBUTE_VALUE_DATE, typedTarget)
 									}
 								}
@@ -3621,7 +5384,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_VALUE_ENUMERATION); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_ENUMERATION); ok {
 										inst.ATTRIBUTE_VALUE_ENUMERATION = append(inst.ATTRIBUTE_VALUE_ENUMERATION, typedTarget)
 									}
 								}
@@ -3631,7 +5394,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_VALUE_INTEGER); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_INTEGER); ok {
 										inst.ATTRIBUTE_VALUE_INTEGER = append(inst.ATTRIBUTE_VALUE_INTEGER, typedTarget)
 									}
 								}
@@ -3641,7 +5404,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_VALUE_REAL); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_REAL); ok {
 										inst.ATTRIBUTE_VALUE_REAL = append(inst.ATTRIBUTE_VALUE_REAL, typedTarget)
 									}
 								}
@@ -3651,7 +5414,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_VALUE_STRING); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_STRING); ok {
 										inst.ATTRIBUTE_VALUE_STRING = append(inst.ATTRIBUTE_VALUE_STRING, typedTarget)
 									}
 								}
@@ -3661,7 +5424,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_VALUE_XHTML); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_VALUE_XHTML); ok {
 										inst.ATTRIBUTE_VALUE_XHTML = append(inst.ATTRIBUTE_VALUE_XHTML, typedTarget)
 									}
 								}
@@ -3676,7 +5439,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*SPEC_HIERARCHY); ok {
+									if typedTarget, ok := target.(*SPEC_HIERARCHY); ok {
 										inst.SPEC_HIERARCHY = append(inst.SPEC_HIERARCHY, typedTarget)
 									}
 								}
@@ -3704,7 +5467,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DATATYPE_DEFINITION_BOOLEAN); ok {
+									if typedTarget, ok := target.(*DATATYPE_DEFINITION_BOOLEAN); ok {
 										inst.DATATYPE_DEFINITION_BOOLEAN = append(inst.DATATYPE_DEFINITION_BOOLEAN, typedTarget)
 									}
 								}
@@ -3714,7 +5477,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DATATYPE_DEFINITION_DATE); ok {
+									if typedTarget, ok := target.(*DATATYPE_DEFINITION_DATE); ok {
 										inst.DATATYPE_DEFINITION_DATE = append(inst.DATATYPE_DEFINITION_DATE, typedTarget)
 									}
 								}
@@ -3724,7 +5487,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DATATYPE_DEFINITION_ENUMERATION); ok {
+									if typedTarget, ok := target.(*DATATYPE_DEFINITION_ENUMERATION); ok {
 										inst.DATATYPE_DEFINITION_ENUMERATION = append(inst.DATATYPE_DEFINITION_ENUMERATION, typedTarget)
 									}
 								}
@@ -3734,7 +5497,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DATATYPE_DEFINITION_INTEGER); ok {
+									if typedTarget, ok := target.(*DATATYPE_DEFINITION_INTEGER); ok {
 										inst.DATATYPE_DEFINITION_INTEGER = append(inst.DATATYPE_DEFINITION_INTEGER, typedTarget)
 									}
 								}
@@ -3744,7 +5507,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DATATYPE_DEFINITION_REAL); ok {
+									if typedTarget, ok := target.(*DATATYPE_DEFINITION_REAL); ok {
 										inst.DATATYPE_DEFINITION_REAL = append(inst.DATATYPE_DEFINITION_REAL, typedTarget)
 									}
 								}
@@ -3754,7 +5517,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DATATYPE_DEFINITION_STRING); ok {
+									if typedTarget, ok := target.(*DATATYPE_DEFINITION_STRING); ok {
 										inst.DATATYPE_DEFINITION_STRING = append(inst.DATATYPE_DEFINITION_STRING, typedTarget)
 									}
 								}
@@ -3764,7 +5527,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DATATYPE_DEFINITION_XHTML); ok {
+									if typedTarget, ok := target.(*DATATYPE_DEFINITION_XHTML); ok {
 										inst.DATATYPE_DEFINITION_XHTML = append(inst.DATATYPE_DEFINITION_XHTML, typedTarget)
 									}
 								}
@@ -3895,7 +5658,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*SPECIFICATION); ok {
+									if typedTarget, ok := target.(*SPECIFICATION); ok {
 										inst.SPECIFICATION = append(inst.SPECIFICATION, typedTarget)
 									}
 								}
@@ -3917,7 +5680,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ENUM_VALUE); ok {
+									if typedTarget, ok := target.(*ENUM_VALUE); ok {
 										inst.ENUM_VALUE = append(inst.ENUM_VALUE, typedTarget)
 									}
 								}
@@ -3932,7 +5695,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_BOOLEAN); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_BOOLEAN); ok {
 										inst.ATTRIBUTE_DEFINITION_BOOLEAN = append(inst.ATTRIBUTE_DEFINITION_BOOLEAN, typedTarget)
 									}
 								}
@@ -3942,7 +5705,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_DATE); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_DATE); ok {
 										inst.ATTRIBUTE_DEFINITION_DATE = append(inst.ATTRIBUTE_DEFINITION_DATE, typedTarget)
 									}
 								}
@@ -3952,7 +5715,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_ENUMERATION); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_ENUMERATION); ok {
 										inst.ATTRIBUTE_DEFINITION_ENUMERATION = append(inst.ATTRIBUTE_DEFINITION_ENUMERATION, typedTarget)
 									}
 								}
@@ -3962,7 +5725,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_INTEGER); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_INTEGER); ok {
 										inst.ATTRIBUTE_DEFINITION_INTEGER = append(inst.ATTRIBUTE_DEFINITION_INTEGER, typedTarget)
 									}
 								}
@@ -3972,7 +5735,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_REAL); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_REAL); ok {
 										inst.ATTRIBUTE_DEFINITION_REAL = append(inst.ATTRIBUTE_DEFINITION_REAL, typedTarget)
 									}
 								}
@@ -3982,7 +5745,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_STRING); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_STRING); ok {
 										inst.ATTRIBUTE_DEFINITION_STRING = append(inst.ATTRIBUTE_DEFINITION_STRING, typedTarget)
 									}
 								}
@@ -3992,7 +5755,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_XHTML); ok {
+									if typedTarget, ok := target.(*ATTRIBUTE_DEFINITION_XHTML); ok {
 										inst.ATTRIBUTE_DEFINITION_XHTML = append(inst.ATTRIBUTE_DEFINITION_XHTML, typedTarget)
 									}
 								}
@@ -4007,7 +5770,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*SPEC_OBJECT); ok {
+									if typedTarget, ok := target.(*SPEC_OBJECT); ok {
 										inst.SPEC_OBJECT = append(inst.SPEC_OBJECT, typedTarget)
 									}
 								}
@@ -4029,7 +5792,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*SPEC_RELATION); ok {
+									if typedTarget, ok := target.(*SPEC_RELATION); ok {
 										inst.SPEC_RELATION = append(inst.SPEC_RELATION, typedTarget)
 									}
 								}
@@ -4044,7 +5807,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*RELATION_GROUP); ok {
+									if typedTarget, ok := target.(*RELATION_GROUP); ok {
 										inst.RELATION_GROUP = append(inst.RELATION_GROUP, typedTarget)
 									}
 								}
@@ -4073,7 +5836,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*RELATION_GROUP_TYPE); ok {
+									if typedTarget, ok := target.(*RELATION_GROUP_TYPE); ok {
 										inst.RELATION_GROUP_TYPE = append(inst.RELATION_GROUP_TYPE, typedTarget)
 									}
 								}
@@ -4083,7 +5846,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*SPEC_OBJECT_TYPE); ok {
+									if typedTarget, ok := target.(*SPEC_OBJECT_TYPE); ok {
 										inst.SPEC_OBJECT_TYPE = append(inst.SPEC_OBJECT_TYPE, typedTarget)
 									}
 								}
@@ -4093,7 +5856,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*SPEC_RELATION_TYPE); ok {
+									if typedTarget, ok := target.(*SPEC_RELATION_TYPE); ok {
 										inst.SPEC_RELATION_TYPE = append(inst.SPEC_RELATION_TYPE, typedTarget)
 									}
 								}
@@ -4103,7 +5866,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*SPECIFICATION_TYPE); ok {
+									if typedTarget, ok := target.(*SPECIFICATION_TYPE); ok {
 										inst.SPECIFICATION_TYPE = append(inst.SPECIFICATION_TYPE, typedTarget)
 									}
 								}
@@ -4131,7 +5894,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*REQ_IF_TOOL_EXTENSION); ok {
+									if typedTarget, ok := target.(*REQ_IF_TOOL_EXTENSION); ok {
 										inst.REQ_IF_TOOL_EXTENSION = append(inst.REQ_IF_TOOL_EXTENSION, typedTarget)
 									}
 								}

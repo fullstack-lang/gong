@@ -56,6 +56,34 @@ func IdentifierMetaToStructAndFieldName(fieldMetaIdentifier any) (structname, fi
 	return
 }
 
+// IdentifierMetaToPackageStructAndFieldName takes an ident in the forms
+// "ref_models.Foo{}.Name" or "ref_x.Foo{}.Name" and returns ("models", "Foo", "Name") or ("x", "Foo", "Name")
+func IdentifierMetaToPackageStructAndFieldName(fieldMetaIdentifier any) (pkgName, structName, fieldName string) {
+	var fieldMetaIdentifierString string
+	var ok bool
+	if fieldMetaIdentifierString, ok = fieldMetaIdentifier.(string); !ok {
+		return "", "", ""
+	}
+
+	fieldIdentifier := strings.ReplaceAll(fieldMetaIdentifierString, "{}", "")
+	clean := strings.TrimPrefix(fieldIdentifier, RefPrefixReferencedPackage)
+
+	subStrings := strings.Split(clean, ".")
+	if len(subStrings) < 2 {
+		return "", "", ""
+	}
+
+	fieldName = subStrings[len(subStrings)-1]
+	structName = subStrings[len(subStrings)-2]
+	if len(subStrings) >= 3 {
+		pkgName = subStrings[len(subStrings)-3]
+	} else {
+		pkgName = "models"
+	}
+
+	return
+}
+
 // GongEnumValueShapeIdentifierMetaToValueName take an ident in the forms
 // ref_models.Foo{}.Name and returns "Name"
 func GongEnumValueShapeIdentifierMetaToValueName(identifierMeta any) (valueName string) {

@@ -8,6 +8,7 @@ import (
 	doc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 	embeddedgo "github.com/fullstack-lang/gong/test/test2/go"
 	"github.com/fullstack-lang/gong/test/test2/go/models"
 	"github.com/fullstack-lang/gong/test/test2/go/models/probe"
@@ -21,6 +22,7 @@ func TestStageSetDiagramsParseAndMarshall(t *testing.T) {
 		{Alias: "ref_models", Path: `"github.com/fullstack-lang/gong/test/test2/go/models"`},
 		{Alias: "ref_x", Path: `"github.com/fullstack-lang/gong/test/test2/go/models/x"`},
 		{Alias: "ref_y", Path: `"github.com/fullstack-lang/gong/test/test2/go/models/y"`},
+		{Alias: "ref_model", Path: `"github.com/fullstack-lang/gong/test/test2/go/models/x/models"`},
 	}
 
 	receivingSplitArea := &split.AsSplitArea{
@@ -77,7 +79,7 @@ func TestStageSetDiagramsParseAndMarshall(t *testing.T) {
 		shapeNames[pkg+"."+name] = shape
 	}
 
-	for _, expected := range []string{"models.A", "x.X", "y.Y"} {
+	for _, expected := range []string{"models.A", "x.X", "y.Y", "model.SubModel"} {
 		if _, ok := shapeNames[expected]; !ok {
 			t.Errorf("missing expected GongStructShape %s", expected)
 		}
@@ -133,6 +135,7 @@ func TestStageSetDiagramsParseAndMarshall(t *testing.T) {
 		`ref_models "github.com/fullstack-lang/gong/test/test2/go/models"`,
 		`ref_x "github.com/fullstack-lang/gong/test/test2/go/models/x"`,
 		`ref_y "github.com/fullstack-lang/gong/test/test2/go/models/y"`,
+		`ref_model "github.com/fullstack-lang/gong/test/test2/go/models/x/models"`,
 	} {
 		if !strings.Contains(marshalled, expectedImport) {
 			t.Errorf("marshalled code missing expected import: %s\nFull code:\n%s", expectedImport, marshalled)
@@ -144,22 +147,114 @@ func TestStageSetDiagramsParseAndMarshall(t *testing.T) {
 		"var _ ref_models.Stage",
 		"var _ ref_x.Stage",
 		"var _ ref_y.Stage",
+		"var _ ref_model.Stage",
 	} {
 		if !strings.Contains(marshalled, expectedDummy) {
 			t.Errorf("marshalled code missing expected dummy decl: %s", expectedDummy)
 		}
 	}
 
-	// Verify cross-package references in staged code
 	for _, expectedRef := range []string{
 		"ref_models.A{}.X",
 		"ref_x.X{}",
 		"ref_x.X{}.Y",
 		"ref_y.Y{}",
+		"ref_model.SubModel{}",
 	} {
 		if !strings.Contains(marshalled, expectedRef) {
 			t.Errorf("marshalled code missing expected reference: %s", expectedRef)
 		}
+	}
+
+	// 6. Verify doc tree sub-package hierarchy
+	docTreeStage := stager.GetTreeStage()
+	if len(docTreeStage.Trees) == 0 {
+		t.Fatal("expected at least one tree in docTreeStage")
+	}
+	var docRootTree *tree.Tree
+	for tr := range docTreeStage.Trees {
+		docRootTree = tr
+		break
+	}
+	if len(docRootTree.RootNodes) == 0 {
+		t.Fatal("expected at least one RootNode in docRootTree")
+	}
+
+	var diagramNode *tree.Node
+	for _, node := range docRootTree.RootNodes {
+		if node.Name == "StageSet_Diagram" {
+			diagramNode = node
+			break
+		}
+	}
+	if diagramNode == nil {
+		t.Fatal("expected to find node for 'StageSet_Diagram'")
+	}
+
+	// Verify that under 'StageSet_Diagram', root package Gongstructs is directly attached (no "models" node)
+	var rootGongstructsNode *tree.Node
+	for _, child := range diagramNode.Children {
+		if strings.HasPrefix(child.Name, "Gongstructs") {
+			rootGongstructsNode = child
+			break
+		}
+	}
+	if rootGongstructsNode == nil {
+		t.Fatalf("expected direct 'Gongstructs' category node under StageSet_Diagram for root package, got children: %v", diagramNode.Children)
+	}
+
+	// Verify that sub-packages ("x", "y") have their own package nodes under StageSet_Diagram
+	pkgNodesByName := make(map[string]*tree.Node)
+	for _, child := range diagramNode.Children {
+		pkgNodesByName[child.Name] = child
+	}
+
+	if _, ok := pkgNodesByName["models"]; ok {
+		t.Errorf("did not expect 'models' package node under StageSet_Diagram (root package elements should be direct children)")
+	}
+
+	for _, expectedPkg := range []string{"x", "y"} {
+		pkgNode, ok := pkgNodesByName[expectedPkg]
+		if !ok {
+			t.Fatalf("expected sub-package node %q under StageSet_Diagram, got children: %v", expectedPkg, diagramNode.Children)
+		}
+		// Under each package node, verify Gongstructs node exists
+		var gongstructsNode *tree.Node
+		for _, child := range pkgNode.Children {
+			if strings.HasPrefix(child.Name, "Gongstructs") {
+				gongstructsNode = child
+				break
+			}
+		}
+		if gongstructsNode == nil {
+			t.Fatalf("expected 'Gongstructs' category node under sub-package %q", expectedPkg)
+		}
+	}
+
+	// Verify that 'model' package node is inside 'x' (respecting hierarchy)
+	xNode := pkgNodesByName["x"]
+	if xNode == nil {
+		t.Fatal("expected 'x' node under StageSet_Diagram")
+	}
+	var modelNode *tree.Node
+	for _, child := range xNode.Children {
+		if child.Name == "model" {
+			modelNode = child
+			break
+		}
+	}
+	if modelNode == nil {
+		t.Fatalf("expected 'model' node within 'x' node, got x children: %v", xNode.Children)
+	}
+	var modelGongstructsNode *tree.Node
+	for _, child := range modelNode.Children {
+		if strings.HasPrefix(child.Name, "Gongstructs") {
+			modelGongstructsNode = child
+			break
+		}
+	}
+	if modelGongstructsNode == nil {
+		t.Fatalf("expected 'Gongstructs' category node under sub-package 'model'")
 	}
 }
 

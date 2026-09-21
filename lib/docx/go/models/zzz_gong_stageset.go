@@ -128,6 +128,12 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	var declarations strings.Builder
 	var values strings.Builder
 	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
 		bodyOrdered := []*Body{}
@@ -138,19 +144,49 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Body_stagedOrder[bodyOrdered[i]] < stageSet.Stage.Body_stagedOrder[bodyOrdered[j]]
 		})
 		for _, body := range bodyOrdered {
-			bodyIdent := "__stage_0" + body.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Body{Name: %s}).Stage(stageSet.Stage)", bodyIdent, __gong__toRawStringLiteral(body.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			bodyIdent := "__models" + body.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Body{Name: %s}).Stage(stageSet.Stage)", bodyIdent, __gong__toRawStringLiteral(body.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bodyIdent, __gong__toRawStringLiteral(body.Name)))
 			for _, elem := range body.Paragraphs {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Paragraphs = append(%s.Paragraphs, %s)", bodyIdent, bodyIdent, targetIdent))
 			}
 			for _, elem := range body.Tables {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Tables = append(%s.Tables, %s)", bodyIdent, bodyIdent, targetIdent))
 			}
 			if body.LastParagraph != nil {
-				targetIdent := "__stage_0" + body.LastParagraph.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + body.LastParagraph.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.LastParagraph = %s", bodyIdent, targetIdent))
 			}
 		}
@@ -164,19 +200,49 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Document_stagedOrder[documentOrdered[i]] < stageSet.Stage.Document_stagedOrder[documentOrdered[j]]
 		})
 		for _, document := range documentOrdered {
-			documentIdent := "__stage_0" + document.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Document{Name: %s}).Stage(stageSet.Stage)", documentIdent, __gong__toRawStringLiteral(document.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			documentIdent := "__models" + document.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Document{Name: %s}).Stage(stageSet.Stage)", documentIdent, __gong__toRawStringLiteral(document.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", documentIdent, __gong__toRawStringLiteral(document.Name)))
 			if document.File != nil {
-				targetIdent := "__stage_0" + document.File.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + document.File.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.File = %s", documentIdent, targetIdent))
 			}
 			if document.Root != nil {
-				targetIdent := "__stage_0" + document.Root.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + document.Root.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Root = %s", documentIdent, targetIdent))
 			}
 			if document.Body != nil {
-				targetIdent := "__stage_0" + document.Body.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + document.Body.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Body = %s", documentIdent, targetIdent))
 			}
 		}
@@ -190,15 +256,39 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Docx_stagedOrder[docxOrdered[i]] < stageSet.Stage.Docx_stagedOrder[docxOrdered[j]]
 		})
 		for _, docx := range docxOrdered {
-			docxIdent := "__stage_0" + docx.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Docx{Name: %s}).Stage(stageSet.Stage)", docxIdent, __gong__toRawStringLiteral(docx.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			docxIdent := "__models" + docx.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Docx{Name: %s}).Stage(stageSet.Stage)", docxIdent, __gong__toRawStringLiteral(docx.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", docxIdent, __gong__toRawStringLiteral(docx.Name)))
 			for _, elem := range docx.Files {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Files = append(%s.Files, %s)", docxIdent, docxIdent, targetIdent))
 			}
 			if docx.Document != nil {
-				targetIdent := "__stage_0" + docx.Document.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + docx.Document.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Document = %s", docxIdent, targetIdent))
 			}
 		}
@@ -212,8 +302,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.File_stagedOrder[fileOrdered[i]] < stageSet.Stage.File_stagedOrder[fileOrdered[j]]
 		})
 		for _, file := range fileOrdered {
-			fileIdent := "__stage_0" + file.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.File{Name: %s}).Stage(stageSet.Stage)", fileIdent, __gong__toRawStringLiteral(file.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			fileIdent := "__models" + file.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.File{Name: %s}).Stage(stageSet.Stage)", fileIdent, __gong__toRawStringLiteral(file.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", fileIdent, __gong__toRawStringLiteral(file.Name)))
 		}
 	}
@@ -226,11 +328,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Node_stagedOrder[nodeOrdered[i]] < stageSet.Stage.Node_stagedOrder[nodeOrdered[j]]
 		})
 		for _, node := range nodeOrdered {
-			nodeIdent := "__stage_0" + node.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Node{Name: %s}).Stage(stageSet.Stage)", nodeIdent, __gong__toRawStringLiteral(node.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			nodeIdent := "__models" + node.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Node{Name: %s}).Stage(stageSet.Stage)", nodeIdent, __gong__toRawStringLiteral(node.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", nodeIdent, __gong__toRawStringLiteral(node.Name)))
 			for _, elem := range node.Nodes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Nodes = append(%s.Nodes, %s)", nodeIdent, nodeIdent, targetIdent))
 			}
 		}
@@ -244,37 +364,91 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Paragraph_stagedOrder[paragraphOrdered[i]] < stageSet.Stage.Paragraph_stagedOrder[paragraphOrdered[j]]
 		})
 		for _, paragraph := range paragraphOrdered {
-			paragraphIdent := "__stage_0" + paragraph.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Paragraph{Name: %s}).Stage(stageSet.Stage)", paragraphIdent, __gong__toRawStringLiteral(paragraph.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			paragraphIdent := "__models" + paragraph.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Paragraph{Name: %s}).Stage(stageSet.Stage)", paragraphIdent, __gong__toRawStringLiteral(paragraph.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", paragraphIdent, __gong__toRawStringLiteral(paragraph.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", paragraphIdent, __gong__toRawStringLiteral(paragraph.Content)))
 			values.WriteString(fmt.Sprintf("\n\t%s.CollatedText = %s", paragraphIdent, __gong__toRawStringLiteral(paragraph.CollatedText)))
 			if paragraph.Node != nil {
-				targetIdent := "__stage_0" + paragraph.Node.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + paragraph.Node.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Node = %s", paragraphIdent, targetIdent))
 			}
 			if paragraph.ParagraphProperties != nil {
-				targetIdent := "__stage_0" + paragraph.ParagraphProperties.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + paragraph.ParagraphProperties.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParagraphProperties = %s", paragraphIdent, targetIdent))
 			}
 			for _, elem := range paragraph.Runes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Runes = append(%s.Runes, %s)", paragraphIdent, paragraphIdent, targetIdent))
 			}
 			if paragraph.Next != nil {
-				targetIdent := "__stage_0" + paragraph.Next.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + paragraph.Next.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Next = %s", paragraphIdent, targetIdent))
 			}
 			if paragraph.Previous != nil {
-				targetIdent := "__stage_0" + paragraph.Previous.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + paragraph.Previous.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Previous = %s", paragraphIdent, targetIdent))
 			}
 			if paragraph.EnclosingBody != nil {
-				targetIdent := "__stage_0" + paragraph.EnclosingBody.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + paragraph.EnclosingBody.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EnclosingBody = %s", paragraphIdent, targetIdent))
 			}
 			if paragraph.EnclosingTableColumn != nil {
-				targetIdent := "__stage_0" + paragraph.EnclosingTableColumn.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + paragraph.EnclosingTableColumn.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EnclosingTableColumn = %s", paragraphIdent, targetIdent))
 			}
 		}
@@ -288,16 +462,40 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ParagraphProperties_stagedOrder[paragraphpropertiesOrdered[i]] < stageSet.Stage.ParagraphProperties_stagedOrder[paragraphpropertiesOrdered[j]]
 		})
 		for _, paragraphproperties := range paragraphpropertiesOrdered {
-			paragraphpropertiesIdent := "__stage_0" + paragraphproperties.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ParagraphProperties{Name: %s}).Stage(stageSet.Stage)", paragraphpropertiesIdent, __gong__toRawStringLiteral(paragraphproperties.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			paragraphpropertiesIdent := "__models" + paragraphproperties.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ParagraphProperties{Name: %s}).Stage(stageSet.Stage)", paragraphpropertiesIdent, __gong__toRawStringLiteral(paragraphproperties.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", paragraphpropertiesIdent, __gong__toRawStringLiteral(paragraphproperties.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", paragraphpropertiesIdent, __gong__toRawStringLiteral(paragraphproperties.Content)))
 			if paragraphproperties.ParagraphStyle != nil {
-				targetIdent := "__stage_0" + paragraphproperties.ParagraphStyle.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + paragraphproperties.ParagraphStyle.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParagraphStyle = %s", paragraphpropertiesIdent, targetIdent))
 			}
 			if paragraphproperties.Node != nil {
-				targetIdent := "__stage_0" + paragraphproperties.Node.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + paragraphproperties.Node.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Node = %s", paragraphpropertiesIdent, targetIdent))
 			}
 		}
@@ -311,13 +509,31 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ParagraphStyle_stagedOrder[paragraphstyleOrdered[i]] < stageSet.Stage.ParagraphStyle_stagedOrder[paragraphstyleOrdered[j]]
 		})
 		for _, paragraphstyle := range paragraphstyleOrdered {
-			paragraphstyleIdent := "__stage_0" + paragraphstyle.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ParagraphStyle{Name: %s}).Stage(stageSet.Stage)", paragraphstyleIdent, __gong__toRawStringLiteral(paragraphstyle.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			paragraphstyleIdent := "__models" + paragraphstyle.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ParagraphStyle{Name: %s}).Stage(stageSet.Stage)", paragraphstyleIdent, __gong__toRawStringLiteral(paragraphstyle.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", paragraphstyleIdent, __gong__toRawStringLiteral(paragraphstyle.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", paragraphstyleIdent, __gong__toRawStringLiteral(paragraphstyle.Content)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ValAttr = %s", paragraphstyleIdent, __gong__toRawStringLiteral(paragraphstyle.ValAttr)))
 			if paragraphstyle.Node != nil {
-				targetIdent := "__stage_0" + paragraphstyle.Node.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + paragraphstyle.Node.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Node = %s", paragraphstyleIdent, targetIdent))
 			}
 		}
@@ -331,24 +547,60 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Rune_stagedOrder[runeOrdered[i]] < stageSet.Stage.Rune_stagedOrder[runeOrdered[j]]
 		})
 		for _, rune := range runeOrdered {
-			runeIdent := "__stage_0" + rune.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Rune{Name: %s}).Stage(stageSet.Stage)", runeIdent, __gong__toRawStringLiteral(rune.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			runeIdent := "__models" + rune.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Rune{Name: %s}).Stage(stageSet.Stage)", runeIdent, __gong__toRawStringLiteral(rune.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", runeIdent, __gong__toRawStringLiteral(rune.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", runeIdent, __gong__toRawStringLiteral(rune.Content)))
 			if rune.Node != nil {
-				targetIdent := "__stage_0" + rune.Node.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + rune.Node.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Node = %s", runeIdent, targetIdent))
 			}
 			if rune.Text != nil {
-				targetIdent := "__stage_0" + rune.Text.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + rune.Text.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Text = %s", runeIdent, targetIdent))
 			}
 			if rune.RuneProperties != nil {
-				targetIdent := "__stage_0" + rune.RuneProperties.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + rune.RuneProperties.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.RuneProperties = %s", runeIdent, targetIdent))
 			}
 			if rune.EnclosingParagraph != nil {
-				targetIdent := "__stage_0" + rune.EnclosingParagraph.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + rune.EnclosingParagraph.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EnclosingParagraph = %s", runeIdent, targetIdent))
 			}
 		}
@@ -362,15 +614,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.RuneProperties_stagedOrder[runepropertiesOrdered[i]] < stageSet.Stage.RuneProperties_stagedOrder[runepropertiesOrdered[j]]
 		})
 		for _, runeproperties := range runepropertiesOrdered {
-			runepropertiesIdent := "__stage_0" + runeproperties.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.RuneProperties{Name: %s}).Stage(stageSet.Stage)", runepropertiesIdent, __gong__toRawStringLiteral(runeproperties.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			runepropertiesIdent := "__models" + runeproperties.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.RuneProperties{Name: %s}).Stage(stageSet.Stage)", runepropertiesIdent, __gong__toRawStringLiteral(runeproperties.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", runepropertiesIdent, __gong__toRawStringLiteral(runeproperties.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsBold = %t", runepropertiesIdent, runeproperties.IsBold))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsStrike = %t", runepropertiesIdent, runeproperties.IsStrike))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsItalic = %t", runepropertiesIdent, runeproperties.IsItalic))
 			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", runepropertiesIdent, __gong__toRawStringLiteral(runeproperties.Content)))
 			if runeproperties.Node != nil {
-				targetIdent := "__stage_0" + runeproperties.Node.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + runeproperties.Node.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Node = %s", runepropertiesIdent, targetIdent))
 			}
 		}
@@ -384,20 +654,50 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Table_stagedOrder[tableOrdered[i]] < stageSet.Stage.Table_stagedOrder[tableOrdered[j]]
 		})
 		for _, table := range tableOrdered {
-			tableIdent := "__stage_0" + table.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Table{Name: %s}).Stage(stageSet.Stage)", tableIdent, __gong__toRawStringLiteral(table.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			tableIdent := "__models" + table.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Table{Name: %s}).Stage(stageSet.Stage)", tableIdent, __gong__toRawStringLiteral(table.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tableIdent, __gong__toRawStringLiteral(table.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", tableIdent, __gong__toRawStringLiteral(table.Content)))
 			if table.Node != nil {
-				targetIdent := "__stage_0" + table.Node.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + table.Node.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Node = %s", tableIdent, targetIdent))
 			}
 			if table.TableProperties != nil {
-				targetIdent := "__stage_0" + table.TableProperties.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + table.TableProperties.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TableProperties = %s", tableIdent, targetIdent))
 			}
 			for _, elem := range table.TableRows {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TableRows = append(%s.TableRows, %s)", tableIdent, tableIdent, targetIdent))
 			}
 		}
@@ -411,16 +711,40 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.TableColumn_stagedOrder[tablecolumnOrdered[i]] < stageSet.Stage.TableColumn_stagedOrder[tablecolumnOrdered[j]]
 		})
 		for _, tablecolumn := range tablecolumnOrdered {
-			tablecolumnIdent := "__stage_0" + tablecolumn.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.TableColumn{Name: %s}).Stage(stageSet.Stage)", tablecolumnIdent, __gong__toRawStringLiteral(tablecolumn.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			tablecolumnIdent := "__models" + tablecolumn.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TableColumn{Name: %s}).Stage(stageSet.Stage)", tablecolumnIdent, __gong__toRawStringLiteral(tablecolumn.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tablecolumnIdent, __gong__toRawStringLiteral(tablecolumn.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", tablecolumnIdent, __gong__toRawStringLiteral(tablecolumn.Content)))
 			if tablecolumn.Node != nil {
-				targetIdent := "__stage_0" + tablecolumn.Node.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + tablecolumn.Node.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Node = %s", tablecolumnIdent, targetIdent))
 			}
 			for _, elem := range tablecolumn.Paragraphs {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Paragraphs = append(%s.Paragraphs, %s)", tablecolumnIdent, tablecolumnIdent, targetIdent))
 			}
 		}
@@ -434,16 +758,40 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.TableProperties_stagedOrder[tablepropertiesOrdered[i]] < stageSet.Stage.TableProperties_stagedOrder[tablepropertiesOrdered[j]]
 		})
 		for _, tableproperties := range tablepropertiesOrdered {
-			tablepropertiesIdent := "__stage_0" + tableproperties.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.TableProperties{Name: %s}).Stage(stageSet.Stage)", tablepropertiesIdent, __gong__toRawStringLiteral(tableproperties.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			tablepropertiesIdent := "__models" + tableproperties.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TableProperties{Name: %s}).Stage(stageSet.Stage)", tablepropertiesIdent, __gong__toRawStringLiteral(tableproperties.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tablepropertiesIdent, __gong__toRawStringLiteral(tableproperties.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", tablepropertiesIdent, __gong__toRawStringLiteral(tableproperties.Content)))
 			if tableproperties.Node != nil {
-				targetIdent := "__stage_0" + tableproperties.Node.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + tableproperties.Node.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Node = %s", tablepropertiesIdent, targetIdent))
 			}
 			if tableproperties.TableStyle != nil {
-				targetIdent := "__stage_0" + tableproperties.TableStyle.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + tableproperties.TableStyle.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TableStyle = %s", tablepropertiesIdent, targetIdent))
 			}
 		}
@@ -457,16 +805,40 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.TableRow_stagedOrder[tablerowOrdered[i]] < stageSet.Stage.TableRow_stagedOrder[tablerowOrdered[j]]
 		})
 		for _, tablerow := range tablerowOrdered {
-			tablerowIdent := "__stage_0" + tablerow.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.TableRow{Name: %s}).Stage(stageSet.Stage)", tablerowIdent, __gong__toRawStringLiteral(tablerow.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			tablerowIdent := "__models" + tablerow.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TableRow{Name: %s}).Stage(stageSet.Stage)", tablerowIdent, __gong__toRawStringLiteral(tablerow.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tablerowIdent, __gong__toRawStringLiteral(tablerow.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", tablerowIdent, __gong__toRawStringLiteral(tablerow.Content)))
 			if tablerow.Node != nil {
-				targetIdent := "__stage_0" + tablerow.Node.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + tablerow.Node.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Node = %s", tablerowIdent, targetIdent))
 			}
 			for _, elem := range tablerow.TableColumns {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TableColumns = append(%s.TableColumns, %s)", tablerowIdent, tablerowIdent, targetIdent))
 			}
 		}
@@ -480,13 +852,31 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.TableStyle_stagedOrder[tablestyleOrdered[i]] < stageSet.Stage.TableStyle_stagedOrder[tablestyleOrdered[j]]
 		})
 		for _, tablestyle := range tablestyleOrdered {
-			tablestyleIdent := "__stage_0" + tablestyle.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.TableStyle{Name: %s}).Stage(stageSet.Stage)", tablestyleIdent, __gong__toRawStringLiteral(tablestyle.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			tablestyleIdent := "__models" + tablestyle.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TableStyle{Name: %s}).Stage(stageSet.Stage)", tablestyleIdent, __gong__toRawStringLiteral(tablestyle.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tablestyleIdent, __gong__toRawStringLiteral(tablestyle.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", tablestyleIdent, __gong__toRawStringLiteral(tablestyle.Content)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Val = %s", tablestyleIdent, __gong__toRawStringLiteral(tablestyle.Val)))
 			if tablestyle.Node != nil {
-				targetIdent := "__stage_0" + tablestyle.Node.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + tablestyle.Node.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Node = %s", tablestyleIdent, targetIdent))
 			}
 		}
@@ -500,17 +890,41 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Text_stagedOrder[textOrdered[i]] < stageSet.Stage.Text_stagedOrder[textOrdered[j]]
 		})
 		for _, text := range textOrdered {
-			textIdent := "__stage_0" + text.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Text{Name: %s}).Stage(stageSet.Stage)", textIdent, __gong__toRawStringLiteral(text.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			textIdent := "__models" + text.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Text{Name: %s}).Stage(stageSet.Stage)", textIdent, __gong__toRawStringLiteral(text.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", textIdent, __gong__toRawStringLiteral(text.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", textIdent, __gong__toRawStringLiteral(text.Content)))
 			values.WriteString(fmt.Sprintf("\n\t%s.PreserveWhiteSpace = %t", textIdent, text.PreserveWhiteSpace))
 			if text.Node != nil {
-				targetIdent := "__stage_0" + text.Node.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + text.Node.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Node = %s", textIdent, targetIdent))
 			}
 			if text.EnclosingRune != nil {
-				targetIdent := "__stage_0" + text.EnclosingRune.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + text.EnclosingRune.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EnclosingRune = %s", textIdent, targetIdent))
 			}
 		}
@@ -524,18 +938,18 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/lib/docx/go/models"
+	"github.com/fullstack-lang/gong/lib/docx/go/models"
 )
 
 var (
 	_ time.Time
 	_ = slices.Index[[]int, int]
 
-	_ *__stage_0__.Stage
+	_ *models.Stage
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stageSet *models.StageSet) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
@@ -601,6 +1015,19 @@ func (stageSet *StageSet) ParseAstString(blob string, preserveOrder bool) error 
 func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	identifierMap := make(map[string]any)
 
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/lib/docx/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
 	ast.Inspect(inFile, func(n ast.Node) bool {
 		switch node := n.(type) {
 		case *ast.AssignStmt:
@@ -637,8 +1064,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						return true
 					})
 
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					}
+
 					switch pkgAlias {
-			case "__stage_0__":
+			case "models":
 				switch typeName {
 				case "Body":
 					if !preserveOrder {
@@ -838,7 +1269,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Paragraph); ok {
+									if typedTarget, ok := target.(*Paragraph); ok {
 										inst.Paragraphs = append(inst.Paragraphs, typedTarget)
 									}
 								}
@@ -848,7 +1279,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Table); ok {
+									if typedTarget, ok := target.(*Table); ok {
 										inst.Tables = append(inst.Tables, typedTarget)
 									}
 								}
@@ -900,7 +1331,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*File); ok {
+									if typedTarget, ok := target.(*File); ok {
 										inst.Files = append(inst.Files, typedTarget)
 									}
 								}
@@ -928,7 +1359,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Node); ok {
+									if typedTarget, ok := target.(*Node); ok {
 										inst.Nodes = append(inst.Nodes, typedTarget)
 									}
 								}
@@ -961,7 +1392,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Rune); ok {
+									if typedTarget, ok := target.(*Rune); ok {
 										inst.Runes = append(inst.Runes, typedTarget)
 									}
 								}
@@ -1128,7 +1559,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TableRow); ok {
+									if typedTarget, ok := target.(*TableRow); ok {
 										inst.TableRows = append(inst.TableRows, typedTarget)
 									}
 								}
@@ -1153,7 +1584,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Paragraph); ok {
+									if typedTarget, ok := target.(*Paragraph); ok {
 										inst.Paragraphs = append(inst.Paragraphs, typedTarget)
 									}
 								}
@@ -1201,7 +1632,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TableColumn); ok {
+									if typedTarget, ok := target.(*TableColumn); ok {
 										inst.TableColumns = append(inst.TableColumns, typedTarget)
 									}
 								}

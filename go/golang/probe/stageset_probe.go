@@ -83,11 +83,11 @@ func CodeGeneratorStageSetProbe(
 		for _, sName := range sNames {
 			typeQual := sName
 			if !f.IsLocal {
-				typeQual = f.PackageName + "." + sName
+				typeQual = f.ImportAlias + "." + sName
 			} else {
 				typeQual = "models." + sName
 			}
-			flds := golang_models.ExtractStructFields(mPkg, sName)
+			flds := golang_models.ExtractStructFields(mPkg, sName, pkgPathToField)
 			allStructs = append(allStructs, structInfo{
 				pkgField:   f,
 				pkgName:    f.PackageName,
@@ -370,7 +370,7 @@ func generateStageSetProbeMain(
 		alias := "ref_models"
 		pkgP := pkgPathRoot + "/models"
 		if !f.IsLocal {
-			alias = "ref_" + f.PackageName
+			alias = "ref_" + f.ImportAlias
 			pkgP = f.PackagePath
 		}
 		metaPkgImports.WriteString(fmt.Sprintf("\t\t{Alias: %q, Path: %q},\n", alias, `"`+pkgP+`"`))
@@ -758,11 +758,33 @@ func generateStageSetProbeUxTree(
 		}
 	}
 
-	var pkgTreeNodes strings.Builder
+	var localField *models.StageSetField
+	var nonLocalFields []*models.StageSetField
 	for _, f := range stageSet.Fields {
+		if f.IsLocal {
+			localField = f
+		} else {
+			nonLocalFields = append(nonLocalFields, f)
+		}
+	}
+
+	// Sort nonLocalFields so ancestor packages appear before descendant packages
+	sort.SliceStable(nonLocalFields, func(i, j int) bool {
+		if strings.HasPrefix(nonLocalFields[j].PackagePath, nonLocalFields[i].PackagePath+"/") {
+			return true
+		}
+		if strings.HasPrefix(nonLocalFields[i].PackagePath, nonLocalFields[j].PackagePath+"/") {
+			return false
+		}
+		return false
+	})
+
+	var pkgTreeNodes strings.Builder
+
+	generateStructNodes := func(f *models.StageSetField, parentVarName string) {
 		mPkg := fieldToModelPkg[f]
 		if mPkg == nil {
-			continue
+			return
 		}
 		var sNames []string
 		for sName, gs := range mPkg.GongStructs {
@@ -771,18 +793,6 @@ func generateStageSetProbeUxTree(
 			}
 		}
 		sort.Strings(sNames)
-
-		pkgTreeNodes.WriteString(fmt.Sprintf(`
-	// Package node: %s
-	pkgNode_%s := &tree_models.Node{
-		Name:       "%s",
-		IsExpanded: true,
-	}
-	pkgNode_%s.OnIsExpandedChange = func(isExpanded bool) {
-		pkgNode_%s.IsExpanded = isExpanded
-	}
-	topNode.Children = append(topNode.Children, pkgNode_%s)
-`, f.PackageName, f.Name, f.PackageName, f.Name, f.Name, f.Name))
 
 		for _, sName := range sNames {
 			sPlural := sName + "s"
@@ -798,7 +808,19 @@ func generateStageSetProbeUxTree(
 			IsExpanded:      true,
 			IsNodeClickable: true,
 		}
-		pkgNode_%s.Children = append(pkgNode_%s.Children, nodeGongstruct)
+		%s.Children = append(%s.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "%s " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of %s",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_%s_%s(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
 
 		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
 			nodeGongstruct.IsExpanded = isExpanded
@@ -836,8 +858,48 @@ func generateStageSetProbeUxTree(
 			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 		}
 	}
-`, f.Name, sPlural, sName, sName, f.Name, f.Name, sName, f.Name, f.Name, sPlural))
+`, f.Name, sPlural, sName, sName, parentVarName, parentVarName, sName, sName, sName, f.Name, sName, f.Name, f.Name, sPlural))
 		}
+	}
+
+	// 1. Root package (localField): its struct nodes attach directly to topNode (no "models" wrapper node)
+	if localField != nil {
+		generateStructNodes(localField, "topNode")
+	}
+
+	// 2. Non-local fields: package nodes are created and nested according to hierarchy
+	for _, f := range nonLocalFields {
+		var parentField *models.StageSetField
+		longestPrefix := ""
+		for _, other := range nonLocalFields {
+			if other == f {
+				continue
+			}
+			prefix := other.PackagePath + "/"
+			if strings.HasPrefix(f.PackagePath, prefix) && len(prefix) > len(longestPrefix) {
+				parentField = other
+				longestPrefix = prefix
+			}
+		}
+
+		parentVar := "topNode"
+		if parentField != nil {
+			parentVar = "pkgNode_" + parentField.Name
+		}
+
+		pkgTreeNodes.WriteString(fmt.Sprintf(`
+	// Package node: %s
+	pkgNode_%s := &tree_models.Node{
+		Name:       "%s",
+		IsExpanded: true,
+	}
+	pkgNode_%s.OnIsExpandedChange = func(isExpanded bool) {
+		pkgNode_%s.IsExpanded = isExpanded
+	}
+	%s.Children = append(%s.Children, pkgNode_%s)
+`, f.ImportAlias, f.Name, f.ImportAlias, f.Name, f.Name, parentVar, parentVar, f.Name))
+
+		generateStructNodes(f, "pkgNode_"+f.Name)
 	}
 
 	code := fmt.Sprintf(`// generated code - do not edit
@@ -928,7 +990,11 @@ func generateStageSetProbeUxTable(
 	var extImports strings.Builder
 	for _, f := range stageSet.Fields {
 		if !f.IsLocal {
-			extImports.WriteString(fmt.Sprintf("\n\t\"%s\"", f.PackagePath))
+			if f.ImportAlias != f.PackageName {
+				extImports.WriteString(fmt.Sprintf("\n\t%s \"%s\"", f.ImportAlias, f.PackagePath))
+			} else {
+				extImports.WriteString(fmt.Sprintf("\n\t\"%s\"", f.PackagePath))
+			}
 		}
 	}
 
@@ -1196,7 +1262,11 @@ func generateStageSetFillUpForm(
 	var extImports strings.Builder
 	for _, f := range stageSet.Fields {
 		if !f.IsLocal {
-			extImports.WriteString(fmt.Sprintf("\n\t\"%s\"", f.PackagePath))
+			if f.ImportAlias != f.PackageName {
+				extImports.WriteString(fmt.Sprintf("\n\t%s \"%s\"", f.ImportAlias, f.PackagePath))
+			} else {
+				extImports.WriteString(fmt.Sprintf("\n\t\"%s\"", f.PackagePath))
+			}
 		}
 	}
 
@@ -1210,7 +1280,7 @@ func generateStageSetFillUpForm(
 				if targetSSF != nil {
 					targetTypeQual := fld.TargetStructName
 					if !targetSSF.IsLocal {
-						targetTypeQual = targetSSF.PackageName + "." + fld.TargetStructName
+						targetTypeQual = targetSSF.ImportAlias + "." + fld.TargetStructName
 					} else {
 						targetTypeQual = "models." + fld.TargetStructName
 					}
@@ -1327,12 +1397,17 @@ func generateStageSetFormCallback(
 	var extImports strings.Builder
 	for _, f := range stageSet.Fields {
 		if !f.IsLocal {
-			extImports.WriteString(fmt.Sprintf("\n\t\"%s\"", f.PackagePath))
+			if f.ImportAlias != f.PackageName {
+				extImports.WriteString(fmt.Sprintf("\n\t%s \"%s\"", f.ImportAlias, f.PackagePath))
+			} else {
+				extImports.WriteString(fmt.Sprintf("\n\t\"%s\"", f.PackagePath))
+			}
 		}
 	}
 
 	var fillUpDispatchCases strings.Builder
 	var saveFunctions strings.Builder
+	var newInstanceFunctions strings.Builder
 
 	for _, si := range allStructs {
 		fillUpDispatchCases.WriteString(fmt.Sprintf(`	case *%s:
@@ -1360,7 +1435,7 @@ func generateStageSetFormCallback(
 				if targetSSF != nil {
 					targetTypeQual := fld.TargetStructName
 					if !targetSSF.IsLocal {
-						targetTypeQual = targetSSF.PackageName + "." + fld.TargetStructName
+						targetTypeQual = targetSSF.ImportAlias + "." + fld.TargetStructName
 					} else {
 						targetTypeQual = "models." + fld.TargetStructName
 					}
@@ -1383,6 +1458,33 @@ func saveStageSet_%s_%s(
 	}
 }
 `, si.structName, si.pkgField.Name, si.typeQual, fieldSaves.String()))
+
+		newInstanceFunctions.WriteString(fmt.Sprintf(`
+func StageSetNewInstance_%s_%s(probe *StageSetProbe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  "Form",
+		Label: "New %s",
+	}).Stage(probe.formStage)
+	inst := new(%s)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageSet.%s.Lock()
+			defer probe.stageSet.%s.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageSet.%s)
+			saveStageSet_%s_%s(inst, probe, formGroup)
+			probe.stageSet.%s.Commit()
+			updateStageSetTable_%s_%s(probe)
+			probe.ux_tree()
+			StageSetFillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	StageSetFillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+`, si.structName, si.pkgField.Name, si.structName, si.typeQual, si.pkgField.Name, si.pkgField.Name, si.pkgField.Name, si.structName, si.pkgField.Name, si.pkgField.Name, si.structName, si.pkgField.Name))
 	}
 
 	code := fmt.Sprintf(`// generated code - do not edit
@@ -1421,7 +1523,8 @@ func StageSetFillUpFormFromGongstruct(
 	probe.formStage.Commit()
 }
 %s
-`, pkgPathRoot, extImports.String(), fillUpDispatchCases.String(), saveFunctions.String())
+%s
+`, pkgPathRoot, extImports.String(), fillUpDispatchCases.String(), saveFunctions.String(), newInstanceFunctions.String())
 
 	writeFile(filepath.Join(pkgPath, "probe/stageset_form_callback.go"), code)
 }

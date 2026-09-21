@@ -25,7 +25,11 @@ type StageSetStructField struct {
 	IsTime            bool
 }
 
-func ExtractStructFields(mPkg *models.ModelPkg, structName string) []StageSetStructField {
+func ExtractStructFields(mPkg *models.ModelPkg, structName string, pkgPathToField ...map[string]*models.StageSetField) []StageSetStructField {
+	var p2f map[string]*models.StageSetField
+	if len(pkgPathToField) > 0 {
+		p2f = pkgPathToField[0]
+	}
 	var result []StageSetStructField
 	if mPkg.TypesPkg == nil {
 		return result
@@ -124,7 +128,12 @@ func ExtractStructFields(mPkg *models.ModelPkg, structName string) []StageSetStr
 				if basic, ok := namedType.Underlying().(*types.Basic); ok {
 					qual := namedType.Obj().Name()
 					if namedType.Obj().Pkg() != nil && namedType.Obj().Pkg().Path() != mPkg.PkgPath {
-						qual = namedType.Obj().Pkg().Name() + "." + qual
+						pkgPath := namedType.Obj().Pkg().Path()
+						if p2f != nil && p2f[pkgPath] != nil {
+							qual = p2f[pkgPath].ImportAlias + "." + qual
+						} else {
+							qual = namedType.Obj().Pkg().Name() + "." + qual
+						}
 					}
 					result = append(result, StageSetStructField{
 						Name:         fld.Name(),
@@ -200,7 +209,11 @@ func CodeGeneratorModelGongStageSet(
 	var externalImports strings.Builder
 	for _, f := range stageSet.Fields {
 		if !f.IsLocal {
-			externalImports.WriteString(fmt.Sprintf("\n\t\"%s\"", f.PackagePath))
+			if f.ImportAlias != f.PackageName {
+				externalImports.WriteString(fmt.Sprintf("\n\t%s \"%s\"", f.ImportAlias, f.PackagePath))
+			} else {
+				externalImports.WriteString(fmt.Sprintf("\n\t\"%s\"", f.PackagePath))
+			}
 		}
 	}
 
@@ -230,15 +243,19 @@ func CodeGeneratorModelGongStageSet(
 			newStageStatements.WriteString(fmt.Sprintf("\tstageSet.%s = NewStage(path)\n", f.Name))
 			newStageFromStageStatements.WriteString(fmt.Sprintf("\tstageSet.%s = stage\n", f.Name))
 		} else {
-			newStageStatements.WriteString(fmt.Sprintf("\tsubPath_%s := \"%s\"\n\tif path != \"\" {\n\tsubPath_%s = path + \"_%s\"\n\t}\n\tstageSet.%s = %s.NewStage(subPath_%s)\n", f.Name, f.PackageName, f.Name, f.PackageName, f.Name, f.PackageName, f.Name))
-			newStageFromStageStatements.WriteString(fmt.Sprintf("\tsubPath_%s := \"%s\"\n\tif stage != nil && stage.GetName() != \"\" {\n\tsubPath_%s = stage.GetName() + \"_%s\"\n\t}\n\tstageSet.%s = %s.NewStage(subPath_%s)\n", f.Name, f.PackageName, f.Name, f.PackageName, f.Name, f.PackageName, f.Name))
+			newStageStatements.WriteString(fmt.Sprintf("\tsubPath_%s := \"%s\"\n\tif path != \"\" {\n\tsubPath_%s = path + \"_%s\"\n\t}\n\tstageSet.%s = %s.NewStage(subPath_%s)\n", f.Name, f.ImportAlias, f.Name, f.ImportAlias, f.Name, f.ImportAlias, f.Name))
+			newStageFromStageStatements.WriteString(fmt.Sprintf("\tsubPath_%s := \"%s\"\n\tif stage != nil && stage.GetName() != \"\" {\n\tsubPath_%s = stage.GetName() + \"_%s\"\n\t}\n\tstageSet.%s = %s.NewStage(subPath_%s)\n", f.Name, f.ImportAlias, f.Name, f.ImportAlias, f.Name, f.ImportAlias, f.Name))
 		}
 	}
 
 	var syntheticImports strings.Builder
 	var dummyDeclarations strings.Builder
 	for _, f := range stageSet.Fields {
-		syntheticImports.WriteString(fmt.Sprintf("\n\t%s \"%s\"", f.ImportAlias, f.PackagePath))
+		if f.ImportAlias != f.PackageName {
+			syntheticImports.WriteString(fmt.Sprintf("\n\t%s \"%s\"", f.ImportAlias, f.PackagePath))
+		} else {
+			syntheticImports.WriteString(fmt.Sprintf("\n\t\"%s\"", f.PackagePath))
+		}
 		dummyDeclarations.WriteString(fmt.Sprintf("\n\t_ *%s.Stage", f.ImportAlias))
 	}
 
@@ -257,7 +274,13 @@ func CodeGeneratorModelGongStageSet(
 	var marshallBody strings.Builder
 	marshallBody.WriteString("\tvar declarations strings.Builder\n")
 	marshallBody.WriteString("\tvar values strings.Builder\n")
-	marshallBody.WriteString("\tvar pointers strings.Builder\n\n")
+	marshallBody.WriteString("\tvar pointers strings.Builder\n")
+	marshallBody.WriteString("\tvar lastStageDecl string\n")
+	marshallBody.WriteString("\tvar lastStageVal string\n")
+	marshallBody.WriteString("\tvar lastStagePtr string\n")
+	marshallBody.WriteString("\t_ = lastStageDecl\n")
+	marshallBody.WriteString("\t_ = lastStageVal\n")
+	marshallBody.WriteString("\t_ = lastStagePtr\n\n")
 
 	for _, f := range orderedFields {
 		mPkg := fieldToModelPkg[f]
@@ -274,17 +297,17 @@ func CodeGeneratorModelGongStageSet(
 		}
 		sort.Strings(structNames)
 
-		aliasPrefix := f.ImportAlias[:len(f.ImportAlias)-2] // strip trailing __
+		aliasPrefix := "__" + f.ImportAlias
 
 		for _, sName := range structNames {
 			sVar := strings.ToLower(sName)
 			sPlural := sName + "s"
 			typeQual := sName
 			if !f.IsLocal {
-				typeQual = f.PackageName + "." + sName
+				typeQual = f.ImportAlias + "." + sName
 			}
 
-			fields := ExtractStructFields(mPkg, sName)
+			fields := ExtractStructFields(mPkg, sName, pkgPathToField)
 
 			marshallBody.WriteString(fmt.Sprintf("\tif stageSet.%s != nil {\n", f.Name))
 			marshallBody.WriteString(fmt.Sprintf("\t\t%sOrdered := []*%s{}\n", sVar, typeQual))
@@ -296,11 +319,23 @@ func CodeGeneratorModelGongStageSet(
 			marshallBody.WriteString("\t\t})\n")
 
 			marshallBody.WriteString(fmt.Sprintf("\t\tfor _, %s := range %sOrdered {\n", sVar, sVar))
+			marshallBody.WriteString(fmt.Sprintf("\t\t\tif lastStageDecl != %q {\n", f.Name))
+			marshallBody.WriteString("\t\t\t\tif declarations.Len() > 0 {\n")
+			marshallBody.WriteString("\t\t\t\t\tdeclarations.WriteString(\"\\n\")\n")
+			marshallBody.WriteString("\t\t\t\t}\n")
+			marshallBody.WriteString(fmt.Sprintf("\t\t\t\tlastStageDecl = %q\n", f.Name))
+			marshallBody.WriteString("\t\t\t}\n")
 			marshallBody.WriteString(fmt.Sprintf("\t\t\t%sIdent := \"%s\" + %s.GongGetIdentifier(stageSet.%s)\n", sVar, aliasPrefix, sVar, f.Name))
 			// Phase 1 declaration
 			marshallBody.WriteString(fmt.Sprintf("\t\t\tdeclarations.WriteString(fmt.Sprintf(\"\\n\\t%%s := (&%s.%s{Name: %%s}).Stage(stageSet.%s)\", %sIdent, __gong__toRawStringLiteral(%s.Name)))\n", f.ImportAlias, sName, f.Name, sVar, sVar))
 
 			// Phase 2 values
+			marshallBody.WriteString(fmt.Sprintf("\t\t\tif lastStageVal != %q {\n", f.Name))
+			marshallBody.WriteString("\t\t\t\tif values.Len() > 0 {\n")
+			marshallBody.WriteString("\t\t\t\t\tvalues.WriteString(\"\\n\")\n")
+			marshallBody.WriteString("\t\t\t\t}\n")
+			marshallBody.WriteString(fmt.Sprintf("\t\t\t\tlastStageVal = %q\n", f.Name))
+			marshallBody.WriteString("\t\t\t}\n")
 			for _, fld := range fields {
 				if fld.IsPointer || fld.IsSliceOfPointer {
 					continue
@@ -351,8 +386,14 @@ func CodeGeneratorModelGongStageSet(
 								continue
 							}
 						}
-						targetAliasPrefix := targetSSF.ImportAlias[:len(targetSSF.ImportAlias)-2]
+						targetAliasPrefix := "__" + targetSSF.ImportAlias
 						marshallBody.WriteString(fmt.Sprintf("\t\t\tif %s.%s != nil {\n", sVar, fld.Name))
+						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tif lastStagePtr != %q {\n", f.Name))
+						marshallBody.WriteString("\t\t\t\t\tif pointers.Len() > 0 {\n")
+						marshallBody.WriteString("\t\t\t\t\t\tpointers.WriteString(\"\\n\")\n")
+						marshallBody.WriteString("\t\t\t\t\t}\n")
+						marshallBody.WriteString(fmt.Sprintf("\t\t\t\t\tlastStagePtr = %q\n", f.Name))
+						marshallBody.WriteString("\t\t\t\t}\n")
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := \"%s\" + %s.%s.GongGetIdentifier(stageSet.%s)\n", targetAliasPrefix, sVar, fld.Name, targetSSF.Name))
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tpointers.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, targetIdent))\n", fld.Name, sVar))
 						marshallBody.WriteString("\t\t\t}\n")
@@ -365,8 +406,14 @@ func CodeGeneratorModelGongStageSet(
 								continue
 							}
 						}
-						targetAliasPrefix := targetSSF.ImportAlias[:len(targetSSF.ImportAlias)-2]
+						targetAliasPrefix := "__" + targetSSF.ImportAlias
 						marshallBody.WriteString(fmt.Sprintf("\t\t\tfor _, elem := range %s.%s {\n", sVar, fld.Name))
+						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tif lastStagePtr != %q {\n", f.Name))
+						marshallBody.WriteString("\t\t\t\t\tif pointers.Len() > 0 {\n")
+						marshallBody.WriteString("\t\t\t\t\t\tpointers.WriteString(\"\\n\")\n")
+						marshallBody.WriteString("\t\t\t\t\t}\n")
+						marshallBody.WriteString(fmt.Sprintf("\t\t\t\t\tlastStagePtr = %q\n", f.Name))
+						marshallBody.WriteString("\t\t\t\t}\n")
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := \"%s\" + elem.GongGetIdentifier(stageSet.%s)\n", targetAliasPrefix, targetSSF.Name))
 						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tpointers.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = append(%%s.%s, %%s)\", %sIdent, %sIdent, targetIdent))\n", fld.Name, fld.Name, sVar, sVar))
 						marshallBody.WriteString("\t\t\t}\n")
@@ -401,7 +448,7 @@ func CodeGeneratorModelGongStageSet(
 		for _, sName := range structNames {
 			typeQual := sName
 			if !f.IsLocal {
-				typeQual = f.PackageName + "." + sName
+				typeQual = f.ImportAlias + "." + sName
 			}
 			defineCases.WriteString(fmt.Sprintf("\t\t\t\tcase \"%s\":\n", sName))
 			defineCases.WriteString("\t\t\t\t\tif !preserveOrder {\n")
@@ -420,9 +467,9 @@ func CodeGeneratorModelGongStageSet(
 		for _, sName := range structNames {
 			typeQual := sName
 			if !f.IsLocal {
-				typeQual = f.PackageName + "." + sName
+				typeQual = f.ImportAlias + "." + sName
 			}
-			fields := ExtractStructFields(mPkg, sName)
+			fields := ExtractStructFields(mPkg, sName, pkgPathToField)
 
 			assignCases.WriteString(fmt.Sprintf("\t\t\t\tcase *%s:\n", typeQual))
 			assignCases.WriteString("\t\t\t\t\tswitch fieldName {\n")
@@ -437,7 +484,7 @@ func CodeGeneratorModelGongStageSet(
 						}
 						targetQual := fld.TargetStructName
 						if !targetSSF.IsLocal {
-							targetQual = targetSSF.PackageName + "." + fld.TargetStructName
+							targetQual = targetSSF.ImportAlias + "." + fld.TargetStructName
 						}
 						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n", fld.Name))
 						assignCases.WriteString("\t\t\t\t\t\tif rIdent, ok := rhs.(*ast.Ident); ok {\n")
@@ -458,13 +505,13 @@ func CodeGeneratorModelGongStageSet(
 						}
 						targetQual := fld.TargetStructName
 						if !targetSSF.IsLocal {
-							targetQual = targetSSF.PackageName + "." + fld.TargetStructName
+							targetQual = targetSSF.ImportAlias + "." + fld.TargetStructName
 						}
 						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\tcase \"%s\":\n", fld.Name))
 						assignCases.WriteString("\t\t\t\t\t\tif call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {\n")
 						assignCases.WriteString("\t\t\t\t\t\t\tif rIdent, ok := call.Args[1].(*ast.Ident); ok {\n")
 						assignCases.WriteString("\t\t\t\t\t\t\t\tif target, ok := identifierMap[rIdent.Name]; ok {\n")
-						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\t\t\t\tif typedTarget, ok := target.(*%s); ok {\n", targetQual))
+						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\t\t\t\t\tif typedTarget, ok := target.(*%s); ok {\n", targetQual))
 						assignCases.WriteString(fmt.Sprintf("\t\t\t\t\t\t\t\t\t\tinst.%s = append(inst.%s, typedTarget)\n", fld.Name, fld.Name))
 						assignCases.WriteString("\t\t\t\t\t\t\t\t\t}\n")
 						assignCases.WriteString("\t\t\t\t\t\t\t\t}\n")
@@ -579,7 +626,7 @@ func CodeGeneratorModelGongStageSet(
 			if f.IsLocal {
 				stageSetStructFields.WriteString(fmt.Sprintf("\t%s *Stage\n", f.Name))
 			} else {
-				stageSetStructFields.WriteString(fmt.Sprintf("\t%s *%s.Stage\n", f.Name, f.PackageName))
+				stageSetStructFields.WriteString(fmt.Sprintf("\t%s *%s.Stage\n", f.Name, f.ImportAlias))
 			}
 		}
 		stageSetStructDefinition = fmt.Sprintf(`// StageSet coordinates multiple stages across packages
@@ -587,6 +634,11 @@ type StageSet struct {
 %s}
 
 `, stageSetStructFields.String())
+	}
+
+	var importPathCases strings.Builder
+	for _, f := range orderedFields {
+		importPathCases.WriteString(fmt.Sprintf("\t\tcase \"%s\":\n\t\t\taliasToCanonical[alias] = \"%s\"\n", f.PackagePath, f.ImportAlias))
 	}
 
 	codeGO := ModelGongStageSetTemplate
@@ -607,6 +659,7 @@ type StageSet struct {
 	codeGO = strings.ReplaceAll(codeGO, "{{DummyDeclarations}}", dummyDeclarations.String())
 	codeGO = strings.ReplaceAll(codeGO, "{{MainPkgImportAlias}}", mainPkgImportAlias)
 	codeGO = strings.ReplaceAll(codeGO, "{{MarshallBody}}", marshallBody.String())
+	codeGO = strings.ReplaceAll(codeGO, "{{ImportPathCases}}", importPathCases.String())
 	codeGO = strings.ReplaceAll(codeGO, "{{DefineCases}}", defineCases.String())
 	codeGO = strings.ReplaceAll(codeGO, "{{AssignCases}}", assignCases.String())
 

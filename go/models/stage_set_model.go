@@ -97,7 +97,6 @@ func (modelPkg *ModelPkg) SynthesizeStageSetFromDependencies(pkgPath string) err
 		}
 
 		depField := &StageSetField{
-			Name:        caser.String(depPkgName) + "Stage",
 			PackageName: depPkgName,
 			PackagePath: depFullPkgPath,
 			IsLocal:     false,
@@ -105,9 +104,55 @@ func (modelPkg *ModelPkg) SynthesizeStageSetFromDependencies(pkgPath string) err
 		stageSet.Fields = append(stageSet.Fields, depField)
 	}
 
+	usedAliases := map[string]bool{
+		"time":   true,
+		"slices": true,
+	}
+	usedFieldNames := map[string]bool{
+		localField.Name: true,
+	}
 
-	for idx, f := range stageSet.Fields {
-		f.ImportAlias = fmt.Sprintf("__stage_%d__", idx)
+	for _, f := range stageSet.Fields {
+		if f.IsLocal {
+			f.ImportAlias = rootPkgGoName
+			usedAliases[rootPkgGoName] = true
+			continue
+		}
+
+		baseAlias := f.PackageName
+		alias := baseAlias
+		if usedAliases[alias] {
+			if baseAlias == "models" && !usedAliases["model"] {
+				alias = "model"
+			} else {
+				k := 1
+				for {
+					candidate := fmt.Sprintf("%s_%d", baseAlias, k)
+					if !usedAliases[candidate] {
+						alias = candidate
+						break
+					}
+					k++
+				}
+			}
+		}
+		usedAliases[alias] = true
+		f.ImportAlias = alias
+
+		fieldName := caser.String(alias) + "Stage"
+		if usedFieldNames[fieldName] {
+			k := 1
+			for {
+				candidate := fmt.Sprintf("%s%dStage", caser.String(alias), k)
+				if !usedFieldNames[candidate] {
+					fieldName = candidate
+					break
+				}
+				k++
+			}
+		}
+		usedFieldNames[fieldName] = true
+		f.Name = fieldName
 	}
 
 	modelPkg.StageSet = stageSet

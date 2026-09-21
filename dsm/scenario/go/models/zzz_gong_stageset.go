@@ -128,6 +128,12 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	var declarations strings.Builder
 	var values strings.Builder
 	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
 
 	if stageSet.Stage != nil {
 		actorstateOrdered := []*ActorState{}
@@ -138,8 +144,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ActorState_stagedOrder[actorstateOrdered[i]] < stageSet.Stage.ActorState_stagedOrder[actorstateOrdered[j]]
 		})
 		for _, actorstate := range actorstateOrdered {
-			actorstateIdent := "__stage_0" + actorstate.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ActorState{Name: %s}).Stage(stageSet.Stage)", actorstateIdent, __gong__toRawStringLiteral(actorstate.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			actorstateIdent := "__models" + actorstate.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ActorState{Name: %s}).Stage(stageSet.Stage)", actorstateIdent, __gong__toRawStringLiteral(actorstate.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", actorstateIdent, __gong__toRawStringLiteral(actorstate.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", actorstateIdent, __gong__toRawStringLiteral(actorstate.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsWithProbaility = %t", actorstateIdent, actorstate.IsWithProbaility))
@@ -157,8 +175,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ActorStateShape_stagedOrder[actorstateshapeOrdered[i]] < stageSet.Stage.ActorStateShape_stagedOrder[actorstateshapeOrdered[j]]
 		})
 		for _, actorstateshape := range actorstateshapeOrdered {
-			actorstateshapeIdent := "__stage_0" + actorstateshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ActorStateShape{Name: %s}).Stage(stageSet.Stage)", actorstateshapeIdent, __gong__toRawStringLiteral(actorstateshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			actorstateshapeIdent := "__models" + actorstateshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ActorStateShape{Name: %s}).Stage(stageSet.Stage)", actorstateshapeIdent, __gong__toRawStringLiteral(actorstateshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", actorstateshapeIdent, __gong__toRawStringLiteral(actorstateshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", actorstateshapeIdent, actorstateshape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", actorstateshapeIdent, actorstateshape.Y))
@@ -166,7 +196,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", actorstateshapeIdent, actorstateshape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", actorstateshapeIdent, actorstateshape.IsHidden))
 			if actorstateshape.ActorState != nil {
-				targetIdent := "__stage_0" + actorstateshape.ActorState.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + actorstateshape.ActorState.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorState = %s", actorstateshapeIdent, targetIdent))
 			}
 		}
@@ -180,21 +216,51 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ActorStateTransition_stagedOrder[actorstatetransitionOrdered[i]] < stageSet.Stage.ActorStateTransition_stagedOrder[actorstatetransitionOrdered[j]]
 		})
 		for _, actorstatetransition := range actorstatetransitionOrdered {
-			actorstatetransitionIdent := "__stage_0" + actorstatetransition.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ActorStateTransition{Name: %s}).Stage(stageSet.Stage)", actorstatetransitionIdent, __gong__toRawStringLiteral(actorstatetransition.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			actorstatetransitionIdent := "__models" + actorstatetransition.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ActorStateTransition{Name: %s}).Stage(stageSet.Stage)", actorstatetransitionIdent, __gong__toRawStringLiteral(actorstatetransition.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", actorstatetransitionIdent, __gong__toRawStringLiteral(actorstatetransition.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", actorstatetransitionIdent, __gong__toRawStringLiteral(actorstatetransition.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", actorstatetransitionIdent, actorstatetransition.IsExpanded))
 			if actorstatetransition.StartState != nil {
-				targetIdent := "__stage_0" + actorstatetransition.StartState.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + actorstatetransition.StartState.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.StartState = %s", actorstatetransitionIdent, targetIdent))
 			}
 			if actorstatetransition.EndState != nil {
-				targetIdent := "__stage_0" + actorstatetransition.EndState.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + actorstatetransition.EndState.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EndState = %s", actorstatetransitionIdent, targetIdent))
 			}
 			for _, elem := range actorstatetransition.Justifications {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Justifications = append(%s.Justifications, %s)", actorstatetransitionIdent, actorstatetransitionIdent, targetIdent))
 			}
 		}
@@ -208,8 +274,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ActorStateTransitionShape_stagedOrder[actorstatetransitionshapeOrdered[i]] < stageSet.Stage.ActorStateTransitionShape_stagedOrder[actorstatetransitionshapeOrdered[j]]
 		})
 		for _, actorstatetransitionshape := range actorstatetransitionshapeOrdered {
-			actorstatetransitionshapeIdent := "__stage_0" + actorstatetransitionshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ActorStateTransitionShape{Name: %s}).Stage(stageSet.Stage)", actorstatetransitionshapeIdent, __gong__toRawStringLiteral(actorstatetransitionshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			actorstatetransitionshapeIdent := "__models" + actorstatetransitionshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ActorStateTransitionShape{Name: %s}).Stage(stageSet.Stage)", actorstatetransitionshapeIdent, __gong__toRawStringLiteral(actorstatetransitionshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", actorstatetransitionshapeIdent, __gong__toRawStringLiteral(actorstatetransitionshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", actorstatetransitionshapeIdent, actorstatetransitionshape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", actorstatetransitionshapeIdent, actorstatetransitionshape.Y))
@@ -217,19 +295,43 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", actorstatetransitionshapeIdent, actorstatetransitionshape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", actorstatetransitionshapeIdent, actorstatetransitionshape.IsHidden))
 			if actorstatetransitionshape.ActorStateTransition != nil {
-				targetIdent := "__stage_0" + actorstatetransitionshape.ActorStateTransition.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + actorstatetransitionshape.ActorStateTransition.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorStateTransition = %s", actorstatetransitionshapeIdent, targetIdent))
 			}
 			if actorstatetransitionshape.Start != nil {
-				targetIdent := "__stage_0" + actorstatetransitionshape.Start.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + actorstatetransitionshape.Start.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Start = %s", actorstatetransitionshapeIdent, targetIdent))
 			}
 			if actorstatetransitionshape.End != nil {
-				targetIdent := "__stage_0" + actorstatetransitionshape.End.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + actorstatetransitionshape.End.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.End = %s", actorstatetransitionshapeIdent, targetIdent))
 			}
 			for _, elem := range actorstatetransitionshape.ControlPointShapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlPointShapes = append(%s.ControlPointShapes, %s)", actorstatetransitionshapeIdent, actorstatetransitionshapeIdent, targetIdent))
 			}
 		}
@@ -243,8 +345,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Analysis_stagedOrder[analysisOrdered[i]] < stageSet.Stage.Analysis_stagedOrder[analysisOrdered[j]]
 		})
 		for _, analysis := range analysisOrdered {
-			analysisIdent := "__stage_0" + analysis.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Analysis{Name: %s}).Stage(stageSet.Stage)", analysisIdent, __gong__toRawStringLiteral(analysis.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			analysisIdent := "__models" + analysis.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Analysis{Name: %s}).Stage(stageSet.Stage)", analysisIdent, __gong__toRawStringLiteral(analysis.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", analysisIdent, __gong__toRawStringLiteral(analysis.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", analysisIdent, __gong__toRawStringLiteral(analysis.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsScenariosNodeExpanded = %t", analysisIdent, analysis.IsScenariosNodeExpanded))
@@ -254,19 +368,43 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", analysisIdent, __gong__toRawStringLiteral(analysis.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", analysisIdent, analysis.IsExpanded))
 			for _, elem := range analysis.Scenarios {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Scenarios = append(%s.Scenarios, %s)", analysisIdent, analysisIdent, targetIdent))
 			}
 			for _, elem := range analysis.GroupUse {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.GroupUse = append(%s.GroupUse, %s)", analysisIdent, analysisIdent, targetIdent))
 			}
 			for _, elem := range analysis.GeoObjectUse {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.GeoObjectUse = append(%s.GeoObjectUse, %s)", analysisIdent, analysisIdent, targetIdent))
 			}
 			for _, elem := range analysis.MapUse {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.MapUse = append(%s.MapUse, %s)", analysisIdent, analysisIdent, targetIdent))
 			}
 		}
@@ -280,8 +418,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ControlPointShape_stagedOrder[controlpointshapeOrdered[i]] < stageSet.Stage.ControlPointShape_stagedOrder[controlpointshapeOrdered[j]]
 		})
 		for _, controlpointshape := range controlpointshapeOrdered {
-			controlpointshapeIdent := "__stage_0" + controlpointshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ControlPointShape{Name: %s}).Stage(stageSet.Stage)", controlpointshapeIdent, __gong__toRawStringLiteral(controlpointshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			controlpointshapeIdent := "__models" + controlpointshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ControlPointShape{Name: %s}).Stage(stageSet.Stage)", controlpointshapeIdent, __gong__toRawStringLiteral(controlpointshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", controlpointshapeIdent, __gong__toRawStringLiteral(controlpointshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X_Relative = %f", controlpointshapeIdent, controlpointshape.X_Relative))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y_Relative = %f", controlpointshapeIdent, controlpointshape.Y_Relative))
@@ -297,8 +447,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Diagram_stagedOrder[diagramOrdered[i]] < stageSet.Stage.Diagram_stagedOrder[diagramOrdered[j]]
 		})
 		for _, diagram := range diagramOrdered {
-			diagramIdent := "__stage_0" + diagram.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Diagram{Name: %s}).Stage(stageSet.Stage)", diagramIdent, __gong__toRawStringLiteral(diagram.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			diagramIdent := "__models" + diagram.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Diagram{Name: %s}).Stage(stageSet.Stage)", diagramIdent, __gong__toRawStringLiteral(diagram.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", diagramIdent, __gong__toRawStringLiteral(diagram.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", diagramIdent, diagram.IsExpanded))
@@ -321,43 +483,103 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.NumberOfYearsBetweenTicks = %d", diagramIdent, diagram.NumberOfYearsBetweenTicks))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsInDrawMode = %t", diagramIdent, diagram.IsInDrawMode))
 			for _, elem := range diagram.EvolutionDirectionShapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EvolutionDirectionShapes = append(%s.EvolutionDirectionShapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.EvolutionDirectionsWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EvolutionDirectionsWhoseNodeIsExpanded = append(%s.EvolutionDirectionsWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ActorStateShapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorStateShapes = append(%s.ActorStateShapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ActorStatesWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorStatesWhoseNodeIsExpanded = append(%s.ActorStatesWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ParameterShapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParameterShapes = append(%s.ParameterShapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ParametersWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParametersWhoseNodeIsExpanded = append(%s.ParametersWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ScenarioParameterShapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ScenarioParameterShapes = append(%s.ScenarioParameterShapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ParametersAggregatesWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParametersAggregatesWhoseNodeIsExpanded = append(%s.ParametersAggregatesWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ActorStateTransitionShapes {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorStateTransitionShapes = append(%s.ActorStateTransitionShapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 			for _, elem := range diagram.ActorStateTransitionsWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorStateTransitionsWhoseNodeIsExpanded = append(%s.ActorStateTransitionsWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 		}
@@ -371,13 +593,31 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Document_stagedOrder[documentOrdered[i]] < stageSet.Stage.Document_stagedOrder[documentOrdered[j]]
 		})
 		for _, document := range documentOrdered {
-			documentIdent := "__stage_0" + document.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Document{Name: %s}).Stage(stageSet.Stage)", documentIdent, __gong__toRawStringLiteral(document.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			documentIdent := "__models" + document.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Document{Name: %s}).Stage(stageSet.Stage)", documentIdent, __gong__toRawStringLiteral(document.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", documentIdent, __gong__toRawStringLiteral(document.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", documentIdent, __gong__toRawStringLiteral(document.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", documentIdent, document.IsExpanded))
 			for _, elem := range document.GeoObjectUse {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.GeoObjectUse = append(%s.GeoObjectUse, %s)", documentIdent, documentIdent, targetIdent))
 			}
 		}
@@ -391,11 +631,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.DocumentUse_stagedOrder[documentuseOrdered[i]] < stageSet.Stage.DocumentUse_stagedOrder[documentuseOrdered[j]]
 		})
 		for _, documentuse := range documentuseOrdered {
-			documentuseIdent := "__stage_0" + documentuse.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.DocumentUse{Name: %s}).Stage(stageSet.Stage)", documentuseIdent, __gong__toRawStringLiteral(documentuse.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			documentuseIdent := "__models" + documentuse.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DocumentUse{Name: %s}).Stage(stageSet.Stage)", documentuseIdent, __gong__toRawStringLiteral(documentuse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", documentuseIdent, __gong__toRawStringLiteral(documentuse.Name)))
 			if documentuse.Document != nil {
-				targetIdent := "__stage_0" + documentuse.Document.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + documentuse.Document.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Document = %s", documentuseIdent, targetIdent))
 			}
 		}
@@ -409,8 +667,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.EvolutionDirection_stagedOrder[evolutiondirectionOrdered[i]] < stageSet.Stage.EvolutionDirection_stagedOrder[evolutiondirectionOrdered[j]]
 		})
 		for _, evolutiondirection := range evolutiondirectionOrdered {
-			evolutiondirectionIdent := "__stage_0" + evolutiondirection.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.EvolutionDirection{Name: %s}).Stage(stageSet.Stage)", evolutiondirectionIdent, __gong__toRawStringLiteral(evolutiondirection.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			evolutiondirectionIdent := "__models" + evolutiondirection.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.EvolutionDirection{Name: %s}).Stage(stageSet.Stage)", evolutiondirectionIdent, __gong__toRawStringLiteral(evolutiondirection.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", evolutiondirectionIdent, __gong__toRawStringLiteral(evolutiondirection.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", evolutiondirectionIdent, __gong__toRawStringLiteral(evolutiondirection.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", evolutiondirectionIdent, __gong__toRawStringLiteral(evolutiondirection.ComputedPrefix)))
@@ -426,8 +696,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.EvolutionDirectionShape_stagedOrder[evolutiondirectionshapeOrdered[i]] < stageSet.Stage.EvolutionDirectionShape_stagedOrder[evolutiondirectionshapeOrdered[j]]
 		})
 		for _, evolutiondirectionshape := range evolutiondirectionshapeOrdered {
-			evolutiondirectionshapeIdent := "__stage_0" + evolutiondirectionshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.EvolutionDirectionShape{Name: %s}).Stage(stageSet.Stage)", evolutiondirectionshapeIdent, __gong__toRawStringLiteral(evolutiondirectionshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			evolutiondirectionshapeIdent := "__models" + evolutiondirectionshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.EvolutionDirectionShape{Name: %s}).Stage(stageSet.Stage)", evolutiondirectionshapeIdent, __gong__toRawStringLiteral(evolutiondirectionshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", evolutiondirectionshapeIdent, __gong__toRawStringLiteral(evolutiondirectionshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", evolutiondirectionshapeIdent, evolutiondirectionshape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", evolutiondirectionshapeIdent, evolutiondirectionshape.Y))
@@ -435,7 +717,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", evolutiondirectionshapeIdent, evolutiondirectionshape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", evolutiondirectionshapeIdent, evolutiondirectionshape.IsHidden))
 			if evolutiondirectionshape.EvolutionDirection != nil {
-				targetIdent := "__stage_0" + evolutiondirectionshape.EvolutionDirection.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + evolutiondirectionshape.EvolutionDirection.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EvolutionDirection = %s", evolutiondirectionshapeIdent, targetIdent))
 			}
 		}
@@ -449,8 +737,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Foo_stagedOrder[fooOrdered[i]] < stageSet.Stage.Foo_stagedOrder[fooOrdered[j]]
 		})
 		for _, foo := range fooOrdered {
-			fooIdent := "__stage_0" + foo.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Foo{Name: %s}).Stage(stageSet.Stage)", fooIdent, __gong__toRawStringLiteral(foo.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			fooIdent := "__models" + foo.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Foo{Name: %s}).Stage(stageSet.Stage)", fooIdent, __gong__toRawStringLiteral(foo.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", fooIdent, __gong__toRawStringLiteral(foo.Name)))
 		}
 	}
@@ -463,8 +763,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.GeoObject_stagedOrder[geoobjectOrdered[i]] < stageSet.Stage.GeoObject_stagedOrder[geoobjectOrdered[j]]
 		})
 		for _, geoobject := range geoobjectOrdered {
-			geoobjectIdent := "__stage_0" + geoobject.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.GeoObject{Name: %s}).Stage(stageSet.Stage)", geoobjectIdent, __gong__toRawStringLiteral(geoobject.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			geoobjectIdent := "__models" + geoobject.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.GeoObject{Name: %s}).Stage(stageSet.Stage)", geoobjectIdent, __gong__toRawStringLiteral(geoobject.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", geoobjectIdent, __gong__toRawStringLiteral(geoobject.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", geoobjectIdent, __gong__toRawStringLiteral(geoobject.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", geoobjectIdent, geoobject.IsExpanded))
@@ -479,11 +791,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.GeoObjectUse_stagedOrder[geoobjectuseOrdered[i]] < stageSet.Stage.GeoObjectUse_stagedOrder[geoobjectuseOrdered[j]]
 		})
 		for _, geoobjectuse := range geoobjectuseOrdered {
-			geoobjectuseIdent := "__stage_0" + geoobjectuse.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.GeoObjectUse{Name: %s}).Stage(stageSet.Stage)", geoobjectuseIdent, __gong__toRawStringLiteral(geoobjectuse.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			geoobjectuseIdent := "__models" + geoobjectuse.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.GeoObjectUse{Name: %s}).Stage(stageSet.Stage)", geoobjectuseIdent, __gong__toRawStringLiteral(geoobjectuse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", geoobjectuseIdent, __gong__toRawStringLiteral(geoobjectuse.Name)))
 			if geoobjectuse.GeoObject != nil {
-				targetIdent := "__stage_0" + geoobjectuse.GeoObject.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + geoobjectuse.GeoObject.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.GeoObject = %s", geoobjectuseIdent, targetIdent))
 			}
 		}
@@ -497,13 +827,31 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Group_stagedOrder[groupOrdered[i]] < stageSet.Stage.Group_stagedOrder[groupOrdered[j]]
 		})
 		for _, group := range groupOrdered {
-			groupIdent := "__stage_0" + group.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Group{Name: %s}).Stage(stageSet.Stage)", groupIdent, __gong__toRawStringLiteral(group.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			groupIdent := "__models" + group.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Group{Name: %s}).Stage(stageSet.Stage)", groupIdent, __gong__toRawStringLiteral(group.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", groupIdent, __gong__toRawStringLiteral(group.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", groupIdent, __gong__toRawStringLiteral(group.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", groupIdent, group.IsExpanded))
 			for _, elem := range group.UserUse {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.UserUse = append(%s.UserUse, %s)", groupIdent, groupIdent, targetIdent))
 			}
 		}
@@ -517,11 +865,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.GroupUse_stagedOrder[groupuseOrdered[i]] < stageSet.Stage.GroupUse_stagedOrder[groupuseOrdered[j]]
 		})
 		for _, groupuse := range groupuseOrdered {
-			groupuseIdent := "__stage_0" + groupuse.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.GroupUse{Name: %s}).Stage(stageSet.Stage)", groupuseIdent, __gong__toRawStringLiteral(groupuse.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			groupuseIdent := "__models" + groupuse.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.GroupUse{Name: %s}).Stage(stageSet.Stage)", groupuseIdent, __gong__toRawStringLiteral(groupuse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", groupuseIdent, __gong__toRawStringLiteral(groupuse.Name)))
 			if groupuse.Group != nil {
-				targetIdent := "__stage_0" + groupuse.Group.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + groupuse.Group.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Group = %s", groupuseIdent, targetIdent))
 			}
 		}
@@ -535,8 +901,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Library_stagedOrder[libraryOrdered[i]] < stageSet.Stage.Library_stagedOrder[libraryOrdered[j]]
 		})
 		for _, library := range libraryOrdered {
-			libraryIdent := "__stage_0" + library.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Library{Name: %s}).Stage(stageSet.Stage)", libraryIdent, __gong__toRawStringLiteral(library.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			libraryIdent := "__models" + library.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Library{Name: %s}).Stage(stageSet.Stage)", libraryIdent, __gong__toRawStringLiteral(library.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", libraryIdent, __gong__toRawStringLiteral(library.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", libraryIdent, __gong__toRawStringLiteral(library.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", libraryIdent, __gong__toRawStringLiteral(library.ComputedPrefix)))
@@ -548,15 +926,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.LogoSVGFile = %s", libraryIdent, __gong__toRawStringLiteral(library.LogoSVGFile)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpandedTmp = %t", libraryIdent, library.IsExpandedTmp))
 			for _, elem := range library.Analyses {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Analyses = append(%s.Analyses, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.SubLibraries {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibraries = append(%s.SubLibraries, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.SubLibrariesWhoseNodeIsExpanded {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibrariesWhoseNodeIsExpanded = append(%s.SubLibrariesWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 		}
@@ -570,8 +966,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.MapObject_stagedOrder[mapobjectOrdered[i]] < stageSet.Stage.MapObject_stagedOrder[mapobjectOrdered[j]]
 		})
 		for _, mapobject := range mapobjectOrdered {
-			mapobjectIdent := "__stage_0" + mapobject.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.MapObject{Name: %s}).Stage(stageSet.Stage)", mapobjectIdent, __gong__toRawStringLiteral(mapobject.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			mapobjectIdent := "__models" + mapobject.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.MapObject{Name: %s}).Stage(stageSet.Stage)", mapobjectIdent, __gong__toRawStringLiteral(mapobject.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", mapobjectIdent, __gong__toRawStringLiteral(mapobject.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", mapobjectIdent, __gong__toRawStringLiteral(mapobject.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", mapobjectIdent, mapobject.IsExpanded))
@@ -586,11 +994,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.MapObjectUse_stagedOrder[mapobjectuseOrdered[i]] < stageSet.Stage.MapObjectUse_stagedOrder[mapobjectuseOrdered[j]]
 		})
 		for _, mapobjectuse := range mapobjectuseOrdered {
-			mapobjectuseIdent := "__stage_0" + mapobjectuse.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.MapObjectUse{Name: %s}).Stage(stageSet.Stage)", mapobjectuseIdent, __gong__toRawStringLiteral(mapobjectuse.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			mapobjectuseIdent := "__models" + mapobjectuse.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.MapObjectUse{Name: %s}).Stage(stageSet.Stage)", mapobjectuseIdent, __gong__toRawStringLiteral(mapobjectuse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", mapobjectuseIdent, __gong__toRawStringLiteral(mapobjectuse.Name)))
 			if mapobjectuse.Map != nil {
-				targetIdent := "__stage_0" + mapobjectuse.Map.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + mapobjectuse.Map.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Map = %s", mapobjectuseIdent, targetIdent))
 			}
 		}
@@ -604,8 +1030,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Parameter_stagedOrder[parameterOrdered[i]] < stageSet.Stage.Parameter_stagedOrder[parameterOrdered[j]]
 		})
 		for _, parameter := range parameterOrdered {
-			parameterIdent := "__stage_0" + parameter.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Parameter{Name: %s}).Stage(stageSet.Stage)", parameterIdent, __gong__toRawStringLiteral(parameter.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			parameterIdent := "__models" + parameter.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Parameter{Name: %s}).Stage(stageSet.Stage)", parameterIdent, __gong__toRawStringLiteral(parameter.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parameterIdent, __gong__toRawStringLiteral(parameter.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", parameterIdent, __gong__toRawStringLiteral(parameter.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsResponse = %t", parameterIdent, parameter.IsResponse))
@@ -616,15 +1054,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", parameterIdent, __gong__toRawStringLiteral(parameter.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", parameterIdent, parameter.IsExpanded))
 			for _, elem := range parameter.GroupUse {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.GroupUse = append(%s.GroupUse, %s)", parameterIdent, parameterIdent, targetIdent))
 			}
 			for _, elem := range parameter.DocumentUse {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DocumentUse = append(%s.DocumentUse, %s)", parameterIdent, parameterIdent, targetIdent))
 			}
 			for _, elem := range parameter.GeoObjectUse {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.GeoObjectUse = append(%s.GeoObjectUse, %s)", parameterIdent, parameterIdent, targetIdent))
 			}
 		}
@@ -638,13 +1094,31 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ParameterCategory_stagedOrder[parametercategoryOrdered[i]] < stageSet.Stage.ParameterCategory_stagedOrder[parametercategoryOrdered[j]]
 		})
 		for _, parametercategory := range parametercategoryOrdered {
-			parametercategoryIdent := "__stage_0" + parametercategory.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ParameterCategory{Name: %s}).Stage(stageSet.Stage)", parametercategoryIdent, __gong__toRawStringLiteral(parametercategory.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			parametercategoryIdent := "__models" + parametercategory.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ParameterCategory{Name: %s}).Stage(stageSet.Stage)", parametercategoryIdent, __gong__toRawStringLiteral(parametercategory.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parametercategoryIdent, __gong__toRawStringLiteral(parametercategory.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", parametercategoryIdent, __gong__toRawStringLiteral(parametercategory.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", parametercategoryIdent, parametercategory.IsExpanded))
 			for _, elem := range parametercategory.ParameterUse {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParameterUse = append(%s.ParameterUse, %s)", parametercategoryIdent, parametercategoryIdent, targetIdent))
 			}
 		}
@@ -658,11 +1132,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ParameterCategoryUse_stagedOrder[parametercategoryuseOrdered[i]] < stageSet.Stage.ParameterCategoryUse_stagedOrder[parametercategoryuseOrdered[j]]
 		})
 		for _, parametercategoryuse := range parametercategoryuseOrdered {
-			parametercategoryuseIdent := "__stage_0" + parametercategoryuse.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ParameterCategoryUse{Name: %s}).Stage(stageSet.Stage)", parametercategoryuseIdent, __gong__toRawStringLiteral(parametercategoryuse.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			parametercategoryuseIdent := "__models" + parametercategoryuse.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ParameterCategoryUse{Name: %s}).Stage(stageSet.Stage)", parametercategoryuseIdent, __gong__toRawStringLiteral(parametercategoryuse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parametercategoryuseIdent, __gong__toRawStringLiteral(parametercategoryuse.Name)))
 			if parametercategoryuse.ParameterCategory != nil {
-				targetIdent := "__stage_0" + parametercategoryuse.ParameterCategory.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + parametercategoryuse.ParameterCategory.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParameterCategory = %s", parametercategoryuseIdent, targetIdent))
 			}
 		}
@@ -676,8 +1168,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ParameterShape_stagedOrder[parametershapeOrdered[i]] < stageSet.Stage.ParameterShape_stagedOrder[parametershapeOrdered[j]]
 		})
 		for _, parametershape := range parametershapeOrdered {
-			parametershapeIdent := "__stage_0" + parametershape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ParameterShape{Name: %s}).Stage(stageSet.Stage)", parametershapeIdent, __gong__toRawStringLiteral(parametershape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			parametershapeIdent := "__models" + parametershape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ParameterShape{Name: %s}).Stage(stageSet.Stage)", parametershapeIdent, __gong__toRawStringLiteral(parametershape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parametershapeIdent, __gong__toRawStringLiteral(parametershape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Direction = %s", parametershapeIdent, __gong__toRawStringLiteral(string(parametershape.Direction))))
 			values.WriteString(fmt.Sprintf("\n\t%s.ShapeIsComputedFromModel = %t", parametershapeIdent, parametershape.ShapeIsComputedFromModel))
@@ -687,7 +1191,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", parametershapeIdent, parametershape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", parametershapeIdent, parametershape.IsHidden))
 			if parametershape.Parameter != nil {
-				targetIdent := "__stage_0" + parametershape.Parameter.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + parametershape.Parameter.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Parameter = %s", parametershapeIdent, targetIdent))
 			}
 		}
@@ -701,15 +1211,33 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ParametersAggregate_stagedOrder[parametersaggregateOrdered[i]] < stageSet.Stage.ParametersAggregate_stagedOrder[parametersaggregateOrdered[j]]
 		})
 		for _, parametersaggregate := range parametersaggregateOrdered {
-			parametersaggregateIdent := "__stage_0" + parametersaggregate.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ParametersAggregate{Name: %s}).Stage(stageSet.Stage)", parametersaggregateIdent, __gong__toRawStringLiteral(parametersaggregate.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			parametersaggregateIdent := "__models" + parametersaggregate.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ParametersAggregate{Name: %s}).Stage(stageSet.Stage)", parametersaggregateIdent, __gong__toRawStringLiteral(parametersaggregate.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parametersaggregateIdent, __gong__toRawStringLiteral(parametersaggregate.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Tag = %s", parametersaggregateIdent, __gong__toRawStringLiteral(parametersaggregate.Tag)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", parametersaggregateIdent, __gong__toRawStringLiteral(parametersaggregate.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", parametersaggregateIdent, __gong__toRawStringLiteral(parametersaggregate.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", parametersaggregateIdent, parametersaggregate.IsExpanded))
 			for _, elem := range parametersaggregate.Parameters {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Parameters = append(%s.Parameters, %s)", parametersaggregateIdent, parametersaggregateIdent, targetIdent))
 			}
 		}
@@ -723,8 +1251,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.ParametersAggregateShape_stagedOrder[parametersaggregateshapeOrdered[i]] < stageSet.Stage.ParametersAggregateShape_stagedOrder[parametersaggregateshapeOrdered[j]]
 		})
 		for _, parametersaggregateshape := range parametersaggregateshapeOrdered {
-			parametersaggregateshapeIdent := "__stage_0" + parametersaggregateshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.ParametersAggregateShape{Name: %s}).Stage(stageSet.Stage)", parametersaggregateshapeIdent, __gong__toRawStringLiteral(parametersaggregateshape.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			parametersaggregateshapeIdent := "__models" + parametersaggregateshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ParametersAggregateShape{Name: %s}).Stage(stageSet.Stage)", parametersaggregateshapeIdent, __gong__toRawStringLiteral(parametersaggregateshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parametersaggregateshapeIdent, __gong__toRawStringLiteral(parametersaggregateshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Direction = %s", parametersaggregateshapeIdent, __gong__toRawStringLiteral(string(parametersaggregateshape.Direction))))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", parametersaggregateshapeIdent, parametersaggregateshape.X))
@@ -733,7 +1273,13 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", parametersaggregateshapeIdent, parametersaggregateshape.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", parametersaggregateshapeIdent, parametersaggregateshape.IsHidden))
 			if parametersaggregateshape.ScenarioParameter != nil {
-				targetIdent := "__stage_0" + parametersaggregateshape.ScenarioParameter.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + parametersaggregateshape.ScenarioParameter.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ScenarioParameter = %s", parametersaggregateshapeIdent, targetIdent))
 			}
 		}
@@ -747,8 +1293,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Position_stagedOrder[positionOrdered[i]] < stageSet.Stage.Position_stagedOrder[positionOrdered[j]]
 		})
 		for _, position := range positionOrdered {
-			positionIdent := "__stage_0" + position.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Position{Name: %s}).Stage(stageSet.Stage)", positionIdent, __gong__toRawStringLiteral(position.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			positionIdent := "__models" + position.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Position{Name: %s}).Stage(stageSet.Stage)", positionIdent, __gong__toRawStringLiteral(position.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", positionIdent, __gong__toRawStringLiteral(position.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Date, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", positionIdent, position.Date.String()))
 			values.WriteString(fmt.Sprintf("\n\t%s.Ordinate = %f", positionIdent, position.Ordinate))
@@ -765,17 +1323,41 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Repository_stagedOrder[repositoryOrdered[i]] < stageSet.Stage.Repository_stagedOrder[repositoryOrdered[j]]
 		})
 		for _, repository := range repositoryOrdered {
-			repositoryIdent := "__stage_0" + repository.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Repository{Name: %s}).Stage(stageSet.Stage)", repositoryIdent, __gong__toRawStringLiteral(repository.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			repositoryIdent := "__models" + repository.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Repository{Name: %s}).Stage(stageSet.Stage)", repositoryIdent, __gong__toRawStringLiteral(repository.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", repositoryIdent, __gong__toRawStringLiteral(repository.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", repositoryIdent, __gong__toRawStringLiteral(repository.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", repositoryIdent, repository.IsExpanded))
 			for _, elem := range repository.ParameterUse {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParameterUse = append(%s.ParameterUse, %s)", repositoryIdent, repositoryIdent, targetIdent))
 			}
 			for _, elem := range repository.GroupUse {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.GroupUse = append(%s.GroupUse, %s)", repositoryIdent, repositoryIdent, targetIdent))
 			}
 		}
@@ -789,8 +1371,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Scenario_stagedOrder[scenarioOrdered[i]] < stageSet.Stage.Scenario_stagedOrder[scenarioOrdered[j]]
 		})
 		for _, scenario := range scenarioOrdered {
-			scenarioIdent := "__stage_0" + scenario.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Scenario{Name: %s}).Stage(stageSet.Stage)", scenarioIdent, __gong__toRawStringLiteral(scenario.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			scenarioIdent := "__models" + scenario.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Scenario{Name: %s}).Stage(stageSet.Stage)", scenarioIdent, __gong__toRawStringLiteral(scenario.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", scenarioIdent, __gong__toRawStringLiteral(scenario.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", scenarioIdent, __gong__toRawStringLiteral(scenario.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsDiagramsNodeExpanded = %t", scenarioIdent, scenario.IsDiagramsNodeExpanded))
@@ -802,27 +1396,63 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", scenarioIdent, __gong__toRawStringLiteral(scenario.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", scenarioIdent, scenario.IsExpanded))
 			for _, elem := range scenario.Diagrams {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Diagrams = append(%s.Diagrams, %s)", scenarioIdent, scenarioIdent, targetIdent))
 			}
 			for _, elem := range scenario.ActorStates {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorStates = append(%s.ActorStates, %s)", scenarioIdent, scenarioIdent, targetIdent))
 			}
 			for _, elem := range scenario.ActorStateTransitions {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorStateTransitions = append(%s.ActorStateTransitions, %s)", scenarioIdent, scenarioIdent, targetIdent))
 			}
 			for _, elem := range scenario.EvolutionDirections {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EvolutionDirections = append(%s.EvolutionDirections, %s)", scenarioIdent, scenarioIdent, targetIdent))
 			}
 			for _, elem := range scenario.Parameters {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Parameters = append(%s.Parameters, %s)", scenarioIdent, scenarioIdent, targetIdent))
 			}
 			for _, elem := range scenario.ParametersAggretates {
-				targetIdent := "__stage_0" + elem.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParametersAggretates = append(%s.ParametersAggretates, %s)", scenarioIdent, scenarioIdent, targetIdent))
 			}
 		}
@@ -836,8 +1466,20 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.User_stagedOrder[userOrdered[i]] < stageSet.Stage.User_stagedOrder[userOrdered[j]]
 		})
 		for _, user := range userOrdered {
-			userIdent := "__stage_0" + user.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.User{Name: %s}).Stage(stageSet.Stage)", userIdent, __gong__toRawStringLiteral(user.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			userIdent := "__models" + user.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.User{Name: %s}).Stage(stageSet.Stage)", userIdent, __gong__toRawStringLiteral(user.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", userIdent, __gong__toRawStringLiteral(user.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", userIdent, __gong__toRawStringLiteral(user.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", userIdent, user.IsExpanded))
@@ -852,11 +1494,29 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.UserUse_stagedOrder[useruseOrdered[i]] < stageSet.Stage.UserUse_stagedOrder[useruseOrdered[j]]
 		})
 		for _, useruse := range useruseOrdered {
-			useruseIdent := "__stage_0" + useruse.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.UserUse{Name: %s}).Stage(stageSet.Stage)", useruseIdent, __gong__toRawStringLiteral(useruse.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			useruseIdent := "__models" + useruse.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.UserUse{Name: %s}).Stage(stageSet.Stage)", useruseIdent, __gong__toRawStringLiteral(useruse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", useruseIdent, __gong__toRawStringLiteral(useruse.Name)))
 			if useruse.User != nil {
-				targetIdent := "__stage_0" + useruse.User.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + useruse.User.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.User = %s", useruseIdent, targetIdent))
 			}
 		}
@@ -870,33 +1530,81 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			return stageSet.Stage.Workspace_stagedOrder[workspaceOrdered[i]] < stageSet.Stage.Workspace_stagedOrder[workspaceOrdered[j]]
 		})
 		for _, workspace := range workspaceOrdered {
-			workspaceIdent := "__stage_0" + workspace.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&__stage_0__.Workspace{Name: %s}).Stage(stageSet.Stage)", workspaceIdent, __gong__toRawStringLiteral(workspace.Name)))
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			workspaceIdent := "__models" + workspace.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Workspace{Name: %s}).Stage(stageSet.Stage)", workspaceIdent, __gong__toRawStringLiteral(workspace.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", workspaceIdent, __gong__toRawStringLiteral(workspace.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", workspaceIdent, __gong__toRawStringLiteral(workspace.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", workspaceIdent, workspace.IsExpanded))
 			if workspace.SelectedDiagram != nil {
-				targetIdent := "__stage_0" + workspace.SelectedDiagram.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + workspace.SelectedDiagram.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SelectedDiagram = %s", workspaceIdent, targetIdent))
 			}
 			if workspace.Default_EvolutionDirectionShape != nil {
-				targetIdent := "__stage_0" + workspace.Default_EvolutionDirectionShape.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + workspace.Default_EvolutionDirectionShape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Default_EvolutionDirectionShape = %s", workspaceIdent, targetIdent))
 			}
 			if workspace.Default_ParameterShape != nil {
-				targetIdent := "__stage_0" + workspace.Default_ParameterShape.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + workspace.Default_ParameterShape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Default_ParameterShape = %s", workspaceIdent, targetIdent))
 			}
 			if workspace.Default_ScenarioParameterShape != nil {
-				targetIdent := "__stage_0" + workspace.Default_ScenarioParameterShape.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + workspace.Default_ScenarioParameterShape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Default_ScenarioParameterShape = %s", workspaceIdent, targetIdent))
 			}
 			if workspace.Default_ActorStateShape != nil {
-				targetIdent := "__stage_0" + workspace.Default_ActorStateShape.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + workspace.Default_ActorStateShape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Default_ActorStateShape = %s", workspaceIdent, targetIdent))
 			}
 			if workspace.Default_ActorStateTransitionShape != nil {
-				targetIdent := "__stage_0" + workspace.Default_ActorStateTransitionShape.GongGetIdentifier(stageSet.Stage)
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + workspace.Default_ActorStateTransitionShape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Default_ActorStateTransitionShape = %s", workspaceIdent, targetIdent))
 			}
 		}
@@ -910,18 +1618,18 @@ import (
 	"slices"
 	"time"
 
-	__stage_0__ "github.com/fullstack-lang/gong/dsm/scenario/go/models"
+	"github.com/fullstack-lang/gong/dsm/scenario/go/models"
 )
 
 var (
 	_ time.Time
 	_ = slices.Index[[]int, int]
 
-	_ *__stage_0__.Stage
+	_ *models.Stage
 )
 
 // function will stage objects across all coordinated stages
-func _(stageSet *__stage_0__.StageSet) {
+func _(stageSet *models.StageSet) {
 
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
@@ -987,6 +1695,19 @@ func (stageSet *StageSet) ParseAstString(blob string, preserveOrder bool) error 
 func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	identifierMap := make(map[string]any)
 
+	aliasToCanonical := make(map[string]string)
+	for _, imp := range inFile.Imports {
+		p := strings.Trim(imp.Path.Value, "\"`")
+		alias := filepath.Base(p)
+		if imp.Name != nil {
+			alias = imp.Name.Name
+		}
+		switch p {
+		case "github.com/fullstack-lang/gong/dsm/scenario/go/models":
+			aliasToCanonical[alias] = "models"
+		}
+	}
+
 	ast.Inspect(inFile, func(n ast.Node) bool {
 		switch node := n.(type) {
 		case *ast.AssignStmt:
@@ -1023,8 +1744,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						return true
 					})
 
+					if canonical, ok := aliasToCanonical[pkgAlias]; ok {
+						pkgAlias = canonical
+					}
+
 					switch pkgAlias {
-			case "__stage_0__":
+			case "models":
 				switch typeName {
 				case "ActorState":
 					if !preserveOrder {
@@ -1443,7 +2168,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Parameter); ok {
+									if typedTarget, ok := target.(*Parameter); ok {
 										inst.Justifications = append(inst.Justifications, typedTarget)
 									}
 								}
@@ -1496,7 +2221,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ControlPointShape); ok {
+									if typedTarget, ok := target.(*ControlPointShape); ok {
 										inst.ControlPointShapes = append(inst.ControlPointShapes, typedTarget)
 									}
 								}
@@ -1513,7 +2238,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Scenario); ok {
+									if typedTarget, ok := target.(*Scenario); ok {
 										inst.Scenarios = append(inst.Scenarios, typedTarget)
 									}
 								}
@@ -1525,7 +2250,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*GroupUse); ok {
+									if typedTarget, ok := target.(*GroupUse); ok {
 										inst.GroupUse = append(inst.GroupUse, typedTarget)
 									}
 								}
@@ -1537,7 +2262,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*GeoObjectUse); ok {
+									if typedTarget, ok := target.(*GeoObjectUse); ok {
 										inst.GeoObjectUse = append(inst.GeoObjectUse, typedTarget)
 									}
 								}
@@ -1549,7 +2274,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*MapObjectUse); ok {
+									if typedTarget, ok := target.(*MapObjectUse); ok {
 										inst.MapUse = append(inst.MapUse, typedTarget)
 									}
 								}
@@ -1591,7 +2316,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*EvolutionDirectionShape); ok {
+									if typedTarget, ok := target.(*EvolutionDirectionShape); ok {
 										inst.EvolutionDirectionShapes = append(inst.EvolutionDirectionShapes, typedTarget)
 									}
 								}
@@ -1601,7 +2326,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*EvolutionDirection); ok {
+									if typedTarget, ok := target.(*EvolutionDirection); ok {
 										inst.EvolutionDirectionsWhoseNodeIsExpanded = append(inst.EvolutionDirectionsWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1613,7 +2338,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ActorStateShape); ok {
+									if typedTarget, ok := target.(*ActorStateShape); ok {
 										inst.ActorStateShapes = append(inst.ActorStateShapes, typedTarget)
 									}
 								}
@@ -1623,7 +2348,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ActorState); ok {
+									if typedTarget, ok := target.(*ActorState); ok {
 										inst.ActorStatesWhoseNodeIsExpanded = append(inst.ActorStatesWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1635,7 +2360,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ParameterShape); ok {
+									if typedTarget, ok := target.(*ParameterShape); ok {
 										inst.ParameterShapes = append(inst.ParameterShapes, typedTarget)
 									}
 								}
@@ -1645,7 +2370,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Parameter); ok {
+									if typedTarget, ok := target.(*Parameter); ok {
 										inst.ParametersWhoseNodeIsExpanded = append(inst.ParametersWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1657,7 +2382,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ParametersAggregateShape); ok {
+									if typedTarget, ok := target.(*ParametersAggregateShape); ok {
 										inst.ScenarioParameterShapes = append(inst.ScenarioParameterShapes, typedTarget)
 									}
 								}
@@ -1667,7 +2392,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ParametersAggregate); ok {
+									if typedTarget, ok := target.(*ParametersAggregate); ok {
 										inst.ParametersAggregatesWhoseNodeIsExpanded = append(inst.ParametersAggregatesWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1679,7 +2404,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ActorStateTransitionShape); ok {
+									if typedTarget, ok := target.(*ActorStateTransitionShape); ok {
 										inst.ActorStateTransitionShapes = append(inst.ActorStateTransitionShapes, typedTarget)
 									}
 								}
@@ -1689,7 +2414,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ActorStateTransition); ok {
+									if typedTarget, ok := target.(*ActorStateTransition); ok {
 										inst.ActorStateTransitionsWhoseNodeIsExpanded = append(inst.ActorStateTransitionsWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1734,7 +2459,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*GeoObjectUse); ok {
+									if typedTarget, ok := target.(*GeoObjectUse); ok {
 										inst.GeoObjectUse = append(inst.GeoObjectUse, typedTarget)
 									}
 								}
@@ -1827,7 +2552,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*UserUse); ok {
+									if typedTarget, ok := target.(*UserUse); ok {
 										inst.UserUse = append(inst.UserUse, typedTarget)
 									}
 								}
@@ -1867,7 +2592,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Analysis); ok {
+									if typedTarget, ok := target.(*Analysis); ok {
 										inst.Analyses = append(inst.Analyses, typedTarget)
 									}
 								}
@@ -1879,7 +2604,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Library); ok {
+									if typedTarget, ok := target.(*Library); ok {
 										inst.SubLibraries = append(inst.SubLibraries, typedTarget)
 									}
 								}
@@ -1891,7 +2616,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Library); ok {
+									if typedTarget, ok := target.(*Library); ok {
 										inst.SubLibrariesWhoseNodeIsExpanded = append(inst.SubLibrariesWhoseNodeIsExpanded, typedTarget)
 									}
 								}
@@ -1952,7 +2677,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*GroupUse); ok {
+									if typedTarget, ok := target.(*GroupUse); ok {
 										inst.GroupUse = append(inst.GroupUse, typedTarget)
 									}
 								}
@@ -1962,7 +2687,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*DocumentUse); ok {
+									if typedTarget, ok := target.(*DocumentUse); ok {
 										inst.DocumentUse = append(inst.DocumentUse, typedTarget)
 									}
 								}
@@ -1972,7 +2697,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*GeoObjectUse); ok {
+									if typedTarget, ok := target.(*GeoObjectUse); ok {
 										inst.GeoObjectUse = append(inst.GeoObjectUse, typedTarget)
 									}
 								}
@@ -1993,7 +2718,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ParameterShape); ok {
+									if typedTarget, ok := target.(*ParameterShape); ok {
 										inst.ParameterUse = append(inst.ParameterUse, typedTarget)
 									}
 								}
@@ -2056,7 +2781,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Parameter); ok {
+									if typedTarget, ok := target.(*Parameter); ok {
 										inst.Parameters = append(inst.Parameters, typedTarget)
 									}
 								}
@@ -2117,7 +2842,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ParameterShape); ok {
+									if typedTarget, ok := target.(*ParameterShape); ok {
 										inst.ParameterUse = append(inst.ParameterUse, typedTarget)
 									}
 								}
@@ -2127,7 +2852,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*GroupUse); ok {
+									if typedTarget, ok := target.(*GroupUse); ok {
 										inst.GroupUse = append(inst.GroupUse, typedTarget)
 									}
 								}
@@ -2148,7 +2873,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Diagram); ok {
+									if typedTarget, ok := target.(*Diagram); ok {
 										inst.Diagrams = append(inst.Diagrams, typedTarget)
 									}
 								}
@@ -2160,7 +2885,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ActorState); ok {
+									if typedTarget, ok := target.(*ActorState); ok {
 										inst.ActorStates = append(inst.ActorStates, typedTarget)
 									}
 								}
@@ -2172,7 +2897,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ActorStateTransition); ok {
+									if typedTarget, ok := target.(*ActorStateTransition); ok {
 										inst.ActorStateTransitions = append(inst.ActorStateTransitions, typedTarget)
 									}
 								}
@@ -2184,7 +2909,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*EvolutionDirection); ok {
+									if typedTarget, ok := target.(*EvolutionDirection); ok {
 										inst.EvolutionDirections = append(inst.EvolutionDirections, typedTarget)
 									}
 								}
@@ -2196,7 +2921,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Parameter); ok {
+									if typedTarget, ok := target.(*Parameter); ok {
 										inst.Parameters = append(inst.Parameters, typedTarget)
 									}
 								}
@@ -2208,7 +2933,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
 								if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ParametersAggregate); ok {
+									if typedTarget, ok := target.(*ParametersAggregate); ok {
 										inst.ParametersAggretates = append(inst.ParametersAggretates, typedTarget)
 									}
 								}

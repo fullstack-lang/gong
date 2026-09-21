@@ -96,3 +96,96 @@ func TestEnforceSemanticMultiplicity(t *testing.T) {
 		t.Fatalf("expected Fieldtypename to be 'int', got %v", attrShape.Fieldtypename)
 	}
 }
+
+func TestEnforceSemanticMultiPackage(t *testing.T) {
+	docStage := NewStage("test_doc_mp")
+	docStage.MetaPackageImports = []*MetaPackageImport{
+		{Alias: "ref_models", Path: `"github.com/fullstack-lang/gong/test/test2/go/models"`},
+		{Alias: "ref_x", Path: `"github.com/fullstack-lang/gong/test/test2/go/models/x"`},
+		{Alias: "ref_y", Path: `"github.com/fullstack-lang/gong/test/test2/go/models/y"`},
+	}
+
+	gongStage := gong.NewStage("test_gong_mp")
+
+	modelPkgModels := &gong.ModelPkg{PkgGoName: "models", PkgPath: "github.com/fullstack-lang/gong/test/test2/go/models"}
+	modelPkgX := &gong.ModelPkg{PkgGoName: "x", PkgPath: "github.com/fullstack-lang/gong/test/test2/go/models/x"}
+	modelPkgY := &gong.ModelPkg{PkgGoName: "y", PkgPath: "github.com/fullstack-lang/gong/test/test2/go/models/y"}
+
+	structY := (&gong.GongStruct{Name: "Y", ModelPkg: modelPkgY}).Stage(gongStage)
+	structX := (&gong.GongStruct{Name: "X", ModelPkg: modelPkgX}).Stage(gongStage)
+	structA := (&gong.GongStruct{Name: "A", ModelPkg: modelPkgModels}).Stage(gongStage)
+
+	fieldY := (&gong.PointerToGongStructField{
+		Name:       "Y",
+		GongStruct: structY,
+	}).Stage(gongStage)
+	structX.Fields = append(structX.Fields, fieldY)
+	structX.PointerToGongStructFields = append(structX.PointerToGongStructFields, fieldY)
+
+	fieldX := (&gong.PointerToGongStructField{
+		Name:       "X",
+		GongStruct: structX,
+	}).Stage(gongStage)
+	structA.Fields = append(structA.Fields, fieldX)
+	structA.PointerToGongStructFields = append(structA.PointerToGongStructFields, fieldX)
+
+	classdiagram := (&Classdiagram{Name: "StageSet_Diagram"}).Stage(docStage)
+	gongStructShapeA := (&GongStructShape{
+		Name:           "StageSet_Diagram-A",
+		IdentifierMeta: "ref_models.A{}",
+	}).Stage(docStage)
+	gongStructShapeX := (&GongStructShape{
+		Name:           "StageSet_Diagram-X",
+		IdentifierMeta: "ref_x.X{}",
+	}).Stage(docStage)
+	gongStructShapeY := (&GongStructShape{
+		Name:           "StageSet_Diagram-Y",
+		IdentifierMeta: "ref_y.Y{}",
+	}).Stage(docStage)
+
+	linkShapeX := (&LinkShape{
+		Name:                    "X",
+		IdentifierMeta:          "ref_models.A{}.X",
+		FieldTypeIdentifierMeta: "ref_x.X{}",
+		TargetMultiplicity:      ZERO_ONE,
+		SourceMultiplicity:      MANY,
+	}).Stage(docStage)
+
+	linkShapeY := (&LinkShape{
+		Name:                    "Y",
+		IdentifierMeta:          "ref_x.X{}.Y",
+		FieldTypeIdentifierMeta: "ref_y.Y{}",
+		TargetMultiplicity:      ZERO_ONE,
+		SourceMultiplicity:      MANY,
+	}).Stage(docStage)
+
+	gongStructShapeA.LinkShapes = append(gongStructShapeA.LinkShapes, linkShapeX)
+	gongStructShapeX.LinkShapes = append(gongStructShapeX.LinkShapes, linkShapeY)
+	classdiagram.GongStructShapes = append(classdiagram.GongStructShapes, gongStructShapeA, gongStructShapeX, gongStructShapeY)
+
+	stager := &Stager{
+		stage:     docStage,
+		gongStage: gongStage,
+	}
+
+	stager.enforceSemantic()
+
+	if linkShapeX.FieldTypeIdentifierMeta != "ref_x.X{}" {
+		t.Errorf("expected FieldTypeIdentifierMeta ref_x.X{}, got %v", linkShapeX.FieldTypeIdentifierMeta)
+	}
+	if linkShapeY.FieldTypeIdentifierMeta != "ref_y.Y{}" {
+		t.Errorf("expected FieldTypeIdentifierMeta ref_y.Y{}, got %v", linkShapeY.FieldTypeIdentifierMeta)
+	}
+
+	// Also test recovery if FieldTypeIdentifierMeta was corrupted/outdated to ref_models
+	linkShapeX.FieldTypeIdentifierMeta = "ref_models.X{}"
+	linkShapeY.FieldTypeIdentifierMeta = "ref_models.Y{}"
+	stager.enforceSemantic()
+
+	if linkShapeX.FieldTypeIdentifierMeta != "ref_x.X{}" {
+		t.Errorf("expected recovered FieldTypeIdentifierMeta ref_x.X{}, got %v", linkShapeX.FieldTypeIdentifierMeta)
+	}
+	if linkShapeY.FieldTypeIdentifierMeta != "ref_y.Y{}" {
+		t.Errorf("expected recovered FieldTypeIdentifierMeta ref_y.Y{}, got %v", linkShapeY.FieldTypeIdentifierMeta)
+	}
+}

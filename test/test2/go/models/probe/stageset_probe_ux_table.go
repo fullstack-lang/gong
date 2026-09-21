@@ -12,6 +12,7 @@ import (
 	"github.com/fullstack-lang/gong/test/test2/go/models"
 	"github.com/fullstack-lang/gong/test/test2/go/models/x"
 	"github.com/fullstack-lang/gong/test/test2/go/models/y"
+	model "github.com/fullstack-lang/gong/test/test2/go/models/x/models"
 )
 
 type tableRowUpdater struct {
@@ -38,6 +39,8 @@ func (probe *StageSetProbe) ux_table() {
 		updateStageSetTable_X_XStage(probe)
 	case "Y":
 		updateStageSetTable_Y_YStage(probe)
+	case "SubModel":
+		updateStageSetTable_SubModel_ModelStage(probe)
 	}
 }
 
@@ -468,6 +471,11 @@ func updateStageSetTable_Y_YStage(probe *StageSetProbe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "SubModel"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(x.X) -> Y"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -523,10 +531,118 @@ func updateStageSetTable_Y_YStage(probe *StageSetProbe) {
 		}
 
 		{
+			cell := &table_models.Cell{Name: "SubModel"}
+			val := ""
+			if structInstance.SubModel != nil {
+				val = structInstance.SubModel.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
 			cell := &table_models.Cell{Name: "(x.X) -> Y"}
 			var refNames []string
 			for src := range probe.stageSet.XStage.Xs {
 				if src.Y == structInstance {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		table.Rows = append(table.Rows, row)
+	}
+
+	table_models.StageBranch(probe.tableStage, table)
+	probe.tableStage.Commit()
+}
+
+func updateStageSetTable_SubModel_ModelStage(probe *StageSetProbe) {
+	probe.tableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = "SubModel"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+
+	colID := new(table_models.DisplayedColumn)
+	colID.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, colID)
+
+	colDel := new(table_models.DisplayedColumn)
+	colDel.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
+
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Name"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(y.Y) -> SubModel"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+
+	// Sort instances by name
+	instances := make([]*model.SubModel, 0, len(probe.stageSet.ModelStage.SubModels))
+	for inst := range probe.stageSet.ModelStage.SubModels {
+		instances = append(instances, inst)
+	}
+	sort.Slice(instances, func(i, j int) bool {
+		return instances[i].GetName() < instances[j].GetName()
+	})
+
+	for idx, structInstance := range instances {
+		row := new(table_models.Row)
+		row.Name = structInstance.GetName()
+
+		_captured := structInstance
+		row.Impl = &tableRowUpdater{
+			onClick: func() {
+				StageSetFillUpFormFromGongstruct(_captured, probe)
+			},
+		}
+
+		cellID := &table_models.Cell{Name: "ID"}
+		cellID.CellInt = &table_models.CellInt{Value: idx}
+		row.Cells = append(row.Cells, cellID)
+
+		cellDel := &table_models.Cell{Name: "Delete Icon"}
+		cellIcon := &table_models.CellIcon{
+			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
+			Icon:                string(maticons.BUTTON_delete),
+			NeedsConfirmation:   true,
+			ConfirmationMessage: "Do you confirm you want to delete this instance?",
+		}
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
+				_captured.UnstageVoid(probe.stageSet.ModelStage)
+				probe.stageSet.Clean()
+				probe.stageSet.Commit()
+				updateStageSetTable_SubModel_ModelStage(probe)
+				probe.ux_tree()
+			},
+		}
+		cellDel.CellIcon = cellIcon
+		row.Cells = append(row.Cells, cellDel)
+
+
+		{
+			cell := &table_models.Cell{Name: "Name"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(y.Y) -> SubModel"}
+			var refNames []string
+			for src := range probe.stageSet.YStage.Ys {
+				if src.SubModel == structInstance {
 					refNames = append(refNames, src.GetName())
 				}
 			}
