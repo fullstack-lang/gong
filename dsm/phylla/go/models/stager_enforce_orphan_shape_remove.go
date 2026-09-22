@@ -140,6 +140,10 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refSeatBottomCurveShape := make(map[*SeatBottomCurveShape]bool)
 	refPartiallyRotatedSeatBottomCurveShape := make(map[*PartiallyRotatedSeatBottomCurveShape]bool)
 	refTorus3DShape := make(map[*Torus3DShape]bool)
+	refTopCurvePlane1Shape := make(map[*TopCurvePlane1Shape]bool)
+	refBottomCurvePlane1Shape := make(map[*BottomCurvePlane1Shape]bool)
+	refTopCurvePlane2Shape := make(map[*TopCurvePlane2Shape]bool)
+	refBottomCurvePlane2Shape := make(map[*BottomCurvePlane2Shape]bool)
 
 	// Collect referenced shapes from all plants
 	for plant := range *stage.GetInstancesSet[*PlantAbstract]() {
@@ -504,6 +508,18 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		if diagram.TiledFloor3DShape != nil {
 			refTiledFloor3DShape[diagram.TiledFloor3DShape] = true
 		}
+		if diagram.TopCurvePlane1Shape != nil {
+			refTopCurvePlane1Shape[diagram.TopCurvePlane1Shape] = true
+		}
+		if diagram.BottomCurvePlane1Shape != nil {
+			refBottomCurvePlane1Shape[diagram.BottomCurvePlane1Shape] = true
+		}
+		if diagram.TopCurvePlane2Shape != nil {
+			refTopCurvePlane2Shape[diagram.TopCurvePlane2Shape] = true
+		}
+		if diagram.BottomCurvePlane2Shape != nil {
+			refBottomCurvePlane2Shape[diagram.BottomCurvePlane2Shape] = true
+		}
 	}
 	for diagram := range *stage.GetInstancesSet[*Stool3DDiagram]() {
 		if diagram.Rendered3DShape != nil {
@@ -839,6 +855,30 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	}
 	for shape := range *stage.GetInstancesSet[*Angle0Shape]() {
 		if !refAngle0Shape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *stage.GetInstancesSet[*TopCurvePlane1Shape]() {
+		if !refTopCurvePlane1Shape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *stage.GetInstancesSet[*BottomCurvePlane1Shape]() {
+		if !refBottomCurvePlane1Shape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *stage.GetInstancesSet[*TopCurvePlane2Shape]() {
+		if !refTopCurvePlane2Shape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *stage.GetInstancesSet[*BottomCurvePlane2Shape]() {
+		if !refBottomCurvePlane2Shape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

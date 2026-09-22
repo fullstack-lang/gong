@@ -7,6 +7,15 @@ type TubeVaseAbstract struct {
 	// The tiled floor will be on Z=0.
 	Z_Ribbon float64
 
+	// Plane1Height is the height of the first projection plane (for Vase Trapeze).
+	Plane1Height float64
+
+	// Plane2Height is the height of the second projection plane (for Vase Trapeze).
+	Plane2Height float64
+
+	// ProjectionAngle is the constant projection angle in degrees (for Vase Trapeze).
+	ProjectionAngle float64
+
 	// RelativeVerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next
 	// the vertical thickness is RelativeVerticalThickness x RhombusSideLength
 	RelativeVerticalThickness float64

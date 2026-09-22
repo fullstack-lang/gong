@@ -120,6 +120,32 @@ func FillUpFormFromGongstructName(
 		basevectorshapegrid := new(models.BaseVectorShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(basevectorshapegrid, formGroup, probe)
+	case "BottomCurvePlane1Shape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "BottomCurvePlane1Shape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BottomCurvePlane1ShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		bottomcurveplane1shape := new(models.BottomCurvePlane1Shape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(bottomcurveplane1shape, formGroup, probe)
+	case "BottomCurvePlane2Shape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "BottomCurvePlane2Shape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BottomCurvePlane2ShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		bottomcurveplane2shape := new(models.BottomCurvePlane2Shape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(bottomcurveplane2shape, formGroup, probe)
 	case "ChosenP1P2PairShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1615,6 +1641,32 @@ func FillUpFormFromGongstructName(
 		tiledfloor3dshape := new(models.TiledFloor3DShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(tiledfloor3dshape, formGroup, probe)
+	case "TopCurvePlane1Shape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TopCurvePlane1Shape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopCurvePlane1ShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		topcurveplane1shape := new(models.TopCurvePlane1Shape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(topcurveplane1shape, formGroup, probe)
+	case "TopCurvePlane2Shape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TopCurvePlane2Shape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopCurvePlane2ShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		topcurveplane2shape := new(models.TopCurvePlane2Shape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(topcurveplane2shape, formGroup, probe)
 	case "TopEndArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

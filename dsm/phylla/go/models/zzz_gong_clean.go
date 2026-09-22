@@ -82,6 +82,20 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongClean(stage *Stage) (modifie
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by BottomCurvePlane1Shape
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by BottomCurvePlane2Shape
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by ChosenP1P2PairShape
 func (chosenp1p2pairshape *ChosenP1P2PairShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -994,6 +1008,20 @@ func (tiledfloor3dshape *TiledFloor3DShape) GongClean(stage *Stage) (modified bo
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by TopCurvePlane1Shape
+func (topcurveplane1shape *TopCurvePlane1Shape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by TopCurvePlane2Shape
+func (topcurveplane2shape *TopCurvePlane2Shape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by TopEndArcShape
 func (topendarcshape *TopEndArcShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -1163,6 +1191,10 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongClean(stage *Stage) (modified bo
 	modified = stage.CleanPointer(&tubevase3ddiagram.VolumeKey3DShape) || modified
 	modified = stage.CleanPointer(&tubevase3ddiagram.TorusEdge3DShape) || modified
 	modified = stage.CleanPointer(&tubevase3ddiagram.TiledFloor3DShape) || modified
+	modified = stage.CleanPointer(&tubevase3ddiagram.TopCurvePlane1Shape) || modified
+	modified = stage.CleanPointer(&tubevase3ddiagram.BottomCurvePlane1Shape) || modified
+	modified = stage.CleanPointer(&tubevase3ddiagram.TopCurvePlane2Shape) || modified
+	modified = stage.CleanPointer(&tubevase3ddiagram.BottomCurvePlane2Shape) || modified
 	return
 }
 

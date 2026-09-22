@@ -36,6 +36,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.BaseVectorShape](probe)
 	case "BaseVectorShapeGrid":
 		updateProbeTable[*models.BaseVectorShapeGrid](probe)
+	case "BottomCurvePlane1Shape":
+		updateProbeTable[*models.BottomCurvePlane1Shape](probe)
+	case "BottomCurvePlane2Shape":
+		updateProbeTable[*models.BottomCurvePlane2Shape](probe)
 	case "ChosenP1P2PairShape":
 		updateProbeTable[*models.ChosenP1P2PairShape](probe)
 	case "CircleGridShape":
@@ -266,6 +270,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StoolAbstract](probe)
 	case "TiledFloor3DShape":
 		updateProbeTable[*models.TiledFloor3DShape](probe)
+	case "TopCurvePlane1Shape":
+		updateProbeTable[*models.TopCurvePlane1Shape](probe)
+	case "TopCurvePlane2Shape":
+		updateProbeTable[*models.TopCurvePlane2Shape](probe)
 	case "TopEndArcShape":
 		updateProbeTable[*models.TopEndArcShape](probe)
 	case "TopEndArcShapeGrid":

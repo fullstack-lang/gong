@@ -197,9 +197,10 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		u.addPointSpheres(stager, topCurve.Points, "orange", canvas, plant.Name+" Original Top", 0, len(topCurve.Points))
 	}
 
+	var trapezeBottomCurve, trapezeTopCurve *threejs.Curve
 	if !checkedDiagram.IsHiddenTorusStackShape {
 		if plant.PlantType == models.VaseTrapeze {
-			u.generateLayerWithModulo(stager, 0, 1, 0, 0, 0, "Trapeze 3D Ribbon", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
+			trapezeBottomCurve, trapezeTopCurve = u.generateLayerWithModulo(stager, 0, 1, 0, 0, 0, "Trapeze 3D Ribbon", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
 		} else {
 			var growthVectorX, growthVectorY float64
 			if plant.GrowthVectorShape != nil {
@@ -230,6 +231,98 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 
 				u.generateLayerWithModulo(stager, h, stackHeight, dx, dy, thetaOffset, "Torus Continuous", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
 			}
+		}
+	}
+
+	if plant.PlantType == models.VaseTrapeze && plant.TubeVaseAbstract != nil {
+		tubeRadius := globalR * 0.008
+		if tubeRadius < 0.5 {
+			tubeRadius = 0.5
+		}
+
+		if trapezeBottomCurve == nil || trapezeTopCurve == nil {
+			trapezeBottomCurve, trapezeTopCurve = u.computeMassiveCurves(stager, 0, "Trapeze 3D Ribbon", plant, resampledBaseBottom, resampledBaseTop)
+		}
+
+		p1H := plant.TubeVaseAbstract.Plane1Height
+		p2H := plant.TubeVaseAbstract.Plane2Height
+		projAngleRad := -plant.TubeVaseAbstract.ProjectionAngle * math.Pi / 180.0
+
+		projectCurve := func(srcCurve *threejs.Curve, planeHeight float64, curveName string) *threejs.Curve {
+			projCurve := (&threejs.Curve{Name: curveName}).Stage(threejsStage)
+			for _, pt := range srcCurve.Points {
+				origTheta := math.Atan2(pt.Z, pt.X)
+				r := math.Hypot(pt.X, pt.Z)
+				deltaY := planeHeight - pt.Y
+				rProj := r + deltaY*math.Tan(projAngleRad)
+				newPt := (&threejs.Vector3{
+					Name: fmt.Sprintf("%s Point %.1f", curveName, origTheta*180.0/math.Pi),
+					X:    rProj * math.Cos(origTheta),
+					Y:    planeHeight,
+					Z:    rProj * math.Sin(origTheta),
+				}).Stage(threejsStage)
+
+				if len(projCurve.Points) > 0 {
+					prev := projCurve.Points[len(projCurve.Points)-1]
+					if math.Hypot(newPt.X-prev.X, newPt.Z-prev.Z) < 1e-3 {
+						continue
+					}
+				}
+				projCurve.Points = append(projCurve.Points, newPt)
+			}
+			if len(projCurve.Points) > 2 {
+				first := projCurve.Points[0]
+				last := projCurve.Points[len(projCurve.Points)-1]
+				if math.Hypot(last.X-first.X, last.Z-first.Z) < 1e-3 {
+					projCurve.Points = projCurve.Points[:len(projCurve.Points)-1]
+				}
+			}
+			return projCurve
+		}
+
+		addProjectedMesh := func(projCurve *threejs.Curve, shapeName string, color string) {
+			if len(projCurve.Points) < 2 {
+				return
+			}
+			numSegments := max(len(projCurve.Points), 2)
+			tGeom := (&threejs.TubeGeometry{
+				Name:            shapeName + " TubeGeom",
+				Path:            projCurve,
+				TubularSegments: numSegments,
+				Radius:          tubeRadius,
+				RadialSegments:  16,
+				Closed:          true,
+			}).Stage(threejsStage)
+
+			tMesh := (&threejs.Mesh{
+				Name:         shapeName + " Mesh",
+				X:            0, Y: 0, Z: 0,
+				TubeGeometry: tGeom,
+				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+					Name:        shapeName + " Material",
+					Color:       color,
+					Transparent: false,
+					Opacity:     1.0,
+				}).Stage(threejsStage),
+			}).Stage(threejsStage)
+			canvas.Meshs = append(canvas.Meshs, tMesh)
+		}
+
+		if !checkedDiagram.IsHiddenTopCurvePlane1Shape {
+			c := projectCurve(trapezeTopCurve, p1H, plant.Name+" Top Curve Plane 1")
+			addProjectedMesh(c, plant.Name+" Top Curve Plane 1", "royalblue")
+		}
+		if !checkedDiagram.IsHiddenBottomCurvePlane1Shape {
+			c := projectCurve(trapezeBottomCurve, p1H, plant.Name+" Bottom Curve Plane 1")
+			addProjectedMesh(c, plant.Name+" Bottom Curve Plane 1", "firebrick")
+		}
+		if !checkedDiagram.IsHiddenTopCurvePlane2Shape {
+			c := projectCurve(trapezeTopCurve, p2H, plant.Name+" Top Curve Plane 2")
+			addProjectedMesh(c, plant.Name+" Top Curve Plane 2", "mediumpurple")
+		}
+		if !checkedDiagram.IsHiddenBottomCurvePlane2Shape {
+			c := projectCurve(trapezeBottomCurve, p2H, plant.Name+" Bottom Curve Plane 2")
+			addProjectedMesh(c, plant.Name+" Bottom Curve Plane 2", "darkorange")
 		}
 	}
 

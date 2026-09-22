@@ -222,6 +222,36 @@ type Stage struct {
 	OnAfterBaseVectorShapeGridDeleteCallback GongOnAfterDeleteInterface[BaseVectorShapeGrid]
 	OnAfterBaseVectorShapeGridReadCallback   GongOnAfterReadInterface[BaseVectorShapeGrid]
 
+	BottomCurvePlane1Shapes                map[*BottomCurvePlane1Shape]struct{}
+	BottomCurvePlane1Shapes_instance       map[*BottomCurvePlane1Shape]*BottomCurvePlane1Shape
+	BottomCurvePlane1Shapes_mapString      map[string]*BottomCurvePlane1Shape
+	BottomCurvePlane1ShapeOrder            uint
+	BottomCurvePlane1Shape_stagedOrder     map[*BottomCurvePlane1Shape]uint
+	BottomCurvePlane1Shape_orderStaged     map[uint]*BottomCurvePlane1Shape
+	BottomCurvePlane1Shapes_reference      map[*BottomCurvePlane1Shape]*BottomCurvePlane1Shape
+	BottomCurvePlane1Shapes_referenceOrder map[*BottomCurvePlane1Shape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterBottomCurvePlane1ShapeCreateCallback GongOnAfterCreateInterface[BottomCurvePlane1Shape]
+	OnAfterBottomCurvePlane1ShapeUpdateCallback GongOnAfterUpdateInterface[BottomCurvePlane1Shape]
+	OnAfterBottomCurvePlane1ShapeDeleteCallback GongOnAfterDeleteInterface[BottomCurvePlane1Shape]
+	OnAfterBottomCurvePlane1ShapeReadCallback   GongOnAfterReadInterface[BottomCurvePlane1Shape]
+
+	BottomCurvePlane2Shapes                map[*BottomCurvePlane2Shape]struct{}
+	BottomCurvePlane2Shapes_instance       map[*BottomCurvePlane2Shape]*BottomCurvePlane2Shape
+	BottomCurvePlane2Shapes_mapString      map[string]*BottomCurvePlane2Shape
+	BottomCurvePlane2ShapeOrder            uint
+	BottomCurvePlane2Shape_stagedOrder     map[*BottomCurvePlane2Shape]uint
+	BottomCurvePlane2Shape_orderStaged     map[uint]*BottomCurvePlane2Shape
+	BottomCurvePlane2Shapes_reference      map[*BottomCurvePlane2Shape]*BottomCurvePlane2Shape
+	BottomCurvePlane2Shapes_referenceOrder map[*BottomCurvePlane2Shape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterBottomCurvePlane2ShapeCreateCallback GongOnAfterCreateInterface[BottomCurvePlane2Shape]
+	OnAfterBottomCurvePlane2ShapeUpdateCallback GongOnAfterUpdateInterface[BottomCurvePlane2Shape]
+	OnAfterBottomCurvePlane2ShapeDeleteCallback GongOnAfterDeleteInterface[BottomCurvePlane2Shape]
+	OnAfterBottomCurvePlane2ShapeReadCallback   GongOnAfterReadInterface[BottomCurvePlane2Shape]
+
 	ChosenP1P2PairShapes                map[*ChosenP1P2PairShape]struct{}
 	ChosenP1P2PairShapes_instance       map[*ChosenP1P2PairShape]*ChosenP1P2PairShape
 	ChosenP1P2PairShapes_mapString      map[string]*ChosenP1P2PairShape
@@ -2043,6 +2073,36 @@ type Stage struct {
 	OnAfterTiledFloor3DShapeDeleteCallback GongOnAfterDeleteInterface[TiledFloor3DShape]
 	OnAfterTiledFloor3DShapeReadCallback   GongOnAfterReadInterface[TiledFloor3DShape]
 
+	TopCurvePlane1Shapes                map[*TopCurvePlane1Shape]struct{}
+	TopCurvePlane1Shapes_instance       map[*TopCurvePlane1Shape]*TopCurvePlane1Shape
+	TopCurvePlane1Shapes_mapString      map[string]*TopCurvePlane1Shape
+	TopCurvePlane1ShapeOrder            uint
+	TopCurvePlane1Shape_stagedOrder     map[*TopCurvePlane1Shape]uint
+	TopCurvePlane1Shape_orderStaged     map[uint]*TopCurvePlane1Shape
+	TopCurvePlane1Shapes_reference      map[*TopCurvePlane1Shape]*TopCurvePlane1Shape
+	TopCurvePlane1Shapes_referenceOrder map[*TopCurvePlane1Shape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterTopCurvePlane1ShapeCreateCallback GongOnAfterCreateInterface[TopCurvePlane1Shape]
+	OnAfterTopCurvePlane1ShapeUpdateCallback GongOnAfterUpdateInterface[TopCurvePlane1Shape]
+	OnAfterTopCurvePlane1ShapeDeleteCallback GongOnAfterDeleteInterface[TopCurvePlane1Shape]
+	OnAfterTopCurvePlane1ShapeReadCallback   GongOnAfterReadInterface[TopCurvePlane1Shape]
+
+	TopCurvePlane2Shapes                map[*TopCurvePlane2Shape]struct{}
+	TopCurvePlane2Shapes_instance       map[*TopCurvePlane2Shape]*TopCurvePlane2Shape
+	TopCurvePlane2Shapes_mapString      map[string]*TopCurvePlane2Shape
+	TopCurvePlane2ShapeOrder            uint
+	TopCurvePlane2Shape_stagedOrder     map[*TopCurvePlane2Shape]uint
+	TopCurvePlane2Shape_orderStaged     map[uint]*TopCurvePlane2Shape
+	TopCurvePlane2Shapes_reference      map[*TopCurvePlane2Shape]*TopCurvePlane2Shape
+	TopCurvePlane2Shapes_referenceOrder map[*TopCurvePlane2Shape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterTopCurvePlane2ShapeCreateCallback GongOnAfterCreateInterface[TopCurvePlane2Shape]
+	OnAfterTopCurvePlane2ShapeUpdateCallback GongOnAfterUpdateInterface[TopCurvePlane2Shape]
+	OnAfterTopCurvePlane2ShapeDeleteCallback GongOnAfterDeleteInterface[TopCurvePlane2Shape]
+	OnAfterTopCurvePlane2ShapeReadCallback   GongOnAfterReadInterface[TopCurvePlane2Shape]
+
 	TopEndArcShapes                map[*TopEndArcShape]struct{}
 	TopEndArcShapes_instance       map[*TopEndArcShape]*TopEndArcShape
 	TopEndArcShapes_mapString      map[string]*TopEndArcShape
@@ -2693,6 +2753,14 @@ func (stage *Stage) Squash() {
 	stage.BaseVectorShapeGrids_instance = make(map[*BaseVectorShapeGrid]*BaseVectorShapeGrid)
 	stage.BaseVectorShapeGrids_referenceOrder = make(map[*BaseVectorShapeGrid]uint)
 
+	stage.BottomCurvePlane1Shapes_reference = make(map[*BottomCurvePlane1Shape]*BottomCurvePlane1Shape)
+	stage.BottomCurvePlane1Shapes_instance = make(map[*BottomCurvePlane1Shape]*BottomCurvePlane1Shape)
+	stage.BottomCurvePlane1Shapes_referenceOrder = make(map[*BottomCurvePlane1Shape]uint)
+
+	stage.BottomCurvePlane2Shapes_reference = make(map[*BottomCurvePlane2Shape]*BottomCurvePlane2Shape)
+	stage.BottomCurvePlane2Shapes_instance = make(map[*BottomCurvePlane2Shape]*BottomCurvePlane2Shape)
+	stage.BottomCurvePlane2Shapes_referenceOrder = make(map[*BottomCurvePlane2Shape]uint)
+
 	stage.ChosenP1P2PairShapes_reference = make(map[*ChosenP1P2PairShape]*ChosenP1P2PairShape)
 	stage.ChosenP1P2PairShapes_instance = make(map[*ChosenP1P2PairShape]*ChosenP1P2PairShape)
 	stage.ChosenP1P2PairShapes_referenceOrder = make(map[*ChosenP1P2PairShape]uint)
@@ -3153,6 +3221,14 @@ func (stage *Stage) Squash() {
 	stage.TiledFloor3DShapes_instance = make(map[*TiledFloor3DShape]*TiledFloor3DShape)
 	stage.TiledFloor3DShapes_referenceOrder = make(map[*TiledFloor3DShape]uint)
 
+	stage.TopCurvePlane1Shapes_reference = make(map[*TopCurvePlane1Shape]*TopCurvePlane1Shape)
+	stage.TopCurvePlane1Shapes_instance = make(map[*TopCurvePlane1Shape]*TopCurvePlane1Shape)
+	stage.TopCurvePlane1Shapes_referenceOrder = make(map[*TopCurvePlane1Shape]uint)
+
+	stage.TopCurvePlane2Shapes_reference = make(map[*TopCurvePlane2Shape]*TopCurvePlane2Shape)
+	stage.TopCurvePlane2Shapes_instance = make(map[*TopCurvePlane2Shape]*TopCurvePlane2Shape)
+	stage.TopCurvePlane2Shapes_referenceOrder = make(map[*TopCurvePlane2Shape]uint)
+
 	stage.TopEndArcShapes_reference = make(map[*TopEndArcShape]*TopEndArcShape)
 	stage.TopEndArcShapes_instance = make(map[*TopEndArcShape]*TopEndArcShape)
 	stage.TopEndArcShapes_referenceOrder = make(map[*TopEndArcShape]uint)
@@ -3362,6 +3438,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.BaseVectorShapeGridOrder = maxBaseVectorShapeGridOrder + 1
 	} else {
 		stage.BaseVectorShapeGridOrder = 0
+	}
+
+	var maxBottomCurvePlane1ShapeOrder uint
+	var foundBottomCurvePlane1Shape bool
+	for _, order := range stage.BottomCurvePlane1Shape_stagedOrder {
+		if !foundBottomCurvePlane1Shape || order > maxBottomCurvePlane1ShapeOrder {
+			maxBottomCurvePlane1ShapeOrder = order
+			foundBottomCurvePlane1Shape = true
+		}
+	}
+	if foundBottomCurvePlane1Shape {
+		stage.BottomCurvePlane1ShapeOrder = maxBottomCurvePlane1ShapeOrder + 1
+	} else {
+		stage.BottomCurvePlane1ShapeOrder = 0
+	}
+
+	var maxBottomCurvePlane2ShapeOrder uint
+	var foundBottomCurvePlane2Shape bool
+	for _, order := range stage.BottomCurvePlane2Shape_stagedOrder {
+		if !foundBottomCurvePlane2Shape || order > maxBottomCurvePlane2ShapeOrder {
+			maxBottomCurvePlane2ShapeOrder = order
+			foundBottomCurvePlane2Shape = true
+		}
+	}
+	if foundBottomCurvePlane2Shape {
+		stage.BottomCurvePlane2ShapeOrder = maxBottomCurvePlane2ShapeOrder + 1
+	} else {
+		stage.BottomCurvePlane2ShapeOrder = 0
 	}
 
 	var maxChosenP1P2PairShapeOrder uint
@@ -4974,6 +5078,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.TiledFloor3DShapeOrder = 0
 	}
 
+	var maxTopCurvePlane1ShapeOrder uint
+	var foundTopCurvePlane1Shape bool
+	for _, order := range stage.TopCurvePlane1Shape_stagedOrder {
+		if !foundTopCurvePlane1Shape || order > maxTopCurvePlane1ShapeOrder {
+			maxTopCurvePlane1ShapeOrder = order
+			foundTopCurvePlane1Shape = true
+		}
+	}
+	if foundTopCurvePlane1Shape {
+		stage.TopCurvePlane1ShapeOrder = maxTopCurvePlane1ShapeOrder + 1
+	} else {
+		stage.TopCurvePlane1ShapeOrder = 0
+	}
+
+	var maxTopCurvePlane2ShapeOrder uint
+	var foundTopCurvePlane2Shape bool
+	for _, order := range stage.TopCurvePlane2Shape_stagedOrder {
+		if !foundTopCurvePlane2Shape || order > maxTopCurvePlane2ShapeOrder {
+			maxTopCurvePlane2ShapeOrder = order
+			foundTopCurvePlane2Shape = true
+		}
+	}
+	if foundTopCurvePlane2Shape {
+		stage.TopCurvePlane2ShapeOrder = maxTopCurvePlane2ShapeOrder + 1
+	} else {
+		stage.TopCurvePlane2ShapeOrder = 0
+	}
+
 	var maxTopEndArcShapeOrder uint
 	var foundTopEndArcShape bool
 	for _, order := range stage.TopEndArcShape_stagedOrder {
@@ -5434,6 +5566,34 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *BaseVectorShapeGrid implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *BottomCurvePlane1Shape:
+		tmp := __gong__getStructInstancesByOrder(stage.BottomCurvePlane1Shapes, stage.BottomCurvePlane1Shape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *BottomCurvePlane1Shape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *BottomCurvePlane2Shape:
+		tmp := __gong__getStructInstancesByOrder(stage.BottomCurvePlane2Shapes, stage.BottomCurvePlane2Shape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *BottomCurvePlane2Shape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -7047,6 +7207,34 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *TopCurvePlane1Shape:
+		tmp := __gong__getStructInstancesByOrder(stage.TopCurvePlane1Shapes, stage.TopCurvePlane1Shape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TopCurvePlane1Shape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *TopCurvePlane2Shape:
+		tmp := __gong__getStructInstancesByOrder(stage.TopCurvePlane2Shapes, stage.TopCurvePlane2Shape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TopCurvePlane2Shape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *TopEndArcShape:
 		tmp := __gong__getStructInstancesByOrder(stage.TopEndArcShapes, stage.TopEndArcShape_stagedOrder)
 
@@ -7489,6 +7677,10 @@ type GongBackRepoInterface interface {
 	CheckoutBaseVectorShape(basevectorshape *BaseVectorShape)
 	CommitBaseVectorShapeGrid(basevectorshapegrid *BaseVectorShapeGrid)
 	CheckoutBaseVectorShapeGrid(basevectorshapegrid *BaseVectorShapeGrid)
+	CommitBottomCurvePlane1Shape(bottomcurveplane1shape *BottomCurvePlane1Shape)
+	CheckoutBottomCurvePlane1Shape(bottomcurveplane1shape *BottomCurvePlane1Shape)
+	CommitBottomCurvePlane2Shape(bottomcurveplane2shape *BottomCurvePlane2Shape)
+	CheckoutBottomCurvePlane2Shape(bottomcurveplane2shape *BottomCurvePlane2Shape)
 	CommitChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2PairShape)
 	CheckoutChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2PairShape)
 	CommitCircleGridShape(circlegridshape *CircleGridShape)
@@ -7719,6 +7911,10 @@ type GongBackRepoInterface interface {
 	CheckoutStoolAbstract(stoolabstract *StoolAbstract)
 	CommitTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape)
 	CheckoutTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape)
+	CommitTopCurvePlane1Shape(topcurveplane1shape *TopCurvePlane1Shape)
+	CheckoutTopCurvePlane1Shape(topcurveplane1shape *TopCurvePlane1Shape)
+	CommitTopCurvePlane2Shape(topcurveplane2shape *TopCurvePlane2Shape)
+	CheckoutTopCurvePlane2Shape(topcurveplane2shape *TopCurvePlane2Shape)
 	CommitTopEndArcShape(topendarcshape *TopEndArcShape)
 	CheckoutTopEndArcShape(topendarcshape *TopEndArcShape)
 	CommitTopEndArcShapeGrid(topendarcshapegrid *TopEndArcShapeGrid)
@@ -7794,6 +7990,12 @@ func NewStage(name string) (stage *Stage) {
 
 		BaseVectorShapeGrids:           make(map[*BaseVectorShapeGrid]struct{}),
 		BaseVectorShapeGrids_mapString: make(map[string]*BaseVectorShapeGrid),
+
+		BottomCurvePlane1Shapes:           make(map[*BottomCurvePlane1Shape]struct{}),
+		BottomCurvePlane1Shapes_mapString: make(map[string]*BottomCurvePlane1Shape),
+
+		BottomCurvePlane2Shapes:           make(map[*BottomCurvePlane2Shape]struct{}),
+		BottomCurvePlane2Shapes_mapString: make(map[string]*BottomCurvePlane2Shape),
 
 		ChosenP1P2PairShapes:           make(map[*ChosenP1P2PairShape]struct{}),
 		ChosenP1P2PairShapes_mapString: make(map[string]*ChosenP1P2PairShape),
@@ -8140,6 +8342,12 @@ func NewStage(name string) (stage *Stage) {
 		TiledFloor3DShapes:           make(map[*TiledFloor3DShape]struct{}),
 		TiledFloor3DShapes_mapString: make(map[string]*TiledFloor3DShape),
 
+		TopCurvePlane1Shapes:           make(map[*TopCurvePlane1Shape]struct{}),
+		TopCurvePlane1Shapes_mapString: make(map[string]*TopCurvePlane1Shape),
+
+		TopCurvePlane2Shapes:           make(map[*TopCurvePlane2Shape]struct{}),
+		TopCurvePlane2Shapes_mapString: make(map[string]*TopCurvePlane2Shape),
+
 		TopEndArcShapes:           make(map[*TopEndArcShape]struct{}),
 		TopEndArcShapes_mapString: make(map[string]*TopEndArcShape),
 
@@ -8248,6 +8456,14 @@ func NewStage(name string) (stage *Stage) {
 		BaseVectorShapeGrid_stagedOrder: make(map[*BaseVectorShapeGrid]uint),
 		BaseVectorShapeGrid_orderStaged: make(map[uint]*BaseVectorShapeGrid),
 		BaseVectorShapeGrids_reference:  make(map[*BaseVectorShapeGrid]*BaseVectorShapeGrid),
+
+		BottomCurvePlane1Shape_stagedOrder: make(map[*BottomCurvePlane1Shape]uint),
+		BottomCurvePlane1Shape_orderStaged: make(map[uint]*BottomCurvePlane1Shape),
+		BottomCurvePlane1Shapes_reference:  make(map[*BottomCurvePlane1Shape]*BottomCurvePlane1Shape),
+
+		BottomCurvePlane2Shape_stagedOrder: make(map[*BottomCurvePlane2Shape]uint),
+		BottomCurvePlane2Shape_orderStaged: make(map[uint]*BottomCurvePlane2Shape),
+		BottomCurvePlane2Shapes_reference:  make(map[*BottomCurvePlane2Shape]*BottomCurvePlane2Shape),
 
 		ChosenP1P2PairShape_stagedOrder: make(map[*ChosenP1P2PairShape]uint),
 		ChosenP1P2PairShape_orderStaged: make(map[uint]*ChosenP1P2PairShape),
@@ -8709,6 +8925,14 @@ func NewStage(name string) (stage *Stage) {
 		TiledFloor3DShape_orderStaged: make(map[uint]*TiledFloor3DShape),
 		TiledFloor3DShapes_reference:  make(map[*TiledFloor3DShape]*TiledFloor3DShape),
 
+		TopCurvePlane1Shape_stagedOrder: make(map[*TopCurvePlane1Shape]uint),
+		TopCurvePlane1Shape_orderStaged: make(map[uint]*TopCurvePlane1Shape),
+		TopCurvePlane1Shapes_reference:  make(map[*TopCurvePlane1Shape]*TopCurvePlane1Shape),
+
+		TopCurvePlane2Shape_stagedOrder: make(map[*TopCurvePlane2Shape]uint),
+		TopCurvePlane2Shape_orderStaged: make(map[uint]*TopCurvePlane2Shape),
+		TopCurvePlane2Shapes_reference:  make(map[*TopCurvePlane2Shape]*TopCurvePlane2Shape),
+
 		TopEndArcShape_stagedOrder: make(map[*TopEndArcShape]uint),
 		TopEndArcShape_orderStaged: make(map[uint]*TopEndArcShape),
 		TopEndArcShapes_reference:  make(map[*TopEndArcShape]*TopEndArcShape),
@@ -8822,6 +9046,10 @@ func NewStage(name string) (stage *Stage) {
 			"BaseVectorShape": &BaseVectorShapeUnmarshaller{},
 
 			"BaseVectorShapeGrid": &BaseVectorShapeGridUnmarshaller{},
+
+			"BottomCurvePlane1Shape": &BottomCurvePlane1ShapeUnmarshaller{},
+
+			"BottomCurvePlane2Shape": &BottomCurvePlane2ShapeUnmarshaller{},
 
 			"ChosenP1P2PairShape": &ChosenP1P2PairShapeUnmarshaller{},
 
@@ -9053,6 +9281,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"TiledFloor3DShape": &TiledFloor3DShapeUnmarshaller{},
 
+			"TopCurvePlane1Shape": &TopCurvePlane1ShapeUnmarshaller{},
+
+			"TopCurvePlane2Shape": &TopCurvePlane2ShapeUnmarshaller{},
+
 			"TopEndArcShape": &TopEndArcShapeUnmarshaller{},
 
 			"TopEndArcShapeGrid": &TopEndArcShapeGridUnmarshaller{},
@@ -9137,6 +9369,10 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return any(stage.BaseVectorShape_orderStaged[order]).(Type)
 	case *BaseVectorShapeGrid:
 		return any(stage.BaseVectorShapeGrid_orderStaged[order]).(Type)
+	case *BottomCurvePlane1Shape:
+		return any(stage.BottomCurvePlane1Shape_orderStaged[order]).(Type)
+	case *BottomCurvePlane2Shape:
+		return any(stage.BottomCurvePlane2Shape_orderStaged[order]).(Type)
 	case *ChosenP1P2PairShape:
 		return any(stage.ChosenP1P2PairShape_orderStaged[order]).(Type)
 	case *CircleGridShape:
@@ -9367,6 +9603,10 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return any(stage.StoolAbstract_orderStaged[order]).(Type)
 	case *TiledFloor3DShape:
 		return any(stage.TiledFloor3DShape_orderStaged[order]).(Type)
+	case *TopCurvePlane1Shape:
+		return any(stage.TopCurvePlane1Shape_orderStaged[order]).(Type)
+	case *TopCurvePlane2Shape:
+		return any(stage.TopCurvePlane2Shape_orderStaged[order]).(Type)
 	case *TopEndArcShape:
 		return any(stage.TopEndArcShape_orderStaged[order]).(Type)
 	case *TopEndArcShapeGrid:
@@ -9488,6 +9728,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["AxesShape"] = len(stage.AxesShapes)
 	stage.Map_GongStructName_InstancesNb["BaseVectorShape"] = len(stage.BaseVectorShapes)
 	stage.Map_GongStructName_InstancesNb["BaseVectorShapeGrid"] = len(stage.BaseVectorShapeGrids)
+	stage.Map_GongStructName_InstancesNb["BottomCurvePlane1Shape"] = len(stage.BottomCurvePlane1Shapes)
+	stage.Map_GongStructName_InstancesNb["BottomCurvePlane2Shape"] = len(stage.BottomCurvePlane2Shapes)
 	stage.Map_GongStructName_InstancesNb["ChosenP1P2PairShape"] = len(stage.ChosenP1P2PairShapes)
 	stage.Map_GongStructName_InstancesNb["CircleGridShape"] = len(stage.CircleGridShapes)
 	stage.Map_GongStructName_InstancesNb["Circumference3DShape"] = len(stage.Circumference3DShapes)
@@ -9603,6 +9845,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Stool3DDiagram"] = len(stage.Stool3DDiagrams)
 	stage.Map_GongStructName_InstancesNb["StoolAbstract"] = len(stage.StoolAbstracts)
 	stage.Map_GongStructName_InstancesNb["TiledFloor3DShape"] = len(stage.TiledFloor3DShapes)
+	stage.Map_GongStructName_InstancesNb["TopCurvePlane1Shape"] = len(stage.TopCurvePlane1Shapes)
+	stage.Map_GongStructName_InstancesNb["TopCurvePlane2Shape"] = len(stage.TopCurvePlane2Shapes)
 	stage.Map_GongStructName_InstancesNb["TopEndArcShape"] = len(stage.TopEndArcShapes)
 	stage.Map_GongStructName_InstancesNb["TopEndArcShapeGrid"] = len(stage.TopEndArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["TopEndHalfwayArcShape"] = len(stage.TopEndHalfwayArcShapes)
@@ -10170,6 +10414,174 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (basevectorshapegrid *BaseVectorShapeGrid) SetName(name string) {
 	basevectorshapegrid.Name = name
+}
+
+// Stage puts bottomcurveplane1shape to the model stage
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) Stage(stage *Stage) *BottomCurvePlane1Shape {
+	if _, ok := stage.BottomCurvePlane1Shapes[bottomcurveplane1shape]; !ok {
+		stage.BottomCurvePlane1Shapes[bottomcurveplane1shape] = struct{}{}
+		stage.BottomCurvePlane1Shape_stagedOrder[bottomcurveplane1shape] = stage.BottomCurvePlane1ShapeOrder
+		stage.BottomCurvePlane1Shape_orderStaged[stage.BottomCurvePlane1ShapeOrder] = bottomcurveplane1shape
+		stage.BottomCurvePlane1ShapeOrder++
+	}
+	stage.BottomCurvePlane1Shapes_mapString[bottomcurveplane1shape.Name] = bottomcurveplane1shape
+
+	return bottomcurveplane1shape
+}
+
+// StagePreserveOrder puts bottomcurveplane1shape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.BottomCurvePlane1ShapeOrder
+// - update stage.BottomCurvePlane1ShapeOrder accordingly
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.BottomCurvePlane1Shapes[bottomcurveplane1shape]; !ok {
+		stage.BottomCurvePlane1Shapes[bottomcurveplane1shape] = struct{}{}
+
+		if order > stage.BottomCurvePlane1ShapeOrder {
+			stage.BottomCurvePlane1ShapeOrder = order
+		}
+		stage.BottomCurvePlane1Shape_stagedOrder[bottomcurveplane1shape] = order
+		stage.BottomCurvePlane1Shape_orderStaged[order] = bottomcurveplane1shape
+		stage.BottomCurvePlane1ShapeOrder++
+	}
+	stage.BottomCurvePlane1Shapes_mapString[bottomcurveplane1shape.Name] = bottomcurveplane1shape
+}
+
+// Unstage removes bottomcurveplane1shape off the model stage
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) Unstage(stage *Stage) *BottomCurvePlane1Shape {
+	delete(stage.BottomCurvePlane1Shapes, bottomcurveplane1shape)
+	// issue1150
+	// delete(stage.BottomCurvePlane1Shape_stagedOrder, bottomcurveplane1shape)
+	delete(stage.BottomCurvePlane1Shapes_mapString, bottomcurveplane1shape.Name)
+
+	return bottomcurveplane1shape
+}
+
+// UnstageVoid removes bottomcurveplane1shape off the model stage
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) UnstageVoid(stage *Stage) {
+	delete(stage.BottomCurvePlane1Shapes, bottomcurveplane1shape)
+	// issue1150
+	// delete(stage.BottomCurvePlane1Shape_stagedOrder, bottomcurveplane1shape)
+	delete(stage.BottomCurvePlane1Shapes_mapString, bottomcurveplane1shape.Name)
+}
+
+// commit bottomcurveplane1shape to the back repo (if it is already staged)
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) Commit(stage *Stage) *BottomCurvePlane1Shape {
+	if _, ok := stage.BottomCurvePlane1Shapes[bottomcurveplane1shape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitBottomCurvePlane1Shape(bottomcurveplane1shape)
+		}
+	}
+	return bottomcurveplane1shape
+}
+
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) StageVoid(stage *Stage) {
+	bottomcurveplane1shape.Stage(stage)
+}
+
+// Checkout bottomcurveplane1shape to the back repo (if it is already staged)
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) Checkout(stage *Stage) *BottomCurvePlane1Shape {
+	if _, ok := stage.BottomCurvePlane1Shapes[bottomcurveplane1shape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutBottomCurvePlane1Shape(bottomcurveplane1shape)
+		}
+	}
+	return bottomcurveplane1shape
+}
+
+// for satisfaction of GongStruct interface
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) GetName() (res string) {
+	return bottomcurveplane1shape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) SetName(name string) {
+	bottomcurveplane1shape.Name = name
+}
+
+// Stage puts bottomcurveplane2shape to the model stage
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) Stage(stage *Stage) *BottomCurvePlane2Shape {
+	if _, ok := stage.BottomCurvePlane2Shapes[bottomcurveplane2shape]; !ok {
+		stage.BottomCurvePlane2Shapes[bottomcurveplane2shape] = struct{}{}
+		stage.BottomCurvePlane2Shape_stagedOrder[bottomcurveplane2shape] = stage.BottomCurvePlane2ShapeOrder
+		stage.BottomCurvePlane2Shape_orderStaged[stage.BottomCurvePlane2ShapeOrder] = bottomcurveplane2shape
+		stage.BottomCurvePlane2ShapeOrder++
+	}
+	stage.BottomCurvePlane2Shapes_mapString[bottomcurveplane2shape.Name] = bottomcurveplane2shape
+
+	return bottomcurveplane2shape
+}
+
+// StagePreserveOrder puts bottomcurveplane2shape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.BottomCurvePlane2ShapeOrder
+// - update stage.BottomCurvePlane2ShapeOrder accordingly
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.BottomCurvePlane2Shapes[bottomcurveplane2shape]; !ok {
+		stage.BottomCurvePlane2Shapes[bottomcurveplane2shape] = struct{}{}
+
+		if order > stage.BottomCurvePlane2ShapeOrder {
+			stage.BottomCurvePlane2ShapeOrder = order
+		}
+		stage.BottomCurvePlane2Shape_stagedOrder[bottomcurveplane2shape] = order
+		stage.BottomCurvePlane2Shape_orderStaged[order] = bottomcurveplane2shape
+		stage.BottomCurvePlane2ShapeOrder++
+	}
+	stage.BottomCurvePlane2Shapes_mapString[bottomcurveplane2shape.Name] = bottomcurveplane2shape
+}
+
+// Unstage removes bottomcurveplane2shape off the model stage
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) Unstage(stage *Stage) *BottomCurvePlane2Shape {
+	delete(stage.BottomCurvePlane2Shapes, bottomcurveplane2shape)
+	// issue1150
+	// delete(stage.BottomCurvePlane2Shape_stagedOrder, bottomcurveplane2shape)
+	delete(stage.BottomCurvePlane2Shapes_mapString, bottomcurveplane2shape.Name)
+
+	return bottomcurveplane2shape
+}
+
+// UnstageVoid removes bottomcurveplane2shape off the model stage
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) UnstageVoid(stage *Stage) {
+	delete(stage.BottomCurvePlane2Shapes, bottomcurveplane2shape)
+	// issue1150
+	// delete(stage.BottomCurvePlane2Shape_stagedOrder, bottomcurveplane2shape)
+	delete(stage.BottomCurvePlane2Shapes_mapString, bottomcurveplane2shape.Name)
+}
+
+// commit bottomcurveplane2shape to the back repo (if it is already staged)
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) Commit(stage *Stage) *BottomCurvePlane2Shape {
+	if _, ok := stage.BottomCurvePlane2Shapes[bottomcurveplane2shape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitBottomCurvePlane2Shape(bottomcurveplane2shape)
+		}
+	}
+	return bottomcurveplane2shape
+}
+
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) StageVoid(stage *Stage) {
+	bottomcurveplane2shape.Stage(stage)
+}
+
+// Checkout bottomcurveplane2shape to the back repo (if it is already staged)
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) Checkout(stage *Stage) *BottomCurvePlane2Shape {
+	if _, ok := stage.BottomCurvePlane2Shapes[bottomcurveplane2shape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutBottomCurvePlane2Shape(bottomcurveplane2shape)
+		}
+	}
+	return bottomcurveplane2shape
+}
+
+// for satisfaction of GongStruct interface
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) GetName() (res string) {
+	return bottomcurveplane2shape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) SetName(name string) {
+	bottomcurveplane2shape.Name = name
 }
 
 // Stage puts chosenp1p2pairshape to the model stage
@@ -19832,6 +20244,174 @@ func (tiledfloor3dshape *TiledFloor3DShape) SetName(name string) {
 	tiledfloor3dshape.Name = name
 }
 
+// Stage puts topcurveplane1shape to the model stage
+func (topcurveplane1shape *TopCurvePlane1Shape) Stage(stage *Stage) *TopCurvePlane1Shape {
+	if _, ok := stage.TopCurvePlane1Shapes[topcurveplane1shape]; !ok {
+		stage.TopCurvePlane1Shapes[topcurveplane1shape] = struct{}{}
+		stage.TopCurvePlane1Shape_stagedOrder[topcurveplane1shape] = stage.TopCurvePlane1ShapeOrder
+		stage.TopCurvePlane1Shape_orderStaged[stage.TopCurvePlane1ShapeOrder] = topcurveplane1shape
+		stage.TopCurvePlane1ShapeOrder++
+	}
+	stage.TopCurvePlane1Shapes_mapString[topcurveplane1shape.Name] = topcurveplane1shape
+
+	return topcurveplane1shape
+}
+
+// StagePreserveOrder puts topcurveplane1shape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TopCurvePlane1ShapeOrder
+// - update stage.TopCurvePlane1ShapeOrder accordingly
+func (topcurveplane1shape *TopCurvePlane1Shape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TopCurvePlane1Shapes[topcurveplane1shape]; !ok {
+		stage.TopCurvePlane1Shapes[topcurveplane1shape] = struct{}{}
+
+		if order > stage.TopCurvePlane1ShapeOrder {
+			stage.TopCurvePlane1ShapeOrder = order
+		}
+		stage.TopCurvePlane1Shape_stagedOrder[topcurveplane1shape] = order
+		stage.TopCurvePlane1Shape_orderStaged[order] = topcurveplane1shape
+		stage.TopCurvePlane1ShapeOrder++
+	}
+	stage.TopCurvePlane1Shapes_mapString[topcurveplane1shape.Name] = topcurveplane1shape
+}
+
+// Unstage removes topcurveplane1shape off the model stage
+func (topcurveplane1shape *TopCurvePlane1Shape) Unstage(stage *Stage) *TopCurvePlane1Shape {
+	delete(stage.TopCurvePlane1Shapes, topcurveplane1shape)
+	// issue1150
+	// delete(stage.TopCurvePlane1Shape_stagedOrder, topcurveplane1shape)
+	delete(stage.TopCurvePlane1Shapes_mapString, topcurveplane1shape.Name)
+
+	return topcurveplane1shape
+}
+
+// UnstageVoid removes topcurveplane1shape off the model stage
+func (topcurveplane1shape *TopCurvePlane1Shape) UnstageVoid(stage *Stage) {
+	delete(stage.TopCurvePlane1Shapes, topcurveplane1shape)
+	// issue1150
+	// delete(stage.TopCurvePlane1Shape_stagedOrder, topcurveplane1shape)
+	delete(stage.TopCurvePlane1Shapes_mapString, topcurveplane1shape.Name)
+}
+
+// commit topcurveplane1shape to the back repo (if it is already staged)
+func (topcurveplane1shape *TopCurvePlane1Shape) Commit(stage *Stage) *TopCurvePlane1Shape {
+	if _, ok := stage.TopCurvePlane1Shapes[topcurveplane1shape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTopCurvePlane1Shape(topcurveplane1shape)
+		}
+	}
+	return topcurveplane1shape
+}
+
+func (topcurveplane1shape *TopCurvePlane1Shape) StageVoid(stage *Stage) {
+	topcurveplane1shape.Stage(stage)
+}
+
+// Checkout topcurveplane1shape to the back repo (if it is already staged)
+func (topcurveplane1shape *TopCurvePlane1Shape) Checkout(stage *Stage) *TopCurvePlane1Shape {
+	if _, ok := stage.TopCurvePlane1Shapes[topcurveplane1shape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTopCurvePlane1Shape(topcurveplane1shape)
+		}
+	}
+	return topcurveplane1shape
+}
+
+// for satisfaction of GongStruct interface
+func (topcurveplane1shape *TopCurvePlane1Shape) GetName() (res string) {
+	return topcurveplane1shape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (topcurveplane1shape *TopCurvePlane1Shape) SetName(name string) {
+	topcurveplane1shape.Name = name
+}
+
+// Stage puts topcurveplane2shape to the model stage
+func (topcurveplane2shape *TopCurvePlane2Shape) Stage(stage *Stage) *TopCurvePlane2Shape {
+	if _, ok := stage.TopCurvePlane2Shapes[topcurveplane2shape]; !ok {
+		stage.TopCurvePlane2Shapes[topcurveplane2shape] = struct{}{}
+		stage.TopCurvePlane2Shape_stagedOrder[topcurveplane2shape] = stage.TopCurvePlane2ShapeOrder
+		stage.TopCurvePlane2Shape_orderStaged[stage.TopCurvePlane2ShapeOrder] = topcurveplane2shape
+		stage.TopCurvePlane2ShapeOrder++
+	}
+	stage.TopCurvePlane2Shapes_mapString[topcurveplane2shape.Name] = topcurveplane2shape
+
+	return topcurveplane2shape
+}
+
+// StagePreserveOrder puts topcurveplane2shape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TopCurvePlane2ShapeOrder
+// - update stage.TopCurvePlane2ShapeOrder accordingly
+func (topcurveplane2shape *TopCurvePlane2Shape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TopCurvePlane2Shapes[topcurveplane2shape]; !ok {
+		stage.TopCurvePlane2Shapes[topcurveplane2shape] = struct{}{}
+
+		if order > stage.TopCurvePlane2ShapeOrder {
+			stage.TopCurvePlane2ShapeOrder = order
+		}
+		stage.TopCurvePlane2Shape_stagedOrder[topcurveplane2shape] = order
+		stage.TopCurvePlane2Shape_orderStaged[order] = topcurveplane2shape
+		stage.TopCurvePlane2ShapeOrder++
+	}
+	stage.TopCurvePlane2Shapes_mapString[topcurveplane2shape.Name] = topcurveplane2shape
+}
+
+// Unstage removes topcurveplane2shape off the model stage
+func (topcurveplane2shape *TopCurvePlane2Shape) Unstage(stage *Stage) *TopCurvePlane2Shape {
+	delete(stage.TopCurvePlane2Shapes, topcurveplane2shape)
+	// issue1150
+	// delete(stage.TopCurvePlane2Shape_stagedOrder, topcurveplane2shape)
+	delete(stage.TopCurvePlane2Shapes_mapString, topcurveplane2shape.Name)
+
+	return topcurveplane2shape
+}
+
+// UnstageVoid removes topcurveplane2shape off the model stage
+func (topcurveplane2shape *TopCurvePlane2Shape) UnstageVoid(stage *Stage) {
+	delete(stage.TopCurvePlane2Shapes, topcurveplane2shape)
+	// issue1150
+	// delete(stage.TopCurvePlane2Shape_stagedOrder, topcurveplane2shape)
+	delete(stage.TopCurvePlane2Shapes_mapString, topcurveplane2shape.Name)
+}
+
+// commit topcurveplane2shape to the back repo (if it is already staged)
+func (topcurveplane2shape *TopCurvePlane2Shape) Commit(stage *Stage) *TopCurvePlane2Shape {
+	if _, ok := stage.TopCurvePlane2Shapes[topcurveplane2shape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTopCurvePlane2Shape(topcurveplane2shape)
+		}
+	}
+	return topcurveplane2shape
+}
+
+func (topcurveplane2shape *TopCurvePlane2Shape) StageVoid(stage *Stage) {
+	topcurveplane2shape.Stage(stage)
+}
+
+// Checkout topcurveplane2shape to the back repo (if it is already staged)
+func (topcurveplane2shape *TopCurvePlane2Shape) Checkout(stage *Stage) *TopCurvePlane2Shape {
+	if _, ok := stage.TopCurvePlane2Shapes[topcurveplane2shape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTopCurvePlane2Shape(topcurveplane2shape)
+		}
+	}
+	return topcurveplane2shape
+}
+
+// for satisfaction of GongStruct interface
+func (topcurveplane2shape *TopCurvePlane2Shape) GetName() (res string) {
+	return topcurveplane2shape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (topcurveplane2shape *TopCurvePlane2Shape) SetName(name string) {
+	topcurveplane2shape.Name = name
+}
+
 // Stage puts topendarcshape to the model stage
 func (topendarcshape *TopEndArcShape) Stage(stage *Stage) *TopEndArcShape {
 	if _, ok := stage.TopEndArcShapes[topendarcshape]; !ok {
@@ -21963,6 +22543,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.BaseVectorShapeGrid_stagedOrder = make(map[*BaseVectorShapeGrid]uint)
 	stage.BaseVectorShapeGridOrder = 0
 
+	stage.BottomCurvePlane1Shapes = make(map[*BottomCurvePlane1Shape]struct{})
+	stage.BottomCurvePlane1Shapes_mapString = make(map[string]*BottomCurvePlane1Shape)
+	stage.BottomCurvePlane1Shape_stagedOrder = make(map[*BottomCurvePlane1Shape]uint)
+	stage.BottomCurvePlane1ShapeOrder = 0
+
+	stage.BottomCurvePlane2Shapes = make(map[*BottomCurvePlane2Shape]struct{})
+	stage.BottomCurvePlane2Shapes_mapString = make(map[string]*BottomCurvePlane2Shape)
+	stage.BottomCurvePlane2Shape_stagedOrder = make(map[*BottomCurvePlane2Shape]uint)
+	stage.BottomCurvePlane2ShapeOrder = 0
+
 	stage.ChosenP1P2PairShapes = make(map[*ChosenP1P2PairShape]struct{})
 	stage.ChosenP1P2PairShapes_mapString = make(map[string]*ChosenP1P2PairShape)
 	stage.ChosenP1P2PairShape_stagedOrder = make(map[*ChosenP1P2PairShape]uint)
@@ -22538,6 +23128,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TiledFloor3DShape_stagedOrder = make(map[*TiledFloor3DShape]uint)
 	stage.TiledFloor3DShapeOrder = 0
 
+	stage.TopCurvePlane1Shapes = make(map[*TopCurvePlane1Shape]struct{})
+	stage.TopCurvePlane1Shapes_mapString = make(map[string]*TopCurvePlane1Shape)
+	stage.TopCurvePlane1Shape_stagedOrder = make(map[*TopCurvePlane1Shape]uint)
+	stage.TopCurvePlane1ShapeOrder = 0
+
+	stage.TopCurvePlane2Shapes = make(map[*TopCurvePlane2Shape]struct{})
+	stage.TopCurvePlane2Shapes_mapString = make(map[string]*TopCurvePlane2Shape)
+	stage.TopCurvePlane2Shape_stagedOrder = make(map[*TopCurvePlane2Shape]uint)
+	stage.TopCurvePlane2ShapeOrder = 0
+
 	stage.TopEndArcShapes = make(map[*TopEndArcShape]struct{})
 	stage.TopEndArcShapes_mapString = make(map[string]*TopEndArcShape)
 	stage.TopEndArcShape_stagedOrder = make(map[*TopEndArcShape]uint)
@@ -22756,6 +23356,10 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 		return any(stage.BaseVectorShapes_mapString).(map[string]Type)
 	case *BaseVectorShapeGrid:
 		return any(stage.BaseVectorShapeGrids_mapString).(map[string]Type)
+	case *BottomCurvePlane1Shape:
+		return any(stage.BottomCurvePlane1Shapes_mapString).(map[string]Type)
+	case *BottomCurvePlane2Shape:
+		return any(stage.BottomCurvePlane2Shapes_mapString).(map[string]Type)
 	case *ChosenP1P2PairShape:
 		return any(stage.ChosenP1P2PairShapes_mapString).(map[string]Type)
 	case *CircleGridShape:
@@ -22986,6 +23590,10 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 		return any(stage.StoolAbstracts_mapString).(map[string]Type)
 	case *TiledFloor3DShape:
 		return any(stage.TiledFloor3DShapes_mapString).(map[string]Type)
+	case *TopCurvePlane1Shape:
+		return any(stage.TopCurvePlane1Shapes_mapString).(map[string]Type)
+	case *TopCurvePlane2Shape:
+		return any(stage.TopCurvePlane2Shapes_mapString).(map[string]Type)
 	case *TopEndArcShape:
 		return any(stage.TopEndArcShapes_mapString).(map[string]Type)
 	case *TopEndArcShapeGrid:
@@ -23059,6 +23667,10 @@ func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
 		return any(&stage.BaseVectorShapes).(*map[Type]struct{})
 	case *BaseVectorShapeGrid:
 		return any(&stage.BaseVectorShapeGrids).(*map[Type]struct{})
+	case *BottomCurvePlane1Shape:
+		return any(&stage.BottomCurvePlane1Shapes).(*map[Type]struct{})
+	case *BottomCurvePlane2Shape:
+		return any(&stage.BottomCurvePlane2Shapes).(*map[Type]struct{})
 	case *ChosenP1P2PairShape:
 		return any(&stage.ChosenP1P2PairShapes).(*map[Type]struct{})
 	case *CircleGridShape:
@@ -23289,6 +23901,10 @@ func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
 		return any(&stage.StoolAbstracts).(*map[Type]struct{})
 	case *TiledFloor3DShape:
 		return any(&stage.TiledFloor3DShapes).(*map[Type]struct{})
+	case *TopCurvePlane1Shape:
+		return any(&stage.TopCurvePlane1Shapes).(*map[Type]struct{})
+	case *TopCurvePlane2Shape:
+		return any(&stage.TopCurvePlane2Shapes).(*map[Type]struct{})
 	case *TopEndArcShape:
 		return any(&stage.TopEndArcShapes).(*map[Type]struct{})
 	case *TopEndArcShapeGrid:
@@ -23380,6 +23996,14 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of BaseVectorShape with the name of the field
 			BaseVectorShapes: []*BaseVectorShape{{Name: "BaseVectorShapes"}},
+		}).(*Type)
+	case BottomCurvePlane1Shape:
+		return any(&BottomCurvePlane1Shape{
+			// Initialisation of associations
+		}).(*Type)
+	case BottomCurvePlane2Shape:
+		return any(&BottomCurvePlane2Shape{
+			// Initialisation of associations
 		}).(*Type)
 	case ChosenP1P2PairShape:
 		return any(&ChosenP1P2PairShape{
@@ -24055,6 +24679,14 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 		return any(&TiledFloor3DShape{
 			// Initialisation of associations
 		}).(*Type)
+	case TopCurvePlane1Shape:
+		return any(&TopCurvePlane1Shape{
+			// Initialisation of associations
+		}).(*Type)
+	case TopCurvePlane2Shape:
+		return any(&TopCurvePlane2Shape{
+			// Initialisation of associations
+		}).(*Type)
 	case TopEndArcShape:
 		return any(&TopEndArcShape{
 			// Initialisation of associations
@@ -24188,6 +24820,14 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			TorusEdge3DShape: &TorusEdge3DShape{Name: "TorusEdge3DShape"},
 			// field is initialized with an instance of TiledFloor3DShape with the name of the field
 			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
+			// field is initialized with an instance of TopCurvePlane1Shape with the name of the field
+			TopCurvePlane1Shape: &TopCurvePlane1Shape{Name: "TopCurvePlane1Shape"},
+			// field is initialized with an instance of BottomCurvePlane1Shape with the name of the field
+			BottomCurvePlane1Shape: &BottomCurvePlane1Shape{Name: "BottomCurvePlane1Shape"},
+			// field is initialized with an instance of TopCurvePlane2Shape with the name of the field
+			TopCurvePlane2Shape: &TopCurvePlane2Shape{Name: "TopCurvePlane2Shape"},
+			// field is initialized with an instance of BottomCurvePlane2Shape with the name of the field
+			BottomCurvePlane2Shape: &BottomCurvePlane2Shape{Name: "BottomCurvePlane2Shape"},
 		}).(*Type)
 	case TubeVaseAbstract:
 		return any(&TubeVaseAbstract{
@@ -24302,6 +24942,16 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		}
 	// reverse maps of direct associations of BaseVectorShapeGrid
 	case BaseVectorShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of BottomCurvePlane1Shape
+	case BottomCurvePlane1Shape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of BottomCurvePlane2Shape
+	case BottomCurvePlane2Shape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -25883,6 +26533,16 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of TopCurvePlane1Shape
+	case TopCurvePlane1Shape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TopCurvePlane2Shape
+	case TopCurvePlane2Shape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of TopEndArcShape
 	case TopEndArcShape:
 		switch fieldname {
@@ -26256,6 +26916,74 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
 					res[tiledfloor3dshape_] = tubevase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopCurvePlane1Shape":
+			res := make(map[*TopCurvePlane1Shape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.TopCurvePlane1Shape != nil {
+					topcurveplane1shape_ := tubevase3ddiagram.TopCurvePlane1Shape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
+					_, ok := res[topcurveplane1shape_]
+					if ok {
+						tubevase3ddiagrams = res[topcurveplane1shape_]
+					} else {
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
+					}
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[topcurveplane1shape_] = tubevase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "BottomCurvePlane1Shape":
+			res := make(map[*BottomCurvePlane1Shape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.BottomCurvePlane1Shape != nil {
+					bottomcurveplane1shape_ := tubevase3ddiagram.BottomCurvePlane1Shape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
+					_, ok := res[bottomcurveplane1shape_]
+					if ok {
+						tubevase3ddiagrams = res[bottomcurveplane1shape_]
+					} else {
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
+					}
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[bottomcurveplane1shape_] = tubevase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopCurvePlane2Shape":
+			res := make(map[*TopCurvePlane2Shape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.TopCurvePlane2Shape != nil {
+					topcurveplane2shape_ := tubevase3ddiagram.TopCurvePlane2Shape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
+					_, ok := res[topcurveplane2shape_]
+					if ok {
+						tubevase3ddiagrams = res[topcurveplane2shape_]
+					} else {
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
+					}
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[topcurveplane2shape_] = tubevase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "BottomCurvePlane2Shape":
+			res := make(map[*BottomCurvePlane2Shape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.BottomCurvePlane2Shape != nil {
+					bottomcurveplane2shape_ := tubevase3ddiagram.BottomCurvePlane2Shape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
+					_, ok := res[bottomcurveplane2shape_]
+					if ok {
+						tubevase3ddiagrams = res[bottomcurveplane2shape_]
+					} else {
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
+					}
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[bottomcurveplane2shape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -26777,6 +27505,16 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of BottomCurvePlane1Shape
+	case BottomCurvePlane1Shape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of BottomCurvePlane2Shape
+	case BottomCurvePlane2Shape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of ChosenP1P2PairShape
 	case ChosenP1P2PairShape:
@@ -27737,6 +28475,16 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of TopCurvePlane1Shape
+	case TopCurvePlane1Shape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TopCurvePlane2Shape
+	case TopCurvePlane2Shape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of TopEndArcShape
 	case TopEndArcShape:
 		switch fieldname {
@@ -27956,6 +28704,10 @@ func GongNewInstance[Type GongstructPtr]() (res Type) {
 		res = any(new(BaseVectorShape)).(Type)
 	case *BaseVectorShapeGrid:
 		res = any(new(BaseVectorShapeGrid)).(Type)
+	case *BottomCurvePlane1Shape:
+		res = any(new(BottomCurvePlane1Shape)).(Type)
+	case *BottomCurvePlane2Shape:
+		res = any(new(BottomCurvePlane2Shape)).(Type)
 	case *ChosenP1P2PairShape:
 		res = any(new(ChosenP1P2PairShape)).(Type)
 	case *CircleGridShape:
@@ -28186,6 +28938,10 @@ func GongNewInstance[Type GongstructPtr]() (res Type) {
 		res = any(new(StoolAbstract)).(Type)
 	case *TiledFloor3DShape:
 		res = any(new(TiledFloor3DShape)).(Type)
+	case *TopCurvePlane1Shape:
+		res = any(new(TopCurvePlane1Shape)).(Type)
+	case *TopCurvePlane2Shape:
+		res = any(new(TopCurvePlane2Shape)).(Type)
 	case *TopEndArcShape:
 		res = any(new(TopEndArcShape)).(Type)
 	case *TopEndArcShapeGrid:
@@ -28276,6 +29032,10 @@ func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "BaseVectorShape"
 	case *BaseVectorShapeGrid:
 		res = "BaseVectorShapeGrid"
+	case *BottomCurvePlane1Shape:
+		res = "BottomCurvePlane1Shape"
+	case *BottomCurvePlane2Shape:
+		res = "BottomCurvePlane2Shape"
 	case *ChosenP1P2PairShape:
 		res = "ChosenP1P2PairShape"
 	case *CircleGridShape:
@@ -28506,6 +29266,10 @@ func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "StoolAbstract"
 	case *TiledFloor3DShape:
 		res = "TiledFloor3DShape"
+	case *TopCurvePlane1Shape:
+		res = "TopCurvePlane1Shape"
+	case *TopCurvePlane2Shape:
+		res = "TopCurvePlane2Shape"
 	case *TopEndArcShape:
 		res = "TopEndArcShape"
 	case *TopEndArcShapeGrid:
@@ -28601,6 +29365,12 @@ func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 		rf.Fieldname = "BaseVectorShapes"
 		res = append(res, rf)
 	case *BaseVectorShapeGrid:
+		var rf ReverseField
+		_ = rf
+	case *BottomCurvePlane1Shape:
+		var rf ReverseField
+		_ = rf
+	case *BottomCurvePlane2Shape:
 		var rf ReverseField
 		_ = rf
 	case *ChosenP1P2PairShape:
@@ -29086,6 +29856,12 @@ func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 	case *TiledFloor3DShape:
 		var rf ReverseField
 		_ = rf
+	case *TopCurvePlane1Shape:
+		var rf ReverseField
+		_ = rf
+	case *TopCurvePlane2Shape:
+		var rf ReverseField
+		_ = rf
 	case *TopEndArcShape:
 		var rf ReverseField
 		_ = rf
@@ -29318,6 +30094,28 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongGetFieldHeaders() (res []Gon
 			Name:                 "BaseVectorShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "BaseVectorShape",
+		},
+	}
+	return
+}
+
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -33381,6 +34179,28 @@ func (tiledfloor3dshape *TiledFloor3DShape) GongGetFieldHeaders() (res []GongFie
 	return
 }
 
+func (topcurveplane1shape *TopCurvePlane1Shape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (topcurveplane2shape *TopCurvePlane2Shape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (topendarcshape *TopEndArcShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -34024,6 +34844,22 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsHiddenTopCurvePlane1Shape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenBottomCurvePlane1Shape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopCurvePlane2Shape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenBottomCurvePlane2Shape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "Rendered3DShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Rendered3DShape",
@@ -34094,6 +34930,26 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldHeaders() (res []GongFie
 			TargetGongstructName: "TiledFloor3DShape",
 		},
 		{
+			Name:                 "TopCurvePlane1Shape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopCurvePlane1Shape",
+		},
+		{
+			Name:                 "BottomCurvePlane1Shape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "BottomCurvePlane1Shape",
+		},
+		{
+			Name:                 "TopCurvePlane2Shape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopCurvePlane2Shape",
+		},
+		{
+			Name:                 "BottomCurvePlane2Shape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "BottomCurvePlane2Shape",
+		},
+		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -34118,6 +34974,18 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldHeaders() (res []GongField
 		},
 		{
 			Name:               "Z_Ribbon",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Plane1Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Plane2Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ProjectionAngle",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
@@ -34688,6 +35556,24 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongGetFieldValue(fieldName stri
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	}
+	return
+}
+
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = bottomcurveplane1shape.Name
+	}
+	return
+}
+
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = bottomcurveplane2shape.Name
 	}
 	return
 }
@@ -38797,6 +39683,24 @@ func (tiledfloor3dshape *TiledFloor3DShape) GongGetFieldValue(fieldName string, 
 	return
 }
 
+func (topcurveplane1shape *TopCurvePlane1Shape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = topcurveplane1shape.Name
+	}
+	return
+}
+
+func (topcurveplane2shape *TopCurvePlane2Shape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = topcurveplane2shape.Name
+	}
+	return
+}
+
 func (topendarcshape *TopEndArcShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -39444,6 +40348,22 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldValue(fieldName string, 
 		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenTiledFloor3DShape)
 		res.valueBool = tubevase3ddiagram.IsHiddenTiledFloor3DShape
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopCurvePlane1Shape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenTopCurvePlane1Shape)
+		res.valueBool = tubevase3ddiagram.IsHiddenTopCurvePlane1Shape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenBottomCurvePlane1Shape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenBottomCurvePlane1Shape)
+		res.valueBool = tubevase3ddiagram.IsHiddenBottomCurvePlane1Shape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopCurvePlane2Shape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenTopCurvePlane2Shape)
+		res.valueBool = tubevase3ddiagram.IsHiddenTopCurvePlane2Shape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenBottomCurvePlane2Shape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenBottomCurvePlane2Shape)
+		res.valueBool = tubevase3ddiagram.IsHiddenBottomCurvePlane2Shape
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Rendered3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if tubevase3ddiagram.Rendered3DShape != nil {
@@ -39528,6 +40448,30 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldValue(fieldName string, 
 			res.valueString = tubevase3ddiagram.TiledFloor3DShape.Name
 			res.ids = tubevase3ddiagram.TiledFloor3DShape.GongGetUUID(stage)
 		}
+	case "TopCurvePlane1Shape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.TopCurvePlane1Shape != nil {
+			res.valueString = tubevase3ddiagram.TopCurvePlane1Shape.Name
+			res.ids = tubevase3ddiagram.TopCurvePlane1Shape.GongGetUUID(stage)
+		}
+	case "BottomCurvePlane1Shape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.BottomCurvePlane1Shape != nil {
+			res.valueString = tubevase3ddiagram.BottomCurvePlane1Shape.Name
+			res.ids = tubevase3ddiagram.BottomCurvePlane1Shape.GongGetUUID(stage)
+		}
+	case "TopCurvePlane2Shape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.TopCurvePlane2Shape != nil {
+			res.valueString = tubevase3ddiagram.TopCurvePlane2Shape.Name
+			res.ids = tubevase3ddiagram.TopCurvePlane2Shape.GongGetUUID(stage)
+		}
+	case "BottomCurvePlane2Shape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.BottomCurvePlane2Shape != nil {
+			res.valueString = tubevase3ddiagram.BottomCurvePlane2Shape.Name
+			res.ids = tubevase3ddiagram.BottomCurvePlane2Shape.GongGetUUID(stage)
+		}
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsChecked)
 		res.valueBool = tubevase3ddiagram.IsChecked
@@ -39550,6 +40494,18 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldValue(fieldName string, st
 	case "Z_Ribbon":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.Z_Ribbon)
 		res.valueFloat = tubevaseabstract.Z_Ribbon
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Plane1Height":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.Plane1Height)
+		res.valueFloat = tubevaseabstract.Plane1Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Plane2Height":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.Plane2Height)
+		res.valueFloat = tubevaseabstract.Plane2Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ProjectionAngle":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.ProjectionAngle)
+		res.valueFloat = tubevaseabstract.ProjectionAngle
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RelativeVerticalThickness":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeVerticalThickness)
@@ -39996,6 +40952,14 @@ func (basevectorshape *BaseVectorShape) GongGetGongstructName() string {
 
 func (basevectorshapegrid *BaseVectorShapeGrid) GongGetGongstructName() string {
 	return "BaseVectorShapeGrid"
+}
+
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) GongGetGongstructName() string {
+	return "BottomCurvePlane1Shape"
+}
+
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongGetGongstructName() string {
+	return "BottomCurvePlane2Shape"
 }
 
 func (chosenp1p2pairshape *ChosenP1P2PairShape) GongGetGongstructName() string {
@@ -40458,6 +41422,14 @@ func (tiledfloor3dshape *TiledFloor3DShape) GongGetGongstructName() string {
 	return "TiledFloor3DShape"
 }
 
+func (topcurveplane1shape *TopCurvePlane1Shape) GongGetGongstructName() string {
+	return "TopCurvePlane1Shape"
+}
+
+func (topcurveplane2shape *TopCurvePlane2Shape) GongGetGongstructName() string {
+	return "TopCurvePlane2Shape"
+}
+
 func (topendarcshape *TopEndArcShape) GongGetGongstructName() string {
 	return "TopEndArcShape"
 }
@@ -40597,6 +41569,16 @@ func (stage *Stage) ResetMapStrings() {
 	stage.BaseVectorShapeGrids_mapString = make(map[string]*BaseVectorShapeGrid)
 	for basevectorshapegrid := range stage.BaseVectorShapeGrids {
 		stage.BaseVectorShapeGrids_mapString[basevectorshapegrid.Name] = basevectorshapegrid
+	}
+
+	stage.BottomCurvePlane1Shapes_mapString = make(map[string]*BottomCurvePlane1Shape)
+	for bottomcurveplane1shape := range stage.BottomCurvePlane1Shapes {
+		stage.BottomCurvePlane1Shapes_mapString[bottomcurveplane1shape.Name] = bottomcurveplane1shape
+	}
+
+	stage.BottomCurvePlane2Shapes_mapString = make(map[string]*BottomCurvePlane2Shape)
+	for bottomcurveplane2shape := range stage.BottomCurvePlane2Shapes {
+		stage.BottomCurvePlane2Shapes_mapString[bottomcurveplane2shape.Name] = bottomcurveplane2shape
 	}
 
 	stage.ChosenP1P2PairShapes_mapString = make(map[string]*ChosenP1P2PairShape)
@@ -41172,6 +42154,16 @@ func (stage *Stage) ResetMapStrings() {
 	stage.TiledFloor3DShapes_mapString = make(map[string]*TiledFloor3DShape)
 	for tiledfloor3dshape := range stage.TiledFloor3DShapes {
 		stage.TiledFloor3DShapes_mapString[tiledfloor3dshape.Name] = tiledfloor3dshape
+	}
+
+	stage.TopCurvePlane1Shapes_mapString = make(map[string]*TopCurvePlane1Shape)
+	for topcurveplane1shape := range stage.TopCurvePlane1Shapes {
+		stage.TopCurvePlane1Shapes_mapString[topcurveplane1shape.Name] = topcurveplane1shape
+	}
+
+	stage.TopCurvePlane2Shapes_mapString = make(map[string]*TopCurvePlane2Shape)
+	for topcurveplane2shape := range stage.TopCurvePlane2Shapes {
+		stage.TopCurvePlane2Shapes_mapString[topcurveplane2shape.Name] = topcurveplane2shape
 	}
 
 	stage.TopEndArcShapes_mapString = make(map[string]*TopEndArcShape)

@@ -97,6 +97,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.BottomCurvePlane1Shape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "BottomCurvePlane1Shape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BottomCurvePlane1ShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.BottomCurvePlane2Shape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "BottomCurvePlane2Shape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BottomCurvePlane2ShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.ChosenP1P2PairShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -1586,6 +1612,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "TiledFloor3DShape",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TiledFloor3DShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.TopCurvePlane1Shape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "TopCurvePlane1Shape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopCurvePlane1ShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.TopCurvePlane2Shape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "TopCurvePlane2Shape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopCurvePlane2ShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

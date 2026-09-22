@@ -34,6 +34,10 @@ func (stager *Stager) enforceDiagramShapes() bool {
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.VolumeKey3DShape, "VolumeKey3DShape", func() *VolumeKey3DShape { return new(VolumeKey3DShape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TorusEdge3DShape, "TorusEdge3DShape", func() *TorusEdge3DShape { return new(TorusEdge3DShape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TiledFloor3DShape, "TiledFloor3DShape", func() *TiledFloor3DShape { return new(TiledFloor3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TopCurvePlane1Shape, "TopCurvePlane1Shape", func() *TopCurvePlane1Shape { return new(TopCurvePlane1Shape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.BottomCurvePlane1Shape, "BottomCurvePlane1Shape", func() *BottomCurvePlane1Shape { return new(BottomCurvePlane1Shape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TopCurvePlane2Shape, "TopCurvePlane2Shape", func() *TopCurvePlane2Shape { return new(TopCurvePlane2Shape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.BottomCurvePlane2Shape, "BottomCurvePlane2Shape", func() *BottomCurvePlane2Shape { return new(BottomCurvePlane2Shape) }) || modified
 	}
 
 	for diagram := range *stage.GetInstancesSet[*Stool3DDiagram]() {

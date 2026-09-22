@@ -8,25 +8,21 @@ import (
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
-func (u *ThreeJSStageUpdater) generateLayerWithModulo(
+func (u *ThreeJSStageUpdater) computeMassiveCurves(
 	stager *models.Stager,
-	h int, stackHeight int, dx, dy, thetaOffset float64, namePrefix string,
-	plant *models.PlantAbstract, checkedDiagram *models.TubeVase3DDiagram,
+	thetaOffset float64, namePrefix string,
+	plant *models.PlantAbstract,
 	resampledBaseBottom *threejs.Curve, resampledBaseTop *threejs.Curve,
-	thickness float64, globalR float64,
-	canvas *threejs.Canvas,
-) {
+) (*threejs.Curve, *threejs.Curve) {
 	threejsStage := stager.GetThreejsStage()
 
 	radialRepetition := 1
-	h_horiz := 0.0
 	if (plant.PlantType == models.TubeVase || plant.PlantType == models.VaseTrapeze) && plant.TubeVaseAbstract != nil {
 		radialRepetition = plant.TubeVaseAbstract.RadialRepetitions
-		h_horiz = plant.TubeVaseAbstract.RelativeHorizontalRingsHeight * plant.RhombusSideLength
 	}
 
-	massiveBottomCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Massive Bottom h%d", namePrefix, h)}).Stage(threejsStage)
-	massiveTopCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Massive Top h%d", namePrefix, h)}).Stage(threejsStage)
+	massiveBottomCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Massive Bottom", namePrefix)}).Stage(threejsStage)
+	massiveTopCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Massive Top", namePrefix)}).Stage(threejsStage)
 
 	for k := 0; k < radialRepetition; k++ {
 		baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetition)
@@ -42,6 +38,26 @@ func (u *ThreeJSStageUpdater) generateLayerWithModulo(
 			massiveTopCurve.Points = append(massiveTopCurve.Points, localTopCurve.Points[i])
 		}
 	}
+
+	return massiveBottomCurve, massiveTopCurve
+}
+
+func (u *ThreeJSStageUpdater) generateLayerWithModulo(
+	stager *models.Stager,
+	h int, stackHeight int, dx, dy, thetaOffset float64, namePrefix string,
+	plant *models.PlantAbstract, checkedDiagram *models.TubeVase3DDiagram,
+	resampledBaseBottom *threejs.Curve, resampledBaseTop *threejs.Curve,
+	thickness float64, globalR float64,
+	canvas *threejs.Canvas,
+) (*threejs.Curve, *threejs.Curve) {
+	threejsStage := stager.GetThreejsStage()
+
+	h_horiz := 0.0
+	if (plant.PlantType == models.TubeVase || plant.PlantType == models.VaseTrapeze) && plant.TubeVaseAbstract != nil {
+		h_horiz = plant.TubeVaseAbstract.RelativeHorizontalRingsHeight * plant.RhombusSideLength
+	}
+
+	massiveBottomCurve, massiveTopCurve := u.computeMassiveCurves(stager, thetaOffset, fmt.Sprintf("%s h%d", namePrefix, h), plant, resampledBaseBottom, resampledBaseTop)
 
 	if !checkedDiagram.IsHiddenSampledPoints3DShape {
 		numPointsPerRep := len(resampledBaseBottom.Points)
@@ -102,4 +118,6 @@ func (u *ThreeJSStageUpdater) generateLayerWithModulo(
 		}
 		u.generateRibbonMesh(stager, h, stackHeight, thetaOffset, namePrefix+" Horiz Top", plant, checkedDiagram, horizBottomCurve, horizTopCurve, dy, thickness, globalR, canvas)
 	}
+
+	return massiveBottomCurve, massiveTopCurve
 }

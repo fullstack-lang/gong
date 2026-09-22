@@ -183,6 +183,58 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongAfterDeleteFromFront(stage *
 	}
 }
 
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterBottomCurvePlane1ShapeCreateCallback != nil {
+		stage.OnAfterBottomCurvePlane1ShapeCreateCallback.OnAfterCreate(stage, bottomcurveplane1shape)
+	}
+}
+
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterBottomCurvePlane1ShapeUpdateCallback != nil {
+		var frontBottomCurvePlane1Shape *BottomCurvePlane1Shape
+		if front != nil {
+			frontBottomCurvePlane1Shape, _ = front.(*BottomCurvePlane1Shape)
+		}
+		stage.OnAfterBottomCurvePlane1ShapeUpdateCallback.OnAfterUpdate(stage, bottomcurveplane1shape, frontBottomCurvePlane1Shape)
+	}
+}
+
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterBottomCurvePlane1ShapeDeleteCallback != nil {
+		var frontBottomCurvePlane1Shape *BottomCurvePlane1Shape
+		if front != nil {
+			frontBottomCurvePlane1Shape, _ = front.(*BottomCurvePlane1Shape)
+		}
+		stage.OnAfterBottomCurvePlane1ShapeDeleteCallback.OnAfterDelete(stage, bottomcurveplane1shape, frontBottomCurvePlane1Shape)
+	}
+}
+
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterBottomCurvePlane2ShapeCreateCallback != nil {
+		stage.OnAfterBottomCurvePlane2ShapeCreateCallback.OnAfterCreate(stage, bottomcurveplane2shape)
+	}
+}
+
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterBottomCurvePlane2ShapeUpdateCallback != nil {
+		var frontBottomCurvePlane2Shape *BottomCurvePlane2Shape
+		if front != nil {
+			frontBottomCurvePlane2Shape, _ = front.(*BottomCurvePlane2Shape)
+		}
+		stage.OnAfterBottomCurvePlane2ShapeUpdateCallback.OnAfterUpdate(stage, bottomcurveplane2shape, frontBottomCurvePlane2Shape)
+	}
+}
+
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterBottomCurvePlane2ShapeDeleteCallback != nil {
+		var frontBottomCurvePlane2Shape *BottomCurvePlane2Shape
+		if front != nil {
+			frontBottomCurvePlane2Shape, _ = front.(*BottomCurvePlane2Shape)
+		}
+		stage.OnAfterBottomCurvePlane2ShapeDeleteCallback.OnAfterDelete(stage, bottomcurveplane2shape, frontBottomCurvePlane2Shape)
+	}
+}
+
 func (chosenp1p2pairshape *ChosenP1P2PairShape) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterChosenP1P2PairShapeCreateCallback != nil {
 		stage.OnAfterChosenP1P2PairShapeCreateCallback.OnAfterCreate(stage, chosenp1p2pairshape)
@@ -3170,6 +3222,58 @@ func (tiledfloor3dshape *TiledFloor3DShape) GongAfterDeleteFromFront(stage *Stag
 			frontTiledFloor3DShape, _ = front.(*TiledFloor3DShape)
 		}
 		stage.OnAfterTiledFloor3DShapeDeleteCallback.OnAfterDelete(stage, tiledfloor3dshape, frontTiledFloor3DShape)
+	}
+}
+
+func (topcurveplane1shape *TopCurvePlane1Shape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterTopCurvePlane1ShapeCreateCallback != nil {
+		stage.OnAfterTopCurvePlane1ShapeCreateCallback.OnAfterCreate(stage, topcurveplane1shape)
+	}
+}
+
+func (topcurveplane1shape *TopCurvePlane1Shape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTopCurvePlane1ShapeUpdateCallback != nil {
+		var frontTopCurvePlane1Shape *TopCurvePlane1Shape
+		if front != nil {
+			frontTopCurvePlane1Shape, _ = front.(*TopCurvePlane1Shape)
+		}
+		stage.OnAfterTopCurvePlane1ShapeUpdateCallback.OnAfterUpdate(stage, topcurveplane1shape, frontTopCurvePlane1Shape)
+	}
+}
+
+func (topcurveplane1shape *TopCurvePlane1Shape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTopCurvePlane1ShapeDeleteCallback != nil {
+		var frontTopCurvePlane1Shape *TopCurvePlane1Shape
+		if front != nil {
+			frontTopCurvePlane1Shape, _ = front.(*TopCurvePlane1Shape)
+		}
+		stage.OnAfterTopCurvePlane1ShapeDeleteCallback.OnAfterDelete(stage, topcurveplane1shape, frontTopCurvePlane1Shape)
+	}
+}
+
+func (topcurveplane2shape *TopCurvePlane2Shape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterTopCurvePlane2ShapeCreateCallback != nil {
+		stage.OnAfterTopCurvePlane2ShapeCreateCallback.OnAfterCreate(stage, topcurveplane2shape)
+	}
+}
+
+func (topcurveplane2shape *TopCurvePlane2Shape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTopCurvePlane2ShapeUpdateCallback != nil {
+		var frontTopCurvePlane2Shape *TopCurvePlane2Shape
+		if front != nil {
+			frontTopCurvePlane2Shape, _ = front.(*TopCurvePlane2Shape)
+		}
+		stage.OnAfterTopCurvePlane2ShapeUpdateCallback.OnAfterUpdate(stage, topcurveplane2shape, frontTopCurvePlane2Shape)
+	}
+}
+
+func (topcurveplane2shape *TopCurvePlane2Shape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTopCurvePlane2ShapeDeleteCallback != nil {
+		var frontTopCurvePlane2Shape *TopCurvePlane2Shape
+		if front != nil {
+			frontTopCurvePlane2Shape, _ = front.(*TopCurvePlane2Shape)
+		}
+		stage.OnAfterTopCurvePlane2ShapeDeleteCallback.OnAfterDelete(stage, topcurveplane2shape, frontTopCurvePlane2Shape)
 	}
 }
 

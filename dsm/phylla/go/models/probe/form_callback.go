@@ -297,6 +297,64 @@ func saveBaseVectorShapeGridFields(
 	}
 }
 
+func __gong__New__BottomCurvePlane1ShapeFormCallback(
+	_instance *models.BottomCurvePlane1Shape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (bottomcurveplane1shapeFormCallback *FormCallback[*models.BottomCurvePlane1Shape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveBottomCurvePlane1ShapeFields,
+	)
+}
+
+type BottomCurvePlane1ShapeFormCallback = FormCallback[*models.BottomCurvePlane1Shape]
+
+func saveBottomCurvePlane1ShapeFields(
+	_instance *models.BottomCurvePlane1Shape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		}
+	}
+}
+
+func __gong__New__BottomCurvePlane2ShapeFormCallback(
+	_instance *models.BottomCurvePlane2Shape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (bottomcurveplane2shapeFormCallback *FormCallback[*models.BottomCurvePlane2Shape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveBottomCurvePlane2ShapeFields,
+	)
+}
+
+type BottomCurvePlane2ShapeFormCallback = FormCallback[*models.BottomCurvePlane2Shape]
+
+func saveBottomCurvePlane2ShapeFields(
+	_instance *models.BottomCurvePlane2Shape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		}
+	}
+}
+
 func __gong__New__ChosenP1P2PairShapeFormCallback(
 	_instance *models.ChosenP1P2PairShape,
 	probe *Probe,
@@ -5066,6 +5124,64 @@ func saveTiledFloor3DShapeFields(
 	}
 }
 
+func __gong__New__TopCurvePlane1ShapeFormCallback(
+	_instance *models.TopCurvePlane1Shape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (topcurveplane1shapeFormCallback *FormCallback[*models.TopCurvePlane1Shape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveTopCurvePlane1ShapeFields,
+	)
+}
+
+type TopCurvePlane1ShapeFormCallback = FormCallback[*models.TopCurvePlane1Shape]
+
+func saveTopCurvePlane1ShapeFields(
+	_instance *models.TopCurvePlane1Shape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		}
+	}
+}
+
+func __gong__New__TopCurvePlane2ShapeFormCallback(
+	_instance *models.TopCurvePlane2Shape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (topcurveplane2shapeFormCallback *FormCallback[*models.TopCurvePlane2Shape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveTopCurvePlane2ShapeFields,
+	)
+}
+
+type TopCurvePlane2ShapeFormCallback = FormCallback[*models.TopCurvePlane2Shape]
+
+func saveTopCurvePlane2ShapeFields(
+	_instance *models.TopCurvePlane2Shape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		}
+	}
+}
+
 func __gong__New__TopEndArcShapeFormCallback(
 	_instance *models.TopEndArcShape,
 	probe *Probe,
@@ -5891,6 +6007,14 @@ func saveTubeVase3DDiagramFields(
 			FormDivBasicFieldToField(&(_instance.IsHiddenAngle0Shape), formDiv)
 		case "IsHiddenTiledFloor3DShape":
 			FormDivBasicFieldToField(&(_instance.IsHiddenTiledFloor3DShape), formDiv)
+		case "IsHiddenTopCurvePlane1Shape":
+			FormDivBasicFieldToField(&(_instance.IsHiddenTopCurvePlane1Shape), formDiv)
+		case "IsHiddenBottomCurvePlane1Shape":
+			FormDivBasicFieldToField(&(_instance.IsHiddenBottomCurvePlane1Shape), formDiv)
+		case "IsHiddenTopCurvePlane2Shape":
+			FormDivBasicFieldToField(&(_instance.IsHiddenTopCurvePlane2Shape), formDiv)
+		case "IsHiddenBottomCurvePlane2Shape":
+			FormDivBasicFieldToField(&(_instance.IsHiddenBottomCurvePlane2Shape), formDiv)
 		case "Rendered3DShape":
 			FormDivSelectFieldToField(&(_instance.Rendered3DShape), probe.stageOfInterest, formDiv)
 		case "TorusStackShape":
@@ -5919,6 +6043,14 @@ func saveTubeVase3DDiagramFields(
 			FormDivSelectFieldToField(&(_instance.TorusEdge3DShape), probe.stageOfInterest, formDiv)
 		case "TiledFloor3DShape":
 			FormDivSelectFieldToField(&(_instance.TiledFloor3DShape), probe.stageOfInterest, formDiv)
+		case "TopCurvePlane1Shape":
+			FormDivSelectFieldToField(&(_instance.TopCurvePlane1Shape), probe.stageOfInterest, formDiv)
+		case "BottomCurvePlane1Shape":
+			FormDivSelectFieldToField(&(_instance.BottomCurvePlane1Shape), probe.stageOfInterest, formDiv)
+		case "TopCurvePlane2Shape":
+			FormDivSelectFieldToField(&(_instance.TopCurvePlane2Shape), probe.stageOfInterest, formDiv)
+		case "BottomCurvePlane2Shape":
+			FormDivSelectFieldToField(&(_instance.BottomCurvePlane2Shape), probe.stageOfInterest, formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(_instance.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -5958,6 +6090,12 @@ func saveTubeVaseAbstractFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Z_Ribbon":
 			FormDivBasicFieldToField(&(_instance.Z_Ribbon), formDiv)
+		case "Plane1Height":
+			FormDivBasicFieldToField(&(_instance.Plane1Height), formDiv)
+		case "Plane2Height":
+			FormDivBasicFieldToField(&(_instance.Plane2Height), formDiv)
+		case "ProjectionAngle":
+			FormDivBasicFieldToField(&(_instance.ProjectionAngle), formDiv)
 		case "RelativeVerticalThickness":
 			FormDivBasicFieldToField(&(_instance.RelativeVerticalThickness), formDiv)
 		case "RelativeRadialThickness":

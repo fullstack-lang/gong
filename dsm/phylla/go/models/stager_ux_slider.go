@@ -224,6 +224,30 @@ func (stager *Stager) ux_slider() {
 						1.0,
 						&plant.TubeVaseAbstract.Z_Ribbon,
 					),
+					m.NewSlider(
+						stager,
+						"Plane 1 Height",
+						-200.0,
+						800.0,
+						1.0,
+						&plant.TubeVaseAbstract.Plane1Height,
+					),
+					m.NewSlider(
+						stager,
+						"Plane 2 Height",
+						-200.0,
+						800.0,
+						1.0,
+						&plant.TubeVaseAbstract.Plane2Height,
+					),
+					m.NewSlider(
+						stager,
+						"Projection Angle",
+						-90.0,
+						90.0,
+						0.1,
+						&plant.TubeVaseAbstract.ProjectionAngle,
+					),
 				)
 			}
 

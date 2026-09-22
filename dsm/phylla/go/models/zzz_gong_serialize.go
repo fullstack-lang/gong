@@ -68,6 +68,20 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.BottomCurvePlane1Shapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "BottomCurvePlane1Shape", instances, (*BottomCurvePlane1Shape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.BottomCurvePlane2Shapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "BottomCurvePlane2Shape", instances, (*BottomCurvePlane2Shape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.ChosenP1P2PairShapes {
 				instances = append(instances, instance)
 			}
@@ -870,6 +884,20 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 				instances = append(instances, instance)
 			}
 			stage.SerializeExcelize(f, "TiledFloor3DShape", instances, (*TiledFloor3DShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopCurvePlane1Shapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopCurvePlane1Shape", instances, (*TopCurvePlane1Shape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopCurvePlane2Shapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "TopCurvePlane2Shape", instances, (*TopCurvePlane2Shape)(nil).GongGetFieldHeaders(), addIDs)
 		}
 		{
 			var instances []GongstructIF

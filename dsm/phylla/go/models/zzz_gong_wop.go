@@ -106,6 +106,28 @@ func (from *BaseVectorShapeGrid) GongCopyBasicFields(to *BaseVectorShapeGrid) {
 	to.Name = from.Name
 }
 
+type BottomCurvePlane1Shape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *BottomCurvePlane1Shape) GongCopyBasicFields(to *BottomCurvePlane1Shape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type BottomCurvePlane2Shape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *BottomCurvePlane2Shape) GongCopyBasicFields(to *BottomCurvePlane2Shape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type ChosenP1P2PairShape_WOP struct {
 	// insertion point
 
@@ -3063,6 +3085,28 @@ func (from *TiledFloor3DShape) GongCopyBasicFields(to *TiledFloor3DShape) {
 	to.Name = from.Name
 }
 
+type TopCurvePlane1Shape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *TopCurvePlane1Shape) GongCopyBasicFields(to *TopCurvePlane1Shape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type TopCurvePlane2Shape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *TopCurvePlane2Shape) GongCopyBasicFields(to *TopCurvePlane2Shape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type TopEndArcShape_WOP struct {
 	// insertion point
 
@@ -3544,6 +3588,14 @@ type TubeVase3DDiagram_WOP struct {
 
 	IsHiddenTiledFloor3DShape bool
 
+	IsHiddenTopCurvePlane1Shape bool
+
+	IsHiddenBottomCurvePlane1Shape bool
+
+	IsHiddenTopCurvePlane2Shape bool
+
+	IsHiddenBottomCurvePlane2Shape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -3568,6 +3620,10 @@ func (from *TubeVase3DDiagram) GongCopyBasicFields(to *TubeVase3DDiagram) {
 	to.IsHiddenOriginalPoints3DShape = from.IsHiddenOriginalPoints3DShape
 	to.IsHiddenAngle0Shape = from.IsHiddenAngle0Shape
 	to.IsHiddenTiledFloor3DShape = from.IsHiddenTiledFloor3DShape
+	to.IsHiddenTopCurvePlane1Shape = from.IsHiddenTopCurvePlane1Shape
+	to.IsHiddenBottomCurvePlane1Shape = from.IsHiddenBottomCurvePlane1Shape
+	to.IsHiddenTopCurvePlane2Shape = from.IsHiddenTopCurvePlane2Shape
+	to.IsHiddenBottomCurvePlane2Shape = from.IsHiddenBottomCurvePlane2Shape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
@@ -3579,6 +3635,12 @@ type TubeVaseAbstract_WOP struct {
 	Name string
 
 	Z_Ribbon float64
+
+	Plane1Height float64
+
+	Plane2Height float64
+
+	ProjectionAngle float64
 
 	RelativeVerticalThickness float64
 
@@ -3623,6 +3685,9 @@ func (from *TubeVaseAbstract) GongCopyBasicFields(to *TubeVaseAbstract) {
 	// insertion point
 	to.Name = from.Name
 	to.Z_Ribbon = from.Z_Ribbon
+	to.Plane1Height = from.Plane1Height
+	to.Plane2Height = from.Plane2Height
+	to.ProjectionAngle = from.ProjectionAngle
 	to.RelativeVerticalThickness = from.RelativeVerticalThickness
 	to.RelativeRadialThickness = from.RelativeRadialThickness
 	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight

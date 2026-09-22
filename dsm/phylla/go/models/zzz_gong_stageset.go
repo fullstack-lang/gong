@@ -162,6 +162,58 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
+		bottomcurveplane1shapeOrdered := []*BottomCurvePlane1Shape{}
+		for bottomcurveplane1shape := range stageSet.Stage.BottomCurvePlane1Shapes {
+			bottomcurveplane1shapeOrdered = append(bottomcurveplane1shapeOrdered, bottomcurveplane1shape)
+		}
+		sort.Slice(bottomcurveplane1shapeOrdered, func(i, j int) bool {
+			return stageSet.Stage.BottomCurvePlane1Shape_stagedOrder[bottomcurveplane1shapeOrdered[i]] < stageSet.Stage.BottomCurvePlane1Shape_stagedOrder[bottomcurveplane1shapeOrdered[j]]
+		})
+		for _, bottomcurveplane1shape := range bottomcurveplane1shapeOrdered {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			bottomcurveplane1shapeIdent := "__models" + bottomcurveplane1shape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.BottomCurvePlane1Shape{Name: %s}).Stage(stageSet.Stage)", bottomcurveplane1shapeIdent, __gong__toRawStringLiteral(bottomcurveplane1shape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bottomcurveplane1shapeIdent, __gong__toRawStringLiteral(bottomcurveplane1shape.Name)))
+		}
+	}
+	if stageSet.Stage != nil {
+		bottomcurveplane2shapeOrdered := []*BottomCurvePlane2Shape{}
+		for bottomcurveplane2shape := range stageSet.Stage.BottomCurvePlane2Shapes {
+			bottomcurveplane2shapeOrdered = append(bottomcurveplane2shapeOrdered, bottomcurveplane2shape)
+		}
+		sort.Slice(bottomcurveplane2shapeOrdered, func(i, j int) bool {
+			return stageSet.Stage.BottomCurvePlane2Shape_stagedOrder[bottomcurveplane2shapeOrdered[i]] < stageSet.Stage.BottomCurvePlane2Shape_stagedOrder[bottomcurveplane2shapeOrdered[j]]
+		})
+		for _, bottomcurveplane2shape := range bottomcurveplane2shapeOrdered {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			bottomcurveplane2shapeIdent := "__models" + bottomcurveplane2shape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.BottomCurvePlane2Shape{Name: %s}).Stage(stageSet.Stage)", bottomcurveplane2shapeIdent, __gong__toRawStringLiteral(bottomcurveplane2shape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bottomcurveplane2shapeIdent, __gong__toRawStringLiteral(bottomcurveplane2shape.Name)))
+		}
+	}
+	if stageSet.Stage != nil {
 		circumference3dshapeOrdered := []*Circumference3DShape{}
 		for circumference3dshape := range stageSet.Stage.Circumference3DShapes {
 			circumference3dshapeOrdered = append(circumference3dshapeOrdered, circumference3dshape)
@@ -1402,6 +1454,58 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
+		topcurveplane1shapeOrdered := []*TopCurvePlane1Shape{}
+		for topcurveplane1shape := range stageSet.Stage.TopCurvePlane1Shapes {
+			topcurveplane1shapeOrdered = append(topcurveplane1shapeOrdered, topcurveplane1shape)
+		}
+		sort.Slice(topcurveplane1shapeOrdered, func(i, j int) bool {
+			return stageSet.Stage.TopCurvePlane1Shape_stagedOrder[topcurveplane1shapeOrdered[i]] < stageSet.Stage.TopCurvePlane1Shape_stagedOrder[topcurveplane1shapeOrdered[j]]
+		})
+		for _, topcurveplane1shape := range topcurveplane1shapeOrdered {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			topcurveplane1shapeIdent := "__models" + topcurveplane1shape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TopCurvePlane1Shape{Name: %s}).Stage(stageSet.Stage)", topcurveplane1shapeIdent, __gong__toRawStringLiteral(topcurveplane1shape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", topcurveplane1shapeIdent, __gong__toRawStringLiteral(topcurveplane1shape.Name)))
+		}
+	}
+	if stageSet.Stage != nil {
+		topcurveplane2shapeOrdered := []*TopCurvePlane2Shape{}
+		for topcurveplane2shape := range stageSet.Stage.TopCurvePlane2Shapes {
+			topcurveplane2shapeOrdered = append(topcurveplane2shapeOrdered, topcurveplane2shape)
+		}
+		sort.Slice(topcurveplane2shapeOrdered, func(i, j int) bool {
+			return stageSet.Stage.TopCurvePlane2Shape_stagedOrder[topcurveplane2shapeOrdered[i]] < stageSet.Stage.TopCurvePlane2Shape_stagedOrder[topcurveplane2shapeOrdered[j]]
+		})
+		for _, topcurveplane2shape := range topcurveplane2shapeOrdered {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			topcurveplane2shapeIdent := "__models" + topcurveplane2shape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TopCurvePlane2Shape{Name: %s}).Stage(stageSet.Stage)", topcurveplane2shapeIdent, __gong__toRawStringLiteral(topcurveplane2shape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", topcurveplane2shapeIdent, __gong__toRawStringLiteral(topcurveplane2shape.Name)))
+		}
+	}
+	if stageSet.Stage != nil {
 		tubevase3ddiagramOrdered := []*TubeVase3DDiagram{}
 		for tubevase3ddiagram := range stageSet.Stage.TubeVase3DDiagrams {
 			tubevase3ddiagramOrdered = append(tubevase3ddiagramOrdered, tubevase3ddiagram)
@@ -1439,6 +1543,10 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenOriginalPoints3DShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenOriginalPoints3DShape))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenAngle0Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenAngle0Shape))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTiledFloor3DShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenTiledFloor3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTopCurvePlane1Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenTopCurvePlane1Shape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenBottomCurvePlane1Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenBottomCurvePlane1Shape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTopCurvePlane2Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenTopCurvePlane2Shape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenBottomCurvePlane2Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenBottomCurvePlane2Shape))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsChecked))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", tubevase3ddiagramIdent, __gong__toRawStringLiteral(tubevase3ddiagram.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsExpanded))
@@ -1582,6 +1690,46 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				targetIdent := "__models" + tubevase3ddiagram.TiledFloor3DShape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TiledFloor3DShape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
+			if tubevase3ddiagram.TopCurvePlane1Shape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + tubevase3ddiagram.TopCurvePlane1Shape.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TopCurvePlane1Shape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.BottomCurvePlane1Shape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + tubevase3ddiagram.BottomCurvePlane1Shape.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.BottomCurvePlane1Shape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.TopCurvePlane2Shape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + tubevase3ddiagram.TopCurvePlane2Shape.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TopCurvePlane2Shape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.BottomCurvePlane2Shape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + tubevase3ddiagram.BottomCurvePlane2Shape.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.BottomCurvePlane2Shape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -1609,6 +1757,9 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tubevaseabstractIdent, __gong__toRawStringLiteral(tubevaseabstract.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Z_Ribbon = %f", tubevaseabstractIdent, tubevaseabstract.Z_Ribbon))
+			values.WriteString(fmt.Sprintf("\n\t%s.Plane1Height = %f", tubevaseabstractIdent, tubevaseabstract.Plane1Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.Plane2Height = %f", tubevaseabstractIdent, tubevaseabstract.Plane2Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", tubevaseabstractIdent, tubevaseabstract.ProjectionAngle))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeVerticalThickness = %f", tubevaseabstractIdent, tubevaseabstract.RelativeVerticalThickness))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeRadialThickness = %f", tubevaseabstractIdent, tubevaseabstract.RelativeRadialThickness))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeCuttedStackFloorHeight = %f", tubevaseabstractIdent, tubevaseabstract.RelativeCuttedStackFloorHeight))
@@ -2107,6 +2258,28 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.StagePreserveOrder(stageSet.Stage, uint(order))
 						identifierMap[ident.Name] = inst
 					}
+				case "BottomCurvePlane1Shape":
+					if !preserveOrder {
+						inst := (&BottomCurvePlane1Shape{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(BottomCurvePlane1Shape)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				case "BottomCurvePlane2Shape":
+					if !preserveOrder {
+						inst := (&BottomCurvePlane2Shape{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(BottomCurvePlane2Shape)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
 				case "Circumference3DShape":
 					if !preserveOrder {
 						inst := (&Circumference3DShape{Name: instanceName}).Stage(stageSet.Stage)
@@ -2327,6 +2500,28 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.StagePreserveOrder(stageSet.Stage, uint(order))
 						identifierMap[ident.Name] = inst
 					}
+				case "TopCurvePlane1Shape":
+					if !preserveOrder {
+						inst := (&TopCurvePlane1Shape{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(TopCurvePlane1Shape)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				case "TopCurvePlane2Shape":
+					if !preserveOrder {
+						inst := (&TopCurvePlane2Shape{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(TopCurvePlane2Shape)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
 				case "TubeVase3DDiagram":
 					if !preserveOrder {
 						inst := (&TubeVase3DDiagram{Name: instanceName}).Stage(stageSet.Stage)
@@ -2375,6 +2570,16 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 							rhs := node.Rhs[0]
 							switch inst := instance.(type) {
 				case *Angle0Shape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *BottomCurvePlane1Shape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *BottomCurvePlane2Shape:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
@@ -3255,6 +3460,16 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "RelativeEyeCornerControlVectorStrength":
 						inst.RelativeEyeCornerControlVectorStrength = GongExtractFloat(rhs)
 					}
+				case *TopCurvePlane1Shape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *TopCurvePlane2Shape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
 				case *TubeVase3DDiagram:
 					switch fieldName {
 					case "Name":
@@ -3287,6 +3502,14 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.IsHiddenAngle0Shape = GongExtractBool(rhs)
 					case "IsHiddenTiledFloor3DShape":
 						inst.IsHiddenTiledFloor3DShape = GongExtractBool(rhs)
+					case "IsHiddenTopCurvePlane1Shape":
+						inst.IsHiddenTopCurvePlane1Shape = GongExtractBool(rhs)
+					case "IsHiddenBottomCurvePlane1Shape":
+						inst.IsHiddenBottomCurvePlane1Shape = GongExtractBool(rhs)
+					case "IsHiddenTopCurvePlane2Shape":
+						inst.IsHiddenTopCurvePlane2Shape = GongExtractBool(rhs)
+					case "IsHiddenBottomCurvePlane2Shape":
+						inst.IsHiddenBottomCurvePlane2Shape = GongExtractBool(rhs)
 					case "Rendered3DShape":
 						if rIdent, ok := rhs.(*ast.Ident); ok {
 							if target, ok := identifierMap[rIdent.Name]; ok {
@@ -3399,6 +3622,38 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 								}
 							}
 						}
+					case "TopCurvePlane1Shape":
+						if rIdent, ok := rhs.(*ast.Ident); ok {
+							if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*TopCurvePlane1Shape); ok {
+									inst.TopCurvePlane1Shape = typedTarget
+								}
+							}
+						}
+					case "BottomCurvePlane1Shape":
+						if rIdent, ok := rhs.(*ast.Ident); ok {
+							if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*BottomCurvePlane1Shape); ok {
+									inst.BottomCurvePlane1Shape = typedTarget
+								}
+							}
+						}
+					case "TopCurvePlane2Shape":
+						if rIdent, ok := rhs.(*ast.Ident); ok {
+							if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*TopCurvePlane2Shape); ok {
+									inst.TopCurvePlane2Shape = typedTarget
+								}
+							}
+						}
+					case "BottomCurvePlane2Shape":
+						if rIdent, ok := rhs.(*ast.Ident); ok {
+							if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*BottomCurvePlane2Shape); ok {
+									inst.BottomCurvePlane2Shape = typedTarget
+								}
+							}
+						}
 					case "IsChecked":
 						inst.IsChecked = GongExtractBool(rhs)
 					case "ComputedPrefix":
@@ -3412,6 +3667,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Name = GongExtractString(rhs)
 					case "Z_Ribbon":
 						inst.Z_Ribbon = GongExtractFloat(rhs)
+					case "Plane1Height":
+						inst.Plane1Height = GongExtractFloat(rhs)
+					case "Plane2Height":
+						inst.Plane2Height = GongExtractFloat(rhs)
+					case "ProjectionAngle":
+						inst.ProjectionAngle = GongExtractFloat(rhs)
 					case "RelativeVerticalThickness":
 						inst.RelativeVerticalThickness = GongExtractFloat(rhs)
 					case "RelativeRadialThickness":

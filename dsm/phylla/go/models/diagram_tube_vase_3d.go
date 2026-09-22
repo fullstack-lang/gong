@@ -17,6 +17,10 @@ type TubeVase3DDiagram struct {
 	IsHiddenOriginalPoints3DShape                      bool
 	IsHiddenAngle0Shape                                bool
 	IsHiddenTiledFloor3DShape                          bool
+	IsHiddenTopCurvePlane1Shape                        bool
+	IsHiddenBottomCurvePlane1Shape                     bool
+	IsHiddenTopCurvePlane2Shape                        bool
+	IsHiddenBottomCurvePlane2Shape                     bool
 
 	Rendered3DShape *Rendered3DShape
 
@@ -33,9 +37,29 @@ type TubeVase3DDiagram struct {
 	VolumeKey3DShape                        *VolumeKey3DShape
 	TorusEdge3DShape                        *TorusEdge3DShape
 	TiledFloor3DShape                       *TiledFloor3DShape
+	TopCurvePlane1Shape                     *TopCurvePlane1Shape
+	BottomCurvePlane1Shape                  *BottomCurvePlane1Shape
+	TopCurvePlane2Shape                     *TopCurvePlane2Shape
+	BottomCurvePlane2Shape                  *BottomCurvePlane2Shape
 
 	IsChecked bool
 	AbstractTypeFields
+}
+
+type TopCurvePlane1Shape struct {
+	Name string
+}
+
+type BottomCurvePlane1Shape struct {
+	Name string
+}
+
+type TopCurvePlane2Shape struct {
+	Name string
+}
+
+type BottomCurvePlane2Shape struct {
+	Name string
 }
 
 type Angle0Shape struct {

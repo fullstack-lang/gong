@@ -318,6 +318,58 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(angle0shape.GongMarshallField(stage, "Name"))
 	}
 
+	bottomcurveplane1shapeOrdered := []*BottomCurvePlane1Shape{}
+	for bottomcurveplane1shape := range stage.BottomCurvePlane1Shapes {
+		bottomcurveplane1shapeOrdered = append(bottomcurveplane1shapeOrdered, bottomcurveplane1shape)
+	}
+	sort.Slice(bottomcurveplane1shapeOrdered[:], func(i, j int) bool {
+		bottomcurveplane1shapei := bottomcurveplane1shapeOrdered[i]
+		bottomcurveplane1shapej := bottomcurveplane1shapeOrdered[j]
+		bottomcurveplane1shapei_order, oki := stage.BottomCurvePlane1Shape_stagedOrder[bottomcurveplane1shapei]
+		bottomcurveplane1shapej_order, okj := stage.BottomCurvePlane1Shape_stagedOrder[bottomcurveplane1shapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return bottomcurveplane1shapei_order < bottomcurveplane1shapej_order
+	})
+	if len(bottomcurveplane1shapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, bottomcurveplane1shape := range bottomcurveplane1shapeOrdered {
+
+		identifiersDecl.WriteString(bottomcurveplane1shape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(bottomcurveplane1shape.GongMarshallField(stage, "Name"))
+	}
+
+	bottomcurveplane2shapeOrdered := []*BottomCurvePlane2Shape{}
+	for bottomcurveplane2shape := range stage.BottomCurvePlane2Shapes {
+		bottomcurveplane2shapeOrdered = append(bottomcurveplane2shapeOrdered, bottomcurveplane2shape)
+	}
+	sort.Slice(bottomcurveplane2shapeOrdered[:], func(i, j int) bool {
+		bottomcurveplane2shapei := bottomcurveplane2shapeOrdered[i]
+		bottomcurveplane2shapej := bottomcurveplane2shapeOrdered[j]
+		bottomcurveplane2shapei_order, oki := stage.BottomCurvePlane2Shape_stagedOrder[bottomcurveplane2shapei]
+		bottomcurveplane2shapej_order, okj := stage.BottomCurvePlane2Shape_stagedOrder[bottomcurveplane2shapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return bottomcurveplane2shapei_order < bottomcurveplane2shapej_order
+	})
+	if len(bottomcurveplane2shapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, bottomcurveplane2shape := range bottomcurveplane2shapeOrdered {
+
+		identifiersDecl.WriteString(bottomcurveplane2shape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(bottomcurveplane2shape.GongMarshallField(stage, "Name"))
+	}
+
 	circumference3dshapeOrdered := []*Circumference3DShape{}
 	for circumference3dshape := range stage.Circumference3DShapes {
 		circumference3dshapeOrdered = append(circumference3dshapeOrdered, circumference3dshape)
@@ -1013,6 +1065,58 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeCornerControlVectorStrength"))
 	}
 
+	topcurveplane1shapeOrdered := []*TopCurvePlane1Shape{}
+	for topcurveplane1shape := range stage.TopCurvePlane1Shapes {
+		topcurveplane1shapeOrdered = append(topcurveplane1shapeOrdered, topcurveplane1shape)
+	}
+	sort.Slice(topcurveplane1shapeOrdered[:], func(i, j int) bool {
+		topcurveplane1shapei := topcurveplane1shapeOrdered[i]
+		topcurveplane1shapej := topcurveplane1shapeOrdered[j]
+		topcurveplane1shapei_order, oki := stage.TopCurvePlane1Shape_stagedOrder[topcurveplane1shapei]
+		topcurveplane1shapej_order, okj := stage.TopCurvePlane1Shape_stagedOrder[topcurveplane1shapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return topcurveplane1shapei_order < topcurveplane1shapej_order
+	})
+	if len(topcurveplane1shapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, topcurveplane1shape := range topcurveplane1shapeOrdered {
+
+		identifiersDecl.WriteString(topcurveplane1shape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(topcurveplane1shape.GongMarshallField(stage, "Name"))
+	}
+
+	topcurveplane2shapeOrdered := []*TopCurvePlane2Shape{}
+	for topcurveplane2shape := range stage.TopCurvePlane2Shapes {
+		topcurveplane2shapeOrdered = append(topcurveplane2shapeOrdered, topcurveplane2shape)
+	}
+	sort.Slice(topcurveplane2shapeOrdered[:], func(i, j int) bool {
+		topcurveplane2shapei := topcurveplane2shapeOrdered[i]
+		topcurveplane2shapej := topcurveplane2shapeOrdered[j]
+		topcurveplane2shapei_order, oki := stage.TopCurvePlane2Shape_stagedOrder[topcurveplane2shapei]
+		topcurveplane2shapej_order, okj := stage.TopCurvePlane2Shape_stagedOrder[topcurveplane2shapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return topcurveplane2shapei_order < topcurveplane2shapej_order
+	})
+	if len(topcurveplane2shapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, topcurveplane2shape := range topcurveplane2shapeOrdered {
+
+		identifiersDecl.WriteString(topcurveplane2shape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(topcurveplane2shape.GongMarshallField(stage, "Name"))
+	}
+
 	tubevase3ddiagramOrdered := []*TubeVase3DDiagram{}
 	for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
 		tubevase3ddiagramOrdered = append(tubevase3ddiagramOrdered, tubevase3ddiagram)
@@ -1051,10 +1155,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenAngle0Shape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTopCurvePlane1Shape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenBottomCurvePlane1Shape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTopCurvePlane2Shape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenBottomCurvePlane2Shape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "Rendered3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "OriginalPoints3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "Angle0Shape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "TopCurvePlane1Shape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane1Shape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "TopCurvePlane2Shape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane2Shape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsExpanded"))
@@ -1085,6 +1197,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Z_Ribbon"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Plane1Height"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Plane2Height"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "ProjectionAngle"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))
@@ -1173,6 +1288,22 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	// insertion initialization of objects to stage
 	for _, angle0shape := range angle0shapeOrdered {
 		_ = angle0shape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, bottomcurveplane1shape := range bottomcurveplane1shapeOrdered {
+		_ = bottomcurveplane1shape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, bottomcurveplane2shape := range bottomcurveplane2shapeOrdered {
+		_ = bottomcurveplane2shape
 		var setPointerField string
 		_ = setPointerField
 
@@ -1333,6 +1464,22 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, stoolabstract := range stoolabstractOrdered {
 		_ = stoolabstract
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, topcurveplane1shape := range topcurveplane1shapeOrdered {
+		_ = topcurveplane1shape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, topcurveplane2shape := range topcurveplane2shapeOrdered {
+		_ = topcurveplane2shape
 		var setPointerField string
 		_ = setPointerField
 
@@ -1573,6 +1720,36 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongMarshallField(stage *Stage, 
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct BaseVectorShapeGrid", fieldName)
+	}
+	return
+}
+
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = GongStringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomcurveplane1shape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bottomcurveplane1shape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct BottomCurvePlane1Shape", fieldName)
+	}
+	return
+}
+
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = GongStringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomcurveplane2shape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bottomcurveplane2shape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct BottomCurvePlane2Shape", fieldName)
 	}
 	return
 }
@@ -6433,6 +6610,36 @@ func (tiledfloor3dshape *TiledFloor3DShape) GongMarshallField(stage *Stage, fiel
 	return
 }
 
+func (topcurveplane1shape *TopCurvePlane1Shape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = GongStringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topcurveplane1shape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topcurveplane1shape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct TopCurvePlane1Shape", fieldName)
+	}
+	return
+}
+
+func (topcurveplane2shape *TopCurvePlane2Shape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = GongStringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topcurveplane2shape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(topcurveplane2shape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct TopCurvePlane2Shape", fieldName)
+	}
+	return
+}
+
 func (topendarcshape *TopEndArcShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -7191,6 +7398,26 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallField(stage *Stage, fiel
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTiledFloor3DShape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenTiledFloor3DShape))
+	case "IsHiddenTopCurvePlane1Shape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTopCurvePlane1Shape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenTopCurvePlane1Shape))
+	case "IsHiddenBottomCurvePlane1Shape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenBottomCurvePlane1Shape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenBottomCurvePlane1Shape))
+	case "IsHiddenTopCurvePlane2Shape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTopCurvePlane2Shape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenTopCurvePlane2Shape))
+	case "IsHiddenBottomCurvePlane2Shape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenBottomCurvePlane2Shape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenBottomCurvePlane2Shape))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
@@ -7259,6 +7486,58 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallField(stage *Stage, fiel
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Angle0Shape")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "TopCurvePlane1Shape":
+		if tubevase3ddiagram.TopCurvePlane1Shape != nil {
+			res = GongPointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopCurvePlane1Shape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", tubevase3ddiagram.TopCurvePlane1Shape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = GongPointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopCurvePlane1Shape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "BottomCurvePlane1Shape":
+		if tubevase3ddiagram.BottomCurvePlane1Shape != nil {
+			res = GongPointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BottomCurvePlane1Shape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", tubevase3ddiagram.BottomCurvePlane1Shape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = GongPointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BottomCurvePlane1Shape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "TopCurvePlane2Shape":
+		if tubevase3ddiagram.TopCurvePlane2Shape != nil {
+			res = GongPointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopCurvePlane2Shape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", tubevase3ddiagram.TopCurvePlane2Shape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = GongPointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopCurvePlane2Shape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "BottomCurvePlane2Shape":
+		if tubevase3ddiagram.BottomCurvePlane2Shape != nil {
+			res = GongPointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BottomCurvePlane2Shape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", tubevase3ddiagram.BottomCurvePlane2Shape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = GongPointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BottomCurvePlane2Shape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TubeVase3DDiagram", fieldName)
 	}
@@ -7278,6 +7557,21 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Z_Ribbon")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", tubevaseabstract.Z_Ribbon))
+	case "Plane1Height":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Plane1Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", tubevaseabstract.Plane1Height))
+	case "Plane2Height":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Plane2Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", tubevaseabstract.Plane2Height))
+	case "ProjectionAngle":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ProjectionAngle")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", tubevaseabstract.ProjectionAngle))
 	case "RelativeVerticalThickness":
 		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
@@ -7688,6 +7982,28 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongMarshallAllFields(stage *Sta
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(basevectorshapegrid.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(bottomcurveplane1shape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(bottomcurveplane2shape.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -9547,6 +9863,28 @@ func (tiledfloor3dshape *TiledFloor3DShape) GongMarshallAllFields(stage *Stage) 
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (topcurveplane1shape *TopCurvePlane1Shape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(topcurveplane1shape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (topcurveplane2shape *TopCurvePlane2Shape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(topcurveplane2shape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (topendarcshape *TopEndArcShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -9863,10 +10201,18 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallAllFields(stage *Stage) 
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenAngle0Shape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTopCurvePlane1Shape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenBottomCurvePlane1Shape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTopCurvePlane2Shape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenBottomCurvePlane2Shape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "Rendered3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "OriginalPoints3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "Angle0Shape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "TopCurvePlane1Shape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane1Shape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "TopCurvePlane2Shape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane2Shape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsExpanded"))
@@ -9882,6 +10228,9 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallAllFields(stage *Stage) (i
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Z_Ribbon"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Plane1Height"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Plane2Height"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "ProjectionAngle"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))

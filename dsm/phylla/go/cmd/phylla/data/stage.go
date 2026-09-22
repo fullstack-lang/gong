@@ -30,6 +30,12 @@ func _(stage *models.Stage) {
 	__Angle0Shape__00000000_ := (&models.Angle0Shape{Name: `Plant 1-TubeVase3DDiagram-Angle0Shape`}).Stage(stage)
 	__Angle0Shape__00000001_ := (&models.Angle0Shape{Name: `Vase Trapeze-TubeVase3DDiagram-Angle0Shape`}).Stage(stage)
 
+	__BottomCurvePlane1Shape__00000000_ := (&models.BottomCurvePlane1Shape{Name: `Plant 1-TubeVase3DDiagram-BottomCurvePlane1Shape`}).Stage(stage)
+	__BottomCurvePlane1Shape__00000001_ := (&models.BottomCurvePlane1Shape{Name: `Vase Trapeze-TubeVase3DDiagram-BottomCurvePlane1Shape`}).Stage(stage)
+
+	__BottomCurvePlane2Shape__00000000_ := (&models.BottomCurvePlane2Shape{Name: `Plant 1-TubeVase3DDiagram-BottomCurvePlane2Shape`}).Stage(stage)
+	__BottomCurvePlane2Shape__00000001_ := (&models.BottomCurvePlane2Shape{Name: `Vase Trapeze-TubeVase3DDiagram-BottomCurvePlane2Shape`}).Stage(stage)
+
 	__Circumference3DShape__00000000_ := (&models.Circumference3DShape{Name: `Clock - 3D Diagram-Circumference3DShape`}).Stage(stage)
 	__Circumference3DShape__00000001_ := (&models.Circumference3DShape{Name: `Vase (2,1,104) - 3D Diagram-Circumference3DShape`}).Stage(stage)
 	__Circumference3DShape__00000002_ := (&models.Circumference3DShape{Name: `Plant (3, 5, 100) - 3D Diagram-Circumference3DShape`}).Stage(stage)
@@ -129,6 +135,12 @@ func _(stage *models.Stage) {
 
 	__StoolAbstract__00000000_ := (&models.StoolAbstract{Name: `Stool-StoolAbstract`}).Stage(stage)
 
+	__TopCurvePlane1Shape__00000000_ := (&models.TopCurvePlane1Shape{Name: `Plant 1-TubeVase3DDiagram-TopCurvePlane1Shape`}).Stage(stage)
+	__TopCurvePlane1Shape__00000001_ := (&models.TopCurvePlane1Shape{Name: `Vase Trapeze-TubeVase3DDiagram-TopCurvePlane1Shape`}).Stage(stage)
+
+	__TopCurvePlane2Shape__00000000_ := (&models.TopCurvePlane2Shape{Name: `Plant 1-TubeVase3DDiagram-TopCurvePlane2Shape`}).Stage(stage)
+	__TopCurvePlane2Shape__00000001_ := (&models.TopCurvePlane2Shape{Name: `Vase Trapeze-TubeVase3DDiagram-TopCurvePlane2Shape`}).Stage(stage)
+
 	__TubeVase3DDiagram__00000000_ := (&models.TubeVase3DDiagram{Name: `Plant 1-TubeVase3DDiagram`}).Stage(stage)
 	__TubeVase3DDiagram__00000001_ := (&models.TubeVase3DDiagram{Name: `Vase Trapeze-TubeVase3DDiagram`}).Stage(stage)
 
@@ -143,6 +155,14 @@ func _(stage *models.Stage) {
 	__Angle0Shape__00000000_.Name = `Plant 1-TubeVase3DDiagram-Angle0Shape`
 
 	__Angle0Shape__00000001_.Name = `Vase Trapeze-TubeVase3DDiagram-Angle0Shape`
+
+	__BottomCurvePlane1Shape__00000000_.Name = `Plant 1-TubeVase3DDiagram-BottomCurvePlane1Shape`
+
+	__BottomCurvePlane1Shape__00000001_.Name = `Vase Trapeze-TubeVase3DDiagram-BottomCurvePlane1Shape`
+
+	__BottomCurvePlane2Shape__00000000_.Name = `Plant 1-TubeVase3DDiagram-BottomCurvePlane2Shape`
+
+	__BottomCurvePlane2Shape__00000001_.Name = `Vase Trapeze-TubeVase3DDiagram-BottomCurvePlane2Shape`
 
 	__Circumference3DShape__00000000_.Name = `Clock - 3D Diagram-Circumference3DShape`
 
@@ -752,9 +772,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000009_.Fov = 50.000000
 
 	__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__Rendered3DShape__00000010_.ViewX = 316.254722
-	__Rendered3DShape__00000010_.ViewY = 46.563634
-	__Rendered3DShape__00000010_.ViewZ = 397.765779
+	__Rendered3DShape__00000010_.ViewX = 401.992899
+	__Rendered3DShape__00000010_.ViewY = 133.897726
+	__Rendered3DShape__00000010_.ViewZ = 307.643411
 	__Rendered3DShape__00000010_.TargetX = 0.000000
 	__Rendered3DShape__00000010_.TargetY = 78.826742
 	__Rendered3DShape__00000010_.TargetZ = 0.000000
@@ -828,6 +848,14 @@ func _(stage *models.Stage) {
 	__StoolAbstract__00000000_.RelativeEyeSeparationCriteria = 0.400000
 	__StoolAbstract__00000000_.RelativeEyeCornerControlVectorStrength = 0.230000
 
+	__TopCurvePlane1Shape__00000000_.Name = `Plant 1-TubeVase3DDiagram-TopCurvePlane1Shape`
+
+	__TopCurvePlane1Shape__00000001_.Name = `Vase Trapeze-TubeVase3DDiagram-TopCurvePlane1Shape`
+
+	__TopCurvePlane2Shape__00000000_.Name = `Plant 1-TubeVase3DDiagram-TopCurvePlane2Shape`
+
+	__TopCurvePlane2Shape__00000001_.Name = `Vase Trapeze-TubeVase3DDiagram-TopCurvePlane2Shape`
+
 	__TubeVase3DDiagram__00000000_.Name = `Plant 1-TubeVase3DDiagram`
 	__TubeVase3DDiagram__00000000_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = false
 	__TubeVase3DDiagram__00000000_.IsHiddenTorusStackShape = true
@@ -843,6 +871,10 @@ func _(stage *models.Stage) {
 	__TubeVase3DDiagram__00000000_.IsHiddenOriginalPoints3DShape = true
 	__TubeVase3DDiagram__00000000_.IsHiddenAngle0Shape = true
 	__TubeVase3DDiagram__00000000_.IsHiddenTiledFloor3DShape = false
+	__TubeVase3DDiagram__00000000_.IsHiddenTopCurvePlane1Shape = true
+	__TubeVase3DDiagram__00000000_.IsHiddenBottomCurvePlane1Shape = true
+	__TubeVase3DDiagram__00000000_.IsHiddenTopCurvePlane2Shape = true
+	__TubeVase3DDiagram__00000000_.IsHiddenBottomCurvePlane2Shape = true
 	__TubeVase3DDiagram__00000000_.IsChecked = false
 	__TubeVase3DDiagram__00000000_.ComputedPrefix = ``
 	__TubeVase3DDiagram__00000000_.IsExpanded = false
@@ -862,12 +894,19 @@ func _(stage *models.Stage) {
 	__TubeVase3DDiagram__00000001_.IsHiddenOriginalPoints3DShape = true
 	__TubeVase3DDiagram__00000001_.IsHiddenAngle0Shape = true
 	__TubeVase3DDiagram__00000001_.IsHiddenTiledFloor3DShape = false
+	__TubeVase3DDiagram__00000001_.IsHiddenTopCurvePlane1Shape = false
+	__TubeVase3DDiagram__00000001_.IsHiddenBottomCurvePlane1Shape = false
+	__TubeVase3DDiagram__00000001_.IsHiddenTopCurvePlane2Shape = false
+	__TubeVase3DDiagram__00000001_.IsHiddenBottomCurvePlane2Shape = false
 	__TubeVase3DDiagram__00000001_.IsChecked = true
 	__TubeVase3DDiagram__00000001_.ComputedPrefix = ``
 	__TubeVase3DDiagram__00000001_.IsExpanded = true
 
 	__TubeVaseAbstract__00000000_.Name = `Tube Vase (2,1,104)-TubeVaseAbstract`
 	__TubeVaseAbstract__00000000_.Z_Ribbon = 0.000000
+	__TubeVaseAbstract__00000000_.Plane1Height = 0.000000
+	__TubeVaseAbstract__00000000_.Plane2Height = 0.000000
+	__TubeVaseAbstract__00000000_.ProjectionAngle = 0.000000
 	__TubeVaseAbstract__00000000_.RelativeVerticalThickness = 0.100000
 	__TubeVaseAbstract__00000000_.RelativeRadialThickness = 0.000000
 	__TubeVaseAbstract__00000000_.RelativeCuttedStackFloorHeight = 0.000000
@@ -890,8 +929,11 @@ func _(stage *models.Stage) {
 
 	__TubeVaseAbstract__00000001_.Name = `Vase Trapeze-TubeVaseAbstract`
 	__TubeVaseAbstract__00000001_.Z_Ribbon = 105.000000
+	__TubeVaseAbstract__00000001_.Plane1Height = 53.000000
+	__TubeVaseAbstract__00000001_.Plane2Height = 40.000000
+	__TubeVaseAbstract__00000001_.ProjectionAngle = -42.300000
 	__TubeVaseAbstract__00000001_.RelativeVerticalThickness = 0.100000
-	__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.000000
+	__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000
 	__TubeVaseAbstract__00000001_.RelativeCuttedStackFloorHeight = 0.000000
 	__TubeVaseAbstract__00000001_.RelativeRotatedTorusSeparation = 0.000000
 	__TubeVaseAbstract__00000001_.RotationRatio = 0.000000
@@ -1092,8 +1134,16 @@ func _(stage *models.Stage) {
 	__TubeVase3DDiagram__00000000_.SampledPoints3DShape = __SampledPoints3DShape__00000002_
 	__TubeVase3DDiagram__00000000_.OriginalPoints3DShape = __OriginalPoints3DShape__00000000_
 	__TubeVase3DDiagram__00000000_.Angle0Shape = __Angle0Shape__00000000_
+	__TubeVase3DDiagram__00000000_.TopCurvePlane1Shape = __TopCurvePlane1Shape__00000000_
+	__TubeVase3DDiagram__00000000_.BottomCurvePlane1Shape = __BottomCurvePlane1Shape__00000000_
+	__TubeVase3DDiagram__00000000_.TopCurvePlane2Shape = __TopCurvePlane2Shape__00000000_
+	__TubeVase3DDiagram__00000000_.BottomCurvePlane2Shape = __BottomCurvePlane2Shape__00000000_
 	__TubeVase3DDiagram__00000001_.Rendered3DShape = __Rendered3DShape__00000010_
 	__TubeVase3DDiagram__00000001_.SampledPoints3DShape = __SampledPoints3DShape__00000003_
 	__TubeVase3DDiagram__00000001_.OriginalPoints3DShape = __OriginalPoints3DShape__00000001_
 	__TubeVase3DDiagram__00000001_.Angle0Shape = __Angle0Shape__00000001_
+	__TubeVase3DDiagram__00000001_.TopCurvePlane1Shape = __TopCurvePlane1Shape__00000001_
+	__TubeVase3DDiagram__00000001_.BottomCurvePlane1Shape = __BottomCurvePlane1Shape__00000001_
+	__TubeVase3DDiagram__00000001_.TopCurvePlane2Shape = __TopCurvePlane2Shape__00000001_
+	__TubeVase3DDiagram__00000001_.BottomCurvePlane2Shape = __BottomCurvePlane2Shape__00000001_
 }

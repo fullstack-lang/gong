@@ -84,6 +84,30 @@ func (stage *Stage) IsStagedBaseVectorShapeGrid(basevectorshapegrid *BaseVectorS
 	return basevectorshapegrid.GongIsStaged(stage)
 }
 
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) GongIsStaged(stage *Stage) (ok bool) {
+
+	_, ok = stage.BottomCurvePlane1Shapes[bottomcurveplane1shape]
+
+	return
+}
+
+func (stage *Stage) IsStagedBottomCurvePlane1Shape(bottomcurveplane1shape *BottomCurvePlane1Shape) (ok bool) {
+
+	return bottomcurveplane1shape.GongIsStaged(stage)
+}
+
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongIsStaged(stage *Stage) (ok bool) {
+
+	_, ok = stage.BottomCurvePlane2Shapes[bottomcurveplane2shape]
+
+	return
+}
+
+func (stage *Stage) IsStagedBottomCurvePlane2Shape(bottomcurveplane2shape *BottomCurvePlane2Shape) (ok bool) {
+
+	return bottomcurveplane2shape.GongIsStaged(stage)
+}
+
 func (chosenp1p2pairshape *ChosenP1P2PairShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ChosenP1P2PairShapes[chosenp1p2pairshape]
@@ -1464,6 +1488,30 @@ func (stage *Stage) IsStagedTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DSha
 	return tiledfloor3dshape.GongIsStaged(stage)
 }
 
+func (topcurveplane1shape *TopCurvePlane1Shape) GongIsStaged(stage *Stage) (ok bool) {
+
+	_, ok = stage.TopCurvePlane1Shapes[topcurveplane1shape]
+
+	return
+}
+
+func (stage *Stage) IsStagedTopCurvePlane1Shape(topcurveplane1shape *TopCurvePlane1Shape) (ok bool) {
+
+	return topcurveplane1shape.GongIsStaged(stage)
+}
+
+func (topcurveplane2shape *TopCurvePlane2Shape) GongIsStaged(stage *Stage) (ok bool) {
+
+	_, ok = stage.TopCurvePlane2Shapes[topcurveplane2shape]
+
+	return
+}
+
+func (stage *Stage) IsStagedTopCurvePlane2Shape(topcurveplane2shape *TopCurvePlane2Shape) (ok bool) {
+
+	return topcurveplane2shape.GongIsStaged(stage)
+}
+
 func (topendarcshape *TopEndArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopEndArcShapes[topendarcshape]
@@ -1884,6 +1932,44 @@ func (stage *Stage) StageBranchBaseVectorShapeGrid(basevectorshapegrid *BaseVect
 	}
 
 	basevectorshapegrid.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) GongStageBranch(stage *Stage) {
+	stage.StageBranchBottomCurvePlane1Shape(bottomcurveplane1shape)
+}
+
+func (stage *Stage) StageBranchBottomCurvePlane1Shape(bottomcurveplane1shape *BottomCurvePlane1Shape) {
+
+	// check if instance is already staged
+	if stage.IsStaged(bottomcurveplane1shape) {
+		return
+	}
+
+	bottomcurveplane1shape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongStageBranch(stage *Stage) {
+	stage.StageBranchBottomCurvePlane2Shape(bottomcurveplane2shape)
+}
+
+func (stage *Stage) StageBranchBottomCurvePlane2Shape(bottomcurveplane2shape *BottomCurvePlane2Shape) {
+
+	// check if instance is already staged
+	if stage.IsStaged(bottomcurveplane2shape) {
+		return
+	}
+
+	bottomcurveplane2shape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -4151,6 +4237,44 @@ func (stage *Stage) StageBranchTiledFloor3DShape(tiledfloor3dshape *TiledFloor3D
 
 }
 
+func (topcurveplane1shape *TopCurvePlane1Shape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopCurvePlane1Shape(topcurveplane1shape)
+}
+
+func (stage *Stage) StageBranchTopCurvePlane1Shape(topcurveplane1shape *TopCurvePlane1Shape) {
+
+	// check if instance is already staged
+	if stage.IsStaged(topcurveplane1shape) {
+		return
+	}
+
+	topcurveplane1shape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (topcurveplane2shape *TopCurvePlane2Shape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopCurvePlane2Shape(topcurveplane2shape)
+}
+
+func (stage *Stage) StageBranchTopCurvePlane2Shape(topcurveplane2shape *TopCurvePlane2Shape) {
+
+	// check if instance is already staged
+	if stage.IsStaged(topcurveplane2shape) {
+		return
+	}
+
+	topcurveplane2shape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (topendarcshape *TopEndArcShape) GongStageBranch(stage *Stage) {
 	stage.StageBranchTopEndArcShape(topendarcshape)
 }
@@ -4557,6 +4681,18 @@ func (stage *Stage) StageBranchTubeVase3DDiagram(tubevase3ddiagram *TubeVase3DDi
 	if tubevase3ddiagram.Angle0Shape != nil {
 		stage.StageBranch(tubevase3ddiagram.Angle0Shape)
 	}
+	if tubevase3ddiagram.TopCurvePlane1Shape != nil {
+		stage.StageBranch(tubevase3ddiagram.TopCurvePlane1Shape)
+	}
+	if tubevase3ddiagram.BottomCurvePlane1Shape != nil {
+		stage.StageBranch(tubevase3ddiagram.BottomCurvePlane1Shape)
+	}
+	if tubevase3ddiagram.TopCurvePlane2Shape != nil {
+		stage.StageBranch(tubevase3ddiagram.TopCurvePlane2Shape)
+	}
+	if tubevase3ddiagram.BottomCurvePlane2Shape != nil {
+		stage.StageBranch(tubevase3ddiagram.BottomCurvePlane2Shape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -4671,6 +4807,14 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *BaseVectorShapeGrid:
 		toT := GongCopyBranchBaseVectorShapeGrid(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *BottomCurvePlane1Shape:
+		toT := GongCopyBranchBottomCurvePlane1Shape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *BottomCurvePlane2Shape:
+		toT := GongCopyBranchBottomCurvePlane2Shape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ChosenP1P2PairShape:
@@ -5133,6 +5277,14 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchTiledFloor3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *TopCurvePlane1Shape:
+		toT := GongCopyBranchTopCurvePlane1Shape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *TopCurvePlane2Shape:
+		toT := GongCopyBranchTopCurvePlane2Shape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *TopEndArcShape:
 		toT := GongCopyBranchTopEndArcShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -5346,6 +5498,44 @@ func GongCopyBranchBaseVectorShapeGrid(mapOrigCopy map[any]any, basevectorshapeg
 	basevectorshapegridTo = new(BaseVectorShapeGrid)
 	mapOrigCopy[basevectorshapegridFrom] = basevectorshapegridTo
 	basevectorshapegridFrom.GongCopyBasicFields(basevectorshapegridTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchBottomCurvePlane1Shape(mapOrigCopy map[any]any, bottomcurveplane1shapeFrom *BottomCurvePlane1Shape) (bottomcurveplane1shapeTo *BottomCurvePlane1Shape) {
+
+	// bottomcurveplane1shapeFrom has already been copied
+	if _bottomcurveplane1shapeTo, ok := mapOrigCopy[bottomcurveplane1shapeFrom]; ok {
+		bottomcurveplane1shapeTo = _bottomcurveplane1shapeTo.(*BottomCurvePlane1Shape)
+		return
+	}
+
+	bottomcurveplane1shapeTo = new(BottomCurvePlane1Shape)
+	mapOrigCopy[bottomcurveplane1shapeFrom] = bottomcurveplane1shapeTo
+	bottomcurveplane1shapeFrom.GongCopyBasicFields(bottomcurveplane1shapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchBottomCurvePlane2Shape(mapOrigCopy map[any]any, bottomcurveplane2shapeFrom *BottomCurvePlane2Shape) (bottomcurveplane2shapeTo *BottomCurvePlane2Shape) {
+
+	// bottomcurveplane2shapeFrom has already been copied
+	if _bottomcurveplane2shapeTo, ok := mapOrigCopy[bottomcurveplane2shapeFrom]; ok {
+		bottomcurveplane2shapeTo = _bottomcurveplane2shapeTo.(*BottomCurvePlane2Shape)
+		return
+	}
+
+	bottomcurveplane2shapeTo = new(BottomCurvePlane2Shape)
+	mapOrigCopy[bottomcurveplane2shapeFrom] = bottomcurveplane2shapeTo
+	bottomcurveplane2shapeFrom.GongCopyBasicFields(bottomcurveplane2shapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -7614,6 +7804,44 @@ func GongCopyBranchTiledFloor3DShape(mapOrigCopy map[any]any, tiledfloor3dshapeF
 	return
 }
 
+func GongCopyBranchTopCurvePlane1Shape(mapOrigCopy map[any]any, topcurveplane1shapeFrom *TopCurvePlane1Shape) (topcurveplane1shapeTo *TopCurvePlane1Shape) {
+
+	// topcurveplane1shapeFrom has already been copied
+	if _topcurveplane1shapeTo, ok := mapOrigCopy[topcurveplane1shapeFrom]; ok {
+		topcurveplane1shapeTo = _topcurveplane1shapeTo.(*TopCurvePlane1Shape)
+		return
+	}
+
+	topcurveplane1shapeTo = new(TopCurvePlane1Shape)
+	mapOrigCopy[topcurveplane1shapeFrom] = topcurveplane1shapeTo
+	topcurveplane1shapeFrom.GongCopyBasicFields(topcurveplane1shapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchTopCurvePlane2Shape(mapOrigCopy map[any]any, topcurveplane2shapeFrom *TopCurvePlane2Shape) (topcurveplane2shapeTo *TopCurvePlane2Shape) {
+
+	// topcurveplane2shapeFrom has already been copied
+	if _topcurveplane2shapeTo, ok := mapOrigCopy[topcurveplane2shapeFrom]; ok {
+		topcurveplane2shapeTo = _topcurveplane2shapeTo.(*TopCurvePlane2Shape)
+		return
+	}
+
+	topcurveplane2shapeTo = new(TopCurvePlane2Shape)
+	mapOrigCopy[topcurveplane2shapeFrom] = topcurveplane2shapeTo
+	topcurveplane2shapeFrom.GongCopyBasicFields(topcurveplane2shapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func GongCopyBranchTopEndArcShape(mapOrigCopy map[any]any, topendarcshapeFrom *TopEndArcShape) (topendarcshapeTo *TopEndArcShape) {
 
 	// topendarcshapeFrom has already been copied
@@ -8019,6 +8247,18 @@ func GongCopyBranchTubeVase3DDiagram(mapOrigCopy map[any]any, tubevase3ddiagramF
 	if tubevase3ddiagramFrom.Angle0Shape != nil {
 		tubevase3ddiagramTo.Angle0Shape = GongCopyBranchAngle0Shape(mapOrigCopy, tubevase3ddiagramFrom.Angle0Shape)
 	}
+	if tubevase3ddiagramFrom.TopCurvePlane1Shape != nil {
+		tubevase3ddiagramTo.TopCurvePlane1Shape = GongCopyBranchTopCurvePlane1Shape(mapOrigCopy, tubevase3ddiagramFrom.TopCurvePlane1Shape)
+	}
+	if tubevase3ddiagramFrom.BottomCurvePlane1Shape != nil {
+		tubevase3ddiagramTo.BottomCurvePlane1Shape = GongCopyBranchBottomCurvePlane1Shape(mapOrigCopy, tubevase3ddiagramFrom.BottomCurvePlane1Shape)
+	}
+	if tubevase3ddiagramFrom.TopCurvePlane2Shape != nil {
+		tubevase3ddiagramTo.TopCurvePlane2Shape = GongCopyBranchTopCurvePlane2Shape(mapOrigCopy, tubevase3ddiagramFrom.TopCurvePlane2Shape)
+	}
+	if tubevase3ddiagramFrom.BottomCurvePlane2Shape != nil {
+		tubevase3ddiagramTo.BottomCurvePlane2Shape = GongCopyBranchBottomCurvePlane2Shape(mapOrigCopy, tubevase3ddiagramFrom.BottomCurvePlane2Shape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -8225,6 +8465,44 @@ func (stage *Stage) UnstageBranchBaseVectorShapeGrid(basevectorshapegrid *BaseVe
 	}
 
 	basevectorshapegrid.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBottomCurvePlane1Shape(bottomcurveplane1shape)
+}
+
+func (stage *Stage) UnstageBranchBottomCurvePlane1Shape(bottomcurveplane1shape *BottomCurvePlane1Shape) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(bottomcurveplane1shape) {
+		return
+	}
+
+	bottomcurveplane1shape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBottomCurvePlane2Shape(bottomcurveplane2shape)
+}
+
+func (stage *Stage) UnstageBranchBottomCurvePlane2Shape(bottomcurveplane2shape *BottomCurvePlane2Shape) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(bottomcurveplane2shape) {
+		return
+	}
+
+	bottomcurveplane2shape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -10492,6 +10770,44 @@ func (stage *Stage) UnstageBranchTiledFloor3DShape(tiledfloor3dshape *TiledFloor
 
 }
 
+func (topcurveplane1shape *TopCurvePlane1Shape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopCurvePlane1Shape(topcurveplane1shape)
+}
+
+func (stage *Stage) UnstageBranchTopCurvePlane1Shape(topcurveplane1shape *TopCurvePlane1Shape) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(topcurveplane1shape) {
+		return
+	}
+
+	topcurveplane1shape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (topcurveplane2shape *TopCurvePlane2Shape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopCurvePlane2Shape(topcurveplane2shape)
+}
+
+func (stage *Stage) UnstageBranchTopCurvePlane2Shape(topcurveplane2shape *TopCurvePlane2Shape) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(topcurveplane2shape) {
+		return
+	}
+
+	topcurveplane2shape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (topendarcshape *TopEndArcShape) GongUnstageBranch(stage *Stage) {
 	stage.UnstageBranchTopEndArcShape(topendarcshape)
 }
@@ -10898,6 +11214,18 @@ func (stage *Stage) UnstageBranchTubeVase3DDiagram(tubevase3ddiagram *TubeVase3D
 	if tubevase3ddiagram.Angle0Shape != nil {
 		stage.UnstageBranch(tubevase3ddiagram.Angle0Shape)
 	}
+	if tubevase3ddiagram.TopCurvePlane1Shape != nil {
+		stage.UnstageBranch(tubevase3ddiagram.TopCurvePlane1Shape)
+	}
+	if tubevase3ddiagram.BottomCurvePlane1Shape != nil {
+		stage.UnstageBranch(tubevase3ddiagram.BottomCurvePlane1Shape)
+	}
+	if tubevase3ddiagram.TopCurvePlane2Shape != nil {
+		stage.UnstageBranch(tubevase3ddiagram.TopCurvePlane2Shape)
+	}
+	if tubevase3ddiagram.BottomCurvePlane2Shape != nil {
+		stage.UnstageBranch(tubevase3ddiagram.BottomCurvePlane2Shape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -11006,6 +11334,16 @@ func (reference *BaseVectorShape) GongReconstructPointersFromReferences(stage *S
 }
 
 func (reference *BaseVectorShapeGrid) GongReconstructPointersFromReferences(stage *Stage, instance *BaseVectorShapeGrid) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *BottomCurvePlane1Shape) GongReconstructPointersFromReferences(stage *Stage, instance *BottomCurvePlane1Shape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *BottomCurvePlane2Shape) GongReconstructPointersFromReferences(stage *Stage, instance *BottomCurvePlane2Shape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -11670,6 +12008,16 @@ func (reference *TiledFloor3DShape) GongReconstructPointersFromReferences(stage 
 	// insertion point for slice of pointers field
 }
 
+func (reference *TopCurvePlane1Shape) GongReconstructPointersFromReferences(stage *Stage, instance *TopCurvePlane1Shape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *TopCurvePlane2Shape) GongReconstructPointersFromReferences(stage *Stage, instance *TopCurvePlane2Shape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *TopEndArcShape) GongReconstructPointersFromReferences(stage *Stage, instance *TopEndArcShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -11784,6 +12132,18 @@ func (reference *TubeVase3DDiagram) GongReconstructPointersFromReferences(stage 
 	if instance.Angle0Shape != nil {
 		reference.Angle0Shape = stage.Angle0Shapes_reference[instance.Angle0Shape]
 	}
+	if instance.TopCurvePlane1Shape != nil {
+		reference.TopCurvePlane1Shape = stage.TopCurvePlane1Shapes_reference[instance.TopCurvePlane1Shape]
+	}
+	if instance.BottomCurvePlane1Shape != nil {
+		reference.BottomCurvePlane1Shape = stage.BottomCurvePlane1Shapes_reference[instance.BottomCurvePlane1Shape]
+	}
+	if instance.TopCurvePlane2Shape != nil {
+		reference.TopCurvePlane2Shape = stage.TopCurvePlane2Shapes_reference[instance.TopCurvePlane2Shape]
+	}
+	if instance.BottomCurvePlane2Shape != nil {
+		reference.BottomCurvePlane2Shape = stage.BottomCurvePlane2Shapes_reference[instance.BottomCurvePlane2Shape]
+	}
 	// insertion point for slice of pointers field
 }
 
@@ -11834,6 +12194,16 @@ func (reference *BaseVectorShape) GongReconstructPointersFromInstances(stage *St
 }
 
 func (reference *BaseVectorShapeGrid) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *BottomCurvePlane1Shape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *BottomCurvePlane2Shape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -12573,6 +12943,16 @@ func (reference *TiledFloor3DShape) GongReconstructPointersFromInstances(stage *
 	// insertion point for slice of pointers fields
 }
 
+func (reference *TopCurvePlane1Shape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *TopCurvePlane2Shape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *TopEndArcShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -12699,6 +13079,30 @@ func (reference *TubeVase3DDiagram) GongReconstructPointersFromInstances(stage *
 			reference.Angle0Shape = _instance
 		}
 	}
+	if _reference := reference.TopCurvePlane1Shape; _reference != nil {
+		reference.TopCurvePlane1Shape = nil
+		if _instance, ok := stage.TopCurvePlane1Shapes_instance[_reference]; ok {
+			reference.TopCurvePlane1Shape = _instance
+		}
+	}
+	if _reference := reference.BottomCurvePlane1Shape; _reference != nil {
+		reference.BottomCurvePlane1Shape = nil
+		if _instance, ok := stage.BottomCurvePlane1Shapes_instance[_reference]; ok {
+			reference.BottomCurvePlane1Shape = _instance
+		}
+	}
+	if _reference := reference.TopCurvePlane2Shape; _reference != nil {
+		reference.TopCurvePlane2Shape = nil
+		if _instance, ok := stage.TopCurvePlane2Shapes_instance[_reference]; ok {
+			reference.TopCurvePlane2Shape = _instance
+		}
+	}
+	if _reference := reference.BottomCurvePlane2Shape; _reference != nil {
+		reference.BottomCurvePlane2Shape = nil
+		if _instance, ok := stage.BottomCurvePlane2Shapes_instance[_reference]; ok {
+			reference.BottomCurvePlane2Shape = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 }
 
@@ -12817,6 +13221,28 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongDiff(stage *Stage, basevecto
 	// insertion point for field diffs
 	if basevectorshapegrid.Name != basevectorshapegridOther.Name {
 		diffs = append(diffs, basevectorshapegrid.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (bottomcurveplane1shape *BottomCurvePlane1Shape) GongDiff(stage *Stage, bottomcurveplane1shapeOther *BottomCurvePlane1Shape) (diffs []string) {
+	// insertion point for field diffs
+	if bottomcurveplane1shape.Name != bottomcurveplane1shapeOther.Name {
+		diffs = append(diffs, bottomcurveplane1shape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (bottomcurveplane2shape *BottomCurvePlane2Shape) GongDiff(stage *Stage, bottomcurveplane2shapeOther *BottomCurvePlane2Shape) (diffs []string) {
+	// insertion point for field diffs
+	if bottomcurveplane2shape.Name != bottomcurveplane2shapeOther.Name {
+		diffs = append(diffs, bottomcurveplane2shape.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -16206,6 +16632,28 @@ func (tiledfloor3dshape *TiledFloor3DShape) GongDiff(stage *Stage, tiledfloor3ds
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (topcurveplane1shape *TopCurvePlane1Shape) GongDiff(stage *Stage, topcurveplane1shapeOther *TopCurvePlane1Shape) (diffs []string) {
+	// insertion point for field diffs
+	if topcurveplane1shape.Name != topcurveplane1shapeOther.Name {
+		diffs = append(diffs, topcurveplane1shape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (topcurveplane2shape *TopCurvePlane2Shape) GongDiff(stage *Stage, topcurveplane2shapeOther *TopCurvePlane2Shape) (diffs []string) {
+	// insertion point for field diffs
+	if topcurveplane2shape.Name != topcurveplane2shapeOther.Name {
+		diffs = append(diffs, topcurveplane2shape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (topendarcshape *TopEndArcShape) GongDiff(stage *Stage, topendarcshapeOther *TopEndArcShape) (diffs []string) {
 	// insertion point for field diffs
 	if topendarcshape.Name != topendarcshapeOther.Name {
@@ -16701,6 +17149,18 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongDiff(stage *Stage, tubevase3ddia
 	if tubevase3ddiagram.IsHiddenTiledFloor3DShape != tubevase3ddiagramOther.IsHiddenTiledFloor3DShape {
 		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
 	}
+	if tubevase3ddiagram.IsHiddenTopCurvePlane1Shape != tubevase3ddiagramOther.IsHiddenTopCurvePlane1Shape {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTopCurvePlane1Shape"))
+	}
+	if tubevase3ddiagram.IsHiddenBottomCurvePlane1Shape != tubevase3ddiagramOther.IsHiddenBottomCurvePlane1Shape {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsHiddenBottomCurvePlane1Shape"))
+	}
+	if tubevase3ddiagram.IsHiddenTopCurvePlane2Shape != tubevase3ddiagramOther.IsHiddenTopCurvePlane2Shape {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTopCurvePlane2Shape"))
+	}
+	if tubevase3ddiagram.IsHiddenBottomCurvePlane2Shape != tubevase3ddiagramOther.IsHiddenBottomCurvePlane2Shape {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsHiddenBottomCurvePlane2Shape"))
+	}
 	if (tubevase3ddiagram.Rendered3DShape == nil) != (tubevase3ddiagramOther.Rendered3DShape == nil) {
 		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "Rendered3DShape"))
 	} else if tubevase3ddiagram.Rendered3DShape != nil && tubevase3ddiagramOther.Rendered3DShape != nil {
@@ -16729,6 +17189,34 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongDiff(stage *Stage, tubevase3ddia
 			diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "Angle0Shape"))
 		}
 	}
+	if (tubevase3ddiagram.TopCurvePlane1Shape == nil) != (tubevase3ddiagramOther.TopCurvePlane1Shape == nil) {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "TopCurvePlane1Shape"))
+	} else if tubevase3ddiagram.TopCurvePlane1Shape != nil && tubevase3ddiagramOther.TopCurvePlane1Shape != nil {
+		if tubevase3ddiagram.TopCurvePlane1Shape != tubevase3ddiagramOther.TopCurvePlane1Shape {
+			diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "TopCurvePlane1Shape"))
+		}
+	}
+	if (tubevase3ddiagram.BottomCurvePlane1Shape == nil) != (tubevase3ddiagramOther.BottomCurvePlane1Shape == nil) {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane1Shape"))
+	} else if tubevase3ddiagram.BottomCurvePlane1Shape != nil && tubevase3ddiagramOther.BottomCurvePlane1Shape != nil {
+		if tubevase3ddiagram.BottomCurvePlane1Shape != tubevase3ddiagramOther.BottomCurvePlane1Shape {
+			diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane1Shape"))
+		}
+	}
+	if (tubevase3ddiagram.TopCurvePlane2Shape == nil) != (tubevase3ddiagramOther.TopCurvePlane2Shape == nil) {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "TopCurvePlane2Shape"))
+	} else if tubevase3ddiagram.TopCurvePlane2Shape != nil && tubevase3ddiagramOther.TopCurvePlane2Shape != nil {
+		if tubevase3ddiagram.TopCurvePlane2Shape != tubevase3ddiagramOther.TopCurvePlane2Shape {
+			diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "TopCurvePlane2Shape"))
+		}
+	}
+	if (tubevase3ddiagram.BottomCurvePlane2Shape == nil) != (tubevase3ddiagramOther.BottomCurvePlane2Shape == nil) {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane2Shape"))
+	} else if tubevase3ddiagram.BottomCurvePlane2Shape != nil && tubevase3ddiagramOther.BottomCurvePlane2Shape != nil {
+		if tubevase3ddiagram.BottomCurvePlane2Shape != tubevase3ddiagramOther.BottomCurvePlane2Shape {
+			diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane2Shape"))
+		}
+	}
 	if tubevase3ddiagram.IsChecked != tubevase3ddiagramOther.IsChecked {
 		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -16751,6 +17239,15 @@ func (tubevaseabstract *TubeVaseAbstract) GongDiff(stage *Stage, tubevaseabstrac
 	}
 	if tubevaseabstract.Z_Ribbon != tubevaseabstractOther.Z_Ribbon {
 		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "Z_Ribbon"))
+	}
+	if tubevaseabstract.Plane1Height != tubevaseabstractOther.Plane1Height {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "Plane1Height"))
+	}
+	if tubevaseabstract.Plane2Height != tubevaseabstractOther.Plane2Height {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "Plane2Height"))
+	}
+	if tubevaseabstract.ProjectionAngle != tubevaseabstractOther.ProjectionAngle {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "ProjectionAngle"))
 	}
 	if tubevaseabstract.RelativeVerticalThickness != tubevaseabstractOther.RelativeVerticalThickness {
 		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))

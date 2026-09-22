@@ -655,6 +655,64 @@ func (u *BaseVectorShapeGridUnmarshaller) UnmarshallField(stage *Stage, i Gongst
 	return nil
 }
 
+type BottomCurvePlane1ShapeUnmarshaller struct{}
+
+func (u *BottomCurvePlane1ShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(BottomCurvePlane1Shape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *BottomCurvePlane1ShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*BottomCurvePlane1Shape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type BottomCurvePlane2ShapeUnmarshaller struct{}
+
+func (u *BottomCurvePlane2ShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(BottomCurvePlane2Shape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *BottomCurvePlane2ShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*BottomCurvePlane2Shape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type ChosenP1P2PairShapeUnmarshaller struct{}
 
 func (u *ChosenP1P2PairShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -5332,6 +5390,64 @@ func (u *TiledFloor3DShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 	return nil
 }
 
+type TopCurvePlane1ShapeUnmarshaller struct{}
+
+func (u *TopCurvePlane1ShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopCurvePlane1Shape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TopCurvePlane1ShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopCurvePlane1Shape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type TopCurvePlane2ShapeUnmarshaller struct{}
+
+func (u *TopCurvePlane2ShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopCurvePlane2Shape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TopCurvePlane2ShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopCurvePlane2Shape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type TopEndArcShapeUnmarshaller struct{}
 
 func (u *TopEndArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -6139,6 +6255,14 @@ func (u *TubeVase3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		instance.IsHiddenAngle0Shape = GongExtractBool(valueExpr)
 	case "IsHiddenTiledFloor3DShape":
 		instance.IsHiddenTiledFloor3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenTopCurvePlane1Shape":
+		instance.IsHiddenTopCurvePlane1Shape = GongExtractBool(valueExpr)
+	case "IsHiddenBottomCurvePlane1Shape":
+		instance.IsHiddenBottomCurvePlane1Shape = GongExtractBool(valueExpr)
+	case "IsHiddenTopCurvePlane2Shape":
+		instance.IsHiddenTopCurvePlane2Shape = GongExtractBool(valueExpr)
+	case "IsHiddenBottomCurvePlane2Shape":
+		instance.IsHiddenBottomCurvePlane2Shape = GongExtractBool(valueExpr)
 	case "Rendered3DShape":
 		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
 	case "TorusStackShape":
@@ -6167,6 +6291,14 @@ func (u *TubeVase3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		GongUnmarshallPointer(&instance.TorusEdge3DShape, valueExpr, identifierMap)
 	case "TiledFloor3DShape":
 		GongUnmarshallPointer(&instance.TiledFloor3DShape, valueExpr, identifierMap)
+	case "TopCurvePlane1Shape":
+		GongUnmarshallPointer(&instance.TopCurvePlane1Shape, valueExpr, identifierMap)
+	case "BottomCurvePlane1Shape":
+		GongUnmarshallPointer(&instance.BottomCurvePlane1Shape, valueExpr, identifierMap)
+	case "TopCurvePlane2Shape":
+		GongUnmarshallPointer(&instance.TopCurvePlane2Shape, valueExpr, identifierMap)
+	case "BottomCurvePlane2Shape":
+		GongUnmarshallPointer(&instance.BottomCurvePlane2Shape, valueExpr, identifierMap)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -6204,6 +6336,12 @@ func (u *TubeVaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.Name = GongExtractString(valueExpr)
 	case "Z_Ribbon":
 		instance.Z_Ribbon = GongExtractFloat(valueExpr)
+	case "Plane1Height":
+		instance.Plane1Height = GongExtractFloat(valueExpr)
+	case "Plane2Height":
+		instance.Plane2Height = GongExtractFloat(valueExpr)
+	case "ProjectionAngle":
+		instance.ProjectionAngle = GongExtractFloat(valueExpr)
 	case "RelativeVerticalThickness":
 		instance.RelativeVerticalThickness = GongExtractFloat(valueExpr)
 	case "RelativeRadialThickness":
