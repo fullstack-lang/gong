@@ -8,6 +8,7 @@ import (
 	"go/token"
 	"log"
 	"os"
+	"reflect"
 	"regexp"
 	"slices"
 	"strings"
@@ -986,11 +987,93 @@ var (
 	map_Stager_probeProxied      = make(map[*Stager]bool)
 )
 
+func isLoadStackInCurrentView(stager *Stager, targetLoadStage *load.Stage) bool {
+	if stager == nil || targetLoadStage == nil {
+		return false
+	}
+	targetStackName := targetLoadStage.GetName()
+
+	val := reflect.ValueOf(stager)
+	if val.Kind() == reflect.Pointer {
+		val = val.Elem()
+	}
+	splitStageField := val.FieldByName("splitStage")
+	if !splitStageField.IsValid() || splitStageField.IsNil() {
+		return false
+	}
+
+	viewsField := splitStageField.Elem().FieldByName("Views")
+	if !viewsField.IsValid() || viewsField.Kind() != reflect.Map {
+		return false
+	}
+
+	var currentView reflect.Value
+	for _, key := range viewsField.MapKeys() {
+		viewElem := key.Elem()
+		isSelectedField := viewElem.FieldByName("IsSelectedView")
+		if isSelectedField.IsValid() && isSelectedField.Bool() {
+			currentView = viewElem
+			break
+		}
+	}
+	if !currentView.IsValid() {
+		for _, key := range viewsField.MapKeys() {
+			currentView = key.Elem()
+			break
+		}
+	}
+	if !currentView.IsValid() {
+		return false
+	}
+
+	var checkArea func(areaVal reflect.Value) bool
+	checkArea = func(areaVal reflect.Value) bool {
+		if !areaVal.IsValid() || areaVal.IsNil() {
+			return false
+		}
+		areaElem := areaVal.Elem()
+		loadField := areaElem.FieldByName("Load")
+		if loadField.IsValid() && !loadField.IsNil() {
+			stackNameField := loadField.Elem().FieldByName("StackName")
+			if stackNameField.IsValid() && stackNameField.String() == targetStackName {
+				return true
+			}
+		}
+		asSplitField := areaElem.FieldByName("AsSplit")
+		if asSplitField.IsValid() && !asSplitField.IsNil() {
+			asSplitAreasField := asSplitField.Elem().FieldByName("AsSplitAreas")
+			if asSplitAreasField.IsValid() && asSplitAreasField.Kind() == reflect.Slice {
+				for i := 0; i < asSplitAreasField.Len(); i++ {
+					if checkArea(asSplitAreasField.Index(i)) {
+						return true
+					}
+				}
+			}
+		}
+		return false
+	}
+
+	rootAreasField := currentView.FieldByName("RootAsSplitAreas")
+	if rootAreasField.IsValid() && rootAreasField.Kind() == reflect.Slice {
+		for i := 0; i < rootAreasField.Len(); i++ {
+			if checkArea(rootAreasField.Index(i)) {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
 func (stager *Stager) button() {
 	// Install the proxy once so that every Commit (including
 	// CommitWithSuspendedCallbacks) automatically calls button().
 	stagerStateMutex.Lock()
 	if !map_Stager_probeProxied[stager] {
+		if !stager.stage.IsInDeltaMode() {
+			stager.stage.SetDeltaMode(true)
+			stager.stage.ComputeReferenceAndOrders()
+		}
 		if existing := stager.stage.GetProbeIF(); existing != nil {
 			stager.stage.SetProbeIF(&probeButtonProxy{
 				GongProbeIF: existing,
@@ -1008,7 +1091,7 @@ func (stager *Stager) button() {
 
 	group1 := new(button.Group)
 	group1.Percentage = 100
-	group1.NbColumns = 1
+	group1.NbColumns = 2
 	layout.Groups = append(layout.Groups, group1)
 
 	// Auxiliary buttons (Stop, Web, HTML) are hidden by default
@@ -1049,12 +1132,12 @@ func (stager *Stager) button() {
 	stagerStateMutex.Unlock()
 
 	goButton := &button.Button{
-		Name:            "Go",
+		Name:            "GoMono",
 		ToolTipPosition: button.Above,
 		HasToolTip:      true,
 		MatButtonType:   button.MatButtonTypeBasic,
 		OnClick: func() {
-			log.Println("Exporting stage as Go file")
+			log.Println("Exporting stage as Go file (mono stage)")
 
 			stager.loadStage.Reset()
 
@@ -1111,18 +1194,129 @@ func (stager *Stager) button() {
 	if isModified {
 		goButton.Icon = string(buttons.BUTTON_save)
 		goButton.Label = "* Export Stage as Go file"
-		goButton.ToolTipText = "Stage has been modified — export Go file to save"
+		goButton.ToolTipText = "Stage has been modified — export Go file to save (mono stage format)"
 		goButton.Color = button.MatButtonPaletteTypeWarn
 		goButton.MatButtonAppearance = button.MatButtonAppearanceFilled
 	} else {
 		goButton.Icon = string(buttons.BUTTON_file_download)
 		goButton.Label = "Export Stage as Go file"
-		goButton.ToolTipText = "Stage is up to date with last export"
+		goButton.ToolTipText = "Stage is up to date with last export (mono stage format)"
 		goButton.Color = button.MatButtonPaletteTypePrimary
 		goButton.MatButtonAppearance = button.MatButtonAppearanceOutlined
 	}
 
 	group1.Buttons = append(group1.Buttons, goButton)
+
+	goMultistageButton := &button.Button{
+		Name:            "GoMulti",
+		ToolTipPosition: button.Above,
+		HasToolTip:      true,
+		MatButtonType:   button.MatButtonTypeBasic,
+		OnClick: func() {
+			log.Println("Exporting stage as Go file (multistage)")
+
+			fileToDownload := new(load.FileToDownload)
+
+			if stager.fileName == "" {
+				pkgPath := stager.stage.MetaPackageImportPath
+				pkgName := ""
+				parts := strings.Split(pkgPath, "/")
+				if len(parts) >= 3 {
+					pkgName = parts[len(parts)-3]
+				}
+				stager.fileName = pkgName + "-" + stager.stage.GetName() + ".go"
+			}
+
+			prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
+			cleanFileName := prefixRegex.ReplaceAllString(stager.fileName, "")
+
+			multiFileName := cleanFileName
+			if multiFileName == "stage.go" {
+				multiFileName = "stageset.go"
+			}
+
+			fileToDownload.Name = "PROMPT_SAVE_FILE_DIALOG_" + time.Now().Format("20060102 1504 ") + multiFileName
+
+			stageSet := NewStageSetFromStage(stager.stage)
+			stageString, err := stageSet.MarshallToString("main")
+			if err != nil {
+				log.Println("Error serializing multistage: " + err.Error())
+				return
+			}
+
+			fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stageString))
+
+			hasMultiLoad := isLoadStackInCurrentView(stager, stager.loadStageMultistage)
+
+			if stager.loadStageMultistage != nil {
+				stager.loadStageMultistage.Reset()
+
+				fileToUploadMulti := &load.FileToUpload{
+					Name: "Name of file",
+					FileToUploadProxy: &loadStageSetProxy{
+						stager: stager,
+					},
+				}
+
+				load.StageBranch(stager.loadStageMultistage, fileToDownload)
+				load.StageBranch(stager.loadStageMultistage, fileToUploadMulti)
+
+				messageMulti := &load.Message{
+					Name: "Drop your multistage .go file here or ",
+				}
+				messageMulti.Stage(stager.loadStageMultistage)
+
+				stager.loadStageMultistage.Commit()
+			}
+
+			if !hasMultiLoad && stager.loadStage != nil {
+				stager.loadStage.Reset()
+
+				fileToDownloadMono := new(load.FileToDownload)
+				fileToDownloadMono.Name = fileToDownload.Name
+				fileToDownloadMono.Base64EncodedContent = fileToDownload.Base64EncodedContent
+
+				fileToUploadMono := &load.FileToUpload{
+					Name: "Name of file",
+					FileToUploadProxy: &loadProxy{
+						stager: stager,
+					},
+				}
+
+				load.StageBranch(stager.loadStage, fileToDownloadMono)
+				load.StageBranch(stager.loadStage, fileToUploadMono)
+
+				messageMono := &load.Message{
+					Name: "Drop your <library>.go file here or ",
+				}
+				messageMono.Stage(stager.loadStage)
+
+				stager.loadStage.Commit()
+			}
+
+			stagerStateMutex.Lock()
+			activeCommits := len(stager.stage.GetForwardCommits()) - stager.stage.GetCommitsBehind()
+			map_Stager_savedCommit[stager] = activeCommits
+			stagerStateMutex.Unlock()
+			stager.button()
+		},
+	}
+
+	if isModified {
+		goMultistageButton.Icon = string(buttons.BUTTON_save)
+		goMultistageButton.Label = "* Export MultiStage as Go file"
+		goMultistageButton.ToolTipText = "Stage has been modified — export Go file to save (multistage format)"
+		goMultistageButton.Color = button.MatButtonPaletteTypeWarn
+		goMultistageButton.MatButtonAppearance = button.MatButtonAppearanceFilled
+	} else {
+		goMultistageButton.Icon = string(buttons.BUTTON_file_download)
+		goMultistageButton.Label = "Export MultiStage as Go file"
+		goMultistageButton.ToolTipText = "Stage is up to date with last export (multistage format)"
+		goMultistageButton.Color = button.MatButtonPaletteTypePrimary
+		goMultistageButton.MatButtonAppearance = button.MatButtonAppearanceOutlined
+	}
+
+	group1.Buttons = append(group1.Buttons, goMultistageButton)
 
 	if showAuxiliaryButtons {
 		group1.Buttons = append(group1.Buttons, &button.Button{
@@ -1272,6 +1466,29 @@ func (stager *Stager) load() {
 	message.Stage(stager.loadStage)
 
 	stager.loadStage.Commit()
+
+	if stager.loadStageMultistage != nil {
+		stager.loadStageMultistage.Reset()
+
+		fileToUploadMulti := &load.FileToUpload{
+			Name: "Name of file",
+			FileToUploadProxy: &loadStageSetProxy{
+				stager: stager,
+			},
+		}
+
+		load.StageBranch(stager.loadStageMultistage,
+			fileToUploadMulti,
+		)
+
+		messageMulti := &load.Message{
+			Name: "Drop your multistage .go file here or ",
+		}
+
+		messageMulti.Stage(stager.loadStageMultistage)
+
+		stager.loadStageMultistage.Commit()
+	}
 }
 
 type loadProxy struct {
@@ -1293,7 +1510,18 @@ func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
 
 	proxy.stager.stage.Reset()
 	fmt.Println("OnFileUpload: after reset")
-	ParseAstFromBytes(proxy.stager.stage, decodedBytes)
+	if strings.Contains(string(decodedBytes), "stageSet *models.StageSet") {
+		stageSet := NewStageSetFromStage(proxy.stager.stage)
+		err = stageSet.ParseAstString(string(decodedBytes), false)
+		if err != nil {
+			return fmt.Errorf("stageSet.ParseAstString failed: %w", err)
+		}
+	} else {
+		err = ParseAstFromBytes(proxy.stager.stage, decodedBytes)
+		if err != nil {
+			return fmt.Errorf("ParseAstFromBytes failed: %w", err)
+		}
+	}
 	fmt.Println("OnFileUpload: after parse")
 
 	stagerStateMutex.Lock()
@@ -1302,6 +1530,49 @@ func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
 
 	proxy.stager.stage.Commit()
 	fmt.Println("OnFileUpload: after commit")
+
+	return nil
+}
+
+type loadStageSetProxy struct {
+	stager *Stager
+}
+
+func (proxy *loadStageSetProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
+	fmt.Println("OnFileUpload (multistage): start")
+	proxy.stager.fileName = uploadedFile.GetName()
+
+	decodedBytes, err := base64.StdEncoding.DecodeString(uploadedFile.Base64EncodedContent)
+	if err != nil {
+		return fmt.Errorf("base64.StdEncoding.DecodeString failed: %w", err)
+	}
+
+	// if the user loads a second file, we don't want the previous file to be committed
+	proxy.stager.stage.OnInitCommitCallback = nil
+	proxy.stager.createViews()
+
+	proxy.stager.stage.Reset()
+	fmt.Println("OnFileUpload (multistage): after reset")
+	if strings.Contains(string(decodedBytes), "stageSet *models.StageSet") {
+		stageSet := NewStageSetFromStage(proxy.stager.stage)
+		err = stageSet.ParseAstString(string(decodedBytes), false)
+		if err != nil {
+			return fmt.Errorf("stageSet.ParseAstString failed: %w", err)
+		}
+	} else {
+		err = ParseAstFromBytes(proxy.stager.stage, decodedBytes)
+		if err != nil {
+			return fmt.Errorf("ParseAstFromBytes failed: %w", err)
+		}
+	}
+	fmt.Println("OnFileUpload (multistage): after parse")
+
+	stagerStateMutex.Lock()
+	map_Stager_resetOnNextCommit[proxy.stager] = true
+	stagerStateMutex.Unlock()
+
+	proxy.stager.stage.Commit()
+	fmt.Println("OnFileUpload (multistage): after commit")
 
 	return nil
 }

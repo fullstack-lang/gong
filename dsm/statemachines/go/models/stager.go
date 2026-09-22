@@ -28,6 +28,7 @@ type Stager struct {
 	treeStage                  *tree.Stage // "treeStage" is the DSM mandatory name (to be changed)
 	svgStage                   *svg.Stage
 	loadStage                  *load.Stage
+	loadStageMultistage        *load.Stage
 	buttonTransitionsStage     *button.Stage
 	buttonStage                *button.Stage
 
@@ -91,6 +92,7 @@ func NewStager(
 	stager.treeStage = tree_stack.NewStack(r, stackName+"-diagrams", "", "", "", true, true).Stage
 	stager.svgStage = svg_stack.NewStack(r, stackName, "", "", "", true, true).Stage
 	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
+	stager.loadStageMultistage, _ = load_fullstack.NewStackInstance(r, "multistage")
 	stager.buttonTransitionsStage = button_stack.NewStack(r, stackName+"-transitions", "", "", "", false, false).Stage
 	stager.buttonStage = button_stack.NewStack(r, stackName+"-exportXL", "", "", "", true, true).Stage
 

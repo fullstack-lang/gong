@@ -657,7 +657,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000004_.RhombusInsideAngle = 132.000000
 	__PlantAbstract__00000004_.RhombusSideLength = 130.000000
 	__PlantAbstract__00000004_.PlantType = models.Music
-	__PlantAbstract__00000004_.CurrentView = models.VIEW_MUSIC_SCORE
+	__PlantAbstract__00000004_.CurrentView = models.VIEW_PLANT_2D
 	__PlantAbstract__00000004_.ComputedPrefix = ``
 	__PlantAbstract__00000004_.IsExpanded = true
 	__PlantAbstract__00000004_.IsSelected = false
@@ -671,8 +671,8 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000004_.IsClock3DDiagramsNodeExpanded = false
 
 	__PlantAbstract__00000005_.Name = `Vase Trapeze`
-	__PlantAbstract__00000005_.N = 1
-	__PlantAbstract__00000005_.M = 2
+	__PlantAbstract__00000005_.N = 2
+	__PlantAbstract__00000005_.M = 3
 	__PlantAbstract__00000005_.StackHeight = 3
 	__PlantAbstract__00000005_.RhombusInsideAngle = 130.000000
 	__PlantAbstract__00000005_.RhombusSideLength = 130.000000
@@ -772,9 +772,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000009_.Fov = 50.000000
 
 	__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__Rendered3DShape__00000010_.ViewX = 401.992899
-	__Rendered3DShape__00000010_.ViewY = 133.897726
-	__Rendered3DShape__00000010_.ViewZ = 307.643411
+	__Rendered3DShape__00000010_.ViewX = -561.582061
+	__Rendered3DShape__00000010_.ViewY = 394.785481
+	__Rendered3DShape__00000010_.ViewZ = -133.541027
 	__Rendered3DShape__00000010_.TargetX = 0.000000
 	__Rendered3DShape__00000010_.TargetY = 78.826742
 	__Rendered3DShape__00000010_.TargetZ = 0.000000
@@ -929,9 +929,9 @@ func _(stage *models.Stage) {
 
 	__TubeVaseAbstract__00000001_.Name = `Vase Trapeze-TubeVaseAbstract`
 	__TubeVaseAbstract__00000001_.Z_Ribbon = 105.000000
-	__TubeVaseAbstract__00000001_.Plane1Height = 53.000000
-	__TubeVaseAbstract__00000001_.Plane2Height = 40.000000
-	__TubeVaseAbstract__00000001_.ProjectionAngle = -42.300000
+	__TubeVaseAbstract__00000001_.Plane1Height = 113.000000
+	__TubeVaseAbstract__00000001_.Plane2Height = 99.000000
+	__TubeVaseAbstract__00000001_.ProjectionAngle = -7.600000
 	__TubeVaseAbstract__00000001_.RelativeVerticalThickness = 0.100000
 	__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000
 	__TubeVaseAbstract__00000001_.RelativeCuttedStackFloorHeight = 0.000000

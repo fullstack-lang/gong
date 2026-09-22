@@ -32,10 +32,11 @@ type Stager struct {
 
 	treeStage   *tree.Stage
 	svgStage    *svg.Stage
-	ssgStage    *ssg.Stage
-	loadStage   *load.Stage
-	fileName    string // fileName is used to store the name of the file to load or save
-	buttonStage *button.Stage
+	ssgStage            *ssg.Stage
+	loadStage           *load.Stage
+	loadStageMultistage *load.Stage
+	fileName            string // fileName is used to store the name of the file to load or save
+	buttonStage         *button.Stage
 
 	deliverableToLibrary map[*Deliverable]*Library
 	taskToLibrary        map[*Concern]*Library
@@ -68,6 +69,7 @@ func NewStager(
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
 	stager.svgStage = svg_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
+	stager.loadStageMultistage, _ = load_fullstack.NewStackInstance(r, "multistage")
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 
 	stager.createViews()

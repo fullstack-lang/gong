@@ -26,7 +26,7 @@ func executeServer(args []string) {
 	models.DataFS = &dataFS
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
-	stack := level1stack.NewLevel1StackDelta("project", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams, false)
+	stack := level1stack.NewLevel1StackDelta("project", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams, true)
 	// stack.Stage.SetGongMarshallingMode(models.GongMarshallingAppendCommit)
 	// stack.Stage.SetIsWithGenesisCommit(true) // the genesis commit is the first commit of the stage, it is the one that contains the initial data. It cannot be rollbacked, therefore when the user is at the genesis commit, the backward button is disabled
 

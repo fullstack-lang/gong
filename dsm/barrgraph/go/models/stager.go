@@ -38,10 +38,11 @@ type Stager struct {
 	ssgStage  *ssg.Stage
 	treeStage *tree.Stage
 
-	loadStage     *load.Stage
-	fileName      string // fileName is used to store the name of the file to load or save
-	buttonStage   *button.Stage
-	markdownStage *markdown.Stage
+	loadStage           *load.Stage
+	loadStageMultistage *load.Stage
+	fileName            string // fileName is used to store the name of the file to load or save
+	buttonStage         *button.Stage
+	markdownStage       *markdown.Stage
 
 	probeForm ProbeIF
 
@@ -63,13 +64,14 @@ func NewStager(
 	// that do not develop their specific angular component
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
-	stager.stage = stage
 	stage.SetDeltaMode(true)
 
+	stager.stage = stage
 	stager.svgStage = svg_stack.NewStack(r, stage.GetName(), "", "", "", true, true).Stage
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
 	stager.treeStage = tree_stack.NewStack(r, stage.GetName(), "", "", "", true, true).Stage
 	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
+	stager.loadStageMultistage, _ = load_fullstack.NewStackInstance(r, "multistage")
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.markdownStage = markdown_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.createViews()

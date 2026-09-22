@@ -24,7 +24,7 @@ func executeServer(args []string) {
 	models.DataFS = &dataFS
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
-	stack := level1stack.NewLevel1Stack("barrgraph", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams)
+	stack := level1stack.NewLevel1StackDelta("barrgraph", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams, true)
 
 	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()

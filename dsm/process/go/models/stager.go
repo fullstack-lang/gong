@@ -37,6 +37,7 @@ type Stager struct {
 	structureDiagramSvgStage *svg.Stage
 	ssgStage                 *ssg.Stage
 	loadStage                *load.Stage
+	loadStageMultistage      *load.Stage
 	fileName                 string // fileName is used to store the name of the file to load or save
 	buttonStage              *button.Stage
 
@@ -71,6 +72,7 @@ func NewStager(
 	stager.processDiagramSvgStage = svg_stack.NewStack(r, "process diagram svg", "", "", "", true, true).Stage
 	stager.structureDiagramSvgStage = svg_stack.NewStack(r, "structure diagram svg", "", "", "", true, true).Stage
 	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
+	stager.loadStageMultistage, _ = load_fullstack.NewStackInstance(r, "multistage")
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 
 	stager.createViews()

@@ -71,6 +71,7 @@ type Stager struct {
 
 	buttonStage  *button.Stage  // "buttonStage" is the DSM mandatory name (to be changed)
 	loadStage    *load.Stage    // mandatory
+	loadStageMultistage *load.Stage
 	threejsStage     *threejs.Stage // "treeStage" is the DSM mandatory name (to be changed)
 	stool3dStage     *threejs.Stage
 	clock3dStage     *threejs.Stage
@@ -145,6 +146,7 @@ func NewStager(
 	// that do not develop their specific angular component
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
+	stager.loadStageMultistage, _ = load_fullstack.NewStackInstance(r, "multistage")
 	stager.sliderStage = slider_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.sliderStoolStage = slider_stack.NewStack(r, "sliderStoolStage", "", "", "", true, true).Stage
 	stager.sliderClockStage = slider_stack.NewStack(r, "sliderClockStage", "", "", "", true, true).Stage
