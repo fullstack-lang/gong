@@ -125,6 +125,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, svgObject *svg.SVG) 
 				// milestone rendering
 				stager.displayMilestone(diagram, task, taskShape, verticalLinesLayer, yTimeLine, taskGroup, layer, mapTaskGroup_TextY)
 			} else {
+				stager.displayTaskCompletion(task, rect4Bar, barHeigth)
 				// bar text using RectAnchoredText to ensure it renders on top of the bar
 				stager.displayTaskTitle(task, diagram, rect4Bar)
 			}
@@ -191,6 +192,22 @@ func (stager *Stager) displayTask(diagram *Diagram, task *Task, taskShape *TaskS
 	return rect4Bar
 }
 
+func (stager *Stager) displayTaskCompletion(task *Task, rect *svg.Rect, barHeight float64) {
+	if !task.IsWithCompletion {
+		return
+	}
+	rect.IsScalingProportionally = false
+	distanceFromBorder := 10.0
+	iconHeight := 54.0
+	yOffset := (barHeight - iconHeight) / 2.0
+	if yOffset < 0 {
+		yOffset = 0
+	}
+	if path := createCompletionRectAnchoredPath(task.Completion, distanceFromBorder, yOffset); path != nil {
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, path)
+	}
+}
+
 func (stager *Stager) displayTaskTitle(task *Task, diagram *Diagram, rect4Bar *svg.Rect) {
 	barText := new(svg.RectAnchoredText)
 	barText.Name = task.Name
@@ -210,6 +227,13 @@ func (stager *Stager) displayTaskTitle(task *Task, diagram *Diagram, rect4Bar *s
 	nbPixPerChar := 8.0
 	if root != nil && root.NbPixPerCharacter > 0 {
 		nbPixPerChar = root.NbPixPerCharacter
+	}
+
+	distanceFromBorder := 10.0
+	iconWidth := 25.0
+	leftPadding := diagram.XLeftText
+	if task.IsWithCompletion {
+		leftPadding += distanceFromBorder + iconWidth
 	}
 
 	switch task.TextPosition {
@@ -233,12 +257,16 @@ func (stager *Stager) displayTaskTitle(task *Task, diagram *Diagram, rect4Bar *s
 		barText.RectAnchorType = svg.RECT_CENTER_MIDDLE
 		barText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 		barText.DominantBaseline = svg.DominantBaselineCentral
-		barText.X_Offset = task.XOffset
+		if task.IsWithCompletion {
+			barText.X_Offset = (distanceFromBorder + iconWidth)/2.0 + task.XOffset
+		} else {
+			barText.X_Offset = task.XOffset
+		}
 	default:
 		barText.RectAnchorType = svg.RECT_LEFT_MIDDLE
 		barText.TextAnchorType = svg.TEXT_ANCHOR_START
 		barText.DominantBaseline = svg.DominantBaselineCentral
-		barText.X_Offset = diagram.XLeftText + task.XOffset
+		barText.X_Offset = leftPadding + task.XOffset
 	}
 	barText.Y_Offset = task.YOffset
 
@@ -247,6 +275,9 @@ func (stager *Stager) displayTaskTitle(task *Task, diagram *Diagram, rect4Bar *s
 		margin := 2 * diagram.XLeftText
 		if margin <= 0 {
 			margin = 20.0
+		}
+		if task.IsWithCompletion {
+			margin += distanceFromBorder + iconWidth
 		}
 		availableWidth := rect4Bar.Width - margin
 		if availableWidth <= 0 && rect4Bar.Width > 0 {
