@@ -13,7 +13,10 @@ const (
 	VIEW_PLANT_3D            ViewType = "Plant 3D"
 	VIEW_VASE_FORM           ViewType = "Vase Form"
 	VIEW_VASE_2D             ViewType = "Vase 2D"
+	VIEW_TUBE_VASE_2D        ViewType = "Tube Vase 2D"
 	VIEW_TUBE_VASE_3D        ViewType = "Tube Vase 3D"
+	VIEW_VASE_TRAPEZE_2D     ViewType = "Vase Trapeze 2D"
+	VIEW_VASE_TRAPEZE_3D     ViewType = "Vase Trapeze 3D"
 	VIEW_STOOL_3D            ViewType = "Stool 3D"
 	VIEW_CLOCK_3D            ViewType = "Clock 3D"
 	VIEW_ABOUT_SPIRAL_PLANTS ViewType = "About Spiral Plants"
@@ -25,11 +28,13 @@ type PlantType string
 const (
 	Plant       PlantType = "Plant"
 	TubeVase    PlantType = "Tube Vase"
-	TrapezeVase PlantType = "Trapeze Vase"
+	VaseTrapeze PlantType = "Vase Trapeze"
 	Stool       PlantType = "Stool"
 	Clock       PlantType = "Clock"
 	Music       PlantType = "Music"
 )
+
+const TrapezeVase = VaseTrapeze
 
 // Depending on the specific chirality (handedness) of the plant specimen, N may
 // represent the number of clockwise spirals while M represents the counter-clockwise

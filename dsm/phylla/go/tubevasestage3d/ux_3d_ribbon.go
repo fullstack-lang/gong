@@ -36,18 +36,20 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 	trajOffsetXRel := 0.0
 	trajOffsetYRel := 0.0
 	rotRatio := 0.0
-	if plant.PlantType == models.TubeVase {
+	if plant.PlantType == models.TubeVase || plant.PlantType == models.VaseTrapeze {
 		vase := plant.TubeVaseAbstract
-		hasAlternatingRingColors = vase.HasAlternatingRingColors
-		offsetKeyX = vase.OffsetKeyX
-		widthKey = vase.WidthKey
-		offsetKeyY = vase.OffsetKeyY
-		heightKey = vase.HeightKey
-		radialRepetitions = vase.RadialRepetitions
-		transparency = vase.Transparency
-		trajOffsetXRel = vase.RelativeTrajectoryOffsetX
-		trajOffsetYRel = vase.RelativeTrajectoryOffsetY
-		rotRatio = vase.RotationRatio
+		if vase != nil {
+			hasAlternatingRingColors = vase.HasAlternatingRingColors
+			offsetKeyX = vase.OffsetKeyX
+			widthKey = vase.WidthKey
+			offsetKeyY = vase.OffsetKeyY
+			heightKey = vase.HeightKey
+			radialRepetitions = vase.RadialRepetitions
+			transparency = vase.Transparency
+			trajOffsetXRel = vase.RelativeTrajectoryOffsetX
+			trajOffsetYRel = vase.RelativeTrajectoryOffsetY
+			rotRatio = vase.RotationRatio
+		}
 	}
 
 	japanesePaperColor := "#fdf6e3" // Off-white cream color for Washi paper
@@ -83,7 +85,7 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 	inHoleArr := make([]bool, len(localBottomCurve.Points))
 	var y_bottom_abs, y_top_abs float64
 
-	if !checkedDiagram.IsHiddenKeyHole3DShape && plant.TubeVaseAbstract != nil && plant.TubeVaseAbstract.KeyHoleShape != nil && globalR > 0 && h != 0 {
+	if plant.PlantType != models.VaseTrapeze && !checkedDiagram.IsHiddenKeyHole3DShape && plant.TubeVaseAbstract != nil && plant.TubeVaseAbstract.KeyHoleShape != nil && globalR > 0 && h != 0 {
 		x_left := offsetKeyX - widthKey/2.0
 		x_right := offsetKeyX + widthKey/2.0
 		y_bottom_abs = offsetKeyY - heightKey/2.0 + dy
@@ -362,7 +364,7 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 		)
 	}
 
-	if !checkedDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && plant.TubeVaseAbstract != nil && (plant.TubeVaseAbstract.ChosenP1P2PairShape != nil || plant.TubeVaseAbstract.PxShape != nil) {
+	if plant.PlantType != models.VaseTrapeze && !checkedDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && plant.TubeVaseAbstract != nil && (plant.TubeVaseAbstract.ChosenP1P2PairShape != nil || plant.TubeVaseAbstract.PxShape != nil) {
 		var p1x, p1y, p2x, p2y, pxx, pxy float64
 		hasP1P2 := false
 		if plant.TubeVaseAbstract.ChosenP1P2PairShape != nil {

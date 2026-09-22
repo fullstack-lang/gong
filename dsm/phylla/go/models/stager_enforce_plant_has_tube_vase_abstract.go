@@ -4,7 +4,7 @@ import "fmt"
 
 func (stager *Stager) enforcePlantHasTubeVaseAbstract() (needCommit bool) {
 	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
-		if plant.PlantType == TubeVase {
+		if plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze {
 			if plant.TubeVaseAbstract == nil {
 				va := (&TubeVaseAbstract{
 					Name: plant.Name + "-TubeVaseAbstract",
@@ -43,7 +43,7 @@ func (stager *Stager) enforcePlantHasTubeVaseAbstract() (needCommit bool) {
 
 func (stager *Stager) enforceTubeVaseAbstractName() (needCommit bool) {
 	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
-		if plant.PlantType == TubeVase && plant.TubeVaseAbstract != nil {
+		if (plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze) && plant.TubeVaseAbstract != nil {
 			expectedName := plant.Name + "-TubeVaseAbstract"
 			if plant.TubeVaseAbstract.Name != expectedName {
 				oldName := plant.TubeVaseAbstract.Name

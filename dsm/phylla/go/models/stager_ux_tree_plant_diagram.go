@@ -29,7 +29,7 @@ func (stager *Stager) onToggleVisibility(isHidden *bool, btn *tree.Button) func(
 		// only regenerate the 3D stage when the user is actually looking at the 3D view
 		plant := stager.GetCurrentPlant()
 		if plant != nil {
-			if plant.CurrentView == VIEW_TUBE_VASE_3D {
+			if plant.CurrentView == VIEW_TUBE_VASE_3D || plant.CurrentView == VIEW_VASE_TRAPEZE_3D {
 				stager.UpdateThreeJSStage()
 			}
 			if plant.CurrentView == VIEW_STOOL_3D {
@@ -226,7 +226,13 @@ func (stager *Stager) treeVase2DDiagram(plant *PlantAbstract, diagram *Vase2DDia
 	node.Buttons = append(node.Buttons, suppressBtn)
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
-			stager.handleDiagramCheck(diagram, plant, VIEW_VASE_2D)
+			view := VIEW_VASE_2D
+			if plant.PlantType == VaseTrapeze {
+				view = VIEW_VASE_TRAPEZE_2D
+			} else if plant.PlantType == TubeVase {
+				view = VIEW_TUBE_VASE_2D
+			}
+			stager.handleDiagramCheck(diagram, plant, view)
 			diagram.IsChecked = true
 			stager.stage.Commit()
 		} else {
@@ -238,7 +244,13 @@ func (stager *Stager) treeVase2DDiagram(plant *PlantAbstract, diagram *Vase2DDia
 	node.OnNameChange = stager.onNameChange(diagram)
 	node.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(diagram, GetPointerToGongstructName[*Vase2DDiagram]())
-		stager.handleDiagramCheck(diagram, plant, VIEW_VASE_2D)
+		view := VIEW_VASE_2D
+		if plant.PlantType == VaseTrapeze {
+			view = VIEW_VASE_TRAPEZE_2D
+		} else if plant.PlantType == TubeVase {
+			view = VIEW_TUBE_VASE_2D
+		}
+		stager.handleDiagramCheck(diagram, plant, view)
 		diagram.IsChecked = true
 		stager.stage.Commit()
 	}
@@ -284,35 +296,58 @@ func (stager *Stager) treeVase2DDiagram(plant *PlantAbstract, diagram *Vase2DDia
 		appendDiagramNode(stager, vaseClampingNodes, "Partially Growth Curve 2D Ribbon", vase.PartiallyGrowthCurve2DRibbon, &diagram.IsHiddenPartiallyGrowthCurve2DRibbon)
 		appendDiagramNode(stager, vaseClampingNodes, "ShiftedLeft Partially Growth Curve 2D Ribbon", vase.ShiftedLeftPartiallyGrowthCurve2DRibbon, &diagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon)
 		appendDiagramNode(stager, vaseClampingNodes, "Partially Growth Curve 2D Trajectory", vase.PartiallyGrowthCurve2DTrajectory, &diagram.IsHiddenPartiallyGrowthCurve2DTrajectory)
-		appendDiagramNode(stager, vaseClampingNodes, "Partially Growth Curve 2D Trajectory P1 P2", vase.PartiallyGrowthCurve2DTrajectoryP1P2, &diagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2)
-		appendDiagramNode(stager, vaseClampingNodes, "Px Shape", vase.PxShape, &diagram.IsHiddenPxShape)
-		appendDiagramNode(stager, vaseClampingNodes, "Chosen P1 P2 Pair Shape", vase.ChosenP1P2PairShape, &diagram.IsHiddenChosenP1P2PairShape)
-		appendDiagramNode(stager, vaseClampingNodes, "Key Hole", vase.KeyHoleShape, &diagram.IsHiddenKeyHoleShape)
+		if plant.PlantType != VaseTrapeze {
+			appendDiagramNode(stager, vaseClampingNodes, "Partially Growth Curve 2D Trajectory P1 P2", vase.PartiallyGrowthCurve2DTrajectoryP1P2, &diagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2)
+			appendDiagramNode(stager, vaseClampingNodes, "Px Shape", vase.PxShape, &diagram.IsHiddenPxShape)
+			appendDiagramNode(stager, vaseClampingNodes, "Chosen P1 P2 Pair Shape", vase.ChosenP1P2PairShape, &diagram.IsHiddenChosenP1P2PairShape)
+			appendDiagramNode(stager, vaseClampingNodes, "Key Hole", vase.KeyHoleShape, &diagram.IsHiddenKeyHoleShape)
+		}
 		appendDiagramNode(stager, vaseClampingNodes, "Stack Of Growth Curve 2D", vase.StackOfGrowthCurve2D, &diagram.IsHiddenStackOfGrowthCurve2D)
 		appendDiagramNode(stager, vaseClampingNodes, "Top Stack Of Growth Curve 2D", vase.TopStackOfGrowthCurve2D, &diagram.IsHiddenTopStackOfGrowthCurve2D)
 		appendDiagramNode(stager, vaseClampingNodes, "Stack Of Growth Curve 2D Ribbon", vase.StackOfGrowthCurve2DRibbon, &diagram.IsHiddenStackOfGrowthCurve2DRibbon)
-		stager.addHideAllButton(vaseClampingNodes,
-			&diagram.IsHiddenStartHalfwayArcShapeGrid,
-			&diagram.IsHiddenTopStartHalfwayArcShapeGrid,
-			&diagram.IsHiddenEndHalfwayArcShapeGrid,
-			&diagram.IsHiddenTopEndHalfwayArcShapeGrid,
-			&diagram.IsHiddenStackOfGrowthCurve,
-			&diagram.IsHiddenTopStackOfGrowthCurve,
-			&diagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon,
-			&diagram.IsHiddenGrowthCurve2DRibbon,
-			&diagram.IsHiddenShiftedRightGrowthCurve2DRibbon,
-			&diagram.IsHiddenShiftedLeftGrowthCurve2DRibbon,
-			&diagram.IsHiddenPartiallyGrowthCurve2DRibbon,
-			&diagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon,
-			&diagram.IsHiddenPartiallyGrowthCurve2DTrajectory,
-			&diagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2,
-			&diagram.IsHiddenPxShape,
-			&diagram.IsHiddenChosenP1P2PairShape,
-			&diagram.IsHiddenKeyHoleShape,
-			&diagram.IsHiddenStackOfGrowthCurve2D,
-			&diagram.IsHiddenTopStackOfGrowthCurve2D,
-			&diagram.IsHiddenStackOfGrowthCurve2DRibbon,
-		)
+		if plant.PlantType == VaseTrapeze {
+			stager.addHideAllButton(vaseClampingNodes,
+				&diagram.IsHiddenStartHalfwayArcShapeGrid,
+				&diagram.IsHiddenTopStartHalfwayArcShapeGrid,
+				&diagram.IsHiddenEndHalfwayArcShapeGrid,
+				&diagram.IsHiddenTopEndHalfwayArcShapeGrid,
+				&diagram.IsHiddenStackOfGrowthCurve,
+				&diagram.IsHiddenTopStackOfGrowthCurve,
+				&diagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon,
+				&diagram.IsHiddenGrowthCurve2DRibbon,
+				&diagram.IsHiddenShiftedRightGrowthCurve2DRibbon,
+				&diagram.IsHiddenShiftedLeftGrowthCurve2DRibbon,
+				&diagram.IsHiddenPartiallyGrowthCurve2DRibbon,
+				&diagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon,
+				&diagram.IsHiddenPartiallyGrowthCurve2DTrajectory,
+				&diagram.IsHiddenStackOfGrowthCurve2D,
+				&diagram.IsHiddenTopStackOfGrowthCurve2D,
+				&diagram.IsHiddenStackOfGrowthCurve2DRibbon,
+			)
+		} else {
+			stager.addHideAllButton(vaseClampingNodes,
+				&diagram.IsHiddenStartHalfwayArcShapeGrid,
+				&diagram.IsHiddenTopStartHalfwayArcShapeGrid,
+				&diagram.IsHiddenEndHalfwayArcShapeGrid,
+				&diagram.IsHiddenTopEndHalfwayArcShapeGrid,
+				&diagram.IsHiddenStackOfGrowthCurve,
+				&diagram.IsHiddenTopStackOfGrowthCurve,
+				&diagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon,
+				&diagram.IsHiddenGrowthCurve2DRibbon,
+				&diagram.IsHiddenShiftedRightGrowthCurve2DRibbon,
+				&diagram.IsHiddenShiftedLeftGrowthCurve2DRibbon,
+				&diagram.IsHiddenPartiallyGrowthCurve2DRibbon,
+				&diagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon,
+				&diagram.IsHiddenPartiallyGrowthCurve2DTrajectory,
+				&diagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2,
+				&diagram.IsHiddenPxShape,
+				&diagram.IsHiddenChosenP1P2PairShape,
+				&diagram.IsHiddenKeyHoleShape,
+				&diagram.IsHiddenStackOfGrowthCurve2D,
+				&diagram.IsHiddenTopStackOfGrowthCurve2D,
+				&diagram.IsHiddenStackOfGrowthCurve2DRibbon,
+			)
+		}
 	}
 }
 
@@ -345,7 +380,7 @@ func (stager *Stager) treeTubeVase3DDiagram(plant *PlantAbstract, diagram *TubeV
 	node.Buttons = append(node.Buttons, suppressBtn)
 
 	// Record Movie Button
-	if is3DView && plant.CurrentView == VIEW_TUBE_VASE_3D {
+	if is3DView && (plant.CurrentView == VIEW_TUBE_VASE_3D || plant.CurrentView == VIEW_VASE_TRAPEZE_3D) {
 		recordMovieBtn := &tree.Button{
 			Name: "Record Movie", Icon: string(buttons.BUTTON_videocam), ToolTipText: "Record movie frames from rot 0.0 to 1.0", HasToolTip: true, ToolTipPosition: tree.Right,
 			OnClick: func() {
@@ -358,7 +393,7 @@ func (stager *Stager) treeTubeVase3DDiagram(plant *PlantAbstract, diagram *TubeV
 		}
 		if stager.IsMovieRecording() {
 			rotRatio := 0.0
-			if plant.PlantType == TubeVase && plant.TubeVaseAbstract != nil {
+			if (plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze) && plant.TubeVaseAbstract != nil {
 				rotRatio = plant.TubeVaseAbstract.RotationRatio
 			}
 			recordMovieBtn.Name = "Stop Recording"
@@ -370,7 +405,11 @@ func (stager *Stager) treeTubeVase3DDiagram(plant *PlantAbstract, diagram *TubeV
 
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
-			stager.handleDiagramCheck(diagram, plant, VIEW_TUBE_VASE_3D)
+			view := VIEW_TUBE_VASE_3D
+			if plant.PlantType == VaseTrapeze {
+				view = VIEW_VASE_TRAPEZE_3D
+			}
+			stager.handleDiagramCheck(diagram, plant, view)
 			diagram.IsChecked = true
 			diagram.IsExpanded = true
 			plant.IsTubeVase3DDiagramsNodeExpanded = true
@@ -384,7 +423,11 @@ func (stager *Stager) treeTubeVase3DDiagram(plant *PlantAbstract, diagram *TubeV
 	node.OnNameChange = stager.onNameChange(diagram)
 	node.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(diagram, GetPointerToGongstructName[*TubeVase3DDiagram]())
-		stager.handleDiagramCheck(diagram, plant, VIEW_TUBE_VASE_3D)
+		view := VIEW_TUBE_VASE_3D
+		if plant.PlantType == VaseTrapeze {
+			view = VIEW_VASE_TRAPEZE_3D
+		}
+		stager.handleDiagramCheck(diagram, plant, view)
 		diagram.IsChecked = true
 		diagram.IsExpanded = true
 		plant.IsTubeVase3DDiagramsNodeExpanded = true
@@ -392,19 +435,26 @@ func (stager *Stager) treeTubeVase3DDiagram(plant *PlantAbstract, diagram *TubeV
 	}
 
 	if is3DView {
-		appendDiagramNode(stager, node, "3D Torus Stack", diagram.TorusStackShape, &diagram.IsHiddenTorusStackShape)
-		appendDiagramNode(stager, node, "Vertical 3D Torus Stack", diagram.VerticalTorusStackShape, &diagram.IsHiddenVerticalTorusStackShape)
-		appendDiagramNode(stager, node, "Partially Rotated 3D Torus", diagram.PartiallyRotatedTorusShape, &diagram.IsHiddenPartiallyRotatedTorusShape)
-		appendDiagramNode(stager, node, "Stack Of Partially Rotated 3D Torus", diagram.StackOfPartiallyRotatedTorusShape, &diagram.IsHiddenStackOfPartiallyRotatedTorusShape)
-		appendDiagramNode(stager, node, "3D Key Hole", diagram.KeyHole3DShape, &diagram.IsHiddenKeyHole3DShape)
-		appendDiagramNode(stager, node, "3D Key", diagram.Key3DShape, &diagram.IsHiddenKey3DShape)
-		appendDiagramNode(stager, node, "3D Volume Key", diagram.VolumeKey3DShape, &diagram.IsHiddenVolumeKey3DShape)
-		appendDiagramNode(stager, node, "3D Torus Edge", diagram.TorusEdge3DShape, &diagram.IsHiddenTorusEdge3DShape)
-		appendDiagramNode(stager, node, "3D Points and lines between points", diagram.PointsAndLines3DShape, &diagram.IsHiddenPointsAndLines3DShape)
-		appendDiagramNode(stager, node, "3D Sampled Points", diagram.SampledPoints3DShape, &diagram.IsHiddenSampledPoints3DShape)
-		appendDiagramNode(stager, node, "3D Original Points", diagram.OriginalPoints3DShape, &diagram.IsHiddenOriginalPoints3DShape)
-		appendDiagramNode(stager, node, "3D Angle 0 Shape", diagram.Angle0Shape, &diagram.IsHiddenAngle0Shape)
-		appendDiagramNode(stager, node, "3D Tiled Floor", diagram.TiledFloor3DShape, &diagram.IsHiddenTiledFloor3DShape)
+		if plant.PlantType == VaseTrapeze {
+			appendDiagramNode(stager, node, "3D Ribbon", diagram.TorusStackShape, &diagram.IsHiddenTorusStackShape)
+			appendDiagramNode(stager, node, "3D Sampled Points", diagram.SampledPoints3DShape, &diagram.IsHiddenSampledPoints3DShape)
+			appendDiagramNode(stager, node, "3D Original Points", diagram.OriginalPoints3DShape, &diagram.IsHiddenOriginalPoints3DShape)
+			appendDiagramNode(stager, node, "3D Tiled Floor", diagram.TiledFloor3DShape, &diagram.IsHiddenTiledFloor3DShape)
+		} else {
+			appendDiagramNode(stager, node, "3D Torus Stack", diagram.TorusStackShape, &diagram.IsHiddenTorusStackShape)
+			appendDiagramNode(stager, node, "Vertical 3D Torus Stack", diagram.VerticalTorusStackShape, &diagram.IsHiddenVerticalTorusStackShape)
+			appendDiagramNode(stager, node, "Partially Rotated 3D Torus", diagram.PartiallyRotatedTorusShape, &diagram.IsHiddenPartiallyRotatedTorusShape)
+			appendDiagramNode(stager, node, "Stack Of Partially Rotated 3D Torus", diagram.StackOfPartiallyRotatedTorusShape, &diagram.IsHiddenStackOfPartiallyRotatedTorusShape)
+			appendDiagramNode(stager, node, "3D Key Hole", diagram.KeyHole3DShape, &diagram.IsHiddenKeyHole3DShape)
+			appendDiagramNode(stager, node, "3D Key", diagram.Key3DShape, &diagram.IsHiddenKey3DShape)
+			appendDiagramNode(stager, node, "3D Volume Key", diagram.VolumeKey3DShape, &diagram.IsHiddenVolumeKey3DShape)
+			appendDiagramNode(stager, node, "3D Torus Edge", diagram.TorusEdge3DShape, &diagram.IsHiddenTorusEdge3DShape)
+			appendDiagramNode(stager, node, "3D Points and lines between points", diagram.PointsAndLines3DShape, &diagram.IsHiddenPointsAndLines3DShape)
+			appendDiagramNode(stager, node, "3D Sampled Points", diagram.SampledPoints3DShape, &diagram.IsHiddenSampledPoints3DShape)
+			appendDiagramNode(stager, node, "3D Original Points", diagram.OriginalPoints3DShape, &diagram.IsHiddenOriginalPoints3DShape)
+			appendDiagramNode(stager, node, "3D Angle 0 Shape", diagram.Angle0Shape, &diagram.IsHiddenAngle0Shape)
+			appendDiagramNode(stager, node, "3D Tiled Floor", diagram.TiledFloor3DShape, &diagram.IsHiddenTiledFloor3DShape)
+		}
 	}
 }
 

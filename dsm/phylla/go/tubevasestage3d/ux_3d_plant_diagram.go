@@ -112,22 +112,24 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 	heightKey := 0.0
 	relativeKeySize := 0.0
 	thickness := 5.0
-	if plant.PlantType == models.TubeVase {
+	if plant.PlantType == models.TubeVase || plant.PlantType == models.VaseTrapeze {
 		vase := plant.TubeVaseAbstract
 		sideLength = plant.RhombusSideLength
-		if vase.RelativeRadialThickness*sideLength > 0 {
-			thickness = vase.RelativeRadialThickness * sideLength
+		if vase != nil {
+			if vase.RelativeRadialThickness*sideLength > 0 {
+				thickness = vase.RelativeRadialThickness * sideLength
+			}
+			radialRepetitions = vase.RadialRepetitions
+			rotRatio = vase.RotationRatio
+			relativeVerticalThickness = vase.RelativeVerticalThickness
+			relativeRotatedTorusSeparation = vase.RelativeRotatedTorusSeparation
+			relativeCuttedStackFloorHeight = vase.RelativeCuttedStackFloorHeight
+			offsetKeyX = vase.OffsetKeyX
+			offsetKeyY = vase.OffsetKeyY
+			widthKey = vase.WidthKey
+			heightKey = vase.HeightKey
+			relativeKeySize = vase.RelativeKeySize
 		}
-		radialRepetitions = vase.RadialRepetitions
-		rotRatio = vase.RotationRatio
-		relativeVerticalThickness = vase.RelativeVerticalThickness
-		relativeRotatedTorusSeparation = vase.RelativeRotatedTorusSeparation
-		relativeCuttedStackFloorHeight = vase.RelativeCuttedStackFloorHeight
-		offsetKeyX = vase.OffsetKeyX
-		offsetKeyY = vase.OffsetKeyY
-		widthKey = vase.WidthKey
-		heightKey = vase.HeightKey
-		relativeKeySize = vase.RelativeKeySize
 	}
 
 	// We will use BufferGeometry directly, no need for 2D shapes
@@ -182,38 +184,42 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 	}
 
 	if !checkedDiagram.IsHiddenTorusStackShape {
-		var growthVectorX, growthVectorY float64
-		if plant.GrowthVectorShape != nil {
-			growthVectorX = plant.GrowthVectorShape.X
-			growthVectorY = plant.GrowthVectorShape.Y
-		}
-
-		var vx, vy float64
-		if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
-			pGrid := plant.PerpendicularVectorGrid
-			vFirst := pGrid.PerpendicularVectors[0]
-			vx = vFirst.EndX - vFirst.StartX
-			vy = vFirst.EndY - vFirst.StartY
-			vLen := math.Hypot(vx, vy)
-			if vLen == 0 {
-				vLen = 1
+		if plant.PlantType == models.VaseTrapeze {
+			u.generateLayerWithModulo(stager, 0, 1, 0, 0, 0, "Trapeze 3D Ribbon", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
+		} else {
+			var growthVectorX, growthVectorY float64
+			if plant.GrowthVectorShape != nil {
+				growthVectorX = plant.GrowthVectorShape.X
+				growthVectorY = plant.GrowthVectorShape.Y
 			}
-			vx, vy = vx/vLen, vy/vLen
-		}
 
-		verticalThickness := relativeVerticalThickness * sideLength
-		rotatedSeparation := relativeRotatedTorusSeparation * sideLength
+			var vx, vy float64
+			if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
+				pGrid := plant.PerpendicularVectorGrid
+				vFirst := pGrid.PerpendicularVectors[0]
+				vx = vFirst.EndX - vFirst.StartX
+				vy = vFirst.EndY - vFirst.StartY
+				vLen := math.Hypot(vx, vy)
+				if vLen == 0 {
+					vLen = 1
+				}
+				vx, vy = vx/vLen, vy/vLen
+			}
 
-		for h := range stackHeight {
-			dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
-			dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation
-			thetaOffset := dx / globalR
+			verticalThickness := relativeVerticalThickness * sideLength
+			rotatedSeparation := relativeRotatedTorusSeparation * sideLength
 
-			u.generateLayerWithModulo(stager, h, stackHeight, dx, dy, thetaOffset, "Torus Continuous", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
+			for h := range stackHeight {
+				dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
+				dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation
+				thetaOffset := dx / globalR
+
+				u.generateLayerWithModulo(stager, h, stackHeight, dx, dy, thetaOffset, "Torus Continuous", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
+			}
 		}
 	}
 
-	if !checkedDiagram.IsHiddenVerticalTorusStackShape {
+	if !checkedDiagram.IsHiddenVerticalTorusStackShape && plant.PlantType != models.VaseTrapeze {
 		for h := range stackHeight {
 			dx := 0.0
 			dy := float64(h) * relativeCuttedStackFloorHeight * sideLength
@@ -223,7 +229,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 	}
 
-	if !checkedDiagram.IsHiddenPartiallyRotatedTorusShape {
+	if !checkedDiagram.IsHiddenPartiallyRotatedTorusShape && plant.PlantType != models.VaseTrapeze {
 		dx, dy, _ := models.ComputePartiallyGrowthCurveDY(plant)
 		thetaOffset := dx / globalR
 
@@ -234,7 +240,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		u.generateLayerWithModulo(stager, 1, 2, dx, dy, thetaOffset, "Partially Rotated Torus", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
 	}
 
-	if !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape && stackHeight > 0 {
+	if !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape && stackHeight > 0 && plant.PlantType != models.VaseTrapeze {
 		numSteps := stackHeight - 1
 		dxs := make([]float64, stackHeight)
 		dys := make([]float64, stackHeight)
@@ -271,7 +277,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 	}
 
-	if (!checkedDiagram.IsHiddenKey3DShape || !checkedDiagram.IsHiddenVolumeKey3DShape) && plant.TubeVaseAbstract != nil && plant.TubeVaseAbstract.KeyHoleShape != nil && globalR > 0 {
+	if (!checkedDiagram.IsHiddenKey3DShape || !checkedDiagram.IsHiddenVolumeKey3DShape) && plant.PlantType != models.VaseTrapeze && plant.TubeVaseAbstract != nil && plant.TubeVaseAbstract.KeyHoleShape != nil && globalR > 0 {
 		stackH := stackHeight
 		if stackH <= 0 {
 			stackH = 1

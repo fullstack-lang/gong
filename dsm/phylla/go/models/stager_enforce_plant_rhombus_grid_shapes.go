@@ -100,7 +100,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		}
 		{
 			vThicknessMid := 0.0
-			if plant.PlantType == TubeVase && plant.TubeVaseAbstract != nil {
+			if (plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze) && plant.TubeVaseAbstract != nil {
 				vThicknessMid = plant.TubeVaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
 			}
 			needCommit = enforceMidArcVectorShapeGridHasShapes(stage, plant.MidArcVectorShapeGrid, plant.PerpendicularVectorGrid, vThicknessMid) || needCommit
@@ -112,7 +112,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			needCommit = true
 		}
 
-		if plant.PlantType == TubeVase && plant.TubeVaseAbstract != nil {
+		if (plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze) && plant.TubeVaseAbstract != nil {
 			vase := plant.TubeVaseAbstract
 			vThickness := vase.RelativeVerticalThickness * plant.RhombusSideLength
 			cHeight := vase.RelativeCuttedStackFloorHeight * plant.RhombusSideLength

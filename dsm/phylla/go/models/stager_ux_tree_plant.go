@@ -66,12 +66,12 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 				plant.CurrentView = VIEW_CLOCK_3D
 			}
 		} else if plant.PlantType == TubeVase {
-			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_TUBE_VASE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_TUBE_VASE_2D && plant.CurrentView != VIEW_TUBE_VASE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 				plant.CurrentView = VIEW_TUBE_VASE_3D
 			}
-		} else if plant.PlantType == TrapezeVase {
-			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
-				plant.CurrentView = VIEW_VASE_2D
+		} else if plant.PlantType == VaseTrapeze {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_TRAPEZE_2D && plant.CurrentView != VIEW_VASE_TRAPEZE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+				plant.CurrentView = VIEW_VASE_TRAPEZE_2D
 			}
 		} else if plant.PlantType == Music {
 			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_MUSIC_SCORE && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
@@ -143,7 +143,7 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 				plant.Plant2DDiagrams[0].IsChecked = true
 				plant.Plant2DDiagrams[0].IsExpanded = true
 			}
-		case VIEW_VASE_2D, VIEW_VASE_FORM:
+		case VIEW_VASE_2D, VIEW_TUBE_VASE_2D, VIEW_VASE_TRAPEZE_2D, VIEW_VASE_FORM:
 			for _, d := range plant.Vase2DDiagrams {
 				if d.IsChecked {
 					hasCheckedDiagramForView = true
@@ -155,7 +155,7 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 				plant.Vase2DDiagrams[0].IsChecked = true
 				plant.Vase2DDiagrams[0].IsExpanded = true
 			}
-		case VIEW_TUBE_VASE_3D:
+		case VIEW_TUBE_VASE_3D, VIEW_VASE_TRAPEZE_3D:
 			for _, d := range plant.TubeVase3DDiagrams {
 				if d.IsChecked {
 					hasCheckedDiagramForView = true
@@ -374,8 +374,8 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		for _, diag := range plant.Plant3DDiagrams {
 			stager.treePlant3DDiagram(plant, diag, &plantNode.Children, true)
 		}
-	case VIEW_VASE_2D, VIEW_VASE_FORM:
-		if plant.PlantType == TubeVase || plant.PlantType == TrapezeVase {
+	case VIEW_VASE_2D, VIEW_TUBE_VASE_2D, VIEW_VASE_TRAPEZE_2D, VIEW_VASE_FORM:
+		if plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze {
 			confVase2D := ItemButtonConfiguration[Vase2DDiagram, *Vase2DDiagram, PlantAbstract, *PlantAbstract]{
 				parentNode:                         plantNode,
 				sliceForNewAddedItem:               &plant.Vase2DDiagrams,
@@ -387,15 +387,20 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			addCreateItemButton(stager, confVase2D)
 			if len(plantNode.Menu.Buttons) > 0 {
 				btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
-				btn.Name = "Add Vase 2D Diagram"
-				btn.ToolTipText = "Add a Vase 2D Diagram"
+				if plant.PlantType == VaseTrapeze {
+					btn.Name = "Add Vase Trapeze 2D Diagram"
+					btn.ToolTipText = "Add a Vase Trapeze 2D Diagram"
+				} else {
+					btn.Name = "Add Tube Vase 2D Diagram"
+					btn.ToolTipText = "Add a Tube Vase 2D Diagram"
+				}
 			}
 			for _, diag := range plant.Vase2DDiagrams {
 				stager.treeVase2DDiagram(plant, diag, &plantNode.Children, false)
 			}
 		}
-	case VIEW_TUBE_VASE_3D:
-		if plant.PlantType == TubeVase {
+	case VIEW_TUBE_VASE_3D, VIEW_VASE_TRAPEZE_3D:
+		if plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze {
 			confTubeVase3D := ItemButtonConfiguration[TubeVase3DDiagram, *TubeVase3DDiagram, PlantAbstract, *PlantAbstract]{
 				parentNode:                         plantNode,
 				sliceForNewAddedItem:               &plant.TubeVase3DDiagrams,
@@ -407,8 +412,13 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			addCreateItemButton(stager, confTubeVase3D)
 			if len(plantNode.Menu.Buttons) > 0 {
 				btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
-				btn.Name = "Add Tube Vase 3D Diagram"
-				btn.ToolTipText = "Add a Tube Vase 3D Diagram"
+				if plant.PlantType == VaseTrapeze {
+					btn.Name = "Add Vase Trapeze 3D Diagram"
+					btn.ToolTipText = "Add a Vase Trapeze 3D Diagram"
+				} else {
+					btn.Name = "Add Tube Vase 3D Diagram"
+					btn.ToolTipText = "Add a Tube Vase 3D Diagram"
+				}
 			}
 			for _, diag := range plant.TubeVase3DDiagrams {
 				stager.treeTubeVase3DDiagram(plant, diag, &plantNode.Children, true)

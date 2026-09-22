@@ -105,7 +105,7 @@ func (u *ThreeJSStageUpdater) computeGlobalRadius(plant *models.PlantAbstract) (
 		circumference = 10.0
 	}
 	threeDModulo := 1
-	if plant.PlantType == models.TubeVase {
+	if (plant.PlantType == models.TubeVase || plant.PlantType == models.VaseTrapeze) && plant.TubeVaseAbstract != nil {
 		threeDModulo = plant.TubeVaseAbstract.RadialRepetitions
 	}
 	if threeDModulo < 1 {
@@ -122,7 +122,7 @@ func (u *ThreeJSStageUpdater) addFloorTiles(stager *models.Stager, floorMinY flo
 		floorMinY = 0.0
 	} else {
 		thickness := 0.0
-		if plant.PlantType == models.TubeVase {
+		if (plant.PlantType == models.TubeVase || plant.PlantType == models.VaseTrapeze) && plant.TubeVaseAbstract != nil {
 			thickness = plant.TubeVaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
 		}
 		if thickness == 0 {

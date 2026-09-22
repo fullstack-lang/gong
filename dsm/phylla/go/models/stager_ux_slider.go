@@ -123,7 +123,7 @@ func (stager *Stager) ux_slider() {
 			}
 		}
 
-		if plant.CurrentView != VIEW_PLANT_2D && plant.PlantType == TubeVase {
+		if plant.CurrentView != VIEW_PLANT_2D && (plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze) && plant.TubeVaseAbstract != nil {
 
 			group1.Sliders = append(
 				group1.Sliders,
@@ -137,29 +137,31 @@ func (stager *Stager) ux_slider() {
 				),
 			)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"2D Separation",
-					0.0,
-					0.1,
-					0.002,
-					&plant.TubeVaseAbstract.RelativeCuttedStackFloorHeight,
-				),
-			)
+			if plant.PlantType == TubeVase {
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"2D Separation",
+						0.0,
+						0.1,
+						0.002,
+						&plant.TubeVaseAbstract.RelativeCuttedStackFloorHeight,
+					),
+				)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"3D Separation",
-					0.0,
-					1.0,
-					0.01,
-					&plant.TubeVaseAbstract.RelativeRotatedTorusSeparation,
-				),
-			)
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"3D Separation",
+						0.0,
+						1.0,
+						0.01,
+						&plant.TubeVaseAbstract.RelativeRotatedTorusSeparation,
+					),
+				)
+			}
 
 			group1.Sliders = append(
 				group1.Sliders,
@@ -173,17 +175,19 @@ func (stager *Stager) ux_slider() {
 				),
 			)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Rot Ratio",
-					0.0,
-					1.0,
-					0.005,
-					&plant.TubeVaseAbstract.RotationRatio,
-				),
-			)
+			if plant.PlantType == TubeVase {
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"Rot Ratio",
+						0.0,
+						1.0,
+						0.005,
+						&plant.TubeVaseAbstract.RotationRatio,
+					),
+				)
+			}
 
 			group1.Sliders = append(
 				group1.Sliders,
@@ -209,146 +213,148 @@ func (stager *Stager) ux_slider() {
 				),
 			)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				NewBoolSlider(
-					stager,
-					"Alternating Ring Colors",
-					&plant.TubeVaseAbstract.HasAlternatingRingColors,
-				),
-			)
+			if plant.PlantType == TubeVase {
+				group1.Sliders = append(
+					group1.Sliders,
+					NewBoolSlider(
+						stager,
+						"Alternating Ring Colors",
+						&plant.TubeVaseAbstract.HasAlternatingRingColors,
+					),
+				)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Traj offset X",
-					-0.15,
-					0.15,
-					0.001,
-					&plant.TubeVaseAbstract.RelativeTrajectoryOffsetX,
-				),
-			)
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"Traj offset X",
+						-0.15,
+						0.15,
+						0.001,
+						&plant.TubeVaseAbstract.RelativeTrajectoryOffsetX,
+					),
+				)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Traj offset Y",
-					-0.15,
-					0.15,
-					0.001,
-					&plant.TubeVaseAbstract.RelativeTrajectoryOffsetY,
-				),
-			)
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"Traj offset Y",
+						-0.15,
+						0.15,
+						0.001,
+						&plant.TubeVaseAbstract.RelativeTrajectoryOffsetY,
+					),
+				)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Nb Step P1 P2",
-					1,
-					30,
-					1,
-					&plant.TubeVaseAbstract.NbStepP1P2,
-				),
-			)
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"Nb Step P1 P2",
+						1,
+						30,
+						1,
+						&plant.TubeVaseAbstract.NbStepP1P2,
+					),
+				)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Chosen Step",
-					1,
-					plant.TubeVaseAbstract.NbStepP1P2,
-					1,
-					&plant.TubeVaseAbstract.ChosenStep,
-				),
-			)
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"Chosen Step",
+						1,
+						plant.TubeVaseAbstract.NbStepP1P2,
+						1,
+						&plant.TubeVaseAbstract.ChosenStep,
+					),
+				)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Horiz Ring Height",
-					0.0,
-					1.0,
-					0.005,
-					&plant.TubeVaseAbstract.RelativeHorizontalRingsHeight,
-				),
-			)
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"Horiz Ring Height",
+						0.0,
+						1.0,
+						0.005,
+						&plant.TubeVaseAbstract.RelativeHorizontalRingsHeight,
+					),
+				)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Offset Key X",
-					-500,
-					500,
-					1,
-					&plant.TubeVaseAbstract.OffsetKeyX,
-				),
-			)
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"Offset Key X",
+						-500,
+						500,
+						1,
+						&plant.TubeVaseAbstract.OffsetKeyX,
+					),
+				)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Offset Key Y",
-					-500,
-					500,
-					1,
-					&plant.TubeVaseAbstract.OffsetKeyY,
-				),
-			)
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"Offset Key Y",
+						-500,
+						500,
+						1,
+						&plant.TubeVaseAbstract.OffsetKeyY,
+					),
+				)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Width Key",
-					0,
-					500,
-					1,
-					&plant.TubeVaseAbstract.WidthKey,
-				),
-			)
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"Width Key",
+						0,
+						500,
+						1,
+						&plant.TubeVaseAbstract.WidthKey,
+					),
+				)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Height Key",
-					0,
-					500,
-					1,
-					&plant.TubeVaseAbstract.HeightKey,
-				),
-			)
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"Height Key",
+						0,
+						500,
+						1,
+						&plant.TubeVaseAbstract.HeightKey,
+					),
+				)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Key Size Reduction",
-					0.0,
-					1.0,
-					0.01,
-					&plant.TubeVaseAbstract.RelativeKeySize,
-				),
-			)
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"Key Size Reduction",
+						0.0,
+						1.0,
+						0.01,
+						&plant.TubeVaseAbstract.RelativeKeySize,
+					),
+				)
 
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Movie Nb Frames",
-					0,
-					1000,
-					1,
-					&plant.TubeVaseAbstract.MovieNbFrames,
-				),
-			)
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"Movie Nb Frames",
+						0,
+						1000,
+						1,
+						&plant.TubeVaseAbstract.MovieNbFrames,
+					),
+				)
+			}
 		}
 
 	}
@@ -644,7 +650,7 @@ func getActive2DDiagramZoom(plant *PlantAbstract) *float64 {
 		return nil
 	}
 
-	if plant.CurrentView == VIEW_VASE_2D {
+	if plant.CurrentView == VIEW_VASE_2D || plant.CurrentView == VIEW_TUBE_VASE_2D || plant.CurrentView == VIEW_VASE_TRAPEZE_2D {
 		for _, d := range plant.Vase2DDiagrams {
 			if d.IsChecked {
 				return &d.Zoom

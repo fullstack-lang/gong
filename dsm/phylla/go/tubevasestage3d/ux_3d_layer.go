@@ -20,7 +20,7 @@ func (u *ThreeJSStageUpdater) generateLayerWithModulo(
 
 	radialRepetition := 1
 	h_horiz := 0.0
-	if plant.PlantType == models.TubeVase {
+	if (plant.PlantType == models.TubeVase || plant.PlantType == models.VaseTrapeze) && plant.TubeVaseAbstract != nil {
 		radialRepetition = plant.TubeVaseAbstract.RadialRepetitions
 		h_horiz = plant.TubeVaseAbstract.RelativeHorizontalRingsHeight * plant.RhombusSideLength
 	}

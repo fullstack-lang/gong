@@ -42,7 +42,7 @@ func (stager *Stager) createViews() {
 	plant := stager.GetCurrentPlant()
 	currentView := VIEW_PLANT_2D
 	isTubeVase := (plant != nil && plant.PlantType == TubeVase)
-	isTrapezeVase := (plant != nil && plant.PlantType == TrapezeVase)
+	isTrapezeVase := (plant != nil && plant.PlantType == VaseTrapeze)
 	isStool := (plant != nil && plant.PlantType == Stool)
 	isClock := (plant != nil && plant.PlantType == Clock)
 	isMusic := (plant != nil && plant.PlantType == Music)
@@ -103,9 +103,9 @@ func (stager *Stager) createViews() {
 			plant.CurrentView = VIEW_PLANT_2D
 		} else if plant.PlantType == Music && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_MUSIC_SCORE && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			plant.CurrentView = VIEW_MUSIC_SCORE
-		} else if plant.PlantType == TubeVase && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_TUBE_VASE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+		} else if plant.PlantType == TubeVase && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_TUBE_VASE_2D && plant.CurrentView != VIEW_TUBE_VASE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			plant.CurrentView = VIEW_PLANT_2D
-		} else if plant.PlantType == TrapezeVase && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+		} else if plant.PlantType == VaseTrapeze && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_TRAPEZE_2D && plant.CurrentView != VIEW_VASE_TRAPEZE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			plant.CurrentView = VIEW_PLANT_2D
 		}
 		if isMusicScoreChecked {
@@ -121,8 +121,14 @@ func (stager *Stager) createViews() {
 	view0Name := string(VIEW_PLANT_2D)
 	viewPlant3DName := string(VIEW_PLANT_3D)
 	view1Name := string(VIEW_VASE_FORM)
-	view2Name := string(VIEW_VASE_2D)
+	view2Name := string(VIEW_TUBE_VASE_2D)
+	if isTrapezeVase {
+		view2Name = string(VIEW_VASE_TRAPEZE_2D)
+	}
 	view3Name := string(VIEW_TUBE_VASE_3D)
+	if isTrapezeVase {
+		view3Name = string(VIEW_VASE_TRAPEZE_3D)
+	}
 	viewStool3DName := string(VIEW_STOOL_3D)
 	viewClock3DName := string(VIEW_CLOCK_3D)
 	viewMusicScoreName := string(VIEW_MUSIC_SCORE)
@@ -131,8 +137,14 @@ func (stager *Stager) createViews() {
 	isView0Selected := (currentView == VIEW_PLANT_2D)
 	isViewPlant3DSelected := (currentView == VIEW_PLANT_3D)
 	isView1Selected := (currentView == VIEW_VASE_FORM)
-	isView2Selected := (currentView == VIEW_VASE_2D)
+	isView2Selected := (currentView == VIEW_TUBE_VASE_2D || currentView == VIEW_VASE_2D)
+	if isTrapezeVase {
+		isView2Selected = (currentView == VIEW_VASE_TRAPEZE_2D)
+	}
 	isView3Selected := (currentView == VIEW_TUBE_VASE_3D)
+	if isTrapezeVase {
+		isView3Selected = (currentView == VIEW_VASE_TRAPEZE_3D)
+	}
 	isViewStool3DSelected := (currentView == VIEW_STOOL_3D)
 	isViewClock3DSelected := (currentView == VIEW_CLOCK_3D)
 	isViewMusicScoreSelected := (currentView == VIEW_MUSIC_SCORE)
@@ -447,8 +459,12 @@ func (stager *Stager) createViews() {
 		v2.OnClick = func() {
 			plant := stager.GetCurrentPlant()
 			if plant != nil {
-				if plant.CurrentView != VIEW_VASE_2D {
-					plant.CurrentView = VIEW_VASE_2D
+				targetView := VIEW_TUBE_VASE_2D
+				if plant.PlantType == VaseTrapeze {
+					targetView = VIEW_VASE_TRAPEZE_2D
+				}
+				if plant.CurrentView != targetView {
+					plant.CurrentView = targetView
 				}
 				if !isVase2DChecked && len(plant.Vase2DDiagrams) > 0 {
 					uncheckAllDiagrams(stager)
@@ -460,7 +476,7 @@ func (stager *Stager) createViews() {
 
 	}
 
-	if isTubeVase {
+	if isTubeVase || isTrapezeVase {
 		v3 := &split.View{
 			Name:           view3Name,
 			Direction:      split.Horizontal,
@@ -525,8 +541,12 @@ func (stager *Stager) createViews() {
 		v3.OnClick = func() {
 			plant := stager.GetCurrentPlant()
 			if plant != nil {
-				if plant.CurrentView != VIEW_TUBE_VASE_3D {
-					plant.CurrentView = VIEW_TUBE_VASE_3D
+				targetView := VIEW_TUBE_VASE_3D
+				if plant.PlantType == VaseTrapeze {
+					targetView = VIEW_VASE_TRAPEZE_3D
+				}
+				if plant.CurrentView != targetView {
+					plant.CurrentView = targetView
 				}
 				if !isTubeVase3DChecked && len(plant.TubeVase3DDiagrams) > 0 {
 					uncheckAllDiagrams(stager)

@@ -113,10 +113,12 @@ func (vase2DDiagram *Vase2DDiagram) drawVaseDiagram(stager *Stager, layer *svg.L
 	plant2DDiagram.drawPartiallyGrowthCurve2DRibbon(stager, layer, plant, vase2DDiagram)
 	plant2DDiagram.drawShiftedLeftPartiallyGrowthCurve2DRibbon(stager, layer, plant, vase2DDiagram)
 	plant2DDiagram.drawPartiallyGrowthCurve2DTrajectory(stager, layer, plant, vase2DDiagram)
-	plant2DDiagram.drawPartiallyGrowthCurve2DTrajectoryP1P2(stager, layer, plant, vase2DDiagram)
-	plant2DDiagram.drawPxShape(stager, layer, plant, vase2DDiagram)
-	plant2DDiagram.drawChosenP1P2PairShape(stager, layer, plant, vase2DDiagram)
-	plant2DDiagram.drawKeyHoleShape(stager, layer, plant, vase2DDiagram)
+	if plant.PlantType != VaseTrapeze {
+		plant2DDiagram.drawPartiallyGrowthCurve2DTrajectoryP1P2(stager, layer, plant, vase2DDiagram)
+		plant2DDiagram.drawPxShape(stager, layer, plant, vase2DDiagram)
+		plant2DDiagram.drawChosenP1P2PairShape(stager, layer, plant, vase2DDiagram)
+		plant2DDiagram.drawKeyHoleShape(stager, layer, plant, vase2DDiagram)
+	}
 	plant2DDiagram.drawGrowthCurve2DRibbon(stager, layer, plant, vase2DDiagram)
 	plant2DDiagram.drawShiftedRightGrowthCurve2DRibbon(stager, layer, plant, vase2DDiagram)
 	plant2DDiagram.drawShiftedLeftGrowthCurve2DRibbon(stager, layer, plant, vase2DDiagram)

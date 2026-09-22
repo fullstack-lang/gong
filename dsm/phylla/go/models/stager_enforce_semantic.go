@@ -204,19 +204,27 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 				} else if len(p.Vase2DDiagrams) > 0 {
 					p.Vase2DDiagrams[0].IsChecked = true
 				}
-			} else if p.PlantType == TrapezeVase {
-				if len(p.Vase2DDiagrams) > 0 {
+			} else if p.PlantType == VaseTrapeze {
+				if len(p.TubeVase3DDiagrams) > 0 {
+					p.TubeVase3DDiagrams[0].IsChecked = true
+					p.TubeVase3DDiagrams[0].IsExpanded = true
+					p.IsTubeVase3DDiagramsNodeExpanded = true
+				} else if len(p.Vase2DDiagrams) > 0 {
 					p.Vase2DDiagrams[0].IsChecked = true
 				}
 			} else if p.PlantType == Stool {
 				if len(p.Stool3DDiagrams) > 0 {
 					p.Stool3DDiagrams[0].IsChecked = true
+					p.Stool3DDiagrams[0].IsExpanded = true
+					p.IsStool3DDiagramsNodeExpanded = true
 				} else if len(p.Stool2DDiagrams) > 0 {
 					p.Stool2DDiagrams[0].IsChecked = true
 				}
 			} else if p.PlantType == Clock {
 				if len(p.Clock3DDiagrams) > 0 {
 					p.Clock3DDiagrams[0].IsChecked = true
+					p.Clock3DDiagrams[0].IsExpanded = true
+					p.IsClock3DDiagramsNodeExpanded = true
 				} else if len(p.Clock2DDiagrams) > 0 {
 					p.Clock2DDiagrams[0].IsChecked = true
 				}
@@ -263,11 +271,11 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
 			stager.logAndNotify(fmt.Sprintf("Plant %s: reset invalid CurrentView to VIEW_PLANT_2D", stager.selectedPlant.Name))
-		} else if stager.selectedPlant.PlantType == TubeVase && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_VASE_FORM && stager.selectedPlant.CurrentView != VIEW_VASE_2D && stager.selectedPlant.CurrentView != VIEW_TUBE_VASE_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+		} else if stager.selectedPlant.PlantType == TubeVase && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_VASE_FORM && stager.selectedPlant.CurrentView != VIEW_VASE_2D && stager.selectedPlant.CurrentView != VIEW_TUBE_VASE_2D && stager.selectedPlant.CurrentView != VIEW_TUBE_VASE_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
 			stager.logAndNotify(fmt.Sprintf("Plant %s: reset invalid CurrentView to VIEW_PLANT_2D", stager.selectedPlant.Name))
-		} else if stager.selectedPlant.PlantType == TrapezeVase && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_VASE_FORM && stager.selectedPlant.CurrentView != VIEW_VASE_2D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+		} else if stager.selectedPlant.PlantType == VaseTrapeze && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_VASE_FORM && stager.selectedPlant.CurrentView != VIEW_VASE_TRAPEZE_2D && stager.selectedPlant.CurrentView != VIEW_VASE_TRAPEZE_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
 			stager.logAndNotify(fmt.Sprintf("Plant %s: reset invalid CurrentView to VIEW_PLANT_2D", stager.selectedPlant.Name))

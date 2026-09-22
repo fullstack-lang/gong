@@ -37,7 +37,7 @@ func (u *ThreeJSStageUpdater) startMovieRecording(stager *models.Stager, plant *
 	u.savedInitCommitCallback = stager.GetStage().OnInitCommitCallback
 	stager.GetStage().OnInitCommitCallback = nil
 
-	if plant.PlantType == models.TubeVase {
+	if (plant.PlantType == models.TubeVase || plant.PlantType == models.VaseTrapeze) && plant.TubeVaseAbstract != nil {
 		plant.TubeVaseAbstract.RotationRatio = 0.0
 	}
 	stager.GetStage().Commit()
@@ -62,7 +62,7 @@ func (u *ThreeJSStageUpdater) onCanvasFrameCaptured(stager *models.Stager, canva
 	}
 
 	currentRot := 0.0
-	if u.recordingPlant.PlantType == models.TubeVase {
+	if (u.recordingPlant.PlantType == models.TubeVase || u.recordingPlant.PlantType == models.VaseTrapeze) && u.recordingPlant.TubeVaseAbstract != nil {
 		currentRot = u.recordingPlant.TubeVaseAbstract.RotationRatio
 	}
 
@@ -96,7 +96,7 @@ func (u *ThreeJSStageUpdater) onCanvasFrameCaptured(stager *models.Stager, canva
 	u.recordingFrameCount++
 
 	nbFrames := 1000
-	if u.recordingPlant.PlantType == models.TubeVase && u.recordingPlant.TubeVaseAbstract.MovieNbFrames > 0 {
+	if (u.recordingPlant.PlantType == models.TubeVase || u.recordingPlant.PlantType == models.VaseTrapeze) && u.recordingPlant.TubeVaseAbstract != nil && u.recordingPlant.TubeVaseAbstract.MovieNbFrames > 0 {
 		nbFrames = u.recordingPlant.TubeVaseAbstract.MovieNbFrames
 	}
 	rotIncrement := 1.0 / float64(nbFrames)
@@ -104,7 +104,7 @@ func (u *ThreeJSStageUpdater) onCanvasFrameCaptured(stager *models.Stager, canva
 	nextRot := math.Round(u.recordingRot/rotIncrement) * rotIncrement
 
 	if u.recordingFrameCount < nbFrames {
-		if u.recordingPlant.PlantType == models.TubeVase {
+		if (u.recordingPlant.PlantType == models.TubeVase || u.recordingPlant.PlantType == models.VaseTrapeze) && u.recordingPlant.TubeVaseAbstract != nil {
 			u.recordingPlant.TubeVaseAbstract.RotationRatio = nextRot
 		}
 		stager.EnforceSemantic()
