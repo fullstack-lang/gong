@@ -431,6 +431,48 @@ func addRenameButton[T AbstractType](at T, node *tree.Node, stager *Stager) {
 				ToolTipPosition: tree.Above,
 			})
 	}
+
+	if library, ok := any(at).(*Library); ok && library.IsRootLibrary {
+		addResetButton(library, node, stager)
+	}
+}
+
+func addResetButton(library *Library, node *tree.Node, stager *Stager) {
+	if !library.IsRootLibrary {
+		return
+	}
+	for _, b := range node.Buttons {
+		if b.Name == "Reset" {
+			return
+		}
+	}
+	if node.Menu != nil {
+		for _, b := range node.Menu.Buttons {
+			if b.Name == "Reset" {
+				return
+			}
+		}
+	}
+
+	resetButton := &tree.Button{
+		Name:            "Reset",
+		Icon:            string(buttons.BUTTON_restart_alt),
+		HasToolTip:      true,
+		ToolTipText:     "Reset library to start anew",
+		ToolTipPosition: tree.Above,
+		OnClick: func() {
+			stager.stage.Reset()
+			stagerStateMutex.Lock()
+			map_Stager_resetOnNextCommit[stager] = true
+			stagerStateMutex.Unlock()
+			stager.stage.Commit()
+		},
+	}
+	node.Buttons = append(node.Buttons, resetButton)
+	if node.Menu == nil {
+		node.Menu = &tree.Menu{Name: "Menu"}
+	}
+	node.Menu.Buttons = append(node.Menu.Buttons, resetButton)
 }
 
 // ---------------------------------------------------------
