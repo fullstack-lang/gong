@@ -43,7 +43,7 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000014_ := (&models.AttributeShape{Name: `DurationDays`}).Stage(stage)
 	__AttributeShape__00000015_ := (&models.AttributeShape{Name: `DurationHours`}).Stage(stage)
 	__AttributeShape__00000016_ := (&models.AttributeShape{Name: `IsEndDateComputedFromDuration`}).Stage(stage)
-	__AttributeShape__00000017_ := (&models.AttributeShape{Name: `IsStartDateComputedFromPredecessors`}).Stage(stage)
+	__AttributeShape__00000017_ := (&models.AttributeShape{Name: `DependencyType`}).Stage(stage)
 	__AttributeShape__00000018_ := (&models.AttributeShape{Name: `IsMilestone`}).Stage(stage)
 
 	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `01 § Abstract model`}).Stage(stage)
@@ -178,11 +178,11 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000016_.Structname = `Task`
 	__AttributeShape__00000016_.Fieldtypename = `bool`
 
-	__AttributeShape__00000017_.Name = `IsStartDateComputedFromPredecessors`
-	__AttributeShape__00000017_.IdentifierMeta = ref_models.Task{}.IsStartDateComputedFromPredecessors
+	__AttributeShape__00000017_.Name = `DependencyType`
+	__AttributeShape__00000017_.IdentifierMeta = ref_models.Task{}.DependencyType
 	__AttributeShape__00000017_.FieldTypeAsString = ``
 	__AttributeShape__00000017_.Structname = `Task`
-	__AttributeShape__00000017_.Fieldtypename = `bool`
+	__AttributeShape__00000017_.Fieldtypename = `DependencyTypeEnum`
 
 	__AttributeShape__00000018_.Name = `IsMilestone`
 	__AttributeShape__00000018_.IdentifierMeta = ref_models.Task{}.IsMilestone

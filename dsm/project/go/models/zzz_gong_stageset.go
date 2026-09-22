@@ -1220,7 +1220,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", taskIdent, __gong__toRawStringLiteral(task.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Start, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", taskIdent, task.Start.String()))
 			values.WriteString(fmt.Sprintf("\n\t%s.End, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", taskIdent, task.End.String()))
-			values.WriteString(fmt.Sprintf("\n\t%s.IsStartDateComputedFromPredecessors = %t", taskIdent, task.IsStartDateComputedFromPredecessors))
+			values.WriteString(fmt.Sprintf("\n\t%s.DependencyType = %s", taskIdent, __gong__toRawStringLiteral(string(task.DependencyType))))
 			values.WriteString(fmt.Sprintf("\n\t%s.DurationYears = %f", taskIdent, task.DurationYears))
 			values.WriteString(fmt.Sprintf("\n\t%s.DurationMonths = %f", taskIdent, task.DurationMonths))
 			values.WriteString(fmt.Sprintf("\n\t%s.DurationWeeks = %f", taskIdent, task.DurationWeeks))
@@ -2913,8 +2913,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 								}
 							}
 						}
-					case "IsStartDateComputedFromPredecessors":
-						inst.IsStartDateComputedFromPredecessors = GongExtractBool(rhs)
+					case "DependencyType":
+						inst.DependencyType = DependencyTypeEnum(GongExtractString(rhs))
 					case "DurationYears":
 						inst.DurationYears = GongExtractFloat(rhs)
 					case "DurationMonths":

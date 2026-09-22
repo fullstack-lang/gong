@@ -1323,8 +1323,8 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		}
 	case "Predecessors":
 		GongUnmarshallSliceOfPointers(&instance.Predecessors, valueExpr, identifierMap)
-	case "IsStartDateComputedFromPredecessors":
-		instance.IsStartDateComputedFromPredecessors = GongExtractBool(valueExpr)
+	case "DependencyType":
+		GongUnmarshallEnum(&instance.DependencyType, valueExpr)
 	case "DurationYears":
 		instance.DurationYears = GongExtractFloat(valueExpr)
 	case "DurationMonths":

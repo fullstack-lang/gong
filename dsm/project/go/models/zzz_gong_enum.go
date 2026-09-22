@@ -114,6 +114,118 @@ func (completionenum CompletionEnum) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for DependencyTypeEnum
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (dependencytypeenum DependencyTypeEnum) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch dependencytypeenum {
+	// insertion code per enum code
+	case NO_DEPENDENCY:
+		res = "NO_DEPENDENCY"
+	case FINISH_TO_START:
+		res = "FINISH_TO_START"
+	case START_TO_START:
+		res = "START_TO_START"
+	case FINISH_TO_FINISH:
+		res = "FINISH_TO_FINISH"
+	case START_TO_FINISH:
+		res = "START_TO_FINISH"
+	}
+	return
+}
+
+func (dependencytypeenum *DependencyTypeEnum) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "NO_DEPENDENCY":
+		*dependencytypeenum = NO_DEPENDENCY
+		return
+	case "FINISH_TO_START":
+		*dependencytypeenum = FINISH_TO_START
+		return
+	case "START_TO_START":
+		*dependencytypeenum = START_TO_START
+		return
+	case "FINISH_TO_FINISH":
+		*dependencytypeenum = FINISH_TO_FINISH
+		return
+	case "START_TO_FINISH":
+		*dependencytypeenum = START_TO_FINISH
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (dependencytypeenum *DependencyTypeEnum) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "NO_DEPENDENCY":
+		*dependencytypeenum = NO_DEPENDENCY
+	case "FINISH_TO_START":
+		*dependencytypeenum = FINISH_TO_START
+	case "START_TO_START":
+		*dependencytypeenum = START_TO_START
+	case "FINISH_TO_FINISH":
+		*dependencytypeenum = FINISH_TO_FINISH
+	case "START_TO_FINISH":
+		*dependencytypeenum = START_TO_FINISH
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (dependencytypeenum *DependencyTypeEnum) ToCodeString() (res string) {
+
+	switch *dependencytypeenum {
+	// insertion code per enum code
+	case NO_DEPENDENCY:
+		res = "NO_DEPENDENCY"
+	case FINISH_TO_START:
+		res = "FINISH_TO_START"
+	case START_TO_START:
+		res = "START_TO_START"
+	case FINISH_TO_FINISH:
+		res = "FINISH_TO_FINISH"
+	case START_TO_FINISH:
+		res = "START_TO_FINISH"
+	}
+	return
+}
+
+func (dependencytypeenum DependencyTypeEnum) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "NO_DEPENDENCY")
+	res = append(res, "FINISH_TO_START")
+	res = append(res, "START_TO_START")
+	res = append(res, "FINISH_TO_FINISH")
+	res = append(res, "START_TO_FINISH")
+
+	return
+}
+
+func (dependencytypeenum DependencyTypeEnum) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "NO_DEPENDENCY")
+	res = append(res, "FINISH_TO_START")
+	res = append(res, "START_TO_START")
+	res = append(res, "FINISH_TO_FINISH")
+	res = append(res, "START_TO_FINISH")
+
+	return
+}
+
 // Utility function for LayoutDirection
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value

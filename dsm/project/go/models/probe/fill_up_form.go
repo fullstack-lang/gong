@@ -697,8 +697,7 @@ func FillUpForm(
 			AccordionGroupName: "Predecessors",
 		}).Stage(probe.formStage))
 		AssociationSliceToForm("Predecessors", instanceWithInferedType, &instanceWithInferedType.Predecessors, formGroup, probe)
-		BasicFieldtoForm("IsStartDateComputedFromPredecessors", instanceWithInferedType.IsStartDateComputedFromPredecessors, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+		EnumTypeStringToForm("DependencyType", instanceWithInferedType.DependencyType, instanceWithInferedType, probe.formStage, formGroup)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
 			Name:       "",
 			IsAEndAccordionGroup:   true,

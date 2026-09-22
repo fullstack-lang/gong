@@ -567,7 +567,7 @@ type Task_WOP struct {
 
 	End time.Time
 
-	IsStartDateComputedFromPredecessors bool
+	DependencyType DependencyTypeEnum
 
 	DurationYears float64
 
@@ -614,7 +614,7 @@ func (from *Task) GongCopyBasicFields(to *Task) {
 	to.Description = from.Description
 	to.Start = from.Start
 	to.End = from.End
-	to.IsStartDateComputedFromPredecessors = from.IsStartDateComputedFromPredecessors
+	to.DependencyType = from.DependencyType
 	to.DurationYears = from.DurationYears
 	to.DurationMonths = from.DurationMonths
 	to.DurationWeeks = from.DurationWeeks

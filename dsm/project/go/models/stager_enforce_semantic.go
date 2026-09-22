@@ -118,6 +118,28 @@ func (stager *Stager) enforceTaskMilestoneDates() (needCommit bool) {
 func (stager *Stager) enforceTaskDurationDates() (needCommit bool) {
 	for _, task := range stager.stage.GetInstancesSorted[*Task]() {
 		if task.IsEndDateComputedFromDuration {
+			// If End date is computed from predecessors (FF or SF), shift Start backwards from End
+			if len(task.Predecessors) > 0 && (task.DependencyType == FINISH_TO_FINISH || task.DependencyType == START_TO_FINISH) {
+				days := task.DurationWeeks*7 + task.DurationDays
+				fractionalDays := days - float64(int(days))
+				hours := task.DurationHours + fractionalDays*24
+
+				expectedStart := task.End.AddDate(
+					-int(task.DurationYears),
+					-int(task.DurationMonths),
+					-int(days),
+				).Add(-time.Duration(hours * float64(time.Hour)))
+
+				if !task.Start.Equal(expectedStart) {
+					task.Start = expectedStart
+					needCommit = true
+					if stager.probeForm != nil {
+						stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted start date backwards from duration and predecessor", task.Name))
+					}
+				}
+				continue
+			}
+
 			days := task.DurationWeeks*7 + task.DurationDays
 			fractionalDays := days - float64(int(days))
 			hours := task.DurationHours + fractionalDays*24
@@ -141,23 +163,65 @@ func (stager *Stager) enforceTaskDurationDates() (needCommit bool) {
 
 func (stager *Stager) enforceTaskPredecessorDates() (needCommit bool) {
 	for _, task := range stager.stage.GetInstancesSorted[*Task]() {
-		if task.IsStartDateComputedFromPredecessors && len(task.Predecessors) > 0 {
-			var maxEnd time.Time
-			first := true
-			for _, predecessor := range task.Predecessors {
-				if predecessor == nil {
-					continue
-				}
-				if first || predecessor.End.After(maxEnd) {
-					maxEnd = predecessor.End
-					first = false
-				}
+		if task.DependencyType == "" || task.DependencyType == NO_DEPENDENCY || len(task.Predecessors) == 0 {
+			continue
+		}
+
+		var maxDate time.Time
+		first := true
+		for _, predecessor := range task.Predecessors {
+			if predecessor == nil {
+				continue
 			}
-			if !first && !task.Start.Equal(maxEnd) {
-				task.Start = maxEnd
+			var predDate time.Time
+			switch task.DependencyType {
+			case FINISH_TO_START, FINISH_TO_FINISH:
+				predDate = predecessor.End
+			case START_TO_START, START_TO_FINISH:
+				predDate = predecessor.Start
+			}
+
+			if first || predDate.After(maxDate) {
+				maxDate = predDate
+				first = false
+			}
+		}
+
+		if first {
+			continue
+		}
+
+		switch task.DependencyType {
+		case FINISH_TO_START: // Start from End (FS)
+			if !task.Start.Equal(maxDate) {
+				task.Start = maxDate
 				needCommit = true
 				if stager.probeForm != nil {
-					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted start date from predecessors", task.Name))
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted start date from predecessor end date (FS)", task.Name))
+				}
+			}
+		case START_TO_START: // Start from Start (SS)
+			if !task.Start.Equal(maxDate) {
+				task.Start = maxDate
+				needCommit = true
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted start date from predecessor start date (SS)", task.Name))
+				}
+			}
+		case FINISH_TO_FINISH: // End from End (FF)
+			if !task.End.Equal(maxDate) {
+				task.End = maxDate
+				needCommit = true
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted end date from predecessor end date (FF)", task.Name))
+				}
+			}
+		case START_TO_FINISH: // End from Start (SF)
+			if !task.End.Equal(maxDate) {
+				task.End = maxDate
+				needCommit = true
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted end date from predecessor start date (SF)", task.Name))
 				}
 			}
 		}

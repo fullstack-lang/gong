@@ -892,7 +892,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Start"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "End"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Predecessors"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsStartDateComputedFromPredecessors"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyType"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationYears"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationMonths"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationWeeks"))
@@ -3051,11 +3051,19 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", task.End.String())
-	case "IsStartDateComputedFromPredecessors":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsStartDateComputedFromPredecessors")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsStartDateComputedFromPredecessors))
+	case "DependencyType":
+		if task.DependencyType.ToCodeString() != "" {
+			res = GongStringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyType")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+task.DependencyType.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = GongStringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyType")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
 	case "DurationYears":
 		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
@@ -4102,7 +4110,7 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Start"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "End"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Predecessors"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsStartDateComputedFromPredecessors"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyType"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationYears"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationMonths"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationWeeks"))

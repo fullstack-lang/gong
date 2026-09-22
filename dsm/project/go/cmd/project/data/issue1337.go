@@ -94,7 +94,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_.DurationDays = 0.000000
 	__Task__00000000_.DurationHours = 0.000000
 	__Task__00000000_.IsEndDateComputedFromDuration = true
-	__Task__00000000_.IsStartDateComputedFromPredecessors = false
+	__Task__00000000_.DependencyType = models.NO_DEPENDENCY
 	__Task__00000000_.IsMilestone = false
 	__Task__00000000_.IsInputsNodeExpanded = false
 	__Task__00000000_.IsOutputsNodeExpanded = false
@@ -119,7 +119,7 @@ func _(stage *models.Stage) {
 	__Task__00000002_.DurationDays = 0.000000
 	__Task__00000002_.DurationHours = 0.000000
 	__Task__00000002_.IsEndDateComputedFromDuration = true
-	__Task__00000002_.IsStartDateComputedFromPredecessors = true
+	__Task__00000002_.DependencyType = models.FINISH_TO_START
 	__Task__00000002_.IsMilestone = false
 	__Task__00000002_.IsInputsNodeExpanded = false
 	__Task__00000002_.IsOutputsNodeExpanded = false

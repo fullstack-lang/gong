@@ -34,7 +34,7 @@ type Task struct {
 	//gong:accordion-start "Predecessors"
 	Predecessors []*Task
 	//gong:accordion-end
-	IsStartDateComputedFromPredecessors bool
+	DependencyType DependencyTypeEnum
 
 	//gong:accordion-start "Duration"
 	DurationYears  float64
@@ -88,6 +88,17 @@ type Task struct {
 	AbstractTypeFields
 	TreeAbstractTypeFields
 }
+
+// DependencyTypeEnum defines standard task dependency types (PMBOK / PDM)
+type DependencyTypeEnum string
+
+const (
+	NO_DEPENDENCY    DependencyTypeEnum = "NO_DEPENDENCY"
+	FINISH_TO_START  DependencyTypeEnum = "FINISH_TO_START"  // Start from End (FS)
+	START_TO_START   DependencyTypeEnum = "START_TO_START"   // Start from Start (SS)
+	FINISH_TO_FINISH DependencyTypeEnum = "FINISH_TO_FINISH" // End from End (FF)
+	START_TO_FINISH  DependencyTypeEnum = "START_TO_FINISH"  // End from Start (SF)
+)
 
 // TextPositionEnum
 type TextPositionEnum string

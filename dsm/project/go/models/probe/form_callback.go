@@ -973,8 +973,8 @@ func saveTaskFields(
 			FormDivTimeFieldToField(&(_instance.End), formDiv, true)
 		case "Predecessors":
 			FormDivSliceOfPointersToField(_instance, "Predecessors", &(_instance.Predecessors), formDiv, probe)
-		case "IsStartDateComputedFromPredecessors":
-			FormDivBasicFieldToField(&(_instance.IsStartDateComputedFromPredecessors), formDiv)
+		case "DependencyType":
+			FormDivEnumStringFieldToField(&(_instance.DependencyType), formDiv)
 		case "DurationYears":
 			FormDivBasicFieldToField(&(_instance.DurationYears), formDiv)
 		case "DurationMonths":

@@ -547,7 +547,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_.Description = ``
 	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Task__00000000_.IsStartDateComputedFromPredecessors = false
+	__Task__00000000_.DependencyType = models.NO_DEPENDENCY
 	__Task__00000000_.DurationYears = 0.000000
 	__Task__00000000_.DurationMonths = 0.000000
 	__Task__00000000_.DurationWeeks = 0.000000
@@ -572,7 +572,7 @@ func _(stage *models.Stage) {
 	__Task__00000001_.Description = ``
 	__Task__00000001_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Task__00000001_.IsStartDateComputedFromPredecessors = false
+	__Task__00000001_.DependencyType = models.NO_DEPENDENCY
 	__Task__00000001_.DurationYears = 0.000000
 	__Task__00000001_.DurationMonths = 0.000000
 	__Task__00000001_.DurationWeeks = 0.000000

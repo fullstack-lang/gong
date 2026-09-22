@@ -5218,8 +5218,8 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		)
 		diffs = append(diffs, ops)
 	}
-	if task.IsStartDateComputedFromPredecessors != taskOther.IsStartDateComputedFromPredecessors {
-		diffs = append(diffs, task.GongMarshallField(stage, "IsStartDateComputedFromPredecessors"))
+	if task.DependencyType != taskOther.DependencyType {
+		diffs = append(diffs, task.GongMarshallField(stage, "DependencyType"))
 	}
 	if task.DurationYears != taskOther.DurationYears {
 		diffs = append(diffs, task.GongMarshallField(stage, "DurationYears"))

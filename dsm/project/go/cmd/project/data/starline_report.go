@@ -3053,7 +3053,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000000_.DurationDays = 0.000000
 	__Task__00000000_.DurationHours = 0.000000
 	__Task__00000000_.IsEndDateComputedFromDuration = false
-	__Task__00000000_.IsStartDateComputedFromPredecessors = false
+	__Task__00000000_.DependencyType = models.NO_DEPENDENCY
 	__Task__00000000_.IsMilestone = false
 	__Task__00000000_.IsWithCompletion = false
 	__Task__00000000_.Completion = ""
@@ -3078,7 +3078,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000001_.DurationDays = 0.000000
 	__Task__00000001_.DurationHours = 0.000000
 	__Task__00000001_.IsEndDateComputedFromDuration = false
-	__Task__00000001_.IsStartDateComputedFromPredecessors = false
+	__Task__00000001_.DependencyType = models.NO_DEPENDENCY
 	__Task__00000001_.IsMilestone = false
 	__Task__00000001_.IsWithCompletion = false
 	__Task__00000001_.Completion = ""
@@ -3103,7 +3103,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000002_.DurationDays = 0.000000
 	__Task__00000002_.DurationHours = 0.000000
 	__Task__00000002_.IsEndDateComputedFromDuration = false
-	__Task__00000002_.IsStartDateComputedFromPredecessors = false
+	__Task__00000002_.DependencyType = models.NO_DEPENDENCY
 	__Task__00000002_.IsMilestone = false
 	__Task__00000002_.IsWithCompletion = false
 	__Task__00000002_.Completion = ""
@@ -3128,7 +3128,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000003_.DurationDays = 0.000000
 	__Task__00000003_.DurationHours = 0.000000
 	__Task__00000003_.IsEndDateComputedFromDuration = false
-	__Task__00000003_.IsStartDateComputedFromPredecessors = false
+	__Task__00000003_.DependencyType = models.NO_DEPENDENCY
 	__Task__00000003_.IsMilestone = false
 	__Task__00000003_.IsWithCompletion = false
 	__Task__00000003_.Completion = ""
@@ -3153,7 +3153,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000004_.DurationDays = 0.000000
 	__Task__00000004_.DurationHours = 0.000000
 	__Task__00000004_.IsEndDateComputedFromDuration = false
-	__Task__00000004_.IsStartDateComputedFromPredecessors = false
+	__Task__00000004_.DependencyType = models.NO_DEPENDENCY
 	__Task__00000004_.IsMilestone = false
 	__Task__00000004_.IsWithCompletion = false
 	__Task__00000004_.Completion = ""
@@ -3178,7 +3178,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000005_.DurationDays = 0.000000
 	__Task__00000005_.DurationHours = 0.000000
 	__Task__00000005_.IsEndDateComputedFromDuration = false
-	__Task__00000005_.IsStartDateComputedFromPredecessors = false
+	__Task__00000005_.DependencyType = models.NO_DEPENDENCY
 	__Task__00000005_.IsMilestone = false
 	__Task__00000005_.IsWithCompletion = false
 	__Task__00000005_.Completion = ""
@@ -3203,7 +3203,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000006_.DurationDays = 0.000000
 	__Task__00000006_.DurationHours = 0.000000
 	__Task__00000006_.IsEndDateComputedFromDuration = false
-	__Task__00000006_.IsStartDateComputedFromPredecessors = false
+	__Task__00000006_.DependencyType = models.NO_DEPENDENCY
 	__Task__00000006_.IsMilestone = false
 	__Task__00000006_.IsWithCompletion = false
 	__Task__00000006_.Completion = ""
@@ -3228,7 +3228,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000007_.DurationDays = 0.000000
 	__Task__00000007_.DurationHours = 0.000000
 	__Task__00000007_.IsEndDateComputedFromDuration = false
-	__Task__00000007_.IsStartDateComputedFromPredecessors = false
+	__Task__00000007_.DependencyType = models.NO_DEPENDENCY
 	__Task__00000007_.IsMilestone = false
 	__Task__00000007_.IsWithCompletion = false
 	__Task__00000007_.Completion = ""

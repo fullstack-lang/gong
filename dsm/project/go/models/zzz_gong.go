@@ -7025,8 +7025,9 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Task",
 		},
 		{
-			Name:               "IsStartDateComputedFromPredecessors",
-			GongFieldValueType: GongFieldValueTypeBool,
+			Name:                 "DependencyType",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "DependencyTypeEnum",
 		},
 		{
 			Name:               "DurationYears",
@@ -8609,10 +8610,9 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsStartDateComputedFromPredecessors":
-		res.valueString = fmt.Sprintf("%t", task.IsStartDateComputedFromPredecessors)
-		res.valueBool = task.IsStartDateComputedFromPredecessors
-		res.GongFieldValueType = GongFieldValueTypeBool
+	case "DependencyType":
+		enum := task.DependencyType
+		res.valueString = enum.ToCodeString()
 	case "DurationYears":
 		res.valueString = fmt.Sprintf("%f", task.DurationYears)
 		res.valueFloat = task.DurationYears
