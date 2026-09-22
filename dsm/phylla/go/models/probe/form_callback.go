@@ -5956,6 +5956,8 @@ func saveTubeVaseAbstractFields(
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Z_Ribbon":
+			FormDivBasicFieldToField(&(_instance.Z_Ribbon), formDiv)
 		case "RelativeVerticalThickness":
 			FormDivBasicFieldToField(&(_instance.RelativeVerticalThickness), formDiv)
 		case "RelativeRadialThickness":

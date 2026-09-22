@@ -3578,6 +3578,8 @@ type TubeVaseAbstract_WOP struct {
 
 	Name string
 
+	Z_Ribbon float64
+
 	RelativeVerticalThickness float64
 
 	RelativeRadialThickness float64
@@ -3620,6 +3622,7 @@ type TubeVaseAbstract_WOP struct {
 func (from *TubeVaseAbstract) GongCopyBasicFields(to *TubeVaseAbstract) {
 	// insertion point
 	to.Name = from.Name
+	to.Z_Ribbon = from.Z_Ribbon
 	to.RelativeVerticalThickness = from.RelativeVerticalThickness
 	to.RelativeRadialThickness = from.RelativeRadialThickness
 	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight

@@ -6202,6 +6202,8 @@ func (u *TubeVaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Z_Ribbon":
+		instance.Z_Ribbon = GongExtractFloat(valueExpr)
 	case "RelativeVerticalThickness":
 		instance.RelativeVerticalThickness = GongExtractFloat(valueExpr)
 	case "RelativeRadialThickness":

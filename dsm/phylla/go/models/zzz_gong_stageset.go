@@ -1608,6 +1608,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tubevaseabstractIdent, __gong__toRawStringLiteral(tubevaseabstract.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Z_Ribbon = %f", tubevaseabstractIdent, tubevaseabstract.Z_Ribbon))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeVerticalThickness = %f", tubevaseabstractIdent, tubevaseabstract.RelativeVerticalThickness))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeRadialThickness = %f", tubevaseabstractIdent, tubevaseabstract.RelativeRadialThickness))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeCuttedStackFloorHeight = %f", tubevaseabstractIdent, tubevaseabstract.RelativeCuttedStackFloorHeight))
@@ -3409,6 +3410,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "Z_Ribbon":
+						inst.Z_Ribbon = GongExtractFloat(rhs)
 					case "RelativeVerticalThickness":
 						inst.RelativeVerticalThickness = GongExtractFloat(rhs)
 					case "RelativeRadialThickness":

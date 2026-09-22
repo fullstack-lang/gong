@@ -213,6 +213,20 @@ func (stager *Stager) ux_slider() {
 				),
 			)
 
+			if plant.PlantType == VaseTrapeze {
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"Z Ribbon",
+						-200.0,
+						500.0,
+						1.0,
+						&plant.TubeVaseAbstract.Z_Ribbon,
+					),
+				)
+			}
+
 			if plant.PlantType == TubeVase {
 				group1.Sliders = append(
 					group1.Sliders,

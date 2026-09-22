@@ -166,6 +166,20 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 	}
 
+	if plant.PlantType == models.VaseTrapeze && plant.TubeVaseAbstract != nil {
+		zStart := plant.TubeVaseAbstract.Z_Ribbon
+		if len(curve.Points) > 0 {
+			shiftY := zStart - curve.Points[0].Y
+			for _, pt := range curve.Points {
+				pt.Y += shiftY
+			}
+			for _, pt := range topCurve.Points {
+				pt.Y += shiftY
+			}
+		}
+		floorMinY = 0.0
+	}
+
 	stackHeight := plant.StackHeight
 
 	targetAngles, anglesBottom, bottomPoints, anglesTop, topPoints := u.getTargetAngles(curve, topCurve, 0.5, radialRepetitions)

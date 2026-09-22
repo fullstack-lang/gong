@@ -3431,6 +3431,8 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Z_Ribbon", instanceWithInferedType.Z_Ribbon, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeVerticalThickness", instanceWithInferedType.RelativeVerticalThickness, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeRadialThickness", instanceWithInferedType.RelativeRadialThickness, instanceWithInferedType, probe.formStage, formGroup,

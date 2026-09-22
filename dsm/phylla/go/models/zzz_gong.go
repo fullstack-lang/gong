@@ -34117,6 +34117,10 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Z_Ribbon",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "RelativeVerticalThickness",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -39543,6 +39547,10 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldValue(fieldName string, st
 	// string value of fields
 	case "Name":
 		res.valueString = tubevaseabstract.Name
+	case "Z_Ribbon":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.Z_Ribbon)
+		res.valueFloat = tubevaseabstract.Z_Ribbon
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RelativeVerticalThickness":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeVerticalThickness)
 		res.valueFloat = tubevaseabstract.RelativeVerticalThickness

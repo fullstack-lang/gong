@@ -3,6 +3,10 @@ package models
 type TubeVaseAbstract struct {
 	Name string
 
+	// Z_Ribbon is the Z coordinate for the start of the 3D Ribbon (for Vase Trapeze).
+	// The tiled floor will be on Z=0.
+	Z_Ribbon float64
+
 	// RelativeVerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next
 	// the vertical thickness is RelativeVerticalThickness x RhombusSideLength
 	RelativeVerticalThickness float64

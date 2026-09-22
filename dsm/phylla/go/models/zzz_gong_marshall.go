@@ -1084,6 +1084,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Z_Ribbon"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))
@@ -7272,6 +7273,11 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tubevaseabstract.Name))
+	case "Z_Ribbon":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Z_Ribbon")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", tubevaseabstract.Z_Ribbon))
 	case "RelativeVerticalThickness":
 		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
@@ -9875,6 +9881,7 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallAllFields(stage *Stage) (i
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Z_Ribbon"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))

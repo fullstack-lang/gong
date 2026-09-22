@@ -118,11 +118,13 @@ func (u *ThreeJSStageUpdater) computeGlobalRadius(plant *models.PlantAbstract) (
 func (u *ThreeJSStageUpdater) addFloorTiles(stager *models.Stager, floorMinY float64, plant *models.PlantAbstract, globalR float64, canvas *threejs.Canvas) {
 	threejsStage := stager.GetThreejsStage()
 
-	if floorMinY == math.MaxFloat64 {
+	if plant.PlantType == models.VaseTrapeze {
+		floorMinY = 0.0
+	} else if floorMinY == math.MaxFloat64 {
 		floorMinY = 0.0
 	} else {
 		thickness := 0.0
-		if (plant.PlantType == models.TubeVase || plant.PlantType == models.VaseTrapeze) && plant.TubeVaseAbstract != nil {
+		if plant.PlantType == models.TubeVase && plant.TubeVaseAbstract != nil {
 			thickness = plant.TubeVaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
 		}
 		if thickness == 0 {
