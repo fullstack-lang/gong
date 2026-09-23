@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/dsm/project/go/models"
-	// injection point for ident package import declaration{{ImportPackageDeclaration}}
+	// injection point for ident package import declaration
 )
 
 // generated in order to avoid error in the package import
@@ -20,6 +20,8 @@ var (
 	_ = slices.Index[[]int, int]
 )
 
+// injection point for meta package dummy declaration
+
 // function will stage objects
 func _(stage *models.Stage) {
 
@@ -28,6 +30,10 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_ := (&models.Diagram{Name: `1428`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `1428`}).Stage(stage)
+
+	__Note__00000000_ := (&models.Note{Name: `FFA`}).Stage(stage)
+
+	__NoteShape__00000000_ := (&models.NoteShape{Name: `1428-FFA`}).Stage(stage)
 
 	__Product__00000000_ := (&models.Product{Name: `P1`}).Stage(stage)
 	__Product__00000001_ := (&models.Product{Name: `P1.1`}).Stage(stage)
@@ -51,7 +57,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000000_.DateFormat = ``
 	__Diagram__00000000_.Width = 875.000000
-	__Diagram__00000000_.Height = 390.000000
+	__Diagram__00000000_.Height = 666.000000
 	__Diagram__00000000_.IsTimeDiagram = false
 	__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
@@ -86,10 +92,10 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsShowPrefix = false
 	__Diagram__00000000_.IsInAutoLayoutMode = true
-	__Diagram__00000000_.IsPBSNodeExpanded = false
+	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = true
 	__Diagram__00000000_.IsTaskGroupsNodeExpanded = false
-	__Diagram__00000000_.IsNotesNodeExpanded = false
+	__Diagram__00000000_.IsNotesNodeExpanded = true
 	__Diagram__00000000_.IsResourcesNodeExpanded = false
 
 	__Library__00000000_.Name = `1428`
@@ -98,6 +104,20 @@ func _(stage *models.Stage) {
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.IsRootLibrary = true
+
+	__Note__00000000_.Name = `FFA`
+	__Note__00000000_.ComputedPrefix = `1`
+	__Note__00000000_.IsExpanded = false
+	__Note__00000000_.LayoutDirection = models.Vertical
+
+	__NoteShape__00000000_.Name = `1428-FFA`
+	__NoteShape__00000000_.OverideLayoutDirection = false
+	__NoteShape__00000000_.LayoutDirection = models.Vertical
+	__NoteShape__00000000_.X = 166.445162
+	__NoteShape__00000000_.Y = 496.000000
+	__NoteShape__00000000_.Width = 250.000000
+	__NoteShape__00000000_.Height = 70.000000
+	__NoteShape__00000000_.IsHidden = false
 
 	__Product__00000000_.Name = `P1`
 	__Product__00000000_.Description = ``
@@ -143,6 +163,7 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000001_.IsHidden = false
 
 	__ProductShape__00000000_.Name = `1428-P1`
+	__ProductShape__00000000_.IsShowType = false
 	__ProductShape__00000000_.OverideLayoutDirection = false
 	__ProductShape__00000000_.LayoutDirection = models.Vertical
 	__ProductShape__00000000_.X = 50.000000
@@ -152,6 +173,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000000_.IsHidden = false
 
 	__ProductShape__00000001_.Name = `1428-P1.1`
+	__ProductShape__00000001_.IsShowType = false
 	__ProductShape__00000001_.OverideLayoutDirection = false
 	__ProductShape__00000001_.LayoutDirection = models.Vertical
 	__ProductShape__00000001_.X = 225.000000
@@ -161,6 +183,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000001_.IsHidden = false
 
 	__ProductShape__00000002_.Name = `1428-P1.2`
+	__ProductShape__00000002_.IsShowType = false
 	__ProductShape__00000002_.OverideLayoutDirection = false
 	__ProductShape__00000002_.LayoutDirection = models.Vertical
 	__ProductShape__00000002_.X = 225.000000
@@ -212,9 +235,12 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000000_)
 	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000001_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000000_)
+	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
 	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000000_)
 	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000000_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
+	__NoteShape__00000000_.Note = __Note__00000000_
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000001_)
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000002_)
 	__Product__00000000_.ReferencedProduct = nil
