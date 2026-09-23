@@ -680,8 +680,8 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000004_.IsClock3DDiagramsNodeExpanded = false
 
 	__PlantAbstract__00000005_.Name = `Vase Trapeze`
-	__PlantAbstract__00000005_.N = 2
-	__PlantAbstract__00000005_.M = 3
+	__PlantAbstract__00000005_.N = 1
+	__PlantAbstract__00000005_.M = 2
 	__PlantAbstract__00000005_.StackHeight = 6
 	__PlantAbstract__00000005_.RhombusInsideAngle = 130.000000
 	__PlantAbstract__00000005_.RhombusSideLength = 100.000000
@@ -781,12 +781,12 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000009_.Fov = 50.000000
 
 	__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__Rendered3DShape__00000010_.ViewX = 564.186954
-	__Rendered3DShape__00000010_.ViewY = 551.540443
-	__Rendered3DShape__00000010_.ViewZ = 677.195739
-	__Rendered3DShape__00000010_.TargetX = -2.174192
-	__Rendered3DShape__00000010_.TargetY = 266.900742
-	__Rendered3DShape__00000010_.TargetZ = -20.069428
+	__Rendered3DShape__00000010_.ViewX = 2541.495391
+	__Rendered3DShape__00000010_.ViewY = 2622.656698
+	__Rendered3DShape__00000010_.ViewZ = 1414.655545
+	__Rendered3DShape__00000010_.TargetX = -93.770537
+	__Rendered3DShape__00000010_.TargetY = 700.067909
+	__Rendered3DShape__00000010_.TargetZ = -50.265773
 	__Rendered3DShape__00000010_.Fov = 50.000000
 
 	__SampledPoints3DShape__00000000_.Name = `New Plant - Diagram-SampledPoints3DShape`
@@ -919,7 +919,7 @@ func _(stage *models.Stage) {
 	__TubeVase3DDiagram__00000001_.IsHiddenTopCurvePlane2Shape = false
 	__TubeVase3DDiagram__00000001_.IsHiddenBottomCurvePlane2Shape = false
 	__TubeVase3DDiagram__00000001_.IsHiddenVaseTrapezeRingShape = false
-	__TubeVase3DDiagram__00000001_.IsHiddenStackOfVaseTrapezeRingsShape = true
+	__TubeVase3DDiagram__00000001_.IsHiddenStackOfVaseTrapezeRingsShape = false
 	__TubeVase3DDiagram__00000001_.IsHiddenStackOfRotatedVaseTrapezeRingsShape = false
 	__TubeVase3DDiagram__00000001_.IsChecked = true
 	__TubeVase3DDiagram__00000001_.ComputedPrefix = ``
@@ -953,11 +953,11 @@ func _(stage *models.Stage) {
 
 	__TubeVaseAbstract__00000001_.Name = `Vase Trapeze-TubeVaseAbstract`
 	__TubeVaseAbstract__00000001_.Z_Ribbon = 286.000000
-	__TubeVaseAbstract__00000001_.RibbonVerticalScale = 3.820000
-	__TubeVaseAbstract__00000001_.Plane1Height = -1.000000
-	__TubeVaseAbstract__00000001_.Plane2Height = -66.000000
-	__TubeVaseAbstract__00000001_.ProjectionAngle = -16.700000
-	__TubeVaseAbstract__00000001_.RelativeVerticalThickness = 0.230000
+	__TubeVaseAbstract__00000001_.RibbonVerticalScale = 4.290000
+	__TubeVaseAbstract__00000001_.Plane1Height = 123.000000
+	__TubeVaseAbstract__00000001_.Plane2Height = 209.000000
+	__TubeVaseAbstract__00000001_.ProjectionAngle = -14.900000
+	__TubeVaseAbstract__00000001_.RelativeVerticalThickness = 0.130000
 	__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000
 	__TubeVaseAbstract__00000001_.RelativeCuttedStackFloorHeight = 0.000000
 	__TubeVaseAbstract__00000001_.RelativeRotatedTorusSeparation = 0.000000

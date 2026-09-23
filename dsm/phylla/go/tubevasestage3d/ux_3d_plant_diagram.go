@@ -254,8 +254,13 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			trapezeBottomCurve, trapezeTopCurve = u.computeMassiveCurves(stager, 0, "Trapeze 3D Ribbon", plant, resampledBaseBottom, resampledBaseTop)
 		}
 
-		p1H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.Plane1Height
-		p2H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.Plane2Height
+		scaleY := plant.TubeVaseAbstract.RibbonVerticalScale
+		if scaleY == 0 {
+			scaleY = 1.0
+		}
+
+		p1H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.Plane1Height*scaleY
+		p2H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.Plane2Height*scaleY
 		projAngleRad := -plant.TubeVaseAbstract.ProjectionAngle * math.Pi / 180.0
 
 		projectCurve := func(srcCurve *threejs.Curve, planeHeight float64, dy float64, curveName string) *threejs.Curve {
@@ -445,7 +450,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				var cumDY float64
 				for k := 1; k <= numSteps; k++ {
 					_, stepDY, _ := models.ComputePartiallyGrowthCurveDYForRatio(plant, 0.0)
-					cumDY += stepDY
+					cumDY += stepDY * scaleY
 					dys[k] = cumDY
 				}
 			}
@@ -495,7 +500,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 
 			for h := range stackHeight {
 				dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
-				dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation
+				dy := (float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation) * scaleY
 				thetaOffset := dx / globalR
 
 				var curBottomCurve, curTopCurve *threejs.Curve
