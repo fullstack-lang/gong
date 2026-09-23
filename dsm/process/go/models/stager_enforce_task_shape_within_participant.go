@@ -22,6 +22,7 @@ func (stager *Stager) enforceTaskShapeWithinParticipant() (needCommit bool) {
 
 		horizontalMargin := 10.0
 		verticalTopMargin := 50.0
+		verticalTopMarginForTitle := 60.0
 		verticalBottomMargin := 10.0
 
 		participantsWidth := owningProcessShape.Width - 2*horizontalMargin
@@ -66,8 +67,12 @@ func (stager *Stager) enforceTaskShapeWithinParticipant() (needCommit bool) {
 						shapeWeight = 1.0
 					}
 					boundingWidth = shapeWeight * (participantsWidth / totalWeight)
-					boundingY = owningProcessShape.Y + verticalTopMargin
-					boundingHeight = owningProcessShape.Height - verticalTopMargin - verticalBottomMargin
+					boundingY = owningProcessShape.Y + verticalTopMargin + verticalTopMarginForTitle
+					boundingHeight = owningProcessShape.Height - verticalTopMargin - verticalBottomMargin - verticalTopMarginForTitle
+					if currentParticipantShape.Participant != nil && currentParticipantShape.Participant.IsProcessResource {
+						boundingY = owningProcessShape.Y + verticalTopMargin
+						boundingHeight = owningProcessShape.Height - verticalTopMargin - verticalBottomMargin
+					}
 				}
 			}
 

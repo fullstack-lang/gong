@@ -517,6 +517,8 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 			participantRect.Peers = append(participantRect.Peers, rect)
 		}
 
+		rect.EnclosingRect = participantRect
+
 		rect.Color = "#E3F2FD"
 		rect.FillOpacity = 1.0
 		rect.Stroke = "#90CAF9"
@@ -766,33 +768,7 @@ func (stager *Stager) drawNoteShapes(diagramProcess *DiagramProcess, layer *svg.
 
 		map_Note_Rect[noteShape.Note] = rect
 
-		rect.RX = 0
-		rect.Color = "#FFF9C4"
-		rect.Stroke = "#FBC02D"
-		rect.StrokeWidth = 1.0
-
-		if len(rect.RectAnchoredTexts) > 0 {
-			abstractElement := noteShape.GetAbstractElement()
-			content := abstractElement.GetName()
-			if diagramProcess.GetIsShowPrefix() {
-				content = abstractElement.GetComputedPrefix() + " " + content
-			}
-			content = "📝 " + content
-
-			margin := 20.0
-			wrapWidth := rect.Width - margin
-			if wrapWidth > 0 {
-				content = strutils.WrapStringPreservingNewlines(content, int(wrapWidth/(stager.GetRootLibrary().NbPixPerCharacter*0.7)))
-			}
-
-			rect.RectAnchoredTexts[0].Content = content
-			rect.RectAnchoredTexts[0].FontWeight = "normal"
-			rect.RectAnchoredTexts[0].FontStyle = "italic"
-			rect.RectAnchoredTexts[0].TextAnchorType = svg.TEXT_ANCHOR_START
-			rect.RectAnchoredTexts[0].RectAnchorType = svg.RECT_TOP_LEFT
-			rect.RectAnchoredTexts[0].X_Offset = 10
-			rect.RectAnchoredTexts[0].Y_Offset = 20
-		}
+		FormatNoteRect(stager, diagramProcess, noteShape, rect)
 	}
 	return map_Note_Rect
 }

@@ -490,6 +490,47 @@ func AdjustRectTitleForLeftIcon[CT interface {
 	FormatRectTitle(stager, diagram, shape, rect, occupiedLeftWidth, 0)
 }
 
+// FormatNoteRect sets up note styling and wraps the note text
+func FormatNoteRect[CT interface {
+	*CT_
+	RectShapeInterface
+	ConcreteType
+}, CT_ Gongstruct](
+	stager *Stager,
+	diagram DiagramIF,
+	shape CT,
+	rect *svg.Rect,
+) {
+	rect.RX = 0
+	rect.Color = "#FFF9C4"
+	rect.Stroke = "#FBC02D"
+	rect.StrokeWidth = 1.0
+
+	if len(rect.RectAnchoredTexts) > 0 {
+		abstractElement := shape.GetAbstractElement()
+		content := abstractElement.GetName()
+		if diagram != nil && diagram.GetIsShowPrefix() {
+			content = abstractElement.GetComputedPrefix() + " " + content
+		}
+		content = "📝 " + content
+
+		margin := 20.0
+		wrapWidth := rect.Width - margin
+		root := stager.GetRootLibrary()
+		if wrapWidth > 0 && root != nil && root.NbPixPerCharacter > 0 {
+			content = strutils.WrapStringPreservingNewlines(content, int(wrapWidth/root.NbPixPerCharacter))
+		}
+
+		rect.RectAnchoredTexts[0].Content = content
+		rect.RectAnchoredTexts[0].FontWeight = "normal"
+		rect.RectAnchoredTexts[0].FontStyle = "italic"
+		rect.RectAnchoredTexts[0].TextAnchorType = svg.TEXT_ANCHOR_START
+		rect.RectAnchoredTexts[0].RectAnchorType = svg.RECT_TOP_LEFT
+		rect.RectAnchoredTexts[0].X_Offset = 10
+		rect.RectAnchoredTexts[0].Y_Offset = 20
+	}
+}
+
 func onSelectRectElement[AT AbstractType](
 	stager *Stager,
 	abstractElement AT,
