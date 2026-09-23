@@ -71,8 +71,73 @@ func (stager *Stager) treeDiagramProcess(
 		diagramNode.Buttons = append(diagramNode.Buttons, showPrefixButton)
 	}
 
+	//
+	// Buttons on diagramNode menu
+	//
+	confParticipantsDiagram := ItemButtonConfiguration[
+		Participant, *Participant,
+		Process, *Process,
+	]{
+		parentNode:                         diagramNode,
+		sliceForNewAddedItem:               &process.Participants,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &diagramProcess.IsParticipantsNodeExpanded,
+		IsButtonInMenu:                     true,
+	}
+	callbacksParticipantsDiagram := addCreateItemButton(stager, confParticipantsDiagram)
+	callbacksParticipantsDiagram.OnBeforeCommit = func() {
+		diagramProcess.IsParticipantsNodeExpanded = true
+	}
+	if len(diagramNode.Menu.Buttons) > 0 {
+		diagramNode.Menu.Buttons[0].Name = "Add Participant"
+		diagramNode.Menu.Buttons[0].ToolTipText = "Add a Participant to \"" + diagramProcess.Name + "\""
+	}
+
+	confExternalParticipantsDiagram := ItemButtonConfiguration[
+		Participant, *Participant,
+		Process, *Process,
+	]{
+		parentNode:                         diagramNode,
+		sliceForNewAddedItem:               &process.ExternalParticipants,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &diagramProcess.IsExternalParticipantsNodeExpanded,
+		IsButtonInMenu:                     true,
+	}
+	callbacksExternalParticipantsDiagram := addCreateItemButton(stager, confExternalParticipantsDiagram)
+	callbacksExternalParticipantsDiagram.OnBeforeCommit = func() {
+		diagramProcess.IsExternalParticipantsNodeExpanded = true
+	}
+	if len(diagramNode.Menu.Buttons) > 0 {
+		diagramNode.Menu.Buttons[0].Name = "Add External Participant"
+		diagramNode.Menu.Buttons[0].ToolTipText = "Add an External Participant to \"" + diagramProcess.Name + "\""
+	}
+
+	if process.GetOwningLibrary() != nil {
+		confNotesDiagram := ItemButtonConfiguration[
+			Note, *Note,
+			Library, *Library,
+		]{
+			parentNode:                         diagramNode,
+			sliceForNewAddedItem:               &process.GetOwningLibrary().RootNotes,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagramProcess.IsNotesNodeExpanded,
+			IsButtonInMenu:                     true,
+		}
+		callbacksNotesDiagram := addCreateItemButton(stager, confNotesDiagram)
+		callbacksNotesDiagram.OnBeforeCommit = func() {
+			diagramProcess.IsNotesNodeExpanded = true
+		}
+		if len(diagramNode.Menu.Buttons) > 0 {
+			diagramNode.Menu.Buttons[0].Name = "Add Note"
+			diagramNode.Menu.Buttons[0].ToolTipText = "Add a Note to \"" + diagramProcess.Name + "\""
+		}
+	}
+
 	// Participants
-	{
+	if len(process.Participants) > 0 {
 		participantsNode := &tree.Node{
 			Name:            "Participants",
 			FontStyle:       tree.ITALIC,
@@ -82,10 +147,7 @@ func (stager *Stager) treeDiagramProcess(
 		diagramNode.Children = append(diagramNode.Children, participantsNode)
 		participantsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagramProcess.IsParticipantsNodeExpanded)
 
-		for _, participant := range process.Participants {
-			stager.treeParticipants(diagramProcess, participant, participantsNode)
-		}
-		confParticipants := ItemButtonConfiguration[
+		confParticipantsNode := ItemButtonConfiguration[
 			Participant, *Participant,
 			Process, *Process,
 		]{
@@ -94,12 +156,24 @@ func (stager *Stager) treeDiagramProcess(
 			isParentNodeExpandedByAddOperation: true,
 			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
 			parentNodeExpansionBooleanValue:    &diagramProcess.IsParticipantsNodeExpanded,
+			IsButtonInMenu:                     true,
 		}
-		addCreateItemButton(stager, confParticipants)
+		callbacksParticipantsNode := addCreateItemButton(stager, confParticipantsNode)
+		callbacksParticipantsNode.OnBeforeCommit = func() {
+			diagramProcess.IsParticipantsNodeExpanded = true
+		}
+		if len(participantsNode.Menu.Buttons) > 0 {
+			participantsNode.Menu.Buttons[0].Name = "Add Participant"
+			participantsNode.Menu.Buttons[0].ToolTipText = "Add a Participant to \"" + diagramProcess.Name + "\""
+		}
+
+		for _, participant := range process.Participants {
+			stager.treeParticipants(diagramProcess, participant, participantsNode)
+		}
 	}
 
 	// external participants
-	{
+	if len(process.ExternalParticipants) > 0 {
 		externalParticipantsNode := &tree.Node{
 			Name:            "External Participants",
 			FontStyle:       tree.ITALIC,
@@ -109,11 +183,7 @@ func (stager *Stager) treeDiagramProcess(
 		diagramNode.Children = append(diagramNode.Children, externalParticipantsNode)
 		externalParticipantsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagramProcess.IsExternalParticipantsNodeExpanded)
 
-		for _, participant := range process.ExternalParticipants {
-			stager.treeExternalParticipants(diagramProcess, participant, externalParticipantsNode)
-		}
-
-		addCreateItemButton(stager, ItemButtonConfiguration[
+		confExternalParticipantsNode := ItemButtonConfiguration[
 			Participant, *Participant,
 			Process, *Process,
 		]{
@@ -122,13 +192,26 @@ func (stager *Stager) treeDiagramProcess(
 			isParentNodeExpandedByAddOperation: true,
 			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
 			parentNodeExpansionBooleanValue:    &diagramProcess.IsExternalParticipantsNodeExpanded,
-		})
+			IsButtonInMenu:                     true,
+		}
+		callbacksExternalParticipantsNode := addCreateItemButton(stager, confExternalParticipantsNode)
+		callbacksExternalParticipantsNode.OnBeforeCommit = func() {
+			diagramProcess.IsExternalParticipantsNodeExpanded = true
+		}
+		if len(externalParticipantsNode.Menu.Buttons) > 0 {
+			externalParticipantsNode.Menu.Buttons[0].Name = "Add External Participant"
+			externalParticipantsNode.Menu.Buttons[0].ToolTipText = "Add an External Participant to \"" + diagramProcess.Name + "\""
+		}
+
+		for _, participant := range process.ExternalParticipants {
+			stager.treeExternalParticipants(diagramProcess, participant, externalParticipantsNode)
+		}
 	}
 
-	{
-		//
-		// DataFlows
-		//
+	//
+	// DataFlows
+	//
+	if len(process.DataFlows) > 0 {
 		dataFlowsNode := &tree.Node{
 			Name:            "Data Flows",
 			FontStyle:       tree.ITALIC,
@@ -143,9 +226,9 @@ func (stager *Stager) treeDiagramProcess(
 		}
 	}
 
-	{
-		// Notes
-		//
+	// Notes
+	//
+	if process.GetOwningLibrary() != nil && len(process.GetOwningLibrary().RootNotes) > 0 {
 		notesNode := &tree.Node{
 			Name:            "Notes",
 			FontStyle:       tree.ITALIC,
@@ -154,6 +237,26 @@ func (stager *Stager) treeDiagramProcess(
 		}
 		diagramNode.Children = append(diagramNode.Children, notesNode)
 		notesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagramProcess.IsNotesNodeExpanded)
+
+		confNotesNode := ItemButtonConfiguration[
+			Note, *Note,
+			Library, *Library,
+		]{
+			parentNode:                         notesNode,
+			sliceForNewAddedItem:               &process.GetOwningLibrary().RootNotes,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagramProcess.IsNotesNodeExpanded,
+			IsButtonInMenu:                     true,
+		}
+		callbacksNotesNode := addCreateItemButton(stager, confNotesNode)
+		callbacksNotesNode.OnBeforeCommit = func() {
+			diagramProcess.IsNotesNodeExpanded = true
+		}
+		if len(notesNode.Menu.Buttons) > 0 {
+			notesNode.Menu.Buttons[0].Name = "Add Note"
+			notesNode.Menu.Buttons[0].ToolTipText = "Add a Note to \"" + diagramProcess.Name + "\""
+		}
 
 		for _, note := range process.GetOwningLibrary().RootNotes {
 			stager.treeNoteWithinDiagramProcess(diagramProcess, note, notesNode)

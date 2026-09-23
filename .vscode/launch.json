@@ -291,14 +291,14 @@
             ]
         },
         {
-            "name": "dsm - process: go run 144.go",
+            "name": "dsm - process: go run issue1427.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
                 "edit",
-                "data/144.go",
+                "data/issue1427.go",
                 "--embedded-diagrams=false"
             ]
         },

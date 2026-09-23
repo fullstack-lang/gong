@@ -38,6 +38,7 @@ func (stager *Stager) treeProcesses(
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
 		parentNodeExpansionBooleanValue:    &process.IsExpanded,
+		IsButtonInMenu:                     true,
 	}
 	itemAdderCallback := addCreateItemButton(stager, confDiagramProcesss)
 	itemAdderCallback.OnBeforeCommit = func() {
@@ -48,6 +49,10 @@ func (stager *Stager) treeProcesses(
 			diagram_.IsChecked = false
 		}
 		newDiagram.IsChecked = true
+	}
+	if len(processNode.Menu.Buttons) > 0 {
+		processNode.Menu.Buttons[0].Name = "Add Diagram Process"
+		processNode.Menu.Buttons[0].ToolTipText = "Add a Diagram Process to \"" + process.GetName() + "\""
 	}
 
 	//
@@ -63,19 +68,52 @@ func (stager *Stager) treeProcesses(
 		parentNodeExpansionType:            parentNodeExpansionTypeBySlice,
 		parentNodeExpansionSliceEncoding:   processsWhoseNodeIsExpanded,
 		parentElement:                      process,
+		IsButtonInMenu:                     true,
 	}
-	addCreateItemButton(stager, confSubProcesses)
-
-	// SubProcesses
-	subProcessesNode := &tree.Node{
-		Name:            "SubProcesses",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      process.IsSubProcessNodeExpanded,
-		IsNodeClickable: true,
+	callbacksSubProcesses := addCreateItemButton(stager, confSubProcesses)
+	callbacksSubProcesses.OnBeforeCommit = func() {
+		process.IsSubProcessNodeExpanded = true
 	}
-	processNode.Children = append(processNode.Children, subProcessesNode)
+	if len(processNode.Menu.Buttons) > 0 {
+		processNode.Menu.Buttons[0].Name = "Add SubProcess"
+		processNode.Menu.Buttons[0].ToolTipText = "Add a SubProcess to \"" + process.GetName() + "\""
+	}
 
-	for _, process_ := range process.SubProcesses {
-		stager.treeProcesses(process_, subProcessesNode, processsWhoseNodeIsExpanded)
+	// SubProcesses category node (only if items are present)
+	if len(process.SubProcesses) > 0 {
+		subProcessesNode := &tree.Node{
+			Name:            "SubProcesses",
+			FontStyle:       tree.ITALIC,
+			IsExpanded:      process.IsSubProcessNodeExpanded,
+			IsNodeClickable: true,
+		}
+		processNode.Children = append(processNode.Children, subProcessesNode)
+		subProcessesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&process.IsSubProcessNodeExpanded)
+		subProcessesNode.OnClick = onNodeClicked(stager, process)
+
+		confSubProcessesNode := ItemButtonConfiguration[
+			Process, *Process,
+			Process, *Process,
+		]{
+			parentNode:                         subProcessesNode,
+			sliceForNewAddedItem:               &process.SubProcesses,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &process.IsSubProcessNodeExpanded,
+			parentElement:                      process,
+			IsButtonInMenu:                     true,
+		}
+		callbacksSubProcessesNode := addCreateItemButton(stager, confSubProcessesNode)
+		callbacksSubProcessesNode.OnBeforeCommit = func() {
+			process.IsSubProcessNodeExpanded = true
+		}
+		if len(subProcessesNode.Menu.Buttons) > 0 {
+			subProcessesNode.Menu.Buttons[0].Name = "Add SubProcess"
+			subProcessesNode.Menu.Buttons[0].ToolTipText = "Add a SubProcess to \"" + process.GetName() + "\""
+		}
+
+		for _, process_ := range process.SubProcesses {
+			stager.treeProcesses(process_, subProcessesNode, processsWhoseNodeIsExpanded)
+		}
 	}
 }
