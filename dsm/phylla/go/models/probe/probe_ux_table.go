@@ -244,6 +244,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StackOfRotatedGrowthCurve2D](probe)
 	case "StackOfRotatedGrowthCurve2DRibbon":
 		updateProbeTable[*models.StackOfRotatedGrowthCurve2DRibbon](probe)
+	case "StackOfRotatedVaseTrapezeRingsShape":
+		updateProbeTable[*models.StackOfRotatedVaseTrapezeRingsShape](probe)
+	case "StackOfVaseTrapezeRingsShape":
+		updateProbeTable[*models.StackOfVaseTrapezeRingsShape](probe)
 	case "StackRotatedGrowthCurve2DEndArcShape":
 		updateProbeTable[*models.StackRotatedGrowthCurve2DEndArcShape](probe)
 	case "StackRotatedGrowthCurve2DRibbonEndShape":
@@ -314,14 +318,14 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TorusEdge3DShape](probe)
 	case "TorusStackShape":
 		updateProbeTable[*models.TorusStackShape](probe)
-	case "TrapezeVolume3DShape":
-		updateProbeTable[*models.TrapezeVolume3DShape](probe)
 	case "TubeVase3DDiagram":
 		updateProbeTable[*models.TubeVase3DDiagram](probe)
 	case "TubeVaseAbstract":
 		updateProbeTable[*models.TubeVaseAbstract](probe)
 	case "Vase2DDiagram":
 		updateProbeTable[*models.Vase2DDiagram](probe)
+	case "VaseTrapezeRingShape":
+		updateProbeTable[*models.VaseTrapezeRingShape](probe)
 	case "VerticalTorusStackShape":
 		updateProbeTable[*models.VerticalTorusStackShape](probe)
 	case "VolumeKey3DShape":

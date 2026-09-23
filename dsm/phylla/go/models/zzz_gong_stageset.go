@@ -1123,6 +1123,58 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
+		stackofrotatedvasetrapezeringsshapeOrdered := []*StackOfRotatedVaseTrapezeRingsShape{}
+		for stackofrotatedvasetrapezeringsshape := range stageSet.Stage.StackOfRotatedVaseTrapezeRingsShapes {
+			stackofrotatedvasetrapezeringsshapeOrdered = append(stackofrotatedvasetrapezeringsshapeOrdered, stackofrotatedvasetrapezeringsshape)
+		}
+		sort.Slice(stackofrotatedvasetrapezeringsshapeOrdered, func(i, j int) bool {
+			return stageSet.Stage.StackOfRotatedVaseTrapezeRingsShape_stagedOrder[stackofrotatedvasetrapezeringsshapeOrdered[i]] < stageSet.Stage.StackOfRotatedVaseTrapezeRingsShape_stagedOrder[stackofrotatedvasetrapezeringsshapeOrdered[j]]
+		})
+		for _, stackofrotatedvasetrapezeringsshape := range stackofrotatedvasetrapezeringsshapeOrdered {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			stackofrotatedvasetrapezeringsshapeIdent := "__models" + stackofrotatedvasetrapezeringsshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.StackOfRotatedVaseTrapezeRingsShape{Name: %s}).Stage(stageSet.Stage)", stackofrotatedvasetrapezeringsshapeIdent, __gong__toRawStringLiteral(stackofrotatedvasetrapezeringsshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", stackofrotatedvasetrapezeringsshapeIdent, __gong__toRawStringLiteral(stackofrotatedvasetrapezeringsshape.Name)))
+		}
+	}
+	if stageSet.Stage != nil {
+		stackofvasetrapezeringsshapeOrdered := []*StackOfVaseTrapezeRingsShape{}
+		for stackofvasetrapezeringsshape := range stageSet.Stage.StackOfVaseTrapezeRingsShapes {
+			stackofvasetrapezeringsshapeOrdered = append(stackofvasetrapezeringsshapeOrdered, stackofvasetrapezeringsshape)
+		}
+		sort.Slice(stackofvasetrapezeringsshapeOrdered, func(i, j int) bool {
+			return stageSet.Stage.StackOfVaseTrapezeRingsShape_stagedOrder[stackofvasetrapezeringsshapeOrdered[i]] < stageSet.Stage.StackOfVaseTrapezeRingsShape_stagedOrder[stackofvasetrapezeringsshapeOrdered[j]]
+		})
+		for _, stackofvasetrapezeringsshape := range stackofvasetrapezeringsshapeOrdered {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			stackofvasetrapezeringsshapeIdent := "__models" + stackofvasetrapezeringsshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.StackOfVaseTrapezeRingsShape{Name: %s}).Stage(stageSet.Stage)", stackofvasetrapezeringsshapeIdent, __gong__toRawStringLiteral(stackofvasetrapezeringsshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", stackofvasetrapezeringsshapeIdent, __gong__toRawStringLiteral(stackofvasetrapezeringsshape.Name)))
+		}
+	}
+	if stageSet.Stage != nil {
 		stemcylinder3dshapeOrdered := []*StemCylinder3DShape{}
 		for stemcylinder3dshape := range stageSet.Stage.StemCylinder3DShapes {
 			stemcylinder3dshapeOrdered = append(stemcylinder3dshapeOrdered, stemcylinder3dshape)
@@ -1506,32 +1558,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		trapezevolume3dshapeOrdered := []*TrapezeVolume3DShape{}
-		for trapezevolume3dshape := range stageSet.Stage.TrapezeVolume3DShapes {
-			trapezevolume3dshapeOrdered = append(trapezevolume3dshapeOrdered, trapezevolume3dshape)
-		}
-		sort.Slice(trapezevolume3dshapeOrdered, func(i, j int) bool {
-			return stageSet.Stage.TrapezeVolume3DShape_stagedOrder[trapezevolume3dshapeOrdered[i]] < stageSet.Stage.TrapezeVolume3DShape_stagedOrder[trapezevolume3dshapeOrdered[j]]
-		})
-		for _, trapezevolume3dshape := range trapezevolume3dshapeOrdered {
-			if lastStageDecl != "Stage" {
-				if declarations.Len() > 0 {
-					declarations.WriteString("\n")
-				}
-				lastStageDecl = "Stage"
-			}
-			trapezevolume3dshapeIdent := "__models" + trapezevolume3dshape.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.TrapezeVolume3DShape{Name: %s}).Stage(stageSet.Stage)", trapezevolume3dshapeIdent, __gong__toRawStringLiteral(trapezevolume3dshape.Name)))
-			if lastStageVal != "Stage" {
-				if values.Len() > 0 {
-					values.WriteString("\n")
-				}
-				lastStageVal = "Stage"
-			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", trapezevolume3dshapeIdent, __gong__toRawStringLiteral(trapezevolume3dshape.Name)))
-		}
-	}
-	if stageSet.Stage != nil {
 		tubevase3ddiagramOrdered := []*TubeVase3DDiagram{}
 		for tubevase3ddiagram := range stageSet.Stage.TubeVase3DDiagrams {
 			tubevase3ddiagramOrdered = append(tubevase3ddiagramOrdered, tubevase3ddiagram)
@@ -1573,7 +1599,9 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenBottomCurvePlane1Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenBottomCurvePlane1Shape))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTopCurvePlane2Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenTopCurvePlane2Shape))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenBottomCurvePlane2Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenBottomCurvePlane2Shape))
-			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTrapezeVolume3DShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenTrapezeVolume3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenVaseTrapezeRingShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenVaseTrapezeRingShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStackOfVaseTrapezeRingsShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenStackOfVaseTrapezeRingsShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStackOfRotatedVaseTrapezeRingsShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsChecked))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", tubevase3ddiagramIdent, __gong__toRawStringLiteral(tubevase3ddiagram.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsExpanded))
@@ -1757,15 +1785,35 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				targetIdent := "__models" + tubevase3ddiagram.BottomCurvePlane2Shape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.BottomCurvePlane2Shape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
-			if tubevase3ddiagram.TrapezeVolume3DShape != nil {
+			if tubevase3ddiagram.VaseTrapezeRingShape != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := "__models" + tubevase3ddiagram.TrapezeVolume3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TrapezeVolume3DShape = %s", tubevase3ddiagramIdent, targetIdent))
+				targetIdent := "__models" + tubevase3ddiagram.VaseTrapezeRingShape.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.VaseTrapezeRingShape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.StackOfVaseTrapezeRingsShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + tubevase3ddiagram.StackOfVaseTrapezeRingsShape.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StackOfVaseTrapezeRingsShape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.StackOfRotatedVaseTrapezeRingsShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := "__models" + tubevase3ddiagram.StackOfRotatedVaseTrapezeRingsShape.GongGetIdentifier(stageSet.Stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StackOfRotatedVaseTrapezeRingsShape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 		}
 	}
@@ -2142,6 +2190,32 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", vase2ddiagramIdent, vase2ddiagram.IsExpanded))
 		}
 	}
+	if stageSet.Stage != nil {
+		vasetrapezeringshapeOrdered := []*VaseTrapezeRingShape{}
+		for vasetrapezeringshape := range stageSet.Stage.VaseTrapezeRingShapes {
+			vasetrapezeringshapeOrdered = append(vasetrapezeringshapeOrdered, vasetrapezeringshape)
+		}
+		sort.Slice(vasetrapezeringshapeOrdered, func(i, j int) bool {
+			return stageSet.Stage.VaseTrapezeRingShape_stagedOrder[vasetrapezeringshapeOrdered[i]] < stageSet.Stage.VaseTrapezeRingShape_stagedOrder[vasetrapezeringshapeOrdered[j]]
+		})
+		for _, vasetrapezeringshape := range vasetrapezeringshapeOrdered {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			vasetrapezeringshapeIdent := "__models" + vasetrapezeringshape.GongGetIdentifier(stageSet.Stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.VaseTrapezeRingShape{Name: %s}).Stage(stageSet.Stage)", vasetrapezeringshapeIdent, __gong__toRawStringLiteral(vasetrapezeringshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", vasetrapezeringshapeIdent, __gong__toRawStringLiteral(vasetrapezeringshape.Name)))
+		}
+	}
 
 
 	res = fmt.Sprintf(`// file generated by gong
@@ -2493,6 +2567,28 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.StagePreserveOrder(stageSet.Stage, uint(order))
 						identifierMap[ident.Name] = inst
 					}
+				case "StackOfRotatedVaseTrapezeRingsShape":
+					if !preserveOrder {
+						inst := (&StackOfRotatedVaseTrapezeRingsShape{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(StackOfRotatedVaseTrapezeRingsShape)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				case "StackOfVaseTrapezeRingsShape":
+					if !preserveOrder {
+						inst := (&StackOfVaseTrapezeRingsShape{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(StackOfVaseTrapezeRingsShape)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
 				case "StemCylinder3DShape":
 					if !preserveOrder {
 						inst := (&StemCylinder3DShape{Name: instanceName}).Stage(stageSet.Stage)
@@ -2559,17 +2655,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.StagePreserveOrder(stageSet.Stage, uint(order))
 						identifierMap[ident.Name] = inst
 					}
-				case "TrapezeVolume3DShape":
-					if !preserveOrder {
-						inst := (&TrapezeVolume3DShape{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(TrapezeVolume3DShape)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
 				case "TubeVase3DDiagram":
 					if !preserveOrder {
 						inst := (&TubeVase3DDiagram{Name: instanceName}).Stage(stageSet.Stage)
@@ -2598,6 +2683,17 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						identifierMap[ident.Name] = inst
 					} else {
 						inst := new(Vase2DDiagram)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.Stage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				case "VaseTrapezeRingShape":
+					if !preserveOrder {
+						inst := (&VaseTrapezeRingShape{Name: instanceName}).Stage(stageSet.Stage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(VaseTrapezeRingShape)
 						inst.Name = instanceName
 						order, _ := __gong__extractMiddleUint(ident.Name)
 						inst.StagePreserveOrder(stageSet.Stage, uint(order))
@@ -3262,6 +3358,16 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					}
+				case *StackOfRotatedVaseTrapezeRingsShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *StackOfVaseTrapezeRingsShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
 				case *StemCylinder3DShape:
 					switch fieldName {
 					case "Name":
@@ -3518,11 +3624,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					}
-				case *TrapezeVolume3DShape:
-					switch fieldName {
-					case "Name":
-						inst.Name = GongExtractString(rhs)
-					}
 				case *TubeVase3DDiagram:
 					switch fieldName {
 					case "Name":
@@ -3563,8 +3664,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.IsHiddenTopCurvePlane2Shape = GongExtractBool(rhs)
 					case "IsHiddenBottomCurvePlane2Shape":
 						inst.IsHiddenBottomCurvePlane2Shape = GongExtractBool(rhs)
-					case "IsHiddenTrapezeVolume3DShape":
-						inst.IsHiddenTrapezeVolume3DShape = GongExtractBool(rhs)
+					case "IsHiddenVaseTrapezeRingShape":
+						inst.IsHiddenVaseTrapezeRingShape = GongExtractBool(rhs)
+					case "IsHiddenStackOfVaseTrapezeRingsShape":
+						inst.IsHiddenStackOfVaseTrapezeRingsShape = GongExtractBool(rhs)
+					case "IsHiddenStackOfRotatedVaseTrapezeRingsShape":
+						inst.IsHiddenStackOfRotatedVaseTrapezeRingsShape = GongExtractBool(rhs)
 					case "Rendered3DShape":
 						if rIdent, ok := rhs.(*ast.Ident); ok {
 							if target, ok := identifierMap[rIdent.Name]; ok {
@@ -3709,11 +3814,27 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 								}
 							}
 						}
-					case "TrapezeVolume3DShape":
+					case "VaseTrapezeRingShape":
 						if rIdent, ok := rhs.(*ast.Ident); ok {
 							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TrapezeVolume3DShape); ok {
-									inst.TrapezeVolume3DShape = typedTarget
+								if typedTarget, ok := target.(*VaseTrapezeRingShape); ok {
+									inst.VaseTrapezeRingShape = typedTarget
+								}
+							}
+						}
+					case "StackOfVaseTrapezeRingsShape":
+						if rIdent, ok := rhs.(*ast.Ident); ok {
+							if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*StackOfVaseTrapezeRingsShape); ok {
+									inst.StackOfVaseTrapezeRingsShape = typedTarget
+								}
+							}
+						}
+					case "StackOfRotatedVaseTrapezeRingsShape":
+						if rIdent, ok := rhs.(*ast.Ident); ok {
+							if target, ok := identifierMap[rIdent.Name]; ok {
+								if typedTarget, ok := target.(*StackOfRotatedVaseTrapezeRingsShape); ok {
+									inst.StackOfRotatedVaseTrapezeRingsShape = typedTarget
 								}
 							}
 						}
@@ -4063,6 +4184,11 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.ComputedPrefix = GongExtractString(rhs)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
+					}
+				case *VaseTrapezeRingShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
 					}
 							}
 						}

@@ -896,6 +896,20 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by StackOfRotatedVaseTrapezeRingsShape
+func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StackOfVaseTrapezeRingsShape
+func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by StackRotatedGrowthCurve2DEndArcShape
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -1173,13 +1187,6 @@ func (torusstackshape *TorusStackShape) GongClean(stage *Stage) (modified bool) 
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by TrapezeVolume3DShape
-func (trapezevolume3dshape *TrapezeVolume3DShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by TubeVase3DDiagram
 func (tubevase3ddiagram *TubeVase3DDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -1202,7 +1209,9 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongClean(stage *Stage) (modified bo
 	modified = stage.CleanPointer(&tubevase3ddiagram.BottomCurvePlane1Shape) || modified
 	modified = stage.CleanPointer(&tubevase3ddiagram.TopCurvePlane2Shape) || modified
 	modified = stage.CleanPointer(&tubevase3ddiagram.BottomCurvePlane2Shape) || modified
-	modified = stage.CleanPointer(&tubevase3ddiagram.TrapezeVolume3DShape) || modified
+	modified = stage.CleanPointer(&tubevase3ddiagram.VaseTrapezeRingShape) || modified
+	modified = stage.CleanPointer(&tubevase3ddiagram.StackOfVaseTrapezeRingsShape) || modified
+	modified = stage.CleanPointer(&tubevase3ddiagram.StackOfRotatedVaseTrapezeRingsShape) || modified
 	return
 }
 
@@ -1241,6 +1250,13 @@ func (tubevaseabstract *TubeVaseAbstract) GongClean(stage *Stage) (modified bool
 
 // Clean garbage collect unstaged instances that are referenced by Vase2DDiagram
 func (vase2ddiagram *Vase2DDiagram) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by VaseTrapezeRingShape
+func (vasetrapezeringshape *VaseTrapezeRingShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return

@@ -21,7 +21,9 @@ type TubeVase3DDiagram struct {
 	IsHiddenBottomCurvePlane1Shape                     bool
 	IsHiddenTopCurvePlane2Shape                        bool
 	IsHiddenBottomCurvePlane2Shape                     bool
-	IsHiddenTrapezeVolume3DShape                       bool
+	IsHiddenVaseTrapezeRingShape                       bool
+	IsHiddenStackOfVaseTrapezeRingsShape               bool
+	IsHiddenStackOfRotatedVaseTrapezeRingsShape        bool
 
 	Rendered3DShape *Rendered3DShape
 
@@ -42,13 +44,23 @@ type TubeVase3DDiagram struct {
 	BottomCurvePlane1Shape                  *BottomCurvePlane1Shape
 	TopCurvePlane2Shape                     *TopCurvePlane2Shape
 	BottomCurvePlane2Shape                  *BottomCurvePlane2Shape
-	TrapezeVolume3DShape                    *TrapezeVolume3DShape
+	VaseTrapezeRingShape                    *VaseTrapezeRingShape
+	StackOfVaseTrapezeRingsShape            *StackOfVaseTrapezeRingsShape
+	StackOfRotatedVaseTrapezeRingsShape     *StackOfRotatedVaseTrapezeRingsShape
 
 	IsChecked bool
 	AbstractTypeFields
 }
 
-type TrapezeVolume3DShape struct {
+type VaseTrapezeRingShape struct {
+	Name string
+}
+
+type StackOfVaseTrapezeRingsShape struct {
+	Name string
+}
+
+type StackOfRotatedVaseTrapezeRingsShape struct {
 	Name string
 }
 

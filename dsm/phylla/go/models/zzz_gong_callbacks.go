@@ -2887,6 +2887,58 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 	}
 }
 
+func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterStackOfRotatedVaseTrapezeRingsShapeCreateCallback != nil {
+		stage.OnAfterStackOfRotatedVaseTrapezeRingsShapeCreateCallback.OnAfterCreate(stage, stackofrotatedvasetrapezeringsshape)
+	}
+}
+
+func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterStackOfRotatedVaseTrapezeRingsShapeUpdateCallback != nil {
+		var frontStackOfRotatedVaseTrapezeRingsShape *StackOfRotatedVaseTrapezeRingsShape
+		if front != nil {
+			frontStackOfRotatedVaseTrapezeRingsShape, _ = front.(*StackOfRotatedVaseTrapezeRingsShape)
+		}
+		stage.OnAfterStackOfRotatedVaseTrapezeRingsShapeUpdateCallback.OnAfterUpdate(stage, stackofrotatedvasetrapezeringsshape, frontStackOfRotatedVaseTrapezeRingsShape)
+	}
+}
+
+func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterStackOfRotatedVaseTrapezeRingsShapeDeleteCallback != nil {
+		var frontStackOfRotatedVaseTrapezeRingsShape *StackOfRotatedVaseTrapezeRingsShape
+		if front != nil {
+			frontStackOfRotatedVaseTrapezeRingsShape, _ = front.(*StackOfRotatedVaseTrapezeRingsShape)
+		}
+		stage.OnAfterStackOfRotatedVaseTrapezeRingsShapeDeleteCallback.OnAfterDelete(stage, stackofrotatedvasetrapezeringsshape, frontStackOfRotatedVaseTrapezeRingsShape)
+	}
+}
+
+func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterStackOfVaseTrapezeRingsShapeCreateCallback != nil {
+		stage.OnAfterStackOfVaseTrapezeRingsShapeCreateCallback.OnAfterCreate(stage, stackofvasetrapezeringsshape)
+	}
+}
+
+func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterStackOfVaseTrapezeRingsShapeUpdateCallback != nil {
+		var frontStackOfVaseTrapezeRingsShape *StackOfVaseTrapezeRingsShape
+		if front != nil {
+			frontStackOfVaseTrapezeRingsShape, _ = front.(*StackOfVaseTrapezeRingsShape)
+		}
+		stage.OnAfterStackOfVaseTrapezeRingsShapeUpdateCallback.OnAfterUpdate(stage, stackofvasetrapezeringsshape, frontStackOfVaseTrapezeRingsShape)
+	}
+}
+
+func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterStackOfVaseTrapezeRingsShapeDeleteCallback != nil {
+		var frontStackOfVaseTrapezeRingsShape *StackOfVaseTrapezeRingsShape
+		if front != nil {
+			frontStackOfVaseTrapezeRingsShape, _ = front.(*StackOfVaseTrapezeRingsShape)
+		}
+		stage.OnAfterStackOfVaseTrapezeRingsShapeDeleteCallback.OnAfterDelete(stage, stackofvasetrapezeringsshape, frontStackOfVaseTrapezeRingsShape)
+	}
+}
+
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterStackRotatedGrowthCurve2DEndArcShapeCreateCallback != nil {
 		stage.OnAfterStackRotatedGrowthCurve2DEndArcShapeCreateCallback.OnAfterCreate(stage, stackrotatedgrowthcurve2dendarcshape)
@@ -3797,32 +3849,6 @@ func (torusstackshape *TorusStackShape) GongAfterDeleteFromFront(stage *Stage, f
 	}
 }
 
-func (trapezevolume3dshape *TrapezeVolume3DShape) GongAfterCreateFromFront(stage *Stage) {
-	if stage.OnAfterTrapezeVolume3DShapeCreateCallback != nil {
-		stage.OnAfterTrapezeVolume3DShapeCreateCallback.OnAfterCreate(stage, trapezevolume3dshape)
-	}
-}
-
-func (trapezevolume3dshape *TrapezeVolume3DShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterTrapezeVolume3DShapeUpdateCallback != nil {
-		var frontTrapezeVolume3DShape *TrapezeVolume3DShape
-		if front != nil {
-			frontTrapezeVolume3DShape, _ = front.(*TrapezeVolume3DShape)
-		}
-		stage.OnAfterTrapezeVolume3DShapeUpdateCallback.OnAfterUpdate(stage, trapezevolume3dshape, frontTrapezeVolume3DShape)
-	}
-}
-
-func (trapezevolume3dshape *TrapezeVolume3DShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterTrapezeVolume3DShapeDeleteCallback != nil {
-		var frontTrapezeVolume3DShape *TrapezeVolume3DShape
-		if front != nil {
-			frontTrapezeVolume3DShape, _ = front.(*TrapezeVolume3DShape)
-		}
-		stage.OnAfterTrapezeVolume3DShapeDeleteCallback.OnAfterDelete(stage, trapezevolume3dshape, frontTrapezeVolume3DShape)
-	}
-}
-
 func (tubevase3ddiagram *TubeVase3DDiagram) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterTubeVase3DDiagramCreateCallback != nil {
 		stage.OnAfterTubeVase3DDiagramCreateCallback.OnAfterCreate(stage, tubevase3ddiagram)
@@ -3898,6 +3924,32 @@ func (vase2ddiagram *Vase2DDiagram) GongAfterDeleteFromFront(stage *Stage, front
 			frontVase2DDiagram, _ = front.(*Vase2DDiagram)
 		}
 		stage.OnAfterVase2DDiagramDeleteCallback.OnAfterDelete(stage, vase2ddiagram, frontVase2DDiagram)
+	}
+}
+
+func (vasetrapezeringshape *VaseTrapezeRingShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterVaseTrapezeRingShapeCreateCallback != nil {
+		stage.OnAfterVaseTrapezeRingShapeCreateCallback.OnAfterCreate(stage, vasetrapezeringshape)
+	}
+}
+
+func (vasetrapezeringshape *VaseTrapezeRingShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterVaseTrapezeRingShapeUpdateCallback != nil {
+		var frontVaseTrapezeRingShape *VaseTrapezeRingShape
+		if front != nil {
+			frontVaseTrapezeRingShape, _ = front.(*VaseTrapezeRingShape)
+		}
+		stage.OnAfterVaseTrapezeRingShapeUpdateCallback.OnAfterUpdate(stage, vasetrapezeringshape, frontVaseTrapezeRingShape)
+	}
+}
+
+func (vasetrapezeringshape *VaseTrapezeRingShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterVaseTrapezeRingShapeDeleteCallback != nil {
+		var frontVaseTrapezeRingShape *VaseTrapezeRingShape
+		if front != nil {
+			frontVaseTrapezeRingShape, _ = front.(*VaseTrapezeRingShape)
+		}
+		stage.OnAfterVaseTrapezeRingShapeDeleteCallback.OnAfterDelete(stage, vasetrapezeringshape, frontVaseTrapezeRingShape)
 	}
 }
 

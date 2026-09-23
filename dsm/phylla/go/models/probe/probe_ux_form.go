@@ -1472,6 +1472,32 @@ func FillUpFormFromGongstructName(
 		stackofrotatedgrowthcurve2dribbon := new(models.StackOfRotatedGrowthCurve2DRibbon)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(stackofrotatedgrowthcurve2dribbon, formGroup, probe)
+	case "StackOfRotatedVaseTrapezeRingsShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StackOfRotatedVaseTrapezeRingsShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StackOfRotatedVaseTrapezeRingsShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stackofrotatedvasetrapezeringsshape := new(models.StackOfRotatedVaseTrapezeRingsShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stackofrotatedvasetrapezeringsshape, formGroup, probe)
+	case "StackOfVaseTrapezeRingsShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StackOfVaseTrapezeRingsShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StackOfVaseTrapezeRingsShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stackofvasetrapezeringsshape := new(models.StackOfVaseTrapezeRingsShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stackofvasetrapezeringsshape, formGroup, probe)
 	case "StackRotatedGrowthCurve2DEndArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1927,19 +1953,6 @@ func FillUpFormFromGongstructName(
 		torusstackshape := new(models.TorusStackShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(torusstackshape, formGroup, probe)
-	case "TrapezeVolume3DShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "TrapezeVolume3DShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__TrapezeVolume3DShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		trapezevolume3dshape := new(models.TrapezeVolume3DShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(trapezevolume3dshape, formGroup, probe)
 	case "TubeVase3DDiagram":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1979,6 +1992,19 @@ func FillUpFormFromGongstructName(
 		vase2ddiagram := new(models.Vase2DDiagram)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(vase2ddiagram, formGroup, probe)
+	case "VaseTrapezeRingShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "VaseTrapezeRingShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__VaseTrapezeRingShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		vasetrapezeringshape := new(models.VaseTrapezeRingShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(vasetrapezeringshape, formGroup, probe)
 	case "VerticalTorusStackShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

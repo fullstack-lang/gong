@@ -149,7 +149,9 @@ func (stager *Stager) ux_slider() {
 						&plant.TubeVaseAbstract.RelativeCuttedStackFloorHeight,
 					),
 				)
+			}
 
+			if plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze {
 				group1.Sliders = append(
 					group1.Sliders,
 					m.NewSlider(
@@ -175,7 +177,7 @@ func (stager *Stager) ux_slider() {
 				),
 			)
 
-			if plant.PlantType == TubeVase {
+			if plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze {
 				group1.Sliders = append(
 					group1.Sliders,
 					m.NewSlider(
@@ -251,7 +253,7 @@ func (stager *Stager) ux_slider() {
 				)
 			}
 
-			if plant.PlantType == TubeVase {
+			if plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze {
 				group1.Sliders = append(
 					group1.Sliders,
 					NewBoolSlider(
@@ -260,6 +262,9 @@ func (stager *Stager) ux_slider() {
 						&plant.TubeVaseAbstract.HasAlternatingRingColors,
 					),
 				)
+			}
+
+			if plant.PlantType == TubeVase {
 
 				group1.Sliders = append(
 					group1.Sliders,

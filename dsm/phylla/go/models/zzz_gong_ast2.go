@@ -4753,6 +4753,64 @@ func (u *StackOfRotatedGrowthCurve2DRibbonUnmarshaller) UnmarshallField(stage *S
 	return nil
 }
 
+type StackOfRotatedVaseTrapezeRingsShapeUnmarshaller struct{}
+
+func (u *StackOfRotatedVaseTrapezeRingsShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StackOfRotatedVaseTrapezeRingsShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *StackOfRotatedVaseTrapezeRingsShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StackOfRotatedVaseTrapezeRingsShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type StackOfVaseTrapezeRingsShapeUnmarshaller struct{}
+
+func (u *StackOfVaseTrapezeRingsShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StackOfVaseTrapezeRingsShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *StackOfVaseTrapezeRingsShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StackOfVaseTrapezeRingsShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type StackRotatedGrowthCurve2DEndArcShapeUnmarshaller struct{}
 
 func (u *StackRotatedGrowthCurve2DEndArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -6202,35 +6260,6 @@ func (u *TorusStackShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	return nil
 }
 
-type TrapezeVolume3DShapeUnmarshaller struct{}
-
-func (u *TrapezeVolume3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(TrapezeVolume3DShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *TrapezeVolume3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*TrapezeVolume3DShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	}
-	return nil
-}
-
 type TubeVase3DDiagramUnmarshaller struct{}
 
 func (u *TubeVase3DDiagramUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -6292,8 +6321,12 @@ func (u *TubeVase3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		instance.IsHiddenTopCurvePlane2Shape = GongExtractBool(valueExpr)
 	case "IsHiddenBottomCurvePlane2Shape":
 		instance.IsHiddenBottomCurvePlane2Shape = GongExtractBool(valueExpr)
-	case "IsHiddenTrapezeVolume3DShape":
-		instance.IsHiddenTrapezeVolume3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenVaseTrapezeRingShape":
+		instance.IsHiddenVaseTrapezeRingShape = GongExtractBool(valueExpr)
+	case "IsHiddenStackOfVaseTrapezeRingsShape":
+		instance.IsHiddenStackOfVaseTrapezeRingsShape = GongExtractBool(valueExpr)
+	case "IsHiddenStackOfRotatedVaseTrapezeRingsShape":
+		instance.IsHiddenStackOfRotatedVaseTrapezeRingsShape = GongExtractBool(valueExpr)
 	case "Rendered3DShape":
 		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
 	case "TorusStackShape":
@@ -6330,8 +6363,12 @@ func (u *TubeVase3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		GongUnmarshallPointer(&instance.TopCurvePlane2Shape, valueExpr, identifierMap)
 	case "BottomCurvePlane2Shape":
 		GongUnmarshallPointer(&instance.BottomCurvePlane2Shape, valueExpr, identifierMap)
-	case "TrapezeVolume3DShape":
-		GongUnmarshallPointer(&instance.TrapezeVolume3DShape, valueExpr, identifierMap)
+	case "VaseTrapezeRingShape":
+		GongUnmarshallPointer(&instance.VaseTrapezeRingShape, valueExpr, identifierMap)
+	case "StackOfVaseTrapezeRingsShape":
+		GongUnmarshallPointer(&instance.StackOfVaseTrapezeRingsShape, valueExpr, identifierMap)
+	case "StackOfRotatedVaseTrapezeRingsShape":
+		GongUnmarshallPointer(&instance.StackOfRotatedVaseTrapezeRingsShape, valueExpr, identifierMap)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -6570,6 +6607,35 @@ func (u *Vase2DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type VaseTrapezeRingShapeUnmarshaller struct{}
+
+func (u *VaseTrapezeRingShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(VaseTrapezeRingShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := __gong__extractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *VaseTrapezeRingShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*VaseTrapezeRingShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
 	}
 	return nil
 }

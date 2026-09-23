@@ -420,6 +420,12 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct StackOfRotatedGrowthCurve2DRibbon
 	// insertion point per field
 
+	// Compute reverse map for named struct StackOfRotatedVaseTrapezeRingsShape
+	// insertion point per field
+
+	// Compute reverse map for named struct StackOfVaseTrapezeRingsShape
+	// insertion point per field
+
 	// Compute reverse map for named struct StackRotatedGrowthCurve2DEndArcShape
 	// insertion point per field
 
@@ -525,9 +531,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct TorusStackShape
 	// insertion point per field
 
-	// Compute reverse map for named struct TrapezeVolume3DShape
-	// insertion point per field
-
 	// Compute reverse map for named struct TubeVase3DDiagram
 	// insertion point per field
 
@@ -535,6 +538,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per field
 
 	// Compute reverse map for named struct Vase2DDiagram
+	// insertion point per field
+
+	// Compute reverse map for named struct VaseTrapezeRingShape
 	// insertion point per field
 
 	// Compute reverse map for named struct VerticalTorusStackShape
@@ -988,6 +994,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.StackOfRotatedVaseTrapezeRingsShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.StackOfVaseTrapezeRingsShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.StackRotatedGrowthCurve2DEndArcShapes {
 		res = append(res, instance)
 	}
@@ -1128,10 +1142,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.TrapezeVolume3DShapes {
-		res = append(res, instance)
-	}
-
 	for instance := range stage.TubeVase3DDiagrams {
 		res = append(res, instance)
 	}
@@ -1141,6 +1151,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.Vase2DDiagrams {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.VaseTrapezeRingShapes {
 		res = append(res, instance)
 	}
 
@@ -1816,6 +1830,18 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 	return newInstance
 }
 
+func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongCopy() GongstructIF {
+	newInstance := new(StackOfRotatedVaseTrapezeRingsShape)
+	stackofrotatedvasetrapezeringsshape.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongCopy() GongstructIF {
+	newInstance := new(StackOfVaseTrapezeRingsShape)
+	stackofvasetrapezeringsshape.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongCopy() GongstructIF {
 	newInstance := new(StackRotatedGrowthCurve2DEndArcShape)
 	stackrotatedgrowthcurve2dendarcshape.GongCopyBasicFields(newInstance)
@@ -2026,12 +2052,6 @@ func (torusstackshape *TorusStackShape) GongCopy() GongstructIF {
 	return newInstance
 }
 
-func (trapezevolume3dshape *TrapezeVolume3DShape) GongCopy() GongstructIF {
-	newInstance := new(TrapezeVolume3DShape)
-	trapezevolume3dshape.GongCopyBasicFields(newInstance)
-	return newInstance
-}
-
 func (tubevase3ddiagram *TubeVase3DDiagram) GongCopy() GongstructIF {
 	newInstance := new(TubeVase3DDiagram)
 	tubevase3ddiagram.GongCopyBasicFields(newInstance)
@@ -2047,6 +2067,12 @@ func (tubevaseabstract *TubeVaseAbstract) GongCopy() GongstructIF {
 func (vase2ddiagram *Vase2DDiagram) GongCopy() GongstructIF {
 	newInstance := new(Vase2DDiagram)
 	vase2ddiagram.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (vasetrapezeringshape *VaseTrapezeRingShape) GongCopy() GongstructIF {
+	newInstance := new(VaseTrapezeRingShape)
+	vasetrapezeringshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -3163,6 +3189,26 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 	return
 }
 
+func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(stackofrotatedvasetrapezeringsshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackofrotatedvasetrapezeringsshape), uint64(stage.GetOrder(stackofrotatedvasetrapezeringsshape)))
+	return
+}
+
+func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(stackofvasetrapezeringsshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stackofvasetrapezeringsshape), uint64(stage.GetOrder(stackofvasetrapezeringsshape)))
+	return
+}
+
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(stackrotatedgrowthcurve2dendarcshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -3513,16 +3559,6 @@ func (torusstackshape *TorusStackShape) GongGetUUID(stage *Stage) (uuid string) 
 	return
 }
 
-func (trapezevolume3dshape *TrapezeVolume3DShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(trapezevolume3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(trapezevolume3dshape), uint64(stage.GetOrder(trapezevolume3dshape)))
-	return
-}
-
 func (tubevase3ddiagram *TubeVase3DDiagram) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(tubevase3ddiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -3550,6 +3586,16 @@ func (vase2ddiagram *Vase2DDiagram) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(vase2ddiagram), uint64(stage.GetOrder(vase2ddiagram)))
+	return
+}
+
+func (vasetrapezeringshape *VaseTrapezeRingShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(vasetrapezeringshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(vasetrapezeringshape), uint64(stage.GetOrder(vasetrapezeringshape)))
 	return
 }
 
@@ -3998,6 +4044,40 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
+		stage.StackOfRotatedVaseTrapezeRingsShapes,
+		stage.StackOfRotatedVaseTrapezeRingsShape_stagedOrder,
+		stage.StackOfRotatedVaseTrapezeRingsShapes_reference,
+		&stage.StackOfRotatedVaseTrapezeRingsShapes_referenceOrder,
+		stage.StackOfRotatedVaseTrapezeRingsShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.StackOfVaseTrapezeRingsShapes,
+		stage.StackOfVaseTrapezeRingsShape_stagedOrder,
+		stage.StackOfVaseTrapezeRingsShapes_reference,
+		&stage.StackOfVaseTrapezeRingsShapes_referenceOrder,
+		stage.StackOfVaseTrapezeRingsShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
 		stage.StemCylinder3DShapes,
 		stage.StemCylinder3DShape_stagedOrder,
 		stage.StemCylinder3DShapes_reference,
@@ -4100,23 +4180,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
-		stage.TrapezeVolume3DShapes,
-		stage.TrapezeVolume3DShape_stagedOrder,
-		stage.TrapezeVolume3DShapes_reference,
-		&stage.TrapezeVolume3DShapes_referenceOrder,
-		stage.TrapezeVolume3DShapes_instance,
-		&newInstancesSlice,
-		&fieldsEditSlice,
-		&deletedInstancesSlice,
-		&newInstancesReverseSlice,
-		&fieldsEditReverseSlice,
-		&deletedInstancesReverseSlice,
-		&lenNewInstances,
-		&lenDeletedInstances,
-		&lenModifiedInstances,
-	)
-	computeCommitsForType(
-		stage,
 		stage.TubeVase3DDiagrams,
 		stage.TubeVase3DDiagram_stagedOrder,
 		stage.TubeVase3DDiagrams_reference,
@@ -4156,6 +4219,23 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		stage.Vase2DDiagrams_reference,
 		&stage.Vase2DDiagrams_referenceOrder,
 		stage.Vase2DDiagrams_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.VaseTrapezeRingShapes,
+		stage.VaseTrapezeRingShape_stagedOrder,
+		stage.VaseTrapezeRingShapes_reference,
+		&stage.VaseTrapezeRingShapes_referenceOrder,
+		stage.VaseTrapezeRingShapes_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -5301,6 +5381,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.StackOfRotatedGrowthCurve2DRibbons_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.StackOfRotatedVaseTrapezeRingsShapes_reference = make(map[*StackOfRotatedVaseTrapezeRingsShape]*StackOfRotatedVaseTrapezeRingsShape)
+	stage.StackOfRotatedVaseTrapezeRingsShapes_referenceOrder = make(map[*StackOfRotatedVaseTrapezeRingsShape]uint) // diff Unstage needs the reference order
+	stage.StackOfRotatedVaseTrapezeRingsShapes_instance = make(map[*StackOfRotatedVaseTrapezeRingsShape]*StackOfRotatedVaseTrapezeRingsShape)
+	for instance := range stage.StackOfRotatedVaseTrapezeRingsShapes {
+		_copy := instance.GongCopy().(*StackOfRotatedVaseTrapezeRingsShape)
+		stage.StackOfRotatedVaseTrapezeRingsShapes_reference[instance] = _copy
+		stage.StackOfRotatedVaseTrapezeRingsShapes_instance[_copy] = instance
+		stage.StackOfRotatedVaseTrapezeRingsShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.StackOfVaseTrapezeRingsShapes_reference = make(map[*StackOfVaseTrapezeRingsShape]*StackOfVaseTrapezeRingsShape)
+	stage.StackOfVaseTrapezeRingsShapes_referenceOrder = make(map[*StackOfVaseTrapezeRingsShape]uint) // diff Unstage needs the reference order
+	stage.StackOfVaseTrapezeRingsShapes_instance = make(map[*StackOfVaseTrapezeRingsShape]*StackOfVaseTrapezeRingsShape)
+	for instance := range stage.StackOfVaseTrapezeRingsShapes {
+		_copy := instance.GongCopy().(*StackOfVaseTrapezeRingsShape)
+		stage.StackOfVaseTrapezeRingsShapes_reference[instance] = _copy
+		stage.StackOfVaseTrapezeRingsShapes_instance[_copy] = instance
+		stage.StackOfVaseTrapezeRingsShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.StackRotatedGrowthCurve2DEndArcShapes_reference = make(map[*StackRotatedGrowthCurve2DEndArcShape]*StackRotatedGrowthCurve2DEndArcShape)
 	stage.StackRotatedGrowthCurve2DEndArcShapes_referenceOrder = make(map[*StackRotatedGrowthCurve2DEndArcShape]uint) // diff Unstage needs the reference order
 	stage.StackRotatedGrowthCurve2DEndArcShapes_instance = make(map[*StackRotatedGrowthCurve2DEndArcShape]*StackRotatedGrowthCurve2DEndArcShape)
@@ -5651,16 +5751,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.TorusStackShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
-	stage.TrapezeVolume3DShapes_reference = make(map[*TrapezeVolume3DShape]*TrapezeVolume3DShape)
-	stage.TrapezeVolume3DShapes_referenceOrder = make(map[*TrapezeVolume3DShape]uint) // diff Unstage needs the reference order
-	stage.TrapezeVolume3DShapes_instance = make(map[*TrapezeVolume3DShape]*TrapezeVolume3DShape)
-	for instance := range stage.TrapezeVolume3DShapes {
-		_copy := instance.GongCopy().(*TrapezeVolume3DShape)
-		stage.TrapezeVolume3DShapes_reference[instance] = _copy
-		stage.TrapezeVolume3DShapes_instance[_copy] = instance
-		stage.TrapezeVolume3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
 	stage.TubeVase3DDiagrams_reference = make(map[*TubeVase3DDiagram]*TubeVase3DDiagram)
 	stage.TubeVase3DDiagrams_referenceOrder = make(map[*TubeVase3DDiagram]uint) // diff Unstage needs the reference order
 	stage.TubeVase3DDiagrams_instance = make(map[*TubeVase3DDiagram]*TubeVase3DDiagram)
@@ -5689,6 +5779,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Vase2DDiagrams_reference[instance] = _copy
 		stage.Vase2DDiagrams_instance[_copy] = instance
 		stage.Vase2DDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.VaseTrapezeRingShapes_reference = make(map[*VaseTrapezeRingShape]*VaseTrapezeRingShape)
+	stage.VaseTrapezeRingShapes_referenceOrder = make(map[*VaseTrapezeRingShape]uint) // diff Unstage needs the reference order
+	stage.VaseTrapezeRingShapes_instance = make(map[*VaseTrapezeRingShape]*VaseTrapezeRingShape)
+	for instance := range stage.VaseTrapezeRingShapes {
+		_copy := instance.GongCopy().(*VaseTrapezeRingShape)
+		stage.VaseTrapezeRingShapes_reference[instance] = _copy
+		stage.VaseTrapezeRingShapes_instance[_copy] = instance
+		stage.VaseTrapezeRingShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.VerticalTorusStackShapes_reference = make(map[*VerticalTorusStackShape]*VerticalTorusStackShape)
@@ -6262,6 +6362,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.StackOfRotatedVaseTrapezeRingsShapes {
+		reference := stage.StackOfRotatedVaseTrapezeRingsShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.StackOfVaseTrapezeRingsShapes {
+		reference := stage.StackOfVaseTrapezeRingsShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.StackRotatedGrowthCurve2DEndArcShapes {
 		reference := stage.StackRotatedGrowthCurve2DEndArcShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -6437,11 +6547,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
-	for instance := range stage.TrapezeVolume3DShapes {
-		reference := stage.TrapezeVolume3DShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
 	for instance := range stage.TubeVase3DDiagrams {
 		reference := stage.TubeVase3DDiagrams_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -6454,6 +6559,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.Vase2DDiagrams {
 		reference := stage.Vase2DDiagrams_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.VaseTrapezeRingShapes {
+		reference := stage.VaseTrapezeRingShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -7797,6 +7907,30 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 	}
 }
 
+func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.StackOfRotatedVaseTrapezeRingsShape_stagedOrder[stackofrotatedvasetrapezeringsshape]; ok {
+		return order
+	}
+	if order, ok := stage.StackOfRotatedVaseTrapezeRingsShapes_referenceOrder[stackofrotatedvasetrapezeringsshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type StackOfRotatedVaseTrapezeRingsShape was not staged and does not have a reference order", stackofrotatedvasetrapezeringsshape)
+		return 0
+	}
+}
+
+func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.StackOfVaseTrapezeRingsShape_stagedOrder[stackofvasetrapezeringsshape]; ok {
+		return order
+	}
+	if order, ok := stage.StackOfVaseTrapezeRingsShapes_referenceOrder[stackofvasetrapezeringsshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type StackOfVaseTrapezeRingsShape was not staged and does not have a reference order", stackofvasetrapezeringsshape)
+		return 0
+	}
+}
+
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.StackRotatedGrowthCurve2DEndArcShape_stagedOrder[stackrotatedgrowthcurve2dendarcshape]; ok {
 		return order
@@ -8217,18 +8351,6 @@ func (torusstackshape *TorusStackShape) GongGetOrder(stage *Stage) uint {
 	}
 }
 
-func (trapezevolume3dshape *TrapezeVolume3DShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.TrapezeVolume3DShape_stagedOrder[trapezevolume3dshape]; ok {
-		return order
-	}
-	if order, ok := stage.TrapezeVolume3DShapes_referenceOrder[trapezevolume3dshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type TrapezeVolume3DShape was not staged and does not have a reference order", trapezevolume3dshape)
-		return 0
-	}
-}
-
 func (tubevase3ddiagram *TubeVase3DDiagram) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TubeVase3DDiagram_stagedOrder[tubevase3ddiagram]; ok {
 		return order
@@ -8261,6 +8383,18 @@ func (vase2ddiagram *Vase2DDiagram) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Vase2DDiagram was not staged and does not have a reference order", vase2ddiagram)
+		return 0
+	}
+}
+
+func (vasetrapezeringshape *VaseTrapezeRingShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.VaseTrapezeRingShape_stagedOrder[vasetrapezeringshape]; ok {
+		return order
+	}
+	if order, ok := stage.VaseTrapezeRingShapes_referenceOrder[vasetrapezeringshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type VaseTrapezeRingShape was not staged and does not have a reference order", vasetrapezeringshape)
 		return 0
 	}
 }
@@ -9284,6 +9418,24 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 	return fmt.Sprintf("__%s__%08d_", stackofrotatedgrowthcurve2dribbon.GongGetGongstructName(), stackofrotatedgrowthcurve2dribbon.GongGetOrder(stage))
 }
 
+func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stackofrotatedvasetrapezeringsshape.GongGetGongstructName(), stackofrotatedvasetrapezeringsshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stackofrotatedvasetrapezeringsshape.GongGetGongstructName(), stackofrotatedvasetrapezeringsshape.GongGetOrder(stage))
+}
+
+func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stackofvasetrapezeringsshape.GongGetGongstructName(), stackofvasetrapezeringsshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stackofvasetrapezeringsshape.GongGetGongstructName(), stackofvasetrapezeringsshape.GongGetOrder(stage))
+}
+
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", stackrotatedgrowthcurve2dendarcshape.GongGetGongstructName(), stackrotatedgrowthcurve2dendarcshape.GongGetOrder(stage))
 }
@@ -9599,15 +9751,6 @@ func (torusstackshape *TorusStackShape) GongGetReferenceIdentifier(stage *Stage)
 	return fmt.Sprintf("__%s__%08d_", torusstackshape.GongGetGongstructName(), torusstackshape.GongGetOrder(stage))
 }
 
-func (trapezevolume3dshape *TrapezeVolume3DShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", trapezevolume3dshape.GongGetGongstructName(), trapezevolume3dshape.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (trapezevolume3dshape *TrapezeVolume3DShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", trapezevolume3dshape.GongGetGongstructName(), trapezevolume3dshape.GongGetOrder(stage))
-}
-
 func (tubevase3ddiagram *TubeVase3DDiagram) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", tubevase3ddiagram.GongGetGongstructName(), tubevase3ddiagram.GongGetOrder(stage))
 }
@@ -9633,6 +9776,15 @@ func (vase2ddiagram *Vase2DDiagram) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (vase2ddiagram *Vase2DDiagram) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", vase2ddiagram.GongGetGongstructName(), vase2ddiagram.GongGetOrder(stage))
+}
+
+func (vasetrapezeringshape *VaseTrapezeRingShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", vasetrapezeringshape.GongGetGongstructName(), vasetrapezeringshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (vasetrapezeringshape *VaseTrapezeRingShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", vasetrapezeringshape.GongGetGongstructName(), vasetrapezeringshape.GongGetOrder(stage))
 }
 
 func (verticaltorusstackshape *VerticalTorusStackShape) GongGetIdentifier(stage *Stage) string {
@@ -10536,6 +10688,22 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 	return
 }
 
+func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofrotatedvasetrapezeringsshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackOfRotatedVaseTrapezeRingsShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackofrotatedvasetrapezeringsshape.Name))
+	return
+}
+
+func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofvasetrapezeringsshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackOfVaseTrapezeRingsShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stackofvasetrapezeringsshape.Name))
+	return
+}
+
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackrotatedgrowthcurve2dendarcshape.GongGetIdentifier(stage))
@@ -10816,14 +10984,6 @@ func (torusstackshape *TorusStackShape) GongMarshallIdentifier(stage *Stage) (de
 	return
 }
 
-func (trapezevolume3dshape *TrapezeVolume3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", trapezevolume3dshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TrapezeVolume3DShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(trapezevolume3dshape.Name))
-	return
-}
-
 func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
@@ -10845,6 +11005,14 @@ func (vase2ddiagram *Vase2DDiagram) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", vase2ddiagram.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Vase2DDiagram")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(vase2ddiagram.Name))
+	return
+}
+
+func (vasetrapezeringshape *VaseTrapezeRingShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", vasetrapezeringshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "VaseTrapezeRingShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(vasetrapezeringshape.Name))
 	return
 }
 
@@ -11525,6 +11693,18 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Gong
 	return
 }
 
+func (stackofrotatedvasetrapezeringsshape *StackOfRotatedVaseTrapezeRingsShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofrotatedvasetrapezeringsshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (stackofvasetrapezeringsshape *StackOfVaseTrapezeRingsShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofvasetrapezeringsshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackrotatedgrowthcurve2dendarcshape.GongGetReferenceIdentifier(stage))
@@ -11735,12 +11915,6 @@ func (torusstackshape *TorusStackShape) GongMarshallUnstaging(stage *Stage) (dec
 	return
 }
 
-func (trapezevolume3dshape *TrapezeVolume3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", trapezevolume3dshape.GongGetReferenceIdentifier(stage))
-	return
-}
-
 func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tubevase3ddiagram.GongGetReferenceIdentifier(stage))
@@ -11756,6 +11930,12 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallUnstaging(stage *Stage) (d
 func (vase2ddiagram *Vase2DDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", vase2ddiagram.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (vasetrapezeringshape *VaseTrapezeRingShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", vasetrapezeringshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

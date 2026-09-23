@@ -38,7 +38,9 @@ func (stager *Stager) enforceDiagramShapes() bool {
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.BottomCurvePlane1Shape, "BottomCurvePlane1Shape", func() *BottomCurvePlane1Shape { return new(BottomCurvePlane1Shape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TopCurvePlane2Shape, "TopCurvePlane2Shape", func() *TopCurvePlane2Shape { return new(TopCurvePlane2Shape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.BottomCurvePlane2Shape, "BottomCurvePlane2Shape", func() *BottomCurvePlane2Shape { return new(BottomCurvePlane2Shape) }) || modified
-		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TrapezeVolume3DShape, "TrapezeVolume3DShape", func() *TrapezeVolume3DShape { return new(TrapezeVolume3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.VaseTrapezeRingShape, "VaseTrapezeRingShape", func() *VaseTrapezeRingShape { return new(VaseTrapezeRingShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.StackOfVaseTrapezeRingsShape, "StackOfVaseTrapezeRingsShape", func() *StackOfVaseTrapezeRingsShape { return new(StackOfVaseTrapezeRingsShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.StackOfRotatedVaseTrapezeRingsShape, "StackOfRotatedVaseTrapezeRingsShape", func() *StackOfRotatedVaseTrapezeRingsShape { return new(StackOfRotatedVaseTrapezeRingsShape) }) || modified
 	}
 
 	for diagram := range *stage.GetInstancesSet[*Stool3DDiagram]() {

@@ -55,7 +55,6 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		return
 	}
 
-	// isOne3DShapeVisible is true if any of the shapes are visible
 	isOne3DShapeVisible := !checkedDiagram.IsHiddenTorusStackShape ||
 		!checkedDiagram.IsHiddenVerticalTorusStackShape ||
 		!checkedDiagram.IsHiddenPartiallyRotatedTorusShape ||
@@ -68,7 +67,14 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		!checkedDiagram.IsHiddenSampledPoints3DShape ||
 		!checkedDiagram.IsHiddenOriginalPoints3DShape ||
 		!checkedDiagram.IsHiddenAngle0Shape ||
-		!checkedDiagram.IsHiddenTiledFloor3DShape
+		!checkedDiagram.IsHiddenTiledFloor3DShape ||
+		!checkedDiagram.IsHiddenTopCurvePlane1Shape ||
+		!checkedDiagram.IsHiddenBottomCurvePlane1Shape ||
+		!checkedDiagram.IsHiddenTopCurvePlane2Shape ||
+		!checkedDiagram.IsHiddenBottomCurvePlane2Shape ||
+		!checkedDiagram.IsHiddenVaseTrapezeRingShape ||
+		!checkedDiagram.IsHiddenStackOfVaseTrapezeRingsShape ||
+		!checkedDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape
 
 	// Ribbon generated from GrowthCurve2D and TopGrowthCurve2D
 	if !isOne3DShapeVisible || plant.StackHeight == 0 {
@@ -248,12 +254,12 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		p2H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.Plane2Height
 		projAngleRad := -plant.TubeVaseAbstract.ProjectionAngle * math.Pi / 180.0
 
-		projectCurve := func(srcCurve *threejs.Curve, planeHeight float64, curveName string) *threejs.Curve {
+		projectCurve := func(srcCurve *threejs.Curve, planeHeight float64, dy float64, curveName string) *threejs.Curve {
 			projCurve := (&threejs.Curve{Name: curveName}).Stage(threejsStage)
 			for _, pt := range srcCurve.Points {
 				origTheta := math.Atan2(pt.Z, pt.X)
 				r := math.Hypot(pt.X, pt.Z)
-				deltaY := planeHeight - pt.Y
+				deltaY := (planeHeight - dy) - pt.Y
 				rProj := r + deltaY*math.Tan(projAngleRad)
 				newPt := (&threejs.Vector3{
 					Name: fmt.Sprintf("%s Point %.1f", curveName, origTheta*180.0/math.Pi),
@@ -308,10 +314,10 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			canvas.Meshs = append(canvas.Meshs, tMesh)
 		}
 
-		cTopP1 := projectCurve(trapezeTopCurve, p1H, plant.Name+" Top Curve Plane 1")
-		cBottomP1 := projectCurve(trapezeBottomCurve, p1H, plant.Name+" Bottom Curve Plane 1")
-		cTopP2 := projectCurve(trapezeTopCurve, p2H, plant.Name+" Top Curve Plane 2")
-		cBottomP2 := projectCurve(trapezeBottomCurve, p2H, plant.Name+" Bottom Curve Plane 2")
+		cTopP1 := projectCurve(trapezeTopCurve, p1H, 0, plant.Name+" Top Curve Plane 1")
+		cBottomP1 := projectCurve(trapezeBottomCurve, p1H, 0, plant.Name+" Bottom Curve Plane 1")
+		cTopP2 := projectCurve(trapezeTopCurve, p2H, 0, plant.Name+" Top Curve Plane 2")
+		cBottomP2 := projectCurve(trapezeBottomCurve, p2H, 0, plant.Name+" Bottom Curve Plane 2")
 
 		if !checkedDiagram.IsHiddenTopCurvePlane1Shape {
 			addProjectedMesh(cTopP1, plant.Name+" Top Curve Plane 1", "royalblue")
@@ -326,93 +332,182 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			addProjectedMesh(cBottomP2, plant.Name+" Bottom Curve Plane 2", "darkorange")
 		}
 
-		if !checkedDiagram.IsHiddenTrapezeVolume3DShape {
-			M := min(len(cTopP1.Points), len(cBottomP1.Points), len(cTopP2.Points), len(cBottomP2.Points))
-			if M >= 3 {
-				volGeom := (&threejs.BufferGeometry{
-					Name: plant.Name + " Trapeze Volume BufferGeometry",
-				}).Stage(threejsStage)
+		buildRingMesh := func(cTopA, cBottomA, cTopB, cBottomB *threejs.Curve, ringName string, h int) {
+			M := min(len(cTopA.Points), len(cBottomA.Points), len(cTopB.Points), len(cBottomB.Points))
+			if M < 3 {
+				return
+			}
+			volGeom := (&threejs.BufferGeometry{
+				Name: fmt.Sprintf("%s %s BufferGeometry", plant.Name, ringName),
+			}).Stage(threejsStage)
 
-				addQuadStrip := func(curveA, curveB *threejs.Curve, stripName string, reverse bool) {
-					baseIdx := len(volGeom.Vertices)
-					for i := 0; i < M; i++ {
-						ptA := curveA.Points[i]
-						ptB := curveB.Points[i]
-						vA := (&threejs.Vector3{
-							Name: fmt.Sprintf("%s %s A %d", plant.Name, stripName, i),
-							X:    ptA.X, Y: ptA.Y, Z: ptA.Z,
-						}).Stage(threejsStage)
-						vB := (&threejs.Vector3{
-							Name: fmt.Sprintf("%s %s B %d", plant.Name, stripName, i),
-							X:    ptB.X, Y: ptB.Y, Z: ptB.Z,
-						}).Stage(threejsStage)
-						volGeom.Vertices = append(volGeom.Vertices, vA, vB)
+			addQuadStrip := func(curveA, curveB *threejs.Curve, stripName string, reverse bool) {
+				baseIdx := len(volGeom.Vertices)
+				for i := 0; i < M; i++ {
+					ptA := curveA.Points[i]
+					ptB := curveB.Points[i]
+					vA := (&threejs.Vector3{
+						Name: fmt.Sprintf("%s %s %s A %d", plant.Name, ringName, stripName, i),
+						X:    ptA.X, Y: ptA.Y, Z: ptA.Z,
+					}).Stage(threejsStage)
+					vB := (&threejs.Vector3{
+						Name: fmt.Sprintf("%s %s %s B %d", plant.Name, ringName, stripName, i),
+						X:    ptB.X, Y: ptB.Y, Z: ptB.Z,
+					}).Stage(threejsStage)
+					volGeom.Vertices = append(volGeom.Vertices, vA, vB)
+				}
+
+				for i := 0; i < M; i++ {
+					nextI := (i + 1) % M
+					idxA := baseIdx + 2*i
+					idxB := baseIdx + 2*i + 1
+					idxANext := baseIdx + 2*nextI
+					idxBNext := baseIdx + 2*nextI + 1
+
+					v1_1, v2_1, v3_1 := idxA, idxB, idxBNext
+					v1_2, v2_2, v3_2 := idxA, idxBNext, idxANext
+					if reverse {
+						v2_1, v3_1 = v3_1, v2_1
+						v2_2, v3_2 = v3_2, v2_2
 					}
+					volGeom.Faces = append(volGeom.Faces,
+						(&threejs.Triangle{
+							Name: fmt.Sprintf("%s %s %s T1 %d", plant.Name, ringName, stripName, i),
+							V1:   v1_1, V2: v2_1, V3: v3_1,
+						}).Stage(threejsStage),
+						(&threejs.Triangle{
+							Name: fmt.Sprintf("%s %s %s T2 %d", plant.Name, ringName, stripName, i),
+							V1:   v1_2, V2: v2_2, V3: v3_2,
+						}).Stage(threejsStage),
+					)
+				}
+			}
 
-					for i := 0; i < M; i++ {
-						nextI := (i + 1) % M
-						idxA := baseIdx + 2*i
-						idxB := baseIdx + 2*i + 1
-						idxANext := baseIdx + 2*nextI
-						idxBNext := baseIdx + 2*nextI + 1
+			// The 4 boundary surfaces of the 3D ring:
+			// 1. Plane 1 annular face: between BottomCurvePlane1 and TopCurvePlane1
+			addQuadStrip(cBottomA, cTopA, "Plane 1 Face", false)
 
-						v1_1, v2_1, v3_1 := idxA, idxB, idxBNext
-						v1_2, v2_2, v3_2 := idxA, idxBNext, idxANext
-						if reverse {
-							v2_1, v3_1 = v3_1, v2_1
-							v2_2, v3_2 = v3_2, v2_2
-						}
-						volGeom.Faces = append(volGeom.Faces,
-							(&threejs.Triangle{
-								Name: fmt.Sprintf("%s %s T1 %d", plant.Name, stripName, i),
-								V1:   v1_1, V2: v2_1, V3: v3_1,
-							}).Stage(threejsStage),
-							(&threejs.Triangle{
-								Name: fmt.Sprintf("%s %s T2 %d", plant.Name, stripName, i),
-								V1:   v1_2, V2: v2_2, V3: v3_2,
-							}).Stage(threejsStage),
-						)
-					}
+			// 2. Plane 2 annular face: between TopCurvePlane2 and BottomCurvePlane2
+			addQuadStrip(cTopB, cBottomB, "Plane 2 Face", false)
+
+			// 3. Top ruled surface (side wall): between TopCurvePlane1 and TopCurvePlane2
+			addQuadStrip(cTopA, cTopB, "Top Wall Face", false)
+
+			// 4. Bottom ruled surface (side wall): between BottomCurvePlane2 and BottomCurvePlane1
+			addQuadStrip(cBottomB, cBottomA, "Bottom Wall Face", false)
+
+			color := "#fdf6e3"
+			if plant.TubeVaseAbstract != nil && plant.TubeVaseAbstract.HasAlternatingRingColors && h%2 != 0 {
+				color = "#8d6e63"
+			}
+
+			transparency := 0.0
+			if plant.TubeVaseAbstract != nil {
+				transparency = plant.TubeVaseAbstract.Transparency
+			}
+			opacity := 1.0 - transparency
+			if opacity < 0.0 {
+				opacity = 0.0
+			}
+			if opacity > 1.0 {
+				opacity = 1.0
+			}
+
+			volMesh := (&threejs.Mesh{
+				Name:           fmt.Sprintf("%s %s Mesh", plant.Name, ringName),
+				X:              0, Y: 0, Z: 0,
+				BufferGeometry: volGeom,
+				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+					Name:        fmt.Sprintf("%s %s Material", plant.Name, ringName),
+					Color:       color,
+					Transparent: true,
+					Opacity:     opacity,
+				}).Stage(threejsStage),
+			}).Stage(threejsStage)
+
+			canvas.Meshs = append(canvas.Meshs, volMesh)
+		}
+
+		if !checkedDiagram.IsHiddenVaseTrapezeRingShape {
+			buildRingMesh(cTopP1, cBottomP1, cTopP2, cBottomP2, "Vase Trapeze Ring", 0)
+		}
+
+		if !checkedDiagram.IsHiddenStackOfVaseTrapezeRingsShape && stackHeight > 0 {
+			numSteps := stackHeight - 1
+			dys := make([]float64, stackHeight)
+			dys[0] = 0.0
+
+			if numSteps > 0 {
+				var cumDY float64
+				for k := 1; k <= numSteps; k++ {
+					_, stepDY, _ := models.ComputePartiallyGrowthCurveDYForRatio(plant, 0.0)
+					cumDY += stepDY
+					dys[k] = cumDY
+				}
+			}
+
+			for h := range stackHeight {
+				dy := dys[h]
+
+				var curBottomCurve, curTopCurve *threejs.Curve
+				if h == 0 {
+					curBottomCurve = trapezeBottomCurve
+					curTopCurve = trapezeTopCurve
+				} else {
+					curBottomCurve, curTopCurve = u.computeMassiveCurves(stager, 0, fmt.Sprintf("Trapeze Stack h%d", h), plant, resampledBaseBottom, resampledBaseTop)
 				}
 
-				// The 4 boundary surfaces of the 3D volume:
-				// 1. Plane 1 annular face: between BottomCurvePlane1 and TopCurvePlane1
-				addQuadStrip(cBottomP1, cTopP1, "Plane 1 Face", false)
+				ringTopP1 := projectCurve(curTopCurve, p1H+dy, dy, fmt.Sprintf("%s Stack Top P1 h%d", plant.Name, h))
+				ringBottomP1 := projectCurve(curBottomCurve, p1H+dy, dy, fmt.Sprintf("%s Stack Bottom P1 h%d", plant.Name, h))
+				ringTopP2 := projectCurve(curTopCurve, p2H+dy, dy, fmt.Sprintf("%s Stack Top P2 h%d", plant.Name, h))
+				ringBottomP2 := projectCurve(curBottomCurve, p2H+dy, dy, fmt.Sprintf("%s Stack Bottom P2 h%d", plant.Name, h))
 
-				// 2. Plane 2 annular face: between TopCurvePlane2 and BottomCurvePlane2
-				addQuadStrip(cTopP2, cBottomP2, "Plane 2 Face", false)
+				buildRingMesh(ringTopP1, ringBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Vase Trapeze Rings h%d", h), h)
+			}
+		}
 
-				// 3. Top ruled surface (side wall): between TopCurvePlane1 and TopCurvePlane2
-				addQuadStrip(cTopP1, cTopP2, "Top Wall Face", false)
+		if !checkedDiagram.IsHiddenStackOfRotatedVaseTrapezeRingsShape && stackHeight > 0 {
+			var growthVectorX, growthVectorY float64
+			if plant.GrowthVectorShape != nil {
+				growthVectorX = plant.GrowthVectorShape.X
+				growthVectorY = plant.GrowthVectorShape.Y
+			}
 
-				// 4. Bottom ruled surface (side wall): between BottomCurvePlane2 and BottomCurvePlane1
-				addQuadStrip(cBottomP2, cBottomP1, "Bottom Wall Face", false)
-
-				transparency := 0.0
-				if plant.TubeVaseAbstract != nil {
-					transparency = plant.TubeVaseAbstract.Transparency
+			var vx, vy float64
+			if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
+				pGrid := plant.PerpendicularVectorGrid
+				vFirst := pGrid.PerpendicularVectors[0]
+				vx = vFirst.EndX - vFirst.StartX
+				vy = vFirst.EndY - vFirst.StartY
+				vLen := math.Hypot(vx, vy)
+				if vLen == 0 {
+					vLen = 1
 				}
-				opacity := 1.0 - transparency
-				if opacity < 0.0 {
-					opacity = 0.0
-				}
-				if opacity > 1.0 {
-					opacity = 1.0
+				vx, vy = vx/vLen, vy/vLen
+			}
+
+			verticalThickness := relativeVerticalThickness * sideLength
+			rotatedSeparation := relativeRotatedTorusSeparation * sideLength
+
+			for h := range stackHeight {
+				dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
+				dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation
+				thetaOffset := dx / globalR
+
+				var curBottomCurve, curTopCurve *threejs.Curve
+				if h == 0 {
+					curBottomCurve = trapezeBottomCurve
+					curTopCurve = trapezeTopCurve
+				} else {
+					curBottomCurve, curTopCurve = u.computeMassiveCurves(stager, thetaOffset, fmt.Sprintf("Trapeze Rotated Stack h%d", h), plant, resampledBaseBottom, resampledBaseTop)
 				}
 
-				volMesh := (&threejs.Mesh{
-					Name:           plant.Name + " Trapeze 3D Volume Mesh",
-					X:              0, Y: 0, Z: 0,
-					BufferGeometry: volGeom,
-					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-						Name:        plant.Name + " Trapeze 3D Volume Material",
-						Color:       "#fdf6e3",
-						Transparent: true,
-						Opacity:     opacity,
-					}).Stage(threejsStage),
-				}).Stage(threejsStage)
+				ringTopP1 := projectCurve(curTopCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Stack Top P1 h%d", plant.Name, h))
+				ringBottomP1 := projectCurve(curBottomCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Stack Bottom P1 h%d", plant.Name, h))
+				ringTopP2 := projectCurve(curTopCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Stack Top P2 h%d", plant.Name, h))
+				ringBottomP2 := projectCurve(curBottomCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Stack Bottom P2 h%d", plant.Name, h))
 
-				canvas.Meshs = append(canvas.Meshs, volMesh)
+				buildRingMesh(ringTopP1, ringBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Rotated Vase Trapeze Rings h%d", h), h)
 			}
 		}
 	}
