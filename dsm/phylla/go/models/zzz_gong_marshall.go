@@ -1255,6 +1255,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Z_Ribbon"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RibbonVerticalScale"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Plane1Height"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Plane2Height"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "ProjectionAngle"))
@@ -7749,6 +7750,11 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Z_Ribbon")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", tubevaseabstract.Z_Ribbon))
+	case "RibbonVerticalScale":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RibbonVerticalScale")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", tubevaseabstract.RibbonVerticalScale))
 	case "Plane1Height":
 		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
@@ -10463,6 +10469,7 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallAllFields(stage *Stage) (i
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Z_Ribbon"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RibbonVerticalScale"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Plane1Height"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Plane2Height"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "ProjectionAngle"))

@@ -7,6 +7,9 @@ type TubeVaseAbstract struct {
 	// The tiled floor will be on Z=0.
 	Z_Ribbon float64
 
+	// RibbonVerticalScale is the vertical scale applied to the 3D ribbon with origin at Z_Ribbon (for Vase Trapeze).
+	RibbonVerticalScale float64
+
 	// Plane1Height is the height of the first projection plane relative to Z_Ribbon (for Vase Trapeze).
 	Plane1Height float64
 

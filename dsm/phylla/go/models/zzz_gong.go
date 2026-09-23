@@ -35608,6 +35608,10 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "RibbonVerticalScale",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "Plane1Height",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -41184,6 +41188,10 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldValue(fieldName string, st
 	case "Z_Ribbon":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.Z_Ribbon)
 		res.valueFloat = tubevaseabstract.Z_Ribbon
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RibbonVerticalScale":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RibbonVerticalScale)
+		res.valueFloat = tubevaseabstract.RibbonVerticalScale
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Plane1Height":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.Plane1Height)

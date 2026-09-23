@@ -7,7 +7,8 @@ func (stager *Stager) enforcePlantHasTubeVaseAbstract() (needCommit bool) {
 		if plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze {
 			if plant.TubeVaseAbstract == nil {
 				va := (&TubeVaseAbstract{
-					Name: plant.Name + "-TubeVaseAbstract",
+					Name:                plant.Name + "-TubeVaseAbstract",
+					RibbonVerticalScale: 1.0,
 				}).Stage(stager.stage)
 				plant.TubeVaseAbstract = va
 				needCommit = true

@@ -17595,6 +17595,9 @@ func (tubevaseabstract *TubeVaseAbstract) GongDiff(stage *Stage, tubevaseabstrac
 	if tubevaseabstract.Z_Ribbon != tubevaseabstractOther.Z_Ribbon {
 		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "Z_Ribbon"))
 	}
+	if tubevaseabstract.RibbonVerticalScale != tubevaseabstractOther.RibbonVerticalScale {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "RibbonVerticalScale"))
+	}
 	if tubevaseabstract.Plane1Height != tubevaseabstractOther.Plane1Height {
 		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "Plane1Height"))
 	}

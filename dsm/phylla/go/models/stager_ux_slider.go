@@ -228,6 +228,14 @@ func (stager *Stager) ux_slider() {
 					),
 					m.NewSlider(
 						stager,
+						"Ribbon Vertical Scale",
+						-5.0,
+						5.0,
+						0.01,
+						&plant.TubeVaseAbstract.RibbonVerticalScale,
+					),
+					m.NewSlider(
+						stager,
 						"Plane 1 Height",
 						-200.0,
 						800.0,

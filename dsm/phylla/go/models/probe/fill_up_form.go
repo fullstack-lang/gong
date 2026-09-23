@@ -3514,6 +3514,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Z_Ribbon", instanceWithInferedType.Z_Ribbon, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RibbonVerticalScale", instanceWithInferedType.RibbonVerticalScale, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Plane1Height", instanceWithInferedType.Plane1Height, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Plane2Height", instanceWithInferedType.Plane2Height, instanceWithInferedType, probe.formStage, formGroup,

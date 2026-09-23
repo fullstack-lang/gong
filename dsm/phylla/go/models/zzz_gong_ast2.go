@@ -6406,6 +6406,8 @@ func (u *TubeVaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.Name = GongExtractString(valueExpr)
 	case "Z_Ribbon":
 		instance.Z_Ribbon = GongExtractFloat(valueExpr)
+	case "RibbonVerticalScale":
+		instance.RibbonVerticalScale = GongExtractFloat(valueExpr)
 	case "Plane1Height":
 		instance.Plane1Height = GongExtractFloat(valueExpr)
 	case "Plane2Height":

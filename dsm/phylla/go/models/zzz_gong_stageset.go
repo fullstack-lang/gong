@@ -1842,6 +1842,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tubevaseabstractIdent, __gong__toRawStringLiteral(tubevaseabstract.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Z_Ribbon = %f", tubevaseabstractIdent, tubevaseabstract.Z_Ribbon))
+			values.WriteString(fmt.Sprintf("\n\t%s.RibbonVerticalScale = %f", tubevaseabstractIdent, tubevaseabstract.RibbonVerticalScale))
 			values.WriteString(fmt.Sprintf("\n\t%s.Plane1Height = %f", tubevaseabstractIdent, tubevaseabstract.Plane1Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.Plane2Height = %f", tubevaseabstractIdent, tubevaseabstract.Plane2Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", tubevaseabstractIdent, tubevaseabstract.ProjectionAngle))
@@ -3851,6 +3852,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Name = GongExtractString(rhs)
 					case "Z_Ribbon":
 						inst.Z_Ribbon = GongExtractFloat(rhs)
+					case "RibbonVerticalScale":
+						inst.RibbonVerticalScale = GongExtractFloat(rhs)
 					case "Plane1Height":
 						inst.Plane1Height = GongExtractFloat(rhs)
 					case "Plane2Height":

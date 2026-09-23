@@ -6160,6 +6160,8 @@ func saveTubeVaseAbstractFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Z_Ribbon":
 			FormDivBasicFieldToField(&(_instance.Z_Ribbon), formDiv)
+		case "RibbonVerticalScale":
+			FormDivBasicFieldToField(&(_instance.RibbonVerticalScale), formDiv)
 		case "Plane1Height":
 			FormDivBasicFieldToField(&(_instance.Plane1Height), formDiv)
 		case "Plane2Height":
