@@ -775,9 +775,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000009_.Fov = 50.000000
 
 	__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__Rendered3DShape__00000010_.ViewX = -655.729527
-	__Rendered3DShape__00000010_.ViewY = 131.817554
-	__Rendered3DShape__00000010_.ViewZ = 15.757648
+	__Rendered3DShape__00000010_.ViewX = -580.299726
+	__Rendered3DShape__00000010_.ViewY = 360.866949
+	__Rendered3DShape__00000010_.ViewZ = 129.395100
 	__Rendered3DShape__00000010_.TargetX = 0.000000
 	__Rendered3DShape__00000010_.TargetY = 78.826742
 	__Rendered3DShape__00000010_.TargetZ = 0.000000
@@ -889,7 +889,7 @@ func _(stage *models.Stage) {
 
 	__TubeVase3DDiagram__00000001_.Name = `Vase Trapeze-TubeVase3DDiagram`
 	__TubeVase3DDiagram__00000001_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = false
-	__TubeVase3DDiagram__00000001_.IsHiddenTorusStackShape = false
+	__TubeVase3DDiagram__00000001_.IsHiddenTorusStackShape = true
 	__TubeVase3DDiagram__00000001_.IsHiddenVerticalTorusStackShape = true
 	__TubeVase3DDiagram__00000001_.IsHiddenPartiallyRotatedTorusShape = true
 	__TubeVase3DDiagram__00000001_.IsHiddenStackOfPartiallyRotatedTorusShape = true
@@ -902,10 +902,10 @@ func _(stage *models.Stage) {
 	__TubeVase3DDiagram__00000001_.IsHiddenOriginalPoints3DShape = true
 	__TubeVase3DDiagram__00000001_.IsHiddenAngle0Shape = true
 	__TubeVase3DDiagram__00000001_.IsHiddenTiledFloor3DShape = false
-	__TubeVase3DDiagram__00000001_.IsHiddenTopCurvePlane1Shape = false
-	__TubeVase3DDiagram__00000001_.IsHiddenBottomCurvePlane1Shape = false
-	__TubeVase3DDiagram__00000001_.IsHiddenTopCurvePlane2Shape = false
-	__TubeVase3DDiagram__00000001_.IsHiddenBottomCurvePlane2Shape = false
+	__TubeVase3DDiagram__00000001_.IsHiddenTopCurvePlane1Shape = true
+	__TubeVase3DDiagram__00000001_.IsHiddenBottomCurvePlane1Shape = true
+	__TubeVase3DDiagram__00000001_.IsHiddenTopCurvePlane2Shape = true
+	__TubeVase3DDiagram__00000001_.IsHiddenBottomCurvePlane2Shape = true
 	__TubeVase3DDiagram__00000001_.IsHiddenTrapezeVolume3DShape = false
 	__TubeVase3DDiagram__00000001_.IsChecked = true
 	__TubeVase3DDiagram__00000001_.ComputedPrefix = ``
@@ -937,9 +937,9 @@ func _(stage *models.Stage) {
 	__TubeVaseAbstract__00000000_.MovieNbFrames = 1000
 
 	__TubeVaseAbstract__00000001_.Name = `Vase Trapeze-TubeVaseAbstract`
-	__TubeVaseAbstract__00000001_.Z_Ribbon = 130.000000
-	__TubeVaseAbstract__00000001_.Plane1Height = 53.000000
-	__TubeVaseAbstract__00000001_.Plane2Height = 99.000000
+	__TubeVaseAbstract__00000001_.Z_Ribbon = 229.000000
+	__TubeVaseAbstract__00000001_.Plane1Height = -1.000000
+	__TubeVaseAbstract__00000001_.Plane2Height = -66.000000
 	__TubeVaseAbstract__00000001_.ProjectionAngle = -37.400000
 	__TubeVaseAbstract__00000001_.RelativeVerticalThickness = 0.230000
 	__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000

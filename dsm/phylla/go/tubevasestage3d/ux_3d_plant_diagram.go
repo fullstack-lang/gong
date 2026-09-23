@@ -244,8 +244,8 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			trapezeBottomCurve, trapezeTopCurve = u.computeMassiveCurves(stager, 0, "Trapeze 3D Ribbon", plant, resampledBaseBottom, resampledBaseTop)
 		}
 
-		p1H := plant.TubeVaseAbstract.Plane1Height
-		p2H := plant.TubeVaseAbstract.Plane2Height
+		p1H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.Plane1Height
+		p2H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.Plane2Height
 		projAngleRad := -plant.TubeVaseAbstract.ProjectionAngle * math.Pi / 180.0
 
 		projectCurve := func(srcCurve *threejs.Curve, planeHeight float64, curveName string) *threejs.Curve {
