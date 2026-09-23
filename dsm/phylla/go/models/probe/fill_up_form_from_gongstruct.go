@@ -1904,6 +1904,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.TrapezeVolume3DShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "TrapezeVolume3DShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TrapezeVolume3DShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.TubeVase3DDiagram:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

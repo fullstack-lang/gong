@@ -308,21 +308,112 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			canvas.Meshs = append(canvas.Meshs, tMesh)
 		}
 
+		cTopP1 := projectCurve(trapezeTopCurve, p1H, plant.Name+" Top Curve Plane 1")
+		cBottomP1 := projectCurve(trapezeBottomCurve, p1H, plant.Name+" Bottom Curve Plane 1")
+		cTopP2 := projectCurve(trapezeTopCurve, p2H, plant.Name+" Top Curve Plane 2")
+		cBottomP2 := projectCurve(trapezeBottomCurve, p2H, plant.Name+" Bottom Curve Plane 2")
+
 		if !checkedDiagram.IsHiddenTopCurvePlane1Shape {
-			c := projectCurve(trapezeTopCurve, p1H, plant.Name+" Top Curve Plane 1")
-			addProjectedMesh(c, plant.Name+" Top Curve Plane 1", "royalblue")
+			addProjectedMesh(cTopP1, plant.Name+" Top Curve Plane 1", "royalblue")
 		}
 		if !checkedDiagram.IsHiddenBottomCurvePlane1Shape {
-			c := projectCurve(trapezeBottomCurve, p1H, plant.Name+" Bottom Curve Plane 1")
-			addProjectedMesh(c, plant.Name+" Bottom Curve Plane 1", "firebrick")
+			addProjectedMesh(cBottomP1, plant.Name+" Bottom Curve Plane 1", "firebrick")
 		}
 		if !checkedDiagram.IsHiddenTopCurvePlane2Shape {
-			c := projectCurve(trapezeTopCurve, p2H, plant.Name+" Top Curve Plane 2")
-			addProjectedMesh(c, plant.Name+" Top Curve Plane 2", "mediumpurple")
+			addProjectedMesh(cTopP2, plant.Name+" Top Curve Plane 2", "mediumpurple")
 		}
 		if !checkedDiagram.IsHiddenBottomCurvePlane2Shape {
-			c := projectCurve(trapezeBottomCurve, p2H, plant.Name+" Bottom Curve Plane 2")
-			addProjectedMesh(c, plant.Name+" Bottom Curve Plane 2", "darkorange")
+			addProjectedMesh(cBottomP2, plant.Name+" Bottom Curve Plane 2", "darkorange")
+		}
+
+		if !checkedDiagram.IsHiddenTrapezeVolume3DShape {
+			M := min(len(cTopP1.Points), len(cBottomP1.Points), len(cTopP2.Points), len(cBottomP2.Points))
+			if M >= 3 {
+				volGeom := (&threejs.BufferGeometry{
+					Name: plant.Name + " Trapeze Volume BufferGeometry",
+				}).Stage(threejsStage)
+
+				addQuadStrip := func(curveA, curveB *threejs.Curve, stripName string, reverse bool) {
+					baseIdx := len(volGeom.Vertices)
+					for i := 0; i < M; i++ {
+						ptA := curveA.Points[i]
+						ptB := curveB.Points[i]
+						vA := (&threejs.Vector3{
+							Name: fmt.Sprintf("%s %s A %d", plant.Name, stripName, i),
+							X:    ptA.X, Y: ptA.Y, Z: ptA.Z,
+						}).Stage(threejsStage)
+						vB := (&threejs.Vector3{
+							Name: fmt.Sprintf("%s %s B %d", plant.Name, stripName, i),
+							X:    ptB.X, Y: ptB.Y, Z: ptB.Z,
+						}).Stage(threejsStage)
+						volGeom.Vertices = append(volGeom.Vertices, vA, vB)
+					}
+
+					for i := 0; i < M; i++ {
+						nextI := (i + 1) % M
+						idxA := baseIdx + 2*i
+						idxB := baseIdx + 2*i + 1
+						idxANext := baseIdx + 2*nextI
+						idxBNext := baseIdx + 2*nextI + 1
+
+						v1_1, v2_1, v3_1 := idxA, idxB, idxBNext
+						v1_2, v2_2, v3_2 := idxA, idxBNext, idxANext
+						if reverse {
+							v2_1, v3_1 = v3_1, v2_1
+							v2_2, v3_2 = v3_2, v2_2
+						}
+						volGeom.Faces = append(volGeom.Faces,
+							(&threejs.Triangle{
+								Name: fmt.Sprintf("%s %s T1 %d", plant.Name, stripName, i),
+								V1:   v1_1, V2: v2_1, V3: v3_1,
+							}).Stage(threejsStage),
+							(&threejs.Triangle{
+								Name: fmt.Sprintf("%s %s T2 %d", plant.Name, stripName, i),
+								V1:   v1_2, V2: v2_2, V3: v3_2,
+							}).Stage(threejsStage),
+						)
+					}
+				}
+
+				// The 4 boundary surfaces of the 3D volume:
+				// 1. Plane 1 annular face: between BottomCurvePlane1 and TopCurvePlane1
+				addQuadStrip(cBottomP1, cTopP1, "Plane 1 Face", false)
+
+				// 2. Plane 2 annular face: between TopCurvePlane2 and BottomCurvePlane2
+				addQuadStrip(cTopP2, cBottomP2, "Plane 2 Face", false)
+
+				// 3. Top ruled surface (side wall): between TopCurvePlane1 and TopCurvePlane2
+				addQuadStrip(cTopP1, cTopP2, "Top Wall Face", false)
+
+				// 4. Bottom ruled surface (side wall): between BottomCurvePlane2 and BottomCurvePlane1
+				addQuadStrip(cBottomP2, cBottomP1, "Bottom Wall Face", false)
+
+				transparency := 0.0
+				if plant.TubeVaseAbstract != nil {
+					transparency = plant.TubeVaseAbstract.Transparency
+				}
+				opacity := 1.0 - transparency
+				if opacity < 0.0 {
+					opacity = 0.0
+				}
+				if opacity > 1.0 {
+					opacity = 1.0
+				}
+
+				volMesh := (&threejs.Mesh{
+					Name:           plant.Name + " Trapeze 3D Volume Mesh",
+					X:              0, Y: 0, Z: 0,
+					BufferGeometry: volGeom,
+					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+						Name:        plant.Name + " Trapeze 3D Volume Material",
+						Color:       "#fdf6e3",
+						Transparent: true,
+						Opacity:     opacity,
+					}).Stage(threejsStage),
+				}).Stage(threejsStage)
+
+				canvas.Meshs = append(canvas.Meshs, volMesh)
+			}
 		}
 	}
 

@@ -441,6 +441,7 @@ func (stager *Stager) treeTubeVase3DDiagram(plant *PlantAbstract, diagram *TubeV
 			appendDiagramNode(stager, node, "Bottom Curve Plane 1", diagram.BottomCurvePlane1Shape, &diagram.IsHiddenBottomCurvePlane1Shape)
 			appendDiagramNode(stager, node, "Top Curve Plane 2", diagram.TopCurvePlane2Shape, &diagram.IsHiddenTopCurvePlane2Shape)
 			appendDiagramNode(stager, node, "Bottom Curve Plane 2", diagram.BottomCurvePlane2Shape, &diagram.IsHiddenBottomCurvePlane2Shape)
+			appendDiagramNode(stager, node, "Trapeze 3D Volume", diagram.TrapezeVolume3DShape, &diagram.IsHiddenTrapezeVolume3DShape)
 			appendDiagramNode(stager, node, "3D Sampled Points", diagram.SampledPoints3DShape, &diagram.IsHiddenSampledPoints3DShape)
 			appendDiagramNode(stager, node, "3D Original Points", diagram.OriginalPoints3DShape, &diagram.IsHiddenOriginalPoints3DShape)
 			appendDiagramNode(stager, node, "3D Tiled Floor", diagram.TiledFloor3DShape, &diagram.IsHiddenTiledFloor3DShape)

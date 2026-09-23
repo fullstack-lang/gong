@@ -141,6 +141,9 @@ func _(stage *models.Stage) {
 	__TopCurvePlane2Shape__00000000_ := (&models.TopCurvePlane2Shape{Name: `Plant 1-TubeVase3DDiagram-TopCurvePlane2Shape`}).Stage(stage)
 	__TopCurvePlane2Shape__00000001_ := (&models.TopCurvePlane2Shape{Name: `Vase Trapeze-TubeVase3DDiagram-TopCurvePlane2Shape`}).Stage(stage)
 
+	__TrapezeVolume3DShape__00000000_ := (&models.TrapezeVolume3DShape{Name: `Vase Trapeze-TubeVase3DDiagram-TrapezeVolume3DShape`}).Stage(stage)
+	__TrapezeVolume3DShape__00000001_ := (&models.TrapezeVolume3DShape{Name: `Plant 1-TubeVase3DDiagram-TrapezeVolume3DShape`}).Stage(stage)
+
 	__TubeVase3DDiagram__00000000_ := (&models.TubeVase3DDiagram{Name: `Plant 1-TubeVase3DDiagram`}).Stage(stage)
 	__TubeVase3DDiagram__00000001_ := (&models.TubeVase3DDiagram{Name: `Vase Trapeze-TubeVase3DDiagram`}).Stage(stage)
 
@@ -675,7 +678,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000005_.M = 3
 	__PlantAbstract__00000005_.StackHeight = 3
 	__PlantAbstract__00000005_.RhombusInsideAngle = 130.000000
-	__PlantAbstract__00000005_.RhombusSideLength = 130.000000
+	__PlantAbstract__00000005_.RhombusSideLength = 100.000000
 	__PlantAbstract__00000005_.PlantType = models.VaseTrapeze
 	__PlantAbstract__00000005_.CurrentView = models.VIEW_VASE_TRAPEZE_3D
 	__PlantAbstract__00000005_.ComputedPrefix = ``
@@ -772,9 +775,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000009_.Fov = 50.000000
 
 	__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__Rendered3DShape__00000010_.ViewX = -561.582061
-	__Rendered3DShape__00000010_.ViewY = 394.785481
-	__Rendered3DShape__00000010_.ViewZ = -133.541027
+	__Rendered3DShape__00000010_.ViewX = -655.729527
+	__Rendered3DShape__00000010_.ViewY = 131.817554
+	__Rendered3DShape__00000010_.ViewZ = 15.757648
 	__Rendered3DShape__00000010_.TargetX = 0.000000
 	__Rendered3DShape__00000010_.TargetY = 78.826742
 	__Rendered3DShape__00000010_.TargetZ = 0.000000
@@ -856,6 +859,10 @@ func _(stage *models.Stage) {
 
 	__TopCurvePlane2Shape__00000001_.Name = `Vase Trapeze-TubeVase3DDiagram-TopCurvePlane2Shape`
 
+	__TrapezeVolume3DShape__00000000_.Name = `Vase Trapeze-TubeVase3DDiagram-TrapezeVolume3DShape`
+
+	__TrapezeVolume3DShape__00000001_.Name = `Plant 1-TubeVase3DDiagram-TrapezeVolume3DShape`
+
 	__TubeVase3DDiagram__00000000_.Name = `Plant 1-TubeVase3DDiagram`
 	__TubeVase3DDiagram__00000000_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = false
 	__TubeVase3DDiagram__00000000_.IsHiddenTorusStackShape = true
@@ -875,6 +882,7 @@ func _(stage *models.Stage) {
 	__TubeVase3DDiagram__00000000_.IsHiddenBottomCurvePlane1Shape = true
 	__TubeVase3DDiagram__00000000_.IsHiddenTopCurvePlane2Shape = true
 	__TubeVase3DDiagram__00000000_.IsHiddenBottomCurvePlane2Shape = true
+	__TubeVase3DDiagram__00000000_.IsHiddenTrapezeVolume3DShape = false
 	__TubeVase3DDiagram__00000000_.IsChecked = false
 	__TubeVase3DDiagram__00000000_.ComputedPrefix = ``
 	__TubeVase3DDiagram__00000000_.IsExpanded = false
@@ -898,6 +906,7 @@ func _(stage *models.Stage) {
 	__TubeVase3DDiagram__00000001_.IsHiddenBottomCurvePlane1Shape = false
 	__TubeVase3DDiagram__00000001_.IsHiddenTopCurvePlane2Shape = false
 	__TubeVase3DDiagram__00000001_.IsHiddenBottomCurvePlane2Shape = false
+	__TubeVase3DDiagram__00000001_.IsHiddenTrapezeVolume3DShape = false
 	__TubeVase3DDiagram__00000001_.IsChecked = true
 	__TubeVase3DDiagram__00000001_.ComputedPrefix = ``
 	__TubeVase3DDiagram__00000001_.IsExpanded = true
@@ -928,17 +937,17 @@ func _(stage *models.Stage) {
 	__TubeVaseAbstract__00000000_.MovieNbFrames = 1000
 
 	__TubeVaseAbstract__00000001_.Name = `Vase Trapeze-TubeVaseAbstract`
-	__TubeVaseAbstract__00000001_.Z_Ribbon = 105.000000
-	__TubeVaseAbstract__00000001_.Plane1Height = 113.000000
+	__TubeVaseAbstract__00000001_.Z_Ribbon = 130.000000
+	__TubeVaseAbstract__00000001_.Plane1Height = 53.000000
 	__TubeVaseAbstract__00000001_.Plane2Height = 99.000000
-	__TubeVaseAbstract__00000001_.ProjectionAngle = -7.600000
-	__TubeVaseAbstract__00000001_.RelativeVerticalThickness = 0.100000
+	__TubeVaseAbstract__00000001_.ProjectionAngle = -37.400000
+	__TubeVaseAbstract__00000001_.RelativeVerticalThickness = 0.230000
 	__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000
 	__TubeVaseAbstract__00000001_.RelativeCuttedStackFloorHeight = 0.000000
 	__TubeVaseAbstract__00000001_.RelativeRotatedTorusSeparation = 0.000000
 	__TubeVaseAbstract__00000001_.RotationRatio = 0.000000
-	__TubeVaseAbstract__00000001_.RadialRepetitions = 2
-	__TubeVaseAbstract__00000001_.Transparency = 0.150000
+	__TubeVaseAbstract__00000001_.RadialRepetitions = 3
+	__TubeVaseAbstract__00000001_.Transparency = 0.000000
 	__TubeVaseAbstract__00000001_.HasAlternatingRingColors = false
 	__TubeVaseAbstract__00000001_.RelativeTrajectoryOffsetX = 0.000000
 	__TubeVaseAbstract__00000001_.RelativeTrajectoryOffsetY = 0.000000
@@ -1138,6 +1147,7 @@ func _(stage *models.Stage) {
 	__TubeVase3DDiagram__00000000_.BottomCurvePlane1Shape = __BottomCurvePlane1Shape__00000000_
 	__TubeVase3DDiagram__00000000_.TopCurvePlane2Shape = __TopCurvePlane2Shape__00000000_
 	__TubeVase3DDiagram__00000000_.BottomCurvePlane2Shape = __BottomCurvePlane2Shape__00000000_
+	__TubeVase3DDiagram__00000000_.TrapezeVolume3DShape = __TrapezeVolume3DShape__00000001_
 	__TubeVase3DDiagram__00000001_.Rendered3DShape = __Rendered3DShape__00000010_
 	__TubeVase3DDiagram__00000001_.SampledPoints3DShape = __SampledPoints3DShape__00000003_
 	__TubeVase3DDiagram__00000001_.OriginalPoints3DShape = __OriginalPoints3DShape__00000001_
@@ -1146,4 +1156,5 @@ func _(stage *models.Stage) {
 	__TubeVase3DDiagram__00000001_.BottomCurvePlane1Shape = __BottomCurvePlane1Shape__00000001_
 	__TubeVase3DDiagram__00000001_.TopCurvePlane2Shape = __TopCurvePlane2Shape__00000001_
 	__TubeVase3DDiagram__00000001_.BottomCurvePlane2Shape = __BottomCurvePlane2Shape__00000001_
+	__TubeVase3DDiagram__00000001_.TrapezeVolume3DShape = __TrapezeVolume3DShape__00000000_
 }

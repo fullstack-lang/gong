@@ -144,6 +144,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refBottomCurvePlane1Shape := make(map[*BottomCurvePlane1Shape]bool)
 	refTopCurvePlane2Shape := make(map[*TopCurvePlane2Shape]bool)
 	refBottomCurvePlane2Shape := make(map[*BottomCurvePlane2Shape]bool)
+	refTrapezeVolume3DShape := make(map[*TrapezeVolume3DShape]bool)
 
 	// Collect referenced shapes from all plants
 	for plant := range *stage.GetInstancesSet[*PlantAbstract]() {
@@ -520,6 +521,9 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		if diagram.BottomCurvePlane2Shape != nil {
 			refBottomCurvePlane2Shape[diagram.BottomCurvePlane2Shape] = true
 		}
+		if diagram.TrapezeVolume3DShape != nil {
+			refTrapezeVolume3DShape[diagram.TrapezeVolume3DShape] = true
+		}
 	}
 	for diagram := range *stage.GetInstancesSet[*Stool3DDiagram]() {
 		if diagram.Rendered3DShape != nil {
@@ -879,6 +883,12 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	}
 	for shape := range *stage.GetInstancesSet[*BottomCurvePlane2Shape]() {
 		if !refBottomCurvePlane2Shape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *stage.GetInstancesSet[*TrapezeVolume3DShape]() {
+		if !refTrapezeVolume3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

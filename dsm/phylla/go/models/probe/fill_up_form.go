@@ -3400,6 +3400,16 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.TrapezeVolume3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.TubeVase3DDiagram:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -3440,6 +3450,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenBottomCurvePlane2Shape", instanceWithInferedType.IsHiddenBottomCurvePlane2Shape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenTrapezeVolume3DShape", instanceWithInferedType.IsHiddenTrapezeVolume3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
 		AssociationFieldToForm("TorusStackShape", instanceWithInferedType.TorusStackShape, formGroup, probe)
 		AssociationFieldToForm("VerticalTorusStackShape", instanceWithInferedType.VerticalTorusStackShape, formGroup, probe)
@@ -3458,6 +3470,7 @@ func FillUpForm(
 		AssociationFieldToForm("BottomCurvePlane1Shape", instanceWithInferedType.BottomCurvePlane1Shape, formGroup, probe)
 		AssociationFieldToForm("TopCurvePlane2Shape", instanceWithInferedType.TopCurvePlane2Shape, formGroup, probe)
 		AssociationFieldToForm("BottomCurvePlane2Shape", instanceWithInferedType.BottomCurvePlane2Shape, formGroup, probe)
+		AssociationFieldToForm("TrapezeVolume3DShape", instanceWithInferedType.TrapezeVolume3DShape, formGroup, probe)
 		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,

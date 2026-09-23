@@ -314,6 +314,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TorusEdge3DShape](probe)
 	case "TorusStackShape":
 		updateProbeTable[*models.TorusStackShape](probe)
+	case "TrapezeVolume3DShape":
+		updateProbeTable[*models.TrapezeVolume3DShape](probe)
 	case "TubeVase3DDiagram":
 		updateProbeTable[*models.TubeVase3DDiagram](probe)
 	case "TubeVaseAbstract":

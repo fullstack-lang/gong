@@ -3555,6 +3555,17 @@ func (from *TorusStackShape) GongCopyBasicFields(to *TorusStackShape) {
 	to.Name = from.Name
 }
 
+type TrapezeVolume3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *TrapezeVolume3DShape) GongCopyBasicFields(to *TrapezeVolume3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type TubeVase3DDiagram_WOP struct {
 	// insertion point
 
@@ -3596,6 +3607,8 @@ type TubeVase3DDiagram_WOP struct {
 
 	IsHiddenBottomCurvePlane2Shape bool
 
+	IsHiddenTrapezeVolume3DShape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -3624,6 +3637,7 @@ func (from *TubeVase3DDiagram) GongCopyBasicFields(to *TubeVase3DDiagram) {
 	to.IsHiddenBottomCurvePlane1Shape = from.IsHiddenBottomCurvePlane1Shape
 	to.IsHiddenTopCurvePlane2Shape = from.IsHiddenTopCurvePlane2Shape
 	to.IsHiddenBottomCurvePlane2Shape = from.IsHiddenBottomCurvePlane2Shape
+	to.IsHiddenTrapezeVolume3DShape = from.IsHiddenTrapezeVolume3DShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded

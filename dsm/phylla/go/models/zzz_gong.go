@@ -2421,6 +2421,21 @@ type Stage struct {
 	OnAfterTorusStackShapeDeleteCallback GongOnAfterDeleteInterface[TorusStackShape]
 	OnAfterTorusStackShapeReadCallback   GongOnAfterReadInterface[TorusStackShape]
 
+	TrapezeVolume3DShapes                map[*TrapezeVolume3DShape]struct{}
+	TrapezeVolume3DShapes_instance       map[*TrapezeVolume3DShape]*TrapezeVolume3DShape
+	TrapezeVolume3DShapes_mapString      map[string]*TrapezeVolume3DShape
+	TrapezeVolume3DShapeOrder            uint
+	TrapezeVolume3DShape_stagedOrder     map[*TrapezeVolume3DShape]uint
+	TrapezeVolume3DShape_orderStaged     map[uint]*TrapezeVolume3DShape
+	TrapezeVolume3DShapes_reference      map[*TrapezeVolume3DShape]*TrapezeVolume3DShape
+	TrapezeVolume3DShapes_referenceOrder map[*TrapezeVolume3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterTrapezeVolume3DShapeCreateCallback GongOnAfterCreateInterface[TrapezeVolume3DShape]
+	OnAfterTrapezeVolume3DShapeUpdateCallback GongOnAfterUpdateInterface[TrapezeVolume3DShape]
+	OnAfterTrapezeVolume3DShapeDeleteCallback GongOnAfterDeleteInterface[TrapezeVolume3DShape]
+	OnAfterTrapezeVolume3DShapeReadCallback   GongOnAfterReadInterface[TrapezeVolume3DShape]
+
 	TubeVase3DDiagrams                map[*TubeVase3DDiagram]struct{}
 	TubeVase3DDiagrams_instance       map[*TubeVase3DDiagram]*TubeVase3DDiagram
 	TubeVase3DDiagrams_mapString      map[string]*TubeVase3DDiagram
@@ -3308,6 +3323,10 @@ func (stage *Stage) Squash() {
 	stage.TorusStackShapes_reference = make(map[*TorusStackShape]*TorusStackShape)
 	stage.TorusStackShapes_instance = make(map[*TorusStackShape]*TorusStackShape)
 	stage.TorusStackShapes_referenceOrder = make(map[*TorusStackShape]uint)
+
+	stage.TrapezeVolume3DShapes_reference = make(map[*TrapezeVolume3DShape]*TrapezeVolume3DShape)
+	stage.TrapezeVolume3DShapes_instance = make(map[*TrapezeVolume3DShape]*TrapezeVolume3DShape)
+	stage.TrapezeVolume3DShapes_referenceOrder = make(map[*TrapezeVolume3DShape]uint)
 
 	stage.TubeVase3DDiagrams_reference = make(map[*TubeVase3DDiagram]*TubeVase3DDiagram)
 	stage.TubeVase3DDiagrams_instance = make(map[*TubeVase3DDiagram]*TubeVase3DDiagram)
@@ -5384,6 +5403,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.TorusStackShapeOrder = maxTorusStackShapeOrder + 1
 	} else {
 		stage.TorusStackShapeOrder = 0
+	}
+
+	var maxTrapezeVolume3DShapeOrder uint
+	var foundTrapezeVolume3DShape bool
+	for _, order := range stage.TrapezeVolume3DShape_stagedOrder {
+		if !foundTrapezeVolume3DShape || order > maxTrapezeVolume3DShapeOrder {
+			maxTrapezeVolume3DShapeOrder = order
+			foundTrapezeVolume3DShape = true
+		}
+	}
+	if foundTrapezeVolume3DShape {
+		stage.TrapezeVolume3DShapeOrder = maxTrapezeVolume3DShapeOrder + 1
+	} else {
+		stage.TrapezeVolume3DShapeOrder = 0
 	}
 
 	var maxTubeVase3DDiagramOrder uint
@@ -7515,6 +7548,20 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *TrapezeVolume3DShape:
+		tmp := __gong__getStructInstancesByOrder(stage.TrapezeVolume3DShapes, stage.TrapezeVolume3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TrapezeVolume3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *TubeVase3DDiagram:
 		tmp := __gong__getStructInstancesByOrder(stage.TubeVase3DDiagrams, stage.TubeVase3DDiagram_stagedOrder)
 
@@ -7955,6 +8002,8 @@ type GongBackRepoInterface interface {
 	CheckoutTorusEdge3DShape(torusedge3dshape *TorusEdge3DShape)
 	CommitTorusStackShape(torusstackshape *TorusStackShape)
 	CheckoutTorusStackShape(torusstackshape *TorusStackShape)
+	CommitTrapezeVolume3DShape(trapezevolume3dshape *TrapezeVolume3DShape)
+	CheckoutTrapezeVolume3DShape(trapezevolume3dshape *TrapezeVolume3DShape)
 	CommitTubeVase3DDiagram(tubevase3ddiagram *TubeVase3DDiagram)
 	CheckoutTubeVase3DDiagram(tubevase3ddiagram *TubeVase3DDiagram)
 	CommitTubeVaseAbstract(tubevaseabstract *TubeVaseAbstract)
@@ -8407,6 +8456,9 @@ func NewStage(name string) (stage *Stage) {
 
 		TorusStackShapes:           make(map[*TorusStackShape]struct{}),
 		TorusStackShapes_mapString: make(map[string]*TorusStackShape),
+
+		TrapezeVolume3DShapes:           make(map[*TrapezeVolume3DShape]struct{}),
+		TrapezeVolume3DShapes_mapString: make(map[string]*TrapezeVolume3DShape),
 
 		TubeVase3DDiagrams:           make(map[*TubeVase3DDiagram]struct{}),
 		TubeVase3DDiagrams_mapString: make(map[string]*TubeVase3DDiagram),
@@ -9013,6 +9065,10 @@ func NewStage(name string) (stage *Stage) {
 		TorusStackShape_orderStaged: make(map[uint]*TorusStackShape),
 		TorusStackShapes_reference:  make(map[*TorusStackShape]*TorusStackShape),
 
+		TrapezeVolume3DShape_stagedOrder: make(map[*TrapezeVolume3DShape]uint),
+		TrapezeVolume3DShape_orderStaged: make(map[uint]*TrapezeVolume3DShape),
+		TrapezeVolume3DShapes_reference:  make(map[*TrapezeVolume3DShape]*TrapezeVolume3DShape),
+
 		TubeVase3DDiagram_stagedOrder: make(map[*TubeVase3DDiagram]uint),
 		TubeVase3DDiagram_orderStaged: make(map[uint]*TubeVase3DDiagram),
 		TubeVase3DDiagrams_reference:  make(map[*TubeVase3DDiagram]*TubeVase3DDiagram),
@@ -9324,6 +9380,8 @@ func NewStage(name string) (stage *Stage) {
 			"TorusEdge3DShape": &TorusEdge3DShapeUnmarshaller{},
 
 			"TorusStackShape": &TorusStackShapeUnmarshaller{},
+
+			"TrapezeVolume3DShape": &TrapezeVolume3DShapeUnmarshaller{},
 
 			"TubeVase3DDiagram": &TubeVase3DDiagramUnmarshaller{},
 
@@ -9647,6 +9705,8 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return any(stage.TorusEdge3DShape_orderStaged[order]).(Type)
 	case *TorusStackShape:
 		return any(stage.TorusStackShape_orderStaged[order]).(Type)
+	case *TrapezeVolume3DShape:
+		return any(stage.TrapezeVolume3DShape_orderStaged[order]).(Type)
 	case *TubeVase3DDiagram:
 		return any(stage.TubeVase3DDiagram_orderStaged[order]).(Type)
 	case *TubeVaseAbstract:
@@ -9867,6 +9927,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Torus3DShape"] = len(stage.Torus3DShapes)
 	stage.Map_GongStructName_InstancesNb["TorusEdge3DShape"] = len(stage.TorusEdge3DShapes)
 	stage.Map_GongStructName_InstancesNb["TorusStackShape"] = len(stage.TorusStackShapes)
+	stage.Map_GongStructName_InstancesNb["TrapezeVolume3DShape"] = len(stage.TrapezeVolume3DShapes)
 	stage.Map_GongStructName_InstancesNb["TubeVase3DDiagram"] = len(stage.TubeVase3DDiagrams)
 	stage.Map_GongStructName_InstancesNb["TubeVaseAbstract"] = len(stage.TubeVaseAbstracts)
 	stage.Map_GongStructName_InstancesNb["Vase2DDiagram"] = len(stage.Vase2DDiagrams)
@@ -22092,6 +22153,90 @@ func (torusstackshape *TorusStackShape) SetName(name string) {
 	torusstackshape.Name = name
 }
 
+// Stage puts trapezevolume3dshape to the model stage
+func (trapezevolume3dshape *TrapezeVolume3DShape) Stage(stage *Stage) *TrapezeVolume3DShape {
+	if _, ok := stage.TrapezeVolume3DShapes[trapezevolume3dshape]; !ok {
+		stage.TrapezeVolume3DShapes[trapezevolume3dshape] = struct{}{}
+		stage.TrapezeVolume3DShape_stagedOrder[trapezevolume3dshape] = stage.TrapezeVolume3DShapeOrder
+		stage.TrapezeVolume3DShape_orderStaged[stage.TrapezeVolume3DShapeOrder] = trapezevolume3dshape
+		stage.TrapezeVolume3DShapeOrder++
+	}
+	stage.TrapezeVolume3DShapes_mapString[trapezevolume3dshape.Name] = trapezevolume3dshape
+
+	return trapezevolume3dshape
+}
+
+// StagePreserveOrder puts trapezevolume3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TrapezeVolume3DShapeOrder
+// - update stage.TrapezeVolume3DShapeOrder accordingly
+func (trapezevolume3dshape *TrapezeVolume3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TrapezeVolume3DShapes[trapezevolume3dshape]; !ok {
+		stage.TrapezeVolume3DShapes[trapezevolume3dshape] = struct{}{}
+
+		if order > stage.TrapezeVolume3DShapeOrder {
+			stage.TrapezeVolume3DShapeOrder = order
+		}
+		stage.TrapezeVolume3DShape_stagedOrder[trapezevolume3dshape] = order
+		stage.TrapezeVolume3DShape_orderStaged[order] = trapezevolume3dshape
+		stage.TrapezeVolume3DShapeOrder++
+	}
+	stage.TrapezeVolume3DShapes_mapString[trapezevolume3dshape.Name] = trapezevolume3dshape
+}
+
+// Unstage removes trapezevolume3dshape off the model stage
+func (trapezevolume3dshape *TrapezeVolume3DShape) Unstage(stage *Stage) *TrapezeVolume3DShape {
+	delete(stage.TrapezeVolume3DShapes, trapezevolume3dshape)
+	// issue1150
+	// delete(stage.TrapezeVolume3DShape_stagedOrder, trapezevolume3dshape)
+	delete(stage.TrapezeVolume3DShapes_mapString, trapezevolume3dshape.Name)
+
+	return trapezevolume3dshape
+}
+
+// UnstageVoid removes trapezevolume3dshape off the model stage
+func (trapezevolume3dshape *TrapezeVolume3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.TrapezeVolume3DShapes, trapezevolume3dshape)
+	// issue1150
+	// delete(stage.TrapezeVolume3DShape_stagedOrder, trapezevolume3dshape)
+	delete(stage.TrapezeVolume3DShapes_mapString, trapezevolume3dshape.Name)
+}
+
+// commit trapezevolume3dshape to the back repo (if it is already staged)
+func (trapezevolume3dshape *TrapezeVolume3DShape) Commit(stage *Stage) *TrapezeVolume3DShape {
+	if _, ok := stage.TrapezeVolume3DShapes[trapezevolume3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTrapezeVolume3DShape(trapezevolume3dshape)
+		}
+	}
+	return trapezevolume3dshape
+}
+
+func (trapezevolume3dshape *TrapezeVolume3DShape) StageVoid(stage *Stage) {
+	trapezevolume3dshape.Stage(stage)
+}
+
+// Checkout trapezevolume3dshape to the back repo (if it is already staged)
+func (trapezevolume3dshape *TrapezeVolume3DShape) Checkout(stage *Stage) *TrapezeVolume3DShape {
+	if _, ok := stage.TrapezeVolume3DShapes[trapezevolume3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTrapezeVolume3DShape(trapezevolume3dshape)
+		}
+	}
+	return trapezevolume3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (trapezevolume3dshape *TrapezeVolume3DShape) GetName() (res string) {
+	return trapezevolume3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (trapezevolume3dshape *TrapezeVolume3DShape) SetName(name string) {
+	trapezevolume3dshape.Name = name
+}
+
 // Stage puts tubevase3ddiagram to the model stage
 func (tubevase3ddiagram *TubeVase3DDiagram) Stage(stage *Stage) *TubeVase3DDiagram {
 	if _, ok := stage.TubeVase3DDiagrams[tubevase3ddiagram]; !ok {
@@ -23238,6 +23383,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TorusStackShape_stagedOrder = make(map[*TorusStackShape]uint)
 	stage.TorusStackShapeOrder = 0
 
+	stage.TrapezeVolume3DShapes = make(map[*TrapezeVolume3DShape]struct{})
+	stage.TrapezeVolume3DShapes_mapString = make(map[string]*TrapezeVolume3DShape)
+	stage.TrapezeVolume3DShape_stagedOrder = make(map[*TrapezeVolume3DShape]uint)
+	stage.TrapezeVolume3DShapeOrder = 0
+
 	stage.TubeVase3DDiagrams = make(map[*TubeVase3DDiagram]struct{})
 	stage.TubeVase3DDiagrams_mapString = make(map[string]*TubeVase3DDiagram)
 	stage.TubeVase3DDiagram_stagedOrder = make(map[*TubeVase3DDiagram]uint)
@@ -23634,6 +23784,8 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 		return any(stage.TorusEdge3DShapes_mapString).(map[string]Type)
 	case *TorusStackShape:
 		return any(stage.TorusStackShapes_mapString).(map[string]Type)
+	case *TrapezeVolume3DShape:
+		return any(stage.TrapezeVolume3DShapes_mapString).(map[string]Type)
 	case *TubeVase3DDiagram:
 		return any(stage.TubeVase3DDiagrams_mapString).(map[string]Type)
 	case *TubeVaseAbstract:
@@ -23945,6 +24097,8 @@ func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
 		return any(&stage.TorusEdge3DShapes).(*map[Type]struct{})
 	case *TorusStackShape:
 		return any(&stage.TorusStackShapes).(*map[Type]struct{})
+	case *TrapezeVolume3DShape:
+		return any(&stage.TrapezeVolume3DShapes).(*map[Type]struct{})
 	case *TubeVase3DDiagram:
 		return any(&stage.TubeVase3DDiagrams).(*map[Type]struct{})
 	case *TubeVaseAbstract:
@@ -24789,6 +24943,10 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 		return any(&TorusStackShape{
 			// Initialisation of associations
 		}).(*Type)
+	case TrapezeVolume3DShape:
+		return any(&TrapezeVolume3DShape{
+			// Initialisation of associations
+		}).(*Type)
 	case TubeVase3DDiagram:
 		return any(&TubeVase3DDiagram{
 			// Initialisation of associations
@@ -24828,6 +24986,8 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			TopCurvePlane2Shape: &TopCurvePlane2Shape{Name: "TopCurvePlane2Shape"},
 			// field is initialized with an instance of BottomCurvePlane2Shape with the name of the field
 			BottomCurvePlane2Shape: &BottomCurvePlane2Shape{Name: "BottomCurvePlane2Shape"},
+			// field is initialized with an instance of TrapezeVolume3DShape with the name of the field
+			TrapezeVolume3DShape: &TrapezeVolume3DShape{Name: "TrapezeVolume3DShape"},
 		}).(*Type)
 	case TubeVaseAbstract:
 		return any(&TubeVaseAbstract{
@@ -26677,6 +26837,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of TrapezeVolume3DShape
+	case TrapezeVolume3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of TubeVase3DDiagram
 	case TubeVase3DDiagram:
 		switch fieldname {
@@ -26984,6 +27149,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
 					res[bottomcurveplane2shape_] = tubevase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TrapezeVolume3DShape":
+			res := make(map[*TrapezeVolume3DShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.TrapezeVolume3DShape != nil {
+					trapezevolume3dshape_ := tubevase3ddiagram.TrapezeVolume3DShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
+					_, ok := res[trapezevolume3dshape_]
+					if ok {
+						tubevase3ddiagrams = res[trapezevolume3dshape_]
+					} else {
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
+					}
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[trapezevolume3dshape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -28657,6 +28839,11 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of TrapezeVolume3DShape
+	case TrapezeVolume3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of TubeVase3DDiagram
 	case TubeVase3DDiagram:
 		switch fieldname {
@@ -28982,6 +29169,8 @@ func GongNewInstance[Type GongstructPtr]() (res Type) {
 		res = any(new(TorusEdge3DShape)).(Type)
 	case *TorusStackShape:
 		res = any(new(TorusStackShape)).(Type)
+	case *TrapezeVolume3DShape:
+		res = any(new(TrapezeVolume3DShape)).(Type)
 	case *TubeVase3DDiagram:
 		res = any(new(TubeVase3DDiagram)).(Type)
 	case *TubeVaseAbstract:
@@ -29310,6 +29499,8 @@ func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "TorusEdge3DShape"
 	case *TorusStackShape:
 		res = "TorusStackShape"
+	case *TrapezeVolume3DShape:
+		res = "TrapezeVolume3DShape"
 	case *TubeVase3DDiagram:
 		res = "TubeVase3DDiagram"
 	case *TubeVaseAbstract:
@@ -29947,6 +30138,9 @@ func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *TorusStackShape:
+		var rf ReverseField
+		_ = rf
+	case *TrapezeVolume3DShape:
 		var rf ReverseField
 		_ = rf
 	case *TubeVase3DDiagram:
@@ -34780,6 +34974,17 @@ func (torusstackshape *TorusStackShape) GongGetFieldHeaders() (res []GongFieldHe
 	return
 }
 
+func (trapezevolume3dshape *TrapezeVolume3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -34857,6 +35062,10 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldHeaders() (res []GongFie
 		},
 		{
 			Name:               "IsHiddenBottomCurvePlane2Shape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTrapezeVolume3DShape",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -34948,6 +35157,11 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldHeaders() (res []GongFie
 			Name:                 "BottomCurvePlane2Shape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "BottomCurvePlane2Shape",
+		},
+		{
+			Name:                 "TrapezeVolume3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TrapezeVolume3DShape",
 		},
 		{
 			Name:               "IsChecked",
@@ -40287,6 +40501,15 @@ func (torusstackshape *TorusStackShape) GongGetFieldValue(fieldName string, stag
 	return
 }
 
+func (trapezevolume3dshape *TrapezeVolume3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = trapezevolume3dshape.Name
+	}
+	return
+}
+
 func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -40363,6 +40586,10 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldValue(fieldName string, 
 	case "IsHiddenBottomCurvePlane2Shape":
 		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenBottomCurvePlane2Shape)
 		res.valueBool = tubevase3ddiagram.IsHiddenBottomCurvePlane2Shape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTrapezeVolume3DShape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenTrapezeVolume3DShape)
+		res.valueBool = tubevase3ddiagram.IsHiddenTrapezeVolume3DShape
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Rendered3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -40471,6 +40698,12 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldValue(fieldName string, 
 		if tubevase3ddiagram.BottomCurvePlane2Shape != nil {
 			res.valueString = tubevase3ddiagram.BottomCurvePlane2Shape.Name
 			res.ids = tubevase3ddiagram.BottomCurvePlane2Shape.GongGetUUID(stage)
+		}
+	case "TrapezeVolume3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.TrapezeVolume3DShape != nil {
+			res.valueString = tubevase3ddiagram.TrapezeVolume3DShape.Name
+			res.ids = tubevase3ddiagram.TrapezeVolume3DShape.GongGetUUID(stage)
 		}
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsChecked)
@@ -41510,6 +41743,10 @@ func (torusstackshape *TorusStackShape) GongGetGongstructName() string {
 	return "TorusStackShape"
 }
 
+func (trapezevolume3dshape *TrapezeVolume3DShape) GongGetGongstructName() string {
+	return "TrapezeVolume3DShape"
+}
+
 func (tubevase3ddiagram *TubeVase3DDiagram) GongGetGongstructName() string {
 	return "TubeVase3DDiagram"
 }
@@ -42264,6 +42501,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.TorusStackShapes_mapString = make(map[string]*TorusStackShape)
 	for torusstackshape := range stage.TorusStackShapes {
 		stage.TorusStackShapes_mapString[torusstackshape.Name] = torusstackshape
+	}
+
+	stage.TrapezeVolume3DShapes_mapString = make(map[string]*TrapezeVolume3DShape)
+	for trapezevolume3dshape := range stage.TrapezeVolume3DShapes {
+		stage.TrapezeVolume3DShapes_mapString[trapezevolume3dshape.Name] = trapezevolume3dshape
 	}
 
 	stage.TubeVase3DDiagrams_mapString = make(map[string]*TubeVase3DDiagram)

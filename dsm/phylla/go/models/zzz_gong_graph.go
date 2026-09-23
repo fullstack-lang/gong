@@ -1752,6 +1752,18 @@ func (stage *Stage) IsStagedTorusStackShape(torusstackshape *TorusStackShape) (o
 	return torusstackshape.GongIsStaged(stage)
 }
 
+func (trapezevolume3dshape *TrapezeVolume3DShape) GongIsStaged(stage *Stage) (ok bool) {
+
+	_, ok = stage.TrapezeVolume3DShapes[trapezevolume3dshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedTrapezeVolume3DShape(trapezevolume3dshape *TrapezeVolume3DShape) (ok bool) {
+
+	return trapezevolume3dshape.GongIsStaged(stage)
+}
+
 func (tubevase3ddiagram *TubeVase3DDiagram) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TubeVase3DDiagrams[tubevase3ddiagram]
@@ -4655,6 +4667,25 @@ func (stage *Stage) StageBranchTorusStackShape(torusstackshape *TorusStackShape)
 
 }
 
+func (trapezevolume3dshape *TrapezeVolume3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTrapezeVolume3DShape(trapezevolume3dshape)
+}
+
+func (stage *Stage) StageBranchTrapezeVolume3DShape(trapezevolume3dshape *TrapezeVolume3DShape) {
+
+	// check if instance is already staged
+	if stage.IsStaged(trapezevolume3dshape) {
+		return
+	}
+
+	trapezevolume3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (tubevase3ddiagram *TubeVase3DDiagram) GongStageBranch(stage *Stage) {
 	stage.StageBranchTubeVase3DDiagram(tubevase3ddiagram)
 }
@@ -4692,6 +4723,9 @@ func (stage *Stage) StageBranchTubeVase3DDiagram(tubevase3ddiagram *TubeVase3DDi
 	}
 	if tubevase3ddiagram.BottomCurvePlane2Shape != nil {
 		stage.StageBranch(tubevase3ddiagram.BottomCurvePlane2Shape)
+	}
+	if tubevase3ddiagram.TrapezeVolume3DShape != nil {
+		stage.StageBranch(tubevase3ddiagram.TrapezeVolume3DShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5363,6 +5397,10 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *TorusStackShape:
 		toT := GongCopyBranchTorusStackShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *TrapezeVolume3DShape:
+		toT := GongCopyBranchTrapezeVolume3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TubeVase3DDiagram:
@@ -8222,6 +8260,25 @@ func GongCopyBranchTorusStackShape(mapOrigCopy map[any]any, torusstackshapeFrom 
 	return
 }
 
+func GongCopyBranchTrapezeVolume3DShape(mapOrigCopy map[any]any, trapezevolume3dshapeFrom *TrapezeVolume3DShape) (trapezevolume3dshapeTo *TrapezeVolume3DShape) {
+
+	// trapezevolume3dshapeFrom has already been copied
+	if _trapezevolume3dshapeTo, ok := mapOrigCopy[trapezevolume3dshapeFrom]; ok {
+		trapezevolume3dshapeTo = _trapezevolume3dshapeTo.(*TrapezeVolume3DShape)
+		return
+	}
+
+	trapezevolume3dshapeTo = new(TrapezeVolume3DShape)
+	mapOrigCopy[trapezevolume3dshapeFrom] = trapezevolume3dshapeTo
+	trapezevolume3dshapeFrom.GongCopyBasicFields(trapezevolume3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func GongCopyBranchTubeVase3DDiagram(mapOrigCopy map[any]any, tubevase3ddiagramFrom *TubeVase3DDiagram) (tubevase3ddiagramTo *TubeVase3DDiagram) {
 
 	// tubevase3ddiagramFrom has already been copied
@@ -8258,6 +8315,9 @@ func GongCopyBranchTubeVase3DDiagram(mapOrigCopy map[any]any, tubevase3ddiagramF
 	}
 	if tubevase3ddiagramFrom.BottomCurvePlane2Shape != nil {
 		tubevase3ddiagramTo.BottomCurvePlane2Shape = GongCopyBranchBottomCurvePlane2Shape(mapOrigCopy, tubevase3ddiagramFrom.BottomCurvePlane2Shape)
+	}
+	if tubevase3ddiagramFrom.TrapezeVolume3DShape != nil {
+		tubevase3ddiagramTo.TrapezeVolume3DShape = GongCopyBranchTrapezeVolume3DShape(mapOrigCopy, tubevase3ddiagramFrom.TrapezeVolume3DShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -11188,6 +11248,25 @@ func (stage *Stage) UnstageBranchTorusStackShape(torusstackshape *TorusStackShap
 
 }
 
+func (trapezevolume3dshape *TrapezeVolume3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTrapezeVolume3DShape(trapezevolume3dshape)
+}
+
+func (stage *Stage) UnstageBranchTrapezeVolume3DShape(trapezevolume3dshape *TrapezeVolume3DShape) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(trapezevolume3dshape) {
+		return
+	}
+
+	trapezevolume3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (tubevase3ddiagram *TubeVase3DDiagram) GongUnstageBranch(stage *Stage) {
 	stage.UnstageBranchTubeVase3DDiagram(tubevase3ddiagram)
 }
@@ -11225,6 +11304,9 @@ func (stage *Stage) UnstageBranchTubeVase3DDiagram(tubevase3ddiagram *TubeVase3D
 	}
 	if tubevase3ddiagram.BottomCurvePlane2Shape != nil {
 		stage.UnstageBranch(tubevase3ddiagram.BottomCurvePlane2Shape)
+	}
+	if tubevase3ddiagram.TrapezeVolume3DShape != nil {
+		stage.UnstageBranch(tubevase3ddiagram.TrapezeVolume3DShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -12118,6 +12200,11 @@ func (reference *TorusStackShape) GongReconstructPointersFromReferences(stage *S
 	// insertion point for slice of pointers field
 }
 
+func (reference *TrapezeVolume3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *TrapezeVolume3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *TubeVase3DDiagram) GongReconstructPointersFromReferences(stage *Stage, instance *TubeVase3DDiagram) {
 	// insertion point for pointers field
 	if instance.Rendered3DShape != nil {
@@ -12143,6 +12230,9 @@ func (reference *TubeVase3DDiagram) GongReconstructPointersFromReferences(stage 
 	}
 	if instance.BottomCurvePlane2Shape != nil {
 		reference.BottomCurvePlane2Shape = stage.BottomCurvePlane2Shapes_reference[instance.BottomCurvePlane2Shape]
+	}
+	if instance.TrapezeVolume3DShape != nil {
+		reference.TrapezeVolume3DShape = stage.TrapezeVolume3DShapes_reference[instance.TrapezeVolume3DShape]
 	}
 	// insertion point for slice of pointers field
 }
@@ -13053,6 +13143,11 @@ func (reference *TorusStackShape) GongReconstructPointersFromInstances(stage *St
 	// insertion point for slice of pointers fields
 }
 
+func (reference *TrapezeVolume3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *TubeVase3DDiagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Rendered3DShape; _reference != nil {
@@ -13101,6 +13196,12 @@ func (reference *TubeVase3DDiagram) GongReconstructPointersFromInstances(stage *
 		reference.BottomCurvePlane2Shape = nil
 		if _instance, ok := stage.BottomCurvePlane2Shapes_instance[_reference]; ok {
 			reference.BottomCurvePlane2Shape = _instance
+		}
+	}
+	if _reference := reference.TrapezeVolume3DShape; _reference != nil {
+		reference.TrapezeVolume3DShape = nil
+		if _instance, ok := stage.TrapezeVolume3DShapes_instance[_reference]; ok {
+			reference.TrapezeVolume3DShape = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -17102,6 +17203,17 @@ func (torusstackshape *TorusStackShape) GongDiff(stage *Stage, torusstackshapeOt
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (trapezevolume3dshape *TrapezeVolume3DShape) GongDiff(stage *Stage, trapezevolume3dshapeOther *TrapezeVolume3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if trapezevolume3dshape.Name != trapezevolume3dshapeOther.Name {
+		diffs = append(diffs, trapezevolume3dshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (tubevase3ddiagram *TubeVase3DDiagram) GongDiff(stage *Stage, tubevase3ddiagramOther *TubeVase3DDiagram) (diffs []string) {
 	// insertion point for field diffs
 	if tubevase3ddiagram.Name != tubevase3ddiagramOther.Name {
@@ -17161,6 +17273,9 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongDiff(stage *Stage, tubevase3ddia
 	if tubevase3ddiagram.IsHiddenBottomCurvePlane2Shape != tubevase3ddiagramOther.IsHiddenBottomCurvePlane2Shape {
 		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsHiddenBottomCurvePlane2Shape"))
 	}
+	if tubevase3ddiagram.IsHiddenTrapezeVolume3DShape != tubevase3ddiagramOther.IsHiddenTrapezeVolume3DShape {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTrapezeVolume3DShape"))
+	}
 	if (tubevase3ddiagram.Rendered3DShape == nil) != (tubevase3ddiagramOther.Rendered3DShape == nil) {
 		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "Rendered3DShape"))
 	} else if tubevase3ddiagram.Rendered3DShape != nil && tubevase3ddiagramOther.Rendered3DShape != nil {
@@ -17215,6 +17330,13 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongDiff(stage *Stage, tubevase3ddia
 	} else if tubevase3ddiagram.BottomCurvePlane2Shape != nil && tubevase3ddiagramOther.BottomCurvePlane2Shape != nil {
 		if tubevase3ddiagram.BottomCurvePlane2Shape != tubevase3ddiagramOther.BottomCurvePlane2Shape {
 			diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane2Shape"))
+		}
+	}
+	if (tubevase3ddiagram.TrapezeVolume3DShape == nil) != (tubevase3ddiagramOther.TrapezeVolume3DShape == nil) {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "TrapezeVolume3DShape"))
+	} else if tubevase3ddiagram.TrapezeVolume3DShape != nil && tubevase3ddiagramOther.TrapezeVolume3DShape != nil {
+		if tubevase3ddiagram.TrapezeVolume3DShape != tubevase3ddiagramOther.TrapezeVolume3DShape {
+			diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "TrapezeVolume3DShape"))
 		}
 	}
 	if tubevase3ddiagram.IsChecked != tubevase3ddiagramOther.IsChecked {

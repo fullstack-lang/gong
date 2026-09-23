@@ -1117,6 +1117,32 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(topcurveplane2shape.GongMarshallField(stage, "Name"))
 	}
 
+	trapezevolume3dshapeOrdered := []*TrapezeVolume3DShape{}
+	for trapezevolume3dshape := range stage.TrapezeVolume3DShapes {
+		trapezevolume3dshapeOrdered = append(trapezevolume3dshapeOrdered, trapezevolume3dshape)
+	}
+	sort.Slice(trapezevolume3dshapeOrdered[:], func(i, j int) bool {
+		trapezevolume3dshapei := trapezevolume3dshapeOrdered[i]
+		trapezevolume3dshapej := trapezevolume3dshapeOrdered[j]
+		trapezevolume3dshapei_order, oki := stage.TrapezeVolume3DShape_stagedOrder[trapezevolume3dshapei]
+		trapezevolume3dshapej_order, okj := stage.TrapezeVolume3DShape_stagedOrder[trapezevolume3dshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return trapezevolume3dshapei_order < trapezevolume3dshapej_order
+	})
+	if len(trapezevolume3dshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, trapezevolume3dshape := range trapezevolume3dshapeOrdered {
+
+		identifiersDecl.WriteString(trapezevolume3dshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(trapezevolume3dshape.GongMarshallField(stage, "Name"))
+	}
+
 	tubevase3ddiagramOrdered := []*TubeVase3DDiagram{}
 	for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
 		tubevase3ddiagramOrdered = append(tubevase3ddiagramOrdered, tubevase3ddiagram)
@@ -1159,6 +1185,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenBottomCurvePlane1Shape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTopCurvePlane2Shape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenBottomCurvePlane2Shape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTrapezeVolume3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "Rendered3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "OriginalPoints3DShape"))
@@ -1167,6 +1194,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane1Shape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "TopCurvePlane2Shape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane2Shape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "TrapezeVolume3DShape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsExpanded"))
@@ -1480,6 +1508,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, topcurveplane2shape := range topcurveplane2shapeOrdered {
 		_ = topcurveplane2shape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, trapezevolume3dshape := range trapezevolume3dshapeOrdered {
+		_ = trapezevolume3dshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -7320,6 +7356,21 @@ func (torusstackshape *TorusStackShape) GongMarshallField(stage *Stage, fieldNam
 	return
 }
 
+func (trapezevolume3dshape *TrapezeVolume3DShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = GongStringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", trapezevolume3dshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(trapezevolume3dshape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct TrapezeVolume3DShape", fieldName)
+	}
+	return
+}
+
 func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -7418,6 +7469,11 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallField(stage *Stage, fiel
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenBottomCurvePlane2Shape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenBottomCurvePlane2Shape))
+	case "IsHiddenTrapezeVolume3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTrapezeVolume3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenTrapezeVolume3DShape))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
@@ -7536,6 +7592,19 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallField(stage *Stage, fiel
 			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BottomCurvePlane2Shape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "TrapezeVolume3DShape":
+		if tubevase3ddiagram.TrapezeVolume3DShape != nil {
+			res = GongPointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TrapezeVolume3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", tubevase3ddiagram.TrapezeVolume3DShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = GongPointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TrapezeVolume3DShape")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
@@ -10181,6 +10250,17 @@ func (torusstackshape *TorusStackShape) GongMarshallAllFields(stage *Stage) (ini
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (trapezevolume3dshape *TrapezeVolume3DShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(trapezevolume3dshape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -10205,6 +10285,7 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallAllFields(stage *Stage) 
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenBottomCurvePlane1Shape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTopCurvePlane2Shape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenBottomCurvePlane2Shape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenTrapezeVolume3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "Rendered3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "OriginalPoints3DShape"))
@@ -10213,6 +10294,7 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallAllFields(stage *Stage) 
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane1Shape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "TopCurvePlane2Shape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "BottomCurvePlane2Shape"))
+		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "TrapezeVolume3DShape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsExpanded"))

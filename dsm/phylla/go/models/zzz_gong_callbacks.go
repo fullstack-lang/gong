@@ -3797,6 +3797,32 @@ func (torusstackshape *TorusStackShape) GongAfterDeleteFromFront(stage *Stage, f
 	}
 }
 
+func (trapezevolume3dshape *TrapezeVolume3DShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterTrapezeVolume3DShapeCreateCallback != nil {
+		stage.OnAfterTrapezeVolume3DShapeCreateCallback.OnAfterCreate(stage, trapezevolume3dshape)
+	}
+}
+
+func (trapezevolume3dshape *TrapezeVolume3DShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTrapezeVolume3DShapeUpdateCallback != nil {
+		var frontTrapezeVolume3DShape *TrapezeVolume3DShape
+		if front != nil {
+			frontTrapezeVolume3DShape, _ = front.(*TrapezeVolume3DShape)
+		}
+		stage.OnAfterTrapezeVolume3DShapeUpdateCallback.OnAfterUpdate(stage, trapezevolume3dshape, frontTrapezeVolume3DShape)
+	}
+}
+
+func (trapezevolume3dshape *TrapezeVolume3DShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTrapezeVolume3DShapeDeleteCallback != nil {
+		var frontTrapezeVolume3DShape *TrapezeVolume3DShape
+		if front != nil {
+			frontTrapezeVolume3DShape, _ = front.(*TrapezeVolume3DShape)
+		}
+		stage.OnAfterTrapezeVolume3DShapeDeleteCallback.OnAfterDelete(stage, trapezevolume3dshape, frontTrapezeVolume3DShape)
+	}
+}
+
 func (tubevase3ddiagram *TubeVase3DDiagram) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterTubeVase3DDiagramCreateCallback != nil {
 		stage.OnAfterTubeVase3DDiagramCreateCallback.OnAfterCreate(stage, tubevase3ddiagram)

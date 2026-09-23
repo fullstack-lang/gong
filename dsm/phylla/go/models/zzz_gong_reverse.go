@@ -1706,6 +1706,15 @@ func (inst *TorusStackShape) GongGetReverseFieldOwnerName(stage *Stage, reverseF
 	return
 }
 
+func (inst *TrapezeVolume3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *TubeVase3DDiagram) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
@@ -3348,6 +3357,15 @@ func (inst *TorusEdge3DShape) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 }
 
 func (inst *TorusStackShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *TrapezeVolume3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
