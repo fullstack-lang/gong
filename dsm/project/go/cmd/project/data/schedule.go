@@ -179,8 +179,8 @@ func _(stage *models.Stage) {
 	__ProductShape__00000002_.IsShowType = false
 	__ProductShape__00000002_.OverideLayoutDirection = false
 	__ProductShape__00000002_.LayoutDirection = models.Vertical
-	__ProductShape__00000002_.X = 104.000000
-	__ProductShape__00000002_.Y = 492.000000
+	__ProductShape__00000002_.X = 82.000000
+	__ProductShape__00000002_.Y = 425.000000
 	__ProductShape__00000002_.Width = 250.000000
 	__ProductShape__00000002_.Height = 70.000000
 	__ProductShape__00000002_.IsHidden = false
