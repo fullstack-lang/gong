@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	// to parse the .frontignore file
 	"github.com/fullstack-lang/gong/go/ignore"
@@ -29,7 +30,9 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg) {
 	fset := token.NewFileSet()
 	modelPkg.Fset = fset
 	// startParser := time.Now()
-	pkgsParser, errParser := parser.ParseDir(fset, directory, nil, parser.ParseComments)
+	pkgsParser, errParser := parser.ParseDir(fset, directory, func(fi os.FileInfo) bool {
+		return !strings.HasSuffix(fi.Name(), "_test.go")
+	}, parser.ParseComments)
 	// log.Printf("Parser took %s", time.Since(startParser))
 
 	if errParser != nil {

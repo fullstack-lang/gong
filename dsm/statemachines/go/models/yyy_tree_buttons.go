@@ -38,6 +38,7 @@ import (
 type itemAdderCallback[PT AbstractType] struct {
 	createdItem    PT
 	OnBeforeCommit func()
+	button         *tree.Button
 }
 
 type parentNodeExpansionType string
@@ -205,6 +206,7 @@ func addCreateItemButton[
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
 	}
+	callbacks.button = addButton
 	if conf.IsButtonInMenu {
 		if conf.parentNode.Menu == nil {
 			conf.parentNode.Menu = &tree.Menu{Name: "Add"}
@@ -259,6 +261,7 @@ func addCreateItemAndShapeButton[
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
 	}
+	callbacks.button = addButton
 	if conf.IsButtonInMenu {
 		if conf.parentNode.Menu == nil {
 			conf.parentNode.Menu = &tree.Menu{Name: "Add"}
@@ -330,6 +333,7 @@ func addCreateItemShapeAndLinkButton[
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
 	}
+	callbacks.button = addButton
 	if conf.IsButtonInMenu {
 		if conf.parentNode.Menu == nil {
 			conf.parentNode.Menu = &tree.Menu{Name: "Add"}
@@ -400,6 +404,40 @@ func addCreateItemShapeAndLinkButton[
 	return
 }
 
+// EnsureRenameIsFirst moves the "Rename" or "Cancel rename" button to index 0 of node.Menu.Buttons if present
+func EnsureRenameIsFirst(node *tree.Node) {
+	if node == nil || node.Menu == nil || len(node.Menu.Buttons) <= 1 {
+		return
+	}
+	for i, b := range node.Menu.Buttons {
+		if b.Name == "Rename" || b.Name == "Cancel rename" {
+			if i > 0 {
+				renameBtn := node.Menu.Buttons[i]
+				node.Menu.Buttons = append(node.Menu.Buttons[:i], node.Menu.Buttons[i+1:]...)
+				node.Menu.Buttons = append([]*tree.Button{renameBtn}, node.Menu.Buttons...)
+			}
+			break
+		}
+	}
+}
+
+// EnsureRenameIsFirstOnTree walks all nodes in treeInstance and ensures Rename is first in Menu.Buttons
+func EnsureRenameIsFirstOnTree(treeInstance *tree.Tree) {
+	if treeInstance == nil {
+		return
+	}
+	var walk func(node *tree.Node)
+	walk = func(node *tree.Node) {
+		EnsureRenameIsFirst(node)
+		for _, child := range node.Children {
+			walk(child)
+		}
+	}
+	for _, rootNode := range treeInstance.RootNodes {
+		walk(rootNode)
+	}
+}
+
 func addRenameButton[T AbstractType](at T, node *tree.Node, stager *Stager) {
 	if node.Menu == nil {
 		node.Menu = &tree.Menu{Name: "Menu"}
@@ -432,6 +470,8 @@ func addRenameButton[T AbstractType](at T, node *tree.Node, stager *Stager) {
 			})
 	}
 
+	EnsureRenameIsFirst(node)
+
 	if library, ok := any(at).(*Library); ok && library.IsRootLibrary {
 		addResetButton(library, node, stager)
 	}
@@ -462,6 +502,10 @@ func addResetButton(library *Library, node *tree.Node, stager *Stager) {
 		ToolTipPosition: tree.Above,
 		OnClick: func() {
 			stager.stage.Reset()
+			stager.enforceThereIsARootLibrary()
+			if root := stager.getRootLibrary(); root != nil {
+				root.IsExpanded = true
+			}
 			stagerStateMutex.Lock()
 			map_Stager_resetOnNextCommit[stager] = true
 			stagerStateMutex.Unlock()
@@ -942,6 +986,7 @@ func addNodeToTree[
 		conf.compositionShapes,
 	)
 
+	EnsureRenameIsFirst(node)
 	return node
 }
 
@@ -991,6 +1036,7 @@ func addNodeToTreeWithoutLink[
 		conf.shapesMap,
 	)
 
+	EnsureRenameIsFirst(node)
 	return node
 }
 

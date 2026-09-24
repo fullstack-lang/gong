@@ -78,6 +78,8 @@ func (stager *Stager) ux_tree() {
 	}
 	treeInstance.RootNodes = append(treeInstance.RootNodes, examplesNode)
 
+	EnsureRenameIsFirstOnTree(treeInstance)
+
 	tree.StageBranch(stager.treeStage, treeInstance)
 
 	stager.treeStage.Commit()

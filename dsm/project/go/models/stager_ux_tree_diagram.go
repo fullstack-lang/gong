@@ -220,7 +220,10 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		diagram.IsWBSNodeExpanded = true
 		diagram.IsExpanded = true
 	}
-	if len(diagramNode.Menu.Buttons) > 0 {
+	if callbacksTaskGroups.button != nil {
+		callbacksTaskGroups.button.Name = "Add Task Group"
+		callbacksTaskGroups.button.ToolTipText = "Add a Task Group to \"" + diagram.Name + "\""
+	} else if len(diagramNode.Menu.Buttons) > 0 {
 		diagramNode.Menu.Buttons[0].Name = "Add Task Group"
 		diagramNode.Menu.Buttons[0].ToolTipText = "Add a Task Group to \"" + diagram.Name + "\""
 	}
@@ -638,4 +641,5 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 			}
 		}
 	}
+	EnsureRenameIsFirst(diagramNode)
 }

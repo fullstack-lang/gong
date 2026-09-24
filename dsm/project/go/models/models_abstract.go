@@ -31,10 +31,19 @@ type Task struct {
 	//gong:time-form-only
 	End time.Time
 
+	IsMilestone bool
+
 	//gong:accordion-start "Predecessors"
 	Predecessors []*Task
-	//gong:accordion-end
+
 	DependencyType DependencyTypeEnum
+
+	DependencyDurationYears  float64
+	DependencyDurationMonths float64
+	DependencyDurationWeeks  float64
+	DependencyDurationDays   float64
+	//gong:accordion-end
+	DependencyDurationHours float64
 
 	//gong:accordion-start "Duration"
 	DurationYears  float64
@@ -44,8 +53,6 @@ type Task struct {
 	DurationHours  float64
 	//gong:accordion-end
 	IsEndDateComputedFromDuration bool
-
-	IsMilestone bool
 
 	Inputs []*Product
 

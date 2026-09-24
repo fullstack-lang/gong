@@ -71,6 +71,11 @@ func NewStager(
 
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	stager.treeStage = tree_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.treeStage.RegisterBeforeCommit(func(treeStage *tree.Stage) {
+		for node := range *treeStage.GetInstancesSet[*tree.Node]() {
+			EnsureRenameIsFirst(node)
+		}
+	})
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
 	stager.svgStage = svg_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")

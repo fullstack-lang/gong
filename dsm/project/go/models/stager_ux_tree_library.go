@@ -86,7 +86,10 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			diagram.IsTaskGroupsNodeExpanded = true
 		}
 	}
-	if len(libraryNode.Menu.Buttons) > 0 {
+	if callbacksTaskGroups.button != nil {
+		callbacksTaskGroups.button.Name = "Add Task Group"
+		callbacksTaskGroups.button.ToolTipText = "Add a Task Group to \"" + library.Name + "\""
+	} else if len(libraryNode.Menu.Buttons) > 0 {
 		libraryNode.Menu.Buttons[0].Name = "Add Task Group"
 		libraryNode.Menu.Buttons[0].ToolTipText = "Add a Task Group to \"" + library.Name + "\""
 	}
@@ -159,5 +162,5 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		stager.treeLibrary(treeInstance, subLibrary, &libraryNode.Children)
 	}
 
-
+	EnsureRenameIsFirst(libraryNode)
 }

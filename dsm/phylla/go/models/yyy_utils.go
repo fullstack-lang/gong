@@ -66,6 +66,7 @@ func (stager *Stager) enforceThereIsARootLibrary() (needCommit bool) {
 	libraries := stage.GetInstancesByOrder[*Library]()
 	if len(libraries) == 0 {
 		rootLibrary := (&Library{Name: "", IsRootLibrary: true}).Stage(stage)
+		rootLibrary.IsExpanded = true
 		if stager.probeForm != nil {
 			stager.probeForm.AddNotification(time.Now(),
 				"Created root library")
@@ -111,6 +112,7 @@ func (stager *Stager) enforceThereIsARootLibrary() (needCommit bool) {
 			slices.SortFunc(rootCandidates, GongCompareGongstructByName[*Library])
 			rootLibrary = rootCandidates[0]
 			rootLibrary.IsRootLibrary = true
+			rootLibrary.IsExpanded = true
 			if stager.probeForm != nil {
 				stager.probeForm.AddNotification(time.Now(),
 					"Set existing library as root: "+rootLibrary.GetName())
@@ -120,6 +122,7 @@ func (stager *Stager) enforceThereIsARootLibrary() (needCommit bool) {
 			// Fallback in case of circular dependencies
 			rootLibrary = libraries[0]
 			rootLibrary.IsRootLibrary = true
+			rootLibrary.IsExpanded = true
 			if stager.probeForm != nil {
 				stager.probeForm.AddNotification(time.Now(),
 					"Set existing library as root (fallback): "+rootLibrary.GetName())
