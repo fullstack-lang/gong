@@ -510,6 +510,10 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		}
 	case "ComputedDuration":
 		instance.ComputedDuration = time.Duration(GongExtractInt(valueExpr))
+	case "DrawVerticalTimeLines":
+		instance.DrawVerticalTimeLines = GongExtractBool(valueExpr)
+	case "HideWeekendsPeriod":
+		instance.HideWeekendsPeriod = GongExtractBool(valueExpr)
 	case "UseManualStartAndEndDates":
 		instance.UseManualStartAndEndDates = GongExtractBool(valueExpr)
 	case "ManualStart":
@@ -558,8 +562,6 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.TimeLine_Stroke = GongExtractString(valueExpr)
 	case "TimeLine_StrokeWidth":
 		instance.TimeLine_StrokeWidth = GongExtractFloat(valueExpr)
-	case "DrawVerticalTimeLines":
-		instance.DrawVerticalTimeLines = GongExtractBool(valueExpr)
 	case "Group_Stroke":
 		instance.Group_Stroke = GongExtractString(valueExpr)
 	case "Group_StrokeWidth":

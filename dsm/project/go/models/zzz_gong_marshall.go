@@ -325,6 +325,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedStart"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedEnd"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedDuration"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DrawVerticalTimeLines"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "HideWeekendsPeriod"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualStart"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualEnd"))
@@ -343,7 +345,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_FillOpacity"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_Stroke"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_StrokeWidth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DrawVerticalTimeLines"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_Stroke"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeWidth"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeDashArray"))
@@ -1462,6 +1463,16 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedDuration")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", diagram.ComputedDuration))
+	case "DrawVerticalTimeLines":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DrawVerticalTimeLines")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.DrawVerticalTimeLines))
+	case "HideWeekendsPeriod":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HideWeekendsPeriod")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.HideWeekendsPeriod))
 	case "UseManualStartAndEndDates":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -1560,11 +1571,6 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_StrokeWidth")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.TimeLine_StrokeWidth))
-	case "DrawVerticalTimeLines":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DrawVerticalTimeLines")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.DrawVerticalTimeLines))
 	case "Group_Stroke":
 		res = GongStringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -3798,6 +3804,8 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedStart"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedEnd"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedDuration"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DrawVerticalTimeLines"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "HideWeekendsPeriod"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualStart"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualEnd"))
@@ -3816,7 +3824,6 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_FillOpacity"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_Stroke"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_StrokeWidth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DrawVerticalTimeLines"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_Stroke"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeWidth"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeDashArray"))

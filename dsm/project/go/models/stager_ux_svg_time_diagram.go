@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"log"
+	"math"
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/strutils"
@@ -17,7 +18,11 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, svgObject *svg.SVG) 
 	svgObject.Layers = append(svgObject.Layers, verticalLinesLayer)
 
 	// If no duration, return early to prevent division by zero
-	if diagram.ComputedDuration == 0 {
+	if diagram.HideWeekendsPeriod {
+		if diagram.workDurationBetween(diagram.ComputedStart, diagram.ComputedEnd) <= 0 {
+			return
+		}
+	} else if diagram.ComputedDuration == 0 {
 		return
 	}
 
@@ -171,18 +176,14 @@ func (stager *Stager) displayTask(diagram *Diagram, task *Task, taskShape *TaskS
 		}
 	}
 
-	durationFromGanttStartToBarStart := taskToDisplay.Start.Sub(diagram.ComputedStart)
-	durationBetweenBarStartAndGanttStartRelativeToGanttDuration :=
-		float64(durationFromGanttStartToBarStart) / float64(diagram.ComputedDuration)
-
-	durationFromBarEndAndBarStart := taskToDisplay.End.Sub(taskToDisplay.Start)
-	durationBetweenBarEndAndBarStartRelativeToGanttDuration :=
-		float64(durationFromBarEndAndBarStart) / float64(diagram.ComputedDuration)
-
-	rect4Bar.X = diagram.XLeftLanes + (diagram.XRightMargin-diagram.XLeftLanes)*durationBetweenBarStartAndGanttStartRelativeToGanttDuration
+	rect4Bar.X = diagram.dateToX(taskToDisplay.Start)
 	rect4Bar.Y = currentY + (LaneHeight-barHeigth)/2.0
 	rect4Bar.Height = barHeigth
-	rect4Bar.Width = (diagram.XRightMargin - diagram.XLeftLanes) * durationBetweenBarEndAndBarStartRelativeToGanttDuration
+	endX := diagram.dateToX(taskToDisplay.End)
+	rect4Bar.Width = endX - rect4Bar.X
+	if rect4Bar.Width < 0 {
+		rect4Bar.Width = 0
+	}
 
 	rect4Bar.Color = "steelblue"
 	rect4Bar.FillOpacity = 0.6
@@ -298,11 +299,7 @@ func (stager *Stager) displayTaskTitle(task *Task, diagram *Diagram, rect4Bar *s
 }
 
 func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *TaskShape, verticalLinesLayer *svg.Layer, yTimeLine float64, taskGroup *TaskGroup, layer *svg.Layer, mapTaskGroup_TextY map[*TaskGroup]float64) {
-	durationBetweenMilestoneAndGanttStart := task.Start.Sub(diagram.ComputedStart)
-	durationBetweenMilestoneAndGanttStartRelativeToGanttDuration :=
-		float64(durationBetweenMilestoneAndGanttStart) / float64(diagram.ComputedDuration)
-
-	lineX := diagram.XLeftLanes + (diagram.XRightMargin-diagram.XLeftLanes)*durationBetweenMilestoneAndGanttStartRelativeToGanttDuration
+	lineX := diagram.dateToX(task.Start)
 	if task.DisplayVerticalBar {
 		line := new(svg.Line)
 		line.Name = task.Name
@@ -431,7 +428,11 @@ func (stager *Stager) drawTimeLine(diagram *Diagram, XLeftLanes float64, XRightM
 	}
 
 	for currentTick.Before(diagram.ComputedEnd) || currentTick.Equal(diagram.ComputedEnd) {
-		ticks = append(ticks, currentTick)
+		if diagram.HideWeekendsPeriod && timeStepScale == DAYS && (currentTick.Weekday() == time.Saturday || currentTick.Weekday() == time.Sunday) {
+			// skip weekend ticks when weekends are hidden in day view
+		} else {
+			ticks = append(ticks, currentTick)
+		}
 
 		switch timeStepScale {
 		case YEARS:
@@ -454,11 +455,7 @@ func (stager *Stager) drawTimeLine(diagram *Diagram, XLeftLanes float64, XRightM
 	for i := 0; i < len(ticks); i++ {
 		tick := ticks[i]
 
-		durationBetweenTickAndGanttStart := tick.Sub(diagram.ComputedStart)
-		durationBetweenTickAndGanttStartRelativeToGanttDuration :=
-			float64(durationBetweenTickAndGanttStart) / float64(diagram.ComputedDuration)
-
-		xOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenTickAndGanttStartRelativeToGanttDuration
+		xOriginal := diagram.dateToX(tick)
 
 		xVisible := xOriginal
 		if xVisible < XLeftLanes {
@@ -470,11 +467,7 @@ func (stager *Stager) drawTimeLine(diagram *Diagram, XLeftLanes float64, XRightM
 
 		if i < len(ticks)-1 {
 			nextTick := ticks[i+1]
-			durationBetweenNextTickAndGanttStart := nextTick.Sub(diagram.ComputedStart)
-			durationBetweenNextTickAndGanttStartRelativeToGanttDuration :=
-				float64(durationBetweenNextTickAndGanttStart) / float64(diagram.ComputedDuration)
-
-			xNextOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenNextTickAndGanttStartRelativeToGanttDuration
+			xNextOriginal := diagram.dateToX(nextTick)
 
 			xNextVisible := xNextOriginal
 			if xNextVisible < XLeftLanes {
@@ -524,11 +517,7 @@ func (stager *Stager) drawTimeLine(diagram *Diagram, XLeftLanes float64, XRightM
 		for i := range ticksToDraw {
 			tick := ticksToDraw[i]
 
-			durationBetweenTickAndGanttStart := tick.Sub(diagram.ComputedStart)
-			durationBetweenTickAndGanttStartRelativeToGanttDuration :=
-				float64(durationBetweenTickAndGanttStart) / float64(diagram.ComputedDuration)
-
-			xOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenTickAndGanttStartRelativeToGanttDuration
+			xOriginal := diagram.dateToX(tick)
 
 			if xOriginal >= XLeftLanes && xOriginal <= XRightMargin {
 				gridLine := new(svg.Line)
@@ -546,4 +535,80 @@ func (stager *Stager) drawTimeLine(diagram *Diagram, XLeftLanes float64, XRightM
 			}
 		}
 	}
+}
+
+// workTimeFromEpoch returns the cumulative working duration from a fixed epoch Monday (2000-01-03 00:00:00)
+// in the timezone of t up to t. Weekends (Saturday 00:00:00 to Monday 00:00:00) contribute zero working time.
+func workTimeFromEpoch(t time.Time) time.Duration {
+	loc := t.Location()
+	epoch := time.Date(2000, 1, 3, 0, 0, 0, 0, loc)
+
+	dayStart := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, loc)
+	timeOfDay := t.Sub(dayStart)
+
+	weekday := dayStart.Weekday()
+	daysSinceMonday := (int(weekday) + 6) % 7
+	monday := dayStart.AddDate(0, 0, -daysSinceMonday)
+
+	diffDays := int(math.Round(monday.Sub(epoch).Hours() / 24.0))
+	fullWeeks := diffDays / 7
+
+	workingDuration := time.Duration(fullWeeks) * (5 * 24 * time.Hour)
+
+	var workDaysBeforeToday int
+	switch weekday {
+	case time.Monday:
+		workDaysBeforeToday = 0
+	case time.Tuesday:
+		workDaysBeforeToday = 1
+	case time.Wednesday:
+		workDaysBeforeToday = 2
+	case time.Thursday:
+		workDaysBeforeToday = 3
+	case time.Friday:
+		workDaysBeforeToday = 4
+	case time.Saturday, time.Sunday:
+		workDaysBeforeToday = 5
+	}
+	workingDuration += time.Duration(workDaysBeforeToday) * 24 * time.Hour
+
+	if weekday != time.Saturday && weekday != time.Sunday {
+		workingDuration += timeOfDay
+	}
+
+	return workingDuration
+}
+
+func (diagram *Diagram) workTime(t time.Time) time.Duration {
+	loc := diagram.ComputedStart.Location()
+	tInLoc := t.In(loc)
+	return workTimeFromEpoch(tInLoc)
+}
+
+func (diagram *Diagram) workDurationBetween(start, end time.Time) time.Duration {
+	return diagram.workTime(end) - diagram.workTime(start)
+}
+
+// DateToX converts a date to the horizontal X coordinate within the diagram's lane area.
+// If diagram.HideWeekendsPeriod is true, weekends are excluded from the timescale.
+func (diagram *Diagram) DateToX(t time.Time) float64 {
+	if diagram.ComputedDuration == 0 {
+		return diagram.XLeftLanes
+	}
+	if diagram.HideWeekendsPeriod {
+		totalWorkDuration := diagram.workDurationBetween(diagram.ComputedStart, diagram.ComputedEnd)
+		if totalWorkDuration <= 0 {
+			return diagram.XLeftLanes
+		}
+		tWorkDuration := diagram.workDurationBetween(diagram.ComputedStart, t)
+		fraction := float64(tWorkDuration) / float64(totalWorkDuration)
+		return diagram.XLeftLanes + (diagram.XRightMargin-diagram.XLeftLanes)*fraction
+	}
+	durationFromStart := t.Sub(diagram.ComputedStart)
+	fraction := float64(durationFromStart) / float64(diagram.ComputedDuration)
+	return diagram.XLeftLanes + (diagram.XRightMargin-diagram.XLeftLanes)*fraction
+}
+
+func (diagram *Diagram) dateToX(t time.Time) float64 {
+	return diagram.DateToX(t)
 }

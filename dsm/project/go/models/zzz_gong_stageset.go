@@ -168,6 +168,8 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedStart, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", diagramIdent, diagram.ComputedStart.String()))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedEnd, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", diagramIdent, diagram.ComputedEnd.String()))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedDuration = time.Duration(%d)", diagramIdent, int64(diagram.ComputedDuration)))
+			values.WriteString(fmt.Sprintf("\n\t%s.DrawVerticalTimeLines = %t", diagramIdent, diagram.DrawVerticalTimeLines))
+			values.WriteString(fmt.Sprintf("\n\t%s.HideWeekendsPeriod = %t", diagramIdent, diagram.HideWeekendsPeriod))
 			values.WriteString(fmt.Sprintf("\n\t%s.UseManualStartAndEndDates = %t", diagramIdent, diagram.UseManualStartAndEndDates))
 			values.WriteString(fmt.Sprintf("\n\t%s.ManualStart, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", diagramIdent, diagram.ManualStart.String()))
 			values.WriteString(fmt.Sprintf("\n\t%s.ManualEnd, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", diagramIdent, diagram.ManualEnd.String()))
@@ -186,7 +188,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.TimeLine_FillOpacity = %f", diagramIdent, diagram.TimeLine_FillOpacity))
 			values.WriteString(fmt.Sprintf("\n\t%s.TimeLine_Stroke = %s", diagramIdent, __gong__toRawStringLiteral(diagram.TimeLine_Stroke)))
 			values.WriteString(fmt.Sprintf("\n\t%s.TimeLine_StrokeWidth = %f", diagramIdent, diagram.TimeLine_StrokeWidth))
-			values.WriteString(fmt.Sprintf("\n\t%s.DrawVerticalTimeLines = %t", diagramIdent, diagram.DrawVerticalTimeLines))
 			values.WriteString(fmt.Sprintf("\n\t%s.Group_Stroke = %s", diagramIdent, __gong__toRawStringLiteral(diagram.Group_Stroke)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Group_StrokeWidth = %f", diagramIdent, diagram.Group_StrokeWidth))
 			values.WriteString(fmt.Sprintf("\n\t%s.Group_StrokeDashArray = %s", diagramIdent, __gong__toRawStringLiteral(diagram.Group_StrokeDashArray)))
@@ -2067,6 +2068,10 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						}
 					case "ComputedDuration":
 						inst.ComputedDuration = time.Duration(GongExtractInt(rhs))
+					case "DrawVerticalTimeLines":
+						inst.DrawVerticalTimeLines = GongExtractBool(rhs)
+					case "HideWeekendsPeriod":
+						inst.HideWeekendsPeriod = GongExtractBool(rhs)
 					case "UseManualStartAndEndDates":
 						inst.UseManualStartAndEndDates = GongExtractBool(rhs)
 					case "ManualStart":
@@ -2111,8 +2116,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.TimeLine_Stroke = GongExtractString(rhs)
 					case "TimeLine_StrokeWidth":
 						inst.TimeLine_StrokeWidth = GongExtractFloat(rhs)
-					case "DrawVerticalTimeLines":
-						inst.DrawVerticalTimeLines = GongExtractBool(rhs)
 					case "Group_Stroke":
 						inst.Group_Stroke = GongExtractString(rhs)
 					case "Group_StrokeWidth":

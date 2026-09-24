@@ -30,6 +30,10 @@ type Diagram_WOP struct {
 
 	ComputedDuration time.Duration
 
+	DrawVerticalTimeLines bool
+
+	HideWeekendsPeriod bool
+
 	UseManualStartAndEndDates bool
 
 	ManualStart time.Time
@@ -65,8 +69,6 @@ type Diagram_WOP struct {
 	TimeLine_Stroke string
 
 	TimeLine_StrokeWidth float64
-
-	DrawVerticalTimeLines bool
 
 	Group_Stroke string
 
@@ -113,6 +115,8 @@ func (from *Diagram) GongCopyBasicFields(to *Diagram) {
 	to.ComputedStart = from.ComputedStart
 	to.ComputedEnd = from.ComputedEnd
 	to.ComputedDuration = from.ComputedDuration
+	to.DrawVerticalTimeLines = from.DrawVerticalTimeLines
+	to.HideWeekendsPeriod = from.HideWeekendsPeriod
 	to.UseManualStartAndEndDates = from.UseManualStartAndEndDates
 	to.ManualStart = from.ManualStart
 	to.ManualEnd = from.ManualEnd
@@ -131,7 +135,6 @@ func (from *Diagram) GongCopyBasicFields(to *Diagram) {
 	to.TimeLine_FillOpacity = from.TimeLine_FillOpacity
 	to.TimeLine_Stroke = from.TimeLine_Stroke
 	to.TimeLine_StrokeWidth = from.TimeLine_StrokeWidth
-	to.DrawVerticalTimeLines = from.DrawVerticalTimeLines
 	to.Group_Stroke = from.Group_Stroke
 	to.Group_StrokeWidth = from.Group_StrokeWidth
 	to.Group_StrokeDashArray = from.Group_StrokeDashArray

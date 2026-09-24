@@ -29,6 +29,10 @@ type Diagram struct {
 	ComputedEnd      time.Time
 	ComputedDuration time.Duration
 
+	DrawVerticalTimeLines bool
+
+	HideWeekendsPeriod bool
+
 	// start and end dates if manual setup is true
 	UseManualStartAndEndDates bool
 	ManualStart               time.Time
@@ -57,8 +61,6 @@ type Diagram struct {
 	TimeLine_FillOpacity float64
 	TimeLine_Stroke      string
 	TimeLine_StrokeWidth float64
-
-	DrawVerticalTimeLines bool
 
 	Group_Stroke          string
 	Group_StrokeWidth     float64
@@ -92,9 +94,9 @@ type Diagram struct {
 
 	IsWBSNodeExpanded bool
 
-	Task_Shapes                    []*TaskShape
-	map_Task_TaskShape             map[*Task]*TaskShape
-	TasksWhoseNodeIsExpanded       []*Task // to be made private once in production (no need to persist)ExpandableNodeObject
+	Task_Shapes                         []*TaskShape
+	map_Task_TaskShape                  map[*Task]*TaskShape
+	TasksWhoseNodeIsExpanded            []*Task // to be made private once in production (no need to persist)ExpandableNodeObject
 	TasksWhoseInputNodeIsExpanded       []*Task
 	TasksWhoseOutputNodeIsExpanded      []*Task
 	TasksWhosePredecessorNodeIsExpanded []*Task
@@ -174,6 +176,13 @@ func (d *Diagram) GetDefaultBoxWidth() float64 {
 
 func (d *Diagram) GetDiagramListElement() AbstractType {
 	return d.diagramListElement
+}
+
+func (d *Diagram) GetTaskRect(task *Task) *svg.Rect {
+	if d.map_Task_Rect == nil {
+		return nil
+	}
+	return d.map_Task_Rect[task]
 }
 
 func (d *Diagram) SetDiagramListElement(v AbstractType) {

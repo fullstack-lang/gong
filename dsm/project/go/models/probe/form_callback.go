@@ -136,6 +136,10 @@ func saveDiagramFields(
 			FormDivTimeFieldToField(&(_instance.ComputedEnd), formDiv, false)
 		case "ComputedDuration":
 			FormDivBasicFieldToField(&(_instance.ComputedDuration), formDiv)
+		case "DrawVerticalTimeLines":
+			FormDivBasicFieldToField(&(_instance.DrawVerticalTimeLines), formDiv)
+		case "HideWeekendsPeriod":
+			FormDivBasicFieldToField(&(_instance.HideWeekendsPeriod), formDiv)
 		case "UseManualStartAndEndDates":
 			FormDivBasicFieldToField(&(_instance.UseManualStartAndEndDates), formDiv)
 		case "ManualStart":
@@ -172,8 +176,6 @@ func saveDiagramFields(
 			FormDivBasicFieldToField(&(_instance.TimeLine_Stroke), formDiv)
 		case "TimeLine_StrokeWidth":
 			FormDivBasicFieldToField(&(_instance.TimeLine_StrokeWidth), formDiv)
-		case "DrawVerticalTimeLines":
-			FormDivBasicFieldToField(&(_instance.DrawVerticalTimeLines), formDiv)
 		case "Group_Stroke":
 			FormDivBasicFieldToField(&(_instance.Group_Stroke), formDiv)
 		case "Group_StrokeWidth":

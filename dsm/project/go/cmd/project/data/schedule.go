@@ -67,6 +67,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-05-15 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ComputedDuration = 11577600000000000
+	__Diagram__00000000_.DrawVerticalTimeLines = true
+	__Diagram__00000000_.HideWeekendsPeriod = false
 	__Diagram__00000000_.UseManualStartAndEndDates = false
 	__Diagram__00000000_.ManualStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ManualEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-01 00:00:00 +0000 UTC")
@@ -85,7 +87,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.TimeLine_FillOpacity = 0.100000
 	__Diagram__00000000_.TimeLine_Stroke = `grey`
 	__Diagram__00000000_.TimeLine_StrokeWidth = 1.000000
-	__Diagram__00000000_.DrawVerticalTimeLines = false
 	__Diagram__00000000_.Group_Stroke = `black`
 	__Diagram__00000000_.Group_StrokeWidth = 1.000000
 	__Diagram__00000000_.Group_StrokeDashArray = `2 2`
@@ -113,6 +114,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000001_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000001_.ComputedDuration = 0
+	__Diagram__00000001_.DrawVerticalTimeLines = false
+	__Diagram__00000001_.HideWeekendsPeriod = false
 	__Diagram__00000001_.UseManualStartAndEndDates = false
 	__Diagram__00000001_.ManualStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000001_.ManualEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
@@ -131,7 +134,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.TimeLine_FillOpacity = 0.000000
 	__Diagram__00000001_.TimeLine_Stroke = ``
 	__Diagram__00000001_.TimeLine_StrokeWidth = 0.000000
-	__Diagram__00000001_.DrawVerticalTimeLines = false
 	__Diagram__00000001_.Group_Stroke = ``
 	__Diagram__00000001_.Group_StrokeWidth = 0.000000
 	__Diagram__00000001_.Group_StrokeDashArray = ``
@@ -276,11 +278,11 @@ func _(stage *models.Stage) {
 	__TaskOutputShape__00000000_.IsHidden = false
 
 	__TaskPredecessorShape__00000000_.Name = `gantt-Task 1 (before task 2)-Task 2`
-	__TaskPredecessorShape__00000000_.StartRatio = 0.706784
+	__TaskPredecessorShape__00000000_.StartRatio = 0.675108
 	__TaskPredecessorShape__00000000_.EndRatio = 0.500000
-	__TaskPredecessorShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskPredecessorShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskPredecessorShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskPredecessorShape__00000000_.CornerOffsetRatio = 1.125108
+	__TaskPredecessorShape__00000000_.CornerOffsetRatio = 1.104369
 	__TaskPredecessorShape__00000000_.IsHidden = false
 
 	__TaskShape__00000000_.Name = `gantt-Task 1 (before task 2)`

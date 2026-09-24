@@ -6076,6 +6076,14 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeIntDuration,
 		},
 		{
+			Name:               "DrawVerticalTimeLines",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "HideWeekendsPeriod",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "UseManualStartAndEndDates",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -6147,10 +6155,6 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "TimeLine_StrokeWidth",
 			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "DrawVerticalTimeLines",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "Group_Stroke",
@@ -7580,6 +7584,14 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		} else {
 			res.valueString = fmt.Sprintf("%s\n", diagram.ComputedDuration.String())
 		}
+	case "DrawVerticalTimeLines":
+		res.valueString = fmt.Sprintf("%t", diagram.DrawVerticalTimeLines)
+		res.valueBool = diagram.DrawVerticalTimeLines
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "HideWeekendsPeriod":
+		res.valueString = fmt.Sprintf("%t", diagram.HideWeekendsPeriod)
+		res.valueBool = diagram.HideWeekendsPeriod
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "UseManualStartAndEndDates":
 		res.valueString = fmt.Sprintf("%t", diagram.UseManualStartAndEndDates)
 		res.valueBool = diagram.UseManualStartAndEndDates
@@ -7643,10 +7655,6 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%f", diagram.TimeLine_StrokeWidth)
 		res.valueFloat = diagram.TimeLine_StrokeWidth
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "DrawVerticalTimeLines":
-		res.valueString = fmt.Sprintf("%t", diagram.DrawVerticalTimeLines)
-		res.valueBool = diagram.DrawVerticalTimeLines
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Group_Stroke":
 		res.valueString = diagram.Group_Stroke
 	case "Group_StrokeWidth":
