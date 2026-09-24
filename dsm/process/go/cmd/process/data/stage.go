@@ -260,187 +260,187 @@ func _(stage *models.Stage) {
 	__ControlFlow__00000009_.IsExpanded = false
 
 	__ControlFlowShape__00000000_.Name = `"Start Order Desk" to "Receive & Validate Order"`
-	__ControlFlowShape__00000000_.StartRatio = 0.500000
-	__ControlFlowShape__00000000_.EndRatio = 0.500000
+	__ControlFlowShape__00000000_.StartRatio = 0.966980
+	__ControlFlowShape__00000000_.EndRatio = 0.495282
 	__ControlFlowShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000000_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000000_.CornerOffsetRatio = 2.400433
 	__ControlFlowShape__00000000_.IsHidden = false
 
 	__ControlFlowShape__00000001_.Name = `"Receive & Validate Order" to "Confirm Sales Order"`
 	__ControlFlowShape__00000001_.StartRatio = 0.500000
-	__ControlFlowShape__00000001_.EndRatio = 0.500000
+	__ControlFlowShape__00000001_.EndRatio = 0.521369
 	__ControlFlowShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000001_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000001_.CornerOffsetRatio = 1.292441
 	__ControlFlowShape__00000001_.IsHidden = false
 
 	__ControlFlowShape__00000002_.Name = `"Confirm Sales Order" to "End Order Desk"`
 	__ControlFlowShape__00000002_.StartRatio = 0.500000
-	__ControlFlowShape__00000002_.EndRatio = 0.500000
+	__ControlFlowShape__00000002_.EndRatio = 0.848124
 	__ControlFlowShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000002_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000002_.CornerOffsetRatio = 1.261672
 	__ControlFlowShape__00000002_.IsHidden = false
 
 	__ControlFlowShape__00000003_.Name = `"Start Logistics" to "Check & Reserve Inventory"`
-	__ControlFlowShape__00000003_.StartRatio = 0.500000
-	__ControlFlowShape__00000003_.EndRatio = 0.500000
+	__ControlFlowShape__00000003_.StartRatio = 1.000000
+	__ControlFlowShape__00000003_.EndRatio = 0.538761
 	__ControlFlowShape__00000003_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000003_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000003_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000003_.CornerOffsetRatio = 5.200433
 	__ControlFlowShape__00000003_.IsHidden = false
 
 	__ControlFlowShape__00000004_.Name = `"Check & Reserve Inventory" to "Pick & Pack Products"`
 	__ControlFlowShape__00000004_.StartRatio = 0.500000
-	__ControlFlowShape__00000004_.EndRatio = 0.500000
+	__ControlFlowShape__00000004_.EndRatio = 0.494580
 	__ControlFlowShape__00000004_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000004_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000004_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000004_.CornerOffsetRatio = 1.307826
 	__ControlFlowShape__00000004_.IsHidden = false
 
 	__ControlFlowShape__00000005_.Name = `"Pick & Pack Products" to "Dispatch & Ship Goods"`
 	__ControlFlowShape__00000005_.StartRatio = 0.500000
-	__ControlFlowShape__00000005_.EndRatio = 0.500000
+	__ControlFlowShape__00000005_.EndRatio = 0.529363
 	__ControlFlowShape__00000005_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000005_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000005_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000005_.CornerOffsetRatio = 1.369364
 	__ControlFlowShape__00000005_.IsHidden = false
 
 	__ControlFlowShape__00000006_.Name = `"Dispatch & Ship Goods" to "End Logistics"`
 	__ControlFlowShape__00000006_.StartRatio = 0.500000
-	__ControlFlowShape__00000006_.EndRatio = 0.500000
+	__ControlFlowShape__00000006_.EndRatio = 0.842618
 	__ControlFlowShape__00000006_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000006_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000006_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000006_.CornerOffsetRatio = 1.307826
 	__ControlFlowShape__00000006_.IsHidden = false
 
 	__ControlFlowShape__00000007_.Name = `"Start Finance" to "Generate Commercial Invoice"`
-	__ControlFlowShape__00000007_.StartRatio = 0.500000
+	__ControlFlowShape__00000007_.StartRatio = 1.000000
 	__ControlFlowShape__00000007_.EndRatio = 0.500000
 	__ControlFlowShape__00000007_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000007_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000007_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000007_.CornerOffsetRatio = 6.050433
 	__ControlFlowShape__00000007_.IsHidden = false
 
 	__ControlFlowShape__00000008_.Name = `"Generate Commercial Invoice" to "Process Payment & Settle Account"`
 	__ControlFlowShape__00000008_.StartRatio = 0.500000
-	__ControlFlowShape__00000008_.EndRatio = 0.500000
+	__ControlFlowShape__00000008_.EndRatio = 0.486587
 	__ControlFlowShape__00000008_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000008_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000008_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000008_.CornerOffsetRatio = 1.292441
 	__ControlFlowShape__00000008_.IsHidden = false
 
 	__ControlFlowShape__00000009_.Name = `"Process Payment & Settle Account" to "Close Order & Archive Record"`
-	__ControlFlowShape__00000009_.StartRatio = 0.500000
-	__ControlFlowShape__00000009_.EndRatio = 0.500000
+	__ControlFlowShape__00000009_.StartRatio = 0.517021
+	__ControlFlowShape__00000009_.EndRatio = 0.871857
 	__ControlFlowShape__00000009_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000009_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000009_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000009_.CornerOffsetRatio = 1.323210
 	__ControlFlowShape__00000009_.IsHidden = false
 
 	__ControlFlowShape__00000010_.Name = `"Start Order Desk" to "Receive & Validate Order"`
 	__ControlFlowShape__00000010_.StartRatio = 0.500000
-	__ControlFlowShape__00000010_.EndRatio = 0.500000
+	__ControlFlowShape__00000010_.EndRatio = 0.512674
 	__ControlFlowShape__00000010_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000010_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000010_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000010_.CornerOffsetRatio = 1.900433
 	__ControlFlowShape__00000010_.IsHidden = false
 
 	__ControlFlowShape__00000011_.Name = `"Receive & Validate Order" to "Confirm Sales Order"`
 	__ControlFlowShape__00000011_.StartRatio = 0.500000
-	__ControlFlowShape__00000011_.EndRatio = 0.500000
+	__ControlFlowShape__00000011_.EndRatio = 0.517021
 	__ControlFlowShape__00000011_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000011_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000011_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000011_.CornerOffsetRatio = 1.492441
 	__ControlFlowShape__00000011_.IsHidden = false
 
 	__ControlFlowShape__00000012_.Name = `"Confirm Sales Order" to "End Order Desk"`
 	__ControlFlowShape__00000012_.StartRatio = 0.500000
-	__ControlFlowShape__00000012_.EndRatio = 0.500000
+	__ControlFlowShape__00000012_.EndRatio = 0.764847
 	__ControlFlowShape__00000012_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000012_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000012_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000012_.CornerOffsetRatio = 1.353979
 	__ControlFlowShape__00000012_.IsHidden = false
 
 	__ControlFlowShape__00000013_.Name = `"Start Logistics" to "Check & Reserve Inventory"`
-	__ControlFlowShape__00000013_.StartRatio = 0.500000
+	__ControlFlowShape__00000013_.StartRatio = 0.988697
 	__ControlFlowShape__00000013_.EndRatio = 0.500000
 	__ControlFlowShape__00000013_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000013_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000013_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000013_.CornerOffsetRatio = 4.800433
 	__ControlFlowShape__00000013_.IsHidden = false
 
 	__ControlFlowShape__00000014_.Name = `"Check & Reserve Inventory" to "Pick & Pack Products"`
 	__ControlFlowShape__00000014_.StartRatio = 0.500000
-	__ControlFlowShape__00000014_.EndRatio = 0.500000
+	__ControlFlowShape__00000014_.EndRatio = 0.521369
 	__ControlFlowShape__00000014_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000014_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000014_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000014_.CornerOffsetRatio = 1.353979
 	__ControlFlowShape__00000014_.IsHidden = false
 
 	__ControlFlowShape__00000015_.Name = `"Pick & Pack Products" to "Dispatch & Ship Goods"`
 	__ControlFlowShape__00000015_.StartRatio = 0.500000
-	__ControlFlowShape__00000015_.EndRatio = 0.500000
+	__ControlFlowShape__00000015_.EndRatio = 0.534413
 	__ControlFlowShape__00000015_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000015_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000015_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000015_.CornerOffsetRatio = 1.277056
 	__ControlFlowShape__00000015_.IsHidden = false
 
 	__ControlFlowShape__00000016_.Name = `"Dispatch & Ship Goods" to "End Logistics"`
 	__ControlFlowShape__00000016_.StartRatio = 0.500000
-	__ControlFlowShape__00000016_.EndRatio = 0.500000
+	__ControlFlowShape__00000016_.EndRatio = 0.801035
 	__ControlFlowShape__00000016_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000016_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000016_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000016_.CornerOffsetRatio = 1.277056
 	__ControlFlowShape__00000016_.IsHidden = false
 
 	__ControlFlowShape__00000017_.Name = `"Start Order Desk" to "Receive & Validate Order"`
-	__ControlFlowShape__00000017_.StartRatio = 0.500000
-	__ControlFlowShape__00000017_.EndRatio = 0.492557
+	__ControlFlowShape__00000017_.StartRatio = 1.000000
+	__ControlFlowShape__00000017_.EndRatio = 0.477189
 	__ControlFlowShape__00000017_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000017_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000017_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000017_.CornerOffsetRatio = 2.500433
 	__ControlFlowShape__00000017_.IsHidden = false
 
 	__ControlFlowShape__00000018_.Name = `"Receive & Validate Order" to "Confirm Sales Order"`
 	__ControlFlowShape__00000018_.StartRatio = 0.500000
-	__ControlFlowShape__00000018_.EndRatio = 0.500000
+	__ControlFlowShape__00000018_.EndRatio = 0.520667
 	__ControlFlowShape__00000018_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000018_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000018_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000018_.CornerOffsetRatio = 1.338595
 	__ControlFlowShape__00000018_.IsHidden = false
 
 	__ControlFlowShape__00000019_.Name = `"Confirm Sales Order" to "End Order Desk"`
 	__ControlFlowShape__00000019_.StartRatio = 0.500000
-	__ControlFlowShape__00000019_.EndRatio = 0.500000
+	__ControlFlowShape__00000019_.EndRatio = 0.855611
 	__ControlFlowShape__00000019_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000019_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000019_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000019_.CornerOffsetRatio = 1.400133
 	__ControlFlowShape__00000019_.IsHidden = false
 
 	__ControlFlowShape__00000020_.Name = `"Start Finance" to "Generate Commercial Invoice"`
-	__ControlFlowShape__00000020_.StartRatio = 0.500000
-	__ControlFlowShape__00000020_.EndRatio = 0.500000
+	__ControlFlowShape__00000020_.StartRatio = 0.980465
+	__ControlFlowShape__00000020_.EndRatio = 0.520667
 	__ControlFlowShape__00000020_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000020_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000020_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000020_.CornerOffsetRatio = 6.300433
 	__ControlFlowShape__00000020_.IsHidden = false
 
 	__ControlFlowShape__00000021_.Name = `"Generate Commercial Invoice" to "Process Payment & Settle Account"`
 	__ControlFlowShape__00000021_.StartRatio = 0.500000
-	__ControlFlowShape__00000021_.EndRatio = 0.500000
+	__ControlFlowShape__00000021_.EndRatio = 0.511971
 	__ControlFlowShape__00000021_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000021_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000021_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000021_.CornerOffsetRatio = 1.384749
 	__ControlFlowShape__00000021_.IsHidden = false
 
 	__ControlFlowShape__00000022_.Name = `"Process Payment & Settle Account" to "Close Order & Archive Record"`
 	__ControlFlowShape__00000022_.StartRatio = 0.500000
-	__ControlFlowShape__00000022_.EndRatio = 0.500000
+	__ControlFlowShape__00000022_.EndRatio = 0.850983
 	__ControlFlowShape__00000022_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000022_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000022_.CornerOffsetRatio = 0.000000
+	__ControlFlowShape__00000022_.CornerOffsetRatio = 1.338595
 	__ControlFlowShape__00000022_.IsHidden = false
 
 	__Data__00000000_.Name = `Purchase Order`
@@ -541,123 +541,123 @@ func _(stage *models.Stage) {
 	__DataFlow__00000006_.IsDatasNodeExpanded = false
 
 	__DataFlowShape__00000000_.Name = `Customer to Receive & Validate Order`
-	__DataFlowShape__00000000_.StartRatio = 0.500000
-	__DataFlowShape__00000000_.EndRatio = 0.500000
+	__DataFlowShape__00000000_.StartRatio = 0.080011
+	__DataFlowShape__00000000_.EndRatio = 0.507826
 	__DataFlowShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000000_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000000_.CornerOffsetRatio = 7.282983
 	__DataFlowShape__00000000_.IsHidden = false
 
 	__DataFlowShape__00000001_.Name = `Confirm Sales Order to Customer`
-	__DataFlowShape__00000001_.StartRatio = 0.500000
-	__DataFlowShape__00000001_.EndRatio = 0.500000
+	__DataFlowShape__00000001_.StartRatio = 0.538595
+	__DataFlowShape__00000001_.EndRatio = 0.204859
 	__DataFlowShape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000001_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000001_.CornerOffsetRatio = -0.826457
 	__DataFlowShape__00000001_.IsHidden = false
 
 	__DataFlowShape__00000002_.Name = `"Confirm Sales Order" to "Check & Reserve Inventory"`
-	__DataFlowShape__00000002_.StartRatio = 0.500000
-	__DataFlowShape__00000002_.EndRatio = 0.500000
+	__DataFlowShape__00000002_.StartRatio = 0.230903
+	__DataFlowShape__00000002_.EndRatio = 0.384749
 	__DataFlowShape__00000002_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000002_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000002_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000002_.CornerOffsetRatio = 1.230065
 	__DataFlowShape__00000002_.IsHidden = false
 
 	__DataFlowShape__00000003_.Name = `Dispatch & Ship Goods to Logistics Carrier`
-	__DataFlowShape__00000003_.StartRatio = 0.500000
-	__DataFlowShape__00000003_.EndRatio = 0.500000
+	__DataFlowShape__00000003_.StartRatio = 0.477056
+	__DataFlowShape__00000003_.EndRatio = 0.133352
 	__DataFlowShape__00000003_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000003_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000003_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000003_.CornerOffsetRatio = 2.695282
 	__DataFlowShape__00000003_.IsHidden = false
 
 	__DataFlowShape__00000004_.Name = `"Dispatch & Ship Goods" to "Generate Commercial Invoice"`
-	__DataFlowShape__00000004_.StartRatio = 0.500000
-	__DataFlowShape__00000004_.EndRatio = 0.500000
+	__DataFlowShape__00000004_.StartRatio = 0.877056
+	__DataFlowShape__00000004_.EndRatio = 0.215518
 	__DataFlowShape__00000004_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000004_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000004_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000004_.CornerOffsetRatio = 1.382239
 	__DataFlowShape__00000004_.IsHidden = false
 
 	__DataFlowShape__00000005_.Name = `Generate Commercial Invoice to Customer`
-	__DataFlowShape__00000005_.StartRatio = 0.500000
-	__DataFlowShape__00000005_.EndRatio = 0.500000
+	__DataFlowShape__00000005_.StartRatio = 0.753979
+	__DataFlowShape__00000005_.EndRatio = 0.666677
 	__DataFlowShape__00000005_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000005_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000005_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000005_.CornerOffsetRatio = -0.756892
 	__DataFlowShape__00000005_.IsHidden = false
 
 	__DataFlowShape__00000006_.Name = `Customer to Process Payment & Settle Account`
-	__DataFlowShape__00000006_.StartRatio = 0.500000
-	__DataFlowShape__00000006_.EndRatio = 0.500000
+	__DataFlowShape__00000006_.StartRatio = 0.801223
+	__DataFlowShape__00000006_.EndRatio = 0.661672
 	__DataFlowShape__00000006_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000006_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000006_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000006_.CornerOffsetRatio = 147.082983
 	__DataFlowShape__00000006_.IsHidden = false
 
 	__DataFlowShape__00000007_.Name = `Customer to Receive & Validate Order`
-	__DataFlowShape__00000007_.StartRatio = 0.500000
-	__DataFlowShape__00000007_.EndRatio = 0.500000
+	__DataFlowShape__00000007_.StartRatio = 0.091983
+	__DataFlowShape__00000007_.EndRatio = 0.538595
 	__DataFlowShape__00000007_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000007_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000007_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000007_.CornerOffsetRatio = 4.682983
 	__DataFlowShape__00000007_.IsHidden = false
 
 	__DataFlowShape__00000008_.Name = `Confirm Sales Order to Customer`
 	__DataFlowShape__00000008_.StartRatio = 0.500000
-	__DataFlowShape__00000008_.EndRatio = 0.500000
+	__DataFlowShape__00000008_.EndRatio = 0.283224
 	__DataFlowShape__00000008_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000008_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000008_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000008_.CornerOffsetRatio = -0.748196
 	__DataFlowShape__00000008_.IsHidden = false
 
 	__DataFlowShape__00000009_.Name = `"Confirm Sales Order" to "Check & Reserve Inventory"`
 	__DataFlowShape__00000009_.StartRatio = 0.500000
-	__DataFlowShape__00000009_.EndRatio = 0.500000
+	__DataFlowShape__00000009_.EndRatio = 0.369364
 	__DataFlowShape__00000009_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000009_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000009_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000009_.CornerOffsetRatio = 1.156152
 	__DataFlowShape__00000009_.IsHidden = false
 
 	__DataFlowShape__00000010_.Name = `Dispatch & Ship Goods to Logistics Carrier`
 	__DataFlowShape__00000010_.StartRatio = 0.500000
-	__DataFlowShape__00000010_.EndRatio = 0.500000
+	__DataFlowShape__00000010_.EndRatio = 0.342880
 	__DataFlowShape__00000010_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000010_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000010_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000010_.CornerOffsetRatio = 1.190934
 	__DataFlowShape__00000010_.IsHidden = false
 
 	__DataFlowShape__00000011_.Name = `Customer to Receive & Validate Order`
-	__DataFlowShape__00000011_.StartRatio = 0.500000
+	__DataFlowShape__00000011_.StartRatio = 0.097451
 	__DataFlowShape__00000011_.EndRatio = 0.500000
 	__DataFlowShape__00000011_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000011_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000011_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000011_.CornerOffsetRatio = 12.650684
 	__DataFlowShape__00000011_.IsHidden = false
 
 	__DataFlowShape__00000012_.Name = `Confirm Sales Order to Customer`
 	__DataFlowShape__00000012_.StartRatio = 0.500000
-	__DataFlowShape__00000012_.EndRatio = 0.500000
+	__DataFlowShape__00000012_.EndRatio = 0.305998
 	__DataFlowShape__00000012_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000012_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000012_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000012_.CornerOffsetRatio = -0.757594
 	__DataFlowShape__00000012_.IsHidden = false
 
 	__DataFlowShape__00000013_.Name = `Generate Commercial Invoice to Customer`
-	__DataFlowShape__00000013_.StartRatio = 0.500000
-	__DataFlowShape__00000013_.EndRatio = 0.500000
+	__DataFlowShape__00000013_.StartRatio = 0.800133
+	__DataFlowShape__00000013_.EndRatio = 0.417109
 	__DataFlowShape__00000013_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000013_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000013_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000013_.CornerOffsetRatio = -0.957594
 	__DataFlowShape__00000013_.IsHidden = false
 
 	__DataFlowShape__00000014_.Name = `Customer to Process Payment & Settle Account`
-	__DataFlowShape__00000014_.StartRatio = 0.500000
-	__DataFlowShape__00000014_.EndRatio = 0.500000
+	__DataFlowShape__00000014_.StartRatio = 0.653006
+	__DataFlowShape__00000014_.EndRatio = 0.538595
 	__DataFlowShape__00000014_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000014_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000014_.CornerOffsetRatio = 0.000000
+	__DataFlowShape__00000014_.CornerOffsetRatio = 54.250684
 	__DataFlowShape__00000014_.IsHidden = false
 
 	__DataShape__00000000_.Name = `Customer to Receive & Validate Order-Customer to Receive & Validate Order-Order to Cash - Full Process`
@@ -694,13 +694,13 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.Description = `End-to-end view of the Order-to-Cash process across Sales, Logistics, and Finance with Customer and Carrier touchpoints.`
 	__DiagramProcess__00000000_.ComputedPrefix = ``
 	__DiagramProcess__00000000_.IsExpanded = false
-	__DiagramProcess__00000000_.IsChecked = true
+	__DiagramProcess__00000000_.IsChecked = false
 	__DiagramProcess__00000000_.IsEditable_ = true
 	__DiagramProcess__00000000_.IsShowPrefix = false
 	__DiagramProcess__00000000_.DefaultBoxWidth = 240.000000
 	__DiagramProcess__00000000_.DefaultBoxHeigth = 65.000000
-	__DiagramProcess__00000000_.Width = 1840.000000
-	__DiagramProcess__00000000_.Height = 1330.000000
+	__DiagramProcess__00000000_.Width = 1790.000000
+	__DiagramProcess__00000000_.Height = 1374.000000
 	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000000_.IsParticipantsNodeExpanded = false
 	__DiagramProcess__00000000_.IsExternalParticipantsNodeExpanded = false
@@ -710,13 +710,13 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000001_.Description = `Operational focus on sales order processing and warehouse dispatch.`
 	__DiagramProcess__00000001_.ComputedPrefix = ``
 	__DiagramProcess__00000001_.IsExpanded = false
-	__DiagramProcess__00000001_.IsChecked = false
+	__DiagramProcess__00000001_.IsChecked = true
 	__DiagramProcess__00000001_.IsEditable_ = true
 	__DiagramProcess__00000001_.IsShowPrefix = false
 	__DiagramProcess__00000001_.DefaultBoxWidth = 240.000000
 	__DiagramProcess__00000001_.DefaultBoxHeigth = 65.000000
-	__DiagramProcess__00000001_.Width = 1530.000000
-	__DiagramProcess__00000001_.Height = 1190.000000
+	__DiagramProcess__00000001_.Width = 1485.000000
+	__DiagramProcess__00000001_.Height = 1193.000000
 	__DiagramProcess__00000001_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000001_.IsParticipantsNodeExpanded = false
 	__DiagramProcess__00000001_.IsExternalParticipantsNodeExpanded = false
@@ -731,8 +731,8 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000002_.IsShowPrefix = false
 	__DiagramProcess__00000002_.DefaultBoxWidth = 240.000000
 	__DiagramProcess__00000002_.DefaultBoxHeigth = 65.000000
-	__DiagramProcess__00000002_.Width = 1300.000000
-	__DiagramProcess__00000002_.Height = 1090.000000
+	__DiagramProcess__00000002_.Width = 1304.000000
+	__DiagramProcess__00000002_.Height = 1086.000000
 	__DiagramProcess__00000002_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000002_.IsParticipantsNodeExpanded = false
 	__DiagramProcess__00000002_.IsExternalParticipantsNodeExpanded = false
@@ -740,8 +740,8 @@ func _(stage *models.Stage) {
 
 	__ExternalParticipantShape__00000000_.Name = `Customer-Order to Cash - Full Process`
 	__ExternalParticipantShape__00000000_.IsExpanded = false
-	__ExternalParticipantShape__00000000_.X = 40.000000
-	__ExternalParticipantShape__00000000_.Y = 150.000000
+	__ExternalParticipantShape__00000000_.X = 0.000000
+	__ExternalParticipantShape__00000000_.Y = 152.000000
 	__ExternalParticipantShape__00000000_.Width = 160.000000
 	__ExternalParticipantShape__00000000_.Height = 65.000000
 	__ExternalParticipantShape__00000000_.IsHidden = false
@@ -749,8 +749,8 @@ func _(stage *models.Stage) {
 
 	__ExternalParticipantShape__00000001_.Name = `Logistics Carrier-Order to Cash - Full Process`
 	__ExternalParticipantShape__00000001_.IsExpanded = false
-	__ExternalParticipantShape__00000001_.X = 1370.000000
-	__ExternalParticipantShape__00000001_.Y = 480.000000
+	__ExternalParticipantShape__00000001_.X = 1320.000000
+	__ExternalParticipantShape__00000001_.Y = 525.000000
 	__ExternalParticipantShape__00000001_.Width = 170.000000
 	__ExternalParticipantShape__00000001_.Height = 65.000000
 	__ExternalParticipantShape__00000001_.IsHidden = false
@@ -758,8 +758,8 @@ func _(stage *models.Stage) {
 
 	__ExternalParticipantShape__00000002_.Name = `Customer-Order Fulfillment & Delivery`
 	__ExternalParticipantShape__00000002_.IsExpanded = false
-	__ExternalParticipantShape__00000002_.X = 40.000000
-	__ExternalParticipantShape__00000002_.Y = 150.000000
+	__ExternalParticipantShape__00000002_.X = 23.000000
+	__ExternalParticipantShape__00000002_.Y = 147.000000
 	__ExternalParticipantShape__00000002_.Width = 160.000000
 	__ExternalParticipantShape__00000002_.Height = 65.000000
 	__ExternalParticipantShape__00000002_.IsHidden = false
@@ -767,12 +767,12 @@ func _(stage *models.Stage) {
 
 	__ExternalParticipantShape__00000003_.Name = `Logistics Carrier-Order Fulfillment & Delivery`
 	__ExternalParticipantShape__00000003_.IsExpanded = false
-	__ExternalParticipantShape__00000003_.X = 1060.000000
-	__ExternalParticipantShape__00000003_.Y = 450.000000
+	__ExternalParticipantShape__00000003_.X = 1015.000000
+	__ExternalParticipantShape__00000003_.Y = 573.000000
 	__ExternalParticipantShape__00000003_.Width = 170.000000
-	__ExternalParticipantShape__00000003_.Height = 65.000000
+	__ExternalParticipantShape__00000003_.Height = 72.000000
 	__ExternalParticipantShape__00000003_.IsHidden = false
-	__ExternalParticipantShape__00000003_.TailHeigth = 400.000000
+	__ExternalParticipantShape__00000003_.TailHeigth = 191.000000
 
 	__ExternalParticipantShape__00000004_.Name = `Customer-Invoicing & Payment Settlement`
 	__ExternalParticipantShape__00000004_.IsExpanded = false
@@ -789,7 +789,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsExpanded = false
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
-	__Library__00000000_.NbPixPerCharacter = 8.500000
+	__Library__00000000_.NbPixPerCharacter = 9.000000
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.IsProcessesNodeExpanded = true
 	__Library__00000000_.IsDataFlowsNodeExpanded = false
@@ -927,24 +927,24 @@ func _(stage *models.Stage) {
 
 	__ProcessShape__00000000_.Name = `ProcessShape`
 	__ProcessShape__00000000_.IsExpanded = false
-	__ProcessShape__00000000_.X = 250.000000
-	__ProcessShape__00000000_.Y = 40.000000
+	__ProcessShape__00000000_.X = 235.000000
+	__ProcessShape__00000000_.Y = 20.000000
 	__ProcessShape__00000000_.Width = 1060.000000
-	__ProcessShape__00000000_.Height = 990.000000
+	__ProcessShape__00000000_.Height = 1054.000000
 	__ProcessShape__00000000_.IsHidden = false
 
 	__ProcessShape__00000001_.Name = `ProcessShape`
 	__ProcessShape__00000001_.IsExpanded = false
-	__ProcessShape__00000001_.X = 250.000000
-	__ProcessShape__00000001_.Y = 40.000000
+	__ProcessShape__00000001_.X = 225.000000
+	__ProcessShape__00000001_.Y = 43.000000
 	__ProcessShape__00000001_.Width = 750.000000
 	__ProcessShape__00000001_.Height = 850.000000
 	__ProcessShape__00000001_.IsHidden = false
 
 	__ProcessShape__00000002_.Name = `ProcessShape`
 	__ProcessShape__00000002_.IsExpanded = false
-	__ProcessShape__00000002_.X = 250.000000
-	__ProcessShape__00000002_.Y = 40.000000
+	__ProcessShape__00000002_.X = 254.000000
+	__ProcessShape__00000002_.Y = 36.000000
 	__ProcessShape__00000002_.Width = 750.000000
 	__ProcessShape__00000002_.Height = 750.000000
 	__ProcessShape__00000002_.IsHidden = false
@@ -1087,242 +1087,242 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000000_.Name = `Start Order Desk-Order to Cash - Full Process`
 	__TaskShape__00000000_.IsExpanded = false
-	__TaskShape__00000000_.X = 316.000000
-	__TaskShape__00000000_.Y = 160.000000
-	__TaskShape__00000000_.Width = 230.000000
-	__TaskShape__00000000_.Height = 55.000000
+	__TaskShape__00000000_.X = 269.000000
+	__TaskShape__00000000_.Y = 192.000000
+	__TaskShape__00000000_.Width = 154.000000
+	__TaskShape__00000000_.Height = 20.000000
 	__TaskShape__00000000_.IsHidden = false
 
 	__TaskShape__00000001_.Name = `Receive & Validate Order-Order to Cash - Full Process`
 	__TaskShape__00000001_.IsExpanded = false
-	__TaskShape__00000001_.X = 316.000000
-	__TaskShape__00000001_.Y = 260.000000
+	__TaskShape__00000001_.X = 300.000000
+	__TaskShape__00000001_.Y = 267.000000
 	__TaskShape__00000001_.Width = 230.000000
 	__TaskShape__00000001_.Height = 65.000000
 	__TaskShape__00000001_.IsHidden = false
 
 	__TaskShape__00000002_.Name = `Confirm Sales Order-Order to Cash - Full Process`
 	__TaskShape__00000002_.IsExpanded = false
-	__TaskShape__00000002_.X = 316.000000
-	__TaskShape__00000002_.Y = 380.000000
+	__TaskShape__00000002_.X = 296.000000
+	__TaskShape__00000002_.Y = 359.000000
 	__TaskShape__00000002_.Width = 230.000000
 	__TaskShape__00000002_.Height = 65.000000
 	__TaskShape__00000002_.IsHidden = false
 
 	__TaskShape__00000003_.Name = `End Order Desk-Order to Cash - Full Process`
 	__TaskShape__00000003_.IsExpanded = false
-	__TaskShape__00000003_.X = 316.000000
-	__TaskShape__00000003_.Y = 500.000000
-	__TaskShape__00000003_.Width = 230.000000
-	__TaskShape__00000003_.Height = 55.000000
+	__TaskShape__00000003_.X = 279.000000
+	__TaskShape__00000003_.Y = 584.000000
+	__TaskShape__00000003_.Width = 152.000000
+	__TaskShape__00000003_.Height = 36.000000
 	__TaskShape__00000003_.IsHidden = false
 
 	__TaskShape__00000004_.Name = `Start Logistics-Order to Cash - Full Process`
 	__TaskShape__00000004_.IsExpanded = false
-	__TaskShape__00000004_.X = 669.000000
-	__TaskShape__00000004_.Y = 160.000000
-	__TaskShape__00000004_.Width = 230.000000
-	__TaskShape__00000004_.Height = 55.000000
+	__TaskShape__00000004_.X = 631.000000
+	__TaskShape__00000004_.Y = 228.000000
+	__TaskShape__00000004_.Width = 144.000000
+	__TaskShape__00000004_.Height = 20.000000
 	__TaskShape__00000004_.IsHidden = false
 
 	__TaskShape__00000005_.Name = `Check & Reserve Inventory-Order to Cash - Full Process`
 	__TaskShape__00000005_.IsExpanded = false
-	__TaskShape__00000005_.X = 669.000000
-	__TaskShape__00000005_.Y = 380.000000
+	__TaskShape__00000005_.X = 658.000000
+	__TaskShape__00000005_.Y = 389.000000
 	__TaskShape__00000005_.Width = 230.000000
 	__TaskShape__00000005_.Height = 65.000000
 	__TaskShape__00000005_.IsHidden = false
 
 	__TaskShape__00000006_.Name = `Pick & Pack Products-Order to Cash - Full Process`
 	__TaskShape__00000006_.IsExpanded = false
-	__TaskShape__00000006_.X = 669.000000
-	__TaskShape__00000006_.Y = 500.000000
+	__TaskShape__00000006_.X = 653.000000
+	__TaskShape__00000006_.Y = 507.000000
 	__TaskShape__00000006_.Width = 230.000000
 	__TaskShape__00000006_.Height = 65.000000
 	__TaskShape__00000006_.IsHidden = false
 
 	__TaskShape__00000007_.Name = `Dispatch & Ship Goods-Order to Cash - Full Process`
 	__TaskShape__00000007_.IsExpanded = false
-	__TaskShape__00000007_.X = 669.000000
-	__TaskShape__00000007_.Y = 620.000000
+	__TaskShape__00000007_.X = 653.000000
+	__TaskShape__00000007_.Y = 627.000000
 	__TaskShape__00000007_.Width = 230.000000
 	__TaskShape__00000007_.Height = 65.000000
 	__TaskShape__00000007_.IsHidden = false
 
 	__TaskShape__00000008_.Name = `End Logistics-Order to Cash - Full Process`
 	__TaskShape__00000008_.IsExpanded = false
-	__TaskShape__00000008_.X = 669.000000
-	__TaskShape__00000008_.Y = 740.000000
-	__TaskShape__00000008_.Width = 230.000000
-	__TaskShape__00000008_.Height = 55.000000
+	__TaskShape__00000008_.X = 651.000000
+	__TaskShape__00000008_.Y = 959.000000
+	__TaskShape__00000008_.Width = 135.000000
+	__TaskShape__00000008_.Height = 36.000000
 	__TaskShape__00000008_.IsHidden = false
 
 	__TaskShape__00000009_.Name = `Start Finance-Order to Cash - Full Process`
 	__TaskShape__00000009_.IsExpanded = false
-	__TaskShape__00000009_.X = 1022.000000
-	__TaskShape__00000009_.Y = 160.000000
-	__TaskShape__00000009_.Width = 230.000000
-	__TaskShape__00000009_.Height = 55.000000
+	__TaskShape__00000009_.X = 986.000000
+	__TaskShape__00000009_.Y = 218.000000
+	__TaskShape__00000009_.Width = 134.000000
+	__TaskShape__00000009_.Height = 20.000000
 	__TaskShape__00000009_.IsHidden = false
 
 	__TaskShape__00000010_.Name = `Generate Commercial Invoice-Order to Cash - Full Process`
 	__TaskShape__00000010_.IsExpanded = false
-	__TaskShape__00000010_.X = 1022.000000
-	__TaskShape__00000010_.Y = 620.000000
+	__TaskShape__00000010_.X = 1011.000000
+	__TaskShape__00000010_.Y = 738.000000
 	__TaskShape__00000010_.Width = 230.000000
 	__TaskShape__00000010_.Height = 65.000000
 	__TaskShape__00000010_.IsHidden = false
 
 	__TaskShape__00000011_.Name = `Process Payment & Settle Account-Order to Cash - Full Process`
 	__TaskShape__00000011_.IsExpanded = false
-	__TaskShape__00000011_.X = 1022.000000
-	__TaskShape__00000011_.Y = 740.000000
+	__TaskShape__00000011_.X = 1010.000000
+	__TaskShape__00000011_.Y = 850.000000
 	__TaskShape__00000011_.Width = 230.000000
 	__TaskShape__00000011_.Height = 65.000000
 	__TaskShape__00000011_.IsHidden = false
 
 	__TaskShape__00000012_.Name = `Close Order & Archive Record-Order to Cash - Full Process`
 	__TaskShape__00000012_.IsExpanded = false
-	__TaskShape__00000012_.X = 1022.000000
-	__TaskShape__00000012_.Y = 860.000000
-	__TaskShape__00000012_.Width = 230.000000
-	__TaskShape__00000012_.Height = 65.000000
+	__TaskShape__00000012_.X = 988.000000
+	__TaskShape__00000012_.Y = 959.000000
+	__TaskShape__00000012_.Width = 158.000000
+	__TaskShape__00000012_.Height = 36.000000
 	__TaskShape__00000012_.IsHidden = false
 
 	__TaskShape__00000013_.Name = `Start Order Desk-Order Fulfillment & Delivery`
 	__TaskShape__00000013_.IsExpanded = false
-	__TaskShape__00000013_.X = 316.000000
-	__TaskShape__00000013_.Y = 160.000000
-	__TaskShape__00000013_.Width = 230.000000
-	__TaskShape__00000013_.Height = 55.000000
+	__TaskShape__00000013_.X = 356.000000
+	__TaskShape__00000013_.Y = 181.000000
+	__TaskShape__00000013_.Width = 106.000000
+	__TaskShape__00000013_.Height = 20.000000
 	__TaskShape__00000013_.IsHidden = false
 
 	__TaskShape__00000014_.Name = `Receive & Validate Order-Order Fulfillment & Delivery`
 	__TaskShape__00000014_.IsExpanded = false
-	__TaskShape__00000014_.X = 316.000000
-	__TaskShape__00000014_.Y = 260.000000
+	__TaskShape__00000014_.X = 291.000000
+	__TaskShape__00000014_.Y = 263.000000
 	__TaskShape__00000014_.Width = 230.000000
 	__TaskShape__00000014_.Height = 65.000000
 	__TaskShape__00000014_.IsHidden = false
 
 	__TaskShape__00000015_.Name = `Confirm Sales Order-Order Fulfillment & Delivery`
 	__TaskShape__00000015_.IsExpanded = false
-	__TaskShape__00000015_.X = 316.000000
-	__TaskShape__00000015_.Y = 380.000000
+	__TaskShape__00000015_.X = 291.000000
+	__TaskShape__00000015_.Y = 383.000000
 	__TaskShape__00000015_.Width = 230.000000
 	__TaskShape__00000015_.Height = 65.000000
 	__TaskShape__00000015_.IsHidden = false
 
 	__TaskShape__00000016_.Name = `End Order Desk-Order Fulfillment & Delivery`
 	__TaskShape__00000016_.IsExpanded = false
-	__TaskShape__00000016_.X = 316.000000
-	__TaskShape__00000016_.Y = 500.000000
-	__TaskShape__00000016_.Width = 230.000000
-	__TaskShape__00000016_.Height = 55.000000
+	__TaskShape__00000016_.X = 314.000000
+	__TaskShape__00000016_.Y = 510.000000
+	__TaskShape__00000016_.Width = 111.000000
+	__TaskShape__00000016_.Height = 36.000000
 	__TaskShape__00000016_.IsHidden = false
 
 	__TaskShape__00000017_.Name = `Start Logistics-Order Fulfillment & Delivery`
 	__TaskShape__00000017_.IsExpanded = false
-	__TaskShape__00000017_.X = 669.000000
-	__TaskShape__00000017_.Y = 160.000000
-	__TaskShape__00000017_.Width = 230.000000
-	__TaskShape__00000017_.Height = 55.000000
+	__TaskShape__00000017_.X = 665.000000
+	__TaskShape__00000017_.Y = 177.000000
+	__TaskShape__00000017_.Width = 96.000000
+	__TaskShape__00000017_.Height = 20.000000
 	__TaskShape__00000017_.IsHidden = false
 
 	__TaskShape__00000018_.Name = `Check & Reserve Inventory-Order Fulfillment & Delivery`
 	__TaskShape__00000018_.IsExpanded = false
-	__TaskShape__00000018_.X = 669.000000
-	__TaskShape__00000018_.Y = 380.000000
+	__TaskShape__00000018_.X = 647.000000
+	__TaskShape__00000018_.Y = 451.000000
 	__TaskShape__00000018_.Width = 230.000000
 	__TaskShape__00000018_.Height = 65.000000
 	__TaskShape__00000018_.IsHidden = false
 
 	__TaskShape__00000019_.Name = `Pick & Pack Products-Order Fulfillment & Delivery`
 	__TaskShape__00000019_.IsExpanded = false
-	__TaskShape__00000019_.X = 669.000000
-	__TaskShape__00000019_.Y = 500.000000
+	__TaskShape__00000019_.X = 643.000000
+	__TaskShape__00000019_.Y = 573.000000
 	__TaskShape__00000019_.Width = 230.000000
 	__TaskShape__00000019_.Height = 65.000000
 	__TaskShape__00000019_.IsHidden = false
 
 	__TaskShape__00000020_.Name = `Dispatch & Ship Goods-Order Fulfillment & Delivery`
 	__TaskShape__00000020_.IsExpanded = false
-	__TaskShape__00000020_.X = 669.000000
-	__TaskShape__00000020_.Y = 620.000000
+	__TaskShape__00000020_.X = 644.000000
+	__TaskShape__00000020_.Y = 684.000000
 	__TaskShape__00000020_.Width = 230.000000
 	__TaskShape__00000020_.Height = 65.000000
 	__TaskShape__00000020_.IsHidden = false
 
 	__TaskShape__00000021_.Name = `End Logistics-Order Fulfillment & Delivery`
 	__TaskShape__00000021_.IsExpanded = false
-	__TaskShape__00000021_.X = 669.000000
-	__TaskShape__00000021_.Y = 740.000000
-	__TaskShape__00000021_.Width = 230.000000
-	__TaskShape__00000021_.Height = 55.000000
+	__TaskShape__00000021_.X = 668.000000
+	__TaskShape__00000021_.Y = 809.000000
+	__TaskShape__00000021_.Width = 111.000000
+	__TaskShape__00000021_.Height = 36.000000
 	__TaskShape__00000021_.IsHidden = false
 
 	__TaskShape__00000022_.Name = `Start Order Desk-Invoicing & Payment Settlement`
 	__TaskShape__00000022_.IsExpanded = false
-	__TaskShape__00000022_.X = 316.000000
-	__TaskShape__00000022_.Y = 160.000000
-	__TaskShape__00000022_.Width = 230.000000
-	__TaskShape__00000022_.Height = 55.000000
+	__TaskShape__00000022_.X = 340.000000
+	__TaskShape__00000022_.Y = 173.000000
+	__TaskShape__00000022_.Width = 95.000000
+	__TaskShape__00000022_.Height = 20.000000
 	__TaskShape__00000022_.IsHidden = false
 
 	__TaskShape__00000023_.Name = `Receive & Validate Order-Invoicing & Payment Settlement`
 	__TaskShape__00000023_.IsExpanded = false
-	__TaskShape__00000023_.X = 316.000000
-	__TaskShape__00000023_.Y = 260.000000
+	__TaskShape__00000023_.X = 320.000000
+	__TaskShape__00000023_.Y = 256.000000
 	__TaskShape__00000023_.Width = 230.000000
 	__TaskShape__00000023_.Height = 65.000000
 	__TaskShape__00000023_.IsHidden = false
 
 	__TaskShape__00000024_.Name = `Confirm Sales Order-Invoicing & Payment Settlement`
 	__TaskShape__00000024_.IsExpanded = false
-	__TaskShape__00000024_.X = 316.000000
-	__TaskShape__00000024_.Y = 380.000000
+	__TaskShape__00000024_.X = 320.000000
+	__TaskShape__00000024_.Y = 376.000000
 	__TaskShape__00000024_.Width = 230.000000
 	__TaskShape__00000024_.Height = 65.000000
 	__TaskShape__00000024_.IsHidden = false
 
 	__TaskShape__00000025_.Name = `End Order Desk-Invoicing & Payment Settlement`
 	__TaskShape__00000025_.IsExpanded = false
-	__TaskShape__00000025_.X = 316.000000
-	__TaskShape__00000025_.Y = 500.000000
-	__TaskShape__00000025_.Width = 230.000000
-	__TaskShape__00000025_.Height = 55.000000
+	__TaskShape__00000025_.X = 291.000000
+	__TaskShape__00000025_.Y = 505.000000
+	__TaskShape__00000025_.Width = 161.000000
+	__TaskShape__00000025_.Height = 36.000000
 	__TaskShape__00000025_.IsHidden = false
 
 	__TaskShape__00000026_.Name = `Start Finance-Invoicing & Payment Settlement`
 	__TaskShape__00000026_.IsExpanded = false
-	__TaskShape__00000026_.X = 669.000000
-	__TaskShape__00000026_.Y = 160.000000
-	__TaskShape__00000026_.Width = 230.000000
-	__TaskShape__00000026_.Height = 55.000000
+	__TaskShape__00000026_.X = 715.000000
+	__TaskShape__00000026_.Y = 182.000000
+	__TaskShape__00000026_.Width = 78.000000
+	__TaskShape__00000026_.Height = 20.000000
 	__TaskShape__00000026_.IsHidden = false
 
 	__TaskShape__00000027_.Name = `Generate Commercial Invoice-Invoicing & Payment Settlement`
 	__TaskShape__00000027_.IsExpanded = false
-	__TaskShape__00000027_.X = 669.000000
-	__TaskShape__00000027_.Y = 380.000000
+	__TaskShape__00000027_.X = 672.000000
+	__TaskShape__00000027_.Y = 427.000000
 	__TaskShape__00000027_.Width = 230.000000
 	__TaskShape__00000027_.Height = 65.000000
 	__TaskShape__00000027_.IsHidden = false
 
 	__TaskShape__00000028_.Name = `Process Payment & Settle Account-Invoicing & Payment Settlement`
 	__TaskShape__00000028_.IsExpanded = false
-	__TaskShape__00000028_.X = 669.000000
-	__TaskShape__00000028_.Y = 500.000000
+	__TaskShape__00000028_.X = 662.000000
+	__TaskShape__00000028_.Y = 582.000000
 	__TaskShape__00000028_.Width = 230.000000
 	__TaskShape__00000028_.Height = 65.000000
 	__TaskShape__00000028_.IsHidden = false
 
 	__TaskShape__00000029_.Name = `Close Order & Archive Record-Invoicing & Payment Settlement`
 	__TaskShape__00000029_.IsExpanded = false
-	__TaskShape__00000029_.X = 669.000000
-	__TaskShape__00000029_.Y = 620.000000
-	__TaskShape__00000029_.Width = 230.000000
-	__TaskShape__00000029_.Height = 65.000000
+	__TaskShape__00000029_.X = 641.000000
+	__TaskShape__00000029_.Y = 707.000000
+	__TaskShape__00000029_.Width = 156.000000
+	__TaskShape__00000029_.Height = 36.000000
 	__TaskShape__00000029_.IsHidden = false
 
 	// insertion point for setup of pointers
