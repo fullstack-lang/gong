@@ -567,7 +567,19 @@ type Task_WOP struct {
 
 	End time.Time
 
+	IsMilestone bool
+
 	DependencyType DependencyTypeEnum
+
+	DependencyDurationYears float64
+
+	DependencyDurationMonths float64
+
+	DependencyDurationWeeks float64
+
+	DependencyDurationDays float64
+
+	DependencyDurationHours float64
 
 	DurationYears float64
 
@@ -580,8 +592,6 @@ type Task_WOP struct {
 	DurationHours float64
 
 	IsEndDateComputedFromDuration bool
-
-	IsMilestone bool
 
 	IsWithCompletion bool
 
@@ -614,14 +624,19 @@ func (from *Task) GongCopyBasicFields(to *Task) {
 	to.Description = from.Description
 	to.Start = from.Start
 	to.End = from.End
+	to.IsMilestone = from.IsMilestone
 	to.DependencyType = from.DependencyType
+	to.DependencyDurationYears = from.DependencyDurationYears
+	to.DependencyDurationMonths = from.DependencyDurationMonths
+	to.DependencyDurationWeeks = from.DependencyDurationWeeks
+	to.DependencyDurationDays = from.DependencyDurationDays
+	to.DependencyDurationHours = from.DependencyDurationHours
 	to.DurationYears = from.DurationYears
 	to.DurationMonths = from.DurationMonths
 	to.DurationWeeks = from.DurationWeeks
 	to.DurationDays = from.DurationDays
 	to.DurationHours = from.DurationHours
 	to.IsEndDateComputedFromDuration = from.IsEndDateComputedFromDuration
-	to.IsMilestone = from.IsMilestone
 	to.IsWithCompletion = from.IsWithCompletion
 	to.Completion = from.Completion
 	to.DisplayVerticalBar = from.DisplayVerticalBar

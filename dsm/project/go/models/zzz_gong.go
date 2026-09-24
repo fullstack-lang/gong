@@ -7020,6 +7020,10 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
+			Name:               "IsMilestone",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "Predecessors",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Task",
@@ -7028,6 +7032,26 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "DependencyType",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "DependencyTypeEnum",
+		},
+		{
+			Name:               "DependencyDurationYears",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "DependencyDurationMonths",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "DependencyDurationWeeks",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "DependencyDurationDays",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "DependencyDurationHours",
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "DurationYears",
@@ -7051,10 +7075,6 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsEndDateComputedFromDuration",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsMilestone",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -8600,6 +8620,10 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = task.Start.String()
 	case "End":
 		res.valueString = task.End.String()
+	case "IsMilestone":
+		res.valueString = fmt.Sprintf("%t", task.IsMilestone)
+		res.valueBool = task.IsMilestone
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Predecessors":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range task.Predecessors {
@@ -8613,6 +8637,26 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "DependencyType":
 		enum := task.DependencyType
 		res.valueString = enum.ToCodeString()
+	case "DependencyDurationYears":
+		res.valueString = fmt.Sprintf("%f", task.DependencyDurationYears)
+		res.valueFloat = task.DependencyDurationYears
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DependencyDurationMonths":
+		res.valueString = fmt.Sprintf("%f", task.DependencyDurationMonths)
+		res.valueFloat = task.DependencyDurationMonths
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DependencyDurationWeeks":
+		res.valueString = fmt.Sprintf("%f", task.DependencyDurationWeeks)
+		res.valueFloat = task.DependencyDurationWeeks
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DependencyDurationDays":
+		res.valueString = fmt.Sprintf("%f", task.DependencyDurationDays)
+		res.valueFloat = task.DependencyDurationDays
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DependencyDurationHours":
+		res.valueString = fmt.Sprintf("%f", task.DependencyDurationHours)
+		res.valueFloat = task.DependencyDurationHours
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "DurationYears":
 		res.valueString = fmt.Sprintf("%f", task.DurationYears)
 		res.valueFloat = task.DurationYears
@@ -8636,10 +8680,6 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "IsEndDateComputedFromDuration":
 		res.valueString = fmt.Sprintf("%t", task.IsEndDateComputedFromDuration)
 		res.valueBool = task.IsEndDateComputedFromDuration
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsMilestone":
-		res.valueString = fmt.Sprintf("%t", task.IsMilestone)
-		res.valueBool = task.IsMilestone
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Inputs":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers

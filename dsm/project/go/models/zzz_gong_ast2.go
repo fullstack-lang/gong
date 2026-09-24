@@ -1321,10 +1321,22 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 				}
 			}
 		}
+	case "IsMilestone":
+		instance.IsMilestone = GongExtractBool(valueExpr)
 	case "Predecessors":
 		GongUnmarshallSliceOfPointers(&instance.Predecessors, valueExpr, identifierMap)
 	case "DependencyType":
 		GongUnmarshallEnum(&instance.DependencyType, valueExpr)
+	case "DependencyDurationYears":
+		instance.DependencyDurationYears = GongExtractFloat(valueExpr)
+	case "DependencyDurationMonths":
+		instance.DependencyDurationMonths = GongExtractFloat(valueExpr)
+	case "DependencyDurationWeeks":
+		instance.DependencyDurationWeeks = GongExtractFloat(valueExpr)
+	case "DependencyDurationDays":
+		instance.DependencyDurationDays = GongExtractFloat(valueExpr)
+	case "DependencyDurationHours":
+		instance.DependencyDurationHours = GongExtractFloat(valueExpr)
 	case "DurationYears":
 		instance.DurationYears = GongExtractFloat(valueExpr)
 	case "DurationMonths":
@@ -1337,8 +1349,6 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.DurationHours = GongExtractFloat(valueExpr)
 	case "IsEndDateComputedFromDuration":
 		instance.IsEndDateComputedFromDuration = GongExtractBool(valueExpr)
-	case "IsMilestone":
-		instance.IsMilestone = GongExtractBool(valueExpr)
 	case "Inputs":
 		GongUnmarshallSliceOfPointers(&instance.Inputs, valueExpr, identifierMap)
 	case "Outputs":

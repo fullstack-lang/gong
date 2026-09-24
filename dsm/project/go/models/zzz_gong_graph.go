@@ -5186,6 +5186,9 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	if task.End != taskOther.End {
 		diffs = append(diffs, task.GongMarshallField(stage, "End"))
 	}
+	if task.IsMilestone != taskOther.IsMilestone {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsMilestone"))
+	}
 	PredecessorsDifferent := false
 	if len(task.Predecessors) != len(taskOther.Predecessors) {
 		PredecessorsDifferent = true
@@ -5221,6 +5224,21 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	if task.DependencyType != taskOther.DependencyType {
 		diffs = append(diffs, task.GongMarshallField(stage, "DependencyType"))
 	}
+	if task.DependencyDurationYears != taskOther.DependencyDurationYears {
+		diffs = append(diffs, task.GongMarshallField(stage, "DependencyDurationYears"))
+	}
+	if task.DependencyDurationMonths != taskOther.DependencyDurationMonths {
+		diffs = append(diffs, task.GongMarshallField(stage, "DependencyDurationMonths"))
+	}
+	if task.DependencyDurationWeeks != taskOther.DependencyDurationWeeks {
+		diffs = append(diffs, task.GongMarshallField(stage, "DependencyDurationWeeks"))
+	}
+	if task.DependencyDurationDays != taskOther.DependencyDurationDays {
+		diffs = append(diffs, task.GongMarshallField(stage, "DependencyDurationDays"))
+	}
+	if task.DependencyDurationHours != taskOther.DependencyDurationHours {
+		diffs = append(diffs, task.GongMarshallField(stage, "DependencyDurationHours"))
+	}
 	if task.DurationYears != taskOther.DurationYears {
 		diffs = append(diffs, task.GongMarshallField(stage, "DurationYears"))
 	}
@@ -5238,9 +5256,6 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	}
 	if task.IsEndDateComputedFromDuration != taskOther.IsEndDateComputedFromDuration {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsEndDateComputedFromDuration"))
-	}
-	if task.IsMilestone != taskOther.IsMilestone {
-		diffs = append(diffs, task.GongMarshallField(stage, "IsMilestone"))
 	}
 	InputsDifferent := false
 	if len(task.Inputs) != len(taskOther.Inputs) {

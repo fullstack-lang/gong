@@ -1220,14 +1220,19 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", taskIdent, __gong__toRawStringLiteral(task.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Start, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", taskIdent, task.Start.String()))
 			values.WriteString(fmt.Sprintf("\n\t%s.End, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", taskIdent, task.End.String()))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsMilestone = %t", taskIdent, task.IsMilestone))
 			values.WriteString(fmt.Sprintf("\n\t%s.DependencyType = %s", taskIdent, __gong__toRawStringLiteral(string(task.DependencyType))))
+			values.WriteString(fmt.Sprintf("\n\t%s.DependencyDurationYears = %f", taskIdent, task.DependencyDurationYears))
+			values.WriteString(fmt.Sprintf("\n\t%s.DependencyDurationMonths = %f", taskIdent, task.DependencyDurationMonths))
+			values.WriteString(fmt.Sprintf("\n\t%s.DependencyDurationWeeks = %f", taskIdent, task.DependencyDurationWeeks))
+			values.WriteString(fmt.Sprintf("\n\t%s.DependencyDurationDays = %f", taskIdent, task.DependencyDurationDays))
+			values.WriteString(fmt.Sprintf("\n\t%s.DependencyDurationHours = %f", taskIdent, task.DependencyDurationHours))
 			values.WriteString(fmt.Sprintf("\n\t%s.DurationYears = %f", taskIdent, task.DurationYears))
 			values.WriteString(fmt.Sprintf("\n\t%s.DurationMonths = %f", taskIdent, task.DurationMonths))
 			values.WriteString(fmt.Sprintf("\n\t%s.DurationWeeks = %f", taskIdent, task.DurationWeeks))
 			values.WriteString(fmt.Sprintf("\n\t%s.DurationDays = %f", taskIdent, task.DurationDays))
 			values.WriteString(fmt.Sprintf("\n\t%s.DurationHours = %f", taskIdent, task.DurationHours))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsEndDateComputedFromDuration = %t", taskIdent, task.IsEndDateComputedFromDuration))
-			values.WriteString(fmt.Sprintf("\n\t%s.IsMilestone = %t", taskIdent, task.IsMilestone))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsWithCompletion = %t", taskIdent, task.IsWithCompletion))
 			values.WriteString(fmt.Sprintf("\n\t%s.Completion = %s", taskIdent, __gong__toRawStringLiteral(string(task.Completion))))
 			values.WriteString(fmt.Sprintf("\n\t%s.DisplayVerticalBar = %t", taskIdent, task.DisplayVerticalBar))
@@ -2903,6 +2908,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 								inst.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
 							}
 						}
+					case "IsMilestone":
+						inst.IsMilestone = GongExtractBool(rhs)
 					case "Predecessors":
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {
@@ -2915,6 +2922,16 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						}
 					case "DependencyType":
 						inst.DependencyType = DependencyTypeEnum(GongExtractString(rhs))
+					case "DependencyDurationYears":
+						inst.DependencyDurationYears = GongExtractFloat(rhs)
+					case "DependencyDurationMonths":
+						inst.DependencyDurationMonths = GongExtractFloat(rhs)
+					case "DependencyDurationWeeks":
+						inst.DependencyDurationWeeks = GongExtractFloat(rhs)
+					case "DependencyDurationDays":
+						inst.DependencyDurationDays = GongExtractFloat(rhs)
+					case "DependencyDurationHours":
+						inst.DependencyDurationHours = GongExtractFloat(rhs)
 					case "DurationYears":
 						inst.DurationYears = GongExtractFloat(rhs)
 					case "DurationMonths":
@@ -2927,8 +2944,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.DurationHours = GongExtractFloat(rhs)
 					case "IsEndDateComputedFromDuration":
 						inst.IsEndDateComputedFromDuration = GongExtractBool(rhs)
-					case "IsMilestone":
-						inst.IsMilestone = GongExtractBool(rhs)
 					case "Inputs":
 						if call, ok := rhs.(*ast.CallExpr); ok && len(call.Args) == 2 {
 							if rIdent, ok := call.Args[1].(*ast.Ident); ok {

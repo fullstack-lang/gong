@@ -68,9 +68,9 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce task input output library consistency", stager.enforceTaskInputOutputLibraryConsistency},
 		{"Enforce duplicate remove", stager.enforceDuplicateRemove},
 		{"Enforce library has at least one diagram", stager.enforceLibraryHasAtLeastOneDiagram},
-		{"Enforce task milestone dates", stager.enforceTaskMilestoneDates},
-		{"Enforce task duration dates", stager.enforceTaskDurationDates},
 		{"Enforce task predecessor dates", stager.enforceTaskPredecessorDates},
+		{"Enforce task duration dates", stager.enforceTaskDurationDates},
+		{"Enforce task milestone dates", stager.enforceTaskMilestoneDates},
 
 		// concrete semantic check
 
@@ -191,38 +191,72 @@ func (stager *Stager) enforceTaskPredecessorDates() (needCommit bool) {
 			continue
 		}
 
+		depDays := task.DependencyDurationWeeks*7 + task.DependencyDurationDays
+		fractionalDays := depDays - float64(int(depDays))
+		depHours := task.DependencyDurationHours + fractionalDays*24
+
+		targetDate := maxDate.AddDate(
+			int(task.DependencyDurationYears),
+			int(task.DependencyDurationMonths),
+			int(depDays),
+		).Add(time.Duration(depHours * float64(time.Hour)))
+
 		switch task.DependencyType {
 		case FINISH_TO_START: // Start from End (FS)
-			if !task.Start.Equal(maxDate) {
-				task.Start = maxDate
+			if !task.Start.Equal(targetDate) {
+				task.Start = targetDate
+				if task.IsMilestone {
+					task.End = targetDate
+				}
 				needCommit = true
 				if stager.probeForm != nil {
-					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted start date from predecessor end date (FS)", task.Name))
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted start date from predecessor end date and dependency duration (FS)", task.Name))
 				}
+			} else if task.IsMilestone && !task.End.Equal(targetDate) {
+				task.End = targetDate
+				needCommit = true
 			}
 		case START_TO_START: // Start from Start (SS)
-			if !task.Start.Equal(maxDate) {
-				task.Start = maxDate
+			if !task.Start.Equal(targetDate) {
+				task.Start = targetDate
+				if task.IsMilestone {
+					task.End = targetDate
+				}
 				needCommit = true
 				if stager.probeForm != nil {
-					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted start date from predecessor start date (SS)", task.Name))
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted start date from predecessor start date and dependency duration (SS)", task.Name))
 				}
+			} else if task.IsMilestone && !task.End.Equal(targetDate) {
+				task.End = targetDate
+				needCommit = true
 			}
 		case FINISH_TO_FINISH: // End from End (FF)
-			if !task.End.Equal(maxDate) {
-				task.End = maxDate
+			if !task.End.Equal(targetDate) {
+				task.End = targetDate
+				if task.IsMilestone {
+					task.Start = targetDate
+				}
 				needCommit = true
 				if stager.probeForm != nil {
-					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted end date from predecessor end date (FF)", task.Name))
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted end date from predecessor end date and dependency duration (FF)", task.Name))
 				}
+			} else if task.IsMilestone && !task.Start.Equal(targetDate) {
+				task.Start = targetDate
+				needCommit = true
 			}
 		case START_TO_FINISH: // End from Start (SF)
-			if !task.End.Equal(maxDate) {
-				task.End = maxDate
+			if !task.End.Equal(targetDate) {
+				task.End = targetDate
+				if task.IsMilestone {
+					task.Start = targetDate
+				}
 				needCommit = true
 				if stager.probeForm != nil {
-					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted end date from predecessor start date (SF)", task.Name))
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted end date from predecessor start date and dependency duration (SF)", task.Name))
 				}
+			} else if task.IsMilestone && !task.Start.Equal(targetDate) {
+				task.Start = targetDate
+				needCommit = true
 			}
 		}
 	}

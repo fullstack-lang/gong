@@ -42,8 +42,8 @@ type Task struct {
 	DependencyDurationMonths float64
 	DependencyDurationWeeks  float64
 	DependencyDurationDays   float64
+	DependencyDurationHours  float64
 	//gong:accordion-end
-	DependencyDurationHours float64
 
 	//gong:accordion-start "Duration"
 	DurationYears  float64

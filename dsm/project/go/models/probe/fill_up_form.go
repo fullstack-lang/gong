@@ -691,6 +691,8 @@ func FillUpForm(
 			false, false, 0, false, 0, true)
 		BasicFieldtoForm("End", instanceWithInferedType.End, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, true)
+		BasicFieldtoForm("IsMilestone", instanceWithInferedType.IsMilestone, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
 			Name:       "",
 			IsAStartAccordionGroup: true,
@@ -698,10 +700,16 @@ func FillUpForm(
 		}).Stage(probe.formStage))
 		AssociationSliceToForm("Predecessors", instanceWithInferedType, &instanceWithInferedType.Predecessors, formGroup, probe)
 		EnumTypeStringToForm("DependencyType", instanceWithInferedType.DependencyType, instanceWithInferedType, probe.formStage, formGroup)
-		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
-			Name:       "",
-			IsAEndAccordionGroup:   true,
-		}).Stage(probe.formStage))
+		BasicFieldtoForm("DependencyDurationYears", instanceWithInferedType.DependencyDurationYears, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("DependencyDurationMonths", instanceWithInferedType.DependencyDurationMonths, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("DependencyDurationWeeks", instanceWithInferedType.DependencyDurationWeeks, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("DependencyDurationDays", instanceWithInferedType.DependencyDurationDays, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("DependencyDurationHours", instanceWithInferedType.DependencyDurationHours, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
 			Name:       "",
 			IsAStartAccordionGroup: true,
@@ -723,8 +731,6 @@ func FillUpForm(
 			Name:       "",
 			IsAEndAccordionGroup:   true,
 		}).Stage(probe.formStage))
-		BasicFieldtoForm("IsMilestone", instanceWithInferedType.IsMilestone, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Inputs", instanceWithInferedType, &instanceWithInferedType.Inputs, formGroup, probe)
 		AssociationSliceToForm("Outputs", instanceWithInferedType, &instanceWithInferedType.Outputs, formGroup, probe)
 		AssociationSliceToForm("SubTasks", instanceWithInferedType, &instanceWithInferedType.SubTasks, formGroup, probe)

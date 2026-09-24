@@ -971,10 +971,22 @@ func saveTaskFields(
 			FormDivTimeFieldToField(&(_instance.Start), formDiv, true)
 		case "End":
 			FormDivTimeFieldToField(&(_instance.End), formDiv, true)
+		case "IsMilestone":
+			FormDivBasicFieldToField(&(_instance.IsMilestone), formDiv)
 		case "Predecessors":
 			FormDivSliceOfPointersToField(_instance, "Predecessors", &(_instance.Predecessors), formDiv, probe)
 		case "DependencyType":
 			FormDivEnumStringFieldToField(&(_instance.DependencyType), formDiv)
+		case "DependencyDurationYears":
+			FormDivBasicFieldToField(&(_instance.DependencyDurationYears), formDiv)
+		case "DependencyDurationMonths":
+			FormDivBasicFieldToField(&(_instance.DependencyDurationMonths), formDiv)
+		case "DependencyDurationWeeks":
+			FormDivBasicFieldToField(&(_instance.DependencyDurationWeeks), formDiv)
+		case "DependencyDurationDays":
+			FormDivBasicFieldToField(&(_instance.DependencyDurationDays), formDiv)
+		case "DependencyDurationHours":
+			FormDivBasicFieldToField(&(_instance.DependencyDurationHours), formDiv)
 		case "DurationYears":
 			FormDivBasicFieldToField(&(_instance.DurationYears), formDiv)
 		case "DurationMonths":
@@ -987,8 +999,6 @@ func saveTaskFields(
 			FormDivBasicFieldToField(&(_instance.DurationHours), formDiv)
 		case "IsEndDateComputedFromDuration":
 			FormDivBasicFieldToField(&(_instance.IsEndDateComputedFromDuration), formDiv)
-		case "IsMilestone":
-			FormDivBasicFieldToField(&(_instance.IsMilestone), formDiv)
 		case "Inputs":
 			FormDivSliceOfPointersToField(_instance, "Inputs", &(_instance.Inputs), formDiv, probe)
 		case "Outputs":

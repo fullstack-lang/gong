@@ -891,15 +891,20 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Start"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsMilestone"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Predecessors"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyType"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationYears"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationMonths"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationWeeks"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationDays"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationHours"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationYears"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationMonths"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationWeeks"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationDays"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationHours"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsEndDateComputedFromDuration"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsMilestone"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Inputs"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Outputs"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "SubTasks"))
@@ -3051,6 +3056,11 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", task.End.String())
+	case "IsMilestone":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsMilestone")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsMilestone))
 	case "DependencyType":
 		if task.DependencyType.ToCodeString() != "" {
 			res = GongStringEnumInitStatement
@@ -3064,6 +3074,31 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyType")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
+	case "DependencyDurationYears":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyDurationYears")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DependencyDurationYears))
+	case "DependencyDurationMonths":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyDurationMonths")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DependencyDurationMonths))
+	case "DependencyDurationWeeks":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyDurationWeeks")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DependencyDurationWeeks))
+	case "DependencyDurationDays":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyDurationDays")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DependencyDurationDays))
+	case "DependencyDurationHours":
+		res = GongNumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyDurationHours")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DependencyDurationHours))
 	case "DurationYears":
 		res = GongNumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
@@ -3094,11 +3129,6 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEndDateComputedFromDuration")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsEndDateComputedFromDuration))
-	case "IsMilestone":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsMilestone")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsMilestone))
 	case "IsWithCompletion":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
@@ -4109,15 +4139,20 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Start"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsMilestone"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Predecessors"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyType"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationYears"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationMonths"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationWeeks"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationDays"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationHours"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationYears"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationMonths"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationWeeks"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationDays"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationHours"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsEndDateComputedFromDuration"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsMilestone"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Inputs"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Outputs"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "SubTasks"))
