@@ -33,7 +33,7 @@ func executeServer() {
 	}
 
 	// initiates the UX loop
-	models.NewStagerStageSet(
+	stager := models.NewStagerStageSet(
 		stack.R,
 		stack.StageSet,
 		stack.Probe,
@@ -43,6 +43,9 @@ func executeServer() {
 		threejs_clock.NewClock3DStageUpdater(),
 		threejs_plant.NewPlant3DStageUpdater(),
 	)
+	if stack.StageSetProbe != nil {
+		stager.SetStageSetProbe(stack.StageSetProbe)
+	}
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
 	err := stack.Run(":" + strconv.Itoa(port))

@@ -1012,6 +1012,19 @@ func (stager *Stager) createViews() {
 		},
 	})
 
+	if stager.stageSet != nil {
+		split.StageBranch(stager.splitStage, &split.View{
+			Name: "StageSet Probe",
+			RootAsSplitAreas: []*split.AsSplitArea{
+				{
+					Split: &split.Split{
+						StackName: stager.stageSet.GetProbeSplitStageName(),
+					},
+				},
+			},
+		})
+	}
+
 	split.StageBranch(stager.splitStage, &split.View{
 		Name:            "Tree Probe",
 		IsSecondaryView: true,

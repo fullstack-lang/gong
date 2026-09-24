@@ -382,7 +382,8 @@ func CodeGeneratorModelGongStageSet(
 					targetSSF := pkgPathToField[fld.TargetPackagePath]
 					if targetSSF != nil {
 						if targetPkg := fieldToModelPkg[targetSSF]; targetPkg != nil {
-							if _, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]; !isGS {
+							targetGS, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]
+							if !isGS || targetGS.IsOmittedForMarshalling {
 								continue
 							}
 						}
@@ -402,7 +403,8 @@ func CodeGeneratorModelGongStageSet(
 					targetSSF := pkgPathToField[fld.TargetPackagePath]
 					if targetSSF != nil {
 						if targetPkg := fieldToModelPkg[targetSSF]; targetPkg != nil {
-							if _, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]; !isGS {
+							targetGS, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]
+							if !isGS || targetGS.IsOmittedForMarshalling {
 								continue
 							}
 						}
@@ -478,7 +480,8 @@ func CodeGeneratorModelGongStageSet(
 					targetSSF := pkgPathToField[fld.TargetPackagePath]
 					if targetSSF != nil {
 						if targetPkg := fieldToModelPkg[targetSSF]; targetPkg != nil {
-							if _, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]; !isGS {
+							targetGS, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]
+							if !isGS || targetGS.IsOmittedForMarshalling {
 								continue
 							}
 						}
@@ -499,7 +502,8 @@ func CodeGeneratorModelGongStageSet(
 					targetSSF := pkgPathToField[fld.TargetPackagePath]
 					if targetSSF != nil {
 						if targetPkg := fieldToModelPkg[targetSSF]; targetPkg != nil {
-							if _, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]; !isGS {
+							targetGS, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]
+							if !isGS || targetGS.IsOmittedForMarshalling {
 								continue
 							}
 						}

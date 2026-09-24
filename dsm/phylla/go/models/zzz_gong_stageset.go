@@ -521,26 +521,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", clock3ddiagramIdent, clock3ddiagram.IsChecked))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", clock3ddiagramIdent, __gong__toRawStringLiteral(clock3ddiagram.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", clock3ddiagramIdent, clock3ddiagram.IsExpanded))
-			if clock3ddiagram.ClockTopCurveShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + clock3ddiagram.ClockTopCurveShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.ClockTopCurveShape = %s", clock3ddiagramIdent, targetIdent))
-			}
-			if clock3ddiagram.Torus3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + clock3ddiagram.Torus3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Torus3DShape = %s", clock3ddiagramIdent, targetIdent))
-			}
 			if clock3ddiagram.SampledPoints3DShape != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -550,16 +530,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				}
 				targetIdent := "__models" + clock3ddiagram.SampledPoints3DShape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SampledPoints3DShape = %s", clock3ddiagramIdent, targetIdent))
-			}
-			if clock3ddiagram.TiledFloor3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + clock3ddiagram.TiledFloor3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TiledFloor3DShape = %s", clock3ddiagramIdent, targetIdent))
 			}
 			if clock3ddiagram.Rendered3DShape != nil {
 				if lastStagePtr != "Stage" {
@@ -892,16 +862,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				targetIdent := "__models" + plant3ddiagram.Circumference3DShape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Circumference3DShape = %s", plant3ddiagramIdent, targetIdent))
 			}
-			if plant3ddiagram.TiledFloor3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + plant3ddiagram.TiledFloor3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TiledFloor3DShape = %s", plant3ddiagramIdent, targetIdent))
-			}
 			if plant3ddiagram.Leaves3DShape != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1085,116 +1045,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				}
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Clock3DDiagrams = append(%s.Clock3DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
-			}
-			if plantabstract.AxesShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + plantabstract.AxesShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.AxesShape = %s", plantabstractIdent, targetIdent))
-			}
-			if plantabstract.RhombusStuff != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + plantabstract.RhombusStuff.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.RhombusStuff = %s", plantabstractIdent, targetIdent))
-			}
-			if plantabstract.GrowthVectorShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + plantabstract.GrowthVectorShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.GrowthVectorShape = %s", plantabstractIdent, targetIdent))
-			}
-			if plantabstract.PerpendicularVectorGrid != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + plantabstract.PerpendicularVectorGrid.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.PerpendicularVectorGrid = %s", plantabstractIdent, targetIdent))
-			}
-			if plantabstract.BaseVectorShapeGrid != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + plantabstract.BaseVectorShapeGrid.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.BaseVectorShapeGrid = %s", plantabstractIdent, targetIdent))
-			}
-			if plantabstract.ArcNormalVectorShapeGrid != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + plantabstract.ArcNormalVectorShapeGrid.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.ArcNormalVectorShapeGrid = %s", plantabstractIdent, targetIdent))
-			}
-			if plantabstract.StartArcShapeGrid != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + plantabstract.StartArcShapeGrid.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.StartArcShapeGrid = %s", plantabstractIdent, targetIdent))
-			}
-			if plantabstract.MidArcVectorShapeGrid != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + plantabstract.MidArcVectorShapeGrid.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.MidArcVectorShapeGrid = %s", plantabstractIdent, targetIdent))
-			}
-			if plantabstract.EndArcShapeGrid != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + plantabstract.EndArcShapeGrid.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.EndArcShapeGrid = %s", plantabstractIdent, targetIdent))
-			}
-			if plantabstract.GrowthCurve2D != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + plantabstract.GrowthCurve2D.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.GrowthCurve2D = %s", plantabstractIdent, targetIdent))
-			}
-			if plantabstract.StackOfGrowthCurve2DByGrowthVector != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + plantabstract.StackOfGrowthCurve2DByGrowthVector.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.StackOfGrowthCurve2DByGrowthVector = %s", plantabstractIdent, targetIdent))
 			}
 		}
 	}
@@ -1412,66 +1262,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", stool3ddiagramIdent, stool3ddiagram.IsChecked))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", stool3ddiagramIdent, __gong__toRawStringLiteral(stool3ddiagram.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", stool3ddiagramIdent, stool3ddiagram.IsExpanded))
-			if stool3ddiagram.SeatTopCurveShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.SeatTopCurveShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.SeatTopCurveShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.RotatedSeatTopCurveShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.RotatedSeatTopCurveShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.RotatedSeatTopCurveShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.SeatBottomCurveShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.SeatBottomCurveShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.SeatBottomCurveShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.RotatedSeatBottomCurveShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.RotatedSeatBottomCurveShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.RotatedSeatBottomCurveShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.Torus3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.Torus3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Torus3DShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.RotatedTorusShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.RotatedTorusShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.RotatedTorusShape = %s", stool3ddiagramIdent, targetIdent))
-			}
 			if stool3ddiagram.SampledPoints3DShape != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1481,116 +1271,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				}
 				targetIdent := "__models" + stool3ddiagram.SampledPoints3DShape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SampledPoints3DShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.RotatedSampledPoints3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.RotatedSampledPoints3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.RotatedSampledPoints3DShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.EyeSampledPoints3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.EyeSampledPoints3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.EyeSampledPoints3DShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.EyeCornersSampledPoints3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.EyeCornersSampledPoints3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.EyeCornersSampledPoints3DShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.Eye3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.Eye3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Eye3DShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.EyeSeatBottomCurveShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.EyeSeatBottomCurveShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.EyeSeatBottomCurveShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.EyeStoolBottomCurveShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.EyeStoolBottomCurveShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.EyeStoolBottomCurveShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.Seat3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.Seat3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Seat3DShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.EyeVolume3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.EyeVolume3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.EyeVolume3DShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.SeatAndLegs3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.SeatAndLegs3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.SeatAndLegs3DShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.RotatedSeatAndLegs3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.RotatedSeatAndLegs3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.RotatedSeatAndLegs3DShape = %s", stool3ddiagramIdent, targetIdent))
-			}
-			if stool3ddiagram.TiledFloor3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + stool3ddiagram.TiledFloor3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TiledFloor3DShape = %s", stool3ddiagramIdent, targetIdent))
 			}
 			if stool3ddiagram.Rendered3DShape != nil {
 				if lastStagePtr != "Stage" {
@@ -1714,56 +1394,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				targetIdent := "__models" + tubevase3ddiagram.Rendered3DShape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Rendered3DShape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
-			if tubevase3ddiagram.TorusStackShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevase3ddiagram.TorusStackShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TorusStackShape = %s", tubevase3ddiagramIdent, targetIdent))
-			}
-			if tubevase3ddiagram.VerticalTorusStackShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevase3ddiagram.VerticalTorusStackShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.VerticalTorusStackShape = %s", tubevase3ddiagramIdent, targetIdent))
-			}
-			if tubevase3ddiagram.PartiallyRotatedTorusShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevase3ddiagram.PartiallyRotatedTorusShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.PartiallyRotatedTorusShape = %s", tubevase3ddiagramIdent, targetIdent))
-			}
-			if tubevase3ddiagram.StackOfPartiallyRotatedTorusShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevase3ddiagram.StackOfPartiallyRotatedTorusShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.StackOfPartiallyRotatedTorusShape = %s", tubevase3ddiagramIdent, targetIdent))
-			}
-			if tubevase3ddiagram.PointsAndLines3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevase3ddiagram.PointsAndLines3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.PointsAndLines3DShape = %s", tubevase3ddiagramIdent, targetIdent))
-			}
 			if tubevase3ddiagram.SampledPoints3DShape != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1793,56 +1423,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				}
 				targetIdent := "__models" + tubevase3ddiagram.Angle0Shape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Angle0Shape = %s", tubevase3ddiagramIdent, targetIdent))
-			}
-			if tubevase3ddiagram.KeyHole3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevase3ddiagram.KeyHole3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.KeyHole3DShape = %s", tubevase3ddiagramIdent, targetIdent))
-			}
-			if tubevase3ddiagram.Key3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevase3ddiagram.Key3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Key3DShape = %s", tubevase3ddiagramIdent, targetIdent))
-			}
-			if tubevase3ddiagram.VolumeKey3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevase3ddiagram.VolumeKey3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.VolumeKey3DShape = %s", tubevase3ddiagramIdent, targetIdent))
-			}
-			if tubevase3ddiagram.TorusEdge3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevase3ddiagram.TorusEdge3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TorusEdge3DShape = %s", tubevase3ddiagramIdent, targetIdent))
-			}
-			if tubevase3ddiagram.TiledFloor3DShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevase3ddiagram.TiledFloor3DShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TiledFloor3DShape = %s", tubevase3ddiagramIdent, targetIdent))
 			}
 			if tubevase3ddiagram.TopCurvePlane1Shape != nil {
 				if lastStagePtr != "Stage" {
@@ -1964,266 +1544,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 			values.WriteString(fmt.Sprintf("\n\t%s.WidthKey = %f", tubevaseabstractIdent, tubevaseabstract.WidthKey))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeKeySize = %f", tubevaseabstractIdent, tubevaseabstract.RelativeKeySize))
 			values.WriteString(fmt.Sprintf("\n\t%s.MovieNbFrames = %d", tubevaseabstractIdent, tubevaseabstract.MovieNbFrames))
-			if tubevaseabstract.PerpendicularVectorGridHalfway != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.PerpendicularVectorGridHalfway.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.PerpendicularVectorGridHalfway = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.TopStartArcShapeGrid != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.TopStartArcShapeGrid.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TopStartArcShapeGrid = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.TopEndArcShapeGrid != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.TopEndArcShapeGrid.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TopEndArcShapeGrid = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.ShiftedBottomTopStartArcShapeGrid != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.ShiftedBottomTopStartArcShapeGrid.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.ShiftedBottomTopStartArcShapeGrid = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.TopMidArcVectorShapeGrid != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.TopMidArcVectorShapeGrid.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TopMidArcVectorShapeGrid = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.StartHalfwayArcShapeGrid != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.StartHalfwayArcShapeGrid.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.StartHalfwayArcShapeGrid = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.TopStartHalfwayArcShapeGrid != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.TopStartHalfwayArcShapeGrid.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TopStartHalfwayArcShapeGrid = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.EndHalfwayArcShapeGrid != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.EndHalfwayArcShapeGrid.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.EndHalfwayArcShapeGrid = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.TopEndHalfwayArcShapeGrid != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.TopEndHalfwayArcShapeGrid.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TopEndHalfwayArcShapeGrid = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.StackOfRotatedGrowthCurve2D != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.StackOfRotatedGrowthCurve2D.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.StackOfRotatedGrowthCurve2D = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.TopStackOfRotatedGrowthCurve2D != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.TopStackOfRotatedGrowthCurve2D.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TopStackOfRotatedGrowthCurve2D = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.TopGrowthCurve2D != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.TopGrowthCurve2D.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TopGrowthCurve2D = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.StackOfGrowthCurve2D != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.StackOfGrowthCurve2D.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.StackOfGrowthCurve2D = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.TopStackOfGrowthCurve2D != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.TopStackOfGrowthCurve2D.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TopStackOfGrowthCurve2D = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.StackOfGrowthCurve2DRibbon != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.StackOfGrowthCurve2DRibbon.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.StackOfGrowthCurve2DRibbon = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.StackOfRotatedGrowthCurve2DRibbon != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.StackOfRotatedGrowthCurve2DRibbon.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.StackOfRotatedGrowthCurve2DRibbon = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.GrowthCurve2DRibbon != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.GrowthCurve2DRibbon.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.GrowthCurve2DRibbon = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.ShiftedRightGrowthCurve2DRibbon != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.ShiftedRightGrowthCurve2DRibbon.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.ShiftedRightGrowthCurve2DRibbon = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.ShiftedLeftGrowthCurve2DRibbon != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.ShiftedLeftGrowthCurve2DRibbon.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.ShiftedLeftGrowthCurve2DRibbon = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.PartiallyGrowthCurve2DRibbon != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.PartiallyGrowthCurve2DRibbon.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.PartiallyGrowthCurve2DRibbon = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.ShiftedLeftPartiallyGrowthCurve2DRibbon = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.PartiallyGrowthCurve2DTrajectory != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.PartiallyGrowthCurve2DTrajectory.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.PartiallyGrowthCurve2DTrajectory = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.PartiallyGrowthCurve2DTrajectoryP1P2 = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.PxShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.PxShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.PxShape = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.ChosenP1P2PairShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.ChosenP1P2PairShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.ChosenP1P2PairShape = %s", tubevaseabstractIdent, targetIdent))
-			}
-			if tubevaseabstract.KeyHoleShape != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := "__models" + tubevaseabstract.KeyHoleShape.GongGetIdentifier(stageSet.Stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.KeyHoleShape = %s", tubevaseabstractIdent, targetIdent))
-			}
 		}
 	}
 	if stageSet.Stage != nil {
@@ -2976,24 +2296,8 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Name = GongExtractString(rhs)
 					case "IsHiddenClockTopCurveShape":
 						inst.IsHiddenClockTopCurveShape = GongExtractBool(rhs)
-					case "ClockTopCurveShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ClockTopCurveShape); ok {
-									inst.ClockTopCurveShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenTorus3DShape":
 						inst.IsHiddenTorus3DShape = GongExtractBool(rhs)
-					case "Torus3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Torus3DShape); ok {
-									inst.Torus3DShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenSampledPoints3DShape":
 						inst.IsHiddenSampledPoints3DShape = GongExtractBool(rhs)
 					case "SampledPoints3DShape":
@@ -3006,14 +2310,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						}
 					case "IsHiddenTiledFloor3DShape":
 						inst.IsHiddenTiledFloor3DShape = GongExtractBool(rhs)
-					case "TiledFloor3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TiledFloor3DShape); ok {
-									inst.TiledFloor3DShape = typedTarget
-								}
-							}
-						}
 					case "Rendered3DShape":
 						if rIdent, ok := rhs.(*ast.Ident); ok {
 							if target, ok := identifierMap[rIdent.Name]; ok {
@@ -3206,14 +2502,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						}
 					case "IsHiddenTiledFloor3DShape":
 						inst.IsHiddenTiledFloor3DShape = GongExtractBool(rhs)
-					case "TiledFloor3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TiledFloor3DShape); ok {
-									inst.TiledFloor3DShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenLeaves3DShape":
 						inst.IsHiddenLeaves3DShape = GongExtractBool(rhs)
 					case "Leaves3DShape":
@@ -3391,94 +2679,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 								}
 							}
 						}
-					case "AxesShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*AxesShape); ok {
-									inst.AxesShape = typedTarget
-								}
-							}
-						}
-					case "RhombusStuff":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*RhombusStuff); ok {
-									inst.RhombusStuff = typedTarget
-								}
-							}
-						}
-					case "GrowthVectorShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*GrowthVectorShape); ok {
-									inst.GrowthVectorShape = typedTarget
-								}
-							}
-						}
-					case "PerpendicularVectorGrid":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*PerpendicularVectorGrid); ok {
-									inst.PerpendicularVectorGrid = typedTarget
-								}
-							}
-						}
-					case "BaseVectorShapeGrid":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*BaseVectorShapeGrid); ok {
-									inst.BaseVectorShapeGrid = typedTarget
-								}
-							}
-						}
-					case "ArcNormalVectorShapeGrid":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ArcNormalVectorShapeGrid); ok {
-									inst.ArcNormalVectorShapeGrid = typedTarget
-								}
-							}
-						}
-					case "StartArcShapeGrid":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*StartArcShapeGrid); ok {
-									inst.StartArcShapeGrid = typedTarget
-								}
-							}
-						}
-					case "MidArcVectorShapeGrid":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*MidArcVectorShapeGrid); ok {
-									inst.MidArcVectorShapeGrid = typedTarget
-								}
-							}
-						}
-					case "EndArcShapeGrid":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*EndArcShapeGrid); ok {
-									inst.EndArcShapeGrid = typedTarget
-								}
-							}
-						}
-					case "GrowthCurve2D":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*GrowthCurve2D); ok {
-									inst.GrowthCurve2D = typedTarget
-								}
-							}
-						}
-					case "StackOfGrowthCurve2DByGrowthVector":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*StackOfGrowthCurve2DByGrowthVector); ok {
-									inst.StackOfGrowthCurve2DByGrowthVector = typedTarget
-								}
-							}
-						}
 					}
 				case *Rendered3DShape:
 					switch fieldName {
@@ -3542,64 +2742,16 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.Name = GongExtractString(rhs)
 					case "IsHiddenSeatTopCurveShape":
 						inst.IsHiddenSeatTopCurveShape = GongExtractBool(rhs)
-					case "SeatTopCurveShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*SeatTopCurveShape); ok {
-									inst.SeatTopCurveShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenRotatedSeatTopCurveShape":
 						inst.IsHiddenRotatedSeatTopCurveShape = GongExtractBool(rhs)
-					case "RotatedSeatTopCurveShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*PartiallyRotatedSeatTopCurveShape); ok {
-									inst.RotatedSeatTopCurveShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenSeatBottomCurveShape":
 						inst.IsHiddenSeatBottomCurveShape = GongExtractBool(rhs)
-					case "SeatBottomCurveShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*SeatBottomCurveShape); ok {
-									inst.SeatBottomCurveShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenRotatedSeatBottomCurveShape":
 						inst.IsHiddenRotatedSeatBottomCurveShape = GongExtractBool(rhs)
-					case "RotatedSeatBottomCurveShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*PartiallyRotatedSeatBottomCurveShape); ok {
-									inst.RotatedSeatBottomCurveShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenTorus3DShape":
 						inst.IsHiddenTorus3DShape = GongExtractBool(rhs)
-					case "Torus3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Torus3DShape); ok {
-									inst.Torus3DShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenRotatedTorusShape":
 						inst.IsHiddenRotatedTorusShape = GongExtractBool(rhs)
-					case "RotatedTorusShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*PartiallyRotatedTorusShape); ok {
-									inst.RotatedTorusShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenSampledPoints3DShape":
 						inst.IsHiddenSampledPoints3DShape = GongExtractBool(rhs)
 					case "SampledPoints3DShape":
@@ -3612,114 +2764,26 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						}
 					case "IsHiddenRotatedSampledPoints3DShape":
 						inst.IsHiddenRotatedSampledPoints3DShape = GongExtractBool(rhs)
-					case "RotatedSampledPoints3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*RotatedSampledPoints3DShape); ok {
-									inst.RotatedSampledPoints3DShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenEyeSampledPoints3DShape":
 						inst.IsHiddenEyeSampledPoints3DShape = GongExtractBool(rhs)
-					case "EyeSampledPoints3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*EyeSampledPoints3DShape); ok {
-									inst.EyeSampledPoints3DShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenEyeCornersSampledPoints3DShape":
 						inst.IsHiddenEyeCornersSampledPoints3DShape = GongExtractBool(rhs)
-					case "EyeCornersSampledPoints3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*EyeCornersSampledPoints3DShape); ok {
-									inst.EyeCornersSampledPoints3DShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenEye3DShape":
 						inst.IsHiddenEye3DShape = GongExtractBool(rhs)
-					case "Eye3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Eye3DShape); ok {
-									inst.Eye3DShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenEyeSeatBottomCurveShape":
 						inst.IsHiddenEyeSeatBottomCurveShape = GongExtractBool(rhs)
-					case "EyeSeatBottomCurveShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*EyeSeatBottomCurveShape); ok {
-									inst.EyeSeatBottomCurveShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenEyeStoolBottomCurveShape":
 						inst.IsHiddenEyeStoolBottomCurveShape = GongExtractBool(rhs)
-					case "EyeStoolBottomCurveShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*EyeStoolBottomCurveShape); ok {
-									inst.EyeStoolBottomCurveShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenSeat3DShape":
 						inst.IsHiddenSeat3DShape = GongExtractBool(rhs)
-					case "Seat3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Seat3DShape); ok {
-									inst.Seat3DShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenEyeVolume3DShape":
 						inst.IsHiddenEyeVolume3DShape = GongExtractBool(rhs)
-					case "EyeVolume3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*EyeVolume3DShape); ok {
-									inst.EyeVolume3DShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenSeatAndLegs3DShape":
 						inst.IsHiddenSeatAndLegs3DShape = GongExtractBool(rhs)
-					case "SeatAndLegs3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*SeatAndLegs3DShape); ok {
-									inst.SeatAndLegs3DShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenRotatedSeatAndLegs3DShape":
 						inst.IsHiddenRotatedSeatAndLegs3DShape = GongExtractBool(rhs)
-					case "RotatedSeatAndLegs3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*RotatedSeatAndLegs3DShape); ok {
-									inst.RotatedSeatAndLegs3DShape = typedTarget
-								}
-							}
-						}
 					case "IsHiddenTiledFloor3DShape":
 						inst.IsHiddenTiledFloor3DShape = GongExtractBool(rhs)
-					case "TiledFloor3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TiledFloor3DShape); ok {
-									inst.TiledFloor3DShape = typedTarget
-								}
-							}
-						}
 					case "Rendered3DShape":
 						if rIdent, ok := rhs.(*ast.Ident); ok {
 							if target, ok := identifierMap[rIdent.Name]; ok {
@@ -3799,46 +2863,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 								}
 							}
 						}
-					case "TorusStackShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TorusStackShape); ok {
-									inst.TorusStackShape = typedTarget
-								}
-							}
-						}
-					case "VerticalTorusStackShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*VerticalTorusStackShape); ok {
-									inst.VerticalTorusStackShape = typedTarget
-								}
-							}
-						}
-					case "PartiallyRotatedTorusShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*PartiallyRotatedTorusShape); ok {
-									inst.PartiallyRotatedTorusShape = typedTarget
-								}
-							}
-						}
-					case "StackOfPartiallyRotatedTorusShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*StackOfPartiallyRotatedTorusShape); ok {
-									inst.StackOfPartiallyRotatedTorusShape = typedTarget
-								}
-							}
-						}
-					case "PointsAndLines3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*PointsAndLines3DShape); ok {
-									inst.PointsAndLines3DShape = typedTarget
-								}
-							}
-						}
 					case "SampledPoints3DShape":
 						if rIdent, ok := rhs.(*ast.Ident); ok {
 							if target, ok := identifierMap[rIdent.Name]; ok {
@@ -3860,46 +2884,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 							if target, ok := identifierMap[rIdent.Name]; ok {
 								if typedTarget, ok := target.(*Angle0Shape); ok {
 									inst.Angle0Shape = typedTarget
-								}
-							}
-						}
-					case "KeyHole3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*KeyHole3DShape); ok {
-									inst.KeyHole3DShape = typedTarget
-								}
-							}
-						}
-					case "Key3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*Key3DShape); ok {
-									inst.Key3DShape = typedTarget
-								}
-							}
-						}
-					case "VolumeKey3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*VolumeKey3DShape); ok {
-									inst.VolumeKey3DShape = typedTarget
-								}
-							}
-						}
-					case "TorusEdge3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TorusEdge3DShape); ok {
-									inst.TorusEdge3DShape = typedTarget
-								}
-							}
-						}
-					case "TiledFloor3DShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TiledFloor3DShape); ok {
-									inst.TiledFloor3DShape = typedTarget
 								}
 							}
 						}
@@ -4018,214 +3002,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.RelativeKeySize = GongExtractFloat(rhs)
 					case "MovieNbFrames":
 						inst.MovieNbFrames = GongExtractInt(rhs)
-					case "PerpendicularVectorGridHalfway":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*PerpendicularVectorGridHalfway); ok {
-									inst.PerpendicularVectorGridHalfway = typedTarget
-								}
-							}
-						}
-					case "TopStartArcShapeGrid":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TopStartArcShapeGrid); ok {
-									inst.TopStartArcShapeGrid = typedTarget
-								}
-							}
-						}
-					case "TopEndArcShapeGrid":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TopEndArcShapeGrid); ok {
-									inst.TopEndArcShapeGrid = typedTarget
-								}
-							}
-						}
-					case "ShiftedBottomTopStartArcShapeGrid":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ShiftedBottomTopStartArcShapeGrid); ok {
-									inst.ShiftedBottomTopStartArcShapeGrid = typedTarget
-								}
-							}
-						}
-					case "TopMidArcVectorShapeGrid":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TopMidArcVectorShapeGrid); ok {
-									inst.TopMidArcVectorShapeGrid = typedTarget
-								}
-							}
-						}
-					case "StartHalfwayArcShapeGrid":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*StartHalfwayArcShapeGrid); ok {
-									inst.StartHalfwayArcShapeGrid = typedTarget
-								}
-							}
-						}
-					case "TopStartHalfwayArcShapeGrid":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TopStartHalfwayArcShapeGrid); ok {
-									inst.TopStartHalfwayArcShapeGrid = typedTarget
-								}
-							}
-						}
-					case "EndHalfwayArcShapeGrid":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*EndHalfwayArcShapeGrid); ok {
-									inst.EndHalfwayArcShapeGrid = typedTarget
-								}
-							}
-						}
-					case "TopEndHalfwayArcShapeGrid":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TopEndHalfwayArcShapeGrid); ok {
-									inst.TopEndHalfwayArcShapeGrid = typedTarget
-								}
-							}
-						}
-					case "StackOfRotatedGrowthCurve2D":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*StackOfRotatedGrowthCurve2D); ok {
-									inst.StackOfRotatedGrowthCurve2D = typedTarget
-								}
-							}
-						}
-					case "TopStackOfRotatedGrowthCurve2D":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TopStackOfRotatedGrowthCurve2D); ok {
-									inst.TopStackOfRotatedGrowthCurve2D = typedTarget
-								}
-							}
-						}
-					case "TopGrowthCurve2D":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TopGrowthCurve2D); ok {
-									inst.TopGrowthCurve2D = typedTarget
-								}
-							}
-						}
-					case "StackOfGrowthCurve2D":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*StackOfGrowthCurve2D); ok {
-									inst.StackOfGrowthCurve2D = typedTarget
-								}
-							}
-						}
-					case "TopStackOfGrowthCurve2D":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*TopStackOfGrowthCurve2D); ok {
-									inst.TopStackOfGrowthCurve2D = typedTarget
-								}
-							}
-						}
-					case "StackOfGrowthCurve2DRibbon":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*StackOfGrowthCurve2DRibbon); ok {
-									inst.StackOfGrowthCurve2DRibbon = typedTarget
-								}
-							}
-						}
-					case "StackOfRotatedGrowthCurve2DRibbon":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*StackOfRotatedGrowthCurve2DRibbon); ok {
-									inst.StackOfRotatedGrowthCurve2DRibbon = typedTarget
-								}
-							}
-						}
-					case "GrowthCurve2DRibbon":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*GrowthCurve2DRibbon); ok {
-									inst.GrowthCurve2DRibbon = typedTarget
-								}
-							}
-						}
-					case "ShiftedRightGrowthCurve2DRibbon":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ShiftedRightGrowthCurve2DRibbon); ok {
-									inst.ShiftedRightGrowthCurve2DRibbon = typedTarget
-								}
-							}
-						}
-					case "ShiftedLeftGrowthCurve2DRibbon":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ShiftedLeftGrowthCurve2DRibbon); ok {
-									inst.ShiftedLeftGrowthCurve2DRibbon = typedTarget
-								}
-							}
-						}
-					case "PartiallyGrowthCurve2DRibbon":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*PartiallyGrowthCurve2DRibbon); ok {
-									inst.PartiallyGrowthCurve2DRibbon = typedTarget
-								}
-							}
-						}
-					case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ShiftedLeftPartiallyGrowthCurve2DRibbon); ok {
-									inst.ShiftedLeftPartiallyGrowthCurve2DRibbon = typedTarget
-								}
-							}
-						}
-					case "PartiallyGrowthCurve2DTrajectory":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*PartiallyGrowthCurve2DTrajectory); ok {
-									inst.PartiallyGrowthCurve2DTrajectory = typedTarget
-								}
-							}
-						}
-					case "PartiallyGrowthCurve2DTrajectoryP1P2":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*PartiallyGrowthCurve2DTrajectoryP1P2); ok {
-									inst.PartiallyGrowthCurve2DTrajectoryP1P2 = typedTarget
-								}
-							}
-						}
-					case "PxShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*PxShape); ok {
-									inst.PxShape = typedTarget
-								}
-							}
-						}
-					case "ChosenP1P2PairShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ChosenP1P2PairShape); ok {
-									inst.ChosenP1P2PairShape = typedTarget
-								}
-							}
-						}
-					case "KeyHoleShape":
-						if rIdent, ok := rhs.(*ast.Ident); ok {
-							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*KeyHoleShape); ok {
-									inst.KeyHoleShape = typedTarget
-								}
-							}
-						}
 					}
 				case *Vase2DDiagram:
 					switch fieldName {

@@ -64,11 +64,16 @@ type Plant3DStageUpdaterInterface interface {
 	UpdatePlant3DStage(stager *Stager)
 }
 
+type StageSetProbeIF interface {
+	Refresh()
+}
+
 type Stager struct {
-	stage      *Stage
-	stageSet   *StageSet
-	splitStage *split.Stage
-	probeForm  ProbeIF
+	stage         *Stage
+	stageSet      *StageSet
+	splitStage    *split.Stage
+	probeForm     ProbeIF
+	stageSetProbe StageSetProbeIF
 
 	buttonStage  *button.Stage  // "buttonStage" is the DSM mandatory name (to be changed)
 	loadStage    *load.Stage    // mandatory
@@ -205,6 +210,9 @@ func NewStagerStageSet(
 	}
 	afterCommit := func(stage *Stage) {
 		stager.createViews()
+		if stager.stageSetProbe != nil {
+			stager.stageSetProbe.Refresh()
+		}
 		stager.ux_tree() // DSM mandatory name, to be changed
 		stager.button()
 		stager.load()
@@ -254,6 +262,10 @@ func (stager *Stager) SetStageSet(stageSet *StageSet) {
 	if stageSet != nil && stageSet.Stage != nil {
 		stager.stage = stageSet.Stage
 	}
+}
+
+func (stager *Stager) SetStageSetProbe(stageSetProbe StageSetProbeIF) {
+	stager.stageSetProbe = stageSetProbe
 }
 
 func (stager *Stager) EnforceSemantic() {

@@ -46,7 +46,7 @@ func main() {
 	}
 
 	// initiates the UX loop
-	models.NewStagerStageSet(
+	stager := models.NewStagerStageSet(
 		stack.R,
 		stack.StageSet,
 		stack.Probe,
@@ -56,6 +56,9 @@ func main() {
 		threejs_clock.NewClock3DStageUpdater(),
 		threejs_plant.NewPlant3DStageUpdater(),
 	)
+	if stack.StageSetProbe != nil {
+		stager.SetStageSetProbe(stack.StageSetProbe)
+	}
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
 	wasmregistry.SetupWasmHooks(stack.R)

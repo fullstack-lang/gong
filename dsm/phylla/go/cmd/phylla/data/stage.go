@@ -6,6 +6,9 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock"
 )
 
 var (
@@ -13,6 +16,9 @@ var (
 	_ = slices.Index[[]int, int]
 
 	_ *models.Stage
+	_ *stool.Stage
+	_ *music.Stage
+	_ *clock.Stage
 )
 
 // function will stage objects across all coordinated stages
@@ -21,6 +27,12 @@ func _(stageSet *models.StageSet) {
 	// ------------------------------------------------------------------------
 	// Phase 1: Declarations (in topological order: leaves first)
 	// ------------------------------------------------------------------------
+	__clock__ClockAbstract__00000000_ := (&clock.ClockAbstract{Name: `Clock-ClockAbstract`}).Stage(stageSet.ClockStage)
+
+	__music__MusicAbstract__00000000_ := (&music.MusicAbstract{Name: `Music-MusicAbstract`}).Stage(stageSet.MusicStage)
+
+	__stool__StoolAbstract__00000000_ := (&stool.StoolAbstract{Name: `Stool-StoolAbstract`}).Stage(stageSet.StoolStage)
+
 	__models__Angle0Shape__00000000_ := (&models.Angle0Shape{Name: `Plant 1-TubeVase3DDiagram-Angle0Shape`}).Stage(stageSet.Stage)
 	__models__Angle0Shape__00000001_ := (&models.Angle0Shape{Name: `Vase Trapeze-TubeVase3DDiagram-Angle0Shape`}).Stage(stageSet.Stage)
 	__models__BottomCurvePlane1Shape__00000000_ := (&models.BottomCurvePlane1Shape{Name: `Plant 1-TubeVase3DDiagram-BottomCurvePlane1Shape`}).Stage(stageSet.Stage)
@@ -35,7 +47,6 @@ func _(stageSet *models.StageSet) {
 	__models__Circumference3DShape__00000005_ := (&models.Circumference3DShape{Name: `New Plant - 3D Diagram-Circumference3DShape`}).Stage(stageSet.Stage)
 	__models__Clock2DDiagram__00000000_ := (&models.Clock2DDiagram{Name: `New Plant - Diagram-Clock2DDiagram`}).Stage(stageSet.Stage)
 	__models__Clock3DDiagram__00000000_ := (&models.Clock3DDiagram{Name: `New Plant - Diagram-Clock3DDiagram`}).Stage(stageSet.Stage)
-	__models__ClockAbstract__00000000_ := (&models.ClockAbstract{Name: `Clock-ClockAbstract`}).Stage(stageSet.Stage)
 	__models__CutLine3DShape__00000000_ := (&models.CutLine3DShape{Name: `Clock - 3D Diagram-CutLine3DShape`}).Stage(stageSet.Stage)
 	__models__CutLine3DShape__00000001_ := (&models.CutLine3DShape{Name: `Vase (2,1,104) - 3D Diagram-CutLine3DShape`}).Stage(stageSet.Stage)
 	__models__CutLine3DShape__00000002_ := (&models.CutLine3DShape{Name: `Plant (3, 5, 100) - 3D Diagram-CutLine3DShape`}).Stage(stageSet.Stage)
@@ -49,7 +60,6 @@ func _(stageSet *models.StageSet) {
 	__models__Leaves3DShape__00000004_ := (&models.Leaves3DShape{Name: `New Plant - 3D Diagram-Leaves3DShape`}).Stage(stageSet.Stage)
 	__models__Leaves3DShape__00000005_ := (&models.Leaves3DShape{Name: `New Plant - 3D Diagram-Leaves3DShape`}).Stage(stageSet.Stage)
 	__models__Library__00000000_ := (&models.Library{Name: `Herbarium`}).Stage(stageSet.Stage)
-	__models__MusicAbstract__00000000_ := (&models.MusicAbstract{Name: `Music-MusicAbstract`}).Stage(stageSet.Stage)
 	__models__OriginalPoints3DShape__00000000_ := (&models.OriginalPoints3DShape{Name: `Plant 1-TubeVase3DDiagram-OriginalPoints3DShape`}).Stage(stageSet.Stage)
 	__models__OriginalPoints3DShape__00000001_ := (&models.OriginalPoints3DShape{Name: `Vase Trapeze-TubeVase3DDiagram-OriginalPoints3DShape`}).Stage(stageSet.Stage)
 	__models__ParastichyMCurves3DShape__00000000_ := (&models.ParastichyMCurves3DShape{Name: `Clock - 3D Diagram-ParastichyMCurves3DShape`}).Stage(stageSet.Stage)
@@ -109,7 +119,6 @@ func _(stageSet *models.StageSet) {
 	__models__StemCylinder3DShape__00000005_ := (&models.StemCylinder3DShape{Name: `New Plant - 3D Diagram-StemCylinder3DShape`}).Stage(stageSet.Stage)
 	__models__Stool2DDiagram__00000000_ := (&models.Stool2DDiagram{Name: `New Plant - Diagram-Stool2DDiagram`}).Stage(stageSet.Stage)
 	__models__Stool3DDiagram__00000000_ := (&models.Stool3DDiagram{Name: `New Plant - Diagram-Stool3DDiagram`}).Stage(stageSet.Stage)
-	__models__StoolAbstract__00000000_ := (&models.StoolAbstract{Name: `Stool-StoolAbstract`}).Stage(stageSet.Stage)
 	__models__TopCurvePlane1Shape__00000000_ := (&models.TopCurvePlane1Shape{Name: `Plant 1-TubeVase3DDiagram-TopCurvePlane1Shape`}).Stage(stageSet.Stage)
 	__models__TopCurvePlane1Shape__00000001_ := (&models.TopCurvePlane1Shape{Name: `Vase Trapeze-TubeVase3DDiagram-TopCurvePlane1Shape`}).Stage(stageSet.Stage)
 	__models__TopCurvePlane2Shape__00000000_ := (&models.TopCurvePlane2Shape{Name: `Plant 1-TubeVase3DDiagram-TopCurvePlane2Shape`}).Stage(stageSet.Stage)
@@ -126,6 +135,55 @@ func _(stageSet *models.StageSet) {
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations
 	// ------------------------------------------------------------------------
+	__clock__ClockAbstract__00000000_.Name = `Clock-ClockAbstract`
+	__clock__ClockAbstract__00000000_.RadialRepetitions = 1
+	__clock__ClockAbstract__00000000_.Transparency = 0.000000
+	__clock__ClockAbstract__00000000_.RelativeTubeDiameter = 0.010000
+	__clock__ClockAbstract__00000000_.RelativeHeight3DTorus = 1.220000
+	__clock__ClockAbstract__00000000_.ClockTorusVerticalScale = 2.790000
+	__clock__ClockAbstract__00000000_.RelativeHeight = 1.000000
+	__clock__ClockAbstract__00000000_.ProjectionAngle = 31.200000
+
+	__music__MusicAbstract__00000000_.Name = `Music-MusicAbstract`
+	__music__MusicAbstract__00000000_.IsChecked = false
+	__music__MusicAbstract__00000000_.PitchHeight = 0.136000
+	__music__MusicAbstract__00000000_.NbOfBeatsInTheme = 16
+	__music__MusicAbstract__00000000_.BeatsPerSecond = 6.000000
+	__music__MusicAbstract__00000000_.FirstVoiceShiftX = 0.920000
+	__music__MusicAbstract__00000000_.FirstVoiceShiftY = 2.250000
+	__music__MusicAbstract__00000000_.PitchDifference = 12
+	__music__MusicAbstract__00000000_.Level = 11.100000
+	__music__MusicAbstract__00000000_.ActualBeatsTemporalShift = 5
+	__music__MusicAbstract__00000000_.IsMinor = true
+	__music__MusicAbstract__00000000_.ThemeBinaryEncoding = 64737
+	__music__MusicAbstract__00000000_.BezierControlLengthRatio = 1.410000
+	__music__MusicAbstract__00000000_.NbPitchLines = 50
+	__music__MusicAbstract__00000000_.NbBeatLines = 64
+	__music__MusicAbstract__00000000_.OriginX = 200.000000
+	__music__MusicAbstract__00000000_.OriginY = 900.000000
+	__music__MusicAbstract__00000000_.ScoreScale = 0.950000
+	__music__MusicAbstract__00000000_.ShowFirstVoice = true
+	__music__MusicAbstract__00000000_.ShowFirstVoiceShiftRight = true
+	__music__MusicAbstract__00000000_.ShowSecondVoice = true
+	__music__MusicAbstract__00000000_.ShowSecondVoiceShiftRight = true
+	__music__MusicAbstract__00000000_.ShowFirstVoiceNotes = true
+	__music__MusicAbstract__00000000_.ShowFirstVoiceNotesShiftRight = false
+	__music__MusicAbstract__00000000_.ShowSecondVoiceNotes = false
+	__music__MusicAbstract__00000000_.ShowSecondVoiceNotesShiftRight = false
+	__music__MusicAbstract__00000000_.IsComposerNodeExpanded = true
+
+	__stool__StoolAbstract__00000000_.Name = `Stool-StoolAbstract`
+	__stool__StoolAbstract__00000000_.RadialRepetitions = 3
+	__stool__StoolAbstract__00000000_.Transparency = 0.000000
+	__stool__StoolAbstract__00000000_.RelativeTubeDiameter = 0.042000
+	__stool__StoolAbstract__00000000_.RelativeHeight3DTorus = 4.490000
+	__stool__StoolAbstract__00000000_.StoolTorusVerticalScale = 3.980000
+	__stool__StoolAbstract__00000000_.RelativeHeight = 4.670000
+	__stool__StoolAbstract__00000000_.RelativeSeatThickness = 0.720000
+	__stool__StoolAbstract__00000000_.ProjectionAngle = 11.700000
+	__stool__StoolAbstract__00000000_.RelativeEyeSeparationCriteria = 0.400000
+	__stool__StoolAbstract__00000000_.RelativeEyeCornerControlVectorStrength = 0.230000
+
 	__models__Angle0Shape__00000000_.Name = `Plant 1-TubeVase3DDiagram-Angle0Shape`
 	__models__Angle0Shape__00000001_.Name = `Vase Trapeze-TubeVase3DDiagram-Angle0Shape`
 	__models__BottomCurvePlane1Shape__00000000_.Name = `Plant 1-TubeVase3DDiagram-BottomCurvePlane1Shape`
@@ -152,14 +210,6 @@ func _(stageSet *models.StageSet) {
 	__models__Clock3DDiagram__00000000_.IsChecked = false
 	__models__Clock3DDiagram__00000000_.ComputedPrefix = ``
 	__models__Clock3DDiagram__00000000_.IsExpanded = true
-	__models__ClockAbstract__00000000_.Name = `Clock-ClockAbstract`
-	__models__ClockAbstract__00000000_.RadialRepetitions = 1
-	__models__ClockAbstract__00000000_.Transparency = 0.000000
-	__models__ClockAbstract__00000000_.RelativeTubeDiameter = 0.010000
-	__models__ClockAbstract__00000000_.RelativeHeight3DTorus = 1.220000
-	__models__ClockAbstract__00000000_.ClockTorusVerticalScale = 2.790000
-	__models__ClockAbstract__00000000_.RelativeHeight = 1.000000
-	__models__ClockAbstract__00000000_.ProjectionAngle = 31.200000
 	__models__CutLine3DShape__00000000_.Name = `Clock - 3D Diagram-CutLine3DShape`
 	__models__CutLine3DShape__00000001_.Name = `Vase (2,1,104) - 3D Diagram-CutLine3DShape`
 	__models__CutLine3DShape__00000002_.Name = `Plant (3, 5, 100) - 3D Diagram-CutLine3DShape`
@@ -178,33 +228,6 @@ func _(stageSet *models.StageSet) {
 	__models__Library__00000000_.ComputedPrefix = ``
 	__models__Library__00000000_.IsExpanded = true
 	__models__Library__00000000_.IsRootLibrary = true
-	__models__MusicAbstract__00000000_.Name = `Music-MusicAbstract`
-	__models__MusicAbstract__00000000_.IsChecked = false
-	__models__MusicAbstract__00000000_.PitchHeight = 0.136000
-	__models__MusicAbstract__00000000_.NbOfBeatsInTheme = 16
-	__models__MusicAbstract__00000000_.BeatsPerSecond = 6.000000
-	__models__MusicAbstract__00000000_.FirstVoiceShiftX = 0.920000
-	__models__MusicAbstract__00000000_.FirstVoiceShiftY = 2.250000
-	__models__MusicAbstract__00000000_.PitchDifference = 12
-	__models__MusicAbstract__00000000_.Level = 11.100000
-	__models__MusicAbstract__00000000_.ActualBeatsTemporalShift = 5
-	__models__MusicAbstract__00000000_.IsMinor = true
-	__models__MusicAbstract__00000000_.ThemeBinaryEncoding = 64737
-	__models__MusicAbstract__00000000_.BezierControlLengthRatio = 1.410000
-	__models__MusicAbstract__00000000_.NbPitchLines = 50
-	__models__MusicAbstract__00000000_.NbBeatLines = 64
-	__models__MusicAbstract__00000000_.OriginX = 200.000000
-	__models__MusicAbstract__00000000_.OriginY = 900.000000
-	__models__MusicAbstract__00000000_.ScoreScale = 0.950000
-	__models__MusicAbstract__00000000_.ShowFirstVoice = true
-	__models__MusicAbstract__00000000_.ShowFirstVoiceShiftRight = true
-	__models__MusicAbstract__00000000_.ShowSecondVoice = true
-	__models__MusicAbstract__00000000_.ShowSecondVoiceShiftRight = true
-	__models__MusicAbstract__00000000_.ShowFirstVoiceNotes = true
-	__models__MusicAbstract__00000000_.ShowFirstVoiceNotesShiftRight = false
-	__models__MusicAbstract__00000000_.ShowSecondVoiceNotes = false
-	__models__MusicAbstract__00000000_.ShowSecondVoiceNotesShiftRight = false
-	__models__MusicAbstract__00000000_.IsComposerNodeExpanded = true
 	__models__OriginalPoints3DShape__00000000_.Name = `Plant 1-TubeVase3DDiagram-OriginalPoints3DShape`
 	__models__OriginalPoints3DShape__00000001_.Name = `Vase Trapeze-TubeVase3DDiagram-OriginalPoints3DShape`
 	__models__ParastichyMCurves3DShape__00000000_.Name = `Clock - 3D Diagram-ParastichyMCurves3DShape`
@@ -730,17 +753,6 @@ func _(stageSet *models.StageSet) {
 	__models__Stool3DDiagram__00000000_.IsChecked = false
 	__models__Stool3DDiagram__00000000_.ComputedPrefix = ``
 	__models__Stool3DDiagram__00000000_.IsExpanded = true
-	__models__StoolAbstract__00000000_.Name = `Stool-StoolAbstract`
-	__models__StoolAbstract__00000000_.RadialRepetitions = 3
-	__models__StoolAbstract__00000000_.Transparency = 0.000000
-	__models__StoolAbstract__00000000_.RelativeTubeDiameter = 0.042000
-	__models__StoolAbstract__00000000_.RelativeHeight3DTorus = 4.490000
-	__models__StoolAbstract__00000000_.StoolTorusVerticalScale = 3.980000
-	__models__StoolAbstract__00000000_.RelativeHeight = 4.670000
-	__models__StoolAbstract__00000000_.RelativeSeatThickness = 0.720000
-	__models__StoolAbstract__00000000_.ProjectionAngle = 11.700000
-	__models__StoolAbstract__00000000_.RelativeEyeSeparationCriteria = 0.400000
-	__models__StoolAbstract__00000000_.RelativeEyeCornerControlVectorStrength = 0.230000
 	__models__TopCurvePlane1Shape__00000000_.Name = `Plant 1-TubeVase3DDiagram-TopCurvePlane1Shape`
 	__models__TopCurvePlane1Shape__00000001_.Name = `Vase Trapeze-TubeVase3DDiagram-TopCurvePlane1Shape`
 	__models__TopCurvePlane2Shape__00000000_.Name = `Plant 1-TubeVase3DDiagram-TopCurvePlane2Shape`
@@ -987,17 +999,17 @@ func _(stageSet *models.StageSet) {
 	__models__PlantAbstract__00000001_.Plant2DDiagrams = append(__models__PlantAbstract__00000001_.Plant2DDiagrams, __models__Plant2DDiagram__00000002_)
 	__models__PlantAbstract__00000001_.Plant2DDiagrams = append(__models__PlantAbstract__00000001_.Plant2DDiagrams, __models__Plant2DDiagram__00000006_)
 	__models__PlantAbstract__00000001_.Plant3DDiagrams = append(__models__PlantAbstract__00000001_.Plant3DDiagrams, __models__Plant3DDiagram__00000000_)
-	__models__PlantAbstract__00000002_.StoolAbstract = __models__StoolAbstract__00000000_
+	__models__PlantAbstract__00000002_.StoolAbstract = __stool__StoolAbstract__00000000_
 	__models__PlantAbstract__00000002_.Plant2DDiagrams = append(__models__PlantAbstract__00000002_.Plant2DDiagrams, __models__Plant2DDiagram__00000004_)
 	__models__PlantAbstract__00000002_.Plant3DDiagrams = append(__models__PlantAbstract__00000002_.Plant3DDiagrams, __models__Plant3DDiagram__00000001_)
 	__models__PlantAbstract__00000002_.Stool2DDiagrams = append(__models__PlantAbstract__00000002_.Stool2DDiagrams, __models__Stool2DDiagram__00000000_)
 	__models__PlantAbstract__00000002_.Stool3DDiagrams = append(__models__PlantAbstract__00000002_.Stool3DDiagrams, __models__Stool3DDiagram__00000000_)
-	__models__PlantAbstract__00000003_.ClockAbstract = __models__ClockAbstract__00000000_
+	__models__PlantAbstract__00000003_.ClockAbstract = __clock__ClockAbstract__00000000_
 	__models__PlantAbstract__00000003_.Plant2DDiagrams = append(__models__PlantAbstract__00000003_.Plant2DDiagrams, __models__Plant2DDiagram__00000005_)
 	__models__PlantAbstract__00000003_.Plant3DDiagrams = append(__models__PlantAbstract__00000003_.Plant3DDiagrams, __models__Plant3DDiagram__00000002_)
 	__models__PlantAbstract__00000003_.Clock2DDiagrams = append(__models__PlantAbstract__00000003_.Clock2DDiagrams, __models__Clock2DDiagram__00000000_)
 	__models__PlantAbstract__00000003_.Clock3DDiagrams = append(__models__PlantAbstract__00000003_.Clock3DDiagrams, __models__Clock3DDiagram__00000000_)
-	__models__PlantAbstract__00000004_.MusicAbstract = __models__MusicAbstract__00000000_
+	__models__PlantAbstract__00000004_.MusicAbstract = __music__MusicAbstract__00000000_
 	__models__PlantAbstract__00000004_.Plant2DDiagrams = append(__models__PlantAbstract__00000004_.Plant2DDiagrams, __models__Plant2DDiagram__00000007_)
 	__models__PlantAbstract__00000004_.Plant3DDiagrams = append(__models__PlantAbstract__00000004_.Plant3DDiagrams, __models__Plant3DDiagram__00000004_)
 	__models__PlantAbstract__00000005_.TubeVaseAbstract = __models__TubeVaseAbstract__00000001_
