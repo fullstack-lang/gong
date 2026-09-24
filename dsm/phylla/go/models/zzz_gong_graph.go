@@ -168,18 +168,6 @@ func (stage *Stage) IsStagedClock3DDiagram(clock3ddiagram *Clock3DDiagram) (ok b
 	return clock3ddiagram.GongIsStaged(stage)
 }
 
-func (clockabstract *ClockAbstract) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.ClockAbstracts[clockabstract]
-
-	return
-}
-
-func (stage *Stage) IsStagedClockAbstract(clockabstract *ClockAbstract) (ok bool) {
-
-	return clockabstract.GongIsStaged(stage)
-}
-
 func (clocktopcurveshape *ClockTopCurveShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ClockTopCurveShapes[clocktopcurveshape]
@@ -538,18 +526,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongIsStaged(stage *Stage) (
 func (stage *Stage) IsStagedMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid) (ok bool) {
 
 	return midarcvectorshapegrid.GongIsStaged(stage)
-}
-
-func (musicabstract *MusicAbstract) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.MusicAbstracts[musicabstract]
-
-	return
-}
-
-func (stage *Stage) IsStagedMusicAbstract(musicabstract *MusicAbstract) (ok bool) {
-
-	return musicabstract.GongIsStaged(stage)
 }
 
 func (originalpoints3dshape *OriginalPoints3DShape) GongIsStaged(stage *Stage) (ok bool) {
@@ -1488,18 +1464,6 @@ func (stage *Stage) IsStagedStool3DDiagram(stool3ddiagram *Stool3DDiagram) (ok b
 	return stool3ddiagram.GongIsStaged(stage)
 }
 
-func (stoolabstract *StoolAbstract) GongIsStaged(stage *Stage) (ok bool) {
-
-	_, ok = stage.StoolAbstracts[stoolabstract]
-
-	return
-}
-
-func (stage *Stage) IsStagedStoolAbstract(stoolabstract *StoolAbstract) (ok bool) {
-
-	return stoolabstract.GongIsStaged(stage)
-}
-
 func (tiledfloor3dshape *TiledFloor3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TiledFloor3DShapes[tiledfloor3dshape]
@@ -2114,25 +2078,6 @@ func (stage *Stage) StageBranchClock3DDiagram(clock3ddiagram *Clock3DDiagram) {
 
 }
 
-func (clockabstract *ClockAbstract) GongStageBranch(stage *Stage) {
-	stage.StageBranchClockAbstract(clockabstract)
-}
-
-func (stage *Stage) StageBranchClockAbstract(clockabstract *ClockAbstract) {
-
-	// check if instance is already staged
-	if stage.IsStaged(clockabstract) {
-		return
-	}
-
-	clockabstract.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
 func (clocktopcurveshape *ClockTopCurveShape) GongStageBranch(stage *Stage) {
 	stage.StageBranchClockTopCurveShape(clocktopcurveshape)
 }
@@ -2709,25 +2654,6 @@ func (stage *Stage) StageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *MidA
 
 }
 
-func (musicabstract *MusicAbstract) GongStageBranch(stage *Stage) {
-	stage.StageBranchMusicAbstract(musicabstract)
-}
-
-func (stage *Stage) StageBranchMusicAbstract(musicabstract *MusicAbstract) {
-
-	// check if instance is already staged
-	if stage.IsStaged(musicabstract) {
-		return
-	}
-
-	musicabstract.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
 func (originalpoints3dshape *OriginalPoints3DShape) GongStageBranch(stage *Stage) {
 	stage.StageBranchOriginalPoints3DShape(originalpoints3dshape)
 }
@@ -3202,15 +3128,6 @@ func (stage *Stage) StageBranchPlantAbstract(plantabstract *PlantAbstract) {
 	//insertion point for the staging of instances referenced by pointers
 	if plantabstract.TubeVaseAbstract != nil {
 		stage.StageBranch(plantabstract.TubeVaseAbstract)
-	}
-	if plantabstract.StoolAbstract != nil {
-		stage.StageBranch(plantabstract.StoolAbstract)
-	}
-	if plantabstract.ClockAbstract != nil {
-		stage.StageBranch(plantabstract.ClockAbstract)
-	}
-	if plantabstract.MusicAbstract != nil {
-		stage.StageBranch(plantabstract.MusicAbstract)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4273,25 +4190,6 @@ func (stage *Stage) StageBranchStool3DDiagram(stool3ddiagram *Stool3DDiagram) {
 
 }
 
-func (stoolabstract *StoolAbstract) GongStageBranch(stage *Stage) {
-	stage.StageBranchStoolAbstract(stoolabstract)
-}
-
-func (stage *Stage) StageBranchStoolAbstract(stoolabstract *StoolAbstract) {
-
-	// check if instance is already staged
-	if stage.IsStaged(stoolabstract) {
-		return
-	}
-
-	stoolabstract.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
 func (tiledfloor3dshape *TiledFloor3DShape) GongStageBranch(stage *Stage) {
 	stage.StageBranchTiledFloor3DShape(tiledfloor3dshape)
 }
@@ -4939,10 +4837,6 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchClock3DDiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *ClockAbstract:
-		toT := GongCopyBranchClockAbstract(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
 	case *ClockTopCurveShape:
 		toT := GongCopyBranchClockTopCurveShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -5061,10 +4955,6 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *MidArcVectorShapeGrid:
 		toT := GongCopyBranchMidArcVectorShapeGrid(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *MusicAbstract:
-		toT := GongCopyBranchMusicAbstract(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *OriginalPoints3DShape:
@@ -5377,10 +5267,6 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Stool3DDiagram:
 		toT := GongCopyBranchStool3DDiagram(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *StoolAbstract:
-		toT := GongCopyBranchStoolAbstract(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TiledFloor3DShape:
@@ -5753,25 +5639,6 @@ func GongCopyBranchClock3DDiagram(mapOrigCopy map[any]any, clock3ddiagramFrom *C
 	if clock3ddiagramFrom.Rendered3DShape != nil {
 		clock3ddiagramTo.Rendered3DShape = GongCopyBranchRendered3DShape(mapOrigCopy, clock3ddiagramFrom.Rendered3DShape)
 	}
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-	return
-}
-
-func GongCopyBranchClockAbstract(mapOrigCopy map[any]any, clockabstractFrom *ClockAbstract) (clockabstractTo *ClockAbstract) {
-
-	// clockabstractFrom has already been copied
-	if _clockabstractTo, ok := mapOrigCopy[clockabstractFrom]; ok {
-		clockabstractTo = _clockabstractTo.(*ClockAbstract)
-		return
-	}
-
-	clockabstractTo = new(ClockAbstract)
-	mapOrigCopy[clockabstractFrom] = clockabstractTo
-	clockabstractFrom.GongCopyBasicFields(clockabstractTo)
-
-	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -6354,25 +6221,6 @@ func GongCopyBranchMidArcVectorShapeGrid(mapOrigCopy map[any]any, midarcvectorsh
 	return
 }
 
-func GongCopyBranchMusicAbstract(mapOrigCopy map[any]any, musicabstractFrom *MusicAbstract) (musicabstractTo *MusicAbstract) {
-
-	// musicabstractFrom has already been copied
-	if _musicabstractTo, ok := mapOrigCopy[musicabstractFrom]; ok {
-		musicabstractTo = _musicabstractTo.(*MusicAbstract)
-		return
-	}
-
-	musicabstractTo = new(MusicAbstract)
-	mapOrigCopy[musicabstractFrom] = musicabstractTo
-	musicabstractFrom.GongCopyBasicFields(musicabstractTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-	return
-}
-
 func GongCopyBranchOriginalPoints3DShape(mapOrigCopy map[any]any, originalpoints3dshapeFrom *OriginalPoints3DShape) (originalpoints3dshapeTo *OriginalPoints3DShape) {
 
 	// originalpoints3dshapeFrom has already been copied
@@ -6846,15 +6694,6 @@ func GongCopyBranchPlantAbstract(mapOrigCopy map[any]any, plantabstractFrom *Pla
 	//insertion point for the staging of instances referenced by pointers
 	if plantabstractFrom.TubeVaseAbstract != nil {
 		plantabstractTo.TubeVaseAbstract = GongCopyBranchTubeVaseAbstract(mapOrigCopy, plantabstractFrom.TubeVaseAbstract)
-	}
-	if plantabstractFrom.StoolAbstract != nil {
-		plantabstractTo.StoolAbstract = GongCopyBranchStoolAbstract(mapOrigCopy, plantabstractFrom.StoolAbstract)
-	}
-	if plantabstractFrom.ClockAbstract != nil {
-		plantabstractTo.ClockAbstract = GongCopyBranchClockAbstract(mapOrigCopy, plantabstractFrom.ClockAbstract)
-	}
-	if plantabstractFrom.MusicAbstract != nil {
-		plantabstractTo.MusicAbstract = GongCopyBranchMusicAbstract(mapOrigCopy, plantabstractFrom.MusicAbstract)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -7918,25 +7757,6 @@ func GongCopyBranchStool3DDiagram(mapOrigCopy map[any]any, stool3ddiagramFrom *S
 	return
 }
 
-func GongCopyBranchStoolAbstract(mapOrigCopy map[any]any, stoolabstractFrom *StoolAbstract) (stoolabstractTo *StoolAbstract) {
-
-	// stoolabstractFrom has already been copied
-	if _stoolabstractTo, ok := mapOrigCopy[stoolabstractFrom]; ok {
-		stoolabstractTo = _stoolabstractTo.(*StoolAbstract)
-		return
-	}
-
-	stoolabstractTo = new(StoolAbstract)
-	mapOrigCopy[stoolabstractFrom] = stoolabstractTo
-	stoolabstractFrom.GongCopyBasicFields(stoolabstractTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-	return
-}
-
 func GongCopyBranchTiledFloor3DShape(mapOrigCopy map[any]any, tiledfloor3dshapeFrom *TiledFloor3DShape) (tiledfloor3dshapeTo *TiledFloor3DShape) {
 
 	// tiledfloor3dshapeFrom has already been copied
@@ -8791,25 +8611,6 @@ func (stage *Stage) UnstageBranchClock3DDiagram(clock3ddiagram *Clock3DDiagram) 
 
 }
 
-func (clockabstract *ClockAbstract) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchClockAbstract(clockabstract)
-}
-
-func (stage *Stage) UnstageBranchClockAbstract(clockabstract *ClockAbstract) {
-
-	// check if instance is already staged
-	if !stage.IsStaged(clockabstract) {
-		return
-	}
-
-	clockabstract.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
 func (clocktopcurveshape *ClockTopCurveShape) GongUnstageBranch(stage *Stage) {
 	stage.UnstageBranchClockTopCurveShape(clocktopcurveshape)
 }
@@ -9386,25 +9187,6 @@ func (stage *Stage) UnstageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *Mi
 
 }
 
-func (musicabstract *MusicAbstract) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchMusicAbstract(musicabstract)
-}
-
-func (stage *Stage) UnstageBranchMusicAbstract(musicabstract *MusicAbstract) {
-
-	// check if instance is already staged
-	if !stage.IsStaged(musicabstract) {
-		return
-	}
-
-	musicabstract.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
 func (originalpoints3dshape *OriginalPoints3DShape) GongUnstageBranch(stage *Stage) {
 	stage.UnstageBranchOriginalPoints3DShape(originalpoints3dshape)
 }
@@ -9879,15 +9661,6 @@ func (stage *Stage) UnstageBranchPlantAbstract(plantabstract *PlantAbstract) {
 	//insertion point for the staging of instances referenced by pointers
 	if plantabstract.TubeVaseAbstract != nil {
 		stage.UnstageBranch(plantabstract.TubeVaseAbstract)
-	}
-	if plantabstract.StoolAbstract != nil {
-		stage.UnstageBranch(plantabstract.StoolAbstract)
-	}
-	if plantabstract.ClockAbstract != nil {
-		stage.UnstageBranch(plantabstract.ClockAbstract)
-	}
-	if plantabstract.MusicAbstract != nil {
-		stage.UnstageBranch(plantabstract.MusicAbstract)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -10950,25 +10723,6 @@ func (stage *Stage) UnstageBranchStool3DDiagram(stool3ddiagram *Stool3DDiagram) 
 
 }
 
-func (stoolabstract *StoolAbstract) GongUnstageBranch(stage *Stage) {
-	stage.UnstageBranchStoolAbstract(stoolabstract)
-}
-
-func (stage *Stage) UnstageBranchStoolAbstract(stoolabstract *StoolAbstract) {
-
-	// check if instance is already staged
-	if !stage.IsStaged(stoolabstract) {
-		return
-	}
-
-	stoolabstract.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
 func (tiledfloor3dshape *TiledFloor3DShape) GongUnstageBranch(stage *Stage) {
 	stage.UnstageBranchTiledFloor3DShape(tiledfloor3dshape)
 }
@@ -11625,11 +11379,6 @@ func (reference *Clock3DDiagram) GongReconstructPointersFromReferences(stage *St
 	// insertion point for slice of pointers field
 }
 
-func (reference *ClockAbstract) GongReconstructPointersFromReferences(stage *Stage, instance *ClockAbstract) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-}
-
 func (reference *ClockTopCurveShape) GongReconstructPointersFromReferences(stage *Stage, instance *ClockTopCurveShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -11788,11 +11537,6 @@ func (reference *MidArcVectorShapeGrid) GongReconstructPointersFromReferences(st
 	// insertion point for slice of pointers field
 }
 
-func (reference *MusicAbstract) GongReconstructPointersFromReferences(stage *Stage, instance *MusicAbstract) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-}
-
 func (reference *OriginalPoints3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *OriginalPoints3DShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -11933,15 +11677,6 @@ func (reference *PlantAbstract) GongReconstructPointersFromReferences(stage *Sta
 	// insertion point for pointers field
 	if instance.TubeVaseAbstract != nil {
 		reference.TubeVaseAbstract = stage.TubeVaseAbstracts_reference[instance.TubeVaseAbstract]
-	}
-	if instance.StoolAbstract != nil {
-		reference.StoolAbstract = stage.StoolAbstracts_reference[instance.StoolAbstract]
-	}
-	if instance.ClockAbstract != nil {
-		reference.ClockAbstract = stage.ClockAbstracts_reference[instance.ClockAbstract]
-	}
-	if instance.MusicAbstract != nil {
-		reference.MusicAbstract = stage.MusicAbstracts_reference[instance.MusicAbstract]
 	}
 	// insertion point for slice of pointers field
 	reference.Plant2DDiagrams = reference.Plant2DDiagrams[:0]
@@ -12254,11 +11989,6 @@ func (reference *Stool3DDiagram) GongReconstructPointersFromReferences(stage *St
 	// insertion point for slice of pointers field
 }
 
-func (reference *StoolAbstract) GongReconstructPointersFromReferences(stage *Stage, instance *StoolAbstract) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-}
-
 func (reference *TiledFloor3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *TiledFloor3DShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -12515,11 +12245,6 @@ func (reference *Clock3DDiagram) GongReconstructPointersFromInstances(stage *Sta
 	// insertion point for slice of pointers fields
 }
 
-func (reference *ClockAbstract) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-}
-
 func (reference *ClockTopCurveShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -12680,11 +12405,6 @@ func (reference *MidArcVectorShape) GongReconstructPointersFromInstances(stage *
 }
 
 func (reference *MidArcVectorShapeGrid) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-}
-
-func (reference *MusicAbstract) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -12852,24 +12572,6 @@ func (reference *PlantAbstract) GongReconstructPointersFromInstances(stage *Stag
 		reference.TubeVaseAbstract = nil
 		if _instance, ok := stage.TubeVaseAbstracts_instance[_reference]; ok {
 			reference.TubeVaseAbstract = _instance
-		}
-	}
-	if _reference := reference.StoolAbstract; _reference != nil {
-		reference.StoolAbstract = nil
-		if _instance, ok := stage.StoolAbstracts_instance[_reference]; ok {
-			reference.StoolAbstract = _instance
-		}
-	}
-	if _reference := reference.ClockAbstract; _reference != nil {
-		reference.ClockAbstract = nil
-		if _instance, ok := stage.ClockAbstracts_instance[_reference]; ok {
-			reference.ClockAbstract = _instance
-		}
-	}
-	if _reference := reference.MusicAbstract; _reference != nil {
-		reference.MusicAbstract = nil
-		if _instance, ok := stage.MusicAbstracts_instance[_reference]; ok {
-			reference.MusicAbstract = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -13210,11 +12912,6 @@ func (reference *Stool3DDiagram) GongReconstructPointersFromInstances(stage *Sta
 			reference.Rendered3DShape = _instance
 		}
 	}
-	// insertion point for slice of pointers fields
-}
-
-func (reference *StoolAbstract) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
 
@@ -13678,38 +13375,6 @@ func (clock3ddiagram *Clock3DDiagram) GongDiff(stage *Stage, clock3ddiagramOther
 	}
 	if clock3ddiagram.IsExpanded != clock3ddiagramOther.IsExpanded {
 		diffs = append(diffs, clock3ddiagram.GongMarshallField(stage, "IsExpanded"))
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (clockabstract *ClockAbstract) GongDiff(stage *Stage, clockabstractOther *ClockAbstract) (diffs []string) {
-	// insertion point for field diffs
-	if clockabstract.Name != clockabstractOther.Name {
-		diffs = append(diffs, clockabstract.GongMarshallField(stage, "Name"))
-	}
-	if clockabstract.RadialRepetitions != clockabstractOther.RadialRepetitions {
-		diffs = append(diffs, clockabstract.GongMarshallField(stage, "RadialRepetitions"))
-	}
-	if clockabstract.Transparency != clockabstractOther.Transparency {
-		diffs = append(diffs, clockabstract.GongMarshallField(stage, "Transparency"))
-	}
-	if clockabstract.RelativeTubeDiameter != clockabstractOther.RelativeTubeDiameter {
-		diffs = append(diffs, clockabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
-	}
-	if clockabstract.RelativeHeight3DTorus != clockabstractOther.RelativeHeight3DTorus {
-		diffs = append(diffs, clockabstract.GongMarshallField(stage, "RelativeHeight3DTorus"))
-	}
-	if clockabstract.ClockTorusVerticalScale != clockabstractOther.ClockTorusVerticalScale {
-		diffs = append(diffs, clockabstract.GongMarshallField(stage, "ClockTorusVerticalScale"))
-	}
-	if clockabstract.RelativeHeight != clockabstractOther.RelativeHeight {
-		diffs = append(diffs, clockabstract.GongMarshallField(stage, "RelativeHeight"))
-	}
-	if clockabstract.ProjectionAngle != clockabstractOther.ProjectionAngle {
-		diffs = append(diffs, clockabstract.GongMarshallField(stage, "ProjectionAngle"))
 	}
 
 	return
@@ -14323,95 +13988,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongDiff(stage *Stage, midar
 	// insertion point for field diffs
 	if midarcvectorshapegrid.Name != midarcvectorshapegridOther.Name {
 		diffs = append(diffs, midarcvectorshapegrid.GongMarshallField(stage, "Name"))
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (musicabstract *MusicAbstract) GongDiff(stage *Stage, musicabstractOther *MusicAbstract) (diffs []string) {
-	// insertion point for field diffs
-	if musicabstract.Name != musicabstractOther.Name {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "Name"))
-	}
-	if musicabstract.IsChecked != musicabstractOther.IsChecked {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "IsChecked"))
-	}
-	if musicabstract.PitchHeight != musicabstractOther.PitchHeight {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "PitchHeight"))
-	}
-	if musicabstract.NbOfBeatsInTheme != musicabstractOther.NbOfBeatsInTheme {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "NbOfBeatsInTheme"))
-	}
-	if musicabstract.BeatsPerSecond != musicabstractOther.BeatsPerSecond {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "BeatsPerSecond"))
-	}
-	if musicabstract.FirstVoiceShiftX != musicabstractOther.FirstVoiceShiftX {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "FirstVoiceShiftX"))
-	}
-	if musicabstract.FirstVoiceShiftY != musicabstractOther.FirstVoiceShiftY {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "FirstVoiceShiftY"))
-	}
-	if musicabstract.PitchDifference != musicabstractOther.PitchDifference {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "PitchDifference"))
-	}
-	if musicabstract.Level != musicabstractOther.Level {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "Level"))
-	}
-	if musicabstract.ActualBeatsTemporalShift != musicabstractOther.ActualBeatsTemporalShift {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ActualBeatsTemporalShift"))
-	}
-	if musicabstract.IsMinor != musicabstractOther.IsMinor {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "IsMinor"))
-	}
-	if musicabstract.ThemeBinaryEncoding != musicabstractOther.ThemeBinaryEncoding {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ThemeBinaryEncoding"))
-	}
-	if musicabstract.BezierControlLengthRatio != musicabstractOther.BezierControlLengthRatio {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "BezierControlLengthRatio"))
-	}
-	if musicabstract.NbPitchLines != musicabstractOther.NbPitchLines {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "NbPitchLines"))
-	}
-	if musicabstract.NbBeatLines != musicabstractOther.NbBeatLines {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "NbBeatLines"))
-	}
-	if musicabstract.OriginX != musicabstractOther.OriginX {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "OriginX"))
-	}
-	if musicabstract.OriginY != musicabstractOther.OriginY {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "OriginY"))
-	}
-	if musicabstract.ScoreScale != musicabstractOther.ScoreScale {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ScoreScale"))
-	}
-	if musicabstract.ShowFirstVoice != musicabstractOther.ShowFirstVoice {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowFirstVoice"))
-	}
-	if musicabstract.ShowFirstVoiceShiftRight != musicabstractOther.ShowFirstVoiceShiftRight {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowFirstVoiceShiftRight"))
-	}
-	if musicabstract.ShowSecondVoice != musicabstractOther.ShowSecondVoice {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowSecondVoice"))
-	}
-	if musicabstract.ShowSecondVoiceShiftRight != musicabstractOther.ShowSecondVoiceShiftRight {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowSecondVoiceShiftRight"))
-	}
-	if musicabstract.ShowFirstVoiceNotes != musicabstractOther.ShowFirstVoiceNotes {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowFirstVoiceNotes"))
-	}
-	if musicabstract.ShowFirstVoiceNotesShiftRight != musicabstractOther.ShowFirstVoiceNotesShiftRight {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowFirstVoiceNotesShiftRight"))
-	}
-	if musicabstract.ShowSecondVoiceNotes != musicabstractOther.ShowSecondVoiceNotes {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowSecondVoiceNotes"))
-	}
-	if musicabstract.ShowSecondVoiceNotesShiftRight != musicabstractOther.ShowSecondVoiceNotesShiftRight {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowSecondVoiceNotesShiftRight"))
-	}
-	if musicabstract.IsComposerNodeExpanded != musicabstractOther.IsComposerNodeExpanded {
-		diffs = append(diffs, musicabstract.GongMarshallField(stage, "IsComposerNodeExpanded"))
 	}
 
 	return
@@ -15055,27 +14631,6 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 	} else if plantabstract.TubeVaseAbstract != nil && plantabstractOther.TubeVaseAbstract != nil {
 		if plantabstract.TubeVaseAbstract != plantabstractOther.TubeVaseAbstract {
 			diffs = append(diffs, plantabstract.GongMarshallField(stage, "TubeVaseAbstract"))
-		}
-	}
-	if (plantabstract.StoolAbstract == nil) != (plantabstractOther.StoolAbstract == nil) {
-		diffs = append(diffs, plantabstract.GongMarshallField(stage, "StoolAbstract"))
-	} else if plantabstract.StoolAbstract != nil && plantabstractOther.StoolAbstract != nil {
-		if plantabstract.StoolAbstract != plantabstractOther.StoolAbstract {
-			diffs = append(diffs, plantabstract.GongMarshallField(stage, "StoolAbstract"))
-		}
-	}
-	if (plantabstract.ClockAbstract == nil) != (plantabstractOther.ClockAbstract == nil) {
-		diffs = append(diffs, plantabstract.GongMarshallField(stage, "ClockAbstract"))
-	} else if plantabstract.ClockAbstract != nil && plantabstractOther.ClockAbstract != nil {
-		if plantabstract.ClockAbstract != plantabstractOther.ClockAbstract {
-			diffs = append(diffs, plantabstract.GongMarshallField(stage, "ClockAbstract"))
-		}
-	}
-	if (plantabstract.MusicAbstract == nil) != (plantabstractOther.MusicAbstract == nil) {
-		diffs = append(diffs, plantabstract.GongMarshallField(stage, "MusicAbstract"))
-	} else if plantabstract.MusicAbstract != nil && plantabstractOther.MusicAbstract != nil {
-		if plantabstract.MusicAbstract != plantabstractOther.MusicAbstract {
-			diffs = append(diffs, plantabstract.GongMarshallField(stage, "MusicAbstract"))
 		}
 	}
 	if plantabstract.CurrentView != plantabstractOther.CurrentView {
@@ -16898,47 +16453,6 @@ func (stool3ddiagram *Stool3DDiagram) GongDiff(stage *Stage, stool3ddiagramOther
 	}
 	if stool3ddiagram.IsExpanded != stool3ddiagramOther.IsExpanded {
 		diffs = append(diffs, stool3ddiagram.GongMarshallField(stage, "IsExpanded"))
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (stoolabstract *StoolAbstract) GongDiff(stage *Stage, stoolabstractOther *StoolAbstract) (diffs []string) {
-	// insertion point for field diffs
-	if stoolabstract.Name != stoolabstractOther.Name {
-		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "Name"))
-	}
-	if stoolabstract.RadialRepetitions != stoolabstractOther.RadialRepetitions {
-		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RadialRepetitions"))
-	}
-	if stoolabstract.Transparency != stoolabstractOther.Transparency {
-		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "Transparency"))
-	}
-	if stoolabstract.RelativeTubeDiameter != stoolabstractOther.RelativeTubeDiameter {
-		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
-	}
-	if stoolabstract.RelativeHeight3DTorus != stoolabstractOther.RelativeHeight3DTorus {
-		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeHeight3DTorus"))
-	}
-	if stoolabstract.StoolTorusVerticalScale != stoolabstractOther.StoolTorusVerticalScale {
-		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "StoolTorusVerticalScale"))
-	}
-	if stoolabstract.RelativeHeight != stoolabstractOther.RelativeHeight {
-		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeHeight"))
-	}
-	if stoolabstract.RelativeSeatThickness != stoolabstractOther.RelativeSeatThickness {
-		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeSeatThickness"))
-	}
-	if stoolabstract.ProjectionAngle != stoolabstractOther.ProjectionAngle {
-		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "ProjectionAngle"))
-	}
-	if stoolabstract.RelativeEyeSeparationCriteria != stoolabstractOther.RelativeEyeSeparationCriteria {
-		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeEyeSeparationCriteria"))
-	}
-	if stoolabstract.RelativeEyeCornerControlVectorStrength != stoolabstractOther.RelativeEyeCornerControlVectorStrength {
-		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeEyeCornerControlVectorStrength"))
 	}
 
 	return

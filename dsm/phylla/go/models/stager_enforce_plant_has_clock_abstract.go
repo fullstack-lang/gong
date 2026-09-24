@@ -1,18 +1,27 @@
 package models
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock"
+)
 
 func (stager *Stager) enforcePlantHasClockAbstract() (needCommit bool) {
+	if stager.stageSet == nil || stager.stageSet.ClockStage == nil {
+		return false
+	}
+	clockStage := stager.stageSet.ClockStage
+
 	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType == Clock {
 			if plant.ClockAbstract == nil {
-				ca := (&ClockAbstract{
+				ca := (&clock.ClockAbstract{
 					Name:                    plant.Name + "-ClockAbstract",
 					RadialRepetitions:       1,
 					RelativeTubeDiameter:    0.01,
 					ClockTorusVerticalScale: 1.0,
 					RelativeHeight:          1.0,
-				}).Stage(stager.stage)
+				}).Stage(clockStage)
 				plant.ClockAbstract = ca
 				needCommit = true
 				stager.logAndNotify(fmt.Sprintf("Plant %s: created missing ClockAbstract", plant.Name))
@@ -31,7 +40,7 @@ func (stager *Stager) enforcePlantHasClockAbstract() (needCommit bool) {
 	}
 
 	// Unstage unreferenced ClockAbstract
-	for ca := range *stager.stage.GetInstancesSet[*ClockAbstract]() {
+	for ca := range *clockStage.GetInstancesSet[*clock.ClockAbstract]() {
 		hasOwner := false
 		for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 			if plant.ClockAbstract == ca {
@@ -40,7 +49,7 @@ func (stager *Stager) enforcePlantHasClockAbstract() (needCommit bool) {
 			}
 		}
 		if !hasOwner {
-			ca.Unstage(stager.stage)
+			ca.Unstage(clockStage)
 			needCommit = true
 			stager.logAndNotify(fmt.Sprintf("Removed orphaned ClockAbstract %s", ca.Name))
 		}

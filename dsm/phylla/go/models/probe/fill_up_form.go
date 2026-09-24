@@ -254,30 +254,6 @@ func FillUpForm(
 				return owner.Clock3DDiagrams
 			})
 
-	case *models.ClockAbstract:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RadialRepetitions", instanceWithInferedType.RadialRepetitions, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Transparency", instanceWithInferedType.Transparency, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeTubeDiameter", instanceWithInferedType.RelativeTubeDiameter, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeHeight3DTorus", instanceWithInferedType.RelativeHeight3DTorus, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ClockTorusVerticalScale", instanceWithInferedType.ClockTorusVerticalScale, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeHeight", instanceWithInferedType.RelativeHeight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ProjectionAngle", instanceWithInferedType.ProjectionAngle, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
 	case *models.ClockTopCurveShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -801,68 +777,6 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("MidArcVectorShapes", instanceWithInferedType, &instanceWithInferedType.MidArcVectorShapes, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
-	case *models.MusicAbstract:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("PitchHeight", instanceWithInferedType.PitchHeight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("NbOfBeatsInTheme", instanceWithInferedType.NbOfBeatsInTheme, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("BeatsPerSecond", instanceWithInferedType.BeatsPerSecond, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("FirstVoiceShiftX", instanceWithInferedType.FirstVoiceShiftX, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("FirstVoiceShiftY", instanceWithInferedType.FirstVoiceShiftY, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("PitchDifference", instanceWithInferedType.PitchDifference, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Level", instanceWithInferedType.Level, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ActualBeatsTemporalShift", instanceWithInferedType.ActualBeatsTemporalShift, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsMinor", instanceWithInferedType.IsMinor, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ThemeBinaryEncoding", instanceWithInferedType.ThemeBinaryEncoding, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("BezierControlLengthRatio", instanceWithInferedType.BezierControlLengthRatio, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("NbPitchLines", instanceWithInferedType.NbPitchLines, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("NbBeatLines", instanceWithInferedType.NbBeatLines, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("OriginX", instanceWithInferedType.OriginX, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("OriginY", instanceWithInferedType.OriginY, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ScoreScale", instanceWithInferedType.ScoreScale, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ShowFirstVoice", instanceWithInferedType.ShowFirstVoice, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ShowFirstVoiceShiftRight", instanceWithInferedType.ShowFirstVoiceShiftRight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ShowSecondVoice", instanceWithInferedType.ShowSecondVoice, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ShowSecondVoiceShiftRight", instanceWithInferedType.ShowSecondVoiceShiftRight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ShowFirstVoiceNotes", instanceWithInferedType.ShowFirstVoiceNotes, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ShowFirstVoiceNotesShiftRight", instanceWithInferedType.ShowFirstVoiceNotesShiftRight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ShowSecondVoiceNotes", instanceWithInferedType.ShowSecondVoiceNotes, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ShowSecondVoiceNotesShiftRight", instanceWithInferedType.ShowSecondVoiceNotesShiftRight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsComposerNodeExpanded", instanceWithInferedType.IsComposerNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -1445,9 +1359,6 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		EnumTypeStringToForm("PlantType", instanceWithInferedType.PlantType, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationFieldToForm("TubeVaseAbstract", instanceWithInferedType.TubeVaseAbstract, formGroup, probe)
-		AssociationFieldToForm("StoolAbstract", instanceWithInferedType.StoolAbstract, formGroup, probe)
-		AssociationFieldToForm("ClockAbstract", instanceWithInferedType.ClockAbstract, formGroup, probe)
-		AssociationFieldToForm("MusicAbstract", instanceWithInferedType.MusicAbstract, formGroup, probe)
 		EnumTypeStringToForm("CurrentView", instanceWithInferedType.CurrentView, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -2915,36 +2826,6 @@ func FillUpForm(
 			func(owner *models.PlantAbstract) []*models.Stool3DDiagram {
 				return owner.Stool3DDiagrams
 			})
-
-	case *models.StoolAbstract:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RadialRepetitions", instanceWithInferedType.RadialRepetitions, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Transparency", instanceWithInferedType.Transparency, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeTubeDiameter", instanceWithInferedType.RelativeTubeDiameter, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeHeight3DTorus", instanceWithInferedType.RelativeHeight3DTorus, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("StoolTorusVerticalScale", instanceWithInferedType.StoolTorusVerticalScale, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeHeight", instanceWithInferedType.RelativeHeight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeSeatThickness", instanceWithInferedType.RelativeSeatThickness, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ProjectionAngle", instanceWithInferedType.ProjectionAngle, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeEyeSeparationCriteria", instanceWithInferedType.RelativeEyeSeparationCriteria, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeEyeCornerControlVectorStrength", instanceWithInferedType.RelativeEyeCornerControlVectorStrength, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.TiledFloor3DShape:
 		// insertion point

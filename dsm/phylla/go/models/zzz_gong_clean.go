@@ -136,13 +136,6 @@ func (clock3ddiagram *Clock3DDiagram) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by ClockAbstract
-func (clockabstract *ClockAbstract) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by ClockTopCurveShape
 func (clocktopcurveshape *ClockTopCurveShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -364,13 +357,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongClean(stage *Stage) (mod
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by MusicAbstract
-func (musicabstract *MusicAbstract) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by OriginalPoints3DShape
 func (originalpoints3dshape *OriginalPoints3DShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -563,9 +549,6 @@ func (plantabstract *PlantAbstract) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&plantabstract.Clock3DDiagrams) || modified
 	// insertion point per field
 	modified = stage.CleanPointer(&plantabstract.TubeVaseAbstract) || modified
-	modified = stage.CleanPointer(&plantabstract.StoolAbstract) || modified
-	modified = stage.CleanPointer(&plantabstract.ClockAbstract) || modified
-	modified = stage.CleanPointer(&plantabstract.MusicAbstract) || modified
 	modified = stage.CleanPointer(&plantabstract.AxesShape) || modified
 	modified = stage.CleanPointer(&plantabstract.RhombusStuff) || modified
 	modified = stage.CleanPointer(&plantabstract.GrowthVectorShape) || modified
@@ -1005,13 +988,6 @@ func (stool3ddiagram *Stool3DDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanPointer(&stool3ddiagram.RotatedSeatAndLegs3DShape) || modified
 	modified = stage.CleanPointer(&stool3ddiagram.TiledFloor3DShape) || modified
 	modified = stage.CleanPointer(&stool3ddiagram.Rendered3DShape) || modified
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by StoolAbstract
-func (stoolabstract *StoolAbstract) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
 	return
 }
 

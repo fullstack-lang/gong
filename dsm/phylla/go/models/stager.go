@@ -66,6 +66,7 @@ type Plant3DStageUpdaterInterface interface {
 
 type Stager struct {
 	stage      *Stage
+	stageSet   *StageSet
 	splitStage *split.Stage
 	probeForm  ProbeIF
 
@@ -131,10 +132,33 @@ func NewStager(
 	clock3DUpdater Clock3DStageUpdaterInterface,
 	plant3DUpdater Plant3DStageUpdaterInterface,
 ) (stager *Stager) {
+	return NewStagerStageSet(
+		r,
+		NewStageSetFromStage(stage),
+		probeForm,
+		persistanceFile,
+		threeJSUpdater,
+		stool3DUpdater,
+		clock3DUpdater,
+		plant3DUpdater,
+	)
+}
+
+func NewStagerStageSet(
+	r *http.ServeMux,
+	stageSet *StageSet,
+	probeForm ProbeIF,
+	persistanceFile string,
+	threeJSUpdater ThreeJSStageUpdaterInterface,
+	stool3DUpdater Stool3DStageUpdaterInterface,
+	clock3DUpdater Clock3DStageUpdaterInterface,
+	plant3DUpdater Plant3DStageUpdaterInterface,
+) (stager *Stager) {
 
 	stager = new(Stager)
 
-	stager.stage = stage
+	stager.stage = stageSet.Stage
+	stager.stageSet = stageSet
 	stager.probeForm = probeForm
 	stager.persistanceFile = persistanceFile
 	stager.threeJSUpdater = threeJSUpdater
@@ -208,7 +232,7 @@ func NewStager(
 	beforeCommit(stager.stage)
 	afterCommit(stager.stage)
 
-	for plant := range *stage.GetInstancesSet[*PlantAbstract]() {
+	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.IsSelected {
 			stager.probeForm.FillUpFormFromGongstruct(plant, GetPointerToGongstructName[*PlantAbstract]())
 			break
@@ -219,6 +243,17 @@ func NewStager(
 
 func (stager *Stager) GetStage() *Stage {
 	return stager.stage
+}
+
+func (stager *Stager) GetStageSet() *StageSet {
+	return stager.stageSet
+}
+
+func (stager *Stager) SetStageSet(stageSet *StageSet) {
+	stager.stageSet = stageSet
+	if stageSet != nil && stageSet.Stage != nil {
+		stager.stage = stageSet.Stage
+	}
 }
 
 func (stager *Stager) EnforceSemantic() {

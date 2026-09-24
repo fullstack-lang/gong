@@ -77,16 +77,24 @@ func (stager *Stager) treeLibrary(
 							// if the user loads a data file, we don't want the file to be automatically overwritten
 							stager.stage.OnInitCommitCallback = nil
 
-							stager.stage.Reset()
-
 							fset := token.NewFileSet()
 							file, err := parser.ParseFile(fset, "", string(content), parser.ParseComments)
 							if err == nil {
-								stager.stage.ParseAstFileFromAst(file, fset, true)
-								stager.stage.ComputeReverseMaps()
-								stager.stage.ComputeInstancesNb()
-								stager.stage.ComputeReferenceAndOrders()
-								stager.stage.Commit()
+								if stager.stageSet != nil {
+									stager.stageSet.Reset()
+									stager.stageSet.ParseAstFileFromAst(file, fset, true)
+									stager.stageSet.ComputeReverseMaps()
+									stager.stageSet.ComputeInstancesNb()
+									stager.stageSet.ComputeReferenceAndOrders()
+									stager.stageSet.Commit()
+								} else {
+									stager.stage.Reset()
+									stager.stage.ParseAstFileFromAst(file, fset, true)
+									stager.stage.ComputeReverseMaps()
+									stager.stage.ComputeInstancesNb()
+									stager.stage.ComputeReferenceAndOrders()
+									stager.stage.Commit()
+								}
 								stager.probeForm.Refresh()
 							}
 						}

@@ -17,6 +17,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock"
 )
 
 var (
@@ -29,11 +32,23 @@ var (
 // StageSet coordinates multiple stages across packages
 type StageSet struct {
 	Stage *Stage
+	StoolStage *stool.Stage
+	MusicStage *music.Stage
+	ClockStage *clock.Stage
 }
 
 
 // Commit commits all stages in StageSet in dependency order
 func (stageSet *StageSet) Commit() {
+	if stageSet.ClockStage != nil {
+		stageSet.ClockStage.Commit()
+	}
+	if stageSet.MusicStage != nil {
+		stageSet.MusicStage.Commit()
+	}
+	if stageSet.StoolStage != nil {
+		stageSet.StoolStage.Commit()
+	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.Commit()
 	}
@@ -41,6 +56,15 @@ func (stageSet *StageSet) Commit() {
 
 // Checkout checkouts all stages in StageSet
 func (stageSet *StageSet) Checkout() {
+	if stageSet.ClockStage != nil {
+		stageSet.ClockStage.Checkout()
+	}
+	if stageSet.MusicStage != nil {
+		stageSet.MusicStage.Checkout()
+	}
+	if stageSet.StoolStage != nil {
+		stageSet.StoolStage.Checkout()
+	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.Checkout()
 	}
@@ -48,6 +72,15 @@ func (stageSet *StageSet) Checkout() {
 
 // Reset resets all stages in StageSet
 func (stageSet *StageSet) Reset() {
+	if stageSet.ClockStage != nil {
+		stageSet.ClockStage.Reset()
+	}
+	if stageSet.MusicStage != nil {
+		stageSet.MusicStage.Reset()
+	}
+	if stageSet.StoolStage != nil {
+		stageSet.StoolStage.Reset()
+	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.Reset()
 	}
@@ -55,6 +88,15 @@ func (stageSet *StageSet) Reset() {
 
 // Clean cleans all stages in StageSet in dependency order
 func (stageSet *StageSet) Clean() {
+	if stageSet.ClockStage != nil {
+		stageSet.ClockStage.Clean()
+	}
+	if stageSet.MusicStage != nil {
+		stageSet.MusicStage.Clean()
+	}
+	if stageSet.StoolStage != nil {
+		stageSet.StoolStage.Clean()
+	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.Clean()
 	}
@@ -62,6 +104,15 @@ func (stageSet *StageSet) Clean() {
 
 // ComputeReverseMaps computes reverse maps on all stages in StageSet
 func (stageSet *StageSet) ComputeReverseMaps() {
+	if stageSet.ClockStage != nil {
+		stageSet.ClockStage.ComputeReverseMaps()
+	}
+	if stageSet.MusicStage != nil {
+		stageSet.MusicStage.ComputeReverseMaps()
+	}
+	if stageSet.StoolStage != nil {
+		stageSet.StoolStage.ComputeReverseMaps()
+	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.ComputeReverseMaps()
 	}
@@ -69,6 +120,15 @@ func (stageSet *StageSet) ComputeReverseMaps() {
 
 // ComputeInstancesNb computes instances nb on all stages in StageSet
 func (stageSet *StageSet) ComputeInstancesNb() {
+	if stageSet.ClockStage != nil {
+		stageSet.ClockStage.ComputeInstancesNb()
+	}
+	if stageSet.MusicStage != nil {
+		stageSet.MusicStage.ComputeInstancesNb()
+	}
+	if stageSet.StoolStage != nil {
+		stageSet.StoolStage.ComputeInstancesNb()
+	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.ComputeInstancesNb()
 	}
@@ -76,6 +136,15 @@ func (stageSet *StageSet) ComputeInstancesNb() {
 
 // ComputeReferenceAndOrders computes reference and orders on all stages in StageSet
 func (stageSet *StageSet) ComputeReferenceAndOrders() {
+	if stageSet.ClockStage != nil {
+		stageSet.ClockStage.ComputeReferenceAndOrders()
+	}
+	if stageSet.MusicStage != nil {
+		stageSet.MusicStage.ComputeReferenceAndOrders()
+	}
+	if stageSet.StoolStage != nil {
+		stageSet.StoolStage.ComputeReferenceAndOrders()
+	}
 	if stageSet.Stage != nil {
 		stageSet.Stage.ComputeReferenceAndOrders()
 	}
@@ -85,6 +154,21 @@ func (stageSet *StageSet) ComputeReferenceAndOrders() {
 func NewStageSet(path string) (stageSet *StageSet) {
 	stageSet = new(StageSet)
 	stageSet.Stage = NewStage(path)
+	subPath_StoolStage := "stool"
+	if path != "" {
+	subPath_StoolStage = path + "_stool"
+	}
+	stageSet.StoolStage = stool.NewStage(subPath_StoolStage)
+	subPath_MusicStage := "music"
+	if path != "" {
+	subPath_MusicStage = path + "_music"
+	}
+	stageSet.MusicStage = music.NewStage(subPath_MusicStage)
+	subPath_ClockStage := "clock"
+	if path != "" {
+	subPath_ClockStage = path + "_clock"
+	}
+	stageSet.ClockStage = clock.NewStage(subPath_ClockStage)
 	return stageSet
 }
 
@@ -92,6 +176,21 @@ func NewStageSet(path string) (stageSet *StageSet) {
 func NewStageSetFromStage(stage *Stage) (stageSet *StageSet) {
 	stageSet = new(StageSet)
 	stageSet.Stage = stage
+	subPath_StoolStage := "stool"
+	if stage != nil && stage.GetName() != "" {
+	subPath_StoolStage = stage.GetName() + "_stool"
+	}
+	stageSet.StoolStage = stool.NewStage(subPath_StoolStage)
+	subPath_MusicStage := "music"
+	if stage != nil && stage.GetName() != "" {
+	subPath_MusicStage = stage.GetName() + "_music"
+	}
+	stageSet.MusicStage = music.NewStage(subPath_MusicStage)
+	subPath_ClockStage := "clock"
+	if stage != nil && stage.GetName() != "" {
+	subPath_ClockStage = stage.GetName() + "_clock"
+	}
+	stageSet.ClockStage = clock.NewStage(subPath_ClockStage)
 	return stageSet
 }
 
@@ -135,6 +234,127 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 	_ = lastStageVal
 	_ = lastStagePtr
 
+	if stageSet.ClockStage != nil {
+		clockabstractOrdered := []*clock.ClockAbstract{}
+		for clockabstract := range stageSet.ClockStage.ClockAbstracts {
+			clockabstractOrdered = append(clockabstractOrdered, clockabstract)
+		}
+		sort.Slice(clockabstractOrdered, func(i, j int) bool {
+			return stageSet.ClockStage.ClockAbstract_stagedOrder[clockabstractOrdered[i]] < stageSet.ClockStage.ClockAbstract_stagedOrder[clockabstractOrdered[j]]
+		})
+		for _, clockabstract := range clockabstractOrdered {
+			if lastStageDecl != "ClockStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "ClockStage"
+			}
+			clockabstractIdent := "__clock" + clockabstract.GongGetIdentifier(stageSet.ClockStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&clock.ClockAbstract{Name: %s}).Stage(stageSet.ClockStage)", clockabstractIdent, __gong__toRawStringLiteral(clockabstract.Name)))
+			if lastStageVal != "ClockStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "ClockStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", clockabstractIdent, __gong__toRawStringLiteral(clockabstract.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RadialRepetitions = %d", clockabstractIdent, clockabstract.RadialRepetitions))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transparency = %f", clockabstractIdent, clockabstract.Transparency))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeTubeDiameter = %f", clockabstractIdent, clockabstract.RelativeTubeDiameter))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeHeight3DTorus = %f", clockabstractIdent, clockabstract.RelativeHeight3DTorus))
+			values.WriteString(fmt.Sprintf("\n\t%s.ClockTorusVerticalScale = %f", clockabstractIdent, clockabstract.ClockTorusVerticalScale))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeHeight = %f", clockabstractIdent, clockabstract.RelativeHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", clockabstractIdent, clockabstract.ProjectionAngle))
+		}
+	}
+	if stageSet.MusicStage != nil {
+		musicabstractOrdered := []*music.MusicAbstract{}
+		for musicabstract := range stageSet.MusicStage.MusicAbstracts {
+			musicabstractOrdered = append(musicabstractOrdered, musicabstract)
+		}
+		sort.Slice(musicabstractOrdered, func(i, j int) bool {
+			return stageSet.MusicStage.MusicAbstract_stagedOrder[musicabstractOrdered[i]] < stageSet.MusicStage.MusicAbstract_stagedOrder[musicabstractOrdered[j]]
+		})
+		for _, musicabstract := range musicabstractOrdered {
+			if lastStageDecl != "MusicStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "MusicStage"
+			}
+			musicabstractIdent := "__music" + musicabstract.GongGetIdentifier(stageSet.MusicStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&music.MusicAbstract{Name: %s}).Stage(stageSet.MusicStage)", musicabstractIdent, __gong__toRawStringLiteral(musicabstract.Name)))
+			if lastStageVal != "MusicStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "MusicStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", musicabstractIdent, __gong__toRawStringLiteral(musicabstract.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", musicabstractIdent, musicabstract.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.PitchHeight = %f", musicabstractIdent, musicabstract.PitchHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbOfBeatsInTheme = %d", musicabstractIdent, musicabstract.NbOfBeatsInTheme))
+			values.WriteString(fmt.Sprintf("\n\t%s.BeatsPerSecond = %f", musicabstractIdent, musicabstract.BeatsPerSecond))
+			values.WriteString(fmt.Sprintf("\n\t%s.FirstVoiceShiftX = %f", musicabstractIdent, musicabstract.FirstVoiceShiftX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FirstVoiceShiftY = %f", musicabstractIdent, musicabstract.FirstVoiceShiftY))
+			values.WriteString(fmt.Sprintf("\n\t%s.PitchDifference = %d", musicabstractIdent, musicabstract.PitchDifference))
+			values.WriteString(fmt.Sprintf("\n\t%s.Level = %f", musicabstractIdent, musicabstract.Level))
+			values.WriteString(fmt.Sprintf("\n\t%s.ActualBeatsTemporalShift = %d", musicabstractIdent, musicabstract.ActualBeatsTemporalShift))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsMinor = %t", musicabstractIdent, musicabstract.IsMinor))
+			values.WriteString(fmt.Sprintf("\n\t%s.ThemeBinaryEncoding = %d", musicabstractIdent, musicabstract.ThemeBinaryEncoding))
+			values.WriteString(fmt.Sprintf("\n\t%s.BezierControlLengthRatio = %f", musicabstractIdent, musicabstract.BezierControlLengthRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbPitchLines = %d", musicabstractIdent, musicabstract.NbPitchLines))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbBeatLines = %d", musicabstractIdent, musicabstract.NbBeatLines))
+			values.WriteString(fmt.Sprintf("\n\t%s.OriginX = %f", musicabstractIdent, musicabstract.OriginX))
+			values.WriteString(fmt.Sprintf("\n\t%s.OriginY = %f", musicabstractIdent, musicabstract.OriginY))
+			values.WriteString(fmt.Sprintf("\n\t%s.ScoreScale = %f", musicabstractIdent, musicabstract.ScoreScale))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowFirstVoice = %t", musicabstractIdent, musicabstract.ShowFirstVoice))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowFirstVoiceShiftRight = %t", musicabstractIdent, musicabstract.ShowFirstVoiceShiftRight))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowSecondVoice = %t", musicabstractIdent, musicabstract.ShowSecondVoice))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowSecondVoiceShiftRight = %t", musicabstractIdent, musicabstract.ShowSecondVoiceShiftRight))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowFirstVoiceNotes = %t", musicabstractIdent, musicabstract.ShowFirstVoiceNotes))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowFirstVoiceNotesShiftRight = %t", musicabstractIdent, musicabstract.ShowFirstVoiceNotesShiftRight))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowSecondVoiceNotes = %t", musicabstractIdent, musicabstract.ShowSecondVoiceNotes))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowSecondVoiceNotesShiftRight = %t", musicabstractIdent, musicabstract.ShowSecondVoiceNotesShiftRight))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsComposerNodeExpanded = %t", musicabstractIdent, musicabstract.IsComposerNodeExpanded))
+		}
+	}
+	if stageSet.StoolStage != nil {
+		stoolabstractOrdered := []*stool.StoolAbstract{}
+		for stoolabstract := range stageSet.StoolStage.StoolAbstracts {
+			stoolabstractOrdered = append(stoolabstractOrdered, stoolabstract)
+		}
+		sort.Slice(stoolabstractOrdered, func(i, j int) bool {
+			return stageSet.StoolStage.StoolAbstract_stagedOrder[stoolabstractOrdered[i]] < stageSet.StoolStage.StoolAbstract_stagedOrder[stoolabstractOrdered[j]]
+		})
+		for _, stoolabstract := range stoolabstractOrdered {
+			if lastStageDecl != "StoolStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "StoolStage"
+			}
+			stoolabstractIdent := "__stool" + stoolabstract.GongGetIdentifier(stageSet.StoolStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&stool.StoolAbstract{Name: %s}).Stage(stageSet.StoolStage)", stoolabstractIdent, __gong__toRawStringLiteral(stoolabstract.Name)))
+			if lastStageVal != "StoolStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "StoolStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", stoolabstractIdent, __gong__toRawStringLiteral(stoolabstract.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RadialRepetitions = %d", stoolabstractIdent, stoolabstract.RadialRepetitions))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transparency = %f", stoolabstractIdent, stoolabstract.Transparency))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeTubeDiameter = %f", stoolabstractIdent, stoolabstract.RelativeTubeDiameter))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeHeight3DTorus = %f", stoolabstractIdent, stoolabstract.RelativeHeight3DTorus))
+			values.WriteString(fmt.Sprintf("\n\t%s.StoolTorusVerticalScale = %f", stoolabstractIdent, stoolabstract.StoolTorusVerticalScale))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeHeight = %f", stoolabstractIdent, stoolabstract.RelativeHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeSeatThickness = %f", stoolabstractIdent, stoolabstract.RelativeSeatThickness))
+			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", stoolabstractIdent, stoolabstract.ProjectionAngle))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeEyeSeparationCriteria = %f", stoolabstractIdent, stoolabstract.RelativeEyeSeparationCriteria))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeEyeCornerControlVectorStrength = %f", stoolabstractIdent, stoolabstract.RelativeEyeCornerControlVectorStrength))
+		}
+	}
 	if stageSet.Stage != nil {
 		angle0shapeOrdered := []*Angle0Shape{}
 		for angle0shape := range stageSet.Stage.Angle0Shapes {
@@ -354,39 +574,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 		}
 	}
 	if stageSet.Stage != nil {
-		clockabstractOrdered := []*ClockAbstract{}
-		for clockabstract := range stageSet.Stage.ClockAbstracts {
-			clockabstractOrdered = append(clockabstractOrdered, clockabstract)
-		}
-		sort.Slice(clockabstractOrdered, func(i, j int) bool {
-			return stageSet.Stage.ClockAbstract_stagedOrder[clockabstractOrdered[i]] < stageSet.Stage.ClockAbstract_stagedOrder[clockabstractOrdered[j]]
-		})
-		for _, clockabstract := range clockabstractOrdered {
-			if lastStageDecl != "Stage" {
-				if declarations.Len() > 0 {
-					declarations.WriteString("\n")
-				}
-				lastStageDecl = "Stage"
-			}
-			clockabstractIdent := "__models" + clockabstract.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ClockAbstract{Name: %s}).Stage(stageSet.Stage)", clockabstractIdent, __gong__toRawStringLiteral(clockabstract.Name)))
-			if lastStageVal != "Stage" {
-				if values.Len() > 0 {
-					values.WriteString("\n")
-				}
-				lastStageVal = "Stage"
-			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", clockabstractIdent, __gong__toRawStringLiteral(clockabstract.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.RadialRepetitions = %d", clockabstractIdent, clockabstract.RadialRepetitions))
-			values.WriteString(fmt.Sprintf("\n\t%s.Transparency = %f", clockabstractIdent, clockabstract.Transparency))
-			values.WriteString(fmt.Sprintf("\n\t%s.RelativeTubeDiameter = %f", clockabstractIdent, clockabstract.RelativeTubeDiameter))
-			values.WriteString(fmt.Sprintf("\n\t%s.RelativeHeight3DTorus = %f", clockabstractIdent, clockabstract.RelativeHeight3DTorus))
-			values.WriteString(fmt.Sprintf("\n\t%s.ClockTorusVerticalScale = %f", clockabstractIdent, clockabstract.ClockTorusVerticalScale))
-			values.WriteString(fmt.Sprintf("\n\t%s.RelativeHeight = %f", clockabstractIdent, clockabstract.RelativeHeight))
-			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", clockabstractIdent, clockabstract.ProjectionAngle))
-		}
-	}
-	if stageSet.Stage != nil {
 		cutline3dshapeOrdered := []*CutLine3DShape{}
 		for cutline3dshape := range stageSet.Stage.CutLine3DShapes {
 			cutline3dshapeOrdered = append(cutline3dshapeOrdered, cutline3dshape)
@@ -487,58 +674,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				targetIdent := "__models" + elem.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibraries = append(%s.SubLibraries, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
-		}
-	}
-	if stageSet.Stage != nil {
-		musicabstractOrdered := []*MusicAbstract{}
-		for musicabstract := range stageSet.Stage.MusicAbstracts {
-			musicabstractOrdered = append(musicabstractOrdered, musicabstract)
-		}
-		sort.Slice(musicabstractOrdered, func(i, j int) bool {
-			return stageSet.Stage.MusicAbstract_stagedOrder[musicabstractOrdered[i]] < stageSet.Stage.MusicAbstract_stagedOrder[musicabstractOrdered[j]]
-		})
-		for _, musicabstract := range musicabstractOrdered {
-			if lastStageDecl != "Stage" {
-				if declarations.Len() > 0 {
-					declarations.WriteString("\n")
-				}
-				lastStageDecl = "Stage"
-			}
-			musicabstractIdent := "__models" + musicabstract.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.MusicAbstract{Name: %s}).Stage(stageSet.Stage)", musicabstractIdent, __gong__toRawStringLiteral(musicabstract.Name)))
-			if lastStageVal != "Stage" {
-				if values.Len() > 0 {
-					values.WriteString("\n")
-				}
-				lastStageVal = "Stage"
-			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", musicabstractIdent, __gong__toRawStringLiteral(musicabstract.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", musicabstractIdent, musicabstract.IsChecked))
-			values.WriteString(fmt.Sprintf("\n\t%s.PitchHeight = %f", musicabstractIdent, musicabstract.PitchHeight))
-			values.WriteString(fmt.Sprintf("\n\t%s.NbOfBeatsInTheme = %d", musicabstractIdent, musicabstract.NbOfBeatsInTheme))
-			values.WriteString(fmt.Sprintf("\n\t%s.BeatsPerSecond = %f", musicabstractIdent, musicabstract.BeatsPerSecond))
-			values.WriteString(fmt.Sprintf("\n\t%s.FirstVoiceShiftX = %f", musicabstractIdent, musicabstract.FirstVoiceShiftX))
-			values.WriteString(fmt.Sprintf("\n\t%s.FirstVoiceShiftY = %f", musicabstractIdent, musicabstract.FirstVoiceShiftY))
-			values.WriteString(fmt.Sprintf("\n\t%s.PitchDifference = %d", musicabstractIdent, musicabstract.PitchDifference))
-			values.WriteString(fmt.Sprintf("\n\t%s.Level = %f", musicabstractIdent, musicabstract.Level))
-			values.WriteString(fmt.Sprintf("\n\t%s.ActualBeatsTemporalShift = %d", musicabstractIdent, musicabstract.ActualBeatsTemporalShift))
-			values.WriteString(fmt.Sprintf("\n\t%s.IsMinor = %t", musicabstractIdent, musicabstract.IsMinor))
-			values.WriteString(fmt.Sprintf("\n\t%s.ThemeBinaryEncoding = %d", musicabstractIdent, musicabstract.ThemeBinaryEncoding))
-			values.WriteString(fmt.Sprintf("\n\t%s.BezierControlLengthRatio = %f", musicabstractIdent, musicabstract.BezierControlLengthRatio))
-			values.WriteString(fmt.Sprintf("\n\t%s.NbPitchLines = %d", musicabstractIdent, musicabstract.NbPitchLines))
-			values.WriteString(fmt.Sprintf("\n\t%s.NbBeatLines = %d", musicabstractIdent, musicabstract.NbBeatLines))
-			values.WriteString(fmt.Sprintf("\n\t%s.OriginX = %f", musicabstractIdent, musicabstract.OriginX))
-			values.WriteString(fmt.Sprintf("\n\t%s.OriginY = %f", musicabstractIdent, musicabstract.OriginY))
-			values.WriteString(fmt.Sprintf("\n\t%s.ScoreScale = %f", musicabstractIdent, musicabstract.ScoreScale))
-			values.WriteString(fmt.Sprintf("\n\t%s.ShowFirstVoice = %t", musicabstractIdent, musicabstract.ShowFirstVoice))
-			values.WriteString(fmt.Sprintf("\n\t%s.ShowFirstVoiceShiftRight = %t", musicabstractIdent, musicabstract.ShowFirstVoiceShiftRight))
-			values.WriteString(fmt.Sprintf("\n\t%s.ShowSecondVoice = %t", musicabstractIdent, musicabstract.ShowSecondVoice))
-			values.WriteString(fmt.Sprintf("\n\t%s.ShowSecondVoiceShiftRight = %t", musicabstractIdent, musicabstract.ShowSecondVoiceShiftRight))
-			values.WriteString(fmt.Sprintf("\n\t%s.ShowFirstVoiceNotes = %t", musicabstractIdent, musicabstract.ShowFirstVoiceNotes))
-			values.WriteString(fmt.Sprintf("\n\t%s.ShowFirstVoiceNotesShiftRight = %t", musicabstractIdent, musicabstract.ShowFirstVoiceNotesShiftRight))
-			values.WriteString(fmt.Sprintf("\n\t%s.ShowSecondVoiceNotes = %t", musicabstractIdent, musicabstract.ShowSecondVoiceNotes))
-			values.WriteString(fmt.Sprintf("\n\t%s.ShowSecondVoiceNotesShiftRight = %t", musicabstractIdent, musicabstract.ShowSecondVoiceNotesShiftRight))
-			values.WriteString(fmt.Sprintf("\n\t%s.IsComposerNodeExpanded = %t", musicabstractIdent, musicabstract.IsComposerNodeExpanded))
 		}
 	}
 	if stageSet.Stage != nil {
@@ -848,7 +983,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := "__models" + plantabstract.StoolAbstract.GongGetIdentifier(stageSet.Stage)
+				targetIdent := "__stool" + plantabstract.StoolAbstract.GongGetIdentifier(stageSet.StoolStage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.StoolAbstract = %s", plantabstractIdent, targetIdent))
 			}
 			if plantabstract.ClockAbstract != nil {
@@ -858,7 +993,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := "__models" + plantabstract.ClockAbstract.GongGetIdentifier(stageSet.Stage)
+				targetIdent := "__clock" + plantabstract.ClockAbstract.GongGetIdentifier(stageSet.ClockStage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ClockAbstract = %s", plantabstractIdent, targetIdent))
 			}
 			if plantabstract.MusicAbstract != nil {
@@ -868,7 +1003,7 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := "__models" + plantabstract.MusicAbstract.GongGetIdentifier(stageSet.Stage)
+				targetIdent := "__music" + plantabstract.MusicAbstract.GongGetIdentifier(stageSet.MusicStage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.MusicAbstract = %s", plantabstractIdent, targetIdent))
 			}
 			for _, elem := range plantabstract.Plant2DDiagrams {
@@ -1467,42 +1602,6 @@ func (stageSet *StageSet) MarshallToString(packageName string) (res string, err 
 				targetIdent := "__models" + stool3ddiagram.Rendered3DShape.GongGetIdentifier(stageSet.Stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Rendered3DShape = %s", stool3ddiagramIdent, targetIdent))
 			}
-		}
-	}
-	if stageSet.Stage != nil {
-		stoolabstractOrdered := []*StoolAbstract{}
-		for stoolabstract := range stageSet.Stage.StoolAbstracts {
-			stoolabstractOrdered = append(stoolabstractOrdered, stoolabstract)
-		}
-		sort.Slice(stoolabstractOrdered, func(i, j int) bool {
-			return stageSet.Stage.StoolAbstract_stagedOrder[stoolabstractOrdered[i]] < stageSet.Stage.StoolAbstract_stagedOrder[stoolabstractOrdered[j]]
-		})
-		for _, stoolabstract := range stoolabstractOrdered {
-			if lastStageDecl != "Stage" {
-				if declarations.Len() > 0 {
-					declarations.WriteString("\n")
-				}
-				lastStageDecl = "Stage"
-			}
-			stoolabstractIdent := "__models" + stoolabstract.GongGetIdentifier(stageSet.Stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.StoolAbstract{Name: %s}).Stage(stageSet.Stage)", stoolabstractIdent, __gong__toRawStringLiteral(stoolabstract.Name)))
-			if lastStageVal != "Stage" {
-				if values.Len() > 0 {
-					values.WriteString("\n")
-				}
-				lastStageVal = "Stage"
-			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", stoolabstractIdent, __gong__toRawStringLiteral(stoolabstract.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.RadialRepetitions = %d", stoolabstractIdent, stoolabstract.RadialRepetitions))
-			values.WriteString(fmt.Sprintf("\n\t%s.Transparency = %f", stoolabstractIdent, stoolabstract.Transparency))
-			values.WriteString(fmt.Sprintf("\n\t%s.RelativeTubeDiameter = %f", stoolabstractIdent, stoolabstract.RelativeTubeDiameter))
-			values.WriteString(fmt.Sprintf("\n\t%s.RelativeHeight3DTorus = %f", stoolabstractIdent, stoolabstract.RelativeHeight3DTorus))
-			values.WriteString(fmt.Sprintf("\n\t%s.StoolTorusVerticalScale = %f", stoolabstractIdent, stoolabstract.StoolTorusVerticalScale))
-			values.WriteString(fmt.Sprintf("\n\t%s.RelativeHeight = %f", stoolabstractIdent, stoolabstract.RelativeHeight))
-			values.WriteString(fmt.Sprintf("\n\t%s.RelativeSeatThickness = %f", stoolabstractIdent, stoolabstract.RelativeSeatThickness))
-			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", stoolabstractIdent, stoolabstract.ProjectionAngle))
-			values.WriteString(fmt.Sprintf("\n\t%s.RelativeEyeSeparationCriteria = %f", stoolabstractIdent, stoolabstract.RelativeEyeSeparationCriteria))
-			values.WriteString(fmt.Sprintf("\n\t%s.RelativeEyeCornerControlVectorStrength = %f", stoolabstractIdent, stoolabstract.RelativeEyeCornerControlVectorStrength))
 		}
 	}
 	if stageSet.Stage != nil {
@@ -2227,6 +2326,9 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock"
 )
 
 var (
@@ -2234,6 +2336,9 @@ var (
 	_ = slices.Index[[]int, int]
 
 	_ *models.Stage
+	_ *stool.Stage
+	_ *music.Stage
+	_ *clock.Stage
 )
 
 // function will stage objects across all coordinated stages
@@ -2311,6 +2416,12 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 			alias = imp.Name.Name
 		}
 		switch p {
+		case "github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock":
+			aliasToCanonical[alias] = "clock"
+		case "github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music":
+			aliasToCanonical[alias] = "music"
+		case "github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool":
+			aliasToCanonical[alias] = "stool"
 		case "github.com/fullstack-lang/gong/dsm/phylla/go/models":
 			aliasToCanonical[alias] = "models"
 		}
@@ -2357,6 +2468,48 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					}
 
 					switch pkgAlias {
+			case "clock":
+				switch typeName {
+				case "ClockAbstract":
+					if !preserveOrder {
+						inst := (&clock.ClockAbstract{Name: instanceName}).Stage(stageSet.ClockStage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(clock.ClockAbstract)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.ClockStage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				}
+			case "music":
+				switch typeName {
+				case "MusicAbstract":
+					if !preserveOrder {
+						inst := (&music.MusicAbstract{Name: instanceName}).Stage(stageSet.MusicStage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(music.MusicAbstract)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.MusicStage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				}
+			case "stool":
+				switch typeName {
+				case "StoolAbstract":
+					if !preserveOrder {
+						inst := (&stool.StoolAbstract{Name: instanceName}).Stage(stageSet.StoolStage)
+						identifierMap[ident.Name] = inst
+					} else {
+						inst := new(stool.StoolAbstract)
+						inst.Name = instanceName
+						order, _ := __gong__extractMiddleUint(ident.Name)
+						inst.StagePreserveOrder(stageSet.StoolStage, uint(order))
+						identifierMap[ident.Name] = inst
+					}
+				}
 			case "models":
 				switch typeName {
 				case "Angle0Shape":
@@ -2425,17 +2578,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.StagePreserveOrder(stageSet.Stage, uint(order))
 						identifierMap[ident.Name] = inst
 					}
-				case "ClockAbstract":
-					if !preserveOrder {
-						inst := (&ClockAbstract{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(ClockAbstract)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
 				case "CutLine3DShape":
 					if !preserveOrder {
 						inst := (&CutLine3DShape{Name: instanceName}).Stage(stageSet.Stage)
@@ -2464,17 +2606,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						identifierMap[ident.Name] = inst
 					} else {
 						inst := new(Library)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
-				case "MusicAbstract":
-					if !preserveOrder {
-						inst := (&MusicAbstract{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(MusicAbstract)
 						inst.Name = instanceName
 						order, _ := __gong__extractMiddleUint(ident.Name)
 						inst.StagePreserveOrder(stageSet.Stage, uint(order))
@@ -2623,17 +2754,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.StagePreserveOrder(stageSet.Stage, uint(order))
 						identifierMap[ident.Name] = inst
 					}
-				case "StoolAbstract":
-					if !preserveOrder {
-						inst := (&StoolAbstract{Name: instanceName}).Stage(stageSet.Stage)
-						identifierMap[ident.Name] = inst
-					} else {
-						inst := new(StoolAbstract)
-						inst.Name = instanceName
-						order, _ := __gong__extractMiddleUint(ident.Name)
-						inst.StagePreserveOrder(stageSet.Stage, uint(order))
-						identifierMap[ident.Name] = inst
-					}
 				case "TopCurvePlane1Shape":
 					if !preserveOrder {
 						inst := (&TopCurvePlane1Shape{Name: instanceName}).Stage(stageSet.Stage)
@@ -2714,6 +2834,107 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 							fieldName := selExpr.Sel.Name
 							rhs := node.Rhs[0]
 							switch inst := instance.(type) {
+				case *clock.ClockAbstract:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "RadialRepetitions":
+						inst.RadialRepetitions = GongExtractInt(rhs)
+					case "Transparency":
+						inst.Transparency = GongExtractFloat(rhs)
+					case "RelativeTubeDiameter":
+						inst.RelativeTubeDiameter = GongExtractFloat(rhs)
+					case "RelativeHeight3DTorus":
+						inst.RelativeHeight3DTorus = GongExtractFloat(rhs)
+					case "ClockTorusVerticalScale":
+						inst.ClockTorusVerticalScale = GongExtractFloat(rhs)
+					case "RelativeHeight":
+						inst.RelativeHeight = GongExtractFloat(rhs)
+					case "ProjectionAngle":
+						inst.ProjectionAngle = GongExtractFloat(rhs)
+					}
+				case *music.MusicAbstract:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "IsChecked":
+						inst.IsChecked = GongExtractBool(rhs)
+					case "PitchHeight":
+						inst.PitchHeight = GongExtractFloat(rhs)
+					case "NbOfBeatsInTheme":
+						inst.NbOfBeatsInTheme = GongExtractInt(rhs)
+					case "BeatsPerSecond":
+						inst.BeatsPerSecond = GongExtractFloat(rhs)
+					case "FirstVoiceShiftX":
+						inst.FirstVoiceShiftX = GongExtractFloat(rhs)
+					case "FirstVoiceShiftY":
+						inst.FirstVoiceShiftY = GongExtractFloat(rhs)
+					case "PitchDifference":
+						inst.PitchDifference = GongExtractInt(rhs)
+					case "Level":
+						inst.Level = GongExtractFloat(rhs)
+					case "ActualBeatsTemporalShift":
+						inst.ActualBeatsTemporalShift = GongExtractInt(rhs)
+					case "IsMinor":
+						inst.IsMinor = GongExtractBool(rhs)
+					case "ThemeBinaryEncoding":
+						inst.ThemeBinaryEncoding = GongExtractInt(rhs)
+					case "BezierControlLengthRatio":
+						inst.BezierControlLengthRatio = GongExtractFloat(rhs)
+					case "NbPitchLines":
+						inst.NbPitchLines = GongExtractInt(rhs)
+					case "NbBeatLines":
+						inst.NbBeatLines = GongExtractInt(rhs)
+					case "OriginX":
+						inst.OriginX = GongExtractFloat(rhs)
+					case "OriginY":
+						inst.OriginY = GongExtractFloat(rhs)
+					case "ScoreScale":
+						inst.ScoreScale = GongExtractFloat(rhs)
+					case "ShowFirstVoice":
+						inst.ShowFirstVoice = GongExtractBool(rhs)
+					case "ShowFirstVoiceShiftRight":
+						inst.ShowFirstVoiceShiftRight = GongExtractBool(rhs)
+					case "ShowSecondVoice":
+						inst.ShowSecondVoice = GongExtractBool(rhs)
+					case "ShowSecondVoiceShiftRight":
+						inst.ShowSecondVoiceShiftRight = GongExtractBool(rhs)
+					case "ShowFirstVoiceNotes":
+						inst.ShowFirstVoiceNotes = GongExtractBool(rhs)
+					case "ShowFirstVoiceNotesShiftRight":
+						inst.ShowFirstVoiceNotesShiftRight = GongExtractBool(rhs)
+					case "ShowSecondVoiceNotes":
+						inst.ShowSecondVoiceNotes = GongExtractBool(rhs)
+					case "ShowSecondVoiceNotesShiftRight":
+						inst.ShowSecondVoiceNotesShiftRight = GongExtractBool(rhs)
+					case "IsComposerNodeExpanded":
+						inst.IsComposerNodeExpanded = GongExtractBool(rhs)
+					}
+				case *stool.StoolAbstract:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "RadialRepetitions":
+						inst.RadialRepetitions = GongExtractInt(rhs)
+					case "Transparency":
+						inst.Transparency = GongExtractFloat(rhs)
+					case "RelativeTubeDiameter":
+						inst.RelativeTubeDiameter = GongExtractFloat(rhs)
+					case "RelativeHeight3DTorus":
+						inst.RelativeHeight3DTorus = GongExtractFloat(rhs)
+					case "StoolTorusVerticalScale":
+						inst.StoolTorusVerticalScale = GongExtractFloat(rhs)
+					case "RelativeHeight":
+						inst.RelativeHeight = GongExtractFloat(rhs)
+					case "RelativeSeatThickness":
+						inst.RelativeSeatThickness = GongExtractFloat(rhs)
+					case "ProjectionAngle":
+						inst.ProjectionAngle = GongExtractFloat(rhs)
+					case "RelativeEyeSeparationCriteria":
+						inst.RelativeEyeSeparationCriteria = GongExtractFloat(rhs)
+					case "RelativeEyeCornerControlVectorStrength":
+						inst.RelativeEyeCornerControlVectorStrength = GongExtractFloat(rhs)
+					}
 				case *Angle0Shape:
 					switch fieldName {
 					case "Name":
@@ -2808,25 +3029,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
 					}
-				case *ClockAbstract:
-					switch fieldName {
-					case "Name":
-						inst.Name = GongExtractString(rhs)
-					case "RadialRepetitions":
-						inst.RadialRepetitions = GongExtractInt(rhs)
-					case "Transparency":
-						inst.Transparency = GongExtractFloat(rhs)
-					case "RelativeTubeDiameter":
-						inst.RelativeTubeDiameter = GongExtractFloat(rhs)
-					case "RelativeHeight3DTorus":
-						inst.RelativeHeight3DTorus = GongExtractFloat(rhs)
-					case "ClockTorusVerticalScale":
-						inst.ClockTorusVerticalScale = GongExtractFloat(rhs)
-					case "RelativeHeight":
-						inst.RelativeHeight = GongExtractFloat(rhs)
-					case "ProjectionAngle":
-						inst.ProjectionAngle = GongExtractFloat(rhs)
-					}
 				case *CutLine3DShape:
 					switch fieldName {
 					case "Name":
@@ -2871,63 +3073,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.IsExpanded = GongExtractBool(rhs)
 					case "IsRootLibrary":
 						inst.IsRootLibrary = GongExtractBool(rhs)
-					}
-				case *MusicAbstract:
-					switch fieldName {
-					case "Name":
-						inst.Name = GongExtractString(rhs)
-					case "IsChecked":
-						inst.IsChecked = GongExtractBool(rhs)
-					case "PitchHeight":
-						inst.PitchHeight = GongExtractFloat(rhs)
-					case "NbOfBeatsInTheme":
-						inst.NbOfBeatsInTheme = GongExtractInt(rhs)
-					case "BeatsPerSecond":
-						inst.BeatsPerSecond = GongExtractFloat(rhs)
-					case "FirstVoiceShiftX":
-						inst.FirstVoiceShiftX = GongExtractFloat(rhs)
-					case "FirstVoiceShiftY":
-						inst.FirstVoiceShiftY = GongExtractFloat(rhs)
-					case "PitchDifference":
-						inst.PitchDifference = GongExtractInt(rhs)
-					case "Level":
-						inst.Level = GongExtractFloat(rhs)
-					case "ActualBeatsTemporalShift":
-						inst.ActualBeatsTemporalShift = GongExtractInt(rhs)
-					case "IsMinor":
-						inst.IsMinor = GongExtractBool(rhs)
-					case "ThemeBinaryEncoding":
-						inst.ThemeBinaryEncoding = GongExtractInt(rhs)
-					case "BezierControlLengthRatio":
-						inst.BezierControlLengthRatio = GongExtractFloat(rhs)
-					case "NbPitchLines":
-						inst.NbPitchLines = GongExtractInt(rhs)
-					case "NbBeatLines":
-						inst.NbBeatLines = GongExtractInt(rhs)
-					case "OriginX":
-						inst.OriginX = GongExtractFloat(rhs)
-					case "OriginY":
-						inst.OriginY = GongExtractFloat(rhs)
-					case "ScoreScale":
-						inst.ScoreScale = GongExtractFloat(rhs)
-					case "ShowFirstVoice":
-						inst.ShowFirstVoice = GongExtractBool(rhs)
-					case "ShowFirstVoiceShiftRight":
-						inst.ShowFirstVoiceShiftRight = GongExtractBool(rhs)
-					case "ShowSecondVoice":
-						inst.ShowSecondVoice = GongExtractBool(rhs)
-					case "ShowSecondVoiceShiftRight":
-						inst.ShowSecondVoiceShiftRight = GongExtractBool(rhs)
-					case "ShowFirstVoiceNotes":
-						inst.ShowFirstVoiceNotes = GongExtractBool(rhs)
-					case "ShowFirstVoiceNotesShiftRight":
-						inst.ShowFirstVoiceNotesShiftRight = GongExtractBool(rhs)
-					case "ShowSecondVoiceNotes":
-						inst.ShowSecondVoiceNotes = GongExtractBool(rhs)
-					case "ShowSecondVoiceNotesShiftRight":
-						inst.ShowSecondVoiceNotesShiftRight = GongExtractBool(rhs)
-					case "IsComposerNodeExpanded":
-						inst.IsComposerNodeExpanded = GongExtractBool(rhs)
 					}
 				case *OriginalPoints3DShape:
 					switch fieldName {
@@ -3121,7 +3266,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "StoolAbstract":
 						if rIdent, ok := rhs.(*ast.Ident); ok {
 							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*StoolAbstract); ok {
+								if typedTarget, ok := target.(*stool.StoolAbstract); ok {
 									inst.StoolAbstract = typedTarget
 								}
 							}
@@ -3129,7 +3274,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "ClockAbstract":
 						if rIdent, ok := rhs.(*ast.Ident); ok {
 							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*ClockAbstract); ok {
+								if typedTarget, ok := target.(*clock.ClockAbstract); ok {
 									inst.ClockAbstract = typedTarget
 								}
 							}
@@ -3137,7 +3282,7 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 					case "MusicAbstract":
 						if rIdent, ok := rhs.(*ast.Ident); ok {
 							if target, ok := identifierMap[rIdent.Name]; ok {
-								if typedTarget, ok := target.(*MusicAbstract); ok {
+								if typedTarget, ok := target.(*music.MusicAbstract); ok {
 									inst.MusicAbstract = typedTarget
 								}
 							}
@@ -3589,31 +3734,6 @@ func (stageSet *StageSet) ParseAstFileFromAst(inFile *ast.File, fset *token.File
 						inst.ComputedPrefix = GongExtractString(rhs)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
-					}
-				case *StoolAbstract:
-					switch fieldName {
-					case "Name":
-						inst.Name = GongExtractString(rhs)
-					case "RadialRepetitions":
-						inst.RadialRepetitions = GongExtractInt(rhs)
-					case "Transparency":
-						inst.Transparency = GongExtractFloat(rhs)
-					case "RelativeTubeDiameter":
-						inst.RelativeTubeDiameter = GongExtractFloat(rhs)
-					case "RelativeHeight3DTorus":
-						inst.RelativeHeight3DTorus = GongExtractFloat(rhs)
-					case "StoolTorusVerticalScale":
-						inst.StoolTorusVerticalScale = GongExtractFloat(rhs)
-					case "RelativeHeight":
-						inst.RelativeHeight = GongExtractFloat(rhs)
-					case "RelativeSeatThickness":
-						inst.RelativeSeatThickness = GongExtractFloat(rhs)
-					case "ProjectionAngle":
-						inst.ProjectionAngle = GongExtractFloat(rhs)
-					case "RelativeEyeSeparationCriteria":
-						inst.RelativeEyeSeparationCriteria = GongExtractFloat(rhs)
-					case "RelativeEyeCornerControlVectorStrength":
-						inst.RelativeEyeCornerControlVectorStrength = GongExtractFloat(rhs)
 					}
 				case *TopCurvePlane1Shape:
 					switch fieldName {

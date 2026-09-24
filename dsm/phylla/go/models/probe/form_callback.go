@@ -556,49 +556,6 @@ func saveClock3DDiagramFields(
 	}
 }
 
-func __gong__New__ClockAbstractFormCallback(
-	_instance *models.ClockAbstract,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (clockabstractFormCallback *FormCallback[*models.ClockAbstract]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveClockAbstractFields,
-	)
-}
-
-type ClockAbstractFormCallback = FormCallback[*models.ClockAbstract]
-
-func saveClockAbstractFields(
-	_instance *models.ClockAbstract,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) {
-	for _, formDiv := range formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
-		case "RadialRepetitions":
-			FormDivBasicFieldToField(&(_instance.RadialRepetitions), formDiv)
-		case "Transparency":
-			FormDivBasicFieldToField(&(_instance.Transparency), formDiv)
-		case "RelativeTubeDiameter":
-			FormDivBasicFieldToField(&(_instance.RelativeTubeDiameter), formDiv)
-		case "RelativeHeight3DTorus":
-			FormDivBasicFieldToField(&(_instance.RelativeHeight3DTorus), formDiv)
-		case "ClockTorusVerticalScale":
-			FormDivBasicFieldToField(&(_instance.ClockTorusVerticalScale), formDiv)
-		case "RelativeHeight":
-			FormDivBasicFieldToField(&(_instance.RelativeHeight), formDiv)
-		case "ProjectionAngle":
-			FormDivBasicFieldToField(&(_instance.ProjectionAngle), formDiv)
-		}
-	}
-}
-
 func __gong__New__ClockTopCurveShapeFormCallback(
 	_instance *models.ClockTopCurveShape,
 	probe *Probe,
@@ -1653,87 +1610,6 @@ func saveMidArcVectorShapeGridFields(
 	}
 }
 
-func __gong__New__MusicAbstractFormCallback(
-	_instance *models.MusicAbstract,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (musicabstractFormCallback *FormCallback[*models.MusicAbstract]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveMusicAbstractFields,
-	)
-}
-
-type MusicAbstractFormCallback = FormCallback[*models.MusicAbstract]
-
-func saveMusicAbstractFields(
-	_instance *models.MusicAbstract,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) {
-	for _, formDiv := range formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
-		case "IsChecked":
-			FormDivBasicFieldToField(&(_instance.IsChecked), formDiv)
-		case "PitchHeight":
-			FormDivBasicFieldToField(&(_instance.PitchHeight), formDiv)
-		case "NbOfBeatsInTheme":
-			FormDivBasicFieldToField(&(_instance.NbOfBeatsInTheme), formDiv)
-		case "BeatsPerSecond":
-			FormDivBasicFieldToField(&(_instance.BeatsPerSecond), formDiv)
-		case "FirstVoiceShiftX":
-			FormDivBasicFieldToField(&(_instance.FirstVoiceShiftX), formDiv)
-		case "FirstVoiceShiftY":
-			FormDivBasicFieldToField(&(_instance.FirstVoiceShiftY), formDiv)
-		case "PitchDifference":
-			FormDivBasicFieldToField(&(_instance.PitchDifference), formDiv)
-		case "Level":
-			FormDivBasicFieldToField(&(_instance.Level), formDiv)
-		case "ActualBeatsTemporalShift":
-			FormDivBasicFieldToField(&(_instance.ActualBeatsTemporalShift), formDiv)
-		case "IsMinor":
-			FormDivBasicFieldToField(&(_instance.IsMinor), formDiv)
-		case "ThemeBinaryEncoding":
-			FormDivBasicFieldToField(&(_instance.ThemeBinaryEncoding), formDiv)
-		case "BezierControlLengthRatio":
-			FormDivBasicFieldToField(&(_instance.BezierControlLengthRatio), formDiv)
-		case "NbPitchLines":
-			FormDivBasicFieldToField(&(_instance.NbPitchLines), formDiv)
-		case "NbBeatLines":
-			FormDivBasicFieldToField(&(_instance.NbBeatLines), formDiv)
-		case "OriginX":
-			FormDivBasicFieldToField(&(_instance.OriginX), formDiv)
-		case "OriginY":
-			FormDivBasicFieldToField(&(_instance.OriginY), formDiv)
-		case "ScoreScale":
-			FormDivBasicFieldToField(&(_instance.ScoreScale), formDiv)
-		case "ShowFirstVoice":
-			FormDivBasicFieldToField(&(_instance.ShowFirstVoice), formDiv)
-		case "ShowFirstVoiceShiftRight":
-			FormDivBasicFieldToField(&(_instance.ShowFirstVoiceShiftRight), formDiv)
-		case "ShowSecondVoice":
-			FormDivBasicFieldToField(&(_instance.ShowSecondVoice), formDiv)
-		case "ShowSecondVoiceShiftRight":
-			FormDivBasicFieldToField(&(_instance.ShowSecondVoiceShiftRight), formDiv)
-		case "ShowFirstVoiceNotes":
-			FormDivBasicFieldToField(&(_instance.ShowFirstVoiceNotes), formDiv)
-		case "ShowFirstVoiceNotesShiftRight":
-			FormDivBasicFieldToField(&(_instance.ShowFirstVoiceNotesShiftRight), formDiv)
-		case "ShowSecondVoiceNotes":
-			FormDivBasicFieldToField(&(_instance.ShowSecondVoiceNotes), formDiv)
-		case "ShowSecondVoiceNotesShiftRight":
-			FormDivBasicFieldToField(&(_instance.ShowSecondVoiceNotesShiftRight), formDiv)
-		case "IsComposerNodeExpanded":
-			FormDivBasicFieldToField(&(_instance.IsComposerNodeExpanded), formDiv)
-		}
-	}
-}
-
 func __gong__New__OriginalPoints3DShapeFormCallback(
 	_instance *models.OriginalPoints3DShape,
 	probe *Probe,
@@ -2704,12 +2580,6 @@ func savePlantAbstractFields(
 			FormDivEnumStringFieldToField(&(_instance.PlantType), formDiv)
 		case "TubeVaseAbstract":
 			FormDivSelectFieldToField(&(_instance.TubeVaseAbstract), probe.stageOfInterest, formDiv)
-		case "StoolAbstract":
-			FormDivSelectFieldToField(&(_instance.StoolAbstract), probe.stageOfInterest, formDiv)
-		case "ClockAbstract":
-			FormDivSelectFieldToField(&(_instance.ClockAbstract), probe.stageOfInterest, formDiv)
-		case "MusicAbstract":
-			FormDivSelectFieldToField(&(_instance.MusicAbstract), probe.stageOfInterest, formDiv)
 		case "CurrentView":
 			FormDivEnumStringFieldToField(&(_instance.CurrentView), formDiv)
 		case "ComputedPrefix":
@@ -5100,55 +4970,6 @@ func saveStool3DDiagramFields(
 			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		case "PlantAbstract:Stool3DDiagrams":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Stool3DDiagrams", func(owner *models.PlantAbstract) *[]*models.Stool3DDiagram { return &owner.Stool3DDiagrams })
-		}
-	}
-}
-
-func __gong__New__StoolAbstractFormCallback(
-	_instance *models.StoolAbstract,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (stoolabstractFormCallback *FormCallback[*models.StoolAbstract]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveStoolAbstractFields,
-	)
-}
-
-type StoolAbstractFormCallback = FormCallback[*models.StoolAbstract]
-
-func saveStoolAbstractFields(
-	_instance *models.StoolAbstract,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) {
-	for _, formDiv := range formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
-		case "RadialRepetitions":
-			FormDivBasicFieldToField(&(_instance.RadialRepetitions), formDiv)
-		case "Transparency":
-			FormDivBasicFieldToField(&(_instance.Transparency), formDiv)
-		case "RelativeTubeDiameter":
-			FormDivBasicFieldToField(&(_instance.RelativeTubeDiameter), formDiv)
-		case "RelativeHeight3DTorus":
-			FormDivBasicFieldToField(&(_instance.RelativeHeight3DTorus), formDiv)
-		case "StoolTorusVerticalScale":
-			FormDivBasicFieldToField(&(_instance.StoolTorusVerticalScale), formDiv)
-		case "RelativeHeight":
-			FormDivBasicFieldToField(&(_instance.RelativeHeight), formDiv)
-		case "RelativeSeatThickness":
-			FormDivBasicFieldToField(&(_instance.RelativeSeatThickness), formDiv)
-		case "ProjectionAngle":
-			FormDivBasicFieldToField(&(_instance.ProjectionAngle), formDiv)
-		case "RelativeEyeSeparationCriteria":
-			FormDivBasicFieldToField(&(_instance.RelativeEyeSeparationCriteria), formDiv)
-		case "RelativeEyeCornerControlVectorStrength":
-			FormDivBasicFieldToField(&(_instance.RelativeEyeCornerControlVectorStrength), formDiv)
 		}
 	}
 }

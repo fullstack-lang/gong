@@ -147,15 +147,6 @@ func (inst *Clock3DDiagram) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
-func (inst *ClockAbstract) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return
-}
-
 func (inst *ClockTopCurveShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
@@ -474,15 +465,6 @@ func (inst *MidArcVectorShape) GongGetReverseFieldOwnerName(stage *Stage, revers
 }
 
 func (inst *MidArcVectorShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return
-}
-
-func (inst *MusicAbstract) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -1445,15 +1427,6 @@ func (inst *Stool3DDiagram) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
-func (inst *StoolAbstract) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return
-}
-
 func (inst *TiledFloor3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
@@ -1930,15 +1903,6 @@ func (inst *Clock3DDiagram) GongGetReverseFieldOwner(stage *Stage, reverseField 
 	return res
 }
 
-func (inst *ClockAbstract) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return res
-}
-
 func (inst *ClockTopCurveShape) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
@@ -2241,15 +2205,6 @@ func (inst *MidArcVectorShape) GongGetReverseFieldOwner(stage *Stage, reverseFie
 }
 
 func (inst *MidArcVectorShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return res
-}
-
-func (inst *MusicAbstract) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -3136,15 +3091,6 @@ func (inst *Stool3DDiagram) GongGetReverseFieldOwner(stage *Stage, reverseField 
 		case "Stool3DDiagrams":
 			res = stage.PlantAbstract_Stool3DDiagrams_reverseMap[inst]
 		}
-	}
-	return res
-}
-
-func (inst *StoolAbstract) GongGetReverseFieldOwner(stage *Stage, reverseField *GongReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
 	}
 	return res
 }

@@ -211,19 +211,6 @@ func FillUpFormFromGongstructName(
 		clock3ddiagram := new(models.Clock3DDiagram)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(clock3ddiagram, formGroup, probe)
-	case "ClockAbstract":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "ClockAbstract Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ClockAbstractFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		clockabstract := new(models.ClockAbstract)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(clockabstract, formGroup, probe)
 	case "ClockTopCurveShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -614,19 +601,6 @@ func FillUpFormFromGongstructName(
 		midarcvectorshapegrid := new(models.MidArcVectorShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(midarcvectorshapegrid, formGroup, probe)
-	case "MusicAbstract":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "MusicAbstract Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__MusicAbstractFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		musicabstract := new(models.MusicAbstract)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(musicabstract, formGroup, probe)
 	case "OriginalPoints3DShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1641,19 +1615,6 @@ func FillUpFormFromGongstructName(
 		stool3ddiagram := new(models.Stool3DDiagram)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(stool3ddiagram, formGroup, probe)
-	case "StoolAbstract":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "StoolAbstract Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__StoolAbstractFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		stoolabstract := new(models.StoolAbstract)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(stoolabstract, formGroup, probe)
 	case "TiledFloor3DShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

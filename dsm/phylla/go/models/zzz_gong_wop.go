@@ -246,38 +246,6 @@ func (from *Clock3DDiagram) GongCopyBasicFields(to *Clock3DDiagram) {
 	to.IsExpanded = from.IsExpanded
 }
 
-type ClockAbstract_WOP struct {
-	// insertion point
-
-	Name string
-
-	RadialRepetitions int
-
-	Transparency float64
-
-	RelativeTubeDiameter float64
-
-	RelativeHeight3DTorus float64
-
-	ClockTorusVerticalScale float64
-
-	RelativeHeight float64
-
-	ProjectionAngle float64
-}
-
-func (from *ClockAbstract) GongCopyBasicFields(to *ClockAbstract) {
-	// insertion point
-	to.Name = from.Name
-	to.RadialRepetitions = from.RadialRepetitions
-	to.Transparency = from.Transparency
-	to.RelativeTubeDiameter = from.RelativeTubeDiameter
-	to.RelativeHeight3DTorus = from.RelativeHeight3DTorus
-	to.ClockTorusVerticalScale = from.ClockTorusVerticalScale
-	to.RelativeHeight = from.RelativeHeight
-	to.ProjectionAngle = from.ProjectionAngle
-}
-
 type ClockTopCurveShape_WOP struct {
 	// insertion point
 
@@ -825,95 +793,6 @@ type MidArcVectorShapeGrid_WOP struct {
 func (from *MidArcVectorShapeGrid) GongCopyBasicFields(to *MidArcVectorShapeGrid) {
 	// insertion point
 	to.Name = from.Name
-}
-
-type MusicAbstract_WOP struct {
-	// insertion point
-
-	Name string
-
-	IsChecked bool
-
-	PitchHeight float64
-
-	NbOfBeatsInTheme int
-
-	BeatsPerSecond float64
-
-	FirstVoiceShiftX float64
-
-	FirstVoiceShiftY float64
-
-	PitchDifference int
-
-	Level float64
-
-	ActualBeatsTemporalShift int
-
-	IsMinor bool
-
-	ThemeBinaryEncoding int
-
-	BezierControlLengthRatio float64
-
-	NbPitchLines int
-
-	NbBeatLines int
-
-	OriginX float64
-
-	OriginY float64
-
-	ScoreScale float64
-
-	ShowFirstVoice bool
-
-	ShowFirstVoiceShiftRight bool
-
-	ShowSecondVoice bool
-
-	ShowSecondVoiceShiftRight bool
-
-	ShowFirstVoiceNotes bool
-
-	ShowFirstVoiceNotesShiftRight bool
-
-	ShowSecondVoiceNotes bool
-
-	ShowSecondVoiceNotesShiftRight bool
-
-	IsComposerNodeExpanded bool
-}
-
-func (from *MusicAbstract) GongCopyBasicFields(to *MusicAbstract) {
-	// insertion point
-	to.Name = from.Name
-	to.IsChecked = from.IsChecked
-	to.PitchHeight = from.PitchHeight
-	to.NbOfBeatsInTheme = from.NbOfBeatsInTheme
-	to.BeatsPerSecond = from.BeatsPerSecond
-	to.FirstVoiceShiftX = from.FirstVoiceShiftX
-	to.FirstVoiceShiftY = from.FirstVoiceShiftY
-	to.PitchDifference = from.PitchDifference
-	to.Level = from.Level
-	to.ActualBeatsTemporalShift = from.ActualBeatsTemporalShift
-	to.IsMinor = from.IsMinor
-	to.ThemeBinaryEncoding = from.ThemeBinaryEncoding
-	to.BezierControlLengthRatio = from.BezierControlLengthRatio
-	to.NbPitchLines = from.NbPitchLines
-	to.NbBeatLines = from.NbBeatLines
-	to.OriginX = from.OriginX
-	to.OriginY = from.OriginY
-	to.ScoreScale = from.ScoreScale
-	to.ShowFirstVoice = from.ShowFirstVoice
-	to.ShowFirstVoiceShiftRight = from.ShowFirstVoiceShiftRight
-	to.ShowSecondVoice = from.ShowSecondVoice
-	to.ShowSecondVoiceShiftRight = from.ShowSecondVoiceShiftRight
-	to.ShowFirstVoiceNotes = from.ShowFirstVoiceNotes
-	to.ShowFirstVoiceNotesShiftRight = from.ShowFirstVoiceNotesShiftRight
-	to.ShowSecondVoiceNotes = from.ShowSecondVoiceNotes
-	to.ShowSecondVoiceNotesShiftRight = from.ShowSecondVoiceNotesShiftRight
-	to.IsComposerNodeExpanded = from.IsComposerNodeExpanded
 }
 
 type OriginalPoints3DShape_WOP struct {
@@ -3053,47 +2932,6 @@ func (from *Stool3DDiagram) GongCopyBasicFields(to *Stool3DDiagram) {
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-}
-
-type StoolAbstract_WOP struct {
-	// insertion point
-
-	Name string
-
-	RadialRepetitions int
-
-	Transparency float64
-
-	RelativeTubeDiameter float64
-
-	RelativeHeight3DTorus float64
-
-	StoolTorusVerticalScale float64
-
-	RelativeHeight float64
-
-	RelativeSeatThickness float64
-
-	ProjectionAngle float64
-
-	RelativeEyeSeparationCriteria float64
-
-	RelativeEyeCornerControlVectorStrength float64
-}
-
-func (from *StoolAbstract) GongCopyBasicFields(to *StoolAbstract) {
-	// insertion point
-	to.Name = from.Name
-	to.RadialRepetitions = from.RadialRepetitions
-	to.Transparency = from.Transparency
-	to.RelativeTubeDiameter = from.RelativeTubeDiameter
-	to.RelativeHeight3DTorus = from.RelativeHeight3DTorus
-	to.StoolTorusVerticalScale = from.StoolTorusVerticalScale
-	to.RelativeHeight = from.RelativeHeight
-	to.RelativeSeatThickness = from.RelativeSeatThickness
-	to.ProjectionAngle = from.ProjectionAngle
-	to.RelativeEyeSeparationCriteria = from.RelativeEyeSeparationCriteria
-	to.RelativeEyeCornerControlVectorStrength = from.RelativeEyeCornerControlVectorStrength
 }
 
 type TiledFloor3DShape_WOP struct {

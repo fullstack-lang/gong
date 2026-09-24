@@ -327,21 +327,6 @@ type Stage struct {
 	OnAfterClock3DDiagramDeleteCallback GongOnAfterDeleteInterface[Clock3DDiagram]
 	OnAfterClock3DDiagramReadCallback   GongOnAfterReadInterface[Clock3DDiagram]
 
-	ClockAbstracts                map[*ClockAbstract]struct{}
-	ClockAbstracts_instance       map[*ClockAbstract]*ClockAbstract
-	ClockAbstracts_mapString      map[string]*ClockAbstract
-	ClockAbstractOrder            uint
-	ClockAbstract_stagedOrder     map[*ClockAbstract]uint
-	ClockAbstract_orderStaged     map[uint]*ClockAbstract
-	ClockAbstracts_reference      map[*ClockAbstract]*ClockAbstract
-	ClockAbstracts_referenceOrder map[*ClockAbstract]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterClockAbstractCreateCallback GongOnAfterCreateInterface[ClockAbstract]
-	OnAfterClockAbstractUpdateCallback GongOnAfterUpdateInterface[ClockAbstract]
-	OnAfterClockAbstractDeleteCallback GongOnAfterDeleteInterface[ClockAbstract]
-	OnAfterClockAbstractReadCallback   GongOnAfterReadInterface[ClockAbstract]
-
 	ClockTopCurveShapes                map[*ClockTopCurveShape]struct{}
 	ClockTopCurveShapes_instance       map[*ClockTopCurveShape]*ClockTopCurveShape
 	ClockTopCurveShapes_mapString      map[string]*ClockTopCurveShape
@@ -809,21 +794,6 @@ type Stage struct {
 	OnAfterMidArcVectorShapeGridUpdateCallback GongOnAfterUpdateInterface[MidArcVectorShapeGrid]
 	OnAfterMidArcVectorShapeGridDeleteCallback GongOnAfterDeleteInterface[MidArcVectorShapeGrid]
 	OnAfterMidArcVectorShapeGridReadCallback   GongOnAfterReadInterface[MidArcVectorShapeGrid]
-
-	MusicAbstracts                map[*MusicAbstract]struct{}
-	MusicAbstracts_instance       map[*MusicAbstract]*MusicAbstract
-	MusicAbstracts_mapString      map[string]*MusicAbstract
-	MusicAbstractOrder            uint
-	MusicAbstract_stagedOrder     map[*MusicAbstract]uint
-	MusicAbstract_orderStaged     map[uint]*MusicAbstract
-	MusicAbstracts_reference      map[*MusicAbstract]*MusicAbstract
-	MusicAbstracts_referenceOrder map[*MusicAbstract]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterMusicAbstractCreateCallback GongOnAfterCreateInterface[MusicAbstract]
-	OnAfterMusicAbstractUpdateCallback GongOnAfterUpdateInterface[MusicAbstract]
-	OnAfterMusicAbstractDeleteCallback GongOnAfterDeleteInterface[MusicAbstract]
-	OnAfterMusicAbstractReadCallback   GongOnAfterReadInterface[MusicAbstract]
 
 	OriginalPoints3DShapes                map[*OriginalPoints3DShape]struct{}
 	OriginalPoints3DShapes_instance       map[*OriginalPoints3DShape]*OriginalPoints3DShape
@@ -2073,21 +2043,6 @@ type Stage struct {
 	OnAfterStool3DDiagramDeleteCallback GongOnAfterDeleteInterface[Stool3DDiagram]
 	OnAfterStool3DDiagramReadCallback   GongOnAfterReadInterface[Stool3DDiagram]
 
-	StoolAbstracts                map[*StoolAbstract]struct{}
-	StoolAbstracts_instance       map[*StoolAbstract]*StoolAbstract
-	StoolAbstracts_mapString      map[string]*StoolAbstract
-	StoolAbstractOrder            uint
-	StoolAbstract_stagedOrder     map[*StoolAbstract]uint
-	StoolAbstract_orderStaged     map[uint]*StoolAbstract
-	StoolAbstracts_reference      map[*StoolAbstract]*StoolAbstract
-	StoolAbstracts_referenceOrder map[*StoolAbstract]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterStoolAbstractCreateCallback GongOnAfterCreateInterface[StoolAbstract]
-	OnAfterStoolAbstractUpdateCallback GongOnAfterUpdateInterface[StoolAbstract]
-	OnAfterStoolAbstractDeleteCallback GongOnAfterDeleteInterface[StoolAbstract]
-	OnAfterStoolAbstractReadCallback   GongOnAfterReadInterface[StoolAbstract]
-
 	TiledFloor3DShapes                map[*TiledFloor3DShape]struct{}
 	TiledFloor3DShapes_instance       map[*TiledFloor3DShape]*TiledFloor3DShape
 	TiledFloor3DShapes_mapString      map[string]*TiledFloor3DShape
@@ -2826,10 +2781,6 @@ func (stage *Stage) Squash() {
 	stage.Clock3DDiagrams_instance = make(map[*Clock3DDiagram]*Clock3DDiagram)
 	stage.Clock3DDiagrams_referenceOrder = make(map[*Clock3DDiagram]uint)
 
-	stage.ClockAbstracts_reference = make(map[*ClockAbstract]*ClockAbstract)
-	stage.ClockAbstracts_instance = make(map[*ClockAbstract]*ClockAbstract)
-	stage.ClockAbstracts_referenceOrder = make(map[*ClockAbstract]uint)
-
 	stage.ClockTopCurveShapes_reference = make(map[*ClockTopCurveShape]*ClockTopCurveShape)
 	stage.ClockTopCurveShapes_instance = make(map[*ClockTopCurveShape]*ClockTopCurveShape)
 	stage.ClockTopCurveShapes_referenceOrder = make(map[*ClockTopCurveShape]uint)
@@ -2949,10 +2900,6 @@ func (stage *Stage) Squash() {
 	stage.MidArcVectorShapeGrids_reference = make(map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid)
 	stage.MidArcVectorShapeGrids_instance = make(map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid)
 	stage.MidArcVectorShapeGrids_referenceOrder = make(map[*MidArcVectorShapeGrid]uint)
-
-	stage.MusicAbstracts_reference = make(map[*MusicAbstract]*MusicAbstract)
-	stage.MusicAbstracts_instance = make(map[*MusicAbstract]*MusicAbstract)
-	stage.MusicAbstracts_referenceOrder = make(map[*MusicAbstract]uint)
 
 	stage.OriginalPoints3DShapes_reference = make(map[*OriginalPoints3DShape]*OriginalPoints3DShape)
 	stage.OriginalPoints3DShapes_instance = make(map[*OriginalPoints3DShape]*OriginalPoints3DShape)
@@ -3265,10 +3212,6 @@ func (stage *Stage) Squash() {
 	stage.Stool3DDiagrams_reference = make(map[*Stool3DDiagram]*Stool3DDiagram)
 	stage.Stool3DDiagrams_instance = make(map[*Stool3DDiagram]*Stool3DDiagram)
 	stage.Stool3DDiagrams_referenceOrder = make(map[*Stool3DDiagram]uint)
-
-	stage.StoolAbstracts_reference = make(map[*StoolAbstract]*StoolAbstract)
-	stage.StoolAbstracts_instance = make(map[*StoolAbstract]*StoolAbstract)
-	stage.StoolAbstracts_referenceOrder = make(map[*StoolAbstract]uint)
 
 	stage.TiledFloor3DShapes_reference = make(map[*TiledFloor3DShape]*TiledFloor3DShape)
 	stage.TiledFloor3DShapes_instance = make(map[*TiledFloor3DShape]*TiledFloor3DShape)
@@ -3593,20 +3536,6 @@ func (stage *Stage) recomputeOrders() {
 		stage.Clock3DDiagramOrder = maxClock3DDiagramOrder + 1
 	} else {
 		stage.Clock3DDiagramOrder = 0
-	}
-
-	var maxClockAbstractOrder uint
-	var foundClockAbstract bool
-	for _, order := range stage.ClockAbstract_stagedOrder {
-		if !foundClockAbstract || order > maxClockAbstractOrder {
-			maxClockAbstractOrder = order
-			foundClockAbstract = true
-		}
-	}
-	if foundClockAbstract {
-		stage.ClockAbstractOrder = maxClockAbstractOrder + 1
-	} else {
-		stage.ClockAbstractOrder = 0
 	}
 
 	var maxClockTopCurveShapeOrder uint
@@ -4027,20 +3956,6 @@ func (stage *Stage) recomputeOrders() {
 		stage.MidArcVectorShapeGridOrder = maxMidArcVectorShapeGridOrder + 1
 	} else {
 		stage.MidArcVectorShapeGridOrder = 0
-	}
-
-	var maxMusicAbstractOrder uint
-	var foundMusicAbstract bool
-	for _, order := range stage.MusicAbstract_stagedOrder {
-		if !foundMusicAbstract || order > maxMusicAbstractOrder {
-			maxMusicAbstractOrder = order
-			foundMusicAbstract = true
-		}
-	}
-	if foundMusicAbstract {
-		stage.MusicAbstractOrder = maxMusicAbstractOrder + 1
-	} else {
-		stage.MusicAbstractOrder = 0
 	}
 
 	var maxOriginalPoints3DShapeOrder uint
@@ -5135,20 +5050,6 @@ func (stage *Stage) recomputeOrders() {
 		stage.Stool3DDiagramOrder = 0
 	}
 
-	var maxStoolAbstractOrder uint
-	var foundStoolAbstract bool
-	for _, order := range stage.StoolAbstract_stagedOrder {
-		if !foundStoolAbstract || order > maxStoolAbstractOrder {
-			maxStoolAbstractOrder = order
-			foundStoolAbstract = true
-		}
-	}
-	if foundStoolAbstract {
-		stage.StoolAbstractOrder = maxStoolAbstractOrder + 1
-	} else {
-		stage.StoolAbstractOrder = 0
-	}
-
 	var maxTiledFloor3DShapeOrder uint
 	var foundTiledFloor3DShape bool
 	for _, order := range stage.TiledFloor3DShape_stagedOrder {
@@ -5766,20 +5667,6 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *ClockAbstract:
-		tmp := __gong__getStructInstancesByOrder(stage.ClockAbstracts, stage.ClockAbstract_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *ClockAbstract implements.
-			res = append(res, any(v).(T))
-		}
-		return res
 	case *ClockTopCurveShape:
 		tmp := __gong__getStructInstancesByOrder(stage.ClockTopCurveShapes, stage.ClockTopCurveShape_stagedOrder)
 
@@ -6197,20 +6084,6 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *MidArcVectorShapeGrid implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *MusicAbstract:
-		tmp := __gong__getStructInstancesByOrder(stage.MusicAbstracts, stage.MusicAbstract_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *MusicAbstract implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -7306,20 +7179,6 @@ func (stage *Stage) GetInstancesByOrder[T GongstructPtr]() (res []T) {
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *StoolAbstract:
-		tmp := __gong__getStructInstancesByOrder(stage.StoolAbstracts, stage.StoolAbstract_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *StoolAbstract implements.
-			res = append(res, any(v).(T))
-		}
-		return res
 	case *TiledFloor3DShape:
 		tmp := __gong__getStructInstancesByOrder(stage.TiledFloor3DShapes, stage.TiledFloor3DShape_stagedOrder)
 
@@ -7832,8 +7691,6 @@ type GongBackRepoInterface interface {
 	CheckoutClock2DDiagram(clock2ddiagram *Clock2DDiagram)
 	CommitClock3DDiagram(clock3ddiagram *Clock3DDiagram)
 	CheckoutClock3DDiagram(clock3ddiagram *Clock3DDiagram)
-	CommitClockAbstract(clockabstract *ClockAbstract)
-	CheckoutClockAbstract(clockabstract *ClockAbstract)
 	CommitClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape)
 	CheckoutClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape)
 	CommitCutLine3DShape(cutline3dshape *CutLine3DShape)
@@ -7894,8 +7751,6 @@ type GongBackRepoInterface interface {
 	CheckoutMidArcVectorShape(midarcvectorshape *MidArcVectorShape)
 	CommitMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid)
 	CheckoutMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid)
-	CommitMusicAbstract(musicabstract *MusicAbstract)
-	CheckoutMusicAbstract(musicabstract *MusicAbstract)
 	CommitOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape)
 	CheckoutOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape)
 	CommitParastichyMCurves3DShape(parastichymcurves3dshape *ParastichyMCurves3DShape)
@@ -8052,8 +7907,6 @@ type GongBackRepoInterface interface {
 	CheckoutStool2DDiagram(stool2ddiagram *Stool2DDiagram)
 	CommitStool3DDiagram(stool3ddiagram *Stool3DDiagram)
 	CheckoutStool3DDiagram(stool3ddiagram *Stool3DDiagram)
-	CommitStoolAbstract(stoolabstract *StoolAbstract)
-	CheckoutStoolAbstract(stoolabstract *StoolAbstract)
 	CommitTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape)
 	CheckoutTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape)
 	CommitTopCurvePlane1Shape(topcurveplane1shape *TopCurvePlane1Shape)
@@ -8159,9 +8012,6 @@ func NewStage(name string) (stage *Stage) {
 		Clock3DDiagrams:           make(map[*Clock3DDiagram]struct{}),
 		Clock3DDiagrams_mapString: make(map[string]*Clock3DDiagram),
 
-		ClockAbstracts:           make(map[*ClockAbstract]struct{}),
-		ClockAbstracts_mapString: make(map[string]*ClockAbstract),
-
 		ClockTopCurveShapes:           make(map[*ClockTopCurveShape]struct{}),
 		ClockTopCurveShapes_mapString: make(map[string]*ClockTopCurveShape),
 
@@ -8251,9 +8101,6 @@ func NewStage(name string) (stage *Stage) {
 
 		MidArcVectorShapeGrids:           make(map[*MidArcVectorShapeGrid]struct{}),
 		MidArcVectorShapeGrids_mapString: make(map[string]*MidArcVectorShapeGrid),
-
-		MusicAbstracts:           make(map[*MusicAbstract]struct{}),
-		MusicAbstracts_mapString: make(map[string]*MusicAbstract),
 
 		OriginalPoints3DShapes:           make(map[*OriginalPoints3DShape]struct{}),
 		OriginalPoints3DShapes_mapString: make(map[string]*OriginalPoints3DShape),
@@ -8489,9 +8336,6 @@ func NewStage(name string) (stage *Stage) {
 		Stool3DDiagrams:           make(map[*Stool3DDiagram]struct{}),
 		Stool3DDiagrams_mapString: make(map[string]*Stool3DDiagram),
 
-		StoolAbstracts:           make(map[*StoolAbstract]struct{}),
-		StoolAbstracts_mapString: make(map[string]*StoolAbstract),
-
 		TiledFloor3DShapes:           make(map[*TiledFloor3DShape]struct{}),
 		TiledFloor3DShapes_mapString: make(map[string]*TiledFloor3DShape),
 
@@ -8641,10 +8485,6 @@ func NewStage(name string) (stage *Stage) {
 		Clock3DDiagram_orderStaged: make(map[uint]*Clock3DDiagram),
 		Clock3DDiagrams_reference:  make(map[*Clock3DDiagram]*Clock3DDiagram),
 
-		ClockAbstract_stagedOrder: make(map[*ClockAbstract]uint),
-		ClockAbstract_orderStaged: make(map[uint]*ClockAbstract),
-		ClockAbstracts_reference:  make(map[*ClockAbstract]*ClockAbstract),
-
 		ClockTopCurveShape_stagedOrder: make(map[*ClockTopCurveShape]uint),
 		ClockTopCurveShape_orderStaged: make(map[uint]*ClockTopCurveShape),
 		ClockTopCurveShapes_reference:  make(map[*ClockTopCurveShape]*ClockTopCurveShape),
@@ -8764,10 +8604,6 @@ func NewStage(name string) (stage *Stage) {
 		MidArcVectorShapeGrid_stagedOrder: make(map[*MidArcVectorShapeGrid]uint),
 		MidArcVectorShapeGrid_orderStaged: make(map[uint]*MidArcVectorShapeGrid),
 		MidArcVectorShapeGrids_reference:  make(map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid),
-
-		MusicAbstract_stagedOrder: make(map[*MusicAbstract]uint),
-		MusicAbstract_orderStaged: make(map[uint]*MusicAbstract),
-		MusicAbstracts_reference:  make(map[*MusicAbstract]*MusicAbstract),
 
 		OriginalPoints3DShape_stagedOrder: make(map[*OriginalPoints3DShape]uint),
 		OriginalPoints3DShape_orderStaged: make(map[uint]*OriginalPoints3DShape),
@@ -9081,10 +8917,6 @@ func NewStage(name string) (stage *Stage) {
 		Stool3DDiagram_orderStaged: make(map[uint]*Stool3DDiagram),
 		Stool3DDiagrams_reference:  make(map[*Stool3DDiagram]*Stool3DDiagram),
 
-		StoolAbstract_stagedOrder: make(map[*StoolAbstract]uint),
-		StoolAbstract_orderStaged: make(map[uint]*StoolAbstract),
-		StoolAbstracts_reference:  make(map[*StoolAbstract]*StoolAbstract),
-
 		TiledFloor3DShape_stagedOrder: make(map[*TiledFloor3DShape]uint),
 		TiledFloor3DShape_orderStaged: make(map[uint]*TiledFloor3DShape),
 		TiledFloor3DShapes_reference:  make(map[*TiledFloor3DShape]*TiledFloor3DShape),
@@ -9229,8 +9061,6 @@ func NewStage(name string) (stage *Stage) {
 
 			"Clock3DDiagram": &Clock3DDiagramUnmarshaller{},
 
-			"ClockAbstract": &ClockAbstractUnmarshaller{},
-
 			"ClockTopCurveShape": &ClockTopCurveShapeUnmarshaller{},
 
 			"CutLine3DShape": &CutLine3DShapeUnmarshaller{},
@@ -9290,8 +9120,6 @@ func NewStage(name string) (stage *Stage) {
 			"MidArcVectorShape": &MidArcVectorShapeUnmarshaller{},
 
 			"MidArcVectorShapeGrid": &MidArcVectorShapeGridUnmarshaller{},
-
-			"MusicAbstract": &MusicAbstractUnmarshaller{},
 
 			"OriginalPoints3DShape": &OriginalPoints3DShapeUnmarshaller{},
 
@@ -9449,8 +9277,6 @@ func NewStage(name string) (stage *Stage) {
 
 			"Stool3DDiagram": &Stool3DDiagramUnmarshaller{},
 
-			"StoolAbstract": &StoolAbstractUnmarshaller{},
-
 			"TiledFloor3DShape": &TiledFloor3DShapeUnmarshaller{},
 
 			"TopCurvePlane1Shape": &TopCurvePlane1ShapeUnmarshaller{},
@@ -9557,8 +9383,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return any(stage.Clock2DDiagram_orderStaged[order]).(Type)
 	case *Clock3DDiagram:
 		return any(stage.Clock3DDiagram_orderStaged[order]).(Type)
-	case *ClockAbstract:
-		return any(stage.ClockAbstract_orderStaged[order]).(Type)
 	case *ClockTopCurveShape:
 		return any(stage.ClockTopCurveShape_orderStaged[order]).(Type)
 	case *CutLine3DShape:
@@ -9619,8 +9443,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return any(stage.MidArcVectorShape_orderStaged[order]).(Type)
 	case *MidArcVectorShapeGrid:
 		return any(stage.MidArcVectorShapeGrid_orderStaged[order]).(Type)
-	case *MusicAbstract:
-		return any(stage.MusicAbstract_orderStaged[order]).(Type)
 	case *OriginalPoints3DShape:
 		return any(stage.OriginalPoints3DShape_orderStaged[order]).(Type)
 	case *ParastichyMCurves3DShape:
@@ -9777,8 +9599,6 @@ func (stage *Stage) GetInstanceFromOrder[Type GongstructPtr](order uint) (res Ty
 		return any(stage.Stool2DDiagram_orderStaged[order]).(Type)
 	case *Stool3DDiagram:
 		return any(stage.Stool3DDiagram_orderStaged[order]).(Type)
-	case *StoolAbstract:
-		return any(stage.StoolAbstract_orderStaged[order]).(Type)
 	case *TiledFloor3DShape:
 		return any(stage.TiledFloor3DShape_orderStaged[order]).(Type)
 	case *TopCurvePlane1Shape:
@@ -9915,7 +9735,6 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Circumference3DShape"] = len(stage.Circumference3DShapes)
 	stage.Map_GongStructName_InstancesNb["Clock2DDiagram"] = len(stage.Clock2DDiagrams)
 	stage.Map_GongStructName_InstancesNb["Clock3DDiagram"] = len(stage.Clock3DDiagrams)
-	stage.Map_GongStructName_InstancesNb["ClockAbstract"] = len(stage.ClockAbstracts)
 	stage.Map_GongStructName_InstancesNb["ClockTopCurveShape"] = len(stage.ClockTopCurveShapes)
 	stage.Map_GongStructName_InstancesNb["CutLine3DShape"] = len(stage.CutLine3DShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShape"] = len(stage.EndArcShapes)
@@ -9946,7 +9765,6 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["MidArcVectorShape"] = len(stage.MidArcVectorShapes)
 	stage.Map_GongStructName_InstancesNb["MidArcVectorShapeGrid"] = len(stage.MidArcVectorShapeGrids)
-	stage.Map_GongStructName_InstancesNb["MusicAbstract"] = len(stage.MusicAbstracts)
 	stage.Map_GongStructName_InstancesNb["OriginalPoints3DShape"] = len(stage.OriginalPoints3DShapes)
 	stage.Map_GongStructName_InstancesNb["ParastichyMCurves3DShape"] = len(stage.ParastichyMCurves3DShapes)
 	stage.Map_GongStructName_InstancesNb["ParastichyNCurves3DShape"] = len(stage.ParastichyNCurves3DShapes)
@@ -10025,7 +9843,6 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["StemCylinder3DShape"] = len(stage.StemCylinder3DShapes)
 	stage.Map_GongStructName_InstancesNb["Stool2DDiagram"] = len(stage.Stool2DDiagrams)
 	stage.Map_GongStructName_InstancesNb["Stool3DDiagram"] = len(stage.Stool3DDiagrams)
-	stage.Map_GongStructName_InstancesNb["StoolAbstract"] = len(stage.StoolAbstracts)
 	stage.Map_GongStructName_InstancesNb["TiledFloor3DShape"] = len(stage.TiledFloor3DShapes)
 	stage.Map_GongStructName_InstancesNb["TopCurvePlane1Shape"] = len(stage.TopCurvePlane1Shapes)
 	stage.Map_GongStructName_InstancesNb["TopCurvePlane2Shape"] = len(stage.TopCurvePlane2Shapes)
@@ -11185,90 +11002,6 @@ func (clock3ddiagram *Clock3DDiagram) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (clock3ddiagram *Clock3DDiagram) SetName(name string) {
 	clock3ddiagram.Name = name
-}
-
-// Stage puts clockabstract to the model stage
-func (clockabstract *ClockAbstract) Stage(stage *Stage) *ClockAbstract {
-	if _, ok := stage.ClockAbstracts[clockabstract]; !ok {
-		stage.ClockAbstracts[clockabstract] = struct{}{}
-		stage.ClockAbstract_stagedOrder[clockabstract] = stage.ClockAbstractOrder
-		stage.ClockAbstract_orderStaged[stage.ClockAbstractOrder] = clockabstract
-		stage.ClockAbstractOrder++
-	}
-	stage.ClockAbstracts_mapString[clockabstract.Name] = clockabstract
-
-	return clockabstract
-}
-
-// StagePreserveOrder puts clockabstract to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.ClockAbstractOrder
-// - update stage.ClockAbstractOrder accordingly
-func (clockabstract *ClockAbstract) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.ClockAbstracts[clockabstract]; !ok {
-		stage.ClockAbstracts[clockabstract] = struct{}{}
-
-		if order > stage.ClockAbstractOrder {
-			stage.ClockAbstractOrder = order
-		}
-		stage.ClockAbstract_stagedOrder[clockabstract] = order
-		stage.ClockAbstract_orderStaged[order] = clockabstract
-		stage.ClockAbstractOrder++
-	}
-	stage.ClockAbstracts_mapString[clockabstract.Name] = clockabstract
-}
-
-// Unstage removes clockabstract off the model stage
-func (clockabstract *ClockAbstract) Unstage(stage *Stage) *ClockAbstract {
-	delete(stage.ClockAbstracts, clockabstract)
-	// issue1150
-	// delete(stage.ClockAbstract_stagedOrder, clockabstract)
-	delete(stage.ClockAbstracts_mapString, clockabstract.Name)
-
-	return clockabstract
-}
-
-// UnstageVoid removes clockabstract off the model stage
-func (clockabstract *ClockAbstract) UnstageVoid(stage *Stage) {
-	delete(stage.ClockAbstracts, clockabstract)
-	// issue1150
-	// delete(stage.ClockAbstract_stagedOrder, clockabstract)
-	delete(stage.ClockAbstracts_mapString, clockabstract.Name)
-}
-
-// commit clockabstract to the back repo (if it is already staged)
-func (clockabstract *ClockAbstract) Commit(stage *Stage) *ClockAbstract {
-	if _, ok := stage.ClockAbstracts[clockabstract]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitClockAbstract(clockabstract)
-		}
-	}
-	return clockabstract
-}
-
-func (clockabstract *ClockAbstract) StageVoid(stage *Stage) {
-	clockabstract.Stage(stage)
-}
-
-// Checkout clockabstract to the back repo (if it is already staged)
-func (clockabstract *ClockAbstract) Checkout(stage *Stage) *ClockAbstract {
-	if _, ok := stage.ClockAbstracts[clockabstract]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutClockAbstract(clockabstract)
-		}
-	}
-	return clockabstract
-}
-
-// for satisfaction of GongStruct interface
-func (clockabstract *ClockAbstract) GetName() (res string) {
-	return clockabstract.Name
-}
-
-// for satisfaction of GongStruct interface
-func (clockabstract *ClockAbstract) SetName(name string) {
-	clockabstract.Name = name
 }
 
 // Stage puts clocktopcurveshape to the model stage
@@ -13789,90 +13522,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) SetName(name string) {
 	midarcvectorshapegrid.Name = name
-}
-
-// Stage puts musicabstract to the model stage
-func (musicabstract *MusicAbstract) Stage(stage *Stage) *MusicAbstract {
-	if _, ok := stage.MusicAbstracts[musicabstract]; !ok {
-		stage.MusicAbstracts[musicabstract] = struct{}{}
-		stage.MusicAbstract_stagedOrder[musicabstract] = stage.MusicAbstractOrder
-		stage.MusicAbstract_orderStaged[stage.MusicAbstractOrder] = musicabstract
-		stage.MusicAbstractOrder++
-	}
-	stage.MusicAbstracts_mapString[musicabstract.Name] = musicabstract
-
-	return musicabstract
-}
-
-// StagePreserveOrder puts musicabstract to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.MusicAbstractOrder
-// - update stage.MusicAbstractOrder accordingly
-func (musicabstract *MusicAbstract) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.MusicAbstracts[musicabstract]; !ok {
-		stage.MusicAbstracts[musicabstract] = struct{}{}
-
-		if order > stage.MusicAbstractOrder {
-			stage.MusicAbstractOrder = order
-		}
-		stage.MusicAbstract_stagedOrder[musicabstract] = order
-		stage.MusicAbstract_orderStaged[order] = musicabstract
-		stage.MusicAbstractOrder++
-	}
-	stage.MusicAbstracts_mapString[musicabstract.Name] = musicabstract
-}
-
-// Unstage removes musicabstract off the model stage
-func (musicabstract *MusicAbstract) Unstage(stage *Stage) *MusicAbstract {
-	delete(stage.MusicAbstracts, musicabstract)
-	// issue1150
-	// delete(stage.MusicAbstract_stagedOrder, musicabstract)
-	delete(stage.MusicAbstracts_mapString, musicabstract.Name)
-
-	return musicabstract
-}
-
-// UnstageVoid removes musicabstract off the model stage
-func (musicabstract *MusicAbstract) UnstageVoid(stage *Stage) {
-	delete(stage.MusicAbstracts, musicabstract)
-	// issue1150
-	// delete(stage.MusicAbstract_stagedOrder, musicabstract)
-	delete(stage.MusicAbstracts_mapString, musicabstract.Name)
-}
-
-// commit musicabstract to the back repo (if it is already staged)
-func (musicabstract *MusicAbstract) Commit(stage *Stage) *MusicAbstract {
-	if _, ok := stage.MusicAbstracts[musicabstract]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitMusicAbstract(musicabstract)
-		}
-	}
-	return musicabstract
-}
-
-func (musicabstract *MusicAbstract) StageVoid(stage *Stage) {
-	musicabstract.Stage(stage)
-}
-
-// Checkout musicabstract to the back repo (if it is already staged)
-func (musicabstract *MusicAbstract) Checkout(stage *Stage) *MusicAbstract {
-	if _, ok := stage.MusicAbstracts[musicabstract]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutMusicAbstract(musicabstract)
-		}
-	}
-	return musicabstract
-}
-
-// for satisfaction of GongStruct interface
-func (musicabstract *MusicAbstract) GetName() (res string) {
-	return musicabstract.Name
-}
-
-// for satisfaction of GongStruct interface
-func (musicabstract *MusicAbstract) SetName(name string) {
-	musicabstract.Name = name
 }
 
 // Stage puts originalpoints3dshape to the model stage
@@ -20427,90 +20076,6 @@ func (stool3ddiagram *Stool3DDiagram) SetName(name string) {
 	stool3ddiagram.Name = name
 }
 
-// Stage puts stoolabstract to the model stage
-func (stoolabstract *StoolAbstract) Stage(stage *Stage) *StoolAbstract {
-	if _, ok := stage.StoolAbstracts[stoolabstract]; !ok {
-		stage.StoolAbstracts[stoolabstract] = struct{}{}
-		stage.StoolAbstract_stagedOrder[stoolabstract] = stage.StoolAbstractOrder
-		stage.StoolAbstract_orderStaged[stage.StoolAbstractOrder] = stoolabstract
-		stage.StoolAbstractOrder++
-	}
-	stage.StoolAbstracts_mapString[stoolabstract.Name] = stoolabstract
-
-	return stoolabstract
-}
-
-// StagePreserveOrder puts stoolabstract to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.StoolAbstractOrder
-// - update stage.StoolAbstractOrder accordingly
-func (stoolabstract *StoolAbstract) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.StoolAbstracts[stoolabstract]; !ok {
-		stage.StoolAbstracts[stoolabstract] = struct{}{}
-
-		if order > stage.StoolAbstractOrder {
-			stage.StoolAbstractOrder = order
-		}
-		stage.StoolAbstract_stagedOrder[stoolabstract] = order
-		stage.StoolAbstract_orderStaged[order] = stoolabstract
-		stage.StoolAbstractOrder++
-	}
-	stage.StoolAbstracts_mapString[stoolabstract.Name] = stoolabstract
-}
-
-// Unstage removes stoolabstract off the model stage
-func (stoolabstract *StoolAbstract) Unstage(stage *Stage) *StoolAbstract {
-	delete(stage.StoolAbstracts, stoolabstract)
-	// issue1150
-	// delete(stage.StoolAbstract_stagedOrder, stoolabstract)
-	delete(stage.StoolAbstracts_mapString, stoolabstract.Name)
-
-	return stoolabstract
-}
-
-// UnstageVoid removes stoolabstract off the model stage
-func (stoolabstract *StoolAbstract) UnstageVoid(stage *Stage) {
-	delete(stage.StoolAbstracts, stoolabstract)
-	// issue1150
-	// delete(stage.StoolAbstract_stagedOrder, stoolabstract)
-	delete(stage.StoolAbstracts_mapString, stoolabstract.Name)
-}
-
-// commit stoolabstract to the back repo (if it is already staged)
-func (stoolabstract *StoolAbstract) Commit(stage *Stage) *StoolAbstract {
-	if _, ok := stage.StoolAbstracts[stoolabstract]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitStoolAbstract(stoolabstract)
-		}
-	}
-	return stoolabstract
-}
-
-func (stoolabstract *StoolAbstract) StageVoid(stage *Stage) {
-	stoolabstract.Stage(stage)
-}
-
-// Checkout stoolabstract to the back repo (if it is already staged)
-func (stoolabstract *StoolAbstract) Checkout(stage *Stage) *StoolAbstract {
-	if _, ok := stage.StoolAbstracts[stoolabstract]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutStoolAbstract(stoolabstract)
-		}
-	}
-	return stoolabstract
-}
-
-// for satisfaction of GongStruct interface
-func (stoolabstract *StoolAbstract) GetName() (res string) {
-	return stoolabstract.Name
-}
-
-// for satisfaction of GongStruct interface
-func (stoolabstract *StoolAbstract) SetName(name string) {
-	stoolabstract.Name = name
-}
-
 // Stage puts tiledfloor3dshape to the model stage
 func (tiledfloor3dshape *TiledFloor3DShape) Stage(stage *Stage) *TiledFloor3DShape {
 	if _, ok := stage.TiledFloor3DShapes[tiledfloor3dshape]; !ok {
@@ -23013,11 +22578,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Clock3DDiagram_stagedOrder = make(map[*Clock3DDiagram]uint)
 	stage.Clock3DDiagramOrder = 0
 
-	stage.ClockAbstracts = make(map[*ClockAbstract]struct{})
-	stage.ClockAbstracts_mapString = make(map[string]*ClockAbstract)
-	stage.ClockAbstract_stagedOrder = make(map[*ClockAbstract]uint)
-	stage.ClockAbstractOrder = 0
-
 	stage.ClockTopCurveShapes = make(map[*ClockTopCurveShape]struct{})
 	stage.ClockTopCurveShapes_mapString = make(map[string]*ClockTopCurveShape)
 	stage.ClockTopCurveShape_stagedOrder = make(map[*ClockTopCurveShape]uint)
@@ -23167,11 +22727,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.MidArcVectorShapeGrids_mapString = make(map[string]*MidArcVectorShapeGrid)
 	stage.MidArcVectorShapeGrid_stagedOrder = make(map[*MidArcVectorShapeGrid]uint)
 	stage.MidArcVectorShapeGridOrder = 0
-
-	stage.MusicAbstracts = make(map[*MusicAbstract]struct{})
-	stage.MusicAbstracts_mapString = make(map[string]*MusicAbstract)
-	stage.MusicAbstract_stagedOrder = make(map[*MusicAbstract]uint)
-	stage.MusicAbstractOrder = 0
 
 	stage.OriginalPoints3DShapes = make(map[*OriginalPoints3DShape]struct{})
 	stage.OriginalPoints3DShapes_mapString = make(map[string]*OriginalPoints3DShape)
@@ -23563,11 +23118,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Stool3DDiagram_stagedOrder = make(map[*Stool3DDiagram]uint)
 	stage.Stool3DDiagramOrder = 0
 
-	stage.StoolAbstracts = make(map[*StoolAbstract]struct{})
-	stage.StoolAbstracts_mapString = make(map[string]*StoolAbstract)
-	stage.StoolAbstract_stagedOrder = make(map[*StoolAbstract]uint)
-	stage.StoolAbstractOrder = 0
-
 	stage.TiledFloor3DShapes = make(map[*TiledFloor3DShape]struct{})
 	stage.TiledFloor3DShapes_mapString = make(map[string]*TiledFloor3DShape)
 	stage.TiledFloor3DShape_stagedOrder = make(map[*TiledFloor3DShape]uint)
@@ -23820,8 +23370,6 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 		return any(stage.Clock2DDiagrams_mapString).(map[string]Type)
 	case *Clock3DDiagram:
 		return any(stage.Clock3DDiagrams_mapString).(map[string]Type)
-	case *ClockAbstract:
-		return any(stage.ClockAbstracts_mapString).(map[string]Type)
 	case *ClockTopCurveShape:
 		return any(stage.ClockTopCurveShapes_mapString).(map[string]Type)
 	case *CutLine3DShape:
@@ -23882,8 +23430,6 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 		return any(stage.MidArcVectorShapes_mapString).(map[string]Type)
 	case *MidArcVectorShapeGrid:
 		return any(stage.MidArcVectorShapeGrids_mapString).(map[string]Type)
-	case *MusicAbstract:
-		return any(stage.MusicAbstracts_mapString).(map[string]Type)
 	case *OriginalPoints3DShape:
 		return any(stage.OriginalPoints3DShapes_mapString).(map[string]Type)
 	case *ParastichyMCurves3DShape:
@@ -24040,8 +23586,6 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 		return any(stage.Stool2DDiagrams_mapString).(map[string]Type)
 	case *Stool3DDiagram:
 		return any(stage.Stool3DDiagrams_mapString).(map[string]Type)
-	case *StoolAbstract:
-		return any(stage.StoolAbstracts_mapString).(map[string]Type)
 	case *TiledFloor3DShape:
 		return any(stage.TiledFloor3DShapes_mapString).(map[string]Type)
 	case *TopCurvePlane1Shape:
@@ -24137,8 +23681,6 @@ func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
 		return any(&stage.Clock2DDiagrams).(*map[Type]struct{})
 	case *Clock3DDiagram:
 		return any(&stage.Clock3DDiagrams).(*map[Type]struct{})
-	case *ClockAbstract:
-		return any(&stage.ClockAbstracts).(*map[Type]struct{})
 	case *ClockTopCurveShape:
 		return any(&stage.ClockTopCurveShapes).(*map[Type]struct{})
 	case *CutLine3DShape:
@@ -24199,8 +23741,6 @@ func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
 		return any(&stage.MidArcVectorShapes).(*map[Type]struct{})
 	case *MidArcVectorShapeGrid:
 		return any(&stage.MidArcVectorShapeGrids).(*map[Type]struct{})
-	case *MusicAbstract:
-		return any(&stage.MusicAbstracts).(*map[Type]struct{})
 	case *OriginalPoints3DShape:
 		return any(&stage.OriginalPoints3DShapes).(*map[Type]struct{})
 	case *ParastichyMCurves3DShape:
@@ -24357,8 +23897,6 @@ func (stage *Stage) GetInstancesSet[Type GongstructPtr]() *map[Type]struct{} {
 		return any(&stage.Stool2DDiagrams).(*map[Type]struct{})
 	case *Stool3DDiagram:
 		return any(&stage.Stool3DDiagrams).(*map[Type]struct{})
-	case *StoolAbstract:
-		return any(&stage.StoolAbstracts).(*map[Type]struct{})
 	case *TiledFloor3DShape:
 		return any(&stage.TiledFloor3DShapes).(*map[Type]struct{})
 	case *TopCurvePlane1Shape:
@@ -24496,10 +24034,6 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
 			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
-		}).(*Type)
-	case ClockAbstract:
-		return any(&ClockAbstract{
-			// Initialisation of associations
 		}).(*Type)
 	case ClockTopCurveShape:
 		return any(&ClockTopCurveShape{
@@ -24643,10 +24177,6 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of MidArcVectorShape with the name of the field
 			MidArcVectorShapes: []*MidArcVectorShape{{Name: "MidArcVectorShapes"}},
 		}).(*Type)
-	case MusicAbstract:
-		return any(&MusicAbstract{
-			// Initialisation of associations
-		}).(*Type)
 	case OriginalPoints3DShape:
 		return any(&OriginalPoints3DShape{
 			// Initialisation of associations
@@ -24780,12 +24310,6 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of TubeVaseAbstract with the name of the field
 			TubeVaseAbstract: &TubeVaseAbstract{Name: "TubeVaseAbstract"},
-			// field is initialized with an instance of StoolAbstract with the name of the field
-			StoolAbstract: &StoolAbstract{Name: "StoolAbstract"},
-			// field is initialized with an instance of ClockAbstract with the name of the field
-			ClockAbstract: &ClockAbstract{Name: "ClockAbstract"},
-			// field is initialized with an instance of MusicAbstract with the name of the field
-			MusicAbstract: &MusicAbstract{Name: "MusicAbstract"},
 			// field is initialized with an instance of Plant2DDiagram with the name of the field
 			Plant2DDiagrams: []*Plant2DDiagram{{Name: "Plant2DDiagrams"}},
 			// field is initialized with an instance of Plant3DDiagram with the name of the field
@@ -25140,10 +24664,6 @@ func GongGetAssociationName[Type Gongstruct]() *Type {
 			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
 			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
-		}).(*Type)
-	case StoolAbstract:
-		return any(&StoolAbstract{
-			// Initialisation of associations
 		}).(*Type)
 	case TiledFloor3DShape:
 		return any(&TiledFloor3DShape{
@@ -25545,11 +25065,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of ClockAbstract
-	case ClockAbstract:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of ClockTopCurveShape
 	case ClockTopCurveShape:
 		switch fieldname {
@@ -25731,11 +25246,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		}
 	// reverse maps of direct associations of MidArcVectorShapeGrid
 	case MidArcVectorShapeGrid:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of MusicAbstract
-	case MusicAbstract:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -26008,57 +25518,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					plantabstracts = append(plantabstracts, plantabstract)
 					res[tubevaseabstract_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "StoolAbstract":
-			res := make(map[*StoolAbstract][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.StoolAbstract != nil {
-					stoolabstract_ := plantabstract.StoolAbstract
-					var plantabstracts []*PlantAbstract
-					_, ok := res[stoolabstract_]
-					if ok {
-						plantabstracts = res[stoolabstract_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[stoolabstract_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ClockAbstract":
-			res := make(map[*ClockAbstract][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.ClockAbstract != nil {
-					clockabstract_ := plantabstract.ClockAbstract
-					var plantabstracts []*PlantAbstract
-					_, ok := res[clockabstract_]
-					if ok {
-						plantabstracts = res[clockabstract_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[clockabstract_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "MusicAbstract":
-			res := make(map[*MusicAbstract][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.MusicAbstract != nil {
-					musicabstract_ := plantabstract.MusicAbstract
-					var plantabstracts []*PlantAbstract
-					_, ok := res[musicabstract_]
-					if ok {
-						plantabstracts = res[musicabstract_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[musicabstract_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -27012,11 +26471,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		}
-	// reverse maps of direct associations of StoolAbstract
-	case StoolAbstract:
-		switch fieldname {
-		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of TiledFloor3DShape
 	case TiledFloor3DShape:
@@ -28087,11 +27541,6 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of ClockAbstract
-	case ClockAbstract:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of ClockTopCurveShape
 	case ClockTopCurveShape:
 		switch fieldname {
@@ -28313,11 +27762,6 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		}
-	// reverse maps of direct associations of MusicAbstract
-	case MusicAbstract:
-		switch fieldname {
-		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of OriginalPoints3DShape
 	case OriginalPoints3DShape:
@@ -29021,11 +28465,6 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of StoolAbstract
-	case StoolAbstract:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of TiledFloor3DShape
 	case TiledFloor3DShape:
 		switch fieldname {
@@ -29279,8 +28718,6 @@ func GongNewInstance[Type GongstructPtr]() (res Type) {
 		res = any(new(Clock2DDiagram)).(Type)
 	case *Clock3DDiagram:
 		res = any(new(Clock3DDiagram)).(Type)
-	case *ClockAbstract:
-		res = any(new(ClockAbstract)).(Type)
 	case *ClockTopCurveShape:
 		res = any(new(ClockTopCurveShape)).(Type)
 	case *CutLine3DShape:
@@ -29341,8 +28778,6 @@ func GongNewInstance[Type GongstructPtr]() (res Type) {
 		res = any(new(MidArcVectorShape)).(Type)
 	case *MidArcVectorShapeGrid:
 		res = any(new(MidArcVectorShapeGrid)).(Type)
-	case *MusicAbstract:
-		res = any(new(MusicAbstract)).(Type)
 	case *OriginalPoints3DShape:
 		res = any(new(OriginalPoints3DShape)).(Type)
 	case *ParastichyMCurves3DShape:
@@ -29499,8 +28934,6 @@ func GongNewInstance[Type GongstructPtr]() (res Type) {
 		res = any(new(Stool2DDiagram)).(Type)
 	case *Stool3DDiagram:
 		res = any(new(Stool3DDiagram)).(Type)
-	case *StoolAbstract:
-		res = any(new(StoolAbstract)).(Type)
 	case *TiledFloor3DShape:
 		res = any(new(TiledFloor3DShape)).(Type)
 	case *TopCurvePlane1Shape:
@@ -29613,8 +29046,6 @@ func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Clock2DDiagram"
 	case *Clock3DDiagram:
 		res = "Clock3DDiagram"
-	case *ClockAbstract:
-		res = "ClockAbstract"
 	case *ClockTopCurveShape:
 		res = "ClockTopCurveShape"
 	case *CutLine3DShape:
@@ -29675,8 +29106,6 @@ func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "MidArcVectorShape"
 	case *MidArcVectorShapeGrid:
 		res = "MidArcVectorShapeGrid"
-	case *MusicAbstract:
-		res = "MusicAbstract"
 	case *OriginalPoints3DShape:
 		res = "OriginalPoints3DShape"
 	case *ParastichyMCurves3DShape:
@@ -29833,8 +29262,6 @@ func GongGetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Stool2DDiagram"
 	case *Stool3DDiagram:
 		res = "Stool3DDiagram"
-	case *StoolAbstract:
-		res = "StoolAbstract"
 	case *TiledFloor3DShape:
 		res = "TiledFloor3DShape"
 	case *TopCurvePlane1Shape:
@@ -29967,9 +29394,6 @@ func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 		rf.GongstructName = "PlantAbstract"
 		rf.Fieldname = "Clock3DDiagrams"
 		res = append(res, rf)
-	case *ClockAbstract:
-		var rf ReverseField
-		_ = rf
 	case *ClockTopCurveShape:
 		var rf ReverseField
 		_ = rf
@@ -30082,9 +29506,6 @@ func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 		rf.Fieldname = "MidArcVectorShapes"
 		res = append(res, rf)
 	case *MidArcVectorShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *MusicAbstract:
 		var rf ReverseField
 		_ = rf
 	case *OriginalPoints3DShape:
@@ -30429,9 +29850,6 @@ func GongGetReverseFields[Type GongstructIF]() (res []GongReverseField) {
 		rf.GongstructName = "PlantAbstract"
 		rf.Fieldname = "Stool3DDiagrams"
 		res = append(res, rf)
-	case *StoolAbstract:
-		var rf ReverseField
-		_ = rf
 	case *TiledFloor3DShape:
 		var rf ReverseField
 		_ = rf
@@ -30862,45 +30280,6 @@ func (clock3ddiagram *Clock3DDiagram) GongGetFieldHeaders() (res []GongFieldHead
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-	}
-	return
-}
-
-func (clockabstract *ClockAbstract) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "RadialRepetitions",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "Transparency",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeTubeDiameter",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeHeight3DTorus",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "ClockTorusVerticalScale",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeHeight",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "ProjectionAngle",
-			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -31578,121 +30957,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetFieldHeaders() (res [
 			Name:                 "MidArcVectorShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "MidArcVectorShape",
-		},
-	}
-	return
-}
-
-func (musicabstract *MusicAbstract) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsChecked",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "PitchHeight",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "NbOfBeatsInTheme",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "BeatsPerSecond",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "FirstVoiceShiftX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "FirstVoiceShiftY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "PitchDifference",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "Level",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "ActualBeatsTemporalShift",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "IsMinor",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "ThemeBinaryEncoding",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "BezierControlLengthRatio",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "NbPitchLines",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "NbBeatLines",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "OriginX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "OriginY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "ScoreScale",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "ShowFirstVoice",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "ShowFirstVoiceShiftRight",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "ShowSecondVoice",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "ShowSecondVoiceShiftRight",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "ShowFirstVoiceNotes",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "ShowFirstVoiceNotesShiftRight",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "ShowSecondVoiceNotes",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "ShowSecondVoiceNotesShiftRight",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsComposerNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -32485,21 +31749,6 @@ func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:                 "TubeVaseAbstract",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "TubeVaseAbstract",
-		},
-		{
-			Name:                 "StoolAbstract",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "StoolAbstract",
-		},
-		{
-			Name:                 "ClockAbstract",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ClockAbstract",
-		},
-		{
-			Name:                 "MusicAbstract",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "MusicAbstract",
 		},
 		{
 			Name:                 "CurrentView",
@@ -34721,57 +33970,6 @@ func (stool3ddiagram *Stool3DDiagram) GongGetFieldHeaders() (res []GongFieldHead
 	return
 }
 
-func (stoolabstract *StoolAbstract) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "RadialRepetitions",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "Transparency",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeTubeDiameter",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeHeight3DTorus",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "StoolTorusVerticalScale",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeHeight",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeSeatThickness",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "ProjectionAngle",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeEyeSeparationCriteria",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeEyeCornerControlVectorStrength",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-	}
-	return
-}
-
 func (tiledfloor3dshape *TiledFloor3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -36379,43 +35577,6 @@ func (clock3ddiagram *Clock3DDiagram) GongGetFieldValue(fieldName string, stage 
 	return
 }
 
-func (clockabstract *ClockAbstract) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = clockabstract.Name
-	case "RadialRepetitions":
-		res.valueString = fmt.Sprintf("%d", clockabstract.RadialRepetitions)
-		res.valueInt = clockabstract.RadialRepetitions
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "Transparency":
-		res.valueString = fmt.Sprintf("%f", clockabstract.Transparency)
-		res.valueFloat = clockabstract.Transparency
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeTubeDiameter":
-		res.valueString = fmt.Sprintf("%f", clockabstract.RelativeTubeDiameter)
-		res.valueFloat = clockabstract.RelativeTubeDiameter
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeHeight3DTorus":
-		res.valueString = fmt.Sprintf("%f", clockabstract.RelativeHeight3DTorus)
-		res.valueFloat = clockabstract.RelativeHeight3DTorus
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "ClockTorusVerticalScale":
-		res.valueString = fmt.Sprintf("%f", clockabstract.ClockTorusVerticalScale)
-		res.valueFloat = clockabstract.ClockTorusVerticalScale
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeHeight":
-		res.valueString = fmt.Sprintf("%f", clockabstract.RelativeHeight)
-		res.valueFloat = clockabstract.RelativeHeight
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "ProjectionAngle":
-		res.valueString = fmt.Sprintf("%f", clockabstract.ProjectionAngle)
-		res.valueFloat = clockabstract.ProjectionAngle
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	}
-	return
-}
-
 func (clocktopcurveshape *ClockTopCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -37072,119 +36233,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetFieldValue(fieldName 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	}
-	return
-}
-
-func (musicabstract *MusicAbstract) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = musicabstract.Name
-	case "IsChecked":
-		res.valueString = fmt.Sprintf("%t", musicabstract.IsChecked)
-		res.valueBool = musicabstract.IsChecked
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "PitchHeight":
-		res.valueString = fmt.Sprintf("%f", musicabstract.PitchHeight)
-		res.valueFloat = musicabstract.PitchHeight
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "NbOfBeatsInTheme":
-		res.valueString = fmt.Sprintf("%d", musicabstract.NbOfBeatsInTheme)
-		res.valueInt = musicabstract.NbOfBeatsInTheme
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "BeatsPerSecond":
-		res.valueString = fmt.Sprintf("%f", musicabstract.BeatsPerSecond)
-		res.valueFloat = musicabstract.BeatsPerSecond
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "FirstVoiceShiftX":
-		res.valueString = fmt.Sprintf("%f", musicabstract.FirstVoiceShiftX)
-		res.valueFloat = musicabstract.FirstVoiceShiftX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "FirstVoiceShiftY":
-		res.valueString = fmt.Sprintf("%f", musicabstract.FirstVoiceShiftY)
-		res.valueFloat = musicabstract.FirstVoiceShiftY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "PitchDifference":
-		res.valueString = fmt.Sprintf("%d", musicabstract.PitchDifference)
-		res.valueInt = musicabstract.PitchDifference
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "Level":
-		res.valueString = fmt.Sprintf("%f", musicabstract.Level)
-		res.valueFloat = musicabstract.Level
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "ActualBeatsTemporalShift":
-		res.valueString = fmt.Sprintf("%d", musicabstract.ActualBeatsTemporalShift)
-		res.valueInt = musicabstract.ActualBeatsTemporalShift
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "IsMinor":
-		res.valueString = fmt.Sprintf("%t", musicabstract.IsMinor)
-		res.valueBool = musicabstract.IsMinor
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ThemeBinaryEncoding":
-		res.valueString = fmt.Sprintf("%d", musicabstract.ThemeBinaryEncoding)
-		res.valueInt = musicabstract.ThemeBinaryEncoding
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "BezierControlLengthRatio":
-		res.valueString = fmt.Sprintf("%f", musicabstract.BezierControlLengthRatio)
-		res.valueFloat = musicabstract.BezierControlLengthRatio
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "NbPitchLines":
-		res.valueString = fmt.Sprintf("%d", musicabstract.NbPitchLines)
-		res.valueInt = musicabstract.NbPitchLines
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "NbBeatLines":
-		res.valueString = fmt.Sprintf("%d", musicabstract.NbBeatLines)
-		res.valueInt = musicabstract.NbBeatLines
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "OriginX":
-		res.valueString = fmt.Sprintf("%f", musicabstract.OriginX)
-		res.valueFloat = musicabstract.OriginX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "OriginY":
-		res.valueString = fmt.Sprintf("%f", musicabstract.OriginY)
-		res.valueFloat = musicabstract.OriginY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "ScoreScale":
-		res.valueString = fmt.Sprintf("%f", musicabstract.ScoreScale)
-		res.valueFloat = musicabstract.ScoreScale
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "ShowFirstVoice":
-		res.valueString = fmt.Sprintf("%t", musicabstract.ShowFirstVoice)
-		res.valueBool = musicabstract.ShowFirstVoice
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ShowFirstVoiceShiftRight":
-		res.valueString = fmt.Sprintf("%t", musicabstract.ShowFirstVoiceShiftRight)
-		res.valueBool = musicabstract.ShowFirstVoiceShiftRight
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ShowSecondVoice":
-		res.valueString = fmt.Sprintf("%t", musicabstract.ShowSecondVoice)
-		res.valueBool = musicabstract.ShowSecondVoice
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ShowSecondVoiceShiftRight":
-		res.valueString = fmt.Sprintf("%t", musicabstract.ShowSecondVoiceShiftRight)
-		res.valueBool = musicabstract.ShowSecondVoiceShiftRight
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ShowFirstVoiceNotes":
-		res.valueString = fmt.Sprintf("%t", musicabstract.ShowFirstVoiceNotes)
-		res.valueBool = musicabstract.ShowFirstVoiceNotes
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ShowFirstVoiceNotesShiftRight":
-		res.valueString = fmt.Sprintf("%t", musicabstract.ShowFirstVoiceNotesShiftRight)
-		res.valueBool = musicabstract.ShowFirstVoiceNotesShiftRight
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ShowSecondVoiceNotes":
-		res.valueString = fmt.Sprintf("%t", musicabstract.ShowSecondVoiceNotes)
-		res.valueBool = musicabstract.ShowSecondVoiceNotes
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ShowSecondVoiceNotesShiftRight":
-		res.valueString = fmt.Sprintf("%t", musicabstract.ShowSecondVoiceNotesShiftRight)
-		res.valueBool = musicabstract.ShowSecondVoiceNotesShiftRight
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsComposerNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", musicabstract.IsComposerNodeExpanded)
-		res.valueBool = musicabstract.IsComposerNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -37981,24 +37029,6 @@ func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *S
 		if plantabstract.TubeVaseAbstract != nil {
 			res.valueString = plantabstract.TubeVaseAbstract.Name
 			res.ids = plantabstract.TubeVaseAbstract.GongGetUUID(stage)
-		}
-	case "StoolAbstract":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.StoolAbstract != nil {
-			res.valueString = plantabstract.StoolAbstract.Name
-			res.ids = plantabstract.StoolAbstract.GongGetUUID(stage)
-		}
-	case "ClockAbstract":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.ClockAbstract != nil {
-			res.valueString = plantabstract.ClockAbstract.Name
-			res.ids = plantabstract.ClockAbstract.GongGetUUID(stage)
-		}
-	case "MusicAbstract":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.MusicAbstract != nil {
-			res.valueString = plantabstract.MusicAbstract.Name
-			res.ids = plantabstract.MusicAbstract.GongGetUUID(stage)
 		}
 	case "CurrentView":
 		enum := plantabstract.CurrentView
@@ -40289,55 +39319,6 @@ func (stool3ddiagram *Stool3DDiagram) GongGetFieldValue(fieldName string, stage 
 	return
 }
 
-func (stoolabstract *StoolAbstract) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = stoolabstract.Name
-	case "RadialRepetitions":
-		res.valueString = fmt.Sprintf("%d", stoolabstract.RadialRepetitions)
-		res.valueInt = stoolabstract.RadialRepetitions
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "Transparency":
-		res.valueString = fmt.Sprintf("%f", stoolabstract.Transparency)
-		res.valueFloat = stoolabstract.Transparency
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeTubeDiameter":
-		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeTubeDiameter)
-		res.valueFloat = stoolabstract.RelativeTubeDiameter
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeHeight3DTorus":
-		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeHeight3DTorus)
-		res.valueFloat = stoolabstract.RelativeHeight3DTorus
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "StoolTorusVerticalScale":
-		res.valueString = fmt.Sprintf("%f", stoolabstract.StoolTorusVerticalScale)
-		res.valueFloat = stoolabstract.StoolTorusVerticalScale
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeHeight":
-		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeHeight)
-		res.valueFloat = stoolabstract.RelativeHeight
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeSeatThickness":
-		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeSeatThickness)
-		res.valueFloat = stoolabstract.RelativeSeatThickness
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "ProjectionAngle":
-		res.valueString = fmt.Sprintf("%f", stoolabstract.ProjectionAngle)
-		res.valueFloat = stoolabstract.ProjectionAngle
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeEyeSeparationCriteria":
-		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeEyeSeparationCriteria)
-		res.valueFloat = stoolabstract.RelativeEyeSeparationCriteria
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeEyeCornerControlVectorStrength":
-		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeEyeCornerControlVectorStrength)
-		res.valueFloat = stoolabstract.RelativeEyeCornerControlVectorStrength
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	}
-	return
-}
-
 func (tiledfloor3dshape *TiledFloor3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -41689,10 +40670,6 @@ func (clock3ddiagram *Clock3DDiagram) GongGetGongstructName() string {
 	return "Clock3DDiagram"
 }
 
-func (clockabstract *ClockAbstract) GongGetGongstructName() string {
-	return "ClockAbstract"
-}
-
 func (clocktopcurveshape *ClockTopCurveShape) GongGetGongstructName() string {
 	return "ClockTopCurveShape"
 }
@@ -41811,10 +40788,6 @@ func (midarcvectorshape *MidArcVectorShape) GongGetGongstructName() string {
 
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetGongstructName() string {
 	return "MidArcVectorShapeGrid"
-}
-
-func (musicabstract *MusicAbstract) GongGetGongstructName() string {
-	return "MusicAbstract"
 }
 
 func (originalpoints3dshape *OriginalPoints3DShape) GongGetGongstructName() string {
@@ -42129,10 +41102,6 @@ func (stool3ddiagram *Stool3DDiagram) GongGetGongstructName() string {
 	return "Stool3DDiagram"
 }
 
-func (stoolabstract *StoolAbstract) GongGetGongstructName() string {
-	return "StoolAbstract"
-}
-
 func (tiledfloor3dshape *TiledFloor3DShape) GongGetGongstructName() string {
 	return "TiledFloor3DShape"
 }
@@ -42325,11 +41294,6 @@ func (stage *Stage) ResetMapStrings() {
 		stage.Clock3DDiagrams_mapString[clock3ddiagram.Name] = clock3ddiagram
 	}
 
-	stage.ClockAbstracts_mapString = make(map[string]*ClockAbstract)
-	for clockabstract := range stage.ClockAbstracts {
-		stage.ClockAbstracts_mapString[clockabstract.Name] = clockabstract
-	}
-
 	stage.ClockTopCurveShapes_mapString = make(map[string]*ClockTopCurveShape)
 	for clocktopcurveshape := range stage.ClockTopCurveShapes {
 		stage.ClockTopCurveShapes_mapString[clocktopcurveshape.Name] = clocktopcurveshape
@@ -42478,11 +41442,6 @@ func (stage *Stage) ResetMapStrings() {
 	stage.MidArcVectorShapeGrids_mapString = make(map[string]*MidArcVectorShapeGrid)
 	for midarcvectorshapegrid := range stage.MidArcVectorShapeGrids {
 		stage.MidArcVectorShapeGrids_mapString[midarcvectorshapegrid.Name] = midarcvectorshapegrid
-	}
-
-	stage.MusicAbstracts_mapString = make(map[string]*MusicAbstract)
-	for musicabstract := range stage.MusicAbstracts {
-		stage.MusicAbstracts_mapString[musicabstract.Name] = musicabstract
 	}
 
 	stage.OriginalPoints3DShapes_mapString = make(map[string]*OriginalPoints3DShape)
@@ -42873,11 +41832,6 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Stool3DDiagrams_mapString = make(map[string]*Stool3DDiagram)
 	for stool3ddiagram := range stage.Stool3DDiagrams {
 		stage.Stool3DDiagrams_mapString[stool3ddiagram.Name] = stool3ddiagram
-	}
-
-	stage.StoolAbstracts_mapString = make(map[string]*StoolAbstract)
-	for stoolabstract := range stage.StoolAbstracts {
-		stage.StoolAbstracts_mapString[stoolabstract.Name] = stoolabstract
 	}
 
 	stage.TiledFloor3DShapes_mapString = make(map[string]*TiledFloor3DShape)

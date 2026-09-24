@@ -345,6 +345,113 @@ func StageSetAssociationReverseFieldToForm(
 	}).Stage(formStage)
 	formDiv.FormFields = append(formDiv.FormFields, formField)
 }
+
+// StageSetEnumStringFieldToForm appends a FormFieldSelect dropdown for a string enum
+func StageSetEnumStringFieldToForm[TF interface {
+	Codes() []string
+	CodeValues() []string
+	ToString() string
+}](
+	fieldName string,
+	field TF,
+	formGroup *form.FormGroup,
+	formStage *form.Stage,
+) {
+	formDiv := (&form.FormDiv{
+		Name: fieldName,
+	}).Stage(formStage)
+	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+
+	formField := (&form.FormField{
+		Name:        fieldName,
+		Label:       fieldName,
+		Placeholder: "",
+	}).Stage(formStage)
+	formDiv.FormFields = append(formDiv.FormFields, formField)
+
+	formFieldSelect := (&form.FormFieldSelect{
+		Name: "enum",
+	}).Stage(formStage)
+	formField.FormFieldSelect = formFieldSelect
+
+	formFieldSelect.Options = make([]*form.Option, 0)
+	for idx, optionCode := range field.Codes() {
+		optionValue := field.CodeValues()[idx]
+
+		option := (&form.Option{
+			Name: optionCode,
+		}).Stage(formStage)
+
+		if field.ToString() == optionValue {
+			formFieldSelect.Value = option
+		}
+
+		formFieldSelect.Options =
+			append(formFieldSelect.Options, option)
+	}
+}
+
+// StageSetEnumIntFieldToForm appends a FormFieldSelect dropdown for an int enum
+func StageSetEnumIntFieldToForm[TF interface {
+	Codes() []string
+	CodeValues() []int
+}](
+	fieldName string,
+	field TF,
+	formGroup *form.FormGroup,
+	formStage *form.Stage,
+) {
+	formDiv := (&form.FormDiv{
+		Name: fieldName,
+	}).Stage(formStage)
+	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+
+	formField := (&form.FormField{
+		Name:        fieldName,
+		Label:       fieldName,
+		Placeholder: "",
+	}).Stage(formStage)
+	formDiv.FormFields = append(formDiv.FormFields, formField)
+
+	formFieldSelect := (&form.FormFieldSelect{
+		Name: "enum",
+	}).Stage(formStage)
+	formField.FormFieldSelect = formFieldSelect
+
+	formFieldSelect.Options = make([]*form.Option, 0)
+	for idx, optionCode := range field.Codes() {
+		optionValue := field.CodeValues()[idx]
+
+		option := (&form.Option{
+			Name: optionCode,
+		}).Stage(formStage)
+
+		if any(field) == any(optionValue) {
+			formFieldSelect.Value = option
+		}
+
+		formFieldSelect.Options =
+			append(formFieldSelect.Options, option)
+	}
+}
+
+// StageSetFormDivEnumStringFieldToField updates a string enum field from the form
+func StageSetFormDivEnumStringFieldToField[TF interface {
+	FromCodeString(input string) error
+}](field TF, formDiv *form.FormDiv) {
+	if len(formDiv.FormFields) > 0 && formDiv.FormFields[0].FormFieldSelect != nil && formDiv.FormFields[0].FormFieldSelect.Value != nil {
+		_ = field.FromCodeString(formDiv.FormFields[0].FormFieldSelect.Value.GetName())
+	}
+}
+
+// StageSetFormDivEnumIntFieldToField updates an int enum field from the form
+func StageSetFormDivEnumIntFieldToField[TF interface {
+	FromCodeString(input string) error
+}](field TF, formDiv *form.FormDiv) {
+	if len(formDiv.FormFields) > 0 && formDiv.FormFields[0].FormFieldSelect != nil && formDiv.FormFields[0].FormFieldSelect.Value != nil {
+		_ = field.FromCodeString(formDiv.FormFields[0].FormFieldSelect.Value.GetName())
+	}
+}
 `
 	writeFile(filepath.Join(pkgPath, "probe/stageset_form_helpers.go"), code)
 }
@@ -1046,7 +1153,7 @@ func generateStageSetProbeUxTable(
 	var tableFunctions strings.Builder
 
 	for _, si := range allStructs {
-		tblName := si.structName
+		tblName := si.typeQual
 		tableSwitchCases.WriteString(fmt.Sprintf("\tcase \"%s\":\n\t\tupdateStageSetTable_%s_%s(probe)\n", tblName, si.structName, si.pkgField.Name))
 
 		// Find reverse references: any struct in allStructs that has a pointer to si
@@ -1131,7 +1238,7 @@ func generateStageSetProbeUxTable(
 					cellAssignments.WriteString(fmt.Sprintf(`
 		{
 			cell := &table_models.Cell{Name: "%s"}
-			cell.CellBool = &table_models.CellBool{Value: structInstance.%s}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.%s}
 			row.Cells = append(row.Cells, cell)
 		}
 `, fld.Name, fld.Name))
@@ -1251,7 +1358,7 @@ func updateStageSetTable_%s_%s(probe *StageSetProbe) {
 	table_models.StageBranch(probe.tableStage, table)
 	probe.tableStage.Commit()
 }
-`, si.structName, si.pkgField.Name, si.structName, columnDefs.String(), si.pkgField.Name, si.typeQual, si.pkgField.Name, si.pkgField.Name, si.structName, si.pkgField.Name, cellAssignments.String()))
+`, si.structName, si.pkgField.Name, si.typeQual, columnDefs.String(), si.pkgField.Name, si.typeQual, si.pkgField.Name, si.pkgField.Name, si.structName, si.pkgField.Name, cellAssignments.String()))
 	}
 
 	code := fmt.Sprintf(`// generated code - do not edit
@@ -1351,6 +1458,12 @@ func generateStageSetFillUpForm(
 			div.FormFields = append(div.FormFields, fld)
 		}
 `, fld.Name, fld.Name, fld.Name, fld.Name, fld.Name))
+				}
+			} else if fld.IsEnum {
+				if fld.BasicKind == types.Int || fld.BasicKind == types.Int8 || fld.BasicKind == types.Int16 || fld.BasicKind == types.Int32 || fld.BasicKind == types.Int64 {
+					cases.WriteString(fmt.Sprintf("\t\tStageSetEnumIntFieldToForm(\"%s\", inst.%s, formGroup, probe.formStage)\n", fld.Name, fld.Name))
+				} else {
+					cases.WriteString(fmt.Sprintf("\t\tStageSetEnumStringFieldToForm(\"%s\", inst.%s, formGroup, probe.formStage)\n", fld.Name, fld.Name))
 				}
 			} else {
 				cases.WriteString(fmt.Sprintf("\t\tStageSetBasicFieldtoForm(\"%s\", inst.%s, probe.formStage, formGroup)\n", fld.Name, fld.Name))
@@ -1486,6 +1599,14 @@ func generateStageSetFormCallback(
 					}
 					fieldSaves.WriteString(fmt.Sprintf("\t\tcase \"%s\":\n\t\t\tStageSetFormDivSelectFieldToField(&inst.%s, probe.stageSet.%s.GetInstancesSet[*%s](), formDiv)\n", fld.Name, fld.Name, targetSSF.Name, targetTypeQual))
 				}
+			} else if fld.IsEnum {
+				if fld.BasicKind == types.Int || fld.BasicKind == types.Int8 || fld.BasicKind == types.Int16 || fld.BasicKind == types.Int32 || fld.BasicKind == types.Int64 {
+					fieldSaves.WriteString(fmt.Sprintf("\t\tcase \"%s\":\n\t\t\tStageSetFormDivEnumIntFieldToField(&inst.%s, formDiv)\n", fld.Name, fld.Name))
+				} else {
+					fieldSaves.WriteString(fmt.Sprintf("\t\tcase \"%s\":\n\t\t\tStageSetFormDivEnumStringFieldToField(&inst.%s, formDiv)\n", fld.Name, fld.Name))
+				}
+			} else if fld.IsTime {
+				fieldSaves.WriteString(fmt.Sprintf("\t\tcase \"%s\":\n\t\t\tFormDivTimeFieldToField(&inst.%s, formDiv, false)\n", fld.Name, fld.Name))
 			} else if !fld.IsSliceOfPointer {
 				fieldSaves.WriteString(fmt.Sprintf("\t\tcase \"%s\":\n\t\t\tFormDivBasicFieldToField(&inst.%s, formDiv)\n", fld.Name, fld.Name))
 			}

@@ -50,8 +50,6 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Clock2DDiagram](probe)
 	case "Clock3DDiagram":
 		updateProbeTable[*models.Clock3DDiagram](probe)
-	case "ClockAbstract":
-		updateProbeTable[*models.ClockAbstract](probe)
 	case "ClockTopCurveShape":
 		updateProbeTable[*models.ClockTopCurveShape](probe)
 	case "CutLine3DShape":
@@ -112,8 +110,6 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.MidArcVectorShape](probe)
 	case "MidArcVectorShapeGrid":
 		updateProbeTable[*models.MidArcVectorShapeGrid](probe)
-	case "MusicAbstract":
-		updateProbeTable[*models.MusicAbstract](probe)
 	case "OriginalPoints3DShape":
 		updateProbeTable[*models.OriginalPoints3DShape](probe)
 	case "ParastichyMCurves3DShape":
@@ -270,8 +266,6 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Stool2DDiagram](probe)
 	case "Stool3DDiagram":
 		updateProbeTable[*models.Stool3DDiagram](probe)
-	case "StoolAbstract":
-		updateProbeTable[*models.StoolAbstract](probe)
 	case "TiledFloor3DShape":
 		updateProbeTable[*models.TiledFloor3DShape](probe)
 	case "TopCurvePlane1Shape":

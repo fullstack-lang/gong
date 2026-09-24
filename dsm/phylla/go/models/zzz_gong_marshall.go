@@ -462,39 +462,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(clock3ddiagram.GongMarshallField(stage, "IsExpanded"))
 	}
 
-	clockabstractOrdered := []*ClockAbstract{}
-	for clockabstract := range stage.ClockAbstracts {
-		clockabstractOrdered = append(clockabstractOrdered, clockabstract)
-	}
-	sort.Slice(clockabstractOrdered[:], func(i, j int) bool {
-		clockabstracti := clockabstractOrdered[i]
-		clockabstractj := clockabstractOrdered[j]
-		clockabstracti_order, oki := stage.ClockAbstract_stagedOrder[clockabstracti]
-		clockabstractj_order, okj := stage.ClockAbstract_stagedOrder[clockabstractj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return clockabstracti_order < clockabstractj_order
-	})
-	if len(clockabstractOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, clockabstract := range clockabstractOrdered {
-
-		identifiersDecl.WriteString(clockabstract.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RadialRepetitions"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "Transparency"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeHeight3DTorus"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "ClockTorusVerticalScale"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeHeight"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "ProjectionAngle"))
-	}
-
 	cutline3dshapeOrdered := []*CutLine3DShape{}
 	for cutline3dshape := range stage.CutLine3DShapes {
 		cutline3dshapeOrdered = append(cutline3dshapeOrdered, cutline3dshape)
@@ -578,58 +545,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
-	}
-
-	musicabstractOrdered := []*MusicAbstract{}
-	for musicabstract := range stage.MusicAbstracts {
-		musicabstractOrdered = append(musicabstractOrdered, musicabstract)
-	}
-	sort.Slice(musicabstractOrdered[:], func(i, j int) bool {
-		musicabstracti := musicabstractOrdered[i]
-		musicabstractj := musicabstractOrdered[j]
-		musicabstracti_order, oki := stage.MusicAbstract_stagedOrder[musicabstracti]
-		musicabstractj_order, okj := stage.MusicAbstract_stagedOrder[musicabstractj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return musicabstracti_order < musicabstractj_order
-	})
-	if len(musicabstractOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, musicabstract := range musicabstractOrdered {
-
-		identifiersDecl.WriteString(musicabstract.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "IsChecked"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "PitchHeight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "NbOfBeatsInTheme"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "BeatsPerSecond"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "FirstVoiceShiftX"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "FirstVoiceShiftY"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "PitchDifference"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "Level"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ActualBeatsTemporalShift"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "IsMinor"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ThemeBinaryEncoding"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "BezierControlLengthRatio"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "NbPitchLines"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "NbBeatLines"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "OriginX"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "OriginY"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ScoreScale"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoice"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoiceShiftRight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowSecondVoice"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowSecondVoiceShiftRight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoiceNotes"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoiceNotesShiftRight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowSecondVoiceNotes"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowSecondVoiceNotesShiftRight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "IsComposerNodeExpanded"))
 	}
 
 	originalpoints3dshapeOrdered := []*OriginalPoints3DShape{}
@@ -838,9 +753,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "RhombusSideLength"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "PlantType"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "TubeVaseAbstract"))
-		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "StoolAbstract"))
-		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "ClockAbstract"))
-		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "MusicAbstract"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "CurrentView"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsExpanded"))
@@ -1079,42 +991,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(stool3ddiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(stool3ddiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(stool3ddiagram.GongMarshallField(stage, "IsExpanded"))
-	}
-
-	stoolabstractOrdered := []*StoolAbstract{}
-	for stoolabstract := range stage.StoolAbstracts {
-		stoolabstractOrdered = append(stoolabstractOrdered, stoolabstract)
-	}
-	sort.Slice(stoolabstractOrdered[:], func(i, j int) bool {
-		stoolabstracti := stoolabstractOrdered[i]
-		stoolabstractj := stoolabstractOrdered[j]
-		stoolabstracti_order, oki := stage.StoolAbstract_stagedOrder[stoolabstracti]
-		stoolabstractj_order, okj := stage.StoolAbstract_stagedOrder[stoolabstractj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return stoolabstracti_order < stoolabstractj_order
-	})
-	if len(stoolabstractOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, stoolabstract := range stoolabstractOrdered {
-
-		identifiersDecl.WriteString(stoolabstract.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RadialRepetitions"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "Transparency"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeHeight3DTorus"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "StoolTorusVerticalScale"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeHeight"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeSeatThickness"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "ProjectionAngle"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeSeparationCriteria"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeCornerControlVectorStrength"))
 	}
 
 	topcurveplane1shapeOrdered := []*TopCurvePlane1Shape{}
@@ -1419,14 +1295,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	for _, clockabstract := range clockabstractOrdered {
-		_ = clockabstract
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
 	for _, cutline3dshape := range cutline3dshapeOrdered {
 		_ = cutline3dshape
 		var setPointerField string
@@ -1445,14 +1313,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, library := range libraryOrdered {
 		_ = library
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, musicabstract := range musicabstractOrdered {
-		_ = musicabstract
 		var setPointerField string
 		_ = setPointerField
 
@@ -1557,14 +1417,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, stool3ddiagram := range stool3ddiagramOrdered {
 		_ = stool3ddiagram
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, stoolabstract := range stoolabstractOrdered {
-		_ = stoolabstract
 		var setPointerField string
 		_ = setPointerField
 
@@ -2065,56 +1917,6 @@ func (clock3ddiagram *Clock3DDiagram) GongMarshallField(stage *Stage, fieldName 
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Clock3DDiagram", fieldName)
-	}
-	return
-}
-
-func (clockabstract *ClockAbstract) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
-	switch fieldName {
-	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clockabstract.Name))
-	case "RadialRepetitions":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadialRepetitions")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", clockabstract.RadialRepetitions))
-	case "Transparency":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transparency")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.Transparency))
-	case "RelativeTubeDiameter":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeTubeDiameter")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.RelativeTubeDiameter))
-	case "RelativeHeight3DTorus":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeHeight3DTorus")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.RelativeHeight3DTorus))
-	case "ClockTorusVerticalScale":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClockTorusVerticalScale")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.ClockTorusVerticalScale))
-	case "RelativeHeight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.RelativeHeight))
-	case "ProjectionAngle":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ProjectionAngle")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.ProjectionAngle))
-
-	default:
-		log.Panicf("Unknown field %s for Gongstruct ClockAbstract", fieldName)
 	}
 	return
 }
@@ -2950,151 +2752,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallField(stage *Sta
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct MidArcVectorShapeGrid", fieldName)
-	}
-	return
-}
-
-func (musicabstract *MusicAbstract) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
-	switch fieldName {
-	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(musicabstract.Name))
-	case "IsChecked":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsChecked")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.IsChecked))
-	case "PitchHeight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PitchHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.PitchHeight))
-	case "NbOfBeatsInTheme":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NbOfBeatsInTheme")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", musicabstract.NbOfBeatsInTheme))
-	case "BeatsPerSecond":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BeatsPerSecond")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.BeatsPerSecond))
-	case "FirstVoiceShiftX":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FirstVoiceShiftX")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.FirstVoiceShiftX))
-	case "FirstVoiceShiftY":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FirstVoiceShiftY")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.FirstVoiceShiftY))
-	case "PitchDifference":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PitchDifference")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", musicabstract.PitchDifference))
-	case "Level":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Level")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.Level))
-	case "ActualBeatsTemporalShift":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ActualBeatsTemporalShift")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", musicabstract.ActualBeatsTemporalShift))
-	case "IsMinor":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsMinor")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.IsMinor))
-	case "ThemeBinaryEncoding":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ThemeBinaryEncoding")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", musicabstract.ThemeBinaryEncoding))
-	case "BezierControlLengthRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BezierControlLengthRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.BezierControlLengthRatio))
-	case "NbPitchLines":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NbPitchLines")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", musicabstract.NbPitchLines))
-	case "NbBeatLines":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NbBeatLines")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", musicabstract.NbBeatLines))
-	case "OriginX":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OriginX")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.OriginX))
-	case "OriginY":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OriginY")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.OriginY))
-	case "ScoreScale":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ScoreScale")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.ScoreScale))
-	case "ShowFirstVoice":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowFirstVoice")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowFirstVoice))
-	case "ShowFirstVoiceShiftRight":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowFirstVoiceShiftRight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowFirstVoiceShiftRight))
-	case "ShowSecondVoice":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowSecondVoice")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowSecondVoice))
-	case "ShowSecondVoiceShiftRight":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowSecondVoiceShiftRight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowSecondVoiceShiftRight))
-	case "ShowFirstVoiceNotes":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowFirstVoiceNotes")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowFirstVoiceNotes))
-	case "ShowFirstVoiceNotesShiftRight":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowFirstVoiceNotesShiftRight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowFirstVoiceNotesShiftRight))
-	case "ShowSecondVoiceNotes":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowSecondVoiceNotes")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowSecondVoiceNotes))
-	case "ShowSecondVoiceNotesShiftRight":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowSecondVoiceNotesShiftRight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowSecondVoiceNotesShiftRight))
-	case "IsComposerNodeExpanded":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsComposerNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.IsComposerNodeExpanded))
-
-	default:
-		log.Panicf("Unknown field %s for Gongstruct MusicAbstract", fieldName)
 	}
 	return
 }
@@ -4171,45 +3828,6 @@ func (plantabstract *PlantAbstract) GongMarshallField(stage *Stage, fieldName st
 			res = GongPointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TubeVaseAbstract")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
-	case "StoolAbstract":
-		if plantabstract.StoolAbstract != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StoolAbstract")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantabstract.StoolAbstract.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StoolAbstract")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
-	case "ClockAbstract":
-		if plantabstract.ClockAbstract != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClockAbstract")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantabstract.ClockAbstract.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClockAbstract")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
-	case "MusicAbstract":
-		if plantabstract.MusicAbstract != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MusicAbstract")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantabstract.MusicAbstract.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MusicAbstract")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Plant2DDiagrams":
@@ -6669,71 +6287,6 @@ func (stool3ddiagram *Stool3DDiagram) GongMarshallField(stage *Stage, fieldName 
 	return
 }
 
-func (stoolabstract *StoolAbstract) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
-	switch fieldName {
-	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stoolabstract.Name))
-	case "RadialRepetitions":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadialRepetitions")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", stoolabstract.RadialRepetitions))
-	case "Transparency":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transparency")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.Transparency))
-	case "RelativeTubeDiameter":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeTubeDiameter")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeTubeDiameter))
-	case "RelativeHeight3DTorus":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeHeight3DTorus")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeHeight3DTorus))
-	case "StoolTorusVerticalScale":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StoolTorusVerticalScale")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.StoolTorusVerticalScale))
-	case "RelativeHeight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeHeight))
-	case "RelativeSeatThickness":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeSeatThickness")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeSeatThickness))
-	case "ProjectionAngle":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ProjectionAngle")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.ProjectionAngle))
-	case "RelativeEyeSeparationCriteria":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeEyeSeparationCriteria")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeEyeSeparationCriteria))
-	case "RelativeEyeCornerControlVectorStrength":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeEyeCornerControlVectorStrength")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeEyeCornerControlVectorStrength))
-
-	default:
-		log.Panicf("Unknown field %s for Gongstruct StoolAbstract", fieldName)
-	}
-	return
-}
-
 func (tiledfloor3dshape *TiledFloor3DShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -8300,24 +7853,6 @@ func (clock3ddiagram *Clock3DDiagram) GongMarshallAllFields(stage *Stage) (initR
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (clockabstract *ClockAbstract) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
-
-	var initializerStatements strings.Builder
-	var pointersInitializesStatements strings.Builder
-	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RadialRepetitions"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "Transparency"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeHeight3DTorus"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "ClockTorusVerticalScale"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeHeight"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "ProjectionAngle"))
-	}
-	initRes = initializerStatements.String()
-	ptrRes = pointersInitializesStatements.String()
-	return
-}
 func (clocktopcurveshape *ClockTopCurveShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -8723,43 +8258,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallAllFields(stage 
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (musicabstract *MusicAbstract) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
-
-	var initializerStatements strings.Builder
-	var pointersInitializesStatements strings.Builder
-	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "IsChecked"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "PitchHeight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "NbOfBeatsInTheme"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "BeatsPerSecond"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "FirstVoiceShiftX"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "FirstVoiceShiftY"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "PitchDifference"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "Level"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ActualBeatsTemporalShift"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "IsMinor"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ThemeBinaryEncoding"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "BezierControlLengthRatio"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "NbPitchLines"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "NbBeatLines"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "OriginX"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "OriginY"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ScoreScale"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoice"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoiceShiftRight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowSecondVoice"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowSecondVoiceShiftRight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoiceNotes"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoiceNotesShiftRight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowSecondVoiceNotes"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowSecondVoiceNotesShiftRight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "IsComposerNodeExpanded"))
-	}
-	initRes = initializerStatements.String()
-	ptrRes = pointersInitializesStatements.String()
-	return
-}
 func (originalpoints3dshape *OriginalPoints3DShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -9135,9 +8633,6 @@ func (plantabstract *PlantAbstract) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "RhombusSideLength"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "PlantType"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "TubeVaseAbstract"))
-		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "StoolAbstract"))
-		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "ClockAbstract"))
-		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "MusicAbstract"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "CurrentView"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsExpanded"))
@@ -10061,27 +9556,6 @@ func (stool3ddiagram *Stool3DDiagram) GongMarshallAllFields(stage *Stage) (initR
 		initializerStatements.WriteString(stool3ddiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(stool3ddiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(stool3ddiagram.GongMarshallField(stage, "IsExpanded"))
-	}
-	initRes = initializerStatements.String()
-	ptrRes = pointersInitializesStatements.String()
-	return
-}
-func (stoolabstract *StoolAbstract) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
-
-	var initializerStatements strings.Builder
-	var pointersInitializesStatements strings.Builder
-	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RadialRepetitions"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "Transparency"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeHeight3DTorus"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "StoolTorusVerticalScale"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeHeight"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeSeatThickness"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "ProjectionAngle"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeSeparationCriteria"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeCornerControlVectorStrength"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

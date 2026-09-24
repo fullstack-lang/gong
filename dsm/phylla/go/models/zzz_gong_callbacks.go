@@ -365,32 +365,6 @@ func (clock3ddiagram *Clock3DDiagram) GongAfterDeleteFromFront(stage *Stage, fro
 	}
 }
 
-func (clockabstract *ClockAbstract) GongAfterCreateFromFront(stage *Stage) {
-	if stage.OnAfterClockAbstractCreateCallback != nil {
-		stage.OnAfterClockAbstractCreateCallback.OnAfterCreate(stage, clockabstract)
-	}
-}
-
-func (clockabstract *ClockAbstract) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterClockAbstractUpdateCallback != nil {
-		var frontClockAbstract *ClockAbstract
-		if front != nil {
-			frontClockAbstract, _ = front.(*ClockAbstract)
-		}
-		stage.OnAfterClockAbstractUpdateCallback.OnAfterUpdate(stage, clockabstract, frontClockAbstract)
-	}
-}
-
-func (clockabstract *ClockAbstract) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterClockAbstractDeleteCallback != nil {
-		var frontClockAbstract *ClockAbstract
-		if front != nil {
-			frontClockAbstract, _ = front.(*ClockAbstract)
-		}
-		stage.OnAfterClockAbstractDeleteCallback.OnAfterDelete(stage, clockabstract, frontClockAbstract)
-	}
-}
-
 func (clocktopcurveshape *ClockTopCurveShape) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterClockTopCurveShapeCreateCallback != nil {
 		stage.OnAfterClockTopCurveShapeCreateCallback.OnAfterCreate(stage, clocktopcurveshape)
@@ -1168,32 +1142,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongAfterDeleteFromFront(sta
 			frontMidArcVectorShapeGrid, _ = front.(*MidArcVectorShapeGrid)
 		}
 		stage.OnAfterMidArcVectorShapeGridDeleteCallback.OnAfterDelete(stage, midarcvectorshapegrid, frontMidArcVectorShapeGrid)
-	}
-}
-
-func (musicabstract *MusicAbstract) GongAfterCreateFromFront(stage *Stage) {
-	if stage.OnAfterMusicAbstractCreateCallback != nil {
-		stage.OnAfterMusicAbstractCreateCallback.OnAfterCreate(stage, musicabstract)
-	}
-}
-
-func (musicabstract *MusicAbstract) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterMusicAbstractUpdateCallback != nil {
-		var frontMusicAbstract *MusicAbstract
-		if front != nil {
-			frontMusicAbstract, _ = front.(*MusicAbstract)
-		}
-		stage.OnAfterMusicAbstractUpdateCallback.OnAfterUpdate(stage, musicabstract, frontMusicAbstract)
-	}
-}
-
-func (musicabstract *MusicAbstract) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterMusicAbstractDeleteCallback != nil {
-		var frontMusicAbstract *MusicAbstract
-		if front != nil {
-			frontMusicAbstract, _ = front.(*MusicAbstract)
-		}
-		stage.OnAfterMusicAbstractDeleteCallback.OnAfterDelete(stage, musicabstract, frontMusicAbstract)
 	}
 }
 
@@ -3222,32 +3170,6 @@ func (stool3ddiagram *Stool3DDiagram) GongAfterDeleteFromFront(stage *Stage, fro
 			frontStool3DDiagram, _ = front.(*Stool3DDiagram)
 		}
 		stage.OnAfterStool3DDiagramDeleteCallback.OnAfterDelete(stage, stool3ddiagram, frontStool3DDiagram)
-	}
-}
-
-func (stoolabstract *StoolAbstract) GongAfterCreateFromFront(stage *Stage) {
-	if stage.OnAfterStoolAbstractCreateCallback != nil {
-		stage.OnAfterStoolAbstractCreateCallback.OnAfterCreate(stage, stoolabstract)
-	}
-}
-
-func (stoolabstract *StoolAbstract) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterStoolAbstractUpdateCallback != nil {
-		var frontStoolAbstract *StoolAbstract
-		if front != nil {
-			frontStoolAbstract, _ = front.(*StoolAbstract)
-		}
-		stage.OnAfterStoolAbstractUpdateCallback.OnAfterUpdate(stage, stoolabstract, frontStoolAbstract)
-	}
-}
-
-func (stoolabstract *StoolAbstract) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterStoolAbstractDeleteCallback != nil {
-		var frontStoolAbstract *StoolAbstract
-		if front != nil {
-			frontStoolAbstract, _ = front.(*StoolAbstract)
-		}
-		stage.OnAfterStoolAbstractDeleteCallback.OnAfterDelete(stage, stoolabstract, frontStoolAbstract)
 	}
 }
 

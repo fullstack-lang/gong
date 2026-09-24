@@ -59,9 +59,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct Clock3DDiagram
 	// insertion point per field
 
-	// Compute reverse map for named struct ClockAbstract
-	// insertion point per field
-
 	// Compute reverse map for named struct ClockTopCurveShape
 	// insertion point per field
 
@@ -164,9 +161,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per field
 
 	// Compute reverse map for named struct MidArcVectorShapeGrid
-	// insertion point per field
-
-	// Compute reverse map for named struct MusicAbstract
 	// insertion point per field
 
 	// Compute reverse map for named struct OriginalPoints3DShape
@@ -459,9 +453,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct Stool3DDiagram
 	// insertion point per field
 
-	// Compute reverse map for named struct StoolAbstract
-	// insertion point per field
-
 	// Compute reverse map for named struct TiledFloor3DShape
 	// insertion point per field
 
@@ -606,10 +597,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.ClockAbstracts {
-		res = append(res, instance)
-	}
-
 	for instance := range stage.ClockTopCurveShapes {
 		res = append(res, instance)
 	}
@@ -727,10 +714,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.MidArcVectorShapeGrids {
-		res = append(res, instance)
-	}
-
-	for instance := range stage.MusicAbstracts {
 		res = append(res, instance)
 	}
 
@@ -1046,10 +1029,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.StoolAbstracts {
-		res = append(res, instance)
-	}
-
 	for instance := range stage.TiledFloor3DShapes {
 		res = append(res, instance)
 	}
@@ -1248,12 +1227,6 @@ func (clock3ddiagram *Clock3DDiagram) GongCopy() GongstructIF {
 	return newInstance
 }
 
-func (clockabstract *ClockAbstract) GongCopy() GongstructIF {
-	newInstance := new(ClockAbstract)
-	clockabstract.GongCopyBasicFields(newInstance)
-	return newInstance
-}
-
 func (clocktopcurveshape *ClockTopCurveShape) GongCopy() GongstructIF {
 	newInstance := new(ClockTopCurveShape)
 	clocktopcurveshape.GongCopyBasicFields(newInstance)
@@ -1431,12 +1404,6 @@ func (midarcvectorshape *MidArcVectorShape) GongCopy() GongstructIF {
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(MidArcVectorShapeGrid)
 	midarcvectorshapegrid.GongCopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (musicabstract *MusicAbstract) GongCopy() GongstructIF {
-	newInstance := new(MusicAbstract)
-	musicabstract.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1908,12 +1875,6 @@ func (stool3ddiagram *Stool3DDiagram) GongCopy() GongstructIF {
 	return newInstance
 }
 
-func (stoolabstract *StoolAbstract) GongCopy() GongstructIF {
-	newInstance := new(StoolAbstract)
-	stoolabstract.GongCopyBasicFields(newInstance)
-	return newInstance
-}
-
 func (tiledfloor3dshape *TiledFloor3DShape) GongCopy() GongstructIF {
 	newInstance := new(TiledFloor3DShape)
 	tiledfloor3dshape.GongCopyBasicFields(newInstance)
@@ -2219,16 +2180,6 @@ func (clock3ddiagram *Clock3DDiagram) GongGetUUID(stage *Stage) (uuid string) {
 	return
 }
 
-func (clockabstract *ClockAbstract) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(clockabstract).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(clockabstract), uint64(stage.GetOrder(clockabstract)))
-	return
-}
-
 func (clocktopcurveshape *ClockTopCurveShape) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(clocktopcurveshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -2526,16 +2477,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetUUID(stage *Stage) (u
 	}
 
 	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(midarcvectorshapegrid), uint64(stage.GetOrder(midarcvectorshapegrid)))
-	return
-}
-
-func (musicabstract *MusicAbstract) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(musicabstract).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(musicabstract), uint64(stage.GetOrder(musicabstract)))
 	return
 }
 
@@ -3319,16 +3260,6 @@ func (stool3ddiagram *Stool3DDiagram) GongGetUUID(stage *Stage) (uuid string) {
 	return
 }
 
-func (stoolabstract *StoolAbstract) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(stoolabstract).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GongGenerateReproducibleUUIDv4(GongGetGongstructNameFromPointer(stoolabstract), uint64(stage.GetOrder(stoolabstract)))
-	return
-}
-
 func (tiledfloor3dshape *TiledFloor3DShape) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(tiledfloor3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -3823,23 +3754,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
-		stage.ClockAbstracts,
-		stage.ClockAbstract_stagedOrder,
-		stage.ClockAbstracts_reference,
-		&stage.ClockAbstracts_referenceOrder,
-		stage.ClockAbstracts_instance,
-		&newInstancesSlice,
-		&fieldsEditSlice,
-		&deletedInstancesSlice,
-		&newInstancesReverseSlice,
-		&fieldsEditReverseSlice,
-		&deletedInstancesReverseSlice,
-		&lenNewInstances,
-		&lenDeletedInstances,
-		&lenModifiedInstances,
-	)
-	computeCommitsForType(
-		stage,
 		stage.CutLine3DShapes,
 		stage.CutLine3DShape_stagedOrder,
 		stage.CutLine3DShapes_reference,
@@ -3879,23 +3793,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		stage.Librarys_reference,
 		&stage.Librarys_referenceOrder,
 		stage.Librarys_instance,
-		&newInstancesSlice,
-		&fieldsEditSlice,
-		&deletedInstancesSlice,
-		&newInstancesReverseSlice,
-		&fieldsEditReverseSlice,
-		&deletedInstancesReverseSlice,
-		&lenNewInstances,
-		&lenDeletedInstances,
-		&lenModifiedInstances,
-	)
-	computeCommitsForType(
-		stage,
-		stage.MusicAbstracts,
-		stage.MusicAbstract_stagedOrder,
-		stage.MusicAbstracts_reference,
-		&stage.MusicAbstracts_referenceOrder,
-		stage.MusicAbstracts_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -4117,23 +4014,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		stage.Stool3DDiagrams_reference,
 		&stage.Stool3DDiagrams_referenceOrder,
 		stage.Stool3DDiagrams_instance,
-		&newInstancesSlice,
-		&fieldsEditSlice,
-		&deletedInstancesSlice,
-		&newInstancesReverseSlice,
-		&fieldsEditReverseSlice,
-		&deletedInstancesReverseSlice,
-		&lenNewInstances,
-		&lenDeletedInstances,
-		&lenModifiedInstances,
-	)
-	computeCommitsForType(
-		stage,
-		stage.StoolAbstracts,
-		stage.StoolAbstract_stagedOrder,
-		stage.StoolAbstracts_reference,
-		&stage.StoolAbstracts_referenceOrder,
-		stage.StoolAbstracts_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -4409,16 +4289,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Clock3DDiagrams_reference[instance] = _copy
 		stage.Clock3DDiagrams_instance[_copy] = instance
 		stage.Clock3DDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
-	stage.ClockAbstracts_reference = make(map[*ClockAbstract]*ClockAbstract)
-	stage.ClockAbstracts_referenceOrder = make(map[*ClockAbstract]uint) // diff Unstage needs the reference order
-	stage.ClockAbstracts_instance = make(map[*ClockAbstract]*ClockAbstract)
-	for instance := range stage.ClockAbstracts {
-		_copy := instance.GongCopy().(*ClockAbstract)
-		stage.ClockAbstracts_reference[instance] = _copy
-		stage.ClockAbstracts_instance[_copy] = instance
-		stage.ClockAbstracts_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.ClockTopCurveShapes_reference = make(map[*ClockTopCurveShape]*ClockTopCurveShape)
@@ -4719,16 +4589,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.MidArcVectorShapeGrids_reference[instance] = _copy
 		stage.MidArcVectorShapeGrids_instance[_copy] = instance
 		stage.MidArcVectorShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
-	stage.MusicAbstracts_reference = make(map[*MusicAbstract]*MusicAbstract)
-	stage.MusicAbstracts_referenceOrder = make(map[*MusicAbstract]uint) // diff Unstage needs the reference order
-	stage.MusicAbstracts_instance = make(map[*MusicAbstract]*MusicAbstract)
-	for instance := range stage.MusicAbstracts {
-		_copy := instance.GongCopy().(*MusicAbstract)
-		stage.MusicAbstracts_reference[instance] = _copy
-		stage.MusicAbstracts_instance[_copy] = instance
-		stage.MusicAbstracts_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.OriginalPoints3DShapes_reference = make(map[*OriginalPoints3DShape]*OriginalPoints3DShape)
@@ -5511,16 +5371,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Stool3DDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
-	stage.StoolAbstracts_reference = make(map[*StoolAbstract]*StoolAbstract)
-	stage.StoolAbstracts_referenceOrder = make(map[*StoolAbstract]uint) // diff Unstage needs the reference order
-	stage.StoolAbstracts_instance = make(map[*StoolAbstract]*StoolAbstract)
-	for instance := range stage.StoolAbstracts {
-		_copy := instance.GongCopy().(*StoolAbstract)
-		stage.StoolAbstracts_reference[instance] = _copy
-		stage.StoolAbstracts_instance[_copy] = instance
-		stage.StoolAbstracts_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
 	stage.TiledFloor3DShapes_reference = make(map[*TiledFloor3DShape]*TiledFloor3DShape)
 	stage.TiledFloor3DShapes_referenceOrder = make(map[*TiledFloor3DShape]uint) // diff Unstage needs the reference order
 	stage.TiledFloor3DShapes_instance = make(map[*TiledFloor3DShape]*TiledFloor3DShape)
@@ -5877,11 +5727,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
-	for instance := range stage.ClockAbstracts {
-		reference := stage.ClockAbstracts_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
 	for instance := range stage.ClockTopCurveShapes {
 		reference := stage.ClockTopCurveShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -6029,11 +5874,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.MidArcVectorShapeGrids {
 		reference := stage.MidArcVectorShapeGrids_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
-	for instance := range stage.MusicAbstracts {
-		reference := stage.MusicAbstracts_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -6427,11 +6267,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
-	for instance := range stage.StoolAbstracts {
-		reference := stage.StoolAbstracts_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
 	for instance := range stage.TiledFloor3DShapes {
 		reference := stage.TiledFloor3DShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -6739,18 +6574,6 @@ func (clock3ddiagram *Clock3DDiagram) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Clock3DDiagram was not staged and does not have a reference order", clock3ddiagram)
-		return 0
-	}
-}
-
-func (clockabstract *ClockAbstract) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.ClockAbstract_stagedOrder[clockabstract]; ok {
-		return order
-	}
-	if order, ok := stage.ClockAbstracts_referenceOrder[clockabstract]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type ClockAbstract was not staged and does not have a reference order", clockabstract)
 		return 0
 	}
 }
@@ -7111,18 +6934,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetOrder(stage *Stage) u
 		return order
 	} else {
 		log.Printf("instance %p of type MidArcVectorShapeGrid was not staged and does not have a reference order", midarcvectorshapegrid)
-		return 0
-	}
-}
-
-func (musicabstract *MusicAbstract) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.MusicAbstract_stagedOrder[musicabstract]; ok {
-		return order
-	}
-	if order, ok := stage.MusicAbstracts_referenceOrder[musicabstract]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type MusicAbstract was not staged and does not have a reference order", musicabstract)
 		return 0
 	}
 }
@@ -8063,18 +7874,6 @@ func (stool3ddiagram *Stool3DDiagram) GongGetOrder(stage *Stage) uint {
 	}
 }
 
-func (stoolabstract *StoolAbstract) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.StoolAbstract_stagedOrder[stoolabstract]; ok {
-		return order
-	}
-	if order, ok := stage.StoolAbstracts_referenceOrder[stoolabstract]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type StoolAbstract was not staged and does not have a reference order", stoolabstract)
-		return 0
-	}
-}
-
 func (tiledfloor3dshape *TiledFloor3DShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TiledFloor3DShape_stagedOrder[tiledfloor3dshape]; ok {
 		return order
@@ -8545,15 +8344,6 @@ func (clock3ddiagram *Clock3DDiagram) GongGetReferenceIdentifier(stage *Stage) s
 	return fmt.Sprintf("__%s__%08d_", clock3ddiagram.GongGetGongstructName(), clock3ddiagram.GongGetOrder(stage))
 }
 
-func (clockabstract *ClockAbstract) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", clockabstract.GongGetGongstructName(), clockabstract.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (clockabstract *ClockAbstract) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", clockabstract.GongGetGongstructName(), clockabstract.GongGetOrder(stage))
-}
-
 func (clocktopcurveshape *ClockTopCurveShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", clocktopcurveshape.GongGetGongstructName(), clocktopcurveshape.GongGetOrder(stage))
 }
@@ -8822,15 +8612,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetIdentifier(stage *Sta
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", midarcvectorshapegrid.GongGetGongstructName(), midarcvectorshapegrid.GongGetOrder(stage))
-}
-
-func (musicabstract *MusicAbstract) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", musicabstract.GongGetGongstructName(), musicabstract.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (musicabstract *MusicAbstract) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", musicabstract.GongGetGongstructName(), musicabstract.GongGetOrder(stage))
 }
 
 func (originalpoints3dshape *OriginalPoints3DShape) GongGetIdentifier(stage *Stage) string {
@@ -9535,15 +9316,6 @@ func (stool3ddiagram *Stool3DDiagram) GongGetReferenceIdentifier(stage *Stage) s
 	return fmt.Sprintf("__%s__%08d_", stool3ddiagram.GongGetGongstructName(), stool3ddiagram.GongGetOrder(stage))
 }
 
-func (stoolabstract *StoolAbstract) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", stoolabstract.GongGetGongstructName(), stoolabstract.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (stoolabstract *StoolAbstract) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", stoolabstract.GongGetGongstructName(), stoolabstract.GongGetOrder(stage))
-}
-
 func (tiledfloor3dshape *TiledFloor3DShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", tiledfloor3dshape.GongGetGongstructName(), tiledfloor3dshape.GongGetOrder(stage))
 }
@@ -9912,14 +9684,6 @@ func (clock3ddiagram *Clock3DDiagram) GongMarshallIdentifier(stage *Stage) (decl
 	return
 }
 
-func (clockabstract *ClockAbstract) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ClockAbstract")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clockabstract.Name))
-	return
-}
-
 func (clocktopcurveshape *ClockTopCurveShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", clocktopcurveshape.GongGetIdentifier(stage))
@@ -10157,14 +9921,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallIdentifier(stage
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", midarcvectorshapegrid.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MidArcVectorShapeGrid")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(midarcvectorshapegrid.Name))
-	return
-}
-
-func (musicabstract *MusicAbstract) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MusicAbstract")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(musicabstract.Name))
 	return
 }
 
@@ -10792,14 +10548,6 @@ func (stool3ddiagram *Stool3DDiagram) GongMarshallIdentifier(stage *Stage) (decl
 	return
 }
 
-func (stoolabstract *StoolAbstract) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StoolAbstract")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stoolabstract.Name))
-	return
-}
-
 func (tiledfloor3dshape *TiledFloor3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tiledfloor3dshape.GongGetIdentifier(stage))
@@ -11111,12 +10859,6 @@ func (clock3ddiagram *Clock3DDiagram) GongMarshallUnstaging(stage *Stage) (decl 
 	return
 }
 
-func (clockabstract *ClockAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", clockabstract.GongGetReferenceIdentifier(stage))
-	return
-}
-
 func (clocktopcurveshape *ClockTopCurveShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", clocktopcurveshape.GongGetReferenceIdentifier(stage))
@@ -11294,12 +11036,6 @@ func (midarcvectorshape *MidArcVectorShape) GongMarshallUnstaging(stage *Stage) 
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", midarcvectorshapegrid.GongGetReferenceIdentifier(stage))
-	return
-}
-
-func (musicabstract *MusicAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", musicabstract.GongGetReferenceIdentifier(stage))
 	return
 }
 
@@ -11768,12 +11504,6 @@ func (stool2ddiagram *Stool2DDiagram) GongMarshallUnstaging(stage *Stage) (decl 
 func (stool3ddiagram *Stool3DDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stool3ddiagram.GongGetReferenceIdentifier(stage))
-	return
-}
-
-func (stoolabstract *StoolAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", stoolabstract.GongGetReferenceIdentifier(stage))
 	return
 }
 

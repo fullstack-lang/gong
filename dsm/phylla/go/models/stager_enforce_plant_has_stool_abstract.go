@@ -1,15 +1,24 @@
 package models
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool"
+)
 
 func (stager *Stager) enforcePlantHasStoolAbstract() (needCommit bool) {
+	if stager.stageSet == nil || stager.stageSet.StoolStage == nil {
+		return false
+	}
+	stoolStage := stager.stageSet.StoolStage
+
 	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType == Stool {
 			if plant.StoolAbstract == nil {
-				sa := (&StoolAbstract{
+				sa := (&stool.StoolAbstract{
 					Name:              plant.Name + "-StoolAbstract",
 					RadialRepetitions: 1,
-				}).Stage(stager.stage)
+				}).Stage(stoolStage)
 				plant.StoolAbstract = sa
 				needCommit = true
 				stager.logAndNotify(fmt.Sprintf("Plant %s: created missing StoolAbstract", plant.Name))
@@ -28,7 +37,7 @@ func (stager *Stager) enforcePlantHasStoolAbstract() (needCommit bool) {
 	}
 
 	// Unstage unreferenced StoolAbstract
-	for sa := range *stager.stage.GetInstancesSet[*StoolAbstract]() {
+	for sa := range *stoolStage.GetInstancesSet[*stool.StoolAbstract]() {
 		hasOwner := false
 		for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 			if plant.StoolAbstract == sa {
@@ -37,7 +46,7 @@ func (stager *Stager) enforcePlantHasStoolAbstract() (needCommit bool) {
 			}
 		}
 		if !hasOwner {
-			sa.Unstage(stager.stage)
+			sa.Unstage(stoolStage)
 			needCommit = true
 			stager.logAndNotify(fmt.Sprintf("Removed orphaned StoolAbstract %s", sa.Name))
 		}

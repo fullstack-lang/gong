@@ -117,13 +117,6 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
-			for instance := range stage.ClockAbstracts {
-				instances = append(instances, instance)
-			}
-			stage.SerializeExcelize(f, "ClockAbstract", instances, (*ClockAbstract)(nil).GongGetFieldHeaders(), addIDs)
-		}
-		{
-			var instances []GongstructIF
 			for instance := range stage.ClockTopCurveShapes {
 				instances = append(instances, instance)
 			}
@@ -331,13 +324,6 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 				instances = append(instances, instance)
 			}
 			stage.SerializeExcelize(f, "MidArcVectorShapeGrid", instances, (*MidArcVectorShapeGrid)(nil).GongGetFieldHeaders(), addIDs)
-		}
-		{
-			var instances []GongstructIF
-			for instance := range stage.MusicAbstracts {
-				instances = append(instances, instance)
-			}
-			stage.SerializeExcelize(f, "MusicAbstract", instances, (*MusicAbstract)(nil).GongGetFieldHeaders(), addIDs)
 		}
 		{
 			var instances []GongstructIF
@@ -884,13 +870,6 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 				instances = append(instances, instance)
 			}
 			stage.SerializeExcelize(f, "Stool3DDiagram", instances, (*Stool3DDiagram)(nil).GongGetFieldHeaders(), addIDs)
-		}
-		{
-			var instances []GongstructIF
-			for instance := range stage.StoolAbstracts {
-				instances = append(instances, instance)
-			}
-			stage.SerializeExcelize(f, "StoolAbstract", instances, (*StoolAbstract)(nil).GongGetFieldHeaders(), addIDs)
 		}
 		{
 			var instances []GongstructIF

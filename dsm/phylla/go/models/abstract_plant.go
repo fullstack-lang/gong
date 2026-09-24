@@ -1,5 +1,11 @@
 package models
 
+import (
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool"
+)
+
 // PlantAbstract
 // In botanical phyllotaxy, N and M denote a contact parastichy pair, which represents
 // the number of visible spirals winding in opposite directions around a plant's central
@@ -60,9 +66,9 @@ type PlantAbstract struct {
 	PlantType PlantType
 
 	TubeVaseAbstract *TubeVaseAbstract
-	StoolAbstract    *StoolAbstract
-	ClockAbstract    *ClockAbstract
-	MusicAbstract    *MusicAbstract
+	StoolAbstract    *stool.StoolAbstract
+	ClockAbstract    *clock.ClockAbstract
+	MusicAbstract    *music.MusicAbstract
 
 	CurrentView ViewType
 

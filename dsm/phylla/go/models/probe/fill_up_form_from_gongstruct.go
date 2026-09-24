@@ -188,19 +188,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.ClockAbstract:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "ClockAbstract",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ClockAbstractFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.ClockTopCurveShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -585,19 +572,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "MidArcVectorShapeGrid",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__MidArcVectorShapeGridFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.MusicAbstract:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "MusicAbstract",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__MusicAbstractFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
@@ -1612,19 +1586,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "Stool3DDiagram",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__Stool3DDiagramFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.StoolAbstract:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "StoolAbstract",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__StoolAbstractFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

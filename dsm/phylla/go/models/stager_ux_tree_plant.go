@@ -8,6 +8,8 @@ import (
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
 )
 
 func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node, currentView ViewType) {
@@ -496,7 +498,7 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 				}
 			}
 			composerNode.OnClick = func(frontNode *tree.Node) {
-				stager.probeForm.FillUpFormFromGongstruct(ma, GetPointerToGongstructName[*MusicAbstract]())
+				stager.probeForm.FillUpFormFromGongstruct(ma, music.GetPointerToGongstructName[*music.MusicAbstract]())
 				uncheckAllDiagrams(stager)
 				for p := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 					p.IsSelected = (p == plant)
@@ -585,7 +587,9 @@ func uncheckAllDiagrams(stager *Stager) {
 	for d := range *stager.stage.GetInstancesSet[*Clock3DDiagram]() {
 		d.IsChecked = false
 	}
-	for ma := range *stager.stage.GetInstancesSet[*MusicAbstract]() {
-		ma.IsChecked = false
+	if stager.stageSet != nil && stager.stageSet.MusicStage != nil {
+		for ma := range *stager.stageSet.MusicStage.GetInstancesSet[*music.MusicAbstract]() {
+			ma.IsChecked = false
+		}
 	}
 }

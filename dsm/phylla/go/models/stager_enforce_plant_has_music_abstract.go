@@ -1,12 +1,21 @@
 package models
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
+)
 
 func (stager *Stager) enforcePlantHasMusicAbstract() (needCommit bool) {
+	if stager.stageSet == nil || stager.stageSet.MusicStage == nil {
+		return false
+	}
+	musicStage := stager.stageSet.MusicStage
+
 	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType == Music {
 			if plant.MusicAbstract == nil {
-				ma := (&MusicAbstract{
+				ma := (&music.MusicAbstract{
 					Name:                           plant.Name + "-MusicAbstract",
 					IsChecked:                      true,
 					PitchHeight:                    0.138,
@@ -34,7 +43,7 @@ func (stager *Stager) enforcePlantHasMusicAbstract() (needCommit bool) {
 					ShowSecondVoiceNotes:           true,
 					ShowSecondVoiceNotesShiftRight: true,
 					IsComposerNodeExpanded:         true,
-				}).Stage(stager.stage)
+				}).Stage(musicStage)
 				plant.MusicAbstract = ma
 				needCommit = true
 				stager.logAndNotify(fmt.Sprintf("Plant %s: created missing MusicAbstract", plant.Name))
@@ -95,7 +104,7 @@ func (stager *Stager) enforcePlantHasMusicAbstract() (needCommit bool) {
 	}
 
 	// Unstage unreferenced MusicAbstract
-	for ma := range *stager.stage.GetInstancesSet[*MusicAbstract]() {
+	for ma := range *musicStage.GetInstancesSet[*music.MusicAbstract]() {
 		hasOwner := false
 		for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 			if plant.MusicAbstract == ma {
@@ -104,7 +113,7 @@ func (stager *Stager) enforcePlantHasMusicAbstract() (needCommit bool) {
 			}
 		}
 		if !hasOwner {
-			ma.Unstage(stager.stage)
+			ma.Unstage(musicStage)
 			needCommit = true
 			stager.logAndNotify(fmt.Sprintf("Removed orphaned MusicAbstract %s", ma.Name))
 		}
