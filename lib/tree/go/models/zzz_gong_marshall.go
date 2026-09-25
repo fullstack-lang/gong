@@ -90,6 +90,107 @@ func __gong__toRawStringLiteral(s string) string {
 	return result
 }
 
+func __gong__marshallString[T ~string](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongStringInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string(val)))
+}
+
+func __gong__marshallInt[T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", val))
+}
+
+func __gong__marshallBool[T ~bool](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", val))
+}
+
+func __gong__marshallFloat[T ~float32 | ~float64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", val))
+}
+
+func __gong__marshallTime(ident, fieldName, valStr string) string {
+	res := strings.ReplaceAll(GongTimeInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", valStr)
+}
+
+func __gong__marshallPointer(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongPointerFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallSliceOfPointers(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongSliceOfPointersFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallEnumString(ident, fieldName, codeStr string) string {
+	val := "\"\""
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongStringEnumInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallEnumInt(ident, fieldName, codeStr string) string {
+	val := "0"
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallMeta(ident, fieldName, val string) string {
+	res := strings.ReplaceAll(GongMetaFieldStructInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+type GongstructMarshallable interface {
+	GongstructPtr
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+}
+
+func gongMarshallInstances[T GongstructMarshallable](
+	stage *Stage,
+	instances map[T]struct{},
+	identifiersDecl *strings.Builder,
+	initializerStatements *strings.Builder,
+	pointersInitializesStatements *strings.Builder,
+) {
+	if len(instances) == 0 {
+		return
+	}
+	ordered := make([]T, 0, len(instances))
+	for instance := range instances {
+		ordered = append(ordered, instance)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i].GongGetOrder(stage) < ordered[j].GongGetOrder(stage)
+	})
+	identifiersDecl.WriteString("\n")
+	for _, instance := range ordered {
+		identifiersDecl.WriteString(instance.GongMarshallIdentifier(stage))
+		initRes, ptrRes := instance.GongMarshallAllFields(stage)
+		initializerStatements.WriteString("\n" + initRes)
+		pointersInitializesStatements.WriteString(ptrRes)
+	}
+}
+
+
 // MarshallFile marshall the stage content into a file as an instanciation into a stage
 // according to the marshalling policy of the stage.
 //
@@ -270,230 +371,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{GoModuleVersionWithoutDirty}}", goModuleVersionWithoutDirty)
 
 	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
 	var identifiersDecl strings.Builder
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 
-	decl := ""
-	_ = decl
-	setValueField := ""
-	_ = setValueField
-
 	// insertion initialization of objects to stage
-	buttonOrdered := []*Button{}
-	for button := range stage.Buttons {
-		buttonOrdered = append(buttonOrdered, button)
-	}
-	sort.Slice(buttonOrdered[:], func(i, j int) bool {
-		buttoni := buttonOrdered[i]
-		buttonj := buttonOrdered[j]
-		buttoni_order, oki := stage.Button_stagedOrder[buttoni]
-		buttonj_order, okj := stage.Button_stagedOrder[buttonj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return buttoni_order < buttonj_order
-	})
-	if len(buttonOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, button := range buttonOrdered {
-
-		identifiersDecl.WriteString(button.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(button.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(button.GongMarshallField(stage, "Icon"))
-		pointersInitializesStatements.WriteString(button.GongMarshallField(stage, "SVGIcon"))
-		initializerStatements.WriteString(button.GongMarshallField(stage, "IsDisabled"))
-		initializerStatements.WriteString(button.GongMarshallField(stage, "HasToolTip"))
-		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipText"))
-		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipPosition"))
-		initializerStatements.WriteString(button.GongMarshallField(stage, "ClientOnX"))
-		initializerStatements.WriteString(button.GongMarshallField(stage, "ClientOnY"))
-	}
-
-	menuOrdered := []*Menu{}
-	for menu := range stage.Menus {
-		menuOrdered = append(menuOrdered, menu)
-	}
-	sort.Slice(menuOrdered[:], func(i, j int) bool {
-		menui := menuOrdered[i]
-		menuj := menuOrdered[j]
-		menui_order, oki := stage.Menu_stagedOrder[menui]
-		menuj_order, okj := stage.Menu_stagedOrder[menuj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return menui_order < menuj_order
-	})
-	if len(menuOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, menu := range menuOrdered {
-
-		identifiersDecl.WriteString(menu.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(menu.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(menu.GongMarshallField(stage, "Buttons"))
-	}
-
-	nodeOrdered := []*Node{}
-	for node := range stage.Nodes {
-		nodeOrdered = append(nodeOrdered, node)
-	}
-	sort.Slice(nodeOrdered[:], func(i, j int) bool {
-		nodei := nodeOrdered[i]
-		nodej := nodeOrdered[j]
-		nodei_order, oki := stage.Node_stagedOrder[nodei]
-		nodej_order, okj := stage.Node_stagedOrder[nodej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return nodei_order < nodej_order
-	})
-	if len(nodeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, node := range nodeOrdered {
-
-		identifiersDecl.WriteString(node.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(node.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "IsWithPrefix"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "Prefix"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "FontStyle"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "BackgroundColor"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "HasCheckboxButton"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "IsChecked"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "IsCheckboxDisabled"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "CheckboxHasToolTip"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "CheckboxToolTipText"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "CheckboxToolTipPosition"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "HasSecondCheckboxButton"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "IsSecondCheckboxChecked"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "IsSecondCheckboxDisabled"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "SecondCheckboxHasToolTip"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "SecondCheckboxToolTipText"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "SecondCheckboxToolTipPosition"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "TextAfterSecondCheckbox"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "HasToolTip"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "ToolTipText"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "ToolTipPosition"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "ClientOnY"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "IsInEditMode"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "IsNodeClickable"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "IsWithPreceedingIcon"))
-		initializerStatements.WriteString(node.GongMarshallField(stage, "PreceedingIcon"))
-		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "PreceedingSVGIcon"))
-		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "Children"))
-		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "Buttons"))
-		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "Menu"))
-	}
-
-	svgiconOrdered := []*SVGIcon{}
-	for svgicon := range stage.SVGIcons {
-		svgiconOrdered = append(svgiconOrdered, svgicon)
-	}
-	sort.Slice(svgiconOrdered[:], func(i, j int) bool {
-		svgiconi := svgiconOrdered[i]
-		svgiconj := svgiconOrdered[j]
-		svgiconi_order, oki := stage.SVGIcon_stagedOrder[svgiconi]
-		svgiconj_order, okj := stage.SVGIcon_stagedOrder[svgiconj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return svgiconi_order < svgiconj_order
-	})
-	if len(svgiconOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, svgicon := range svgiconOrdered {
-
-		identifiersDecl.WriteString(svgicon.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(svgicon.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(svgicon.GongMarshallField(stage, "SVG"))
-	}
-
-	treeOrdered := []*Tree{}
-	for tree := range stage.Trees {
-		treeOrdered = append(treeOrdered, tree)
-	}
-	sort.Slice(treeOrdered[:], func(i, j int) bool {
-		treei := treeOrdered[i]
-		treej := treeOrdered[j]
-		treei_order, oki := stage.Tree_stagedOrder[treei]
-		treej_order, okj := stage.Tree_stagedOrder[treej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return treei_order < treej_order
-	})
-	if len(treeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, tree := range treeOrdered {
-
-		identifiersDecl.WriteString(tree.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(tree.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(tree.GongMarshallField(stage, "RootNodes"))
-		initializerStatements.WriteString(tree.GongMarshallField(stage, "HaveSearch"))
-	}
-
-	// insertion initialization of objects to stage
-	for _, button := range buttonOrdered {
-		_ = button
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, menu := range menuOrdered {
-		_ = menu
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, node := range nodeOrdered {
-		_ = node
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, svgicon := range svgiconOrdered {
-		_ = svgicon
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, tree := range treeOrdered {
-		_ = tree
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
+	gongMarshallInstances(stage, stage.Buttons, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Menus, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Nodes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.SVGIcons, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Trees, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
@@ -564,69 +451,31 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := button.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(button.Name))
+		res = __gong__marshallString(ident, "Name", button.Name)
 	case "Icon":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Icon")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(button.Icon))
+		res = __gong__marshallString(ident, "Icon", button.Icon)
 	case "IsDisabled":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDisabled")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", button.IsDisabled))
+		res = __gong__marshallBool(ident, "IsDisabled", button.IsDisabled)
 	case "HasToolTip":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasToolTip")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", button.HasToolTip))
+		res = __gong__marshallBool(ident, "HasToolTip", button.HasToolTip)
 	case "ToolTipText":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(button.ToolTipText))
+		res = __gong__marshallString(ident, "ToolTipText", button.ToolTipText)
 	case "ToolTipPosition":
-		if button.ToolTipPosition.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+button.ToolTipPosition.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "ToolTipPosition", button.ToolTipPosition.ToCodeString())
 	case "ClientOnX":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClientOnX")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", button.ClientOnX))
+		res = __gong__marshallFloat(ident, "ClientOnX", button.ClientOnX)
 	case "ClientOnY":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClientOnY")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", button.ClientOnY))
+		res = __gong__marshallFloat(ident, "ClientOnY", button.ClientOnY)
 
 	case "SVGIcon":
 		if button.SVGIcon != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVGIcon")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", button.SVGIcon.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "SVGIcon", button.SVGIcon.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVGIcon")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "SVGIcon", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Button", fieldName)
@@ -635,22 +484,16 @@ func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res str
 }
 
 func (menu *Menu) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := menu.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", menu.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(menu.Name))
+		res = __gong__marshallString(ident, "Name", menu.Name)
 
 	case "Buttons":
 		var sb strings.Builder
 		for _, _button := range menu.Buttons {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", menu.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Buttons")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _button.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Buttons", _button.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -660,221 +503,87 @@ func (menu *Menu) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := node.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(node.Name))
+		res = __gong__marshallString(ident, "Name", node.Name)
 	case "IsWithPrefix":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsWithPrefix))
+		res = __gong__marshallBool(ident, "IsWithPrefix", node.IsWithPrefix)
 	case "Prefix":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Prefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(node.Prefix))
+		res = __gong__marshallString(ident, "Prefix", node.Prefix)
 	case "FontStyle":
-		if node.FontStyle.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontStyle")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+node.FontStyle.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontStyle")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "FontStyle", node.FontStyle.ToCodeString())
 	case "BackgroundColor":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BackgroundColor")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(node.BackgroundColor))
+		res = __gong__marshallString(ident, "BackgroundColor", node.BackgroundColor)
 	case "IsExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsExpanded))
+		res = __gong__marshallBool(ident, "IsExpanded", node.IsExpanded)
 	case "HasCheckboxButton":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasCheckboxButton")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasCheckboxButton))
+		res = __gong__marshallBool(ident, "HasCheckboxButton", node.HasCheckboxButton)
 	case "IsChecked":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsChecked")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsChecked))
+		res = __gong__marshallBool(ident, "IsChecked", node.IsChecked)
 	case "IsCheckboxDisabled":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsCheckboxDisabled")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsCheckboxDisabled))
+		res = __gong__marshallBool(ident, "IsCheckboxDisabled", node.IsCheckboxDisabled)
 	case "CheckboxHasToolTip":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CheckboxHasToolTip")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.CheckboxHasToolTip))
+		res = __gong__marshallBool(ident, "CheckboxHasToolTip", node.CheckboxHasToolTip)
 	case "CheckboxToolTipText":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CheckboxToolTipText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(node.CheckboxToolTipText))
+		res = __gong__marshallString(ident, "CheckboxToolTipText", node.CheckboxToolTipText)
 	case "CheckboxToolTipPosition":
-		if node.CheckboxToolTipPosition.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CheckboxToolTipPosition")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+node.CheckboxToolTipPosition.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CheckboxToolTipPosition")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "CheckboxToolTipPosition", node.CheckboxToolTipPosition.ToCodeString())
 	case "HasSecondCheckboxButton":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasSecondCheckboxButton")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasSecondCheckboxButton))
+		res = __gong__marshallBool(ident, "HasSecondCheckboxButton", node.HasSecondCheckboxButton)
 	case "IsSecondCheckboxChecked":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSecondCheckboxChecked")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsSecondCheckboxChecked))
+		res = __gong__marshallBool(ident, "IsSecondCheckboxChecked", node.IsSecondCheckboxChecked)
 	case "IsSecondCheckboxDisabled":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSecondCheckboxDisabled")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsSecondCheckboxDisabled))
+		res = __gong__marshallBool(ident, "IsSecondCheckboxDisabled", node.IsSecondCheckboxDisabled)
 	case "SecondCheckboxHasToolTip":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SecondCheckboxHasToolTip")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.SecondCheckboxHasToolTip))
+		res = __gong__marshallBool(ident, "SecondCheckboxHasToolTip", node.SecondCheckboxHasToolTip)
 	case "SecondCheckboxToolTipText":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SecondCheckboxToolTipText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(node.SecondCheckboxToolTipText))
+		res = __gong__marshallString(ident, "SecondCheckboxToolTipText", node.SecondCheckboxToolTipText)
 	case "SecondCheckboxToolTipPosition":
-		if node.SecondCheckboxToolTipPosition.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SecondCheckboxToolTipPosition")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+node.SecondCheckboxToolTipPosition.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SecondCheckboxToolTipPosition")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "SecondCheckboxToolTipPosition", node.SecondCheckboxToolTipPosition.ToCodeString())
 	case "TextAfterSecondCheckbox":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextAfterSecondCheckbox")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(node.TextAfterSecondCheckbox))
+		res = __gong__marshallString(ident, "TextAfterSecondCheckbox", node.TextAfterSecondCheckbox)
 	case "HasToolTip":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasToolTip")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasToolTip))
+		res = __gong__marshallBool(ident, "HasToolTip", node.HasToolTip)
 	case "ToolTipText":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(node.ToolTipText))
+		res = __gong__marshallString(ident, "ToolTipText", node.ToolTipText)
 	case "ToolTipPosition":
-		if node.ToolTipPosition.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+node.ToolTipPosition.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "ToolTipPosition", node.ToolTipPosition.ToCodeString())
 	case "ClientOnY":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClientOnY")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", node.ClientOnY))
+		res = __gong__marshallFloat(ident, "ClientOnY", node.ClientOnY)
 	case "IsInEditMode":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInEditMode")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsInEditMode))
+		res = __gong__marshallBool(ident, "IsInEditMode", node.IsInEditMode)
 	case "IsNodeClickable":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsNodeClickable")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsNodeClickable))
+		res = __gong__marshallBool(ident, "IsNodeClickable", node.IsNodeClickable)
 	case "IsWithPreceedingIcon":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithPreceedingIcon")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsWithPreceedingIcon))
+		res = __gong__marshallBool(ident, "IsWithPreceedingIcon", node.IsWithPreceedingIcon)
 	case "PreceedingIcon":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PreceedingIcon")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(node.PreceedingIcon))
+		res = __gong__marshallString(ident, "PreceedingIcon", node.PreceedingIcon)
 
 	case "PreceedingSVGIcon":
 		if node.PreceedingSVGIcon != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PreceedingSVGIcon")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", node.PreceedingSVGIcon.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "PreceedingSVGIcon", node.PreceedingSVGIcon.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PreceedingSVGIcon")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "PreceedingSVGIcon", "nil")
 		}
 	case "Children":
 		var sb strings.Builder
 		for _, _node := range node.Children {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", node.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Children")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _node.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Children", _node.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Buttons":
 		var sb strings.Builder
 		for _, _button := range node.Buttons {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", node.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Buttons")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _button.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Buttons", _button.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Menu":
 		if node.Menu != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Menu")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", node.Menu.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Menu", node.Menu.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Menu")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Menu", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Node", fieldName)
@@ -883,18 +592,13 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (svgicon *SVGIcon) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := svgicon.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svgicon.Name))
+		res = __gong__marshallString(ident, "Name", svgicon.Name)
 	case "SVG":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVG")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svgicon.SVG))
+		res = __gong__marshallString(ident, "SVG", svgicon.SVG)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SVGIcon", fieldName)
@@ -903,27 +607,18 @@ func (svgicon *SVGIcon) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (tree *Tree) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := tree.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", tree.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tree.Name))
+		res = __gong__marshallString(ident, "Name", tree.Name)
 	case "HaveSearch":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", tree.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HaveSearch")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", tree.HaveSearch))
+		res = __gong__marshallBool(ident, "HaveSearch", tree.HaveSearch)
 
 	case "RootNodes":
 		var sb strings.Builder
 		for _, _node := range tree.RootNodes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", tree.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootNodes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _node.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "RootNodes", _node.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:

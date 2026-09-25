@@ -90,6 +90,107 @@ func __gong__toRawStringLiteral(s string) string {
 	return result
 }
 
+func __gong__marshallString[T ~string](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongStringInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string(val)))
+}
+
+func __gong__marshallInt[T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", val))
+}
+
+func __gong__marshallBool[T ~bool](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", val))
+}
+
+func __gong__marshallFloat[T ~float32 | ~float64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", val))
+}
+
+func __gong__marshallTime(ident, fieldName, valStr string) string {
+	res := strings.ReplaceAll(GongTimeInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", valStr)
+}
+
+func __gong__marshallPointer(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongPointerFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallSliceOfPointers(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongSliceOfPointersFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallEnumString(ident, fieldName, codeStr string) string {
+	val := "\"\""
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongStringEnumInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallEnumInt(ident, fieldName, codeStr string) string {
+	val := "0"
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallMeta(ident, fieldName, val string) string {
+	res := strings.ReplaceAll(GongMetaFieldStructInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+type GongstructMarshallable interface {
+	GongstructPtr
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+}
+
+func gongMarshallInstances[T GongstructMarshallable](
+	stage *Stage,
+	instances map[T]struct{},
+	identifiersDecl *strings.Builder,
+	initializerStatements *strings.Builder,
+	pointersInitializesStatements *strings.Builder,
+) {
+	if len(instances) == 0 {
+		return
+	}
+	ordered := make([]T, 0, len(instances))
+	for instance := range instances {
+		ordered = append(ordered, instance)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i].GongGetOrder(stage) < ordered[j].GongGetOrder(stage)
+	})
+	identifiersDecl.WriteString("\n")
+	for _, instance := range ordered {
+		identifiersDecl.WriteString(instance.GongMarshallIdentifier(stage))
+		initRes, ptrRes := instance.GongMarshallAllFields(stage)
+		initializerStatements.WriteString("\n" + initRes)
+		pointersInitializesStatements.WriteString(ptrRes)
+	}
+}
+
+
 // MarshallFile marshall the stage content into a file as an instanciation into a stage
 // according to the marshalling policy of the stage.
 //
@@ -270,1068 +371,34 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{GoModuleVersionWithoutDirty}}", goModuleVersionWithoutDirty)
 
 	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
 	var identifiersDecl strings.Builder
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 
-	decl := ""
-	_ = decl
-	setValueField := ""
-	_ = setValueField
-
 	// insertion initialization of objects to stage
-	diagramOrdered := []*Diagram{}
-	for diagram := range stage.Diagrams {
-		diagramOrdered = append(diagramOrdered, diagram)
-	}
-	sort.Slice(diagramOrdered[:], func(i, j int) bool {
-		diagrami := diagramOrdered[i]
-		diagramj := diagramOrdered[j]
-		diagrami_order, oki := stage.Diagram_stagedOrder[diagrami]
-		diagramj_order, okj := stage.Diagram_stagedOrder[diagramj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return diagrami_order < diagramj_order
-	})
-	if len(diagramOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, diagram := range diagramOrdered {
-
-		identifiersDecl.WriteString(diagram.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxWidth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxHeigth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateFormat"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Width"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Height"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTimeDiagram"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedStart"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedEnd"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedDuration"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DrawVerticalTimeLines"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "HideWeekendsPeriod"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualStart"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualEnd"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeStep"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeStepScale"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "LaneHeight"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "RatioBarToLaneHeight"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "YTopMargin"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XLeftText"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TextHeight"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XLeftLanes"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XRightMargin"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ArrowTipLenght"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_Color"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_FillOpacity"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_Stroke"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_StrokeWidth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_Stroke"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeWidth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeDashArray"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateYOffset"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable_"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsShowPrefix"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInAutoLayoutMode"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Product_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ProductsWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsPBSNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ProductComposition_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ProductReference_Shapes"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsWBSNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Task_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseInputNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseOutputNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhosePredecessorNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupsWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskComposition_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskInputShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskOutputShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskPredecessorShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Note_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsNotesNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteProductShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteTaskShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteResourceShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Resource_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourcesWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsResourcesNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourceComposition_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourceTaskShapes"))
-	}
-
-	libraryOrdered := []*Library{}
-	for library := range stage.Librarys {
-		libraryOrdered = append(libraryOrdered, library)
-	}
-	sort.Slice(libraryOrdered[:], func(i, j int) bool {
-		libraryi := libraryOrdered[i]
-		libraryj := libraryOrdered[j]
-		libraryi_order, oki := stage.Library_stagedOrder[libraryi]
-		libraryj_order, okj := stage.Library_stagedOrder[libraryj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return libraryi_order < libraryj_order
-	})
-	if len(libraryOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, library := range libraryOrdered {
-
-		identifiersDecl.WriteString(library.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(library.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
-		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
-		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
-		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootProducts"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootTasks"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootTaskGroups"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootResources"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Notes"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Diagrams"))
-	}
-
-	noteOrdered := []*Note{}
-	for note := range stage.Notes {
-		noteOrdered = append(noteOrdered, note)
-	}
-	sort.Slice(noteOrdered[:], func(i, j int) bool {
-		notei := noteOrdered[i]
-		notej := noteOrdered[j]
-		notei_order, oki := stage.Note_stagedOrder[notei]
-		notej_order, okj := stage.Note_stagedOrder[notej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return notei_order < notej_order
-	})
-	if len(noteOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, note := range noteOrdered {
-
-		identifiersDecl.WriteString(note.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(note.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(note.GongMarshallField(stage, "LayoutDirection"))
-		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Products"))
-		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Tasks"))
-		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Resources"))
-	}
-
-	noteproductshapeOrdered := []*NoteProductShape{}
-	for noteproductshape := range stage.NoteProductShapes {
-		noteproductshapeOrdered = append(noteproductshapeOrdered, noteproductshape)
-	}
-	sort.Slice(noteproductshapeOrdered[:], func(i, j int) bool {
-		noteproductshapei := noteproductshapeOrdered[i]
-		noteproductshapej := noteproductshapeOrdered[j]
-		noteproductshapei_order, oki := stage.NoteProductShape_stagedOrder[noteproductshapei]
-		noteproductshapej_order, okj := stage.NoteProductShape_stagedOrder[noteproductshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return noteproductshapei_order < noteproductshapej_order
-	})
-	if len(noteproductshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, noteproductshape := range noteproductshapeOrdered {
-
-		identifiersDecl.WriteString(noteproductshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(noteproductshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(noteproductshape.GongMarshallField(stage, "Note"))
-		pointersInitializesStatements.WriteString(noteproductshape.GongMarshallField(stage, "Product"))
-		initializerStatements.WriteString(noteproductshape.GongMarshallField(stage, "StartRatio"))
-		initializerStatements.WriteString(noteproductshape.GongMarshallField(stage, "EndRatio"))
-		initializerStatements.WriteString(noteproductshape.GongMarshallField(stage, "StartOrientation"))
-		initializerStatements.WriteString(noteproductshape.GongMarshallField(stage, "EndOrientation"))
-		initializerStatements.WriteString(noteproductshape.GongMarshallField(stage, "CornerOffsetRatio"))
-		initializerStatements.WriteString(noteproductshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	noteresourceshapeOrdered := []*NoteResourceShape{}
-	for noteresourceshape := range stage.NoteResourceShapes {
-		noteresourceshapeOrdered = append(noteresourceshapeOrdered, noteresourceshape)
-	}
-	sort.Slice(noteresourceshapeOrdered[:], func(i, j int) bool {
-		noteresourceshapei := noteresourceshapeOrdered[i]
-		noteresourceshapej := noteresourceshapeOrdered[j]
-		noteresourceshapei_order, oki := stage.NoteResourceShape_stagedOrder[noteresourceshapei]
-		noteresourceshapej_order, okj := stage.NoteResourceShape_stagedOrder[noteresourceshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return noteresourceshapei_order < noteresourceshapej_order
-	})
-	if len(noteresourceshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, noteresourceshape := range noteresourceshapeOrdered {
-
-		identifiersDecl.WriteString(noteresourceshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(noteresourceshape.GongMarshallField(stage, "Note"))
-		pointersInitializesStatements.WriteString(noteresourceshape.GongMarshallField(stage, "Resource"))
-		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "StartRatio"))
-		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "EndRatio"))
-		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "StartOrientation"))
-		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "EndOrientation"))
-		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "CornerOffsetRatio"))
-		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	noteshapeOrdered := []*NoteShape{}
-	for noteshape := range stage.NoteShapes {
-		noteshapeOrdered = append(noteshapeOrdered, noteshape)
-	}
-	sort.Slice(noteshapeOrdered[:], func(i, j int) bool {
-		noteshapei := noteshapeOrdered[i]
-		noteshapej := noteshapeOrdered[j]
-		noteshapei_order, oki := stage.NoteShape_stagedOrder[noteshapei]
-		noteshapej_order, okj := stage.NoteShape_stagedOrder[noteshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return noteshapei_order < noteshapej_order
-	})
-	if len(noteshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, noteshape := range noteshapeOrdered {
-
-		identifiersDecl.WriteString(noteshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(noteshape.GongMarshallField(stage, "Note"))
-		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "OverideLayoutDirection"))
-		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "LayoutDirection"))
-		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "X"))
-		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Y"))
-		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Width"))
-		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Height"))
-		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	notetaskshapeOrdered := []*NoteTaskShape{}
-	for notetaskshape := range stage.NoteTaskShapes {
-		notetaskshapeOrdered = append(notetaskshapeOrdered, notetaskshape)
-	}
-	sort.Slice(notetaskshapeOrdered[:], func(i, j int) bool {
-		notetaskshapei := notetaskshapeOrdered[i]
-		notetaskshapej := notetaskshapeOrdered[j]
-		notetaskshapei_order, oki := stage.NoteTaskShape_stagedOrder[notetaskshapei]
-		notetaskshapej_order, okj := stage.NoteTaskShape_stagedOrder[notetaskshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return notetaskshapei_order < notetaskshapej_order
-	})
-	if len(notetaskshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, notetaskshape := range notetaskshapeOrdered {
-
-		identifiersDecl.WriteString(notetaskshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(notetaskshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(notetaskshape.GongMarshallField(stage, "Note"))
-		pointersInitializesStatements.WriteString(notetaskshape.GongMarshallField(stage, "Task"))
-		initializerStatements.WriteString(notetaskshape.GongMarshallField(stage, "StartRatio"))
-		initializerStatements.WriteString(notetaskshape.GongMarshallField(stage, "EndRatio"))
-		initializerStatements.WriteString(notetaskshape.GongMarshallField(stage, "StartOrientation"))
-		initializerStatements.WriteString(notetaskshape.GongMarshallField(stage, "EndOrientation"))
-		initializerStatements.WriteString(notetaskshape.GongMarshallField(stage, "CornerOffsetRatio"))
-		initializerStatements.WriteString(notetaskshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	productOrdered := []*Product{}
-	for product := range stage.Products {
-		productOrdered = append(productOrdered, product)
-	}
-	sort.Slice(productOrdered[:], func(i, j int) bool {
-		producti := productOrdered[i]
-		productj := productOrdered[j]
-		producti_order, oki := stage.Product_stagedOrder[producti]
-		productj_order, okj := stage.Product_stagedOrder[productj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return producti_order < productj_order
-	})
-	if len(productOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, product := range productOrdered {
-
-		identifiersDecl.WriteString(product.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(product.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(product.GongMarshallField(stage, "Description"))
-		pointersInitializesStatements.WriteString(product.GongMarshallField(stage, "SubProducts"))
-		initializerStatements.WriteString(product.GongMarshallField(stage, "IsProducersNodeExpanded"))
-		initializerStatements.WriteString(product.GongMarshallField(stage, "IsConsumersNodeExpanded"))
-		initializerStatements.WriteString(product.GongMarshallField(stage, "IsImport"))
-		pointersInitializesStatements.WriteString(product.GongMarshallField(stage, "ReferencedProduct"))
-		initializerStatements.WriteString(product.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(product.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(product.GongMarshallField(stage, "LayoutDirection"))
-	}
-
-	productcompositionshapeOrdered := []*ProductCompositionShape{}
-	for productcompositionshape := range stage.ProductCompositionShapes {
-		productcompositionshapeOrdered = append(productcompositionshapeOrdered, productcompositionshape)
-	}
-	sort.Slice(productcompositionshapeOrdered[:], func(i, j int) bool {
-		productcompositionshapei := productcompositionshapeOrdered[i]
-		productcompositionshapej := productcompositionshapeOrdered[j]
-		productcompositionshapei_order, oki := stage.ProductCompositionShape_stagedOrder[productcompositionshapei]
-		productcompositionshapej_order, okj := stage.ProductCompositionShape_stagedOrder[productcompositionshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return productcompositionshapei_order < productcompositionshapej_order
-	})
-	if len(productcompositionshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, productcompositionshape := range productcompositionshapeOrdered {
-
-		identifiersDecl.WriteString(productcompositionshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(productcompositionshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(productcompositionshape.GongMarshallField(stage, "Product"))
-		initializerStatements.WriteString(productcompositionshape.GongMarshallField(stage, "StartRatio"))
-		initializerStatements.WriteString(productcompositionshape.GongMarshallField(stage, "EndRatio"))
-		initializerStatements.WriteString(productcompositionshape.GongMarshallField(stage, "StartOrientation"))
-		initializerStatements.WriteString(productcompositionshape.GongMarshallField(stage, "EndOrientation"))
-		initializerStatements.WriteString(productcompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
-		initializerStatements.WriteString(productcompositionshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	productreferenceshapeOrdered := []*ProductReferenceShape{}
-	for productreferenceshape := range stage.ProductReferenceShapes {
-		productreferenceshapeOrdered = append(productreferenceshapeOrdered, productreferenceshape)
-	}
-	sort.Slice(productreferenceshapeOrdered[:], func(i, j int) bool {
-		productreferenceshapei := productreferenceshapeOrdered[i]
-		productreferenceshapej := productreferenceshapeOrdered[j]
-		productreferenceshapei_order, oki := stage.ProductReferenceShape_stagedOrder[productreferenceshapei]
-		productreferenceshapej_order, okj := stage.ProductReferenceShape_stagedOrder[productreferenceshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return productreferenceshapei_order < productreferenceshapej_order
-	})
-	if len(productreferenceshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, productreferenceshape := range productreferenceshapeOrdered {
-
-		identifiersDecl.WriteString(productreferenceshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(productreferenceshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(productreferenceshape.GongMarshallField(stage, "Product"))
-		pointersInitializesStatements.WriteString(productreferenceshape.GongMarshallField(stage, "ReferencedProduct"))
-		initializerStatements.WriteString(productreferenceshape.GongMarshallField(stage, "StartRatio"))
-		initializerStatements.WriteString(productreferenceshape.GongMarshallField(stage, "EndRatio"))
-		initializerStatements.WriteString(productreferenceshape.GongMarshallField(stage, "StartOrientation"))
-		initializerStatements.WriteString(productreferenceshape.GongMarshallField(stage, "EndOrientation"))
-		initializerStatements.WriteString(productreferenceshape.GongMarshallField(stage, "CornerOffsetRatio"))
-		initializerStatements.WriteString(productreferenceshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	productshapeOrdered := []*ProductShape{}
-	for productshape := range stage.ProductShapes {
-		productshapeOrdered = append(productshapeOrdered, productshape)
-	}
-	sort.Slice(productshapeOrdered[:], func(i, j int) bool {
-		productshapei := productshapeOrdered[i]
-		productshapej := productshapeOrdered[j]
-		productshapei_order, oki := stage.ProductShape_stagedOrder[productshapei]
-		productshapej_order, okj := stage.ProductShape_stagedOrder[productshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return productshapei_order < productshapej_order
-	})
-	if len(productshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, productshape := range productshapeOrdered {
-
-		identifiersDecl.WriteString(productshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(productshape.GongMarshallField(stage, "Product"))
-		initializerStatements.WriteString(productshape.GongMarshallField(stage, "IsShowType"))
-		initializerStatements.WriteString(productshape.GongMarshallField(stage, "OverideLayoutDirection"))
-		initializerStatements.WriteString(productshape.GongMarshallField(stage, "LayoutDirection"))
-		initializerStatements.WriteString(productshape.GongMarshallField(stage, "X"))
-		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Y"))
-		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Width"))
-		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Height"))
-		initializerStatements.WriteString(productshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	resourceOrdered := []*Resource{}
-	for resource := range stage.Resources {
-		resourceOrdered = append(resourceOrdered, resource)
-	}
-	sort.Slice(resourceOrdered[:], func(i, j int) bool {
-		resourcei := resourceOrdered[i]
-		resourcej := resourceOrdered[j]
-		resourcei_order, oki := stage.Resource_stagedOrder[resourcei]
-		resourcej_order, okj := stage.Resource_stagedOrder[resourcej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return resourcei_order < resourcej_order
-	})
-	if len(resourceOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, resource := range resourceOrdered {
-
-		identifiersDecl.WriteString(resource.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(resource.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(resource.GongMarshallField(stage, "Description"))
-		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "Tasks"))
-		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "SubResources"))
-		initializerStatements.WriteString(resource.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(resource.GongMarshallField(stage, "LayoutDirection"))
-		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsImport"))
-		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "ReferencedResource"))
-	}
-
-	resourcecompositionshapeOrdered := []*ResourceCompositionShape{}
-	for resourcecompositionshape := range stage.ResourceCompositionShapes {
-		resourcecompositionshapeOrdered = append(resourcecompositionshapeOrdered, resourcecompositionshape)
-	}
-	sort.Slice(resourcecompositionshapeOrdered[:], func(i, j int) bool {
-		resourcecompositionshapei := resourcecompositionshapeOrdered[i]
-		resourcecompositionshapej := resourcecompositionshapeOrdered[j]
-		resourcecompositionshapei_order, oki := stage.ResourceCompositionShape_stagedOrder[resourcecompositionshapei]
-		resourcecompositionshapej_order, okj := stage.ResourceCompositionShape_stagedOrder[resourcecompositionshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return resourcecompositionshapei_order < resourcecompositionshapej_order
-	})
-	if len(resourcecompositionshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, resourcecompositionshape := range resourcecompositionshapeOrdered {
-
-		identifiersDecl.WriteString(resourcecompositionshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(resourcecompositionshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(resourcecompositionshape.GongMarshallField(stage, "Resource"))
-		initializerStatements.WriteString(resourcecompositionshape.GongMarshallField(stage, "StartRatio"))
-		initializerStatements.WriteString(resourcecompositionshape.GongMarshallField(stage, "EndRatio"))
-		initializerStatements.WriteString(resourcecompositionshape.GongMarshallField(stage, "StartOrientation"))
-		initializerStatements.WriteString(resourcecompositionshape.GongMarshallField(stage, "EndOrientation"))
-		initializerStatements.WriteString(resourcecompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
-		initializerStatements.WriteString(resourcecompositionshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	resourceshapeOrdered := []*ResourceShape{}
-	for resourceshape := range stage.ResourceShapes {
-		resourceshapeOrdered = append(resourceshapeOrdered, resourceshape)
-	}
-	sort.Slice(resourceshapeOrdered[:], func(i, j int) bool {
-		resourceshapei := resourceshapeOrdered[i]
-		resourceshapej := resourceshapeOrdered[j]
-		resourceshapei_order, oki := stage.ResourceShape_stagedOrder[resourceshapei]
-		resourceshapej_order, okj := stage.ResourceShape_stagedOrder[resourceshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return resourceshapei_order < resourceshapej_order
-	})
-	if len(resourceshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, resourceshape := range resourceshapeOrdered {
-
-		identifiersDecl.WriteString(resourceshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(resourceshape.GongMarshallField(stage, "Resource"))
-		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "OverideLayoutDirection"))
-		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "LayoutDirection"))
-		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "X"))
-		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Y"))
-		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Width"))
-		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Height"))
-		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	resourcetaskshapeOrdered := []*ResourceTaskShape{}
-	for resourcetaskshape := range stage.ResourceTaskShapes {
-		resourcetaskshapeOrdered = append(resourcetaskshapeOrdered, resourcetaskshape)
-	}
-	sort.Slice(resourcetaskshapeOrdered[:], func(i, j int) bool {
-		resourcetaskshapei := resourcetaskshapeOrdered[i]
-		resourcetaskshapej := resourcetaskshapeOrdered[j]
-		resourcetaskshapei_order, oki := stage.ResourceTaskShape_stagedOrder[resourcetaskshapei]
-		resourcetaskshapej_order, okj := stage.ResourceTaskShape_stagedOrder[resourcetaskshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return resourcetaskshapei_order < resourcetaskshapej_order
-	})
-	if len(resourcetaskshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, resourcetaskshape := range resourcetaskshapeOrdered {
-
-		identifiersDecl.WriteString(resourcetaskshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(resourcetaskshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(resourcetaskshape.GongMarshallField(stage, "Resource"))
-		pointersInitializesStatements.WriteString(resourcetaskshape.GongMarshallField(stage, "Task"))
-		initializerStatements.WriteString(resourcetaskshape.GongMarshallField(stage, "StartRatio"))
-		initializerStatements.WriteString(resourcetaskshape.GongMarshallField(stage, "EndRatio"))
-		initializerStatements.WriteString(resourcetaskshape.GongMarshallField(stage, "StartOrientation"))
-		initializerStatements.WriteString(resourcetaskshape.GongMarshallField(stage, "EndOrientation"))
-		initializerStatements.WriteString(resourcetaskshape.GongMarshallField(stage, "CornerOffsetRatio"))
-		initializerStatements.WriteString(resourcetaskshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	taskOrdered := []*Task{}
-	for task := range stage.Tasks {
-		taskOrdered = append(taskOrdered, task)
-	}
-	sort.Slice(taskOrdered[:], func(i, j int) bool {
-		taski := taskOrdered[i]
-		taskj := taskOrdered[j]
-		taski_order, oki := stage.Task_stagedOrder[taski]
-		taskj_order, okj := stage.Task_stagedOrder[taskj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return taski_order < taskj_order
-	})
-	if len(taskOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, task := range taskOrdered {
-
-		identifiersDecl.WriteString(task.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(task.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "Description"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "Start"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "End"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsAllDay"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsMilestone"))
-		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Predecessors"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyType"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationYears"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationMonths"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationWeeks"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationDays"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "DependencyDurationHours"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationYears"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationMonths"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationWeeks"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationDays"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "DurationHours"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsEndDateComputedFromDuration"))
-		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Inputs"))
-		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Outputs"))
-		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "SubTasks"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsWithCompletion"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "Completion"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "DisplayVerticalBar"))
-		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "TaskGroupsToDisplay"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "TextPosition"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "XOffset"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "YOffset"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsImport"))
-		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "ReferencedTask"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsInputsNodeExpanded"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsOutputsNodeExpanded"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "LayoutDirection"))
-	}
-
-	taskcompositionshapeOrdered := []*TaskCompositionShape{}
-	for taskcompositionshape := range stage.TaskCompositionShapes {
-		taskcompositionshapeOrdered = append(taskcompositionshapeOrdered, taskcompositionshape)
-	}
-	sort.Slice(taskcompositionshapeOrdered[:], func(i, j int) bool {
-		taskcompositionshapei := taskcompositionshapeOrdered[i]
-		taskcompositionshapej := taskcompositionshapeOrdered[j]
-		taskcompositionshapei_order, oki := stage.TaskCompositionShape_stagedOrder[taskcompositionshapei]
-		taskcompositionshapej_order, okj := stage.TaskCompositionShape_stagedOrder[taskcompositionshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return taskcompositionshapei_order < taskcompositionshapej_order
-	})
-	if len(taskcompositionshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, taskcompositionshape := range taskcompositionshapeOrdered {
-
-		identifiersDecl.WriteString(taskcompositionshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(taskcompositionshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(taskcompositionshape.GongMarshallField(stage, "Task"))
-		initializerStatements.WriteString(taskcompositionshape.GongMarshallField(stage, "StartRatio"))
-		initializerStatements.WriteString(taskcompositionshape.GongMarshallField(stage, "EndRatio"))
-		initializerStatements.WriteString(taskcompositionshape.GongMarshallField(stage, "StartOrientation"))
-		initializerStatements.WriteString(taskcompositionshape.GongMarshallField(stage, "EndOrientation"))
-		initializerStatements.WriteString(taskcompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
-		initializerStatements.WriteString(taskcompositionshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	taskgroupOrdered := []*TaskGroup{}
-	for taskgroup := range stage.TaskGroups {
-		taskgroupOrdered = append(taskgroupOrdered, taskgroup)
-	}
-	sort.Slice(taskgroupOrdered[:], func(i, j int) bool {
-		taskgroupi := taskgroupOrdered[i]
-		taskgroupj := taskgroupOrdered[j]
-		taskgroupi_order, oki := stage.TaskGroup_stagedOrder[taskgroupi]
-		taskgroupj_order, okj := stage.TaskGroup_stagedOrder[taskgroupj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return taskgroupi_order < taskgroupj_order
-	})
-	if len(taskgroupOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, taskgroup := range taskgroupOrdered {
-
-		identifiersDecl.WriteString(taskgroup.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(taskgroup.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(taskgroup.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(taskgroup.GongMarshallField(stage, "IsExpanded"))
-		pointersInitializesStatements.WriteString(taskgroup.GongMarshallField(stage, "Tasks"))
-	}
-
-	taskgroupshapeOrdered := []*TaskGroupShape{}
-	for taskgroupshape := range stage.TaskGroupShapes {
-		taskgroupshapeOrdered = append(taskgroupshapeOrdered, taskgroupshape)
-	}
-	sort.Slice(taskgroupshapeOrdered[:], func(i, j int) bool {
-		taskgroupshapei := taskgroupshapeOrdered[i]
-		taskgroupshapej := taskgroupshapeOrdered[j]
-		taskgroupshapei_order, oki := stage.TaskGroupShape_stagedOrder[taskgroupshapei]
-		taskgroupshapej_order, okj := stage.TaskGroupShape_stagedOrder[taskgroupshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return taskgroupshapei_order < taskgroupshapej_order
-	})
-	if len(taskgroupshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, taskgroupshape := range taskgroupshapeOrdered {
-
-		identifiersDecl.WriteString(taskgroupshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(taskgroupshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(taskgroupshape.GongMarshallField(stage, "TaskGroup"))
-		initializerStatements.WriteString(taskgroupshape.GongMarshallField(stage, "X"))
-		initializerStatements.WriteString(taskgroupshape.GongMarshallField(stage, "Y"))
-		initializerStatements.WriteString(taskgroupshape.GongMarshallField(stage, "Width"))
-		initializerStatements.WriteString(taskgroupshape.GongMarshallField(stage, "Height"))
-		initializerStatements.WriteString(taskgroupshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	taskinputshapeOrdered := []*TaskInputShape{}
-	for taskinputshape := range stage.TaskInputShapes {
-		taskinputshapeOrdered = append(taskinputshapeOrdered, taskinputshape)
-	}
-	sort.Slice(taskinputshapeOrdered[:], func(i, j int) bool {
-		taskinputshapei := taskinputshapeOrdered[i]
-		taskinputshapej := taskinputshapeOrdered[j]
-		taskinputshapei_order, oki := stage.TaskInputShape_stagedOrder[taskinputshapei]
-		taskinputshapej_order, okj := stage.TaskInputShape_stagedOrder[taskinputshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return taskinputshapei_order < taskinputshapej_order
-	})
-	if len(taskinputshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, taskinputshape := range taskinputshapeOrdered {
-
-		identifiersDecl.WriteString(taskinputshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(taskinputshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(taskinputshape.GongMarshallField(stage, "Product"))
-		pointersInitializesStatements.WriteString(taskinputshape.GongMarshallField(stage, "Task"))
-		initializerStatements.WriteString(taskinputshape.GongMarshallField(stage, "StartRatio"))
-		initializerStatements.WriteString(taskinputshape.GongMarshallField(stage, "EndRatio"))
-		initializerStatements.WriteString(taskinputshape.GongMarshallField(stage, "StartOrientation"))
-		initializerStatements.WriteString(taskinputshape.GongMarshallField(stage, "EndOrientation"))
-		initializerStatements.WriteString(taskinputshape.GongMarshallField(stage, "CornerOffsetRatio"))
-		initializerStatements.WriteString(taskinputshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	taskoutputshapeOrdered := []*TaskOutputShape{}
-	for taskoutputshape := range stage.TaskOutputShapes {
-		taskoutputshapeOrdered = append(taskoutputshapeOrdered, taskoutputshape)
-	}
-	sort.Slice(taskoutputshapeOrdered[:], func(i, j int) bool {
-		taskoutputshapei := taskoutputshapeOrdered[i]
-		taskoutputshapej := taskoutputshapeOrdered[j]
-		taskoutputshapei_order, oki := stage.TaskOutputShape_stagedOrder[taskoutputshapei]
-		taskoutputshapej_order, okj := stage.TaskOutputShape_stagedOrder[taskoutputshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return taskoutputshapei_order < taskoutputshapej_order
-	})
-	if len(taskoutputshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, taskoutputshape := range taskoutputshapeOrdered {
-
-		identifiersDecl.WriteString(taskoutputshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(taskoutputshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(taskoutputshape.GongMarshallField(stage, "Task"))
-		pointersInitializesStatements.WriteString(taskoutputshape.GongMarshallField(stage, "Product"))
-		initializerStatements.WriteString(taskoutputshape.GongMarshallField(stage, "StartRatio"))
-		initializerStatements.WriteString(taskoutputshape.GongMarshallField(stage, "EndRatio"))
-		initializerStatements.WriteString(taskoutputshape.GongMarshallField(stage, "StartOrientation"))
-		initializerStatements.WriteString(taskoutputshape.GongMarshallField(stage, "EndOrientation"))
-		initializerStatements.WriteString(taskoutputshape.GongMarshallField(stage, "CornerOffsetRatio"))
-		initializerStatements.WriteString(taskoutputshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	taskpredecessorshapeOrdered := []*TaskPredecessorShape{}
-	for taskpredecessorshape := range stage.TaskPredecessorShapes {
-		taskpredecessorshapeOrdered = append(taskpredecessorshapeOrdered, taskpredecessorshape)
-	}
-	sort.Slice(taskpredecessorshapeOrdered[:], func(i, j int) bool {
-		taskpredecessorshapei := taskpredecessorshapeOrdered[i]
-		taskpredecessorshapej := taskpredecessorshapeOrdered[j]
-		taskpredecessorshapei_order, oki := stage.TaskPredecessorShape_stagedOrder[taskpredecessorshapei]
-		taskpredecessorshapej_order, okj := stage.TaskPredecessorShape_stagedOrder[taskpredecessorshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return taskpredecessorshapei_order < taskpredecessorshapej_order
-	})
-	if len(taskpredecessorshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, taskpredecessorshape := range taskpredecessorshapeOrdered {
-
-		identifiersDecl.WriteString(taskpredecessorshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "Predecessor"))
-		pointersInitializesStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "Task"))
-		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "StartRatio"))
-		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "EndRatio"))
-		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "StartOrientation"))
-		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "EndOrientation"))
-		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "CornerOffsetRatio"))
-		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	taskshapeOrdered := []*TaskShape{}
-	for taskshape := range stage.TaskShapes {
-		taskshapeOrdered = append(taskshapeOrdered, taskshape)
-	}
-	sort.Slice(taskshapeOrdered[:], func(i, j int) bool {
-		taskshapei := taskshapeOrdered[i]
-		taskshapej := taskshapeOrdered[j]
-		taskshapei_order, oki := stage.TaskShape_stagedOrder[taskshapei]
-		taskshapej_order, okj := stage.TaskShape_stagedOrder[taskshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return taskshapei_order < taskshapej_order
-	})
-	if len(taskshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, taskshape := range taskshapeOrdered {
-
-		identifiersDecl.WriteString(taskshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(taskshape.GongMarshallField(stage, "Task"))
-		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsShowDate"))
-		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "VerticalOffset"))
-		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "OverideLayoutDirection"))
-		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "LayoutDirection"))
-		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "X"))
-		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Y"))
-		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Width"))
-		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Height"))
-		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	// insertion initialization of objects to stage
-	for _, diagram := range diagramOrdered {
-		_ = diagram
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, library := range libraryOrdered {
-		_ = library
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, note := range noteOrdered {
-		_ = note
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, noteproductshape := range noteproductshapeOrdered {
-		_ = noteproductshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, noteresourceshape := range noteresourceshapeOrdered {
-		_ = noteresourceshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, noteshape := range noteshapeOrdered {
-		_ = noteshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, notetaskshape := range notetaskshapeOrdered {
-		_ = notetaskshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, product := range productOrdered {
-		_ = product
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, productcompositionshape := range productcompositionshapeOrdered {
-		_ = productcompositionshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, productreferenceshape := range productreferenceshapeOrdered {
-		_ = productreferenceshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, productshape := range productshapeOrdered {
-		_ = productshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, resource := range resourceOrdered {
-		_ = resource
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, resourcecompositionshape := range resourcecompositionshapeOrdered {
-		_ = resourcecompositionshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, resourceshape := range resourceshapeOrdered {
-		_ = resourceshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, resourcetaskshape := range resourcetaskshapeOrdered {
-		_ = resourcetaskshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, task := range taskOrdered {
-		_ = task
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, taskcompositionshape := range taskcompositionshapeOrdered {
-		_ = taskcompositionshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, taskgroup := range taskgroupOrdered {
-		_ = taskgroup
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, taskgroupshape := range taskgroupshapeOrdered {
-		_ = taskgroupshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, taskinputshape := range taskinputshapeOrdered {
-		_ = taskinputshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, taskoutputshape := range taskoutputshapeOrdered {
-		_ = taskoutputshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, taskpredecessorshape := range taskpredecessorshapeOrdered {
-		_ = taskpredecessorshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, taskshape := range taskshapeOrdered {
-		_ = taskshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
+	gongMarshallInstances(stage, stage.Diagrams, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Librarys, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Notes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.NoteProductShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.NoteResourceShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.NoteShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.NoteTaskShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Products, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.ProductCompositionShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.ProductReferenceShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.ProductShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Resources, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.ResourceCompositionShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.ResourceShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.ResourceTaskShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Tasks, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.TaskCompositionShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.TaskGroups, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.TaskGroupShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.TaskInputShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.TaskOutputShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.TaskPredecessorShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.TaskShapes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
@@ -1402,485 +469,244 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := diagram.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(diagram.Name))
+		res = __gong__marshallString(ident, "Name", diagram.Name)
 	case "DefaultBoxWidth":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DefaultBoxWidth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.DefaultBoxWidth))
+		res = __gong__marshallFloat(ident, "DefaultBoxWidth", diagram.DefaultBoxWidth)
 	case "DefaultBoxHeigth":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DefaultBoxHeigth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.DefaultBoxHeigth))
+		res = __gong__marshallFloat(ident, "DefaultBoxHeigth", diagram.DefaultBoxHeigth)
 	case "DateFormat":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DateFormat")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(diagram.DateFormat))
+		res = __gong__marshallString(ident, "DateFormat", diagram.DateFormat)
 	case "Width":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.Width))
+		res = __gong__marshallFloat(ident, "Width", diagram.Width)
 	case "Height":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.Height))
+		res = __gong__marshallFloat(ident, "Height", diagram.Height)
 	case "IsTimeDiagram":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsTimeDiagram")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsTimeDiagram))
+		res = __gong__marshallBool(ident, "IsTimeDiagram", diagram.IsTimeDiagram)
 	case "ComputedStart":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedStart")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.ComputedStart.String())
+		res = __gong__marshallTime(ident, "ComputedStart", diagram.ComputedStart.String())
 	case "ComputedEnd":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedEnd")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.ComputedEnd.String())
+		res = __gong__marshallTime(ident, "ComputedEnd", diagram.ComputedEnd.String())
 	case "ComputedDuration":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedDuration")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", diagram.ComputedDuration))
+		res = __gong__marshallInt(ident, "ComputedDuration", diagram.ComputedDuration)
 	case "DrawVerticalTimeLines":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DrawVerticalTimeLines")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.DrawVerticalTimeLines))
+		res = __gong__marshallBool(ident, "DrawVerticalTimeLines", diagram.DrawVerticalTimeLines)
 	case "HideWeekendsPeriod":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HideWeekendsPeriod")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.HideWeekendsPeriod))
+		res = __gong__marshallBool(ident, "HideWeekendsPeriod", diagram.HideWeekendsPeriod)
 	case "UseManualStartAndEndDates":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "UseManualStartAndEndDates")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.UseManualStartAndEndDates))
+		res = __gong__marshallBool(ident, "UseManualStartAndEndDates", diagram.UseManualStartAndEndDates)
 	case "ManualStart":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ManualStart")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.ManualStart.String())
+		res = __gong__marshallTime(ident, "ManualStart", diagram.ManualStart.String())
 	case "ManualEnd":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ManualEnd")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.ManualEnd.String())
+		res = __gong__marshallTime(ident, "ManualEnd", diagram.ManualEnd.String())
 	case "TimeStep":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeStep")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", diagram.TimeStep))
+		res = __gong__marshallInt(ident, "TimeStep", diagram.TimeStep)
 	case "TimeStepScale":
-		if diagram.TimeStepScale.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeStepScale")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+diagram.TimeStepScale.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeStepScale")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "TimeStepScale", diagram.TimeStepScale.ToCodeString())
 	case "LaneHeight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LaneHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.LaneHeight))
+		res = __gong__marshallFloat(ident, "LaneHeight", diagram.LaneHeight)
 	case "RatioBarToLaneHeight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RatioBarToLaneHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.RatioBarToLaneHeight))
+		res = __gong__marshallFloat(ident, "RatioBarToLaneHeight", diagram.RatioBarToLaneHeight)
 	case "YTopMargin":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "YTopMargin")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.YTopMargin))
+		res = __gong__marshallFloat(ident, "YTopMargin", diagram.YTopMargin)
 	case "XLeftText":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XLeftText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.XLeftText))
+		res = __gong__marshallFloat(ident, "XLeftText", diagram.XLeftText)
 	case "TextHeight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.TextHeight))
+		res = __gong__marshallFloat(ident, "TextHeight", diagram.TextHeight)
 	case "XLeftLanes":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XLeftLanes")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.XLeftLanes))
+		res = __gong__marshallFloat(ident, "XLeftLanes", diagram.XLeftLanes)
 	case "XRightMargin":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XRightMargin")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.XRightMargin))
+		res = __gong__marshallFloat(ident, "XRightMargin", diagram.XRightMargin)
 	case "ArrowLengthToTheRightOfStartBar":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ArrowLengthToTheRightOfStartBar")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.ArrowLengthToTheRightOfStartBar))
+		res = __gong__marshallFloat(ident, "ArrowLengthToTheRightOfStartBar", diagram.ArrowLengthToTheRightOfStartBar)
 	case "ArrowTipLenght":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ArrowTipLenght")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.ArrowTipLenght))
+		res = __gong__marshallFloat(ident, "ArrowTipLenght", diagram.ArrowTipLenght)
 	case "TimeLine_Color":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(diagram.TimeLine_Color))
+		res = __gong__marshallString(ident, "TimeLine_Color", diagram.TimeLine_Color)
 	case "TimeLine_FillOpacity":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_FillOpacity")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.TimeLine_FillOpacity))
+		res = __gong__marshallFloat(ident, "TimeLine_FillOpacity", diagram.TimeLine_FillOpacity)
 	case "TimeLine_Stroke":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(diagram.TimeLine_Stroke))
+		res = __gong__marshallString(ident, "TimeLine_Stroke", diagram.TimeLine_Stroke)
 	case "TimeLine_StrokeWidth":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_StrokeWidth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.TimeLine_StrokeWidth))
+		res = __gong__marshallFloat(ident, "TimeLine_StrokeWidth", diagram.TimeLine_StrokeWidth)
 	case "Group_Stroke":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(diagram.Group_Stroke))
+		res = __gong__marshallString(ident, "Group_Stroke", diagram.Group_Stroke)
 	case "Group_StrokeWidth":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_StrokeWidth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.Group_StrokeWidth))
+		res = __gong__marshallFloat(ident, "Group_StrokeWidth", diagram.Group_StrokeWidth)
 	case "Group_StrokeDashArray":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(diagram.Group_StrokeDashArray))
+		res = __gong__marshallString(ident, "Group_StrokeDashArray", diagram.Group_StrokeDashArray)
 	case "DateYOffset":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DateYOffset")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.DateYOffset))
+		res = __gong__marshallFloat(ident, "DateYOffset", diagram.DateYOffset)
 	case "AlignOnStartEndOnYearStart":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AlignOnStartEndOnYearStart")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.AlignOnStartEndOnYearStart))
+		res = __gong__marshallBool(ident, "AlignOnStartEndOnYearStart", diagram.AlignOnStartEndOnYearStart)
 	case "ComputedPrefix":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(diagram.ComputedPrefix))
+		res = __gong__marshallString(ident, "ComputedPrefix", diagram.ComputedPrefix)
 	case "IsExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsExpanded))
+		res = __gong__marshallBool(ident, "IsExpanded", diagram.IsExpanded)
 	case "IsChecked":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsChecked")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsChecked))
+		res = __gong__marshallBool(ident, "IsChecked", diagram.IsChecked)
 	case "IsEditable_":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEditable_")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsEditable_))
+		res = __gong__marshallBool(ident, "IsEditable_", diagram.IsEditable_)
 	case "IsShowPrefix":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsShowPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsShowPrefix))
+		res = __gong__marshallBool(ident, "IsShowPrefix", diagram.IsShowPrefix)
 	case "IsInAutoLayoutMode":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInAutoLayoutMode")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsInAutoLayoutMode))
+		res = __gong__marshallBool(ident, "IsInAutoLayoutMode", diagram.IsInAutoLayoutMode)
 	case "IsPBSNodeExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPBSNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsPBSNodeExpanded))
+		res = __gong__marshallBool(ident, "IsPBSNodeExpanded", diagram.IsPBSNodeExpanded)
 	case "IsWBSNodeExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWBSNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsWBSNodeExpanded))
+		res = __gong__marshallBool(ident, "IsWBSNodeExpanded", diagram.IsWBSNodeExpanded)
 	case "IsTaskGroupsNodeExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsTaskGroupsNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsTaskGroupsNodeExpanded))
+		res = __gong__marshallBool(ident, "IsTaskGroupsNodeExpanded", diagram.IsTaskGroupsNodeExpanded)
 	case "IsNotesNodeExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsNotesNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsNotesNodeExpanded))
+		res = __gong__marshallBool(ident, "IsNotesNodeExpanded", diagram.IsNotesNodeExpanded)
 	case "IsResourcesNodeExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsResourcesNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsResourcesNodeExpanded))
+		res = __gong__marshallBool(ident, "IsResourcesNodeExpanded", diagram.IsResourcesNodeExpanded)
 
 	case "Product_Shapes":
 		var sb strings.Builder
 		for _, _productshape := range diagram.Product_Shapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Product_Shapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _productshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Product_Shapes", _productshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "ProductsWhoseNodeIsExpanded":
 		var sb strings.Builder
 		for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ProductsWhoseNodeIsExpanded")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _product.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ProductsWhoseNodeIsExpanded", _product.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "ProductComposition_Shapes":
 		var sb strings.Builder
 		for _, _productcompositionshape := range diagram.ProductComposition_Shapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ProductComposition_Shapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _productcompositionshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ProductComposition_Shapes", _productcompositionshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "ProductReference_Shapes":
 		var sb strings.Builder
 		for _, _productreferenceshape := range diagram.ProductReference_Shapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ProductReference_Shapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _productreferenceshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ProductReference_Shapes", _productreferenceshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Task_Shapes":
 		var sb strings.Builder
 		for _, _taskshape := range diagram.Task_Shapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Task_Shapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Task_Shapes", _taskshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "TasksWhoseNodeIsExpanded":
 		var sb strings.Builder
 		for _, _task := range diagram.TasksWhoseNodeIsExpanded {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TasksWhoseNodeIsExpanded")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "TasksWhoseNodeIsExpanded", _task.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "TasksWhoseInputNodeIsExpanded":
 		var sb strings.Builder
 		for _, _task := range diagram.TasksWhoseInputNodeIsExpanded {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TasksWhoseInputNodeIsExpanded")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "TasksWhoseInputNodeIsExpanded", _task.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "TasksWhoseOutputNodeIsExpanded":
 		var sb strings.Builder
 		for _, _task := range diagram.TasksWhoseOutputNodeIsExpanded {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TasksWhoseOutputNodeIsExpanded")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "TasksWhoseOutputNodeIsExpanded", _task.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "TasksWhosePredecessorNodeIsExpanded":
 		var sb strings.Builder
 		for _, _task := range diagram.TasksWhosePredecessorNodeIsExpanded {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TasksWhosePredecessorNodeIsExpanded")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "TasksWhosePredecessorNodeIsExpanded", _task.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "TaskGroupShapes":
 		var sb strings.Builder
 		for _, _taskgroupshape := range diagram.TaskGroupShapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskGroupShapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskgroupshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "TaskGroupShapes", _taskgroupshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "TaskGroupsWhoseNodeIsExpanded":
 		var sb strings.Builder
 		for _, _taskgroup := range diagram.TaskGroupsWhoseNodeIsExpanded {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskGroupsWhoseNodeIsExpanded")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskgroup.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "TaskGroupsWhoseNodeIsExpanded", _taskgroup.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "TaskComposition_Shapes":
 		var sb strings.Builder
 		for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskComposition_Shapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskcompositionshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "TaskComposition_Shapes", _taskcompositionshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "TaskInputShapes":
 		var sb strings.Builder
 		for _, _taskinputshape := range diagram.TaskInputShapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskInputShapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskinputshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "TaskInputShapes", _taskinputshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "TaskOutputShapes":
 		var sb strings.Builder
 		for _, _taskoutputshape := range diagram.TaskOutputShapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskOutputShapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskoutputshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "TaskOutputShapes", _taskoutputshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "TaskPredecessorShapes":
 		var sb strings.Builder
 		for _, _taskpredecessorshape := range diagram.TaskPredecessorShapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskPredecessorShapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskpredecessorshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "TaskPredecessorShapes", _taskpredecessorshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Note_Shapes":
 		var sb strings.Builder
 		for _, _noteshape := range diagram.Note_Shapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Note_Shapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _noteshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Note_Shapes", _noteshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "NotesWhoseNodeIsExpanded":
 		var sb strings.Builder
 		for _, _note := range diagram.NotesWhoseNodeIsExpanded {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NotesWhoseNodeIsExpanded")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _note.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "NotesWhoseNodeIsExpanded", _note.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "NoteProductShapes":
 		var sb strings.Builder
 		for _, _noteproductshape := range diagram.NoteProductShapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NoteProductShapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _noteproductshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "NoteProductShapes", _noteproductshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "NoteTaskShapes":
 		var sb strings.Builder
 		for _, _notetaskshape := range diagram.NoteTaskShapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NoteTaskShapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _notetaskshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "NoteTaskShapes", _notetaskshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "NoteResourceShapes":
 		var sb strings.Builder
 		for _, _noteresourceshape := range diagram.NoteResourceShapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NoteResourceShapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _noteresourceshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "NoteResourceShapes", _noteresourceshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Resource_Shapes":
 		var sb strings.Builder
 		for _, _resourceshape := range diagram.Resource_Shapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Resource_Shapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resourceshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Resource_Shapes", _resourceshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "ResourcesWhoseNodeIsExpanded":
 		var sb strings.Builder
 		for _, _resource := range diagram.ResourcesWhoseNodeIsExpanded {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ResourcesWhoseNodeIsExpanded")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resource.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ResourcesWhoseNodeIsExpanded", _resource.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "ResourceComposition_Shapes":
 		var sb strings.Builder
 		for _, _resourcecompositionshape := range diagram.ResourceComposition_Shapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ResourceComposition_Shapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resourcecompositionshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ResourceComposition_Shapes", _resourcecompositionshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "ResourceTaskShapes":
 		var sb strings.Builder
 		for _, _resourcetaskshape := range diagram.ResourceTaskShapes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ResourceTaskShapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resourcetaskshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ResourceTaskShapes", _resourcetaskshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -1890,107 +716,62 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := library.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(library.Name))
+		res = __gong__marshallString(ident, "Name", library.Name)
 	case "NbPixPerCharacter":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NbPixPerCharacter")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", library.NbPixPerCharacter))
+		res = __gong__marshallFloat(ident, "NbPixPerCharacter", library.NbPixPerCharacter)
 	case "LogoSVGFile":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LogoSVGFile")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(library.LogoSVGFile))
+		res = __gong__marshallString(ident, "LogoSVGFile", library.LogoSVGFile)
 	case "ComputedPrefix":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(library.ComputedPrefix))
+		res = __gong__marshallString(ident, "ComputedPrefix", library.ComputedPrefix)
 	case "IsExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsExpanded))
+		res = __gong__marshallBool(ident, "IsExpanded", library.IsExpanded)
 	case "IsRootLibrary":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsRootLibrary")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsRootLibrary))
+		res = __gong__marshallBool(ident, "IsRootLibrary", library.IsRootLibrary)
 
 	case "SubLibraries":
 		var sb strings.Builder
 		for _, _library := range library.SubLibraries {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubLibraries")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _library.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "SubLibraries", _library.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "RootProducts":
 		var sb strings.Builder
 		for _, _product := range library.RootProducts {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootProducts")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _product.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "RootProducts", _product.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "RootTasks":
 		var sb strings.Builder
 		for _, _task := range library.RootTasks {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootTasks")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "RootTasks", _task.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "RootTaskGroups":
 		var sb strings.Builder
 		for _, _taskgroup := range library.RootTaskGroups {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootTaskGroups")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskgroup.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "RootTaskGroups", _taskgroup.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "RootResources":
 		var sb strings.Builder
 		for _, _resource := range library.RootResources {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootResources")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resource.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "RootResources", _resource.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Notes":
 		var sb strings.Builder
 		for _, _note := range library.Notes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Notes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _note.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Notes", _note.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Diagrams":
 		var sb strings.Builder
 		for _, _diagram := range library.Diagrams {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Diagrams")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagram.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Diagrams", _diagram.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -2000,65 +781,34 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := note.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.Name))
+		res = __gong__marshallString(ident, "Name", note.Name)
 	case "ComputedPrefix":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(note.ComputedPrefix))
+		res = __gong__marshallString(ident, "ComputedPrefix", note.ComputedPrefix)
 	case "IsExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", note.IsExpanded))
+		res = __gong__marshallBool(ident, "IsExpanded", note.IsExpanded)
 	case "LayoutDirection":
-		if note.LayoutDirection.ToCodeString() != "" {
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+note.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
+		res = __gong__marshallEnumInt(ident, "LayoutDirection", note.LayoutDirection.ToCodeString())
 
 	case "Products":
 		var sb strings.Builder
 		for _, _product := range note.Products {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", note.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Products")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _product.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Products", _product.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Tasks":
 		var sb strings.Builder
 		for _, _task := range note.Tasks {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", note.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Tasks")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Tasks", _task.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Resources":
 		var sb strings.Builder
 		for _, _resource := range note.Resources {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", note.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Resources")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resource.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Resources", _resource.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -2068,85 +818,35 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (noteproductshape *NoteProductShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := noteproductshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(noteproductshape.Name))
+		res = __gong__marshallString(ident, "Name", noteproductshape.Name)
 	case "StartRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteproductshape.StartRatio))
+		res = __gong__marshallFloat(ident, "StartRatio", noteproductshape.StartRatio)
 	case "EndRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteproductshape.EndRatio))
+		res = __gong__marshallFloat(ident, "EndRatio", noteproductshape.EndRatio)
 	case "StartOrientation":
-		if noteproductshape.StartOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+noteproductshape.StartOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "StartOrientation", noteproductshape.StartOrientation.ToCodeString())
 	case "EndOrientation":
-		if noteproductshape.EndOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+noteproductshape.EndOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "EndOrientation", noteproductshape.EndOrientation.ToCodeString())
 	case "CornerOffsetRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteproductshape.CornerOffsetRatio))
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", noteproductshape.CornerOffsetRatio)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", noteproductshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", noteproductshape.IsHidden)
 
 	case "Note":
 		if noteproductshape.Note != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", noteproductshape.Note.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Note", noteproductshape.Note.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Note", "nil")
 		}
 	case "Product":
 		if noteproductshape.Product != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Product")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", noteproductshape.Product.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Product", noteproductshape.Product.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Product")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Product", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct NoteProductShape", fieldName)
@@ -2155,85 +855,35 @@ func (noteproductshape *NoteProductShape) GongMarshallField(stage *Stage, fieldN
 }
 
 func (noteresourceshape *NoteResourceShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := noteresourceshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(noteresourceshape.Name))
+		res = __gong__marshallString(ident, "Name", noteresourceshape.Name)
 	case "StartRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteresourceshape.StartRatio))
+		res = __gong__marshallFloat(ident, "StartRatio", noteresourceshape.StartRatio)
 	case "EndRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteresourceshape.EndRatio))
+		res = __gong__marshallFloat(ident, "EndRatio", noteresourceshape.EndRatio)
 	case "StartOrientation":
-		if noteresourceshape.StartOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+noteresourceshape.StartOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "StartOrientation", noteresourceshape.StartOrientation.ToCodeString())
 	case "EndOrientation":
-		if noteresourceshape.EndOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+noteresourceshape.EndOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "EndOrientation", noteresourceshape.EndOrientation.ToCodeString())
 	case "CornerOffsetRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteresourceshape.CornerOffsetRatio))
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", noteresourceshape.CornerOffsetRatio)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", noteresourceshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", noteresourceshape.IsHidden)
 
 	case "Note":
 		if noteresourceshape.Note != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", noteresourceshape.Note.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Note", noteresourceshape.Note.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Note", "nil")
 		}
 	case "Resource":
 		if noteresourceshape.Resource != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Resource")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", noteresourceshape.Resource.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Resource", noteresourceshape.Resource.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Resource")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Resource", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct NoteResourceShape", fieldName)
@@ -2242,69 +892,31 @@ func (noteresourceshape *NoteResourceShape) GongMarshallField(stage *Stage, fiel
 }
 
 func (noteshape *NoteShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := noteshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(noteshape.Name))
+		res = __gong__marshallString(ident, "Name", noteshape.Name)
 	case "OverideLayoutDirection":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OverideLayoutDirection")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", noteshape.OverideLayoutDirection))
+		res = __gong__marshallBool(ident, "OverideLayoutDirection", noteshape.OverideLayoutDirection)
 	case "LayoutDirection":
-		if noteshape.LayoutDirection.ToCodeString() != "" {
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+noteshape.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
+		res = __gong__marshallEnumInt(ident, "LayoutDirection", noteshape.LayoutDirection.ToCodeString())
 	case "X":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.X))
+		res = __gong__marshallFloat(ident, "X", noteshape.X)
 	case "Y":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.Y))
+		res = __gong__marshallFloat(ident, "Y", noteshape.Y)
 	case "Width":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.Width))
+		res = __gong__marshallFloat(ident, "Width", noteshape.Width)
 	case "Height":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.Height))
+		res = __gong__marshallFloat(ident, "Height", noteshape.Height)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", noteshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", noteshape.IsHidden)
 
 	case "Note":
 		if noteshape.Note != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", noteshape.Note.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Note", noteshape.Note.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Note", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct NoteShape", fieldName)
@@ -2313,85 +925,35 @@ func (noteshape *NoteShape) GongMarshallField(stage *Stage, fieldName string) (r
 }
 
 func (notetaskshape *NoteTaskShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := notetaskshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(notetaskshape.Name))
+		res = __gong__marshallString(ident, "Name", notetaskshape.Name)
 	case "StartRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", notetaskshape.StartRatio))
+		res = __gong__marshallFloat(ident, "StartRatio", notetaskshape.StartRatio)
 	case "EndRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", notetaskshape.EndRatio))
+		res = __gong__marshallFloat(ident, "EndRatio", notetaskshape.EndRatio)
 	case "StartOrientation":
-		if notetaskshape.StartOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+notetaskshape.StartOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "StartOrientation", notetaskshape.StartOrientation.ToCodeString())
 	case "EndOrientation":
-		if notetaskshape.EndOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+notetaskshape.EndOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "EndOrientation", notetaskshape.EndOrientation.ToCodeString())
 	case "CornerOffsetRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", notetaskshape.CornerOffsetRatio))
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", notetaskshape.CornerOffsetRatio)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", notetaskshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", notetaskshape.IsHidden)
 
 	case "Note":
 		if notetaskshape.Note != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", notetaskshape.Note.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Note", notetaskshape.Note.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Note", "nil")
 		}
 	case "Task":
 		if notetaskshape.Task != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", notetaskshape.Task.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Task", notetaskshape.Task.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Task", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct NoteTaskShape", fieldName)
@@ -2400,79 +962,37 @@ func (notetaskshape *NoteTaskShape) GongMarshallField(stage *Stage, fieldName st
 }
 
 func (product *Product) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := product.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(product.Name))
+		res = __gong__marshallString(ident, "Name", product.Name)
 	case "Description":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(product.Description))
+		res = __gong__marshallString(ident, "Description", product.Description)
 	case "IsProducersNodeExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsProducersNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", product.IsProducersNodeExpanded))
+		res = __gong__marshallBool(ident, "IsProducersNodeExpanded", product.IsProducersNodeExpanded)
 	case "IsConsumersNodeExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsConsumersNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", product.IsConsumersNodeExpanded))
+		res = __gong__marshallBool(ident, "IsConsumersNodeExpanded", product.IsConsumersNodeExpanded)
 	case "IsImport":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsImport")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", product.IsImport))
+		res = __gong__marshallBool(ident, "IsImport", product.IsImport)
 	case "ComputedPrefix":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(product.ComputedPrefix))
+		res = __gong__marshallString(ident, "ComputedPrefix", product.ComputedPrefix)
 	case "IsExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", product.IsExpanded))
+		res = __gong__marshallBool(ident, "IsExpanded", product.IsExpanded)
 	case "LayoutDirection":
-		if product.LayoutDirection.ToCodeString() != "" {
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+product.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
+		res = __gong__marshallEnumInt(ident, "LayoutDirection", product.LayoutDirection.ToCodeString())
 
 	case "SubProducts":
 		var sb strings.Builder
 		for _, _product := range product.SubProducts {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", product.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubProducts")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _product.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "SubProducts", _product.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "ReferencedProduct":
 		if product.ReferencedProduct != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ReferencedProduct")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", product.ReferencedProduct.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "ReferencedProduct", product.ReferencedProduct.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ReferencedProduct")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "ReferencedProduct", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Product", fieldName)
@@ -2481,72 +1001,29 @@ func (product *Product) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (productcompositionshape *ProductCompositionShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := productcompositionshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(productcompositionshape.Name))
+		res = __gong__marshallString(ident, "Name", productcompositionshape.Name)
 	case "StartRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productcompositionshape.StartRatio))
+		res = __gong__marshallFloat(ident, "StartRatio", productcompositionshape.StartRatio)
 	case "EndRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productcompositionshape.EndRatio))
+		res = __gong__marshallFloat(ident, "EndRatio", productcompositionshape.EndRatio)
 	case "StartOrientation":
-		if productcompositionshape.StartOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+productcompositionshape.StartOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "StartOrientation", productcompositionshape.StartOrientation.ToCodeString())
 	case "EndOrientation":
-		if productcompositionshape.EndOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+productcompositionshape.EndOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "EndOrientation", productcompositionshape.EndOrientation.ToCodeString())
 	case "CornerOffsetRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productcompositionshape.CornerOffsetRatio))
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", productcompositionshape.CornerOffsetRatio)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", productcompositionshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", productcompositionshape.IsHidden)
 
 	case "Product":
 		if productcompositionshape.Product != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Product")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", productcompositionshape.Product.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Product", productcompositionshape.Product.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Product")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Product", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ProductCompositionShape", fieldName)
@@ -2555,85 +1032,35 @@ func (productcompositionshape *ProductCompositionShape) GongMarshallField(stage 
 }
 
 func (productreferenceshape *ProductReferenceShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := productreferenceshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(productreferenceshape.Name))
+		res = __gong__marshallString(ident, "Name", productreferenceshape.Name)
 	case "StartRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productreferenceshape.StartRatio))
+		res = __gong__marshallFloat(ident, "StartRatio", productreferenceshape.StartRatio)
 	case "EndRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productreferenceshape.EndRatio))
+		res = __gong__marshallFloat(ident, "EndRatio", productreferenceshape.EndRatio)
 	case "StartOrientation":
-		if productreferenceshape.StartOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+productreferenceshape.StartOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "StartOrientation", productreferenceshape.StartOrientation.ToCodeString())
 	case "EndOrientation":
-		if productreferenceshape.EndOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+productreferenceshape.EndOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "EndOrientation", productreferenceshape.EndOrientation.ToCodeString())
 	case "CornerOffsetRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productreferenceshape.CornerOffsetRatio))
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", productreferenceshape.CornerOffsetRatio)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", productreferenceshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", productreferenceshape.IsHidden)
 
 	case "Product":
 		if productreferenceshape.Product != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Product")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", productreferenceshape.Product.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Product", productreferenceshape.Product.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Product")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Product", "nil")
 		}
 	case "ReferencedProduct":
 		if productreferenceshape.ReferencedProduct != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ReferencedProduct")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", productreferenceshape.ReferencedProduct.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "ReferencedProduct", productreferenceshape.ReferencedProduct.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productreferenceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ReferencedProduct")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "ReferencedProduct", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ProductReferenceShape", fieldName)
@@ -2642,74 +1069,33 @@ func (productreferenceshape *ProductReferenceShape) GongMarshallField(stage *Sta
 }
 
 func (productshape *ProductShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := productshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(productshape.Name))
+		res = __gong__marshallString(ident, "Name", productshape.Name)
 	case "IsShowType":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsShowType")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", productshape.IsShowType))
+		res = __gong__marshallBool(ident, "IsShowType", productshape.IsShowType)
 	case "OverideLayoutDirection":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OverideLayoutDirection")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", productshape.OverideLayoutDirection))
+		res = __gong__marshallBool(ident, "OverideLayoutDirection", productshape.OverideLayoutDirection)
 	case "LayoutDirection":
-		if productshape.LayoutDirection.ToCodeString() != "" {
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+productshape.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
+		res = __gong__marshallEnumInt(ident, "LayoutDirection", productshape.LayoutDirection.ToCodeString())
 	case "X":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productshape.X))
+		res = __gong__marshallFloat(ident, "X", productshape.X)
 	case "Y":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productshape.Y))
+		res = __gong__marshallFloat(ident, "Y", productshape.Y)
 	case "Width":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productshape.Width))
+		res = __gong__marshallFloat(ident, "Width", productshape.Width)
 	case "Height":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productshape.Height))
+		res = __gong__marshallFloat(ident, "Height", productshape.Height)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", productshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", productshape.IsHidden)
 
 	case "Product":
 		if productshape.Product != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Product")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", productshape.Product.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Product", productshape.Product.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Product")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Product", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ProductShape", fieldName)
@@ -2718,79 +1104,39 @@ func (productshape *ProductShape) GongMarshallField(stage *Stage, fieldName stri
 }
 
 func (resource *Resource) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := resource.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(resource.Name))
+		res = __gong__marshallString(ident, "Name", resource.Name)
 	case "Description":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(resource.Description))
+		res = __gong__marshallString(ident, "Description", resource.Description)
 	case "ComputedPrefix":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(resource.ComputedPrefix))
+		res = __gong__marshallString(ident, "ComputedPrefix", resource.ComputedPrefix)
 	case "IsExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", resource.IsExpanded))
+		res = __gong__marshallBool(ident, "IsExpanded", resource.IsExpanded)
 	case "LayoutDirection":
-		if resource.LayoutDirection.ToCodeString() != "" {
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+resource.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
+		res = __gong__marshallEnumInt(ident, "LayoutDirection", resource.LayoutDirection.ToCodeString())
 	case "IsImport":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsImport")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", resource.IsImport))
+		res = __gong__marshallBool(ident, "IsImport", resource.IsImport)
 
 	case "Tasks":
 		var sb strings.Builder
 		for _, _task := range resource.Tasks {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", resource.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Tasks")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Tasks", _task.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "SubResources":
 		var sb strings.Builder
 		for _, _resource := range resource.SubResources {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", resource.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubResources")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resource.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "SubResources", _resource.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "ReferencedResource":
 		if resource.ReferencedResource != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ReferencedResource")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", resource.ReferencedResource.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "ReferencedResource", resource.ReferencedResource.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ReferencedResource")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "ReferencedResource", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Resource", fieldName)
@@ -2799,72 +1145,29 @@ func (resource *Resource) GongMarshallField(stage *Stage, fieldName string) (res
 }
 
 func (resourcecompositionshape *ResourceCompositionShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := resourcecompositionshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(resourcecompositionshape.Name))
+		res = __gong__marshallString(ident, "Name", resourcecompositionshape.Name)
 	case "StartRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", resourcecompositionshape.StartRatio))
+		res = __gong__marshallFloat(ident, "StartRatio", resourcecompositionshape.StartRatio)
 	case "EndRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", resourcecompositionshape.EndRatio))
+		res = __gong__marshallFloat(ident, "EndRatio", resourcecompositionshape.EndRatio)
 	case "StartOrientation":
-		if resourcecompositionshape.StartOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+resourcecompositionshape.StartOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "StartOrientation", resourcecompositionshape.StartOrientation.ToCodeString())
 	case "EndOrientation":
-		if resourcecompositionshape.EndOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+resourcecompositionshape.EndOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "EndOrientation", resourcecompositionshape.EndOrientation.ToCodeString())
 	case "CornerOffsetRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", resourcecompositionshape.CornerOffsetRatio))
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", resourcecompositionshape.CornerOffsetRatio)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", resourcecompositionshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", resourcecompositionshape.IsHidden)
 
 	case "Resource":
 		if resourcecompositionshape.Resource != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Resource")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", resourcecompositionshape.Resource.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Resource", resourcecompositionshape.Resource.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Resource")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Resource", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ResourceCompositionShape", fieldName)
@@ -2873,69 +1176,31 @@ func (resourcecompositionshape *ResourceCompositionShape) GongMarshallField(stag
 }
 
 func (resourceshape *ResourceShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := resourceshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(resourceshape.Name))
+		res = __gong__marshallString(ident, "Name", resourceshape.Name)
 	case "OverideLayoutDirection":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OverideLayoutDirection")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", resourceshape.OverideLayoutDirection))
+		res = __gong__marshallBool(ident, "OverideLayoutDirection", resourceshape.OverideLayoutDirection)
 	case "LayoutDirection":
-		if resourceshape.LayoutDirection.ToCodeString() != "" {
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+resourceshape.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
+		res = __gong__marshallEnumInt(ident, "LayoutDirection", resourceshape.LayoutDirection.ToCodeString())
 	case "X":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", resourceshape.X))
+		res = __gong__marshallFloat(ident, "X", resourceshape.X)
 	case "Y":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", resourceshape.Y))
+		res = __gong__marshallFloat(ident, "Y", resourceshape.Y)
 	case "Width":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", resourceshape.Width))
+		res = __gong__marshallFloat(ident, "Width", resourceshape.Width)
 	case "Height":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", resourceshape.Height))
+		res = __gong__marshallFloat(ident, "Height", resourceshape.Height)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", resourceshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", resourceshape.IsHidden)
 
 	case "Resource":
 		if resourceshape.Resource != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Resource")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", resourceshape.Resource.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Resource", resourceshape.Resource.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Resource")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Resource", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ResourceShape", fieldName)
@@ -2944,85 +1209,35 @@ func (resourceshape *ResourceShape) GongMarshallField(stage *Stage, fieldName st
 }
 
 func (resourcetaskshape *ResourceTaskShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := resourcetaskshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(resourcetaskshape.Name))
+		res = __gong__marshallString(ident, "Name", resourcetaskshape.Name)
 	case "StartRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", resourcetaskshape.StartRatio))
+		res = __gong__marshallFloat(ident, "StartRatio", resourcetaskshape.StartRatio)
 	case "EndRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", resourcetaskshape.EndRatio))
+		res = __gong__marshallFloat(ident, "EndRatio", resourcetaskshape.EndRatio)
 	case "StartOrientation":
-		if resourcetaskshape.StartOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+resourcetaskshape.StartOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "StartOrientation", resourcetaskshape.StartOrientation.ToCodeString())
 	case "EndOrientation":
-		if resourcetaskshape.EndOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+resourcetaskshape.EndOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "EndOrientation", resourcetaskshape.EndOrientation.ToCodeString())
 	case "CornerOffsetRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", resourcetaskshape.CornerOffsetRatio))
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", resourcetaskshape.CornerOffsetRatio)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", resourcetaskshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", resourcetaskshape.IsHidden)
 
 	case "Resource":
 		if resourcetaskshape.Resource != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Resource")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", resourcetaskshape.Resource.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Resource", resourcetaskshape.Resource.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Resource")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Resource", "nil")
 		}
 	case "Task":
 		if resourcetaskshape.Task != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", resourcetaskshape.Task.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Task", resourcetaskshape.Task.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Task", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ResourceTaskShape", fieldName)
@@ -3031,253 +1246,105 @@ func (resourcetaskshape *ResourceTaskShape) GongMarshallField(stage *Stage, fiel
 }
 
 func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := task.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(task.Name))
+		res = __gong__marshallString(ident, "Name", task.Name)
 	case "Description":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(task.Description))
+		res = __gong__marshallString(ident, "Description", task.Description)
 	case "Start":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Start")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", task.Start.String())
+		res = __gong__marshallTime(ident, "Start", task.Start.String())
 	case "End":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", task.End.String())
+		res = __gong__marshallTime(ident, "End", task.End.String())
 	case "IsAllDay":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsAllDay")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsAllDay))
+		res = __gong__marshallBool(ident, "IsAllDay", task.IsAllDay)
 	case "IsMilestone":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsMilestone")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsMilestone))
+		res = __gong__marshallBool(ident, "IsMilestone", task.IsMilestone)
 	case "DependencyType":
-		if task.DependencyType.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyType")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+task.DependencyType.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyType")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "DependencyType", task.DependencyType.ToCodeString())
 	case "DependencyDurationYears":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyDurationYears")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DependencyDurationYears))
+		res = __gong__marshallFloat(ident, "DependencyDurationYears", task.DependencyDurationYears)
 	case "DependencyDurationMonths":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyDurationMonths")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DependencyDurationMonths))
+		res = __gong__marshallFloat(ident, "DependencyDurationMonths", task.DependencyDurationMonths)
 	case "DependencyDurationWeeks":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyDurationWeeks")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DependencyDurationWeeks))
+		res = __gong__marshallFloat(ident, "DependencyDurationWeeks", task.DependencyDurationWeeks)
 	case "DependencyDurationDays":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyDurationDays")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DependencyDurationDays))
+		res = __gong__marshallFloat(ident, "DependencyDurationDays", task.DependencyDurationDays)
 	case "DependencyDurationHours":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DependencyDurationHours")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DependencyDurationHours))
+		res = __gong__marshallFloat(ident, "DependencyDurationHours", task.DependencyDurationHours)
 	case "DurationYears":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DurationYears")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DurationYears))
+		res = __gong__marshallFloat(ident, "DurationYears", task.DurationYears)
 	case "DurationMonths":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DurationMonths")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DurationMonths))
+		res = __gong__marshallFloat(ident, "DurationMonths", task.DurationMonths)
 	case "DurationWeeks":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DurationWeeks")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DurationWeeks))
+		res = __gong__marshallFloat(ident, "DurationWeeks", task.DurationWeeks)
 	case "DurationDays":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DurationDays")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DurationDays))
+		res = __gong__marshallFloat(ident, "DurationDays", task.DurationDays)
 	case "DurationHours":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DurationHours")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.DurationHours))
+		res = __gong__marshallFloat(ident, "DurationHours", task.DurationHours)
 	case "IsEndDateComputedFromDuration":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEndDateComputedFromDuration")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsEndDateComputedFromDuration))
+		res = __gong__marshallBool(ident, "IsEndDateComputedFromDuration", task.IsEndDateComputedFromDuration)
 	case "IsWithCompletion":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithCompletion")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsWithCompletion))
+		res = __gong__marshallBool(ident, "IsWithCompletion", task.IsWithCompletion)
 	case "Completion":
-		if task.Completion.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Completion")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+task.Completion.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Completion")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "Completion", task.Completion.ToCodeString())
 	case "DisplayVerticalBar":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DisplayVerticalBar")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.DisplayVerticalBar))
+		res = __gong__marshallBool(ident, "DisplayVerticalBar", task.DisplayVerticalBar)
 	case "TextPosition":
-		if task.TextPosition.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextPosition")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+task.TextPosition.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextPosition")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "TextPosition", task.TextPosition.ToCodeString())
 	case "XOffset":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XOffset")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.XOffset))
+		res = __gong__marshallFloat(ident, "XOffset", task.XOffset)
 	case "YOffset":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "YOffset")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.YOffset))
+		res = __gong__marshallFloat(ident, "YOffset", task.YOffset)
 	case "IsImport":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsImport")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsImport))
+		res = __gong__marshallBool(ident, "IsImport", task.IsImport)
 	case "IsInputsNodeExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInputsNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsInputsNodeExpanded))
+		res = __gong__marshallBool(ident, "IsInputsNodeExpanded", task.IsInputsNodeExpanded)
 	case "IsOutputsNodeExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsOutputsNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsOutputsNodeExpanded))
+		res = __gong__marshallBool(ident, "IsOutputsNodeExpanded", task.IsOutputsNodeExpanded)
 	case "ComputedPrefix":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(task.ComputedPrefix))
+		res = __gong__marshallString(ident, "ComputedPrefix", task.ComputedPrefix)
 	case "IsExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsExpanded))
+		res = __gong__marshallBool(ident, "IsExpanded", task.IsExpanded)
 	case "LayoutDirection":
-		if task.LayoutDirection.ToCodeString() != "" {
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+task.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
+		res = __gong__marshallEnumInt(ident, "LayoutDirection", task.LayoutDirection.ToCodeString())
 
 	case "Predecessors":
 		var sb strings.Builder
 		for _, _task := range task.Predecessors {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", task.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Predecessors")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Predecessors", _task.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Inputs":
 		var sb strings.Builder
 		for _, _product := range task.Inputs {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", task.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Inputs")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _product.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Inputs", _product.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Outputs":
 		var sb strings.Builder
 		for _, _product := range task.Outputs {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", task.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Outputs")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _product.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Outputs", _product.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "SubTasks":
 		var sb strings.Builder
 		for _, _task := range task.SubTasks {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", task.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubTasks")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "SubTasks", _task.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "TaskGroupsToDisplay":
 		var sb strings.Builder
 		for _, _taskgroup := range task.TaskGroupsToDisplay {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", task.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskGroupsToDisplay")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskgroup.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "TaskGroupsToDisplay", _taskgroup.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "ReferencedTask":
 		if task.ReferencedTask != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ReferencedTask")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", task.ReferencedTask.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "ReferencedTask", task.ReferencedTask.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ReferencedTask")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "ReferencedTask", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Task", fieldName)
@@ -3286,72 +1353,29 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (taskcompositionshape *TaskCompositionShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := taskcompositionshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskcompositionshape.Name))
+		res = __gong__marshallString(ident, "Name", taskcompositionshape.Name)
 	case "StartRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskcompositionshape.StartRatio))
+		res = __gong__marshallFloat(ident, "StartRatio", taskcompositionshape.StartRatio)
 	case "EndRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskcompositionshape.EndRatio))
+		res = __gong__marshallFloat(ident, "EndRatio", taskcompositionshape.EndRatio)
 	case "StartOrientation":
-		if taskcompositionshape.StartOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+taskcompositionshape.StartOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "StartOrientation", taskcompositionshape.StartOrientation.ToCodeString())
 	case "EndOrientation":
-		if taskcompositionshape.EndOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+taskcompositionshape.EndOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "EndOrientation", taskcompositionshape.EndOrientation.ToCodeString())
 	case "CornerOffsetRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskcompositionshape.CornerOffsetRatio))
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", taskcompositionshape.CornerOffsetRatio)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskcompositionshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", taskcompositionshape.IsHidden)
 
 	case "Task":
 		if taskcompositionshape.Task != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", taskcompositionshape.Task.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Task", taskcompositionshape.Task.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Task", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TaskCompositionShape", fieldName)
@@ -3360,32 +1384,20 @@ func (taskcompositionshape *TaskCompositionShape) GongMarshallField(stage *Stage
 }
 
 func (taskgroup *TaskGroup) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := taskgroup.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskgroup.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskgroup.Name))
+		res = __gong__marshallString(ident, "Name", taskgroup.Name)
 	case "ComputedPrefix":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskgroup.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskgroup.ComputedPrefix))
+		res = __gong__marshallString(ident, "ComputedPrefix", taskgroup.ComputedPrefix)
 	case "IsExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskgroup.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskgroup.IsExpanded))
+		res = __gong__marshallBool(ident, "IsExpanded", taskgroup.IsExpanded)
 
 	case "Tasks":
 		var sb strings.Builder
 		for _, _task := range taskgroup.Tasks {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", taskgroup.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Tasks")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Tasks", _task.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -3395,51 +1407,27 @@ func (taskgroup *TaskGroup) GongMarshallField(stage *Stage, fieldName string) (r
 }
 
 func (taskgroupshape *TaskGroupShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := taskgroupshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskgroupshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskgroupshape.Name))
+		res = __gong__marshallString(ident, "Name", taskgroupshape.Name)
 	case "X":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskgroupshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskgroupshape.X))
+		res = __gong__marshallFloat(ident, "X", taskgroupshape.X)
 	case "Y":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskgroupshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskgroupshape.Y))
+		res = __gong__marshallFloat(ident, "Y", taskgroupshape.Y)
 	case "Width":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskgroupshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskgroupshape.Width))
+		res = __gong__marshallFloat(ident, "Width", taskgroupshape.Width)
 	case "Height":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskgroupshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskgroupshape.Height))
+		res = __gong__marshallFloat(ident, "Height", taskgroupshape.Height)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskgroupshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskgroupshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", taskgroupshape.IsHidden)
 
 	case "TaskGroup":
 		if taskgroupshape.TaskGroup != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskgroupshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TaskGroup")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", taskgroupshape.TaskGroup.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "TaskGroup", taskgroupshape.TaskGroup.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskgroupshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TaskGroup")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "TaskGroup", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TaskGroupShape", fieldName)
@@ -3448,85 +1436,35 @@ func (taskgroupshape *TaskGroupShape) GongMarshallField(stage *Stage, fieldName 
 }
 
 func (taskinputshape *TaskInputShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := taskinputshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskinputshape.Name))
+		res = __gong__marshallString(ident, "Name", taskinputshape.Name)
 	case "StartRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskinputshape.StartRatio))
+		res = __gong__marshallFloat(ident, "StartRatio", taskinputshape.StartRatio)
 	case "EndRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskinputshape.EndRatio))
+		res = __gong__marshallFloat(ident, "EndRatio", taskinputshape.EndRatio)
 	case "StartOrientation":
-		if taskinputshape.StartOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+taskinputshape.StartOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "StartOrientation", taskinputshape.StartOrientation.ToCodeString())
 	case "EndOrientation":
-		if taskinputshape.EndOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+taskinputshape.EndOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "EndOrientation", taskinputshape.EndOrientation.ToCodeString())
 	case "CornerOffsetRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskinputshape.CornerOffsetRatio))
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", taskinputshape.CornerOffsetRatio)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskinputshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", taskinputshape.IsHidden)
 
 	case "Product":
 		if taskinputshape.Product != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Product")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", taskinputshape.Product.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Product", taskinputshape.Product.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Product")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Product", "nil")
 		}
 	case "Task":
 		if taskinputshape.Task != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", taskinputshape.Task.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Task", taskinputshape.Task.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Task", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TaskInputShape", fieldName)
@@ -3535,85 +1473,35 @@ func (taskinputshape *TaskInputShape) GongMarshallField(stage *Stage, fieldName 
 }
 
 func (taskoutputshape *TaskOutputShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := taskoutputshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskoutputshape.Name))
+		res = __gong__marshallString(ident, "Name", taskoutputshape.Name)
 	case "StartRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskoutputshape.StartRatio))
+		res = __gong__marshallFloat(ident, "StartRatio", taskoutputshape.StartRatio)
 	case "EndRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskoutputshape.EndRatio))
+		res = __gong__marshallFloat(ident, "EndRatio", taskoutputshape.EndRatio)
 	case "StartOrientation":
-		if taskoutputshape.StartOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+taskoutputshape.StartOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "StartOrientation", taskoutputshape.StartOrientation.ToCodeString())
 	case "EndOrientation":
-		if taskoutputshape.EndOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+taskoutputshape.EndOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "EndOrientation", taskoutputshape.EndOrientation.ToCodeString())
 	case "CornerOffsetRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskoutputshape.CornerOffsetRatio))
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", taskoutputshape.CornerOffsetRatio)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskoutputshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", taskoutputshape.IsHidden)
 
 	case "Task":
 		if taskoutputshape.Task != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", taskoutputshape.Task.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Task", taskoutputshape.Task.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Task", "nil")
 		}
 	case "Product":
 		if taskoutputshape.Product != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Product")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", taskoutputshape.Product.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Product", taskoutputshape.Product.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Product")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Product", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TaskOutputShape", fieldName)
@@ -3622,85 +1510,35 @@ func (taskoutputshape *TaskOutputShape) GongMarshallField(stage *Stage, fieldNam
 }
 
 func (taskpredecessorshape *TaskPredecessorShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := taskpredecessorshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskpredecessorshape.Name))
+		res = __gong__marshallString(ident, "Name", taskpredecessorshape.Name)
 	case "StartRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskpredecessorshape.StartRatio))
+		res = __gong__marshallFloat(ident, "StartRatio", taskpredecessorshape.StartRatio)
 	case "EndRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskpredecessorshape.EndRatio))
+		res = __gong__marshallFloat(ident, "EndRatio", taskpredecessorshape.EndRatio)
 	case "StartOrientation":
-		if taskpredecessorshape.StartOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+taskpredecessorshape.StartOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "StartOrientation", taskpredecessorshape.StartOrientation.ToCodeString())
 	case "EndOrientation":
-		if taskpredecessorshape.EndOrientation.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+taskpredecessorshape.EndOrientation.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "EndOrientation", taskpredecessorshape.EndOrientation.ToCodeString())
 	case "CornerOffsetRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskpredecessorshape.CornerOffsetRatio))
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", taskpredecessorshape.CornerOffsetRatio)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskpredecessorshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", taskpredecessorshape.IsHidden)
 
 	case "Predecessor":
 		if taskpredecessorshape.Predecessor != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Predecessor")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", taskpredecessorshape.Predecessor.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Predecessor", taskpredecessorshape.Predecessor.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Predecessor")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Predecessor", "nil")
 		}
 	case "Task":
 		if taskpredecessorshape.Task != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", taskpredecessorshape.Task.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Task", taskpredecessorshape.Task.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Task", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TaskPredecessorShape", fieldName)
@@ -3709,79 +1547,35 @@ func (taskpredecessorshape *TaskPredecessorShape) GongMarshallField(stage *Stage
 }
 
 func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := taskshape.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(taskshape.Name))
+		res = __gong__marshallString(ident, "Name", taskshape.Name)
 	case "IsShowDate":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsShowDate")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskshape.IsShowDate))
+		res = __gong__marshallBool(ident, "IsShowDate", taskshape.IsShowDate)
 	case "VerticalOffset":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "VerticalOffset")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskshape.VerticalOffset))
+		res = __gong__marshallFloat(ident, "VerticalOffset", taskshape.VerticalOffset)
 	case "OverideLayoutDirection":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OverideLayoutDirection")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskshape.OverideLayoutDirection))
+		res = __gong__marshallBool(ident, "OverideLayoutDirection", taskshape.OverideLayoutDirection)
 	case "LayoutDirection":
-		if taskshape.LayoutDirection.ToCodeString() != "" {
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+taskshape.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
+		res = __gong__marshallEnumInt(ident, "LayoutDirection", taskshape.LayoutDirection.ToCodeString())
 	case "X":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskshape.X))
+		res = __gong__marshallFloat(ident, "X", taskshape.X)
 	case "Y":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskshape.Y))
+		res = __gong__marshallFloat(ident, "Y", taskshape.Y)
 	case "Width":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskshape.Width))
+		res = __gong__marshallFloat(ident, "Width", taskshape.Width)
 	case "Height":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskshape.Height))
+		res = __gong__marshallFloat(ident, "Height", taskshape.Height)
 	case "IsHidden":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskshape.IsHidden))
+		res = __gong__marshallBool(ident, "IsHidden", taskshape.IsHidden)
 
 	case "Task":
 		if taskshape.Task != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", taskshape.Task.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Task", taskshape.Task.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Task", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TaskShape", fieldName)

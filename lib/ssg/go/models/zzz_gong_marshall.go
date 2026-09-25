@@ -90,6 +90,107 @@ func __gong__toRawStringLiteral(s string) string {
 	return result
 }
 
+func __gong__marshallString[T ~string](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongStringInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string(val)))
+}
+
+func __gong__marshallInt[T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", val))
+}
+
+func __gong__marshallBool[T ~bool](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", val))
+}
+
+func __gong__marshallFloat[T ~float32 | ~float64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", val))
+}
+
+func __gong__marshallTime(ident, fieldName, valStr string) string {
+	res := strings.ReplaceAll(GongTimeInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", valStr)
+}
+
+func __gong__marshallPointer(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongPointerFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallSliceOfPointers(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongSliceOfPointersFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallEnumString(ident, fieldName, codeStr string) string {
+	val := "\"\""
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongStringEnumInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallEnumInt(ident, fieldName, codeStr string) string {
+	val := "0"
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallMeta(ident, fieldName, val string) string {
+	res := strings.ReplaceAll(GongMetaFieldStructInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+type GongstructMarshallable interface {
+	GongstructPtr
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+}
+
+func gongMarshallInstances[T GongstructMarshallable](
+	stage *Stage,
+	instances map[T]struct{},
+	identifiersDecl *strings.Builder,
+	initializerStatements *strings.Builder,
+	pointersInitializesStatements *strings.Builder,
+) {
+	if len(instances) == 0 {
+		return
+	}
+	ordered := make([]T, 0, len(instances))
+	for instance := range instances {
+		ordered = append(ordered, instance)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i].GongGetOrder(stage) < ordered[j].GongGetOrder(stage)
+	})
+	identifiersDecl.WriteString("\n")
+	for _, instance := range ordered {
+		identifiersDecl.WriteString(instance.GongMarshallIdentifier(stage))
+		initRes, ptrRes := instance.GongMarshallAllFields(stage)
+		initializerStatements.WriteString("\n" + initRes)
+		pointersInitializesStatements.WriteString(ptrRes)
+	}
+}
+
+
 // MarshallFile marshall the stage content into a file as an instanciation into a stage
 // according to the marshalling policy of the stage.
 //
@@ -270,319 +371,19 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{GoModuleVersionWithoutDirty}}", goModuleVersionWithoutDirty)
 
 	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
 	var identifiersDecl strings.Builder
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 
-	decl := ""
-	_ = decl
-	setValueField := ""
-	_ = setValueField
-
 	// insertion initialization of objects to stage
-	chapterOrdered := []*Chapter{}
-	for chapter := range stage.Chapters {
-		chapterOrdered = append(chapterOrdered, chapter)
-	}
-	sort.Slice(chapterOrdered[:], func(i, j int) bool {
-		chapteri := chapterOrdered[i]
-		chapterj := chapterOrdered[j]
-		chapteri_order, oki := stage.Chapter_stagedOrder[chapteri]
-		chapterj_order, okj := stage.Chapter_stagedOrder[chapterj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return chapteri_order < chapterj_order
-	})
-	if len(chapterOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, chapter := range chapterOrdered {
-
-		identifiersDecl.WriteString(chapter.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(chapter.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(chapter.GongMarshallField(stage, "MardownContent"))
-		pointersInitializesStatements.WriteString(chapter.GongMarshallField(stage, "Sections"))
-		pointersInitializesStatements.WriteString(chapter.GongMarshallField(stage, "Pages"))
-		pointersInitializesStatements.WriteString(chapter.GongMarshallField(stage, "SubChapters"))
-	}
-
-	contentOrdered := []*Content{}
-	for content := range stage.Contents {
-		contentOrdered = append(contentOrdered, content)
-	}
-	sort.Slice(contentOrdered[:], func(i, j int) bool {
-		contenti := contentOrdered[i]
-		contentj := contentOrdered[j]
-		contenti_order, oki := stage.Content_stagedOrder[contenti]
-		contentj_order, okj := stage.Content_stagedOrder[contentj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return contenti_order < contentj_order
-	})
-	if len(contentOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, content := range contentOrdered {
-
-		identifiersDecl.WriteString(content.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(content.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(content.GongMarshallField(stage, "MardownContent"))
-		initializerStatements.WriteString(content.GongMarshallField(stage, "ContentPath"))
-		initializerStatements.WriteString(content.GongMarshallField(stage, "OutputPath"))
-		initializerStatements.WriteString(content.GongMarshallField(stage, "StaticPath"))
-		initializerStatements.WriteString(content.GongMarshallField(stage, "LogoSVGFile"))
-		initializerStatements.WriteString(content.GongMarshallField(stage, "IsBespokeLogoFileName"))
-		initializerStatements.WriteString(content.GongMarshallField(stage, "BespokeLogoFileName"))
-		initializerStatements.WriteString(content.GongMarshallField(stage, "IsBespokePageTileLogoFileName"))
-		initializerStatements.WriteString(content.GongMarshallField(stage, "BespokePageTileLogoFileName"))
-		initializerStatements.WriteString(content.GongMarshallField(stage, "Target"))
-		pointersInitializesStatements.WriteString(content.GongMarshallField(stage, "Chapters"))
-		initializerStatements.WriteString(content.GongMarshallField(stage, "VersionInfo"))
-	}
-
-	downloadablefileOrdered := []*DownloadableFile{}
-	for downloadablefile := range stage.DownloadableFiles {
-		downloadablefileOrdered = append(downloadablefileOrdered, downloadablefile)
-	}
-	sort.Slice(downloadablefileOrdered[:], func(i, j int) bool {
-		downloadablefilei := downloadablefileOrdered[i]
-		downloadablefilej := downloadablefileOrdered[j]
-		downloadablefilei_order, oki := stage.DownloadableFile_stagedOrder[downloadablefilei]
-		downloadablefilej_order, okj := stage.DownloadableFile_stagedOrder[downloadablefilej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return downloadablefilei_order < downloadablefilej_order
-	})
-	if len(downloadablefileOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, downloadablefile := range downloadablefileOrdered {
-
-		identifiersDecl.WriteString(downloadablefile.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(downloadablefile.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(downloadablefile.GongMarshallField(stage, "Base64Content"))
-	}
-
-	jpgimageOrdered := []*JpgImage{}
-	for jpgimage := range stage.JpgImages {
-		jpgimageOrdered = append(jpgimageOrdered, jpgimage)
-	}
-	sort.Slice(jpgimageOrdered[:], func(i, j int) bool {
-		jpgimagei := jpgimageOrdered[i]
-		jpgimagej := jpgimageOrdered[j]
-		jpgimagei_order, oki := stage.JpgImage_stagedOrder[jpgimagei]
-		jpgimagej_order, okj := stage.JpgImage_stagedOrder[jpgimagej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return jpgimagei_order < jpgimagej_order
-	})
-	if len(jpgimageOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, jpgimage := range jpgimageOrdered {
-
-		identifiersDecl.WriteString(jpgimage.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(jpgimage.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(jpgimage.GongMarshallField(stage, "Base64Content"))
-	}
-
-	pageOrdered := []*Page{}
-	for page := range stage.Pages {
-		pageOrdered = append(pageOrdered, page)
-	}
-	sort.Slice(pageOrdered[:], func(i, j int) bool {
-		pagei := pageOrdered[i]
-		pagej := pageOrdered[j]
-		pagei_order, oki := stage.Page_stagedOrder[pagei]
-		pagej_order, okj := stage.Page_stagedOrder[pagej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return pagei_order < pagej_order
-	})
-	if len(pageOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, page := range pageOrdered {
-
-		identifiersDecl.WriteString(page.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(page.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(page.GongMarshallField(stage, "MardownContent"))
-		pointersInitializesStatements.WriteString(page.GongMarshallField(stage, "Sections"))
-	}
-
-	pngimageOrdered := []*PngImage{}
-	for pngimage := range stage.PngImages {
-		pngimageOrdered = append(pngimageOrdered, pngimage)
-	}
-	sort.Slice(pngimageOrdered[:], func(i, j int) bool {
-		pngimagei := pngimageOrdered[i]
-		pngimagej := pngimageOrdered[j]
-		pngimagei_order, oki := stage.PngImage_stagedOrder[pngimagei]
-		pngimagej_order, okj := stage.PngImage_stagedOrder[pngimagej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return pngimagei_order < pngimagej_order
-	})
-	if len(pngimageOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, pngimage := range pngimageOrdered {
-
-		identifiersDecl.WriteString(pngimage.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(pngimage.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(pngimage.GongMarshallField(stage, "Base64Content"))
-	}
-
-	sectionOrdered := []*Section{}
-	for section := range stage.Sections {
-		sectionOrdered = append(sectionOrdered, section)
-	}
-	sort.Slice(sectionOrdered[:], func(i, j int) bool {
-		sectioni := sectionOrdered[i]
-		sectionj := sectionOrdered[j]
-		sectioni_order, oki := stage.Section_stagedOrder[sectioni]
-		sectionj_order, okj := stage.Section_stagedOrder[sectionj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return sectioni_order < sectionj_order
-	})
-	if len(sectionOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, section := range sectionOrdered {
-
-		identifiersDecl.WriteString(section.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(section.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(section.GongMarshallField(stage, "MardownContent"))
-		initializerStatements.WriteString(section.GongMarshallField(stage, "IsImage"))
-		pointersInitializesStatements.WriteString(section.GongMarshallField(stage, "SvgImage"))
-		pointersInitializesStatements.WriteString(section.GongMarshallField(stage, "PngImage"))
-		pointersInitializesStatements.WriteString(section.GongMarshallField(stage, "JpgImage"))
-		initializerStatements.WriteString(section.GongMarshallField(stage, "IsDownloadableFile"))
-		pointersInitializesStatements.WriteString(section.GongMarshallField(stage, "DownloadableFile"))
-	}
-
-	svgimageOrdered := []*SvgImage{}
-	for svgimage := range stage.SvgImages {
-		svgimageOrdered = append(svgimageOrdered, svgimage)
-	}
-	sort.Slice(svgimageOrdered[:], func(i, j int) bool {
-		svgimagei := svgimageOrdered[i]
-		svgimagej := svgimageOrdered[j]
-		svgimagei_order, oki := stage.SvgImage_stagedOrder[svgimagei]
-		svgimagej_order, okj := stage.SvgImage_stagedOrder[svgimagej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return svgimagei_order < svgimagej_order
-	})
-	if len(svgimageOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, svgimage := range svgimageOrdered {
-
-		identifiersDecl.WriteString(svgimage.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(svgimage.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(svgimage.GongMarshallField(stage, "Content"))
-	}
-
-	// insertion initialization of objects to stage
-	for _, chapter := range chapterOrdered {
-		_ = chapter
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, content := range contentOrdered {
-		_ = content
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, downloadablefile := range downloadablefileOrdered {
-		_ = downloadablefile
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, jpgimage := range jpgimageOrdered {
-		_ = jpgimage
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, page := range pageOrdered {
-		_ = page
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, pngimage := range pngimageOrdered {
-		_ = pngimage
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, section := range sectionOrdered {
-		_ = section
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, svgimage := range svgimageOrdered {
-		_ = svgimage
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
+	gongMarshallInstances(stage, stage.Chapters, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Contents, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.DownloadableFiles, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.JpgImages, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Pages, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.PngImages, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Sections, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.SvgImages, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
@@ -653,47 +454,30 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (chapter *Chapter) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := chapter.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", chapter.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(chapter.Name))
+		res = __gong__marshallString(ident, "Name", chapter.Name)
 	case "MardownContent":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", chapter.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MardownContent")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(chapter.MardownContent))
+		res = __gong__marshallString(ident, "MardownContent", chapter.MardownContent)
 
 	case "Sections":
 		var sb strings.Builder
 		for _, _section := range chapter.Sections {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", chapter.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Sections")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _section.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Sections", _section.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Pages":
 		var sb strings.Builder
 		for _, _page := range chapter.Pages {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", chapter.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Pages")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _page.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Pages", _page.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "SubChapters":
 		var sb strings.Builder
 		for _, _chapter := range chapter.SubChapters {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", chapter.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubChapters")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _chapter.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "SubChapters", _chapter.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -703,85 +487,38 @@ func (chapter *Chapter) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := content.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(content.Name))
+		res = __gong__marshallString(ident, "Name", content.Name)
 	case "MardownContent":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MardownContent")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(content.MardownContent))
+		res = __gong__marshallString(ident, "MardownContent", content.MardownContent)
 	case "ContentPath":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ContentPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(content.ContentPath))
+		res = __gong__marshallString(ident, "ContentPath", content.ContentPath)
 	case "OutputPath":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OutputPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(content.OutputPath))
+		res = __gong__marshallString(ident, "OutputPath", content.OutputPath)
 	case "StaticPath":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StaticPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(content.StaticPath))
+		res = __gong__marshallString(ident, "StaticPath", content.StaticPath)
 	case "LogoSVGFile":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LogoSVGFile")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(content.LogoSVGFile))
+		res = __gong__marshallString(ident, "LogoSVGFile", content.LogoSVGFile)
 	case "IsBespokeLogoFileName":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsBespokeLogoFileName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", content.IsBespokeLogoFileName))
+		res = __gong__marshallBool(ident, "IsBespokeLogoFileName", content.IsBespokeLogoFileName)
 	case "BespokeLogoFileName":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokeLogoFileName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(content.BespokeLogoFileName))
+		res = __gong__marshallString(ident, "BespokeLogoFileName", content.BespokeLogoFileName)
 	case "IsBespokePageTileLogoFileName":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsBespokePageTileLogoFileName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", content.IsBespokePageTileLogoFileName))
+		res = __gong__marshallBool(ident, "IsBespokePageTileLogoFileName", content.IsBespokePageTileLogoFileName)
 	case "BespokePageTileLogoFileName":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokePageTileLogoFileName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(content.BespokePageTileLogoFileName))
+		res = __gong__marshallString(ident, "BespokePageTileLogoFileName", content.BespokePageTileLogoFileName)
 	case "Target":
-		if content.Target.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Target")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+content.Target.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Target")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "Target", content.Target.ToCodeString())
 	case "VersionInfo":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "VersionInfo")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(content.VersionInfo))
+		res = __gong__marshallString(ident, "VersionInfo", content.VersionInfo)
 
 	case "Chapters":
 		var sb strings.Builder
 		for _, _chapter := range content.Chapters {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", content.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Chapters")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _chapter.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Chapters", _chapter.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -791,18 +528,13 @@ func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (downloadablefile *DownloadableFile) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := downloadablefile.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", downloadablefile.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(downloadablefile.Name))
+		res = __gong__marshallString(ident, "Name", downloadablefile.Name)
 	case "Base64Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", downloadablefile.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(downloadablefile.Base64Content))
+		res = __gong__marshallString(ident, "Base64Content", downloadablefile.Base64Content)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DownloadableFile", fieldName)
@@ -811,18 +543,13 @@ func (downloadablefile *DownloadableFile) GongMarshallField(stage *Stage, fieldN
 }
 
 func (jpgimage *JpgImage) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := jpgimage.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(jpgimage.Name))
+		res = __gong__marshallString(ident, "Name", jpgimage.Name)
 	case "Base64Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(jpgimage.Base64Content))
+		res = __gong__marshallString(ident, "Base64Content", jpgimage.Base64Content)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct JpgImage", fieldName)
@@ -831,27 +558,18 @@ func (jpgimage *JpgImage) GongMarshallField(stage *Stage, fieldName string) (res
 }
 
 func (page *Page) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := page.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", page.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(page.Name))
+		res = __gong__marshallString(ident, "Name", page.Name)
 	case "MardownContent":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", page.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MardownContent")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(page.MardownContent))
+		res = __gong__marshallString(ident, "MardownContent", page.MardownContent)
 
 	case "Sections":
 		var sb strings.Builder
 		for _, _section := range page.Sections {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", page.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Sections")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _section.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Sections", _section.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -861,18 +579,13 @@ func (page *Page) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (pngimage *PngImage) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := pngimage.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pngimage.Name))
+		res = __gong__marshallString(ident, "Name", pngimage.Name)
 	case "Base64Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(pngimage.Base64Content))
+		res = __gong__marshallString(ident, "Base64Content", pngimage.Base64Content)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PngImage", fieldName)
@@ -881,80 +594,41 @@ func (pngimage *PngImage) GongMarshallField(stage *Stage, fieldName string) (res
 }
 
 func (section *Section) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := section.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(section.Name))
+		res = __gong__marshallString(ident, "Name", section.Name)
 	case "MardownContent":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MardownContent")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(section.MardownContent))
+		res = __gong__marshallString(ident, "MardownContent", section.MardownContent)
 	case "IsImage":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsImage")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", section.IsImage))
+		res = __gong__marshallBool(ident, "IsImage", section.IsImage)
 	case "IsDownloadableFile":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDownloadableFile")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", section.IsDownloadableFile))
+		res = __gong__marshallBool(ident, "IsDownloadableFile", section.IsDownloadableFile)
 
 	case "SvgImage":
 		if section.SvgImage != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SvgImage")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", section.SvgImage.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "SvgImage", section.SvgImage.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SvgImage")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "SvgImage", "nil")
 		}
 	case "PngImage":
 		if section.PngImage != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PngImage")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", section.PngImage.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "PngImage", section.PngImage.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PngImage")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "PngImage", "nil")
 		}
 	case "JpgImage":
 		if section.JpgImage != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "JpgImage")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", section.JpgImage.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "JpgImage", section.JpgImage.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "JpgImage")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "JpgImage", "nil")
 		}
 	case "DownloadableFile":
 		if section.DownloadableFile != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DownloadableFile")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", section.DownloadableFile.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "DownloadableFile", section.DownloadableFile.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DownloadableFile")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "DownloadableFile", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Section", fieldName)
@@ -963,18 +637,13 @@ func (section *Section) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (svgimage *SvgImage) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := svgimage.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svgimage.Name))
+		res = __gong__marshallString(ident, "Name", svgimage.Name)
 	case "Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(svgimage.Content))
+		res = __gong__marshallString(ident, "Content", svgimage.Content)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SvgImage", fieldName)

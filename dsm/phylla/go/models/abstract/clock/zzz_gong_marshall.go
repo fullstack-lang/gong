@@ -90,6 +90,107 @@ func __gong__toRawStringLiteral(s string) string {
 	return result
 }
 
+func __gong__marshallString[T ~string](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongStringInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string(val)))
+}
+
+func __gong__marshallInt[T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", val))
+}
+
+func __gong__marshallBool[T ~bool](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", val))
+}
+
+func __gong__marshallFloat[T ~float32 | ~float64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", val))
+}
+
+func __gong__marshallTime(ident, fieldName, valStr string) string {
+	res := strings.ReplaceAll(GongTimeInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", valStr)
+}
+
+func __gong__marshallPointer(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongPointerFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallSliceOfPointers(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongSliceOfPointersFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallEnumString(ident, fieldName, codeStr string) string {
+	val := "\"\""
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongStringEnumInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallEnumInt(ident, fieldName, codeStr string) string {
+	val := "0"
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallMeta(ident, fieldName, val string) string {
+	res := strings.ReplaceAll(GongMetaFieldStructInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+type GongstructMarshallable interface {
+	GongstructPtr
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+}
+
+func gongMarshallInstances[T GongstructMarshallable](
+	stage *Stage,
+	instances map[T]struct{},
+	identifiersDecl *strings.Builder,
+	initializerStatements *strings.Builder,
+	pointersInitializesStatements *strings.Builder,
+) {
+	if len(instances) == 0 {
+		return
+	}
+	ordered := make([]T, 0, len(instances))
+	for instance := range instances {
+		ordered = append(ordered, instance)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i].GongGetOrder(stage) < ordered[j].GongGetOrder(stage)
+	})
+	identifiersDecl.WriteString("\n")
+	for _, instance := range ordered {
+		identifiersDecl.WriteString(instance.GongMarshallIdentifier(stage))
+		initRes, ptrRes := instance.GongMarshallAllFields(stage)
+		initializerStatements.WriteString("\n" + initRes)
+		pointersInitializesStatements.WriteString(ptrRes)
+	}
+}
+
+
 // MarshallFile marshall the stage content into a file as an instanciation into a stage
 // according to the marshalling policy of the stage.
 //
@@ -270,59 +371,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{GoModuleVersionWithoutDirty}}", goModuleVersionWithoutDirty)
 
 	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
 	var identifiersDecl strings.Builder
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 
-	decl := ""
-	_ = decl
-	setValueField := ""
-	_ = setValueField
-
 	// insertion initialization of objects to stage
-	clockabstractOrdered := []*ClockAbstract{}
-	for clockabstract := range stage.ClockAbstracts {
-		clockabstractOrdered = append(clockabstractOrdered, clockabstract)
-	}
-	sort.Slice(clockabstractOrdered[:], func(i, j int) bool {
-		clockabstracti := clockabstractOrdered[i]
-		clockabstractj := clockabstractOrdered[j]
-		clockabstracti_order, oki := stage.ClockAbstract_stagedOrder[clockabstracti]
-		clockabstractj_order, okj := stage.ClockAbstract_stagedOrder[clockabstractj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return clockabstracti_order < clockabstractj_order
-	})
-	if len(clockabstractOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, clockabstract := range clockabstractOrdered {
-
-		identifiersDecl.WriteString(clockabstract.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RadialRepetitions"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "Transparency"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeHeight3DTorus"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "ClockTorusVerticalScale"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeHeight"))
-		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "ProjectionAngle"))
-	}
-
-	// insertion initialization of objects to stage
-	for _, clockabstract := range clockabstractOrdered {
-		_ = clockabstract
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
+	gongMarshallInstances(stage, stage.ClockAbstracts, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
@@ -393,48 +447,25 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (clockabstract *ClockAbstract) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := clockabstract.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(clockabstract.Name))
+		res = __gong__marshallString(ident, "Name", clockabstract.Name)
 	case "RadialRepetitions":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadialRepetitions")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", clockabstract.RadialRepetitions))
+		res = __gong__marshallInt(ident, "RadialRepetitions", clockabstract.RadialRepetitions)
 	case "Transparency":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transparency")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.Transparency))
+		res = __gong__marshallFloat(ident, "Transparency", clockabstract.Transparency)
 	case "RelativeTubeDiameter":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeTubeDiameter")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.RelativeTubeDiameter))
+		res = __gong__marshallFloat(ident, "RelativeTubeDiameter", clockabstract.RelativeTubeDiameter)
 	case "RelativeHeight3DTorus":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeHeight3DTorus")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.RelativeHeight3DTorus))
+		res = __gong__marshallFloat(ident, "RelativeHeight3DTorus", clockabstract.RelativeHeight3DTorus)
 	case "ClockTorusVerticalScale":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClockTorusVerticalScale")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.ClockTorusVerticalScale))
+		res = __gong__marshallFloat(ident, "ClockTorusVerticalScale", clockabstract.ClockTorusVerticalScale)
 	case "RelativeHeight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.RelativeHeight))
+		res = __gong__marshallFloat(ident, "RelativeHeight", clockabstract.RelativeHeight)
 	case "ProjectionAngle":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ProjectionAngle")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.ProjectionAngle))
+		res = __gong__marshallFloat(ident, "ProjectionAngle", clockabstract.ProjectionAngle)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ClockAbstract", fieldName)

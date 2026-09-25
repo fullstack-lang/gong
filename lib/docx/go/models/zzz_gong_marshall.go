@@ -90,6 +90,107 @@ func __gong__toRawStringLiteral(s string) string {
 	return result
 }
 
+func __gong__marshallString[T ~string](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongStringInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string(val)))
+}
+
+func __gong__marshallInt[T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", val))
+}
+
+func __gong__marshallBool[T ~bool](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", val))
+}
+
+func __gong__marshallFloat[T ~float32 | ~float64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", val))
+}
+
+func __gong__marshallTime(ident, fieldName, valStr string) string {
+	res := strings.ReplaceAll(GongTimeInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", valStr)
+}
+
+func __gong__marshallPointer(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongPointerFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallSliceOfPointers(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongSliceOfPointersFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallEnumString(ident, fieldName, codeStr string) string {
+	val := "\"\""
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongStringEnumInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallEnumInt(ident, fieldName, codeStr string) string {
+	val := "0"
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallMeta(ident, fieldName, val string) string {
+	res := strings.ReplaceAll(GongMetaFieldStructInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+type GongstructMarshallable interface {
+	GongstructPtr
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+}
+
+func gongMarshallInstances[T GongstructMarshallable](
+	stage *Stage,
+	instances map[T]struct{},
+	identifiersDecl *strings.Builder,
+	initializerStatements *strings.Builder,
+	pointersInitializesStatements *strings.Builder,
+) {
+	if len(instances) == 0 {
+		return
+	}
+	ordered := make([]T, 0, len(instances))
+	for instance := range instances {
+		ordered = append(ordered, instance)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i].GongGetOrder(stage) < ordered[j].GongGetOrder(stage)
+	})
+	identifiersDecl.WriteString("\n")
+	for _, instance := range ordered {
+		identifiersDecl.WriteString(instance.GongMarshallIdentifier(stage))
+		initRes, ptrRes := instance.GongMarshallAllFields(stage)
+		initializerStatements.WriteString("\n" + initRes)
+		pointersInitializesStatements.WriteString(ptrRes)
+	}
+}
+
+
 // MarshallFile marshall the stage content into a file as an instanciation into a stage
 // according to the marshalling policy of the stage.
 //
@@ -270,616 +371,27 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{GoModuleVersionWithoutDirty}}", goModuleVersionWithoutDirty)
 
 	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
 	var identifiersDecl strings.Builder
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 
-	decl := ""
-	_ = decl
-	setValueField := ""
-	_ = setValueField
-
 	// insertion initialization of objects to stage
-	bodyOrdered := []*Body{}
-	for body := range stage.Bodys {
-		bodyOrdered = append(bodyOrdered, body)
-	}
-	sort.Slice(bodyOrdered[:], func(i, j int) bool {
-		bodyi := bodyOrdered[i]
-		bodyj := bodyOrdered[j]
-		bodyi_order, oki := stage.Body_stagedOrder[bodyi]
-		bodyj_order, okj := stage.Body_stagedOrder[bodyj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return bodyi_order < bodyj_order
-	})
-	if len(bodyOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, body := range bodyOrdered {
-
-		identifiersDecl.WriteString(body.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(body.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(body.GongMarshallField(stage, "Paragraphs"))
-		pointersInitializesStatements.WriteString(body.GongMarshallField(stage, "Tables"))
-		pointersInitializesStatements.WriteString(body.GongMarshallField(stage, "LastParagraph"))
-	}
-
-	documentOrdered := []*Document{}
-	for document := range stage.Documents {
-		documentOrdered = append(documentOrdered, document)
-	}
-	sort.Slice(documentOrdered[:], func(i, j int) bool {
-		documenti := documentOrdered[i]
-		documentj := documentOrdered[j]
-		documenti_order, oki := stage.Document_stagedOrder[documenti]
-		documentj_order, okj := stage.Document_stagedOrder[documentj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return documenti_order < documentj_order
-	})
-	if len(documentOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, document := range documentOrdered {
-
-		identifiersDecl.WriteString(document.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(document.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(document.GongMarshallField(stage, "File"))
-		pointersInitializesStatements.WriteString(document.GongMarshallField(stage, "Root"))
-		pointersInitializesStatements.WriteString(document.GongMarshallField(stage, "Body"))
-	}
-
-	docxOrdered := []*Docx{}
-	for docx := range stage.Docxs {
-		docxOrdered = append(docxOrdered, docx)
-	}
-	sort.Slice(docxOrdered[:], func(i, j int) bool {
-		docxi := docxOrdered[i]
-		docxj := docxOrdered[j]
-		docxi_order, oki := stage.Docx_stagedOrder[docxi]
-		docxj_order, okj := stage.Docx_stagedOrder[docxj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return docxi_order < docxj_order
-	})
-	if len(docxOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, docx := range docxOrdered {
-
-		identifiersDecl.WriteString(docx.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(docx.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(docx.GongMarshallField(stage, "Files"))
-		pointersInitializesStatements.WriteString(docx.GongMarshallField(stage, "Document"))
-	}
-
-	fileOrdered := []*File{}
-	for file := range stage.Files {
-		fileOrdered = append(fileOrdered, file)
-	}
-	sort.Slice(fileOrdered[:], func(i, j int) bool {
-		filei := fileOrdered[i]
-		filej := fileOrdered[j]
-		filei_order, oki := stage.File_stagedOrder[filei]
-		filej_order, okj := stage.File_stagedOrder[filej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return filei_order < filej_order
-	})
-	if len(fileOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, file := range fileOrdered {
-
-		identifiersDecl.WriteString(file.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(file.GongMarshallField(stage, "Name"))
-	}
-
-	nodeOrdered := []*Node{}
-	for node := range stage.Nodes {
-		nodeOrdered = append(nodeOrdered, node)
-	}
-	sort.Slice(nodeOrdered[:], func(i, j int) bool {
-		nodei := nodeOrdered[i]
-		nodej := nodeOrdered[j]
-		nodei_order, oki := stage.Node_stagedOrder[nodei]
-		nodej_order, okj := stage.Node_stagedOrder[nodej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return nodei_order < nodej_order
-	})
-	if len(nodeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, node := range nodeOrdered {
-
-		identifiersDecl.WriteString(node.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(node.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "Nodes"))
-	}
-
-	paragraphOrdered := []*Paragraph{}
-	for paragraph := range stage.Paragraphs {
-		paragraphOrdered = append(paragraphOrdered, paragraph)
-	}
-	sort.Slice(paragraphOrdered[:], func(i, j int) bool {
-		paragraphi := paragraphOrdered[i]
-		paragraphj := paragraphOrdered[j]
-		paragraphi_order, oki := stage.Paragraph_stagedOrder[paragraphi]
-		paragraphj_order, okj := stage.Paragraph_stagedOrder[paragraphj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return paragraphi_order < paragraphj_order
-	})
-	if len(paragraphOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, paragraph := range paragraphOrdered {
-
-		identifiersDecl.WriteString(paragraph.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(paragraph.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(paragraph.GongMarshallField(stage, "Content"))
-		pointersInitializesStatements.WriteString(paragraph.GongMarshallField(stage, "Node"))
-		pointersInitializesStatements.WriteString(paragraph.GongMarshallField(stage, "ParagraphProperties"))
-		pointersInitializesStatements.WriteString(paragraph.GongMarshallField(stage, "Runes"))
-		initializerStatements.WriteString(paragraph.GongMarshallField(stage, "CollatedText"))
-		pointersInitializesStatements.WriteString(paragraph.GongMarshallField(stage, "Next"))
-		pointersInitializesStatements.WriteString(paragraph.GongMarshallField(stage, "Previous"))
-		pointersInitializesStatements.WriteString(paragraph.GongMarshallField(stage, "EnclosingBody"))
-		pointersInitializesStatements.WriteString(paragraph.GongMarshallField(stage, "EnclosingTableColumn"))
-	}
-
-	paragraphpropertiesOrdered := []*ParagraphProperties{}
-	for paragraphproperties := range stage.ParagraphPropertiess {
-		paragraphpropertiesOrdered = append(paragraphpropertiesOrdered, paragraphproperties)
-	}
-	sort.Slice(paragraphpropertiesOrdered[:], func(i, j int) bool {
-		paragraphpropertiesi := paragraphpropertiesOrdered[i]
-		paragraphpropertiesj := paragraphpropertiesOrdered[j]
-		paragraphpropertiesi_order, oki := stage.ParagraphProperties_stagedOrder[paragraphpropertiesi]
-		paragraphpropertiesj_order, okj := stage.ParagraphProperties_stagedOrder[paragraphpropertiesj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return paragraphpropertiesi_order < paragraphpropertiesj_order
-	})
-	if len(paragraphpropertiesOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, paragraphproperties := range paragraphpropertiesOrdered {
-
-		identifiersDecl.WriteString(paragraphproperties.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(paragraphproperties.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(paragraphproperties.GongMarshallField(stage, "Content"))
-		pointersInitializesStatements.WriteString(paragraphproperties.GongMarshallField(stage, "ParagraphStyle"))
-		pointersInitializesStatements.WriteString(paragraphproperties.GongMarshallField(stage, "Node"))
-	}
-
-	paragraphstyleOrdered := []*ParagraphStyle{}
-	for paragraphstyle := range stage.ParagraphStyles {
-		paragraphstyleOrdered = append(paragraphstyleOrdered, paragraphstyle)
-	}
-	sort.Slice(paragraphstyleOrdered[:], func(i, j int) bool {
-		paragraphstylei := paragraphstyleOrdered[i]
-		paragraphstylej := paragraphstyleOrdered[j]
-		paragraphstylei_order, oki := stage.ParagraphStyle_stagedOrder[paragraphstylei]
-		paragraphstylej_order, okj := stage.ParagraphStyle_stagedOrder[paragraphstylej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return paragraphstylei_order < paragraphstylej_order
-	})
-	if len(paragraphstyleOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, paragraphstyle := range paragraphstyleOrdered {
-
-		identifiersDecl.WriteString(paragraphstyle.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(paragraphstyle.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(paragraphstyle.GongMarshallField(stage, "Node"))
-		initializerStatements.WriteString(paragraphstyle.GongMarshallField(stage, "Content"))
-		initializerStatements.WriteString(paragraphstyle.GongMarshallField(stage, "ValAttr"))
-	}
-
-	runeOrdered := []*Rune{}
-	for rune := range stage.Runes {
-		runeOrdered = append(runeOrdered, rune)
-	}
-	sort.Slice(runeOrdered[:], func(i, j int) bool {
-		runei := runeOrdered[i]
-		runej := runeOrdered[j]
-		runei_order, oki := stage.Rune_stagedOrder[runei]
-		runej_order, okj := stage.Rune_stagedOrder[runej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return runei_order < runej_order
-	})
-	if len(runeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, rune := range runeOrdered {
-
-		identifiersDecl.WriteString(rune.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(rune.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(rune.GongMarshallField(stage, "Content"))
-		pointersInitializesStatements.WriteString(rune.GongMarshallField(stage, "Node"))
-		pointersInitializesStatements.WriteString(rune.GongMarshallField(stage, "Text"))
-		pointersInitializesStatements.WriteString(rune.GongMarshallField(stage, "RuneProperties"))
-		pointersInitializesStatements.WriteString(rune.GongMarshallField(stage, "EnclosingParagraph"))
-	}
-
-	runepropertiesOrdered := []*RuneProperties{}
-	for runeproperties := range stage.RunePropertiess {
-		runepropertiesOrdered = append(runepropertiesOrdered, runeproperties)
-	}
-	sort.Slice(runepropertiesOrdered[:], func(i, j int) bool {
-		runepropertiesi := runepropertiesOrdered[i]
-		runepropertiesj := runepropertiesOrdered[j]
-		runepropertiesi_order, oki := stage.RuneProperties_stagedOrder[runepropertiesi]
-		runepropertiesj_order, okj := stage.RuneProperties_stagedOrder[runepropertiesj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return runepropertiesi_order < runepropertiesj_order
-	})
-	if len(runepropertiesOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, runeproperties := range runepropertiesOrdered {
-
-		identifiersDecl.WriteString(runeproperties.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(runeproperties.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(runeproperties.GongMarshallField(stage, "Node"))
-		initializerStatements.WriteString(runeproperties.GongMarshallField(stage, "IsBold"))
-		initializerStatements.WriteString(runeproperties.GongMarshallField(stage, "IsStrike"))
-		initializerStatements.WriteString(runeproperties.GongMarshallField(stage, "IsItalic"))
-		initializerStatements.WriteString(runeproperties.GongMarshallField(stage, "Content"))
-	}
-
-	tableOrdered := []*Table{}
-	for table := range stage.Tables {
-		tableOrdered = append(tableOrdered, table)
-	}
-	sort.Slice(tableOrdered[:], func(i, j int) bool {
-		tablei := tableOrdered[i]
-		tablej := tableOrdered[j]
-		tablei_order, oki := stage.Table_stagedOrder[tablei]
-		tablej_order, okj := stage.Table_stagedOrder[tablej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return tablei_order < tablej_order
-	})
-	if len(tableOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, table := range tableOrdered {
-
-		identifiersDecl.WriteString(table.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(table.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(table.GongMarshallField(stage, "Node"))
-		initializerStatements.WriteString(table.GongMarshallField(stage, "Content"))
-		pointersInitializesStatements.WriteString(table.GongMarshallField(stage, "TableProperties"))
-		pointersInitializesStatements.WriteString(table.GongMarshallField(stage, "TableRows"))
-	}
-
-	tablecolumnOrdered := []*TableColumn{}
-	for tablecolumn := range stage.TableColumns {
-		tablecolumnOrdered = append(tablecolumnOrdered, tablecolumn)
-	}
-	sort.Slice(tablecolumnOrdered[:], func(i, j int) bool {
-		tablecolumni := tablecolumnOrdered[i]
-		tablecolumnj := tablecolumnOrdered[j]
-		tablecolumni_order, oki := stage.TableColumn_stagedOrder[tablecolumni]
-		tablecolumnj_order, okj := stage.TableColumn_stagedOrder[tablecolumnj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return tablecolumni_order < tablecolumnj_order
-	})
-	if len(tablecolumnOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, tablecolumn := range tablecolumnOrdered {
-
-		identifiersDecl.WriteString(tablecolumn.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(tablecolumn.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(tablecolumn.GongMarshallField(stage, "Content"))
-		pointersInitializesStatements.WriteString(tablecolumn.GongMarshallField(stage, "Node"))
-		pointersInitializesStatements.WriteString(tablecolumn.GongMarshallField(stage, "Paragraphs"))
-	}
-
-	tablepropertiesOrdered := []*TableProperties{}
-	for tableproperties := range stage.TablePropertiess {
-		tablepropertiesOrdered = append(tablepropertiesOrdered, tableproperties)
-	}
-	sort.Slice(tablepropertiesOrdered[:], func(i, j int) bool {
-		tablepropertiesi := tablepropertiesOrdered[i]
-		tablepropertiesj := tablepropertiesOrdered[j]
-		tablepropertiesi_order, oki := stage.TableProperties_stagedOrder[tablepropertiesi]
-		tablepropertiesj_order, okj := stage.TableProperties_stagedOrder[tablepropertiesj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return tablepropertiesi_order < tablepropertiesj_order
-	})
-	if len(tablepropertiesOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, tableproperties := range tablepropertiesOrdered {
-
-		identifiersDecl.WriteString(tableproperties.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(tableproperties.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(tableproperties.GongMarshallField(stage, "Node"))
-		initializerStatements.WriteString(tableproperties.GongMarshallField(stage, "Content"))
-		pointersInitializesStatements.WriteString(tableproperties.GongMarshallField(stage, "TableStyle"))
-	}
-
-	tablerowOrdered := []*TableRow{}
-	for tablerow := range stage.TableRows {
-		tablerowOrdered = append(tablerowOrdered, tablerow)
-	}
-	sort.Slice(tablerowOrdered[:], func(i, j int) bool {
-		tablerowi := tablerowOrdered[i]
-		tablerowj := tablerowOrdered[j]
-		tablerowi_order, oki := stage.TableRow_stagedOrder[tablerowi]
-		tablerowj_order, okj := stage.TableRow_stagedOrder[tablerowj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return tablerowi_order < tablerowj_order
-	})
-	if len(tablerowOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, tablerow := range tablerowOrdered {
-
-		identifiersDecl.WriteString(tablerow.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(tablerow.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(tablerow.GongMarshallField(stage, "Content"))
-		pointersInitializesStatements.WriteString(tablerow.GongMarshallField(stage, "Node"))
-		pointersInitializesStatements.WriteString(tablerow.GongMarshallField(stage, "TableColumns"))
-	}
-
-	tablestyleOrdered := []*TableStyle{}
-	for tablestyle := range stage.TableStyles {
-		tablestyleOrdered = append(tablestyleOrdered, tablestyle)
-	}
-	sort.Slice(tablestyleOrdered[:], func(i, j int) bool {
-		tablestylei := tablestyleOrdered[i]
-		tablestylej := tablestyleOrdered[j]
-		tablestylei_order, oki := stage.TableStyle_stagedOrder[tablestylei]
-		tablestylej_order, okj := stage.TableStyle_stagedOrder[tablestylej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return tablestylei_order < tablestylej_order
-	})
-	if len(tablestyleOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, tablestyle := range tablestyleOrdered {
-
-		identifiersDecl.WriteString(tablestyle.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(tablestyle.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(tablestyle.GongMarshallField(stage, "Node"))
-		initializerStatements.WriteString(tablestyle.GongMarshallField(stage, "Content"))
-		initializerStatements.WriteString(tablestyle.GongMarshallField(stage, "Val"))
-	}
-
-	textOrdered := []*Text{}
-	for text := range stage.Texts {
-		textOrdered = append(textOrdered, text)
-	}
-	sort.Slice(textOrdered[:], func(i, j int) bool {
-		texti := textOrdered[i]
-		textj := textOrdered[j]
-		texti_order, oki := stage.Text_stagedOrder[texti]
-		textj_order, okj := stage.Text_stagedOrder[textj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return texti_order < textj_order
-	})
-	if len(textOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, text := range textOrdered {
-
-		identifiersDecl.WriteString(text.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(text.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(text.GongMarshallField(stage, "Content"))
-		pointersInitializesStatements.WriteString(text.GongMarshallField(stage, "Node"))
-		initializerStatements.WriteString(text.GongMarshallField(stage, "PreserveWhiteSpace"))
-		pointersInitializesStatements.WriteString(text.GongMarshallField(stage, "EnclosingRune"))
-	}
-
-	// insertion initialization of objects to stage
-	for _, body := range bodyOrdered {
-		_ = body
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, document := range documentOrdered {
-		_ = document
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, docx := range docxOrdered {
-		_ = docx
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, file := range fileOrdered {
-		_ = file
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, node := range nodeOrdered {
-		_ = node
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, paragraph := range paragraphOrdered {
-		_ = paragraph
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, paragraphproperties := range paragraphpropertiesOrdered {
-		_ = paragraphproperties
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, paragraphstyle := range paragraphstyleOrdered {
-		_ = paragraphstyle
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, rune := range runeOrdered {
-		_ = rune
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, runeproperties := range runepropertiesOrdered {
-		_ = runeproperties
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, table := range tableOrdered {
-		_ = table
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, tablecolumn := range tablecolumnOrdered {
-		_ = tablecolumn
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, tableproperties := range tablepropertiesOrdered {
-		_ = tableproperties
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, tablerow := range tablerowOrdered {
-		_ = tablerow
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, tablestyle := range tablestyleOrdered {
-		_ = tablestyle
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, text := range textOrdered {
-		_ = text
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
+	gongMarshallInstances(stage, stage.Bodys, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Documents, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Docxs, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Files, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Nodes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Paragraphs, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.ParagraphPropertiess, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.ParagraphStyles, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Runes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.RunePropertiess, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Tables, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.TableColumns, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.TablePropertiess, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.TableRows, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.TableStyles, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Texts, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
@@ -950,46 +462,29 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (body *Body) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := body.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", body.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(body.Name))
+		res = __gong__marshallString(ident, "Name", body.Name)
 
 	case "Paragraphs":
 		var sb strings.Builder
 		for _, _paragraph := range body.Paragraphs {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", body.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Paragraphs")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _paragraph.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Paragraphs", _paragraph.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Tables":
 		var sb strings.Builder
 		for _, _table := range body.Tables {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", body.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Tables")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _table.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Tables", _table.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "LastParagraph":
 		if body.LastParagraph != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", body.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LastParagraph")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", body.LastParagraph.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "LastParagraph", body.LastParagraph.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", body.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LastParagraph")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "LastParagraph", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Body", fieldName)
@@ -998,52 +493,29 @@ func (body *Body) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (document *Document) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := document.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", document.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(document.Name))
+		res = __gong__marshallString(ident, "Name", document.Name)
 
 	case "File":
 		if document.File != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", document.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "File")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", document.File.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "File", document.File.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", document.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "File")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "File", "nil")
 		}
 	case "Root":
 		if document.Root != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", document.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Root")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", document.Root.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Root", document.Root.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", document.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Root")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Root", "nil")
 		}
 	case "Body":
 		if document.Body != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", document.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Body")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", document.Body.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Body", document.Body.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", document.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Body")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Body", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Document", fieldName)
@@ -1052,36 +524,23 @@ func (document *Document) GongMarshallField(stage *Stage, fieldName string) (res
 }
 
 func (docx *Docx) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := docx.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", docx.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(docx.Name))
+		res = __gong__marshallString(ident, "Name", docx.Name)
 
 	case "Files":
 		var sb strings.Builder
 		for _, _file := range docx.Files {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", docx.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Files")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _file.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Files", _file.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Document":
 		if docx.Document != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", docx.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Document")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", docx.Document.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Document", docx.Document.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", docx.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Document")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Document", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Docx", fieldName)
@@ -1090,13 +549,11 @@ func (docx *Docx) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (file *File) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := file.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", file.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(file.Name))
+		res = __gong__marshallString(ident, "Name", file.Name)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct File", fieldName)
@@ -1105,22 +562,16 @@ func (file *File) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := node.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(node.Name))
+		res = __gong__marshallString(ident, "Name", node.Name)
 
 	case "Nodes":
 		var sb strings.Builder
 		for _, _node := range node.Nodes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", node.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Nodes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _node.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Nodes", _node.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -1130,111 +581,57 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (paragraph *Paragraph) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := paragraph.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(paragraph.Name))
+		res = __gong__marshallString(ident, "Name", paragraph.Name)
 	case "Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(paragraph.Content))
+		res = __gong__marshallString(ident, "Content", paragraph.Content)
 	case "CollatedText":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CollatedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(paragraph.CollatedText))
+		res = __gong__marshallString(ident, "CollatedText", paragraph.CollatedText)
 
 	case "Node":
 		if paragraph.Node != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", paragraph.Node.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Node", paragraph.Node.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Node", "nil")
 		}
 	case "ParagraphProperties":
 		if paragraph.ParagraphProperties != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ParagraphProperties")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", paragraph.ParagraphProperties.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "ParagraphProperties", paragraph.ParagraphProperties.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ParagraphProperties")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "ParagraphProperties", "nil")
 		}
 	case "Runes":
 		var sb strings.Builder
 		for _, _rune := range paragraph.Runes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Runes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _rune.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Runes", _rune.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Next":
 		if paragraph.Next != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Next")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", paragraph.Next.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Next", paragraph.Next.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Next")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Next", "nil")
 		}
 	case "Previous":
 		if paragraph.Previous != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Previous")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", paragraph.Previous.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Previous", paragraph.Previous.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Previous")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Previous", "nil")
 		}
 	case "EnclosingBody":
 		if paragraph.EnclosingBody != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosingBody")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", paragraph.EnclosingBody.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "EnclosingBody", paragraph.EnclosingBody.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosingBody")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "EnclosingBody", "nil")
 		}
 	case "EnclosingTableColumn":
 		if paragraph.EnclosingTableColumn != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosingTableColumn")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", paragraph.EnclosingTableColumn.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "EnclosingTableColumn", paragraph.EnclosingTableColumn.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosingTableColumn")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "EnclosingTableColumn", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Paragraph", fieldName)
@@ -1243,44 +640,25 @@ func (paragraph *Paragraph) GongMarshallField(stage *Stage, fieldName string) (r
 }
 
 func (paragraphproperties *ParagraphProperties) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := paragraphproperties.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", paragraphproperties.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(paragraphproperties.Name))
+		res = __gong__marshallString(ident, "Name", paragraphproperties.Name)
 	case "Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", paragraphproperties.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(paragraphproperties.Content))
+		res = __gong__marshallString(ident, "Content", paragraphproperties.Content)
 
 	case "ParagraphStyle":
 		if paragraphproperties.ParagraphStyle != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraphproperties.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ParagraphStyle")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", paragraphproperties.ParagraphStyle.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "ParagraphStyle", paragraphproperties.ParagraphStyle.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraphproperties.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ParagraphStyle")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "ParagraphStyle", "nil")
 		}
 	case "Node":
 		if paragraphproperties.Node != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraphproperties.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", paragraphproperties.Node.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Node", paragraphproperties.Node.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraphproperties.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Node", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ParagraphProperties", fieldName)
@@ -1289,36 +667,21 @@ func (paragraphproperties *ParagraphProperties) GongMarshallField(stage *Stage, 
 }
 
 func (paragraphstyle *ParagraphStyle) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := paragraphstyle.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", paragraphstyle.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(paragraphstyle.Name))
+		res = __gong__marshallString(ident, "Name", paragraphstyle.Name)
 	case "Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", paragraphstyle.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(paragraphstyle.Content))
+		res = __gong__marshallString(ident, "Content", paragraphstyle.Content)
 	case "ValAttr":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", paragraphstyle.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ValAttr")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(paragraphstyle.ValAttr))
+		res = __gong__marshallString(ident, "ValAttr", paragraphstyle.ValAttr)
 
 	case "Node":
 		if paragraphstyle.Node != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraphstyle.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", paragraphstyle.Node.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Node", paragraphstyle.Node.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", paragraphstyle.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Node", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ParagraphStyle", fieldName)
@@ -1327,70 +690,37 @@ func (paragraphstyle *ParagraphStyle) GongMarshallField(stage *Stage, fieldName 
 }
 
 func (rune *Rune) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := rune.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", rune.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rune.Name))
+		res = __gong__marshallString(ident, "Name", rune.Name)
 	case "Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", rune.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(rune.Content))
+		res = __gong__marshallString(ident, "Content", rune.Content)
 
 	case "Node":
 		if rune.Node != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", rune.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", rune.Node.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Node", rune.Node.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", rune.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Node", "nil")
 		}
 	case "Text":
 		if rune.Text != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", rune.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", rune.Text.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Text", rune.Text.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", rune.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Text", "nil")
 		}
 	case "RuneProperties":
 		if rune.RuneProperties != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", rune.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RuneProperties")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", rune.RuneProperties.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "RuneProperties", rune.RuneProperties.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", rune.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RuneProperties")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "RuneProperties", "nil")
 		}
 	case "EnclosingParagraph":
 		if rune.EnclosingParagraph != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", rune.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosingParagraph")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", rune.EnclosingParagraph.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "EnclosingParagraph", rune.EnclosingParagraph.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", rune.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosingParagraph")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "EnclosingParagraph", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Rune", fieldName)
@@ -1399,46 +729,25 @@ func (rune *Rune) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (runeproperties *RuneProperties) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := runeproperties.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", runeproperties.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(runeproperties.Name))
+		res = __gong__marshallString(ident, "Name", runeproperties.Name)
 	case "IsBold":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", runeproperties.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsBold")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", runeproperties.IsBold))
+		res = __gong__marshallBool(ident, "IsBold", runeproperties.IsBold)
 	case "IsStrike":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", runeproperties.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsStrike")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", runeproperties.IsStrike))
+		res = __gong__marshallBool(ident, "IsStrike", runeproperties.IsStrike)
 	case "IsItalic":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", runeproperties.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsItalic")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", runeproperties.IsItalic))
+		res = __gong__marshallBool(ident, "IsItalic", runeproperties.IsItalic)
 	case "Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", runeproperties.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(runeproperties.Content))
+		res = __gong__marshallString(ident, "Content", runeproperties.Content)
 
 	case "Node":
 		if runeproperties.Node != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", runeproperties.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", runeproperties.Node.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Node", runeproperties.Node.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", runeproperties.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Node", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct RuneProperties", fieldName)
@@ -1447,53 +756,30 @@ func (runeproperties *RuneProperties) GongMarshallField(stage *Stage, fieldName 
 }
 
 func (table *Table) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := table.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(table.Name))
+		res = __gong__marshallString(ident, "Name", table.Name)
 	case "Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(table.Content))
+		res = __gong__marshallString(ident, "Content", table.Content)
 
 	case "Node":
 		if table.Node != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", table.Node.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Node", table.Node.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Node", "nil")
 		}
 	case "TableProperties":
 		if table.TableProperties != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TableProperties")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", table.TableProperties.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "TableProperties", table.TableProperties.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TableProperties")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "TableProperties", "nil")
 		}
 	case "TableRows":
 		var sb strings.Builder
 		for _, _tablerow := range table.TableRows {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", table.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TableRows")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _tablerow.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "TableRows", _tablerow.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -1503,40 +789,24 @@ func (table *Table) GongMarshallField(stage *Stage, fieldName string) (res strin
 }
 
 func (tablecolumn *TableColumn) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := tablecolumn.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", tablecolumn.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tablecolumn.Name))
+		res = __gong__marshallString(ident, "Name", tablecolumn.Name)
 	case "Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", tablecolumn.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tablecolumn.Content))
+		res = __gong__marshallString(ident, "Content", tablecolumn.Content)
 
 	case "Node":
 		if tablecolumn.Node != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", tablecolumn.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", tablecolumn.Node.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Node", tablecolumn.Node.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", tablecolumn.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Node", "nil")
 		}
 	case "Paragraphs":
 		var sb strings.Builder
 		for _, _paragraph := range tablecolumn.Paragraphs {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", tablecolumn.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Paragraphs")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _paragraph.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Paragraphs", _paragraph.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -1546,44 +816,25 @@ func (tablecolumn *TableColumn) GongMarshallField(stage *Stage, fieldName string
 }
 
 func (tableproperties *TableProperties) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := tableproperties.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", tableproperties.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tableproperties.Name))
+		res = __gong__marshallString(ident, "Name", tableproperties.Name)
 	case "Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", tableproperties.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tableproperties.Content))
+		res = __gong__marshallString(ident, "Content", tableproperties.Content)
 
 	case "Node":
 		if tableproperties.Node != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", tableproperties.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", tableproperties.Node.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Node", tableproperties.Node.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", tableproperties.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Node", "nil")
 		}
 	case "TableStyle":
 		if tableproperties.TableStyle != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", tableproperties.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TableStyle")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", tableproperties.TableStyle.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "TableStyle", tableproperties.TableStyle.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", tableproperties.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TableStyle")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "TableStyle", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TableProperties", fieldName)
@@ -1592,40 +843,24 @@ func (tableproperties *TableProperties) GongMarshallField(stage *Stage, fieldNam
 }
 
 func (tablerow *TableRow) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := tablerow.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", tablerow.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tablerow.Name))
+		res = __gong__marshallString(ident, "Name", tablerow.Name)
 	case "Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", tablerow.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tablerow.Content))
+		res = __gong__marshallString(ident, "Content", tablerow.Content)
 
 	case "Node":
 		if tablerow.Node != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", tablerow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", tablerow.Node.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Node", tablerow.Node.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", tablerow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Node", "nil")
 		}
 	case "TableColumns":
 		var sb strings.Builder
 		for _, _tablecolumn := range tablerow.TableColumns {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", tablerow.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TableColumns")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _tablecolumn.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "TableColumns", _tablecolumn.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -1635,36 +870,21 @@ func (tablerow *TableRow) GongMarshallField(stage *Stage, fieldName string) (res
 }
 
 func (tablestyle *TableStyle) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := tablestyle.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", tablestyle.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tablestyle.Name))
+		res = __gong__marshallString(ident, "Name", tablestyle.Name)
 	case "Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", tablestyle.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tablestyle.Content))
+		res = __gong__marshallString(ident, "Content", tablestyle.Content)
 	case "Val":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", tablestyle.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Val")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(tablestyle.Val))
+		res = __gong__marshallString(ident, "Val", tablestyle.Val)
 
 	case "Node":
 		if tablestyle.Node != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", tablestyle.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", tablestyle.Node.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Node", tablestyle.Node.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", tablestyle.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Node", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TableStyle", fieldName)
@@ -1673,49 +893,27 @@ func (tablestyle *TableStyle) GongMarshallField(stage *Stage, fieldName string) 
 }
 
 func (text *Text) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := text.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(text.Name))
+		res = __gong__marshallString(ident, "Name", text.Name)
 	case "Content":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(text.Content))
+		res = __gong__marshallString(ident, "Content", text.Content)
 	case "PreserveWhiteSpace":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PreserveWhiteSpace")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", text.PreserveWhiteSpace))
+		res = __gong__marshallBool(ident, "PreserveWhiteSpace", text.PreserveWhiteSpace)
 
 	case "Node":
 		if text.Node != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", text.Node.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Node", text.Node.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Node")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Node", "nil")
 		}
 	case "EnclosingRune":
 		if text.EnclosingRune != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosingRune")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", text.EnclosingRune.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "EnclosingRune", text.EnclosingRune.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosingRune")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "EnclosingRune", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Text", fieldName)

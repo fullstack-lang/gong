@@ -90,6 +90,107 @@ func __gong__toRawStringLiteral(s string) string {
 	return result
 }
 
+func __gong__marshallString[T ~string](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongStringInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string(val)))
+}
+
+func __gong__marshallInt[T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", val))
+}
+
+func __gong__marshallBool[T ~bool](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", val))
+}
+
+func __gong__marshallFloat[T ~float32 | ~float64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", val))
+}
+
+func __gong__marshallTime(ident, fieldName, valStr string) string {
+	res := strings.ReplaceAll(GongTimeInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", valStr)
+}
+
+func __gong__marshallPointer(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongPointerFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallSliceOfPointers(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongSliceOfPointersFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallEnumString(ident, fieldName, codeStr string) string {
+	val := "\"\""
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongStringEnumInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallEnumInt(ident, fieldName, codeStr string) string {
+	val := "0"
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallMeta(ident, fieldName, val string) string {
+	res := strings.ReplaceAll(GongMetaFieldStructInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+type GongstructMarshallable interface {
+	GongstructPtr
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+}
+
+func gongMarshallInstances[T GongstructMarshallable](
+	stage *Stage,
+	instances map[T]struct{},
+	identifiersDecl *strings.Builder,
+	initializerStatements *strings.Builder,
+	pointersInitializesStatements *strings.Builder,
+) {
+	if len(instances) == 0 {
+		return
+	}
+	ordered := make([]T, 0, len(instances))
+	for instance := range instances {
+		ordered = append(ordered, instance)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i].GongGetOrder(stage) < ordered[j].GongGetOrder(stage)
+	})
+	identifiersDecl.WriteString("\n")
+	for _, instance := range ordered {
+		identifiersDecl.WriteString(instance.GongMarshallIdentifier(stage))
+		initRes, ptrRes := instance.GongMarshallAllFields(stage)
+		initializerStatements.WriteString("\n" + initRes)
+		pointersInitializesStatements.WriteString(ptrRes)
+	}
+}
+
+
 // MarshallFile marshall the stage content into a file as an instanciation into a stage
 // according to the marshalling policy of the stage.
 //
@@ -270,122 +371,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{GoModuleVersionWithoutDirty}}", goModuleVersionWithoutDirty)
 
 	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
 	var identifiersDecl strings.Builder
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 
-	decl := ""
-	_ = decl
-	setValueField := ""
-	_ = setValueField
-
 	// insertion initialization of objects to stage
-	filetodownloadOrdered := []*FileToDownload{}
-	for filetodownload := range stage.FileToDownloads {
-		filetodownloadOrdered = append(filetodownloadOrdered, filetodownload)
-	}
-	sort.Slice(filetodownloadOrdered[:], func(i, j int) bool {
-		filetodownloadi := filetodownloadOrdered[i]
-		filetodownloadj := filetodownloadOrdered[j]
-		filetodownloadi_order, oki := stage.FileToDownload_stagedOrder[filetodownloadi]
-		filetodownloadj_order, okj := stage.FileToDownload_stagedOrder[filetodownloadj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return filetodownloadi_order < filetodownloadj_order
-	})
-	if len(filetodownloadOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, filetodownload := range filetodownloadOrdered {
-
-		identifiersDecl.WriteString(filetodownload.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(filetodownload.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(filetodownload.GongMarshallField(stage, "Base64EncodedContent"))
-	}
-
-	filetouploadOrdered := []*FileToUpload{}
-	for filetoupload := range stage.FileToUploads {
-		filetouploadOrdered = append(filetouploadOrdered, filetoupload)
-	}
-	sort.Slice(filetouploadOrdered[:], func(i, j int) bool {
-		filetouploadi := filetouploadOrdered[i]
-		filetouploadj := filetouploadOrdered[j]
-		filetouploadi_order, oki := stage.FileToUpload_stagedOrder[filetouploadi]
-		filetouploadj_order, okj := stage.FileToUpload_stagedOrder[filetouploadj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return filetouploadi_order < filetouploadj_order
-	})
-	if len(filetouploadOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, filetoupload := range filetouploadOrdered {
-
-		identifiersDecl.WriteString(filetoupload.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(filetoupload.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(filetoupload.GongMarshallField(stage, "Base64EncodedContent"))
-	}
-
-	messageOrdered := []*Message{}
-	for message := range stage.Messages {
-		messageOrdered = append(messageOrdered, message)
-	}
-	sort.Slice(messageOrdered[:], func(i, j int) bool {
-		messagei := messageOrdered[i]
-		messagej := messageOrdered[j]
-		messagei_order, oki := stage.Message_stagedOrder[messagei]
-		messagej_order, okj := stage.Message_stagedOrder[messagej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return messagei_order < messagej_order
-	})
-	if len(messageOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, message := range messageOrdered {
-
-		identifiersDecl.WriteString(message.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(message.GongMarshallField(stage, "Name"))
-	}
-
-	// insertion initialization of objects to stage
-	for _, filetodownload := range filetodownloadOrdered {
-		_ = filetodownload
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, filetoupload := range filetouploadOrdered {
-		_ = filetoupload
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, message := range messageOrdered {
-		_ = message
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
+	gongMarshallInstances(stage, stage.FileToDownloads, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.FileToUploads, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Messages, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
@@ -456,18 +449,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (filetodownload *FileToDownload) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := filetodownload.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(filetodownload.Name))
+		res = __gong__marshallString(ident, "Name", filetodownload.Name)
 	case "Base64EncodedContent":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64EncodedContent")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(filetodownload.Base64EncodedContent))
+		res = __gong__marshallString(ident, "Base64EncodedContent", filetodownload.Base64EncodedContent)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FileToDownload", fieldName)
@@ -476,18 +464,13 @@ func (filetodownload *FileToDownload) GongMarshallField(stage *Stage, fieldName 
 }
 
 func (filetoupload *FileToUpload) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := filetoupload.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(filetoupload.Name))
+		res = __gong__marshallString(ident, "Name", filetoupload.Name)
 	case "Base64EncodedContent":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64EncodedContent")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(filetoupload.Base64EncodedContent))
+		res = __gong__marshallString(ident, "Base64EncodedContent", filetoupload.Base64EncodedContent)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FileToUpload", fieldName)
@@ -496,13 +479,11 @@ func (filetoupload *FileToUpload) GongMarshallField(stage *Stage, fieldName stri
 }
 
 func (message *Message) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := message.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", message.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(message.Name))
+		res = __gong__marshallString(ident, "Name", message.Name)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Message", fieldName)

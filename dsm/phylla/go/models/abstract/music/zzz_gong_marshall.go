@@ -90,6 +90,107 @@ func __gong__toRawStringLiteral(s string) string {
 	return result
 }
 
+func __gong__marshallString[T ~string](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongStringInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string(val)))
+}
+
+func __gong__marshallInt[T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", val))
+}
+
+func __gong__marshallBool[T ~bool](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", val))
+}
+
+func __gong__marshallFloat[T ~float32 | ~float64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", val))
+}
+
+func __gong__marshallTime(ident, fieldName, valStr string) string {
+	res := strings.ReplaceAll(GongTimeInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", valStr)
+}
+
+func __gong__marshallPointer(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongPointerFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallSliceOfPointers(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongSliceOfPointersFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallEnumString(ident, fieldName, codeStr string) string {
+	val := "\"\""
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongStringEnumInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallEnumInt(ident, fieldName, codeStr string) string {
+	val := "0"
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallMeta(ident, fieldName, val string) string {
+	res := strings.ReplaceAll(GongMetaFieldStructInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+type GongstructMarshallable interface {
+	GongstructPtr
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+}
+
+func gongMarshallInstances[T GongstructMarshallable](
+	stage *Stage,
+	instances map[T]struct{},
+	identifiersDecl *strings.Builder,
+	initializerStatements *strings.Builder,
+	pointersInitializesStatements *strings.Builder,
+) {
+	if len(instances) == 0 {
+		return
+	}
+	ordered := make([]T, 0, len(instances))
+	for instance := range instances {
+		ordered = append(ordered, instance)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i].GongGetOrder(stage) < ordered[j].GongGetOrder(stage)
+	})
+	identifiersDecl.WriteString("\n")
+	for _, instance := range ordered {
+		identifiersDecl.WriteString(instance.GongMarshallIdentifier(stage))
+		initRes, ptrRes := instance.GongMarshallAllFields(stage)
+		initializerStatements.WriteString("\n" + initRes)
+		pointersInitializesStatements.WriteString(ptrRes)
+	}
+}
+
+
 // MarshallFile marshall the stage content into a file as an instanciation into a stage
 // according to the marshalling policy of the stage.
 //
@@ -270,78 +371,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{GoModuleVersionWithoutDirty}}", goModuleVersionWithoutDirty)
 
 	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
 	var identifiersDecl strings.Builder
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 
-	decl := ""
-	_ = decl
-	setValueField := ""
-	_ = setValueField
-
 	// insertion initialization of objects to stage
-	musicabstractOrdered := []*MusicAbstract{}
-	for musicabstract := range stage.MusicAbstracts {
-		musicabstractOrdered = append(musicabstractOrdered, musicabstract)
-	}
-	sort.Slice(musicabstractOrdered[:], func(i, j int) bool {
-		musicabstracti := musicabstractOrdered[i]
-		musicabstractj := musicabstractOrdered[j]
-		musicabstracti_order, oki := stage.MusicAbstract_stagedOrder[musicabstracti]
-		musicabstractj_order, okj := stage.MusicAbstract_stagedOrder[musicabstractj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return musicabstracti_order < musicabstractj_order
-	})
-	if len(musicabstractOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, musicabstract := range musicabstractOrdered {
-
-		identifiersDecl.WriteString(musicabstract.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "IsChecked"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "PitchHeight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "NbOfBeatsInTheme"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "BeatsPerSecond"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "FirstVoiceShiftX"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "FirstVoiceShiftY"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "PitchDifference"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "Level"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ActualBeatsTemporalShift"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "IsMinor"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ThemeBinaryEncoding"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "BezierControlLengthRatio"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "NbPitchLines"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "NbBeatLines"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "OriginX"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "OriginY"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ScoreScale"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoice"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoiceShiftRight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowSecondVoice"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowSecondVoiceShiftRight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoiceNotes"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoiceNotesShiftRight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowSecondVoiceNotes"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowSecondVoiceNotesShiftRight"))
-		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "IsComposerNodeExpanded"))
-	}
-
-	// insertion initialization of objects to stage
-	for _, musicabstract := range musicabstractOrdered {
-		_ = musicabstract
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
+	gongMarshallInstances(stage, stage.MusicAbstracts, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
@@ -412,143 +447,63 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (musicabstract *MusicAbstract) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := musicabstract.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(musicabstract.Name))
+		res = __gong__marshallString(ident, "Name", musicabstract.Name)
 	case "IsChecked":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsChecked")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.IsChecked))
+		res = __gong__marshallBool(ident, "IsChecked", musicabstract.IsChecked)
 	case "PitchHeight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PitchHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.PitchHeight))
+		res = __gong__marshallFloat(ident, "PitchHeight", musicabstract.PitchHeight)
 	case "NbOfBeatsInTheme":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NbOfBeatsInTheme")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", musicabstract.NbOfBeatsInTheme))
+		res = __gong__marshallInt(ident, "NbOfBeatsInTheme", musicabstract.NbOfBeatsInTheme)
 	case "BeatsPerSecond":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BeatsPerSecond")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.BeatsPerSecond))
+		res = __gong__marshallFloat(ident, "BeatsPerSecond", musicabstract.BeatsPerSecond)
 	case "FirstVoiceShiftX":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FirstVoiceShiftX")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.FirstVoiceShiftX))
+		res = __gong__marshallFloat(ident, "FirstVoiceShiftX", musicabstract.FirstVoiceShiftX)
 	case "FirstVoiceShiftY":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FirstVoiceShiftY")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.FirstVoiceShiftY))
+		res = __gong__marshallFloat(ident, "FirstVoiceShiftY", musicabstract.FirstVoiceShiftY)
 	case "PitchDifference":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PitchDifference")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", musicabstract.PitchDifference))
+		res = __gong__marshallInt(ident, "PitchDifference", musicabstract.PitchDifference)
 	case "Level":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Level")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.Level))
+		res = __gong__marshallFloat(ident, "Level", musicabstract.Level)
 	case "ActualBeatsTemporalShift":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ActualBeatsTemporalShift")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", musicabstract.ActualBeatsTemporalShift))
+		res = __gong__marshallInt(ident, "ActualBeatsTemporalShift", musicabstract.ActualBeatsTemporalShift)
 	case "IsMinor":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsMinor")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.IsMinor))
+		res = __gong__marshallBool(ident, "IsMinor", musicabstract.IsMinor)
 	case "ThemeBinaryEncoding":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ThemeBinaryEncoding")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", musicabstract.ThemeBinaryEncoding))
+		res = __gong__marshallInt(ident, "ThemeBinaryEncoding", musicabstract.ThemeBinaryEncoding)
 	case "BezierControlLengthRatio":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BezierControlLengthRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.BezierControlLengthRatio))
+		res = __gong__marshallFloat(ident, "BezierControlLengthRatio", musicabstract.BezierControlLengthRatio)
 	case "NbPitchLines":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NbPitchLines")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", musicabstract.NbPitchLines))
+		res = __gong__marshallInt(ident, "NbPitchLines", musicabstract.NbPitchLines)
 	case "NbBeatLines":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NbBeatLines")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", musicabstract.NbBeatLines))
+		res = __gong__marshallInt(ident, "NbBeatLines", musicabstract.NbBeatLines)
 	case "OriginX":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OriginX")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.OriginX))
+		res = __gong__marshallFloat(ident, "OriginX", musicabstract.OriginX)
 	case "OriginY":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OriginY")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.OriginY))
+		res = __gong__marshallFloat(ident, "OriginY", musicabstract.OriginY)
 	case "ScoreScale":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ScoreScale")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.ScoreScale))
+		res = __gong__marshallFloat(ident, "ScoreScale", musicabstract.ScoreScale)
 	case "ShowFirstVoice":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowFirstVoice")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowFirstVoice))
+		res = __gong__marshallBool(ident, "ShowFirstVoice", musicabstract.ShowFirstVoice)
 	case "ShowFirstVoiceShiftRight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowFirstVoiceShiftRight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowFirstVoiceShiftRight))
+		res = __gong__marshallBool(ident, "ShowFirstVoiceShiftRight", musicabstract.ShowFirstVoiceShiftRight)
 	case "ShowSecondVoice":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowSecondVoice")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowSecondVoice))
+		res = __gong__marshallBool(ident, "ShowSecondVoice", musicabstract.ShowSecondVoice)
 	case "ShowSecondVoiceShiftRight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowSecondVoiceShiftRight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowSecondVoiceShiftRight))
+		res = __gong__marshallBool(ident, "ShowSecondVoiceShiftRight", musicabstract.ShowSecondVoiceShiftRight)
 	case "ShowFirstVoiceNotes":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowFirstVoiceNotes")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowFirstVoiceNotes))
+		res = __gong__marshallBool(ident, "ShowFirstVoiceNotes", musicabstract.ShowFirstVoiceNotes)
 	case "ShowFirstVoiceNotesShiftRight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowFirstVoiceNotesShiftRight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowFirstVoiceNotesShiftRight))
+		res = __gong__marshallBool(ident, "ShowFirstVoiceNotesShiftRight", musicabstract.ShowFirstVoiceNotesShiftRight)
 	case "ShowSecondVoiceNotes":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowSecondVoiceNotes")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowSecondVoiceNotes))
+		res = __gong__marshallBool(ident, "ShowSecondVoiceNotes", musicabstract.ShowSecondVoiceNotes)
 	case "ShowSecondVoiceNotesShiftRight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShowSecondVoiceNotesShiftRight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.ShowSecondVoiceNotesShiftRight))
+		res = __gong__marshallBool(ident, "ShowSecondVoiceNotesShiftRight", musicabstract.ShowSecondVoiceNotesShiftRight)
 	case "IsComposerNodeExpanded":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsComposerNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", musicabstract.IsComposerNodeExpanded))
+		res = __gong__marshallBool(ident, "IsComposerNodeExpanded", musicabstract.IsComposerNodeExpanded)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct MusicAbstract", fieldName)

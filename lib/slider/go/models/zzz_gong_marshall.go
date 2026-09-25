@@ -90,6 +90,107 @@ func __gong__toRawStringLiteral(s string) string {
 	return result
 }
 
+func __gong__marshallString[T ~string](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongStringInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string(val)))
+}
+
+func __gong__marshallInt[T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", val))
+}
+
+func __gong__marshallBool[T ~bool](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", val))
+}
+
+func __gong__marshallFloat[T ~float32 | ~float64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", val))
+}
+
+func __gong__marshallTime(ident, fieldName, valStr string) string {
+	res := strings.ReplaceAll(GongTimeInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", valStr)
+}
+
+func __gong__marshallPointer(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongPointerFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallSliceOfPointers(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongSliceOfPointersFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallEnumString(ident, fieldName, codeStr string) string {
+	val := "\"\""
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongStringEnumInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallEnumInt(ident, fieldName, codeStr string) string {
+	val := "0"
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallMeta(ident, fieldName, val string) string {
+	res := strings.ReplaceAll(GongMetaFieldStructInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+type GongstructMarshallable interface {
+	GongstructPtr
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+}
+
+func gongMarshallInstances[T GongstructMarshallable](
+	stage *Stage,
+	instances map[T]struct{},
+	identifiersDecl *strings.Builder,
+	initializerStatements *strings.Builder,
+	pointersInitializesStatements *strings.Builder,
+) {
+	if len(instances) == 0 {
+		return
+	}
+	ordered := make([]T, 0, len(instances))
+	for instance := range instances {
+		ordered = append(ordered, instance)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i].GongGetOrder(stage) < ordered[j].GongGetOrder(stage)
+	})
+	identifiersDecl.WriteString("\n")
+	for _, instance := range ordered {
+		identifiersDecl.WriteString(instance.GongMarshallIdentifier(stage))
+		initRes, ptrRes := instance.GongMarshallAllFields(stage)
+		initializerStatements.WriteString("\n" + initRes)
+		pointersInitializesStatements.WriteString(ptrRes)
+	}
+}
+
+
 // MarshallFile marshall the stage content into a file as an instanciation into a stage
 // according to the marshalling policy of the stage.
 //
@@ -270,174 +371,15 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{GoModuleVersionWithoutDirty}}", goModuleVersionWithoutDirty)
 
 	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
 	var identifiersDecl strings.Builder
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 
-	decl := ""
-	_ = decl
-	setValueField := ""
-	_ = setValueField
-
 	// insertion initialization of objects to stage
-	checkboxOrdered := []*Checkbox{}
-	for checkbox := range stage.Checkboxs {
-		checkboxOrdered = append(checkboxOrdered, checkbox)
-	}
-	sort.Slice(checkboxOrdered[:], func(i, j int) bool {
-		checkboxi := checkboxOrdered[i]
-		checkboxj := checkboxOrdered[j]
-		checkboxi_order, oki := stage.Checkbox_stagedOrder[checkboxi]
-		checkboxj_order, okj := stage.Checkbox_stagedOrder[checkboxj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return checkboxi_order < checkboxj_order
-	})
-	if len(checkboxOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, checkbox := range checkboxOrdered {
-
-		identifiersDecl.WriteString(checkbox.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "ValueBool"))
-		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "LabelForTrue"))
-		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "LabelForFalse"))
-	}
-
-	groupOrdered := []*Group{}
-	for group := range stage.Groups {
-		groupOrdered = append(groupOrdered, group)
-	}
-	sort.Slice(groupOrdered[:], func(i, j int) bool {
-		groupi := groupOrdered[i]
-		groupj := groupOrdered[j]
-		groupi_order, oki := stage.Group_stagedOrder[groupi]
-		groupj_order, okj := stage.Group_stagedOrder[groupj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return groupi_order < groupj_order
-	})
-	if len(groupOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, group := range groupOrdered {
-
-		identifiersDecl.WriteString(group.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(group.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(group.GongMarshallField(stage, "Percentage"))
-		pointersInitializesStatements.WriteString(group.GongMarshallField(stage, "Sliders"))
-		pointersInitializesStatements.WriteString(group.GongMarshallField(stage, "Checkboxes"))
-	}
-
-	layoutOrdered := []*Layout{}
-	for layout := range stage.Layouts {
-		layoutOrdered = append(layoutOrdered, layout)
-	}
-	sort.Slice(layoutOrdered[:], func(i, j int) bool {
-		layouti := layoutOrdered[i]
-		layoutj := layoutOrdered[j]
-		layouti_order, oki := stage.Layout_stagedOrder[layouti]
-		layoutj_order, okj := stage.Layout_stagedOrder[layoutj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return layouti_order < layoutj_order
-	})
-	if len(layoutOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, layout := range layoutOrdered {
-
-		identifiersDecl.WriteString(layout.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(layout.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(layout.GongMarshallField(stage, "Groups"))
-		initializerStatements.WriteString(layout.GongMarshallField(stage, "IsWithCustomGutterSize"))
-		initializerStatements.WriteString(layout.GongMarshallField(stage, "GutterSize"))
-	}
-
-	sliderOrdered := []*Slider{}
-	for slider := range stage.Sliders {
-		sliderOrdered = append(sliderOrdered, slider)
-	}
-	sort.Slice(sliderOrdered[:], func(i, j int) bool {
-		slideri := sliderOrdered[i]
-		sliderj := sliderOrdered[j]
-		slideri_order, oki := stage.Slider_stagedOrder[slideri]
-		sliderj_order, okj := stage.Slider_stagedOrder[sliderj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return slideri_order < sliderj_order
-	})
-	if len(sliderOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, slider := range sliderOrdered {
-
-		identifiersDecl.WriteString(slider.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(slider.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(slider.GongMarshallField(stage, "IsFloat64"))
-		initializerStatements.WriteString(slider.GongMarshallField(stage, "IsInt"))
-		initializerStatements.WriteString(slider.GongMarshallField(stage, "MinInt"))
-		initializerStatements.WriteString(slider.GongMarshallField(stage, "MaxInt"))
-		initializerStatements.WriteString(slider.GongMarshallField(stage, "StepInt"))
-		initializerStatements.WriteString(slider.GongMarshallField(stage, "ValueInt"))
-		initializerStatements.WriteString(slider.GongMarshallField(stage, "MinFloat64"))
-		initializerStatements.WriteString(slider.GongMarshallField(stage, "MaxFloat64"))
-		initializerStatements.WriteString(slider.GongMarshallField(stage, "StepFloat64"))
-		initializerStatements.WriteString(slider.GongMarshallField(stage, "ValueFloat64"))
-		initializerStatements.WriteString(slider.GongMarshallField(stage, "IsDisabled"))
-	}
-
-	// insertion initialization of objects to stage
-	for _, checkbox := range checkboxOrdered {
-		_ = checkbox
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, group := range groupOrdered {
-		_ = group
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, layout := range layoutOrdered {
-		_ = layout
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, slider := range sliderOrdered {
-		_ = slider
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
+	gongMarshallInstances(stage, stage.Checkboxs, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Groups, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Layouts, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Sliders, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
@@ -508,28 +450,17 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (checkbox *Checkbox) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := checkbox.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(checkbox.Name))
+		res = __gong__marshallString(ident, "Name", checkbox.Name)
 	case "ValueBool":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ValueBool")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", checkbox.ValueBool))
+		res = __gong__marshallBool(ident, "ValueBool", checkbox.ValueBool)
 	case "LabelForTrue":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LabelForTrue")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(checkbox.LabelForTrue))
+		res = __gong__marshallString(ident, "LabelForTrue", checkbox.LabelForTrue)
 	case "LabelForFalse":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LabelForFalse")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(checkbox.LabelForFalse))
+		res = __gong__marshallString(ident, "LabelForFalse", checkbox.LabelForFalse)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Checkbox", fieldName)
@@ -538,37 +469,24 @@ func (checkbox *Checkbox) GongMarshallField(stage *Stage, fieldName string) (res
 }
 
 func (group *Group) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := group.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", group.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group.Name))
+		res = __gong__marshallString(ident, "Name", group.Name)
 	case "Percentage":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", group.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Percentage")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", group.Percentage))
+		res = __gong__marshallFloat(ident, "Percentage", group.Percentage)
 
 	case "Sliders":
 		var sb strings.Builder
 		for _, _slider := range group.Sliders {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", group.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Sliders")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _slider.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Sliders", _slider.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Checkboxes":
 		var sb strings.Builder
 		for _, _checkbox := range group.Checkboxes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", group.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Checkboxes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _checkbox.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Checkboxes", _checkbox.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -578,32 +496,20 @@ func (group *Group) GongMarshallField(stage *Stage, fieldName string) (res strin
 }
 
 func (layout *Layout) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := layout.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", layout.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(layout.Name))
+		res = __gong__marshallString(ident, "Name", layout.Name)
 	case "IsWithCustomGutterSize":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", layout.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithCustomGutterSize")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", layout.IsWithCustomGutterSize))
+		res = __gong__marshallBool(ident, "IsWithCustomGutterSize", layout.IsWithCustomGutterSize)
 	case "GutterSize":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", layout.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GutterSize")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", layout.GutterSize))
+		res = __gong__marshallFloat(ident, "GutterSize", layout.GutterSize)
 
 	case "Groups":
 		var sb strings.Builder
 		for _, _group := range layout.Groups {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", layout.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Groups")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _group.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Groups", _group.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -613,68 +519,33 @@ func (layout *Layout) GongMarshallField(stage *Stage, fieldName string) (res str
 }
 
 func (slider *Slider) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := slider.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(slider.Name))
+		res = __gong__marshallString(ident, "Name", slider.Name)
 	case "IsFloat64":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsFloat64")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", slider.IsFloat64))
+		res = __gong__marshallBool(ident, "IsFloat64", slider.IsFloat64)
 	case "IsInt":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInt")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", slider.IsInt))
+		res = __gong__marshallBool(ident, "IsInt", slider.IsInt)
 	case "MinInt":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MinInt")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", slider.MinInt))
+		res = __gong__marshallInt(ident, "MinInt", slider.MinInt)
 	case "MaxInt":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MaxInt")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", slider.MaxInt))
+		res = __gong__marshallInt(ident, "MaxInt", slider.MaxInt)
 	case "StepInt":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StepInt")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", slider.StepInt))
+		res = __gong__marshallInt(ident, "StepInt", slider.StepInt)
 	case "ValueInt":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ValueInt")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", slider.ValueInt))
+		res = __gong__marshallInt(ident, "ValueInt", slider.ValueInt)
 	case "MinFloat64":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MinFloat64")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", slider.MinFloat64))
+		res = __gong__marshallFloat(ident, "MinFloat64", slider.MinFloat64)
 	case "MaxFloat64":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MaxFloat64")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", slider.MaxFloat64))
+		res = __gong__marshallFloat(ident, "MaxFloat64", slider.MaxFloat64)
 	case "StepFloat64":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StepFloat64")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", slider.StepFloat64))
+		res = __gong__marshallFloat(ident, "StepFloat64", slider.StepFloat64)
 	case "ValueFloat64":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ValueFloat64")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", slider.ValueFloat64))
+		res = __gong__marshallFloat(ident, "ValueFloat64", slider.ValueFloat64)
 	case "IsDisabled":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDisabled")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", slider.IsDisabled))
+		res = __gong__marshallBool(ident, "IsDisabled", slider.IsDisabled)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Slider", fieldName)

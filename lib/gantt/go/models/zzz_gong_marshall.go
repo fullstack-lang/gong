@@ -90,6 +90,107 @@ func __gong__toRawStringLiteral(s string) string {
 	return result
 }
 
+func __gong__marshallString[T ~string](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongStringInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string(val)))
+}
+
+func __gong__marshallInt[T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", val))
+}
+
+func __gong__marshallBool[T ~bool](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", val))
+}
+
+func __gong__marshallFloat[T ~float32 | ~float64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", val))
+}
+
+func __gong__marshallTime(ident, fieldName, valStr string) string {
+	res := strings.ReplaceAll(GongTimeInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", valStr)
+}
+
+func __gong__marshallPointer(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongPointerFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallSliceOfPointers(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongSliceOfPointersFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallEnumString(ident, fieldName, codeStr string) string {
+	val := "\"\""
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongStringEnumInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallEnumInt(ident, fieldName, codeStr string) string {
+	val := "0"
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallMeta(ident, fieldName, val string) string {
+	res := strings.ReplaceAll(GongMetaFieldStructInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+type GongstructMarshallable interface {
+	GongstructPtr
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+}
+
+func gongMarshallInstances[T GongstructMarshallable](
+	stage *Stage,
+	instances map[T]struct{},
+	identifiersDecl *strings.Builder,
+	initializerStatements *strings.Builder,
+	pointersInitializesStatements *strings.Builder,
+) {
+	if len(instances) == 0 {
+		return
+	}
+	ordered := make([]T, 0, len(instances))
+	for instance := range instances {
+		ordered = append(ordered, instance)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i].GongGetOrder(stage) < ordered[j].GongGetOrder(stage)
+	})
+	identifiersDecl.WriteString("\n")
+	for _, instance := range ordered {
+		identifiersDecl.WriteString(instance.GongMarshallIdentifier(stage))
+		initRes, ptrRes := instance.GongMarshallAllFields(stage)
+		initializerStatements.WriteString("\n" + initRes)
+		pointersInitializesStatements.WriteString(ptrRes)
+	}
+}
+
+
 // MarshallFile marshall the stage content into a file as an instanciation into a stage
 // according to the marshalling policy of the stage.
 //
@@ -270,303 +371,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{GoModuleVersionWithoutDirty}}", goModuleVersionWithoutDirty)
 
 	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
 	var identifiersDecl strings.Builder
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 
-	decl := ""
-	_ = decl
-	setValueField := ""
-	_ = setValueField
-
 	// insertion initialization of objects to stage
-	arrowOrdered := []*Arrow{}
-	for arrow := range stage.Arrows {
-		arrowOrdered = append(arrowOrdered, arrow)
-	}
-	sort.Slice(arrowOrdered[:], func(i, j int) bool {
-		arrowi := arrowOrdered[i]
-		arrowj := arrowOrdered[j]
-		arrowi_order, oki := stage.Arrow_stagedOrder[arrowi]
-		arrowj_order, okj := stage.Arrow_stagedOrder[arrowj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return arrowi_order < arrowj_order
-	})
-	if len(arrowOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, arrow := range arrowOrdered {
-
-		identifiersDecl.WriteString(arrow.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(arrow.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(arrow.GongMarshallField(stage, "From"))
-		pointersInitializesStatements.WriteString(arrow.GongMarshallField(stage, "To"))
-		initializerStatements.WriteString(arrow.GongMarshallField(stage, "OptionnalColor"))
-		initializerStatements.WriteString(arrow.GongMarshallField(stage, "OptionnalStroke"))
-	}
-
-	barOrdered := []*Bar{}
-	for bar := range stage.Bars {
-		barOrdered = append(barOrdered, bar)
-	}
-	sort.Slice(barOrdered[:], func(i, j int) bool {
-		bari := barOrdered[i]
-		barj := barOrdered[j]
-		bari_order, oki := stage.Bar_stagedOrder[bari]
-		barj_order, okj := stage.Bar_stagedOrder[barj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return bari_order < barj_order
-	})
-	if len(barOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, bar := range barOrdered {
-
-		identifiersDecl.WriteString(bar.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(bar.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(bar.GongMarshallField(stage, "Start"))
-		initializerStatements.WriteString(bar.GongMarshallField(stage, "End"))
-		initializerStatements.WriteString(bar.GongMarshallField(stage, "ComputedDuration"))
-		initializerStatements.WriteString(bar.GongMarshallField(stage, "OptionnalColor"))
-		initializerStatements.WriteString(bar.GongMarshallField(stage, "OptionnalStroke"))
-		initializerStatements.WriteString(bar.GongMarshallField(stage, "FillOpacity"))
-		initializerStatements.WriteString(bar.GongMarshallField(stage, "StrokeWidth"))
-		initializerStatements.WriteString(bar.GongMarshallField(stage, "StrokeDashArray"))
-	}
-
-	ganttOrdered := []*Gantt{}
-	for gantt := range stage.Gantts {
-		ganttOrdered = append(ganttOrdered, gantt)
-	}
-	sort.Slice(ganttOrdered[:], func(i, j int) bool {
-		gantti := ganttOrdered[i]
-		ganttj := ganttOrdered[j]
-		gantti_order, oki := stage.Gantt_stagedOrder[gantti]
-		ganttj_order, okj := stage.Gantt_stagedOrder[ganttj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return gantti_order < ganttj_order
-	})
-	if len(ganttOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, gantt := range ganttOrdered {
-
-		identifiersDecl.WriteString(gantt.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "ComputedStart"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "ComputedEnd"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "ComputedDuration"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "UseManualStartAndEndDates"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "ManualStart"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "ManualEnd"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "LaneHeight"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "RatioBarToLaneHeight"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "YTopMargin"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "XLeftText"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "TextHeight"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "XLeftLanes"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "XRightMargin"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "ArrowTipLenght"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "TimeLine_Color"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "TimeLine_FillOpacity"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "TimeLine_Stroke"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "TimeLine_StrokeWidth"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "Group_Stroke"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "Group_StrokeWidth"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "Group_StrokeDashArray"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "DateYOffset"))
-		initializerStatements.WriteString(gantt.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
-		pointersInitializesStatements.WriteString(gantt.GongMarshallField(stage, "Lanes"))
-		pointersInitializesStatements.WriteString(gantt.GongMarshallField(stage, "Milestones"))
-		pointersInitializesStatements.WriteString(gantt.GongMarshallField(stage, "Groups"))
-		pointersInitializesStatements.WriteString(gantt.GongMarshallField(stage, "Arrows"))
-	}
-
-	groupOrdered := []*Group{}
-	for group := range stage.Groups {
-		groupOrdered = append(groupOrdered, group)
-	}
-	sort.Slice(groupOrdered[:], func(i, j int) bool {
-		groupi := groupOrdered[i]
-		groupj := groupOrdered[j]
-		groupi_order, oki := stage.Group_stagedOrder[groupi]
-		groupj_order, okj := stage.Group_stagedOrder[groupj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return groupi_order < groupj_order
-	})
-	if len(groupOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, group := range groupOrdered {
-
-		identifiersDecl.WriteString(group.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(group.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(group.GongMarshallField(stage, "GroupLanes"))
-	}
-
-	laneOrdered := []*Lane{}
-	for lane := range stage.Lanes {
-		laneOrdered = append(laneOrdered, lane)
-	}
-	sort.Slice(laneOrdered[:], func(i, j int) bool {
-		lanei := laneOrdered[i]
-		lanej := laneOrdered[j]
-		lanei_order, oki := stage.Lane_stagedOrder[lanei]
-		lanej_order, okj := stage.Lane_stagedOrder[lanej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return lanei_order < lanej_order
-	})
-	if len(laneOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, lane := range laneOrdered {
-
-		identifiersDecl.WriteString(lane.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(lane.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(lane.GongMarshallField(stage, "Order"))
-		pointersInitializesStatements.WriteString(lane.GongMarshallField(stage, "Bars"))
-	}
-
-	laneuseOrdered := []*LaneUse{}
-	for laneuse := range stage.LaneUses {
-		laneuseOrdered = append(laneuseOrdered, laneuse)
-	}
-	sort.Slice(laneuseOrdered[:], func(i, j int) bool {
-		laneusei := laneuseOrdered[i]
-		laneusej := laneuseOrdered[j]
-		laneusei_order, oki := stage.LaneUse_stagedOrder[laneusei]
-		laneusej_order, okj := stage.LaneUse_stagedOrder[laneusej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return laneusei_order < laneusej_order
-	})
-	if len(laneuseOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, laneuse := range laneuseOrdered {
-
-		identifiersDecl.WriteString(laneuse.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(laneuse.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(laneuse.GongMarshallField(stage, "Lane"))
-	}
-
-	milestoneOrdered := []*Milestone{}
-	for milestone := range stage.Milestones {
-		milestoneOrdered = append(milestoneOrdered, milestone)
-	}
-	sort.Slice(milestoneOrdered[:], func(i, j int) bool {
-		milestonei := milestoneOrdered[i]
-		milestonej := milestoneOrdered[j]
-		milestonei_order, oki := stage.Milestone_stagedOrder[milestonei]
-		milestonej_order, okj := stage.Milestone_stagedOrder[milestonej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return milestonei_order < milestonej_order
-	})
-	if len(milestoneOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, milestone := range milestoneOrdered {
-
-		identifiersDecl.WriteString(milestone.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(milestone.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(milestone.GongMarshallField(stage, "Date"))
-		initializerStatements.WriteString(milestone.GongMarshallField(stage, "DisplayVerticalBar"))
-		pointersInitializesStatements.WriteString(milestone.GongMarshallField(stage, "LanesToDisplay"))
-	}
-
-	// insertion initialization of objects to stage
-	for _, arrow := range arrowOrdered {
-		_ = arrow
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, bar := range barOrdered {
-		_ = bar
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, gantt := range ganttOrdered {
-		_ = gantt
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, group := range groupOrdered {
-		_ = group
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, lane := range laneOrdered {
-		_ = lane
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, laneuse := range laneuseOrdered {
-		_ = laneuse
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, milestone := range milestoneOrdered {
-		_ = milestone
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
+	gongMarshallInstances(stage, stage.Arrows, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Bars, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Gantts, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Groups, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Lanes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.LaneUses, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Milestones, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
@@ -637,49 +453,27 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (arrow *Arrow) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := arrow.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.Name))
+		res = __gong__marshallString(ident, "Name", arrow.Name)
 	case "OptionnalColor":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OptionnalColor")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.OptionnalColor))
+		res = __gong__marshallString(ident, "OptionnalColor", arrow.OptionnalColor)
 	case "OptionnalStroke":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OptionnalStroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(arrow.OptionnalStroke))
+		res = __gong__marshallString(ident, "OptionnalStroke", arrow.OptionnalStroke)
 
 	case "From":
 		if arrow.From != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "From")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", arrow.From.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "From", arrow.From.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "From")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "From", "nil")
 		}
 	case "To":
 		if arrow.To != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "To")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", arrow.To.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "To", arrow.To.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "To")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "To", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Arrow", fieldName)
@@ -688,53 +482,27 @@ func (arrow *Arrow) GongMarshallField(stage *Stage, fieldName string) (res strin
 }
 
 func (bar *Bar) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := bar.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bar.Name))
+		res = __gong__marshallString(ident, "Name", bar.Name)
 	case "Start":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Start")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", bar.Start.String())
+		res = __gong__marshallTime(ident, "Start", bar.Start.String())
 	case "End":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", bar.End.String())
+		res = __gong__marshallTime(ident, "End", bar.End.String())
 	case "ComputedDuration":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedDuration")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", bar.ComputedDuration))
+		res = __gong__marshallInt(ident, "ComputedDuration", bar.ComputedDuration)
 	case "OptionnalColor":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OptionnalColor")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bar.OptionnalColor))
+		res = __gong__marshallString(ident, "OptionnalColor", bar.OptionnalColor)
 	case "OptionnalStroke":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OptionnalStroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bar.OptionnalStroke))
+		res = __gong__marshallString(ident, "OptionnalStroke", bar.OptionnalStroke)
 	case "FillOpacity":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FillOpacity")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bar.FillOpacity))
+		res = __gong__marshallFloat(ident, "FillOpacity", bar.FillOpacity)
 	case "StrokeWidth":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeWidth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bar.StrokeWidth))
+		res = __gong__marshallFloat(ident, "StrokeWidth", bar.StrokeWidth)
 	case "StrokeDashArray":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bar.StrokeDashArray))
+		res = __gong__marshallString(ident, "StrokeDashArray", bar.StrokeDashArray)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Bar", fieldName)
@@ -743,172 +511,82 @@ func (bar *Bar) GongMarshallField(stage *Stage, fieldName string) (res string) {
 }
 
 func (gantt *Gantt) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := gantt.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gantt.Name))
+		res = __gong__marshallString(ident, "Name", gantt.Name)
 	case "ComputedStart":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedStart")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", gantt.ComputedStart.String())
+		res = __gong__marshallTime(ident, "ComputedStart", gantt.ComputedStart.String())
 	case "ComputedEnd":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedEnd")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", gantt.ComputedEnd.String())
+		res = __gong__marshallTime(ident, "ComputedEnd", gantt.ComputedEnd.String())
 	case "ComputedDuration":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedDuration")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gantt.ComputedDuration))
+		res = __gong__marshallInt(ident, "ComputedDuration", gantt.ComputedDuration)
 	case "UseManualStartAndEndDates":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "UseManualStartAndEndDates")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gantt.UseManualStartAndEndDates))
+		res = __gong__marshallBool(ident, "UseManualStartAndEndDates", gantt.UseManualStartAndEndDates)
 	case "ManualStart":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ManualStart")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", gantt.ManualStart.String())
+		res = __gong__marshallTime(ident, "ManualStart", gantt.ManualStart.String())
 	case "ManualEnd":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ManualEnd")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", gantt.ManualEnd.String())
+		res = __gong__marshallTime(ident, "ManualEnd", gantt.ManualEnd.String())
 	case "LaneHeight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LaneHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.LaneHeight))
+		res = __gong__marshallFloat(ident, "LaneHeight", gantt.LaneHeight)
 	case "RatioBarToLaneHeight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RatioBarToLaneHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.RatioBarToLaneHeight))
+		res = __gong__marshallFloat(ident, "RatioBarToLaneHeight", gantt.RatioBarToLaneHeight)
 	case "YTopMargin":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "YTopMargin")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.YTopMargin))
+		res = __gong__marshallFloat(ident, "YTopMargin", gantt.YTopMargin)
 	case "XLeftText":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XLeftText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.XLeftText))
+		res = __gong__marshallFloat(ident, "XLeftText", gantt.XLeftText)
 	case "TextHeight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.TextHeight))
+		res = __gong__marshallFloat(ident, "TextHeight", gantt.TextHeight)
 	case "XLeftLanes":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XLeftLanes")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.XLeftLanes))
+		res = __gong__marshallFloat(ident, "XLeftLanes", gantt.XLeftLanes)
 	case "XRightMargin":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XRightMargin")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.XRightMargin))
+		res = __gong__marshallFloat(ident, "XRightMargin", gantt.XRightMargin)
 	case "ArrowLengthToTheRightOfStartBar":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ArrowLengthToTheRightOfStartBar")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.ArrowLengthToTheRightOfStartBar))
+		res = __gong__marshallFloat(ident, "ArrowLengthToTheRightOfStartBar", gantt.ArrowLengthToTheRightOfStartBar)
 	case "ArrowTipLenght":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ArrowTipLenght")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.ArrowTipLenght))
+		res = __gong__marshallFloat(ident, "ArrowTipLenght", gantt.ArrowTipLenght)
 	case "TimeLine_Color":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gantt.TimeLine_Color))
+		res = __gong__marshallString(ident, "TimeLine_Color", gantt.TimeLine_Color)
 	case "TimeLine_FillOpacity":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_FillOpacity")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.TimeLine_FillOpacity))
+		res = __gong__marshallFloat(ident, "TimeLine_FillOpacity", gantt.TimeLine_FillOpacity)
 	case "TimeLine_Stroke":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gantt.TimeLine_Stroke))
+		res = __gong__marshallString(ident, "TimeLine_Stroke", gantt.TimeLine_Stroke)
 	case "TimeLine_StrokeWidth":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_StrokeWidth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.TimeLine_StrokeWidth))
+		res = __gong__marshallFloat(ident, "TimeLine_StrokeWidth", gantt.TimeLine_StrokeWidth)
 	case "Group_Stroke":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gantt.Group_Stroke))
+		res = __gong__marshallString(ident, "Group_Stroke", gantt.Group_Stroke)
 	case "Group_StrokeWidth":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_StrokeWidth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.Group_StrokeWidth))
+		res = __gong__marshallFloat(ident, "Group_StrokeWidth", gantt.Group_StrokeWidth)
 	case "Group_StrokeDashArray":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gantt.Group_StrokeDashArray))
+		res = __gong__marshallString(ident, "Group_StrokeDashArray", gantt.Group_StrokeDashArray)
 	case "DateYOffset":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DateYOffset")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.DateYOffset))
+		res = __gong__marshallFloat(ident, "DateYOffset", gantt.DateYOffset)
 	case "AlignOnStartEndOnYearStart":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AlignOnStartEndOnYearStart")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gantt.AlignOnStartEndOnYearStart))
+		res = __gong__marshallBool(ident, "AlignOnStartEndOnYearStart", gantt.AlignOnStartEndOnYearStart)
 
 	case "Lanes":
 		var sb strings.Builder
 		for _, _lane := range gantt.Lanes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Lanes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _lane.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Lanes", _lane.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Milestones":
 		var sb strings.Builder
 		for _, _milestone := range gantt.Milestones {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Milestones")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _milestone.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Milestones", _milestone.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Groups":
 		var sb strings.Builder
 		for _, _group := range gantt.Groups {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Groups")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _group.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Groups", _group.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Arrows":
 		var sb strings.Builder
 		for _, _arrow := range gantt.Arrows {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Arrows")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _arrow.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Arrows", _arrow.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -918,22 +596,16 @@ func (gantt *Gantt) GongMarshallField(stage *Stage, fieldName string) (res strin
 }
 
 func (group *Group) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := group.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", group.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(group.Name))
+		res = __gong__marshallString(ident, "Name", group.Name)
 
 	case "GroupLanes":
 		var sb strings.Builder
 		for _, _lane := range group.GroupLanes {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", group.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "GroupLanes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _lane.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "GroupLanes", _lane.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -943,27 +615,18 @@ func (group *Group) GongMarshallField(stage *Stage, fieldName string) (res strin
 }
 
 func (lane *Lane) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := lane.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", lane.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(lane.Name))
+		res = __gong__marshallString(ident, "Name", lane.Name)
 	case "Order":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", lane.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Order")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", lane.Order))
+		res = __gong__marshallInt(ident, "Order", lane.Order)
 
 	case "Bars":
 		var sb strings.Builder
 		for _, _bar := range lane.Bars {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", lane.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Bars")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _bar.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Bars", _bar.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -973,26 +636,17 @@ func (lane *Lane) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (laneuse *LaneUse) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := laneuse.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", laneuse.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(laneuse.Name))
+		res = __gong__marshallString(ident, "Name", laneuse.Name)
 
 	case "Lane":
 		if laneuse.Lane != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", laneuse.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Lane")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", laneuse.Lane.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Lane", laneuse.Lane.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", laneuse.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Lane")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Lane", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct LaneUse", fieldName)
@@ -1001,32 +655,20 @@ func (laneuse *LaneUse) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (milestone *Milestone) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := milestone.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(milestone.Name))
+		res = __gong__marshallString(ident, "Name", milestone.Name)
 	case "Date":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Date")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", milestone.Date.String())
+		res = __gong__marshallTime(ident, "Date", milestone.Date.String())
 	case "DisplayVerticalBar":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DisplayVerticalBar")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", milestone.DisplayVerticalBar))
+		res = __gong__marshallBool(ident, "DisplayVerticalBar", milestone.DisplayVerticalBar)
 
 	case "LanesToDisplay":
 		var sb strings.Builder
 		for _, _lane := range milestone.LanesToDisplay {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", milestone.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "LanesToDisplay")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _lane.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "LanesToDisplay", _lane.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:

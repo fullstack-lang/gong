@@ -90,6 +90,107 @@ func __gong__toRawStringLiteral(s string) string {
 	return result
 }
 
+func __gong__marshallString[T ~string](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongStringInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string(val)))
+}
+
+func __gong__marshallInt[T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", val))
+}
+
+func __gong__marshallBool[T ~bool](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", val))
+}
+
+func __gong__marshallFloat[T ~float32 | ~float64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", val))
+}
+
+func __gong__marshallTime(ident, fieldName, valStr string) string {
+	res := strings.ReplaceAll(GongTimeInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", valStr)
+}
+
+func __gong__marshallPointer(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongPointerFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallSliceOfPointers(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongSliceOfPointersFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallEnumString(ident, fieldName, codeStr string) string {
+	val := "\"\""
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongStringEnumInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallEnumInt(ident, fieldName, codeStr string) string {
+	val := "0"
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallMeta(ident, fieldName, val string) string {
+	res := strings.ReplaceAll(GongMetaFieldStructInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+type GongstructMarshallable interface {
+	GongstructPtr
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+}
+
+func gongMarshallInstances[T GongstructMarshallable](
+	stage *Stage,
+	instances map[T]struct{},
+	identifiersDecl *strings.Builder,
+	initializerStatements *strings.Builder,
+	pointersInitializesStatements *strings.Builder,
+) {
+	if len(instances) == 0 {
+		return
+	}
+	ordered := make([]T, 0, len(instances))
+	for instance := range instances {
+		ordered = append(ordered, instance)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i].GongGetOrder(stage) < ordered[j].GongGetOrder(stage)
+	})
+	identifiersDecl.WriteString("\n")
+	for _, instance := range ordered {
+		identifiersDecl.WriteString(instance.GongMarshallIdentifier(stage))
+		initRes, ptrRes := instance.GongMarshallAllFields(stage)
+		initializerStatements.WriteString("\n" + initRes)
+		pointersInitializesStatements.WriteString(ptrRes)
+	}
+}
+
+
 // MarshallFile marshall the stage content into a file as an instanciation into a stage
 // according to the marshalling policy of the stage.
 //
@@ -270,170 +371,15 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{GoModuleVersionWithoutDirty}}", goModuleVersionWithoutDirty)
 
 	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
 	var identifiersDecl strings.Builder
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 
-	decl := ""
-	_ = decl
-	setValueField := ""
-	_ = setValueField
-
 	// insertion initialization of objects to stage
-	booktypeOrdered := []*BookType{}
-	for booktype := range stage.BookTypes {
-		booktypeOrdered = append(booktypeOrdered, booktype)
-	}
-	sort.Slice(booktypeOrdered[:], func(i, j int) bool {
-		booktypei := booktypeOrdered[i]
-		booktypej := booktypeOrdered[j]
-		booktypei_order, oki := stage.BookType_stagedOrder[booktypei]
-		booktypej_order, okj := stage.BookType_stagedOrder[booktypej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return booktypei_order < booktypej_order
-	})
-	if len(booktypeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, booktype := range booktypeOrdered {
-
-		identifiersDecl.WriteString(booktype.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(booktype.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(booktype.GongMarshallField(stage, "Edition"))
-		initializerStatements.WriteString(booktype.GongMarshallField(stage, "Isbn"))
-		initializerStatements.WriteString(booktype.GongMarshallField(stage, "Bestseller"))
-		initializerStatements.WriteString(booktype.GongMarshallField(stage, "Title"))
-		initializerStatements.WriteString(booktype.GongMarshallField(stage, "Author"))
-		initializerStatements.WriteString(booktype.GongMarshallField(stage, "Year"))
-		initializerStatements.WriteString(booktype.GongMarshallField(stage, "Format"))
-		pointersInitializesStatements.WriteString(booktype.GongMarshallField(stage, "Credit"))
-	}
-
-	booksOrdered := []*Books{}
-	for books := range stage.Bookss {
-		booksOrdered = append(booksOrdered, books)
-	}
-	sort.Slice(booksOrdered[:], func(i, j int) bool {
-		booksi := booksOrdered[i]
-		booksj := booksOrdered[j]
-		booksi_order, oki := stage.Books_stagedOrder[booksi]
-		booksj_order, okj := stage.Books_stagedOrder[booksj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return booksi_order < booksj_order
-	})
-	if len(booksOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, books := range booksOrdered {
-
-		identifiersDecl.WriteString(books.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(books.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(books.GongMarshallField(stage, "Book"))
-	}
-
-	creditOrdered := []*Credit{}
-	for credit := range stage.Credits {
-		creditOrdered = append(creditOrdered, credit)
-	}
-	sort.Slice(creditOrdered[:], func(i, j int) bool {
-		crediti := creditOrdered[i]
-		creditj := creditOrdered[j]
-		crediti_order, oki := stage.Credit_stagedOrder[crediti]
-		creditj_order, okj := stage.Credit_stagedOrder[creditj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return crediti_order < creditj_order
-	})
-	if len(creditOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, credit := range creditOrdered {
-
-		identifiersDecl.WriteString(credit.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(credit.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(credit.GongMarshallField(stage, "Page"))
-		initializerStatements.WriteString(credit.GongMarshallField(stage, "Credit_type"))
-		pointersInitializesStatements.WriteString(credit.GongMarshallField(stage, "Link"))
-		initializerStatements.WriteString(credit.GongMarshallField(stage, "Credit_words"))
-		initializerStatements.WriteString(credit.GongMarshallField(stage, "Credit_symbol"))
-	}
-
-	linkOrdered := []*Link{}
-	for link := range stage.Links {
-		linkOrdered = append(linkOrdered, link)
-	}
-	sort.Slice(linkOrdered[:], func(i, j int) bool {
-		linki := linkOrdered[i]
-		linkj := linkOrdered[j]
-		linki_order, oki := stage.Link_stagedOrder[linki]
-		linkj_order, okj := stage.Link_stagedOrder[linkj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return linki_order < linkj_order
-	})
-	if len(linkOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, link := range linkOrdered {
-
-		identifiersDecl.WriteString(link.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(link.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(link.GongMarshallField(stage, "NameXSD"))
-		initializerStatements.WriteString(link.GongMarshallField(stage, "EnclosedText"))
-	}
-
-	// insertion initialization of objects to stage
-	for _, booktype := range booktypeOrdered {
-		_ = booktype
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, books := range booksOrdered {
-		_ = books
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, credit := range creditOrdered {
-		_ = credit
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, link := range linkOrdered {
-		_ = link
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
+	gongMarshallInstances(stage, stage.BookTypes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Bookss, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Credits, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Links, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
@@ -504,57 +450,30 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (booktype *BookType) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := booktype.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", booktype.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(booktype.Name))
+		res = __gong__marshallString(ident, "Name", booktype.Name)
 	case "Edition":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", booktype.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Edition")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(booktype.Edition))
+		res = __gong__marshallString(ident, "Edition", booktype.Edition)
 	case "Isbn":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", booktype.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Isbn")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(booktype.Isbn))
+		res = __gong__marshallString(ident, "Isbn", booktype.Isbn)
 	case "Bestseller":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", booktype.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bestseller")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", booktype.Bestseller))
+		res = __gong__marshallBool(ident, "Bestseller", booktype.Bestseller)
 	case "Title":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", booktype.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Title")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(booktype.Title))
+		res = __gong__marshallString(ident, "Title", booktype.Title)
 	case "Author":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", booktype.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Author")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(booktype.Author))
+		res = __gong__marshallString(ident, "Author", booktype.Author)
 	case "Year":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", booktype.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Year")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", booktype.Year))
+		res = __gong__marshallInt(ident, "Year", booktype.Year)
 	case "Format":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", booktype.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Format")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(booktype.Format))
+		res = __gong__marshallString(ident, "Format", booktype.Format)
 
 	case "Credit":
 		var sb strings.Builder
 		for _, _credit := range booktype.Credit {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", booktype.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Credit")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _credit.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Credit", _credit.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -564,22 +483,16 @@ func (booktype *BookType) GongMarshallField(stage *Stage, fieldName string) (res
 }
 
 func (books *Books) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := books.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", books.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(books.Name))
+		res = __gong__marshallString(ident, "Name", books.Name)
 
 	case "Book":
 		var sb strings.Builder
 		for _, _booktype := range books.Book {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", books.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Book")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _booktype.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Book", _booktype.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -589,42 +502,24 @@ func (books *Books) GongMarshallField(stage *Stage, fieldName string) (res strin
 }
 
 func (credit *Credit) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := credit.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", credit.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(credit.Name))
+		res = __gong__marshallString(ident, "Name", credit.Name)
 	case "Page":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", credit.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Page")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", credit.Page))
+		res = __gong__marshallInt(ident, "Page", credit.Page)
 	case "Credit_type":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", credit.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Credit_type")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(credit.Credit_type))
+		res = __gong__marshallString(ident, "Credit_type", credit.Credit_type)
 	case "Credit_words":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", credit.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Credit_words")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(credit.Credit_words))
+		res = __gong__marshallString(ident, "Credit_words", credit.Credit_words)
 	case "Credit_symbol":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", credit.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Credit_symbol")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(credit.Credit_symbol))
+		res = __gong__marshallString(ident, "Credit_symbol", credit.Credit_symbol)
 
 	case "Link":
 		var sb strings.Builder
 		for _, _link := range credit.Link {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", credit.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Link")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _link.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Link", _link.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -634,23 +529,15 @@ func (credit *Credit) GongMarshallField(stage *Stage, fieldName string) (res str
 }
 
 func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := link.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.Name))
+		res = __gong__marshallString(ident, "Name", link.Name)
 	case "NameXSD":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NameXSD")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.NameXSD))
+		res = __gong__marshallString(ident, "NameXSD", link.NameXSD)
 	case "EnclosedText":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(link.EnclosedText))
+		res = __gong__marshallString(ident, "EnclosedText", link.EnclosedText)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Link", fieldName)

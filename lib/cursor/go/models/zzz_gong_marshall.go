@@ -90,6 +90,107 @@ func __gong__toRawStringLiteral(s string) string {
 	return result
 }
 
+func __gong__marshallString[T ~string](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongStringInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string(val)))
+}
+
+func __gong__marshallInt[T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", val))
+}
+
+func __gong__marshallBool[T ~bool](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", val))
+}
+
+func __gong__marshallFloat[T ~float32 | ~float64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", val))
+}
+
+func __gong__marshallTime(ident, fieldName, valStr string) string {
+	res := strings.ReplaceAll(GongTimeInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", valStr)
+}
+
+func __gong__marshallPointer(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongPointerFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallSliceOfPointers(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongSliceOfPointersFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallEnumString(ident, fieldName, codeStr string) string {
+	val := "\"\""
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongStringEnumInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallEnumInt(ident, fieldName, codeStr string) string {
+	val := "0"
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallMeta(ident, fieldName, val string) string {
+	res := strings.ReplaceAll(GongMetaFieldStructInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+type GongstructMarshallable interface {
+	GongstructPtr
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+}
+
+func gongMarshallInstances[T GongstructMarshallable](
+	stage *Stage,
+	instances map[T]struct{},
+	identifiersDecl *strings.Builder,
+	initializerStatements *strings.Builder,
+	pointersInitializesStatements *strings.Builder,
+) {
+	if len(instances) == 0 {
+		return
+	}
+	ordered := make([]T, 0, len(instances))
+	for instance := range instances {
+		ordered = append(ordered, instance)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i].GongGetOrder(stage) < ordered[j].GongGetOrder(stage)
+	})
+	identifiersDecl.WriteString("\n")
+	for _, instance := range ordered {
+		identifiersDecl.WriteString(instance.GongMarshallIdentifier(stage))
+		initRes, ptrRes := instance.GongMarshallAllFields(stage)
+		initializerStatements.WriteString("\n" + initRes)
+		pointersInitializesStatements.WriteString(ptrRes)
+	}
+}
+
+
 // MarshallFile marshall the stage content into a file as an instanciation into a stage
 // according to the marshalling policy of the stage.
 //
@@ -270,66 +371,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{GoModuleVersionWithoutDirty}}", goModuleVersionWithoutDirty)
 
 	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
 	var identifiersDecl strings.Builder
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 
-	decl := ""
-	_ = decl
-	setValueField := ""
-	_ = setValueField
-
 	// insertion initialization of objects to stage
-	cursorOrdered := []*Cursor{}
-	for cursor := range stage.Cursors {
-		cursorOrdered = append(cursorOrdered, cursor)
-	}
-	sort.Slice(cursorOrdered[:], func(i, j int) bool {
-		cursori := cursorOrdered[i]
-		cursorj := cursorOrdered[j]
-		cursori_order, oki := stage.Cursor_stagedOrder[cursori]
-		cursorj_order, okj := stage.Cursor_stagedOrder[cursorj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return cursori_order < cursorj_order
-	})
-	if len(cursorOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, cursor := range cursorOrdered {
-
-		identifiersDecl.WriteString(cursor.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "StartX"))
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "EndX"))
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "Y1"))
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "Y2"))
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "DurationSeconds"))
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "Color"))
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "FillOpacity"))
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "Stroke"))
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "StrokeOpacity"))
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "StrokeWidth"))
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "StrokeDashArray"))
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "Transform"))
-		initializerStatements.WriteString(cursor.GongMarshallField(stage, "IsPlaying"))
-	}
-
-	// insertion initialization of objects to stage
-	for _, cursor := range cursorOrdered {
-		_ = cursor
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
+	gongMarshallInstances(stage, stage.Cursors, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
@@ -400,83 +447,39 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (cursor *Cursor) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := cursor.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cursor.Name))
+		res = __gong__marshallString(ident, "Name", cursor.Name)
 	case "StartX":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartX")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.StartX))
+		res = __gong__marshallFloat(ident, "StartX", cursor.StartX)
 	case "EndX":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndX")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.EndX))
+		res = __gong__marshallFloat(ident, "EndX", cursor.EndX)
 	case "Y1":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y1")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.Y1))
+		res = __gong__marshallFloat(ident, "Y1", cursor.Y1)
 	case "Y2":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y2")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.Y2))
+		res = __gong__marshallFloat(ident, "Y2", cursor.Y2)
 	case "DurationSeconds":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DurationSeconds")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.DurationSeconds))
+		res = __gong__marshallFloat(ident, "DurationSeconds", cursor.DurationSeconds)
 	case "Color":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cursor.Color))
+		res = __gong__marshallString(ident, "Color", cursor.Color)
 	case "FillOpacity":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FillOpacity")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.FillOpacity))
+		res = __gong__marshallFloat(ident, "FillOpacity", cursor.FillOpacity)
 	case "Stroke":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cursor.Stroke))
+		res = __gong__marshallString(ident, "Stroke", cursor.Stroke)
 	case "StrokeOpacity":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeOpacity")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.StrokeOpacity))
+		res = __gong__marshallFloat(ident, "StrokeOpacity", cursor.StrokeOpacity)
 	case "StrokeWidth":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeWidth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.StrokeWidth))
+		res = __gong__marshallFloat(ident, "StrokeWidth", cursor.StrokeWidth)
 	case "StrokeDashArray":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cursor.StrokeDashArray))
+		res = __gong__marshallString(ident, "StrokeDashArray", cursor.StrokeDashArray)
 	case "StrokeDashArrayWhenSelected":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cursor.StrokeDashArrayWhenSelected))
+		res = __gong__marshallString(ident, "StrokeDashArrayWhenSelected", cursor.StrokeDashArrayWhenSelected)
 	case "Transform":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(cursor.Transform))
+		res = __gong__marshallString(ident, "Transform", cursor.Transform)
 	case "IsPlaying":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPlaying")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", cursor.IsPlaying))
+		res = __gong__marshallBool(ident, "IsPlaying", cursor.IsPlaying)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Cursor", fieldName)

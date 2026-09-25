@@ -90,6 +90,107 @@ func __gong__toRawStringLiteral(s string) string {
 	return result
 }
 
+func __gong__marshallString[T ~string](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongStringInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string(val)))
+}
+
+func __gong__marshallInt[T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", val))
+}
+
+func __gong__marshallBool[T ~bool](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", val))
+}
+
+func __gong__marshallFloat[T ~float32 | ~float64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", val))
+}
+
+func __gong__marshallTime(ident, fieldName, valStr string) string {
+	res := strings.ReplaceAll(GongTimeInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", valStr)
+}
+
+func __gong__marshallPointer(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongPointerFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallSliceOfPointers(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongSliceOfPointersFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallEnumString(ident, fieldName, codeStr string) string {
+	val := "\"\""
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongStringEnumInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallEnumInt(ident, fieldName, codeStr string) string {
+	val := "0"
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallMeta(ident, fieldName, val string) string {
+	res := strings.ReplaceAll(GongMetaFieldStructInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+type GongstructMarshallable interface {
+	GongstructPtr
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+}
+
+func gongMarshallInstances[T GongstructMarshallable](
+	stage *Stage,
+	instances map[T]struct{},
+	identifiersDecl *strings.Builder,
+	initializerStatements *strings.Builder,
+	pointersInitializesStatements *strings.Builder,
+) {
+	if len(instances) == 0 {
+		return
+	}
+	ordered := make([]T, 0, len(instances))
+	for instance := range instances {
+		ordered = append(ordered, instance)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i].GongGetOrder(stage) < ordered[j].GongGetOrder(stage)
+	})
+	identifiersDecl.WriteString("\n")
+	for _, instance := range ordered {
+		identifiersDecl.WriteString(instance.GongMarshallIdentifier(stage))
+		initRes, ptrRes := instance.GongMarshallAllFields(stage)
+		initializerStatements.WriteString("\n" + initRes)
+		pointersInitializesStatements.WriteString(ptrRes)
+	}
+}
+
+
 // MarshallFile marshall the stage content into a file as an instanciation into a stage
 // according to the marshalling policy of the stage.
 //
@@ -270,299 +371,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{GoModuleVersionWithoutDirty}}", goModuleVersionWithoutDirty)
 
 	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
 	var identifiersDecl strings.Builder
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 
-	decl := ""
-	_ = decl
-	setValueField := ""
-	_ = setValueField
-
 	// insertion initialization of objects to stage
-	astructOrdered := []*Astruct{}
-	for astruct := range stage.Astructs {
-		astructOrdered = append(astructOrdered, astruct)
-	}
-	sort.Slice(astructOrdered[:], func(i, j int) bool {
-		astructi := astructOrdered[i]
-		astructj := astructOrdered[j]
-		astructi_order, oki := stage.Astruct_stagedOrder[astructi]
-		astructj_order, okj := stage.Astruct_stagedOrder[astructj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return astructi_order < astructj_order
-	})
-	if len(astructOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, astruct := range astructOrdered {
-
-		identifiersDecl.WriteString(astruct.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "Field"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "Associationtob"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "Anarrayofb"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "Anotherassociationtob_2"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "Date"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "Date2"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "Booleanfield"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "Aenum"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "Aenum_2"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "Benum"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "CEnum"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "CName"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "CFloatfield"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "Bstruct"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "Bstruct2"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "Dstruct"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "Dstruct2"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "Dstruct3"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "Dstruct4"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "Dstruct4s"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "Floatfield"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "Intfield"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "Anotherbooleanfield"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "Duration1"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "Anarrayofa"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "Anotherarrayofb"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "AnarrayofbUse"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "Anarrayofb2Use"))
-		pointersInitializesStatements.WriteString(astruct.GongMarshallField(stage, "AnAstruct"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "TextFieldBespokeSize"))
-		initializerStatements.WriteString(astruct.GongMarshallField(stage, "TextArea"))
-	}
-
-	astructbstruct2useOrdered := []*AstructBstruct2Use{}
-	for astructbstruct2use := range stage.AstructBstruct2Uses {
-		astructbstruct2useOrdered = append(astructbstruct2useOrdered, astructbstruct2use)
-	}
-	sort.Slice(astructbstruct2useOrdered[:], func(i, j int) bool {
-		astructbstruct2usei := astructbstruct2useOrdered[i]
-		astructbstruct2usej := astructbstruct2useOrdered[j]
-		astructbstruct2usei_order, oki := stage.AstructBstruct2Use_stagedOrder[astructbstruct2usei]
-		astructbstruct2usej_order, okj := stage.AstructBstruct2Use_stagedOrder[astructbstruct2usej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return astructbstruct2usei_order < astructbstruct2usej_order
-	})
-	if len(astructbstruct2useOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, astructbstruct2use := range astructbstruct2useOrdered {
-
-		identifiersDecl.WriteString(astructbstruct2use.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(astructbstruct2use.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(astructbstruct2use.GongMarshallField(stage, "Bstrcut2"))
-	}
-
-	astructbstructuseOrdered := []*AstructBstructUse{}
-	for astructbstructuse := range stage.AstructBstructUses {
-		astructbstructuseOrdered = append(astructbstructuseOrdered, astructbstructuse)
-	}
-	sort.Slice(astructbstructuseOrdered[:], func(i, j int) bool {
-		astructbstructusei := astructbstructuseOrdered[i]
-		astructbstructusej := astructbstructuseOrdered[j]
-		astructbstructusei_order, oki := stage.AstructBstructUse_stagedOrder[astructbstructusei]
-		astructbstructusej_order, okj := stage.AstructBstructUse_stagedOrder[astructbstructusej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return astructbstructusei_order < astructbstructusej_order
-	})
-	if len(astructbstructuseOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, astructbstructuse := range astructbstructuseOrdered {
-
-		identifiersDecl.WriteString(astructbstructuse.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(astructbstructuse.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(astructbstructuse.GongMarshallField(stage, "Bstruct2"))
-	}
-
-	bstructOrdered := []*Bstruct{}
-	for bstruct := range stage.Bstructs {
-		bstructOrdered = append(bstructOrdered, bstruct)
-	}
-	sort.Slice(bstructOrdered[:], func(i, j int) bool {
-		bstructi := bstructOrdered[i]
-		bstructj := bstructOrdered[j]
-		bstructi_order, oki := stage.Bstruct_stagedOrder[bstructi]
-		bstructj_order, okj := stage.Bstruct_stagedOrder[bstructj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return bstructi_order < bstructj_order
-	})
-	if len(bstructOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, bstruct := range bstructOrdered {
-
-		identifiersDecl.WriteString(bstruct.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(bstruct.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(bstruct.GongMarshallField(stage, "Floatfield"))
-		initializerStatements.WriteString(bstruct.GongMarshallField(stage, "Floatfield2"))
-		initializerStatements.WriteString(bstruct.GongMarshallField(stage, "Intfield"))
-	}
-
-	dstructOrdered := []*Dstruct{}
-	for dstruct := range stage.Dstructs {
-		dstructOrdered = append(dstructOrdered, dstruct)
-	}
-	sort.Slice(dstructOrdered[:], func(i, j int) bool {
-		dstructi := dstructOrdered[i]
-		dstructj := dstructOrdered[j]
-		dstructi_order, oki := stage.Dstruct_stagedOrder[dstructi]
-		dstructj_order, okj := stage.Dstruct_stagedOrder[dstructj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return dstructi_order < dstructj_order
-	})
-	if len(dstructOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, dstruct := range dstructOrdered {
-
-		identifiersDecl.WriteString(dstruct.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(dstruct.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(dstruct.GongMarshallField(stage, "Anarrayofb"))
-		pointersInitializesStatements.WriteString(dstruct.GongMarshallField(stage, "Gstruct"))
-		pointersInitializesStatements.WriteString(dstruct.GongMarshallField(stage, "Gstructs"))
-	}
-
-	f0123456789012345678901234567890Ordered := []*F0123456789012345678901234567890{}
-	for f0123456789012345678901234567890 := range stage.F0123456789012345678901234567890s {
-		f0123456789012345678901234567890Ordered = append(f0123456789012345678901234567890Ordered, f0123456789012345678901234567890)
-	}
-	sort.Slice(f0123456789012345678901234567890Ordered[:], func(i, j int) bool {
-		f0123456789012345678901234567890i := f0123456789012345678901234567890Ordered[i]
-		f0123456789012345678901234567890j := f0123456789012345678901234567890Ordered[j]
-		f0123456789012345678901234567890i_order, oki := stage.F0123456789012345678901234567890_stagedOrder[f0123456789012345678901234567890i]
-		f0123456789012345678901234567890j_order, okj := stage.F0123456789012345678901234567890_stagedOrder[f0123456789012345678901234567890j]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return f0123456789012345678901234567890i_order < f0123456789012345678901234567890j_order
-	})
-	if len(f0123456789012345678901234567890Ordered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, f0123456789012345678901234567890 := range f0123456789012345678901234567890Ordered {
-
-		identifiersDecl.WriteString(f0123456789012345678901234567890.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(f0123456789012345678901234567890.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(f0123456789012345678901234567890.GongMarshallField(stage, "Date"))
-	}
-
-	gstructOrdered := []*Gstruct{}
-	for gstruct := range stage.Gstructs {
-		gstructOrdered = append(gstructOrdered, gstruct)
-	}
-	sort.Slice(gstructOrdered[:], func(i, j int) bool {
-		gstructi := gstructOrdered[i]
-		gstructj := gstructOrdered[j]
-		gstructi_order, oki := stage.Gstruct_stagedOrder[gstructi]
-		gstructj_order, okj := stage.Gstruct_stagedOrder[gstructj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return gstructi_order < gstructj_order
-	})
-	if len(gstructOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, gstruct := range gstructOrdered {
-
-		identifiersDecl.WriteString(gstruct.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(gstruct.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(gstruct.GongMarshallField(stage, "Floatfield"))
-		initializerStatements.WriteString(gstruct.GongMarshallField(stage, "Floatfield2"))
-		initializerStatements.WriteString(gstruct.GongMarshallField(stage, "Intfield"))
-	}
-
-	// insertion initialization of objects to stage
-	for _, astruct := range astructOrdered {
-		_ = astruct
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, astructbstruct2use := range astructbstruct2useOrdered {
-		_ = astructbstruct2use
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, astructbstructuse := range astructbstructuseOrdered {
-		_ = astructbstructuse
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, bstruct := range bstructOrdered {
-		_ = bstruct
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, dstruct := range dstructOrdered {
-		_ = dstruct
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, f0123456789012345678901234567890 := range f0123456789012345678901234567890Ordered {
-		_ = f0123456789012345678901234567890
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, gstruct := range gstructOrdered {
-		_ = gstruct
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
+	gongMarshallInstances(stage, stage.Astructs, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.AstructBstruct2Uses, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.AstructBstructUses, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Bstructs, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Dstructs, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.F0123456789012345678901234567890s, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Gstructs, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
@@ -633,304 +453,135 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (astruct *Astruct) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := astruct.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(astruct.Name))
+		res = __gong__marshallString(ident, "Name", astruct.Name)
 	case "Field":
 		if str, ok := astruct.Field.(string); ok {
-			res = GongMetaFieldStructInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Field")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", str)
+			res = __gong__marshallMeta(ident, "Field", str)
 		}
 	case "Date":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Date")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", astruct.Date.String())
+		res = __gong__marshallTime(ident, "Date", astruct.Date.String())
 	case "Date2":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Date2")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", astruct.Date2.String())
+		res = __gong__marshallTime(ident, "Date2", astruct.Date2.String())
 	case "Booleanfield":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Booleanfield")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", astruct.Booleanfield))
+		res = __gong__marshallBool(ident, "Booleanfield", astruct.Booleanfield)
 	case "Aenum":
-		if astruct.Aenum.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Aenum")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+astruct.Aenum.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Aenum")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "Aenum", astruct.Aenum.ToCodeString())
 	case "Aenum_2":
-		if astruct.Aenum_2.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Aenum_2")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+astruct.Aenum_2.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Aenum_2")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "Aenum_2", astruct.Aenum_2.ToCodeString())
 	case "Benum":
-		if astruct.Benum.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Benum")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+astruct.Benum.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Benum")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "Benum", astruct.Benum.ToCodeString())
 	case "CEnum":
-		if astruct.CEnum.ToCodeString() != "" {
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CEnum")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+astruct.CEnum.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongNumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CEnum")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
+		res = __gong__marshallEnumInt(ident, "CEnum", astruct.CEnum.ToCodeString())
 	case "CName":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(astruct.CName))
+		res = __gong__marshallString(ident, "CName", astruct.CName)
 	case "CFloatfield":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CFloatfield")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", astruct.CFloatfield))
+		res = __gong__marshallFloat(ident, "CFloatfield", astruct.CFloatfield)
 	case "Floatfield":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Floatfield")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", astruct.Floatfield))
+		res = __gong__marshallFloat(ident, "Floatfield", astruct.Floatfield)
 	case "Intfield":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Intfield")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.Intfield))
+		res = __gong__marshallInt(ident, "Intfield", astruct.Intfield)
 	case "Anotherbooleanfield":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Anotherbooleanfield")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", astruct.Anotherbooleanfield))
+		res = __gong__marshallBool(ident, "Anotherbooleanfield", astruct.Anotherbooleanfield)
 	case "Duration1":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Duration1")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.Duration1))
+		res = __gong__marshallInt(ident, "Duration1", astruct.Duration1)
 	case "TextFieldBespokeSize":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextFieldBespokeSize")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(astruct.TextFieldBespokeSize))
+		res = __gong__marshallString(ident, "TextFieldBespokeSize", astruct.TextFieldBespokeSize)
 	case "TextArea":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextArea")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(astruct.TextArea))
+		res = __gong__marshallString(ident, "TextArea", astruct.TextArea)
 
 	case "Associationtob":
 		if astruct.Associationtob != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Associationtob")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", astruct.Associationtob.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Associationtob", astruct.Associationtob.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Associationtob")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Associationtob", "nil")
 		}
 	case "Anarrayofb":
 		var sb strings.Builder
 		for _, _bstruct := range astruct.Anarrayofb {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Anarrayofb")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _bstruct.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Anarrayofb", _bstruct.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Anotherassociationtob_2":
 		if astruct.Anotherassociationtob_2 != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Anotherassociationtob_2")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", astruct.Anotherassociationtob_2.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Anotherassociationtob_2", astruct.Anotherassociationtob_2.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Anotherassociationtob_2")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Anotherassociationtob_2", "nil")
 		}
 	case "Bstruct":
 		if astruct.Bstruct != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bstruct")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", astruct.Bstruct.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Bstruct", astruct.Bstruct.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bstruct")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Bstruct", "nil")
 		}
 	case "Bstruct2":
 		if astruct.Bstruct2 != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bstruct2")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", astruct.Bstruct2.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Bstruct2", astruct.Bstruct2.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bstruct2")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Bstruct2", "nil")
 		}
 	case "Dstruct":
 		if astruct.Dstruct != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dstruct")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", astruct.Dstruct.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Dstruct", astruct.Dstruct.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dstruct")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Dstruct", "nil")
 		}
 	case "Dstruct2":
 		if astruct.Dstruct2 != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dstruct2")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", astruct.Dstruct2.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Dstruct2", astruct.Dstruct2.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dstruct2")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Dstruct2", "nil")
 		}
 	case "Dstruct3":
 		if astruct.Dstruct3 != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dstruct3")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", astruct.Dstruct3.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Dstruct3", astruct.Dstruct3.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dstruct3")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Dstruct3", "nil")
 		}
 	case "Dstruct4":
 		if astruct.Dstruct4 != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dstruct4")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", astruct.Dstruct4.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Dstruct4", astruct.Dstruct4.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dstruct4")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Dstruct4", "nil")
 		}
 	case "Dstruct4s":
 		var sb strings.Builder
 		for _, _dstruct := range astruct.Dstruct4s {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Dstruct4s")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _dstruct.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Dstruct4s", _dstruct.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Anarrayofa":
 		var sb strings.Builder
 		for _, _astruct := range astruct.Anarrayofa {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Anarrayofa")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _astruct.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Anarrayofa", _astruct.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Anotherarrayofb":
 		var sb strings.Builder
 		for _, _bstruct := range astruct.Anotherarrayofb {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Anotherarrayofb")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _bstruct.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Anotherarrayofb", _bstruct.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "AnarrayofbUse":
 		var sb strings.Builder
 		for _, _astructbstructuse := range astruct.AnarrayofbUse {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "AnarrayofbUse")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _astructbstructuse.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "AnarrayofbUse", _astructbstructuse.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Anarrayofb2Use":
 		var sb strings.Builder
 		for _, _astructbstruct2use := range astruct.Anarrayofb2Use {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Anarrayofb2Use")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _astructbstruct2use.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Anarrayofb2Use", _astructbstruct2use.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "AnAstruct":
 		if astruct.AnAstruct != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AnAstruct")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", astruct.AnAstruct.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "AnAstruct", astruct.AnAstruct.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AnAstruct")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "AnAstruct", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Astruct", fieldName)
@@ -939,26 +590,17 @@ func (astruct *Astruct) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (astructbstruct2use *AstructBstruct2Use) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := astructbstruct2use.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", astructbstruct2use.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(astructbstruct2use.Name))
+		res = __gong__marshallString(ident, "Name", astructbstruct2use.Name)
 
 	case "Bstrcut2":
 		if astructbstruct2use.Bstrcut2 != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astructbstruct2use.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bstrcut2")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", astructbstruct2use.Bstrcut2.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Bstrcut2", astructbstruct2use.Bstrcut2.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astructbstruct2use.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bstrcut2")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Bstrcut2", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct AstructBstruct2Use", fieldName)
@@ -967,26 +609,17 @@ func (astructbstruct2use *AstructBstruct2Use) GongMarshallField(stage *Stage, fi
 }
 
 func (astructbstructuse *AstructBstructUse) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := astructbstructuse.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", astructbstructuse.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(astructbstructuse.Name))
+		res = __gong__marshallString(ident, "Name", astructbstructuse.Name)
 
 	case "Bstruct2":
 		if astructbstructuse.Bstruct2 != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astructbstructuse.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bstruct2")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", astructbstructuse.Bstruct2.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Bstruct2", astructbstructuse.Bstruct2.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", astructbstructuse.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bstruct2")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Bstruct2", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct AstructBstructUse", fieldName)
@@ -995,28 +628,17 @@ func (astructbstructuse *AstructBstructUse) GongMarshallField(stage *Stage, fiel
 }
 
 func (bstruct *Bstruct) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := bstruct.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(bstruct.Name))
+		res = __gong__marshallString(ident, "Name", bstruct.Name)
 	case "Floatfield":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Floatfield")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bstruct.Floatfield))
+		res = __gong__marshallFloat(ident, "Floatfield", bstruct.Floatfield)
 	case "Floatfield2":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Floatfield2")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bstruct.Floatfield2))
+		res = __gong__marshallFloat(ident, "Floatfield2", bstruct.Floatfield2)
 	case "Intfield":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Intfield")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", bstruct.Intfield))
+		res = __gong__marshallInt(ident, "Intfield", bstruct.Intfield)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Bstruct", fieldName)
@@ -1025,45 +647,28 @@ func (bstruct *Bstruct) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (dstruct *Dstruct) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := dstruct.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(dstruct.Name))
+		res = __gong__marshallString(ident, "Name", dstruct.Name)
 
 	case "Anarrayofb":
 		var sb strings.Builder
 		for _, _bstruct := range dstruct.Anarrayofb {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Anarrayofb")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _bstruct.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Anarrayofb", _bstruct.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Gstruct":
 		if dstruct.Gstruct != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Gstruct")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", dstruct.Gstruct.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Gstruct", dstruct.Gstruct.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Gstruct")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Gstruct", "nil")
 		}
 	case "Gstructs":
 		var sb strings.Builder
 		for _, _gstruct := range dstruct.Gstructs {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Gstructs")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _gstruct.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Gstructs", _gstruct.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -1073,18 +678,13 @@ func (dstruct *Dstruct) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := f0123456789012345678901234567890.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", f0123456789012345678901234567890.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(f0123456789012345678901234567890.Name))
+		res = __gong__marshallString(ident, "Name", f0123456789012345678901234567890.Name)
 	case "Date":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", f0123456789012345678901234567890.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Date")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", f0123456789012345678901234567890.Date.String())
+		res = __gong__marshallTime(ident, "Date", f0123456789012345678901234567890.Date.String())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct F0123456789012345678901234567890", fieldName)
@@ -1093,28 +693,17 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongMa
 }
 
 func (gstruct *Gstruct) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := gstruct.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gstruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(gstruct.Name))
+		res = __gong__marshallString(ident, "Name", gstruct.Name)
 	case "Floatfield":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gstruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Floatfield")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gstruct.Floatfield))
+		res = __gong__marshallFloat(ident, "Floatfield", gstruct.Floatfield)
 	case "Floatfield2":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gstruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Floatfield2")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gstruct.Floatfield2))
+		res = __gong__marshallFloat(ident, "Floatfield2", gstruct.Floatfield2)
 	case "Intfield":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", gstruct.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Intfield")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gstruct.Intfield))
+		res = __gong__marshallInt(ident, "Intfield", gstruct.Intfield)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Gstruct", fieldName)

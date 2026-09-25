@@ -90,6 +90,107 @@ func __gong__toRawStringLiteral(s string) string {
 	return result
 }
 
+func __gong__marshallString[T ~string](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongStringInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string(val)))
+}
+
+func __gong__marshallInt[T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", val))
+}
+
+func __gong__marshallBool[T ~bool](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", val))
+}
+
+func __gong__marshallFloat[T ~float32 | ~float64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", val))
+}
+
+func __gong__marshallTime(ident, fieldName, valStr string) string {
+	res := strings.ReplaceAll(GongTimeInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", valStr)
+}
+
+func __gong__marshallPointer(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongPointerFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallSliceOfPointers(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongSliceOfPointersFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallEnumString(ident, fieldName, codeStr string) string {
+	val := "\"\""
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongStringEnumInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallEnumInt(ident, fieldName, codeStr string) string {
+	val := "0"
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallMeta(ident, fieldName, val string) string {
+	res := strings.ReplaceAll(GongMetaFieldStructInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+type GongstructMarshallable interface {
+	GongstructPtr
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+}
+
+func gongMarshallInstances[T GongstructMarshallable](
+	stage *Stage,
+	instances map[T]struct{},
+	identifiersDecl *strings.Builder,
+	initializerStatements *strings.Builder,
+	pointersInitializesStatements *strings.Builder,
+) {
+	if len(instances) == 0 {
+		return
+	}
+	ordered := make([]T, 0, len(instances))
+	for instance := range instances {
+		ordered = append(ordered, instance)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i].GongGetOrder(stage) < ordered[j].GongGetOrder(stage)
+	})
+	identifiersDecl.WriteString("\n")
+	for _, instance := range ordered {
+		identifiersDecl.WriteString(instance.GongMarshallIdentifier(stage))
+		initRes, ptrRes := instance.GongMarshallAllFields(stage)
+		initializerStatements.WriteString("\n" + initRes)
+		pointersInitializesStatements.WriteString(ptrRes)
+	}
+}
+
+
 // MarshallFile marshall the stage content into a file as an instanciation into a stage
 // according to the marshalling policy of the stage.
 //
@@ -270,554 +371,25 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{GoModuleVersionWithoutDirty}}", goModuleVersionWithoutDirty)
 
 	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
 	var identifiersDecl strings.Builder
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 
-	decl := ""
-	_ = decl
-	setValueField := ""
-	_ = setValueField
-
 	// insertion initialization of objects to stage
-	checkboxOrdered := []*CheckBox{}
-	for checkbox := range stage.CheckBoxs {
-		checkboxOrdered = append(checkboxOrdered, checkbox)
-	}
-	sort.Slice(checkboxOrdered[:], func(i, j int) bool {
-		checkboxi := checkboxOrdered[i]
-		checkboxj := checkboxOrdered[j]
-		checkboxi_order, oki := stage.CheckBox_stagedOrder[checkboxi]
-		checkboxj_order, okj := stage.CheckBox_stagedOrder[checkboxj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return checkboxi_order < checkboxj_order
-	})
-	if len(checkboxOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, checkbox := range checkboxOrdered {
-
-		identifiersDecl.WriteString(checkbox.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "Value"))
-	}
-
-	formdivOrdered := []*FormDiv{}
-	for formdiv := range stage.FormDivs {
-		formdivOrdered = append(formdivOrdered, formdiv)
-	}
-	sort.Slice(formdivOrdered[:], func(i, j int) bool {
-		formdivi := formdivOrdered[i]
-		formdivj := formdivOrdered[j]
-		formdivi_order, oki := stage.FormDiv_stagedOrder[formdivi]
-		formdivj_order, okj := stage.FormDiv_stagedOrder[formdivj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return formdivi_order < formdivj_order
-	})
-	if len(formdivOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, formdiv := range formdivOrdered {
-
-		identifiersDecl.WriteString(formdiv.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(formdiv.GongMarshallField(stage, "FormFields"))
-		pointersInitializesStatements.WriteString(formdiv.GongMarshallField(stage, "CheckBoxs"))
-		pointersInitializesStatements.WriteString(formdiv.GongMarshallField(stage, "FormEditAssocButton"))
-		pointersInitializesStatements.WriteString(formdiv.GongMarshallField(stage, "FormSortAssocButton"))
-		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsADivider"))
-		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsAStartAccordionGroup"))
-		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "AccordionGroupName"))
-		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsAEndAccordionGroup"))
-	}
-
-	formeditassocbuttonOrdered := []*FormEditAssocButton{}
-	for formeditassocbutton := range stage.FormEditAssocButtons {
-		formeditassocbuttonOrdered = append(formeditassocbuttonOrdered, formeditassocbutton)
-	}
-	sort.Slice(formeditassocbuttonOrdered[:], func(i, j int) bool {
-		formeditassocbuttoni := formeditassocbuttonOrdered[i]
-		formeditassocbuttonj := formeditassocbuttonOrdered[j]
-		formeditassocbuttoni_order, oki := stage.FormEditAssocButton_stagedOrder[formeditassocbuttoni]
-		formeditassocbuttonj_order, okj := stage.FormEditAssocButton_stagedOrder[formeditassocbuttonj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return formeditassocbuttoni_order < formeditassocbuttonj_order
-	})
-	if len(formeditassocbuttonOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, formeditassocbutton := range formeditassocbuttonOrdered {
-
-		identifiersDecl.WriteString(formeditassocbutton.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(formeditassocbutton.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(formeditassocbutton.GongMarshallField(stage, "Label"))
-		initializerStatements.WriteString(formeditassocbutton.GongMarshallField(stage, "AssociationStorage"))
-		initializerStatements.WriteString(formeditassocbutton.GongMarshallField(stage, "HasChanged"))
-		initializerStatements.WriteString(formeditassocbutton.GongMarshallField(stage, "IsForSavePurpose"))
-		initializerStatements.WriteString(formeditassocbutton.GongMarshallField(stage, "HasToolTip"))
-		initializerStatements.WriteString(formeditassocbutton.GongMarshallField(stage, "ToolTipText"))
-		initializerStatements.WriteString(formeditassocbutton.GongMarshallField(stage, "MatTooltipShowDelay"))
-	}
-
-	formfieldOrdered := []*FormField{}
-	for formfield := range stage.FormFields {
-		formfieldOrdered = append(formfieldOrdered, formfield)
-	}
-	sort.Slice(formfieldOrdered[:], func(i, j int) bool {
-		formfieldi := formfieldOrdered[i]
-		formfieldj := formfieldOrdered[j]
-		formfieldi_order, oki := stage.FormField_stagedOrder[formfieldi]
-		formfieldj_order, okj := stage.FormField_stagedOrder[formfieldj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return formfieldi_order < formfieldj_order
-	})
-	if len(formfieldOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, formfield := range formfieldOrdered {
-
-		identifiersDecl.WriteString(formfield.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(formfield.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(formfield.GongMarshallField(stage, "InputTypeEnum"))
-		initializerStatements.WriteString(formfield.GongMarshallField(stage, "Label"))
-		initializerStatements.WriteString(formfield.GongMarshallField(stage, "Placeholder"))
-		pointersInitializesStatements.WriteString(formfield.GongMarshallField(stage, "FormFieldString"))
-		pointersInitializesStatements.WriteString(formfield.GongMarshallField(stage, "FormFieldFloat64"))
-		pointersInitializesStatements.WriteString(formfield.GongMarshallField(stage, "FormFieldInt"))
-		pointersInitializesStatements.WriteString(formfield.GongMarshallField(stage, "FormFieldDate"))
-		pointersInitializesStatements.WriteString(formfield.GongMarshallField(stage, "FormFieldTime"))
-		pointersInitializesStatements.WriteString(formfield.GongMarshallField(stage, "FormFieldDateTime"))
-		pointersInitializesStatements.WriteString(formfield.GongMarshallField(stage, "FormFieldSelect"))
-		initializerStatements.WriteString(formfield.GongMarshallField(stage, "HasBespokeWidth"))
-		initializerStatements.WriteString(formfield.GongMarshallField(stage, "BespokeWidthPx"))
-		initializerStatements.WriteString(formfield.GongMarshallField(stage, "HasBespokeHeight"))
-		initializerStatements.WriteString(formfield.GongMarshallField(stage, "BespokeHeightPx"))
-	}
-
-	formfielddateOrdered := []*FormFieldDate{}
-	for formfielddate := range stage.FormFieldDates {
-		formfielddateOrdered = append(formfielddateOrdered, formfielddate)
-	}
-	sort.Slice(formfielddateOrdered[:], func(i, j int) bool {
-		formfielddatei := formfielddateOrdered[i]
-		formfielddatej := formfielddateOrdered[j]
-		formfielddatei_order, oki := stage.FormFieldDate_stagedOrder[formfielddatei]
-		formfielddatej_order, okj := stage.FormFieldDate_stagedOrder[formfielddatej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return formfielddatei_order < formfielddatej_order
-	})
-	if len(formfielddateOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, formfielddate := range formfielddateOrdered {
-
-		identifiersDecl.WriteString(formfielddate.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(formfielddate.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(formfielddate.GongMarshallField(stage, "Value"))
-	}
-
-	formfielddatetimeOrdered := []*FormFieldDateTime{}
-	for formfielddatetime := range stage.FormFieldDateTimes {
-		formfielddatetimeOrdered = append(formfielddatetimeOrdered, formfielddatetime)
-	}
-	sort.Slice(formfielddatetimeOrdered[:], func(i, j int) bool {
-		formfielddatetimei := formfielddatetimeOrdered[i]
-		formfielddatetimej := formfielddatetimeOrdered[j]
-		formfielddatetimei_order, oki := stage.FormFieldDateTime_stagedOrder[formfielddatetimei]
-		formfielddatetimej_order, okj := stage.FormFieldDateTime_stagedOrder[formfielddatetimej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return formfielddatetimei_order < formfielddatetimej_order
-	})
-	if len(formfielddatetimeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, formfielddatetime := range formfielddatetimeOrdered {
-
-		identifiersDecl.WriteString(formfielddatetime.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(formfielddatetime.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(formfielddatetime.GongMarshallField(stage, "Value"))
-	}
-
-	formfieldfloat64Ordered := []*FormFieldFloat64{}
-	for formfieldfloat64 := range stage.FormFieldFloat64s {
-		formfieldfloat64Ordered = append(formfieldfloat64Ordered, formfieldfloat64)
-	}
-	sort.Slice(formfieldfloat64Ordered[:], func(i, j int) bool {
-		formfieldfloat64i := formfieldfloat64Ordered[i]
-		formfieldfloat64j := formfieldfloat64Ordered[j]
-		formfieldfloat64i_order, oki := stage.FormFieldFloat64_stagedOrder[formfieldfloat64i]
-		formfieldfloat64j_order, okj := stage.FormFieldFloat64_stagedOrder[formfieldfloat64j]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return formfieldfloat64i_order < formfieldfloat64j_order
-	})
-	if len(formfieldfloat64Ordered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, formfieldfloat64 := range formfieldfloat64Ordered {
-
-		identifiersDecl.WriteString(formfieldfloat64.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(formfieldfloat64.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(formfieldfloat64.GongMarshallField(stage, "Value"))
-		initializerStatements.WriteString(formfieldfloat64.GongMarshallField(stage, "HasMinValidator"))
-		initializerStatements.WriteString(formfieldfloat64.GongMarshallField(stage, "MinValue"))
-		initializerStatements.WriteString(formfieldfloat64.GongMarshallField(stage, "HasMaxValidator"))
-		initializerStatements.WriteString(formfieldfloat64.GongMarshallField(stage, "MaxValue"))
-	}
-
-	formfieldintOrdered := []*FormFieldInt{}
-	for formfieldint := range stage.FormFieldInts {
-		formfieldintOrdered = append(formfieldintOrdered, formfieldint)
-	}
-	sort.Slice(formfieldintOrdered[:], func(i, j int) bool {
-		formfieldinti := formfieldintOrdered[i]
-		formfieldintj := formfieldintOrdered[j]
-		formfieldinti_order, oki := stage.FormFieldInt_stagedOrder[formfieldinti]
-		formfieldintj_order, okj := stage.FormFieldInt_stagedOrder[formfieldintj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return formfieldinti_order < formfieldintj_order
-	})
-	if len(formfieldintOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, formfieldint := range formfieldintOrdered {
-
-		identifiersDecl.WriteString(formfieldint.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(formfieldint.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(formfieldint.GongMarshallField(stage, "Value"))
-		initializerStatements.WriteString(formfieldint.GongMarshallField(stage, "HasMinValidator"))
-		initializerStatements.WriteString(formfieldint.GongMarshallField(stage, "MinValue"))
-		initializerStatements.WriteString(formfieldint.GongMarshallField(stage, "HasMaxValidator"))
-		initializerStatements.WriteString(formfieldint.GongMarshallField(stage, "MaxValue"))
-	}
-
-	formfieldselectOrdered := []*FormFieldSelect{}
-	for formfieldselect := range stage.FormFieldSelects {
-		formfieldselectOrdered = append(formfieldselectOrdered, formfieldselect)
-	}
-	sort.Slice(formfieldselectOrdered[:], func(i, j int) bool {
-		formfieldselecti := formfieldselectOrdered[i]
-		formfieldselectj := formfieldselectOrdered[j]
-		formfieldselecti_order, oki := stage.FormFieldSelect_stagedOrder[formfieldselecti]
-		formfieldselectj_order, okj := stage.FormFieldSelect_stagedOrder[formfieldselectj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return formfieldselecti_order < formfieldselectj_order
-	})
-	if len(formfieldselectOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, formfieldselect := range formfieldselectOrdered {
-
-		identifiersDecl.WriteString(formfieldselect.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(formfieldselect.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(formfieldselect.GongMarshallField(stage, "Value"))
-		pointersInitializesStatements.WriteString(formfieldselect.GongMarshallField(stage, "Options"))
-		initializerStatements.WriteString(formfieldselect.GongMarshallField(stage, "CanBeEmpty"))
-		initializerStatements.WriteString(formfieldselect.GongMarshallField(stage, "PreserveInitialOrder"))
-	}
-
-	formfieldstringOrdered := []*FormFieldString{}
-	for formfieldstring := range stage.FormFieldStrings {
-		formfieldstringOrdered = append(formfieldstringOrdered, formfieldstring)
-	}
-	sort.Slice(formfieldstringOrdered[:], func(i, j int) bool {
-		formfieldstringi := formfieldstringOrdered[i]
-		formfieldstringj := formfieldstringOrdered[j]
-		formfieldstringi_order, oki := stage.FormFieldString_stagedOrder[formfieldstringi]
-		formfieldstringj_order, okj := stage.FormFieldString_stagedOrder[formfieldstringj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return formfieldstringi_order < formfieldstringj_order
-	})
-	if len(formfieldstringOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, formfieldstring := range formfieldstringOrdered {
-
-		identifiersDecl.WriteString(formfieldstring.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(formfieldstring.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(formfieldstring.GongMarshallField(stage, "Value"))
-		initializerStatements.WriteString(formfieldstring.GongMarshallField(stage, "IsTextArea"))
-	}
-
-	formfieldtimeOrdered := []*FormFieldTime{}
-	for formfieldtime := range stage.FormFieldTimes {
-		formfieldtimeOrdered = append(formfieldtimeOrdered, formfieldtime)
-	}
-	sort.Slice(formfieldtimeOrdered[:], func(i, j int) bool {
-		formfieldtimei := formfieldtimeOrdered[i]
-		formfieldtimej := formfieldtimeOrdered[j]
-		formfieldtimei_order, oki := stage.FormFieldTime_stagedOrder[formfieldtimei]
-		formfieldtimej_order, okj := stage.FormFieldTime_stagedOrder[formfieldtimej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return formfieldtimei_order < formfieldtimej_order
-	})
-	if len(formfieldtimeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, formfieldtime := range formfieldtimeOrdered {
-
-		identifiersDecl.WriteString(formfieldtime.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(formfieldtime.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(formfieldtime.GongMarshallField(stage, "Value"))
-		initializerStatements.WriteString(formfieldtime.GongMarshallField(stage, "Step"))
-	}
-
-	formgroupOrdered := []*FormGroup{}
-	for formgroup := range stage.FormGroups {
-		formgroupOrdered = append(formgroupOrdered, formgroup)
-	}
-	sort.Slice(formgroupOrdered[:], func(i, j int) bool {
-		formgroupi := formgroupOrdered[i]
-		formgroupj := formgroupOrdered[j]
-		formgroupi_order, oki := stage.FormGroup_stagedOrder[formgroupi]
-		formgroupj_order, okj := stage.FormGroup_stagedOrder[formgroupj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return formgroupi_order < formgroupj_order
-	})
-	if len(formgroupOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, formgroup := range formgroupOrdered {
-
-		identifiersDecl.WriteString(formgroup.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "Label"))
-		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "TypeLabel"))
-		pointersInitializesStatements.WriteString(formgroup.GongMarshallField(stage, "FormDivs"))
-		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "HasSuppressButton"))
-		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "HasSuppressButtonBeenPressed"))
-	}
-
-	formsortassocbuttonOrdered := []*FormSortAssocButton{}
-	for formsortassocbutton := range stage.FormSortAssocButtons {
-		formsortassocbuttonOrdered = append(formsortassocbuttonOrdered, formsortassocbutton)
-	}
-	sort.Slice(formsortassocbuttonOrdered[:], func(i, j int) bool {
-		formsortassocbuttoni := formsortassocbuttonOrdered[i]
-		formsortassocbuttonj := formsortassocbuttonOrdered[j]
-		formsortassocbuttoni_order, oki := stage.FormSortAssocButton_stagedOrder[formsortassocbuttoni]
-		formsortassocbuttonj_order, okj := stage.FormSortAssocButton_stagedOrder[formsortassocbuttonj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return formsortassocbuttoni_order < formsortassocbuttonj_order
-	})
-	if len(formsortassocbuttonOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, formsortassocbutton := range formsortassocbuttonOrdered {
-
-		identifiersDecl.WriteString(formsortassocbutton.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(formsortassocbutton.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(formsortassocbutton.GongMarshallField(stage, "Label"))
-		initializerStatements.WriteString(formsortassocbutton.GongMarshallField(stage, "HasToolTip"))
-		initializerStatements.WriteString(formsortassocbutton.GongMarshallField(stage, "ToolTipText"))
-		initializerStatements.WriteString(formsortassocbutton.GongMarshallField(stage, "MatTooltipShowDelay"))
-		pointersInitializesStatements.WriteString(formsortassocbutton.GongMarshallField(stage, "FormEditAssocButton"))
-	}
-
-	optionOrdered := []*Option{}
-	for option := range stage.Options {
-		optionOrdered = append(optionOrdered, option)
-	}
-	sort.Slice(optionOrdered[:], func(i, j int) bool {
-		optioni := optionOrdered[i]
-		optionj := optionOrdered[j]
-		optioni_order, oki := stage.Option_stagedOrder[optioni]
-		optionj_order, okj := stage.Option_stagedOrder[optionj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return optioni_order < optionj_order
-	})
-	if len(optionOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, option := range optionOrdered {
-
-		identifiersDecl.WriteString(option.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(option.GongMarshallField(stage, "Name"))
-	}
-
-	// insertion initialization of objects to stage
-	for _, checkbox := range checkboxOrdered {
-		_ = checkbox
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, formdiv := range formdivOrdered {
-		_ = formdiv
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, formeditassocbutton := range formeditassocbuttonOrdered {
-		_ = formeditassocbutton
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, formfield := range formfieldOrdered {
-		_ = formfield
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, formfielddate := range formfielddateOrdered {
-		_ = formfielddate
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, formfielddatetime := range formfielddatetimeOrdered {
-		_ = formfielddatetime
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, formfieldfloat64 := range formfieldfloat64Ordered {
-		_ = formfieldfloat64
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, formfieldint := range formfieldintOrdered {
-		_ = formfieldint
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, formfieldselect := range formfieldselectOrdered {
-		_ = formfieldselect
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, formfieldstring := range formfieldstringOrdered {
-		_ = formfieldstring
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, formfieldtime := range formfieldtimeOrdered {
-		_ = formfieldtime
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, formgroup := range formgroupOrdered {
-		_ = formgroup
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, formsortassocbutton := range formsortassocbuttonOrdered {
-		_ = formsortassocbutton
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, option := range optionOrdered {
-		_ = option
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
+	gongMarshallInstances(stage, stage.CheckBoxs, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.FormDivs, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.FormEditAssocButtons, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.FormFields, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.FormFieldDates, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.FormFieldDateTimes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.FormFieldFloat64s, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.FormFieldInts, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.FormFieldSelects, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.FormFieldStrings, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.FormFieldTimes, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.FormGroups, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.FormSortAssocButtons, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
+	gongMarshallInstances(stage, stage.Options, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
@@ -888,18 +460,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (checkbox *CheckBox) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := checkbox.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(checkbox.Name))
+		res = __gong__marshallString(ident, "Name", checkbox.Name)
 	case "Value":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", checkbox.Value))
+		res = __gong__marshallBool(ident, "Value", checkbox.Value)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct CheckBox", fieldName)
@@ -908,79 +475,43 @@ func (checkbox *CheckBox) GongMarshallField(stage *Stage, fieldName string) (res
 }
 
 func (formdiv *FormDiv) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := formdiv.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formdiv.Name))
+		res = __gong__marshallString(ident, "Name", formdiv.Name)
 	case "IsADivider":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsADivider")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formdiv.IsADivider))
+		res = __gong__marshallBool(ident, "IsADivider", formdiv.IsADivider)
 	case "IsAStartAccordionGroup":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsAStartAccordionGroup")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formdiv.IsAStartAccordionGroup))
+		res = __gong__marshallBool(ident, "IsAStartAccordionGroup", formdiv.IsAStartAccordionGroup)
 	case "AccordionGroupName":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AccordionGroupName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formdiv.AccordionGroupName))
+		res = __gong__marshallString(ident, "AccordionGroupName", formdiv.AccordionGroupName)
 	case "IsAEndAccordionGroup":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsAEndAccordionGroup")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formdiv.IsAEndAccordionGroup))
+		res = __gong__marshallBool(ident, "IsAEndAccordionGroup", formdiv.IsAEndAccordionGroup)
 
 	case "FormFields":
 		var sb strings.Builder
 		for _, _formfield := range formdiv.FormFields {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "FormFields")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _formfield.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "FormFields", _formfield.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "CheckBoxs":
 		var sb strings.Builder
 		for _, _checkbox := range formdiv.CheckBoxs {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "CheckBoxs")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _checkbox.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "CheckBoxs", _checkbox.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "FormEditAssocButton":
 		if formdiv.FormEditAssocButton != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormEditAssocButton")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formdiv.FormEditAssocButton.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "FormEditAssocButton", formdiv.FormEditAssocButton.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormEditAssocButton")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "FormEditAssocButton", "nil")
 		}
 	case "FormSortAssocButton":
 		if formdiv.FormSortAssocButton != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormSortAssocButton")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formdiv.FormSortAssocButton.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "FormSortAssocButton", formdiv.FormSortAssocButton.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormSortAssocButton")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "FormSortAssocButton", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormDiv", fieldName)
@@ -989,48 +520,25 @@ func (formdiv *FormDiv) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (formeditassocbutton *FormEditAssocButton) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := formeditassocbutton.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formeditassocbutton.Name))
+		res = __gong__marshallString(ident, "Name", formeditassocbutton.Name)
 	case "Label":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Label")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formeditassocbutton.Label))
+		res = __gong__marshallString(ident, "Label", formeditassocbutton.Label)
 	case "AssociationStorage":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AssociationStorage")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formeditassocbutton.AssociationStorage))
+		res = __gong__marshallString(ident, "AssociationStorage", formeditassocbutton.AssociationStorage)
 	case "HasChanged":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasChanged")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formeditassocbutton.HasChanged))
+		res = __gong__marshallBool(ident, "HasChanged", formeditassocbutton.HasChanged)
 	case "IsForSavePurpose":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsForSavePurpose")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formeditassocbutton.IsForSavePurpose))
+		res = __gong__marshallBool(ident, "IsForSavePurpose", formeditassocbutton.IsForSavePurpose)
 	case "HasToolTip":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasToolTip")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formeditassocbutton.HasToolTip))
+		res = __gong__marshallBool(ident, "HasToolTip", formeditassocbutton.HasToolTip)
 	case "ToolTipText":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formeditassocbutton.ToolTipText))
+		res = __gong__marshallString(ident, "ToolTipText", formeditassocbutton.ToolTipText)
 	case "MatTooltipShowDelay":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MatTooltipShowDelay")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formeditassocbutton.MatTooltipShowDelay))
+		res = __gong__marshallString(ident, "MatTooltipShowDelay", formeditassocbutton.MatTooltipShowDelay)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormEditAssocButton", fieldName)
@@ -1039,147 +547,67 @@ func (formeditassocbutton *FormEditAssocButton) GongMarshallField(stage *Stage, 
 }
 
 func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := formfield.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfield.Name))
+		res = __gong__marshallString(ident, "Name", formfield.Name)
 	case "InputTypeEnum":
-		if formfield.InputTypeEnum.ToCodeString() != "" {
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InputTypeEnum")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+formfield.InputTypeEnum.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = GongStringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InputTypeEnum")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
+		res = __gong__marshallEnumString(ident, "InputTypeEnum", formfield.InputTypeEnum.ToCodeString())
 	case "Label":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Label")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfield.Label))
+		res = __gong__marshallString(ident, "Label", formfield.Label)
 	case "Placeholder":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Placeholder")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfield.Placeholder))
+		res = __gong__marshallString(ident, "Placeholder", formfield.Placeholder)
 	case "HasBespokeWidth":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasBespokeWidth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfield.HasBespokeWidth))
+		res = __gong__marshallBool(ident, "HasBespokeWidth", formfield.HasBespokeWidth)
 	case "BespokeWidthPx":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokeWidthPx")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfield.BespokeWidthPx))
+		res = __gong__marshallInt(ident, "BespokeWidthPx", formfield.BespokeWidthPx)
 	case "HasBespokeHeight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasBespokeHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfield.HasBespokeHeight))
+		res = __gong__marshallBool(ident, "HasBespokeHeight", formfield.HasBespokeHeight)
 	case "BespokeHeightPx":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokeHeightPx")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfield.BespokeHeightPx))
+		res = __gong__marshallInt(ident, "BespokeHeightPx", formfield.BespokeHeightPx)
 
 	case "FormFieldString":
 		if formfield.FormFieldString != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldString")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldString.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "FormFieldString", formfield.FormFieldString.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldString")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "FormFieldString", "nil")
 		}
 	case "FormFieldFloat64":
 		if formfield.FormFieldFloat64 != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldFloat64")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldFloat64.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "FormFieldFloat64", formfield.FormFieldFloat64.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldFloat64")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "FormFieldFloat64", "nil")
 		}
 	case "FormFieldInt":
 		if formfield.FormFieldInt != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldInt")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldInt.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "FormFieldInt", formfield.FormFieldInt.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldInt")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "FormFieldInt", "nil")
 		}
 	case "FormFieldDate":
 		if formfield.FormFieldDate != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldDate")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldDate.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "FormFieldDate", formfield.FormFieldDate.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldDate")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "FormFieldDate", "nil")
 		}
 	case "FormFieldTime":
 		if formfield.FormFieldTime != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldTime")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldTime.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "FormFieldTime", formfield.FormFieldTime.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldTime")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "FormFieldTime", "nil")
 		}
 	case "FormFieldDateTime":
 		if formfield.FormFieldDateTime != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldDateTime")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldDateTime.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "FormFieldDateTime", formfield.FormFieldDateTime.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldDateTime")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "FormFieldDateTime", "nil")
 		}
 	case "FormFieldSelect":
 		if formfield.FormFieldSelect != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldSelect")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldSelect.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "FormFieldSelect", formfield.FormFieldSelect.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldSelect")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "FormFieldSelect", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormField", fieldName)
@@ -1188,18 +616,13 @@ func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (r
 }
 
 func (formfielddate *FormFieldDate) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := formfielddate.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfielddate.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfielddate.Name))
+		res = __gong__marshallString(ident, "Name", formfielddate.Name)
 	case "Value":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfielddate.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfielddate.Value.String())
+		res = __gong__marshallTime(ident, "Value", formfielddate.Value.String())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormFieldDate", fieldName)
@@ -1208,18 +631,13 @@ func (formfielddate *FormFieldDate) GongMarshallField(stage *Stage, fieldName st
 }
 
 func (formfielddatetime *FormFieldDateTime) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := formfielddatetime.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfielddatetime.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfielddatetime.Name))
+		res = __gong__marshallString(ident, "Name", formfielddatetime.Name)
 	case "Value":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfielddatetime.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfielddatetime.Value.String())
+		res = __gong__marshallTime(ident, "Value", formfielddatetime.Value.String())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormFieldDateTime", fieldName)
@@ -1228,38 +646,21 @@ func (formfielddatetime *FormFieldDateTime) GongMarshallField(stage *Stage, fiel
 }
 
 func (formfieldfloat64 *FormFieldFloat64) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := formfieldfloat64.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldfloat64.Name))
+		res = __gong__marshallString(ident, "Name", formfieldfloat64.Name)
 	case "Value":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", formfieldfloat64.Value))
+		res = __gong__marshallFloat(ident, "Value", formfieldfloat64.Value)
 	case "HasMinValidator":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasMinValidator")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldfloat64.HasMinValidator))
+		res = __gong__marshallBool(ident, "HasMinValidator", formfieldfloat64.HasMinValidator)
 	case "MinValue":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MinValue")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", formfieldfloat64.MinValue))
+		res = __gong__marshallFloat(ident, "MinValue", formfieldfloat64.MinValue)
 	case "HasMaxValidator":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasMaxValidator")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldfloat64.HasMaxValidator))
+		res = __gong__marshallBool(ident, "HasMaxValidator", formfieldfloat64.HasMaxValidator)
 	case "MaxValue":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MaxValue")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", formfieldfloat64.MaxValue))
+		res = __gong__marshallFloat(ident, "MaxValue", formfieldfloat64.MaxValue)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormFieldFloat64", fieldName)
@@ -1268,38 +669,21 @@ func (formfieldfloat64 *FormFieldFloat64) GongMarshallField(stage *Stage, fieldN
 }
 
 func (formfieldint *FormFieldInt) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := formfieldint.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldint.Name))
+		res = __gong__marshallString(ident, "Name", formfieldint.Name)
 	case "Value":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfieldint.Value))
+		res = __gong__marshallInt(ident, "Value", formfieldint.Value)
 	case "HasMinValidator":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasMinValidator")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldint.HasMinValidator))
+		res = __gong__marshallBool(ident, "HasMinValidator", formfieldint.HasMinValidator)
 	case "MinValue":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MinValue")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfieldint.MinValue))
+		res = __gong__marshallInt(ident, "MinValue", formfieldint.MinValue)
 	case "HasMaxValidator":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasMaxValidator")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldint.HasMaxValidator))
+		res = __gong__marshallBool(ident, "HasMaxValidator", formfieldint.HasMaxValidator)
 	case "MaxValue":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MaxValue")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfieldint.MaxValue))
+		res = __gong__marshallInt(ident, "MaxValue", formfieldint.MaxValue)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormFieldInt", fieldName)
@@ -1308,45 +692,26 @@ func (formfieldint *FormFieldInt) GongMarshallField(stage *Stage, fieldName stri
 }
 
 func (formfieldselect *FormFieldSelect) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := formfieldselect.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldselect.Name))
+		res = __gong__marshallString(ident, "Name", formfieldselect.Name)
 	case "CanBeEmpty":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CanBeEmpty")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldselect.CanBeEmpty))
+		res = __gong__marshallBool(ident, "CanBeEmpty", formfieldselect.CanBeEmpty)
 	case "PreserveInitialOrder":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PreserveInitialOrder")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldselect.PreserveInitialOrder))
+		res = __gong__marshallBool(ident, "PreserveInitialOrder", formfieldselect.PreserveInitialOrder)
 
 	case "Value":
 		if formfieldselect.Value != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfieldselect.Value.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "Value", formfieldselect.Value.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "Value", "nil")
 		}
 	case "Options":
 		var sb strings.Builder
 		for _, _option := range formfieldselect.Options {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Options")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _option.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Options", _option.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -1356,23 +721,15 @@ func (formfieldselect *FormFieldSelect) GongMarshallField(stage *Stage, fieldNam
 }
 
 func (formfieldstring *FormFieldString) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := formfieldstring.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldstring.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldstring.Name))
+		res = __gong__marshallString(ident, "Name", formfieldstring.Name)
 	case "Value":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldstring.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldstring.Value))
+		res = __gong__marshallString(ident, "Value", formfieldstring.Value)
 	case "IsTextArea":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldstring.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsTextArea")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldstring.IsTextArea))
+		res = __gong__marshallBool(ident, "IsTextArea", formfieldstring.IsTextArea)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormFieldString", fieldName)
@@ -1381,23 +738,15 @@ func (formfieldstring *FormFieldString) GongMarshallField(stage *Stage, fieldNam
 }
 
 func (formfieldtime *FormFieldTime) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := formfieldtime.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldtime.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formfieldtime.Name))
+		res = __gong__marshallString(ident, "Name", formfieldtime.Name)
 	case "Value":
-		res = GongTimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldtime.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfieldtime.Value.String())
+		res = __gong__marshallTime(ident, "Value", formfieldtime.Value.String())
 	case "Step":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formfieldtime.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Step")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", formfieldtime.Step))
+		res = __gong__marshallFloat(ident, "Step", formfieldtime.Step)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormFieldTime", fieldName)
@@ -1406,42 +755,24 @@ func (formfieldtime *FormFieldTime) GongMarshallField(stage *Stage, fieldName st
 }
 
 func (formgroup *FormGroup) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := formgroup.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formgroup.Name))
+		res = __gong__marshallString(ident, "Name", formgroup.Name)
 	case "Label":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Label")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formgroup.Label))
+		res = __gong__marshallString(ident, "Label", formgroup.Label)
 	case "TypeLabel":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TypeLabel")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formgroup.TypeLabel))
+		res = __gong__marshallString(ident, "TypeLabel", formgroup.TypeLabel)
 	case "HasSuppressButton":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasSuppressButton")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formgroup.HasSuppressButton))
+		res = __gong__marshallBool(ident, "HasSuppressButton", formgroup.HasSuppressButton)
 	case "HasSuppressButtonBeenPressed":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasSuppressButtonBeenPressed")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formgroup.HasSuppressButtonBeenPressed))
+		res = __gong__marshallBool(ident, "HasSuppressButtonBeenPressed", formgroup.HasSuppressButtonBeenPressed)
 
 	case "FormDivs":
 		var sb strings.Builder
 		for _, _formdiv := range formgroup.FormDivs {
-			tmp := GongSliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "FormDivs")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _formdiv.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "FormDivs", _formdiv.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -1451,46 +782,25 @@ func (formgroup *FormGroup) GongMarshallField(stage *Stage, fieldName string) (r
 }
 
 func (formsortassocbutton *FormSortAssocButton) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := formsortassocbutton.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formsortassocbutton.Name))
+		res = __gong__marshallString(ident, "Name", formsortassocbutton.Name)
 	case "Label":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Label")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formsortassocbutton.Label))
+		res = __gong__marshallString(ident, "Label", formsortassocbutton.Label)
 	case "HasToolTip":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasToolTip")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formsortassocbutton.HasToolTip))
+		res = __gong__marshallBool(ident, "HasToolTip", formsortassocbutton.HasToolTip)
 	case "ToolTipText":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formsortassocbutton.ToolTipText))
+		res = __gong__marshallString(ident, "ToolTipText", formsortassocbutton.ToolTipText)
 	case "MatTooltipShowDelay":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MatTooltipShowDelay")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(formsortassocbutton.MatTooltipShowDelay))
+		res = __gong__marshallString(ident, "MatTooltipShowDelay", formsortassocbutton.MatTooltipShowDelay)
 
 	case "FormEditAssocButton":
 		if formsortassocbutton.FormEditAssocButton != nil {
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormEditAssocButton")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formsortassocbutton.FormEditAssocButton.GongGetIdentifier(stage))
+			res = __gong__marshallPointer(ident, "FormEditAssocButton", formsortassocbutton.FormEditAssocButton.GongGetIdentifier(stage))
 		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = GongPointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormEditAssocButton")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+			res = __gong__marshallPointer(ident, "FormEditAssocButton", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormSortAssocButton", fieldName)
@@ -1499,13 +809,11 @@ func (formsortassocbutton *FormSortAssocButton) GongMarshallField(stage *Stage, 
 }
 
 func (option *Option) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := option.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", option.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(option.Name))
+		res = __gong__marshallString(ident, "Name", option.Name)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Option", fieldName)

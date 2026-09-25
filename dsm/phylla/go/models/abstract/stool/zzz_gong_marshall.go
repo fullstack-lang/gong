@@ -90,6 +90,107 @@ func __gong__toRawStringLiteral(s string) string {
 	return result
 }
 
+func __gong__marshallString[T ~string](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongStringInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(string(val)))
+}
+
+func __gong__marshallInt[T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", val))
+}
+
+func __gong__marshallBool[T ~bool](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", val))
+}
+
+func __gong__marshallFloat[T ~float32 | ~float64](ident, fieldName string, val T) string {
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", val))
+}
+
+func __gong__marshallTime(ident, fieldName, valStr string) string {
+	res := strings.ReplaceAll(GongTimeInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", valStr)
+}
+
+func __gong__marshallPointer(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongPointerFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallSliceOfPointers(ident, fieldName, targetIdent string) string {
+	res := strings.ReplaceAll(GongSliceOfPointersFieldInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", targetIdent)
+}
+
+func __gong__marshallEnumString(ident, fieldName, codeStr string) string {
+	val := "\"\""
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongStringEnumInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallEnumInt(ident, fieldName, codeStr string) string {
+	val := "0"
+	if codeStr != "" {
+		val = "models." + codeStr
+	}
+	res := strings.ReplaceAll(GongNumberInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+func __gong__marshallMeta(ident, fieldName, val string) string {
+	res := strings.ReplaceAll(GongMetaFieldStructInitStatement, "{{Identifier}}", ident)
+	res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", fieldName)
+	return strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", val)
+}
+
+type GongstructMarshallable interface {
+	GongstructPtr
+	GongMarshallIdentifier(stage *Stage) string
+	GongMarshallAllFields(stage *Stage) (string, string)
+}
+
+func gongMarshallInstances[T GongstructMarshallable](
+	stage *Stage,
+	instances map[T]struct{},
+	identifiersDecl *strings.Builder,
+	initializerStatements *strings.Builder,
+	pointersInitializesStatements *strings.Builder,
+) {
+	if len(instances) == 0 {
+		return
+	}
+	ordered := make([]T, 0, len(instances))
+	for instance := range instances {
+		ordered = append(ordered, instance)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i].GongGetOrder(stage) < ordered[j].GongGetOrder(stage)
+	})
+	identifiersDecl.WriteString("\n")
+	for _, instance := range ordered {
+		identifiersDecl.WriteString(instance.GongMarshallIdentifier(stage))
+		initRes, ptrRes := instance.GongMarshallAllFields(stage)
+		initializerStatements.WriteString("\n" + initRes)
+		pointersInitializesStatements.WriteString(ptrRes)
+	}
+}
+
+
 // MarshallFile marshall the stage content into a file as an instanciation into a stage
 // according to the marshalling policy of the stage.
 //
@@ -270,62 +371,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{GoModuleVersionWithoutDirty}}", goModuleVersionWithoutDirty)
 
 	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
 	var identifiersDecl strings.Builder
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 
-	decl := ""
-	_ = decl
-	setValueField := ""
-	_ = setValueField
-
 	// insertion initialization of objects to stage
-	stoolabstractOrdered := []*StoolAbstract{}
-	for stoolabstract := range stage.StoolAbstracts {
-		stoolabstractOrdered = append(stoolabstractOrdered, stoolabstract)
-	}
-	sort.Slice(stoolabstractOrdered[:], func(i, j int) bool {
-		stoolabstracti := stoolabstractOrdered[i]
-		stoolabstractj := stoolabstractOrdered[j]
-		stoolabstracti_order, oki := stage.StoolAbstract_stagedOrder[stoolabstracti]
-		stoolabstractj_order, okj := stage.StoolAbstract_stagedOrder[stoolabstractj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return stoolabstracti_order < stoolabstractj_order
-	})
-	if len(stoolabstractOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, stoolabstract := range stoolabstractOrdered {
-
-		identifiersDecl.WriteString(stoolabstract.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RadialRepetitions"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "Transparency"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeHeight3DTorus"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "StoolTorusVerticalScale"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeHeight"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeSeatThickness"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "ProjectionAngle"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeSeparationCriteria"))
-		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeCornerControlVectorStrength"))
-	}
-
-	// insertion initialization of objects to stage
-	for _, stoolabstract := range stoolabstractOrdered {
-		_ = stoolabstract
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
+	gongMarshallInstances(stage, stage.StoolAbstracts, &identifiersDecl, &initializerStatements, &pointersInitializesStatements)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
@@ -396,63 +447,31 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (stoolabstract *StoolAbstract) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
+	ident := stoolabstract.GongGetIdentifier(stage)
+	_ = ident
 	switch fieldName {
 	case "Name":
-		res = GongStringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", __gong__toRawStringLiteral(stoolabstract.Name))
+		res = __gong__marshallString(ident, "Name", stoolabstract.Name)
 	case "RadialRepetitions":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadialRepetitions")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", stoolabstract.RadialRepetitions))
+		res = __gong__marshallInt(ident, "RadialRepetitions", stoolabstract.RadialRepetitions)
 	case "Transparency":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transparency")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.Transparency))
+		res = __gong__marshallFloat(ident, "Transparency", stoolabstract.Transparency)
 	case "RelativeTubeDiameter":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeTubeDiameter")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeTubeDiameter))
+		res = __gong__marshallFloat(ident, "RelativeTubeDiameter", stoolabstract.RelativeTubeDiameter)
 	case "RelativeHeight3DTorus":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeHeight3DTorus")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeHeight3DTorus))
+		res = __gong__marshallFloat(ident, "RelativeHeight3DTorus", stoolabstract.RelativeHeight3DTorus)
 	case "StoolTorusVerticalScale":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StoolTorusVerticalScale")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.StoolTorusVerticalScale))
+		res = __gong__marshallFloat(ident, "StoolTorusVerticalScale", stoolabstract.StoolTorusVerticalScale)
 	case "RelativeHeight":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeHeight))
+		res = __gong__marshallFloat(ident, "RelativeHeight", stoolabstract.RelativeHeight)
 	case "RelativeSeatThickness":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeSeatThickness")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeSeatThickness))
+		res = __gong__marshallFloat(ident, "RelativeSeatThickness", stoolabstract.RelativeSeatThickness)
 	case "ProjectionAngle":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ProjectionAngle")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.ProjectionAngle))
+		res = __gong__marshallFloat(ident, "ProjectionAngle", stoolabstract.ProjectionAngle)
 	case "RelativeEyeSeparationCriteria":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeEyeSeparationCriteria")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeEyeSeparationCriteria))
+		res = __gong__marshallFloat(ident, "RelativeEyeSeparationCriteria", stoolabstract.RelativeEyeSeparationCriteria)
 	case "RelativeEyeCornerControlVectorStrength":
-		res = GongNumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeEyeCornerControlVectorStrength")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeEyeCornerControlVectorStrength))
+		res = __gong__marshallFloat(ident, "RelativeEyeCornerControlVectorStrength", stoolabstract.RelativeEyeCornerControlVectorStrength)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StoolAbstract", fieldName)
